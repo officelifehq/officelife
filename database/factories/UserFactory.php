@@ -13,8 +13,9 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\Models\User\User::class, function (Faker $faker) {
     return [
+        'account_id' => factory(App\Models\Account\Account::class)->create()->id,
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),

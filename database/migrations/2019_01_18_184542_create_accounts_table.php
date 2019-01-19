@@ -18,6 +18,11 @@ class CreateAccountsTable extends Migration
             $table->string('subdomain');
             $table->timestamps();
         });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->unsignedInteger('account_id')->after('id');
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+        });
     }
 
     /**
