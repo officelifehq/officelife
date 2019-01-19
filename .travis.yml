@@ -12,7 +12,10 @@ before_script:
   - php artisan db:seed --no-interaction -vvv
 
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
 
 ## Cache composer bits
 cache:
