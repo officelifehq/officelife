@@ -11,7 +11,8 @@ class UserTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_it_belongs_to_account()
+    /** @test */
+    public function it_belongs_to_account()
     {
         $user = factory(User::class)->create([]);
         $this->assertTrue($user->account()->exists());

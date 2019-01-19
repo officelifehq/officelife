@@ -11,7 +11,8 @@ class AccountTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_it_has_many_users()
+    /** @test */
+    public function it_has_many_users()
     {
         $account = factory(Account::class)->create();
         factory(User::class, 3)->create([
