@@ -4,7 +4,6 @@ namespace Tests\Unit\Models\User;
 
 use Tests\TestCase;
 use App\Models\User\User;
-use App\Models\Account\Account;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
