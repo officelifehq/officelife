@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Services\BaseService;
 
@@ -15,6 +16,78 @@ class BaseServiceTest extends TestCase
         $this->assertInternalType(
             'array',
             $stub->rules()
+        );
+    }
+
+    /** @test */
+    public function it_validates_rules()
+    {
+        $rules = [
+            'street' => 'nullable|string|max:255',
+        ];
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+        $stub->rules([$rules]);
+
+        $this->assertTrue(
+            $stub->validate([
+                'street' => 'la rue du bonheur',
+            ])
+        );
+    }
+
+    /** @test */
+    public function it_returns_null_or_the_actual_value()
+    {
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+        $array = [
+            'value' => 'this',
+        ];
+
+        $this->assertEquals(
+            'this',
+            $stub->nullOrValue($array, 'value')
+        );
+
+        $array = [
+            'otherValue' => '',
+        ];
+
+        $this->assertNull(
+            $stub->nullOrValue($array, 'otherValue')
+        );
+
+        $array = [];
+
+        $this->assertNull(
+            $stub->nullOrValue($array, 'value')
+        );
+    }
+
+    /** @test */
+    public function it_returns_null_or_the_actual_date()
+    {
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+        $array = [
+            'value' => '1990-01-01',
+        ];
+
+        $this->assertInstanceOf(
+            Carbon::class,
+            $stub->nullOrDate($array, 'value')
+        );
+
+        $array = [
+            'otherValue' => '',
+        ];
+
+        $this->assertNull(
+            $stub->nullOrDate($array, 'otherValue')
+        );
+
+        $array = [];
+
+        $this->assertNull(
+            $stub->nullOrDate($array, 'value')
         );
     }
 }

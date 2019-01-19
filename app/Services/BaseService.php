@@ -18,7 +18,7 @@ abstract class BaseService
     }
 
     /**
-     * Validate all documents in an account.
+     * Validate an array against a set of rules.
      *
      * @param array $data
      * @return bool
@@ -38,7 +38,7 @@ abstract class BaseService
      * @param mixed $index
      * @return mixed
      */
-    protected function nullOrValue($data, $index)
+    public function nullOrValue($data, $index)
     {
         if (empty($data[$index])) {
             return;
@@ -54,7 +54,7 @@ abstract class BaseService
      * @param mixed $index
      * @return mixed
      */
-    protected function nullOrDate($data, $index)
+    public function nullOrDate($data, $index)
     {
         if (empty($data[$index])) {
             return;
