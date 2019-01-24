@@ -24,6 +24,7 @@
     </filter>
     <php>
         <env name="APP_ENV" value="testing"/>
+        <env name="APP_KEY" value="base64:NTrXToqFZJlv48dgPc+kNpc3SBt333TfDnF1mDShsBg="/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="MAIL_DRIVER" value="array"/>
