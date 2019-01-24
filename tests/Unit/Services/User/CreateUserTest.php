@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services\User;
 
 use Tests\TestCase;
+use App\Models\User\User;
 use App\Models\Account\Account;
 use App\Services\User\CreateUser;
 use App\Exceptions\EmailAlreadyUsedException;
