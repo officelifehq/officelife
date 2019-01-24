@@ -2,9 +2,9 @@
 
 namespace App\Services\Account;
 
-use App\Models\Account\Account;
-use App\Services\BaseService;
 use App\Models\User\User;
+use App\Services\BaseService;
+use App\Models\Account\Account;
 use App\Services\User\CreateUser;
 
 class CreateAccount extends BaseService

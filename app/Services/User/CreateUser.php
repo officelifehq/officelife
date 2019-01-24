@@ -34,7 +34,7 @@ class CreateUser extends BaseService
     {
         $this->validate($data);
 
-        if (!$this->uniqueInAccount($data)) {
+        if (! $this->uniqueInAccount($data)) {
             throw new EmailAlreadyUsedException;
         }
 
@@ -49,7 +49,7 @@ class CreateUser extends BaseService
      * Make sure a user is unique per email address in this account.
      *
      * @param array $data
-     * @return boolean
+     * @return bool
      */
     private function uniqueInAccount(array $data)
     {

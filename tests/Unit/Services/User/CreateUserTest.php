@@ -8,7 +8,6 @@ use App\Services\User\CreateUser;
 use App\Exceptions\EmailAlreadyUsedException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\User\User;
 
 class CreateUserTest extends TestCase
 {

@@ -5,10 +5,8 @@ namespace Tests\Unit\Services\User;
 use Tests\TestCase;
 use App\Models\Account\Account;
 use App\Services\Account\CreateAccount;
-use App\Exceptions\EmailAlreadyUsedException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\User\User;
 
 class CreateAccountTest extends TestCase
 {
