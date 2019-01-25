@@ -21,4 +21,21 @@ class ApiTestCase extends TestCase
 
         return $user;
     }
+
+    /**
+     * Test that the response contains a not found notification.
+     *
+     * @param TestResponse $response
+     */
+    public function expectNotFound(TestResponse $response)
+    {
+        $response->assertStatus(404);
+
+        $response->assertJson([
+            'error' => [
+                'message' => NULL,
+                'error_message' => 'Resource not found.',
+            ],
+        ]);
+    }
 }

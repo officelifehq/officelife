@@ -66,4 +66,14 @@ class ApiUserControllerTest extends ApiTestCase
             'email' => $user->email,
         ]);
     }
+
+    /** @test */
+    public function it_cant_get_a_specific_user_if_user_not_found()
+    {
+        $user = $this->signin();
+
+        $response = $this->json('GET', '/api/users/2939209');
+
+        $this->expectNotFound($response);
+    }
 }
