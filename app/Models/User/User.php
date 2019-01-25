@@ -18,7 +18,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'account_id', 'name', 'email', 'password',
+        'account_id',
+        'email',
+        'password',
+        'is_administrator',
     ];
 
     /**
@@ -26,7 +29,10 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected static $logAttributes = ['name', 'email'];
+    protected static $logAttributes = [
+        'email',
+        'is_administrator',
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -35,6 +41,15 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_administrator' => 'boolean',
     ];
 
     /**

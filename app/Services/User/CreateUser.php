@@ -21,6 +21,7 @@ class CreateUser extends BaseService
             'account_id' => 'required|integer|exists:accounts,id',
             'email' => 'required|email|string',
             'password' => 'required|string|max:255',
+            'is_administrator' => 'required|boolean',
         ];
     }
 
@@ -42,6 +43,7 @@ class CreateUser extends BaseService
             'account_id' => $data['account_id'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'is_administrator' => $data['is_administrator'],
         ]);
     }
 

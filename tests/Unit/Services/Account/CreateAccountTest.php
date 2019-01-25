@@ -31,6 +31,7 @@ class CreateAccountTest extends TestCase
         $this->assertDatabaseHas('users', [
             'account_id' => $account->id,
             'email' => 'dwight@dundermifflin.com',
+            'is_administrator' => true,
         ]);
 
         $this->assertInstanceOf(
