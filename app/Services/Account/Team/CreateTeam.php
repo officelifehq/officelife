@@ -5,7 +5,6 @@ namespace App\Services\User;
 use App\Models\User\User;
 use App\Models\Account\Team;
 use App\Services\BaseService;
-use App\Models\Account\Account;
 use Illuminate\Support\Facades\Hash;
 
 class CreateTeam extends BaseService
@@ -34,7 +33,7 @@ class CreateTeam extends BaseService
     {
         $this->validate($data);
 
-        if (!$this->uniqueInAccount($data)) {
+        if (! $this->uniqueInAccount($data)) {
             throw new EmailAlreadyUsedException;
         }
 

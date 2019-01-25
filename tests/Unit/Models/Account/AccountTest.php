@@ -4,8 +4,8 @@ namespace Tests\Unit\Models\Account;
 
 use Tests\TestCase;
 use App\Models\User\User;
-use App\Models\Account\Account;
 use App\Models\Account\Team;
+use App\Models\Account\Account;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AccountTest extends TestCase
