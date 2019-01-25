@@ -4,12 +4,13 @@ namespace App\Models\User;
 
 use App\Models\Account\Account;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +20,13 @@ class User extends Authenticatable
     protected $fillable = [
         'account_id', 'name', 'email', 'password',
     ];
+
+    /**
+     * The attributes that are logged when changed.
+     *
+     * @var array
+     */
+    protected static $logAttributes = ['name', 'email'];
 
     /**
      * The attributes that should be hidden for arrays.
