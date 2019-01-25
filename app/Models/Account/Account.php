@@ -36,4 +36,14 @@ class Account extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    /**
+     * Get the teams record associated with the account.
+     *
+     * @return BelongsTo
+     */
+    public function teams()
+    {
+        return $this->hasMany(Team::class);
+    }
 }
