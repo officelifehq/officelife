@@ -3,6 +3,7 @@
 namespace App\Models\User;
 
 use App\Models\Account\Account;
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use Notifiable, LogsActivity;
+    use Notifiable, LogsActivity, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
