@@ -40,6 +40,7 @@ class CreateAccount extends BaseService
             'account_id' => $account->id,
             'email' => $data['email'],
             'password' => $data['password'],
+            'is_administrator' => true,
         ];
 
         (new CreateUser)->execute($request);

@@ -23,6 +23,7 @@ class CreateUserTest extends TestCase
             'account_id' => $account->id,
             'email' => 'dwight@dundermifflin.com',
             'password' => 'password',
+            'is_administrator' => true,
         ];
 
         $user = (new CreateUser)->execute($request);
@@ -31,6 +32,7 @@ class CreateUserTest extends TestCase
             'id' => $user->id,
             'account_id' => $account->id,
             'email' => 'dwight@dundermifflin.com',
+            'is_administrator' => true,
         ]);
 
         $this->assertInstanceOf(
@@ -51,6 +53,7 @@ class CreateUserTest extends TestCase
             'account_id' => $account->id,
             'email' => $user->email,
             'password' => 'password',
+            'is_administrator' => true,
         ];
 
         $this->expectException(EmailAlreadyUsedException::class);
