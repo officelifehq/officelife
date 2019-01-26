@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Models\Account\Team;
 use App\Models\Account\Account;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -61,5 +62,15 @@ class User extends Authenticatable
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    /**
+     * Get the teams record associated with the user.
+     *
+     * @return BelongsTo
+     */
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class);
     }
 }
