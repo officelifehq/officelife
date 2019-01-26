@@ -17,7 +17,7 @@ class CreateAuditLogTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('account_id');
             $table->string('action');
-            $table->json('objects');
+            $table->text('objects');
             $table->string('ip_address')->nullable();
             $table->timestamps();
             $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
