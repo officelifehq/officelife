@@ -21,7 +21,7 @@ class LogActionTest extends TestCase
         $request = [
             'account_id' => $account->id,
             'action' => 'account_created',
-            'objects' => json_encode('{"user": 1}'),
+            'objects' => '{"user": 1}',
         ];
 
         $auditLog = (new LogAction)->execute($request);
