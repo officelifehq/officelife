@@ -2,9 +2,8 @@
 
 namespace App\Services\Account\Team;
 
-use App\Models\Account\Team;
-use App\Models\Account\Account;
 use App\Models\User\User;
+use App\Models\Account\Team;
 use App\Services\BaseService;
 use App\Services\Account\Account\LogAction;
 
@@ -46,7 +45,7 @@ class AddUserToTeam extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'user_added_to_team',
-            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '. $data['team_id'] .', "user": '.$data['user_id'].'}'),
+            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$data['team_id'].', "user": '.$data['user_id'].'}'),
         ]);
 
         return $team;

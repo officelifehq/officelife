@@ -2,12 +2,10 @@
 
 namespace App\Services\Account\Account;
 
+use App\Models\User\User;
 use App\Services\BaseService;
 use App\Models\Account\Account;
-use App\Models\User\User;
 use Illuminate\Support\Facades\Hash;
-use App\Services\User\CreateUser;
-use App\Services\Account\Account\LogAction;
 
 class CreateAccount extends BaseService
 {

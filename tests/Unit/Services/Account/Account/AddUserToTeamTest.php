@@ -5,7 +5,6 @@ namespace Tests\Unit\Services\Account\Team;
 use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Account\Team;
-use App\Models\Account\Account;
 use App\Services\Account\Team\AddUserToTeam;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

@@ -4,7 +4,6 @@ namespace Tests\Unit\Models\Account;
 
 use Tests\TestCase;
 use App\Models\Account\AuditLog;
-use App\Models\Account\Team;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AuditLogTest extends TestCase

@@ -6,8 +6,8 @@ use App\Models\User\User;
 use App\Services\BaseService;
 use App\Models\Account\Account;
 use Illuminate\Support\Facades\Hash;
-use App\Exceptions\EmailAlreadyUsedException;
 use App\Services\Account\Account\LogAction;
+use App\Exceptions\EmailAlreadyUsedException;
 
 class CreateUser extends BaseService
 {
@@ -51,7 +51,7 @@ class CreateUser extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'user_created',
-            'objects' => json_encode('{"author": ' . $data['author_id'] . ', "user": ' . $user->id . '}'),
+            'objects' => json_encode('{"author": '.$data['author_id'].', "user": '.$user->id.'}'),
         ]);
 
         return $user;
