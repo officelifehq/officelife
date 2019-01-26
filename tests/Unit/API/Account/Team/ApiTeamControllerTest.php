@@ -36,7 +36,7 @@ class ApiTeamControllerTest extends ApiTestCase
 
         $response->assertJsonStructure([
             'data' => [
-                '*' => $this->jsonTeam
+                '*' => $this->jsonTeam,
             ],
         ]);
 
@@ -55,12 +55,12 @@ class ApiTeamControllerTest extends ApiTestCase
             'account_id' => $user->account_id,
         ]);
 
-        $response = $this->json('GET', '/api/teams/' . $team->id);
+        $response = $this->json('GET', '/api/teams/'.$team->id);
 
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
-            'data' => $this->jsonTeam
+            'data' => $this->jsonTeam,
         ]);
 
         $response->assertJsonFragment([

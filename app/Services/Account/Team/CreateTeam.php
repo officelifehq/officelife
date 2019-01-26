@@ -2,10 +2,8 @@
 
 namespace App\Services\Account\Team;
 
-use App\Models\User\User;
 use App\Models\Account\Team;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Hash;
 
 class CreateTeam extends BaseService
 {
