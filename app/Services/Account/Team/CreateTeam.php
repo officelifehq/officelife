@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services\Account\Team;
 
 use App\Models\User\User;
 use App\Models\Account\Team;
@@ -18,8 +18,8 @@ class CreateTeam extends BaseService
     {
         return [
             'account_id' => 'required|integer|exists:accounts,id',
-            'name' => 'required|email|string',
-            'description' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:65535',
         ];
     }
 
@@ -33,15 +33,10 @@ class CreateTeam extends BaseService
     {
         $this->validate($data);
 
-        if (! $this->uniqueInAccount($data)) {
-            throw new EmailAlreadyUsedException;
-        }
-
-        return User::create([
+        return Team::create([
             'account_id' => $data['account_id'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'is_administrator' => $data['is_administrator'],
+            'name' => $data['name'],
+            'description' => $this->nullOrValue($data, 'description'),
         ]);
     }
 }
