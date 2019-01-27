@@ -33,7 +33,7 @@ class ApiTestCase extends TestCase
 
         $response->assertJson([
             'error' => [
-                'message' => NULL,
+                'message' => null,
                 'error_message' => 'Resource not found.',
             ],
         ]);
