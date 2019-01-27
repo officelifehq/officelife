@@ -18,11 +18,7 @@ class ApiTeamController extends ApiController
      */
     public function index(Request $request)
     {
-        try {
-            $team = auth()->user()->account->teams()->get();
-        } catch (QueryException $e) {
-            return $this->respondInvalidQuery();
-        }
+        $team = auth()->user()->account->teams()->get();
 
         return TeamResource::collection($team);
     }

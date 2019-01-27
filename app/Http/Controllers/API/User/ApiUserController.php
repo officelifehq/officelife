@@ -19,11 +19,7 @@ class ApiUserController extends ApiController
      */
     public function index(Request $request)
     {
-        try {
-            $users = auth()->user()->account->users()->get();
-        } catch (QueryException $e) {
-            return $this->respondInvalidQuery();
-        }
+        $users = auth()->user()->account->users()->get();
 
         return UserResource::collection($users);
     }
