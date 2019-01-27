@@ -38,4 +38,39 @@ class ApiTestCase extends TestCase
             ],
         ]);
     }
+
+    /**
+     * Test that the response contains a data error notification.
+     *
+     * @param TestResponse $response
+     * @param string|array $message
+     */
+    public function expectDataError(TestResponse $response, $message = '')
+    {
+        $response->assertStatus(422);
+
+        $response->assertJson([
+            'error' => [
+                'message' => $message,
+                'error_message' => 'Validator failed.',
+            ],
+        ]);
+    }
+
+    /**
+     * Test that the response contains a non authorized response.
+     *
+     * @param TestResponse $response
+     * @param string|array $message
+     */
+    public function expectNotAuthorized(TestResponse $response, $message = '')
+    {
+        $response->assertStatus(401);
+
+        $response->assertJson([
+            'error' => [
+                'error_message' => 'Action requires user authentication.',
+            ],
+        ]);
+    }
 }

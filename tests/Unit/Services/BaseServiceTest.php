@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
 use App\Services\BaseService;
+use App\Exceptions\NotEnoughPermissionException;
 
 class BaseServiceTest extends TestCase
 {
@@ -53,9 +54,8 @@ class BaseServiceTest extends TestCase
             'permission_level' => config('homas.authorizations.hr'),
         ]);
 
-        $this->assertFalse(
-            $stub->validatePermissions($user->id, 'administrator')
-        );
+        $this->expectException(NotEnoughPermissionException::class);
+        $stub->validatePermissions($user->id, 'administrator');
     }
 
     /** @test */
