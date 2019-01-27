@@ -37,6 +37,8 @@ class CreateUser extends BaseService
     {
         $this->validate($data);
 
+        $this->validatePermissions($data['author_id'], 'hr');
+
         if (! $this->uniqueInAccount($data)) {
             throw new EmailAlreadyUsedException;
         }
@@ -45,7 +47,7 @@ class CreateUser extends BaseService
             'account_id' => $data['account_id'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'is_administrator' => $data['is_administrator'],
+            'permission_level' => ($data['is_administrator'] ? config('homas.authorizations.administrator') : config('homas.authorizations.user')),
         ]);
 
         (new LogAction)->execute([

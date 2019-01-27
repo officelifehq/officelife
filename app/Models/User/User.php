@@ -23,7 +23,7 @@ class User extends Authenticatable
         'account_id',
         'email',
         'password',
-        'is_administrator',
+        'permission_level',
     ];
 
     /**
@@ -33,7 +33,7 @@ class User extends Authenticatable
      */
     protected static $logAttributes = [
         'email',
-        'is_administrator',
+        'permission_level',
     ];
 
     /**
@@ -43,15 +43,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_administrator' => 'boolean',
     ];
 
     /**

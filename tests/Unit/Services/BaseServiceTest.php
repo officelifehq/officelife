@@ -4,6 +4,7 @@ namespace Tests\Unit\Services;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\User\User;
 use App\Services\BaseService;
 
 class BaseServiceTest extends TestCase
@@ -32,6 +33,28 @@ class BaseServiceTest extends TestCase
             $stub->validate([
                 'street' => 'la rue du bonheur',
             ])
+        );
+    }
+
+    /** @test */
+    public function it_validates_permission_level()
+    {
+        // administrator has all rights
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+        $user = factory(User::class)->create([
+            'permission_level' => config('homas.authorizations.administrator'),
+        ]);
+
+        $this->assertTrue(
+            $stub->validatePermissions($user->id, 'administrator')
+        );
+
+        $user = factory(User::class)->create([
+            'permission_level' => config('homas.authorizations.hr'),
+        ]);
+
+        $this->assertFalse(
+            $stub->validatePermissions($user->id, 'administrator')
         );
     }
 

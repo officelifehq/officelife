@@ -34,6 +34,8 @@ class RemoveUserFromTeam extends BaseService
     {
         $this->validate($data);
 
+        $this->validatePermissions($data['author_id'], 'hr');
+
         User::where('account_id', $data['account_id'])
             ->findOrFail($data['user_id']);
 

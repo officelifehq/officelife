@@ -14,7 +14,7 @@ class ApiUserControllerTest extends ApiTestCase
         'id',
         'object',
         'email',
-        'is_administrator',
+        'permission_level',
         'account' => [
             'id',
         ],
@@ -36,7 +36,7 @@ class ApiUserControllerTest extends ApiTestCase
 
         $response->assertJsonStructure([
             'data' => [
-                '*' => $this->jsonUser
+                '*' => $this->jsonUser,
             ],
         ]);
 
@@ -57,7 +57,7 @@ class ApiUserControllerTest extends ApiTestCase
         $response->assertStatus(200);
 
         $response->assertJsonStructure([
-            'data' => $this->jsonUser
+            'data' => $this->jsonUser,
         ]);
 
         $response->assertJsonFragment([

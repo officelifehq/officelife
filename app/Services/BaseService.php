@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Carbon\Carbon;
+use App\Models\User\User;
 use Illuminate\Support\Facades\Validator;
 
 abstract class BaseService
@@ -29,6 +30,20 @@ abstract class BaseService
             ->validate();
 
         return true;
+    }
+
+    /**
+     * Checks if the user has the permission to do the action.
+     *
+     * @param int $userId
+     * @param string $requiredPermissionLevel
+     * @return bool
+     */
+    public function validatePermissions(int $userId, string $requiredPermissionLevel) : bool
+    {
+        $user = User::find($userId);
+
+        return config('homas.authorizations.'.$requiredPermissionLevel) >= $user->permission_level;
     }
 
     /**
