@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API\Account\Team;
 
 use App\Models\Account\Team;
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Account\Team\Team as TeamResource;
@@ -18,11 +17,7 @@ class ApiTeamController extends ApiController
      */
     public function index(Request $request)
     {
-        try {
-            $team = auth()->user()->account->teams()->get();
-        } catch (QueryException $e) {
-            return $this->respondInvalidQuery();
-        }
+        $team = auth()->user()->account->teams()->get();
 
         return TeamResource::collection($team);
     }

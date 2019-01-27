@@ -4,8 +4,6 @@ namespace App\Http\Controllers\API\User;
 
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\User\User as UserResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -19,11 +17,7 @@ class ApiUserController extends ApiController
      */
     public function index(Request $request)
     {
-        try {
-            $users = auth()->user()->account->users()->get();
-        } catch (QueryException $e) {
-            return $this->respondInvalidQuery();
-        }
+        $users = auth()->user()->account->users()->get();
 
         return UserResource::collection($users);
     }

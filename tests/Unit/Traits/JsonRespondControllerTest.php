@@ -5,7 +5,7 @@ namespace Tests\Unit\Services;
 use Tests\TestCase;
 use Illuminate\Http\JsonResponse;
 use App\Traits\JsonRespondController;
-use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 
 class JsonRespondControllerTest extends TestCase
 {
@@ -89,6 +89,24 @@ class JsonRespondControllerTest extends TestCase
         $this->assertEquals(
             '{"error":{"message":null,"error_message":"Resource not found."}}',
             $response->content()
+        );
+    }
+
+    /** @test */
+    public function it_responds_validator_failed()
+    {
+        $trait = $this->getMockForTrait(JsonRespondController::class);
+
+        $validator = Validator::make(
+            ['name' => null],
+            ['name' => 'required']
+        );
+
+        $response = $trait->respondValidatorFailed($validator);
+
+        $this->assertEquals(
+            422,
+            $response->status()
         );
     }
 
