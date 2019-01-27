@@ -113,7 +113,7 @@ class ApiTeamControllerTest extends ApiTestCase
         ]);
 
         $errors = [
-            "The name field is required."
+            "The name field is required.",
         ];
 
         $this->expectDataError($response, $errors);
