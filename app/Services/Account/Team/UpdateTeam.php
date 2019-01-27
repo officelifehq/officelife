@@ -47,7 +47,7 @@ class UpdateTeam extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'team_updated',
-            'objects' => json_encode('{"author": '.$data['author_id'] . ', "team": ' . $team->id . '}'),
+            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$team->id.'}'),
         ]);
 
         return $team;

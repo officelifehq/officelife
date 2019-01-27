@@ -42,7 +42,7 @@ class DestroyTeam extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'team_destroyed',
-            'objects' => json_encode('{"author": ' . $data['author_id'] . ', "team": ' . $team->name . '}'),
+            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$team->name.'}'),
         ]);
 
         return true;
