@@ -33,6 +33,8 @@ class CreateTeam extends BaseService
     {
         $this->validate($data);
 
+        $this->validatePermissions($data['author_id'], 'hr');
+
         $team = Team::create([
             'account_id' => $data['account_id'],
             'name' => $data['name'],
