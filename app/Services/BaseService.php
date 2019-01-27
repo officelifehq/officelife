@@ -25,7 +25,7 @@ abstract class BaseService
      */
     public function validate(array $data) : bool
     {
-        Validator::make($data, $this->rules())
+        $validator = Validator::make($data, $this->rules())
             ->validate();
 
         return true;

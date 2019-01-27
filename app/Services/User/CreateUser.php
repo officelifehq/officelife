@@ -6,6 +6,7 @@ use App\Models\User\User;
 use App\Services\BaseService;
 use App\Models\Account\Account;
 use Illuminate\Support\Facades\Hash;
+use App\Services\Account\Account\LogAction;
 use App\Exceptions\EmailAlreadyUsedException;
 
 class CreateUser extends BaseService
@@ -19,6 +20,7 @@ class CreateUser extends BaseService
     {
         return [
             'account_id' => 'required|integer|exists:accounts,id',
+            'author_id' => 'nullable|integer|exists:users,id',
             'email' => 'required|email|string',
             'password' => 'required|string|max:255',
             'is_administrator' => 'required|boolean',
@@ -39,12 +41,20 @@ class CreateUser extends BaseService
             throw new EmailAlreadyUsedException;
         }
 
-        return User::create([
+        $user = User::create([
             'account_id' => $data['account_id'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'is_administrator' => $data['is_administrator'],
         ]);
+
+        (new LogAction)->execute([
+            'account_id' => $data['account_id'],
+            'action' => 'user_created',
+            'objects' => json_encode('{"author": '.$data['author_id'].', "user": '.$user->id.'}'),
+        ]);
+
+        return $user;
     }
 
     /**

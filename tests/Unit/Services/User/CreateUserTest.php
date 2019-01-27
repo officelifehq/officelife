@@ -17,41 +17,64 @@ class CreateUserTest extends TestCase
     /** @test */
     public function it_creates_a_user()
     {
-        $account = factory(Account::class)->create([]);
+        $user = factory(User::class)->create([]);
 
         $request = [
-            'account_id' => $account->id,
+            'account_id' => $user->account_id,
+            'author_id' => $user->id,
             'email' => 'dwight@dundermifflin.com',
             'password' => 'password',
             'is_administrator' => true,
         ];
 
-        $user = (new CreateUser)->execute($request);
+        $createdUser = (new CreateUser)->execute($request);
 
         $this->assertDatabaseHas('users', [
-            'id' => $user->id,
-            'account_id' => $account->id,
+            'id' => $createdUser->id,
+            'account_id' => $createdUser->account_id,
             'email' => 'dwight@dundermifflin.com',
             'is_administrator' => true,
         ]);
 
         $this->assertInstanceOf(
             User::class,
-            $user
+            $createdUser
         );
+    }
+
+    /** @test */
+    public function it_logs_an_action()
+    {
+        $user = factory(User::class)->create([]);
+
+        $request = [
+            'account_id' => $user->account_id,
+            'author_id' => $user->id,
+            'email' => 'dwight@dundermifflin.com',
+            'password' => 'password',
+            'is_administrator' => true,
+        ];
+
+        $team = (new CreateUser)->execute($request);
+
+        $this->assertDatabaseHas('audit_logs', [
+            'account_id' => $user->account_id,
+            'action' => 'user_created',
+        ]);
     }
 
     /** @test */
     public function it_doesnt_create_a_user_if_email_is_not_unique_in_account()
     {
-        $account = factory(Account::class)->create([]);
-        $user = factory(User::class)->create([
-            'account_id' => $account->id,
+        $user = factory(User::class)->create([]);
+        $existingUser = factory(User::class)->create([
+            'account_id' => $user->account_id,
         ]);
 
         $request = [
-            'account_id' => $account->id,
-            'email' => $user->email,
+            'account_id' => $existingUser->account_id,
+            'author_id' => $user->id,
+            'email' => $existingUser->email,
             'password' => 'password',
             'is_administrator' => true,
         ];

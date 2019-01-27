@@ -2,11 +2,12 @@
 
 namespace App\Services\Account\Team;
 
+use App\Models\User\User;
 use App\Models\Account\Team;
 use App\Services\BaseService;
 use App\Services\Account\Account\LogAction;
 
-class CreateTeam extends BaseService
+class AddUserToTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -18,13 +19,13 @@ class CreateTeam extends BaseService
         return [
             'account_id' => 'required|integer|exists:accounts,id',
             'author_id' => 'required|integer|exists:users,id',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:65535',
+            'user_id' => 'required|integer|exists:users,id',
+            'team_id' => 'required|integer|exists:teams,id',
         ];
     }
 
     /**
-     * Create a team.
+     * Add a user to a team.
      *
      * @param array $data
      * @return Team
@@ -33,16 +34,18 @@ class CreateTeam extends BaseService
     {
         $this->validate($data);
 
-        $team = Team::create([
-            'account_id' => $data['account_id'],
-            'name' => $data['name'],
-            'description' => $this->nullOrValue($data, 'description'),
-        ]);
+        User::where('account_id', $data['account_id'])
+            ->findOrFail($data['user_id']);
+
+        $team = Team::where('account_id', $data['account_id'])
+            ->findOrFail($data['team_id']);
+
+        $team->users()->attach($data['user_id'], ['account_id' => $data['account_id']]);
 
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
-            'action' => 'team_created',
-            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$team->id.'}'),
+            'action' => 'user_added_to_team',
+            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$data['team_id'].', "user": '.$data['user_id'].'}'),
         ]);
 
         return $team;

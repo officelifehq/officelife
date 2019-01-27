@@ -40,7 +40,25 @@ class CreateAccountTest extends TestCase
         );
     }
 
-    public function test_it_fails_if_wrong_parameters_are_given()
+    /** @test */
+    public function it_logs_an_action()
+    {
+        $request = [
+            'subdomain' => 'dundermifflin',
+            'email' => 'dwight@dundermifflin.com',
+            'password' => 'password',
+        ];
+
+        $account = (new CreateAccount)->execute($request);
+
+        $this->assertDatabaseHas('audit_logs', [
+            'account_id' => $account->id,
+            'action' => 'account_created',
+        ]);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given()
     {
         $request = [
             'subdomain' => 'dundermifflin',
@@ -48,6 +66,6 @@ class CreateAccountTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        $account = (new CreateAccount)->execute($request);
+        (new CreateAccount)->execute($request);
     }
 }

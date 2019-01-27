@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services\Account\Team;
 
 use Tests\TestCase;
+use App\Models\User\User;
 use App\Models\Account\Team;
 use App\Models\Account\Account;
 use App\Services\Account\Team\CreateTeam;
@@ -16,10 +17,11 @@ class CreateTeamTest extends TestCase
     /** @test */
     public function it_creates_a_team()
     {
-        $account = factory(Account::class)->create([]);
+        $user = factory(User::class)->create([]);
 
         $request = [
-            'account_id' => $account->id,
+            'account_id' => $user->account_id,
+            'author_id' => $user->id,
             'name' => 'Selling team',
             'description' => 'Selling paper everyday',
         ];
@@ -28,7 +30,7 @@ class CreateTeamTest extends TestCase
 
         $this->assertDatabaseHas('teams', [
             'id' => $team->id,
-            'account_id' => $account->id,
+            'account_id' => $user->account_id,
             'name' => 'Selling team',
             'description' => 'Selling paper everyday',
         ]);
@@ -37,6 +39,26 @@ class CreateTeamTest extends TestCase
             Team::class,
             $team
         );
+    }
+
+    /** @test */
+    public function it_logs_an_action()
+    {
+        $user = factory(User::class)->create([]);
+
+        $request = [
+            'account_id' => $user->account_id,
+            'author_id' => $user->id,
+            'name' => 'Selling team',
+            'description' => 'Selling paper everyday',
+        ];
+
+        $team = (new CreateTeam)->execute($request);
+
+        $this->assertDatabaseHas('audit_logs', [
+            'account_id' => $user->account_id,
+            'action' => 'team_created',
+        ]);
     }
 
     /** @test */

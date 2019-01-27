@@ -2,9 +2,10 @@
 
 namespace App\Services\Account\Account;
 
+use App\Models\User\User;
 use App\Services\BaseService;
 use App\Models\Account\Account;
-use App\Services\User\CreateUser;
+use Illuminate\Support\Facades\Hash;
 
 class CreateAccount extends BaseService
 {
@@ -36,14 +37,18 @@ class CreateAccount extends BaseService
             'subdomain' => $data['subdomain'],
         ]);
 
-        $request = [
+        $user = User::create([
             'account_id' => $account->id,
             'email' => $data['email'],
-            'password' => $data['password'],
+            'password' => Hash::make($data['password']),
             'is_administrator' => true,
-        ];
+        ]);
 
-        (new CreateUser)->execute($request);
+        (new LogAction)->execute([
+            'account_id' => $account->id,
+            'action' => 'account_created',
+            'objects' => json_encode('{"user": '.$user->id.'}'),
+        ]);
 
         return $account;
     }
