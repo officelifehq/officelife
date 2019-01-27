@@ -79,4 +79,58 @@ class ApiTeamControllerTest extends ApiTestCase
 
         $this->expectNotFound($response);
     }
+
+    /** @test */
+    public function it_stores_a_team()
+    {
+        $user = $this->signin();
+
+        $response = $this->json('POST', '/api/teams/', [
+            'name' => 'sales team',
+            'description' => 'managed by dwight',
+        ]);
+
+        $response->assertStatus(201);
+
+        $response->assertJsonStructure([
+            'data' => $this->jsonTeam,
+        ]);
+
+        $response->assertJsonFragment([
+            'object' => 'team',
+            'id' => $response->json('data.id'),
+            'name' => 'sales team',
+        ]);
+    }
+
+    /** @test */
+    public function it_doesnt_store_a_team_if_validation_fails()
+    {
+        $user = $this->signin();
+
+        $response = $this->json('POST', '/api/teams/', [
+            'description' => 'managed by dwight',
+        ]);
+
+        $errors = [
+            'The name field is required.',
+        ];
+
+        $this->expectDataError($response, $errors);
+    }
+
+    /** @test */
+    public function it_doesnt_store_a_team_if_permission_fails()
+    {
+        $user = $this->signin();
+        $user->permission_level = 3;
+        $user->save();
+
+        $response = $this->json('POST', '/api/teams/', [
+            'name' => 'sales team',
+            'description' => 'managed by dwight',
+        ]);
+
+        $this->expectNotAuthorized($response);
+    }
 }

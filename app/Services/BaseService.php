@@ -5,6 +5,7 @@ namespace App\Services;
 use Carbon\Carbon;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Validator;
+use App\Exceptions\NotEnoughPermissionException;
 
 abstract class BaseService
 {
@@ -43,7 +44,11 @@ abstract class BaseService
     {
         $user = User::find($userId);
 
-        return config('homas.authorizations.'.$requiredPermissionLevel) >= $user->permission_level;
+        if (config('homas.authorizations.'.$requiredPermissionLevel) < $user->permission_level) {
+            throw new NotEnoughPermissionException;
+        }
+
+        return true;
     }
 
     /**

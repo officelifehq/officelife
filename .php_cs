@@ -14,5 +14,7 @@ return PhpCsFixer\Config::create()
         'array_syntax' => ['syntax' => 'short'],
         'ordered_imports' => ['sortAlgorithm' => 'length'],
         'no_unused_imports' => true,
+        'no_trailing_comma_in_list_call' => false,
+        'single_quote' => true,
     ])
     ->setFinder($finder);
