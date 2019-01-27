@@ -45,7 +45,7 @@ class RemoveUserFromTeam extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'user_removed_from_team',
-            'objects' => json_encode('{"author": ' . $data['author_id'] . ', "team": ' . $data['team_id'] . ', "user": ' . $data['user_id'] . '}'),
+            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$data['team_id'].', "user": '.$data['user_id'].'}'),
         ]);
 
         return $team;
