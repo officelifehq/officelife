@@ -33,7 +33,7 @@ class CreateUserTest extends TestCase
             'id' => $createdUser->id,
             'account_id' => $createdUser->account_id,
             'email' => 'dwight@dundermifflin.com',
-            'is_administrator' => true,
+            'permission_level' => config('homas.authorizations.administrator'),
         ]);
 
         $this->assertInstanceOf(

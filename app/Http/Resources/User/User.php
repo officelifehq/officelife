@@ -18,7 +18,7 @@ class User extends JsonResource
             'id' => $this->id,
             'object' => 'user',
             'email' => $this->email,
-            'is_administrator' => $this->is_administrator,
+            'permission_level' => $this->permission_level,
             'account' => [
                 'id' => $this->account_id,
             ],

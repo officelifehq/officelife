@@ -41,7 +41,7 @@ class CreateAccount extends BaseService
             'account_id' => $account->id,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'is_administrator' => true,
+            'permission_level' => config('homas.authorizations.administrator'),
         ]);
 
         (new LogAction)->execute([
