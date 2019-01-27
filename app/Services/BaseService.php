@@ -42,6 +42,7 @@ abstract class BaseService
     public function validatePermissions(int $userId, string $requiredPermissionLevel) : bool
     {
         $user = User::find($userId);
+
         return config('homas.authorizations.'.$requiredPermissionLevel) >= $user->permission_level;
     }
 
