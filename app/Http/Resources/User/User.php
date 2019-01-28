@@ -19,6 +19,10 @@ class User extends JsonResource
             'object' => 'user',
             'email' => $this->email,
             'permission_level' => $this->permission_level,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
+            'middle_name' => $this->middle_name,
+            'nickname' => $this->nickname,
             'account' => [
                 'id' => $this->account_id,
             ],

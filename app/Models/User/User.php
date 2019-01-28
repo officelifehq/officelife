@@ -24,6 +24,10 @@ class User extends Authenticatable
         'email',
         'password',
         'permission_level',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'nickname',
     ];
 
     /**
@@ -34,6 +38,10 @@ class User extends Authenticatable
     protected static $logAttributes = [
         'email',
         'permission_level',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'nickname',
     ];
 
     /**

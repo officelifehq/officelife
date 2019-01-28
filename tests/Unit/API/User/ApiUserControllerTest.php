@@ -15,6 +15,10 @@ class ApiUserControllerTest extends ApiTestCase
         'object',
         'email',
         'permission_level',
+        'first_name',
+        'last_name',
+        'middle_name',
+        'nickname',
         'account' => [
             'id',
         ],
