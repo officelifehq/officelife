@@ -18,6 +18,7 @@ class Account extends Model
      */
     protected $fillable = [
         'subdomain',
+        'confirmed',
     ];
 
     /**
@@ -26,6 +27,15 @@ class Account extends Model
      * @var array
      */
     protected static $logAttributes = ['subdomain'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'confirmed' => 'boolean',
+    ];
 
     /**
      * Get the user records associated with the account.

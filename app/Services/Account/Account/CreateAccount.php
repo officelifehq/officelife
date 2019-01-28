@@ -3,6 +3,7 @@
 namespace App\Services\Account\Account;
 
 use App\Models\User\User;
+use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Account\Account;
 use Illuminate\Support\Facades\Hash;
@@ -37,6 +38,24 @@ class CreateAccount extends BaseService
             'subdomain' => $data['subdomain'],
         ]);
 
+        $this->generateConfirmationLink($account);
+
+        $user = $this->createUser($account, $data);
+
+        $this->scheduleConfirmationEmail($account);
+
+        return $account;
+    }
+
+    /**
+     * Create the user.
+     *
+     * @param Account $account
+     * @param array $data
+     * @return User
+     */
+    private function createUser(Account $account, array $data) : User
+    {
         $user = User::create([
             'account_id' => $account->id,
             'email' => $data['email'],
@@ -47,9 +66,33 @@ class CreateAccount extends BaseService
         (new LogAction)->execute([
             'account_id' => $account->id,
             'action' => 'account_created',
-            'objects' => json_encode('{"user": '.$user->id.'}'),
+            'objects' => json_encode('{"user": ' . $user->id . '}'),
         ]);
 
-        return $account;
+        return $user;
+    }
+
+    /**
+     * Generate a confirmation link for the account.
+     *
+     * @param Account $account
+     * @return void
+     */
+    private function generateConfirmationLink($account)
+    {
+        $account->confirmation_link = Str::uuid()->toString();
+        $account->save();
+    }
+
+    /**
+     * Schedule a confirmation email to be sent.
+     *
+     * @param Account $account
+     * @return void
+     */
+    private function scheduleConfirmationEmail($account)
+    {
+        $account->confirmation_link = Str::uuid()->toString();
+        $account->save();
     }
 }

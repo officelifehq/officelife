@@ -41,6 +41,25 @@ class CreateAccountTest extends TestCase
     }
 
     /** @test */
+    public function it_generates_a_confirmation_link()
+    {
+        $request = [
+            'subdomain' => 'dundermifflin',
+            'email' => 'dwight@dundermifflin.com',
+            'password' => 'password',
+        ];
+
+        $account = (new CreateAccount)->execute($request);
+
+        $this->assertDatabaseHas('accounts', [
+            'id' => $account->id,
+            'confirmed' => false,
+        ]);
+
+        $this->assertNotNull($account->confirmation_link);
+    }
+
+    /** @test */
     public function it_logs_an_action()
     {
         $request = [
