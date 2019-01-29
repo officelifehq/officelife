@@ -1,0 +1,24 @@
+.btn {
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #d3d3d9;
+  color: #727184;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #d7e0e9;
+    color: #0052cc;
+  }
+
+  &.add {
+    background-color: #e9f3f3;
+    border-color: #98bbbb;
+    color: #218b8a;
+
+    &:hover {
+      background-color: #e9f3f3;
+      border-color: #218b8a;
+      color: #0052cc;
+    }
+  }
+}

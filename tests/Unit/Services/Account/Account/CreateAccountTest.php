@@ -3,7 +3,9 @@
 namespace Tests\Unit\Services\Account\Account;
 
 use Tests\TestCase;
+use App\Mail\ConfirmAccount;
 use App\Models\Account\Account;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use App\Services\Account\Account\CreateAccount;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -41,6 +43,25 @@ class CreateAccountTest extends TestCase
     }
 
     /** @test */
+    public function it_generates_a_confirmation_link()
+    {
+        $request = [
+            'subdomain' => 'dundermifflin',
+            'email' => 'dwight@dundermifflin.com',
+            'password' => 'password',
+        ];
+
+        $account = (new CreateAccount)->execute($request);
+
+        $this->assertDatabaseHas('accounts', [
+            'id' => $account->id,
+            'confirmed' => false,
+        ]);
+
+        $this->assertNotNull($account->confirmation_link);
+    }
+
+    /** @test */
     public function it_logs_an_action()
     {
         $request = [
@@ -55,6 +76,24 @@ class CreateAccountTest extends TestCase
             'account_id' => $account->id,
             'action' => 'account_created',
         ]);
+    }
+
+    /** @test */
+    public function it_schedules_an_email()
+    {
+        $request = [
+            'subdomain' => 'dundermifflin',
+            'email' => 'dwight@dundermifflin.com',
+            'password' => 'password',
+        ];
+
+        Mail::fake();
+
+        $account = (new CreateAccount)->execute($request);
+
+        Mail::assertQueued(ConfirmAccount::class, function ($mail) use ($account) {
+            return $mail->account->id === $account->id;
+        });
     }
 
     /** @test */

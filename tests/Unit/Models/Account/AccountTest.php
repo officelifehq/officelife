@@ -33,4 +33,17 @@ class AccountTest extends TestCase
 
         $this->assertTrue($account->teams()->exists());
     }
+
+    /** @test */
+    public function it_gets_the_path_for_the_confirmation_link()
+    {
+        $account = factory(Account::class)->create([
+            'confirmation_link' => 'dunder',
+        ]);
+
+        $this->assertEquals(
+            config('app.url').'/register/confirm/dunder',
+            $account->getPathConfirmationLink()
+        );
+    }
 }

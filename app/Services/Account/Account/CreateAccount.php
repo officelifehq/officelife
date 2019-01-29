@@ -3,9 +3,12 @@
 namespace App\Services\Account\Account;
 
 use App\Models\User\User;
+use Illuminate\Support\Str;
+use App\Mail\ConfirmAccount;
 use App\Services\BaseService;
 use App\Models\Account\Account;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class CreateAccount extends BaseService
 {
@@ -17,7 +20,7 @@ class CreateAccount extends BaseService
     public function rules()
     {
         return [
-            'subdomain' => 'required|string|max:255',
+            'subdomain' => 'required|string|max:255|unique:accounts|alpha',
             'email' => 'required|email|string',
             'password' => 'required|string|max:255',
         ];
@@ -37,6 +40,24 @@ class CreateAccount extends BaseService
             'subdomain' => $data['subdomain'],
         ]);
 
+        $account = $this->generateConfirmationLink($account);
+
+        $user = $this->createUser($account, $data);
+
+        $this->scheduleConfirmationEmail($user, $account);
+
+        return $account;
+    }
+
+    /**
+     * Create the user.
+     *
+     * @param Account $account
+     * @param array $data
+     * @return User
+     */
+    private function createUser(Account $account, array $data) : User
+    {
         $user = User::create([
             'account_id' => $account->id,
             'email' => $data['email'],
@@ -50,6 +71,33 @@ class CreateAccount extends BaseService
             'objects' => json_encode('{"user": '.$user->id.'}'),
         ]);
 
+        return $user;
+    }
+
+    /**
+     * Generate a confirmation link for the account.
+     *
+     * @param Account $account
+     * @return Account
+     */
+    private function generateConfirmationLink($account) : Account
+    {
+        $account->confirmation_link = Str::uuid()->toString();
+        $account->save();
+
         return $account;
+    }
+
+    /**
+     * Schedule a confirmation email to be sent.
+     *
+     * @param User $user
+     * @param Account $account
+     * @return void
+     */
+    private function scheduleConfirmationEmail(User $user, Account $account)
+    {
+        Mail::to($user->email)
+            ->queue(new ConfirmAccount($account));
     }
 }
