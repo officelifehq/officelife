@@ -20,7 +20,7 @@ class CreateAccount extends BaseService
     public function rules()
     {
         return [
-            'subdomain' => 'required|string|max:255',
+            'subdomain' => 'required|string|max:255|unique:accounts|alpha',
             'email' => 'required|email|string',
             'password' => 'required|string|max:255',
         ];
