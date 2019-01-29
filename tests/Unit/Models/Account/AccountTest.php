@@ -42,7 +42,7 @@ class AccountTest extends TestCase
         ]);
 
         $this->assertEquals(
-            'https://dundermifflin.com/register/confirm/dunder',
+            config('app.url').'/register/confirm/dunder',
             $account->getPathConfirmationLink()
         );
     }
