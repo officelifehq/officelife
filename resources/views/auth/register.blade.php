@@ -4,10 +4,10 @@
   <div class="mt4 mw7 center br3 mb3 bg-white box">
     <div class="cf">
       <div class="fn fl-ns w-50-ns pa3">
-        lkajsdlkjf
+        Create an account now
       </div>
       <div class="fn fl-ns w-50-ns pa3">
-        <form method="POST" action="{{ route('signup.send') }}">
+        <form method="POST" action="{{ route('signup.store') }}">
           {{ csrf_field() }}
 
           @include('partials.errors')
@@ -16,14 +16,14 @@
           <div class="">
             <label class="db fw4 lh-copy f6" for="subdomain">Choose a domain for your account</label>
             <input type="text" name="subdomain" class="br2 f5 w-100 ba b--black-40 pa2 outline-0">
-            <span class=></span>
+            <span></span>
           </div>
 
           {{-- Email --}}
           <div class="">
             <label class="db fw4 lh-copy f6" for="email">Your email address</label>
             <input type="email" name="email" class="br2 f5 w-100 ba b--black-40 pa2 outline-0">
-            <p>We'll never spam. You'll receive one email to confirm your email address once you sign up, and won't be added to any nasty email marketing campaigns.</p>
+            <p>We'll never spam. You'll receive one email to confirm your email address once you sign up, and won't be added to any nasty email marketing campaigns. No email from a sales team.</p>
           </div>
 
           {{-- Password --}}

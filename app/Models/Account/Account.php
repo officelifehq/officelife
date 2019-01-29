@@ -56,4 +56,14 @@ class Account extends Model
     {
         return $this->hasMany(Team::class);
     }
+
+    /**
+     * Get the fully qualified path to registration.
+     *
+     * @return string
+     */
+    public function getPathConfirmationLink()
+    {
+        return secure_url('register/confirm', $this->confirmation_link);
+    }
 }

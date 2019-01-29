@@ -4,9 +4,11 @@ namespace App\Services\Account\Account;
 
 use App\Models\User\User;
 use Illuminate\Support\Str;
+use App\Mail\ConfirmAccount;
 use App\Services\BaseService;
 use App\Models\Account\Account;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class CreateAccount extends BaseService
 {
@@ -38,11 +40,11 @@ class CreateAccount extends BaseService
             'subdomain' => $data['subdomain'],
         ]);
 
-        $this->generateConfirmationLink($account);
+        $account = $this->generateConfirmationLink($account);
 
         $user = $this->createUser($account, $data);
 
-        $this->scheduleConfirmationEmail($account);
+        $this->scheduleConfirmationEmail($user, $account);
 
         return $account;
     }
@@ -76,23 +78,26 @@ class CreateAccount extends BaseService
      * Generate a confirmation link for the account.
      *
      * @param Account $account
-     * @return void
+     * @return Account
      */
-    private function generateConfirmationLink($account)
+    private function generateConfirmationLink($account) : Account
     {
         $account->confirmation_link = Str::uuid()->toString();
         $account->save();
+
+        return $account;
     }
 
     /**
      * Schedule a confirmation email to be sent.
      *
+     * @param User $user
      * @param Account $account
      * @return void
      */
-    private function scheduleConfirmationEmail($account)
+    private function scheduleConfirmationEmail(User $user, Account $account)
     {
-        $account->confirmation_link = Str::uuid()->toString();
-        $account->save();
+        Mail::to($user->email)
+            ->queue(new ConfirmAccount($account));
     }
 }
