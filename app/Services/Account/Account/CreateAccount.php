@@ -68,7 +68,7 @@ class CreateAccount extends BaseService
         (new LogAction)->execute([
             'account_id' => $account->id,
             'action' => 'account_created',
-            'objects' => json_encode('{"user": ' . $user->id . '}'),
+            'objects' => json_encode('{"user": '.$user->id.'}'),
         ]);
 
         return $user;
