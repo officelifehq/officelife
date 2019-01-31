@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Account\Account\CreateAccount;
 
 class RegisterController extends Controller
@@ -25,14 +26,16 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        $request = [
+        $data = [
             'subdomain' => $request->get('subdomain'),
             'email' => $request->get('email'),
             'password' => $request->get('password'),
         ];
 
-        $account = (new CreateAccount)->execute($request);
+        $account = (new CreateAccount)->execute($data);
 
-        return view('auth.register');
+        if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
+            return redirect()->intended('dashboard');
+        }
     }
 }
