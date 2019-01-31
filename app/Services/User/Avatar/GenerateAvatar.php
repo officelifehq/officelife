@@ -32,7 +32,7 @@ class GenerateAvatar extends BaseService
 
         $size = $this->size($data);
 
-        return 'https://api.adorable.io/avatars/' . $size . '/' . $data['uuid'] . '.png';
+        return 'https://api.adorable.io/avatars/'.$size.'/'.$data['uuid'].'.png';
     }
 
     /**

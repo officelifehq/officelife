@@ -89,8 +89,8 @@ class User extends Authenticatable
     /**
      * Get the name of the user.
      *
-     * @param String $value
-     * @return String
+     * @param string $value
+     * @return string
      */
     public function getNameAttribute($value) : String
     {
@@ -100,7 +100,7 @@ class User extends Authenticatable
 
         $completeName = $this->first_name;
 
-        if (!is_null($this->last_name)) {
+        if (! is_null($this->last_name)) {
             $completeName = $completeName.' '.$this->last_name;
         }
 

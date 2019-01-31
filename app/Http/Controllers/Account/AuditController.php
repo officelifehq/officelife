@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
-use App\Models\Account\AuditLog;
 
 class AuditController extends Controller
 {
@@ -15,6 +14,7 @@ class AuditController extends Controller
     public function index()
     {
         $logs = auth()->user()->account->logs()->get();
+
         return view('account.audit.index')
             ->withLogs($logs);
     }

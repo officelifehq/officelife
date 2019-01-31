@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 use App\Mail\ConfirmAccount;
 use App\Services\BaseService;
 use App\Models\Account\Account;
+use App\Services\User\CreateUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Services\User\CreateUser;
 use App\Services\User\Avatar\GenerateAvatar;
 
 class CreateAccount extends BaseService

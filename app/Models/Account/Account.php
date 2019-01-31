@@ -3,7 +3,6 @@
 namespace App\Models\Account;
 
 use App\Models\User\User;
-use App\Models\Account\AuditLog;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;

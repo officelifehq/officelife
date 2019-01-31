@@ -3,13 +3,13 @@
 namespace App\Services\User;
 
 use App\Models\User\User;
+use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Account\Account;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Account\Account\LogAction;
-use App\Exceptions\EmailAlreadyUsedException;
 use App\Services\User\Avatar\GenerateAvatar;
+use App\Exceptions\EmailAlreadyUsedException;
 
 class CreateUser extends BaseService
 {
