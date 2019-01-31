@@ -2,12 +2,11 @@
 
 namespace App\Models\Account;
 
-use App\Helpers\DateHelper;
 use App\Models\User\User;
-use App\Models\Account\Team;
+use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuditLog extends Model
 {

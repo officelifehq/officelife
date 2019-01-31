@@ -3,8 +3,6 @@
 namespace App\Helpers;
 
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 
 class DateHelper
 {
