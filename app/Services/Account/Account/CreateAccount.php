@@ -80,8 +80,8 @@ class CreateAccount extends BaseService
             'account_id' => $account->id,
             'action' => 'account_created',
             'objects' => json_encode([
-                'user_id' => $user->id,
-                'user_email' => $user->email,
+                'author_id' => $user->id,
+                'author_email' => $user->email,
             ]),
         ]);
 

@@ -2,7 +2,11 @@
 
 namespace App\Models\Account;
 
+use App\Helpers\DateHelper;
+use App\Models\User\User;
+use App\Models\Account\Team;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AuditLog extends Model
@@ -39,5 +43,73 @@ class AuditLog extends Model
     public function account()
     {
         return $this->belongsTo(Account::class);
+    }
+
+    /**
+     * Get the JSON object.
+     *
+     * @return Array
+     */
+    public function getObjectAttribute($value)
+    {
+        return json_decode($this->objects);
+    }
+
+    /**
+     * Get the date of the audit log.
+     *
+     * @return String
+     */
+    public function getDateAttribute($value)
+    {
+        return DateHelper::getShortDateWithTime($this->created_at);
+    }
+
+    /**
+     * Get the author of the audit log, if defined.
+     *
+     * @return String
+     */
+    public function getAuthorAttribute($value)
+    {
+        try {
+            $author = User::findOrFail($this->object->{'author_id'});
+        } catch (ModelNotFoundException $e) {
+            return $this->object->{'author_name'};
+        }
+
+        return '<a href="/users/'.$author->id.'">'.$author->name.'</a>';
+    }
+
+    /**
+     * Get the team of the audit log, if defined.
+     *
+     * @return String
+     */
+    public function getTeamAttribute($value)
+    {
+        try {
+            $team = Team::findOrFail($this->object->{'team_id'});
+        } catch (ModelNotFoundException $e) {
+            return $this->object->{'team_name'};
+        }
+
+        return '<a href="/teams/'.$team->id.'">'.$team->name.'</a>';
+    }
+
+    /**
+     * Get the user of the audit log, if defined.
+     *
+     * @return String
+     */
+    public function getUserAttribute($value)
+    {
+        try {
+            $user = User::findOrFail($this->object->{'user_id'});
+        } catch (ModelNotFoundException $e) {
+            return $this->object->{'user_email'};
+        }
+
+        return '<a href="/users/'.$user->id.'">'.$user->name.'</a>';
     }
 }
