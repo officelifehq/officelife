@@ -92,7 +92,7 @@ class GenerateDummyData extends BaseService
      * Create five users without a team.
      *
      * @param array $data
-     * @param String $name
+     * @param string $name
      * @param int $users
      * @return void
      */

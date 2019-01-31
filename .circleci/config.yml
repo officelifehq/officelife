@@ -1,7 +1,7 @@
  version: 2
  jobs:
      build:
-        docker:
+         docker:
             # specify the version you desire here
             - image: circleci/php:7.2-browsers
 
