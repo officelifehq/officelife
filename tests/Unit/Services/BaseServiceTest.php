@@ -113,4 +113,25 @@ class BaseServiceTest extends TestCase
             $stub->nullOrDate($array, 'value')
         );
     }
+
+    /** @test */
+    public function it_returns_the_default_value_or_the_given_value()
+    {
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+        $array = [
+            'value' => true,
+        ];
+
+        $this->assertTrue(
+            $stub->valueOrFalse($array, 'value')
+        );
+
+        $array = [
+            'value' => false,
+        ];
+
+        $this->assertFalse(
+            $stub->valueOrFalse($array, 'value')
+        );
+    }
 }

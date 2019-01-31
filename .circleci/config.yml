@@ -1,24 +1,34 @@
- version: 2
- jobs:
-     build:
-         steps:
-            - run: sudo apt-get install -y libsqlite3-dev
-            - run: cp .env.circleci .env
-            - run: composer install -n --ignore-platform-reqs
-            - run: npm install
-            - run: npm run production
-            - run: vendor/bin/phpunit
+version: 2
+aliases:
+  # Defaults env
+  - &defaults
+    working_directory: *root
+
+jobs:
+  build:
+    <<: *defaults
+    docker:
+      # specify the version you desire here
+      - image: circleci/php:7.2-browsers
+
+      steps:
+        - run: sudo apt-get install -y libsqlite3-dev
+        - run: cp .env.circleci .env
+        - run: composer install -n --ignore-platform-reqs
+        - run: npm install
+        - run: npm run production
+        - run: vendor/bin/phpunit
+
+        - run:
+          name: Start Chrome Driver
+          command: ./vendor/laravel/dusk/bin/chromedriver-linux
+          background: true
+
+          - run:
+            name: Run Laravel Server
+            command: php artisan serve
+            background: true
 
             - run:
-               name: Start Chrome Driver
-               command: ./vendor/laravel/dusk/bin/chromedriver-linux
-               background: true
-
-            - run:
-               name: Run Laravel Server
-               command: php artisan serve
-               background: true
-
-            - run:
-               name: Run Laravel Dusk Tests
-               command: php artisan dusk
+              name: Run Laravel Dusk Tests
+              command: php artisan dusk

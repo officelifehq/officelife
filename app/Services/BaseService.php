@@ -82,4 +82,20 @@ abstract class BaseService
 
         return $data[$index] == '' ? null : Carbon::parse($data[$index]);
     }
+
+    /**
+     * Returns the value if it's defined, or false otherwise.
+     *
+     * @param mixed $data
+     * @param mixed $index
+     * @return mixed
+     */
+    public function valueOrFalse($data, $index)
+    {
+        if (empty($data[$index])) {
+            return false;
+        }
+
+        return $data[$index];
+    }
 }

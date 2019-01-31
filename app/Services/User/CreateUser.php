@@ -23,7 +23,10 @@ class CreateUser extends BaseService
             'author_id' => 'nullable|integer|exists:users,id',
             'email' => 'required|email|string',
             'password' => 'required|string|max:255',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
             'is_administrator' => 'required|boolean',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -47,13 +50,17 @@ class CreateUser extends BaseService
             'account_id' => $data['account_id'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'first_name' => $this->nullOrValue($data, 'first_name'),
+            'last_name' => $this->nullOrValue($data, 'last_name'),
             'permission_level' => ($data['is_administrator'] ? config('homas.authorizations.administrator') : config('homas.authorizations.user')),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'user_created',
             'objects' => json_encode('{"author": '.$data['author_id'].', "user": '.$user->id.'}'),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $user;

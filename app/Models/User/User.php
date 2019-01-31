@@ -28,6 +28,7 @@ class User extends Authenticatable
         'last_name',
         'middle_name',
         'nickname',
+        'is_dummy',
     ];
 
     /**
@@ -51,6 +52,16 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_administrator' => 'boolean',
+        'is_dummy' => 'boolean',
     ];
 
     /**

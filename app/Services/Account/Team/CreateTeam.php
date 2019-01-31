@@ -20,6 +20,7 @@ class CreateTeam extends BaseService
             'author_id' => 'required|integer|exists:users,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string|max:65535',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -39,12 +40,14 @@ class CreateTeam extends BaseService
             'account_id' => $data['account_id'],
             'name' => $data['name'],
             'description' => $this->nullOrValue($data, 'description'),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'team_created',
             'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$team->id.'}'),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $team;
