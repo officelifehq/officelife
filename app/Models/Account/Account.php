@@ -68,7 +68,7 @@ class Account extends Model
      */
     public function logs()
     {
-        return $this->hasMany(AuditLog::class);
+        return $this->hasMany(AuditLog::class)->orderBy('created_at', 'desc');
     }
 
     /**
