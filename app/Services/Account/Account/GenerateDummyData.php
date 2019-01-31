@@ -35,9 +35,14 @@ class GenerateDummyData extends BaseService
     {
         $this->validate($data);
 
+        $account = Account::find($data['account_id']);
+
         $this->createFiveUsersWithoutTeam($data);
 
         $this->createThreeTeamsWithUsers($data);
+
+        $account->has_dummy_data = true;
+        $account->save();
     }
 
     /**
@@ -68,6 +73,8 @@ class GenerateDummyData extends BaseService
             'author_id' => $data['author_id'],
             'email' => $faker->safeEmail,
             'password' => $faker->password,
+            'first_name' => $faker->firstName,
+            'last_name' => $faker->lastName,
             'is_administrator' => false,
             'is_dummy' => true,
         ];

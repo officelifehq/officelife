@@ -19,6 +19,7 @@ class Account extends Model
     protected $fillable = [
         'subdomain',
         'confirmed',
+        'has_dummy_data',
     ];
 
     /**
@@ -26,7 +27,9 @@ class Account extends Model
      *
      * @var array
      */
-    protected static $logAttributes = ['subdomain'];
+    protected static $logAttributes = [
+        'subdomain',
+    ];
 
     /**
      * The attributes that should be cast to native types.
@@ -35,6 +38,7 @@ class Account extends Model
      */
     protected $casts = [
         'confirmed' => 'boolean',
+        'has_dummy_data' => 'boolean',
     ];
 
     /**

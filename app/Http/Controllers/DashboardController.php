@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 class DashboardController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display the dashboard.
      *
      * @return \Illuminate\Http\Response
      */
