@@ -23,6 +23,8 @@ class User extends JsonResource
             'last_name' => $this->last_name,
             'middle_name' => $this->middle_name,
             'nickname' => $this->nickname,
+            'avatar' => $this->avatar,
+            'uuid' => $this->uuid,
             'account' => [
                 'id' => $this->account_id,
             ],

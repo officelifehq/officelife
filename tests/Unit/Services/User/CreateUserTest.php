@@ -43,6 +43,24 @@ class CreateUserTest extends TestCase
     }
 
     /** @test */
+    public function it_has_an_avatar()
+    {
+        $user = factory(User::class)->create([]);
+
+        $request = [
+            'account_id' => $user->account_id,
+            'author_id' => $user->id,
+            'email' => 'dwight@dundermifflin.com',
+            'password' => 'password',
+            'is_administrator' => true,
+        ];
+
+        $createdUser = (new CreateUser)->execute($request);
+
+        $this->assertNotNull($createdUser->avatar);
+    }
+
+    /** @test */
     public function it_logs_an_action()
     {
         $user = factory(User::class)->create([]);

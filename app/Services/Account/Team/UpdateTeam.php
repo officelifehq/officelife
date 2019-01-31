@@ -34,7 +34,7 @@ class UpdateTeam extends BaseService
     {
         $this->validate($data);
 
-        $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], 'hr');
 
         $team = Team::where('account_id', $data['account_id'])
             ->findOrFail($data['team_id']);
@@ -47,7 +47,12 @@ class UpdateTeam extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'team_updated',
-            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$team->id.'}'),
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
+            ]),
         ]);
 
         return $team;

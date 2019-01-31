@@ -38,9 +38,9 @@ abstract class BaseService
      *
      * @param int $userId
      * @param string $requiredPermissionLevel
-     * @return bool
+     * @return User
      */
-    public function validatePermissions(int $userId, string $requiredPermissionLevel) : bool
+    public function validatePermissions(int $userId, string $requiredPermissionLevel) : User
     {
         $user = User::find($userId);
 
@@ -48,7 +48,7 @@ abstract class BaseService
             throw new NotEnoughPermissionException;
         }
 
-        return true;
+        return $user;
     }
 
     /**

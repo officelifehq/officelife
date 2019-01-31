@@ -3,6 +3,7 @@
 namespace App\Models\Account;
 
 use App\Models\User\User;
+use App\Models\Account\AuditLog;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -54,11 +55,21 @@ class Account extends Model
     /**
      * Get the teams record associated with the account.
      *
-     * @return BelongsTo
+     * @return HasMany
      */
     public function teams()
     {
         return $this->hasMany(Team::class);
+    }
+
+    /**
+     * Get the audit logs record associated with the account.
+     *
+     * @return HasMany
+     */
+    public function logs()
+    {
+        return $this->hasMany(AuditLog::class);
     }
 
     /**

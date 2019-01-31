@@ -18,6 +18,8 @@
 
         Number of employees: {{ $numberEmployees }}
       </div>
+      @include('dashboard._administrator')
+      @include('dashboard._hr')
     </div>
   </div>
 @endsection

@@ -34,7 +34,7 @@ class CreateTeam extends BaseService
     {
         $this->validate($data);
 
-        $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], 'hr');
 
         $team = Team::create([
             'account_id' => $data['account_id'],
@@ -46,7 +46,12 @@ class CreateTeam extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'team_created',
-            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$team->id.'}'),
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
+            ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
