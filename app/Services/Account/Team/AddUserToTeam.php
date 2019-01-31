@@ -21,6 +21,7 @@ class AddUserToTeam extends BaseService
             'author_id' => 'required|integer|exists:users,id',
             'user_id' => 'required|integer|exists:users,id',
             'team_id' => 'required|integer|exists:teams,id',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -48,6 +49,7 @@ class AddUserToTeam extends BaseService
             'account_id' => $data['account_id'],
             'action' => 'user_added_to_team',
             'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$data['team_id'].', "user": '.$data['user_id'].'}'),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $team;

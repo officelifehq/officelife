@@ -11,6 +11,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard.index');
+        return view('dashboard.index')
+            ->withNumberTeams(auth()->user()->account->teams()->count())
+            ->withNumberEmployees(auth()->user()->account->users()->count());
     }
 }

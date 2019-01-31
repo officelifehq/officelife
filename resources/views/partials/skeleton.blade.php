@@ -13,7 +13,7 @@
 
     <div id="app">
 
-      @yield('content')
+      @yield('main')
 
     </div>
 

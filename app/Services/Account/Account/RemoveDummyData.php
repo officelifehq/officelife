@@ -5,6 +5,7 @@ namespace App\Services\Account\Account;
 use App\Models\User\User;
 use Faker\Factory as Faker;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\DB;
 use App\Models\Account\Account;
 
 class RemoveDummyData extends BaseService
@@ -38,6 +39,8 @@ class RemoveDummyData extends BaseService
 
         $this->removeUsers($data);
 
+        $this->removeAuditLogs($data);
+
         $account->has_dummy_data = false;
         $account->save();
     }
@@ -65,6 +68,20 @@ class RemoveDummyData extends BaseService
     private function removeUsers(array $data)
     {
         DB::table('users')
+            ->where('account_id', $data['account_id'])
+            ->where('is_dummy', true)
+            ->delete();
+    }
+
+    /**
+     * Remove dummy audit logs.
+     *
+     * @param array $data
+     * @return void
+     */
+    private function removeAuditLogs(array $data)
+    {
+        DB::table('audit_logs')
             ->where('account_id', $data['account_id'])
             ->where('is_dummy', true)
             ->delete();

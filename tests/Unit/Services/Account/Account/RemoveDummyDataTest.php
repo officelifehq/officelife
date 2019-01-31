@@ -8,13 +8,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use App\Services\Account\Account\GenerateDummyData;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Account\Account\RemoveDummyData;
 
 class RemoveDummyDataTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_five_users_without_team()
+    public function it_removes_all_dummy_data()
     {
         $user = factory(User::class)->create([]);
 
@@ -24,6 +25,7 @@ class RemoveDummyDataTest extends TestCase
         ];
 
         (new GenerateDummyData)->execute($request);
+        (new RemoveDummyData)->execute($request);
 
         $count = DB::table('users')
             ->where('account_id', $user->account_id)
@@ -31,13 +33,19 @@ class RemoveDummyDataTest extends TestCase
             ->count();
 
         $this->assertEquals(
-            32,
+            0,
             $count
         );
 
-        $this->assertDatabaseHas('accounts', [
-            'has_dummy_data' => true,
-        ]);
+        $count = DB::table('teams')
+            ->where('account_id', $user->account_id)
+            ->where('is_dummy', true)
+            ->count();
+
+        $this->assertEquals(
+            0,
+            $count
+        );
     }
 
     /** @test */
@@ -51,6 +59,6 @@ class RemoveDummyDataTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new GenerateDummyData)->execute($request);
+        (new RemoveDummyData)->execute($request);
     }
 }

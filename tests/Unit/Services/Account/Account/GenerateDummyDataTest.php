@@ -35,6 +35,16 @@ class GenerateDummyDataTest extends TestCase
             $count
         );
 
+        $count = DB::table('teams')
+            ->where('account_id', $user->account_id)
+            ->where('is_dummy', true)
+            ->count();
+
+        $this->assertEquals(
+            3,
+            $count
+        );
+
         $this->assertDatabaseHas('accounts', [
             'has_dummy_data' => true,
         ]);
