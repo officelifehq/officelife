@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 use App\Services\Account\Account\GenerateDummyData;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class GenerateDummyDataTest extends TestCase
+class RemoveDummyDataTest extends TestCase
 {
     use DatabaseTransactions;
 
