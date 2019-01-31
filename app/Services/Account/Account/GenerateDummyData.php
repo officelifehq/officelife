@@ -2,10 +2,13 @@
 
 namespace App\Services\Account\Account;
 
+use App\Models\User\User;
 use Faker\Factory as Faker;
 use App\Services\BaseService;
 use App\Models\Account\Account;
 use App\Services\User\CreateUser;
+use App\Services\Account\Team\CreateTeam;
+use App\Services\Account\Team\AddUserToTeam;
 
 class GenerateDummyData extends BaseService
 {
@@ -33,6 +36,8 @@ class GenerateDummyData extends BaseService
         $this->validate($data);
 
         $this->createFiveUsersWithoutTeam($data);
+
+        $this->createThreeTeamsWithUsers($data);
     }
 
     /**
@@ -43,19 +48,79 @@ class GenerateDummyData extends BaseService
      */
     private function createFiveUsersWithoutTeam(array $data)
     {
+        for ($i = 1; $i <= 5; $i++) {
+            $this->createUser($data);
+        }
+    }
+
+    /**
+     * Create a user.
+     *
+     * @param array $data
+     * @return User
+     */
+    private function createUser(array $data) : User
+    {
         $faker = Faker::create();
 
-        for ($i = 1; $i <= 5; $i++) {
+        $request = [
+            'account_id' => $data['account_id'],
+            'author_id' => $data['author_id'],
+            'email' => $faker->safeEmail,
+            'password' => $faker->password,
+            'is_administrator' => false,
+            'is_dummy' => true,
+        ];
+
+        return (new CreateUser)->execute($request);
+    }
+
+    /**
+     * Create 3 teams with a bunch of users inside.
+     *
+     * @param array $data
+     * @return void
+     */
+    private function createThreeTeamsWithUsers(array $data)
+    {
+        $this->createTeamWitUser($data, 'Legal department', 3);
+        $this->createTeamWitUser($data, 'Design Team', 6);
+        $this->createTeamWitUser($data, 'Sales', 18);
+    }
+
+    /**
+     * Create five users without a team.
+     *
+     * @param array $data
+     * @param String $name
+     * @param int $users
+     * @return void
+     */
+    private function createTeamWitUser(array $data, String $name, int $users)
+    {
+        $faker = Faker::create();
+
+        $request = [
+            'account_id' => $data['account_id'],
+            'author_id' => $data['author_id'],
+            'name' => $name,
+            'is_dummy' => true,
+        ];
+
+        $team = (new CreateTeam)->execute($request);
+
+        for ($i = 1; $i <= $users; $i++) {
+            $user = $this->createUser($data);
+
             $request = [
                 'account_id' => $data['account_id'],
                 'author_id' => $data['author_id'],
-                'email' => $faker->safeEmail,
-                'password' => $faker->password,
-                'is_administrator' => false,
+                'user_id' => $user->id,
+                'team_id' => $team->id,
                 'is_dummy' => true,
             ];
 
-            (new CreateUser)->execute($request);
+            (new AddUserToTeam)->execute($request);
         }
     }
 }

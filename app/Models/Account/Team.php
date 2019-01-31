@@ -21,6 +21,7 @@ class Team extends Model
         'account_id',
         'name',
         'description',
+        'is_dummy',
     ];
 
     /**
@@ -31,6 +32,15 @@ class Team extends Model
     protected static $logAttributes = [
         'name',
         'description',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_dummy' => 'boolean',
     ];
 
     /**

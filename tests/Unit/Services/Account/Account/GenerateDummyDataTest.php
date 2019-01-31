@@ -31,7 +31,7 @@ class GenerateDummyDataTest extends TestCase
             ->count();
 
         $this->assertEquals(
-            5,
+            32,
             $count
         );
     }

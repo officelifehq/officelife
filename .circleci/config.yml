@@ -1,6 +1,10 @@
  version: 2
  jobs:
      build:
+        docker:
+            # specify the version you desire here
+            - image: circleci/php:7.2-browsers
+
          steps:
             - run: sudo apt-get install -y libsqlite3-dev
             - run: cp .env.circleci .env
