@@ -47,7 +47,7 @@ class AuditLog extends Model
     /**
      * Get the JSON object.
      *
-     * @return Array
+     * @return array
      */
     public function getObjectAttribute($value)
     {
@@ -57,7 +57,7 @@ class AuditLog extends Model
     /**
      * Get the date of the audit log.
      *
-     * @return String
+     * @return string
      */
     public function getDateAttribute($value)
     {
@@ -67,7 +67,7 @@ class AuditLog extends Model
     /**
      * Get the author of the audit log, if defined.
      *
-     * @return String
+     * @return string
      */
     public function getAuthorAttribute($value)
     {
@@ -83,7 +83,7 @@ class AuditLog extends Model
     /**
      * Get the team of the audit log, if defined.
      *
-     * @return String
+     * @return string
      */
     public function getTeamAttribute($value)
     {
@@ -99,7 +99,7 @@ class AuditLog extends Model
     /**
      * Get the user of the audit log, if defined.
      *
-     * @return String
+     * @return string
      */
     public function getUserAttribute($value)
     {
