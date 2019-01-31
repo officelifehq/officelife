@@ -2,11 +2,9 @@
 
 namespace App\Services\Account\Account;
 
-use App\Models\User\User;
-use Faker\Factory as Faker;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\DB;
 use App\Models\Account\Account;
+use Illuminate\Support\Facades\DB;
 
 class RemoveDummyData extends BaseService
 {

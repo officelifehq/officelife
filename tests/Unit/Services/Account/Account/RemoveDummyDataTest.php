@@ -6,9 +6,9 @@ use Tests\TestCase;
 use App\Models\User\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use App\Services\Account\Account\RemoveDummyData;
 use App\Services\Account\Account\GenerateDummyData;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Account\Account\RemoveDummyData;
 
 class RemoveDummyDataTest extends TestCase
 {
