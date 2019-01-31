@@ -32,7 +32,7 @@ class DestroyTeam extends BaseService
     {
         $this->validate($data);
 
-        $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], 'hr');
 
         $team = Team::where('account_id', $data['account_id'])
             ->findOrFail($data['team_id']);
@@ -42,7 +42,11 @@ class DestroyTeam extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'team_destroyed',
-            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$team->name.'}'),
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
+                'team_name' => $team->name,
+            ]),
         ]);
 
         return true;

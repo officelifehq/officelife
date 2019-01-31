@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Services\Account\Account\RemoveDummyData;
 use App\Services\Account\Account\GenerateDummyData;
 
 class AccountController extends Controller

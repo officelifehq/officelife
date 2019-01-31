@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Account\Team;
 use App\Models\Account\Account;
+use App\Models\Account\AuditLog;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AccountTest extends TestCase
@@ -32,6 +33,17 @@ class AccountTest extends TestCase
         ]);
 
         $this->assertTrue($account->teams()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_audit_logs()
+    {
+        $account = factory(Account::class)->create();
+        factory(AuditLog::class, 3)->create([
+            'account_id' => $account->id,
+        ]);
+
+        $this->assertTrue($account->logs()->exists());
     }
 
     /** @test */

@@ -21,6 +21,7 @@ class AddUserToTeam extends BaseService
             'author_id' => 'required|integer|exists:users,id',
             'user_id' => 'required|integer|exists:users,id',
             'team_id' => 'required|integer|exists:teams,id',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -34,9 +35,9 @@ class AddUserToTeam extends BaseService
     {
         $this->validate($data);
 
-        $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], 'hr');
 
-        User::where('account_id', $data['account_id'])
+        $user = User::where('account_id', $data['account_id'])
             ->findOrFail($data['user_id']);
 
         $team = Team::where('account_id', $data['account_id'])
@@ -47,7 +48,14 @@ class AddUserToTeam extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'user_added_to_team',
-            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$data['team_id'].', "user": '.$data['user_id'].'}'),
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
+                'user_id' => $user->id,
+                'user_email' => $user->email,
+                'team_id' => $team->id,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $team;

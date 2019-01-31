@@ -34,9 +34,9 @@ class RemoveUserFromTeam extends BaseService
     {
         $this->validate($data);
 
-        $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], 'hr');
 
-        User::where('account_id', $data['account_id'])
+        $user = User::where('account_id', $data['account_id'])
             ->findOrFail($data['user_id']);
 
         $team = Team::where('account_id', $data['account_id'])
@@ -47,7 +47,14 @@ class RemoveUserFromTeam extends BaseService
         (new LogAction)->execute([
             'account_id' => $data['account_id'],
             'action' => 'user_removed_from_team',
-            'objects' => json_encode('{"author": '.$data['author_id'].', "team": '.$data['team_id'].', "user": '.$data['user_id'].'}'),
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
+                'user_id' => $user->id,
+                'user_email' => $user->email,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
+            ]),
         ]);
 
         return $team;

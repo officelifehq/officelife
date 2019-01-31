@@ -34,4 +34,30 @@ class UserTest extends TestCase
 
         $this->assertTrue($user->teams()->exists());
     }
+
+    /** @test */
+    public function it_returns_the_name_attribute()
+    {
+        $user = new User;
+        $user->email = 'dwight@dundermifflin.com';
+
+        $this->assertEquals(
+            $user->name,
+            'dwight@dundermifflin.com'
+        );
+
+        $user->first_name = 'Dwight';
+
+        $this->assertEquals(
+            $user->name,
+            'Dwight'
+        );
+
+        $user->last_name = 'Schrute';
+
+        $this->assertEquals(
+            $user->name,
+            'Dwight Schrute'
+        );
+    }
 }

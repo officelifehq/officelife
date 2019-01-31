@@ -46,7 +46,8 @@ class BaseServiceTest extends TestCase
             'permission_level' => config('homas.authorizations.administrator'),
         ]);
 
-        $this->assertTrue(
+        $this->assertInstanceOf(
+            User::class,
             $stub->validatePermissions($user->id, 'administrator')
         );
 

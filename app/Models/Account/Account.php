@@ -54,11 +54,21 @@ class Account extends Model
     /**
      * Get the teams record associated with the account.
      *
-     * @return BelongsTo
+     * @return HasMany
      */
     public function teams()
     {
         return $this->hasMany(Team::class);
+    }
+
+    /**
+     * Get the audit logs record associated with the account.
+     *
+     * @return HasMany
+     */
+    public function logs()
+    {
+        return $this->hasMany(AuditLog::class);
     }
 
     /**

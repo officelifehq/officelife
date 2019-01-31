@@ -28,6 +28,8 @@ class User extends Authenticatable
         'last_name',
         'middle_name',
         'nickname',
+        'uuid',
+        'avatar',
         'is_dummy',
     ];
 
@@ -82,5 +84,26 @@ class User extends Authenticatable
     public function teams()
     {
         return $this->belongsToMany(Team::class);
+    }
+
+    /**
+     * Get the name of the user.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getNameAttribute($value) : String
+    {
+        if (is_null($this->first_name)) {
+            return $this->email;
+        }
+
+        $completeName = $this->first_name;
+
+        if (! is_null($this->last_name)) {
+            $completeName = $completeName.' '.$this->last_name;
+        }
+
+        return $completeName;
     }
 }

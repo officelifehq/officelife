@@ -7,8 +7,10 @@ use Illuminate\Support\Str;
 use App\Mail\ConfirmAccount;
 use App\Services\BaseService;
 use App\Models\Account\Account;
+use App\Services\User\CreateUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Services\User\Avatar\GenerateAvatar;
 
 class CreateAccount extends BaseService
 {
@@ -58,17 +60,29 @@ class CreateAccount extends BaseService
      */
     private function createUser(Account $account, array $data) : User
     {
+        $uuid = Str::uuid()->toString();
+
+        $avatar = (new GenerateAvatar)->execute([
+            'uuid' => $uuid,
+            'size' => 200,
+        ]);
+
         $user = User::create([
             'account_id' => $account->id,
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'uuid' => $uuid,
+            'avatar' => $avatar,
             'permission_level' => config('homas.authorizations.administrator'),
         ]);
 
         (new LogAction)->execute([
             'account_id' => $account->id,
             'action' => 'account_created',
-            'objects' => json_encode('{"user": '.$user->id.'}'),
+            'objects' => json_encode([
+                'user_id' => $user->id,
+                'user_email' => $user->email,
+            ]),
         ]);
 
         return $user;
