@@ -32,7 +32,7 @@ class DestroyTeam extends BaseService
     {
         $this->validate($data);
 
-        $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], 'hr');
 
         $team = Team::where('account_id', $data['account_id'])
             ->findOrFail($data['team_id']);
