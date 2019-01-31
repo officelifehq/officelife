@@ -19,6 +19,7 @@ class LogAction extends BaseService
             'action' => 'required|string|max:255',
             'objects' => 'required|json',
             'ip_address' => 'nullable|ipv4',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -37,6 +38,7 @@ class LogAction extends BaseService
             'action' => $data['action'],
             'objects' => $data['objects'],
             'ip_address' => $this->nullOrValue($data, 'ip_address'),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
     }
 }

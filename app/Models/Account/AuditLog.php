@@ -19,6 +19,16 @@ class AuditLog extends Model
         'action',
         'objects',
         'ip_address',
+        'is_dummy',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_dummy' => 'boolean',
     ];
 
     /**

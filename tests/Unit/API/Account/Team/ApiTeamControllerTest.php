@@ -123,7 +123,7 @@ class ApiTeamControllerTest extends ApiTestCase
     public function it_doesnt_store_a_team_if_permission_fails()
     {
         $user = $this->signin();
-        $user->permission_level = 3;
+        $user->permission_level = config('homas.authorizations.user');
         $user->save();
 
         $response = $this->json('POST', '/api/teams/', [
