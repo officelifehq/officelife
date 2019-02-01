@@ -31,10 +31,10 @@ class RegisterController extends Controller
             'password' => $request->get('password'),
         ];
 
-        (new CreateAccount)->execute($data);
+        $account = (new CreateAccount)->execute($data);
 
         if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
-            return redirect()->intended('dashboard');
+            return redirect()->intended($account->id.'/dashboard');
         }
     }
 }
