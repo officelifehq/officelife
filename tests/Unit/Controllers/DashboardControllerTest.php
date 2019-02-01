@@ -13,7 +13,7 @@ class DashboardControllerTest extends TestCase
         $user = factory(User::class)->create([]);
         $this->be($user);
 
-        $response = $this->get('/dashboard');
+        $response = $this->get($user->account_id.'/dashboard');
         $response->assertStatus(200);
     }
 }
