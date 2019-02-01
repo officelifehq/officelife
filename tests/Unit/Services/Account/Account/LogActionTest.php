@@ -43,7 +43,7 @@ class LogActionTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given()
     {
         $request = [
-            'subdomain' => 'dundermifflin',
+            'action' => 'account_created',
         ];
 
         $this->expectException(ValidationException::class);

@@ -14,7 +14,7 @@ class AddConfirmedToAccounts extends Migration
     public function up()
     {
         Schema::table('accounts', function (Blueprint $table) {
-            $table->boolean('confirmed')->after('subdomain')->default(false);
+            $table->boolean('confirmed')->after('id')->default(false);
             $table->string('confirmation_link')->after('confirmed')->nullable();
         });
     }

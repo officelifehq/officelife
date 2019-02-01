@@ -27,7 +27,6 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $data = [
-            'subdomain' => $request->get('subdomain'),
             'email' => $request->get('email'),
             'password' => $request->get('password'),
         ];
