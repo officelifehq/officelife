@@ -1,8 +1,6 @@
 <?php
 
 return [
-    'logged_in' => 'Logged in',
-
     'account_created' => 'Created account',
 
     'user_created' => 'Created :user',
