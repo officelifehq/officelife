@@ -17,7 +17,6 @@ class Account extends Model
      * @var array
      */
     protected $fillable = [
-        'subdomain',
         'confirmed',
         'has_dummy_data',
     ];
@@ -28,7 +27,7 @@ class Account extends Model
      * @var array
      */
     protected static $logAttributes = [
-        'subdomain',
+        '',
     ];
 
     /**

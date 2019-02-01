@@ -15,13 +15,12 @@ class RegistrationTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($faker) {
             $browser->visit('/signup')
-                ->type('subdomain', $faker->word)
                 ->type('email', $faker->unique()->safeEmail)
                 ->type('password', 'secret')
                 ->press('@signup-button')
                 ->assertPathIs('/dashboard')
                 ->click('@logout-button')
-                ->assertPathIs('/signup');
+                ->assertPathIs('/login');
         });
     }
 }

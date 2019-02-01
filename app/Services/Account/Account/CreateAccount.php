@@ -22,8 +22,7 @@ class CreateAccount extends BaseService
     public function rules()
     {
         return [
-            'subdomain' => 'required|string|max:255|unique:accounts|alpha',
-            'email' => 'required|email|string',
+            'email' => 'required|unique:users|email|string',
             'password' => 'required|string|max:255',
         ];
     }
@@ -38,9 +37,7 @@ class CreateAccount extends BaseService
     {
         $this->validate($data);
 
-        $account = Account::create([
-            'subdomain' => $data['subdomain'],
-        ]);
+        $account = Account::create([]);
 
         $account = $this->generateConfirmationLink($account);
 

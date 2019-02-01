@@ -18,7 +18,6 @@ class CreateAccountTest extends TestCase
     public function it_creates_an_account()
     {
         $request = [
-            'subdomain' => 'dundermifflin',
             'email' => 'dwight@dundermifflin.com',
             'password' => 'password',
         ];
@@ -27,7 +26,6 @@ class CreateAccountTest extends TestCase
 
         $this->assertDatabaseHas('accounts', [
             'id' => $account->id,
-            'subdomain' => 'dundermifflin',
         ]);
 
         $this->assertDatabaseHas('users', [
@@ -46,7 +44,6 @@ class CreateAccountTest extends TestCase
     public function it_generates_a_confirmation_link()
     {
         $request = [
-            'subdomain' => 'dundermifflin',
             'email' => 'dwight@dundermifflin.com',
             'password' => 'password',
         ];
@@ -65,7 +62,6 @@ class CreateAccountTest extends TestCase
     public function it_logs_an_action()
     {
         $request = [
-            'subdomain' => 'dundermifflin',
             'email' => 'dwight@dundermifflin.com',
             'password' => 'password',
         ];
@@ -82,7 +78,6 @@ class CreateAccountTest extends TestCase
     public function it_schedules_an_email()
     {
         $request = [
-            'subdomain' => 'dundermifflin',
             'email' => 'dwight@dundermifflin.com',
             'password' => 'password',
         ];
@@ -100,7 +95,6 @@ class CreateAccountTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given()
     {
         $request = [
-            'subdomain' => 'dundermifflin',
             'email' => 'dwight@dundermifflin.com',
         ];
 
