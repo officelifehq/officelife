@@ -2,6 +2,8 @@
 
 Route::get('/signup', 'Auth\\RegisterController@index')->name('signup');
 Route::post('/signup', 'Auth\\RegisterController@store')->name('signup.store');
+Route::get('/login', 'Auth\\LoginController@index')->name('login.index');
+Route::post('/login', 'Auth\\LoginController@store')->name('login.store');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/logout', 'Auth\\LoginController@logout');
