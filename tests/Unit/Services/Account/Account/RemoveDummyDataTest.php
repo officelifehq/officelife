@@ -55,7 +55,7 @@ class RemoveDummyDataTest extends TestCase
 
         $request = [
             'account_id' => $user->account_id,
-            'author_id' => 3,
+            'author_id' => 123456,
         ];
 
         $this->expectException(ValidationException::class);

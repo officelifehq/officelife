@@ -106,4 +106,15 @@ class User extends Authenticatable
 
         return $completeName;
     }
+
+    /**
+     * Get the permission level of the user.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getPermissionLevel() : String
+    {
+        return trans('app.permission_'.$this->permission_level);
+    }
 }

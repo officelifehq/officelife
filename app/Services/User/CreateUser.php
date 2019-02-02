@@ -5,6 +5,7 @@ namespace App\Services\User;
 use App\Models\User\User;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
+use Illuminate\Validation\Rule;
 use App\Models\Account\Account;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Account\Account\LogAction;
@@ -21,14 +22,10 @@ class CreateUser extends BaseService
     public function rules()
     {
         return [
-            'account_id' => 'required|integer|exists:accounts,id',
-            'author_id' => 'required|integer|exists:users,id',
-            'email' => 'required|email|string',
+            'email' => 'required|unique:users|email|string',
             'password' => 'required|string|max:255',
             'first_name' => 'nullable|string|max:255',
             'last_name' => 'nullable|string|max:255',
-            'is_administrator' => 'required|boolean',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -41,8 +38,6 @@ class CreateUser extends BaseService
     public function execute(array $data) : User
     {
         $this->validate($data);
-
-        $author = $this->validatePermissions($data['author_id'], 'hr');
 
         if (! $this->uniqueInAccount($data)) {
             throw new EmailAlreadyUsedException;
@@ -57,7 +52,7 @@ class CreateUser extends BaseService
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'user_id' => $user->id,
-                'user_email' => $user->email,
+                'user_name' => is_null($this->nullOrValue($data, 'email')) ? $data['first_name'] : $data['email'],
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
@@ -82,11 +77,11 @@ class CreateUser extends BaseService
 
         return User::create([
             'account_id' => $data['account_id'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'email' => $this->nullOrValue($data, 'email'),
+            'password' => is_null($this->nullOrValue($data, 'password')) ? null : Hash::make($data['password']),
             'first_name' => $this->nullOrValue($data, 'first_name'),
             'last_name' => $this->nullOrValue($data, 'last_name'),
-            'permission_level' => ($data['is_administrator'] ? config('homas.authorizations.administrator') : config('homas.authorizations.user')),
+            'permission_level' => $data['permission_level'],
             'uuid' => $uuid,
             'avatar' => $avatar,
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
@@ -101,6 +96,10 @@ class CreateUser extends BaseService
      */
     private function uniqueInAccount(array $data)
     {
+        if (is_null($this->nullOrValue($data, 'email'))) {
+            return true;
+        }
+
         $user = User::where('account_id', $data['account_id'])
             ->where('email', $data['email'])
             ->first();

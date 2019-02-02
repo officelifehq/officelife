@@ -24,7 +24,7 @@ class CreateUserTest extends TestCase
             'author_id' => $user->id,
             'email' => 'dwight@dundermifflin.com',
             'password' => 'password',
-            'is_administrator' => true,
+            'permission_level' => config('homas.authorizations.administrator'),
         ];
 
         $createdUser = (new CreateUser)->execute($request);
@@ -52,7 +52,7 @@ class CreateUserTest extends TestCase
             'author_id' => $user->id,
             'email' => 'dwight@dundermifflin.com',
             'password' => 'password',
-            'is_administrator' => true,
+            'permission_level' => config('homas.authorizations.administrator'),
         ];
 
         $createdUser = (new CreateUser)->execute($request);
@@ -70,7 +70,7 @@ class CreateUserTest extends TestCase
             'author_id' => $user->id,
             'email' => 'dwight@dundermifflin.com',
             'password' => 'password',
-            'is_administrator' => true,
+            'permission_level' => config('homas.authorizations.administrator'),
         ];
 
         $team = (new CreateUser)->execute($request);
@@ -94,7 +94,7 @@ class CreateUserTest extends TestCase
             'author_id' => $user->id,
             'email' => $existingUser->email,
             'password' => 'password',
-            'is_administrator' => true,
+            'permission_level' => config('homas.authorizations.administrator'),
         ];
 
         $this->expectException(EmailAlreadyUsedException::class);

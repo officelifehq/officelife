@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 
-class CheckAccount
+class CheckHRRole
 {
     /**
      * Handle an incoming request.
@@ -16,10 +15,7 @@ class CheckAccount
      */
     public function handle($request, Closure $next)
     {
-        // surprisingly, this gets the object, not the id
-        $account = $request->route()->parameter('account');
-
-        if (auth()->user()->account_id == $account->id) {
+        if (auth()->user()->permission_level <= config('homas.authorizations.hr')) {
             return $next($request);
         }
 

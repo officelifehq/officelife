@@ -75,7 +75,7 @@ class GenerateDummyData extends BaseService
             'password' => $faker->password,
             'first_name' => $faker->firstName,
             'last_name' => $faker->lastName,
-            'is_administrator' => false,
+            'permission_level' => config('homas.authorizations.user'),
             'is_dummy' => true,
         ];
 

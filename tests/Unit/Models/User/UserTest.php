@@ -60,4 +60,16 @@ class UserTest extends TestCase
             'Dwight Schrute'
         );
     }
+
+    /** @test */
+    public function it_returns_the_permission_level_attribute()
+    {
+        $user = new User;
+        $user->permission_level = config('homas.authorizations.administrator');
+
+        $this->assertEquals(
+            trans('app.permission_100'),
+            $user->getPermissionLevel()
+        );
+    }
 }

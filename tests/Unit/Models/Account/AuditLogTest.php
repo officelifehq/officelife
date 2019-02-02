@@ -123,7 +123,7 @@ class AuditLogTest extends ApiTestCase
         $auditLog = factory(AuditLog::class)->create([
             'objects' => json_encode([
                 'user_id' => 12345,
-                'user_email' => 'dwight@dundermifflin.com',
+                'user_name' => 'dwight@dundermifflin.com',
             ]),
             'account_id' => $user->account_id,
         ]);

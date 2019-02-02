@@ -106,7 +106,7 @@ class AuditLog extends Model
         try {
             $user = User::findOrFail($this->object->{'user_id'});
         } catch (ModelNotFoundException $e) {
-            return $this->object->{'user_email'};
+            return $this->object->{'user_name'};
         }
 
         return '<a href="'.tenant('/employees/'.$user->id).'">'.$user->name.'</a>';
