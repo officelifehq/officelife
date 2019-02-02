@@ -9,9 +9,9 @@
         <a href="/logout" data-cy="logout-button">Logout</a>
 
         @if (!auth()->user()->account->has_dummy_data)
-        <a href="/account/dummy">Generate fake data</a>
+        <a href="{{ tenant('/account/dummy') }}">Generate fake data</a>
         @else
-        <a href="/account/dummy">Remove fake data</a>
+        <a href="{{ tenant('/account/dummy') }}">Remove fake data</a>
         @endif
 
         Number of teams: {{ $numberTeams }}

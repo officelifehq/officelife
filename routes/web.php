@@ -14,7 +14,8 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::name('administrator.')->group(function () {
-            Route::get('account/audit', 'Account\\AuditController@index')->name('audit');
+            Route::get('account/audit', 'Account\\AuditController@index')->name('audit.index');
+            Route::get('account/employees', 'Account\\EmployeeController@index')->name('employee.index');
         });
 
         Route::get('account/dummy', 'Account\\AccountController@dummy');

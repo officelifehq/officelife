@@ -2,13 +2,13 @@
 
 namespace Tests\Unit\Models\Account;
 
-use Tests\TestCase;
+use Tests\ApiTestCase;
 use App\Models\User\User;
 use App\Models\Account\Team;
 use App\Models\Account\AuditLog;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class AuditLogTest extends TestCase
+class AuditLogTest extends ApiTestCase
 {
     use DatabaseTransactions;
 
@@ -44,7 +44,7 @@ class AuditLogTest extends TestCase
     /** @test */
     public function it_returns_the_author_attribute()
     {
-        $user = factory(User::class)->create([]);
+        $user = $this->signIn();
         $auditLog = factory(AuditLog::class)->create([
             'objects' => json_encode([
                 'author_id' => $user->id,
@@ -53,7 +53,7 @@ class AuditLogTest extends TestCase
         ]);
 
         $this->assertEquals(
-            '<a href="/users/'.$user->id.'">'.$user->name.'</a>',
+            '<a href="'.tenant('/employees/'.$user->id).'">'.$user->name.'</a>',
             $auditLog->author
         );
 
@@ -74,7 +74,10 @@ class AuditLogTest extends TestCase
     /** @test */
     public function it_returns_the_team_attribute()
     {
-        $team = factory(Team::class)->create([]);
+        $user = $this->signIn();
+        $team = factory(Team::class)->create([
+            'account_id' => $user->account_id,
+        ]);
         $auditLog = factory(AuditLog::class)->create([
             'objects' => json_encode([
                 'team_id' => $team->id,
@@ -83,7 +86,7 @@ class AuditLogTest extends TestCase
         ]);
 
         $this->assertEquals(
-            '<a href="/teams/'.$team->id.'">'.$team->name.'</a>',
+            '<a href="'.tenant('/teams/'.$team->id).'">'.$team->name.'</a>',
             $auditLog->team
         );
 
@@ -104,7 +107,7 @@ class AuditLogTest extends TestCase
     /** @test */
     public function it_returns_the_user_attribute()
     {
-        $user = factory(User::class)->create([]);
+        $user = $this->signIn();
         $auditLog = factory(AuditLog::class)->create([
             'objects' => json_encode([
                 'user_id' => $user->id,
@@ -113,7 +116,7 @@ class AuditLogTest extends TestCase
         ]);
 
         $this->assertEquals(
-            '<a href="/users/'.$user->id.'">'.$user->name.'</a>',
+            '<a href="'.tenant('/employees/'.$user->id).'">'.$user->name.'</a>',
             $auditLog->user
         );
 

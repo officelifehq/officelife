@@ -21,7 +21,7 @@ class AccountController extends Controller
                 'author_id' => auth()->user()->id,
             ]);
 
-            return redirect('dashboard');
+            return redirect(tenant('/dashboard'));
         }
 
         (new GenerateDummyData)->execute([
@@ -29,6 +29,6 @@ class AccountController extends Controller
             'author_id' => auth()->user()->id,
         ]);
 
-        return redirect('dashboard');
+        return redirect(tenant('/dashboard'));
     }
 }
