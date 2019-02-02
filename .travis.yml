@@ -13,7 +13,6 @@ install:
 
 before_script:
   - cp .env.travis .env
-  - cp cypress.json.travis cypress.json
   - mysql -e 'create database homas_test;'
   - composer self-update
   - composer install --no-interaction
@@ -22,7 +21,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml
-  - $(npm bin)/cypress run --record
+  - $(npm bin)/cypress run --config "baseUrl=http://localhost:8000" --record
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
