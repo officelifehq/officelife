@@ -22,7 +22,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml
-  - $(yarn bin)/cypress run --record
+  - $(yarn bin)/cypress run
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
