@@ -9,7 +9,7 @@ node_js:
   - 10
 
 install:
-  - npm ci
+  - npm install
 
 before_script:
   - cp .env.travis .env
