@@ -6,7 +6,7 @@
       <div class="fn fl-ns w-50-ns pa3">
         You are logged in
 
-        <a href="/logout" dusk="logout-button">Logout</a>
+        <a href="/logout" data-cy="logout-button">Logout</a>
 
         @if (!auth()->user()->account->has_dummy_data)
         <a href="/account/dummy">Generate fake data</a>
