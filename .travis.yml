@@ -13,6 +13,7 @@ install:
 
 before_script:
   - cp .env.travis .env
+  - mv cypress.json .null
   - mysql -e 'create database homas_test;'
   - composer self-update
   - composer install --no-interaction
