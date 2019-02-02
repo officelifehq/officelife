@@ -1,5 +1,4 @@
 {
-    "baseUrl": "http://localhost:8000",
     "videosFolder": "tests/Features/videos",
     "screenshotsFolder": "tests/Features/screenshots",
     "supportFile": "tests/Features/support/index.js",
