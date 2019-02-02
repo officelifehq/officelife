@@ -1,7 +1,15 @@
-language: php
+language:
+  - php
+  - node_js
 
 php:
   - 7.2
+
+node_js:
+  - 10
+
+install:
+  - npm ci
 
 before_script:
   - cp .env.travis .env
@@ -13,11 +21,14 @@ before_script:
 
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml
+  - $(npm bin)/cypress run --record
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
 
 ## Cache composer bits
 cache:
+  npm: true
   directories:
     - $HOME/.composer/cache/files
+    - ~/.cache
