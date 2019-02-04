@@ -2,6 +2,6 @@
 
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::apiResource('users', 'API\\User\\ApiUserController');
+    Route::get('me', 'API\\User\\ApiUserController@me');
     Route::apiResource('teams', 'API\\Account\\Team\\ApiTeamController');
 });

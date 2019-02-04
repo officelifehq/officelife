@@ -30,13 +30,13 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         if (Auth::check()) {
-            return redirect(tenant('/dashboard'));
+            return redirect('/dashboard');
         }
 
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended(tenant('/dashboard'));
+            return redirect()->intended('/dashboard');
         }
 
         return redirect('login')

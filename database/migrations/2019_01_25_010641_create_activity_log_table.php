@@ -25,12 +25,4 @@ class CreateActivityLogTable extends Migration
             $table->index('log_name');
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
-    public function down()
-    {
-        Schema::dropIfExists(config('activitylog.table_name'));
-    }
 }

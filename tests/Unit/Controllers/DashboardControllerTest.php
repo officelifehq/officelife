@@ -13,7 +13,7 @@ class DashboardControllerTest extends TestCase
         $admin = factory(User::class)->create([]);
         $this->be($admin);
 
-        $response = $this->get(tenant('/dashboard'));
+        $response = $this->get('/dashboard');
         $response->assertStatus(200);
     }
 }

@@ -9,6 +9,6 @@ if (!function_exists('tenant')) {
      */
     function tenant($route)
     {
-        return config('app.url').'/'.auth()->user()->account_id.$route;
+        return config('app.url').'/'.$company->id.$route;
     }
 }

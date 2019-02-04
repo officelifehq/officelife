@@ -5,7 +5,7 @@ namespace App\Services\Account\Account;
 use App\Models\User\User;
 use Faker\Factory as Faker;
 use App\Services\BaseService;
-use App\Models\Account\Account;
+use App\Models\Company\Company;
 use App\Services\User\CreateUser;
 use App\Services\Account\Team\CreateTeam;
 use App\Services\Account\Team\AddUserToTeam;

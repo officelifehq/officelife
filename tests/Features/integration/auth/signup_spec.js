@@ -13,7 +13,7 @@ describe('Signup', function () {
 
     cy.url().should('include', '/dashboard')
 
-    cy.contains('You need to confirm your email address before adding users')
+    cy.contains('You need to confirm your email')
 
     cy.get('[data-cy=logout-button]').click()
 

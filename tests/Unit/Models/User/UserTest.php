@@ -5,34 +5,19 @@ namespace Tests\Unit\Models\User;
 use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Account\Team;
+use App\Models\Company\Company;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Employee;
 
 class UserTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_account()
+    public function it_belongs_to_company()
     {
         $user = factory(User::class)->create([]);
-        $this->assertTrue($user->account()->exists());
-    }
-
-    /** @test */
-    public function it_has_many_teams()
-    {
-        $user = factory(User::class)->create([]);
-        $team = factory(Team::class)->create([
-            'account_id' => $user->account_id,
-        ]);
-        $teamB = factory(Team::class)->create([
-            'account_id' => $user->account_id,
-        ]);
-
-        $user->teams()->sync([$team->id => ['account_id' => $user->account_id]]);
-        $user->teams()->sync([$teamB->id => ['account_id' => $user->account_id]]);
-
-        $this->assertTrue($user->teams()->exists());
+        $this->assertTrue($user->company()->exists());
     }
 
     /** @test */
@@ -62,14 +47,23 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_permission_level_attribute()
+    public function it_gets_the_path_for_the_confirmation_link()
     {
-        $user = new User;
-        $user->permission_level = config('homas.authorizations.administrator');
+        $user = factory(User::class)->create([
+            'confirmation_link' => 'dunder',
+        ]);
 
         $this->assertEquals(
-            trans('app.permission_100'),
-            $user->getPermissionLevel()
+            config('app.url') . '/register/confirm/dunder',
+            $user->getPathConfirmationLink()
         );
+    }
+
+    /** @test */
+    public function it_checks_if_the_user_is_part_of_the_company()
+    {
+        $employee = factory(Employee::class)->create([]);
+
+        $this->assertTrue($employee->user->isPartOfCompany($employee->company));
     }
 }

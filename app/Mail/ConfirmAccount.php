@@ -4,23 +4,23 @@ namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use App\Models\Account\Account;
+use App\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 
 class ConfirmAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $account;
+    public $user;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Account $account)
+    public function __construct(User $user)
     {
-        $this->account = $account;
+        $this->user = $user;
     }
 
     /**
@@ -30,6 +30,6 @@ class ConfirmAccount extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.account.confirm');
+        return $this->markdown('emails.user.confirm');
     }
 }

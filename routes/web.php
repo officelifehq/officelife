@@ -1,18 +1,20 @@
 <?php
 
-Route::get('signup', 'Auth\\RegisterController@index')->name('signup');
-Route::post('signup', 'Auth\\RegisterController@store')->name('signup.store');
-Route::get('login', 'Auth\\LoginController@index')->name('login.index');
-Route::post('login', 'Auth\\LoginController@store')->name('login.store');
+Route::get('signup', 'Auth\\RegisterController@index');
+Route::post('signup', 'Auth\\RegisterController@store');
+Route::get('login', 'Auth\\LoginController@index');
+Route::post('login', 'Auth\\LoginController@store');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\\LoginController@logout');
 
+    Route::get('dashboard', 'DashboardController@index');
+
+    Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
+
     // only available if user is in the right account
-    Route::middleware(['account'])->prefix('{account}')->group(function () {
-        Route::name('dashboard.')->group(function () {
-            Route::get('dashboard', 'DashboardController@index');
-        });
+    Route::middleware(['company'])->prefix('{company}')->group(function () {
+        Route::get('dashboard', 'Company\\CompanyController@index');
 
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
@@ -24,6 +26,6 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('account/employees', 'Account\\EmployeeController');
         });
 
-        Route::get('account/dummy', 'Account\\AccountController@dummy');
+        //Route::get('account/dummy', 'Account\\AccountController@dummy');
     });
 });

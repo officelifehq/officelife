@@ -15,22 +15,13 @@ class CreateAuditLogTable extends Migration
     {
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('account_id');
+            $table->unsignedInteger('company_id');
             $table->string('action');
             $table->text('objects');
             $table->string('ip_address')->nullable();
+            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
-            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('audit_logs');
     }
 }

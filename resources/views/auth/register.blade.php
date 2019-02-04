@@ -7,7 +7,7 @@
         {{ trans('auth.register_title') }}
       </div>
       <div class="fn fl-ns w-50-ns pa3">
-        <form method="POST" action="{{ route('signup.store') }}">
+        <form method="POST" action="/signup">
           {{ csrf_field() }}
 
           @include('partials.errors')

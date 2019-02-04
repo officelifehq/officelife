@@ -15,32 +15,21 @@ class CreateTeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('account_id');
+            $table->unsignedInteger('company_id');
             $table->string('name');
-            $table->text('description')->nullable();
+            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
-            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
 
-        Schema::create('team_user', function (Blueprint $table) {
-            $table->unsignedInteger('account_id');
-            $table->unsignedInteger('user_id');
+        Schema::create('employee_team', function (Blueprint $table) {
+            $table->unsignedInteger('company_id');
+            $table->unsignedInteger('employee_id');
             $table->unsignedInteger('team_id');
             $table->timestamps();
-            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('teams');
-        Schema::dropIfExists('team_user');
     }
 }

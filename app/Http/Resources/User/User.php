@@ -18,16 +18,12 @@ class User extends JsonResource
             'id' => $this->id,
             'object' => 'user',
             'email' => $this->email,
-            'permission_level' => $this->permission_level,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'middle_name' => $this->middle_name,
             'nickname' => $this->nickname,
             'avatar' => $this->avatar,
             'uuid' => $this->uuid,
-            'account' => [
-                'id' => $this->account_id,
-            ],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
