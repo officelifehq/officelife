@@ -4,11 +4,9 @@ namespace Tests\Unit\Services\User;
 
 use Tests\TestCase;
 use App\Models\User\User;
-use Illuminate\Support\Facades\Mail;
-use App\Models\Account\Account;
 use App\Mail\ConfirmAccount;
 use App\Services\User\CreateAccount;
-use App\Exceptions\EmailAlreadyUsedException;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

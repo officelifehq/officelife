@@ -4,11 +4,10 @@ namespace App\Services\Company\Team;
 
 use App\Models\User\User;
 use App\Models\Company\Team;
-use App\Models\Company\Employee;
 use App\Services\BaseService;
 use App\Services\Company\Company\LogAction;
 
-class AddEmployeeToTeam extends BaseService
+class AddUserToTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.

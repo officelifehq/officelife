@@ -4,10 +4,8 @@ namespace Tests\Unit\Models\User;
 
 use Tests\TestCase;
 use App\Models\User\User;
-use App\Models\Account\Team;
-use App\Models\Company\Company;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Company\Employee;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
@@ -54,7 +52,7 @@ class UserTest extends TestCase
         ]);
 
         $this->assertEquals(
-            config('app.url') . '/register/confirm/dunder',
+            config('app.url').'/register/confirm/dunder',
             $user->getPathConfirmationLink()
         );
     }

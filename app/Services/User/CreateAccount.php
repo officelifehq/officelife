@@ -3,12 +3,11 @@
 namespace App\Services\User;
 
 use App\Models\User\User;
-use App\Mail\ConfirmAccount;
 use Illuminate\Support\Str;
+use App\Mail\ConfirmAccount;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use App\Services\User\Avatar\GenerateAvatar;
 
 class CreateAccount extends BaseService

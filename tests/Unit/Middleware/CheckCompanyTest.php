@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User\User;
-use App\Models\Company\Company;
 use App\Models\Company\Employee;
 
 class CheckCompanyTest extends TestCase
@@ -28,7 +27,7 @@ class CheckCompanyTest extends TestCase
         $response = $this->get('/dashboard');
         $response->assertStatus(200);
 
-        $response = $this->get($employee->company->id . '/dashboard');
+        $response = $this->get($employee->company->id.'/dashboard');
         $response->assertStatus(401);
     }
 }

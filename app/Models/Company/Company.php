@@ -2,10 +2,6 @@
 
 namespace App\Models\Company;
 
-use App\Models\User\User;
-use App\Models\Company\Team;
-use App\Models\Company\Employee;
-use App\Models\Company\AuditLog;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;

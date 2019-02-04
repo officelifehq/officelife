@@ -3,13 +3,11 @@
 namespace Tests\Unit\Services\Account\Team;
 
 use Tests\TestCase;
-use App\Models\User\User;
 use App\Models\Company\Team;
-use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use App\Services\Company\Team\CreateTeam;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\Company\Employee;
 
 class CreateTeamTest extends TestCase
 {

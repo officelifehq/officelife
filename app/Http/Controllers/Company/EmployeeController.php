@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Account;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Services\User\CreateUser;
+use App\Http\Controllers\Controller;
 
 class EmployeeController extends Controller
 {

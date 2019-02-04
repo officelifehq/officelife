@@ -2,15 +2,13 @@
 
 namespace App\Models\User;
 
-use App\Models\Account\Team;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Models\Company\Employee;
 
 class User extends Authenticatable
 {
@@ -107,7 +105,7 @@ class User extends Authenticatable
      * Check if the user is part of the given company.
      *
      * @param Company $company
-     * @return boolean
+     * @return bool
      */
     public function isPartOfCompany(Company $company)
     {

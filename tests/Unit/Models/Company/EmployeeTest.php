@@ -3,11 +3,8 @@
 namespace Tests\Unit\Models\User;
 
 use Tests\TestCase;
-use App\Models\User\User;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
-use App\Models\Company\AuditLog;
-use App\Models\Company\Company;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeTest extends TestCase

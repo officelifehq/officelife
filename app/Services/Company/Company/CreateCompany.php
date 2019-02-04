@@ -4,14 +4,9 @@ namespace App\Services\Company\Company;
 
 use App\Models\User\User;
 use Illuminate\Support\Str;
-use App\Mail\ConfirmAccount;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Services\User\CreateUser;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use App\Services\User\Avatar\GenerateAvatar;
 
 class CreateCompany extends BaseService
 {

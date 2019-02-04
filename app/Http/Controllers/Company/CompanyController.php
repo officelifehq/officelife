@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Company;
 
 use Illuminate\Http\Request;
+use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
+use App\Services\Company\Company\CreateCompany;
 use App\Services\Company\Company\RemoveDummyData;
 use App\Services\Company\Company\GenerateDummyData;
-use App\Services\Company\Company\CreateCompany;
-use App\Models\Company\Company;
 
 class CompanyController extends Controller
 {

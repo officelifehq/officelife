@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company\Company;
-
 class DashboardController extends Controller
 {
     /**

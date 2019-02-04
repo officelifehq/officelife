@@ -2,9 +2,9 @@
 
 namespace App\Mail;
 
+use App\Models\User\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use App\Models\User\User;
 use Illuminate\Queue\SerializesModels;
 
 class ConfirmAccount extends Mailable

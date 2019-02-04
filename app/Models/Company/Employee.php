@@ -3,16 +3,10 @@
 namespace App\Models\Company;
 
 use App\Models\User\User;
-use App\Models\Company\Team;
-use App\Models\Company\Employee;
-use App\Models\Company\AuditLog;
-use App\Models\Company\Company;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
 {
