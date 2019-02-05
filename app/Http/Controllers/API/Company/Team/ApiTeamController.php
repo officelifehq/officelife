@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Company\Team;
 
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Team\CreateTeam;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Validation\ValidationException;
@@ -16,26 +17,31 @@ class ApiTeamController extends ApiController
     /**
      * Get the list of teams.
      *
-     * @return \Illuminate\Http\Response
+     * @param int $companyId
+     * @return \Illuminate\Http\Resources\Json\JsonResource
      */
-    public function index(Request $request)
+    public function index(Request $request, int $companyId)
     {
-        $team = auth()->user()->account->teams()->get();
+        $company = Cache::get('currentCompany');
+        $teams = $company->teams()->get();
 
-        return TeamResource::collection($team);
+        return TeamResource::collection($teams);
     }
 
     /**
      * Get the detail of a given team.
      *
      * @param  Request $request
+     * @param int $companyId
      * @param int $teamId
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Request $request, $teamId)
+    public function show(Request $request, $companyId, $teamId)
     {
+        $company = Cache::get('currentCompany');
+
         try {
-            $team = Team::where('account_id', auth()->user()->account_id)
+            $team = Team::where('company_id', $company->id)
                 ->where('id', $teamId)
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
@@ -49,17 +55,17 @@ class ApiTeamController extends ApiController
      * Create a team.
      *
      * @param  Request $request
-     * @param int $teamId
-     * @return \Illuminate\Http\Response
+     * @param int $companyId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, int $companyId)
     {
         try {
             $team = app(CreateTeam::class)->execute(
                 $request->all()
                     +
                     [
-                    'account_id' => auth()->user()->account_id,
+                    'company_id' => $companyId,
                     'author_id' => auth()->user()->id,
                 ]
             );

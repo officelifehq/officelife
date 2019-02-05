@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\Account\Account\CreateAccount;
+use App\Services\User\CreateAccount;
 
 class SetupFrontEndTest extends Command
 {
@@ -44,8 +44,8 @@ class SetupFrontEndTest extends Command
             'password' => 'admin',
         ];
 
-        $account = (new CreateAccount)->execute($data);
-        $account->confirmed = 1;
-        $account->save();
+        $user = (new CreateAccount)->execute($data);
+        $user->email_verified_at = now();
+        $user->save();
     }
 }

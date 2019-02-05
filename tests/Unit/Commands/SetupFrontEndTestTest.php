@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\Models\Account;
+namespace Tests\Unit\Commands;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SetupFrontEndTest extends TestCase
+class SetupFrontEndTestTest extends TestCase
 {
     use DatabaseTransactions;
 

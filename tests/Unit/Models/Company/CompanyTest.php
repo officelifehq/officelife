@@ -7,6 +7,7 @@ use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Team;
 
 class CompanyTest extends TestCase
 {
@@ -32,5 +33,16 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->logs()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_teams()
+    {
+        $company = factory(Company::class)->create();
+        factory(Team::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->teams()->exists());
     }
 }

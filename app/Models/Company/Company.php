@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Company\Team;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -59,5 +60,15 @@ class Company extends Model
     public function logs()
     {
         return $this->hasMany(AuditLog::class)->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Get the team records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function teams()
+    {
+        return $this->hasMany(Team::class);
     }
 }
