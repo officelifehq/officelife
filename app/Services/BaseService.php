@@ -4,9 +4,9 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Models\User\User;
+use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\NotEnoughPermissionException;
-use App\Models\Company\Employee;
 
 abstract class BaseService
 {

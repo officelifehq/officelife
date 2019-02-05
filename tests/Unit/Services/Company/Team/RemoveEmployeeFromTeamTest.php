@@ -3,13 +3,12 @@
 namespace Tests\Unit\Services\Company\Team;
 
 use Tests\TestCase;
-use App\Models\User\User;
 use App\Models\Company\Team;
+use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Team\RemoveEmployeeFromTeam;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\Company\Employee;
 
 class RemoveEmployeeFromTeamTest extends TestCase
 {

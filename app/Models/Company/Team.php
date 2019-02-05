@@ -2,8 +2,6 @@
 
 namespace App\Models\Company;
 
-use App\Models\User\User;
-use App\Models\Company\Employee;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

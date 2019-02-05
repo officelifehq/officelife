@@ -81,6 +81,6 @@ class Employee extends Model
      */
     public function getPermissionLevel() : String
     {
-        return trans('app.permission_' . $this->permission_level);
+        return trans('app.permission_'.$this->permission_level);
     }
 }

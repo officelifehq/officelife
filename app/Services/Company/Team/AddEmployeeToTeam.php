@@ -2,11 +2,10 @@
 
 namespace App\Services\Company\Team;
 
-use App\Models\User\User;
 use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Services\Company\Company\LogAction;
 use App\Models\Company\Employee;
+use App\Services\Company\Company\LogAction;
 
 class AddEmployeeToTeam extends BaseService
 {

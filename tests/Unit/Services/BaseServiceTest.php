@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
 use App\Services\BaseService;
-use App\Exceptions\NotEnoughPermissionException;
 use App\Models\Company\Employee;
+use App\Exceptions\NotEnoughPermissionException;
 
 class BaseServiceTest extends TestCase
 {
