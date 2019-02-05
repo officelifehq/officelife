@@ -4,6 +4,7 @@ parameters:
     level: 5
     ignoreErrors:
         - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\Response but returns [a-zA-Z0-9\\_]+\.#'
+        - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\JsonResponse but returns [a-zA-Z0-9\\_]+\.#'
         - '#Access to an undefined property Illuminate\\Contracts\\Auth\\MustVerifyEmail::\$email\.#'
         - '#Access to an undefined property Illuminate\\Support\\Fluent::\$[a-zA-Z0-9_]+\.#'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany::active\(\)\.#'
@@ -14,6 +15,5 @@ parameters:
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\HasMany::completed\(\)\.#'
         - '#Call to an undefined method Illuminate\\View\\View::with[a-zA-Z0-9\\_]+\(\)\.#'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model::[a-zA-Z0-9_]+\(\)\.#'
-        - '#Call to an undefined method \(Illuminate\\Database\\Eloquent\\Collection&iterable<[a-zA-Z0-9\\_]+>\)\|Illuminate\\Database\\Eloquent\\Model::[a-zA-Z0-9\\_]+\(\)\.#'
         - '#Call to an undefined method App\\Http\\Resources\\[a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\)\.#'
     excludes_analyse:

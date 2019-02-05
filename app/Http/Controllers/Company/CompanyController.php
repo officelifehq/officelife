@@ -14,7 +14,7 @@ class CompanyController extends Controller
     /**
      * Company details.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -30,7 +30,7 @@ class CompanyController extends Controller
      * Show the create company form.
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
     {

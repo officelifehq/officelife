@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use Illuminate\Http\Request;
-use App\Services\User\CreateUser;
+use App\Services\User\CreateAccount;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 
@@ -40,7 +40,7 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        (new CreateUser)->execute([
+        (new CreateAccount)->execute([
             'account_id' => auth()->user()->account->id,
             'author_id' => auth()->user()->id,
             'first_name' => $request->get('firstname'),

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
 {
@@ -56,7 +57,7 @@ class Employee extends Model
     /**
      * Get the Company record associated with the company.
      *
-     * @return HasOne
+     * @return belongsTo
      */
     public function company()
     {
@@ -66,7 +67,7 @@ class Employee extends Model
     /**
      * Get the teams record associated with the user.
      *
-     * @return BelongsTo
+     * @return belongsToMany
      */
     public function teams()
     {
@@ -76,7 +77,6 @@ class Employee extends Model
     /**
      * Get the permission level of the user.
      *
-     * @param string $value
      * @return string
      */
     public function getPermissionLevel() : String

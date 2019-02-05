@@ -26,10 +26,6 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
-
-        Route::bind('account', function ($value) {
-            return \App\Models\Account\Account::where('id', $value)->first() ?? abort(404);
-        });
     }
 
     /**

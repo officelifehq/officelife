@@ -44,7 +44,7 @@ trait JsonRespondController
     /**
      * Get error code of the response.
      *
-     * @return int
+     * @return string
      */
     public function getErrorMessage()
     {
@@ -54,7 +54,7 @@ trait JsonRespondController
     /**
      * Set error code of the response.
      *
-     * @param int $errorMessage
+     * @param string $errorMessage
      * @return $this
      */
     public function setErrorMessage($errorMessage)
@@ -68,7 +68,6 @@ trait JsonRespondController
      * Sends a JSON to the consumer.
      *
      * @param array $data
-     * @param array $headers
      * @return JsonResponse
      */
     public function respond($data)
@@ -80,7 +79,6 @@ trait JsonRespondController
      * Sends a response not found (404) to the request.
      * Error Code = 31.
      *
-     * @param string $message
      * @return JsonResponse
      */
     public function respondNotFound()
@@ -146,7 +144,7 @@ trait JsonRespondController
     /**
      * Sends a response with error.
      *
-     * @param string message
+     * @param string|null message
      * @return JsonResponse
      */
     public function respondWithError($message = null)
