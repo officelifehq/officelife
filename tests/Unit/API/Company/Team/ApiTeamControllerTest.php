@@ -4,8 +4,8 @@ namespace Tests\Api\Company\Team;
 
 use Tests\ApiTestCase;
 use App\Models\Company\Team;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Company\Employee;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ApiTeamControllerTest extends ApiTestCase
 {
@@ -125,7 +125,7 @@ class ApiTeamControllerTest extends ApiTestCase
             'user_id' => $user->id,
         ]);
 
-        $response = $this->json('POST', '/api/' . $employee->company_id . '/teams/', [
+        $response = $this->json('POST', '/api/'.$employee->company_id.'/teams/', [
             'name' => null,
         ]);
 
