@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\User\User;
 use App\Services\BaseService;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Models\Company\Employee;
 
 class BaseServiceTest extends TestCase
 {
@@ -42,21 +43,21 @@ class BaseServiceTest extends TestCase
     {
         // administrator has all rights
         $stub = $this->getMockForAbstractClass(BaseService::class);
-        $user = factory(User::class)->create([
+        $employee = factory(Employee::class)->create([
             'permission_level' => config('homas.authorizations.administrator'),
         ]);
 
         $this->assertInstanceOf(
             User::class,
-            $stub->validatePermissions($user->id, 'administrator')
+            $stub->validatePermissions($employee->user_id, $employee->company_id, 'administrator')
         );
 
-        $user = factory(User::class)->create([
+        $employee = factory(Employee::class)->create([
             'permission_level' => config('homas.authorizations.hr'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($user->id, 'administrator');
+        $stub->validatePermissions($employee->user->id, $employee->company_id, 'administrator');
     }
 
     /** @test */

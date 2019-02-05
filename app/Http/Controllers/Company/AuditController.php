@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class AuditController extends Controller
 {
@@ -14,7 +15,8 @@ class AuditController extends Controller
      */
     public function index(Request $request)
     {
-        $logs = $this->company->logs()->get();
+        $company = Cache::get('currentCompany');
+        $logs = $company->logs()->get();
 
         return view('company.audit.index')
             ->withLogs($logs);

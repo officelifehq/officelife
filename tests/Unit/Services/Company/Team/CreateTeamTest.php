@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Account\Team;
+namespace Tests\Unit\Services\Company\Team;
 
 use Tests\TestCase;
 use App\Models\Company\Team;

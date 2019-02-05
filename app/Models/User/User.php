@@ -109,7 +109,7 @@ class User extends Authenticatable
      */
     public function isPartOfCompany(Company $company)
     {
-        $employee = Employee::where('user_id', auth()->user()->id)
+        $employee = Employee::where('user_id', $this->id)
             ->where('company_id', $company->id)
             ->first();
 

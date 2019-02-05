@@ -1,13 +1,14 @@
 <?php
 
-namespace Tests\Unit\Services\Account\Team;
+namespace Tests\Unit\Services\Company\Team;
 
 use Tests\TestCase;
 use App\Models\User\User;
-use App\Models\Account\Team;
-use App\Services\Account\Team\DestroyTeam;
+use App\Models\Company\Team;
+use App\Services\Company\Team\DestroyTeam;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Employee;
 
 class DestroyTeamTest extends TestCase
 {
@@ -17,13 +18,13 @@ class DestroyTeamTest extends TestCase
     public function it_destroys_a_team()
     {
         $team = factory(Team::class)->create([]);
-        $author = factory(User::class)->create([
-            'account_id' => $team->account_id,
+        $employee = factory(Employee::class)->create([
+            'company_id' => $team->company_id,
         ]);
 
         $request = [
-            'account_id' => $team->account_id,
-            'author_id' => $author->id,
+            'company_id' => $team->company_id,
+            'author_id' => $employee->user->id,
             'team_id' => $team->id,
         ];
 
@@ -38,20 +39,20 @@ class DestroyTeamTest extends TestCase
     public function it_logs_an_action()
     {
         $team = factory(Team::class)->create([]);
-        $author = factory(User::class)->create([
-            'account_id' => $team->account_id,
+        $employee = factory(Employee::class)->create([
+            'company_id' => $team->company_id,
         ]);
 
         $request = [
-            'account_id' => $team->account_id,
-            'author_id' => $author->id,
+            'company_id' => $team->company_id,
+            'author_id' => $employee->user->id,
             'team_id' => $team->id,
         ];
 
         (new DestroyTeam)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
-            'account_id' => $team->account_id,
+            'company_id' => $team->company_id,
             'action' => 'team_destroyed',
         ]);
     }

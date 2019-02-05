@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\API\Account\Team;
+namespace App\Http\Controllers\API\Company\Team;
 
-use App\Models\Account\Team;
+use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use App\Services\Account\Team\CreateTeam;
+use App\Services\Company\Team\CreateTeam;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Account\Team\Team as TeamResource;
+use App\Http\Resources\Company\Team\Team as TeamResource;
 
 class ApiTeamController extends ApiController
 {

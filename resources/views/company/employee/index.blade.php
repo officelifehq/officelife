@@ -7,7 +7,7 @@
       <ul>
         <li><a href="{{ tenant('/account/employees/create') }}">Add employee</a></li>
         @foreach ($employees as $employee)
-        <li>{{ $employee->name }} ({{ $employee->getPermissionLevel() }})</li>
+        <li>{{ $employee->user->name }} ({{ $employee->getPermissionLevel() }})</li>
         @endforeach
       </ul>
     </div>

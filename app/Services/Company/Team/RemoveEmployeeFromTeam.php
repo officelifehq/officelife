@@ -3,11 +3,12 @@
 namespace App\Services\Company\Team;
 
 use App\Models\User\User;
-use App\Models\Account\Team;
+use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Services\Account\Account\LogAction;
+use App\Services\Company\Company\LogAction;
+use App\Models\Company\Employee;
 
-class RemoveUserFromTeam extends BaseService
+class RemoveEmployeeFromTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -17,15 +18,15 @@ class RemoveUserFromTeam extends BaseService
     public function rules()
     {
         return [
-            'account_id' => 'required|integer|exists:accounts,id',
+            'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'user_id' => 'required|integer|exists:users,id',
+            'employee_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
         ];
     }
 
     /**
-     * Add a user to a team.
+     * Remove an employee from a team.
      *
      * @param array $data
      * @return Team
@@ -34,24 +35,24 @@ class RemoveUserFromTeam extends BaseService
     {
         $this->validate($data);
 
-        $author = $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], $data['company_id'], 'hr');
 
-        $user = User::where('account_id', $data['account_id'])
-            ->findOrFail($data['user_id']);
+        $employee = Employee::where('company_id', $data['company_id'])
+            ->findOrFail($data['employee_id']);
 
-        $team = Team::where('account_id', $data['account_id'])
+        $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
 
-        $team->users()->detach($data['user_id'], ['account_id' => $data['account_id']]);
+        $team->employees()->detach($data['employee_id'], ['company_id' => $data['company_id']]);
 
         (new LogAction)->execute([
-            'account_id' => $data['account_id'],
+            'company_id' => $data['company_id'],
             'action' => 'user_removed_from_team',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'user_id' => $user->id,
-                'user_email' => $user->email,
+                'employee_id' => $employee->id,
+                'employee_email' => $employee->user->email,
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),

@@ -6,8 +6,9 @@ use App\Models\User\User;
 use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Services\Company\Company\LogAction;
+use App\Models\Company\Employee;
 
-class AddUserToTeam extends BaseService
+class AddEmployeeToTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -26,7 +27,7 @@ class AddUserToTeam extends BaseService
     }
 
     /**
-     * Add a user to a team.
+     * Add an employee to a team.
      *
      * @param array $data
      * @return Team
@@ -35,15 +36,15 @@ class AddUserToTeam extends BaseService
     {
         $this->validate($data);
 
-        $author = $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], $data['company_id'], 'hr');
 
-        $user = User::where('company_id', $data['company_id'])
-            ->findOrFail($data['user_id']);
+        $employee = Employee::where('company_id', $data['company_id'])
+            ->findOrFail($data['employee_id']);
 
         $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
 
-        $team->users()->attach($data['user_id'], ['company_id' => $data['company_id']]);
+        $team->employees()->attach($data['employee_id'], ['company_id' => $data['company_id']]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
@@ -51,8 +52,8 @@ class AddUserToTeam extends BaseService
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'user_id' => $user->id,
-                'user_email' => $user->email,
+                'employee_id' => $employee->id,
+                'employee_email' => $employee->user->email,
                 'team_id' => $team->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

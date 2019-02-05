@@ -2,9 +2,9 @@
 
 namespace App\Services\Company\Team;
 
-use App\Models\Account\Team;
+use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Services\Account\Account\LogAction;
+use App\Services\Company\Company\LogAction;
 
 class DestroyTeam extends BaseService
 {
@@ -16,7 +16,7 @@ class DestroyTeam extends BaseService
     public function rules()
     {
         return [
-            'account_id' => 'required|integer|exists:accounts,id',
+            'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
             'team_id' => 'required|integer|exists:teams,id',
         ];
@@ -32,15 +32,15 @@ class DestroyTeam extends BaseService
     {
         $this->validate($data);
 
-        $author = $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], $data['company_id'], 'hr');
 
-        $team = Team::where('account_id', $data['account_id'])
+        $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
 
         $team->delete();
 
         (new LogAction)->execute([
-            'account_id' => $data['account_id'],
+            'company_id' => $data['company_id'],
             'action' => 'team_destroyed',
             'objects' => json_encode([
                 'author_id' => $author->id,

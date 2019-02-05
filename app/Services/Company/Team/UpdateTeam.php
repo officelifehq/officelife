@@ -2,9 +2,9 @@
 
 namespace App\Services\Company\Team;
 
-use App\Models\Account\Team;
+use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Services\Account\Account\LogAction;
+use App\Services\Company\Company\LogAction;
 
 class UpdateTeam extends BaseService
 {
@@ -16,11 +16,10 @@ class UpdateTeam extends BaseService
     public function rules()
     {
         return [
-            'account_id' => 'required|integer|exists:accounts,id',
+            'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
             'team_id' => 'required|integer|exists:teams,id',
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:65535',
         ];
     }
 
@@ -34,18 +33,17 @@ class UpdateTeam extends BaseService
     {
         $this->validate($data);
 
-        $author = $this->validatePermissions($data['author_id'], 'hr');
+        $author = $this->validatePermissions($data['author_id'], $data['company_id'], 'hr');
 
-        $team = Team::where('account_id', $data['account_id'])
+        $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
 
         $team->update([
             'name' => $data['name'],
-            'description' => $this->nullOrValue($data, 'description'),
         ]);
 
         (new LogAction)->execute([
-            'account_id' => $data['account_id'],
+            'company_id' => $data['company_id'],
             'action' => 'team_updated',
             'objects' => json_encode([
                 'author_id' => $author->id,

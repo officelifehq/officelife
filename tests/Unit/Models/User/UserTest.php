@@ -12,10 +12,13 @@ class UserTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_company()
+    public function it_has_many_employees()
     {
         $user = factory(User::class)->create([]);
-        $this->assertTrue($user->company()->exists());
+        factory(Employee::class, 3)->create([
+            'user_id' => $user->id,
+        ]);
+        $this->assertTrue($user->employees()->exists());
     }
 
     /** @test */
@@ -48,7 +51,7 @@ class UserTest extends TestCase
     public function it_gets_the_path_for_the_confirmation_link()
     {
         $user = factory(User::class)->create([
-            'confirmation_link' => 'dunder',
+            'verification_link' => 'dunder',
         ]);
 
         $this->assertEquals(

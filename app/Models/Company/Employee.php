@@ -72,4 +72,15 @@ class Employee extends Model
     {
         return $this->belongsToMany(Team::class);
     }
+
+    /**
+     * Get the permission level of the user.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getPermissionLevel() : String
+    {
+        return trans('app.permission_' . $this->permission_level);
+    }
 }

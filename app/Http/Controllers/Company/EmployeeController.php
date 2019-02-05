@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Account;
 use Illuminate\Http\Request;
 use App\Services\User\CreateUser;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 
 class EmployeeController extends Controller
 {
@@ -15,9 +16,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = auth()->user()->account->users()->get();
+        $employees = Cache::get('currentCompany')->employees()->get();
 
-        return view('account.employee.index')
+        return view('company.employee.index')
             ->withEmployees($employees);
     }
 
@@ -28,7 +29,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('account.employee.create');
+        return view('company.employee.create');
     }
 
     /**

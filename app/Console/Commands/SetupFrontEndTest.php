@@ -24,16 +24,7 @@ class SetupFrontEndTest extends Command
     private $account;
 
     /**
-     * The Command Executor.
-     *
-     * @var CommandExecutorInterface
-     */
-    public $commandExecutor;
-
-    /**
      * Create a new command.
-     *
-     * @param CommandExecutorInterface
      */
     public function __construct()
     {

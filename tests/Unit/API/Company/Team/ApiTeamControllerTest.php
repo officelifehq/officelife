@@ -1,9 +1,9 @@
 <?php
 
-namespace Tests\Api\Account\Team;
+namespace Tests\Api\Company\Team;
 
 use Tests\ApiTestCase;
-use App\Models\Account\Team;
+use App\Models\Company\Team;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ApiTeamControllerTest extends ApiTestCase
@@ -14,8 +14,7 @@ class ApiTeamControllerTest extends ApiTestCase
         'id',
         'object',
         'name',
-        'description',
-        'account' => [
+        'company' => [
             'id',
         ],
         'created_at',

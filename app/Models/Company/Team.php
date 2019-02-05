@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use App\Models\User\User;
+use App\Models\Company\Employee;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,7 +21,6 @@ class Team extends Model
     protected $fillable = [
         'company_id',
         'name',
-        'description',
         'is_dummy',
     ];
 
@@ -31,7 +31,6 @@ class Team extends Model
      */
     protected static $logAttributes = [
         'name',
-        'description',
     ];
 
     /**
@@ -44,22 +43,22 @@ class Team extends Model
     ];
 
     /**
-     * Get the account record associated with the team.
+     * Get the company record associated with the team.
      *
      * @return BelongsTo
      */
-    public function account()
+    public function company()
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(Company::class);
     }
 
     /**
-     * Get the user records associated with the team.
+     * Get the employee records associated with the team.
      *
      * @return belongsToMany
      */
-    public function users()
+    public function employees()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Employee::class);
     }
 }
