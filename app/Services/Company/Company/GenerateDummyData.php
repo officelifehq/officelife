@@ -7,7 +7,6 @@ use Faker\Factory as Faker;
 use App\Services\BaseService;
 use App\Services\User\CreateAccount;
 use App\Services\Company\Team\CreateTeam;
-use App\Services\Company\Team\AddEmployeeToTeam;
 use App\Services\Company\Team\AddUserToCompany;
 
 class GenerateDummyData extends BaseService

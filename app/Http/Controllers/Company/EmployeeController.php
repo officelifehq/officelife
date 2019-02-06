@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Company;
 
 use Illuminate\Http\Request;
-use App\Services\User\CreateAccount;
 use App\Http\Controllers\Controller;
+use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Cache;
 
 class EmployeeController extends Controller

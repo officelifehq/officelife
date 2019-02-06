@@ -116,7 +116,5 @@ class User extends Authenticatable
         if ($employee) {
             return $employee;
         }
-
-        return;
     }
 }
