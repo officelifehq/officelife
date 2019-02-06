@@ -18,12 +18,12 @@ Route::middleware(['auth'])->group(function () {
 
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
-            Route::get('account/audit', 'Account\\AuditController@index');
+            Route::get('account/audit', 'Company\\AuditController@index');
         });
 
         // only available to hr role
         Route::middleware(['hr'])->group(function () {
-            Route::resource('account/employees', 'Account\\EmployeeController');
+            Route::resource('account/employees', 'Company\\EmployeeController');
         });
 
         //Route::get('account/dummy', 'Account\\AccountController@dummy');

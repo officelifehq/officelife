@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\User\User;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use App\Models\Company\Employee;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -19,12 +20,12 @@ abstract class TestCase extends BaseTestCase
      */
     public function accessibleBy($permissionLevel, $route, $statusCode)
     {
-        $role = factory(User::class)->create([
+        $employee = factory(Employee::class)->create([
             'permission_level' => $permissionLevel,
         ]);
-        $this->be($role);
+        $this->be($employee->user);
 
-        $response = $this->get(tenant($route));
+        $response = $this->get($employee->company->id.$route);
         $response->assertStatus($statusCode);
     }
 }

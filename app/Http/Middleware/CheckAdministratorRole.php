@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Cache;
 
 class CheckAdministratorRole
 {
@@ -15,7 +16,10 @@ class CheckAdministratorRole
      */
     public function handle($request, Closure $next)
     {
-        if (config('homas.authorizations.administrator') >= auth()->user()->permission_level) {
+        $company = Cache::get('currentCompany');
+        $employee = auth()->user()->isPartOfCompany($company);
+
+        if (config('homas.authorizations.administrator') >= $employee->permission_level) {
             return $next($request);
         }
 

@@ -65,6 +65,9 @@ class UserTest extends TestCase
     {
         $employee = factory(Employee::class)->create([]);
 
-        $this->assertTrue($employee->user->isPartOfCompany($employee->company));
+        $this->assertInstanceOf(
+            Employee::class,
+            $employee->user->isPartOfCompany($employee->company)
+        );
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Services\Company\Team;
 
-use App\Models\Company\Team;
 use App\Services\BaseService;
+use App\Models\Company\Employee;
+use App\Models\Company\Company;
 use App\Services\Company\Company\LogAction;
 
-class CreateTeam extends BaseService
+class AddUserToCompany extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -18,35 +19,38 @@ class CreateTeam extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'name' => 'required|string|max:255',
+            'user_id' => 'required|integer|exists:users,id',
+            'permission_level' => 'required|integer',
         ];
     }
 
     /**
-     * Create a team.
+     * Add a user to the company.
      *
      * @param array $data
-     * @return Team
+     * @return Employee
      */
-    public function execute(array $data) : Team
+    public function execute(array $data) : Employee
     {
         $this->validate($data);
 
         $author = $this->validatePermissions($data['author_id'], $data['company_id'], 'hr');
 
-        $team = Team::create([
+        $employee = Employee::create([
+            'user_id' => $data['user_id'],
             'company_id' => $data['company_id'],
-            'name' => $data['name'],
+            'uuid' => Str::uuid()->toString(),
+            'permission_level' => $data['permission_level'],
         ]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'team_created',
+            'action' => 'user_added_to_company',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'team_id' => $team->id,
-                'team_name' => $team->name,
+                'user_id' => $user->id,
+                'user_email' => $user->email,
             ]),
         ]);
 

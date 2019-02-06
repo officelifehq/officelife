@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\Company;
 
 use Illuminate\Http\Request;
 use App\Services\User\CreateAccount;

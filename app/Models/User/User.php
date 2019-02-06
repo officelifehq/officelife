@@ -105,7 +105,7 @@ class User extends Authenticatable
      * Check if the user is part of the given company.
      *
      * @param Company $company
-     * @return bool
+     * @return Employee
      */
     public function isPartOfCompany(Company $company)
     {
@@ -114,9 +114,9 @@ class User extends Authenticatable
             ->first();
 
         if ($employee) {
-            return true;
+            return $employee;
         }
 
-        return false;
+        return;
     }
 }

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Services\Account\Account;
+namespace App\Services\Company\Company;
 
 use App\Models\User\User;
 use Faker\Factory as Faker;
 use App\Services\BaseService;
-use App\Services\User\CreateUser;
-use App\Services\Account\Team\CreateTeam;
-use App\Services\Account\Team\AddUserToTeam;
+use App\Services\User\CreateAccount;
+use App\Services\Company\Team\CreateTeam;
+use App\Services\Company\Team\AddEmployeeToTeam;
+use App\Services\Company\Team\AddUserToCompany;
 
 class GenerateDummyData extends BaseService
 {
@@ -19,13 +20,13 @@ class GenerateDummyData extends BaseService
     public function rules()
     {
         return [
-            'account_id' => 'required|integer|exists:accounts,id',
+            'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
         ];
     }
 
     /**
-     * Generate dummy data for the given account.
+     * Generate dummy data for the given company.
      *
      * @param array $data
      * @return void
@@ -34,14 +35,14 @@ class GenerateDummyData extends BaseService
     {
         $this->validate($data);
 
-        $account = Account::find($data['account_id']);
+        $company = Company::find($data['company_id']);
 
         $this->createFiveUsersWithoutTeam($data);
 
         $this->createThreeTeamsWithUsers($data);
 
-        $account->has_dummy_data = true;
-        $account->save();
+        $company->has_dummy_data = true;
+        $company->save();
     }
 
     /**
@@ -53,7 +54,7 @@ class GenerateDummyData extends BaseService
     private function createFiveUsersWithoutTeam(array $data)
     {
         for ($i = 1; $i <= 5; $i++) {
-            $this->createUser($data);
+            $this->createAccount($data);
         }
     }
 
@@ -63,67 +64,70 @@ class GenerateDummyData extends BaseService
      * @param array $data
      * @return User
      */
-    private function createUser(array $data) : User
+    private function createAccount(array $data) : User
     {
         $faker = Faker::create();
 
         $request = [
-            'account_id' => $data['account_id'],
-            'author_id' => $data['author_id'],
             'email' => $faker->safeEmail,
             'password' => $faker->password,
             'first_name' => $faker->firstName,
             'last_name' => $faker->lastName,
-            'permission_level' => config('homas.authorizations.user'),
-            'is_dummy' => true,
         ];
 
-        return (new CreateUser)->execute($request);
+        $user = (new CreateAccount)->execute($request);
+        $user->is_dummy = true;
+        $user->save();
+
+        (new AddUserToCompany)->execute([
+            'company_id' => $data['company_id'],
+            'author_id' => $data['author_id'],
+            'user_id' => $user->id,
+            'permission_level' => config('homas.authorizations.user'),
+        ]);
     }
 
     /**
-     * Create 3 teams with a bunch of users inside.
+     * Create 3 teams with a bunch of employees inside.
      *
      * @param array $data
      * @return void
      */
-    private function createThreeTeamsWithUsers(array $data)
+    private function createThreeTeamsWithEmployees(array $data)
     {
-        $this->createTeamWitUser($data, 'Legal department', 3);
-        $this->createTeamWitUser($data, 'Design Team', 6);
-        $this->createTeamWitUser($data, 'Sales', 18);
+        $this->createTeamWithEmployee($data, 'Legal department', 3);
+        $this->createTeamWithEmployee($data, 'Design Team', 6);
+        $this->createTeamWithEmployee($data, 'Sales', 18);
     }
 
     /**
-     * Create five users without a team.
+     * Create five employees without a team.
      *
      * @param array $data
      * @param string $name
-     * @param int $users
+     * @param int $employees
      * @return void
      */
-    private function createTeamWitUser(array $data, String $name, int $users)
+    private function createTeamWithEmployee(array $data, String $name, int $employees)
     {
         $faker = Faker::create();
 
         $request = [
-            'account_id' => $data['account_id'],
+            'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
             'name' => $name,
-            'is_dummy' => true,
         ];
 
         $team = (new CreateTeam)->execute($request);
 
         for ($i = 1; $i <= $users; $i++) {
-            $user = $this->createUser($data);
+            $user = $this->createAccount($data);
 
             $request = [
-                'account_id' => $data['account_id'],
+                'company_id' => $data['company_id'],
                 'author_id' => $data['author_id'],
                 'user_id' => $user->id,
                 'team_id' => $team->id,
-                'is_dummy' => true,
             ];
 
             (new AddUserToTeam)->execute($request);
