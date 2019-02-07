@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services\Account\Account;
+namespace App\Services\Company\Company;
 
 use App\Services\BaseService;
-use App\Models\Account\Account;
+use App\Models\Company\Company;
 use Illuminate\Support\Facades\DB;
+use App\Models\Company\Employee;
 
 class RemoveDummyData extends BaseService
 {
@@ -16,7 +17,7 @@ class RemoveDummyData extends BaseService
     public function rules()
     {
         return [
-            'company_id' => 'required|integer|exists:accounts,id',
+            'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
         ];
     }
@@ -37,7 +38,7 @@ class RemoveDummyData extends BaseService
             config('homas.authorizations.administrator')
         );
 
-        $account = Account::find($data['company_id']);
+        $company = Company::find($data['company_id']);
 
         $this->removeTeams($data);
 
@@ -45,8 +46,8 @@ class RemoveDummyData extends BaseService
 
         $this->removeAuditLogs($data);
 
-        $account->has_dummy_data = false;
-        $account->save();
+        $company->has_dummy_data = false;
+        $company->save();
     }
 
     /**
@@ -71,10 +72,13 @@ class RemoveDummyData extends BaseService
      */
     private function removeUsers(array $data)
     {
-        DB::table('users')
-            ->where('company_id', $data['company_id'])
-            ->where('is_dummy', true)
-            ->delete();
+        $employees = Employee::where('company_id', $data['company_id'])->get();
+
+        foreach ($employees as $employee) {
+            if ($employee->user->is_dummy) {
+                $employee->user->delete();
+            }
+        }
     }
 
     /**

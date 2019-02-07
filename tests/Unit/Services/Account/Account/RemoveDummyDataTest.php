@@ -6,9 +6,10 @@ use Tests\TestCase;
 use App\Models\User\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Services\Account\Account\RemoveDummyData;
-use App\Services\Account\Account\GenerateDummyData;
+use App\Services\Company\Company\RemoveDummyData;
+use App\Services\Company\Company\GenerateDummyData;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Employee;
 
 class RemoveDummyDataTest extends TestCase
 {
@@ -17,18 +18,17 @@ class RemoveDummyDataTest extends TestCase
     /** @test */
     public function it_removes_all_dummy_data()
     {
-        $user = factory(User::class)->create([]);
+        $employee = factory(Employee::class)->create([]);
 
         $request = [
-            'account_id' => $user->account_id,
-            'author_id' => $user->id,
+            'company_id' => $employee->company_id,
+            'author_id' => $employee->user_id,
         ];
 
         (new GenerateDummyData)->execute($request);
         (new RemoveDummyData)->execute($request);
 
         $count = DB::table('users')
-            ->where('account_id', $user->account_id)
             ->where('is_dummy', true)
             ->count();
 
@@ -38,7 +38,7 @@ class RemoveDummyDataTest extends TestCase
         );
 
         $count = DB::table('teams')
-            ->where('account_id', $user->account_id)
+            ->where('company_id', $employee->company_id)
             ->where('is_dummy', true)
             ->count();
 
@@ -51,10 +51,10 @@ class RemoveDummyDataTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given()
     {
-        $user = factory(User::class)->create([]);
+        $employee = factory(Employee::class)->create([]);
 
         $request = [
-            'account_id' => $user->account_id,
+            'company_id' => $employee->company_id,
             'author_id' => 123456,
         ];
 
