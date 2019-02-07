@@ -3,7 +3,6 @@
 namespace App\Services\Company\Employee;
 
 use App\Services\BaseService;
-use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Services\Company\Company\LogAction;
 

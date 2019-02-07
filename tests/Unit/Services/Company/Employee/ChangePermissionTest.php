@@ -3,7 +3,6 @@
 namespace Tests\Unit\Services\Company\Team;
 
 use Tests\TestCase;
-use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Employee\ChangePermission;
