@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Services\Company\Team;
+namespace App\Services\Company\Company;
 
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Services\Company\Company\LogAction;
+use Illuminate\Support\Str;
 
 class AddUserToCompany extends BaseService
 {
@@ -49,11 +50,11 @@ class AddUserToCompany extends BaseService
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'user_id' => $user->id,
-                'user_email' => $user->email,
+                'user_id' => $employee->user->id,
+                'user_email' => $employee->user->email,
             ]),
         ]);
 
-        return $team;
+        return $employee;
     }
 }

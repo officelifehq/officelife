@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\User\User;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Illuminate\Support\Facades\DB;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -27,5 +28,17 @@ abstract class TestCase extends BaseTestCase
 
         $response = $this->get($employee->company->id.$route);
         $response->assertStatus($statusCode);
+    }
+
+    /**
+     * Create an administrator in an account.
+     *
+     * @return Employee
+     */
+    public function createAdministrator() : Employee
+    {
+        return factory(Employee::class)->create([
+            'permission_level' => config('homas.authorizations.administrator'),
+        ]);
     }
 }
