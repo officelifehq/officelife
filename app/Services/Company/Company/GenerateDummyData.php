@@ -5,11 +5,10 @@ namespace App\Services\Company\Company;
 use App\Models\User\User;
 use Faker\Factory as Faker;
 use App\Services\BaseService;
-use App\Services\User\CreateAccount;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Services\User\CreateAccount;
 use App\Services\Company\Team\CreateTeam;
-use App\Services\Company\Company\AddUserToCompany;
 use App\Services\Company\Team\AddEmployeeToTeam;
 
 class GenerateDummyData extends BaseService

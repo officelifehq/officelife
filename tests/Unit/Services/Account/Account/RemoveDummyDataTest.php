@@ -3,13 +3,12 @@
 namespace Tests\Unit\Services\Account\Account;
 
 use Tests\TestCase;
-use App\Models\User\User;
+use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Company\RemoveDummyData;
 use App\Services\Company\Company\GenerateDummyData;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\Company\Employee;
 
 class RemoveDummyDataTest extends TestCase
 {

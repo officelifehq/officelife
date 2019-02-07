@@ -4,8 +4,8 @@ namespace App\Services\Company\Company;
 
 use App\Services\BaseService;
 use App\Models\Company\Company;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\DB;
 
 class RemoveDummyData extends BaseService
 {

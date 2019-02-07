@@ -2,11 +2,10 @@
 
 namespace App\Services\Company\Company;
 
+use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Services\Company\Company\LogAction;
-use Illuminate\Support\Str;
 
 class AddUserToCompany extends BaseService
 {
