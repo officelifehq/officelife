@@ -16,7 +16,7 @@ class RemoveDummyData extends BaseService
     public function rules()
     {
         return [
-            'account_id' => 'required|integer|exists:accounts,id',
+            'company_id' => 'required|integer|exists:accounts,id',
             'author_id' => 'required|integer|exists:users,id',
         ];
     }
@@ -31,9 +31,15 @@ class RemoveDummyData extends BaseService
     {
         $this->validate($data);
 
-        $account = Account::find($data['account_id']);
+        $author = $this->validatePermissions(
+            $data['author_id'],
+            $data['company_id'],
+            config('homas.authorizations.administrator')
+        );
 
-        $this->removeTeam($data);
+        $account = Account::find($data['company_id']);
+
+        $this->removeTeams($data);
 
         $this->removeUsers($data);
 
@@ -49,10 +55,10 @@ class RemoveDummyData extends BaseService
      * @param array $data
      * @return void
      */
-    private function removeTeam(array $data)
+    private function removeTeams(array $data)
     {
         DB::table('teams')
-            ->where('account_id', $data['account_id'])
+            ->where('company_id', $data['company_id'])
             ->where('is_dummy', true)
             ->delete();
     }
@@ -66,7 +72,7 @@ class RemoveDummyData extends BaseService
     private function removeUsers(array $data)
     {
         DB::table('users')
-            ->where('account_id', $data['account_id'])
+            ->where('company_id', $data['company_id'])
             ->where('is_dummy', true)
             ->delete();
     }
@@ -80,7 +86,7 @@ class RemoveDummyData extends BaseService
     private function removeAuditLogs(array $data)
     {
         DB::table('audit_logs')
-            ->where('account_id', $data['account_id'])
+            ->where('company_id', $data['company_id'])
             ->where('is_dummy', true)
             ->delete();
     }

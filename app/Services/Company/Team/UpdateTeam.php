@@ -33,7 +33,11 @@ class UpdateTeam extends BaseService
     {
         $this->validate($data);
 
-        $author = $this->validatePermissions($data['author_id'], $data['company_id'], 'hr');
+        $author = $this->validatePermissions(
+            $data['author_id'],
+            $data['company_id'],
+            config('homas.authorizations.hr')
+        );
 
         $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);

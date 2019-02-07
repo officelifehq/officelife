@@ -32,7 +32,11 @@ class CreateTeam extends BaseService
     {
         $this->validate($data);
 
-        $author = $this->validatePermissions($data['author_id'], $data['company_id'], 'hr');
+        $author = $this->validatePermissions(
+            $data['author_id'],
+            $data['company_id'],
+            config('homas.authorizations.hr')
+        );
 
         $team = Team::create([
             'company_id' => $data['company_id'],

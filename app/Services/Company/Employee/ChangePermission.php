@@ -33,7 +33,11 @@ class ChangePermission extends BaseService
     {
         $this->validate($data);
 
-        $author = $this->validatePermissions($data['author_id'], $data['company_id'], 'hr');
+        $author = $this->validatePermissions(
+            $data['author_id'],
+            $data['company_id'],
+            config('homas.authorizations.hr')
+        );
 
         $employee = Employee::find($data['employee_id']);
 

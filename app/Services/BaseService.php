@@ -39,16 +39,16 @@ abstract class BaseService
      *
      * @param int $userId
      * @param int $companyId
-     * @param string $requiredPermissionLevel
+     * @param int $requiredPermissionLevel
      * @return User
      */
-    public function validatePermissions(int $userId, int $companyId, string $requiredPermissionLevel) : User
+    public function validatePermissions(int $userId, int $companyId, int $requiredPermissionLevel) : User
     {
         $employee = Employee::where('user_id', $userId)
             ->where('company_id', $companyId)
             ->firstOrFail();
 
-        if (config('homas.authorizations.'.$requiredPermissionLevel) < $employee->permission_level) {
+        if ($requiredPermissionLevel < $employee->permission_level) {
             throw new NotEnoughPermissionException;
         }
 

@@ -49,7 +49,7 @@ class BaseServiceTest extends TestCase
 
         $this->assertInstanceOf(
             User::class,
-            $stub->validatePermissions($employee->user_id, $employee->company_id, 'administrator')
+            $stub->validatePermissions($employee->user_id, $employee->company_id, config('homas.authorizations.administrator'))
         );
 
         $employee = factory(Employee::class)->create([
@@ -57,7 +57,7 @@ class BaseServiceTest extends TestCase
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($employee->user->id, $employee->company_id, 'administrator');
+        $stub->validatePermissions($employee->user->id, $employee->company_id, config('homas.authorizations.administrator'));
     }
 
     /** @test */

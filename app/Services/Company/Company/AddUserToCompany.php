@@ -22,6 +22,7 @@ class AddUserToCompany extends BaseService
             'author_id' => 'required|integer|exists:users,id',
             'user_id' => 'required|integer|exists:users,id',
             'permission_level' => 'required|integer',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -35,7 +36,11 @@ class AddUserToCompany extends BaseService
     {
         $this->validate($data);
 
-        $author = $this->validatePermissions($data['author_id'], $data['company_id'], 'hr');
+        $author = $this->validatePermissions(
+            $data['author_id'],
+            $data['company_id'],
+            config('homas.authorizations.hr')
+        );
 
         $employee = Employee::create([
             'user_id' => $data['user_id'],
@@ -53,6 +58,7 @@ class AddUserToCompany extends BaseService
                 'user_id' => $employee->user->id,
                 'user_email' => $employee->user->email,
             ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $employee;
