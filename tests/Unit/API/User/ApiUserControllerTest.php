@@ -3,13 +3,15 @@
 namespace Tests\Api\User;
 
 use Tests\ApiTestCase;
-use App\Models\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ApiUserControllerTest extends ApiTestCase
 {
     use DatabaseTransactions;
 
+    /**
+     * @var array
+     */
     protected $jsonUser = [
         'id',
         'object',

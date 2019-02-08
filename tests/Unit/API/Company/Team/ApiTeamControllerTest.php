@@ -11,6 +11,9 @@ class ApiTeamControllerTest extends ApiTestCase
 {
     use DatabaseTransactions;
 
+    /**
+     * @var array
+     */
     protected $jsonTeam = [
         'id',
         'object',

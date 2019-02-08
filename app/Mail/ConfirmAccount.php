@@ -11,6 +11,9 @@ class ConfirmAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * @var User
+     */
     public $user;
 
     /**

@@ -21,8 +21,6 @@ class SetupFrontEndTest extends Command
      */
     protected $description = 'Create the test environment exclusively for front-end testing with Cypress.';
 
-    private $account;
-
     /**
      * Create a new command.
      */

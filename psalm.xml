@@ -24,9 +24,9 @@
 
         <MissingClosureReturnType errorLevel="info" />
         <MissingReturnType errorLevel="info" />
-        <MissingPropertyType errorLevel="info" />
-        <InvalidDocblock errorLevel="info" />
-        <MisplacedRequiredParam errorLevel="info" />
+        <MissingPropertyType errorLevel="error" />
+        <InvalidDocblock errorLevel="error" />
+        <MisplacedRequiredParam errorLevel="error" />
 
         <PropertyNotSetInConstructor errorLevel="info" />
         <MissingConstructor errorLevel="info" />
@@ -96,10 +96,10 @@
         <PossiblyUndefinedMethod errorLevel="info" />
         <ReservedWord errorLevel="info" />
 
-        <UndefinedGlobalVariable>
+        <UndefinedInterfaceMethod>
             <errorLevel type="suppress">
-                <directory name="resources/views" />
+                <directory name="tests/Unit" />
             </errorLevel>
-        </UndefinedGlobalVariable>
+        </UndefinedInterfaceMethod>
     </issueHandlers>
 </psalm>
