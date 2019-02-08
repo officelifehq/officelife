@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Account\Account\CreateAccount;
 
 class RegisterController extends Controller
 {
@@ -20,7 +20,7 @@ class RegisterController extends Controller
     }
 
     /**
-     * Send a confirmation email to confirm the email address.
+     * Store the user.
      *
      * @return \Illuminate\Http\Response
      */
@@ -34,7 +34,7 @@ class RegisterController extends Controller
         $account = (new CreateAccount)->execute($data);
 
         if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
-            return redirect()->intended($account->id.'/dashboard');
+            return redirect('/dashboard');
         }
     }
 }

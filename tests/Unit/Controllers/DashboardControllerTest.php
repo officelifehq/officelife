@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit\Controllers;
 
 use Tests\TestCase;
 use App\Models\User\User;
@@ -10,10 +10,10 @@ class DashboardControllerTest extends TestCase
     /** @test */
     public function it_loads_the_dashboard()
     {
-        $user = factory(User::class)->create([]);
-        $this->be($user);
+        $admin = factory(User::class)->create([]);
+        $this->be($admin);
 
-        $response = $this->get($user->account_id.'/dashboard');
+        $response = $this->get('/dashboard');
         $response->assertStatus(200);
     }
 }

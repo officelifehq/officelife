@@ -11,9 +11,9 @@ return [
     |
     */
     'authorizations' => [
-        'administrator' => 1,
-        'hr' => 2,
-        'user' => 3,
+        'administrator' => 100,
+        'hr' => 200,
+        'user' => 300,
     ],
 
 ];

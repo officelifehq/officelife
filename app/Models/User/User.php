@@ -2,12 +2,12 @@
 
 namespace App\Models\User;
 
-use App\Models\Account\Team;
-use App\Models\Account\Account;
+use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -20,17 +20,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'account_id',
         'email',
         'password',
-        'permission_level',
         'first_name',
         'last_name',
         'middle_name',
         'nickname',
         'uuid',
         'avatar',
-        'is_dummy',
     ];
 
     /**
@@ -40,7 +37,6 @@ class User extends Authenticatable
      */
     protected static $logAttributes = [
         'email',
-        'permission_level',
         'first_name',
         'last_name',
         'middle_name',
@@ -62,28 +58,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'is_administrator' => 'boolean',
-        'is_dummy' => 'boolean',
     ];
 
     /**
-     * Get the account record associated with the user.
+     * Get the employee records associated with the user.
      *
-     * @return BelongsTo
+     * @return hasMany
      */
-    public function account()
+    public function employees()
     {
-        return $this->belongsTo(Account::class);
-    }
-
-    /**
-     * Get the teams record associated with the user.
-     *
-     * @return BelongsTo
-     */
-    public function teams()
-    {
-        return $this->belongsToMany(Team::class);
+        return $this->hasMany(Employee::class);
     }
 
     /**
@@ -105,5 +89,32 @@ class User extends Authenticatable
         }
 
         return $completeName;
+    }
+
+    /**
+     * Get the fully qualified path to registration.
+     *
+     * @return string
+     */
+    public function getPathConfirmationLink()
+    {
+        return secure_url('register/confirm/'.$this->verification_link);
+    }
+
+    /**
+     * Check if the user is part of the given company.
+     *
+     * @param Company $company
+     * @return Employee
+     */
+    public function isPartOfCompany(Company $company)
+    {
+        $employee = Employee::where('user_id', $this->id)
+            ->where('company_id', $company->id)
+            ->first();
+
+        if ($employee) {
+            return $employee;
+        }
     }
 }

@@ -7,7 +7,7 @@
         {{ trans('auth.login_title') }}
       </div>
       <div class="fn fl-ns w-50-ns pa3">
-        <form method="POST" action="{{ route('login.store') }}">
+        <form method="POST" action="/login">
           {{ csrf_field() }}
 
           @include('partials.errors')

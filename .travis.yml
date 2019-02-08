@@ -13,6 +13,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml
+  - vendor/bin/psalm --show-info=false
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)

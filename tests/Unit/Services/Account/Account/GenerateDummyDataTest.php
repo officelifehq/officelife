@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Services\Account\Account;
+namespace Tests\Unit\Services\Company\Company;
 
 use Tests\TestCase;
 use App\Models\User\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Services\Account\Account\GenerateDummyData;
+use App\Services\Company\Company\GenerateDummyData;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GenerateDummyDataTest extends TestCase
@@ -14,19 +14,18 @@ class GenerateDummyDataTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_five_users_without_team()
+    public function it_creates_dummy_data()
     {
-        $user = factory(User::class)->create([]);
+        $employee = $this->createAdministrator();
 
         $request = [
-            'account_id' => $user->account_id,
-            'author_id' => $user->id,
+            'company_id' => $employee->company_id,
+            'author_id' => $employee->user->id,
         ];
 
         (new GenerateDummyData)->execute($request);
 
         $count = DB::table('users')
-            ->where('account_id', $user->account_id)
             ->where('is_dummy', true)
             ->count();
 
@@ -36,7 +35,7 @@ class GenerateDummyDataTest extends TestCase
         );
 
         $count = DB::table('teams')
-            ->where('account_id', $user->account_id)
+            ->where('company_id', $employee->company_id)
             ->where('is_dummy', true)
             ->count();
 
@@ -45,7 +44,7 @@ class GenerateDummyDataTest extends TestCase
             $count
         );
 
-        $this->assertDatabaseHas('accounts', [
+        $this->assertDatabaseHas('companies', [
             'has_dummy_data' => true,
         ]);
     }
@@ -56,8 +55,8 @@ class GenerateDummyDataTest extends TestCase
         $user = factory(User::class)->create([]);
 
         $request = [
-            'account_id' => $user->account_id,
-            'author_id' => 3,
+            'company_id' => $user->company_id,
+            'author_id' => 1234556,
         ];
 
         $this->expectException(ValidationException::class);

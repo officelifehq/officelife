@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\Account\Account\CreateAccount;
+use App\Services\User\CreateAccount;
 
 class SetupFrontEndTest extends Command
 {
@@ -21,19 +21,8 @@ class SetupFrontEndTest extends Command
      */
     protected $description = 'Create the test environment exclusively for front-end testing with Cypress.';
 
-    private $account;
-
-    /**
-     * The Command Executor.
-     *
-     * @var CommandExecutorInterface
-     */
-    public $commandExecutor;
-
     /**
      * Create a new command.
-     *
-     * @param CommandExecutorInterface
      */
     public function __construct()
     {
@@ -53,8 +42,8 @@ class SetupFrontEndTest extends Command
             'password' => 'admin',
         ];
 
-        $account = (new CreateAccount)->execute($data);
-        $account->confirmed = 1;
-        $account->save();
+        $user = (new CreateAccount)->execute($data);
+        $user->email_verified_at = now();
+        $user->save();
     }
 }

@@ -11,30 +11,15 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class ApiUserController extends ApiController
 {
     /**
-     * Get the list of users.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
-    {
-        $users = auth()->user()->account->users()->get();
-
-        return UserResource::collection($users);
-    }
-
-    /**
-     * Get the detail of a given user.
+     * Get the detail of the logged in user.
      *
      * @param  Request $request
-     * @param int $UserId
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $userId)
+    public function me(Request $request)
     {
         try {
-            $user = User::where('account_id', auth()->user()->account_id)
-                ->where('id', $userId)
-                ->firstOrFail();
+            $user = User::where('id', auth()->user()->id)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return $this->respondNotFound();
         }

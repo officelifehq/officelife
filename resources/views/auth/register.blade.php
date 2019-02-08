@@ -7,7 +7,7 @@
         {{ trans('auth.register_title') }}
       </div>
       <div class="fn fl-ns w-50-ns pa3">
-        <form method="POST" action="{{ route('signup.store') }}">
+        <form method="POST" action="/signup">
           {{ csrf_field() }}
 
           @include('partials.errors')
@@ -29,11 +29,11 @@
           <div class="">
             <div class="flex-ns justify-between">
               <div>
-                <button class="btn add w-auto-ns w-100 mb2 pv2 ph3" name="save" type="submit" dusk="signup-button">{{ trans('auth.register_cta') }}</button>
+                <button class="btn add w-auto-ns w-100 mb2 pv2 ph3" name="save" type="submit">{{ trans('auth.register_cta') }}</button>
               </div>
             </div>
           </div>
-      </form>
+        </form>
       </div>
     </div>
   </div>
