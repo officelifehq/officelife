@@ -45,12 +45,4 @@ class ApiUserControllerTest extends ApiTestCase
             'email' => $user->email,
         ]);
     }
-
-    /** @test */
-    public function it_cant_get_the_user_if_he_is_not_the_one_who_is_logged_in()
-    {
-        $response = $this->json('GET', '/api/me');
-
-        $response->assertStatus(401);
-    }
 }
