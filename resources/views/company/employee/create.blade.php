@@ -25,8 +25,8 @@
 
         {{-- Email --}}
         <div class="">
-          <label class="db fw4 lh-copy f6" for="lastname">{{ trans('employee.new_email') }}</label>
-          <input type="text" name="lastname" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" value="{{ old('lastname') }}" required>
+          <label class="db fw4 lh-copy f6" for="email">{{ trans('employee.new_email') }}</label>
+          <input type="email" name="email" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" value="{{ old('email') }}" required>
         </div>
 
         {{-- Permission level --}}
@@ -57,8 +57,8 @@
         {{-- Invite user --}}
         <div class="">
           <div class="flex items-center mb2">
-            <input class="mr2" type="checkbox" id="" value="">
-            <label for="" class="lh-copy">{{ trans('employee.new_send_email') }}</label>
+            <input class="mr2" type="checkbox" name="send_email" value="{{ old('send_email') }}">
+            <label for="send_email" class="lh-copy">{{ trans('employee.new_send_email') }}</label>
           </div>
         </div>
 
