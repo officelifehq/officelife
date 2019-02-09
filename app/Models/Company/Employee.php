@@ -2,7 +2,6 @@
 
 namespace App\Models\Company;
 
-use App\Mail\InviteUser;
 use App\Models\User\User;
 use App\Mail\Company\InviteUser;
 use Illuminate\Support\Facades\Mail;
@@ -136,6 +135,6 @@ class Employee extends Model
     public function invite()
     {
         Mail::to($this->email)
-            ->queue(new InviteUser()($this));
+            ->queue(new InviteUser($this));
     }
 }
