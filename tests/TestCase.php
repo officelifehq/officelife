@@ -14,16 +14,16 @@ abstract class TestCase extends BaseTestCase
      * Check if the given route is accessible by a user with the given
      * permission.
      *
+     * @param Employee $employee
      * @param string $permissionLevel
      * @param string $route
      * @param int $statusCode
      */
-    public function accessibleBy($permissionLevel, $route, $statusCode)
+    public function accessibleBy($employee, $permissionLevel, $route, $statusCode)
     {
-        $employee = factory(Employee::class)->create([
-            'permission_level' => $permissionLevel,
-        ]);
         $this->be($employee->user);
+        $employee->permission_level = $permissionLevel;
+        $employee->save();
 
         $response = $this->get($employee->company->id.$route);
         $response->assertStatus($statusCode);
