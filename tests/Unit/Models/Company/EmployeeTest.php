@@ -41,4 +41,35 @@ class EmployeeTest extends TestCase
 
         $this->assertTrue($employee->teams()->exists());
     }
+
+    /** @test */
+    public function it_returns_the_identity_attribute()
+    {
+        $employee = factory(Employee::class)->create([]);
+
+        $this->assertEquals(
+            'dwigth@dundermifflin.com',
+            $employee->identity->{'email'}
+        );
+    }
+
+    /** @test */
+    public function it_returns_the_email_attribute()
+    {
+        $employee = factory(Employee::class)->create([]);
+        $this->assertEquals(
+            'dwigth@dundermifflin.com',
+            $employee->email
+        );
+    }
+
+    /** @test */
+    public function it_returns_the_name_attribute()
+    {
+        $employee = factory(Employee::class)->create([]);
+        $this->assertEquals(
+            'Dwight Schrute',
+            $employee->name
+        );
+    }
 }

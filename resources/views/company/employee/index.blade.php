@@ -7,7 +7,17 @@
       <ul>
         <li><a href="{{ tenant('/account/employees/create') }}">Add employee</a></li>
         @foreach ($employees as $employee)
-        <li>{{ $employee->user->name }} ({{ $employee->getPermissionLevel() }})</li>
+          @if ($employee->user_id === auth()->user()->id)
+          <li>{{ $employee->name }} ({{ $employee->getPermissionLevel() }}) <span>That's you</span></li>
+          @else
+          <li>
+            <ul>
+              <li><a href="{{ tenant('/employees/'.$employee->id) }}">{{ $employee->name }} ({{ $employee->getPermissionLevel() }})</a></li>
+              <li><a href="{{ tenant('/account/employees/'.$employee->id.'/permissions') }}">Change permission</a></li>
+              <li><a href="{{ tenant('/employees/'.$employee->id.'/lock') }}">Lock account</a></li>
+            </ul>
+          </li>
+          @endif
         @endforeach
       </ul>
     </div>

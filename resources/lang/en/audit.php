@@ -8,7 +8,9 @@ return [
     'user_removed_from_team' => 'Removed :user from :team',
     'user_added_to_company' => 'Added :user to :company',
 
-    'permission_changed' => 'Changed permission of :user from :old to :new',
+    'permission_changed' => 'Changed permission of :employee from :old to :new',
+
+    'employee_added_to_company' => 'Added :employee to :company',
 
     'team_created' => 'Created :team',
     'team_updated' => 'Updated :team',

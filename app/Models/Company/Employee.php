@@ -3,6 +3,8 @@
 namespace App\Models\Company;
 
 use App\Models\User\User;
+use App\Mail\Company\InviteUser;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +24,7 @@ class Employee extends Model
     protected $fillable = [
         'company_id',
         'user_id',
+        'identities',
         'permission_level',
         'uuid',
     ];
@@ -81,5 +84,57 @@ class Employee extends Model
     public function getPermissionLevel() : String
     {
         return trans('app.permission_'.$this->permission_level);
+    }
+
+    /**
+     * Get the JSON object.
+     *
+     * @return array
+     */
+    public function getIdentityAttribute($value)
+    {
+        return json_decode($this->identities);
+    }
+
+    /**
+     * Returns the email attribute of the employee.
+     *
+     * @return string
+     */
+    public function getEmailAttribute($value) : String
+    {
+        return $this->identity->{'email'};
+    }
+
+    /**
+     * Returns the name attribute of the employee.
+     *
+     * @return string
+     */
+    public function getNameAttribute($value) : String
+    {
+        if (! $this->identity->{'first_name'}) {
+            return $this->email;
+        }
+
+        $completeName = $this->identity->{'first_name'};
+
+        if (! is_null($this->identity->{'last_name'})) {
+            $completeName = $completeName.' '.$this->identity->{'last_name'};
+        }
+
+        return $completeName;
+    }
+
+    /**
+     * Send an email to the employee so (s)he can create a User account and
+     * sign in to manage his/her account.
+     *
+     * @return void
+     */
+    public function invite()
+    {
+        Mail::to($this->email)
+            ->queue(new InviteUser($this));
     }
 }
