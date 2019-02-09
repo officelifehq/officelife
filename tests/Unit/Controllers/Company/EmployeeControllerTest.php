@@ -3,6 +3,7 @@
 namespace Tests\Unit\Controllers\Company;
 
 use Tests\TestCase;
+use App\Models\Company\Employee;
 
 class EmployeeControllerTest extends TestCase
 {
@@ -10,17 +11,21 @@ class EmployeeControllerTest extends TestCase
     public function it_lets_you_see_the_list_of_employees_only_with_the_right_permissions()
     {
         $route = '/account/employees';
-        $this->accessibleBy(config('homas.authorizations.administrator'), $route, 200);
-        $this->accessibleBy(config('homas.authorizations.hr'), $route, 200);
-        $this->accessibleBy(config('homas.authorizations.user'), $route, 401);
+        $employee = factory(Employee::class)->create([]);
+
+        $this->accessibleBy($employee, config('homas.authorizations.administrator'), $route, 200);
+        $this->accessibleBy($employee, config('homas.authorizations.hr'), $route, 200);
+        $this->accessibleBy($employee, config('homas.authorizations.user'), $route, 401);
     }
 
     /** @test */
     public function it_lets_you_see_the_add_employee_screen_with_the_right_permissions()
     {
         $route = '/account/employees/create';
-        $this->accessibleBy(config('homas.authorizations.administrator'), $route, 200);
-        $this->accessibleBy(config('homas.authorizations.hr'), $route, 200);
-        $this->accessibleBy(config('homas.authorizations.user'), $route, 401);
+        $employee = factory(Employee::class)->create([]);
+
+        $this->accessibleBy($employee, config('homas.authorizations.administrator'), $route, 200);
+        $this->accessibleBy($employee, config('homas.authorizations.hr'), $route, 200);
+        $this->accessibleBy($employee, config('homas.authorizations.user'), $route, 401);
     }
 }
