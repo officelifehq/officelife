@@ -111,4 +111,20 @@ class AuditLog extends Model
 
         return '<a href="'.tenant('/employees/'.$user->id).'">'.$user->name.'</a>';
     }
+
+    /**
+     * Get the employee of the audit log, if defined.
+     *
+     * @return string
+     */
+    public function getEmployeeAttribute($value)
+    {
+        try {
+            $employee = Employee::findOrFail($this->object->{'employee_id'});
+        } catch (ModelNotFoundException $e) {
+            return $this->object->{'employee_first_name'}.' '.$this->object->{'employee_last_name'};
+        }
+
+        return '<a href="'.tenant('/employees/'.$employee->id).'">'.$employee->name.'</a>';
+    }
 }

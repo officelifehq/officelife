@@ -52,8 +52,7 @@ class ChangePermission extends BaseService
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'user_id' => $employee->user->id,
-                'user_email' => $employee->user->email,
+                'employee_id' => $employee->id,
                 'old_permission' => $oldPermission,
                 'new_permission' => $data['permission_level'],
             ]),

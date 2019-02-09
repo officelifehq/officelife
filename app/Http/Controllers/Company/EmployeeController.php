@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Company;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Cache;
+use App\Services\Company\Company\AddEmployeeToCompany;
 
 class EmployeeController extends Controller
 {
@@ -36,17 +36,22 @@ class EmployeeController extends Controller
      * Create the employee.
      *
      * @param Request $request
+     * @param int $companyId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $companyId)
     {
-        (new CreateAccount)->execute([
-            'account_id' => auth()->user()->account->id,
+        $request = [
+            'company_id' => $companyId,
             'author_id' => auth()->user()->id,
-            'first_name' => $request->get('firstname'),
-            'last_name' => $request->get('lastname'),
+            'email' => $request->get('email'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
             'permission_level' => $request->get('permission_level'),
-        ]);
+            'send_invitation' => false,
+        ];
+
+        (new AddEmployeeToCompany)->execute($request);
 
         return redirect(tenant('/account/employees'));
     }

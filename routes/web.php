@@ -26,6 +26,8 @@ Route::middleware(['auth'])->group(function () {
         // only available to hr role
         Route::middleware(['hr'])->group(function () {
             Route::resource('account/employees', 'Company\\EmployeeController');
+            Route::get('account/employees/{employee}/permissions', 'Account\\PermissionController@index');
+            Route::post('account/employees/{employee}/permissions', 'Account\\PermissionController@store');
         });
 
         //Route::get('account/dummy', 'Account\\AccountController@dummy');

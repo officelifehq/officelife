@@ -14,6 +14,11 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'company_id' => factory(App\Models\Company\Company::class)->create()->id,
         'uuid' => $faker->uuid,
         'permission_level' => config('homas.authorizations.administrator'),
+        'identities' => json_encode([
+            'email' => 'dwigth@dundermifflin.com',
+            'first_name' => 'Dwight',
+            'last_name' => 'Schrute',
+        ]),
     ];
 });
 

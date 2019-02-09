@@ -68,6 +68,11 @@ class CreateCompany extends BaseService
             'company_id' => $company->id,
             'uuid' => Str::uuid()->toString(),
             'permission_level' => config('homas.authorizations.administrator'),
+            'identities' => json_encode([
+                'email' => $author->email,
+                'first_name' => $author->first_name,
+                'last_name' => $author->last_name,
+            ]),
         ]);
     }
 }

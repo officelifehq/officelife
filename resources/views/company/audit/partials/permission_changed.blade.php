@@ -1,1 +1,1 @@
-<p>{!! $log->author !!} changed permission of {!! $log->user !!} from {{ $this->object->{'old_permission'} }} to {{ $this->object->{'new_permission'} }} on {{ $log->date }}.</p>
+<p>{!! $log->author !!} changed permission of {!! $log->employee !!} from {{ trans('app.permission_'.$log->object->{'old_permission'}) }} to {{ trans('app.permission_'.$log->object->{'new_permission'}) }} on {{ $log->date }}.</p>
