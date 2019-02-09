@@ -79,7 +79,7 @@ class Employee extends Model
     /**
      * Get the permission level of the user.
      *
-     * @return String
+     * @return string
      */
     public function getPermissionLevel() : String
     {
@@ -99,7 +99,7 @@ class Employee extends Model
     /**
      * Returns the email attribute of the employee.
      *
-     * @return String
+     * @return string
      */
     public function getEmailAttribute($value) : String
     {
@@ -109,18 +109,18 @@ class Employee extends Model
     /**
      * Returns the name attribute of the employee.
      *
-     * @return String
+     * @return string
      */
     public function getNameAttribute($value) : String
     {
-        if (!$this->identity->{'first_name'}) {
+        if (! $this->identity->{'first_name'}) {
             return $this->email;
         }
 
         $completeName = $this->identity->{'first_name'};
 
-        if (!is_null($this->identity->{'last_name'})) {
-            $completeName = $completeName . ' ' . $this->identity->{'last_name'};
+        if (! is_null($this->identity->{'last_name'})) {
+            $completeName = $completeName.' '.$this->identity->{'last_name'};
         }
 
         return $completeName;
