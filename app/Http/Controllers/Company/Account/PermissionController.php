@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\Company\Account;
 
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
@@ -21,7 +21,7 @@ class PermissionController extends Controller
     {
         $employee = Employee::findOrFail($employeeId);
 
-        return view('account.employee.permission')
+        return view('company.account.employee.permission')
             ->withEmployee($employee);
     }
 

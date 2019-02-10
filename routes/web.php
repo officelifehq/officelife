@@ -20,15 +20,19 @@ Route::middleware(['auth'])->group(function () {
 
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
-            Route::get('account/audit', 'Company\\AuditController@index');
+            Route::get('account/audit', 'Company\\Account\\AuditController@index');
         });
 
         // only available to hr role
         Route::middleware(['hr'])->group(function () {
-            Route::resource('account/employees', 'Account\\EmployeeController');
-            Route::get('account/employees/{employee}/destroy', 'Account\\EmployeeController@destroy');
-            Route::get('account/employees/{employee}/permissions', 'Account\\PermissionController@index');
-            Route::post('account/employees/{employee}/permissions', 'Account\\PermissionController@store');
+            // adminland
+            Route::get('account', 'Company\\Account\\AccountController@index');
+
+            // employee management
+            Route::resource('account/employees', 'Company\\Account\\EmployeeController');
+            Route::get('account/employees/{employee}/destroy', 'Company\\Account\\EmployeeController@destroy');
+            Route::get('account/employees/{employee}/permissions', 'Company\\Account\\PermissionController@index');
+            Route::post('account/employees/{employee}/permissions', 'Company\\Account\\PermissionController@store');
         });
 
         //Route::get('account/dummy', 'Account\\AccountController@dummy');

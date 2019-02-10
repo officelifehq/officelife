@@ -18,12 +18,7 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        $company = Company::findOrFail($request->route()->parameter('company'));
-        $numberEmployees = $company->employees()->count();
-
-        return view('company.dashboard')
-            ->withNumberEmployees($numberEmployees)
-            ->withCompany($company);
+        return view('company.dashboard');
     }
 
     /**
