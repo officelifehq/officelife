@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Account;
+namespace App\Http\Controllers\Company\Account;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -19,7 +19,7 @@ class EmployeeController extends Controller
     {
         $employees = Cache::get('currentCompany')->employees()->get();
 
-        return view('account.employee.index')
+        return view('company.account.employee.index')
             ->withEmployees($employees);
     }
 
@@ -30,7 +30,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('account.employee.create');
+        return view('company.account.employee.create');
     }
 
     /**

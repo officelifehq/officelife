@@ -5,7 +5,7 @@
   <div class="cf mt4 mw7 center br3 mb3 bg-white box">
     <div class="fn fl-ns w-50-ns pa3">
       @foreach ($logs as $log)
-        @include('company.audit.partials.'.$log->action, ['log' => $log])
+        @include('company.account.audit.partials.'.$log->action, ['log' => $log])
       @endforeach
     </div>
   </div>
