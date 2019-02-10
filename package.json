@@ -24,5 +24,8 @@
         "tachyons": "^4.11.1",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.5.22"
+    },
+    "dependencies": {
+        "laravel-mix-purgecss": "^4.1.0"
     }
 }
