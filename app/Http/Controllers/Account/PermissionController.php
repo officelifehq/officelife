@@ -21,7 +21,7 @@ class PermissionController extends Controller
     {
         $employee = Employee::findOrFail($employeeId);
 
-        return view('company.employee.permission')
+        return view('account.employee.permission')
             ->withEmployee($employee);
     }
 

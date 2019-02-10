@@ -11,6 +11,7 @@ return [
     'permission_changed' => 'Changed permission of :employee from :old to :new',
 
     'employee_added_to_company' => 'Added :employee to :company',
+    'employee_destroyed' => 'Deleted :employee from :company',
 
     'team_created' => 'Created :team',
     'team_updated' => 'Updated :team',

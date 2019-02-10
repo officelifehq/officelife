@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Company;
+namespace App\Http\Controllers\Account;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
+use App\Services\Company\Employee\DestroyEmployee;
 use App\Services\Company\Company\AddEmployeeToCompany;
 
 class EmployeeController extends Controller
@@ -18,7 +19,7 @@ class EmployeeController extends Controller
     {
         $employees = Cache::get('currentCompany')->employees()->get();
 
-        return view('company.employee.index')
+        return view('account.employee.index')
             ->withEmployees($employees);
     }
 
@@ -29,7 +30,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('company.employee.create');
+        return view('account.employee.create');
     }
 
     /**
@@ -52,6 +53,27 @@ class EmployeeController extends Controller
         ];
 
         (new AddEmployeeToCompany)->execute($request);
+
+        return redirect(tenant('/account/employees'));
+    }
+
+    /**
+     * Delete the employee.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $companyId, $employeeId)
+    {
+        $request = [
+            'company_id' => $companyId,
+            'employee_id' => $employeeId,
+            'author_id' => auth()->user()->id,
+        ];
+
+        (new DestroyEmployee)->execute($request);
 
         return redirect(tenant('/account/employees'));
     }
