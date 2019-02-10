@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('signup', 'Auth\\RegisterController@index');
 Route::post('signup', 'Auth\\RegisterController@store');
-Route::get('login', 'Auth\\LoginController@index');
+Route::get('login', 'Auth\\LoginController@index')->name('login');
 Route::post('login', 'Auth\\LoginController@store');
 
 Route::middleware(['auth'])->group(function () {
@@ -25,7 +25,8 @@ Route::middleware(['auth'])->group(function () {
 
         // only available to hr role
         Route::middleware(['hr'])->group(function () {
-            Route::resource('account/employees', 'Company\\EmployeeController');
+            Route::resource('account/employees', 'Account\\EmployeeController');
+            Route::get('account/employees/{employee}/destroy', 'Account\\EmployeeController@destroy');
             Route::get('account/employees/{employee}/permissions', 'Account\\PermissionController@index');
             Route::post('account/employees/{employee}/permissions', 'Account\\PermissionController@store');
         });

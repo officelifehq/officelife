@@ -15,6 +15,7 @@
               <li><a href="{{ tenant('/employees/'.$employee->id) }}">{{ $employee->name }} ({{ $employee->getPermissionLevel() }})</a></li>
               <li><a href="{{ tenant('/account/employees/'.$employee->id.'/permissions') }}">Change permission</a></li>
               <li><a href="{{ tenant('/employees/'.$employee->id.'/lock') }}">Lock account</a></li>
+              <li><a href="{{ tenant('/account/employees/'.$employee->id.'/destroy') }}">Delete</a></li>
             </ul>
           </li>
           @endif
