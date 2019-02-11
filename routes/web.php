@@ -22,6 +22,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('{employee}', 'Company\\EmployeeController@show');
         });
 
+        Route::prefix('teams')->group(function () {
+            Route::get('{team}', 'Company\\TeamController@show');
+        });
+
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
             Route::get('account/audit', 'Company\\Account\\AuditController@index');

@@ -4,17 +4,15 @@
 <div class="ph2 ph0-ns">
   <div class="mt4 mw7 center br3 mb3 bg-white box">
     <div class="pa3">
-      <h3>{{ $employee->name }}</h3>
-      <a href="">Add position</a>
-      <a href="">Add hire date</a>
+      <h3>{{ $team->name }}</h3>
       <a href="">Edit</a>
     </div>
     <div class="pa3">
-      <h3>Teams</h3>
+      <h3>Employees</h3>
       <ul>
-        @foreach ($employee->teams as $team)
+        @foreach ($team->employees as $employee)
         <li>
-          <a href="{{ tenant('/teams/'.$team->id) }}">{{ $team->name }} ({{ $team->employees->count() }} members)</a>
+          <a href="{{ tenant('/employees/'.$employee->id) }}">{{ $employee->name }}</a>
         </li>
         @endforeach
       </ul>
