@@ -16,7 +16,7 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        return view('company.dashboard');
+        return view('company.dashboard.index');
     }
 
     /**

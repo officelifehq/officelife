@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 class HomeController extends Controller
 {
     /**
-     * Display the dashboard.
+     * Display the user home page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -13,7 +13,7 @@ class HomeController extends Controller
     {
         $employees = auth()->user()->employees()->get();
 
-        return view('dashboard.index')
+        return view('home.index')
             ->withEmployees($employees);
     }
 }
