@@ -4,5 +4,5 @@
 @endif
 
 You are logged in as {{ auth()->user()->name }}
-<a href="/dashboard">Back to user dashboard</a>
+<a href="/home">Back to user dashboard</a>
 <a href="/logout" data-cy="logout-button">Logout</a>

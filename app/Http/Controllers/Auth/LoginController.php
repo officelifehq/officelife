@@ -16,7 +16,7 @@ class LoginController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return redirect(tenant('/dashboard'));
+            return redirect(tenant('/home'));
         }
 
         return view('auth.login');
@@ -30,13 +30,13 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         if (Auth::check()) {
-            return redirect('/dashboard');
+            return redirect('/home');
         }
 
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/home');
         }
 
         return redirect('login')

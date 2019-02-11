@@ -4,6 +4,7 @@ namespace App\Services\Company\Company;
 
 use App\Models\User\User;
 use Faker\Factory as Faker;
+use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
@@ -98,7 +99,19 @@ class GenerateDummyData extends BaseService
     {
         $this->createTeamWithEmployees($data, 'Legal department', 3);
         $this->createTeamWithEmployees($data, 'Design Team', 6);
-        $this->createTeamWithEmployees($data, 'Sales', 18);
+        $team = $this->createTeamWithEmployees($data, 'Sales', 18);
+
+        // add current user to the team
+        $currentUser = User::find($data['author_id']);
+        $request = [
+            'company_id' => $data['company_id'],
+            'author_id' => $data['author_id'],
+            'employee_id' => $currentUser->isPartOfCompany($team->company)->id,
+            'team_id' => $team->id,
+            'is_dummy' => true,
+        ];
+
+        (new AddEmployeeToTeam)->execute($request);
     }
 
     /**
@@ -107,9 +120,9 @@ class GenerateDummyData extends BaseService
      * @param array $data
      * @param string $name
      * @param int $employees
-     * @return void
+     * @return Team
      */
-    private function createTeamWithEmployees(array $data, String $name, int $employees)
+    private function createTeamWithEmployees(array $data, String $name, int $employees) : Team
     {
         $faker = Faker::create();
 
@@ -137,5 +150,7 @@ class GenerateDummyData extends BaseService
 
             (new AddEmployeeToTeam)->execute($request);
         }
+
+        return $team;
     }
 }
