@@ -18,8 +18,8 @@ class CreateCompanyTest extends TestCase
         $author = factory(User::class)->create([]);
 
         $request = [
-            'name' => 'Dunder Mifflin',
             'author_id' => $author->id,
+            'name' => 'Dunder Mifflin',
         ];
 
         $company = (new CreateCompany)->execute($request);

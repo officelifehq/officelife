@@ -34,7 +34,7 @@ class RegisterController extends Controller
         $account = (new CreateAccount)->execute($data);
 
         if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
-            return redirect('/dashboard');
+            return redirect('/home');
         }
     }
 }
