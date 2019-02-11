@@ -35,6 +35,8 @@ class AddEmployeeToCompanyTest extends TestCase
             'user_id' => null,
             'company_id' => $adminEmployee->company_id,
         ]);
+
+        $this->assertNotNull($employee->avatar);
     }
 
     /** @test */

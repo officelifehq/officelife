@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Company;
 
-use Illuminate\Http\Request;
-use App\Models\Company\Employee;
-use App\Http\Controllers\Controller;
 use App\Models\Company\Team;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class TeamController extends Controller
 {

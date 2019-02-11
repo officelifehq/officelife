@@ -28,6 +28,7 @@ class Employee extends Model
         'permission_level',
         'uuid',
         'is_dummy',
+        'avatar',
     ];
 
     /**

@@ -11,6 +11,5 @@ $factory->define(App\Models\User\User::class, function (Faker $faker) {
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
         'uuid' => $faker->uuid,
-        'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
     ];
 });

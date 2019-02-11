@@ -15,7 +15,7 @@ class CheckCompanyTest extends TestCase
 
         $this->be($employee->user);
 
-        $response = $this->get('/dashboard');
+        $response = $this->get('/home');
         $response->assertStatus(200);
 
         $response = $this->get($employee->company->id.'/dashboard');
@@ -24,7 +24,7 @@ class CheckCompanyTest extends TestCase
         $otherUser = factory(User::class)->create([]);
         $this->be($otherUser);
 
-        $response = $this->get('/dashboard');
+        $response = $this->get('/home');
         $response->assertStatus(200);
 
         $response = $this->get($employee->company->id.'/dashboard');

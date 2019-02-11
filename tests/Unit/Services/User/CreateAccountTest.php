@@ -36,19 +36,6 @@ class CreateAccountTest extends TestCase
     }
 
     /** @test */
-    public function it_has_an_avatar()
-    {
-        $request = [
-            'email' => 'dwight@dundermifflin.com',
-            'password' => 'password',
-        ];
-
-        $createdUser = (new CreateAccount)->execute($request);
-
-        $this->assertNotNull($createdUser->avatar);
-    }
-
-    /** @test */
     public function it_generates_a_confirmation_link()
     {
         $request = [
