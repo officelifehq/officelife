@@ -6,8 +6,8 @@ As an administrator, you can...
   <li>Export data from this account</li>
   <li>Cancel this account</li>
   @if (!$company->has_dummy_data)
-  <a href="{{ tenant('/account/dummy') }}">Generate fake data</a>
+  <li><a href="{{ tenant('/account/dummy') }}">Generate fake data</a></li>
   @else
-  <a href="{{ tenant('/account/dummy') }}">Remove fake data</a>
+  <li><a href="{{ tenant('/account/dummy') }}">Remove fake data</a></li>
   @endif
 </ul>

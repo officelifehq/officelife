@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
             Route::get('account/audit', 'Company\\Account\\AuditController@index');
+            Route::get('account/dummy', 'Company\\Account\\DummyController@index');
         });
 
         // only available to hr role
@@ -42,6 +43,5 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('account/teams', 'Company\\Account\\TeamController');
             Route::get('account/teams/{team}/destroy', 'Company\\Account\\TeamController@destroy');
         });
-        //Route::get('account/dummy', 'Account\\AccountController@dummy');
     });
 });

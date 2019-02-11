@@ -51,12 +51,12 @@ class AddEmployeeToTeam extends BaseService
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'user_added_to_team',
+            'action' => 'employee_added_to_team',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
-                'employee_email' => $employee->user->email,
+                'employee_email' => $employee->email,
                 'team_id' => $team->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
