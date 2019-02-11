@@ -18,6 +18,10 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['company'])->prefix('{company}')->group(function () {
         Route::get('dashboard', 'Company\\CompanyController@index');
 
+        Route::prefix('employees')->group(function () {
+            Route::get('{employee}', 'Company\\EmployeeController@show');
+        });
+
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
             Route::get('account/audit', 'Company\\Account\\AuditController@index');
@@ -33,8 +37,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('account/employees/{employee}/destroy', 'Company\\Account\\EmployeeController@destroy');
             Route::get('account/employees/{employee}/permissions', 'Company\\Account\\PermissionController@index');
             Route::post('account/employees/{employee}/permissions', 'Company\\Account\\PermissionController@store');
-        });
 
+            // team management
+            Route::resource('account/teams', 'Company\\Account\\TeamController');
+            Route::get('account/teams/{team}/destroy', 'Company\\Account\\TeamController@destroy');
+        });
         //Route::get('account/dummy', 'Account\\AccountController@dummy');
     });
 });

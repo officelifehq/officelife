@@ -8,7 +8,7 @@
         <li><a href="{{ tenant('/account/employees/create') }}">Add employee</a></li>
         @foreach ($employees as $employee)
           @if ($employee->user_id === auth()->user()->id)
-          <li>{{ $employee->name }} ({{ $employee->getPermissionLevel() }}) <span>That's you</span></li>
+          <li><a href="{{ tenant('/employees/'.$employee->id) }}">{{ $employee->name }} ({{ $employee->getPermissionLevel() }})</a> <span>That's you</span></li>
           @else
           <li>
             <ul>
