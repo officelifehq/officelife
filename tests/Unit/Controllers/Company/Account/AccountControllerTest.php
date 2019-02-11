@@ -3,7 +3,6 @@
 namespace Tests\Unit\Controllers\Company\Account;
 
 use Tests\TestCase;
-use App\Models\Company\Account;
 use App\Models\Company\Employee;
 
 class AccountControllerTest extends TestCase
