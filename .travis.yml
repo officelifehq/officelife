@@ -3,17 +3,6 @@ language: php
 php:
   - 7.3
 
-addons:
-  chrome: stable
-
-before_script:
-  - cp .env.travis .env
-  - mysql -e 'create database homas_test;'
-  - composer self-update
-  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
-  - php artisan migrate --no-interaction -vvv
-  - php artisan db:seed --no-interaction -vvv
-
 ## Cache composer bits
 cache:
   directories:
@@ -22,6 +11,15 @@ cache:
 jobs:
   include:
     - stage: PHPUnit
+
+      before_script:
+      - cp .env.travis .env
+      - mysql -e 'create database homas_test;'
+      - composer self-update
+      - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+      - php artisan migrate --no-interaction -vvv
+      - php artisan db:seed --no-interaction -vvv
+
       script:
         - vendor/bin/phpunit --coverage-clover=coverage.xml
         - vendor/bin/psalm --show-info=false
@@ -30,12 +28,18 @@ jobs:
         - bash <(curl -s https://codecov.io/bash)
 
     - stage: Dusk
-      env:
-        - APP_URL=http://127.0.0.1:8000
+      addons:
+        chrome: stable
 
-      before-script:
-        - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-        - php artisan serve &
+      before_script:
+      - cp .env.dusk.travis .env
+      - mysql -e 'create database homas_test;'
+      - composer self-update
+      - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+      - php artisan migrate --no-interaction -vvv
+      - php artisan db:seed --no-interaction -vvv
+      - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+      - php artisan serve &
 
       script:
         - php artisan dusk
