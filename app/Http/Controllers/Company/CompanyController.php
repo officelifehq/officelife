@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company;
 use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Company\CreateCompany;
 
 class CompanyController extends Controller
@@ -16,7 +17,10 @@ class CompanyController extends Controller
      */
     public function index(Request $request)
     {
-        return view('company.dashboard.index');
+        $company = Cache::get('currentCompany');
+
+        return view('company.dashboard.index')
+            ->withCompany($company);
     }
 
     /**

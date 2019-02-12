@@ -1,0 +1,36 @@
+header {
+  border-bottom: 1px solid #e0e0e0;
+
+  .header-logo {
+    top: 3px;
+  }
+
+	.header-menu-item {
+    &:hover {
+      border-radius: 11px;
+      box-shadow: 1px 0px 1px rgba(43, 45, 80, 0.16), -1px 1px 1px rgba(43, 45, 80, 0.16), 0px 1px 4px rgba(43, 45, 80, 0.18);
+    }
+
+		img { top: 4px; }
+  }
+
+  .header-menu-settings { top: 7px; }
+}
+
+header.mobile {
+  .menu-toggle {
+    label { top: 2px; }
+    #mobile-menu { display: none; }
+
+    #menu-toggle {
+      display: none;
+
+      &:checked + #mobile-menu { display: block; }
+    }
+  }
+
+  .header-logo {
+    right: 6px;
+    top: 4px;
+  }
+}

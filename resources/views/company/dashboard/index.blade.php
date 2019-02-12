@@ -2,9 +2,11 @@
 
 @section('content')
   <div class="ph2 ph0-ns">
-    <div class="cf mt4 mw7 center br3 mb3 bg-white box">
+    <div class="cf mt4 mw7 center">
+      <h2 class="tc">{{ $company->name }}</h2>
+    </div>
+    <div class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3">
-        <h2>Company</h2>
         <ul>
           <li><a href="{{ tenant('/account') }}">Access Adminland</a></li>
           <li>latest news</li>

@@ -10,7 +10,7 @@ Route::post('login', 'Auth\\LoginController@store');
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\\LoginController@logout');
 
-    Route::get('home', 'HomeController@index');
+    Route::get('home', 'HomeController@index')->name('home');
 
     Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
 

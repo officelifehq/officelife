@@ -11,7 +11,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $employees = auth()->user()->employees()->get();
+        $employees = auth()->user()->employees()->with('company')->get();
 
         return view('home.index')
             ->withEmployees($employees);
