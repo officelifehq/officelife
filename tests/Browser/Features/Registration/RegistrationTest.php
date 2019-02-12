@@ -3,9 +3,9 @@
 namespace Tests\Browser\Features\Registration;
 
 use Tests\DuskTestCase;
+use App\Models\User\User;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use App\Models\User\User;
 
 class RegistrationTest extends DuskTestCase
 {
