@@ -12,11 +12,14 @@ jobs:
   include:
     - stage: PHPUnit
 
-      before_script:
+    install:
       - cp .env.travis .env
-      - mysql -e 'create database homas_test;'
       - composer self-update
       - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+      - php artisan key:generate
+
+      before_script:
+      - mysql -e 'create database homas_test;'
       - php artisan migrate --no-interaction -vvv
       - php artisan db:seed --no-interaction -vvv
 
@@ -31,15 +34,18 @@ jobs:
       addons:
         chrome: stable
 
+      install:
+        - cp .env.dusk.travis .env
+        - composer self-update
+        - travis_retry composer install --no-interaction --prefer-dist --no-suggest
+        - php artisan key:generate
+
       before_script:
-      - cp .env.dusk.travis .env
-      - mysql -e 'create database homas_test;'
-      - composer self-update
-      - travis_retry composer install --no-interaction --prefer-dist --no-suggest
-      - php artisan migrate --no-interaction -vvv
-      - php artisan db:seed --no-interaction -vvv
-      - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
-      - php artisan serve &
+        - mysql -e 'create database homas_test;'
+        - php artisan migrate --no-interaction -vvv
+        - php artisan db:seed --no-interaction -vvv
+        - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+        - php artisan serve &
 
       script:
         - php artisan dusk
