@@ -6,7 +6,3 @@ Number of employees: {{ $numberEmployees }}
   <li><a href="{{ tenant('/account/employees') }}">Add/remove employees</a></li>
   <li><a href="{{ tenant('/account/teams') }}">Add/remove teams</a></li>
 </ul>
-
-<h2>Teams you are part of</h2>
-
-<h2>All the teams</h2>

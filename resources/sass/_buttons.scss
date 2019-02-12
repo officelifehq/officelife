@@ -22,3 +22,31 @@
     }
   }
 }
+
+.btn-primary {
+  background-color: #63c467;
+  right: 0;
+  top: -8px;
+
+  &:hover {
+    border-bottom-color: #4ca94f;
+  }
+}
+
+.section-btn {
+  display: block;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    z-index: -1;
+  }
+
+  span {
+    background-color: #f6fafd;
+  }
+}

@@ -42,7 +42,7 @@ class RemoveDummyData extends BaseService
 
         $this->removeTeams($data);
 
-        $this->removeUsers($data);
+        $this->removeEmployees($data);
 
         $this->removeAuditLogs($data);
 
@@ -70,13 +70,13 @@ class RemoveDummyData extends BaseService
      * @param array $data
      * @return void
      */
-    private function removeUsers(array $data)
+    private function removeEmployees(array $data)
     {
         $employees = Employee::where('company_id', $data['company_id'])->get();
 
         foreach ($employees as $employee) {
-            if ($employee->user->is_dummy) {
-                $employee->user->delete();
+            if ($employee->is_dummy) {
+                $employee->delete();
             }
         }
     }

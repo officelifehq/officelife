@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-class DashboardController extends Controller
+class HomeController extends Controller
 {
     /**
-     * Display the dashboard.
+     * Display the user home page.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $employees = auth()->user()->employees()->get();
+        $employees = auth()->user()->employees()->with('company')->get();
 
-        return view('dashboard.index')
+        return view('home.index')
             ->withEmployees($employees);
     }
 }

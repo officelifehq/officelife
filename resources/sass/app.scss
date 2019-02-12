@@ -9,9 +9,11 @@
 @import 'buttons';
 @import 'form';
 @import 'register';
+@import 'header';
 
 body {
     background-color: $body-bg;
+    color: $body-color;
     font-family: 'IBM Plex Sans', sans-serif;
 }
 
@@ -29,4 +31,15 @@ a {
     border: 1px solid #E7E7E7;
     border-radius: 11px;
     box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.17);
+}
+
+// pages specific styles
+.home-index-company {
+  color: $body-color;
+  height: 100px;
+
+  span {
+    left: 16px;
+    bottom: 13px;
+  }
 }

@@ -18,7 +18,9 @@ class CreateEmployeesTable extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('company_id');
             $table->uuid('uuid');
+            $table->string('avatar');
             $table->integer('permission_level');
+            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

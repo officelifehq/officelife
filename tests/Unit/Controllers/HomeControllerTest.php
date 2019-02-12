@@ -4,7 +4,7 @@ namespace Tests\Unit\Controllers;
 
 use Tests\TestCase;
 
-class DashboardControllerTest extends TestCase
+class HomeControllerTest extends TestCase
 {
     /** @test */
     public function it_loads_the_dashboard()
@@ -12,7 +12,7 @@ class DashboardControllerTest extends TestCase
         $admin = $this->createAdministrator();
         $this->be($admin->user);
 
-        $response = $this->get('/dashboard');
+        $response = $this->get('/home');
         $response->assertStatus(200);
     }
 }

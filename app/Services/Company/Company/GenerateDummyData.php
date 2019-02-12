@@ -4,10 +4,10 @@ namespace App\Services\Company\Company;
 
 use App\Models\User\User;
 use Faker\Factory as Faker;
+use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Services\User\CreateAccount;
 use App\Services\Company\Team\CreateTeam;
 use App\Services\Company\Team\AddEmployeeToTeam;
 
@@ -61,7 +61,7 @@ class GenerateDummyData extends BaseService
     private function createFiveUsersWithoutTeam(array $data)
     {
         for ($i = 1; $i <= 5; $i++) {
-            $this->createAccount($data);
+            $this->addEmployee($data);
         }
     }
 
@@ -71,28 +71,22 @@ class GenerateDummyData extends BaseService
      * @param array $data
      * @return Employee
      */
-    private function createAccount(array $data) : Employee
+    private function addEmployee(array $data) : Employee
     {
         $faker = Faker::create();
 
         $request = [
-            'email' => $faker->safeEmail,
-            'password' => 'password',
-            'first_name' => $faker->firstName,
-            'last_name' => $faker->lastName,
-        ];
-
-        $user = (new CreateAccount)->execute($request);
-        $user->is_dummy = true;
-        $user->save();
-
-        return (new AddUserToCompany)->execute([
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
-            'user_id' => $user->id,
+            'email' => $faker->safeEmail,
+            'first_name' => $faker->firstName,
+            'last_name' => $faker->lastName,
             'permission_level' => config('homas.authorizations.user'),
+            'send_invitation' => false,
             'is_dummy' => true,
-        ]);
+        ];
+
+        return (new AddEmployeeToCompany)->execute($request);
     }
 
     /**
@@ -105,7 +99,19 @@ class GenerateDummyData extends BaseService
     {
         $this->createTeamWithEmployees($data, 'Legal department', 3);
         $this->createTeamWithEmployees($data, 'Design Team', 6);
-        $this->createTeamWithEmployees($data, 'Sales', 18);
+        $team = $this->createTeamWithEmployees($data, 'Sales', 18);
+
+        // add current user to the team
+        $currentUser = User::find($data['author_id']);
+        $request = [
+            'company_id' => $data['company_id'],
+            'author_id' => $data['author_id'],
+            'employee_id' => $currentUser->isPartOfCompany($team->company)->id,
+            'team_id' => $team->id,
+            'is_dummy' => true,
+        ];
+
+        (new AddEmployeeToTeam)->execute($request);
     }
 
     /**
@@ -114,9 +120,9 @@ class GenerateDummyData extends BaseService
      * @param array $data
      * @param string $name
      * @param int $employees
-     * @return void
+     * @return Team
      */
-    private function createTeamWithEmployees(array $data, String $name, int $employees)
+    private function createTeamWithEmployees(array $data, String $name, int $employees) : Team
     {
         $faker = Faker::create();
 
@@ -124,6 +130,7 @@ class GenerateDummyData extends BaseService
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
             'name' => $name,
+            'is_dummy' => true,
         ];
 
         $team = (new CreateTeam)->execute($request);
@@ -131,7 +138,7 @@ class GenerateDummyData extends BaseService
         $team->save();
 
         for ($i = 1; $i <= $employees; $i++) {
-            $employee = $this->createAccount($data);
+            $employee = $this->addEmployee($data);
 
             $request = [
                 'company_id' => $data['company_id'],
@@ -143,5 +150,7 @@ class GenerateDummyData extends BaseService
 
             (new AddEmployeeToTeam)->execute($request);
         }
+
+        return $team;
     }
 }

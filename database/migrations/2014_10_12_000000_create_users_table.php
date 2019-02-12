@@ -21,11 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('middle_name')->nullable();
             $table->string('nickname')->nullable();
             $table->uuid('uuid');
-            $table->string('avatar');
             $table->string('verification_link')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
-            $table->boolean('is_dummy')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

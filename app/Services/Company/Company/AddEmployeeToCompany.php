@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Services\User\Avatar\GenerateAvatar;
 
 class AddEmployeeToCompany extends BaseService
 {
@@ -24,6 +25,7 @@ class AddEmployeeToCompany extends BaseService
             'last_name' => 'required|string|max:255',
             'permission_level' => 'required|integer',
             'send_invitation' => 'required|boolean',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -56,6 +58,7 @@ class AddEmployeeToCompany extends BaseService
                 'employee_first_name' => $data['first_name'],
                 'employee_last_name' => $data['last_name'],
             ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         if ($data['send_invitation']) {
@@ -73,15 +76,24 @@ class AddEmployeeToCompany extends BaseService
      */
     private function createEmployee($data) : Employee
     {
+        $uuid = Str::uuid()->toString();
+
+        $avatar = (new GenerateAvatar)->execute([
+            'uuid' => $uuid,
+            'size' => 200,
+        ]);
+
         return Employee::create([
             'company_id' => $data['company_id'],
-            'uuid' => Str::uuid()->toString(),
+            'uuid' => $uuid,
             'identities' => json_encode([
                 'email' => $data['email'],
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
             ]),
+            'avatar' => $avatar,
             'permission_level' => $data['permission_level'],
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
     }
 }

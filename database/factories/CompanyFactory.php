@@ -13,6 +13,7 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'user_id' => factory(App\Models\User\User::class)->create()->id,
         'company_id' => factory(App\Models\Company\Company::class)->create()->id,
         'uuid' => $faker->uuid,
+        'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
         'permission_level' => config('homas.authorizations.administrator'),
         'identities' => json_encode([
             'email' => 'dwigth@dundermifflin.com',

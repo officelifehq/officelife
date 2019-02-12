@@ -8,7 +8,6 @@ use App\Mail\ConfirmAccount;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Services\User\Avatar\GenerateAvatar;
 
 class CreateAccount extends BaseService
 {
@@ -54,11 +53,6 @@ class CreateAccount extends BaseService
     {
         $uuid = Str::uuid()->toString();
 
-        $avatar = (new GenerateAvatar)->execute([
-            'uuid' => $uuid,
-            'size' => 200,
-        ]);
-
         $user = User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -67,7 +61,6 @@ class CreateAccount extends BaseService
             'middle_name' => $this->nullOrValue($data, 'middle_name'),
             'nickname' => $this->nullOrValue($data, 'nickname'),
             'uuid' => $uuid,
-            'avatar' => $avatar,
         ]);
 
         $user = $this->generateConfirmationLink($user);

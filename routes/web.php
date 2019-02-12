@@ -10,7 +10,7 @@ Route::post('login', 'Auth\\LoginController@store');
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\\LoginController@logout');
 
-    Route::get('dashboard', 'DashboardController@index');
+    Route::get('home', 'HomeController@index')->name('home');
 
     Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
 
@@ -22,9 +22,14 @@ Route::middleware(['auth'])->group(function () {
             Route::get('{employee}', 'Company\\EmployeeController@show');
         });
 
+        Route::prefix('teams')->group(function () {
+            Route::get('{team}', 'Company\\TeamController@show');
+        });
+
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
             Route::get('account/audit', 'Company\\Account\\AuditController@index');
+            Route::get('account/dummy', 'Company\\Account\\DummyController@index');
         });
 
         // only available to hr role
@@ -42,6 +47,5 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('account/teams', 'Company\\Account\\TeamController');
             Route::get('account/teams/{team}/destroy', 'Company\\Account\\TeamController@destroy');
         });
-        //Route::get('account/dummy', 'Account\\AccountController@dummy');
     });
 });

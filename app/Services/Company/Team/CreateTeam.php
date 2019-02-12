@@ -19,6 +19,7 @@ class CreateTeam extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
             'name' => 'required|string|max:255',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -52,6 +53,7 @@ class CreateTeam extends BaseService
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $team;

@@ -27,7 +27,6 @@ class User extends Authenticatable
         'middle_name',
         'nickname',
         'uuid',
-        'avatar',
     ];
 
     /**

@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Services\User\Avatar\GenerateAvatar;
 
 class CreateCompany extends BaseService
 {
@@ -63,6 +64,13 @@ class CreateCompany extends BaseService
      */
     private function addFirstEmployee(Company $company, User $author)
     {
+        $uuid = Str::uuid()->toString();
+
+        $avatar = (new GenerateAvatar)->execute([
+            'uuid' => $uuid,
+            'size' => 200,
+        ]);
+
         Employee::create([
             'user_id' => $author->id,
             'company_id' => $company->id,
@@ -73,6 +81,7 @@ class CreateCompany extends BaseService
                 'first_name' => $author->first_name,
                 'last_name' => $author->last_name,
             ]),
+            'avatar' => $avatar,
         ]);
     }
 }

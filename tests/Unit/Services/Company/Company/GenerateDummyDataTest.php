@@ -1,38 +1,36 @@
 <?php
 
-namespace Tests\Unit\Services\Account\Account;
+namespace Tests\Unit\Services\Company\Company;
 
 use Tests\TestCase;
-use App\Models\Company\Employee;
+use App\Models\User\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Company\RemoveDummyData;
 use App\Services\Company\Company\GenerateDummyData;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class RemoveDummyDataTest extends TestCase
+class GenerateDummyDataTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_removes_all_dummy_data()
+    public function it_creates_dummy_data()
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = $this->createAdministrator();
 
         $request = [
             'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
+            'author_id' => $employee->user->id,
         ];
 
         (new GenerateDummyData)->execute($request);
-        (new RemoveDummyData)->execute($request);
 
-        $count = DB::table('users')
+        $count = DB::table('employees')
             ->where('is_dummy', true)
             ->count();
 
         $this->assertEquals(
-            0,
+            32,
             $count
         );
 
@@ -42,22 +40,26 @@ class RemoveDummyDataTest extends TestCase
             ->count();
 
         $this->assertEquals(
-            0,
+            3,
             $count
         );
+
+        $this->assertDatabaseHas('companies', [
+            'has_dummy_data' => true,
+        ]);
     }
 
     /** @test */
     public function it_fails_if_wrong_parameters_are_given()
     {
-        $employee = factory(Employee::class)->create([]);
+        $user = factory(User::class)->create([]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => 123456,
+            'company_id' => $user->company_id,
+            'author_id' => 1234556,
         ];
 
         $this->expectException(ValidationException::class);
-        (new RemoveDummyData)->execute($request);
+        (new GenerateDummyData)->execute($request);
     }
 }
