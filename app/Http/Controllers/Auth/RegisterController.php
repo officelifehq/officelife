@@ -17,6 +17,10 @@ class RegisterController extends Controller
      */
     public function index()
     {
+        if (Auth::check()) {
+            return redirect('/home');
+        }
+
         return View::component('Register');
     }
 
