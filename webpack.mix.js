@@ -14,8 +14,11 @@ require('laravel-mix-purgecss');
 
 mix.js('resources/js/app.js', 'public/js')
   .sass('resources/sass/app.scss', 'public/css')
-  .purgeCss();
-
-if (mix.inProduction()) {
-  mix.version();
-}
+  .purgeCss()
+  .extract(['vue', 'lodash', 'popper.js', 'axios'])
+  .webpackConfig({
+    resolve: {
+      alias: { 'vue$': 'vue/dist/vue.runtime.js' }
+    }
+  })
+  .version()

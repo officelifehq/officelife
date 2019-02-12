@@ -1,0 +1,8 @@
+[
+    {
+        "level": "SEVERE",
+        "message": "https:\/\/homas.test\/img\/logo\/logo.svg - Failed to load resource: the server responded with a status of 404 ()",
+        "source": "network",
+        "timestamp": 1549931224508
+    }
+]

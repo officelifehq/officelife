@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect('/login');
+        return View::component('Login');
     }
 }
