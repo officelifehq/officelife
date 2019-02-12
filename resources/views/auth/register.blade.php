@@ -29,7 +29,7 @@
           <div class="">
             <div class="flex-ns justify-between">
               <div>
-                <button class="btn add w-auto-ns w-100 mb2 pv2 ph3" name="save" type="submit">{{ trans('auth.register_cta') }}</button>
+                <button class="btn add w-auto-ns w-100 mb2 pv2 ph3" dusk="register-button" name="save" type="submit">{{ trans('auth.register_cta') }}</button>
               </div>
             </div>
           </div>

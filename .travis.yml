@@ -1,24 +1,41 @@
 language: php
 
 php:
-  - 7.2
+  - 7.3
+
+addons:
+  chrome: stable
 
 before_script:
   - cp .env.travis .env
   - mysql -e 'create database homas_test;'
   - composer self-update
-  - composer install --no-interaction
+  - travis_retry composer install --no-interaction --prefer-dist --no-suggest
   - php artisan migrate --no-interaction -vvv
   - php artisan db:seed --no-interaction -vvv
-
-script:
-  - vendor/bin/phpunit --coverage-clover=coverage.xml
-  - vendor/bin/psalm --show-info=false
-
-after_success:
-    - bash <(curl -s https://codecov.io/bash)
 
 ## Cache composer bits
 cache:
   directories:
     - $HOME/.composer/cache/files
+
+jobs:
+  include:
+    - stage: PHPUnit
+      script:
+        - vendor/bin/phpunit --coverage-clover=coverage.xml
+        - vendor/bin/psalm --show-info=false
+
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
+
+    - stage: Dusk
+      env:
+        - APP_URL=http://127.0.0.1:8000
+
+      before-script:
+        - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
+        - php artisan serve &
+
+      script:
+        - php artisan dusk
