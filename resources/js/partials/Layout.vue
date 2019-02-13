@@ -3,13 +3,14 @@
     <header class="bg-white dn db-m db-l mb3">
       <div class="ph3 pt1 w-100">
         <div class="cf">
-          <div class="fl w-10 pa2">
+          <div class="fl w-20 pa2">
             <a class="relative header-logo" href="">
-              <img src="/img/logo/logo.svg" height="30" />
+              <img src="/img/logo.svg" height="30" />
             </a>
           </div>
-          <div class="fl w-70 tc">
-            <ul class="mv2">
+          <div class="fl w-60 tc">
+            <div v-show="noMenu" class="dib w-100"></div>
+            <ul class="mv2" v-show="!noMenu">
               <li class="di header-menu-item pa2">
                 <a class="b no-underline no-color" href="">
                   <img class="relative" src="/img/header/icon-home.svg" />
@@ -89,7 +90,10 @@
 
 <script>
 export default {
-  props: ['title'],
+  props: [
+    'title',
+    'noMenu'
+  ],
 
   mounted() {
     this.updatePageTitle(this.title)

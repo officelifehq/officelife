@@ -2,7 +2,7 @@
   <div class="ph2 ph0-ns">
     <div class="cf mt4 mw7 center br3 mb3 bg-white box">
       <div class="fn fl-ns w-50-ns pa3">
-        auth.register_title
+        Login
       </div>
       <div class="fn fl-ns w-50-ns pa3">
         <!-- Form Errors -->
@@ -26,7 +26,7 @@
           <div class="">
             <div class="flex-ns justify-between">
               <div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'register'"></loading-button>
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'login'"></loading-button>
               </div>
             </div>
           </div>
@@ -55,7 +55,8 @@ export default {
   methods: {
     submit() {
       this.loadingState = 'loading'
-      axios.post('/signup', this.form)
+
+      axios.post('/login', this.form)
         .then(response => {
           Turbolinks.visit('/home')
         })

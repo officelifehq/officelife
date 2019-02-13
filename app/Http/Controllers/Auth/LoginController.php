@@ -17,10 +17,10 @@ class LoginController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return redirect(tenant('/home'));
+            return redirect('/home');
         }
 
-        return view('auth.login');
+        return View::component('Login');
     }
 
     /**
@@ -40,9 +40,9 @@ class LoginController extends Controller
             return redirect()->intended('/home');
         }
 
-        return redirect('login')
-                ->withErrors('Invalid credentials')
-                ->withInput();
+        return response()->json([
+            'errors' => '😳 Invalid credentials',
+        ], 403);
     }
 
     /**
@@ -54,6 +54,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return View::component('Login');
+        return redirect('login');
     }
 }

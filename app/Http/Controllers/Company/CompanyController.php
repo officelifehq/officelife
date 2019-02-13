@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
@@ -19,8 +20,7 @@ class CompanyController extends Controller
     {
         $company = Cache::get('currentCompany');
 
-        return view('company.dashboard.index')
-            ->withCompany($company);
+        return View::component('ShowCompany', ['company' => $company]);
     }
 
     /**
@@ -31,7 +31,7 @@ class CompanyController extends Controller
      */
     public function create(Request $request)
     {
-        return view('company.company.create');
+        return View::component('CreateCompany');
     }
 
     /**
@@ -47,6 +47,8 @@ class CompanyController extends Controller
             'name' => $request->get('name'),
         ]);
 
-        return redirect($company->id.'/dashboard');
+        return response()->json([
+            'company_id' => $company->id,
+        ]);
     }
 }
