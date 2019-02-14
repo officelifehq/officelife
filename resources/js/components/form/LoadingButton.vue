@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="di">
     <button :class="classes" name="save" type="submit">
       <ball-pulse-loader color="#218b8a" size="7px" v-if="state == 'loading'"></ball-pulse-loader>
       <span v-if="state != 'loading'">{{ text }}</span>

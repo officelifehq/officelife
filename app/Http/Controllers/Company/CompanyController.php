@@ -20,7 +20,11 @@ class CompanyController extends Controller
     {
         $company = Cache::get('currentCompany');
 
-        return View::component('ShowCompany', ['company' => $company]);
+        return View::component('ShowCompany', [
+            'company' => $company,
+            'user' => auth()->user()->isPartOfCompany($company),
+            'ownerPermissionLevel' => config('homas.authorizations.administrator'),
+        ]);
     }
 
     /**
