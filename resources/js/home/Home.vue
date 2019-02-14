@@ -1,21 +1,64 @@
+<style scoped>
+.home-box {
+  color: #4d4d4f;
+  height: 300px;
+  width: 300px;
+}
+
+@media (max-width: 480px) {
+  .home-box {
+    width: 100%;
+  }
+}
+
+.home-company {
+  left: -20px;
+  bottom: -20px;
+}
+
+@media (max-width: 480px) {
+  .home-company img {
+    bottom: 0;
+  }
+}
+
+.home-join {
+  left: 14px;
+  bottom: 11px;
+}
+
+@media (max-width: 480px) {
+  .home-join img {
+    bottom: 0;
+  }
+}
+</style>
+
 <template>
   <layout title="Home" noMenu="true">
     <div class="ph2 ph0-ns">
 
       <!-- Blank state -->
       <div class="cf mt4 mt5-l mw7 center" v-show="employees.length == 0">
-        <p>Welcome to Homas.</p>
-        <div class="fl w-100 w-25-m w-50-l pr2">
+        <div class="fl w-100 w-25-m w-50-l pr2-l">
           <a href="/company/create">
-            <div class="br3 mb3 bg-white box pa3 tc b relative">
-              Create a company
+            <div class="pa3-l">
+              <div class="br3 mb3 bg-white box pa3 tc relative home-box">
+                <h3>Add a company</h3>
+                <p>Choose this if you want to create an account for your company.</p>
+                <img src="/img/home/create-company.png" class="home-company absolute">
+              </div>
             </div>
           </a>
         </div>
-        <div class="fl w-100 w-25-m w-50-l pr2">
+        <div class="fl w-100 w-25-m w-50-l">
           <a href="/company/create">
-            <div class="br3 mb3 bg-white box pa3 tc b relative">
-              Join a company
+            <div class="pa3-l">
+              <div class="br3 mb3 bg-white box pa3 tc relative home-box">
+                <h3>Join a company</h3>
+                <p>Choose this is you are an employee of an existing company and need access to your account.</p>
+                <img src="/img/home/join-company.png" class="home-join absolute">
+              </div>
             </div>
           </a>
         </div>
