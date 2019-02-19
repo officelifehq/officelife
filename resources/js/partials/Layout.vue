@@ -1,5 +1,7 @@
 <template>
   <div>
+    <vue-snotify></vue-snotify>
+
     <header class="bg-white dn db-m db-l mb3">
       <div class="ph3 pt1 w-100">
         <div class="cf">

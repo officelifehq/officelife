@@ -20,6 +20,11 @@ window.Vue = require('vue');
 const files = require.context('./', true, /\.vue$/i)
 files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+// toaster
+import Snotify from 'vue-snotify'
+import 'vue-snotify/styles/simple.css'
+Vue.use(Snotify)
+
 // Start Turbolinks
 require('turbolinks').start()
 
