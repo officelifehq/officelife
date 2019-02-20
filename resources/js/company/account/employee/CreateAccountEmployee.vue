@@ -16,7 +16,7 @@
       </div>
 
       <!-- BODY -->
-      <div class="mw7 center br3 mb3 bg-white box restricted relative z-1">
+      <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5 measure center">
           <h2 class="tc normal mb4">Add an employee to {{ company.name }}</h2>
 
@@ -77,10 +77,8 @@
               </div>
             </div>
 
-            <hr>
-
             <!-- Actions -->
-            <div>
+            <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
                   <a :href="'/' + company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">app.cancel</a>

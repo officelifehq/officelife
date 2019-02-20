@@ -15,7 +15,7 @@
       </div>
 
       <!-- BODY -->
-      <div class="mw7 center br3 mb3 bg-white box restricted relative z-1">
+      <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">All the employees listed in your account</h2>
           <p class="relative">
@@ -56,10 +56,10 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      this.$snotify.html('<div>' + localStorage.success + '</div>', {
-        timeout: 5000000,
+      this.$snotify.success(localStorage.success, {
+        timeout: 5000,
         showProgressBar: true,
-        closeOnClick: false,
+        closeOnClick: true,
         pauseOnHover: true,
       })
       localStorage.clear()

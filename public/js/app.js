@@ -338,8 +338,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -433,10 +431,10 @@ __webpack_require__.r(__webpack_exports__);
   props: ['company', 'employees', 'user'],
   mounted: function mounted() {
     if (localStorage.success) {
-      this.$snotify.html('<div>' + localStorage.success + '</div>', {
-        timeout: 5000000,
+      this.$snotify.success(localStorage.success, {
+        timeout: 5000,
         showProgressBar: true,
-        closeOnClick: false,
+        closeOnClick: true,
         pauseOnHover: true
       });
       localStorage.clear();
@@ -2818,7 +2816,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "mw7 center br3 mb3 bg-white box restricted relative z-1"
+          staticClass: "mw7 center br3 mb5 bg-white box restricted relative z-1"
         },
         [
           _c(
@@ -3102,9 +3100,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c("div", [
+                  _c("div", { staticClass: "mv4" }, [
                     _c(
                       "div",
                       { staticClass: "flex-ns justify-between" },
@@ -3199,7 +3195,7 @@ var render = function() {
       _c(
         "div",
         {
-          staticClass: "mw7 center br3 mb3 bg-white box restricted relative z-1"
+          staticClass: "mw7 center br3 mb5 bg-white box restricted relative z-1"
         },
         [
           _c("div", { staticClass: "pa3 mt5" }, [
