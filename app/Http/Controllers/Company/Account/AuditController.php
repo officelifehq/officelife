@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Company\Account;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 
 class AuditController extends Controller
 {
@@ -59,7 +59,7 @@ class AuditController extends Controller
                 'onFirstPage' => $logs->onFirstPage(),
                 'perPage' => $logs->perPage(),
                 'previousPageUrl' => $logs->previousPageUrl(),
-                'total' => $logs->total()
+                'total' => $logs->total(),
             ],
         ]);
     }

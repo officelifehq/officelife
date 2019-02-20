@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Company\Account;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\View;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Employee\DestroyEmployee;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Services\Company\Company\AddEmployeeToCompany;
+use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeController extends Controller
 {

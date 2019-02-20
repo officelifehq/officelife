@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Company;
 
-use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Company\CreateCompany;
 
