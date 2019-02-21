@@ -557,8 +557,74 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['company', 'teams', 'user'],
+  data: function data() {
+    return {
+      modal: false,
+      form: {
+        name: null,
+        errors: []
+      },
+      loadingState: '',
+      errorTemplate: Error
+    };
+  },
+  created: function created() {
+    window.addEventListener('click', this.close);
+  },
+  beforeDestroy: function beforeDestroy() {
+    window.removeEventListener('click', this.close);
+  },
   mounted: function mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
@@ -568,6 +634,34 @@ __webpack_require__.r(__webpack_exports__);
         pauseOnHover: true
       });
       localStorage.clear();
+    }
+  },
+  computed: {
+    sortedArray: function sortedArray() {
+      function compare(a, b) {}
+
+      return this.teams.sort(compare);
+    }
+  },
+  methods: {
+    close: function close(e) {
+      if (!this.$el.contains(e.target)) {
+        this.modal = false;
+      }
+    },
+    submit: function submit() {
+      var _this = this;
+
+      this.loadingState = 'loading';
+      axios.post('/' + this.company.id + '/account/teams', this.form).then(function (response) {
+        localStorage.success = 'The employee has been added';
+        _this.loadingState = null;
+
+        _this.teams.push(response.data.data);
+      }).catch(function (error) {
+        _this.loadingState = null;
+        _this.form.errors = _.flatten(_.toArray(error.response.data));
+      });
     }
   }
 });
@@ -1146,6 +1240,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 // module
 exports.push([module.i, "\n.options[data-v-5c71a1ce] {\n  -webkit-column-count: 2;\n          column-count: 2;\n}\n@media (max-width: 480px) {\n.options[data-v-5c71a1ce] {\n    -webkit-column-count: 1;\n            column-count: 1;\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.add-modal[data-v-1dd23294] {\n  border: 1px solid rgba(27,31,35,.15);\n  box-shadow: 0 3px 12px rgba(27,31,35,.15);\n  top: 36px;\n  right: 0;\n}\n.add-modal[data-v-1dd23294]:after,\n.add-modal[data-v-1dd23294]:before {\n  content: \"\";\n  display: inline-block;\n  position: absolute;\n}\n.add-modal[data-v-1dd23294]:after {\n  border: 7px solid transparent;\n  border-bottom-color: #fff;\n  left: auto;\n  right: 10px;\n  top: -14px;\n}\n.add-modal[data-v-1dd23294]:before {\n  border: 8px solid transparent;\n  border-bottom-color: rgba(27,31,35,.15);\n  left: auto;\n  right: 9px;\n  top: -16px;\n}\n", ""]);
 
 // exports
 
@@ -1744,6 +1857,36 @@ options.transform = transform
 options.insertInto = undefined;
 
 var update = __webpack_require__(/*! ../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
 
 if(content.locals) module.exports = content.locals;
 
@@ -3616,7 +3759,7 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("li", { staticClass: "di" }, [_vm._v("Manage employees")])
+            _c("li", { staticClass: "di" }, [_vm._v("Manage teams")])
           ])
         ]
       ),
@@ -3629,66 +3772,156 @@ var render = function() {
         [
           _c("div", { staticClass: "pa3 mt5" }, [
             _c("h2", { staticClass: "tc normal mb4" }, [
-              _vm._v("All the employees listed in your account")
+              _vm._v("All the teams listed in your account")
             ]),
             _vm._v(" "),
-            _c("p", { staticClass: "relative" }, [
+            _c("div", { staticClass: "relative" }, [
               _c("span", { staticClass: "dib mb3 di-l" }, [
-                _vm._v(
-                  "You have " + _vm._s(_vm.employees.length) + " employees."
-                )
+                _vm._v("You have " + _vm._s(_vm.teams.length) + " teams.")
               ]),
               _vm._v(" "),
               _c(
                 "a",
                 {
                   staticClass:
-                    "btn-primary br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0",
-                  attrs: {
-                    href: "/" + _vm.company.id + "/account/employees/create"
+                    "btn-primary pointer br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      _vm.modal = !_vm.modal
+                    }
                   }
                 },
-                [_vm._v("Add an employee")]
-              )
+                [_vm._v("Add a team")]
+              ),
+              _vm._v(" "),
+              _vm.modal == true
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster"
+                    },
+                    [
+                      _c("errors", { attrs: { errors: _vm.form.errors } }),
+                      _vm._v(" "),
+                      _c(
+                        "form",
+                        {
+                          on: {
+                            submit: function($event) {
+                              $event.preventDefault()
+                              return _vm.submit($event)
+                            }
+                          }
+                        },
+                        [
+                          _c("div", { staticClass: "mb3" }, [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "db fw4 lh-copy f6",
+                                attrs: { for: "name" }
+                              },
+                              [_vm._v("employee.new_email")]
+                            ),
+                            _vm._v(" "),
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.form.name,
+                                  expression: "form.name"
+                                }
+                              ],
+                              staticClass:
+                                "br2 f5 w-100 ba b--black-40 pa2 outline-0",
+                              attrs: {
+                                type: "text",
+                                id: "name",
+                                name: "name",
+                                required: ""
+                              },
+                              domProps: { value: _vm.form.name },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.form,
+                                    "name",
+                                    $event.target.value
+                                  )
+                                }
+                              }
+                            })
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "mv2" }, [
+                            _c(
+                              "div",
+                              { staticClass: "flex-ns justify-between" },
+                              [
+                                _c("div", [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass:
+                                        "btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3",
+                                      on: {
+                                        click: function($event) {
+                                          _vm.modal = false
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("app.cancel")]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("loading-button", {
+                                  attrs: {
+                                    classes:
+                                      "btn add w-auto-ns w-100 mb2 pv2 ph3",
+                                    state: _vm.loadingState,
+                                    text: "Save"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c(
               "ul",
               { staticClass: "list pl0 mt0 center" },
-              _vm._l(_vm.employees, function(employee) {
+              _vm._l(_vm.teams, function(team) {
                 return _c(
                   "li",
                   {
-                    key: employee.id,
+                    key: team.id,
                     staticClass:
                       "flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10"
                   },
                   [
-                    _c("img", {
-                      staticClass: "w2 h2 w3-ns h3-ns br-100",
-                      attrs: { src: employee.avatar }
-                    }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "pl3 flex-auto" }, [
+                    _c("div", { staticClass: "flex-auto" }, [
                       _c("span", { staticClass: "db black-70" }, [
-                        _vm._v(_vm._s(employee.name))
+                        _vm._v(_vm._s(team.name))
                       ]),
                       _vm._v(" "),
                       _c("ul", { staticClass: "f6 list pl0" }, [
                         _c("li", { staticClass: "di pr2" }, [
-                          _c("span", { staticClass: "badge f7" }, [
-                            _vm._v(_vm._s(employee.permission_level))
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "di pr2" }, [
                           _c(
                             "a",
-                            {
-                              attrs: {
-                                href: "/account/employees/" + employee.id
-                              }
-                            },
+                            { attrs: { href: "/account/teams/" + team.id } },
                             [_vm._v("View/edit")]
                           )
                         ]),
@@ -3696,27 +3929,8 @@ var render = function() {
                         _c("li", { staticClass: "di pr2" }, [
                           _c(
                             "a",
-                            {
-                              attrs: {
-                                href:
-                                  "/account/employees/" +
-                                  employee.id +
-                                  "/permissions"
-                              }
-                            },
-                            [_vm._v("Change permission")]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "di pr2" }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href: "/employees/" + employee.id + "/lock"
-                              }
-                            },
-                            [_vm._v("Lock account")]
+                            { attrs: { href: "/teams/" + team.id + "/lock" } },
+                            [_vm._v("Rename")]
                           )
                         ]),
                         _vm._v(" "),
@@ -3725,10 +3939,7 @@ var render = function() {
                             "a",
                             {
                               attrs: {
-                                href:
-                                  "/account/employees/" +
-                                  employee.id +
-                                  "/destroy"
+                                href: "/account/teams/" + team.id + "/destroy"
                               }
                             },
                             [_vm._v("Delete")]
@@ -5280,7 +5491,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ShowAccountTeams_vue_vue_type_template_id_1dd23294_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowAccountTeams.vue?vue&type=template&id=1dd23294&scoped=true& */ "./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=template&id=1dd23294&scoped=true&");
 /* harmony import */ var _ShowAccountTeams_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShowAccountTeams.vue?vue&type=script&lang=js& */ "./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _ShowAccountTeams_vue_vue_type_style_index_0_id_1dd23294_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css& */ "./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -5288,7 +5501,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _ShowAccountTeams_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _ShowAccountTeams_vue_vue_type_template_id_1dd23294_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _ShowAccountTeams_vue_vue_type_template_id_1dd23294_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -5317,6 +5530,22 @@ component.options.__file = "resources/js/company/account/team/ShowAccountTeams.v
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountTeams_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ShowAccountTeams.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountTeams_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css&":
+/*!*************************************************************************************************************************!*\
+  !*** ./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountTeams_vue_vue_type_style_index_0_id_1dd23294_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/account/team/ShowAccountTeams.vue?vue&type=style&index=0&id=1dd23294&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountTeams_vue_vue_type_style_index_0_id_1dd23294_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountTeams_vue_vue_type_style_index_0_id_1dd23294_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountTeams_vue_vue_type_style_index_0_id_1dd23294_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountTeams_vue_vue_type_style_index_0_id_1dd23294_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountTeams_vue_vue_type_style_index_0_id_1dd23294_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

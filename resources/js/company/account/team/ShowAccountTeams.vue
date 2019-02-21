@@ -1,4 +1,33 @@
 <style scoped>
+  .add-modal {
+    border: 1px solid rgba(27,31,35,.15);
+    box-shadow: 0 3px 12px rgba(27,31,35,.15);
+    top: 36px;
+    right: 0;
+  }
+
+  .add-modal:after,
+  .add-modal:before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+  }
+
+  .add-modal:after {
+    border: 7px solid transparent;
+    border-bottom-color: #fff;
+    left: auto;
+    right: 10px;
+    top: -14px;
+  }
+
+  .add-modal:before {
+    border: 8px solid transparent;
+    border-bottom-color: rgba(27,31,35,.15);
+    left: auto;
+    right: 9px;
+    top: -16px;
+  }
 </style>
 
 <template>
@@ -10,31 +39,51 @@
         <ul class="list ph0 tc-l tl">
           <li class="di"><a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a></li>
           <li class="di"><a :href="'/' + company.id + '/account'">Account administration</a></li>
-          <li class="di">Manage employees</li>
+          <li class="di">Manage teams</li>
         </ul>
       </div>
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
-          <h2 class="tc normal mb4">All the employees listed in your account</h2>
-          <p class="relative">
-            <span class="dib mb3 di-l">You have {{ employees.length }} employees.</span>
-            <a :href="'/' + company.id + '/account/employees/create'" class="btn-primary br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0">Add an employee</a>
-          </p>
+          <h2 class="tc normal mb4">All the teams listed in your account</h2>
+
+          <!-- ADD TEAM -->
+          <div class="relative">
+            <span class="dib mb3 di-l">You have {{ teams.length }} teams.</span>
+            <a @click.prevent="modal = !modal" class="btn-primary pointer br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0">Add a team</a>
+
+            <div class="absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == true">
+              <errors :errors="form.errors"></errors>
+
+              <form @submit.prevent="submit">
+                <div class="mb3">
+                  <label class="db fw4 lh-copy f6" for="name">employee.new_email</label>
+                  <input type="text" id="name" name="name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" v-model="form.name" required>
+                </div>
+                <div class="mv2">
+                  <div class="flex-ns justify-between">
+                    <div>
+                      <a @click="modal = false" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">app.cancel</a>
+                    </div>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'Save'"></loading-button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- LIST OF TEAMS -->
           <ul class="list pl0 mt0 center">
             <li
-              v-for="employee in employees" v-bind:key="employee.id"
+              v-for="team in teams" v-bind:key="team.id"
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10">
-                <img class="w2 h2 w3-ns h3-ns br-100" :src="employee.avatar" />
-                <div class="pl3 flex-auto">
-                  <span class="db black-70">{{ employee.name }}</span>
+                <div class="flex-auto">
+                  <span class="db black-70">{{ team.name }}</span>
                   <ul class="f6 list pl0">
-                    <li class="di pr2"><span class="badge f7">{{ employee.permission_level }}</span></li>
-                    <li class="di pr2"><a :href="'/account/employees/' + employee.id">View/edit</a></li>
-                    <li class="di pr2"><a :href="'/account/employees/' + employee.id + '/permissions'">Change permission</a></li>
-                    <li class="di pr2"><a :href="'/employees/' + employee.id + '/lock'">Lock account</a></li>
-                    <li class="di"><a :href="'/account/employees/' + employee.id + '/destroy'">Delete</a></li>
+                    <li class="di pr2"><a :href="'/account/teams/' + team.id">View/edit</a></li>
+                    <li class="di pr2"><a :href="'/teams/' + team.id + '/lock'">Rename</a></li>
+                    <li class="di"><a :href="'/account/teams/' + team.id + '/destroy'">Delete</a></li>
                   </ul>
                 </div>
             </li>
@@ -54,6 +103,26 @@ export default {
     'user',
   ],
 
+  data() {
+    return {
+      modal: false,
+      form: {
+        name: null,
+        errors: [],
+      },
+      loadingState: '',
+      errorTemplate: Error,
+    };
+  },
+
+  created() {
+    window.addEventListener('click', this.close);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener('click', this.close);
+  },
+
   mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
@@ -65,6 +134,39 @@ export default {
       localStorage.clear()
     }
   },
+
+  computed: {
+    sortedArray: function() {
+      function compare(a, b) {
+
+      }
+
+      return this.teams.sort(compare);
+    }
+  },
+
+  methods: {
+    close(e) {
+      if (!this.$el.contains(e.target)) {
+        this.modal = false;
+      }
+    },
+
+    submit() {
+      this.loadingState = 'loading'
+
+      axios.post('/' + this.company.id + '/account/teams', this.form)
+        .then(response => {
+          localStorage.success = 'The employee has been added'
+          this.loadingState = null
+          this.teams.push(response.data.data)
+        })
+        .catch(error => {
+          this.loadingState = null
+          this.form.errors = _.flatten(_.toArray(error.response.data))
+        })
+    },
+  }
 }
 
 </script>
