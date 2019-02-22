@@ -606,6 +606,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['company', 'teams', 'user'],
   data: function data() {
@@ -654,8 +663,16 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loadingState = 'loading';
       axios.post('/' + this.company.id + '/account/teams', this.form).then(function (response) {
-        localStorage.success = 'The employee has been added';
+        _this.$snotify.success('The team has been created', {
+          timeout: 5000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+
         _this.loadingState = null;
+        _this.form.name = null;
+        _this.modal = false;
 
         _this.teams.push(response.data.data);
       }).catch(function (error) {
@@ -3823,7 +3840,7 @@ var render = function() {
                                 staticClass: "db fw4 lh-copy f6",
                                 attrs: { for: "name" }
                               },
-                              [_vm._v("employee.new_email")]
+                              [_vm._v("Name of the team")]
                             ),
                             _vm._v(" "),
                             _c("input", {
@@ -3885,7 +3902,7 @@ var render = function() {
                                     classes:
                                       "btn add w-auto-ns w-100 mb2 pv2 ph3",
                                     state: _vm.loadingState,
-                                    text: "Save"
+                                    text: "Add"
                                   }
                                 })
                               ],
@@ -3902,7 +3919,17 @@ var render = function() {
             _vm._v(" "),
             _c(
               "ul",
-              { staticClass: "list pl0 mt0 center" },
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.teams.length != 0,
+                    expression: "teams.length != 0"
+                  }
+                ],
+                staticClass: "list pl0 mt0 center"
+              },
               _vm._l(_vm.teams, function(team) {
                 return _c(
                   "li",
@@ -3952,7 +3979,40 @@ var render = function() {
               }),
               0
             )
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.teams.length == 0,
+                  expression: "teams.length == 0"
+                }
+              ],
+              staticClass: "pa3"
+            },
+            [
+              _c("p", { staticClass: "tc measure center mb4" }, [
+                _vm._v(
+                  "Teams are a great way for groups of people in your company to work together in Homas."
+                )
+              ]),
+              _vm._v(" "),
+              _c("img", {
+                staticClass: "db center mb4",
+                attrs: {
+                  srcset:
+                    "/img/company/account/blank-team-1x.png" +
+                    ", " +
+                    "/img/company/account/blank-team-2x.png" +
+                    " 2x"
+                }
+              })
+            ]
+          )
         ]
       )
     ])

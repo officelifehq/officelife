@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Company\Account;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Team\CreateTeam;
-use Illuminate\Support\Facades\View;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 
 class TeamController extends Controller

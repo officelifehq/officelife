@@ -20,6 +20,7 @@ class AuditController extends Controller
         $logs = $company->logs()->paginate(15);
 
         $logsCollection = collect([]);
+        $sentence = '';
         foreach ($logs as $log) {
             if ($log->action == 'account_created') {
                 $sentence = 'Created the account.';

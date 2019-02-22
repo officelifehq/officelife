@@ -45,6 +45,8 @@
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
+
+        <!-- WHEN THERE ARE TEAMS -->
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">All the teams listed in your account</h2>
 
@@ -58,7 +60,7 @@
 
               <form @submit.prevent="submit">
                 <div class="mb3">
-                  <label class="db fw4 lh-copy f6" for="name">employee.new_email</label>
+                  <label class="db fw4 lh-copy f6" for="name">Name of the team</label>
                   <input type="text" id="name" name="name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" v-model="form.name" required>
                 </div>
                 <div class="mv2">
@@ -66,7 +68,7 @@
                     <div>
                       <a @click="modal = false" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">app.cancel</a>
                     </div>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'Save'"></loading-button>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'Add'"></loading-button>
                   </div>
                 </div>
               </form>
@@ -74,7 +76,7 @@
           </div>
 
           <!-- LIST OF TEAMS -->
-          <ul class="list pl0 mt0 center">
+          <ul class="list pl0 mt0 center" v-show="teams.length != 0">
             <li
               v-for="team in teams" v-bind:key="team.id"
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10">
@@ -88,6 +90,13 @@
                 </div>
             </li>
           </ul>
+        </div>
+
+        <!-- NO TEAMS -->
+        <div class="pa3" v-show="teams.length == 0">
+          <p class="tc measure center mb4">Teams are a great way for groups of people in your company to work together in Homas.</p>
+          <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
+                                        /img/company/account/blank-team-2x.png 2x">
         </div>
       </div>
     </div>
@@ -157,8 +166,16 @@ export default {
 
       axios.post('/' + this.company.id + '/account/teams', this.form)
         .then(response => {
-          localStorage.success = 'The employee has been added'
+          this.$snotify.success('The team has been created', {
+            timeout: 5000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          })
+
           this.loadingState = null
+          this.form.name = null
+          this.modal = false
           this.teams.push(response.data.data)
         })
         .catch(error => {
