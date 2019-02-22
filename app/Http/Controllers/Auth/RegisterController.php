@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class RegisterController extends Controller
 {
@@ -16,7 +17,11 @@ class RegisterController extends Controller
      */
     public function index()
     {
-        return view('auth.register');
+        if (Auth::check()) {
+            return redirect('/home');
+        }
+
+        return View::component('Register');
     }
 
     /**
@@ -33,8 +38,6 @@ class RegisterController extends Controller
 
         $account = (new CreateAccount)->execute($data);
 
-        if (Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')])) {
-            return redirect('/home');
-        }
+        Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')]);
     }
 }

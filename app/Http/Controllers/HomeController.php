@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\View;
+
 class HomeController extends Controller
 {
     /**
@@ -13,7 +15,6 @@ class HomeController extends Controller
     {
         $employees = auth()->user()->employees()->with('company')->get();
 
-        return view('home.index')
-            ->withEmployees($employees);
+        return View::component('Home', ['employees' => $employees]);
     }
 }

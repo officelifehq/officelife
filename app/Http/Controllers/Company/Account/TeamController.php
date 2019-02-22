@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Company\Account;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Team\CreateTeam;
+use App\Http\Resources\Company\Team\Team as TeamResource;
 
 class TeamController extends Controller
 {
@@ -17,10 +19,16 @@ class TeamController extends Controller
      */
     public function index(Request $request)
     {
-        $teams = Cache::get('currentCompany')->teams()->get();
+        $company = Cache::get('currentCompany');
+        $teams = TeamResource::collection(
+            $company->teams()->orderBy('name', 'desc')->get()
+        );
 
-        return view('company.account.team.index')
-            ->withTeams($teams);
+        return View::component('ShowAccountTeams', [
+            'company' => $company,
+            'user' => auth()->user()->isPartOfCompany($company),
+            'teams' => $teams,
+        ]);
     }
 
     /**
@@ -49,8 +57,10 @@ class TeamController extends Controller
             'name' => $request->get('name'),
         ];
 
-        (new CreateTeam)->execute($request);
+        $team = (new CreateTeam)->execute($request);
 
-        return redirect(tenant('/account/teams'));
+        return response()->json([
+            'data' => $team,
+        ]);
     }
 }

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Company\Account;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Employee\DestroyEmployee;
 use App\Services\Company\Company\AddEmployeeToCompany;
+use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeController extends Controller
 {
@@ -17,10 +19,16 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Cache::get('currentCompany')->employees()->get();
+        $company = Cache::get('currentCompany');
+        $employees = EmployeeResource::collection(
+            $company->employees()->orderBy('created_at', 'desc')->get()
+        );
 
-        return view('company.account.employee.index')
-            ->withEmployees($employees);
+        return View::component('ShowAccountEmployees', [
+            'company' => $company,
+            'user' => auth()->user()->isPartOfCompany($company),
+            'employees' => $employees,
+        ]);
     }
 
     /**
@@ -30,7 +38,12 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        return view('company.account.employee.create');
+        $company = Cache::get('currentCompany');
+
+        return View::component('CreateAccountEmployee', [
+            'company' => $company,
+            'user' => auth()->user()->isPartOfCompany($company),
+        ]);
     }
 
     /**
@@ -54,7 +67,9 @@ class EmployeeController extends Controller
 
         (new AddEmployeeToCompany)->execute($request);
 
-        return redirect(tenant('/account/employees'));
+        return response()->json([
+            'company_id' => $companyId,
+        ]);
     }
 
     /**

@@ -27,10 +27,62 @@ a {
   }
 }
 
+hr {
+  margin-top: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(34,34,48,.1);
+}
+
 .box {
     border: 1px solid #E7E7E7;
     border-radius: 11px;
     box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.17);
+}
+
+.brush-blue {
+  background: url('/img/brush-blue.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.brush-orange {
+  background: url('/img/brush-orange.svg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.badge {
+  color: #fff;
+  background-color: #6e84a3;
+  padding: 2px 6px;
+  border-radius: 10rem;
+}
+
+// breadcrumb
+.breadcrumb {
+  line-height: 23px;
+  top: 9px;
+
+  li+li:before {
+    content: '>';
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumb {
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
+  }
+}
+
+// restricted
+.restricted {
+  background-image: url('/img/company/account/restricted-1x.png');
+  background-image: -webkit-image-set(url('/img/company/account/restricted-1x.png') 1x,url('/img/company/account/restricted-2x.png') 2x);
+  background-repeat: repeat-x;
 }
 
 // pages specific styles

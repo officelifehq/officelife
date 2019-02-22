@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Account;
 use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
 
 class AccountController extends Controller
 {
@@ -20,8 +21,9 @@ class AccountController extends Controller
         $company = Company::findOrFail($companyId);
         $numberEmployees = $company->employees()->count();
 
-        return view('company.account.index')
-            ->withNumberEmployees($numberEmployees)
-            ->withCompany($company);
+        return View::component('ShowAccount', [
+            'company' => $company,
+            'numberEmployees' => $numberEmployees,
+        ]);
     }
 }
