@@ -19,7 +19,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('dashboard', 'Company\\CompanyController@index');
 
         Route::prefix('employees')->group(function () {
-            Route::get('{employee}', 'Company\\EmployeeController@show');
+            Route::get('{employee}', 'Company\\Employee\\EmployeeController@show');
         });
 
         Route::prefix('teams')->group(function () {

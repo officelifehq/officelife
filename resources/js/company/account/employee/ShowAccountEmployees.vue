@@ -17,9 +17,9 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
-          <h2 class="tc normal mb4">All the employees listed in your account</h2>
+          <h2 class="tc normal mb4">All the employees in {{ company.name }}</h2>
           <p class="relative">
-            <span class="dib mb3 di-l">You have {{ employees.length }} employees.</span>
+            <span class="dib mb3 di-l">{{ company.name }} has {{ employees.length }} employees.</span>
             <a :href="'/' + company.id + '/account/employees/create'" class="btn-primary br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0">Add an employee</a>
           </p>
           <ul class="list pl0 mt0 center">
@@ -31,7 +31,7 @@
                   <span class="db black-70">{{ employee.name }}</span>
                   <ul class="f6 list pl0">
                     <li class="di pr2"><span class="badge f7">{{ employee.permission_level }}</span></li>
-                    <li class="di pr2"><a :href="'/account/employees/' + employee.id">View/edit</a></li>
+                    <li class="di pr2"><a :href="'/' + company.id + '/employees/' + employee.id">View</a></li>
                     <li class="di pr2"><a :href="'/account/employees/' + employee.id + '/permissions'">Change permission</a></li>
                     <li class="di pr2"><a :href="'/employees/' + employee.id + '/lock'">Lock account</a></li>
                     <li class="di"><a :href="'/account/employees/' + employee.id + '/destroy'">Delete</a></li>
