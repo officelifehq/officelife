@@ -48,11 +48,11 @@
 
         <!-- WHEN THERE ARE TEAMS -->
         <div class="pa3 mt5">
-          <h2 class="tc normal mb4">All the teams listed in your account</h2>
+          <h2 class="tc normal mb4">All the teams listed in {{ company.name }}</h2>
 
           <!-- ADD TEAM -->
           <div class="relative">
-            <span class="dib mb3 di-l">You have {{ teams.length }} teams.</span>
+            <span class="dib mb3 di-l">{{ company.name }} have {{ teams.length }} teams.</span>
             <a @click.prevent="modal = !modal" class="btn-primary pointer br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0">Add a team</a>
 
             <div class="absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == true">
