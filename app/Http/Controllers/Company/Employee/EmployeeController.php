@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeController extends Controller
