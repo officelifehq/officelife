@@ -24,7 +24,10 @@ class Employee extends Model
     protected $fillable = [
         'company_id',
         'user_id',
-        'identities',
+        'email',
+        'first_name',
+        'last_name',
+        'birthdate',
         'permission_level',
         'uuid',
         'is_dummy',
@@ -46,6 +49,15 @@ class Employee extends Model
      * @var array
      */
     protected $casts = [
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'birthdate',
     ];
 
     /**
@@ -89,23 +101,23 @@ class Employee extends Model
     }
 
     /**
-     * Get the JSON object.
-     *
-     * @return array
-     */
-    public function getIdentityAttribute($value)
-    {
-        return json_decode($this->identities);
-    }
-
-    /**
      * Returns the email attribute of the employee.
      *
      * @return string
      */
-    public function getEmailAttribute($value) : String
+    public function getEmailAttribute($value)
     {
-        return $this->identity->{'email'};
+        return $value;
+    }
+
+    /**
+     * Returns the birthdate attribute of the employee.
+     *
+     * @return string
+     */
+    public function getBirthdateAttribute($value)
+    {
+        return $value;
     }
 
     /**
@@ -115,14 +127,14 @@ class Employee extends Model
      */
     public function getNameAttribute($value) : String
     {
-        if (! $this->identity->{'first_name'}) {
+        if (! $this->first_name) {
             return $this->email;
         }
 
-        $completeName = $this->identity->{'first_name'};
+        $completeName = $this->first_name;
 
-        if (! is_null($this->identity->{'last_name'})) {
-            $completeName = $completeName.' '.$this->identity->{'last_name'};
+        if (! is_null($this->last_name)) {
+            $completeName = $completeName.' '.$this->last_name;
         }
 
         return $completeName;
