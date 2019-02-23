@@ -5,15 +5,15 @@ namespace Tests\Unit\Services\Company\Employee;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Employee\UpdateEmployee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Employee\UpdateHiringInformation;
 
-class UpdateEmployeeTest extends TestCase
+class UpdateHiringInformationTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_an_employee()
+    public function it_updates_the_hiring_information()
     {
         $employee = factory(Employee::class)->create([]);
 
@@ -21,21 +21,15 @@ class UpdateEmployeeTest extends TestCase
             'company_id' => $employee->company_id,
             'author_id' => $employee->user->id,
             'employee_id' => $employee->id,
-            'email' => 'dwight@dundermifflin.com',
-            'first_name' => 'Dwight',
-            'last_name' => 'Schrute',
-            'birthdate' => '1978-01-20',
+            'hired_at' => '2010-02-20',
         ];
 
-        $updatedEmployee = (new UpdateEmployee)->execute($request);
+        $updatedEmployee = (new UpdateHiringInformation)->execute($request);
 
         $this->assertDatabaseHas('employees', [
             'id' => $employee->id,
             'company_id' => $employee->company_id,
-            'email' => 'dwight@dundermifflin.com',
-            'first_name' => 'Dwight',
-            'last_name' => 'Schrute',
-            'birthdate' => '1978-01-20',
+            'hired_at' => '2010-02-20',
         ]);
 
         $this->assertInstanceOf(
@@ -53,17 +47,14 @@ class UpdateEmployeeTest extends TestCase
             'company_id' => $employee->company_id,
             'author_id' => $employee->user->id,
             'employee_id' => $employee->id,
-            'email' => 'dwight@dundermifflin.com',
-            'first_name' => 'Dwight',
-            'last_name' => 'Schrute',
-            'birthdate' => '1978-01-20',
+            'hired_at' => '2010-02-20',
         ];
 
-        $updatedEmployee = (new UpdateEmployee)->execute($request);
+        $updatedEmployee = (new UpdateHiringInformation)->execute($request);
 
         $this->assertdatabasehas('audit_logs', [
             'company_id' => $employee->company_id,
-            'action' => 'employee_updated',
+            'action' => 'employee_updated_hiring_information',
         ]);
     }
 
@@ -71,10 +62,10 @@ class UpdateEmployeeTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given()
     {
         $request = [
-            'first_name' => 'Dwight',
+            'hired_at' => '2010-02-20',
         ];
 
         $this->expectException(ValidationException::class);
-        (new UpdateEmployee)->execute($request);
+        (new UpdateHiringInformation)->execute($request);
     }
 }

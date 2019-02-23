@@ -28,6 +28,7 @@ class Employee extends Model
         'first_name',
         'last_name',
         'birthdate',
+        'hired_at',
         'permission_level',
         'uuid',
         'is_dummy',
@@ -58,6 +59,7 @@ class Employee extends Model
      */
     protected $dates = [
         'birthdate',
+        'hired_at',
     ];
 
     /**
