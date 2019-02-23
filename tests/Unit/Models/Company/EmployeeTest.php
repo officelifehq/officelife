@@ -43,17 +43,6 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_identity_attribute()
-    {
-        $employee = factory(Employee::class)->create([]);
-
-        $this->assertEquals(
-            'dwigth@dundermifflin.com',
-            $employee->identity->{'email'}
-        );
-    }
-
-    /** @test */
     public function it_returns_the_email_attribute()
     {
         $employee = factory(Employee::class)->create([]);
@@ -70,6 +59,16 @@ class EmployeeTest extends TestCase
         $this->assertEquals(
             'Dwight Schrute',
             $employee->name
+        );
+    }
+
+    /** @test */
+    public function it_returns_the_birthdate_attribute()
+    {
+        $employee = factory(Employee::class)->create([]);
+        $this->assertEquals(
+            '1978-01-20 00:00:00',
+            $employee->birthdate
         );
     }
 }

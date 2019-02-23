@@ -17,6 +17,10 @@ class CreateEmployeesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('company_id');
+            $table->string('email')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->date('birthdate')->nullable();
             $table->uuid('uuid');
             $table->string('avatar');
             $table->integer('permission_level');
