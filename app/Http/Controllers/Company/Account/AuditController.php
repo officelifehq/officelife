@@ -43,7 +43,7 @@ class AuditController extends Controller
             }
 
             if ($log->action == 'employee_updated_hiring_information') {
-                $sentence = 'Updated hiring about ' . $log->employee . '.';
+                $sentence = 'Updated hiring about '.$log->employee.'.';
             }
 
             $logsCollection->push([
