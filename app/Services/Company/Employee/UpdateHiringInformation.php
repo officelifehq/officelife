@@ -6,7 +6,7 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Services\Company\Company\LogAction;
 
-class UpdateEmployee extends BaseService
+class UpdateHiringInformation extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -19,15 +19,12 @@ class UpdateEmployee extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'email' => 'required|email|max:255',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'birthdate' => 'nullable|date',
+            'hired_at' => 'required|date',
         ];
     }
 
     /**
-     * Update an employee.
+     * Update the hiring information about an employee.
      *
      * @param array $data
      * @return Employee
@@ -46,15 +43,12 @@ class UpdateEmployee extends BaseService
             ->findOrFail($data['employee_id']);
 
         $employee->update([
-            'email' => $data['email'],
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'birthdate' => $this->nullOrDate($data, 'birthdate'),
+            'hired_at' => $data['hired_at'],
         ]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'employee_updated',
+            'action' => 'employee_updated_hiring_information',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,

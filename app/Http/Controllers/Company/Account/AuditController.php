@@ -38,6 +38,14 @@ class AuditController extends Controller
                 $sentence = 'Added '.$log->employee.' to '.$log->team.'.';
             }
 
+            if ($log->action == 'employee_updated') {
+                $sentence = 'Updated information about '.$log->employee.'.';
+            }
+
+            if ($log->action == 'employee_updated_hiring_information') {
+                $sentence = 'Updated hiring about '.$log->employee.'.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,
