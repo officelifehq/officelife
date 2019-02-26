@@ -42,7 +42,7 @@ class SetTeamLeader extends BaseService
             config('homas.authorizations.hr')
         );
 
-        if (!is_null($data['employee_id'])) {
+        if (! is_null($data['employee_id'])) {
             $employee = Employee::where('company_id', $data['company_id'])
                 ->findOrFail($data['employee_id']);
         }
