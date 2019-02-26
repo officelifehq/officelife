@@ -34,4 +34,11 @@ class TeamTest extends TestCase
 
         $this->assertTrue($team->employees()->exists());
     }
+
+    /** @test */
+    public function it_belongs_to_employee()
+    {
+        $team = factory(Team::class)->create([]);
+        $this->assertTrue($team->leader()->exists());
+    }
 }

@@ -14,7 +14,7 @@ class AddHiringInformation extends Migration
     public function up()
     {
         Schema::table('employees', function (Blueprint $table) {
-            $table->date('hired_at')->after('birthdate');
+            $table->date('hired_at')->after('birthdate')->nullable();
         });
     }
 }

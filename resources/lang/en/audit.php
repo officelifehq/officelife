@@ -16,4 +16,5 @@ return [
     'team_created' => 'Created :team',
     'team_updated' => 'Updated :team',
     'team_destroyed' => 'Deleted :team',
+    'team_leader_assigned' => 'Assigned leader',
 ];
