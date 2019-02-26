@@ -26,6 +26,11 @@ $factory->define(App\Models\Company\Team::class, function (Faker $faker) {
     return [
         'company_id' => factory(App\Models\Company\Company::class)->create()->id,
         'name' => $faker->name,
+        'team_leader_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $data['company_id'],
+            ])->id;
+        },
     ];
 });
 
