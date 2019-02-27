@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\User;
 use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
+use App\Models\Company\DirectReport;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeTest extends TestCase
@@ -40,6 +41,28 @@ class EmployeeTest extends TestCase
         $employee->teams()->sync([$teamB->id => ['company_id' => $employee->company_id]]);
 
         $this->assertTrue($employee->teams()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_direct_reports()
+    {
+        $manager = factory(Employee::class)->create([]);
+        factory(DirectReport::class, 3)->create([
+            'manager_id' => $manager->id,
+        ]);
+
+        $this->assertTrue($manager->managerOf()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_managers()
+    {
+        $employee = factory(Employee::class)->create([]);
+        factory(DirectReport::class, 3)->create([
+            'employee_id' => $employee->id,
+        ]);
+
+        $this->assertTrue($employee->reportsTo()->exists());
     }
 
     /** @test */

@@ -819,6 +819,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['company', 'employee', 'user'],
   mounted: function mounted() {
@@ -4361,6 +4363,14 @@ var render = function() {
               _vm._v(" "),
               _c("li", { staticClass: "di-l db mb0-l mb2" }, [
                 _vm._v("No teams")
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "di-l db mb0-l mb2" }, [
+                _vm._v("Add manager")
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "di-l db mb0-l mb2" }, [
+                _vm._v("Add direct reports")
               ])
             ])
           ])

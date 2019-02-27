@@ -32,6 +32,8 @@
             <li class="di-l db mb0-l mb2 mr2">No hire date</li>
             <li class="di-l db mb0-l mb2 mr2">No indication of status</li>
             <li class="di-l db mb0-l mb2">No teams</li>
+            <li class="di-l db mb0-l mb2">Add manager</li>
+            <li class="di-l db mb0-l mb2">Add direct reports</li>
           </ul>
         </div>
       </div>

@@ -7,6 +7,7 @@ use App\Mail\Company\InviteUser;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -90,6 +91,26 @@ class Employee extends Model
     public function teams()
     {
         return $this->belongsToMany(Team::class);
+    }
+
+    /**
+     * Get all the employees this employee reports to.
+     *
+     * @return hasMany
+     */
+    public function reportsTo()
+    {
+        return $this->hasMany(DirectReport::class, 'employee_id');
+    }
+
+    /**
+     * Get all the employees this employee manages.
+     *
+     * @return hasMany
+     */
+    public function managerOf()
+    {
+        return $this->hasMany(DirectReport::class, 'manager_id');
     }
 
     /**
