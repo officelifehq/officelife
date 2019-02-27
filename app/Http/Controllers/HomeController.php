@@ -14,7 +14,17 @@ class HomeController extends Controller
     public function index()
     {
         $employees = auth()->user()->employees()->with('company')->get();
+        $companiesCollection = collect([]);
 
-        return View::component('Home', ['employees' => $employees]);
+        foreach ($employees as $employee) {
+            $companiesCollection->push([
+                'company_name' => $employee->company->name,
+                'company_id' => $employee->company->id,
+                'number_of_employees' => $employee->company->employees()->count(),
+                'joined_at' => $employee->created_at,
+            ]);
+        }
+
+        return View::component('Home', ['employees' => $companiesCollection]);
     }
 }

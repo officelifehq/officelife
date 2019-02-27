@@ -227,6 +227,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['company', 'nbEmployees']
 });
@@ -1323,7 +1337,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\n.options[data-v-5c71a1ce] {\n  -webkit-column-count: 2;\n          column-count: 2;\n}\n@media (max-width: 480px) {\n.options[data-v-5c71a1ce] {\n    -webkit-column-count: 1;\n            column-count: 1;\n}\n}\n", ""]);
+exports.push([module.i, "\n.options[data-v-5c71a1ce] {\n  -webkit-column-count: 2;\n          column-count: 2;\n}\n@media (max-width: 480px) {\n.options[data-v-5c71a1ce] {\n    -webkit-column-count: 1;\n            column-count: 1;\n}\n}\n.options img[data-v-5c71a1ce] {\n  top: 7px;\n}\n.options a[data-v-5c71a1ce] {\n  left: 33px;\n}\n", ""]);
 
 // exports
 
@@ -3053,20 +3067,34 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("ul", { staticClass: "options list pl0 mb5" }, [
-              _c("li", { staticClass: "pa2 pl0" }, [
+              _c("li", { staticClass: "pa2 pl0 relative" }, [
+                _c("img", {
+                  staticClass: "pr1 absolute",
+                  attrs: { src: "/img/company/account/employees.svg" }
+                }),
+                _vm._v(" "),
                 _c(
                   "a",
                   {
+                    staticClass: "relative",
                     attrs: { href: "/" + _vm.company.id + "/account/employees" }
                   },
                   [_vm._v("Add/remove employees")]
                 )
               ]),
               _vm._v(" "),
-              _c("li", { staticClass: "pa2 pl0" }, [
+              _c("li", { staticClass: "pa2 pl0 relative" }, [
+                _c("img", {
+                  staticClass: "pr1 absolute",
+                  attrs: { src: "/img/company/account/teams.svg" }
+                }),
+                _vm._v(" "),
                 _c(
                   "a",
-                  { attrs: { href: "/" + _vm.company.id + "/account/teams" } },
+                  {
+                    staticClass: "relative",
+                    attrs: { href: "/" + _vm.company.id + "/account/teams" }
+                  },
                   [_vm._v("Add/remove teams")]
                 )
               ])
@@ -4068,7 +4096,7 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "flex-auto" }, [
-                      _c("span", { staticClass: "db black-70" }, [
+                      _c("span", { staticClass: "db b" }, [
                         _vm._v(_vm._s(team.name))
                       ]),
                       _vm._v(" "),
@@ -4760,7 +4788,7 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      attrs: { href: "/" + employee.company.id + "/dashboard" }
+                      attrs: { href: "/" + employee.company_id + "/dashboard" }
                     },
                     [
                       _c(
@@ -4772,12 +4800,13 @@ var render = function() {
                         [
                           _vm._v(
                             "\n              " +
-                              _vm._s(employee.company.name) +
+                              _vm._s(employee.company_name) +
                               "\n              "
                           ),
                           _c("span", { staticClass: "absolute normal f6" }, [
                             _vm._v(
-                              _vm._s(employee.company.employees) + " employees"
+                              _vm._s(employee.number_of_employees) +
+                                " employees"
                             )
                           ])
                         ]
