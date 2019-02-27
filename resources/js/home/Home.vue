@@ -71,10 +71,10 @@
         </div>
         <div class="cf mt4 mw7 center">
           <div class="fl w-100 w-25-m w-third-l pr2" v-for="employee in employees" :key="employee.id">
-            <a :href="'/' + employee.company.id + '/dashboard'">
+            <a :href="'/' + employee.company_id + '/dashboard'">
               <div class="br3 mb3 bg-white box pa3 home-index-company b relative">
-                {{ employee.company.name }}
-                <span class="absolute normal f6">{{ employee.company.employees }} employees</span>
+                {{ employee.company_name }}
+                <span class="absolute normal f6">{{ employee.number_of_employees }} employees</span>
               </div>
             </a>
           </div>

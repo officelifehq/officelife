@@ -81,7 +81,7 @@
               v-for="team in teams" v-bind:key="team.id"
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10">
                 <div class="flex-auto">
-                  <span class="db black-70">{{ team.name }}</span>
+                  <span class="db b">{{ team.name }}</span>
                   <ul class="f6 list pl0">
                     <li class="di pr2"><a :href="'/account/teams/' + team.id">View/edit</a></li>
                     <li class="di pr2"><a :href="'/teams/' + team.id + '/lock'">Rename</a></li>
