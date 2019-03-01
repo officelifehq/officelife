@@ -37,8 +37,8 @@
     <div class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="menu == true">
       <ul class="list ma0 pa0">
         <li class="pv2">
-          <a class="no-color no-underline" href="">
-            Changelog
+          <a class="no-color no-underline" href="/home">
+            Switch companies
           </a>
         </li>
         <li class="pv2">

@@ -23,6 +23,9 @@
         "vue-template-compiler": "^2.5.22"
     },
     "dependencies": {
-        "laravel-mix-purgecss": "^4.1.0"
+        "laravel-mix-purgecss": "^4.1.0",
+        "turbolinks": "^5.2.0",
+        "vue-loaders": "^2.0.0",
+        "vue-snotify": "^3.2.1"
     }
 }

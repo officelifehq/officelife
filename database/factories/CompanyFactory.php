@@ -15,11 +15,10 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'uuid' => $faker->uuid,
         'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
         'permission_level' => config('homas.authorizations.administrator'),
-        'identities' => json_encode([
-            'email' => 'dwigth@dundermifflin.com',
-            'first_name' => 'Dwight',
-            'last_name' => 'Schrute',
-        ]),
+        'email' => 'dwigth@dundermifflin.com',
+        'first_name' => 'Dwight',
+        'last_name' => 'Schrute',
+        'birthdate' => '1978-01-20',
     ];
 });
 

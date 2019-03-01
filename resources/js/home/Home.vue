@@ -1,0 +1,94 @@
+<style scoped>
+.home-box {
+  color: #4d4d4f;
+  height: 300px;
+  width: 300px;
+}
+
+@media (max-width: 480px) {
+  .home-box {
+    width: 100%;
+  }
+}
+
+.home-company {
+  left: -20px;
+  bottom: -20px;
+}
+
+@media (max-width: 480px) {
+  .home-company img {
+    bottom: 0;
+  }
+}
+
+.home-join {
+  left: 14px;
+  bottom: 11px;
+}
+
+@media (max-width: 480px) {
+  .home-join img {
+    bottom: 0;
+  }
+}
+</style>
+
+<template>
+  <layout title="Home" noMenu="true">
+    <div class="ph2 ph0-ns">
+
+      <!-- Blank state -->
+      <div class="cf mt4 mt5-l mw7 center" v-show="employees.length == 0">
+        <div class="fl w-100 w-25-m w-50-l pr2-l">
+          <a href="/company/create">
+            <div class="pa3-l">
+              <div class="br3 mb3 bg-white box pa3 tc relative home-box">
+                <h3>Add a company</h3>
+                <p>Choose this if you want to create an account for your company.</p>
+                <img src="/img/home/create-company.png" class="home-company absolute">
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="fl w-100 w-25-m w-50-l">
+          <a href="/company/create">
+            <div class="pa3-l">
+              <div class="br3 mb3 bg-white box pa3 tc relative home-box">
+                <h3>Join a company</h3>
+                <p>Choose this is you are an employee of an existing company and need access to your account.</p>
+                <img src="/img/home/join-company.png" class="home-join absolute">
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- List of companies -->
+      <div v-show="employees.length != 0">
+        <div class="mt4 mt5-l mw7 center section-btn relative">
+          <p><span class="pr2">All the companies you are part of</span> <a href="/company/create" class="btn-primary absolute db-l dn br3 pv2 ph3 white no-underline bb-0">Create a company</a></p>
+        </div>
+        <div class="cf mt4 mw7 center">
+          <div class="fl w-100 w-25-m w-third-l pr2" v-for="employee in employees" :key="employee.id">
+            <a :href="'/' + employee.company.id + '/dashboard'">
+              <div class="br3 mb3 bg-white box pa3 home-index-company b relative">
+                {{ employee.company.name }}
+                <span class="absolute normal f6">{{ employee.company.employees }} employees</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="w-100 dn-ns db mt2">
+          <a href="/company/create" class="btn-primary br3 pa3 white no-underline bb-0 db tc">Create a company</a>
+        </div>
+      </div>
+    </div>
+  </layout>
+</template>
+
+<script>
+export default {
+  props: ['employees'],
+}
+</script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 
 class LoginController extends Controller
 {
@@ -16,10 +17,10 @@ class LoginController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            return redirect(tenant('/home'));
+            return redirect('/home');
         }
 
-        return view('auth.login');
+        return View::component('Login');
     }
 
     /**
@@ -39,9 +40,9 @@ class LoginController extends Controller
             return redirect()->intended('/home');
         }
 
-        return redirect('login')
-                ->withErrors('Invalid credentials')
-                ->withInput();
+        return response()->json([
+            'errors' => '😳 Invalid credentials',
+        ], 403);
     }
 
     /**
@@ -53,6 +54,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect('/login');
+        return View::component('Login');
     }
 }
