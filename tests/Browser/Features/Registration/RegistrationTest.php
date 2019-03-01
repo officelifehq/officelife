@@ -16,7 +16,7 @@ class RegistrationTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/signup')
-                ->type('email', 'admin@admin.com')
+                ->value('email', 'admin@admin.com')
                 ->type('password', 'admin')
                 ->click('@register-button')
                 ->assertSee('Create a company');
@@ -30,7 +30,7 @@ class RegistrationTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/signup')
-                ->type('email', $user->email)
+                ->value('email', $user->email)
                 ->type('password', 'admin')
                 ->click('@register-button')
                 ->assertSee('The email has already been taken.');
