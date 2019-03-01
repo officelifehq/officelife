@@ -8,6 +8,14 @@
     column-count: 1;
   }
 }
+
+.options img {
+  top: 7px;
+}
+
+.options a {
+  left: 33px;
+}
 </style>
 
 <template>
@@ -29,8 +37,14 @@
           <p>As an <span class="b brush-blue">administrator</span>, you can...</p>
 
           <ul class="options list pl0 mb5">
-            <li class="pa2 pl0"><a :href="'/' + company.id + '/account/employees'">Add/remove employees</a></li>
-            <li class="pa2 pl0"><a :href="'/' + company.id + '/account/teams'">Add/remove teams</a></li>
+            <li class="pa2 pl0 relative">
+              <img src="/img/company/account/employees.svg" class="pr1 absolute">
+              <a :href="'/' + company.id + '/account/employees'" class="relative">Add/remove employees</a>
+            </li>
+            <li class="pa2 pl0 relative">
+              <img src="/img/company/account/teams.svg" class="pr1 absolute">
+              <a :href="'/' + company.id + '/account/teams'" class="relative">Add/remove teams</a>
+            </li>
           </ul>
 
           <p>As an <span class="b brush-orange">account owner</span>, you can...</p>

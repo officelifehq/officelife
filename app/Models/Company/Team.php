@@ -19,6 +19,7 @@ class Team extends Model
     protected $fillable = [
         'company_id',
         'name',
+        'team_leader_id',
         'is_dummy',
     ];
 
@@ -58,5 +59,15 @@ class Team extends Model
     public function employees()
     {
         return $this->belongsToMany(Employee::class);
+    }
+
+    /**
+     * Get the employee record associated with the team.
+     *
+     * @return BelongsTo
+     */
+    public function leader()
+    {
+        return $this->belongsTo(Employee::class, 'team_leader_id');
     }
 }
