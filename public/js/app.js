@@ -5030,7 +5030,7 @@ var staticRenderFns = [
                     staticClass: "no-color b no-underline",
                     attrs: { href: "" }
                   },
-                  [_vm._v("\n                app.main_nav_home\n            ")]
+                  [_vm._v("\n                Home\n            ")]
                 )
               ]),
               _vm._v(" "),
