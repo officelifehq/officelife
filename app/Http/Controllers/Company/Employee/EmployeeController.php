@@ -22,11 +22,13 @@ class EmployeeController extends Controller
     {
         $company = Cache::get('currentCompany');
         $employee = Employee::findOrFail($employeeId);
+        $managers = $employee->managerOf();
 
         return View::component('ShowCompanyEmployee', [
             'company' => $company,
             'user' => auth()->user()->isPartOfCompany($company),
             'employee' => new EmployeeResource($employee),
+            'managers' => $managers,
         ]);
     }
 }
