@@ -237,10 +237,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['company', 'nbEmployees']
 });
@@ -980,11 +976,6 @@ Vue.use(vue_loaders__WEBPACK_IMPORTED_MODULE_1__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2777,7 +2768,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "db fw4 lh-copy f6", attrs: { for: "email" } },
-                  [_vm._v("auth.register_email")]
+                  [_vm._v(_vm._s(_vm.$t("auth.register_email")))]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -2803,7 +2794,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("p", { staticClass: "f7 mb4 lh-title" }, [
-                  _vm._v("auth.register_email_help")
+                  _vm._v(_vm._s(_vm.$t("auth.register_email_help")))
                 ])
               ]),
               _vm._v(" "),
@@ -2814,7 +2805,7 @@ var render = function() {
                     staticClass: "db fw4 lh-copy f6",
                     attrs: { for: "password" }
                   },
-                  [_vm._v("auth.register_password")]
+                  [_vm._v(_vm._s(_vm.$t("auth.register_password")))]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -2849,7 +2840,7 @@ var render = function() {
                         attrs: {
                           classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
                           state: _vm.loadingState,
-                          text: "login"
+                          text: _vm.$t("auth.login_cta")
                         }
                       })
                     ],
@@ -2890,7 +2881,7 @@ var render = function() {
   return _c("div", { staticClass: "ph2 ph0-ns" }, [
     _c("div", { staticClass: "cf mt4 mw7 center br3 mb3 bg-white box" }, [
       _c("div", { staticClass: "fn fl-ns w-50-ns pa3" }, [
-        _vm._v("\n      auth.register_title\n    ")
+        _vm._v("\n      " + _vm._s(_vm.$t("auth.register_title")) + "\n    ")
       ]),
       _vm._v(" "),
       _c(
@@ -2914,7 +2905,7 @@ var render = function() {
                 _c(
                   "label",
                   { staticClass: "db fw4 lh-copy f6", attrs: { for: "email" } },
-                  [_vm._v("auth.register_email")]
+                  [_vm._v(_vm._s(_vm.$t("auth.register_email")))]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -2940,7 +2931,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("p", { staticClass: "f7 mb4 lh-title" }, [
-                  _vm._v("auth.register_email_help")
+                  _vm._v(_vm._s(_vm.$t("auth.register_email_help")))
                 ])
               ]),
               _vm._v(" "),
@@ -2951,7 +2942,7 @@ var render = function() {
                     staticClass: "db fw4 lh-copy f6",
                     attrs: { for: "password" }
                   },
-                  [_vm._v("auth.register_password")]
+                  [_vm._v(_vm._s(_vm.$t("auth.register_password")))]
                 ),
                 _vm._v(" "),
                 _c("input", {
@@ -2986,7 +2977,7 @@ var render = function() {
                         attrs: {
                           classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
                           state: _vm.loadingState,
-                          text: "register"
+                          text: _vm.$t("auth.register_cta")
                         }
                       })
                     ],
@@ -3042,7 +3033,9 @@ var render = function() {
               )
             ]),
             _vm._v(" "),
-            _c("li", { staticClass: "di" }, [_vm._v("Account administration")])
+            _c("li", { staticClass: "di" }, [
+              _vm._v(_vm._s(_vm.$t("app.breadcrumb_account_home")))
+            ])
           ])
         ]
       ),
@@ -3055,16 +3048,14 @@ var render = function() {
         [
           _c("div", { staticClass: "pa3 mt5" }, [
             _c("h2", { staticClass: "tc normal mb4" }, [
-              _vm._v("Administration of your Homas account")
+              _vm._v(_vm._s(_vm.$t("account.home_title")))
             ]),
             _vm._v(" "),
-            _c("p", [
-              _vm._v("As an "),
-              _c("span", { staticClass: "b brush-blue" }, [
-                _vm._v("administrator")
-              ]),
-              _vm._v(", you can...")
-            ]),
+            _c("p", {
+              domProps: {
+                innerHTML: _vm._s(_vm.$t("account.home_role_administrator"))
+              }
+            }),
             _vm._v(" "),
             _c("ul", { staticClass: "options list pl0 mb5" }, [
               _c("li", { staticClass: "pa2 pl0 relative" }, [
@@ -3079,7 +3070,7 @@ var render = function() {
                     staticClass: "relative",
                     attrs: { href: "/" + _vm.company.id + "/account/employees" }
                   },
-                  [_vm._v("Add/remove employees")]
+                  [_vm._v(_vm._s(_vm.$t("account.home_manage_employees")))]
                 )
               ]),
               _vm._v(" "),
@@ -3095,18 +3086,14 @@ var render = function() {
                     staticClass: "relative",
                     attrs: { href: "/" + _vm.company.id + "/account/teams" }
                   },
-                  [_vm._v("Add/remove teams")]
+                  [_vm._v(_vm._s(_vm.$t("account.home_manage_teams")))]
                 )
               ])
             ]),
             _vm._v(" "),
-            _c("p", [
-              _vm._v("As an "),
-              _c("span", { staticClass: "b brush-orange" }, [
-                _vm._v("account owner")
-              ]),
-              _vm._v(", you can...")
-            ]),
+            _c("p", {
+              domProps: { innerHTML: _vm._s(_vm.$t("account.home_role_owner")) }
+            }),
             _vm._v(" "),
             _c("ul", { staticClass: "options list pl0" }, [
               _c("li", { staticClass: "pa2 pl0" }, [
@@ -3116,7 +3103,7 @@ var render = function() {
                     staticClass: "bb",
                     attrs: { href: "/" + _vm.company.id + "/account/audit" }
                   },
-                  [_vm._v("View audit log to see who has done what")]
+                  [_vm._v(_vm._s(_vm.$t("account.home_audit_log")))]
                 )
               ]),
               _vm._v(" "),
@@ -3139,7 +3126,7 @@ var render = function() {
                     {
                       attrs: { href: "/" + _vm.company.id + "/account/dummy" }
                     },
-                    [_vm._v("Generate fake data")]
+                    [_vm._v(_vm._s(_vm.$t("account.home_generate_fake_data")))]
                   )
                 ]
               ),
@@ -3163,26 +3150,10 @@ var render = function() {
                     {
                       attrs: { href: "/" + _vm.company.id + "/account/dummy" }
                     },
-                    [_vm._v("Remove fake data")]
+                    [_vm._v(_vm._s(_vm.$t("account.home_remove_fake_data")))]
                   )
                 ]
-              ),
-              _vm._v(" "),
-              _c("li", { staticClass: "pa2 pl0" }, [
-                _vm._v("Export data from this account")
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "pa2 pl0" }, [
-                _vm._v("Change company information")
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "pa2 pl0" }, [
-                _vm._v("Upgrade to a paid account")
-              ]),
-              _vm._v(" "),
-              _c("li", { staticClass: "pa2 pl0" }, [
-                _vm._v("Cancel this account")
-              ])
+              )
             ])
           ])
         ]
@@ -3360,11 +3331,17 @@ var render = function() {
                 {
                   attrs: { href: "/" + _vm.company.id + "/account/employees" }
                 },
-                [_vm._v("Manage employees")]
+                [
+                  _vm._v(
+                    _vm._s(_vm.$t("app.breadcrumb_account_manage_employees"))
+                  )
+                ]
               )
             ]),
             _vm._v(" "),
-            _c("li", { staticClass: "di" }, [_vm._v("Add an employee")])
+            _c("li", { staticClass: "di" }, [
+              _vm._v(_vm._s(_vm.$t("app.breadcrumb_account_add_employee")))
+            ])
           ])
         ]
       ),
@@ -3380,7 +3357,13 @@ var render = function() {
             { staticClass: "pa3 mt5 measure center" },
             [
               _c("h2", { staticClass: "tc normal mb4" }, [
-                _vm._v("Add an employee to " + _vm._s(_vm.company.name))
+                _vm._v(
+                  _vm._s(
+                    _vm.$t("account.employee_new_title", {
+                      name: _vm.company.name
+                    })
+                  )
+                )
               ]),
               _vm._v(" "),
               _c("errors", { attrs: { errors: _vm.form.errors } }),
@@ -3403,7 +3386,7 @@ var render = function() {
                         staticClass: "db fw4 lh-copy f6",
                         attrs: { for: "first_name" }
                       },
-                      [_vm._v("employee.new_firstname")]
+                      [_vm._v(_vm._s(_vm.$t("account.employee_new_firstname")))]
                     ),
                     _vm._v(" "),
                     _c("input", {
@@ -3441,7 +3424,7 @@ var render = function() {
                         staticClass: "db fw4 lh-copy f6",
                         attrs: { for: "last_name" }
                       },
-                      [_vm._v("employee.new_lastname")]
+                      [_vm._v(_vm._s(_vm.$t("account.employee_new_lastname")))]
                     ),
                     _vm._v(" "),
                     _c("input", {
@@ -3479,7 +3462,7 @@ var render = function() {
                         staticClass: "db fw4 lh-copy f6",
                         attrs: { for: "email" }
                       },
-                      [_vm._v("employee.new_email")]
+                      [_vm._v(_vm._s(_vm.$t("account.employee_new_email")))]
                     ),
                     _vm._v(" "),
                     _c("input", {
@@ -3513,7 +3496,11 @@ var render = function() {
                   _c("hr"),
                   _vm._v(" "),
                   _c("div", { staticClass: "mb3" }, [
-                    _c("p", [_vm._v("employee.new_permission_level")]),
+                    _c("p", [
+                      _vm._v(
+                        _vm._s(_vm.$t("account.employee_new_permission_level"))
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "db" }, [
                       _c("input", {
@@ -3548,10 +3535,20 @@ var render = function() {
                           staticClass: "pointer",
                           attrs: { for: "administrator" }
                         },
-                        [_vm._v("employee.new_administrator")]
+                        [
+                          _vm._v(
+                            _vm._s(_vm.$t("account.employee_new_administrator"))
+                          )
+                        ]
                       ),
                       _vm._v(" "),
-                      _c("p", [_vm._v("employee.new_administrator_desc")])
+                      _c("p", [
+                        _vm._v(
+                          _vm._s(
+                            _vm.$t("account.employee_new_administrator_desc")
+                          )
+                        )
+                      ])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "db" }, [
@@ -3584,10 +3581,12 @@ var render = function() {
                       _c(
                         "label",
                         { staticClass: "pointer", attrs: { for: "hr" } },
-                        [_vm._v("employee.new_hr")]
+                        [_vm._v(_vm._s(_vm.$t("account.employee_new_hr")))]
                       ),
                       _vm._v(" "),
-                      _c("p", [_vm._v("employee.new_hr_desc")])
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.$t("account.employee_new_hr_desc")))
+                      ])
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "db" }, [
@@ -3620,10 +3619,12 @@ var render = function() {
                       _c(
                         "label",
                         { staticClass: "pointer", attrs: { for: "user" } },
-                        [_vm._v("employee.new_user")]
+                        [_vm._v(_vm._s(_vm.$t("account.employee_new_user")))]
                       ),
                       _vm._v(" "),
-                      _c("p", [_vm._v("employee.new_user_desc")])
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.$t("account.employee_new_user_desc")))
+                      ])
                     ])
                   ]),
                   _vm._v(" "),
@@ -3651,7 +3652,11 @@ var render = function() {
                           staticClass: "lh-copy",
                           attrs: { for: "send_email" }
                         },
-                        [_vm._v("employee.new_send_email")]
+                        [
+                          _vm._v(
+                            _vm._s(_vm.$t("account.employee_new_send_email"))
+                          )
+                        ]
                       )
                     ])
                   ]),
@@ -3672,7 +3677,7 @@ var render = function() {
                                   "/" + _vm.company.id + "/account/employees"
                               }
                             },
-                            [_vm._v("Cancel")]
+                            [_vm._v(_vm._s(_vm.$t("app.cancel")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -3680,7 +3685,7 @@ var render = function() {
                           attrs: {
                             classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
                             state: _vm.loadingState,
-                            text: "Save"
+                            text: _vm.$t("app.save")
                           }
                         })
                       ],
@@ -3739,11 +3744,13 @@ var render = function() {
             _vm._v(" "),
             _c("li", { staticClass: "di" }, [
               _c("a", { attrs: { href: "/" + _vm.company.id + "/account" } }, [
-                _vm._v("Account administration")
+                _vm._v(_vm._s(_vm.$t("app.breadcrumb_account_home")))
               ])
             ]),
             _vm._v(" "),
-            _c("li", { staticClass: "di" }, [_vm._v("Manage employees")])
+            _c("li", { staticClass: "di" }, [
+              _vm._v(_vm._s(_vm.$t("app.breadcrumb_account_manage_employees")))
+            ])
           ])
         ]
       ),
@@ -3756,16 +3763,25 @@ var render = function() {
         [
           _c("div", { staticClass: "pa3 mt5" }, [
             _c("h2", { staticClass: "tc normal mb4" }, [
-              _vm._v("All the employees in " + _vm._s(_vm.company.name))
+              _vm._v(
+                _vm._s(
+                  _vm.$t("account.employees_title", {
+                    company: _vm.company.name
+                  })
+                )
+              )
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "relative" }, [
               _c("span", { staticClass: "dib mb3 di-l" }, [
                 _vm._v(
-                  _vm._s(_vm.company.name) +
-                    " has " +
-                    _vm._s(_vm.employees.length) +
-                    " employees."
+                  _vm._s(
+                    _vm.$tc(
+                      "account.employees_number_employees",
+                      _vm.employees.length,
+                      { company: _vm.company.name, count: _vm.employees.length }
+                    )
+                  )
                 )
               ]),
               _vm._v(" "),
@@ -3778,7 +3794,7 @@ var render = function() {
                     href: "/" + _vm.company.id + "/account/employees/create"
                   }
                 },
-                [_vm._v("Add an employee")]
+                [_vm._v(_vm._s(_vm.$t("account.employees_cta")))]
               )
             ]),
             _vm._v(" "),
@@ -3823,7 +3839,7 @@ var render = function() {
                                   employee.id
                               }
                             },
-                            [_vm._v("View")]
+                            [_vm._v(_vm._s(_vm.$t("app.view")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -3838,7 +3854,13 @@ var render = function() {
                                   "/permissions"
                               }
                             },
-                            [_vm._v("Change permission")]
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$t("account.employees_change_permission")
+                                )
+                              )
+                            ]
                           )
                         ]),
                         _vm._v(" "),
@@ -3850,7 +3872,11 @@ var render = function() {
                                 href: "/employees/" + employee.id + "/lock"
                               }
                             },
-                            [_vm._v("Lock account")]
+                            [
+                              _vm._v(
+                                _vm._s(_vm.$t("account.employees_lock_account"))
+                              )
+                            ]
                           )
                         ]),
                         _vm._v(" "),
@@ -3865,7 +3891,7 @@ var render = function() {
                                   "/destroy"
                               }
                             },
-                            [_vm._v("Delete")]
+                            [_vm._v(_vm._s(_vm.$t("app.delete")))]
                           )
                         ])
                       ])
@@ -3923,11 +3949,13 @@ var render = function() {
             _vm._v(" "),
             _c("li", { staticClass: "di" }, [
               _c("a", { attrs: { href: "/" + _vm.company.id + "/account" } }, [
-                _vm._v("Account administration")
+                _vm._v(_vm._s(_vm.$t("app.breadcrumb_account_home")))
               ])
             ]),
             _vm._v(" "),
-            _c("li", { staticClass: "di" }, [_vm._v("Manage teams")])
+            _c("li", { staticClass: "di" }, [
+              _vm._v(_vm._s(_vm.$t("app.breadcrumb_account_manage_teams")))
+            ])
           ])
         ]
       ),
@@ -3940,16 +3968,22 @@ var render = function() {
         [
           _c("div", { staticClass: "pa3 mt5" }, [
             _c("h2", { staticClass: "tc normal mb4" }, [
-              _vm._v("All the teams listed in " + _vm._s(_vm.company.name))
+              _vm._v(
+                _vm._s(
+                  _vm.$t("account.teams_title", { company: _vm.company.name })
+                )
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "relative" }, [
               _c("span", { staticClass: "dib mb3 di-l" }, [
                 _vm._v(
-                  _vm._s(_vm.company.name) +
-                    " have " +
-                    _vm._s(_vm.teams.length) +
-                    " teams."
+                  _vm._s(
+                    _vm.$tc("account.teams_number_teams", _vm.teams.length, {
+                      company: _vm.company.name,
+                      count: _vm.teams.length
+                    })
+                  )
                 )
               ]),
               _vm._v(" "),
@@ -3965,7 +3999,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("Add a team")]
+                [_vm._v(_vm._s(_vm.$t("account.teams_cta")))]
               ),
               _vm._v(" "),
               _vm.modal == true
@@ -3996,7 +4030,7 @@ var render = function() {
                                 staticClass: "db fw4 lh-copy f6",
                                 attrs: { for: "name" }
                               },
-                              [_vm._v("Name of the team")]
+                              [_vm._v(_vm._s(_vm.$t("account.team_new_name")))]
                             ),
                             _vm._v(" "),
                             _c("input", {
@@ -4049,7 +4083,7 @@ var render = function() {
                                         }
                                       }
                                     },
-                                    [_vm._v("Cancel")]
+                                    [_vm._v(_vm._s(_vm.$t("app.cancel")))]
                                   )
                                 ]),
                                 _vm._v(" "),
@@ -4058,7 +4092,7 @@ var render = function() {
                                     classes:
                                       "btn add w-auto-ns w-100 mb2 pv2 ph3",
                                     state: _vm.loadingState,
-                                    text: "Add"
+                                    text: _vm.$t("app.add")
                                   }
                                 })
                               ],
@@ -4105,7 +4139,7 @@ var render = function() {
                           _c(
                             "a",
                             { attrs: { href: "/account/teams/" + team.id } },
-                            [_vm._v("View/edit")]
+                            [_vm._v(_vm._s(_vm.$t("app.view")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -4113,7 +4147,7 @@ var render = function() {
                           _c(
                             "a",
                             { attrs: { href: "/teams/" + team.id + "/lock" } },
-                            [_vm._v("Rename")]
+                            [_vm._v(_vm._s(_vm.$t("app.rename")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -4125,7 +4159,7 @@ var render = function() {
                                 href: "/account/teams/" + team.id + "/destroy"
                               }
                             },
-                            [_vm._v("Delete")]
+                            [_vm._v(_vm._s(_vm.$t("app.delete")))]
                           )
                         ])
                       ])
@@ -4152,9 +4186,7 @@ var render = function() {
             },
             [
               _c("p", { staticClass: "tc measure center mb4" }, [
-                _vm._v(
-                  "Teams are a great way for groups of people in your company to work together in Homas."
-                )
+                _vm._v(_vm._s(_vm.$t("account.teams_blank")))
               ]),
               _vm._v(" "),
               _c("img", {
@@ -4611,41 +4643,48 @@ var render = function() {
             staticClass:
               "absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster"
           },
-          [_vm._m(0)]
+          [
+            _c("ul", { staticClass: "list ma0 pa0" }, [
+              _c("li", { staticClass: "pv2" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "no-color no-underline",
+                    attrs: { href: "/home" }
+                  },
+                  [
+                    _vm._v(
+                      "\n          " +
+                        _vm._s(_vm.$t("app.header_switch_company")) +
+                        "\n        "
+                    )
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "pv2" }, [
+                _c(
+                  "a",
+                  {
+                    staticClass: "no-color no-underline",
+                    attrs: { href: "/logout" }
+                  },
+                  [
+                    _vm._v(
+                      "\n          " +
+                        _vm._s(_vm.$t("app.header_logout")) +
+                        "\n        "
+                    )
+                  ]
+                )
+              ])
+            ])
+          ]
         )
       : _vm._e()
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "list ma0 pa0" }, [
-      _c("li", { staticClass: "pv2" }, [
-        _c(
-          "a",
-          { staticClass: "no-color no-underline", attrs: { href: "/home" } },
-          [_vm._v("\n          Switch companies\n        ")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "pv2" }, [
-        _c("a", { staticClass: "no-color no-underline", attrs: { href: "" } }, [
-          _vm._v("\n          Settings\n        ")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "pv2" }, [
-        _c(
-          "a",
-          { staticClass: "no-color no-underline", attrs: { href: "/logout" } },
-          [_vm._v("\n          Logout\n        ")]
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -4692,12 +4731,10 @@ var render = function() {
                     staticClass: "br3 mb3 bg-white box pa3 tc relative home-box"
                   },
                   [
-                    _c("h3", [_vm._v("Add a company")]),
+                    _c("h3", [_vm._v(_vm._s(_vm.$t("home.create_company")))]),
                     _vm._v(" "),
                     _c("p", [
-                      _vm._v(
-                        "Choose this if you want to create an account for your company."
-                      )
+                      _vm._v(_vm._s(_vm.$t("home.create_company_desc")))
                     ]),
                     _vm._v(" "),
                     _c("img", {
@@ -4719,13 +4756,9 @@ var render = function() {
                     staticClass: "br3 mb3 bg-white box pa3 tc relative home-box"
                   },
                   [
-                    _c("h3", [_vm._v("Join a company")]),
+                    _c("h3", [_vm._v(_vm._s(_vm.$t("home.join_company")))]),
                     _vm._v(" "),
-                    _c("p", [
-                      _vm._v(
-                        "Choose this is you are an employee of an existing company and need access to your account."
-                      )
-                    ]),
+                    _c("p", [_vm._v(_vm._s(_vm.$t("home.join_company_desc")))]),
                     _vm._v(" "),
                     _c("img", {
                       staticClass: "home-join absolute",
@@ -4758,7 +4791,7 @@ var render = function() {
             [
               _c("p", [
                 _c("span", { staticClass: "pr2" }, [
-                  _vm._v("All the companies you are part of")
+                  _vm._v(_vm._s(_vm.$t("home.companies_part_of")))
                 ]),
                 _vm._v(" "),
                 _c(
@@ -4768,7 +4801,7 @@ var render = function() {
                       "btn-primary absolute db-l dn br3 pv2 ph3 white no-underline bb-0",
                     attrs: { href: "/company/create" }
                   },
-                  [_vm._v("Create a company")]
+                  [_vm._v(_vm._s(_vm.$t("home.create_company_cta")))]
                 )
               ])
             ]
@@ -4805,8 +4838,13 @@ var render = function() {
                           ),
                           _c("span", { staticClass: "absolute normal f6" }, [
                             _vm._v(
-                              _vm._s(employee.number_of_employees) +
-                                " employees"
+                              _vm._s(
+                                _vm.$tc(
+                                  "home.number_of_employees",
+                                  employee.number_of_employees,
+                                  { count: employee.number_of_employees }
+                                )
+                              )
                             )
                           ])
                         ]
@@ -4827,7 +4865,7 @@ var render = function() {
                   "btn-primary br3 pa3 white no-underline bb-0 db tc",
                 attrs: { href: "/company/create" }
               },
-              [_vm._v("Create a company")]
+              [_vm._v(_vm._s(_vm.$t("home.create_company_cta")))]
             )
           ])
         ]
@@ -5204,6 +5242,17 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./public/js/langs/en.json":
+/*!*********************************!*\
+  !*** ./public/js/langs/en.json ***!
+  \*********************************/
+/*! exports provided: account, app, audit, auth, company, employee, format, home, pagination, passwords, team, validation, default */
+/***/ (function(module) {
+
+module.exports = {"account":{"employee_new_administrator":"Administrator","employee_new_administrator_desc":"Can do everything, including account management.","employee_new_email":"Email address","employee_new_firstname":"Firstname","employee_new_hr":"Human Resource Representative","employee_new_hr_desc":"Have access to most features, including reading and writing private information, but can't manage the account itself.","employee_new_lastname":"Lastname","employee_new_permission_level":"What can this person do?","employee_new_send_email":"Send an email to this person with a link to access the account. This is optional - you will be able to invite this person later.","employee_new_title":"Add employee","employee_new_user":"Employee","employee_new_user_desc":"Can see all teams and employees, but can not manage the account or read private information.","employees_change_permission":"Change permission","employees_cta":"Add an employee","employees_lock_account":"Lock account","employees_number_employees":"{company} has one employee. | {company} has {count} employees.","employees_title":"All the employees in {company}","home_audit_log":"View audit log to see who has done what","home_generate_fake_data":"Generate fake data","home_manage_employees":"Add/remove employees","home_manage_teams":"Add/remove teams","home_remove_fake_data":"Remove fake data","home_role_administrator":"As an <span class=\"b brush-blue\">administrator</span>, you can…","home_role_owner":"As an <span class=\"b brush-orange\">owner</span>, you can…","home_title":"Administration of your Homas account","team_new_name":"Name of the team","teams_blank":"Teams are a great way for groups of people in your company to work together in Homas.","teams_cta":"Add a team","teams_number_teams":"{company} has one team. | {company} has {count} teams.","teams_title":"All the teams listed in {company}"},"app":{"add":"Add","breadcrumb_account_add_employee":"Add an employee","breadcrumb_account_home":"Account administration","breadcrumb_account_manage_employees":"Manage employees","breadcrumb_account_manage_teams":"Manage teams","cancel":"Cancel","delete":"Delete","delete_confirm":"Sure?","edit":"Edit","header_logout":"Logout","header_switch_company":"Switch company","permission_100":"Administrator","permission_200":"Human Resource Representative","permission_300":"Employee","rename":"Rename","save":"Save","update":"Update","view":"View"},"audit":{"account_created":"Created account","employee_added_to_company":"Added :employee to :company","employee_added_to_team":"Added :employee to :team","employee_destroyed":"Deleted :employee from :company","permission_changed":"Changed permission of :employee from :old to :new","team_created":"Created :team","team_destroyed":"Deleted :team","team_leader_assigned":"Assigned leader","team_updated":"Updated :team","user_added_to_company":"Added :user to :company","user_created":"Created :user","user_removed_from_team":"Removed :user from :team"},"auth":{"failed":"These credentials do not match our records.","login_cta":"Login →","login_email":"Your email address","login_password":"Your password","register_cta":"Create your account →","register_email":"Your email address","register_email_help":"We'll never spam. You'll receive one email to confirm your email address once you sign up, and won't be added to any nasty email marketing campaigns, nor will you receive emails from a sales team.","register_password":"Enter a hard-to-guess password","register_title":"Create an account now","throttle":"Too many login attempts. Please try again in :seconds seconds."},"company":{"new_name":"What is the name of the company?"},"employee":[],"format":{"short_date_year_time":"M d, Y H:i"},"home":{"companies_part_of":"All the companies you are part of","create_company":"Create a company","create_company_cta":"Add a company","create_company_desc":"Choose this if you want to create an account for your company.","join_company":"Join a company","join_company_desc":"Choose this is you are an employee of an existing company and need access to your account.","number_of_employees":"no employee | 1 employee | {count} employees"},"pagination":{"next":"Next &raquo;","previous":"&laquo; Previous"},"passwords":{"password":"Passwords must be at least six characters and match the confirmation.","reset":"Your password has been reset!","sent":"We have e-mailed your password reset link!","token":"This password reset token is invalid.","user":"We can't find a user with that e-mail address."},"team":{"new_name":"Name","new_title":"Create team"},"validation":{"accepted":"The :attribute must be accepted.","active_url":"The :attribute is not a valid URL.","after":"The :attribute must be a date after :date.","after_or_equal":"The :attribute must be a date after or equal to :date.","alpha":"The :attribute may only contain letters.","alpha_dash":"The :attribute may only contain letters, numbers, dashes and underscores.","alpha_num":"The :attribute may only contain letters and numbers.","array":"The :attribute must be an array.","attributes":[],"before":"The :attribute must be a date before :date.","before_or_equal":"The :attribute must be a date before or equal to :date.","between":{"array":"The :attribute must have between :min and :max items.","file":"The :attribute must be between :min and :max kilobytes.","numeric":"The :attribute must be between :min and :max.","string":"The :attribute must be between :min and :max characters."},"boolean":"The :attribute field must be true or false.","confirmed":"The :attribute confirmation does not match.","custom":{"attribute-name":{"rule-name":"custom-message"}},"date":"The :attribute is not a valid date.","date_equals":"The :attribute must be a date equal to :date.","date_format":"The :attribute does not match the format :format.","different":"The :attribute and :other must be different.","digits":"The :attribute must be :digits digits.","digits_between":"The :attribute must be between :min and :max digits.","dimensions":"The :attribute has invalid image dimensions.","distinct":"The :attribute field has a duplicate value.","email":"The :attribute must be a valid email address.","exists":"The selected :attribute is invalid.","file":"The :attribute must be a file.","filled":"The :attribute field must have a value.","gt":{"array":"The :attribute must have more than :value items.","file":"The :attribute must be greater than :value kilobytes.","numeric":"The :attribute must be greater than :value.","string":"The :attribute must be greater than :value characters."},"gte":{"array":"The :attribute must have :value items or more.","file":"The :attribute must be greater than or equal :value kilobytes.","numeric":"The :attribute must be greater than or equal :value.","string":"The :attribute must be greater than or equal :value characters."},"image":"The :attribute must be an image.","in":"The selected :attribute is invalid.","in_array":"The :attribute field does not exist in :other.","integer":"The :attribute must be an integer.","ip":"The :attribute must be a valid IP address.","ipv4":"The :attribute must be a valid IPv4 address.","ipv6":"The :attribute must be a valid IPv6 address.","json":"The :attribute must be a valid JSON string.","lt":{"array":"The :attribute must have less than :value items.","file":"The :attribute must be less than :value kilobytes.","numeric":"The :attribute must be less than :value.","string":"The :attribute must be less than :value characters."},"lte":{"array":"The :attribute must not have more than :value items.","file":"The :attribute must be less than or equal :value kilobytes.","numeric":"The :attribute must be less than or equal :value.","string":"The :attribute must be less than or equal :value characters."},"max":{"array":"The :attribute may not have more than :max items.","file":"The :attribute may not be greater than :max kilobytes.","numeric":"The :attribute may not be greater than :max.","string":"The :attribute may not be greater than :max characters."},"mimes":"The :attribute must be a file of type: :values.","mimetypes":"The :attribute must be a file of type: :values.","min":{"array":"The :attribute must have at least :min items.","file":"The :attribute must be at least :min kilobytes.","numeric":"The :attribute must be at least :min.","string":"The :attribute must be at least :min characters."},"not_in":"The selected :attribute is invalid.","not_regex":"The :attribute format is invalid.","numeric":"The :attribute must be a number.","present":"The :attribute field must be present.","regex":"The :attribute format is invalid.","required":"The :attribute field is required.","required_if":"The :attribute field is required when :other is :value.","required_unless":"The :attribute field is required unless :other is in :values.","required_with":"The :attribute field is required when :values is present.","required_with_all":"The :attribute field is required when :values are present.","required_without":"The :attribute field is required when :values is not present.","required_without_all":"The :attribute field is required when none of :values are present.","same":"The :attribute and :other must match.","size":{"array":"The :attribute must contain :size items.","file":"The :attribute must be :size kilobytes.","numeric":"The :attribute must be :size.","string":"The :attribute must be :size characters."},"starts_with":"The :attribute must start with one of the following: :values","string":"The :attribute must be a string.","timezone":"The :attribute must be a valid zone.","unique":"The :attribute has already been taken.","uploaded":"The :attribute failed to upload.","url":"The :attribute format is invalid.","uuid":"The :attribute must be a valid UUID."}};
+
+/***/ }),
+
 /***/ "./resources/js sync recursive \\.vue$/":
 /*!***********************************!*\
   !*** ./resources/js sync \.vue$/ ***!
@@ -5256,14 +5305,18 @@ webpackContext.id = "./resources/js sync recursive \\.vue$/";
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no exports provided */
+/*! exports provided: i18n */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i18n", function() { return i18n; });
 /* harmony import */ var vue_snotify__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-snotify */ "./node_modules/vue-snotify/vue-snotify.esm.js");
 /* harmony import */ var vue_snotify_styles_simple_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-snotify/styles/simple.css */ "./node_modules/vue-snotify/styles/simple.css");
 /* harmony import */ var vue_snotify_styles_simple_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_snotify_styles_simple_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-i18n */ "./node_modules/vue-i18n/dist/vue-i18n.esm.js");
+/* harmony import */ var _public_js_langs_en_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../public/js/langs/en.json */ "./public/js/langs/en.json");
+var _public_js_langs_en_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../../public/js/langs/en.json */ "./public/js/langs/en.json", 1);
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -5288,7 +5341,19 @@ files.keys().map(function (key) {
 
 
 
-Vue.use(vue_snotify__WEBPACK_IMPORTED_MODULE_0__["default"]); // Start Turbolinks
+Vue.use(vue_snotify__WEBPACK_IMPORTED_MODULE_0__["default"]); // i18n
+
+
+Vue.use(vue_i18n__WEBPACK_IMPORTED_MODULE_2__["default"]);
+
+var i18n = new vue_i18n__WEBPACK_IMPORTED_MODULE_2__["default"]({
+  locale: 'en',
+  // set locale
+  fallbackLocale: 'en',
+  messages: {
+    'en': _public_js_langs_en_json__WEBPACK_IMPORTED_MODULE_3__
+  }
+}); // Start Turbolinks
 
 __webpack_require__(/*! turbolinks */ "./node_modules/turbolinks/dist/turbolinks.js").start(); // Boot the Vue component
 
@@ -5301,6 +5366,7 @@ document.addEventListener('turbolinks:load', function (event) {
   }
 
   window.vue = new Vue({
+    i18n: i18n,
     render: function render(h) {
       return h(Vue.component(root.dataset.component), {
         props: JSON.parse(root.dataset.props)

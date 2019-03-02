@@ -38,8 +38,8 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di"><a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a></li>
-          <li class="di"><a :href="'/' + company.id + '/account'">Account administration</a></li>
-          <li class="di">Manage teams</li>
+          <li class="di"><a :href="'/' + company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</a></li>
+          <li class="di">{{ $t('app.breadcrumb_account_manage_teams') }}</li>
         </ul>
       </div>
 
@@ -48,27 +48,27 @@
 
         <!-- WHEN THERE ARE TEAMS -->
         <div class="pa3 mt5">
-          <h2 class="tc normal mb4">All the teams listed in {{ company.name }}</h2>
+          <h2 class="tc normal mb4">{{ $t('account.teams_title', { company: company.name}) }}</h2>
 
           <!-- ADD TEAM -->
           <div class="relative">
-            <span class="dib mb3 di-l">{{ company.name }} have {{ teams.length }} teams.</span>
-            <a @click.prevent="modal = !modal" class="btn-primary pointer br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0">Add a team</a>
+            <span class="dib mb3 di-l">{{ $tc('account.teams_number_teams', teams.length, { company: company.name, count: teams.length}) }}</span>
+            <a @click.prevent="modal = !modal" class="btn-primary pointer br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0">{{ $t('account.teams_cta') }}</a>
 
             <div class="absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == true">
               <errors :errors="form.errors"></errors>
 
               <form @submit.prevent="submit">
                 <div class="mb3">
-                  <label class="db fw4 lh-copy f6" for="name">Name of the team</label>
+                  <label class="db fw4 lh-copy f6" for="name">{{ $t('account.team_new_name') }}</label>
                   <input type="text" id="name" name="name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" v-model="form.name" required>
                 </div>
                 <div class="mv2">
                   <div class="flex-ns justify-between">
                     <div>
-                      <a @click="modal = false" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">Cancel</a>
+                      <a @click="modal = false" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">{{ $t('app.cancel') }}</a>
                     </div>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'Add'"></loading-button>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')"></loading-button>
                   </div>
                 </div>
               </form>
@@ -83,9 +83,9 @@
                 <div class="flex-auto">
                   <span class="db b">{{ team.name }}</span>
                   <ul class="f6 list pl0">
-                    <li class="di pr2"><a :href="'/account/teams/' + team.id">View/edit</a></li>
-                    <li class="di pr2"><a :href="'/teams/' + team.id + '/lock'">Rename</a></li>
-                    <li class="di"><a :href="'/account/teams/' + team.id + '/destroy'">Delete</a></li>
+                    <li class="di pr2"><a :href="'/account/teams/' + team.id">{{ $t('app.view') }}</a></li>
+                    <li class="di pr2"><a :href="'/teams/' + team.id + '/lock'">{{ $t('app.rename') }}</a></li>
+                    <li class="di"><a :href="'/account/teams/' + team.id + '/destroy'">{{ $t('app.delete') }}</a></li>
                   </ul>
                 </div>
             </li>
@@ -94,7 +94,7 @@
 
         <!-- NO TEAMS -->
         <div class="pa3" v-show="teams.length == 0">
-          <p class="tc measure center mb4">Teams are a great way for groups of people in your company to work together in Homas.</p>
+          <p class="tc measure center mb4">{{ $t('account.teams_blank') }}</p>
           <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
                                         /img/company/account/blank-team-2x.png 2x">
         </div>
