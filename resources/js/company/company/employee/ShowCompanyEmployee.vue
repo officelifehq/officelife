@@ -23,7 +23,7 @@
       </div>
 
       <!-- BODY -->
-      <div class="mw7 center br3 mb5 bg-white box relative z-1">
+      <div class="mw7 center br3 mb3 bg-white box relative z-1">
         <div class="pa3 relative pt5">
           <img :src="employee.avatar" class="avatar absolute br-100 db center">
           <h2 class="tc normal mb1">{{ employee.name }}</h2>
@@ -35,6 +35,14 @@
             <li class="di-l db mb0-l mb2">Add manager</li>
             <li class="di-l db mb0-l mb2">Add direct reports</li>
           </ul>
+        </div>
+      </div>
+
+      <div class="mw7 center">
+        <div class="cf">
+          <div class="fl w-50-l w-100 br3 bg-white box relative z-1">
+            test
+          </div>
         </div>
       </div>
     </div>

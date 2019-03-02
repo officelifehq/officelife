@@ -821,6 +821,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['company', 'employee', 'user'],
   mounted: function mounted() {
@@ -4336,7 +4344,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "mw7 center br3 mb5 bg-white box relative z-1" },
+        { staticClass: "mw7 center br3 mb3 bg-white box relative z-1" },
         [
           _c("div", { staticClass: "pa3 relative pt5" }, [
             _c("img", {
@@ -4375,7 +4383,17 @@ var render = function() {
             ])
           ])
         ]
-      )
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "mw7 center" }, [
+        _c("div", { staticClass: "cf" }, [
+          _c(
+            "div",
+            { staticClass: "fl w-50-l w-100 br3 bg-white box relative z-1" },
+            [_vm._v("\n          test\n        ")]
+          )
+        ])
+      ])
     ])
   ])
 }
