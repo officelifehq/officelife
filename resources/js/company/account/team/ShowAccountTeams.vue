@@ -66,7 +66,7 @@
                 <div class="mv2">
                   <div class="flex-ns justify-between">
                     <div>
-                      <a @click="modal = false" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">app.cancel</a>
+                      <a @click="modal = false" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">Cancel</a>
                     </div>
                     <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'Add'"></loading-button>
                   </div>

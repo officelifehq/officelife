@@ -43,7 +43,7 @@
           <ul class="list pa0 mt4 mb0" id="mobile-menu">
             <li class="pv2 bt b--light-gray">
               <a class="no-color b no-underline" href="">
-                  app.main_nav_home
+                  Home
               </a>
             </li>
             <li class="pv2 bt b--light-gray">
