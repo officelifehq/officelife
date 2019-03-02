@@ -33,6 +33,7 @@ return [
     'teams_title' => 'All the teams listed in {company}',
     'teams_number_teams' => '{company} has one team. | {company} has {count} teams.',
     'teams_cta' => 'Add a team',
+    'teams_blank' => 'Teams are a great way for groups of people in your company to work together in Homas.',
 
     'team_new_name' => 'Name of the team',
 ];

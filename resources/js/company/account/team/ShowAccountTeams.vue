@@ -94,7 +94,7 @@
 
         <!-- NO TEAMS -->
         <div class="pa3" v-show="teams.length == 0">
-          <p class="tc measure center mb4">Teams are a great way for groups of people in your company to work together in Homas.</p>
+          <p class="tc measure center mb4">{{ $t('account.teams_blank') }}</p>
           <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
                                         /img/company/account/blank-team-2x.png 2x">
         </div>
