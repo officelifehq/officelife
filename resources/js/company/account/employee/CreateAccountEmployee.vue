@@ -81,7 +81,7 @@
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <a :href="'/' + company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">app.cancel</a>
+                  <a :href="'/' + company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">Cancel</a>
                 </div>
                 <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'Save'"></loading-button>
               </div>

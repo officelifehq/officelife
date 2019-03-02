@@ -3672,7 +3672,7 @@ var render = function() {
                                   "/" + _vm.company.id + "/account/employees"
                               }
                             },
-                            [_vm._v("app.cancel")]
+                            [_vm._v("Cancel")]
                           )
                         ]),
                         _vm._v(" "),
@@ -4049,7 +4049,7 @@ var render = function() {
                                         }
                                       }
                                     },
-                                    [_vm._v("app.cancel")]
+                                    [_vm._v("Cancel")]
                                   )
                                 ]),
                                 _vm._v(" "),
