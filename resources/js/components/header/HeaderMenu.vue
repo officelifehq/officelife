@@ -38,17 +38,12 @@
       <ul class="list ma0 pa0">
         <li class="pv2">
           <a class="no-color no-underline" href="/home">
-            Switch companies
-          </a>
-        </li>
-        <li class="pv2">
-          <a class="no-color no-underline" href="">
-            Settings
+            {{ $t('app.header_switch_company') }}
           </a>
         </li>
         <li class="pv2">
           <a class="no-color no-underline" href="/logout">
-            Logout
+            {{ $t('app.header_logout') }}
           </a>
         </li>
       </ul>
