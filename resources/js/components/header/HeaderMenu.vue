@@ -31,18 +31,18 @@
 
 <template>
   <div>
-    <a class="no-color no-underline relative pointer" @click.prevent="menu = !menu">
+    <a class="no-color no-underline relative pointer" @click.prevent="menu = !menu" data-cy="header-menu">
       admin@admin.com <span class="dropdown-caret"></span>
     </a>
     <div class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="menu == true">
       <ul class="list ma0 pa0">
         <li class="pv2">
-          <a class="no-color no-underline" href="/home">
+          <a class="no-color no-underline" href="/home" data-cy="switch-company-button">
             {{ $t('app.header_switch_company') }}
           </a>
         </li>
         <li class="pv2">
-          <a class="no-color no-underline" href="/logout">
+          <a class="no-color no-underline" href="/logout" data-cy="logout-button">
             {{ $t('app.header_logout') }}
           </a>
         </li>

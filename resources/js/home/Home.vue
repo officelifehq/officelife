@@ -43,7 +43,7 @@
         <div class="fl w-100 w-25-m w-50-l pr2-l">
           <a href="/company/create">
             <div class="pa3-l">
-              <div class="br3 mb3 bg-white box pa3 tc relative home-box">
+              <div class="br3 mb3 bg-white box pa3 tc relative home-box" data-cy="create-company-blank-state">
                 <h3>{{ $t('home.create_company') }}</h3>
                 <p>{{ $t('home.create_company_desc') }}</p>
                 <img src="/img/home/create-company.png" class="home-company absolute">
