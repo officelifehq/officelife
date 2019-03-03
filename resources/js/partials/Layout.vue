@@ -1,8 +1,20 @@
+<style scoped>
+.find-box {
+  border: 1px solid rgba(27,31,35,.15);
+  box-shadow: 0 3px 12px rgba(27,31,35,.15);
+  top: 63px;
+  width: 500px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+</style>
+
 <template>
   <div>
     <vue-snotify></vue-snotify>
 
-    <header class="bg-white dn db-m db-l mb3">
+    <header class="bg-white dn db-m db-l mb3 relative">
       <div class="ph3 pt1 w-100">
         <div class="cf">
           <div class="fl w-20 pa2">
@@ -13,23 +25,43 @@
           <div class="fl w-60 tc">
             <div v-show="noMenu" class="dib w-100"></div>
             <ul class="mv2" v-show="!noMenu">
-              <li class="di header-menu-item pa2">
-                <a class="b no-underline no-color" href="">
+              <li class="di header-menu-item pa2 pointer mr2">
+                <span class="b">
                   <img class="relative" src="/img/header/icon-home.svg" />
-                  Home
-                </a>
+                  {{ $t('app.header_home') }}
+                </span>
               </li>
-              <li class="di header-menu-item pa2">
-                <a class="b no-underline no-color" href="">
+              <li class="di header-menu-item pa2 pointer" @click="showFindModal">
+                <span class="b">
                   <img class="relative" src="/img/header/icon-find.svg" />
-                  Find
-                </a>
+                  {{ $t('app.header_find') }}
+                </span>
               </li>
             </ul>
           </div>
           <div class="fl w-20 pa2 tr relative header-menu-settings">
             <header-menu></header-menu>
           </div>
+        </div>
+      </div>
+
+      <!-- FIND BOX -->
+      <div class="absolute z-max find-box" v-show="modalFind">
+        <div class="br2 bg-white tl pv2 ph3 bounceIn faster">
+          <form @submit.prevent="submit">
+            <div class="mb3">
+              <label class="db fw4 lh-copy f6" for="search">{{ $t('account.team_new_name') }}</label>
+              <input type="text" id="search" name="search" ref="search" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="modalFind = false" required>
+            </div>
+            <div class="mv2">
+              <div class="flex-ns justify-between">
+                <div>
+                  <a @click="modalFind = false" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">{{ $t('app.cancel') }}</a>
+                </div>
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')"></loading-button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </header>
@@ -97,6 +129,12 @@ export default {
     'noMenu'
   ],
 
+   data() {
+    return {
+      modalFind: false,
+    };
+  },
+
   mounted() {
     this.updatePageTitle(this.title)
   },
@@ -110,6 +148,14 @@ export default {
   methods: {
     updatePageTitle(title) {
       document.title = title ? `${title} | Example app` : `Example app`
+    },
+
+    showFindModal() {
+      this.modalFind = !this.modalFind
+
+      this.$nextTick(() => {
+        this.$refs.search.focus()
+      })
     }
   },
 }

@@ -16,6 +16,8 @@ return [
     'breadcrumb_account_add_employee' => 'Add an employee',
     'breadcrumb_account_manage_teams' => 'Manage teams',
 
+    'header_home' => 'Home',
+    'header_find' => 'Find',
     'header_switch_company' => 'Switch company',
     'header_logout' => 'Logout',
 
