@@ -10,6 +10,7 @@ return [
     'edit' => 'Edit',
     'view' => 'View',
     'rename' => 'Rename',
+    'search' => 'Search',
 
     'breadcrumb_account_home' => 'Account administration',
     'breadcrumb_account_manage_employees' => 'Manage employees',
@@ -20,6 +21,11 @@ return [
     'header_find' => 'Find',
     'header_switch_company' => 'Switch company',
     'header_logout' => 'Logout',
+    'header_search_placeholder' => 'Find an employee or a team by name',
+    'header_search_employees' => 'Employees',
+    'header_search_teams' => 'Teams',
+    'header_search_no_employee_found' => 'No employees found',
+    'header_search_no_team_found' => 'No teams found',
 
     'permission_100' => 'Administrator',
     'permission_200' => 'Human Resource Representative',
