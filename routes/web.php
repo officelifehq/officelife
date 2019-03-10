@@ -20,7 +20,6 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['company'])->prefix('{company}')->group(function () {
         Route::get('dashboard', 'Company\\CompanyController@index');
 
-
         Route::prefix('employees')->group(function () {
             Route::get('{employee}', 'Company\\Employee\\EmployeeController@show');
         });

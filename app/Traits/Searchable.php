@@ -27,7 +27,7 @@ trait Searchable
 
         $queryString = SearchHelper::buildQuery($this->searchableColumns, $needle);
 
-        $builder->whereRaw('company_id = ' . $companyId . ' and (' . $queryString . ') ' . $whereCondition);
+        $builder->whereRaw('company_id = '.$companyId.' and ('.$queryString.') '.$whereCondition);
         $builder->orderByRaw($sortOrder);
         $builder->select($this->returnFromSearch);
 

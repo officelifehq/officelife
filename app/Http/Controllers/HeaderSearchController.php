@@ -20,6 +20,7 @@ class HeaderSearchController extends Controller
     {
         $search = $request->get('searchTerm');
         $employees = Employee::search($search, Cache::get('currentCompany')->id, 10, 'created_at desc');
+
         return EmployeeResource::collection($employees);
     }
 
@@ -32,6 +33,7 @@ class HeaderSearchController extends Controller
     {
         $search = $request->get('searchTerm');
         $teams = Team::search($search, Cache::get('currentCompany')->id, 10, 'created_at desc');
+
         return TeamResource::collection($teams);
     }
 }

@@ -19,7 +19,7 @@ class SearchHelper
         $searchTerms = explode(' ', $searchTerm);
 
         foreach ($searchTerms as $searchTerm) {
-            $searchTerm = DB::connection()->getPdo()->quote('%' . $searchTerm . '%');
+            $searchTerm = DB::connection()->getPdo()->quote('%'.$searchTerm.'%');
 
             foreach ($array as $column) {
                 if ($first) {
@@ -27,7 +27,7 @@ class SearchHelper
                 } else {
                     $queryString .= ' or ';
                 }
-                $queryString .= $column . ' LIKE ' . $searchTerm;
+                $queryString .= $column.' LIKE '.$searchTerm;
             }
         }
 
