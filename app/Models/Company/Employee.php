@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use App\Models\User\User;
+use App\Traits\Searchable;
 use App\Mail\Company\InviteUser;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        Searchable;
 
     protected $table = 'employees';
 
@@ -34,6 +36,30 @@ class Employee extends Model
         'uuid',
         'is_dummy',
         'avatar',
+    ];
+
+    /**
+     * The attributes that are searchable with the trait.
+     *
+     * @var array
+     */
+    protected $searchableColumns = [
+        'first_name',
+        'last_name',
+        'email',
+    ];
+
+    /**
+     * The list of columns we want the Searchable trait to select.
+     *
+     * @var array
+     */
+    protected $returnFromSearch = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'company_id',
     ];
 
     /**

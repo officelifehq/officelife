@@ -11,6 +11,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\\LoginController@logout');
 
     Route::get('home', 'HomeController@index')->name('home');
+    Route::post('search/employees', 'HeaderSearchController@employees');
+    Route::post('search/teams', 'HeaderSearchController@teams');
 
     Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
 

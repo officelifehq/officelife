@@ -2,7 +2,7 @@
   <div class="ph2 ph0-ns">
     <div class="cf mt4 mw7 center br3 mb3 bg-white box">
       <div class="fn fl-ns w-50-ns pa3">
-        auth.register_title
+        {{ $t('auth.register_title') }}
       </div>
       <div class="fn fl-ns w-50-ns pa3">
         <!-- Form Errors -->
@@ -11,14 +11,14 @@
         <form @submit.prevent="submit">
           <!-- Email -->
           <div class="">
-            <label class="db fw4 lh-copy f6" for="email">auth.register_email</label>
+            <label class="db fw4 lh-copy f6" for="email">{{ $t('auth.register_email') }}</label>
             <input type="email" name="email" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" v-model="form.email" required>
-            <p class="f7 mb4 lh-title">auth.register_email_help</p>
+            <p class="f7 mb4 lh-title">{{ $t('auth.register_email_help') }}</p>
           </div>
 
           <!-- Password -->
           <div class="mb4">
-            <label class="db fw4 lh-copy f6" for="password">auth.register_password</label>
+            <label class="db fw4 lh-copy f6" for="password">{{ $t('auth.register_password') }}</label>
             <input type="password" name="password" v-model="form.password" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required>
           </div>
 
@@ -26,7 +26,7 @@
           <div class="">
             <div class="flex-ns justify-between">
               <div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'register'"></loading-button>
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.register_cta')"></loading-button>
               </div>
             </div>
           </div>

@@ -54,6 +54,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return View::component('Login');
+        return redirect('/login');
     }
 }

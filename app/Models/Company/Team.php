@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Team extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        Searchable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +23,26 @@ class Team extends Model
         'name',
         'team_leader_id',
         'is_dummy',
+    ];
+
+    /**
+     * The attributes that are searchable with the trait.
+     *
+     * @var array
+     */
+    protected $searchableColumns = [
+        'name',
+    ];
+
+    /**
+     * The list of columns we want the Searchable trait to select.
+     *
+     * @var array
+     */
+    protected $returnFromSearch = [
+        'id',
+        'name',
+        'company_id',
     ];
 
     /**

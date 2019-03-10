@@ -20,7 +20,7 @@
             <div class="">
               <div class="flex-ns justify-between">
                 <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'register'"></loading-button>
+                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'register'" data-cy="create-company-submit"></loading-button>
                 </div>
               </div>
             </div>
