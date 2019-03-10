@@ -86,11 +86,9 @@ class AddEmployeeToCompany extends BaseService
         return Employee::create([
             'company_id' => $data['company_id'],
             'uuid' => $uuid,
-            'identities' => json_encode([
-                'email' => $data['email'],
-                'first_name' => $data['first_name'],
-                'last_name' => $data['last_name'],
-            ]),
+            'email' => $data['email'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
             'avatar' => $avatar,
             'permission_level' => $data['permission_level'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
