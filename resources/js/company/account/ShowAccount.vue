@@ -43,7 +43,7 @@
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/teams.svg" class="pr1 absolute">
-              <a :href="'/' + company.id + '/account/teams'" class="relative">{{ $t('account.home_manage_teams') }}</a>
+              <a :href="'/' + company.id + '/account/teams'" class="relative" data-cy="team-admin-link">{{ $t('account.home_manage_teams') }}</a>
             </li>
           </ul>
 

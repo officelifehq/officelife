@@ -53,7 +53,7 @@
           <!-- ADD TEAM -->
           <div class="relative">
             <span class="dib mb3 di-l">{{ $tc('account.teams_number_teams', teams.length, { company: company.name, count: teams.length}) }}</span>
-            <a @click.prevent="modal = !modal" class="btn-primary pointer br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0">{{ $t('account.teams_cta') }}</a>
+            <a @click.prevent="modal = !modal" data-cy="add-team-button" class="btn-primary pointer br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0">{{ $t('account.teams_cta') }}</a>
 
             <div class="absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == true">
               <errors :errors="form.errors"></errors>
@@ -68,7 +68,7 @@
                     <div>
                       <a @click="modal = false" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">{{ $t('app.cancel') }}</a>
                     </div>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')"></loading-button>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="submit-add-team-button"></loading-button>
                   </div>
                 </div>
               </form>
