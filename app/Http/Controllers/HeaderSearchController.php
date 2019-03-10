@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
-use App\Models\Company\Employee;
 use App\Models\Company\Team;
+use Illuminate\Http\Request;
+use App\Models\Company\Employee;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 

@@ -2,8 +2,8 @@
 
 namespace App\Models\Company;
 
-use App\Traits\Searchable;
 use App\Models\User\User;
+use App\Traits\Searchable;
 use App\Mail\Company\InviteUser;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
