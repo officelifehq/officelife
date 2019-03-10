@@ -39,7 +39,7 @@
           <ul class="options list pl0 mb5">
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/employees.svg" class="pr1 absolute">
-              <a :href="'/' + company.id + '/account/employees'" class="relative">{{ $t('account.home_manage_employees') }}</a>
+              <a :href="'/' + company.id + '/account/employees'" class="relative" data-cy="employee-admin-link">{{ $t('account.home_manage_employees') }}</a>
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/teams.svg" class="pr1 absolute">

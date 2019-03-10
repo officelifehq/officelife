@@ -20,7 +20,7 @@
           <h2 class="tc normal mb4">{{ $t('account.employees_title', { company: company.name}) }}</h2>
           <p class="relative">
             <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: company.name, count: employees.length}) }}</span>
-            <a :href="'/' + company.id + '/account/employees/create'" class="btn-primary br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0">{{ $t('account.employees_cta') }}</a>
+            <a :href="'/' + company.id + '/account/employees/create'" class="btn-primary br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.employees_cta') }}</a>
           </p>
           <ul class="list pl0 mt0 center">
             <li
