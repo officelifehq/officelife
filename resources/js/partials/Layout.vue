@@ -47,21 +47,31 @@
 
       <!-- FIND BOX -->
       <div class="absolute z-max find-box" v-show="modalFind">
-        <div class="br2 bg-white tl pv2 ph3 bounceIn faster">
+        <div class="br2 bg-white tl pv3 ph3 bounceIn faster">
           <form @submit.prevent="submit">
             <div class="mb3">
-              <label class="db fw4 lh-copy f6" for="search">{{ $t('account.team_new_name') }}</label>
-              <input type="text" id="search" name="search" ref="search" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="modalFind = false" required>
-            </div>
-            <div class="mv2">
-              <div class="flex-ns justify-between">
-                <div>
-                  <a @click="modalFind = false" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">{{ $t('app.cancel') }}</a>
-                </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')"></loading-button>
-              </div>
+              <input type="text" v-model="form.searchTerm" id="search" name="search" ref="search" placeholder="Find an employee or a team by name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="modalFind = false" required>
+              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')"></loading-button>
             </div>
           </form>
+          <ul class="pl0 list" v-show="searchDataToShow">
+            <li class="b">
+              Employees
+              <ul>
+                <li v-for="employee in employees" :key="employee.id">
+                  <a :href="'/' + employee.company.id + '/employees/' + employee.id">{{ employee.name }}</a>
+                </li>
+              </ul>
+            </li>
+            <li class="b">
+              Teams
+              <ul>
+                <li>
+                  sadfasdfa
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </header>
@@ -131,8 +141,15 @@ export default {
 
    data() {
     return {
+      loadingState: '',
       modalFind: false,
-    };
+      form: {
+        searchTerm: null,
+        errors: [],
+      },
+      employees: [],
+      teams: [],
+    }
   },
 
   mounted() {
@@ -145,17 +162,46 @@ export default {
     }
   },
 
+  computed: {
+    searchDataToShow: function() {
+      return this.employees.length > 0 || this.teams.length > 0
+    }
+  },
+
   methods: {
     updatePageTitle(title) {
       document.title = title ? `${title} | Example app` : `Example app`
     },
 
     showFindModal() {
+      this.form.searchTerm = null
+      this.employees = []
+      this.teams = []
       this.modalFind = !this.modalFind
 
       this.$nextTick(() => {
         this.$refs.search.focus()
       })
+    },
+
+    submit() {
+      axios.post('/search/employees', this.form)
+        .then(response => {
+          this.employees = response.data.data
+        })
+        .catch(error => {
+          this.loadingState = null
+          this.form.errors = _.flatten(_.toArray(error.response.data))
+        })
+
+      axios.post('/search/teams', this.form)
+        .then(response => {
+          this.teams = response.data.data
+        })
+        .catch(error => {
+          this.loadingState = null
+          this.form.errors = _.flatten(_.toArray(error.response.data))
+        })
     }
   },
 }

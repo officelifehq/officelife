@@ -11,12 +11,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\\LoginController@logout');
 
     Route::get('home', 'HomeController@index')->name('home');
+    Route::post('search/employees', 'HeaderSearchController@employees');
+    Route::post('search/teams', 'HeaderSearchController@teams');
 
     Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
 
     // only available if user is in the right account
     Route::middleware(['company'])->prefix('{company}')->group(function () {
         Route::get('dashboard', 'Company\\CompanyController@index');
+
 
         Route::prefix('employees')->group(function () {
             Route::get('{employee}', 'Company\\Employee\\EmployeeController@show');
