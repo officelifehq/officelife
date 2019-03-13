@@ -122,9 +122,25 @@ class AuditLog extends Model
         try {
             $employee = Employee::findOrFail($this->object->{'employee_id'});
         } catch (ModelNotFoundException $e) {
-            return $this->object->{'employee_first_name'}.' '.$this->object->{'employee_last_name'};
+            return $this->object->{'employee_name'};
         }
 
         return '<a href="'.tenant('/employees/'.$employee->id).'">'.$employee->name.'</a>';
+    }
+
+    /**
+     * Get the manager of the audit log, if defined.
+     *
+     * @return string
+     */
+    public function getManagerAttribute($value)
+    {
+        try {
+            $manager = Employee::findOrFail($this->object->{'manager_id'});
+        } catch (ModelNotFoundException $e) {
+            return $this->object->{'manager_name'};
+        }
+
+        return '<a href="'.tenant('/employees/'.$manager->id).'">'.$manager->name.'</a>';
     }
 }

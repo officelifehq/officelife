@@ -46,6 +46,10 @@ class AuditController extends Controller
                 $sentence = 'Updated hiring about '.$log->employee.'.';
             }
 
+            if ($log->action == 'manager_assigned') {
+                $sentence = 'Assigned '.$log->manager.' as the manager of '.$log->employee.'.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,

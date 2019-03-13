@@ -59,6 +59,7 @@ class UpdateEmployee extends BaseService
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
             ]),
         ]);
 

@@ -915,8 +915,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['company', 'employee', 'managers', 'directReports'],
+  data: function data() {
+    return {
+      modal: false
+    };
+  },
   mounted: function mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
@@ -1449,6 +1495,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['title', 'noMenu'],
   data: function data() {
@@ -1580,7 +1627,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "\nul[data-v-329a59ba] {\n  padding-left: 43px;\n}\nli[data-v-329a59ba]:last-child {\n  margin-bottom: 0;\n}\n.avatar[data-v-329a59ba] {\n  top: 1px;\n  left: -44px;\n  width: 35px;\n}\n", ""]);
+exports.push([module.i, "\n.list-employees ul[data-v-329a59ba] {\n  padding-left: 43px;\n}\n.list-employees li[data-v-329a59ba]:last-child {\n  margin-bottom: 0;\n}\n.avatar[data-v-329a59ba] {\n  top: 1px;\n  left: -44px;\n  width: 35px;\n}\n.popupmenu[data-v-329a59ba] {\n  border: 1px solid rgba(27,31,35,.15);\n  box-shadow: 0 3px 12px rgba(27,31,35,.15);\n  right: 22px;\n  top: 46px;\n}\n.popupmenu[data-v-329a59ba]:after,\n.popupmenu[data-v-329a59ba]:before {\n  content: \"\";\n  display: inline-block;\n  position: absolute;\n}\n.popupmenu[data-v-329a59ba]:after {\n  border: 7px solid transparent;\n  border-bottom-color: #fff;\n  left: auto;\n  right: 10px;\n  top: -14px;\n}\n.popupmenu[data-v-329a59ba]:before {\n  border: 8px solid transparent;\n  border-bottom-color: rgba(27,31,35,.15);\n  left: auto;\n  right: 9px;\n  top: -16px;\n}\n", ""]);
 
 // exports
 
@@ -1656,7 +1703,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.find-box[data-v-10a60d4e] {\n  border: 1px solid rgba(27,31,35,.15);\n  box-shadow: 0 3px 12px rgba(27,31,35,.15);\n  top: 63px;\n  width: 500px;\n  left: 0;\n  right: 0;\n  margin: 0 auto;\n}\n.bg-modal-find[data-v-10a60d4e] {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(0, 0, 0, 0.3);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n", ""]);
+exports.push([module.i, "\n.find-box[data-v-10a60d4e] {\n  border: 1px solid rgba(27,31,35,.15);\n  box-shadow: 0 3px 12px rgba(27,31,35,.15);\n  top: 63px;\n  width: 500px;\n  left: 0;\n  right: 0;\n  margin: 0 auto;\n}\n.bg-modal-find[data-v-10a60d4e] {\n  position: fixed;\n  z-index: 100;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(0, 0, 0, 0.3);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n", ""]);
 
 // exports
 
@@ -4755,134 +4802,29 @@ var render = function() {
     _vm._v(" "),
     _c("img", {
       staticClass: "box-plus-button absolute br-100 pa2 bg-white pointer",
-      attrs: { src: "/img/plus_button.svg" }
+      attrs: { src: "/img/plus_button.svg" },
+      on: {
+        click: function($event) {
+          $event.preventDefault()
+          _vm.modal = !_vm.modal
+        }
+      }
     }),
     _vm._v(" "),
-    _c("div", { staticClass: "relative" }, [
-      _c("span", { staticClass: "dib mb3 di-l" }, [
-        _vm._v(
-          _vm._s(_vm.company.name) +
-            " have " +
-            _vm._s(_vm.teams.length) +
-            " teams."
+    _vm.modal == true
+      ? _c(
+          "div",
+          {
+            staticClass:
+              "popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster"
+          },
+          [_vm._m(0)]
         )
-      ]),
-      _vm._v(" "),
-      _c(
-        "a",
-        {
-          staticClass:
-            "btn-primary pointer br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0",
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              _vm.modal = !_vm.modal
-            }
-          }
-        },
-        [_vm._v("Add a team")]
-      ),
-      _vm._v(" "),
-      _vm.modal == true
-        ? _c(
-            "div",
-            {
-              staticClass:
-                "absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster"
-            },
-            [
-              _c("errors", { attrs: { errors: _vm.form.errors } }),
-              _vm._v(" "),
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.submit($event)
-                    }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "mb3" }, [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "db fw4 lh-copy f6",
-                        attrs: { for: "name" }
-                      },
-                      [_vm._v("Name of the team")]
-                    ),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.form.name,
-                          expression: "form.name"
-                        }
-                      ],
-                      staticClass: "br2 f5 w-100 ba b--black-40 pa2 outline-0",
-                      attrs: {
-                        type: "text",
-                        id: "name",
-                        name: "name",
-                        required: ""
-                      },
-                      domProps: { value: _vm.form.name },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.$set(_vm.form, "name", $event.target.value)
-                        }
-                      }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mv2" }, [
-                    _c(
-                      "div",
-                      { staticClass: "flex-ns justify-between" },
-                      [
-                        _c("div", [
-                          _c(
-                            "a",
-                            {
-                              staticClass:
-                                "btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3",
-                              on: {
-                                click: function($event) {
-                                  _vm.modal = false
-                                }
-                              }
-                            },
-                            [_vm._v("app.cancel")]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("loading-button", {
-                          attrs: {
-                            classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
-                            state: _vm.loadingState,
-                            text: "Add"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ])
-                ]
-              )
-            ],
-            1
-          )
-        : _vm._e()
-    ]),
+      : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "br3 bg-white box z-1 pa3" }, [
+    _c("div", { staticClass: "relative" }),
+    _vm._v(" "),
+    _c("div", { staticClass: "br3 bg-white box z-1 pa3 list-employees" }, [
       _c(
         "div",
         {
@@ -4917,6 +4859,70 @@ var render = function() {
               _c("span", { staticClass: "title db f7 mt1" }, [
                 _vm._v("Director of Management")
               ])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "mb3 relative" }, [
+              _c("img", {
+                staticClass: "br-100 absolute avatar",
+                attrs: { src: _vm.employee.avatar }
+              }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "mb2",
+                  attrs: { href: "/" + _vm.company.id + "/employees/" + 1 }
+                },
+                [_vm._v("Jim Halpert")]
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "title db f7 mt1" }, [
+                _vm._v("Director of Management")
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "mt3 mb3" }, [_vm._v("Direct reports")]),
+          _vm._v(" "),
+          _c("ul", { staticClass: "list mv0" }, [
+            _c("li", { staticClass: "mb3 relative" }, [
+              _c("img", {
+                staticClass: "br-100 absolute avatar",
+                attrs: { src: _vm.employee.avatar }
+              }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "mb2",
+                  attrs: { href: "/" + _vm.company.id + "/employees/" + 1 }
+                },
+                [_vm._v("Jim Halpert")]
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "title db f7 mt1" }, [
+                _vm._v("Director of Management")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "mb3 relative" }, [
+              _c("img", {
+                staticClass: "br-100 absolute avatar",
+                attrs: { src: _vm.employee.avatar }
+              }),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass: "mb2",
+                  attrs: { href: "/" + _vm.company.id + "/employees/" + 1 }
+                },
+                [_vm._v("Jim Halpert")]
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "title db f7 mt1" }, [
+                _vm._v("Director of Management")
+              ])
             ])
           ])
         ]
@@ -4924,7 +4930,22 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "list ma0 pa0" }, [
+      _c("li", { staticClass: "pv2" }, [
+        _vm._v("\n        Add a manager\n      ")
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "pv2" }, [
+        _vm._v("\n        Add a direct report\n      ")
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
