@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class DirectReport extends Model
 {
@@ -29,4 +30,20 @@ class DirectReport extends Model
      */
     protected static $logAttributes = [
     ];
+
+    /**
+     * The manager that belong to the direct report.
+     */
+    public function manager()
+    {
+        return $this->hasOne(Employee::class, 'id', 'manager_id');
+    }
+
+    /**
+     * The direct reports that belong to the direct report.
+     */
+    public function directReport()
+    {
+        return $this->hasOne(Employee::class, 'id', 'employee_id');
+    }
 }

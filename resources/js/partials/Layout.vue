@@ -62,14 +62,14 @@
       <div class="absolute z-max find-box" v-show="modalFind">
         <div class="br2 bg-white tl pv3 ph3 bounceIn faster">
           <form @submit.prevent="submit">
-            <div class="mb3 relative">
+            <div class="relative">
               <input type="text" v-model="form.searchTerm" id="search" name="search" ref="search" :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="modalFind = false" required>
               <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'"></loading-button>
             </div>
           </form>
 
           <!-- Search results -->
-          <ul class="pl0 list ma0" v-show="dataReturnedFromSearch" data-cy="results">
+          <ul class="pl0 list ma0 mt3" v-show="dataReturnedFromSearch" data-cy="results">
 
             <!-- Employees -->
             <li class="b mb3">

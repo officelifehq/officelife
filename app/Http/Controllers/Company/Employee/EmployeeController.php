@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
+use App\Services\Company\Employee\AssignManager;
 
 class EmployeeController extends Controller
 {
@@ -22,13 +23,43 @@ class EmployeeController extends Controller
     {
         $company = Cache::get('currentCompany');
         $employee = Employee::findOrFail($employeeId);
-        $managers = $employee->reportsTo()->get();
+
+        $managersCollection = collect([]);
+        foreach ($employee->reportsTo()->get() as $directReport) {
+            $managersCollection->push($directReport->manager);
+        }
+
+        $directReportCollection = collect([]);
+        foreach ($employee->managerOf()->get() as $directReport) {
+            $directReportCollection->push($directReport->diredirectReport);
+        }
 
         return View::component('ShowCompanyEmployee', [
             'company' => $company,
             'user' => auth()->user()->isPartOfCompany($company),
             'employee' => new EmployeeResource($employee),
-            'managers' => EmployeeResource::collection($managers),
+            'managers' => EmployeeResource::collection($managersCollection),
+            'directReports' => EmployeeResource::collection($directReportCollection),
         ]);
+    }
+
+    /**
+     * Assign a manager to the employee.
+     *
+     * @param int $companyId
+     * @param int $employeeId
+     * @return \Illuminate\Http\Response
+     */
+    public function assignManager(Request $request, int $companyId, int $employeeId)
+    {
+        $request = [
+            'company_id' => $companyId,
+            'author_id' => auth()->user()->id,
+            'employee_id' => $employeeId,
+            'manager_id' => $request->get('id'),
+        ];
+
+        $manager = (new AssignManager)->execute($request);
+        return new EmployeeResource($manager);
     }
 }

@@ -69,6 +69,6 @@ class AssignManager extends BaseService
             ]),
         ]);
 
-        return $employee;
+        return $manager;
     }
 }

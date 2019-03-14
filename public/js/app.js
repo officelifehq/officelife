@@ -827,8 +827,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['company', 'employee', 'user', 'managers'],
+  props: ['company', 'employee', 'user', 'managers', 'directReports'],
   mounted: function mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
@@ -956,11 +957,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['company', 'employee', 'managers', 'directReports'],
   data: function data() {
     return {
-      modal: false
+      modal: false,
+      showAddManagerPopup: false,
+      searchManagers: [],
+      form: {
+        searchTerm: null,
+        errors: []
+      }
     };
   },
   mounted: function mounted() {
@@ -972,6 +993,32 @@ __webpack_require__.r(__webpack_exports__);
         pauseOnHover: true
       });
       localStorage.clear();
+    }
+  },
+  methods: {
+    resetModals: function resetModals() {
+      this.modal = false;
+      this.showAddManagerPopup = false;
+    },
+    search: _.debounce(function () {
+      var _this = this;
+
+      axios.post('/search/employees', this.form).then(function (response) {
+        _this.searchManagers = response.data.data;
+      }).catch(function (error) {
+        _this.form.errors = _.flatten(_.toArray(error.response.data));
+      });
+    }, 500),
+    assignManager: function assignManager(manager) {
+      var _this2 = this;
+
+      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignManager', manager).then(function (response) {
+        _this2.resetModals();
+
+        _this2.managers = response.data.data;
+      }).catch(function (error) {
+        _this2.form.errors = _.flatten(_.toArray(error.response.data));
+      });
     }
   }
 });
@@ -4763,7 +4810,8 @@ var render = function() {
               attrs: {
                 company: _vm.company,
                 employee: _vm.employee,
-                managers: _vm.managers
+                managers: _vm.managers,
+                "direct-reports": _vm.directReports
               }
             })
           ],
@@ -4818,11 +4866,153 @@ var render = function() {
             staticClass:
               "popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster"
           },
-          [_vm._m(0)]
+          [
+            _c("ul", { staticClass: "list ma0 pa0" }, [
+              _c("li", { staticClass: "pv2" }, [
+                _c(
+                  "a",
+                  {
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.showAddManagerPopup = true
+                        _vm.modal = false
+                      }
+                    }
+                  },
+                  [_vm._v("Add a manager")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "pv2" }, [
+                _vm._v("\n        Add a direct report\n      ")
+              ])
+            ])
+          ]
         )
       : _vm._e(),
     _vm._v(" "),
-    _c("div", { staticClass: "relative" }),
+    _vm.showAddManagerPopup
+      ? _c(
+          "div",
+          {
+            staticClass:
+              "popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster"
+          },
+          [
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.submit($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "mb3 relative" }, [
+                  _c("p", [
+                    _vm._v("Find an employee to become Regis's manager")
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.searchTerm,
+                        expression: "form.searchTerm"
+                      }
+                    ],
+                    ref: "search",
+                    staticClass: "br2 f5 w-100 ba b--black-40 pa2 outline-0",
+                    attrs: {
+                      type: "text",
+                      id: "search",
+                      name: "search",
+                      placeholder: "Enter the first letters of the name",
+                      required: ""
+                    },
+                    domProps: { value: _vm.form.searchTerm },
+                    on: {
+                      keyup: _vm.search,
+                      keydown: function($event) {
+                        if (
+                          !("button" in $event) &&
+                          _vm._k($event.keyCode, "esc", 27, $event.key, [
+                            "Esc",
+                            "Escape"
+                          ])
+                        ) {
+                          return null
+                        }
+                        return _vm.resetModals($event)
+                      },
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "searchTerm", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c("ul", { staticClass: "pl0 list ma0" }, [
+              _c("li", { staticClass: "b mb3" }, [
+                _c("span", { staticClass: "f6 mb2 dib" }, [
+                  _vm._v(_vm._s(_vm.$t("app.header_search_employees")))
+                ]),
+                _vm._v(" "),
+                _vm.searchManagers.length > 0
+                  ? _c(
+                      "ul",
+                      { staticClass: "list ma0 pl0" },
+                      _vm._l(_vm.searchManagers, function(manager) {
+                        return _c(
+                          "li",
+                          { key: manager.id, staticClass: "bb relative" },
+                          [
+                            _vm._v(
+                              "\n            " +
+                                _vm._s(manager.name) +
+                                "\n            "
+                            ),
+                            _c(
+                              "a",
+                              {
+                                staticClass: "absolute right-0 pointer",
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.assignManager(manager)
+                                  }
+                                }
+                              },
+                              [_vm._v("Choose")]
+                            )
+                          ]
+                        )
+                      }),
+                      0
+                    )
+                  : _c("div", { staticClass: "silver" }, [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s(
+                            _vm.$t("app.header_search_no_employee_found")
+                          ) +
+                          "\n        "
+                      )
+                    ])
+              ])
+            ])
+          ]
+        )
+      : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "br3 bg-white box z-1 pa3 list-employees" }, [
       _c(
@@ -4840,112 +5030,95 @@ var render = function() {
         [
           _c("p", { staticClass: "mt0 mb3" }, [_vm._v("Manager")]),
           _vm._v(" "),
-          _c("ul", { staticClass: "list mv0" }, [
-            _c("li", { staticClass: "mb3 relative" }, [
-              _c("img", {
-                staticClass: "br-100 absolute avatar",
-                attrs: { src: _vm.employee.avatar }
-              }),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "mb2",
-                  attrs: { href: "/" + _vm.company.id + "/employees/" + 1 }
-                },
-                [_vm._v("Jim Halpert")]
-              ),
-              _vm._v(" "),
-              _c("span", { staticClass: "title db f7 mt1" }, [
-                _vm._v("Director of Management")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "mb3 relative" }, [
-              _c("img", {
-                staticClass: "br-100 absolute avatar",
-                attrs: { src: _vm.employee.avatar }
-              }),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "mb2",
-                  attrs: { href: "/" + _vm.company.id + "/employees/" + 1 }
-                },
-                [_vm._v("Jim Halpert")]
-              ),
-              _vm._v(" "),
-              _c("span", { staticClass: "title db f7 mt1" }, [
-                _vm._v("Director of Management")
-              ])
-            ])
-          ]),
-          _vm._v(" "),
+          _c(
+            "ul",
+            { staticClass: "list mv0" },
+            _vm._l(_vm.managers, function(manager) {
+              return _c(
+                "li",
+                { key: manager.id, staticClass: "mb3 relative" },
+                [
+                  _c("img", {
+                    staticClass: "br-100 absolute avatar",
+                    attrs: { src: manager.avatar }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "mb2",
+                      attrs: {
+                        href: "/" + _vm.company.id + "/employees/" + manager.id
+                      }
+                    },
+                    [_vm._v(_vm._s(manager.name))]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "title db f7 mt1" }, [
+                    _vm._v("Director of Management")
+                  ])
+                ]
+              )
+            }),
+            0
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.directReports.length != 0,
+              expression: "directReports.length != 0"
+            }
+          ]
+        },
+        [
           _c("p", { staticClass: "mt3 mb3" }, [_vm._v("Direct reports")]),
           _vm._v(" "),
-          _c("ul", { staticClass: "list mv0" }, [
-            _c("li", { staticClass: "mb3 relative" }, [
-              _c("img", {
-                staticClass: "br-100 absolute avatar",
-                attrs: { src: _vm.employee.avatar }
-              }),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "mb2",
-                  attrs: { href: "/" + _vm.company.id + "/employees/" + 1 }
-                },
-                [_vm._v("Jim Halpert")]
-              ),
-              _vm._v(" "),
-              _c("span", { staticClass: "title db f7 mt1" }, [
-                _vm._v("Director of Management")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "mb3 relative" }, [
-              _c("img", {
-                staticClass: "br-100 absolute avatar",
-                attrs: { src: _vm.employee.avatar }
-              }),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "mb2",
-                  attrs: { href: "/" + _vm.company.id + "/employees/" + 1 }
-                },
-                [_vm._v("Jim Halpert")]
-              ),
-              _vm._v(" "),
-              _c("span", { staticClass: "title db f7 mt1" }, [
-                _vm._v("Director of Management")
-              ])
-            ])
-          ])
+          _c(
+            "ul",
+            { staticClass: "list mv0" },
+            _vm._l(_vm.directReports, function(directReport) {
+              return _c(
+                "li",
+                { key: directReport.id, staticClass: "mb3 relative" },
+                [
+                  _c("img", {
+                    staticClass: "br-100 absolute avatar",
+                    attrs: { src: directReport.avatar }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "mb2",
+                      attrs: {
+                        href:
+                          "/" + _vm.company.id + "/employees/" + directReport.id
+                      }
+                    },
+                    [_vm._v(_vm._s(directReport.name))]
+                  ),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "title db f7 mt1" }, [
+                    _vm._v("Director of Management")
+                  ])
+                ]
+              )
+            }),
+            0
+          )
         ]
       )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "list ma0 pa0" }, [
-      _c("li", { staticClass: "pv2" }, [
-        _vm._v("\n        Add a manager\n      ")
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "pv2" }, [
-        _vm._v("\n        Add a direct report\n      ")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -5616,7 +5789,7 @@ var render = function() {
                   [
                     _c(
                       "div",
-                      { staticClass: "mb3 relative" },
+                      { staticClass: "relative" },
                       [
                         _c("input", {
                           directives: [
@@ -5692,7 +5865,7 @@ var render = function() {
                         expression: "dataReturnedFromSearch"
                       }
                     ],
-                    staticClass: "pl0 list ma0",
+                    staticClass: "pl0 list ma0 mt3",
                     attrs: { "data-cy": "results" }
                   },
                   [

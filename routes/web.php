@@ -22,6 +22,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('employees')->group(function () {
             Route::get('{employee}', 'Company\\Employee\\EmployeeController@show');
+            Route::post('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager');
+            Route::post('{employee}/search/managers', 'Company\\Employee\\EmployeeSearchController@managers');
         });
 
         Route::prefix('teams')->group(function () {

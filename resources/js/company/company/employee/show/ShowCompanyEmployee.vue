@@ -44,7 +44,8 @@
           <show-company-employee-hierarchy
             :company="company"
             :employee="employee"
-            :managers="managers" />
+            :managers="managers"
+            :direct-reports="directReports" />
         </div>
       </div>
     </div>
@@ -59,6 +60,7 @@ export default {
     'employee',
     'user',
     'managers',
+    'directReports'
   ],
 
   mounted() {

@@ -53,7 +53,7 @@
     <div class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == true">
       <ul class="list ma0 pa0">
         <li class="pv2">
-          Add a manager
+          <a @click.prevent="showAddManagerPopup = true; modal = false">Add a manager</a>
         </li>
         <li class="pv2">
           Add a direct report
@@ -62,7 +62,27 @@
     </div>
 
     <!-- ADD MANAGER -->
-    <div class="relative">
+    <div class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="showAddManagerPopup">
+      <form @submit.prevent="submit">
+        <div class="mb3 relative">
+          <p>Find an employee to become Regis's manager</p>
+          <input type="text" v-model="form.searchTerm" v-on:keyup="search" id="search" name="search" ref="search" :placeholder="'Enter the first letters of the name'" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="resetModals" required>
+        </div>
+      </form>
+      <ul class="pl0 list ma0">
+        <li class="b mb3">
+          <span class="f6 mb2 dib">{{ $t('app.header_search_employees') }}</span>
+          <ul class="list ma0 pl0" v-if="searchManagers.length > 0">
+            <li v-for="manager in searchManagers" :key="manager.id" class="bb relative">
+              {{ manager.name }}
+              <a @click.prevent="assignManager(manager)" class="absolute right-0 pointer">Choose</a>
+            </li>
+          </ul>
+          <div v-else class="silver">
+            {{ $t('app.header_search_no_employee_found') }}
+          </div>
+        </li>
+      </ul>
     </div>
 
     <div class="br3 bg-white box z-1 pa3 list-employees">
@@ -72,27 +92,21 @@
       <div v-show="managers.length != 0">
         <p class="mt0 mb3">Manager</p>
         <ul class="list mv0">
-          <li class="mb3 relative">
-            <img :src="employee.avatar" class="br-100 absolute avatar">
-            <a :href="'/' + company.id + '/employees/' + 1" class="mb2">Jim Halpert</a>
-            <span class="title db f7 mt1">Director of Management</span>
-          </li>
-          <li class="mb3 relative">
-            <img :src="employee.avatar" class="br-100 absolute avatar">
-            <a :href="'/' + company.id + '/employees/' + 1" class="mb2">Jim Halpert</a>
+          <li class="mb3 relative" v-for="manager in managers" :key="manager.id">
+            <img :src="manager.avatar" class="br-100 absolute avatar">
+            <a :href="'/' + company.id + '/employees/' + manager.id" class="mb2">{{ manager.name }}</a>
             <span class="title db f7 mt1">Director of Management</span>
           </li>
         </ul>
+      </div>
+
+      <!-- Direct reports -->
+      <div v-show="directReports.length != 0">
         <p class="mt3 mb3">Direct reports</p>
         <ul class="list mv0">
-          <li class="mb3 relative">
-            <img :src="employee.avatar" class="br-100 absolute avatar">
-            <a :href="'/' + company.id + '/employees/' + 1" class="mb2">Jim Halpert</a>
-            <span class="title db f7 mt1">Director of Management</span>
-          </li>
-          <li class="mb3 relative">
-            <img :src="employee.avatar" class="br-100 absolute avatar">
-            <a :href="'/' + company.id + '/employees/' + 1" class="mb2">Jim Halpert</a>
+          <li class="mb3 relative" v-for="directReport in directReports" :key="directReport.id">
+            <img :src="directReport.avatar" class="br-100 absolute avatar">
+            <a :href="'/' + company.id + '/employees/' + directReport.id" class="mb2">{{ directReport.name }}</a>
             <span class="title db f7 mt1">Director of Management</span>
           </li>
         </ul>
@@ -114,6 +128,12 @@ export default {
   data() {
     return {
       modal: false,
+      showAddManagerPopup: false,
+      searchManagers: [],
+      form: {
+        searchTerm: null,
+        errors: [],
+      },
     };
   },
 
@@ -128,6 +148,35 @@ export default {
       localStorage.clear()
     }
   },
+
+  methods: {
+    resetModals() {
+      this.modal = false
+      this.showAddManagerPopup = false
+    },
+
+    search: _.debounce(
+      function() {
+        axios.post('/search/employees', this.form)
+          .then(response => {
+            this.searchManagers = response.data.data
+          })
+          .catch(error => {
+            this.form.errors = _.flatten(_.toArray(error.response.data))
+          })
+      }, 500),
+
+    assignManager(manager) {
+      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignManager', manager)
+          .then(response => {
+            this.resetModals()
+            this.managers = response.data.data
+          })
+          .catch(error => {
+            this.form.errors = _.flatten(_.toArray(error.response.data))
+          })
+    }
+  }
 }
 
 </script>
