@@ -5,6 +5,7 @@ namespace App\Models\Company;
 use App\Models\User\User;
 use App\Traits\Searchable;
 use App\Mail\Company\InviteUser;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -187,6 +188,36 @@ class Employee extends Model
         }
 
         return $completeName;
+    }
+
+    /**
+     * Get the list of managers of this employee.
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function getListOfManagers() : Collection
+    {
+        $managersCollection = collect([]);
+        foreach ($this->reportsTo()->get() as $directReport) {
+            $managersCollection->push($directReport->manager);
+        }
+
+        return $managersCollection;
+    }
+
+    /**
+     * Get the list of direct reports of this employee.
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function getListOfDirectReports(): Collection
+    {
+        $directReportCollection = collect([]);
+        foreach ($this->managerOf()->get() as $directReport) {
+            $directReportCollection->push($directReport->diredirectReport);
+        }
+
+        return $directReportCollection;
     }
 
     /**

@@ -94,4 +94,34 @@ class EmployeeTest extends TestCase
             $employee->birthdate
         );
     }
+
+    /** @test */
+    public function it_get_the_list_of_the_employees_managers()
+    {
+        $employee = factory(Employee::class)->create([]);
+        factory(DirectReport::class, 3)->create([
+            'company_id' => $employee->company_id,
+            'employee_id' => $employee->id,
+        ]);
+
+        $this->assertEquals(
+            3,
+            $employee->getListOfManagers()->count()
+        );
+    }
+
+    /** @test */
+    public function it_get_the_list_of_the_employees_direct_reports()
+    {
+        $employee = factory(Employee::class)->create([]);
+        factory(DirectReport::class, 3)->create([
+            'company_id' => $employee->company_id,
+            'manager_id' => $employee->id,
+        ]);
+
+        $this->assertEquals(
+            3,
+            $employee->getListOfDirectReports()->count()
+        );
+    }
 }

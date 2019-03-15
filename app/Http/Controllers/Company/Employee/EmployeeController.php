@@ -7,8 +7,8 @@ use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Services\Company\Employee\AssignManager;
+use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeController extends Controller
 {
@@ -24,22 +24,15 @@ class EmployeeController extends Controller
         $company = Cache::get('currentCompany');
         $employee = Employee::findOrFail($employeeId);
 
-        $managersCollection = collect([]);
-        foreach ($employee->reportsTo()->get() as $directReport) {
-            $managersCollection->push($directReport->manager);
-        }
-
-        $directReportCollection = collect([]);
-        foreach ($employee->managerOf()->get() as $directReport) {
-            $directReportCollection->push($directReport->diredirectReport);
-        }
+        $managers = $employee->getListOfManagers();
+        $directReports = $employee->getListOfDirectReports();
 
         return View::component('ShowCompanyEmployee', [
             'company' => $company,
             'user' => auth()->user()->isPartOfCompany($company),
             'employee' => new EmployeeResource($employee),
-            'managers' => EmployeeResource::collection($managersCollection),
-            'directReports' => EmployeeResource::collection($directReportCollection),
+            'managers' => EmployeeResource::collection($managers),
+            'directReports' => EmployeeResource::collection($directReports),
         ]);
     }
 
