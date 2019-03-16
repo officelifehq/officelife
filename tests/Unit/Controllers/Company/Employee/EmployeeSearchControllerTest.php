@@ -23,14 +23,21 @@ class EmployeeSearchControllerTest extends TestCase
             'company_id' => $employee->company_id,
         ]);
 
-        $response = $this->json('POST', '/'.$employee->company_id.'/employees/'.$employee->id.'/search/managers', [
-            'searchTerm' => 'dw'
-        ]);
+        $response = $this->executeSearch($employee, 'dw');
         $response->assertStatus(200);
 
         // there should be only 3 employees as potential managers
         $this->assertCount(
             3,
+            $response->decodeResponseJson()['data']
+        );
+
+        $response = $this->executeSearch($employee, 'dassdafasdw');
+        $response->assertStatus(200);
+
+        // there should be only 3 employees as potential managers
+        $this->assertCount(
+            0,
             $response->decodeResponseJson()['data']
         );
 
@@ -44,9 +51,7 @@ class EmployeeSearchControllerTest extends TestCase
             'employee_id' => $employee->id,
         ]);
 
-        $response = $this->json('POST', '/'.$employee->company_id.'/employees/'.$employee->id.'/search/managers', [
-            'searchTerm' => 'dw'
-        ]);
+        $response = $this->executeSearch($employee, 'dw');
         $response->assertStatus(200);
 
         // there should be still only 3 employees as potential managers
@@ -61,9 +66,7 @@ class EmployeeSearchControllerTest extends TestCase
             'manager_id' => $employee->id,
         ]);
 
-        $response = $this->json('POST', '/'.$employee->company_id.'/employees/'.$employee->id.'/search/managers', [
-            'searchTerm' => 'dw'
-        ]);
+        $response = $this->executeSearch($employee, 'dw');
         $response->assertStatus(200);
 
         // there should be still only 3 employees as potential managers
@@ -71,5 +74,12 @@ class EmployeeSearchControllerTest extends TestCase
             3,
             $response->decodeResponseJson()['data']
         );
+    }
+
+    private function executeSearch($employee, $searchTerm)
+    {
+        return $this->json('POST', '/'.$employee->company_id.'/employees/'.$employee->id.'/search/managers', [
+            'searchTerm' => $searchTerm
+        ]);
     }
 }

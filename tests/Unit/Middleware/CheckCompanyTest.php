@@ -5,9 +5,12 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Company\Employee;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CheckCompanyTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function it_makes_sure_user_cant_access_a_company_he_is_not_part_of()
     {

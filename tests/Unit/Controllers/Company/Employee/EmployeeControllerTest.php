@@ -4,9 +4,12 @@ namespace Tests\Unit\Controllers\Company\Employee;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function it_lets_you_see_an_employee_with_the_right_permissions()
     {

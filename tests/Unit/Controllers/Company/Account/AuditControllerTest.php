@@ -4,9 +4,12 @@ namespace Tests\Unit\Controllers\Company\Account;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AuditControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function it_lets_you_see_the_audit_list_only_with_the_right_permissions()
     {
