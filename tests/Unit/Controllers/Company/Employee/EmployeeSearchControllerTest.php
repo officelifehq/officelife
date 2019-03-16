@@ -79,7 +79,7 @@ class EmployeeSearchControllerTest extends TestCase
     private function executeSearch($employee, $searchTerm)
     {
         return $this->json('POST', '/'.$employee->company_id.'/employees/'.$employee->id.'/search/hierarchy', [
-            'searchTerm' => $searchTerm
+            'searchTerm' => $searchTerm,
         ]);
     }
 }

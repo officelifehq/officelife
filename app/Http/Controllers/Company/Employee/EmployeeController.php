@@ -53,6 +53,7 @@ class EmployeeController extends Controller
         ];
 
         $manager = (new AssignManager)->execute($request);
+
         return new EmployeeResource($manager);
     }
 
@@ -75,6 +76,7 @@ class EmployeeController extends Controller
         (new AssignManager)->execute($data);
 
         $directReport = Employee::findOrFail($request->get('id'));
+
         return new EmployeeResource($directReport);
     }
 }

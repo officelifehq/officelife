@@ -15,7 +15,7 @@ class EmployeeSearchController extends Controller
      * The rules are:
      * - the list should not contain the current employee
      * - the list should not contain the current managers of this employee
-     * - the list should not contain the current direct reports of this employee
+     * - the list should not contain the current direct reports of this employee.
      *
      * @param int $companyId
      * @param int $employeeId
