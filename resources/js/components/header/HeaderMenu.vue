@@ -32,7 +32,7 @@
 <template>
   <div>
     <a class="no-color no-underline relative pointer" @click.prevent="menu = !menu" data-cy="header-menu">
-      admin@admin.com <span class="dropdown-caret"></span>
+      {{ user.email }} <span class="dropdown-caret"></span>
     </a>
     <div class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="menu == true">
       <ul class="list ma0 pa0">
@@ -53,6 +53,10 @@
 
 <script>
 export default {
+  props: [
+    'user'
+  ],
+
   data() {
     return {
       menu: false,

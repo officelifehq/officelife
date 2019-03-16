@@ -23,3 +23,13 @@ $cyan: #6cb2eb;
 // Background colors
 .b-red { border-color: #b99a9a; }
 .bg-orange { background-color: #ffeddc; }
+
+// Border colors
+.bb-gray { border-color: #dae1e7 }
+
+// Background-color on line hover
+.bb-gray-hover {
+  &:hover {
+    background-color: #fcfbeb;
+  }
+}

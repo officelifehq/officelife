@@ -10,11 +10,11 @@
 </style>
 
 <template>
-  <layout title="Home">
-    <div class="ph2 ph0-ns">
+  <layout title="Home" :user="user">
+    <div class="ph2 ph5-ns">
 
       <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
+      <div class="mt4-l mt1 mw7 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di"><a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a></li>
           <li class="di"><a :href="'/' + company.id + '/employees'">All employees</a></li>
@@ -23,7 +23,7 @@
       </div>
 
       <!-- BODY -->
-      <div class="mw7 center br3 mb5 bg-white box relative z-1">
+      <div class="mw9 center br3 mb4 bg-white box relative z-1">
         <div class="pa3 relative pt5">
           <img :src="employee.avatar" class="avatar absolute br-100 db center">
           <h2 class="tc normal mb1">{{ employee.name }}</h2>
@@ -32,7 +32,21 @@
             <li class="di-l db mb0-l mb2 mr2">No hire date</li>
             <li class="di-l db mb0-l mb2 mr2">No indication of status</li>
             <li class="di-l db mb0-l mb2">No teams</li>
+            <li class="di-l db mb0-l mb2">Add direct reports</li>
           </ul>
+        </div>
+      </div>
+
+      <div class="cf mw9 center">
+
+        <!-- LEFT COLUMN -->
+        <div class="fl w-40-l w-100">
+          <show-company-employee-hierarchy
+            :company="company"
+            :employee="employee"
+            :managers="managers"
+            :direct-reports="directReports"
+            :user="user" />
         </div>
       </div>
     </div>
@@ -46,6 +60,8 @@ export default {
     'company',
     'employee',
     'user',
+    'managers',
+    'directReports'
   ],
 
   mounted() {

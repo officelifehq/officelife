@@ -50,8 +50,7 @@ class DestroyEmployee extends BaseService
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
-                'employee_first_name' => $employee->first_name,
-                'employee_last_name' => $employee->last_name,
+                'employee_name' => $employee->name,
             ]),
         ]);
     }

@@ -2,7 +2,7 @@
 </style>
 
 <template>
-  <layout title="Home">
+  <layout title="Home" :user="user">
     <div class="ph2 ph0-ns">
 
       <!-- BREADCRUMB -->

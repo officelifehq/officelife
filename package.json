@@ -28,6 +28,8 @@
         "cypress": "^3.1.5",
         "laravel-mix-purgecss": "^4.1.0",
         "turbolinks": "^5.2.0",
+        "underscore": "^1.9.1",
+        "vue-click-outside": "^1.0.7",
         "vue-i18n": "^8.8.2",
         "vue-loaders": "^2.0.0",
         "vue-snotify": "^3.2.1"

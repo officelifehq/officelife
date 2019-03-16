@@ -154,4 +154,78 @@ class AuditLogTest extends ApiTestCase
             $auditLog->user
         );
     }
+
+    /** @test */
+    public function it_returns_the_employee_attribute()
+    {
+        $adminEmployee = $this->createAdministrator();
+
+        Cache::shouldReceive('get')
+            ->once()
+            ->times(2)
+            ->with('currentCompany')
+            ->andReturn($adminEmployee->company);
+
+        $auditLog = factory(AuditLog::class)->create([
+            'objects' => json_encode([
+                'employee_id' => $adminEmployee->id,
+            ]),
+            'company_id' => $adminEmployee->company_id,
+        ]);
+
+        $this->assertEquals(
+            '<a href="'.tenant('/employees/'.$adminEmployee->id).'">'.$adminEmployee->name.'</a>',
+            $auditLog->employee
+        );
+
+        $auditLog = factory(AuditLog::class)->create([
+            'objects' => json_encode([
+                'employee_id' => 12345,
+                'employee_name' => 'Dwight Schrute',
+            ]),
+            'company_id' => $adminEmployee->company_id,
+        ]);
+
+        $this->assertEquals(
+            'Dwight Schrute',
+            $auditLog->employee
+        );
+    }
+
+    /** @test */
+    public function it_returns_the_manager_attribute()
+    {
+        $adminEmployee = $this->createAdministrator();
+
+        Cache::shouldReceive('get')
+            ->once()
+            ->times(2)
+            ->with('currentCompany')
+            ->andReturn($adminEmployee->company);
+
+        $auditLog = factory(AuditLog::class)->create([
+            'objects' => json_encode([
+                'manager_id' => $adminEmployee->id,
+            ]),
+            'company_id' => $adminEmployee->company_id,
+        ]);
+
+        $this->assertEquals(
+            '<a href="'.tenant('/employees/'.$adminEmployee->id).'">'.$adminEmployee->name.'</a>',
+            $auditLog->manager
+        );
+
+        $auditLog = factory(AuditLog::class)->create([
+            'objects' => json_encode([
+                'manager_id' => 12345,
+                'manager_name' => 'Dwight Schrute',
+            ]),
+            'company_id' => $adminEmployee->company_id,
+        ]);
+
+        $this->assertEquals(
+            'Dwight Schrute',
+            $auditLog->manager
+        );
+    }
 }

@@ -8,9 +8,12 @@ use App\Models\User\User;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Exceptions\NotEnoughPermissionException;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class BaseServiceTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function it_returns_an_empty_rule_array()
     {

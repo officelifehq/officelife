@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\User;
 use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
+use App\Models\Company\DirectReport;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeTest extends TestCase
@@ -43,6 +44,28 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_direct_reports()
+    {
+        $manager = factory(Employee::class)->create([]);
+        factory(DirectReport::class, 3)->create([
+            'manager_id' => $manager->id,
+        ]);
+
+        $this->assertTrue($manager->managerOf()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_managers()
+    {
+        $employee = factory(Employee::class)->create([]);
+        factory(DirectReport::class, 3)->create([
+            'employee_id' => $employee->id,
+        ]);
+
+        $this->assertTrue($employee->reportsTo()->exists());
+    }
+
+    /** @test */
     public function it_returns_the_email_attribute()
     {
         $employee = factory(Employee::class)->create([]);
@@ -69,6 +92,36 @@ class EmployeeTest extends TestCase
         $this->assertEquals(
             '1978-01-20 00:00:00',
             $employee->birthdate
+        );
+    }
+
+    /** @test */
+    public function it_get_the_list_of_the_employees_managers()
+    {
+        $employee = factory(Employee::class)->create([]);
+        factory(DirectReport::class, 3)->create([
+            'company_id' => $employee->company_id,
+            'employee_id' => $employee->id,
+        ]);
+
+        $this->assertEquals(
+            3,
+            $employee->getListOfManagers()->count()
+        );
+    }
+
+    /** @test */
+    public function it_get_the_list_of_the_employees_direct_reports()
+    {
+        $employee = factory(Employee::class)->create([]);
+        factory(DirectReport::class, 3)->create([
+            'company_id' => $employee->company_id,
+            'manager_id' => $employee->id,
+        ]);
+
+        $this->assertEquals(
+            3,
+            $employee->getListOfDirectReports()->count()
         );
     }
 }

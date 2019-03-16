@@ -35,7 +35,7 @@
 </style>
 
 <template>
-  <layout title="Home" noMenu="true">
+  <layout title="Home" noMenu="true" :user="user">
     <div class="ph2 ph0-ns">
 
       <!-- Blank state -->

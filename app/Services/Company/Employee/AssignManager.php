@@ -4,9 +4,11 @@ namespace App\Services\Company\Employee;
 
 use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Exceptions\SameIdsException;
+use App\Models\Company\DirectReport;
 use App\Services\Company\Company\LogAction;
 
-class ChangePermission extends BaseService
+class AssignManager extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -19,17 +21,17 @@ class ChangePermission extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'permission_level' => 'required|integer',
+            'manager_id' => 'required|integer|exists:employees,id',
         ];
     }
 
     /**
-     * Change permission for the given employee.
+     * Set an employee as being the manager of the given employee.
      *
      * @param array $data
      * @return Employee
      */
-    public function execute(array $data) : Employee
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 
@@ -39,26 +41,34 @@ class ChangePermission extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $employee = Employee::find($data['employee_id']);
+        $employee = Employee::where('company_id', $data['company_id'])
+            ->findOrFail($data['employee_id']);
+        $manager = Employee::where('company_id', $data['company_id'])
+            ->findOrFail($data['manager_id']);
 
-        $oldPermission = $employee->permission_level;
+        if ($manager->id == $employee->id) {
+            throw new SameIdsException;
+        }
 
-        $employee->permission_level = $data['permission_level'];
-        $employee->save();
+        DirectReport::create([
+            'company_id' => $data['company_id'],
+            'manager_id' => $data['manager_id'],
+            'employee_id' => $data['employee_id'],
+        ]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'permission_changed',
+            'action' => 'manager_assigned',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
+                'manager_id' => $manager->id,
+                'manager_name' => $manager->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'old_permission' => $oldPermission,
-                'new_permission' => $data['permission_level'],
             ]),
         ]);
 
-        return $employee;
+        return $manager;
     }
 }

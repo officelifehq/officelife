@@ -11,6 +11,9 @@ return [
     'view' => 'View',
     'rename' => 'Rename',
     'search' => 'Search',
+    'choose' => 'Choose',
+
+    'no_results' => 'No results',
 
     'breadcrumb_account_home' => 'Account administration',
     'breadcrumb_account_manage_employees' => 'Manage employees',
