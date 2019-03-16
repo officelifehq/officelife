@@ -53,7 +53,7 @@
     <div class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == 'menu'">
       <ul class="list ma0 pa0">
         <li class="pv2">
-          <a @click.prevent="displayManagerModal()">Add a manager</a>
+          <a @click.prevent="displayManagerModal()" class="pointer">Add a manager</a>
         </li>
         <li class="pv2">
           Add a direct report

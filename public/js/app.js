@@ -4882,6 +4882,7 @@ var render = function() {
                 _c(
                   "a",
                   {
+                    staticClass: "pointer",
                     on: {
                       click: function($event) {
                         $event.preventDefault()
