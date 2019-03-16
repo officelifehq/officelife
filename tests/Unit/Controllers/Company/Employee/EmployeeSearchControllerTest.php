@@ -5,13 +5,17 @@ namespace Tests\Unit\Controllers\Company\Employee;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\DirectReport;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeSearchControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function it_returns_the_list_of_potential_managers_for_this_employee()
     {
         $employee = factory(Employee::class)->create([]);
+        $this->be($employee->user);
 
         // build other employees, so there is currently 4 employees in the
         // account
@@ -19,7 +23,6 @@ class EmployeeSearchControllerTest extends TestCase
             'company_id' => $employee->company_id,
         ]);
 
-        $this->be($employee->user);
         $response = $this->json('POST', '/'.$employee->company_id.'/employees/'.$employee->id.'/search/managers', [
             'searchTerm' => 'dw'
         ]);
