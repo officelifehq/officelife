@@ -31,7 +31,7 @@
                   <span class="db black-70">{{ employee.name }}</span>
                   <ul class="f6 list pl0">
                     <li class="di pr2"><span class="badge f7">{{ employee.permission_level }}</span></li>
-                    <li class="di pr2"><a :href="'/' + company.id + '/employees/' + employee.id">{{ $t('app.view') }}</a></li>
+                    <li class="di pr2"><a :href="'/' + company.id + '/employees/' + employee.id" data-cy="employee-view">{{ $t('app.view') }}</a></li>
                     <li class="di pr2"><a :href="'/account/employees/' + employee.id + '/permissions'">{{ $t('account.employees_change_permission') }}</a></li>
                     <li class="di pr2"><a :href="'/employees/' + employee.id + '/lock'">{{ $t('account.employees_lock_account') }}</a></li>
                     <li class="di"><a :href="'/account/employees/' + employee.id + '/destroy'">{{ $t('app.delete') }}</a></li>

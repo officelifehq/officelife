@@ -47,16 +47,16 @@
 <template>
   <div class="mb4 relative">
     <span class="tc db b mb2">{{ $t('employee.hierarchy_title') }}</span>
-    <img @click.prevent="toggleModals()" v-show="user.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer">
+    <img @click.prevent="toggleModals()" v-show="user.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button">
 
     <!-- MENU TO CHOOSE FROM -->
     <div class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == 'menu'" v-click-outside="toggleModals">
       <ul class="list ma0 pa0">
         <li class="pv2">
-          <a @click.prevent="displayManagerModal()" class="pointer">{{ $t('employee.hierarchy_modal_add_manager') }}</a>
+          <a @click.prevent="displayManagerModal()" class="pointer" data-cy="add-manager-button">{{ $t('employee.hierarchy_modal_add_manager') }}</a>
         </li>
         <li class="pv2">
-          <a @click.prevent="displayDirectReportModal()" class="pointer">{{ $t('employee.hierarchy_modal_add_direct_report') }}</a>
+          <a @click.prevent="displayDirectReportModal()" class="pointer" data-cy="add-direct-report-button">{{ $t('employee.hierarchy_modal_add_direct_report') }}</a>
         </li>
       </ul>
     </div>
@@ -66,7 +66,7 @@
       <form @submit.prevent="search">
         <div class="mb3 relative">
           <p>{{ $t('employee.hierarchy_modal_add_manager_search', { name: employee.first_name}) }}</p>
-          <input type="text" v-model="form.searchTerm" v-on:keyup="search" id="search" name="search" ref="search" :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="toggleModals()" required>
+          <input type="text" v-model="form.searchTerm" v-on:keyup="search" id="search" name="search" ref="search" :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="toggleModals()" required data-cy="search-manager">
         </div>
       </form>
       <ul class="pl0 list ma0">
@@ -75,7 +75,7 @@
           <ul class="list ma0 pl0" v-if="searchManagers.length > 0">
             <li v-for="manager in searchManagers" :key="manager.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
               {{ manager.name }}
-              <a @click.prevent="assignManager(manager)" class="absolute right-1 pointer">{{ $t('app.choose') }}</a>
+              <a @click.prevent="assignManager(manager)" class="absolute right-1 pointer" data-cy="potential-manager-button">{{ $t('app.choose') }}</a>
             </li>
           </ul>
           <div v-else class="silver">
@@ -90,7 +90,7 @@
       <form @submit.prevent="search">
         <div class="mb3 relative">
           <p>{{ $t('employee.hierarchy_modal_add_direct_report_search', { name: employee.first_name}) }}</p>
-          <input type="text" v-model="form.searchTerm" v-on:keyup="search" id="search" name="search" ref="search" :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="toggleModals()" required>
+          <input type="text" v-model="form.searchTerm" v-on:keyup="search" id="search" name="search" ref="search" :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="toggleModals()" required required data-cy="search-direct-report">
         </div>
       </form>
       <ul class="pl0 list ma0">
@@ -99,7 +99,7 @@
           <ul class="list ma0 pl0" v-if="searchDirectReports.length > 0">
             <li v-for="directReport in searchDirectReports" :key="directReport.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
               {{ directReport.name }}
-              <a @click.prevent="assignDirectReport(directReport)" class="absolute right-1 pointer">{{ $t('app.choose') }}</a>
+              <a @click.prevent="assignDirectReport(directReport)" class="absolute right-1 pointer" data-cy="potential-direct-report-button">{{ $t('app.choose') }}</a>
             </li>
           </ul>
           <div v-else class="silver">
@@ -115,7 +115,7 @@
       <p class="lh-copy mb0 f6" v-if="managers.length == 0 && directReports.length == 0">{{ $t('employee.hierarchy_blank') }}</p>
 
       <!-- Managers -->
-      <div v-show="managers.length != 0">
+      <div v-show="managers.length != 0" data-cy="list-managers">
         <p class="mt0 mb2 f6">{{ $tc('employee.hierarchy_list_manager_title', managers.length) }}</p>
         <ul class="list mv0">
           <li class="mb3 relative" v-for="manager in managers" :key="manager.id">
@@ -127,7 +127,7 @@
       </div>
 
       <!-- Direct reports -->
-      <div v-show="directReports.length != 0" :class="managers.length != 0 ? 'mt3' : ''">
+      <div v-show="directReports.length != 0" :class="managers.length != 0 ? 'mt3' : ''" data-cy="list-direct-reports">
         <p class="mt0 mb2 f6">{{ $tc('employee.hierarchy_list_direct_report_title', directReports.length) }}</p>
         <ul class="list mv0">
           <li class="mb3 relative" v-for="directReport in directReports" :key="directReport.id">

@@ -31,8 +31,8 @@ Cypress.Commands.add('createTeam', () => {
   cy.get('[data-cy=submit-add-team-button]').click()
 })
 
-// Create an employee called "Michael Scott"
-Cypress.Commands.add('createEmployee', () => {
+// Create an employee
+Cypress.Commands.add('createEmployee', (firstname, lastname, email) => {
   cy.visit('/1/account')
 
   cy.get('[data-cy=employee-admin-link]').click()
@@ -40,9 +40,9 @@ Cypress.Commands.add('createEmployee', () => {
 
   cy.get('[data-cy=add-employee-button]').click()
 
-  cy.get('input[name=first_name]').type('Michael')
-  cy.get('input[name=last_name]').type('Scott')
-  cy.get('input[name=email]').type('michael.scott@dundermifflin.com')
+  cy.get('input[name=first_name]').type(firstname)
+  cy.get('input[name=last_name]').type(lastname)
+  cy.get('input[name=email]').type(email)
   cy.get('[type="radio"]').first().check()
 
   cy.get('[data-cy=submit-add-employee-button]').click()
