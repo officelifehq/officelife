@@ -975,8 +975,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['company', 'employee', 'managers', 'directReports'],
   data: function data() {
     return {
-      modal: false,
-      showAddManagerPopup: false,
+      modal: 'hide',
       searchManagers: [],
       form: {
         searchTerm: null,
@@ -996,28 +995,39 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    resetModals: function resetModals() {
-      this.modal = false;
-      this.showAddManagerPopup = false;
+    toggleModals: function toggleModals() {
+      if (this.modal == 'hide') {
+        this.modal = 'menu';
+      } else {
+        this.modal = 'hide';
+      }
     },
-    search: _.debounce(function () {
+    displayManagerModal: function displayManagerModal() {
       var _this = this;
 
-      axios.post('/search/employees', this.form).then(function (response) {
-        _this.searchManagers = response.data.data;
+      this.modal = 'manager';
+      this.$nextTick(function () {
+        _this.$refs.search.focus();
+      });
+    },
+    search: _.debounce(function () {
+      var _this2 = this;
+
+      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/search/managers', this.form).then(function (response) {
+        _this2.searchManagers = response.data.data;
       }).catch(function (error) {
-        _this.form.errors = _.flatten(_.toArray(error.response.data));
+        _this2.form.errors = _.flatten(_.toArray(error.response.data));
       });
     }, 500),
     assignManager: function assignManager(manager) {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignManager', manager).then(function (response) {
-        _this2.resetModals();
+        _this3.managers.push(response.data.data);
 
-        _this2.managers = response.data.data;
+        _this3.modal = 'hide';
       }).catch(function (error) {
-        _this2.form.errors = _.flatten(_.toArray(error.response.data));
+        _this3.form.errors = _.flatten(_.toArray(error.response.data));
       });
     }
   }
@@ -4854,12 +4864,12 @@ var render = function() {
       on: {
         click: function($event) {
           $event.preventDefault()
-          _vm.modal = !_vm.modal
+          _vm.toggleModals()
         }
       }
     }),
     _vm._v(" "),
-    _vm.modal == true
+    _vm.modal == "menu"
       ? _c(
           "div",
           {
@@ -4875,8 +4885,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        _vm.showAddManagerPopup = true
-                        _vm.modal = false
+                        _vm.displayManagerModal()
                       }
                     }
                   },
@@ -4892,7 +4901,7 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _vm.showAddManagerPopup
+    _vm.modal == "manager"
       ? _c(
           "div",
           {
@@ -4906,7 +4915,7 @@ var render = function() {
                 on: {
                   submit: function($event) {
                     $event.preventDefault()
-                    return _vm.submit($event)
+                    return _vm.search($event)
                   }
                 }
               },
@@ -4947,7 +4956,7 @@ var render = function() {
                         ) {
                           return null
                         }
-                        return _vm.resetModals($event)
+                        _vm.toggleModals()
                       },
                       input: function($event) {
                         if ($event.target.composing) {

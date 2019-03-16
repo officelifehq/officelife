@@ -214,7 +214,7 @@ class Employee extends Model
     {
         $directReportCollection = collect([]);
         foreach ($this->managerOf()->get() as $directReport) {
-            $directReportCollection->push($directReport->diredirectReport);
+            $directReportCollection->push($directReport->directReport);
         }
 
         return $directReportCollection;

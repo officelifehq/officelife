@@ -47,13 +47,13 @@
 <template>
   <div class="mb4 relative">
     <span class="tc db b mb2">Place in the company</span>
-    <img @click.prevent="modal = !modal" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer">
+    <img @click.prevent="toggleModals()" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer">
 
     <!-- Menu to choose from -->
-    <div class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == true">
+    <div class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == 'menu'">
       <ul class="list ma0 pa0">
         <li class="pv2">
-          <a @click.prevent="showAddManagerPopup = true; modal = false">Add a manager</a>
+          <a @click.prevent="displayManagerModal()">Add a manager</a>
         </li>
         <li class="pv2">
           Add a direct report
@@ -62,11 +62,11 @@
     </div>
 
     <!-- ADD MANAGER -->
-    <div class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="showAddManagerPopup">
-      <form @submit.prevent="submit">
+    <div class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="modal == 'manager'">
+      <form @submit.prevent="search">
         <div class="mb3 relative">
           <p>Find an employee to become Regis's manager</p>
-          <input type="text" v-model="form.searchTerm" v-on:keyup="search" id="search" name="search" ref="search" :placeholder="'Enter the first letters of the name'" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="resetModals" required>
+          <input type="text" v-model="form.searchTerm" v-on:keyup="search" id="search" name="search" ref="search" :placeholder="'Enter the first letters of the name'" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="toggleModals()" required>
         </div>
       </form>
       <ul class="pl0 list ma0">
@@ -127,8 +127,7 @@ export default {
 
   data() {
     return {
-      modal: false,
-      showAddManagerPopup: false,
+      modal: 'hide',
       searchManagers: [],
       form: {
         searchTerm: null,
@@ -150,14 +149,24 @@ export default {
   },
 
   methods: {
-    resetModals() {
-      this.modal = false
-      this.showAddManagerPopup = false
+    toggleModals() {
+      if (this.modal == 'hide') {
+        this.modal = 'menu'
+      } else {
+        this.modal = 'hide'
+      }
+    },
+
+    displayManagerModal() {
+      this.modal = 'manager'
+      this.$nextTick(() => {
+        this.$refs.search.focus()
+      })
     },
 
     search: _.debounce(
       function() {
-        axios.post('/search/employees', this.form)
+        axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/search/managers', this.form)
           .then(response => {
             this.searchManagers = response.data.data
           })
@@ -169,8 +178,8 @@ export default {
     assignManager(manager) {
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignManager', manager)
           .then(response => {
-            this.resetModals()
-            this.managers = response.data.data
+            this.managers.push(response.data.data)
+            this.modal = 'hide'
           })
           .catch(error => {
             this.form.errors = _.flatten(_.toArray(error.response.data))

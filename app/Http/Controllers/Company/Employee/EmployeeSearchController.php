@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeSearchController extends Controller
 {
@@ -25,20 +26,25 @@ class EmployeeSearchController extends Controller
     {
         $employee = Employee::findOrFail($employeeId);
 
-        $company = Cache::get('currentCompany');
-        $potentialManagers = $company->employees()->get();
+        $search = $request->get('searchTerm');
+        $potentialManagers = Employee::search(
+            $search,
+            Cache::get('currentCompany')->id,
+            10,
+            'created_at desc'
+        );
 
         // remove the existing managers of this employee from the list
         $existingManagersForTheEmployee = $employee->getListOfManagers();
-        $potentialManagers = $potentialManagers->whereNotIn('id', $existingManagersForTheEmployee);
+        $potentialManagers = $potentialManagers->diff($existingManagersForTheEmployee);
 
         // remove the existing direct reports of this employee from the list
         $existingDirectReportsForTheEmployee = $employee->getListOfDirectReports();
-        $potentialManagers = $potentialManagers->whereNotIn('id', $existingDirectReportsForTheEmployee);
+        $potentialManagers = $potentialManagers->diff($existingDirectReportsForTheEmployee);
 
         // remove the current employee from the list
         $potentialManagers = $potentialManagers->whereNotIn('id', $employee);
 
-        return $potentialManagers;
+        return EmployeeResource::collection($potentialManagers);
     }
 }
