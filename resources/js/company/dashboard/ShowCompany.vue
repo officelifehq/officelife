@@ -6,7 +6,7 @@
 </style>
 
 <template>
-  <layout title="Home">
+  <layout title="Home" :user="user">
     <div class="ph2 ph0-ns">
       <div class="cf mt4 mw7 center">
         <h2 class="tc">{{ company.name }}</h2>

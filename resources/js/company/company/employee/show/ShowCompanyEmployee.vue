@@ -10,7 +10,7 @@
 </style>
 
 <template>
-  <layout title="Home">
+  <layout title="Home" :user="user">
     <div class="ph2 ph5-ns">
 
       <!-- BREADCRUMB -->
@@ -45,7 +45,8 @@
             :company="company"
             :employee="employee"
             :managers="managers"
-            :direct-reports="directReports" />
+            :direct-reports="directReports"
+            :user="user" />
         </div>
       </div>
     </div>

@@ -55,4 +55,26 @@ class EmployeeController extends Controller
         $manager = (new AssignManager)->execute($request);
         return new EmployeeResource($manager);
     }
+
+    /**
+     * Assign a direct report to the employee.
+     *
+     * @param int $companyId
+     * @param int $employeeId
+     * @return \Illuminate\Http\Response
+     */
+    public function assignDirectReport(Request $request, int $companyId, int $employeeId)
+    {
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => auth()->user()->id,
+            'employee_id' => $request->get('id'),
+            'manager_id' => $employeeId,
+        ];
+
+        (new AssignManager)->execute($data);
+
+        $directReport = Employee::findOrFail($request->get('id'));
+        return new EmployeeResource($directReport);
+    }
 }

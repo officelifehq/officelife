@@ -18,8 +18,10 @@ class Employee extends JsonResource
             'id' => $this->id,
             'object' => 'employee',
             'name' => $this->name,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
             'email' => $this->email,
-            'permission_level' => $this->getPermissionLevel(),
+            'permission_level' => $this->permission_level,
             'avatar' => $this->avatar,
             'company' => [
                 'id' => $this->company_id,

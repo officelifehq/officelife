@@ -53,7 +53,7 @@
             </ul>
           </div>
           <div class="fl w-20 pa2 tr relative header-menu-settings">
-            <header-menu></header-menu>
+            <header-menu :user="user"></header-menu>
           </div>
         </div>
       </div>
@@ -163,7 +163,8 @@
 export default {
   props: [
     'title',
-    'noMenu'
+    'noMenu',
+    'user'
   ],
 
    data() {
