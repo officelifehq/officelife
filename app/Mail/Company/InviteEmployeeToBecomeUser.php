@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use App\Models\Company\Employee;
 use Illuminate\Queue\SerializesModels;
 
-class InviteUser extends Mailable
+class InviteEmployeeToBecomeUser extends Mailable
 {
     use Queueable, SerializesModels;
 

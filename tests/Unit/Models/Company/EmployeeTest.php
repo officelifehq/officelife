@@ -124,4 +124,17 @@ class EmployeeTest extends TestCase
             $employee->getListOfDirectReports()->count()
         );
     }
+
+    /** @test */
+    public function it_gets_the_path_for_the_invitation_link()
+    {
+        $employee = factory(Employee::class)->create([
+            'invitation_link' => 'dunder',
+        ]);
+
+        $this->assertEquals(
+            config('app.url').'/invite/employee/dunder',
+            $employee->getPathInvitationLink()
+        );
+    }
 }

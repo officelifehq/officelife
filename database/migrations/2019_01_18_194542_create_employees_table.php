@@ -24,10 +24,13 @@ class CreateEmployeesTable extends Migration
             $table->uuid('uuid');
             $table->string('avatar');
             $table->integer('permission_level');
+            $table->string('invitation_link')->nullable();
+            $table->timestamp('invitation_used_at')->nullable();
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->index('invitation_link');
         });
     }
 }

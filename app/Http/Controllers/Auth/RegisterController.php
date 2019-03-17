@@ -36,8 +36,11 @@ class RegisterController extends Controller
             'password' => $request->get('password'),
         ];
 
-        $account = (new CreateAccount)->execute($data);
+        (new CreateAccount)->execute($data);
 
-        Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')]);
+        Auth::attempt([
+            'email' => $request->get('email'),
+            'password' => $request->get('password')
+        ]);
     }
 }
