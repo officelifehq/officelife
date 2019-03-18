@@ -7,7 +7,7 @@ Route::post('signup', 'Auth\\RegisterController@store');
 Route::get('login', 'Auth\\LoginController@index')->name('login');
 Route::post('login', 'Auth\\LoginController@store');
 
-Route::get('invite/user/{link}', 'Auth\\UserInvitationController@index');
+Route::get('invite/user/{link}', 'Auth\\UserInvitationController@check');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\\LoginController@logout');

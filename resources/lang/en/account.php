@@ -4,7 +4,7 @@ return [
     'home_title' => 'Administration of your Homas account',
     'home_role_administrator' => 'As an <span class="b brush-blue">administrator</span>, you can…',
     'home_role_owner' => 'As an <span class="b brush-orange">owner</span>, you can…',
-    'home_manage_employees' => 'Add/remove employees',
+    'home_manage_employees' => 'Add/remove existing employees',
     'home_manage_teams' => 'Add/remove teams',
     'home_audit_log' => 'View audit log to see who has done what',
     'home_generate_fake_data' => 'Generate fake data',

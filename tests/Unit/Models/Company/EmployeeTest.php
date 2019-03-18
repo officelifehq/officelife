@@ -137,4 +137,16 @@ class EmployeeTest extends TestCase
             $employee->getPathInvitationLink()
         );
     }
+
+    /** @test */
+    public function it_checks_whether_the_invitation_has_been_accepted()
+    {
+        $employee = factory(Employee::class)->create([]);
+        $this->assertFalse($employee->invitationAlreadyAccepted());
+
+        $employee = factory(Employee::class)->create([
+            'invitation_used_at' => '1999-01-01',
+        ]);
+        $this->assertTrue($employee->invitationAlreadyAccepted());
+    }
 }

@@ -230,4 +230,18 @@ class Employee extends Model
     {
         return secure_url('/invite/employee/'.$this ->invitation_link);
     }
+
+    /**
+     * Return true if the invitation to become a user has already been accepted.
+     *
+     * @return bool
+     */
+    public function invitationAlreadyAccepted() : bool
+    {
+        if ($this->invitation_used_at) {
+            return true;
+        }
+
+        return false;
+    }
 }
