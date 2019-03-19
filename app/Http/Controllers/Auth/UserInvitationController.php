@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Models\Company\Employee;
+use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class UserInvitationController extends Controller
 {
@@ -32,7 +33,7 @@ class UserInvitationController extends Controller
         }
 
         //YOU ARE INVITED TO JOIN THE COMPANY
-        return View::component('ShowInviteEmployeeAcceptancePage', [
+        return View::component('AcceptInvitation', [
             'company' => $employee->company,
             'employee' => new EmployeeResource($employee),
         ]);

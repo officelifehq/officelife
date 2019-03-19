@@ -72,7 +72,7 @@
             <!-- Invite user -->
             <div class="mb3">
               <div class="flex items-center mb2">
-                <input class="mr2" type="checkbox" name="send_email" value="" @click="popup()">
+                <input class="mr2" type="checkbox" name="send_email" v-model="form.send_invitation">
                 <label for="send_email" class="lh-copy">{{ $t('account.employee_new_send_email') }}</label>
               </div>
             </div>
@@ -105,6 +105,7 @@ export default {
         last_name: null,
         email: null,
         permission_level: null,
+        send_invitation: false,
         errors: [],
       },
       loadingState: '',

@@ -62,7 +62,7 @@ class EmployeeController extends Controller
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
             'permission_level' => $request->get('permission_level'),
-            'send_invitation' => false,
+            'send_invitation' => $request->get('send_invitation'),
         ];
 
         (new AddEmployeeToCompany)->execute($request);

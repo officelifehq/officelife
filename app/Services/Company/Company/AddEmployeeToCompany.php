@@ -62,7 +62,11 @@ class AddEmployeeToCompany extends BaseService
         ]);
 
         if ($data['send_invitation']) {
-            $employee->invite();
+            (new InviteUser)->execute([
+                'company_id' => $data['company_id'],
+                'author_id' => $author->id,
+                'employee_id' => $employee->id,
+            ]);
         }
 
         return $employee;

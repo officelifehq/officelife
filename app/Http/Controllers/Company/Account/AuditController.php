@@ -50,6 +50,10 @@ class AuditController extends Controller
                 $sentence = 'Assigned '.$log->manager.' as the manager of '.$log->employee.'.';
             }
 
+            if ($log->action == 'employee_invited_to_become_user') {
+                $sentence = 'Sent an invitation to '.$log->employee.' to join the company.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,
