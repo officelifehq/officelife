@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Company\Company;
+namespace App\Services\Adminland\Company;
 
 use App\Services\BaseService;
 use App\Models\Company\AuditLog;

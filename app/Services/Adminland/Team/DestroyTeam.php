@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Services\Company\Team;
+namespace App\Services\Adminland\Team;
 
 use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Models\Company\Employee;
-use App\Services\Company\Company\LogAction;
+use App\Services\Adminland\Company\LogAction;
 
-class SetTeamLeader extends BaseService
+class DestroyTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -19,20 +18,17 @@ class SetTeamLeader extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'employee_id' => 'nullable|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Set the employee as the team leader.
-     * If employee id is null, the team will not have a leader anymore.
+     * Update a team.
      *
      * @param array $data
-     * @return Team
+     * @return bool
      */
-    public function execute(array $data) : Team
+    public function execute(array $data) : bool
     {
         $this->validate($data);
 
@@ -42,29 +38,21 @@ class SetTeamLeader extends BaseService
             config('homas.authorizations.hr')
         );
 
-        if (! is_null($data['employee_id'])) {
-            $employee = Employee::where('company_id', $data['company_id'])
-                ->findOrFail($data['employee_id']);
-        }
-
         $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
 
-        $team->team_leader_id = $data['employee_id'];
-        $team->save();
+        $team->delete();
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'team_leader_assigned',
+            'action' => 'team_destroyed',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'leader_id' => $data['employee_id'],
-                'team_id' => $team->id,
+                'team_name' => $team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        return $team;
+        return true;
     }
 }

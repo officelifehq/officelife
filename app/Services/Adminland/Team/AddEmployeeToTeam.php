@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Services\Company\Team;
+namespace App\Services\Adminland\Team;
 
 use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Services\Company\Company\LogAction;
+use App\Models\Company\Employee;
+use App\Services\Adminland\Company\LogAction;
 
-class UpdateTeam extends BaseService
+class AddEmployeeToTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -18,13 +19,14 @@ class UpdateTeam extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
+            'employee_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
-            'name' => 'required|string|max:255',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Update a team.
+     * Add an employee to a team.
      *
      * @param array $data
      * @return Team
@@ -39,22 +41,25 @@ class UpdateTeam extends BaseService
             config('homas.authorizations.hr')
         );
 
+        $employee = Employee::where('company_id', $data['company_id'])
+            ->findOrFail($data['employee_id']);
+
         $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
 
-        $team->update([
-            'name' => $data['name'],
-        ]);
+        $team->employees()->attach($data['employee_id'], ['company_id' => $data['company_id']]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'team_updated',
+            'action' => 'employee_added_to_team',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
+                'employee_id' => $employee->id,
+                'employee_email' => $employee->email,
                 'team_id' => $team->id,
-                'team_name' => $team->name,
             ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $team;

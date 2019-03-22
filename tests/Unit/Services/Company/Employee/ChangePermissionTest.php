@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\Company\Team;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Employee\ChangePermission;
+use App\Services\Adminland\Employee\ChangePermission;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ChangePermissionTest extends TestCase

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Company\Team;
+namespace App\Services\Adminland\Team;
 
 use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Services\Company\Company\LogAction;
+use App\Services\Adminland\Company\LogAction;
 
-class CreateTeam extends BaseService
+class UpdateTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -18,13 +18,13 @@ class CreateTeam extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
+            'team_id' => 'required|integer|exists:teams,id',
             'name' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Create a team.
+     * Update a team.
      *
      * @param array $data
      * @return Team
@@ -39,21 +39,22 @@ class CreateTeam extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $team = Team::create([
-            'company_id' => $data['company_id'],
+        $team = Team::where('company_id', $data['company_id'])
+            ->findOrFail($data['team_id']);
+
+        $team->update([
             'name' => $data['name'],
         ]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'team_created',
+            'action' => 'team_updated',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $team;

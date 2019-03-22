@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Services\Company\Company;
+namespace App\Services\Adminland\Team;
 
-use Illuminate\Support\Str;
+use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Models\Company\Company;
-use App\Models\Company\Employee;
+use App\Services\Adminland\Company\LogAction;
 
-class AddUserToCompany extends BaseService
+class CreateTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -19,19 +18,18 @@ class AddUserToCompany extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'user_id' => 'required|integer|exists:users,id',
-            'permission_level' => 'required|integer',
+            'name' => 'required|string|max:255',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Add a user to the company.
+     * Create a team.
      *
      * @param array $data
-     * @return Employee
+     * @return Team
      */
-    public function execute(array $data) : Employee
+    public function execute(array $data) : Team
     {
         $this->validate($data);
 
@@ -41,25 +39,23 @@ class AddUserToCompany extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $employee = Employee::create([
-            'user_id' => $data['user_id'],
+        $team = Team::create([
             'company_id' => $data['company_id'],
-            'uuid' => Str::uuid()->toString(),
-            'permission_level' => $data['permission_level'],
+            'name' => $data['name'],
         ]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'user_added_to_company',
+            'action' => 'team_created',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'user_id' => $employee->user->id,
-                'user_email' => $employee->user->email,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        return $employee;
+        return $team;
     }
 }

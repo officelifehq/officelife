@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\Company\Employee;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Employee\DestroyEmployee;
+use App\Services\Adminland\Employee\DestroyEmployee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

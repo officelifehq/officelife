@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Company\Team;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Company\Team\CreateTeam;
+use App\Services\Adminland\Team\CreateTeam;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;

@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\Company\Company;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Mail;
-use App\Services\Company\Company\InviteUser;
+use App\Services\Adminland\Company\InviteUser;
 use Illuminate\Validation\ValidationException;
 use App\Mail\Company\InviteEmployeeToBecomeUser;
 use App\Exceptions\InvitationAlreadyUsedException;

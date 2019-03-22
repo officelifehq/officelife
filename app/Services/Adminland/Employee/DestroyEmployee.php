@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Company\Employee;
+namespace App\Services\Adminland\Employee;
 
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Company\LogAction;
+use App\Services\Adminland\Company\LogAction;
 
-class UpdateHiringInformation extends BaseService
+class DestroyEmployee extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -16,39 +16,36 @@ class UpdateHiringInformation extends BaseService
     public function rules()
     {
         return [
-            'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'employee_id' => 'required|integer|exists:employees,id',
-            'hired_at' => 'required|date',
+            'employee_id' => 'required|exists:employees,id|integer',
+            'company_id' => 'required|exists:companies,id|integer',
         ];
     }
 
     /**
-     * Update the hiring information about an employee.
+     * Delete an employee.
      *
      * @param array $data
-     * @return Employee
+     * @return void
      */
-    public function execute(array $data) : Employee
+    public function execute(array $data)
     {
         $this->validate($data);
 
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('homas.authorizations.hr')
+            config('homas.authorizations.administrator')
         );
 
         $employee = Employee::where('company_id', $data['company_id'])
             ->findOrFail($data['employee_id']);
 
-        $employee->update([
-            'hired_at' => $data['hired_at'],
-        ]);
+        $employee->delete();
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'employee_updated_hiring_information',
+            'action' => 'employee_destroyed',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
@@ -56,7 +53,5 @@ class UpdateHiringInformation extends BaseService
                 'employee_name' => $employee->name,
             ]),
         ]);
-
-        return $employee;
     }
 }

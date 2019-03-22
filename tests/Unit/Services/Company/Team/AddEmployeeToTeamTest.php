@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Team\AddEmployeeToTeam;
+use App\Services\Adminland\Team\AddEmployeeToTeam;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AddEmployeeToTeamTest extends TestCase

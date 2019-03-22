@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\Company\Team;
 use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
-use App\Services\Company\Team\DestroyTeam;
+use App\Services\Adminland\Team\DestroyTeam;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

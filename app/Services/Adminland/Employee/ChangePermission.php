@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Services\Company\Team;
+namespace App\Services\Adminland\Employee;
 
-use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Company\LogAction;
+use App\Services\Adminland\Company\LogAction;
 
-class AddEmployeeToTeam extends BaseService
+class ChangePermission extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -20,18 +19,17 @@ class AddEmployeeToTeam extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'team_id' => 'required|integer|exists:teams,id',
-            'is_dummy' => 'nullable|boolean',
+            'permission_level' => 'required|integer',
         ];
     }
 
     /**
-     * Add an employee to a team.
+     * Change permission for the given employee.
      *
      * @param array $data
-     * @return Team
+     * @return Employee
      */
-    public function execute(array $data) : Team
+    public function execute(array $data) : Employee
     {
         $this->validate($data);
 
@@ -41,27 +39,26 @@ class AddEmployeeToTeam extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $employee = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
+        $employee = Employee::find($data['employee_id']);
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
+        $oldPermission = $employee->permission_level;
 
-        $team->employees()->attach($data['employee_id'], ['company_id' => $data['company_id']]);
+        $employee->permission_level = $data['permission_level'];
+        $employee->save();
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'employee_added_to_team',
+            'action' => 'permission_changed',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
-                'employee_email' => $employee->email,
-                'team_id' => $team->id,
+                'employee_name' => $employee->name,
+                'old_permission' => $oldPermission,
+                'new_permission' => $data['permission_level'],
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        return $team;
+        return $employee;
     }
 }

@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Exceptions\SameIdsException;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Employee\AssignManager;
+use App\Services\Adminland\Employee\AssignManager;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AssignManagerTest extends TestCase

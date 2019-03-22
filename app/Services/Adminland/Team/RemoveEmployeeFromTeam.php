@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Services\Company\Employee;
+namespace App\Services\Adminland\Team;
 
+use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Exceptions\SameIdsException;
-use App\Models\Company\DirectReport;
-use App\Services\Company\Company\LogAction;
+use App\Services\Adminland\Company\LogAction;
 
-class AssignManager extends BaseService
+class RemoveEmployeeFromTeam extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -21,17 +20,17 @@ class AssignManager extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'manager_id' => 'required|integer|exists:employees,id',
+            'team_id' => 'required|integer|exists:teams,id',
         ];
     }
 
     /**
-     * Set an employee as being the manager of the given employee.
+     * Remove an employee from a team.
      *
      * @param array $data
-     * @return Employee
+     * @return Team
      */
-    public function execute(array $data): Employee
+    public function execute(array $data) : Team
     {
         $this->validate($data);
 
@@ -43,32 +42,25 @@ class AssignManager extends BaseService
 
         $employee = Employee::where('company_id', $data['company_id'])
             ->findOrFail($data['employee_id']);
-        $manager = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['manager_id']);
 
-        if ($manager->id == $employee->id) {
-            throw new SameIdsException;
-        }
+        $team = Team::where('company_id', $data['company_id'])
+            ->findOrFail($data['team_id']);
 
-        DirectReport::create([
-            'company_id' => $data['company_id'],
-            'manager_id' => $data['manager_id'],
-            'employee_id' => $data['employee_id'],
-        ]);
+        $team->employees()->detach($data['employee_id'], ['company_id' => $data['company_id']]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'manager_assigned',
+            'action' => 'user_removed_from_team',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'manager_id' => $manager->id,
-                'manager_name' => $manager->name,
                 'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
+                'employee_email' => $employee->user->email,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
             ]),
         ]);
 
-        return $manager;
+        return $team;
     }
 }

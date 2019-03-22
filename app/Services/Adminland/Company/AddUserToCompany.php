@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Services\Company\Employee;
+namespace App\Services\Adminland\Company;
 
+use Illuminate\Support\Str;
 use App\Services\BaseService;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Services\Company\Company\LogAction;
 
-class ChangePermission extends BaseService
+class AddUserToCompany extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -18,13 +19,14 @@ class ChangePermission extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'employee_id' => 'required|integer|exists:employees,id',
+            'user_id' => 'required|integer|exists:users,id',
             'permission_level' => 'required|integer',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Change permission for the given employee.
+     * Add a user to the company.
      *
      * @param array $data
      * @return Employee
@@ -39,24 +41,23 @@ class ChangePermission extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $employee = Employee::find($data['employee_id']);
-
-        $oldPermission = $employee->permission_level;
-
-        $employee->permission_level = $data['permission_level'];
-        $employee->save();
+        $employee = Employee::create([
+            'user_id' => $data['user_id'],
+            'company_id' => $data['company_id'],
+            'uuid' => Str::uuid()->toString(),
+            'permission_level' => $data['permission_level'],
+        ]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'permission_changed',
+            'action' => 'user_added_to_company',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
-                'old_permission' => $oldPermission,
-                'new_permission' => $data['permission_level'],
+                'user_id' => $employee->user->id,
+                'user_email' => $employee->user->email,
             ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $employee;

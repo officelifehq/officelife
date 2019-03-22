@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Company\Employee\DestroyEmployee;
-use App\Services\Company\Company\AddEmployeeToCompany;
+use App\Services\Adminland\Employee\DestroyEmployee;
+use App\Services\Adminland\Company\AddEmployeeToCompany;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeController extends Controller
