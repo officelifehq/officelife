@@ -43,7 +43,7 @@ class RegisterController extends Controller
 
         Auth::attempt([
             'email' => $request->get('email'),
-            'password' => $request->get('password')
+            'password' => $request->get('password'),
         ]);
     }
 }

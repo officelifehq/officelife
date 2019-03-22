@@ -228,7 +228,7 @@ class Employee extends Model
      */
     public function getPathInvitationLink()
     {
-        return secure_url('/invite/employee/'.$this ->invitation_link);
+        return secure_url('/invite/employee/'.$this->invitation_link);
     }
 
     /**
