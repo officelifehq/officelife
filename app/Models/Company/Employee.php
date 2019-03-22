@@ -194,7 +194,7 @@ class Employee extends Model
     /**
      * Get the list of managers of this employee.
      *
-     * @return Illuminate\Support\Collection
+     * @return Collection
      */
     public function getListOfManagers() : Collection
     {
@@ -209,7 +209,7 @@ class Employee extends Model
     /**
      * Get the list of direct reports of this employee.
      *
-     * @return Illuminate\Support\Collection
+     * @return Collection
      */
     public function getListOfDirectReports(): Collection
     {

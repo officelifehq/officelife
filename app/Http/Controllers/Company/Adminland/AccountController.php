@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company\Account;
+namespace App\Http\Controllers\Company\Adminland;
 
 use Illuminate\Http\Request;
 use App\Models\Company\Company;
