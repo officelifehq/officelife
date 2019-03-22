@@ -25,6 +25,9 @@ class HomeController extends Controller
             ]);
         }
 
-        return View::component('Home', ['employees' => $companiesCollection]);
+        return View::component('Home', [
+            'employees' => $companiesCollection,
+            'user' => auth()->user(),
+        ]);
     }
 }

@@ -1,56 +1,33 @@
 <template>
-  <div class="ph2 ph0-ns">
-    <div class="cf mt3 mw7 center">
-      <p>You have been invited to join the human resource software used by Behaviour.</p>
-      <p>To accept the invitation, use one of these two options below.</p>
-    </div>
+  <layout title="Home" :user="user">
+    <div class="ph2 ph0-ns">
 
-    <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-      <div class="pa3">
-        <!-- Form Errors -->
-        <errors :errors="form.errors"></errors>
-
-        <form @submit.prevent="submit">
-          <!-- Email -->
-          <div class="">
-            <label class="db fw4 lh-copy f6" for="email">{{ $t('auth.register_email') }}</label>
-            <input type="email" name="email" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" v-model="form.email" required>
-            <p class="f7 mb4 lh-title">{{ $t('auth.register_email_help') }}</p>
-          </div>
-
-          <!-- Password -->
-          <div class="mb4">
-            <label class="db fw4 lh-copy f6" for="password">{{ $t('auth.register_password') }}</label>
-            <input type="password" name="password" v-model="form.password" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required>
-          </div>
-
-          <!-- Actions -->
-          <div class="">
-            <div class="flex-ns justify-between">
-              <div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.login_cta')"></loading-button>
-              </div>
-            </div>
-          </div>
-        </form>
+      <div class="cf mw6 center br3 mb3 bg-white box">
+        <div class="pa3">
+          <p>{{ $t('auth.invitation_logged_accept_title', { name: company.name }) }}Would you like to join {{ company.name }}?</p>
+          <form @submit.prevent="submit">
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.invitation_logged_accept_cta')"></loading-button>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+  </layout>
 </template>
 
 <script>
 
 export default {
 
+  props: [
+    'company',
+    'employee',
+    'invitation_link',
+    'user',
+  ],
+
   data() {
     return {
-      form: {
-        email: null,
-        password: null,
-        errors: [],
-      },
       loadingState: '',
-      errorTemplate: Error,
     }
   },
 
@@ -58,7 +35,7 @@ export default {
     submit() {
       this.loadingState = 'loading'
 
-      axios.post('/login', this.form)
+      axios.post('/invite/employee/' + this.invitation_link + '/accept')
         .then(response => {
           Turbolinks.visit('/home')
         })

@@ -24,6 +24,7 @@ class AccountController extends Controller
         return View::component('ShowAccount', [
             'company' => $company,
             'numberEmployees' => $numberEmployees,
+            'user' => auth()->user(),
         ]);
     }
 }

@@ -39,13 +39,13 @@
             <div v-show="noMenu" class="dib w-100"></div>
             <ul class="mv2" v-show="!noMenu">
               <li class="di header-menu-item pa2 pointer mr2">
-                <span class="b">
+                <span class="fw5">
                   <img class="relative" src="/img/header/icon-home.svg" />
                   {{ $t('app.header_home') }}
                 </span>
               </li>
               <li class="di header-menu-item pa2 pointer" @click="showFindModal" data-cy="header-find-link">
-                <span class="b">
+                <span class="fw5">
                   <img class="relative" src="/img/header/icon-find.svg" />
                   {{ $t('app.header_find') }}
                 </span>
@@ -85,7 +85,7 @@
             </li>
 
             <!-- Teams -->
-            <li class="b">
+            <li class="fw5">
               <span class="f6 mb2 dib">{{ $t('app.header_search_teams') }}</span>
               <ul class="list ma0 pl0" v-if="teams.length > 0">
                 <li v-for="team in teams" :key="team.id">

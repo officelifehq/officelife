@@ -8,6 +8,8 @@ Route::get('login', 'Auth\\LoginController@index')->name('login');
 Route::post('login', 'Auth\\LoginController@store');
 
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
+Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join');
+Route::post('invite/employee/{link}/accept', 'Auth\\UserInvitationController@accept');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\\LoginController@logout');

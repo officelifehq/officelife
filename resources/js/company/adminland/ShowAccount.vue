@@ -19,7 +19,7 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user">
+  <layout title="Home" :user="user" noMenu="false">
     <div class="ph2 ph0-ns">
 
       <!-- BREADCRUMB -->

@@ -35,7 +35,7 @@
 </style>
 
 <template>
-  <layout title="Home" noMenu="true" :user="user">
+  <layout title="Home" noMenu="false" :user="user">
     <div class="ph2 ph0-ns">
 
       <!-- Blank state -->
@@ -72,7 +72,7 @@
         <div class="cf mt4 mw7 center">
           <div class="fl w-100 w-25-m w-third-l pr2" v-for="employee in employees" :key="employee.id">
             <a :href="'/' + employee.company_id + '/dashboard'">
-              <div class="br3 mb3 bg-white box pa3 home-index-company b relative">
+              <div class="br3 mb3 bg-white box pa3 home-index-company fw5 relative">
                 {{ employee.company_name }}
                 <span class="absolute normal f6">{{ $tc('home.number_of_employees', employee.number_of_employees, { count: employee.number_of_employees }) }}</span>
               </div>
@@ -89,6 +89,9 @@
 
 <script>
 export default {
-  props: ['employees'],
+  props: [
+    'employees',
+    'user',
+  ],
 }
 </script>
