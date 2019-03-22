@@ -124,4 +124,29 @@ class EmployeeTest extends TestCase
             $employee->getListOfDirectReports()->count()
         );
     }
+
+    /** @test */
+    public function it_gets_the_path_for_the_invitation_link()
+    {
+        $employee = factory(Employee::class)->create([
+            'invitation_link' => 'dunder',
+        ]);
+
+        $this->assertEquals(
+            config('app.url').'/invite/employee/dunder',
+            $employee->getPathInvitationLink()
+        );
+    }
+
+    /** @test */
+    public function it_checks_whether_the_invitation_has_been_accepted()
+    {
+        $employee = factory(Employee::class)->create([]);
+        $this->assertFalse($employee->invitationAlreadyAccepted());
+
+        $employee = factory(Employee::class)->create([
+            'invitation_used_at' => '1999-01-01',
+        ]);
+        $this->assertTrue($employee->invitationAlreadyAccepted());
+    }
 }

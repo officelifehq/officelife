@@ -6,8 +6,8 @@ use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Company\RemoveDummyData;
-use App\Services\Company\Company\GenerateDummyData;
+use App\Services\Adminland\Company\RemoveDummyData;
+use App\Services\Adminland\Company\GenerateDummyData;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RemoveDummyDataTest extends TestCase

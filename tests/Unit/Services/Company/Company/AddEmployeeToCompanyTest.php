@@ -5,8 +5,8 @@ namespace Tests\Unit\Services\Company\Company;
 use Tests\TestCase;
 use App\Models\User\User;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Company\AddEmployeeToCompany;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Adminland\Company\AddEmployeeToCompany;
 
 class AddEmployeeToCompanyTest extends TestCase
 {

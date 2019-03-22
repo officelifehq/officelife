@@ -7,6 +7,10 @@ Route::post('signup', 'Auth\\RegisterController@store');
 Route::get('login', 'Auth\\LoginController@index')->name('login');
 Route::post('login', 'Auth\\LoginController@store');
 
+Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
+Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join');
+Route::post('invite/employee/{link}/accept', 'Auth\\UserInvitationController@accept');
+
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\\LoginController@logout');
 
@@ -33,24 +37,24 @@ Route::middleware(['auth'])->group(function () {
 
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
-            Route::get('account/audit', 'Company\\Account\\AuditController@index');
-            Route::get('account/dummy', 'Company\\Account\\DummyController@index');
+            Route::get('account/audit', 'Company\\Adminland\\AuditController@index');
+            Route::get('account/dummy', 'Company\\Adminland\\DummyController@index');
         });
 
         // only available to hr role
         Route::middleware(['hr'])->group(function () {
             // adminland
-            Route::get('account', 'Company\\Account\\AccountController@index');
+            Route::get('account', 'Company\\Adminland\\AccountController@index');
 
             // employee management
-            Route::resource('account/employees', 'Company\\Account\\EmployeeController');
-            Route::get('account/employees/{employee}/destroy', 'Company\\Account\\EmployeeController@destroy');
-            Route::get('account/employees/{employee}/permissions', 'Company\\Account\\PermissionController@index');
-            Route::post('account/employees/{employee}/permissions', 'Company\\Account\\PermissionController@store');
+            Route::resource('account/employees', 'Company\\Adminland\\EmployeeController');
+            Route::get('account/employees/{employee}/destroy', 'Company\\Adminland\\EmployeeController@destroy');
+            Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@index');
+            Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
 
             // team management
-            Route::resource('account/teams', 'Company\\Account\\TeamController');
-            Route::get('account/teams/{team}/destroy', 'Company\\Account\\TeamController@destroy');
+            Route::resource('account/teams', 'Company\\Adminland\\TeamController');
+            Route::get('account/teams/{team}/destroy', 'Company\\Adminland\\TeamController@destroy');
         });
     });
 });

@@ -4,9 +4,7 @@ namespace App\Models\Company;
 
 use App\Models\User\User;
 use App\Traits\Searchable;
-use App\Mail\Company\InviteUser;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -34,6 +32,8 @@ class Employee extends Model
         'birthdate',
         'hired_at',
         'permission_level',
+        'invitation_link',
+        'invitation_used_at',
         'uuid',
         'is_dummy',
         'avatar',
@@ -88,6 +88,7 @@ class Employee extends Model
     protected $dates = [
         'birthdate',
         'hired_at',
+        'invitation_used_at',
     ];
 
     /**
@@ -193,7 +194,7 @@ class Employee extends Model
     /**
      * Get the list of managers of this employee.
      *
-     * @return Illuminate\Support\Collection
+     * @return Collection
      */
     public function getListOfManagers() : Collection
     {
@@ -208,7 +209,7 @@ class Employee extends Model
     /**
      * Get the list of direct reports of this employee.
      *
-     * @return Illuminate\Support\Collection
+     * @return Collection
      */
     public function getListOfDirectReports(): Collection
     {
@@ -221,14 +222,26 @@ class Employee extends Model
     }
 
     /**
-     * Send an email to the employee so (s)he can create a User account and
-     * sign in to manage his/her account.
+     * Get the fully qualified path to confirm account invitation.
      *
-     * @return void
+     * @return string
      */
-    public function invite()
+    public function getPathInvitationLink()
     {
-        Mail::to($this->email)
-            ->queue(new InviteUser($this));
+        return secure_url('/invite/employee/'.$this->invitation_link);
+    }
+
+    /**
+     * Return true if the invitation to become a user has already been accepted.
+     *
+     * @return bool
+     */
+    public function invitationAlreadyAccepted() : bool
+    {
+        if ($this->invitation_used_at) {
+            return true;
+        }
+
+        return false;
     }
 }

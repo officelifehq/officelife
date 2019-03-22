@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\Company\Company;
 use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
-use App\Services\Company\Company\LogAction;
+use App\Services\Adminland\Company\LogAction;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

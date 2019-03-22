@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\Account\Account;
 use Tests\TestCase;
 use App\Models\User\User;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Company\CreateCompany;
+use App\Services\Adminland\Company\CreateCompany;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CreateCompanyTest extends TestCase

@@ -9,7 +9,7 @@
   <layout title="Home" :user="user">
     <div class="ph2 ph0-ns">
       <div class="cf mt4 mw7 center">
-        <h2 class="tc">{{ company.name }}</h2>
+        <h2 class="tc fw5">{{ company.name }}</h2>
       </div>
 
       <div class="cf mw7 center br3 mb3 bg-white box" v-show="user.permission_level == ownerPermissionLevel">

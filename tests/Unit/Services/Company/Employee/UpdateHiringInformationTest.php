@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\UpdateHiringInformation;
+use App\Services\Adminland\Employee\UpdateHiringInformation;
 
 class UpdateHiringInformationTest extends TestCase
 {

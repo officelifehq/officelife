@@ -29,7 +29,7 @@ class CreateAccount extends BaseService
     }
 
     /**
-     * Create a user.
+     * Create a user and send a confirmation email.
      *
      * @param array $data
      * @return User

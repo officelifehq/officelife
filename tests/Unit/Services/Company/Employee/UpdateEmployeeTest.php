@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\Company\Employee;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Employee\UpdateEmployee;
+use App\Services\Adminland\Employee\UpdateEmployee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UpdateEmployeeTest extends TestCase

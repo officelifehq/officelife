@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class LoginController extends Controller
 {
+    use ThrottlesLogins;
+
     /**
      * Shows the signin page.
      *
