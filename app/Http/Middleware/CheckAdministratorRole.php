@@ -17,7 +17,7 @@ class CheckAdministratorRole
     public function handle($request, Closure $next)
     {
         $company = Cache::get('currentCompany');
-        $employee = auth()->user()->isPartOfCompany($company);
+        $employee = auth()->user()->getEmployeeObjectForCompany($company);
 
         if (config('homas.authorizations.administrator') >= $employee->permission_level) {
             return $next($request);

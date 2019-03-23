@@ -106,7 +106,7 @@ class GenerateDummyData extends BaseService
         $request = [
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
-            'employee_id' => $currentUser->isPartOfCompany($team->company)->id,
+            'employee_id' => $currentUser->getEmployeeObjectForCompany($team->company)->id,
             'team_id' => $team->id,
             'is_dummy' => true,
         ];
