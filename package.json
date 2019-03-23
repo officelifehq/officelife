@@ -9,11 +9,14 @@
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "e2e": "$(yarn bin)/cypress run",
-        "e2e-gui": "$(yarn bin)/cypress open"
+        "e2e-gui": "$(yarn bin)/cypress open",
+        "lint": "eslint --ext .js,.vue resources/js/"
     },
     "devDependencies": {
         "axios": "^0.18",
         "cross-env": "^5.1",
+        "eslint": "^5.15.3",
+        "eslint-plugin-vue": "^5.2.2",
         "laravel-mix": "^4.0.7",
         "lodash": "^4.17.5",
         "popper.js": "^1.12",
