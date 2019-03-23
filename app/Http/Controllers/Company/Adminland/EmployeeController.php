@@ -26,7 +26,7 @@ class EmployeeController extends Controller
 
         return View::component('ShowAccountEmployees', [
             'company' => $company,
-            'user' => auth()->user()->isPartOfCompany($company),
+            'user' => auth()->user(),
             'employees' => $employees,
         ]);
     }
@@ -42,7 +42,7 @@ class EmployeeController extends Controller
 
         return View::component('CreateAccountEmployee', [
             'company' => $company,
-            'user' => auth()->user()->isPartOfCompany($company),
+            'user' => auth()->user(),
         ]);
     }
 

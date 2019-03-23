@@ -40,7 +40,7 @@ class UserInvitationController extends Controller
                 'company' => $employee->company,
                 'employee' => new EmployeeResource($employee),
                 'invitationLink' => $invitationLink,
-                'user' => auth()->user()->isPartOfCompany($employee->company),
+                'user' => auth()->user(),
             ]);
         }
 

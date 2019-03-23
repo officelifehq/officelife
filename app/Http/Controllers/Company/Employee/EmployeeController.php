@@ -29,7 +29,7 @@ class EmployeeController extends Controller
 
         return View::component('ShowCompanyEmployee', [
             'company' => $company,
-            'user' => auth()->user()->isPartOfCompany($company),
+            'user' => auth()->user(),
             'employee' => new EmployeeResource($employee),
             'managers' => EmployeeResource::collection($managers),
             'directReports' => EmployeeResource::collection($directReports),
