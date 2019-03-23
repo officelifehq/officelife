@@ -31,10 +31,10 @@
 
 <template>
   <div>
-    <a class="no-color no-underline relative pointer" @click.prevent="menu = !menu" data-cy="header-menu">
+    <a class="no-color no-underline relative pointer" data-cy="header-menu" @click.prevent="menu = !menu">
       {{ user.email }} <span class="dropdown-caret"></span>
     </a>
-    <div class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="menu == true">
+    <div v-if="menu == true" class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
       <ul class="list ma0 pa0">
         <li class="pv2">
           <a class="no-color no-underline" href="/home" data-cy="switch-company-button">
@@ -53,34 +53,37 @@
 
 <script>
 export default {
-  props: [
-    'user'
-  ],
+  props: {
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
 
   data() {
     return {
       menu: false,
-    };
+    }
   },
 
   created() {
-    window.addEventListener('click', this.close);
+    window.addEventListener('click', this.close)
   },
 
   beforeDestroy() {
-    window.removeEventListener('click', this.close);
+    window.removeEventListener('click', this.close)
   },
 
   methods: {
     prepareComponent() {
-      this.getPrimaryEmotions();
+      this.getPrimaryEmotions()
     },
 
     close(e) {
       if (!this.$el.contains(e.target)) {
-        this.menu = false;
+        this.menu = false
       }
     },
   }
-};
+}
 </script>

@@ -39,7 +39,7 @@ class UserInvitationController extends Controller
             return View::component('AcceptInvitation', [
                 'company' => $employee->company,
                 'employee' => new EmployeeResource($employee),
-                'invitation_link' => $invitationLink,
+                'invitationLink' => $invitationLink,
                 'user' => auth()->user()->isPartOfCompany($employee->company),
             ]);
         }
@@ -47,7 +47,7 @@ class UserInvitationController extends Controller
         return View::component('AcceptInvitationUnlogged', [
             'company' => $employee->company,
             'employee' => new EmployeeResource($employee),
-            'invitation_link' => $invitationLink,
+            'invitationLink' => $invitationLink,
         ]);
     }
 

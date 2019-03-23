@@ -25,7 +25,7 @@
 
 <template>
   <div>
-    <vue-snotify></vue-snotify>
+    <vue-snotify />
 
     <header class="bg-white dn db-m db-l mb3 relative">
       <div class="ph3 pt1 w-100">
@@ -37,14 +37,14 @@
           </div>
           <div class="fl w-60 tc">
             <div v-show="noMenu" class="dib w-100"></div>
-            <ul class="mv2" v-show="!noMenu">
+            <ul v-show="!noMenu" class="mv2">
               <li class="di header-menu-item pa2 pointer mr2">
                 <span class="fw5">
                   <img class="relative" src="/img/header/icon-home.svg" />
                   {{ $t('app.header_home') }}
                 </span>
               </li>
-              <li class="di header-menu-item pa2 pointer" @click="showFindModal" data-cy="header-find-link">
+              <li class="di header-menu-item pa2 pointer" data-cy="header-find-link" @click="showFindModal">
                 <span class="fw5">
                   <img class="relative" src="/img/header/icon-find.svg" />
                   {{ $t('app.header_find') }}
@@ -53,28 +53,29 @@
             </ul>
           </div>
           <div class="fl w-20 pa2 tr relative header-menu-settings">
-            <header-menu :user="user"></header-menu>
+            <header-menu :user="user" />
           </div>
         </div>
       </div>
 
       <!-- FIND BOX -->
-      <div class="absolute z-max find-box" v-show="modalFind">
+      <div v-show="modalFind" class="absolute z-max find-box">
         <div class="br2 bg-white tl pv3 ph3 bounceIn faster">
           <form @submit.prevent="submit">
             <div class="relative">
-              <input type="text" v-model="form.searchTerm" id="search" name="search" ref="search" :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" @keydown.esc="modalFind = false" required>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'"></loading-button>
+              <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
+                     :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false"
+              />
+              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'" />
             </div>
           </form>
 
           <!-- Search results -->
-          <ul class="pl0 list ma0 mt3" v-show="dataReturnedFromSearch" data-cy="results">
-
+          <ul v-show="dataReturnedFromSearch" class="pl0 list ma0 mt3" data-cy="results">
             <!-- Employees -->
             <li class="b mb3">
               <span class="f6 mb2 dib">{{ $t('app.header_search_employees') }}</span>
-              <ul class="list ma0 pl0" v-if="employees.length > 0">
+              <ul v-if="employees.length > 0" class="list ma0 pl0">
                 <li v-for="employee in employees" :key="employee.id">
                   <a :href="'/' + employee.company.id + '/employees/' + employee.id">{{ employee.name }}</a>
                 </li>
@@ -87,7 +88,7 @@
             <!-- Teams -->
             <li class="fw5">
               <span class="f6 mb2 dib">{{ $t('app.header_search_teams') }}</span>
-              <ul class="list ma0 pl0" v-if="teams.length > 0">
+              <ul v-if="teams.length > 0" class="list ma0 pl0">
                 <li v-for="team in teams" :key="team.id">
                   <a :href="'/' + team.company.id + '/teams/' + team.id">{{ team.name }}</a>
                 </li>
@@ -106,48 +107,48 @@
       <div class="ph2 pv2 w-100 relative">
         <div class="pv2 relative menu-toggle">
           <label for="menu-toggle" class="dib b relative">Menu</label>
-          <input type="checkbox" id="menu-toggle">
-          <ul class="list pa0 mt4 mb0" id="mobile-menu">
+          <input id="menu-toggle" type="checkbox" />
+          <ul id="mobile-menu" class="list pa0 mt4 mb0">
             <li class="pv2 bt b--light-gray">
               <a class="no-color b no-underline" href="">
-                  Home
+                Home
               </a>
             </li>
             <li class="pv2 bt b--light-gray">
               <a class="no-color b no-underline" href="">
-                  app.main_nav_people
+                app.main_nav_people
               </a>
             </li>
             <li class="pv2 bt b--light-gray">
               <a class="no-color b no-underline" href="">
-                  app.main_nav_journal
+                app.main_nav_journal
               </a>
             </li>
             <li class="pv2 bt b--light-gray">
               <a class="no-color b no-underline" href="">
-                  app.main_nav_find
+                app.main_nav_find
               </a>
             </li>
             <li class="pv2 bt b--light-gray">
               <a class="no-color b no-underline" href="">
-                  app.main_nav_changelog
+                app.main_nav_changelog
               </a>
             </li>
             <li class="pv2 bt b--light-gray">
               <a class="no-color b no-underline" href="">
-                  app.main_nav_settings
+                app.main_nav_settings
               </a>
             </li>
             <li class="pv2 bt b--light-gray">
               <a class="no-color b no-underline" href="">
-                  app.main_nav_signout
+                app.main_nav_signout
               </a>
             </li>
           </ul>
         </div>
         <div class="absolute pa2 header-logo">
           <a href="">
-              <img src="/img/logo/logo.svg" width="30" height="27" />
+            <img src="/img/logo/logo.svg" width="30" height="27" />
           </a>
         </div>
       </div>
@@ -161,13 +162,22 @@
 
 <script>
 export default {
-  props: [
-    'title',
-    'noMenu',
-    'user'
-  ],
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    noMenu: {
+      type: Boolean,
+      default: false,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
 
-   data() {
+  data() {
     return {
       loadingState: '',
       modalFind: false,
@@ -181,19 +191,19 @@ export default {
     }
   },
 
-  mounted() {
-    this.updatePageTitle(this.title)
-  },
-
   watch: {
     title(title) {
       this.updatePageTitle(title)
     }
   },
 
+  mounted() {
+    this.updatePageTitle(this.title)
+  },
+
   methods: {
     updatePageTitle(title) {
-      document.title = title ? `${title} | Example app` : `Example app`
+      document.title = title ? `${title} | Example app` : 'Example app'
     },
 
     showFindModal() {

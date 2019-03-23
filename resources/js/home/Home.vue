@@ -35,18 +35,17 @@
 </style>
 
 <template>
-  <layout title="Home" noMenu="false" :user="user">
+  <layout title="Home" :no-menu="false" :user="user">
     <div class="ph2 ph0-ns">
-
       <!-- Blank state -->
-      <div class="cf mt4 mt5-l mw7 center" v-show="employees.length == 0">
+      <div v-show="employees.length == 0" class="cf mt4 mt5-l mw7 center">
         <div class="fl w-100 w-25-m w-50-l pr2-l">
           <a href="/company/create">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box" data-cy="create-company-blank-state">
                 <h3>{{ $t('home.create_company') }}</h3>
                 <p>{{ $t('home.create_company_desc') }}</p>
-                <img src="/img/home/create-company.png" class="home-company absolute">
+                <img src="/img/home/create-company.png" class="home-company absolute" />
               </div>
             </div>
           </a>
@@ -57,7 +56,7 @@
               <div class="br3 mb3 bg-white box pa3 tc relative home-box">
                 <h3>{{ $t('home.join_company') }}</h3>
                 <p>{{ $t('home.join_company_desc') }}</p>
-                <img src="/img/home/join-company.png" class="home-join absolute">
+                <img src="/img/home/join-company.png" class="home-join absolute" />
               </div>
             </div>
           </a>
@@ -70,7 +69,7 @@
           <p><span class="pr2">{{ $t('home.companies_part_of') }}</span> <a href="/company/create" class="btn-primary absolute db-l dn br3 pv2 ph3 white no-underline bb-0">{{ $t('home.create_company_cta') }}</a></p>
         </div>
         <div class="cf mt4 mw7 center">
-          <div class="fl w-100 w-25-m w-third-l pr2" v-for="employee in employees" :key="employee.id">
+          <div v-for="employee in employees" :key="employee.id" class="fl w-100 w-25-m w-third-l pr2">
             <a :href="'/' + employee.company_id + '/dashboard'">
               <div class="br3 mb3 bg-white box pa3 home-index-company fw5 relative">
                 {{ employee.company_name }}
@@ -89,9 +88,15 @@
 
 <script>
 export default {
-  props: [
-    'employees',
-    'user',
-  ],
+  props: {
+    employees: {
+      type: Array,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
 }
 </script>
