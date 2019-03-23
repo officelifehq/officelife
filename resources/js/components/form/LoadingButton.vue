@@ -14,12 +14,24 @@ import * as VueLoaders from 'vue-loaders'
 Vue.use(VueLoaders)
 
 export default {
-  props: [
-    'text',
-    'state',
-    'classes',
-    'cypressSelector'
-  ],
+  props: {
+    text: {
+      type: String,
+      default: '',
+    },
+    state: {
+      type: String,
+      default: '',
+    },
+    classes: {
+      type: String,
+      default: '',
+    },
+    cypressSelector: {
+      type: String,
+      default: '',
+    },
+  },
 
   methods: {
   }

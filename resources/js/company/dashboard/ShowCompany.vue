@@ -83,10 +83,19 @@
 
 <script>
 export default {
-  props: [
-    'company',
-    'user',
-    'ownerPermissionLevel'
-  ],
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+    ownerPermissionLevel: {
+      type: Number,
+      default: 0,
+    },
+  },
 }
 </script>

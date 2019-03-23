@@ -73,13 +73,28 @@
 <script>
 
 export default {
-  props: [
-    'company',
-    'employee',
-    'user',
-    'managers',
-    'directReports'
-  ],
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+    employee: {
+      type: Object,
+      default: null,
+    },
+    managers: {
+      type: Array,
+      default: null,
+    },
+    directReports: {
+      type: Array,
+      default: null,
+    },
+  },
 
   mounted() {
     if (localStorage.success) {

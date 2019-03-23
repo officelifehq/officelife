@@ -117,11 +117,16 @@
 <script>
 
 export default {
-
-  props: [
-    'company',
-    'user',
-  ],
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
 
   data() {
     return {

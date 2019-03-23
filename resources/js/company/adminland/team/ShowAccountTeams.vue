@@ -124,11 +124,20 @@
 <script>
 
 export default {
-  props: [
-    'company',
-    'teams',
-    'user',
-  ],
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    teams: {
+      type: Array,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
 
   data() {
     return {

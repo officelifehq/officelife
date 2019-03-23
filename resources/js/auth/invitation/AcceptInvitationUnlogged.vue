@@ -107,12 +107,20 @@
 <script>
 
 export default {
-
-  props: [
-    'company',
-    'employee',
-    'invitationLink',
-  ],
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    employee: {
+      type: Object,
+      default: null,
+    },
+    invitationLink: {
+      type: String,
+      default: '',
+    },
+  },
 
   data() {
     return {

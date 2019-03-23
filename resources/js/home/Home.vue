@@ -35,7 +35,7 @@
 </style>
 
 <template>
-  <layout title="Home" no-menu="false" :user="user">
+  <layout title="Home" :no-menu="false" :user="user">
     <div class="ph2 ph0-ns">
       <!-- Blank state -->
       <div v-show="employees.length == 0" class="cf mt4 mt5-l mw7 center">
@@ -88,9 +88,15 @@
 
 <script>
 export default {
-  props: [
-    'employees',
-    'user',
-  ],
+  props: {
+    employees: {
+      type: Array,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
 }
 </script>

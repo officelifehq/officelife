@@ -46,7 +46,7 @@
 
 <template>
   <div class="mb4 relative">
-    <span class="tc db b mb2">{{ $t('employee.hierarchy_title') }}</span>
+    <span class="tc db fw5 mb2">{{ $t('employee.hierarchy_title') }}</span>
     <img v-show="user.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button" @click.prevent="toggleModals()" />
 
     <!-- MENU TO CHOOSE FROM -->
@@ -73,7 +73,7 @@
         </div>
       </form>
       <ul class="pl0 list ma0">
-        <li class="b mb3">
+        <li class="fw5 mb3">
           <span class="f6 mb2 dib">{{ $t('employee.hierarchy_search_results') }}</span>
           <ul v-if="searchManagers.length > 0" class="list ma0 pl0">
             <li v-for="manager in searchManagers" :key="manager.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
@@ -94,13 +94,13 @@
         <div class="mb3 relative">
           <p>{{ $t('employee.hierarchy_modal_add_direct_report_search', { name: employee.first_name}) }}</p>
           <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
-                 :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required required data-cy="search-direct-report"
+                 :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-direct-report"
                  @keyup="search" @keydown.esc="toggleModals()"
           />
         </div>
       </form>
       <ul class="pl0 list ma0">
-        <li class="b mb3">
+        <li class="fw5 mb3">
           <span class="f6 mb2 dib">{{ $t('employee.hierarchy_search_results') }}</span>
           <ul v-if="searchDirectReports.length > 0" class="list ma0 pl0">
             <li v-for="directReport in searchDirectReports" :key="directReport.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
@@ -161,13 +161,29 @@ export default {
   directives: {
     ClickOutside
   },
-  props: [
-    'company',
-    'user',
-    'employee',
-    'managers',
-    'directReports',
-  ],
+
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+    employee: {
+      type: Object,
+      default: null,
+    },
+    managers: {
+      type: Array,
+      default: null,
+    },
+    directReports: {
+      type: Array,
+      default: null,
+    },
+  },
 
   data() {
     return {

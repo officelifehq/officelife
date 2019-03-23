@@ -66,11 +66,20 @@
 <script>
 
 export default {
-  props: [
-    'company',
-    'employees',
-    'user',
-  ],
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+    employees: {
+      type: Array,
+      default: null,
+    },
+  },
 
   mounted() {
     if (localStorage.success) {

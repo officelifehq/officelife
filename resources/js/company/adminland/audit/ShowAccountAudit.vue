@@ -51,12 +51,24 @@
 <script>
 
 export default {
-  props: [
-    'company',
-    'logs',
-    'user',
-    'paginator',
-  ],
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+    logs: {
+      type: Array,
+      default: null,
+    },
+    paginator: {
+      type: Object,
+      default: null,
+    },
+  },
 }
 
 </script>

@@ -53,9 +53,12 @@
 
 <script>
 export default {
-  props: [
-    'user'
-  ],
+  props: {
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
 
   data() {
     return {

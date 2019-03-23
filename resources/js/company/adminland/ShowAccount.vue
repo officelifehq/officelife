@@ -19,7 +19,7 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" no-menu="false">
+  <layout title="Home" :user="user" :no-menu="false">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -72,10 +72,19 @@
 
 <script>
 export default {
-  props: [
-    'company',
-    'user',
-    'nbEmployees'
-  ],
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+    nbEmployees: {
+      type: Number,
+      default: 0,
+    },
+  },
 }
 </script>

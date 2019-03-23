@@ -162,11 +162,20 @@
 
 <script>
 export default {
-  props: [
-    'title',
-    'noMenu',
-    'user'
-  ],
+  props: {
+    title: {
+      type: String,
+      default: '',
+    },
+    noMenu: {
+      type: Boolean,
+      default: false,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
 
   data() {
     return {
