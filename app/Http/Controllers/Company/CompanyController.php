@@ -22,7 +22,7 @@ class CompanyController extends Controller
 
         return View::component('ShowCompany', [
             'company' => $company,
-            'user' => auth()->user(),
+            'user' => auth()->user()->getEmployeeObjectForCompany($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);
     }

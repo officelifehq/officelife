@@ -7,7 +7,7 @@ use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 
-class AccountController extends Controller
+class AdminlandController extends Controller
 {
     /**
      * Show the account dashboard.
@@ -24,7 +24,7 @@ class AccountController extends Controller
         return View::component('ShowAccount', [
             'company' => $company,
             'numberEmployees' => $numberEmployees,
-            'user' => auth()->user(),
+            'user' => auth()->user()->getEmployeeObjectForCompany($company),
         ]);
     }
 }

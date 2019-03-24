@@ -13,12 +13,16 @@ return [
     'search' => 'Search',
     'choose' => 'Choose',
 
+    'previous' => 'Previous',
+    'next' => 'Next',
+
     'no_results' => 'No results',
 
     'breadcrumb_account_home' => 'Account administration',
     'breadcrumb_account_manage_employees' => 'Manage employees',
     'breadcrumb_account_add_employee' => 'Add an employee',
     'breadcrumb_account_manage_teams' => 'Manage teams',
+    'breadcrumb_account_audit_logs' => 'Audit logs',
 
     'header_home' => 'Home',
     'header_find' => 'Find',

@@ -12,6 +12,7 @@ return [
     'login_email' => 'Your email address',
     'login_password' => 'Your password',
     'login_cta' => 'Login →',
+    'login_invalid_credentials' => '😳 Invalid credentials',
 
     'invitation_invalid_link' => 'This invitation link is invalid.',
     'invitation_link_already_accepted' => 'This invitation has already been accepted. Please sign in to your account.',
