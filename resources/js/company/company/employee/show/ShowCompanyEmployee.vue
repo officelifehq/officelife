@@ -34,7 +34,7 @@
           <h2 class="tc normal mb1">
             {{ employee.name }}
           </h2>
-          <ul class="list tc pa0 f6">
+          <ul class="list tc pa0 f6 mb0">
             <li class="di-l db mb0-l mb2 mr2">
               No current position
             </li>

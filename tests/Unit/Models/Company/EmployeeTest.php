@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\User;
 use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
+use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -63,6 +64,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($employee->reportsTo()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_logs()
+    {
+        $employee = factory(Employee::class)->create();
+        factory(EmployeeLog::class, 2)->create([
+            'employee_id' => $employee->id,
+        ]);
+
+        $this->assertTrue($employee->employeeLogs()->exists());
     }
 
     /** @test */

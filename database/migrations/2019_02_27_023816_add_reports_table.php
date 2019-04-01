@@ -14,10 +14,10 @@ class AddReportsTable extends Migration
     public function up()
     {
         Schema::create('direct_reports', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('company_id');
-            $table->unsignedInteger('manager_id');
-            $table->unsignedInteger('employee_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('manager_id');
+            $table->unsignedBigInteger('employee_id');
             $table->timestamps();
             $table->foreign('manager_id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');

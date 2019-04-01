@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Services\Adminland\Company;
+namespace App\Services\Adminland\Employee;
 
 use App\Services\BaseService;
-use App\Models\Company\AuditLog;
+use App\Models\Company\Employee;
+use App\Models\Company\EmployeeLog;
 
-class LogAction extends BaseService
+class LogEmployeeAction extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -16,6 +17,7 @@ class LogAction extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
+            'employee_id' => 'required|integer|exists:employees,id',
             'action' => 'required|string|max:255',
             'objects' => 'required|json',
             'ip_address' => 'nullable|ipv4',
@@ -24,19 +26,21 @@ class LogAction extends BaseService
     }
 
     /**
-     * Log an action that happened in a company.
-     * This service is used in the Audit Log screen in the Adminland, and
-     * therefore should only be used to log important actions.
+     * Log an action that happened to the employee.
      *
      * @param array $data
-     * @return AuditLog
+     * @return EmployeeLog
      */
-    public function execute(array $data) : AuditLog
+    public function execute(array $data): EmployeeLog
     {
         $this->validate($data);
 
-        return AuditLog::create([
+        Employee::where('company_id', $data['company_id'])
+            ->findOrFail($data['employee_id']);
+
+        return EmployeeLog::create([
             'company_id' => $data['company_id'],
+            'employee_id' => $data['employee_id'],
             'action' => $data['action'],
             'objects' => $data['objects'],
             'ip_address' => $this->nullOrValue($data, 'ip_address'),

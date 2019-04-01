@@ -14,7 +14,7 @@ class AddTeamManagerToTeams extends Migration
     public function up()
     {
         Schema::table('teams', function (Blueprint $table) {
-            $table->unsignedInteger('team_leader_id')->after('company_id')->nullable();
+            $table->unsignedBigInteger('team_leader_id')->after('company_id')->nullable();
             $table->foreign('team_leader_id')->references('id')->on('employees')->onDelete('set null');
         });
     }
