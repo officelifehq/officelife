@@ -88,7 +88,7 @@ class EmployeeLog extends Model
             return $this->object->{'author_name'};
         }
 
-        return '<a href="' . tenant('/employees/' . $author->id) . '">' . $author->name . '</a>';
+        return '<a href="'.tenant('/employees/'.$author->id).'">'.$author->name.'</a>';
     }
 
     /**
@@ -104,7 +104,7 @@ class EmployeeLog extends Model
             return $this->object->{'team_name'};
         }
 
-        return '<a href="' . tenant('/teams/' . $team->id) . '">' . $team->name . '</a>';
+        return '<a href="'.tenant('/teams/'.$team->id).'">'.$team->name.'</a>';
     }
 
     /**
@@ -120,7 +120,7 @@ class EmployeeLog extends Model
             return $this->object->{'user_name'};
         }
 
-        return '<a href="' . tenant('/employees/' . $user->id) . '">' . $user->name . '</a>';
+        return '<a href="'.tenant('/employees/'.$user->id).'">'.$user->name.'</a>';
     }
 
     /**
@@ -136,6 +136,6 @@ class EmployeeLog extends Model
             return $this->object->{'manager_name'};
         }
 
-        return '<a href="' . tenant('/employees/' . $manager->id) . '">' . $manager->name . '</a>';
+        return '<a href="'.tenant('/employees/'.$manager->id).'">'.$manager->name.'</a>';
     }
 }
