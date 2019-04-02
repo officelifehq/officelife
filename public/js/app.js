@@ -1276,6 +1276,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -1298,6 +1362,11 @@ __webpack_require__.r(__webpack_exports__);
       type: Array,
       default: null
     }
+  },
+  data: function data() {
+    return {
+      profileMenu: false
+    };
   },
   mounted: function mounted() {
     if (localStorage.success) {
@@ -2304,7 +2373,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "\n.avatar[data-v-0bc2ef2a] {\n  width: 80px;\n  height: 80px;\n  top: 19%;\n  left: 50%;\n  margin-top: -40px; /* Half the height */\n  margin-left: -40px; /* Half the width */\n}\n", ""]);
+exports.push([module.i, "\n.avatar[data-v-0bc2ef2a] {\n  width: 80px;\n  height: 80px;\n  top: 19%;\n  left: 50%;\n  margin-top: -40px; /* Half the height */\n  margin-left: -40px; /* Half the width */\n}\n.popupmenu[data-v-0bc2ef2a] {\n  border: 1px solid rgba(27,31,35,.15);\n  box-shadow: 0 3px 12px rgba(27,31,35,.15);\n  right: 22px;\n  top: 46px;\n}\n.popupmenu[data-v-0bc2ef2a]:after,\n.popupmenu[data-v-0bc2ef2a]:before {\n  content: \"\";\n  display: inline-block;\n  position: absolute;\n}\n.popupmenu[data-v-0bc2ef2a]:after {\n  border: 7px solid transparent;\n  border-bottom-color: #fff;\n  left: auto;\n  right: 10px;\n  top: -14px;\n}\n.popupmenu[data-v-0bc2ef2a]:before {\n  border: 8px solid transparent;\n  border-bottom-color: rgba(27,31,35,.15);\n  left: auto;\n  right: 9px;\n  top: -16px;\n}\n", ""]);
 
 // exports
 
@@ -6158,6 +6227,82 @@ var render = function() {
         [
           _c("div", { staticClass: "pa3 relative pt5" }, [
             _c("img", {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.user.permission_level <= 200,
+                  expression: "user.permission_level <= 200"
+                }
+              ],
+              staticClass:
+                "box-edit-button absolute br-100 pa2 bg-white pointer",
+              attrs: {
+                src: "/img/menu_button.svg",
+                "data-cy": "edit-profile-button"
+              },
+              on: {
+                click: function($event) {
+                  _vm.profileMenu = true
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.profileMenu
+              ? _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "click-outside",
+                        rawName: "v-click-outside",
+                        value: _vm.toggleModals,
+                        expression: "toggleModals"
+                      }
+                    ],
+                    staticClass:
+                      "popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster"
+                  },
+                  [
+                    _c("ul", { staticClass: "list ma0 pa0" }, [
+                      _c("li", { staticClass: "pv2" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "pointer",
+                            attrs: { "data-cy": "add-manager-button" }
+                          },
+                          [_vm._v("Edit")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "pv2" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "pointer",
+                            attrs: { "data-cy": "add-direct-report-button" }
+                          },
+                          [_vm._v("Delete")]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "pv2" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "pointer",
+                            attrs: { "data-cy": "add-direct-report-button" }
+                          },
+                          [_vm._v("View change log")]
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("img", {
               staticClass: "avatar absolute br-100 db center",
               attrs: { src: _vm.employee.avatar }
             }),
@@ -6207,6 +6352,26 @@ var render = function() {
             })
           ],
           1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "flex items-center justify-center flex-column mb4" },
+          [
+            _c("div", { staticClass: "cf dib btn-group" }, [
+              _c("span", { staticClass: "f6 fl ph3 pv2 dib pointer" }, [
+                _vm._v("\n            Summary\n          ")
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "f6 fl ph3 pv2 pointer dib" }, [
+                _vm._v("\n            Life events\n          ")
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "f6 fl ph3 pv2 dib selected" }, [
+                _vm._v("\n            Logs\n          ")
+              ])
+            ])
+          ]
         )
       ])
     ])
