@@ -3,14 +3,13 @@
 namespace Tests\Unit\Services\Company\Employee;
 
 use Tests\TestCase;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Exceptions\SameIdsException;
+use App\Models\Company\DirectReport;
 use Illuminate\Validation\ValidationException;
 use App\Services\Adminland\Employee\UnassignManager;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\Company\DirectReport;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Models\Company\Company;
 
 class UnassignManagerTest extends TestCase
 {
