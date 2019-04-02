@@ -11,10 +11,10 @@
             <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/account'">Account administration</a>
+            <a :href="'/' + company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</a>
           </li>
           <li class="di">
-            Audit logs
+            {{ $t('app.breadcrumb_account_audit_logs') }}
           </li>
         </ul>
       </div>
@@ -23,7 +23,7 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            Audit logs
+            {{ $t('audit.title') }}
           </h2>
           <ul class="list pl0 mt0 center">
             <li v-for="log in logs" :key="log.id"
@@ -39,8 +39,8 @@
 
           <!-- Pagination -->
           <div class="center cf">
-            <a class="fl dib" :href="paginator.previousPageUrl" title="Previous">&larr; Previous</a>
-            <a class="fr dib" :href="paginator.nextPageUrl" title="Next">Next &rarr;</a>
+            <a v-show="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">&larr; {{ $t('app.previous') }}</a>
+            <a v-show="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">{{ $t('app.next') }} &rarr;</a>
           </div>
         </div>
       </div>

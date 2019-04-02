@@ -7,6 +7,36 @@
   margin-top: -40px; /* Half the height */
   margin-left: -40px; /* Half the width */
 }
+
+.popupmenu {
+  border: 1px solid rgba(27,31,35,.15);
+  box-shadow: 0 3px 12px rgba(27,31,35,.15);
+  right: 22px;
+  top: 46px;
+}
+
+.popupmenu:after,
+.popupmenu:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+}
+
+.popupmenu:after {
+  border: 7px solid transparent;
+  border-bottom-color: #fff;
+  left: auto;
+  right: 10px;
+  top: -14px;
+}
+
+.popupmenu:before {
+  border: 8px solid transparent;
+  border-bottom-color: rgba(27,31,35,.15);
+  left: auto;
+  right: 9px;
+  top: -16px;
+}
 </style>
 
 <template>
@@ -30,11 +60,30 @@
       <!-- BODY -->
       <div class="mw9 center br3 mb4 bg-white box relative z-1">
         <div class="pa3 relative pt5">
+          <!-- EDIT BUTTON -->
+          <img v-show="user.permission_level <= 200" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" @click="profileMenu = true" />
+
+          <!-- EDIT MENU -->
+          <div v-if="profileMenu" v-click-outside="toggleModals" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+            <ul class="list ma0 pa0">
+              <li class="pv2">
+                <a class="pointer" data-cy="add-manager-button">Edit</a>
+              </li>
+              <li class="pv2">
+                <a class="pointer" data-cy="add-direct-report-button">Delete</a>
+              </li>
+              <li class="pv2">
+                <a class="pointer" data-cy="add-direct-report-button">View change log</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- AVATAR -->
           <img :src="employee.avatar" class="avatar absolute br-100 db center" />
           <h2 class="tc normal mb1">
             {{ employee.name }}
           </h2>
-          <ul class="list tc pa0 f6">
+          <ul class="list tc pa0 f6 mb0">
             <li class="di-l db mb0-l mb2 mr2">
               No current position
             </li>
@@ -65,6 +114,21 @@
             :user="user"
           />
         </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="flex items-center justify-center flex-column mb4">
+          <div class="cf dib btn-group">
+            <span class="f6 fl ph3 pv2 dib pointer">
+              Summary
+            </span>
+            <span class="f6 fl ph3 pv2 pointer dib">
+              Life events
+            </span>
+            <span class="f6 fl ph3 pv2 dib selected">
+              Logs
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </layout>
@@ -94,6 +158,12 @@ export default {
       type: Array,
       default: null,
     },
+  },
+
+  data() {
+    return {
+      profileMenu: false,
+    }
   },
 
   mounted() {

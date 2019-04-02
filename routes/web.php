@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
         // only available to hr role
         Route::middleware(['hr'])->group(function () {
             // adminland
-            Route::get('account', 'Company\\Adminland\\AccountController@index');
+            Route::get('account', 'Company\\Adminland\\AdminlandController@index');
 
             // employee management
             Route::resource('account/employees', 'Company\\Adminland\\EmployeeController');

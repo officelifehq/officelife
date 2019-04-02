@@ -142,6 +142,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the employee logs record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function employeeLogs()
+    {
+        return $this->hasMany(EmployeeLog::class)->orderBy('created_at', 'desc');
+    }
+
+    /**
      * Get the permission level of the user.
      *
      * @return string

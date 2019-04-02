@@ -39,8 +39,9 @@
           <h2 class="tc normal mb4">
             {{ $t('account.home_title') }}
           </h2>
-          <p v-html="$t('account.home_role_administrator')"></p>
 
+          <!-- HR -->
+          <p v-html="$t('account.home_role_administrator')"></p>
           <ul class="options list pl0 mb5">
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/employees.svg" class="pr1 absolute" />
@@ -52,18 +53,22 @@
             </li>
           </ul>
 
-          <p v-html="$t('account.home_role_owner')"></p>
-          <ul class="options list pl0">
-            <li class="pa2 pl0">
-              <a :href="'/' + company.id + '/account/audit'" class="bb">{{ $t('account.home_audit_log') }}</a>
-            </li>
-            <li v-show="!company.has_dummy_data" class="pa2 pl0">
-              <a :href="'/' + company.id + '/account/dummy'">{{ $t('account.home_generate_fake_data') }}</a>
-            </li>
-            <li v-show="company.has_dummy_data" class="pa2 pl0">
-              <a :href="'/' + company.id + '/account/dummy'">{{ $t('account.home_remove_fake_data') }}</a>
-            </li>
-          </ul>
+          <!-- ACCOUNT OWNER -->
+          <div v-show="user.permission_level < 200">
+            <p v-html="$t('account.home_role_owner')"></p>
+            <ul class="options list pl0">
+              <li class="pa2 pl0 relative">
+                <img src="/img/company/account/audit.svg" class="pr1 absolute" />
+                <a :href="'/' + company.id + '/account/audit'" class="relative">{{ $t('account.home_audit_log') }}</a>
+              </li>
+              <li v-show="!company.has_dummy_data" class="pa2 pl0">
+                <a :href="'/' + company.id + '/account/dummy'">{{ $t('account.home_generate_fake_data') }}</a>
+              </li>
+              <li v-show="company.has_dummy_data" class="pa2 pl0">
+                <a :href="'/' + company.id + '/account/dummy'">{{ $t('account.home_remove_fake_data') }}</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

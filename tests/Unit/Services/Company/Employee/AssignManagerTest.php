@@ -57,11 +57,23 @@ class AssignManagerTest extends TestCase
             'manager_id' => $manager->id,
         ];
 
-        $employee = (new AssignManager)->execute($request);
+        $manager = (new AssignManager)->execute($request);
 
         $this->assertdatabasehas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'manager_assigned',
+        ]);
+
+        $this->assertdatabasehas('employee_logs', [
+            'company_id' => $employee->company_id,
+            'employee_id' => $employee->id,
+            'action' => 'manager_assigned',
+        ]);
+
+        $this->assertdatabasehas('employee_logs', [
+            'company_id' => $employee->company_id,
+            'employee_id' => $manager->id,
+            'action' => 'direct_report_assigned',
         ]);
     }
 

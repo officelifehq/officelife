@@ -44,7 +44,7 @@ class LoginController extends Controller
         }
 
         return response()->json([
-            'errors' => '😳 Invalid credentials',
+            'errors' => trans('auth.login_invalid_credentials'),
         ], 403);
     }
 

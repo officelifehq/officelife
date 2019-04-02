@@ -42,6 +42,19 @@ $factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) {
+    return [
+        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'employee_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $data['company_id'],
+            ])->id;
+        },
+        'action' => 'account_created',
+        'objects' => '{"user": 1}',
+    ];
+});
+
 $factory->define(App\Models\Company\DirectReport::class, function (Faker $faker) {
     return [
         'company_id' => factory(App\Models\Company\Company::class)->create()->id,

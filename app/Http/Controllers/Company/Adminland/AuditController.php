@@ -64,7 +64,7 @@ class AuditController extends Controller
         return View::component('ShowAccountAudit', [
             'company' => $company,
             'logs' => $logsCollection,
-            'user' => auth()->user(),
+            'user' => auth()->user()->getEmployeeObjectForCompany($company),
             'paginator' => [
                 'count' => $logs->count(),
                 'currentPage' => $logs->currentPage(),

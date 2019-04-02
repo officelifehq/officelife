@@ -26,7 +26,7 @@ class TeamController extends Controller
 
         return View::component('ShowAccountTeams', [
             'company' => $company,
-            'user' => auth()->user(),
+            'user' => auth()->user()->getEmployeeObjectForCompany($company),
             'teams' => $teams,
         ]);
     }
