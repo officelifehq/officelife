@@ -152,6 +152,6 @@ class EmployeeLog extends Model
             return $this->object->{'employee_name'};
         }
 
-        return '<a href="' . tenant('/employees/' . $employee->id) . '">' . $employee->name . '</a>';
+        return '<a href="'.tenant('/employees/'.$employee->id).'">'.$employee->name.'</a>';
     }
 }

@@ -14,7 +14,7 @@ class LogsControllerTest extends TestCase
     public function it_lets_you_see_employees_logs_with_the_right_permissions()
     {
         $employee = factory(Employee::class)->create([]);
-        $route = '/employees/' . $employee->id . '/logs';
+        $route = '/employees/'.$employee->id.'/logs';
 
         $this->accessibleBy($employee, config('homas.authorizations.administrator'), $route, 200);
         $this->accessibleBy($employee, config('homas.authorizations.hr'), $route, 200);

@@ -41,23 +41,23 @@ class LogsController extends Controller
         $sentence = '';
         foreach ($logs->all() as $log) {
             if ($log->action == 'employee_created') {
-                $sentence = $log->author . ' created this employee entry.';
+                $sentence = $log->author.' created this employee entry.';
             }
 
             if ($log->action == 'manager_assigned') {
-                $sentence = $log->author . ' assigned ' . $log->manager . ' as a manager.';
+                $sentence = $log->author.' assigned '.$log->manager.' as a manager.';
             }
 
             if ($log->action == 'direct_report_assigned') {
-                $sentence = $log->author . ' assigned ' . $log->employee . ' as a direct report.';
+                $sentence = $log->author.' assigned '.$log->employee.' as a direct report.';
             }
 
             if ($log->action == 'manager_unassigned') {
-                $sentence = $log->author . ' removed ' . $log->manager . ' as a manager.';
+                $sentence = $log->author.' removed '.$log->manager.' as a manager.';
             }
 
             if ($log->action == 'direct_report_unassigned') {
-                $sentence = $log->author . ' removed ' . $log->employee . ' as a direct report.';
+                $sentence = $log->author.' removed '.$log->employee.' as a direct report.';
             }
 
             $logsCollection->push([
