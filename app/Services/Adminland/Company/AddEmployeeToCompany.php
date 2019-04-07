@@ -2,11 +2,13 @@
 
 namespace App\Services\Adminland\Company;
 
+use App\Models\User\User;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Services\User\Avatar\GenerateAvatar;
+use App\Services\Adminland\Employee\LogEmployeeAction;
 
 class AddEmployeeToCompany extends BaseService
 {
@@ -45,7 +47,7 @@ class AddEmployeeToCompany extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $employee = $this->createEmployee($data);
+        $employee = $this->createEmployee($data, $author);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
@@ -76,9 +78,10 @@ class AddEmployeeToCompany extends BaseService
      * Create the employee.
      *
      * @param array $data
+     * @param User $author
      * @return Employee
      */
-    private function createEmployee($data) : Employee
+    private function createEmployee(array $data, User $author) : Employee
     {
         $uuid = Str::uuid()->toString();
 
@@ -87,7 +90,7 @@ class AddEmployeeToCompany extends BaseService
             'size' => 200,
         ]);
 
-        return Employee::create([
+        $employee = Employee::create([
             'company_id' => $data['company_id'],
             'uuid' => $uuid,
             'email' => $data['email'],
@@ -97,5 +100,19 @@ class AddEmployeeToCompany extends BaseService
             'permission_level' => $data['permission_level'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
+
+        (new LogEmployeeAction)->execute([
+            'company_id' => $data['company_id'],
+            'employee_id' => $employee->id,
+            'action' => 'employee_created',
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+            ]),
+        ]);
+
+        return $employee;
     }
 }

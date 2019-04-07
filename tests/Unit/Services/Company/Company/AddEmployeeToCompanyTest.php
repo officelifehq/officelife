@@ -63,6 +63,11 @@ class AddEmployeeToCompanyTest extends TestCase
             'company_id' => $employee->company->id,
             'action' => 'employee_added_to_company',
         ]);
+
+        $this->assertDatabaseHas('employee_logs', [
+            'company_id' => $employee->company->id,
+            'action' => 'employee_created',
+        ]);
     }
 
     /** @test */
