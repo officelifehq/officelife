@@ -7,36 +7,6 @@
   margin-top: -40px; /* Half the height */
   margin-left: -40px; /* Half the width */
 }
-
-.popupmenu {
-  border: 1px solid rgba(27,31,35,.15);
-  box-shadow: 0 3px 12px rgba(27,31,35,.15);
-  right: 22px;
-  top: 46px;
-}
-
-.popupmenu:after,
-.popupmenu:before {
-  content: "";
-  display: inline-block;
-  position: absolute;
-}
-
-.popupmenu:after {
-  border: 7px solid transparent;
-  border-bottom-color: #fff;
-  left: auto;
-  right: 10px;
-  top: -14px;
-}
-
-.popupmenu:before {
-  border: 8px solid transparent;
-  border-bottom-color: rgba(27,31,35,.15);
-  left: auto;
-  right: 9px;
-  top: -16px;
-}
 </style>
 
 <template>

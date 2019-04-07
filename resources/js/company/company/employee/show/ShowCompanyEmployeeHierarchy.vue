@@ -1,5 +1,5 @@
 <style scoped>
-.list-employees ul {
+.list-employees > ul {
   padding-left: 43px;
 }
 
@@ -13,34 +13,17 @@
   width: 35px;
 }
 
-.popupmenu {
-  border: 1px solid rgba(27,31,35,.15);
-  box-shadow: 0 3px 12px rgba(27,31,35,.15);
-  right: 22px;
-  top: 46px;
+.list-employees-action {
+  top: 15px;
 }
 
-.popupmenu:after,
-.popupmenu:before {
-  content: "";
-  display: inline-block;
-  position: absolute;
+.list-employees-modal {
+  right: -6px;
+  top: 27px;
 }
 
-.popupmenu:after {
-  border: 7px solid transparent;
-  border-bottom-color: #fff;
-  left: auto;
-  right: 10px;
-  top: -14px;
-}
-
-.popupmenu:before {
-  border: 8px solid transparent;
-  border-bottom-color: rgba(27,31,35,.15);
-  left: auto;
-  right: 9px;
-  top: -16px;
+.icon-delete {
+  top: 2px;
 }
 </style>
 
@@ -132,6 +115,23 @@
             <img :src="manager.avatar" class="br-100 absolute avatar" />
             <a :href="'/' + company.id + '/employees/' + manager.id" class="mb2">{{ manager.name }}</a>
             <span class="title db f7 mt1">Director of Management</span>
+
+            <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModal = true" />
+
+            <!-- DELETE MANAGER MENU -->
+            <div v-if="managerModal" v-show="user.permission_level <= 200" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+              <ul class="list ma0 pa0">
+                <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
+                  <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                  <a class="pointer ml1 c-delete" data-cy="remove-manager-button" @click.prevent="deleteEmployeeConfirmation = true">{{ $t('employee.hierarchy_modal_remove_manager') }}</a>
+                </li>
+                <li v-show="deleteEmployeeConfirmation" class="pv2">
+                  {{ $t('app.sure') }}
+                  <a data-cy="confirm-remove-manager" class="c-delete mr1 pointer" @click.prevent="unassignManager(manager)">{{ $t('app.yes') }}</a>
+                  <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">{{ $t('app.no') }}</a>
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
       </div>
@@ -146,6 +146,23 @@
             <img :src="directReport.avatar" class="br-100 absolute avatar" />
             <a :href="'/' + company.id + '/employees/' + directReport.id" class="mb2">{{ directReport.name }}</a>
             <span class="title db f7 mt1">Director of Management</span>
+
+            <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModal = true" />
+
+            <!-- DELETE DIRECT REPORT MENU -->
+            <div v-if="directReportModal" v-show="user.permission_level <= 200" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+              <ul class="list ma0 pa0">
+                <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
+                  <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                  <a class="pointer ml1 c-delete" data-cy="remove-directreport-button" @click.prevent="deleteEmployeeConfirmation = true">{{ $t('employee.hierarchy_modal_remove_direct_report') }}</a>
+                </li>
+                <li v-show="deleteEmployeeConfirmation" class="pv2">
+                  {{ $t('app.sure') }}
+                  <a data-cy="confirm-remove-directreport" class="c-delete mr1 pointer" @click.prevent="unassignDirectReport(directReport)">{{ $t('app.yes') }}</a>
+                  <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">{{ $t('app.no') }}</a>
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
       </div>
@@ -194,6 +211,9 @@ export default {
         searchTerm: null,
         errors: [],
       },
+      managerModal: false,
+      directReportModal: false,
+      deleteEmployeeConfirmation: false,
     }
   },
 
@@ -228,6 +248,14 @@ export default {
       this.$nextTick(() => {
         this.$refs.search.focus()
       })
+    },
+
+    hideManagerModal() {
+      this.managerModal = false
+    },
+
+    hideDirectReportModal() {
+      this.directReportModal = false
     },
 
     search: _.debounce(
@@ -274,6 +302,40 @@ export default {
           })
           this.directReports.push(response.data.data)
           this.modal = 'hide'
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data))
+        })
+    },
+
+    unassignManager(manager) {
+      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/unassignManager', manager)
+        .then(response => {
+          this.$snotify.success(this.$t('employee.hierarchy_modal_remove_manager_success'), {
+            timeout: 5000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          })
+          this.managers.splice(this.managers.indexOf(response.data.data), 1)
+          this.deleteEmployeeConfirmation = false
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data))
+        })
+    },
+
+    unassignDirectReport(directReport) {
+      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/unassignDirectReport', directReport)
+        .then(response => {
+          this.$snotify.success(this.$t('employee.hierarchy_modal_remove_direct_report_success'), {
+            timeout: 5000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          })
+          this.directReports.splice(this.directReports.indexOf(response.data.data), 1)
+          this.deleteEmployeeConfirmation = false
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data))

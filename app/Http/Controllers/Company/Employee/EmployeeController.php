@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Adminland\Employee\AssignManager;
+use App\Services\Adminland\Employee\UnassignManager;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeController extends Controller
@@ -78,5 +79,47 @@ class EmployeeController extends Controller
         $directReport = Employee::findOrFail($request->get('id'));
 
         return new EmployeeResource($directReport);
+    }
+
+    /**
+     * Unassign a manager.
+     *
+     * @param int $companyId
+     * @param int $employeeId
+     * @return \Illuminate\Http\Response
+     */
+    public function unassignManager(Request $request, int $companyId, int $employeeId)
+    {
+        $request = [
+            'company_id' => $companyId,
+            'author_id' => auth()->user()->id,
+            'employee_id' => $employeeId,
+            'manager_id' => $request->get('id'),
+        ];
+
+        $manager = (new UnassignManager)->execute($request);
+
+        return new EmployeeResource($manager);
+    }
+
+    /**
+     * Unassign a direct report.
+     *
+     * @param int $companyId
+     * @param int $managerId
+     * @return \Illuminate\Http\Response
+     */
+    public function unassignDirectReport(Request $request, int $companyId, int $managerId)
+    {
+        $request = [
+            'company_id' => $companyId,
+            'author_id' => auth()->user()->id,
+            'employee_id' => $request->get('id'),
+            'manager_id' => $managerId,
+        ];
+
+        $manager = (new UnassignManager)->execute($request);
+
+        return new EmployeeResource($manager);
     }
 }
