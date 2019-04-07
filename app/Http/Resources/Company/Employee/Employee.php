@@ -26,6 +26,9 @@ class Employee extends JsonResource
             'company' => [
                 'id' => $this->company_id,
             ],
+            'user' => [
+                'id' => $this->user_id,
+            ],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

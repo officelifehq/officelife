@@ -31,19 +31,19 @@
       <div class="mw9 center br3 mb4 bg-white box relative z-1">
         <div class="pa3 relative pt5">
           <!-- EDIT BUTTON -->
-          <img v-show="user.permission_level <= 200" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" @click="profileMenu = true" />
+          <img src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" @click="profileMenu = true" />
 
           <!-- EDIT MENU -->
-          <div v-if="profileMenu" v-click-outside="toggleModals" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+          <div v-if="profileMenu" v-click-outside="toggleProfileMenu" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
             <ul class="list ma0 pa0">
-              <li class="pv2">
+              <li v-show="user.permission_level <= 200" class="pv2">
                 <a class="pointer" data-cy="add-manager-button">Edit</a>
               </li>
-              <li class="pv2">
+              <li v-show="user.permission_level <= 200" class="pv2">
                 <a class="pointer" data-cy="add-direct-report-button">Delete</a>
               </li>
-              <li class="pv2">
-                <a class="pointer" data-cy="add-direct-report-button">View change log</a>
+              <li v-show="user.permission_level <= 200 || user.user_id == employee.user.id" class="pv2">
+                <a :href="'/' + company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="add-direct-report-button">View change log</a>
               </li>
             </ul>
           </div>
@@ -105,8 +105,13 @@
 </template>
 
 <script>
+import ClickOutside from 'vue-click-outside'
 
 export default {
+  directives: {
+    ClickOutside
+  },
+
   props: {
     company: {
       type: Object,
@@ -147,6 +152,12 @@ export default {
       localStorage.clear()
     }
   },
+
+  methods: {
+    toggleProfileMenu() {
+      this.profileMenu = false
+    },
+  }
 }
 
 </script>

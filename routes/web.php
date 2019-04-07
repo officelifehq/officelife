@@ -31,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');
             Route::post('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager');
             Route::post('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport');
+
+            Route::get('{employee}/logs', 'Company\\Employee\\LogsController@index');
         });
 
         Route::prefix('teams')->group(function () {

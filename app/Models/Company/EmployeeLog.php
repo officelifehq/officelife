@@ -138,4 +138,20 @@ class EmployeeLog extends Model
 
         return '<a href="'.tenant('/employees/'.$manager->id).'">'.$manager->name.'</a>';
     }
+
+    /**
+     * Get the employee of the employee log, if defined.
+     *
+     * @return string
+     */
+    public function getEmployeeAttribute($value)
+    {
+        try {
+            $employee = Employee::findOrFail($this->object->{'employee_id'});
+        } catch (ModelNotFoundException $e) {
+            return $this->object->{'employee_name'};
+        }
+
+        return '<a href="'.tenant('/employees/'.$employee->id).'">'.$employee->name.'</a>';
+    }
 }
