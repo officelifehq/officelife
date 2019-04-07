@@ -29,6 +29,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager');
             Route::post('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport');
             Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');
+            Route::post('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager');
+            Route::post('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport');
         });
 
         Route::prefix('teams')->group(function () {

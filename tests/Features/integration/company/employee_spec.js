@@ -31,11 +31,23 @@ describe('Company', function () {
     cy.get('[data-cy=potential-manager-button').click()
     cy.get('[data-cy=list-managers]').contains('Michael Scott')
 
+    // remove manager
+    cy.get('[data-cy=display-remove-manager-modal]').click()
+    cy.get('[data-cy=remove-manager-button]').click()
+    cy.get('[data-cy=confirm-remove-manager]').click()
+    cy.get('[data-cy=list-managers]').should('not.contain', 'Michael Scott')
+
     // I will now test that I can add dwight schrute as Jim's direct report
     cy.get('[data-cy=add-hierarchy-button]').click()
     cy.get('[data-cy=add-direct-report-button]').click()
     cy.get('[data-cy=search-direct-report]').type('dwight')
     cy.get('[data-cy=potential-direct-report-button').click()
     cy.get('[data-cy=list-direct-reports]').contains('Dwight Schrute')
+
+    // remove direct report
+    cy.get('[data-cy=display-remove-directreport-modal]').click()
+    cy.get('[data-cy=remove-directreport-button]').click()
+    cy.get('[data-cy=confirm-remove-directreport]').click()
+    cy.get('[data-cy=list-direct-reports]').should('not.contain', 'Dwight Schrute')
   })
 })

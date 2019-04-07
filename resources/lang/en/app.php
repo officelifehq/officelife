@@ -12,6 +12,9 @@ return [
     'rename' => 'Rename',
     'search' => 'Search',
     'choose' => 'Choose',
+    'yes' => 'Yes',
+    'no' => 'No',
+    'sure' => 'Are you sure?',
 
     'previous' => 'Previous',
     'next' => 'Next',

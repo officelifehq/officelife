@@ -8,7 +8,6 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Unit">

@@ -13,4 +13,8 @@ return [
     'hierarchy_list_direct_report_title' => 'Direct report | Direct reports',
     'hierarchy_modal_add_manager_success' => 'The manager has been set',
     'hierarchy_modal_add_direct_report_success' => 'The direct report has been set',
+    'hierarchy_modal_remove_manager_success' => 'The manager has been unassigned',
+    'hierarchy_modal_remove_direct_report_success' => 'The direct report has been unassigned',
+    'hierarchy_modal_remove_manager' => 'Remove manager',
+    'hierarchy_modal_remove_direct_report' => 'Remove direct report',
 ];
