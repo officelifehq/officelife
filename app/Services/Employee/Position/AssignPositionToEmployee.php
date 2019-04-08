@@ -58,14 +58,11 @@ class AssignPositionToEmployee extends BaseService
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'manager_id' => $manager->id,
-                'manager_name' => $manager->name,
+                'position_id' => $position->id,
+                'position_name' => $position->name,
             ]),
         ]);
 
-        // DANS EMPLOYEE LOG JE DOIS SUPPRIMER LA FONCTOIN getemployeeattribute
-        // car on a déjà un employee().
-
-        return $manager;
+        return $position;
     }
 }
