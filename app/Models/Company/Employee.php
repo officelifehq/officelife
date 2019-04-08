@@ -152,7 +152,17 @@ class Employee extends Model
     }
 
     /**
-     * Get the permission level of the user.
+     * Get the position record associated with the employee.
+     *
+     * @return belongsTo
+     */
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    /**
+     * Get the permission level of the employee.
      *
      * @return string
      */

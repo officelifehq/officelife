@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport');
 
             Route::get('{employee}/logs', 'Company\\Employee\\LogsController@index');
+
+            Route::get('titles', 'Company\\Employee\\EmployeePositionController@index');
         });
 
         Route::prefix('teams')->group(function () {

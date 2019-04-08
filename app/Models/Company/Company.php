@@ -70,4 +70,14 @@ class Company extends Model
     {
         return $this->hasMany(Team::class);
     }
+
+    /**
+     * Get the title records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function positions()
+    {
+        return $this->hasMany(Position::class);
+    }
 }

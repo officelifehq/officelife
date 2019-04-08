@@ -8,6 +8,7 @@ use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Models\Company\Position;
 
 class CompanyTest extends TestCase
 {
@@ -44,5 +45,16 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->teams()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_positions()
+    {
+        $company = factory(Company::class)->create();
+        factory(Position::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->positions()->exists());
     }
 }
