@@ -140,16 +140,16 @@ class EmployeeLog extends Model
     }
 
     /**
-     * Get the employee of the employee log, if defined.
+     * Get the direct report object of the employee log, if defined.
      *
      * @return string
      */
-    public function getEmployeeAttribute($value)
+    public function getDirectReportAttribute($value)
     {
         try {
-            $employee = Employee::findOrFail($this->object->{'employee_id'});
+            $employee = Employee::findOrFail($this->object->{'direct_report_id'});
         } catch (ModelNotFoundException $e) {
-            return $this->object->{'employee_name'};
+            return $this->object->{'direct_report_name'};
         }
 
         return '<a href="'.tenant('/employees/'.$employee->id).'">'.$employee->name.'</a>';

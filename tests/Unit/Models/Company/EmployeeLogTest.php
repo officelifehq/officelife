@@ -198,4 +198,41 @@ class EmployeeLogTest extends ApiTestCase
             $employeeLog->manager
         );
     }
+
+    /** @test */
+    public function it_returns_the_direct_report_attribute()
+    {
+        $adminEmployee = $this->createAdministrator();
+
+        Cache::shouldReceive('get')
+            ->once()
+            ->times(2)
+            ->with('currentCompany')
+            ->andReturn($adminEmployee->company);
+
+        $employeeLog = factory(EmployeeLog::class)->create([
+            'objects' => json_encode([
+                'direct_report_id' => $adminEmployee->id,
+            ]),
+            'company_id' => $adminEmployee->company_id,
+        ]);
+
+        $this->assertEquals(
+            '<a href="'.tenant('/employees/'.$adminEmployee->id).'">'.$adminEmployee->name.'</a>',
+            $employeeLog->directReport
+        );
+
+        $employeeLog = factory(EmployeeLog::class)->create([
+            'objects' => json_encode([
+                'direct_report_id' => 12345,
+                'direct_report_name' => 'Dwight Schrute',
+            ]),
+            'company_id' => $adminEmployee->company_id,
+        ]);
+
+        $this->assertEquals(
+            'Dwight Schrute',
+            $employeeLog->directReport
+        );
+    }
 }
