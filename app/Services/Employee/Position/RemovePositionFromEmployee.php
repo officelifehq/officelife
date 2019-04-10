@@ -7,7 +7,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Services\Adminland\Employee\LogEmployeeAction;
 
-class AssignPositionToEmployee extends BaseService
+class RemovePositionFromEmployee extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -20,17 +20,16 @@ class AssignPositionToEmployee extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'position_id' => 'required|integer|exists:positions,id',
         ];
     }
 
     /**
-     * Set an employee's position.
+     * Remove an employee's position.
      *
      * @param array $data
-     * @return Position
+     * @return Employee
      */
-    public function execute(array $data): Position
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 
@@ -42,24 +41,23 @@ class AssignPositionToEmployee extends BaseService
 
         $employee = Employee::where('company_id', $data['company_id'])
             ->findOrFail($data['employee_id']);
-        $position = Position::where('company_id', $data['company_id'])
-            ->findOrFail($data['position_id']);
 
-        $employee->position_id = $position->id;
+        $position = $employee->position;
+
+        $employee->position_id = null;
         $employee->save();
 
         (new LogEmployeeAction)->execute([
             'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
-            'action' => 'position_assigned',
+            'action' => 'position_removed',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'position_id' => $position->id,
                 'position_name' => $position->name,
             ]),
         ]);
 
-        return $position;
+        return $employee;
     }
 }

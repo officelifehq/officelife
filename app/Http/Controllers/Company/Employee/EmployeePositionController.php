@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Illuminate\Http\Request;
-use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
 class EmployeePositionController extends Controller

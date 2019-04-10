@@ -4,41 +4,36 @@ namespace Tests\Unit\Services\Employee\Position;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
-use App\Models\Company\Position;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Employee\Position\AssignPositionToEmployee;
+use App\Services\Employee\Position\RemovePositionFromEmployee;
 
-class AssignPositionToEmployeeTest extends TestCase
+class RemovePositionFromEmployeeTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_assigns_a_position()
+    public function it_resets_an_employees_position()
     {
         $employee = factory(Employee::class)->create([]);
-        $position = factory(Position::class)->create([
-            'company_id' => $employee->company_id,
-        ]);
 
         $request = [
             'company_id' => $employee->company_id,
             'author_id' => $employee->user->id,
             'employee_id' => $employee->id,
-            'position_id' => $position->id,
         ];
 
-        $position = (new AssignPositionToEmployee)->execute($request);
+        $employee = (new RemovePositionFromEmployee)->execute($request);
 
         $this->assertDatabaseHas('employees', [
             'company_id' => $employee->company_id,
             'id' => $employee->id,
-            'position_id' => $position->id,
+            'position_id' => null,
         ]);
 
         $this->assertInstanceOf(
-            Position::class,
-            $position
+            Employee::class,
+            $employee
         );
     }
 
@@ -46,23 +41,19 @@ class AssignPositionToEmployeeTest extends TestCase
     public function it_logs_an_action()
     {
         $employee = factory(Employee::class)->create([]);
-        $position = factory(Position::class)->create([
-            'company_id' => $employee->company_id,
-        ]);
 
         $request = [
             'company_id' => $employee->company_id,
             'author_id' => $employee->user->id,
             'employee_id' => $employee->id,
-            'position_id' => $position->id,
         ];
 
-        (new AssignPositionToEmployee)->execute($request);
+        (new RemovePositionFromEmployee)->execute($request);
 
         $this->assertdatabasehas('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
-            'action' => 'position_assigned',
+            'action' => 'position_removed',
         ]);
     }
 
@@ -74,6 +65,6 @@ class AssignPositionToEmployeeTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AssignPositionToEmployee)->execute($request);
+        (new RemovePositionFromEmployee)->execute($request);
     }
 }

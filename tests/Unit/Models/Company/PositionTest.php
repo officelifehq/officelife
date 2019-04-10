@@ -3,7 +3,6 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\TestCase;
-use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
