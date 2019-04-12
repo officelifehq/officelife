@@ -9,7 +9,9 @@
     <a class="pointer" @click.prevent="modal = true">Indicate a title</a>
 
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
-      <p class="pv2 ph3 ma0 bb">Choose a title or create a new one</p>
+      <p class="pv2 ph3 ma0 bb">
+        Choose a title or create a new one
+      </p>
       <form @submit.prevent="search">
         <div class="relative pv2 ph2 bb">
           <input id="search" ref="search" type="text" name="search"
@@ -93,9 +95,9 @@ export default {
 
   mounted() {
     axios.get('/' + this.company.id + '/titles')
-        .then(response => {
-          this.titles = response.data
-        })
+      .then(response => {
+        this.titles = response.data
+      })
   },
 
   methods: {

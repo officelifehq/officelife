@@ -34,8 +34,8 @@
               <div class="relative pv2 ph2 bb">
                 <label for="title">Position name</label>
                 <input id="title" type="text" name="title"
-                      :placeholder="'Filter the list'" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required
-                      @keydown.esc="toggleModal"
+                       :placeholder="'Filter the list'" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required
+                       @keydown.esc="toggleModal"
                 />
                 <div class="">
                   <a class="btn br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.employees_cta') }}</a>
@@ -49,8 +49,12 @@
               Director of product management international
               <span>3 people</span>
               <ul class="list pa0 ma0 di fr">
-                <li class="di"><a href="">Rename</a></li>
-                <li class="di"><a href="">Delete</a></li>
+                <li class="di">
+                  <a href="">Rename</a>
+                </li>
+                <li class="di">
+                  <a href="">Delete</a>
+                </li>
               </ul>
             </li>
             <li class="pa2">
