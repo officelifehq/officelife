@@ -94,10 +94,10 @@ export default {
   },
 
   mounted() {
-    axios.get('/' + this.company.id + '/titles')
-      .then(response => {
-        this.titles = response.data
-      })
+    // axios.get('/' + this.company.id + '/titles')
+    //     .then(response => {
+    //       this.titles = response.data
+    //     })
   },
 
   methods: {

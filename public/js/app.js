@@ -1010,6 +1010,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -1414,6 +1418,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   directives: {
@@ -1439,12 +1445,10 @@ __webpack_require__.r(__webpack_exports__);
       titles: []
     };
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    axios.get('/' + this.company.id + '/titles').then(function (response) {
-      _this.titles = response.data;
-    });
+  mounted: function mounted() {// axios.get('/' + this.company.id + '/titles')
+    //     .then(response => {
+    //       this.titles = response.data
+    //     })
   },
   methods: {
     toggleModal: function toggleModal() {
@@ -1639,6 +1643,21 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
 /* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_loaders_dist_vue_loaders_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-loaders/dist/vue-loaders.css */ "./node_modules/vue-loaders/dist/vue-loaders.css");
+/* harmony import */ var vue_loaders_dist_vue_loaders_css__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_loaders_dist_vue_loaders_css__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue_loaders__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-loaders */ "./node_modules/vue-loaders/dist/vue-loaders.es.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1812,6 +1831,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
+Vue.use(vue_loaders__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   directives: {
     ClickOutside: vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default.a
@@ -1841,14 +1863,15 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       modal: 'hide',
+      processingSearch: false,
       searchManagers: [],
       searchDirectReports: [],
       form: {
         searchTerm: null,
         errors: []
       },
-      managerModal: false,
-      directReportModal: false,
+      managerModalId: 0,
+      directReportModalId: 0,
       deleteEmployeeConfirmation: false
     };
   },
@@ -1885,25 +1908,31 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     hideManagerModal: function hideManagerModal() {
-      this.managerModal = false;
+      this.managerModalId = 0;
     },
     hideDirectReportModal: function hideDirectReportModal() {
-      this.directReportModal = false;
+      this.directReportModalId = 0;
     },
     search: _.debounce(function () {
       var _this3 = this;
 
-      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/search/hierarchy', this.form).then(function (response) {
-        if (_this3.modal == 'manager') {
-          _this3.searchManagers = response.data.data;
-        }
+      if (this.form.searchTerm != '') {
+        this.processingSearch = true;
+        axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/search/hierarchy', this.form).then(function (response) {
+          if (_this3.modal == 'manager') {
+            _this3.searchManagers = response.data.data;
+          }
 
-        if (_this3.modal == 'directReport') {
-          _this3.searchDirectReports = response.data.data;
-        }
-      }).catch(function (error) {
-        _this3.form.errors = _.flatten(_.toArray(error.response.data));
-      });
+          if (_this3.modal == 'directReport') {
+            _this3.searchDirectReports = response.data.data;
+          }
+
+          _this3.processingSearch = false;
+        }).catch(function (error) {
+          _this3.form.errors = _.flatten(_.toArray(error.response.data));
+          _this3.processingSearch = false;
+        });
+      }
     }, 500),
     assignManager: function assignManager(manager) {
       var _this4 = this;
@@ -1955,6 +1984,7 @@ __webpack_require__.r(__webpack_exports__);
         _this6.managers.splice(_this6.managers.indexOf(response.data.data), 1);
 
         _this6.deleteEmployeeConfirmation = false;
+        _this6.managerModalId = 0;
       }).catch(function (error) {
         _this6.form.errors = _.flatten(_.toArray(error.response.data));
       });
@@ -1973,6 +2003,7 @@ __webpack_require__.r(__webpack_exports__);
         _this7.directReports.splice(_this7.directReports.indexOf(response.data.data), 1);
 
         _this7.deleteEmployeeConfirmation = false;
+        _this7.directReportModalId = 0;
       }).catch(function (error) {
         _this7.form.errors = _.flatten(_.toArray(error.response.data));
       });
@@ -2861,7 +2892,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "\n.list-employees > ul[data-v-329a59ba] {\n  padding-left: 43px;\n}\n.list-employees li[data-v-329a59ba]:last-child {\n  margin-bottom: 0;\n}\n.avatar[data-v-329a59ba] {\n  top: 1px;\n  left: -44px;\n  width: 35px;\n}\n.list-employees-action[data-v-329a59ba] {\n  top: 15px;\n}\n.list-employees-modal[data-v-329a59ba] {\n  right: -6px;\n  top: 27px;\n}\n.icon-delete[data-v-329a59ba] {\n  top: 2px;\n}\n", ""]);
+exports.push([module.i, "\n.list-employees > ul[data-v-329a59ba] {\n  padding-left: 43px;\n}\n.list-employees li[data-v-329a59ba]:last-child {\n  margin-bottom: 0;\n}\n.avatar[data-v-329a59ba] {\n  top: 1px;\n  left: -44px;\n  width: 35px;\n}\n.list-employees-action[data-v-329a59ba] {\n  top: 15px;\n}\n.list-employees-modal[data-v-329a59ba] {\n  right: -6px;\n  top: 27px;\n}\n.icon-delete[data-v-329a59ba] {\n  top: 2px;\n}\n.ball-pulse[data-v-329a59ba] {\n  right: 8px;\n  top: 10px;\n  position: absolute;\n}\n", ""]);
 
 // exports
 
@@ -7083,7 +7114,7 @@ var render = function() {
           },
           [
             _c("p", { staticClass: "pv2 ph3 ma0 bb" }, [
-              _vm._v("Choose a title or create a new one")
+              _vm._v("\n      Choose a title or create a new one\n    ")
             ]),
             _vm._v(" "),
             _c(
@@ -7643,50 +7674,68 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.searchTerm,
-                        expression: "form.searchTerm"
-                      }
+                  _c(
+                    "div",
+                    { staticClass: "relative" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.searchTerm,
+                            expression: "form.searchTerm"
+                          }
+                        ],
+                        ref: "search",
+                        staticClass:
+                          "br2 f5 w-100 ba b--black-40 pa2 outline-0",
+                        attrs: {
+                          id: "search",
+                          type: "text",
+                          name: "search",
+                          placeholder: _vm.$t(
+                            "employee.hierarchy_search_placeholder"
+                          ),
+                          required: "",
+                          "data-cy": "search-manager"
+                        },
+                        domProps: { value: _vm.form.searchTerm },
+                        on: {
+                          keyup: _vm.search,
+                          keydown: function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k($event.keyCode, "esc", 27, $event.key, [
+                                "Esc",
+                                "Escape"
+                              ])
+                            ) {
+                              return null
+                            }
+                            _vm.toggleModals()
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "searchTerm",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.processingSearch
+                        ? _c("ball-pulse-loader", {
+                            attrs: { color: "#5c7575", size: "7px" }
+                          })
+                        : _vm._e()
                     ],
-                    ref: "search",
-                    staticClass: "br2 f5 w-100 ba b--black-40 pa2 outline-0",
-                    attrs: {
-                      id: "search",
-                      type: "text",
-                      name: "search",
-                      placeholder: _vm.$t(
-                        "employee.hierarchy_search_placeholder"
-                      ),
-                      required: "",
-                      "data-cy": "search-manager"
-                    },
-                    domProps: { value: _vm.form.searchTerm },
-                    on: {
-                      keyup: _vm.search,
-                      keydown: function($event) {
-                        if (
-                          !("button" in $event) &&
-                          _vm._k($event.keyCode, "esc", 27, $event.key, [
-                            "Esc",
-                            "Escape"
-                          ])
-                        ) {
-                          return null
-                        }
-                        _vm.toggleModals()
-                      },
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form, "searchTerm", $event.target.value)
-                      }
-                    }
-                  })
+                    1
+                  )
                 ])
               ]
             ),
@@ -7788,50 +7837,68 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.searchTerm,
-                        expression: "form.searchTerm"
-                      }
+                  _c(
+                    "div",
+                    { staticClass: "relative" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.form.searchTerm,
+                            expression: "form.searchTerm"
+                          }
+                        ],
+                        ref: "search",
+                        staticClass:
+                          "br2 f5 w-100 ba b--black-40 pa2 outline-0",
+                        attrs: {
+                          id: "search",
+                          type: "text",
+                          name: "search",
+                          placeholder: _vm.$t(
+                            "employee.hierarchy_search_placeholder"
+                          ),
+                          required: "",
+                          "data-cy": "search-direct-report"
+                        },
+                        domProps: { value: _vm.form.searchTerm },
+                        on: {
+                          keyup: _vm.search,
+                          keydown: function($event) {
+                            if (
+                              !("button" in $event) &&
+                              _vm._k($event.keyCode, "esc", 27, $event.key, [
+                                "Esc",
+                                "Escape"
+                              ])
+                            ) {
+                              return null
+                            }
+                            _vm.toggleModals()
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.form,
+                              "searchTerm",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.processingSearch
+                        ? _c("ball-pulse-loader", {
+                            attrs: { color: "#5c7575", size: "7px" }
+                          })
+                        : _vm._e()
                     ],
-                    ref: "search",
-                    staticClass: "br2 f5 w-100 ba b--black-40 pa2 outline-0",
-                    attrs: {
-                      id: "search",
-                      type: "text",
-                      name: "search",
-                      placeholder: _vm.$t(
-                        "employee.hierarchy_search_placeholder"
-                      ),
-                      required: "",
-                      "data-cy": "search-direct-report"
-                    },
-                    domProps: { value: _vm.form.searchTerm },
-                    on: {
-                      keyup: _vm.search,
-                      keydown: function($event) {
-                        if (
-                          !("button" in $event) &&
-                          _vm._k($event.keyCode, "esc", 27, $event.key, [
-                            "Esc",
-                            "Escape"
-                          ])
-                        ) {
-                          return null
-                        }
-                        _vm.toggleModals()
-                      },
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form, "searchTerm", $event.target.value)
-                      }
-                    }
-                  })
+                    1
+                  )
                 ])
               ]
             ),
@@ -7967,12 +8034,12 @@ var render = function() {
                     },
                     on: {
                       click: function($event) {
-                        _vm.managerModal = true
+                        _vm.managerModalId = manager.id
                       }
                     }
                   }),
                   _vm._v(" "),
-                  _vm.managerModal
+                  _vm.managerModalId == manager.id
                     ? _c(
                         "div",
                         {
@@ -8174,12 +8241,12 @@ var render = function() {
                     },
                     on: {
                       click: function($event) {
-                        _vm.directReportModal = true
+                        _vm.directReportModalId = directReport.id
                       }
                     }
                   }),
                   _vm._v(" "),
-                  _vm.directReportModal
+                  _vm.directReportModalId == directReport.id
                     ? _c(
                         "div",
                         {
