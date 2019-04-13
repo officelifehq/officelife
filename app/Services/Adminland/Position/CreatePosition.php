@@ -51,7 +51,7 @@ class CreatePosition extends BaseService
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'position_id' => $position->id,
-                'position_name' => $position->title,
+                'position_title' => $position->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);

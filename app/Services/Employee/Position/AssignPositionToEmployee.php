@@ -56,7 +56,7 @@ class AssignPositionToEmployee extends BaseService
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'position_id' => $position->id,
-                'position_name' => $position->name,
+                'position_title' => $position->title,
             ]),
         ]);
 

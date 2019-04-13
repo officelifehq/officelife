@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Adminland\Position\CreatePosition;
+use App\Services\Adminland\Position\UpdatePosition;
 use App\Services\Adminland\Position\DestroyPosition;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
@@ -47,6 +48,28 @@ class PositionController extends Controller
         ];
 
         $position = (new CreatePosition)->execute($request);
+
+        return new PositionResource($position);
+    }
+
+    /**
+     * Update the position.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $positionId
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $companyId, $positionId)
+    {
+        $request = [
+            'company_id' => $companyId,
+            'author_id' => auth()->user()->id,
+            'position_id' => $positionId,
+            'title' => $request->get('title'),
+        ];
+
+        $position = (new UpdatePosition)->execute($request);
 
         return new PositionResource($position);
     }

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Services\Employee\Position;
+namespace App\Services\Adminland\Position;
 
 use App\Services\BaseService;
-use App\Models\Company\Employee;
 use App\Models\Company\Position;
-use App\Services\Adminland\Employee\LogEmployeeAction;
+use App\Services\Adminland\Company\LogAction;
 
-class RemovePositionFromEmployee extends BaseService
+class UpdatePosition extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -19,17 +18,18 @@ class RemovePositionFromEmployee extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'employee_id' => 'required|integer|exists:employees,id',
+            'position_id' => 'required|integer|exists:positions,id',
+            'title' => 'required|string|max:255',
         ];
     }
 
     /**
-     * Remove an employee's position.
+     * Update a position.
      *
      * @param array $data
-     * @return Employee
+     * @return Position
      */
-    public function execute(array $data): Employee
+    public function execute(array $data): Position
     {
         $this->validate($data);
 
@@ -39,25 +39,28 @@ class RemovePositionFromEmployee extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $employee = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
+        $position = Position::where('company_id', $data['company_id'])
+            ->findOrFail($data['position_id']);
 
-        $position = $employee->position;
+        $oldPositionTitle = $position->title;
 
-        $employee->position_id = null;
-        $employee->save();
+        $position->title = $data['title'];
+        $position->save();
 
-        (new LogEmployeeAction)->execute([
+        (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'employee_id' => $data['employee_id'],
-            'action' => 'position_removed',
+            'action' => 'position_updated',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
+                'position_id' => $position->id,
                 'position_title' => $position->title,
+                'position_old_title' => $oldPositionTitle,
             ]),
         ]);
 
-        return $employee;
+        $position->refresh();
+
+        return $position;
     }
 }

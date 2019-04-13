@@ -56,10 +56,32 @@
           <ul v-show="positions.length != 0" class="list pl0 mv0 center ba br2 bb-gray">
             <li v-for="position in positions" :key="position.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
               {{ position.title }}
-              <ul class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
+
+              <!-- RENAME POSITION FORM -->
+              <div v-show="idToUpdate == position.id" class="cf mt3">
+                <form @submit.prevent="update(position.id)">
+                  <input id="title" v-model="form.title" type="text"
+                         name="title"
+                         :placeholder="'Marketing coordinator'"
+                         class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
+                         required
+                         @keydown.esc="idToUpdate = 0"
+                  />
+                  <div class="fl w-30-ns w-100 tr">
+                    <a class="btn dib-l db mb2 mb0-ns" @click.prevent="idToUpdate = 0">{{ $t('app.cancel') }}</a>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
+                  </div>
+                </form>
+              </div>
+
+              <!-- LIST OF ACTIONS FOR EACH POSITION -->
+              <ul v-show="idToUpdate != position.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
+                <!-- RENAME A POSITION -->
                 <li class="di mr2">
-                  <a href="">{{ $t('app.rename') }}</a>
+                  <a class="pointer" @click.prevent="idToUpdate = position.id ; form.title = position.title">{{ $t('app.rename') }}</a>
                 </li>
+
+                <!-- DELETE A POSITION -->
                 <li v-if="idToDelete == position.id" class="di">
                   {{ $t('app.sure') }}
                   <a class="c-delete mr1 pointer" @click.prevent="destroy(position.id)">{{ $t('app.yes') }}</a>
@@ -74,7 +96,7 @@
 
           <!-- BLANK STATE -->
           <div v-show="positions.length == 0" class="pa3 mt5">
-            <p class="tc measure center mb4">
+            <p class="tc measure center mb4 lh-copy">
               {{ $t('account.positions_blank') }}
             </p>
             <img class="db center mb4" srcset="/img/company/account/blank-position-1x.png,
@@ -108,7 +130,11 @@ export default {
   data() {
     return {
       modal: false,
+      deleteModal: false,
+      updateModal: false,
       loadingState: '',
+      updateModalId: 0,
+      idToUpdate: 0,
       idToDelete: 0,
       form: {
         title: null,
@@ -131,12 +157,33 @@ export default {
           })
 
           this.loadingState = null
-          this.form.name = null
+          this.form.title = null
           this.modal = false
           this.positions.push(response.data.data)
         })
         .catch(error => {
           this.loadingState = null
+          this.form.errors = _.flatten(_.toArray(error.response.data))
+        })
+    },
+
+    update(id) {
+      axios.put('/' + this.company.id + '/account/positions/' + id, this.form)
+        .then(response => {
+          this.$snotify.success('The position has been updated', {
+            timeout: 5000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          })
+
+          this.idToUpdate = 0
+          this.form.title = null
+
+          id = this.positions.findIndex(x => x.id === id)
+          this.$set(this.positions, id, response.data.data)
+        })
+        .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data))
         })
     },
@@ -152,7 +199,8 @@ export default {
           })
 
           this.idToDelete = 0
-          this.positions.splice(this.positions.indexOf(id), 1)
+          id = this.positions.findIndex(x => x.id === id)
+          this.positions.splice(id, 1)
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data))

@@ -154,7 +154,7 @@ class AuditLog extends Model
         try {
             $position = Position::findOrFail($this->object->{'position_id'});
         } catch (ModelNotFoundException $e) {
-            return $this->object->{'position_name'};
+            return $this->object->{'position_title'};
         }
 
         return '<a href="'.tenant('/account/positions').'">' . $position->title . '</a>';

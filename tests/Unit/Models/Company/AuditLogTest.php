@@ -259,7 +259,7 @@ class AuditLogTest extends ApiTestCase
         $auditLog = factory(AuditLog::class)->create([
             'objects' => json_encode([
                 'position_id' => 12345,
-                'position_name' => 'Assistant to the regional manager',
+                'position_title' => 'Assistant to the regional manager',
             ]),
             'company_id' => $adminEmployee->company_id,
         ]);
