@@ -42,5 +42,8 @@ return [
     'positions_number_positions' => '{company} has one position. | {company} has {count} positions.',
     'positions_cta' => 'Add a position',
     'positions_blank' => 'Positions are terms that describe in a few words what an employee does. Like Marketing Coordinator for example.',
-    'employee_new_title' => 'Position name',
+    'position_new_title' => 'Position name',
+    'position_success_new' => 'The position has been created',
+    'position_success_update' => 'The position has been updated',
+    'position_success_destroy' => 'The position has been destroyed',
 ];

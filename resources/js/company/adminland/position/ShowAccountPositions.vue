@@ -36,7 +36,7 @@
 
           <!-- MODAL TO ADD A POSITION -->
           <form v-show="modal" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="submit">
-            <label for="title">{{ $t('account.employee_new_title') }}</label>
+            <label for="title">{{ $t('account.position_new_title') }}</label>
             <div class="cf">
               <input id="title" v-model="form.title" type="text"
                      name="title"
@@ -149,7 +149,7 @@ export default {
 
       axios.post('/' + this.company.id + '/account/positions', this.form)
         .then(response => {
-          this.$snotify.success('The position has been created', {
+          this.$snotify.success(this.$t('account.success_new'), {
             timeout: 5000,
             showProgressBar: true,
             closeOnClick: true,
@@ -170,7 +170,7 @@ export default {
     update(id) {
       axios.put('/' + this.company.id + '/account/positions/' + id, this.form)
         .then(response => {
-          this.$snotify.success('The position has been updated', {
+          this.$snotify.success(this.$t('account.success_update'), {
             timeout: 5000,
             showProgressBar: true,
             closeOnClick: true,
@@ -191,7 +191,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.company.id + '/account/positions/' + id)
         .then(response => {
-          this.$snotify.success('The position has been destroyed', {
+          this.$snotify.success(this.$t('account.success_destroy'), {
             timeout: 5000,
             showProgressBar: true,
             closeOnClick: true,
