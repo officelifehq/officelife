@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Adminland\Employee\DestroyEmployee;
-use App\Services\Adminland\Company\AddEmployeeToCompany;
+use App\Services\Adminland\Position\CreatePosition;
+use App\Services\Adminland\Position\DestroyPosition;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
 class PositionController extends Controller
@@ -32,22 +32,7 @@ class PositionController extends Controller
     }
 
     /**
-     * Show the Create employee view.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $company = Cache::get('currentCompany');
-
-        return View::component('CreateAccountEmployee', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-        ]);
-    }
-
-    /**
-     * Create the employee.
+     * Create the position.
      *
      * @param Request $request
      * @param int $companyId
@@ -58,38 +43,34 @@ class PositionController extends Controller
         $request = [
             'company_id' => $companyId,
             'author_id' => auth()->user()->id,
-            'email' => $request->get('email'),
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-            'permission_level' => $request->get('permission_level'),
-            'send_invitation' => $request->get('send_invitation'),
+            'title' => $request->get('title'),
         ];
 
-        (new AddEmployeeToCompany)->execute($request);
+        $position = (new CreatePosition)->execute($request);
 
-        return response()->json([
-            'company_id' => $companyId,
-        ]);
+        return new PositionResource($position);
     }
 
     /**
-     * Delete the employee.
+     * Delete the position.
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $employeeId
+     * @param int $positionId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $companyId, $employeeId)
+    public function destroy(Request $request, $companyId, $positionId)
     {
         $request = [
             'company_id' => $companyId,
-            'employee_id' => $employeeId,
+            'position_id' => $positionId,
             'author_id' => auth()->user()->id,
         ];
 
-        (new DestroyEmployee)->execute($request);
+        (new DestroyPosition)->execute($request);
 
-        return redirect(tenant('/account/employees'));
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 }

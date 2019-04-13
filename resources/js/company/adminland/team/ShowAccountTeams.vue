@@ -58,8 +58,8 @@
 
           <!-- ADD TEAM -->
           <div class="relative">
-            <span class="dib mb3 di-l">{{ $tc('account.teams_number_teams', teams.length, { company: company.name, count: teams.length}) }}</span>
-            <a data-cy="add-team-button" class="btn-primary pointer br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0" @click.prevent="modal = !modal">{{ $t('account.teams_cta') }}</a>
+            <span v-show="teams.length != 0" class="dib mb3 di-l">{{ $tc('account.teams_number_teams', teams.length, { company: company.name, count: teams.length}) }}</span>
+            <a data-cy="add-team-button" class="btn primary tc absolute-l relative dib-l db right-0" @click.prevent="modal = !modal">{{ $t('account.teams_cta') }}</a>
 
             <div v-if="modal == true" class="absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster">
               <errors :errors="form.errors" />
@@ -109,7 +109,7 @@
 
         <!-- NO TEAMS -->
         <div v-show="teams.length == 0" class="pa3">
-          <p class="tc measure center mb4">
+          <p class="tc measure center mb4 lh-copy">
             {{ $t('account.teams_blank') }}
           </p>
           <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,

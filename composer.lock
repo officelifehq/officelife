@@ -803,16 +803,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.10",
+            "version": "v5.8.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "505325b4577968750e622d7a5a271cf8785a7a1a"
+                "reference": "a2cf7a7983329d63edc6fde43142b232bb61aa0a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/505325b4577968750e622d7a5a271cf8785a7a1a",
-                "reference": "505325b4577968750e622d7a5a271cf8785a7a1a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/a2cf7a7983329d63edc6fde43142b232bb61aa0a",
+                "reference": "a2cf7a7983329d63edc6fde43142b232bb61aa0a",
                 "shasum": ""
             },
             "require": {
@@ -946,7 +946,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-04-04T13:39:49+00:00"
+            "time": "2019-04-10T13:05:18+00:00"
         },
         {
             "name": "laravel/passport",
@@ -2373,29 +2373,29 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "3.2.2",
+            "version": "3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "8db5d2f314a26ee9a1617bdecd98947fdf29fcfa"
+                "reference": "3d7cb418148a80d5c1afe07657c1771965851d1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/8db5d2f314a26ee9a1617bdecd98947fdf29fcfa",
-                "reference": "8db5d2f314a26ee9a1617bdecd98947fdf29fcfa",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/3d7cb418148a80d5c1afe07657c1771965851d1c",
+                "reference": "3d7cb418148a80d5c1afe07657c1771965851d1c",
                 "shasum": ""
             },
             "require": {
-                "illuminate/config": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/database": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-                "illuminate/support": "~5.5.0|~5.6.0|~5.7.0|~5.8.0",
-                "php": "^7.1",
+                "illuminate/config": "~5.8.0",
+                "illuminate/database": "~5.8.0",
+                "illuminate/support": "~5.8.0",
+                "php": "^7.2",
                 "spatie/string": "^2.1"
             },
             "require-dev": {
                 "ext-json": "*",
-                "orchestra/testbench": "~3.5.0|~3.6.0|~3.7.0|~3.8.0",
-                "phpunit/phpunit": "^7.4 | ^8.0",
+                "orchestra/testbench": "~3.8.0",
+                "phpunit/phpunit": "^7.5|^8.0",
                 "scrutinizer/ocular": "^1.5"
             },
             "type": "library",
@@ -2441,7 +2441,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2019-02-27T12:41:17+00:00"
+            "time": "2019-04-09T14:53:05+00:00"
         },
         {
             "name": "spatie/string",
@@ -5020,16 +5020,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.8.1",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8"
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
                 "shasum": ""
             },
             "require": {
@@ -5064,7 +5064,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2018-06-11T23:09:50+00:00"
+            "time": "2019-04-07T13:18:21+00:00"
         },
         {
             "name": "netresearch/jsonmapper",
@@ -5913,16 +5913,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v3.8.1",
+            "version": "v3.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "51192972746beb3766327bb84838998d3a59e99c"
+                "reference": "598caa6f7813b8a29b2f1b69912b40659dcef79b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/51192972746beb3766327bb84838998d3a59e99c",
-                "reference": "51192972746beb3766327bb84838998d3a59e99c",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/598caa6f7813b8a29b2f1b69912b40659dcef79b",
+                "reference": "598caa6f7813b8a29b2f1b69912b40659dcef79b",
                 "shasum": ""
             },
             "require": {
@@ -5930,12 +5930,13 @@
                 "php": ">=7.1"
             },
             "require-dev": {
-                "laravel/framework": "~5.8.0",
+                "laravel/framework": "~5.8.3",
+                "laravel/laravel": "dev-master",
                 "mockery/mockery": "^1.0",
                 "phpunit/phpunit": "^7.5 || ^8.0"
             },
             "suggest": {
-                "laravel/framework": "Required for testing (~5.8.0).",
+                "laravel/framework": "Required for testing (~5.8.3).",
                 "mockery/mockery": "Allow to use Mockery for testing (^1.0).",
                 "orchestra/testbench-browser-kit": "Allow to use legacy Laravel BrowserKit for testing (^3.8).",
                 "orchestra/testbench-dusk": "Allow to use Laravel Dusk for testing (^3.8).",
@@ -5973,7 +5974,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2019-02-28T00:40:46+00:00"
+            "time": "2019-04-10T12:50:29+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -6282,23 +6283,23 @@
         },
         {
             "name": "phploc/phploc",
-            "version": "4.0.1",
+            "version": "5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phploc.git",
-                "reference": "6a8a9416517b82d6326ac9c2d040ad53c13654eb"
+                "reference": "5b714ccb7cb8ca29ccf9caf6eb1aed0131d3a884"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phploc/zipball/6a8a9416517b82d6326ac9c2d040ad53c13654eb",
-                "reference": "6a8a9416517b82d6326ac9c2d040ad53c13654eb",
+                "url": "https://api.github.com/repos/sebastianbergmann/phploc/zipball/5b714ccb7cb8ca29ccf9caf6eb1aed0131d3a884",
+                "reference": "5b714ccb7cb8ca29ccf9caf6eb1aed0131d3a884",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0",
+                "php": "^7.2",
                 "sebastian/finder-facade": "^1.1",
                 "sebastian/version": "^2.0",
-                "symfony/console": "^2.7|^3.0|^4.0"
+                "symfony/console": "^4.0"
             },
             "bin": [
                 "phploc"
@@ -6306,7 +6307,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0-dev"
+                    "dev-master": "5.0-dev"
                 }
             },
             "autoload": {
@@ -6327,7 +6328,7 @@
             ],
             "description": "A tool for quickly measuring the size of a PHP project.",
             "homepage": "https://github.com/sebastianbergmann/phploc",
-            "time": "2017-11-18T17:35:43+00:00"
+            "time": "2019-03-16T10:41:19+00:00"
         },
         {
             "name": "phpmyadmin/sql-parser",
@@ -7808,16 +7809,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "3.2.5",
+            "version": "3.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "d8411dc510f948dea463953d87a71d65e12fade8"
+                "reference": "6e010d9db95275725e5ad6409c387eb173091f72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/d8411dc510f948dea463953d87a71d65e12fade8",
-                "reference": "d8411dc510f948dea463953d87a71d65e12fade8",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/6e010d9db95275725e5ad6409c387eb173091f72",
+                "reference": "6e010d9db95275725e5ad6409c387eb173091f72",
                 "shasum": ""
             },
             "require": {
@@ -7884,7 +7885,7 @@
                 "inspection",
                 "php"
             ],
-            "time": "2019-04-01T20:34:44+00:00"
+            "time": "2019-04-12T15:32:35+00:00"
         },
         {
             "name": "webmozart/assert",

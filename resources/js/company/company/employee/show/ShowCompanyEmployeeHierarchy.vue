@@ -57,8 +57,8 @@
           <p>{{ $t('employee.hierarchy_modal_add_manager_search', { name: employee.first_name}) }}</p>
           <div class="relative">
             <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
-                 :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-manager"
-                 @keyup="search" @keydown.esc="toggleModals()"
+                   :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-manager"
+                   @keyup="search" @keydown.esc="toggleModals()"
             />
             <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
           </div>
@@ -87,8 +87,8 @@
           <p>{{ $t('employee.hierarchy_modal_add_direct_report_search', { name: employee.first_name}) }}</p>
           <div class="relative">
             <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
-                 :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-direct-report"
-                 @keyup="search" @keydown.esc="toggleModals()"
+                   :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-direct-report"
+                   @keyup="search" @keydown.esc="toggleModals()"
             />
             <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
           </div>

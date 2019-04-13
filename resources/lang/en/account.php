@@ -37,4 +37,10 @@ return [
     'teams_blank' => 'Teams are a great way for groups of people in your company to work together in Homas.',
 
     'team_new_name' => 'Name of the team',
+
+    'positions_title' => 'All the positions used in {company}',
+    'positions_number_positions' => '{company} has one position. | {company} has {count} positions.',
+    'positions_cta' => 'Add a position',
+    'positions_blank' => 'Positions are terms that describe in a few words what an employee does. Like Marketing Coordinator for example.',
+    'employee_new_title' => 'Position name',
 ];

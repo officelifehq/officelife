@@ -96,6 +96,23 @@ hr {
   }
 }
 
+// input
+input[type=text],
+input[type=email],
+input[type=password],
+textarea {
+  &::placeholder {
+    background-color: #fafbfc;
+  }
+
+  &:focus {
+    background-color: #fff;
+    &::placeholder {
+      background-color: #fff;
+    }
+  }
+}
+
 // popmenu
 .popupmenu {
   border: 1px solid rgba(27,31,35,.15);

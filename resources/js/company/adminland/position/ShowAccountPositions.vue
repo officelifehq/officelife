@@ -1,4 +1,7 @@
 <style scoped>
+.list li:last-child {
+  border-bottom: 0;
+}
 </style>
 
 <template>
@@ -25,53 +28,59 @@
           <h2 class="tc normal mb4">
             {{ $t('account.positions_title', { company: company.name}) }}
           </h2>
+
           <p class="relative">
-            <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', positions.length, { company: company.name, count: positions.length}) }}</span>
-            <a :href="'/' + company.id + '/account/employees/create'" class="btn-primary br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.employees_cta') }}</a>
+            <span class="dib mb3 di-l" :class="positions.length == 0 ? 'white' : ''">{{ $tc('account.positions_number_positions', positions.length, { company: company.name, count: positions.length}) }}</span>
+            <a class="btn primary absolute-l relative dib-l db right-0" @click.prevent="modal = true">{{ $t('account.positions_cta') }}</a>
           </p>
-          <div class="">
-            <form @submit.prevent="search">
-              <div class="relative pv2 ph2 bb">
-                <label for="title">Position name</label>
-                <input id="title" type="text" name="title"
-                       :placeholder="'Filter the list'" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required
-                       @keydown.esc="toggleModal"
-                />
-                <div class="">
-                  <a class="btn br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.employees_cta') }}</a>
-                  <a :href="'/' + company.id + '/account/employees/create'" class="btn-primary br3 ph3 pv2 white no-underline tc absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.employees_cta') }}</a>
-                </div>
+
+          <!-- MODAL TO ADD A POSITION -->
+          <form v-show="modal" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="submit">
+            <label for="title">{{ $t('account.employee_new_title') }}</label>
+            <div class="cf">
+              <input id="title" v-model="form.title" type="text"
+                     name="title"
+                     :placeholder="'Marketing coordinator'"
+                     class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
+                     required
+                     @keydown.esc="modal = false"
+              />
+              <div class="fl w-30-ns w-100 tr">
+                <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false">{{ $t('app.cancel') }}</a>
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" />
               </div>
-            </form>
-          </div>
-          <ul class="list pl0 mt0 center ba br2">
-            <li class="pa2 bb">
-              Director of product management international
-              <span>3 people</span>
-              <ul class="list pa0 ma0 di fr">
-                <li class="di">
-                  <a href="">Rename</a>
+            </div>
+          </form>
+
+          <!-- LIST OF EXISTING POSITIONS -->
+          <ul v-show="positions.length != 0" class="list pl0 mv0 center ba br2 bb-gray">
+            <li v-for="position in positions" :key="position.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+              {{ position.title }}
+              <ul class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
+                <li class="di mr2">
+                  <a href="">{{ $t('app.rename') }}</a>
                 </li>
-                <li class="di">
-                  <a href="">Delete</a>
+                <li v-if="idToDelete == position.id" class="di">
+                  {{ $t('app.sure') }}
+                  <a class="c-delete mr1 pointer" @click.prevent="destroy(position.id)">{{ $t('app.yes') }}</a>
+                  <a class="pointer" @click.prevent="idToDelete = 0">{{ $t('app.no') }}</a>
+                </li>
+                <li v-else class="di">
+                  <a class="pointer" @click.prevent="idToDelete = position.id">{{ $t('app.delete') }}</a>
                 </li>
               </ul>
             </li>
-            <li class="pa2">
-              Director of product management international
-              <span>3 people</span>
-            </li>
-            <li>
-              Director of product management international
-              <span>3 people</span>
-            </li>
-            <li
-              v-for="position in positions" :key="position.id"
-              class=""
-            >
-              {{ position.title }}
-            </li>
           </ul>
+
+          <!-- BLANK STATE -->
+          <div v-show="positions.length == 0" class="pa3 mt5">
+            <p class="tc measure center mb4">
+              {{ $t('account.positions_blank') }}
+            </p>
+            <img class="db center mb4" srcset="/img/company/account/blank-position-1x.png,
+                                          /img/company/account/blank-position-2x.png 2x"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -99,6 +108,8 @@ export default {
   data() {
     return {
       modal: false,
+      loadingState: '',
+      idToDelete: 0,
       form: {
         title: null,
         errors: [],
@@ -110,9 +121,9 @@ export default {
     submit() {
       this.loadingState = 'loading'
 
-      axios.post('/' + this.company.id + '/account/teams', this.form)
+      axios.post('/' + this.company.id + '/account/positions', this.form)
         .then(response => {
-          this.$snotify.success('The team has been created', {
+          this.$snotify.success('The position has been created', {
             timeout: 5000,
             showProgressBar: true,
             closeOnClick: true,
@@ -122,10 +133,28 @@ export default {
           this.loadingState = null
           this.form.name = null
           this.modal = false
-          this.teams.push(response.data.data)
+          this.positions.push(response.data.data)
         })
         .catch(error => {
           this.loadingState = null
+          this.form.errors = _.flatten(_.toArray(error.response.data))
+        })
+    },
+
+    destroy(id) {
+      axios.delete('/' + this.company.id + '/account/positions/' + id)
+        .then(response => {
+          this.$snotify.success('The position has been destroyed', {
+            timeout: 5000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          })
+
+          this.idToDelete = 0
+          this.positions.splice(this.positions.indexOf(id), 1)
+        })
+        .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data))
         })
     },

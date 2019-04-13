@@ -26,8 +26,8 @@ return [
     'breadcrumb_account_add_employee' => 'Add an employee',
     'breadcrumb_account_manage_teams' => 'Manage teams',
     'breadcrumb_account_audit_logs' => 'Audit logs',
+    'breadcrumb_account_manage_positions' => 'Positions',
     'breadcrumb_employee_logs' => 'Logs',
-    'breadcrumb_employee_positions' => 'Positions',
 
     'header_home' => 'Home',
     'header_find' => 'Find',
