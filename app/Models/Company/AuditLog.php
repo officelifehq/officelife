@@ -143,4 +143,20 @@ class AuditLog extends Model
 
         return '<a href="'.tenant('/employees/'.$manager->id).'">'.$manager->name.'</a>';
     }
+
+    /**
+     * Get the position of the audit log, if defined.
+     *
+     * @return string
+     */
+    public function getPositionAttribute($value)
+    {
+        try {
+            $position = Position::findOrFail($this->object->{'position_id'});
+        } catch (ModelNotFoundException $e) {
+            return $this->object->{'position_title'};
+        }
+
+        return '<a href="'.tenant('/account/positions').'">'.$position->title.'</a>';
+    }
 }

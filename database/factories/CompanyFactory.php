@@ -12,6 +12,11 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
     return [
         'user_id' => factory(App\Models\User\User::class)->create()->id,
         'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'position_id' => function (array $data) {
+            return factory(App\Models\Company\Position::class)->create([
+                'company_id' => $data['company_id'],
+            ])->id;
+        },
         'uuid' => $faker->uuid,
         'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
         'permission_level' => config('homas.authorizations.administrator'),
@@ -68,5 +73,12 @@ $factory->define(App\Models\Company\DirectReport::class, function (Faker $faker)
                 'company_id' => $data['company_id'],
             ])->id;
         },
+    ];
+});
+
+$factory->define(App\Models\Company\Position::class, function (Faker $faker) {
+    return [
+        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'title' => 'Assistant to the regional manager',
     ];
 });

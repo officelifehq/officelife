@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport');
 
             Route::get('{employee}/logs', 'Company\\Employee\\LogsController@index');
+
+            Route::get('titles', 'Company\\Employee\\EmployeePositionController@index');
         });
 
         Route::prefix('teams')->group(function () {
@@ -59,6 +61,9 @@ Route::middleware(['auth'])->group(function () {
             // team management
             Route::resource('account/teams', 'Company\\Adminland\\TeamController');
             Route::get('account/teams/{team}/destroy', 'Company\\Adminland\\TeamController@destroy');
+
+            // position management
+            Route::resource('account/positions', 'Company\\Adminland\\PositionController');
         });
     });
 });

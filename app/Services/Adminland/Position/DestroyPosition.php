@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Adminland\Team;
+namespace App\Services\Adminland\Position;
 
-use App\Models\Company\Team;
 use App\Services\BaseService;
+use App\Models\Company\Position;
 use App\Services\Adminland\Company\LogAction;
 
-class DestroyTeam extends BaseService
+class DestroyPosition extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -18,12 +18,12 @@ class DestroyTeam extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'team_id' => 'required|integer|exists:teams,id',
+            'position_id' => 'required|integer|exists:positions,id',
         ];
     }
 
     /**
-     * Destroy a team.
+     * Destroy a position.
      *
      * @param array $data
      * @return bool
@@ -38,18 +38,19 @@ class DestroyTeam extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
+        $position = Position::where('company_id', $data['company_id'])
+            ->findOrFail($data['position_id']);
 
-        $team->delete();
+        $position->delete();
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'team_destroyed',
+            'action' => 'position_destroyed',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'team_name' => $team->name,
+                'position_id' => $position->id,
+                'position_title' => $position->title,
             ]),
         ]);
 

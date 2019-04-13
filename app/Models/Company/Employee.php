@@ -31,6 +31,7 @@ class Employee extends Model
         'last_name',
         'birthdate',
         'hired_at',
+        'position_id',
         'permission_level',
         'invitation_link',
         'invitation_used_at',
@@ -70,6 +71,7 @@ class Employee extends Model
      */
     protected static $logAttributes = [
         'permission_level',
+        'position_id',
     ];
 
     /**
@@ -152,7 +154,17 @@ class Employee extends Model
     }
 
     /**
-     * Get the permission level of the user.
+     * Get the position record associated with the employee.
+     *
+     * @return belongsTo
+     */
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    /**
+     * Get the permission level of the employee.
      *
      * @return string
      */

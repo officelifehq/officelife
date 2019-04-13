@@ -104,8 +104,8 @@ class UnassignManager extends BaseService
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
+                'direct_report_id' => $employee->id,
+                'direct_report_name' => $employee->name,
             ]),
         ]);
     }

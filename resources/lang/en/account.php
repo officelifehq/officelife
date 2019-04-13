@@ -5,6 +5,7 @@ return [
     'home_role_administrator' => 'As an <span class="fw5 brush-blue">administrator</span>, you can…',
     'home_role_owner' => 'As an <span class="fw5 brush-orange">owner</span>, you can…',
     'home_manage_employees' => 'Add/remove existing employees',
+    'home_manage_positions' => 'Add/remove job positions',
     'home_manage_teams' => 'Add/remove teams',
     'home_audit_log' => 'View audit log to see who has done what',
     'home_generate_fake_data' => 'Generate fake data',
@@ -36,4 +37,13 @@ return [
     'teams_blank' => 'Teams are a great way for groups of people in your company to work together in Homas.',
 
     'team_new_name' => 'Name of the team',
+
+    'positions_title' => 'All the positions used in {company}',
+    'positions_number_positions' => '{company} has one position. | {company} has {count} positions.',
+    'positions_cta' => 'Add a position',
+    'positions_blank' => 'Positions are terms that describe in a few words what an employee does. Like Marketing Coordinator for example.',
+    'position_new_title' => 'Position name',
+    'position_success_new' => 'The position has been created',
+    'position_success_update' => 'The position has been updated',
+    'position_success_destroy' => 'The position has been destroyed',
 ];

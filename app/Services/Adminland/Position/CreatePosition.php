@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Adminland\Team;
+namespace App\Services\Adminland\Position;
 
-use App\Models\Company\Team;
 use App\Services\BaseService;
+use App\Models\Company\Position;
 use App\Services\Adminland\Company\LogAction;
 
-class DestroyTeam extends BaseService
+class CreatePosition extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -18,17 +18,18 @@ class DestroyTeam extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'team_id' => 'required|integer|exists:teams,id',
+            'title' => 'required|string|max:255',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Destroy a team.
+     * Create a position.
      *
      * @param array $data
-     * @return bool
+     * @return Position
      */
-    public function execute(array $data) : bool
+    public function execute(array $data): Position
     {
         $this->validate($data);
 
@@ -38,21 +39,23 @@ class DestroyTeam extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
-
-        $team->delete();
+        $position = Position::create([
+            'company_id' => $data['company_id'],
+            'title' => $data['title'],
+        ]);
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'team_destroyed',
+            'action' => 'position_created',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'team_name' => $team->name,
+                'position_id' => $position->id,
+                'position_title' => $position->title,
             ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        return true;
+        return $position;
     }
 }

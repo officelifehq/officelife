@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\Account;
 use Tests\ApiTestCase;
 use App\Models\Company\Team;
 use App\Models\Company\AuditLog;
+use App\Models\Company\Position;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -226,6 +227,46 @@ class AuditLogTest extends ApiTestCase
         $this->assertEquals(
             'Dwight Schrute',
             $auditLog->manager
+        );
+    }
+
+    /** @test */
+    public function it_returns_the_position_attribute()
+    {
+        $adminEmployee = $this->createAdministrator();
+        $position = factory(Position::class)->create([
+            'company_id' => $adminEmployee->company_id,
+        ]);
+
+        Cache::shouldReceive('get')
+            ->once()
+            ->times(2)
+            ->with('currentCompany')
+            ->andReturn($adminEmployee->company);
+
+        $auditLog = factory(AuditLog::class)->create([
+            'objects' => json_encode([
+                'position_id' => $position->id,
+            ]),
+            'company_id' => $adminEmployee->company_id,
+        ]);
+
+        $this->assertEquals(
+            '<a href="'.tenant('/account/positions').'">'.$position->title.'</a>',
+            $auditLog->position
+        );
+
+        $auditLog = factory(AuditLog::class)->create([
+            'objects' => json_encode([
+                'position_id' => 12345,
+                'position_title' => 'Assistant to the regional manager',
+            ]),
+            'company_id' => $adminEmployee->company_id,
+        ]);
+
+        $this->assertEquals(
+            'Assistant to the regional manager',
+            $auditLog->position
         );
     }
 }

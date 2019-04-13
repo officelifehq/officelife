@@ -54,6 +54,18 @@ class AuditController extends Controller
                 $sentence = 'Sent an invitation to '.$log->employee.' to join the company.';
             }
 
+            if ($log->action == 'position_created') {
+                $sentence = 'Created a position called '.$log->position.'.';
+            }
+
+            if ($log->action == 'position_updated') {
+                $sentence = 'Updated the position formely called '.$log->object->{'position_old_title'}.' to '.$log->position.'.';
+            }
+
+            if ($log->action == 'position_destroyed') {
+                $sentence = 'Destroyed the position called '.$log->position.'.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,

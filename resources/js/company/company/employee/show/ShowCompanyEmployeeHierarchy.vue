@@ -25,6 +25,12 @@
 .icon-delete {
   top: 2px;
 }
+
+.ball-pulse {
+  right: 8px;
+  top: 10px;
+  position: absolute;
+}
 </style>
 
 <template>
@@ -49,10 +55,13 @@
       <form @submit.prevent="search">
         <div class="mb3 relative">
           <p>{{ $t('employee.hierarchy_modal_add_manager_search', { name: employee.first_name}) }}</p>
-          <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
-                 :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-manager" @keyup="search"
-                 @keydown.esc="toggleModals()"
-          />
+          <div class="relative">
+            <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
+                   :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-manager"
+                   @keyup="search" @keydown.esc="toggleModals()"
+            />
+            <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
+          </div>
         </div>
       </form>
       <ul class="pl0 list ma0">
@@ -76,10 +85,13 @@
       <form @submit.prevent="search">
         <div class="mb3 relative">
           <p>{{ $t('employee.hierarchy_modal_add_direct_report_search', { name: employee.first_name}) }}</p>
-          <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
-                 :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-direct-report"
-                 @keyup="search" @keydown.esc="toggleModals()"
-          />
+          <div class="relative">
+            <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
+                   :placeholder="$t('employee.hierarchy_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required data-cy="search-direct-report"
+                   @keyup="search" @keydown.esc="toggleModals()"
+            />
+            <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
+          </div>
         </div>
       </form>
       <ul class="pl0 list ma0">
@@ -116,10 +128,10 @@
             <a :href="'/' + company.id + '/employees/' + manager.id" class="mb2">{{ manager.name }}</a>
             <span class="title db f7 mt1">Director of Management</span>
 
-            <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModal = true" />
+            <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModalId = manager.id" />
 
             <!-- DELETE MANAGER MENU -->
-            <div v-if="managerModal" v-show="user.permission_level <= 200" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+            <div v-if="managerModalId == manager.id" v-show="user.permission_level <= 200" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
               <ul class="list ma0 pa0">
                 <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                   <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
@@ -147,10 +159,10 @@
             <a :href="'/' + company.id + '/employees/' + directReport.id" class="mb2">{{ directReport.name }}</a>
             <span class="title db f7 mt1">Director of Management</span>
 
-            <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModal = true" />
+            <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModalId = directReport.id" />
 
             <!-- DELETE DIRECT REPORT MENU -->
-            <div v-if="directReportModal" v-show="user.permission_level <= 200" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+            <div v-if="directReportModalId == directReport.id" v-show="user.permission_level <= 200" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
               <ul class="list ma0 pa0">
                 <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                   <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
@@ -172,6 +184,9 @@
 
 <script>
 import ClickOutside from 'vue-click-outside'
+import 'vue-loaders/dist/vue-loaders.css'
+import * as VueLoaders from 'vue-loaders'
+Vue.use(VueLoaders)
 
 export default {
 
@@ -205,14 +220,15 @@ export default {
   data() {
     return {
       modal: 'hide',
+      processingSearch: false,
       searchManagers: [],
       searchDirectReports: [],
       form: {
         searchTerm: null,
         errors: [],
       },
-      managerModal: false,
-      directReportModal: false,
+      managerModalId: 0,
+      directReportModalId: 0,
       deleteEmployeeConfirmation: false,
     }
   },
@@ -251,27 +267,34 @@ export default {
     },
 
     hideManagerModal() {
-      this.managerModal = false
+      this.managerModalId = 0
     },
 
     hideDirectReportModal() {
-      this.directReportModal = false
+      this.directReportModalId = 0
     },
 
     search: _.debounce(
       function() {
-        axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/search/hierarchy', this.form)
-          .then(response => {
-            if (this.modal == 'manager') {
-              this.searchManagers = response.data.data
-            }
-            if (this.modal == 'directReport') {
-              this.searchDirectReports = response.data.data
-            }
-          })
-          .catch(error => {
-            this.form.errors = _.flatten(_.toArray(error.response.data))
-          })
+
+        if (this.form.searchTerm != '') {
+          this.processingSearch = true
+
+          axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/search/hierarchy', this.form)
+            .then(response => {
+              if (this.modal == 'manager') {
+                this.searchManagers = response.data.data
+              }
+              if (this.modal == 'directReport') {
+                this.searchDirectReports = response.data.data
+              }
+              this.processingSearch = false
+            })
+            .catch(error => {
+              this.form.errors = _.flatten(_.toArray(error.response.data))
+              this.processingSearch = false
+            })
+        }
       }, 500),
 
     assignManager(manager) {
@@ -319,6 +342,7 @@ export default {
           })
           this.managers.splice(this.managers.indexOf(response.data.data), 1)
           this.deleteEmployeeConfirmation = false
+          this.managerModalId = 0
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data))
@@ -336,6 +360,7 @@ export default {
           })
           this.directReports.splice(this.directReports.indexOf(response.data.data), 1)
           this.deleteEmployeeConfirmation = false
+          this.directReportModalId = 0
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data))

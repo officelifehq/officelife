@@ -78,6 +78,14 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_one_position()
+    {
+        $employee = factory(Employee::class)->create();
+
+        $this->assertTrue($employee->position()->exists());
+    }
+
+    /** @test */
     public function it_returns_the_email_attribute()
     {
         $employee = factory(Employee::class)->create([]);
