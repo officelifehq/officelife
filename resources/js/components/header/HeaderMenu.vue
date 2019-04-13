@@ -31,24 +31,19 @@
 
 <template>
   <div>
-    <a class="no-color no-underline relative pointer" @click.prevent="menu = !menu">
-      admin@admin.com <span class="dropdown-caret"></span>
+    <a class="no-color no-underline relative pointer" data-cy="header-menu" @click.prevent="menu = !menu">
+      {{ user.email }} <span class="dropdown-caret"></span>
     </a>
-    <div class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster" v-if="menu == true">
+    <div v-if="menu == true" class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
       <ul class="list ma0 pa0">
         <li class="pv2">
-          <a class="no-color no-underline" href="/home">
-            Switch companies
+          <a class="no-color no-underline" href="/home" data-cy="switch-company-button">
+            {{ $t('app.header_switch_company') }}
           </a>
         </li>
         <li class="pv2">
-          <a class="no-color no-underline" href="">
-            Settings
-          </a>
-        </li>
-        <li class="pv2">
-          <a class="no-color no-underline" href="/logout">
-            Logout
+          <a class="no-color no-underline" href="/logout" data-cy="logout-button">
+            {{ $t('app.header_logout') }}
           </a>
         </li>
       </ul>
@@ -58,30 +53,37 @@
 
 <script>
 export default {
+  props: {
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
+
   data() {
     return {
       menu: false,
-    };
+    }
   },
 
   created() {
-    window.addEventListener('click', this.close);
+    window.addEventListener('click', this.close)
   },
 
   beforeDestroy() {
-    window.removeEventListener('click', this.close);
+    window.removeEventListener('click', this.close)
   },
 
   methods: {
     prepareComponent() {
-      this.getPrimaryEmotions();
+      this.getPrimaryEmotions()
     },
 
     close(e) {
       if (!this.$el.contains(e.target)) {
-        this.menu = false;
+        this.menu = false
       }
     },
   }
-};
+}
 </script>

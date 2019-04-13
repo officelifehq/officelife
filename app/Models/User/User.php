@@ -104,9 +104,9 @@ class User extends Authenticatable
      * Check if the user is part of the given company.
      *
      * @param Company $company
-     * @return Employee
+     * @return Employee|null
      */
-    public function isPartOfCompany(Company $company)
+    public function getEmployeeObjectForCompany(Company $company)
     {
         $employee = Employee::where('user_id', $this->id)
             ->where('company_id', $company->id)

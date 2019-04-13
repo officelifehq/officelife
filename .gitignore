@@ -11,3 +11,5 @@ npm-debug.log
 yarn-error.log
 .php_cs.cache
 .DS_Store
+/tests/Features/screenshots/
+/tests/Features/videos/

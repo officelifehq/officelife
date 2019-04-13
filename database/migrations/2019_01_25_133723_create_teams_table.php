@@ -14,8 +14,8 @@ class CreateTeamsTable extends Migration
     public function up()
     {
         Schema::create('teams', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('company_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('company_id');
             $table->string('name');
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
@@ -23,9 +23,9 @@ class CreateTeamsTable extends Migration
         });
 
         Schema::create('employee_team', function (Blueprint $table) {
-            $table->unsignedInteger('company_id');
-            $table->unsignedInteger('employee_id');
-            $table->unsignedInteger('team_id');
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('team_id');
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');

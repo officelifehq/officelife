@@ -1,6 +1,6 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,500');
 
 @import "~tachyons/css/tachyons.min";
 
@@ -25,6 +25,10 @@ a {
   &:hover {
     border-bottom-width: 2px;
   }
+
+  &.c-delete {
+    border-bottom-color: #b8394c;
+  }
 }
 
 hr {
@@ -34,9 +38,23 @@ hr {
 }
 
 .box {
-    border: 1px solid #E7E7E7;
+    border: 1px solid #e7e7e7;
     border-radius: 11px;
     box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.17);
+}
+
+.box-plus-button {
+  border: 1px solid #e7e7e7;
+  box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.17);
+  right: 22px;
+  top: 8px;
+}
+
+.box-edit-button {
+  border: 1px solid #e7e7e7;
+  box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.17);
+  right: 9px;
+  top: 8px;
 }
 
 .brush-blue {
@@ -76,6 +94,54 @@ hr {
     box-shadow: none;
     border: none;
   }
+}
+
+// input
+input[type=text],
+input[type=email],
+input[type=password],
+textarea {
+  &::placeholder {
+    background-color: #fafbfc;
+  }
+
+  &:focus {
+    background-color: #fff;
+    &::placeholder {
+      background-color: #fff;
+    }
+  }
+}
+
+// popmenu
+.popupmenu {
+  border: 1px solid rgba(27,31,35,.15);
+  box-shadow: 0 3px 12px rgba(27,31,35,.15);
+  right: 22px;
+  top: 46px;
+}
+
+.popupmenu:after,
+.popupmenu:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+}
+
+.popupmenu:after {
+  border: 7px solid transparent;
+  border-bottom-color: #fff;
+  left: auto;
+  right: 10px;
+  top: -14px;
+}
+
+.popupmenu:before {
+  border: 8px solid transparent;
+  border-bottom-color: rgba(27,31,35,.15);
+  left: auto;
+  right: 9px;
+  top: -16px;
 }
 
 // restricted

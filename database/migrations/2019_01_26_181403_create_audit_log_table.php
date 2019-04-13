@@ -14,8 +14,8 @@ class CreateAuditLogTable extends Migration
     public function up()
     {
         Schema::create('audit_logs', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('company_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('company_id');
             $table->string('action');
             $table->text('objects');
             $table->string('ip_address')->nullable();

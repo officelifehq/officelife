@@ -1,7 +1,7 @@
 <template>
   <div class="di">
-    <button :class="classes" name="save" type="submit">
-      <ball-pulse-loader color="#218b8a" size="7px" v-if="state == 'loading'"></ball-pulse-loader>
+    <button :class="classes" name="save" type="submit" :data-cy="cypressSelector">
+      <ball-pulse-loader v-if="state == 'loading'" color="#218b8a" size="7px" />
       <span v-if="state != 'loading'">{{ text }}</span>
     </button>
   </div>
@@ -14,22 +14,26 @@ import * as VueLoaders from 'vue-loaders'
 Vue.use(VueLoaders)
 
 export default {
-  props: ['text', 'state', 'classes'],
+  props: {
+    text: {
+      type: String,
+      default: '',
+    },
+    state: {
+      type: String,
+      default: '',
+    },
+    classes: {
+      type: String,
+      default: '',
+    },
+    cypressSelector: {
+      type: String,
+      default: '',
+    },
+  },
 
   methods: {
-    submit() {
-      axios.post('/signup', this.form)
-        .then(response => {
-          Turbolinks.visit('/home')
-        })
-        .catch(error => {
-          if (typeof error.response.data === 'object') {
-            this.form.errors = _.flatten(_.toArray(error.response.data))
-          } else {
-            this.form.errors = [this.$t('app.error_try_again')]
-          }
-        })
-    },
   }
 }
 </script>

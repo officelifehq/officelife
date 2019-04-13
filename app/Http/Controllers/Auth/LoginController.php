@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class LoginController extends Controller
 {
+    use ThrottlesLogins;
+
     /**
      * Shows the signin page.
      *
@@ -41,7 +44,7 @@ class LoginController extends Controller
         }
 
         return response()->json([
-            'errors' => '😳 Invalid credentials',
+            'errors' => trans('auth.login_invalid_credentials'),
         ], 403);
     }
 
@@ -54,6 +57,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return View::component('Login');
+        return redirect('/login');
     }
 }

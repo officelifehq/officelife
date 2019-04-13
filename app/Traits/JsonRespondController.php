@@ -144,7 +144,7 @@ trait JsonRespondController
     /**
      * Sends a response with error.
      *
-     * @param string|null message
+     * @param array|string|null $message
      * @return JsonResponse
      */
     public function respondWithError($message = null)

@@ -3,6 +3,21 @@ language: php
 php:
   - 7.3
 
+before_script:
+  - cp .env.travis .env
+  - mysql -e 'create database homas_test;'
+  - composer self-update
+  - composer install --no-interaction
+  - php artisan migrate --no-interaction -vvv
+  - php artisan db:seed --no-interaction -vvv
+
+script:
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
+  - vendor/bin/psalm --show-info=false
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
+
 ## Cache composer bits
 cache:
   directories:

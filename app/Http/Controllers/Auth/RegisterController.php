@@ -7,9 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class RegisterController extends Controller
 {
+    use ThrottlesLogins;
+
     /**
      * Show the register page.
      *
@@ -36,8 +39,11 @@ class RegisterController extends Controller
             'password' => $request->get('password'),
         ];
 
-        $account = (new CreateAccount)->execute($data);
+        (new CreateAccount)->execute($data);
 
-        Auth::attempt(['email' => $request->get('email'), 'password' => $request->get('password')]);
+        Auth::attempt([
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+        ]);
     }
 }

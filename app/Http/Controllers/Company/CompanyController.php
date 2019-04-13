@@ -7,7 +7,7 @@ use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Company\Company\CreateCompany;
+use App\Services\Adminland\Company\CreateCompany;
 
 class CompanyController extends Controller
 {
@@ -22,7 +22,7 @@ class CompanyController extends Controller
 
         return View::component('ShowCompany', [
             'company' => $company,
-            'user' => auth()->user()->isPartOfCompany($company),
+            'user' => auth()->user()->getEmployeeObjectForCompany($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);
     }

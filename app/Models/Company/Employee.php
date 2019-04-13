@@ -3,16 +3,18 @@
 namespace App\Models\Company;
 
 use App\Models\User\User;
-use App\Mail\Company\InviteUser;
-use Illuminate\Support\Facades\Mail;
+use App\Traits\Searchable;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        Searchable;
 
     protected $table = 'employees';
 
@@ -29,10 +31,37 @@ class Employee extends Model
         'last_name',
         'birthdate',
         'hired_at',
+        'position_id',
         'permission_level',
+        'invitation_link',
+        'invitation_used_at',
         'uuid',
         'is_dummy',
         'avatar',
+    ];
+
+    /**
+     * The attributes that are searchable with the trait.
+     *
+     * @var array
+     */
+    protected $searchableColumns = [
+        'first_name',
+        'last_name',
+        'email',
+    ];
+
+    /**
+     * The list of columns we want the Searchable trait to select.
+     *
+     * @var array
+     */
+    protected $returnFromSearch = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'company_id',
     ];
 
     /**
@@ -42,6 +71,7 @@ class Employee extends Model
      */
     protected static $logAttributes = [
         'permission_level',
+        'position_id',
     ];
 
     /**
@@ -60,6 +90,7 @@ class Employee extends Model
     protected $dates = [
         'birthdate',
         'hired_at',
+        'invitation_used_at',
     ];
 
     /**
@@ -93,7 +124,47 @@ class Employee extends Model
     }
 
     /**
-     * Get the permission level of the user.
+     * Get all the employees this employee reports to.
+     *
+     * @return hasMany
+     */
+    public function reportsTo()
+    {
+        return $this->hasMany(DirectReport::class, 'employee_id');
+    }
+
+    /**
+     * Get all the employees this employee manages.
+     *
+     * @return hasMany
+     */
+    public function managerOf()
+    {
+        return $this->hasMany(DirectReport::class, 'manager_id');
+    }
+
+    /**
+     * Get the employee logs record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function employeeLogs()
+    {
+        return $this->hasMany(EmployeeLog::class)->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Get the position record associated with the employee.
+     *
+     * @return belongsTo
+     */
+    public function position()
+    {
+        return $this->belongsTo(Position::class);
+    }
+
+    /**
+     * Get the permission level of the employee.
      *
      * @return string
      */
@@ -143,14 +214,56 @@ class Employee extends Model
     }
 
     /**
-     * Send an email to the employee so (s)he can create a User account and
-     * sign in to manage his/her account.
+     * Get the list of managers of this employee.
      *
-     * @return void
+     * @return Collection
      */
-    public function invite()
+    public function getListOfManagers() : Collection
     {
-        Mail::to($this->email)
-            ->queue(new InviteUser($this));
+        $managersCollection = collect([]);
+        foreach ($this->reportsTo()->get() as $directReport) {
+            $managersCollection->push($directReport->manager);
+        }
+
+        return $managersCollection;
+    }
+
+    /**
+     * Get the list of direct reports of this employee.
+     *
+     * @return Collection
+     */
+    public function getListOfDirectReports(): Collection
+    {
+        $directReportCollection = collect([]);
+        foreach ($this->managerOf()->get() as $directReport) {
+            $directReportCollection->push($directReport->directReport);
+        }
+
+        return $directReportCollection;
+    }
+
+    /**
+     * Get the fully qualified path to confirm account invitation.
+     *
+     * @return string
+     */
+    public function getPathInvitationLink()
+    {
+        return secure_url('/invite/employee/'.$this->invitation_link);
+    }
+
+    /**
+     * Return true if the invitation to become a user has already been accepted.
+     *
+     * @return bool
+     */
+    public function invitationAlreadyAccepted() : bool
+    {
+        if ($this->invitation_used_at) {
+            return true;
+        }
+
+        return false;
     }
 }

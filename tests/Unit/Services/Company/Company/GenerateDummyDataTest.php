@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\User\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Company\GenerateDummyData;
+use App\Services\Adminland\Company\GenerateDummyData;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GenerateDummyDataTest extends TestCase

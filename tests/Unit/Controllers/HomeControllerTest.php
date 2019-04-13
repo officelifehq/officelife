@@ -3,9 +3,12 @@
 namespace Tests\Unit\Controllers;
 
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HomeControllerTest extends TestCase
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function it_loads_the_dashboard()
     {
