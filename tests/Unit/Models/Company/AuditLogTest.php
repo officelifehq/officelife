@@ -252,7 +252,7 @@ class AuditLogTest extends ApiTestCase
         ]);
 
         $this->assertEquals(
-            '<a href="' . tenant('/account/positions').'">' . $position->title . '</a>',
+            '<a href="'.tenant('/account/positions').'">'.$position->title.'</a>',
             $auditLog->position
         );
 

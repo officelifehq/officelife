@@ -59,11 +59,11 @@ class AuditController extends Controller
             }
 
             if ($log->action == 'position_updated') {
-                $sentence = 'Updated the position formely called ' . $log->object->{'position_old_title'} . ' to '. $log->position .'.';
+                $sentence = 'Updated the position formely called '.$log->object->{'position_old_title'}.' to '.$log->position.'.';
             }
 
             if ($log->action == 'position_destroyed') {
-                $sentence = 'Destroyed the position called '. $log->position . '.';
+                $sentence = 'Destroyed the position called '.$log->position.'.';
             }
 
             $logsCollection->push([

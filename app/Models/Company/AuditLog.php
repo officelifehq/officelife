@@ -157,6 +157,6 @@ class AuditLog extends Model
             return $this->object->{'position_title'};
         }
 
-        return '<a href="'.tenant('/account/positions').'">' . $position->title . '</a>';
+        return '<a href="'.tenant('/account/positions').'">'.$position->title.'</a>';
     }
 }
