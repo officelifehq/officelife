@@ -1,4 +1,10 @@
 <style scoped>
+input[type=checkbox] {
+  top: 5px;
+}
+input[type=radio] {
+  top: -2px;
+}
 </style>
 
 <template>
@@ -63,38 +69,42 @@
             <div class="mb3">
               <p>{{ $t('account.employee_new_permission_level') }}</p>
 
-              <div class="db">
-                <input id="administrator" v-model="form.permission_level" type="radio" class="mr1" name="permission_level"
+              <div class="db relative">
+                <input id="administrator" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
                        value="100"
                 />
                 <label for="administrator" class="pointer">{{ $t('account.employee_new_administrator') }}</label>
-                <p>{{ $t('account.employee_new_administrator_desc') }}</p>
+                <p class="ma0 lh-copy f6 mb3">
+                  {{ $t('account.employee_new_administrator_desc') }}
+                </p>
               </div>
 
-              <div class="db">
-                <input id="hr" v-model="form.permission_level" type="radio" class="mr1" name="permission_level"
+              <div class="db relative">
+                <input id="hr" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
                        value="200"
                 />
                 <label for="hr" class="pointer">{{ $t('account.employee_new_hr') }}</label>
-                <p>{{ $t('account.employee_new_hr_desc') }}</p>
+                <p class="ma0 lh-copy f6 mb3">
+                  {{ $t('account.employee_new_hr_desc') }}
+                </p>
               </div>
 
-              <div class="db">
-                <input id="user" v-model="form.permission_level" type="radio" class="mr1" name="permission_level"
+              <div class="db relative">
+                <input id="user" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
                        value="300"
                 />
                 <label for="user" class="pointer">{{ $t('account.employee_new_user') }}</label>
-                <p>{{ $t('account.employee_new_user_desc') }}</p>
+                <p class="ma0 lh-copy f6 mb3">
+                  {{ $t('account.employee_new_user_desc') }}
+                </p>
               </div>
             </div>
 
-            <hr />
-
             <!-- Invite user -->
-            <div class="mb3">
-              <div class="flex items-center mb2">
-                <input v-model="form.send_invitation" class="mr2" type="checkbox" name="send_email" />
-                <label for="send_email" class="lh-copy">{{ $t('account.employee_new_send_email') }}</label>
+            <div class="mb3 ba bb-gray bg-gray pa3">
+              <div class="flex items-start relative">
+                <input id="send_email" v-model="form.send_invitation" class="mr2 relative" type="checkbox" name="send_email" />
+                <label for="send_email" class="lh-copy ma0">{{ $t('account.employee_new_send_email') }}</label>
               </div>
             </div>
 

@@ -54,6 +54,25 @@ class CreateCompanyTest extends TestCase
     }
 
     /** @test */
+    public function it_populates_default_positions()
+    {
+        $author = factory(User::class)->create([]);
+
+        $request = [
+            'author_id' => $author->id,
+            'name' => 'Dunder Mifflin',
+        ];
+
+        $company = (new CreateCompany)->execute($request);
+
+        $numberOfPositions = $company->positions()->count();
+        $this->assertEquals(
+            4,
+            $numberOfPositions
+        );
+    }
+
+    /** @test */
     public function it_fails_if_wrong_parameters_are_given()
     {
         $author = factory(User::class)->create([]);

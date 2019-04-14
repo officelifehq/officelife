@@ -16,10 +16,12 @@
 
 <template>
   <div class="di relative">
-    <span class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true">{{ title }}</span>
+    <span v-if="user.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true">{{ title }}</span>
+    <span v-else>{{ title }}</span>
 
     <!-- Action when there is no title defined -->
-    <a v-show="title == ''" class="pointer" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
+    <a v-show="title == ''" v-if="user.permission_level <= 200" class="pointer" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
+    <span v-else v-show="title == ''">{{ $t('employee.position_blank') }}</span>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
@@ -146,7 +148,7 @@ export default {
 
           this.title = ''
           this.modal = false
-          this.employee = response.data.data
+          this.updatedEmployee = response.data.data
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data))
