@@ -34,6 +34,10 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('{employee}/logs', 'Company\\Employee\\LogsController@index');
 
+            Route::resource('{employee}/position', 'Company\\Employee\\Position\\EmployeePositionController')->only([
+                'store', 'destroy',
+            ]);
+
             Route::get('titles', 'Company\\Employee\\EmployeePositionController@index');
         });
 
@@ -63,7 +67,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('account/teams/{team}/destroy', 'Company\\Adminland\\TeamController@destroy');
 
             // position management
-            Route::resource('account/positions', 'Company\\Adminland\\PositionController');
+            Route::resource('account/positions', 'Company\\Adminland\\Position\AdminPositionController');
         });
     });
 });

@@ -23,6 +23,7 @@ class Employee extends JsonResource
             'email' => $this->email,
             'permission_level' => $this->permission_level,
             'avatar' => $this->avatar,
+            'position' => $this->position,
             'company' => [
                 'id' => $this->company_id,
             ],
