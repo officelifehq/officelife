@@ -28,7 +28,7 @@ class AssignPositionToEmployeeTest extends TestCase
             'position_id' => $position->id,
         ];
 
-        $position = (new AssignPositionToEmployee)->execute($request);
+        $employee = (new AssignPositionToEmployee)->execute($request);
 
         $this->assertDatabaseHas('employees', [
             'company_id' => $employee->company_id,
@@ -37,8 +37,8 @@ class AssignPositionToEmployeeTest extends TestCase
         ]);
 
         $this->assertInstanceOf(
-            Position::class,
-            $position
+            Employee::class,
+            $employee
         );
     }
 

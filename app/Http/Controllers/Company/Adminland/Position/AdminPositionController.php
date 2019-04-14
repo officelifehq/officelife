@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company\Adminland;
+namespace App\Http\Controllers\Company\Adminland\Position;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use App\Services\Adminland\Position\UpdatePosition;
 use App\Services\Adminland\Position\DestroyPosition;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
-class PositionController extends Controller
+class AdminPositionController extends Controller
 {
     /**
      * Show the list of positions.

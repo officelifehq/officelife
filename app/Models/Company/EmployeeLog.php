@@ -154,4 +154,20 @@ class EmployeeLog extends Model
 
         return '<a href="'.tenant('/employees/'.$employee->id).'">'.$employee->name.'</a>';
     }
+
+    /**
+     * Get the position of the employee log, if defined.
+     *
+     * @return string
+     */
+    public function getPositionAttribute($value)
+    {
+        try {
+            $position = Position::findOrFail($this->object->{'position_id'});
+        } catch (ModelNotFoundException $e) {
+            return $this->object->{'position_title'};
+        }
+
+        return $position->title;
+    }
 }

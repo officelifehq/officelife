@@ -59,6 +59,7 @@
                 :company="company"
                 :employee="employee"
                 :user="user"
+                :positions="positions"
               />
             </li>
             <li class="di-l db mb0-l mb2 mr2">
@@ -134,6 +135,10 @@ export default {
       default: null,
     },
     directReports: {
+      type: Array,
+      default: null,
+    },
+    positions: {
       type: Array,
       default: null,
     },

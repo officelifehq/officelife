@@ -28,9 +28,9 @@ class AssignPositionToEmployee extends BaseService
      * Set an employee's position.
      *
      * @param array $data
-     * @return Position
+     * @return Employee
      */
-    public function execute(array $data): Position
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 
@@ -60,6 +60,6 @@ class AssignPositionToEmployee extends BaseService
             ]),
         ]);
 
-        return $position;
+        return $employee;
     }
 }
