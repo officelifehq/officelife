@@ -18,6 +18,7 @@ return [
     'hierarchy_modal_remove_manager' => 'Remove manager',
     'hierarchy_modal_remove_direct_report' => 'Remove direct report',
 
+    'position_blank' => 'No position set',
     'position_modal_title' => 'Choose a position',
     'position_modal_filter' => 'Filter the list',
     'position_modal_assign_success' => 'The position has been set',
