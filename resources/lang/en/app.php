@@ -20,6 +20,7 @@ return [
     'next' => 'Next',
 
     'no_results' => 'No results',
+    'no_position_defined' => 'No position defined',
 
     'breadcrumb_account_home' => 'Account administration',
     'breadcrumb_account_manage_employees' => 'Manage employees',
