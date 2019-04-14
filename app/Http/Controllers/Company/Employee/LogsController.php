@@ -61,11 +61,11 @@ class LogsController extends Controller
             }
 
             if ($log->action == 'position_assigned') {
-                $sentence = $log->author . ' assigned the position called ' . $log->position . '.';
+                $sentence = $log->author.' assigned the position called '.$log->position.'.';
             }
 
             if ($log->action == 'position_removed') {
-                $sentence = $log->author . ' removed the position called ' . $log->position . '.';
+                $sentence = $log->author.' removed the position called '.$log->position.'.';
             }
 
             $logsCollection->push([

@@ -37,7 +37,6 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('{employee}/position', 'Company\\Employee\\Position\\EmployeePositionController')->only([
                 'store', 'destroy',
             ]);
-            ;
 
             Route::get('titles', 'Company\\Employee\\EmployeePositionController@index');
         });
