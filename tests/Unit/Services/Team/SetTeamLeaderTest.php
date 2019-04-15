@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Team;
+namespace Tests\Unit\Services\Team;
 
 use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
-use App\Services\Adminland\Team\SetTeamLeader;
+use App\Services\Team\SetTeamLeader;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -39,15 +39,10 @@ class SetTeamLeaderTest extends TestCase
             Team::class,
             $team
         );
-
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employee->company_id,
-            'action' => 'team_leader_assigned',
-        ]);
     }
 
     /** @test */
-    public function it_resets_the_team_leader()
+    public function it_logs_an_action()
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -57,15 +52,16 @@ class SetTeamLeaderTest extends TestCase
         $request = [
             'company_id' => $employee->company_id,
             'author_id' => $employee->user_id,
-            'employee_id' => null,
+            'employee_id' => $employee->id,
             'team_id' => $team->id,
         ];
 
-        $team = (new SetTeamLeader)->execute($request);
+        (new SetTeamLeader)->execute($request);
 
-        $this->assertDatabaseHas('teams', [
-            'id' => $team->id,
-            'team_leader_id' => null,
+        $this->assertdatabasehas('team_logs', [
+            'company_id' => $employee->company_id,
+            'team_id' => $team->id,
+            'action' => 'team_leader_assigned',
         ]);
     }
 

@@ -60,7 +60,8 @@
               <!-- RENAME POSITION FORM -->
               <div v-show="idToUpdate == position.id" class="cf mt3">
                 <form @submit.prevent="update(position.id)">
-                  <input id="title" v-model="form.title" type="text"
+                  <input id="title" ref="title" v-model="form.title"
+                         type="text"
                          name="title"
                          :placeholder="'Marketing coordinator'"
                          class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
@@ -78,7 +79,7 @@
               <ul v-show="idToUpdate != position.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
                 <!-- RENAME A POSITION -->
                 <li class="di mr2">
-                  <a class="pointer" @click.prevent="idToUpdate = position.id ; form.title = position.title">{{ $t('app.rename') }}</a>
+                  <a class="pointer" @click.prevent="displayUpdateModal(position) ; form.title = position.title">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A POSITION -->
@@ -144,6 +145,14 @@ export default {
   },
 
   methods: {
+    displayUpdateModal(position) {
+      this.idToUpdate = position.id
+
+      this.$nextTick(() => {
+        this.$refs.title.focus()
+      })
+    },
+
     submit() {
       this.loadingState = 'loading'
 

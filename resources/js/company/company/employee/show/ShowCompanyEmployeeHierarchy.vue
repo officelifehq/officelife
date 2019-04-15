@@ -128,8 +128,8 @@
             <a :href="'/' + company.id + '/employees/' + manager.id" class="mb2">{{ manager.name }}</a>
 
             <!-- position -->
-            <span class="title db f7 mt1" v-if="manager.position !== null">{{ manager.position.title }}</span>
-            <span class="title db f7 mt1" v-else>{{ $t('app.no_position_defined') }}</span>
+            <span v-if="manager.position !== null" class="title db f7 mt1">{{ manager.position.title }}</span>
+            <span v-else class="title db f7 mt1">{{ $t('app.no_position_defined') }}</span>
 
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModalId = manager.id" />
 
@@ -162,8 +162,8 @@
             <a :href="'/' + company.id + '/employees/' + directReport.id" class="mb2">{{ directReport.name }}</a>
 
             <!-- position -->
-            <span class="title db f7 mt1" v-if="directReport.position !== null">{{ directReport.position.title }}</span>
-            <span class="title db f7 mt1" v-else>{{ $t('app.no_position_defined') }}</span>
+            <span v-if="directReport.position !== null" class="title db f7 mt1">{{ directReport.position.title }}</span>
+            <span v-else class="title db f7 mt1">{{ $t('app.no_position_defined') }}</span>
 
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModalId = directReport.id" />
 
