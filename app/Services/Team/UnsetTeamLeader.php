@@ -4,7 +4,6 @@ namespace App\Services\Team;
 
 use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Models\Company\Employee;
 
 class UnsetTeamLeader extends BaseService
 {
