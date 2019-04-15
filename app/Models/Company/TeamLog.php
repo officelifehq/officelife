@@ -108,18 +108,18 @@ class TeamLog extends Model
     }
 
     /**
-     * Get the manager of the team log, if defined.
+     * Get the team leader of the team log, if defined.
      *
      * @return string
      */
-    public function getManagerAttribute($value)
+    public function getTeamLeaderAttribute($value)
     {
         try {
-            $manager = Employee::findOrFail($this->object->{'manager_id'});
+            $teamLeader = Employee::findOrFail($this->object->{'team_leader_id'});
         } catch (ModelNotFoundException $e) {
-            return $this->object->{'manager_name'};
+            return $this->object->{'team_leader_name'};
         }
 
-        return '<a href="' . tenant('/employees/' . $manager->id) . '">' . $manager->name . '</a>';
+        return '<a href="' . tenant('/employees/' . $teamLeader->id) . '">' . $teamLeader->name . '</a>';
     }
 }
