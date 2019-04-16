@@ -121,7 +121,7 @@ export default {
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/position', position)
         .then(response => {
           this.$snotify.success(this.$t('employee.position_modal_assign_success'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -140,7 +140,7 @@ export default {
       axios.delete('/' + this.company.id + '/employees/' + this.employee.id + '/position/' + this.updatedEmployee.position.id)
         .then(response => {
           this.$snotify.success(this.$t('employee.position_modal_unassign_success'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,

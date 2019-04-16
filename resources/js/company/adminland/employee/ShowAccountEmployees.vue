@@ -84,7 +84,7 @@ export default {
   mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
-        timeout: 5000,
+        timeout: 2000,
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,

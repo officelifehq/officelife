@@ -1,13 +1,13 @@
 // Create a user
-Cypress.Commands.add('login', () => {
+Cypress.Commands.add('login', (role) => {
   cy.exec('php artisan setup:frontendtesting -vvv')
 
   cy.visit('/login')
 
   cy.get('input[name=email]').type('admin@admin.com')
   cy.get('input[name=password]').type('admin')
-  cy.get('button[type=submit]').click()
 
+  cy.get('button[type=submit]').click()
   cy.url().should('include', '/home')
 })
 
@@ -32,7 +32,7 @@ Cypress.Commands.add('createTeam', () => {
 })
 
 // Create an employee
-Cypress.Commands.add('createEmployee', (firstname, lastname, email) => {
+Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission) => {
   cy.visit('/1/account')
 
   cy.get('[data-cy=employee-admin-link]').click()
@@ -43,7 +43,18 @@ Cypress.Commands.add('createEmployee', (firstname, lastname, email) => {
   cy.get('input[name=first_name]').type(firstname)
   cy.get('input[name=last_name]').type(lastname)
   cy.get('input[name=email]').type(email)
-  cy.get('[type="radio"]').first().check()
+
+  if (permission === 'admin') {
+    cy.get('[type="radio"]').first().check()
+  }
+
+  if (permission === 'hr') {
+    cy.get('[type="radio"]').check(['200'])
+  }
+
+  if (permission === 'user') {
+    cy.get('[type="radio"]').check(['300'])
+  }
 
   cy.get('[data-cy=submit-add-employee-button]').click()
 })

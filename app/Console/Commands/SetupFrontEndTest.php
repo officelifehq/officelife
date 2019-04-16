@@ -37,6 +37,7 @@ class SetupFrontEndTest extends Command
     public function handle()
     {
         exec('php artisan migrate:fresh && php artisan db:seed');
+
         $data = [
             'email' => 'admin@admin.com',
             'password' => 'admin',

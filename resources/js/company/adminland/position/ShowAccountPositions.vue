@@ -159,7 +159,7 @@ export default {
       axios.post('/' + this.company.id + '/account/positions', this.form)
         .then(response => {
           this.$snotify.success(this.$t('account.position_success_new'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -180,7 +180,7 @@ export default {
       axios.put('/' + this.company.id + '/account/positions/' + id, this.form)
         .then(response => {
           this.$snotify.success(this.$t('account.position_success_update'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -201,7 +201,7 @@ export default {
       axios.delete('/' + this.company.id + '/account/positions/' + id)
         .then(response => {
           this.$snotify.success(this.$t('account.position_success_destroy'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,

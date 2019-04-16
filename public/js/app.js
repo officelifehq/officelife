@@ -923,7 +923,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
-        timeout: 5000,
+        timeout: 2000,
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true
@@ -1101,7 +1101,7 @@ __webpack_require__.r(__webpack_exports__);
       this.loadingState = 'loading';
       axios.post('/' + this.company.id + '/account/positions', this.form).then(function (response) {
         _this2.$snotify.success(_this2.$t('account.position_success_new'), {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -1122,7 +1122,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.put('/' + this.company.id + '/account/positions/' + id, this.form).then(function (response) {
         _this3.$snotify.success(_this3.$t('account.position_success_update'), {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -1144,7 +1144,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.delete('/' + this.company.id + '/account/positions/' + id).then(function (response) {
         _this4.$snotify.success(_this4.$t('account.position_success_destroy'), {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -1332,7 +1332,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
-        timeout: 5000,
+        timeout: 2000,
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true
@@ -1352,7 +1352,7 @@ __webpack_require__.r(__webpack_exports__);
       this.loadingState = 'loading';
       axios.post('/' + this.company.id + '/account/teams', this.form).then(function (response) {
         _this.$snotify.success('The team has been created', {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -1570,7 +1570,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/position', position).then(function (response) {
         _this2.$snotify.success(_this2.$t('employee.position_modal_assign_success'), {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -1588,7 +1588,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.delete('/' + this.company.id + '/employees/' + this.employee.id + '/position/' + this.updatedEmployee.position.id).then(function (response) {
         _this3.$snotify.success(_this3.$t('employee.position_modal_unassign_success'), {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -1767,7 +1767,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
-        timeout: 5000,
+        timeout: 2000,
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true
@@ -2097,7 +2097,7 @@ Vue.use(vue_loaders__WEBPACK_IMPORTED_MODULE_2__);
 
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignManager', manager).then(function (response) {
         _this4.$snotify.success(_this4.$t('employee.hierarchy_modal_add_manager_success'), {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -2115,7 +2115,7 @@ Vue.use(vue_loaders__WEBPACK_IMPORTED_MODULE_2__);
 
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignDirectReport', directReport).then(function (response) {
         _this5.$snotify.success(_this5.$t('employee.hierarchy_modal_add_direct_report_success'), {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -2133,7 +2133,7 @@ Vue.use(vue_loaders__WEBPACK_IMPORTED_MODULE_2__);
 
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/unassignManager', manager).then(function (response) {
         _this6.$snotify.success(_this6.$t('employee.hierarchy_modal_remove_manager_success'), {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -2152,7 +2152,7 @@ Vue.use(vue_loaders__WEBPACK_IMPORTED_MODULE_2__);
 
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/unassignDirectReport', directReport).then(function (response) {
         _this7.$snotify.success(_this7.$t('employee.hierarchy_modal_remove_direct_report_success'), {
-          timeout: 5000,
+          timeout: 2000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true
@@ -2423,7 +2423,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
-        timeout: 5000,
+        timeout: 2000,
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true
@@ -5861,7 +5861,7 @@ var render = function() {
                       staticClass: "relative",
                       attrs: {
                         href: "/" + _vm.company.id + "/account/positions",
-                        "data-cy": "employee-admin-link"
+                        "data-cy": "position-admin-link"
                       }
                     },
                     [_vm._v(_vm._s(_vm.$t("account.home_manage_positions")))]
@@ -5899,7 +5899,7 @@ var render = function() {
                       staticClass: "relative",
                       attrs: {
                         href: "/" + _vm.company.id + "/account/positions",
-                        "data-cy": "employee-admin-link"
+                        "data-cy": "-admin-link"
                       }
                     },
                     [_vm._v(_vm._s(_vm.$t("account.home_manage_positions")))]
@@ -8021,8 +8021,11 @@ var render = function() {
                 {
                   name: "show",
                   rawName: "v-show",
-                  value: _vm.user.permission_level <= 200,
-                  expression: "user.permission_level <= 200"
+                  value:
+                    _vm.user.permission_level <= 200 ||
+                    _vm.user.user_id == _vm.employee.user.id,
+                  expression:
+                    "user.permission_level <= 200 || user.user_id == employee.user.id"
                 }
               ],
               staticClass:
@@ -8133,7 +8136,7 @@ var render = function() {
                                   "/employees/" +
                                   _vm.employee.id +
                                   "/logs",
-                                "data-cy": "add-direct-report-button"
+                                "data-cy": "view-log-button"
                               }
                             },
                             [_vm._v("View change log")]
@@ -9148,7 +9151,9 @@ var render = function() {
                 "a",
                 {
                   attrs: {
-                    href: "/" + _vm.company.id + "/employees/" + _vm.employee.id
+                    href:
+                      "/" + _vm.company.id + "/employees/" + _vm.employee.id,
+                    "data-cy": "breadcrumb-employee"
                   }
                 },
                 [_vm._v(_vm._s(_vm.employee.name))]
@@ -9186,7 +9191,10 @@ var render = function() {
             _vm._v(" "),
             _c(
               "ul",
-              { staticClass: "list pl0 mt0 center" },
+              {
+                staticClass: "list pl0 mt0 center",
+                attrs: { "data-cy": "logs-list" }
+              },
               _vm._l(_vm.logs, function(log) {
                 return _c(
                   "li",
