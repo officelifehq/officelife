@@ -6,6 +6,7 @@ use Tests\DuskTestCase;
 use App\Models\User\User;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Tests\Browser\Pages\Login;
 
 class RegistrationTest extends DuskTestCase
 {
@@ -30,12 +31,9 @@ class RegistrationTest extends DuskTestCase
     public function it_lets_you_login()
     {
         $this->browse(function (Browser $browser) {
-            $browser->visit('/login')
-                ->pause(1000)
-                ->type('email', 'admin@admin.com')
-                ->type('password', 'admin')
-                ->click('@login-button')
-                ->pause(1000)
+            $browser->visit(new Login)
+                ->logAsAdmin('Login')
+                ->assertSee('Create a company')
                 ->visit('/logout');
         });
     }

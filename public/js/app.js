@@ -7564,6 +7564,7 @@ var render = function() {
                         _c("loading-button", {
                           attrs: {
                             classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
+                            dusk: "create-button",
                             state: _vm.loadingState,
                             text: "register",
                             "data-cy": "create-company-submit"
@@ -9471,7 +9472,7 @@ var render = function() {
                     {
                       staticClass:
                         "br3 mb3 bg-white box pa3 tc relative home-box",
-                      attrs: { "data-cy": "create-company-blank-state" }
+                      attrs: { dusk: "create-company-blank-state" }
                     },
                     [
                       _c("h3", [_vm._v(_vm._s(_vm.$t("home.create_company")))]),
@@ -9544,7 +9545,7 @@ var render = function() {
                     "a",
                     {
                       staticClass: "btn primary absolute db-l dn",
-                      attrs: { href: "/company/create" }
+                      attrs: { href: "/company/create", dusk: "create-company" }
                     },
                     [_vm._v(_vm._s(_vm.$t("home.create_company_cta")))]
                   )

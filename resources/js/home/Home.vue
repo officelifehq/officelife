@@ -42,7 +42,7 @@
         <div class="fl w-100 w-25-m w-50-l pr2-l">
           <a href="/company/create">
             <div class="pa3-l">
-              <div class="br3 mb3 bg-white box pa3 tc relative home-box" data-cy="create-company-blank-state">
+              <div class="br3 mb3 bg-white box pa3 tc relative home-box" dusk="create-company-blank-state">
                 <h3>{{ $t('home.create_company') }}</h3>
                 <p>{{ $t('home.create_company_desc') }}</p>
                 <img src="/img/home/create-company.png" class="home-company absolute" />
@@ -66,7 +66,7 @@
       <!-- List of companies -->
       <div v-show="employees.length != 0">
         <div class="mt4 mt5-l mw7 center section-btn relative">
-          <p><span class="pr2">{{ $t('home.companies_part_of') }}</span> <a href="/company/create" class="btn-primary absolute db-l dn pv2 ph3 white no-underline bb-0">{{ $t('home.create_company_cta') }}</a></p>
+          <p><span class="pr2">{{ $t('home.companies_part_of') }}</span> <a href="/company/create" class="btn primary absolute db-l dn" dusk="create-company">{{ $t('home.create_company_cta') }}</a></p>
         </div>
         <div class="cf mt4 mw7 center">
           <div v-for="employee in employees" :key="employee.id" class="fl w-100 w-25-m w-third-l pr2">
