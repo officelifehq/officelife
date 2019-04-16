@@ -28,7 +28,7 @@
           <div class="">
             <div class="flex-ns justify-between">
               <div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.login_cta')" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" dusk="login-button" :state="loadingState" :text="$t('auth.login_cta')" />
               </div>
             </div>
           </div>

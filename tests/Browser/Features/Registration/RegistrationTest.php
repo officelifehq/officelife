@@ -16,10 +16,27 @@ class RegistrationTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('/signup')
-                ->value('email', 'admin@admin.com')
+                ->waitForText('Create an account now')
+                ->type('email', 'admin@admin.com')
                 ->type('password', 'admin')
                 ->click('@register-button')
-                ->assertSee('Create a company');
+                ->pause(1000)
+                ->assertSee('Create a company')
+                ->visit('/logout');
+        });
+    }
+
+    /** @test */
+    public function it_lets_you_login()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/login')
+                ->pause(1000)
+                ->type('email', 'admin@admin.com')
+                ->type('password', 'admin')
+                ->click('@login-button')
+                ->pause(1000)
+                ->visit('/logout');
         });
     }
 
@@ -30,9 +47,11 @@ class RegistrationTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) use ($user) {
             $browser->visit('/signup')
-                ->value('email', $user->email)
+                ->pause(1000)
+                ->type('email', $user->email)
                 ->type('password', 'admin')
                 ->click('@register-button')
+                ->pause(1000)
                 ->assertSee('The email has already been taken.');
         });
     }
