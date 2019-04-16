@@ -60,6 +60,14 @@ class LogsController extends Controller
                 $sentence = $log->author.' removed '.$log->directReport.' as a direct report.';
             }
 
+            if ($log->action == 'position_assigned') {
+                $sentence = $log->author.' assigned the position called '.$log->position.'.';
+            }
+
+            if ($log->action == 'position_removed') {
+                $sentence = $log->author.' removed the position called '.$log->position.'.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,

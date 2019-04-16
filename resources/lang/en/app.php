@@ -20,6 +20,7 @@ return [
     'next' => 'Next',
 
     'no_results' => 'No results',
+    'no_position_defined' => 'No position defined',
 
     'breadcrumb_account_home' => 'Account administration',
     'breadcrumb_account_manage_employees' => 'Manage employees',
@@ -42,4 +43,9 @@ return [
     'permission_100' => 'Administrator',
     'permission_200' => 'Human Resource Representative',
     'permission_300' => 'Employee',
+
+    'default_position_ceo' => 'CEO',
+    'default_position_sales_representative' => 'Sales representative',
+    'default_position_marketing_specialist' => 'Marketing specialist',
+    'default_position_front_end_developer' => 'Front end developer',
 ];

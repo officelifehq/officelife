@@ -54,6 +54,7 @@ class RemovePositionFromEmployee extends BaseService
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
+                'position_id' => $position->id,
                 'position_title' => $position->title,
             ]),
         ]);

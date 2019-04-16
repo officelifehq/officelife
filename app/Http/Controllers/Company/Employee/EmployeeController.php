@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\Adminland\Employee\AssignManager;
 use App\Services\Adminland\Employee\UnassignManager;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
+use App\Http\Resources\Company\Position\Position as PositionResource;
 
 class EmployeeController extends Controller
 {
@@ -27,6 +28,7 @@ class EmployeeController extends Controller
 
         $managers = $employee->getListOfManagers();
         $directReports = $employee->getListOfDirectReports();
+        $positions = $company->positions()->get();
 
         return View::component('ShowCompanyEmployee', [
             'company' => $company,
@@ -34,6 +36,7 @@ class EmployeeController extends Controller
             'employee' => new EmployeeResource($employee),
             'managers' => EmployeeResource::collection($managers),
             'directReports' => EmployeeResource::collection($directReports),
+            'positions' => PositionResource::collection($positions),
         ]);
     }
 
