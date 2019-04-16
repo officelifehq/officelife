@@ -1,11 +1,12 @@
 describe('Adminland', function () {
-  it('should create an employee with different permission levels', function () {
+  it('should populate an account with default positions', function () {
     cy.login()
 
     cy.createCompany()
 
     cy.wait(500)
 
+    cy.visit('/1/account')
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin')
     cy.contains('Michael Scott')
 
