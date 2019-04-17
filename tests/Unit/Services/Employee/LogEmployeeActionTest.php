@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Company;
+namespace Tests\Unit\Services\Employee;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
+use App\Services\Employee\LogEmployeeAction;
 use Illuminate\Validation\ValidationException;
-use App\Services\Adminland\Employee\LogEmployeeAction;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LogEmployeeActionTest extends TestCase

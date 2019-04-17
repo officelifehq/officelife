@@ -5,7 +5,7 @@ namespace App\Services\Employee\Position;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
-use App\Services\Adminland\Employee\LogEmployeeAction;
+use App\Services\Employee\LogEmployeeAction;
 
 class AssignPositionToEmployee extends BaseService
 {

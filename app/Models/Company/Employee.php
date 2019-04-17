@@ -168,7 +168,7 @@ class Employee extends Model
      *
      * @return string
      */
-    public function getPermissionLevel() : String
+    public function getPermissionLevel(): string
     {
         return trans('app.permission_'.$this->permission_level);
     }
@@ -177,6 +177,7 @@ class Employee extends Model
      * Returns the email attribute of the employee.
      *
      * @return string
+     * @param mixed $value
      */
     public function getEmailAttribute($value)
     {
@@ -187,6 +188,7 @@ class Employee extends Model
      * Returns the birthdate attribute of the employee.
      *
      * @return string
+     * @param mixed $value
      */
     public function getBirthdateAttribute($value)
     {
@@ -197,8 +199,9 @@ class Employee extends Model
      * Returns the name attribute of the employee.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getNameAttribute($value) : String
+    public function getNameAttribute($value): string
     {
         if (! $this->first_name) {
             return $this->email;
@@ -218,7 +221,7 @@ class Employee extends Model
      *
      * @return Collection
      */
-    public function getListOfManagers() : Collection
+    public function getListOfManagers(): Collection
     {
         $managersCollection = collect([]);
         foreach ($this->reportsTo()->get() as $directReport) {
@@ -248,7 +251,7 @@ class Employee extends Model
      *
      * @return string
      */
-    public function getPathInvitationLink()
+    public function getPathInvitationLink(): string
     {
         return secure_url('/invite/employee/'.$this->invitation_link);
     }
@@ -258,7 +261,7 @@ class Employee extends Model
      *
      * @return bool
      */
-    public function invitationAlreadyAccepted() : bool
+    public function invitationAlreadyAccepted(): bool
     {
         if ($this->invitation_used_at) {
             return true;

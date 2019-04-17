@@ -59,6 +59,7 @@ class TeamLog extends Model
      * Get the JSON object.
      *
      * @return array
+     * @param mixed $value
      */
     public function getObjectAttribute($value)
     {
@@ -69,8 +70,9 @@ class TeamLog extends Model
      * Get the date of the team log.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getDateAttribute($value)
+    public function getDateAttribute($value): string
     {
         return DateHelper::getShortDateWithTime($this->created_at);
     }
@@ -79,8 +81,9 @@ class TeamLog extends Model
      * Get the author of the team log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getAuthorAttribute($value)
+    public function getAuthorAttribute($value): string
     {
         try {
             $author = User::findOrFail($this->object->{'author_id'});
@@ -95,8 +98,9 @@ class TeamLog extends Model
      * Get the team of the team log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getTeamAttribute($value)
+    public function getTeamAttribute($value): string
     {
         try {
             $team = Team::findOrFail($this->object->{'team_id'});
@@ -111,8 +115,9 @@ class TeamLog extends Model
      * Get the team leader of the team log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getTeamLeaderAttribute($value)
+    public function getTeamLeaderAttribute($value): string
     {
         try {
             $teamLeader = Employee::findOrFail($this->object->{'team_leader_id'});

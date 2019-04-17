@@ -16,5 +16,8 @@ return PhpCsFixer\Config::create()
         'no_unused_imports' => true,
         'no_trailing_comma_in_list_call' => false,
         'single_quote' => true,
+        'phpdoc_add_missing_param_annotation' => true,
+        'no_whitespace_before_comma_in_array' => true,
+        'trailing_comma_in_multiline_array' => true,
     ])
     ->setFinder($finder);

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Adminland\Employee;
+namespace App\Services\Employee;
 
 use App\Services\BaseService;
 use App\Models\Company\Employee;

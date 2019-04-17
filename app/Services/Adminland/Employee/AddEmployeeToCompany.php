@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Services\Adminland\Company;
+namespace App\Services\Adminland\Employee;
 
 use App\Models\User\User;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Services\Employee\LogEmployeeAction;
 use App\Services\User\Avatar\GenerateAvatar;
-use App\Services\Adminland\Employee\LogEmployeeAction;
+use App\Services\Adminland\Company\LogAction;
 
 class AddEmployeeToCompany extends BaseService
 {
@@ -37,7 +38,7 @@ class AddEmployeeToCompany extends BaseService
      * @param array $data
      * @return Employee
      */
-    public function execute(array $data) : Employee
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 
@@ -81,7 +82,7 @@ class AddEmployeeToCompany extends BaseService
      * @param User $author
      * @return Employee
      */
-    private function createEmployee(array $data, User $author) : Employee
+    private function createEmployee(array $data, User $author): Employee
     {
         $uuid = Str::uuid()->toString();
 

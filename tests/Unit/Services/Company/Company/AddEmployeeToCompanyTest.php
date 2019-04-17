@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\User\User;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Adminland\Company\AddEmployeeToCompany;
+use App\Services\Adminland\Employee\AddEmployeeToCompany;
 
 class AddEmployeeToCompanyTest extends TestCase
 {

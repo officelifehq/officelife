@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee;
+namespace Tests\Unit\Services\Employee\Manager;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Exceptions\SameIdsException;
 use Illuminate\Validation\ValidationException;
-use App\Services\Adminland\Employee\AssignManager;
+use App\Services\Employee\Manager\AssignManager;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class AssignManagerTest extends TestCase

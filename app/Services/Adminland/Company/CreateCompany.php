@@ -31,7 +31,7 @@ class CreateCompany extends BaseService
      * @param array $data
      * @return Company
      */
-    public function execute(array $data) : Company
+    public function execute(array $data): Company
     {
         $this->validate($data);
 

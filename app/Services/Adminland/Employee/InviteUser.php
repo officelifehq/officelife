@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Services\Adminland\Company;
+namespace App\Services\Adminland\Employee;
 
 use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Mail;
+use App\Services\Adminland\Company\LogAction;
 use App\Mail\Company\InviteEmployeeToBecomeUser;
 use App\Exceptions\InvitationAlreadyUsedException;
 
@@ -70,7 +71,7 @@ class InviteUser extends BaseService
      * @param array $data
      * @return Employee
      */
-    private function inviteEmployee($data) : Employee
+    private function inviteEmployee($data): Employee
     {
         $employee = Employee::find($data['employee_id']);
 
