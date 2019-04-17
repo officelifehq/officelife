@@ -91,7 +91,7 @@ class TeamLog extends Model
             return $this->object->{'author_name'};
         }
 
-        return '<a href="' . tenant('/employees/' . $author->id) . '">' . $author->name . '</a>';
+        return '<a href="'.tenant('/employees/'.$author->id).'">'.$author->name.'</a>';
     }
 
     /**
@@ -108,7 +108,7 @@ class TeamLog extends Model
             return $this->object->{'team_name'};
         }
 
-        return '<a href="' . tenant('/teams/' . $team->id) . '">' . $team->name . '</a>';
+        return '<a href="'.tenant('/teams/'.$team->id).'">'.$team->name.'</a>';
     }
 
     /**
@@ -125,6 +125,6 @@ class TeamLog extends Model
             return $this->object->{'team_leader_name'};
         }
 
-        return '<a href="' . tenant('/employees/' . $teamLeader->id) . '">' . $teamLeader->name . '</a>';
+        return '<a href="'.tenant('/employees/'.$teamLeader->id).'">'.$teamLeader->name.'</a>';
     }
 }

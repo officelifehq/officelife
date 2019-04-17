@@ -67,7 +67,7 @@ class TeamLogTest extends ApiTestCase
         ]);
 
         $this->assertEquals(
-            '<a href="' . tenant('/employees/' . $adminEmployee->user->id) . '">' . $adminEmployee->user->name . '</a>',
+            '<a href="'.tenant('/employees/'.$adminEmployee->user->id).'">'.$adminEmployee->user->name.'</a>',
             $TeamLog->author
         );
 
@@ -107,7 +107,7 @@ class TeamLogTest extends ApiTestCase
         ]);
 
         $this->assertEquals(
-            '<a href="' . tenant('/teams/' . $team->id) . '">' . $team->name . '</a>',
+            '<a href="'.tenant('/teams/'.$team->id).'">'.$team->name.'</a>',
             $TeamLog->team
         );
 
@@ -144,7 +144,7 @@ class TeamLogTest extends ApiTestCase
         ]);
 
         $this->assertEquals(
-            '<a href="' . tenant('/employees/' . $adminEmployee->id) . '">' . $adminEmployee->name . '</a>',
+            '<a href="'.tenant('/employees/'.$adminEmployee->id).'">'.$adminEmployee->name.'</a>',
             $TeamLog->teamLeader
         );
 
