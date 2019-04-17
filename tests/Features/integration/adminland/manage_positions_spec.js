@@ -43,6 +43,7 @@ describe('Adminland - Positions management', function () {
 
     // check to see if the data is there in the table
     cy.get('[data-cy=positions-list]').contains('Assistant to the regional manager')
+    cy.hasAuditLog('Created a position called Assistant to the regional manager', '/1/account/positions')
 
     // access the row we just created to rename it
     // '5' is the ID of the position we've created, as an account is populated
@@ -54,6 +55,7 @@ describe('Adminland - Positions management', function () {
     cy.get('[data-cy=list-rename-input-name-5]').type('Assistant regional manager')
     cy.get('[data-cy=list-rename-cta-button-5]').click()
     cy.get('[data-cy=positions-list]').contains('Assistant regional manager')
+    cy.hasAuditLog('Updated the position formely called Assistant to the regional manager to Assistant regional manager', '/1/account/positions')
 
     // delete the position
     cy.get('[data-cy=list-delete-button-5]').click()
@@ -61,6 +63,7 @@ describe('Adminland - Positions management', function () {
     cy.get('[data-cy=list-delete-button-5]').click()
     cy.get('[data-cy=list-delete-confirm-button-5]').click()
     cy.get('[data-cy=positions-list]').should('not.contain', 'Assistant regional manager')
+    cy.hasAuditLog('Destroyed the position called Assistant regional manager', '/1/account/positions')
 
     cy.contains('CEO')
     cy.contains('Front end developer')
@@ -86,6 +89,7 @@ describe('Adminland - Positions management', function () {
 
     // check to see if the data is there in the table
     cy.get('[data-cy=positions-list]').contains('Assistant to the regional manager')
+    cy.hasAuditLog('Created a position called Assistant regional manager', '/1/account/positions')
 
     // access the row we just created to rename it
     // '5' is the ID of the position we've created, as an account is populated
@@ -97,6 +101,7 @@ describe('Adminland - Positions management', function () {
     cy.get('[data-cy=list-rename-input-name-5]').type('Assistant regional manager')
     cy.get('[data-cy=list-rename-cta-button-5]').click()
     cy.get('[data-cy=positions-list]').contains('Assistant regional manager')
+    cy.hasAuditLog('Updated the position formely called Assistant to the regional manager to Assistant regional manager', '/1/account/positions')
 
     // delete the position
     cy.get('[data-cy=list-delete-button-5]').click()
@@ -104,6 +109,7 @@ describe('Adminland - Positions management', function () {
     cy.get('[data-cy=list-delete-button-5]').click()
     cy.get('[data-cy=list-delete-confirm-button-5]').click()
     cy.get('[data-cy=positions-list]').should('not.contain', 'Assistant regional manager')
+    cy.hasAuditLog('Destroyed the position called Assistant regional manager', '/1/account/positions')
 
     cy.contains('CEO')
     cy.contains('Front end developer')

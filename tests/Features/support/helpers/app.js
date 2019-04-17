@@ -77,3 +77,13 @@ Cypress.Commands.add('canNotAccess', (url, permission) => {
       expect(resp.status).to.eq(401)
     })
 })
+
+// Assert that an audit log has been created with the following content
+// and redirect the page to the given url
+Cypress.Commands.add('hasAuditLog', (content, redirectUrl) => {
+  cy.visit('/1/account/audit')
+
+  cy.contains(content)
+
+  cy.visit(redirectUrl)
+})
