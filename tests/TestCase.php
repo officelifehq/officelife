@@ -25,7 +25,7 @@ abstract class TestCase extends BaseTestCase
         $employee->permission_level = $permissionLevel;
         $employee->save();
 
-        $response = $this->get($employee->company->id.$route);
+        $response = $this->get($employee->company_id.$route);
         $response->assertStatus($statusCode);
     }
 

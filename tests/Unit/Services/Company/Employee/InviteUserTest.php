@@ -61,7 +61,7 @@ class InviteUserTest extends TestCase
         $employee = (new InviteUser)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employee->company->id,
+            'company_id' => $employee->company_id,
             'action' => 'employee_invited_to_become_user',
         ]);
     }
