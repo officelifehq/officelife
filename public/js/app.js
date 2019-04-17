@@ -1056,6 +1056,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -6957,6 +6958,7 @@ var render = function() {
                 {
                   staticClass:
                     "btn primary absolute-l relative dib-l db right-0",
+                  attrs: { "data-cy": "add-position-button" },
                   on: {
                     click: function($event) {
                       $event.preventDefault()
@@ -7009,7 +7011,8 @@ var render = function() {
                       type: "text",
                       name: "title",
                       placeholder: "Marketing coordinator",
-                      required: ""
+                      required: "",
+                      "data-cy": "add-title-input"
                     },
                     domProps: { value: _vm.form.title },
                     on: {
@@ -7055,6 +7058,7 @@ var render = function() {
                       _c("loading-button", {
                         attrs: {
                           classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
+                          "data-cy": "modal-add-cta",
                           state: _vm.loadingState,
                           text: _vm.$t("app.add")
                         }
@@ -7077,7 +7081,8 @@ var render = function() {
                     expression: "positions.length != 0"
                   }
                 ],
-                staticClass: "list pl0 mv0 center ba br2 bb-gray"
+                staticClass: "list pl0 mv0 center ba br2 bb-gray",
+                attrs: { "data-cy": "positions-list" }
               },
               _vm._l(_vm.positions, function(position) {
                 return _c(
@@ -7136,7 +7141,9 @@ var render = function() {
                                 type: "text",
                                 name: "title",
                                 placeholder: "Marketing coordinator",
-                                required: ""
+                                required: "",
+                                "data-cy":
+                                  "list-rename-input-name-" + position.id
                               },
                               domProps: { value: _vm.form.title },
                               on: {
@@ -7176,6 +7183,11 @@ var render = function() {
                                   "a",
                                   {
                                     staticClass: "btn dib-l db mb2 mb0-ns",
+                                    attrs: {
+                                      "data-cy":
+                                        "list-rename-cancel-button-" +
+                                        position.id
+                                    },
                                     on: {
                                       click: function($event) {
                                         $event.preventDefault()
@@ -7190,6 +7202,8 @@ var render = function() {
                                   attrs: {
                                     classes:
                                       "btn add w-auto-ns w-100 mb2 pv2 ph3",
+                                    "data-cy":
+                                      "list-rename-cta-button-" + position.id,
                                     state: _vm.loadingState,
                                     text: _vm.$t("app.update")
                                   }
@@ -7221,6 +7235,9 @@ var render = function() {
                             "a",
                             {
                               staticClass: "pointer",
+                              attrs: {
+                                "data-cy": "list-rename-button-" + position.id
+                              },
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
@@ -7244,6 +7261,11 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass: "c-delete mr1 pointer",
+                                  attrs: {
+                                    "data-cy":
+                                      "list-delete-confirm-button-" +
+                                      position.id
+                                  },
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
@@ -7258,6 +7280,10 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass: "pointer",
+                                  attrs: {
+                                    "data-cy":
+                                      "list-delete-cancel-button-" + position.id
+                                  },
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
@@ -7273,6 +7299,10 @@ var render = function() {
                                 "a",
                                 {
                                   staticClass: "pointer",
+                                  attrs: {
+                                    "data-cy":
+                                      "list-delete-button-" + position.id
+                                  },
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()

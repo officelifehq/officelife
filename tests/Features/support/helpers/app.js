@@ -58,3 +58,22 @@ Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission) 
 
   cy.get('[data-cy=submit-add-employee-button]').click()
 })
+
+// Assert that the page can be visited by a user with the right permission level
+Cypress.Commands.add('canAccess', (url, permission, textToSee) => {
+  cy.exec('php artisan test:changepermission 1 ' + permission)
+  cy.visit(url)
+  cy.contains(textToSee)
+})
+
+// Assert that a page can not be visited
+Cypress.Commands.add('canNotAccess', (url, permission) => {
+  cy.exec('php artisan test:changepermission 1 ' + permission)
+  cy.request({
+    url: url,
+    failOnStatusCode: false
+  })
+    .then((resp) => {
+      expect(resp.status).to.eq(401)
+    })
+})

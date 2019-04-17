@@ -1,4 +1,4 @@
-describe('Adminland', function () {
+describe('Adminland - Employee management', function () {
   it('should create an employee with different permission levels', function () {
     cy.login()
 
