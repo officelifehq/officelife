@@ -38,6 +38,10 @@ class AuditController extends Controller
                 $sentence = 'Added '.$log->employee.' to '.$log->team.'.';
             }
 
+            if ($log->action == 'employee_removed_from_team') {
+                $sentence = 'Removed '.$log->employee.' from '.$log->team.'.';
+            }
+
             if ($log->action == 'employee_updated') {
                 $sentence = 'Updated information about '.$log->employee.'.';
             }

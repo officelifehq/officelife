@@ -58,6 +58,17 @@ class AddEmployeeToTeamTest extends TestCase
         ];
 
         $team = (new AddEmployeeToTeam)->execute($request);
+
+        $this->assertDatabaseHas('audit_logs', [
+            'company_id' => $employee->company_id,
+            'action' => 'employee_added_to_team',
+        ]);
+
+        $this->assertDatabaseHas('employee_logs', [
+            'company_id' => $employee->company_id,
+            'employee_id' => $employee->id,
+            'action' => 'employee_added_to_team',
+        ]);
     }
 
     /** @test */

@@ -68,6 +68,14 @@ class LogsController extends Controller
                 $sentence = $log->author.' removed the position called '.$log->position.'.';
             }
 
+            if ($log->action == 'employee_added_to_team') {
+                $sentence = $log->author.' added '.$log->employee.' to '.$log->team.'.';
+            }
+
+            if ($log->action == 'employee_removed_from_team') {
+                $sentence = $log->author.' removed '.$log->employee.' from '.$log->team.'.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,

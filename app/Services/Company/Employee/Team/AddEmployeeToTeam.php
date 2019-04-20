@@ -5,6 +5,8 @@ namespace App\Services\Company\Employee\Team;
 use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Services\Company\Employee\LogEmployeeAction;
+use App\Services\Company\Adminland\Company\AuditLogAction;
 
 class AddEmployeeToTeam extends BaseService
 {
@@ -47,6 +49,30 @@ class AddEmployeeToTeam extends BaseService
             ->findOrFail($data['team_id']);
 
         $team->employees()->attach($data['employee_id'], ['company_id' => $data['company_id']]);
+
+        $dataToLog = [
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'team_id' => $team->id,
+            'team_name' => $team->name,
+            'employee_id' => $employee->id,
+            'employee_name' => $employee->name,
+        ];
+
+        (new AuditLogAction)->execute([
+            'company_id' => $data['company_id'],
+            'action' => 'employee_added_to_team',
+            'objects' => json_encode($dataToLog),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ]);
+
+        (new LogEmployeeAction)->execute([
+            'company_id' => $data['company_id'],
+            'employee_id' => $data['employee_id'],
+            'action' => 'employee_added_to_team',
+            'objects' => json_encode($dataToLog),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ]);
 
         return $team;
     }
