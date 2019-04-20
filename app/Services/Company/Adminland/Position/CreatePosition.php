@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Position;
 
 use App\Services\BaseService;
 use App\Models\Company\Position;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class CreatePosition extends BaseService
 {
@@ -44,7 +44,7 @@ class CreatePosition extends BaseService
             'title' => $data['title'],
         ]);
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'position_created',
             'objects' => json_encode([

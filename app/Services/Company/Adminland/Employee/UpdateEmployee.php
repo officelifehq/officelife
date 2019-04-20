@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Employee;
 
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class UpdateEmployee extends BaseService
 {
@@ -53,7 +53,7 @@ class UpdateEmployee extends BaseService
             'birthdate' => $this->nullOrDate($data, 'birthdate'),
         ]);
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'employee_updated',
             'objects' => json_encode([

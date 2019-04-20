@@ -5,7 +5,7 @@ namespace App\Services\Company\Adminland\Company;
 use App\Services\BaseService;
 use App\Models\Company\AuditLog;
 
-class AuditLogAction extends BaseService
+class LogAuditAction extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.

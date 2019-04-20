@@ -48,7 +48,7 @@ class AddUserToCompany extends BaseService
             'permission_level' => $data['permission_level'],
         ]);
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'user_added_to_company',
             'objects' => json_encode([

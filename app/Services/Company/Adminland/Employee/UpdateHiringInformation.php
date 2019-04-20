@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Employee;
 
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class UpdateHiringInformation extends BaseService
 {
@@ -46,7 +46,7 @@ class UpdateHiringInformation extends BaseService
             'hired_at' => $data['hired_at'],
         ]);
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'employee_updated_hiring_information',
             'objects' => json_encode([

@@ -7,7 +7,7 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\DirectReport;
 use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class UnassignManager extends BaseService
 {
@@ -54,7 +54,7 @@ class UnassignManager extends BaseService
 
         $directReport->delete();
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'manager_unassigned',
             'objects' => json_encode([

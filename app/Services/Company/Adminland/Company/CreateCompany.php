@@ -41,7 +41,7 @@ class CreateCompany extends BaseService
 
         $author = User::find($data['author_id']);
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $company->id,
             'action' => 'account_created',
             'objects' => json_encode([

@@ -9,7 +9,7 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Services\User\Avatar\GenerateAvatar;
 use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class AddEmployeeToCompany extends BaseService
 {
@@ -50,7 +50,7 @@ class AddEmployeeToCompany extends BaseService
 
         $employee = $this->createEmployee($data, $author);
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'employee_added_to_company',
             'objects' => json_encode([

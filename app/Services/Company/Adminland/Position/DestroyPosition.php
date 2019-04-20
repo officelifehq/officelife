@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Position;
 
 use App\Services\BaseService;
 use App\Models\Company\Position;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class DestroyPosition extends BaseService
 {
@@ -44,7 +44,7 @@ class DestroyPosition extends BaseService
 
         $position->delete();
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'position_destroyed',
             'objects' => json_encode([

@@ -6,7 +6,7 @@ use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class AddEmployeeToTeam extends BaseService
 {
@@ -59,7 +59,7 @@ class AddEmployeeToTeam extends BaseService
             'employee_name' => $employee->name,
         ];
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'employee_added_to_team',
             'objects' => json_encode($dataToLog),

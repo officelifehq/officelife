@@ -8,7 +8,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Company\InviteEmployeeToBecomeUser;
 use App\Exceptions\InvitationAlreadyUsedException;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 /**
  * This service invites an employee by email.
@@ -50,7 +50,7 @@ class InviteUser extends BaseService
 
         $employee = $this->inviteEmployee($data);
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'employee_invited_to_become_user',
             'objects' => json_encode([

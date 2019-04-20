@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Position;
 
 use App\Services\BaseService;
 use App\Models\Company\Position;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class UpdatePosition extends BaseService
 {
@@ -48,7 +48,7 @@ class UpdatePosition extends BaseService
         $position->title = $data['title'];
         $position->save();
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'position_updated',
             'objects' => json_encode([

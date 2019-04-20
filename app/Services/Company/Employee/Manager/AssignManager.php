@@ -8,7 +8,7 @@ use App\Models\Company\Employee;
 use App\Exceptions\SameIdsException;
 use App\Models\Company\DirectReport;
 use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class AssignManager extends BaseService
 {
@@ -59,7 +59,7 @@ class AssignManager extends BaseService
             'employee_id' => $data['employee_id'],
         ]);
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'manager_assigned',
             'objects' => json_encode([

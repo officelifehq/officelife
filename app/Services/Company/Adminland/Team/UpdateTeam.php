@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Team;
 
 use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class UpdateTeam extends BaseService
 {
@@ -47,7 +47,7 @@ class UpdateTeam extends BaseService
             'name' => $data['name'],
         ]);
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'team_updated',
             'objects' => json_encode([

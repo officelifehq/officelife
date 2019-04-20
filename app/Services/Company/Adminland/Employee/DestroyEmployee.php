@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Employee;
 
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class DestroyEmployee extends BaseService
 {
@@ -44,7 +44,7 @@ class DestroyEmployee extends BaseService
 
         $employee->delete();
 
-        (new AuditLogAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'employee_destroyed',
             'objects' => json_encode([

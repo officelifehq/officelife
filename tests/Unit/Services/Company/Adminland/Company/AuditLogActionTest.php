@@ -7,9 +7,9 @@ use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Company\AuditLogAction;
+use App\Services\Company\Adminland\Company\LogAuditAction;
 
-class AuditLogActionTest extends TestCase
+class LogAuditActionTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -24,7 +24,7 @@ class AuditLogActionTest extends TestCase
             'objects' => '{"user": 1}',
         ];
 
-        $auditLog = (new AuditLogAction)->execute($request);
+        $auditLog = (new LogAuditAction)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'id' => $auditLog->id,
@@ -47,6 +47,6 @@ class AuditLogActionTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AuditLogAction)->execute($request);
+        (new LogAuditAction)->execute($request);
     }
 }
