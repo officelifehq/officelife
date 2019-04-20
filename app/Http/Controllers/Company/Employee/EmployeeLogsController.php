@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
-class LogsController extends Controller
+class EmployeeLogsController extends Controller
 {
     /**
      * Show the employee log.
