@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Adminland\Company\RemoveDummyData;
-use App\Services\Adminland\Company\GenerateDummyData;
+use App\Services\Company\Adminland\Company\RemoveDummyData;
+use App\Services\Company\Adminland\Company\GenerateDummyData;
 
 class DummyController extends Controller
 {

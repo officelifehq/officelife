@@ -16,6 +16,7 @@
 
 <template>
   <div class="di relative">
+    <!-- Assigning a title is restricted to HR or admin -->
     <span v-if="user.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true">{{ title }}</span>
     <span v-else>{{ title }}</span>
 

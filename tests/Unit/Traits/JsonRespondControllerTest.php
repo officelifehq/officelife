@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+namespace Tests\Unit\Traits;
 
 use Tests\TestCase;
 use Illuminate\Http\JsonResponse;

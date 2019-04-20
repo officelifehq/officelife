@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Adminland\Position\CreatePosition;
-use App\Services\Adminland\Position\UpdatePosition;
-use App\Services\Adminland\Position\DestroyPosition;
+use App\Services\Company\Adminland\Position\CreatePosition;
+use App\Services\Company\Adminland\Position\UpdatePosition;
+use App\Services\Company\Adminland\Position\DestroyPosition;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
 class AdminPositionController extends Controller

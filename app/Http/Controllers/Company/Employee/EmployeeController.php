@@ -7,8 +7,9 @@ use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Employee\Manager\AssignManager;
-use App\Services\Employee\Manager\UnassignManager;
+use App\Services\Company\Employee\Manager\AssignManager;
+use App\Http\Resources\Company\Team\Team as TeamResource;
+use App\Services\Company\Employee\Manager\UnassignManager;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
@@ -29,6 +30,7 @@ class EmployeeController extends Controller
         $managers = $employee->getListOfManagers();
         $directReports = $employee->getListOfDirectReports();
         $positions = $company->positions()->get();
+        $teams = $company->teams()->get();
 
         return View::component('ShowCompanyEmployee', [
             'company' => $company,
@@ -37,6 +39,7 @@ class EmployeeController extends Controller
             'managers' => EmployeeResource::collection($managers),
             'directReports' => EmployeeResource::collection($directReports),
             'positions' => PositionResource::collection($positions),
+            'teams' => TeamResource::collection($teams),
         ]);
     }
 

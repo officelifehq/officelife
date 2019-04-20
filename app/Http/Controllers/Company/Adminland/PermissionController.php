@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Company\Adminland;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use App\Services\Adminland\Employee\ChangePermission;
+use App\Services\Company\Adminland\Employee\ChangePermission;
 
 class PermissionController extends Controller
 {

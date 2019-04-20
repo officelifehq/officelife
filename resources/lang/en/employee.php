@@ -24,4 +24,9 @@ return [
     'position_modal_assign_success' => 'The position has been set',
     'position_modal_unassign_success' => 'The position has been removed',
     'position_modal_reset' => 'Remove current position',
+
+    'team_modal_blank' => 'No team set',
+    'team_modal_title' => 'Choose a team',
+    'team_modal_filter' => 'Filter the list',
+    'team_modal_reset' => 'Remove current team',
 ];

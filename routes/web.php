@@ -38,7 +38,9 @@ Route::middleware(['auth'])->group(function () {
                 'store', 'destroy',
             ]);
 
-            Route::get('titles', 'Company\\Employee\\EmployeePositionController@index');
+            Route::resource('{employee}/team', 'Company\\Employee\\Position\\EmployeePositionController')->only([
+                'store', 'destroy',
+            ]);
         });
 
         Route::prefix('teams')->group(function () {

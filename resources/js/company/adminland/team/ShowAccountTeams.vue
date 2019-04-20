@@ -93,13 +93,13 @@
                 <span class="db b">{{ team.name }}</span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <a :href="'/account/teams/' + team.id">{{ $t('app.view') }}</a>
+                    <a :href="'/' + company.id + '/teams/' + team.id">{{ $t('app.view') }}</a>
                   </li>
                   <li class="di pr2">
-                    <a :href="'/teams/' + team.id + '/lock'">{{ $t('app.rename') }}</a>
+                    <a :href="'/' + company.id + '/teams/' + team.id + '/lock'">{{ $t('app.rename') }}</a>
                   </li>
                   <li class="di">
-                    <a :href="'/account/teams/' + team.id + '/destroy'">{{ $t('app.delete') }}</a>
+                    <a :href="'/' + company.id + '/teams/' + team.id + '/destroy'">{{ $t('app.delete') }}</a>
                   </li>
                 </ul>
               </div>
