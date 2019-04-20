@@ -69,7 +69,7 @@ describe('Employee', function () {
 
     cy.wait(500)
 
-    cy.exec('php artisan test:changepermission 1 300')
+    cy.changePermission(1, 300)
     cy.visit('/1/employees/1')
     cy.get('[data-cy=add-hierarchy-button]').should('not.be.visible')
   })

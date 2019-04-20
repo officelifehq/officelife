@@ -61,14 +61,14 @@ Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission) 
 
 // Assert that the page can be visited by a user with the right permission level
 Cypress.Commands.add('canAccess', (url, permission, textToSee) => {
-  cy.exec('php artisan test:changepermission 1 ' + permission)
+  cy.changePermission(1, permission)
   cy.visit(url)
   cy.contains(textToSee)
 })
 
 // Assert that a page can not be visited
 Cypress.Commands.add('canNotAccess', (url, permission) => {
-  cy.exec('php artisan test:changepermission 1 ' + permission)
+  cy.changePermission(1, permission)
   cy.request({
     url: url,
     failOnStatusCode: false
@@ -86,4 +86,9 @@ Cypress.Commands.add('hasAuditLog', (content, redirectUrl) => {
   cy.contains(content)
 
   cy.visit(redirectUrl)
+})
+
+// Change persmission of the user
+Cypress.Commands.add('changePermission', (userId, permission) => {
+  cy.exec('php artisan test:changepermission ' + userId + ' ' + permission)
 })
