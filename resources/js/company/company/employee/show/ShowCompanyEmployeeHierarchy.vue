@@ -128,8 +128,8 @@
             <a :href="'/' + company.id + '/employees/' + manager.id" class="mb2">{{ manager.name }}</a>
 
             <!-- position -->
-            <span class="title db f7 mt1" v-if="manager.position !== null">{{ manager.position.title }}</span>
-            <span class="title db f7 mt1" v-else>{{ $t('app.no_position_defined') }}</span>
+            <span v-if="manager.position !== null" class="title db f7 mt1">{{ manager.position.title }}</span>
+            <span v-else class="title db f7 mt1">{{ $t('app.no_position_defined') }}</span>
 
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModalId = manager.id" />
 
@@ -162,8 +162,8 @@
             <a :href="'/' + company.id + '/employees/' + directReport.id" class="mb2">{{ directReport.name }}</a>
 
             <!-- position -->
-            <span class="title db f7 mt1" v-if="directReport.position !== null">{{ directReport.position.title }}</span>
-            <span class="title db f7 mt1" v-else>{{ $t('app.no_position_defined') }}</span>
+            <span v-if="directReport.position !== null" class="title db f7 mt1">{{ directReport.position.title }}</span>
+            <span v-else class="title db f7 mt1">{{ $t('app.no_position_defined') }}</span>
 
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModalId = directReport.id" />
 
@@ -307,7 +307,7 @@ export default {
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignManager', manager)
         .then(response => {
           this.$snotify.success(this.$t('employee.hierarchy_modal_add_manager_success'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -324,7 +324,7 @@ export default {
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignDirectReport', directReport)
         .then(response => {
           this.$snotify.success(this.$t('employee.hierarchy_modal_add_direct_report_success'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -341,7 +341,7 @@ export default {
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/unassignManager', manager)
         .then(response => {
           this.$snotify.success(this.$t('employee.hierarchy_modal_remove_manager_success'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -359,7 +359,7 @@ export default {
       axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/unassignDirectReport', directReport)
         .then(response => {
           this.$snotify.success(this.$t('employee.hierarchy_modal_remove_direct_report_success'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,

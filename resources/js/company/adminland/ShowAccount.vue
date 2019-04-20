@@ -49,7 +49,7 @@
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/position.svg" class="pr1 absolute" />
-              <a :href="'/' + company.id + '/account/positions'" class="relative" data-cy="employee-admin-link">{{ $t('account.home_manage_positions') }}</a>
+              <a :href="'/' + company.id + '/account/positions'" class="relative" data-cy="position-admin-link">{{ $t('account.home_manage_positions') }}</a>
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/teams.svg" class="pr1 absolute" />
@@ -57,7 +57,7 @@
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/position.svg" class="pr1 absolute" />
-              <a :href="'/' + company.id + '/account/positions'" class="relative" data-cy="employee-admin-link">{{ $t('account.home_manage_positions') }}</a>
+              <a :href="'/' + company.id + '/account/positions'" class="relative" data-cy="-admin-link">{{ $t('account.home_manage_positions') }}</a>
             </li>
           </ul>
 

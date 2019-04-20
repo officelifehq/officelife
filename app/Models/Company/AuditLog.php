@@ -48,6 +48,7 @@ class AuditLog extends Model
      * Get the JSON object.
      *
      * @return array
+     * @param mixed $value
      */
     public function getObjectAttribute($value)
     {
@@ -58,8 +59,9 @@ class AuditLog extends Model
      * Get the date of the audit log.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getDateAttribute($value)
+    public function getDateAttribute($value): string
     {
         return DateHelper::getShortDateWithTime($this->created_at);
     }
@@ -68,8 +70,9 @@ class AuditLog extends Model
      * Get the author of the audit log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getAuthorAttribute($value)
+    public function getAuthorAttribute($value): string
     {
         try {
             $author = User::findOrFail($this->object->{'author_id'});
@@ -84,8 +87,9 @@ class AuditLog extends Model
      * Get the team of the audit log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getTeamAttribute($value)
+    public function getTeamAttribute($value): string
     {
         try {
             $team = Team::findOrFail($this->object->{'team_id'});
@@ -100,8 +104,9 @@ class AuditLog extends Model
      * Get the user of the audit log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getUserAttribute($value)
+    public function getUserAttribute($value): string
     {
         try {
             $user = User::findOrFail($this->object->{'user_id'});
@@ -116,8 +121,9 @@ class AuditLog extends Model
      * Get the employee of the audit log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getEmployeeAttribute($value)
+    public function getEmployeeAttribute($value): string
     {
         try {
             $employee = Employee::findOrFail($this->object->{'employee_id'});
@@ -132,8 +138,9 @@ class AuditLog extends Model
      * Get the manager of the audit log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getManagerAttribute($value)
+    public function getManagerAttribute($value): string
     {
         try {
             $manager = Employee::findOrFail($this->object->{'manager_id'});
@@ -148,8 +155,9 @@ class AuditLog extends Model
      * Get the position of the audit log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getPositionAttribute($value)
+    public function getPositionAttribute($value): string
     {
         try {
             $position = Position::findOrFail($this->object->{'position_id'});

@@ -25,7 +25,7 @@ abstract class TestCase extends BaseTestCase
         $employee->permission_level = $permissionLevel;
         $employee->save();
 
-        $response = $this->get($employee->company->id.$route);
+        $response = $this->get($employee->company_id.$route);
         $response->assertStatus($statusCode);
     }
 
@@ -34,7 +34,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return Employee
      */
-    public function createAdministrator() : Employee
+    public function createAdministrator(): Employee
     {
         return factory(Employee::class)->create([
             'permission_level' => config('homas.authorizations.administrator'),

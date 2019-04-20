@@ -10,6 +10,7 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Services\Adminland\Team\CreateTeam;
 use App\Services\Adminland\Team\AddEmployeeToTeam;
+use App\Services\Adminland\Employee\AddEmployeeToCompany;
 
 class GenerateDummyData extends BaseService
 {
@@ -71,7 +72,7 @@ class GenerateDummyData extends BaseService
      * @param array $data
      * @return Employee
      */
-    private function addEmployee(array $data) : Employee
+    private function addEmployee(array $data): Employee
     {
         $faker = Faker::create();
 
@@ -122,7 +123,7 @@ class GenerateDummyData extends BaseService
      * @param int $employees
      * @return Team
      */
-    private function createTeamWithEmployees(array $data, String $name, int $employees) : Team
+    private function createTeamWithEmployees(array $data, String $name, int $employees): Team
     {
         $faker = Faker::create();
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Company;
+namespace Tests\Unit\Services\Employee;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
+use App\Services\Employee\LogEmployeeAction;
 use Illuminate\Validation\ValidationException;
-use App\Services\Adminland\Employee\LogEmployeeAction;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LogEmployeeActionTest extends TestCase
@@ -19,7 +19,7 @@ class LogEmployeeActionTest extends TestCase
         $employee = factory(Employee::class)->create([]);
 
         $request = [
-            'company_id' => $employee->company->id,
+            'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'account_created',
             'objects' => '{"user": 1}',
@@ -29,7 +29,7 @@ class LogEmployeeActionTest extends TestCase
 
         $this->assertDatabaseHas('employee_logs', [
             'id' => $employeeLog->id,
-            'company_id' => $employee->company->id,
+            'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'account_created',
             'objects' => '{"user": 1}',

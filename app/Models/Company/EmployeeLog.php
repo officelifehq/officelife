@@ -59,6 +59,7 @@ class EmployeeLog extends Model
      * Get the JSON object.
      *
      * @return array
+     * @param mixed $value
      */
     public function getObjectAttribute($value)
     {
@@ -69,8 +70,9 @@ class EmployeeLog extends Model
      * Get the date of the employee log.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getDateAttribute($value)
+    public function getDateAttribute($value): string
     {
         return DateHelper::getShortDateWithTime($this->created_at);
     }
@@ -79,8 +81,9 @@ class EmployeeLog extends Model
      * Get the author of the employee log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getAuthorAttribute($value)
+    public function getAuthorAttribute($value): string
     {
         try {
             $author = User::findOrFail($this->object->{'author_id'});
@@ -95,8 +98,9 @@ class EmployeeLog extends Model
      * Get the team of the employee log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getTeamAttribute($value)
+    public function getTeamAttribute($value): string
     {
         try {
             $team = Team::findOrFail($this->object->{'team_id'});
@@ -111,8 +115,9 @@ class EmployeeLog extends Model
      * Get the user of the employee log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getUserAttribute($value)
+    public function getUserAttribute($value): string
     {
         try {
             $user = User::findOrFail($this->object->{'user_id'});
@@ -127,8 +132,9 @@ class EmployeeLog extends Model
      * Get the manager of the employee log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getManagerAttribute($value)
+    public function getManagerAttribute($value): string
     {
         try {
             $manager = Employee::findOrFail($this->object->{'manager_id'});
@@ -143,8 +149,9 @@ class EmployeeLog extends Model
      * Get the direct report object of the employee log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getDirectReportAttribute($value)
+    public function getDirectReportAttribute($value): string
     {
         try {
             $employee = Employee::findOrFail($this->object->{'direct_report_id'});
@@ -159,8 +166,9 @@ class EmployeeLog extends Model
      * Get the position of the employee log, if defined.
      *
      * @return string
+     * @param mixed $value
      */
-    public function getPositionAttribute($value)
+    public function getPositionAttribute($value): string
     {
         try {
             $position = Position::findOrFail($this->object->{'position_id'});

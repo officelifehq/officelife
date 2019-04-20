@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Services\Adminland\Team;
+namespace App\Services\Team;
 
 use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Adminland\Company\LogAction;
 
 class SetTeamLeader extends BaseService
 {
@@ -19,7 +18,7 @@ class SetTeamLeader extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'employee_id' => 'nullable|integer|exists:employees,id',
+            'employee_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
             'is_dummy' => 'nullable|boolean',
         ];
@@ -27,12 +26,11 @@ class SetTeamLeader extends BaseService
 
     /**
      * Set the employee as the team leader.
-     * If employee id is null, the team will not have a leader anymore.
      *
      * @param array $data
      * @return Team
      */
-    public function execute(array $data) : Team
+    public function execute(array $data): Team
     {
         $this->validate($data);
 
@@ -42,10 +40,8 @@ class SetTeamLeader extends BaseService
             config('homas.authorizations.hr')
         );
 
-        if (! is_null($data['employee_id'])) {
-            $employee = Employee::where('company_id', $data['company_id'])
-                ->findOrFail($data['employee_id']);
-        }
+        $employee = Employee::where('company_id', $data['company_id'])
+            ->findOrFail($data['employee_id']);
 
         $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
@@ -53,14 +49,15 @@ class SetTeamLeader extends BaseService
         $team->team_leader_id = $data['employee_id'];
         $team->save();
 
-        (new LogAction)->execute([
+        (new LogTeamAction)->execute([
             'company_id' => $data['company_id'],
+            'team_id' => $data['team_id'],
             'action' => 'team_leader_assigned',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'leader_id' => $data['employee_id'],
-                'team_id' => $team->id,
+                'team_leader_id' => $employee->id,
+                'team_leader_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);

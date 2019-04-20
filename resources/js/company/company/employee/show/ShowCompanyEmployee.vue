@@ -31,7 +31,7 @@
       <div class="mw9 center br3 mb4 bg-white box relative z-1">
         <div class="pa3 relative pt5">
           <!-- EDIT BUTTON -->
-          <img v-show="user.permission_level <= 200" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" @click="profileMenu = true" />
+          <img v-show="user.permission_level <= 200 || user.user_id == employee.user.id" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" @click="profileMenu = true" />
 
           <!-- EDIT MENU -->
           <div v-if="profileMenu" v-click-outside="toggleProfileMenu" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
@@ -43,7 +43,7 @@
                 <a class="pointer" data-cy="add-direct-report-button">Delete</a>
               </li>
               <li v-show="user.permission_level <= 200 || user.user_id == employee.user.id" class="pv2">
-                <a :href="'/' + company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="add-direct-report-button">View change log</a>
+                <a :href="'/' + company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">View change log</a>
               </li>
             </ul>
           </div>
@@ -153,7 +153,7 @@ export default {
   mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
-        timeout: 5000,
+        timeout: 2000,
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,

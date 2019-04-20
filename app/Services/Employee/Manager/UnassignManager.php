@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Services\Adminland\Employee;
+namespace App\Services\Employee\Manager;
 
 use App\Models\User\User;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Exceptions\SameIdsException;
 use App\Models\Company\DirectReport;
+use App\Services\Employee\LogEmployeeAction;
 use App\Services\Adminland\Company\LogAction;
 
-class AssignManager extends BaseService
+class UnassignManager extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -27,7 +27,7 @@ class AssignManager extends BaseService
     }
 
     /**
-     * Set an employee as being the manager of the given employee.
+     * Remove a manager for the given employee.
      *
      * @param array $data
      * @return Employee
@@ -46,20 +46,16 @@ class AssignManager extends BaseService
             ->findOrFail($data['employee_id']);
         $manager = Employee::where('company_id', $data['company_id'])
             ->findOrFail($data['manager_id']);
+        $directReport = DirectReport::where('company_id', $data['company_id'])
+            ->where('employee_id', $data['employee_id'])
+            ->where('manager_id', $data['manager_id'])
+            ->firstOrFail();
 
-        if ($manager->id == $employee->id) {
-            throw new SameIdsException;
-        }
-
-        DirectReport::create([
-            'company_id' => $data['company_id'],
-            'manager_id' => $data['manager_id'],
-            'employee_id' => $data['employee_id'],
-        ]);
+        $directReport->delete();
 
         (new LogAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'manager_assigned',
+            'action' => 'manager_unassigned',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
@@ -77,7 +73,7 @@ class AssignManager extends BaseService
 
     /**
      * Log the information in the Employee log table.
-     * Assigning a manager affects two people: the manager and the employee.
+     * Unassigning a manager affects two people: the manager and the employee.
      * Therefore we need two logs.
      *
      * @param array $data
@@ -92,7 +88,7 @@ class AssignManager extends BaseService
         (new LogEmployeeAction)->execute([
             'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
-            'action' => 'manager_assigned',
+            'action' => 'manager_unassigned',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
@@ -105,7 +101,7 @@ class AssignManager extends BaseService
         (new LogEmployeeAction)->execute([
             'company_id' => $data['company_id'],
             'employee_id' => $manager->id,
-            'action' => 'direct_report_assigned',
+            'action' => 'direct_report_unassigned',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,

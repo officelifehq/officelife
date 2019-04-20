@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Adminland\Employee;
+namespace App\Services\Team;
 
+use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Models\Company\Employee;
-use App\Models\Company\EmployeeLog;
+use App\Models\Company\TeamLog;
 
-class LogEmployeeAction extends BaseService
+class LogTeamAction extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -17,7 +17,7 @@ class LogEmployeeAction extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'employee_id' => 'required|integer|exists:employees,id',
+            'team_id' => 'required|integer|exists:teams,id',
             'action' => 'required|string|max:255',
             'objects' => 'required|json',
             'ip_address' => 'nullable|ipv4',
@@ -26,21 +26,21 @@ class LogEmployeeAction extends BaseService
     }
 
     /**
-     * Log an action that happened to the employee.
+     * Log an action that happened to the team.
      *
      * @param array $data
-     * @return EmployeeLog
+     * @return TeamLog
      */
-    public function execute(array $data): EmployeeLog
+    public function execute(array $data): TeamLog
     {
         $this->validate($data);
 
-        Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
+        Team::where('company_id', $data['company_id'])
+            ->findOrFail($data['team_id']);
 
-        return EmployeeLog::create([
+        return TeamLog::create([
             'company_id' => $data['company_id'],
-            'employee_id' => $data['employee_id'],
+            'team_id' => $data['team_id'],
             'action' => $data['action'],
             'objects' => $data['objects'],
             'ip_address' => $this->nullOrValue($data, 'ip_address'),

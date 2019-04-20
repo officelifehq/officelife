@@ -31,7 +31,7 @@
 
           <p class="relative">
             <span class="dib mb3 di-l" :class="positions.length == 0 ? 'white' : ''">{{ $tc('account.positions_number_positions', positions.length, { company: company.name, count: positions.length}) }}</span>
-            <a class="btn primary absolute-l relative dib-l db right-0" @click.prevent="modal = true">{{ $t('account.positions_cta') }}</a>
+            <a class="btn primary absolute-l relative dib-l db right-0" @click.prevent="modal = true" data-cy="add-position-button">{{ $t('account.positions_cta') }}</a>
           </p>
 
           <!-- MODAL TO ADD A POSITION -->
@@ -44,32 +44,34 @@
                      class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
                      required
                      @keydown.esc="modal = false"
+                     data-cy="add-title-input"
               />
               <div class="fl w-30-ns w-100 tr">
                 <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false">{{ $t('app.cancel') }}</a>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
               </div>
             </div>
           </form>
 
           <!-- LIST OF EXISTING POSITIONS -->
-          <ul v-show="positions.length != 0" class="list pl0 mv0 center ba br2 bb-gray">
+          <ul v-show="positions.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="positions-list">
             <li v-for="position in positions" :key="position.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
               {{ position.title }}
 
-              <!-- RENAME POSITION FORM -->
-              <div v-show="idToUpdate == position.id" class="cf mt3">
+              <!-- RENAME POSITION FORM --> <div v-show="idToUpdate == position.id" class="cf mt3">
                 <form @submit.prevent="update(position.id)">
-                  <input id="title" v-model="form.title" type="text"
+                  <input id="title" ref="title" v-model="form.title"
+                         type="text"
                          name="title"
                          :placeholder="'Marketing coordinator'"
                          class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
                          required
+                         :data-cy="'list-rename-input-name-' + position.id"
                          @keydown.esc="idToUpdate = 0"
                   />
                   <div class="fl w-30-ns w-100 tr">
-                    <a class="btn dib-l db mb2 mb0-ns" @click.prevent="idToUpdate = 0">{{ $t('app.cancel') }}</a>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
+                    <a class="btn dib-l db mb2 mb0-ns" @click.prevent="idToUpdate = 0" :data-cy="'list-rename-cancel-button-' + position.id">{{ $t('app.cancel') }}</a>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + position.id" :state="loadingState" :text="$t('app.update')" />
                   </div>
                 </form>
               </div>
@@ -78,17 +80,17 @@
               <ul v-show="idToUpdate != position.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
                 <!-- RENAME A POSITION -->
                 <li class="di mr2">
-                  <a class="pointer" @click.prevent="idToUpdate = position.id ; form.title = position.title">{{ $t('app.rename') }}</a>
+                  <a class="pointer" @click.prevent="displayUpdateModal(position) ; form.title = position.title" :data-cy="'list-rename-button-' + position.id">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A POSITION -->
                 <li v-if="idToDelete == position.id" class="di">
                   {{ $t('app.sure') }}
-                  <a class="c-delete mr1 pointer" @click.prevent="destroy(position.id)">{{ $t('app.yes') }}</a>
-                  <a class="pointer" @click.prevent="idToDelete = 0">{{ $t('app.no') }}</a>
+                  <a class="c-delete mr1 pointer" @click.prevent="destroy(position.id)" :data-cy="'list-delete-confirm-button-' + position.id">{{ $t('app.yes') }}</a>
+                  <a class="pointer" @click.prevent="idToDelete = 0" :data-cy="'list-delete-cancel-button-' + position.id">{{ $t('app.no') }}</a>
                 </li>
                 <li v-else class="di">
-                  <a class="pointer" @click.prevent="idToDelete = position.id">{{ $t('app.delete') }}</a>
+                  <a class="pointer" @click.prevent="idToDelete = position.id" :data-cy="'list-delete-button-' + position.id">{{ $t('app.delete') }}</a>
                 </li>
               </ul>
             </li>
@@ -144,13 +146,21 @@ export default {
   },
 
   methods: {
+    displayUpdateModal(position) {
+      this.idToUpdate = position.id
+
+      this.$nextTick(() => {
+        this.$refs.title.focus()
+      })
+    },
+
     submit() {
       this.loadingState = 'loading'
 
       axios.post('/' + this.company.id + '/account/positions', this.form)
         .then(response => {
           this.$snotify.success(this.$t('account.position_success_new'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -171,7 +181,7 @@ export default {
       axios.put('/' + this.company.id + '/account/positions/' + id, this.form)
         .then(response => {
           this.$snotify.success(this.$t('account.position_success_update'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
@@ -192,7 +202,7 @@ export default {
       axios.delete('/' + this.company.id + '/account/positions/' + id)
         .then(response => {
           this.$snotify.success(this.$t('account.position_success_destroy'), {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,

@@ -19,7 +19,7 @@ class HomeController extends Controller
         foreach ($employees as $employee) {
             $companiesCollection->push([
                 'company_name' => $employee->company->name,
-                'company_id' => $employee->company->id,
+                'company_id' => $employee->company_id,
                 'number_of_employees' => $employee->company->employees()->count(),
                 'joined_at' => $employee->created_at,
             ]);

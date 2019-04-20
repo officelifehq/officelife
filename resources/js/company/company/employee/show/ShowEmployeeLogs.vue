@@ -22,7 +22,7 @@
             ...
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/employees/' + employee.id">{{ employee.name }}</a>
+            <a :href="'/' + company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</a>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_logs') }}
@@ -39,7 +39,7 @@
           <h2 class="tc normal mb4">
             Everything that ever happened to {{ employee.first_name }}
           </h2>
-          <ul class="list pl0 mt0 center">
+          <ul class="list pl0 mt0 center" data-cy="logs-list">
             <li v-for="log in logs" :key="log.id"
                 class="flex items-center lh-copy pa2-l pa1 ph0-l bb b--black-10"
             >

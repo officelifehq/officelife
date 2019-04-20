@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\User\User;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Adminland\Company\AddEmployeeToCompany;
+use App\Services\Adminland\Employee\AddEmployeeToCompany;
 
 class AddEmployeeToCompanyTest extends TestCase
 {
@@ -60,12 +60,12 @@ class AddEmployeeToCompanyTest extends TestCase
         $employee = (new AddEmployeeToCompany)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employee->company->id,
+            'company_id' => $employee->company_id,
             'action' => 'employee_added_to_company',
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
-            'company_id' => $employee->company->id,
+            'company_id' => $employee->company_id,
             'action' => 'employee_created',
         ]);
     }

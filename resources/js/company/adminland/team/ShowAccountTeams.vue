@@ -162,7 +162,7 @@ export default {
   mounted() {
     if (localStorage.success) {
       this.$snotify.success(localStorage.success, {
-        timeout: 5000,
+        timeout: 2000,
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
@@ -184,7 +184,7 @@ export default {
       axios.post('/' + this.company.id + '/account/teams', this.form)
         .then(response => {
           this.$snotify.success('The team has been created', {
-            timeout: 5000,
+            timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,

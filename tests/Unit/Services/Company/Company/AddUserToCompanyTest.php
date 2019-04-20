@@ -50,7 +50,7 @@ class AddUserToCompanyTest extends TestCase
         $employee = (new AddUserToCompany)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employee->company->id,
+            'company_id' => $employee->company_id,
             'action' => 'user_added_to_company',
         ]);
     }

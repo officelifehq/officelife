@@ -1,4 +1,4 @@
-describe('Company', function () {
+describe('Company - Basic company management', function () {
   it('should create a company', function () {
     cy.login()
 

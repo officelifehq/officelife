@@ -29,7 +29,7 @@ class UpdateTeam extends BaseService
      * @param array $data
      * @return Team
      */
-    public function execute(array $data) : Team
+    public function execute(array $data): Team
     {
         $this->validate($data);
 

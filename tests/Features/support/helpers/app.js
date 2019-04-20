@@ -1,13 +1,13 @@
 // Create a user
-Cypress.Commands.add('login', () => {
+Cypress.Commands.add('login', (role) => {
   cy.exec('php artisan setup:frontendtesting -vvv')
 
   cy.visit('/login')
 
   cy.get('input[name=email]').type('admin@admin.com')
   cy.get('input[name=password]').type('admin')
-  cy.get('button[type=submit]').click()
 
+  cy.get('button[type=submit]').click()
   cy.url().should('include', '/home')
 })
 
@@ -32,7 +32,7 @@ Cypress.Commands.add('createTeam', () => {
 })
 
 // Create an employee
-Cypress.Commands.add('createEmployee', (firstname, lastname, email) => {
+Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission) => {
   cy.visit('/1/account')
 
   cy.get('[data-cy=employee-admin-link]').click()
@@ -43,7 +43,52 @@ Cypress.Commands.add('createEmployee', (firstname, lastname, email) => {
   cy.get('input[name=first_name]').type(firstname)
   cy.get('input[name=last_name]').type(lastname)
   cy.get('input[name=email]').type(email)
-  cy.get('[type="radio"]').first().check()
+
+  if (permission === 'admin') {
+    cy.get('[type="radio"]').first().check()
+  }
+
+  if (permission === 'hr') {
+    cy.get('[type="radio"]').check(['200'])
+  }
+
+  if (permission === 'user') {
+    cy.get('[type="radio"]').check(['300'])
+  }
 
   cy.get('[data-cy=submit-add-employee-button]').click()
+})
+
+// Assert that the page can be visited by a user with the right permission level
+Cypress.Commands.add('canAccess', (url, permission, textToSee) => {
+  cy.changePermission(1, permission)
+  cy.visit(url)
+  cy.contains(textToSee)
+})
+
+// Assert that a page can not be visited
+Cypress.Commands.add('canNotAccess', (url, permission) => {
+  cy.changePermission(1, permission)
+  cy.request({
+    url: url,
+    failOnStatusCode: false
+  })
+    .then((resp) => {
+      expect(resp.status).to.eq(401)
+    })
+})
+
+// Assert that an audit log has been created with the following content
+// and redirect the page to the given url
+Cypress.Commands.add('hasAuditLog', (content, redirectUrl) => {
+  cy.visit('/1/account/audit')
+
+  cy.contains(content)
+
+  cy.visit(redirectUrl)
+})
+
+// Change persmission of the user
+Cypress.Commands.add('changePermission', (userId, permission) => {
+  cy.exec('php artisan test:changepermission ' + userId + ' ' + permission)
 })

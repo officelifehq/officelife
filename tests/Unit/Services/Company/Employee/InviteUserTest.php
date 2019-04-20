@@ -5,8 +5,8 @@ namespace Tests\Unit\Services\Company\Company;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Mail;
-use App\Services\Adminland\Company\InviteUser;
 use Illuminate\Validation\ValidationException;
+use App\Services\Adminland\Employee\InviteUser;
 use App\Mail\Company\InviteEmployeeToBecomeUser;
 use App\Exceptions\InvitationAlreadyUsedException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -61,7 +61,7 @@ class InviteUserTest extends TestCase
         $employee = (new InviteUser)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employee->company->id,
+            'company_id' => $employee->company_id,
             'action' => 'employee_invited_to_become_user',
         ]);
     }

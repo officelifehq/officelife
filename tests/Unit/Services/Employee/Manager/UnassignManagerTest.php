@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee;
+namespace Tests\Unit\Services\Employee\Manager;
 
 use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\DirectReport;
 use Illuminate\Validation\ValidationException;
-use App\Services\Adminland\Employee\UnassignManager;
+use App\Services\Employee\Manager\UnassignManager;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 

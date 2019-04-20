@@ -7,8 +7,8 @@ use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Adminland\Employee\AssignManager;
-use App\Services\Adminland\Employee\UnassignManager;
+use App\Services\Employee\Manager\AssignManager;
+use App\Services\Employee\Manager\UnassignManager;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
