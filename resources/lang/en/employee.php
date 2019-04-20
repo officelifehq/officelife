@@ -28,5 +28,4 @@ return [
     'team_modal_blank' => 'No team set',
     'team_modal_title' => 'Choose a team',
     'team_modal_filter' => 'Filter the list',
-    'team_modal_reset' => 'Remove current team',
 ];

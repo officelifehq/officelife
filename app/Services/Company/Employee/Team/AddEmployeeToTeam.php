@@ -30,9 +30,9 @@ class AddEmployeeToTeam extends BaseService
      * Add an employee to a team.
      *
      * @param array $data
-     * @return Team
+     * @return Employee
      */
-    public function execute(array $data): Team
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 
@@ -74,6 +74,7 @@ class AddEmployeeToTeam extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        return $team;
+        $employee->refresh();
+        return $employee;
     }
 }

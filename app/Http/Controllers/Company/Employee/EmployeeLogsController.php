@@ -69,11 +69,11 @@ class EmployeeLogsController extends Controller
             }
 
             if ($log->action == 'employee_added_to_team') {
-                $sentence = $log->author.' added '.$log->employee.' to '.$log->team.'.';
+                $sentence = $log->author.' added to the team called '.$log->team.'.';
             }
 
             if ($log->action == 'employee_removed_from_team') {
-                $sentence = $log->author.' removed '.$log->employee.' from '.$log->team.'.';
+                $sentence = $log->author.' removed from '.$log->team.'.';
             }
 
             $logsCollection->push([

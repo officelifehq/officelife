@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Company\Employee;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Company\Team\Team as TeamResource;
 
 class Employee extends JsonResource
 {
@@ -24,6 +25,7 @@ class Employee extends JsonResource
             'permission_level' => $this->permission_level,
             'avatar' => $this->avatar,
             'position' => $this->position,
+            'teams' => is_null($this->teams) ? null : TeamResource::collection($this->teams),
             'company' => [
                 'id' => $this->company_id,
             ],

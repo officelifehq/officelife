@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
                 'store', 'destroy',
             ]);
 
-            Route::resource('{employee}/team', 'Company\\Employee\\Position\\EmployeePositionController')->only([
+            Route::resource('{employee}/team', 'Company\\Employee\\Team\\EmployeeTeamController')->only([
                 'store', 'destroy',
             ]);
         });

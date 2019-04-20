@@ -22,7 +22,9 @@
       <!-- BODY -->
       <div class="mw8 center br3 mb4 bg-white box relative z-1">
         <div class="pa3 relative">
-          <h2 class="normal ma0">{{ team.name }}</h2>
+          <h2 class="normal ma0">
+            {{ team.name }}
+          </h2>
         </div>
       </div>
 

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Company\Employee\Position;
+namespace App\Http\Controllers\Company\Employee\Team;
 
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Team;
+use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
-use App\Services\Company\Employee\Position\RemovePositionFromEmployee;
 
 class EmployeeTeamController extends Controller
 {
@@ -24,30 +25,32 @@ class EmployeeTeamController extends Controller
             'company_id' => $companyId,
             'author_id' => auth()->user()->id,
             'employee_id' => $employeeId,
-            'position_id' => $request->get('id'),
+            'team_id' => $request->get('id'),
         ];
 
-        $employee = (new AssignPositionToEmployee)->execute($request);
+        $employee = (new AddEmployeeToTeam)->execute($request);
 
         return new EmployeeResource($employee);
     }
 
     /**
-     * Remove the position for the given employee.
+     * Remove the team for the given employee.
      *
      * @param int $companyId
      * @param int $employeeId
+     * @param int $teamId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, int $companyId, int $employeeId)
+    public function destroy(Request $request, int $companyId, int $employeeId, int $teamId)
     {
         $request = [
             'company_id' => $companyId,
             'author_id' => auth()->user()->id,
             'employee_id' => $employeeId,
+            'team_id' => $teamId,
         ];
 
-        $employee = (new RemovePositionFromEmployee)->execute($request);
+        $employee = (new RemoveEmployeeFromTeam)->execute($request);
 
         return new EmployeeResource($employee);
     }

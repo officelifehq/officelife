@@ -28,7 +28,7 @@ class AddEmployeeToTeamTest extends TestCase
             'team_id' => $team->id,
         ];
 
-        $team = (new AddEmployeeToTeam)->execute($request);
+        $employee = (new AddEmployeeToTeam)->execute($request);
 
         $this->assertDatabaseHas('employee_team', [
             'company_id' => $employee->company_id,
@@ -57,7 +57,7 @@ class AddEmployeeToTeamTest extends TestCase
             'team_id' => $team->id,
         ];
 
-        $team = (new AddEmployeeToTeam)->execute($request);
+        $employee = (new AddEmployeeToTeam)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,

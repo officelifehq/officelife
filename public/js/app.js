@@ -1505,6 +1505,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   directives: {
@@ -1532,8 +1558,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       modal: false,
       search: '',
-      name: '',
-      updatedTeam: Object
+      updatedEmployee: Object
     };
   },
   computed: {
@@ -1556,12 +1581,8 @@ __webpack_require__.r(__webpack_exports__);
       return list.sort(compare);
     }
   },
-  mounted: function mounted() {
-    if (this.employee.team != null) {
-      this.name = this.employee.team.name;
-    }
-
-    this.updatedTeam = this.team;
+  created: function created() {
+    this.updatedEmployee = this.employee;
   },
   methods: {
     toggleModal: function toggleModal() {
@@ -1578,17 +1599,15 @@ __webpack_require__.r(__webpack_exports__);
           pauseOnHover: true
         });
 
-        _this2.name = response.data.data.team.name;
-        _this2.updatedTeam = response.data.data;
-        _this2.modal = false;
+        _this2.updatedEmployee = response.data.data;
       }).catch(function (error) {
         _this2.form.errors = _.flatten(_.toArray(error.response.data));
       });
     },
-    reset: function reset() {
+    reset: function reset(team) {
       var _this3 = this;
 
-      axios.delete('/' + this.company.id + '/employees/' + this.employee.id + '/team/' + this.updatedTeam.team.id).then(function (response) {
+      axios.delete('/' + this.company.id + '/employees/' + this.employee.id + '/team/' + team.id).then(function (response) {
         _this3.$snotify.success(_this3.$t('employee.team_modal_unassign_success'), {
           timeout: 2000,
           showProgressBar: true,
@@ -1596,12 +1615,19 @@ __webpack_require__.r(__webpack_exports__);
           pauseOnHover: true
         });
 
-        _this3.title = '';
-        _this3.modal = false;
-        _this3.updatedTeam = response.data.data;
+        _this3.updatedEmployee = response.data.data;
       }).catch(function (error) {
         _this3.form.errors = _.flatten(_.toArray(error.response.data));
       });
+    },
+    isAssigned: function isAssigned(id) {
+      for (var i = 0; i < this.updatedEmployee.teams.length; i++) {
+        if (this.updatedEmployee.teams[i].id == id) {
+          return true;
+        }
+      }
+
+      return false;
     }
   }
 });
@@ -2494,6 +2520,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   directives: {
@@ -3316,7 +3344,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../../node_module
 
 
 // module
-exports.push([module.i, "\n.teams-list[data-v-6813d326] {\n  max-height: 150px;\n}\n.popupmenu[data-v-6813d326] {\n  right: 2px;\n  top: 26px;\n  width: 280px;\n}\n.c-delete[data-v-6813d326]:hover {\n  border-bottom-width: 0;\n}\n", ""]);
+exports.push([module.i, "\n.teams-list[data-v-6813d326] {\n  max-height: 150px;\n}\n.popupmenu[data-v-6813d326] {\n  right: 2px;\n  top: 26px;\n  width: 280px;\n}\n.c-delete[data-v-6813d326]:hover {\n  border-bottom-width: 0;\n}\n.existing-teams li[data-v-6813d326]:not(:last-child) {\n  margin-right: 5px;\n}\n", ""]);
 
 // exports
 
@@ -7979,19 +8007,45 @@ var render = function() {
   return _c("div", { staticClass: "di relative" }, [
     _vm.user.permission_level <= 200
       ? _c(
-          "span",
-          {
-            staticClass: "bb b--dotted bt-0 bl-0 br-0 pointer",
-            on: {
-              click: function($event) {
-                $event.preventDefault()
-                _vm.modal = true
-              }
-            }
-          },
-          [_vm._v(_vm._s(_vm.name))]
+          "ul",
+          { staticClass: "ma0 pa0 di existing-teams" },
+          [
+            _c(
+              "li",
+              {
+                staticClass: "bb b--dotted bt-0 bl-0 br-0 pointer di",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.modal = true
+                  }
+                }
+              },
+              [_vm._v("\n      Teams:\n    ")]
+            ),
+            _vm._v(" "),
+            _vm._l(_vm.updatedEmployee.teams, function(team) {
+              return _c("li", { key: team.id, staticClass: "di" }, [
+                _vm._v("\n      " + _vm._s(team.name) + "\n    ")
+              ])
+            })
+          ],
+          2
         )
-      : _c("span", [_vm._v(_vm._s(_vm.name))]),
+      : _c(
+          "ul",
+          { staticClass: "ma0 pa0 existing-teams" },
+          [
+            _c("li", [_vm._v("Teams: ")]),
+            _vm._v(" "),
+            _vm._l(_vm.updatedEmployee.teams, function(team) {
+              return _c("li", { key: team.id, staticClass: "di" }, [
+                _vm._v("\n      " + _vm._s(team.name) + "\n    ")
+              ])
+            })
+          ],
+          2
+        ),
     _vm._v(" "),
     _vm.user.permission_level <= 200
       ? _c(
@@ -8001,8 +8055,8 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.name == "",
-                expression: "name == ''"
+                value: _vm.updatedEmployee.teams.length == 0,
+                expression: "updatedEmployee.teams.length == 0"
               }
             ],
             staticClass: "pointer",
@@ -8022,8 +8076,8 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.name == "",
-                expression: "name == ''"
+                value: _vm.updatedEmployee.teams.length == 0,
+                expression: "updatedEmployee.teams.length == 0"
               }
             ]
           },
@@ -8112,34 +8166,52 @@ var render = function() {
               "ul",
               { staticClass: "pl0 list ma0 overflow-auto relative teams-list" },
               _vm._l(_vm.filteredList, function(team) {
-                return _c(
-                  "li",
-                  {
-                    key: team.id,
-                    staticClass: "pv2 ph3 bb bb-gray-hover bb-gray pointer",
-                    on: {
-                      click: function($event) {
-                        _vm.assign(team)
-                      }
-                    }
-                  },
-                  [_vm._v("\n        " + _vm._s(team.name) + "\n      ")]
-                )
+                return _c("li", { key: team.id }, [
+                  _vm.isAssigned(team.id)
+                    ? _c(
+                        "div",
+                        {
+                          staticClass:
+                            "pv2 ph3 bb bb-gray-hover bb-gray pointer relative",
+                          on: {
+                            click: function($event) {
+                              _vm.reset(team)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n          " +
+                              _vm._s(team.name) +
+                              "\n\n          "
+                          ),
+                          _c("img", {
+                            staticClass: "pr1 absolute right-1",
+                            attrs: { src: "/img/check.svg" }
+                          })
+                        ]
+                      )
+                    : _c(
+                        "div",
+                        {
+                          staticClass:
+                            "pv2 ph3 bb bb-gray-hover bb-gray pointer relative",
+                          on: {
+                            click: function($event) {
+                              _vm.assign(team)
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n          " + _vm._s(team.name) + "\n        "
+                          )
+                        ]
+                      )
+                ])
               }),
               0
-            ),
-            _vm._v(" "),
-            _vm.name != ""
-              ? _c(
-                  "a",
-                  {
-                    staticClass:
-                      "pointer pv2 ph3 db no-underline c-delete bb-0",
-                    on: { click: _vm.reset }
-                  },
-                  [_vm._v(_vm._s(_vm.$t("employee.team_modal_reset")))]
-                )
-              : _vm._e()
+            )
           ]
         )
       : _vm._e()
@@ -9715,7 +9787,7 @@ var render = function() {
         [
           _c("div", { staticClass: "pa3 relative" }, [
             _c("h2", { staticClass: "normal ma0" }, [
-              _vm._v(_vm._s(_vm.team.name))
+              _vm._v("\n          " + _vm._s(_vm.team.name) + "\n        ")
             ])
           ])
         ]

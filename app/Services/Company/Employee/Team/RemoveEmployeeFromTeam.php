@@ -30,9 +30,9 @@ class RemoveEmployeeFromTeam extends BaseService
      * Remove an employee from a team.
      *
      * @param array $data
-     * @return Team
+     * @return Employee
      */
-    public function execute(array $data): Team
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 
@@ -61,7 +61,7 @@ class RemoveEmployeeFromTeam extends BaseService
 
         (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'user_removed_from_team',
+            'action' => 'employee_removed_from_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
@@ -69,11 +69,12 @@ class RemoveEmployeeFromTeam extends BaseService
         (new LogEmployeeAction)->execute([
             'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
-            'action' => 'user_removed_from_team',
+            'action' => 'employee_removed_from_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        return $team;
+        $employee->refresh();
+        return $employee;
     }
 }

@@ -12,17 +12,33 @@
 .c-delete:hover {
   border-bottom-width: 0;
 }
+
+.existing-teams li:not(:last-child) {
+  margin-right: 5px;
+}
 </style>
 
 <template>
   <div class="di relative">
     <!-- Assigning a team is restricted to HR or admin -->
-    <span v-if="user.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true">{{ name }}</span>
-    <span v-else>{{ name }}</span>
+    <ul v-if="user.permission_level <= 200" class="ma0 pa0 di existing-teams">
+      <li class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
+        Teams:
+      </li>
+      <li v-for="team in updatedEmployee.teams" :key="team.id" class="di">
+        {{ team.name }}
+      </li>
+    </ul>
+    <ul v-else class="ma0 pa0 existing-teams">
+      <li>Teams: </li>
+      <li v-for="team in updatedEmployee.teams" :key="team.id" class="di">
+        {{ team.name }}
+      </li>
+    </ul>
 
     <!-- Action when there is no team defined -->
-    <a v-show="name == ''" v-if="user.permission_level <= 200" class="pointer" @click.prevent="modal = true">{{ $t('employee.team_modal_title') }}</a>
-    <span v-else v-show="name == ''">{{ $t('employee.team_blank') }}</span>
+    <a v-show="updatedEmployee.teams.length == 0" v-if="user.permission_level <= 200" class="pointer" @click.prevent="modal = true">{{ $t('employee.team_modal_title') }}</a>
+    <span v-else v-show="updatedEmployee.teams.length == 0">{{ $t('employee.team_blank') }}</span>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
@@ -38,12 +54,22 @@
         </div>
       </form>
 
+      <!-- List of teams in modal -->
       <ul class="pl0 list ma0 overflow-auto relative teams-list">
-        <li v-for="team in filteredList" :key="team.id" class="pv2 ph3 bb bb-gray-hover bb-gray pointer" @click="assign(team)">
-          {{ team.name }}
+        <li v-for="team in filteredList" :key="team.id">
+          <!-- case if the team is selected -->
+          <div v-if="isAssigned(team.id)" class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="reset(team)">
+            {{ team.name }}
+
+            <img src="/img/check.svg" class="pr1 absolute right-1" />
+          </div>
+
+          <!-- case if the team is not yet selected -->
+          <div v-else class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="assign(team)">
+            {{ team.name }}
+          </div>
         </li>
       </ul>
-      <a v-if="name != ''" class="pointer pv2 ph3 db no-underline c-delete bb-0" @click="reset">{{ $t('employee.team_modal_reset') }}</a>
     </div>
   </div>
 </template>
@@ -79,8 +105,7 @@ export default {
     return {
       modal: false,
       search: '',
-      name: '',
-      updatedTeam: Object,
+      updatedEmployee: Object,
     }
   },
 
@@ -105,12 +130,8 @@ export default {
     }
   },
 
-  mounted() {
-    if (this.employee.team != null) {
-      this.name = this.employee.team.name
-    }
-
-    this.updatedTeam = this.team
+  created() {
+    this.updatedEmployee = this.employee
   },
 
   methods: {
@@ -128,17 +149,15 @@ export default {
             pauseOnHover: true,
           })
 
-          this.name = response.data.data.team.name
-          this.updatedTeam = response.data.data
-          this.modal = false
+          this.updatedEmployee = response.data.data
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data))
         })
     },
 
-    reset() {
-      axios.delete('/' + this.company.id + '/employees/' + this.employee.id + '/team/' + this.updatedTeam.team.id)
+    reset(team) {
+      axios.delete('/' + this.company.id + '/employees/' + this.employee.id + '/team/' + team.id)
         .then(response => {
           this.$snotify.success(this.$t('employee.team_modal_unassign_success'), {
             timeout: 2000,
@@ -147,14 +166,21 @@ export default {
             pauseOnHover: true,
           })
 
-          this.title = ''
-          this.modal = false
-          this.updatedTeam = response.data.data
+          this.updatedEmployee = response.data.data
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data))
         })
     },
+
+    isAssigned : function(id){
+      for(var i=0; i < this.updatedEmployee.teams.length; i++){
+        if (this.updatedEmployee.teams[i].id == id) {
+          return true
+        }
+      }
+      return false
+    }
   }
 }
 

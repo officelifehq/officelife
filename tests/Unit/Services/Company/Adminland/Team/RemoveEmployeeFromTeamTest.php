@@ -35,7 +35,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
             'team_id' => $team->id,
         ];
 
-        $team = (new RemoveEmployeeFromTeam)->execute($request);
+        $employee = (new RemoveEmployeeFromTeam)->execute($request);
 
         $this->assertDatabaseMissing('employee_team', [
             'company_id' => $employee->company_id,
@@ -70,17 +70,17 @@ class RemoveEmployeeFromTeamTest extends TestCase
             'team_id' => $team->id,
         ];
 
-        $team = (new RemoveEmployeeFromTeam)->execute($request);
+        $employee = (new RemoveEmployeeFromTeam)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
-            'action' => 'user_removed_from_team',
+            'action' => 'employee_removed_from_team',
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
-            'action' => 'user_removed_from_team',
+            'action' => 'employee_removed_from_team',
         ]);
     }
 
