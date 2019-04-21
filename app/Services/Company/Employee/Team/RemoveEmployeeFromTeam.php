@@ -75,6 +75,7 @@ class RemoveEmployeeFromTeam extends BaseService
         ]);
 
         $employee->refresh();
+
         return $employee;
     }
 }

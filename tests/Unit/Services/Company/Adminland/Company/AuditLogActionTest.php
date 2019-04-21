@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\LogAuditAction;
 
-class LogAuditActionTest extends TestCase
+class AuditLogActionTest extends TestCase
 {
     use DatabaseTransactions;
 

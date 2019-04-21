@@ -75,6 +75,7 @@ class AddEmployeeToTeam extends BaseService
         ]);
 
         $employee->refresh();
+
         return $employee;
     }
 }
