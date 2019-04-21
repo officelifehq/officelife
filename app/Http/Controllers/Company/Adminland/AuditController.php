@@ -38,6 +38,10 @@ class AuditController extends Controller
                 $sentence = 'Added '.$log->employee.' to '.$log->team.'.';
             }
 
+            if ($log->action == 'employee_removed_from_team') {
+                $sentence = 'Removed '.$log->employee.' from '.$log->team.'.';
+            }
+
             if ($log->action == 'employee_updated') {
                 $sentence = 'Updated information about '.$log->employee.'.';
             }
@@ -48,6 +52,10 @@ class AuditController extends Controller
 
             if ($log->action == 'manager_assigned') {
                 $sentence = 'Assigned '.$log->manager.' as the manager of '.$log->employee.'.';
+            }
+
+            if ($log->action == 'manager_unassigned') {
+                $sentence = 'Removed '.$log->manager.' as the manager of '.$log->employee.'.';
             }
 
             if ($log->action == 'employee_invited_to_become_user') {
@@ -64,6 +72,14 @@ class AuditController extends Controller
 
             if ($log->action == 'position_destroyed') {
                 $sentence = 'Destroyed the position called '.$log->position.'.';
+            }
+
+            if ($log->action == 'position_assigned') {
+                $sentence = 'Assigned to '.$log->employee.' the position called '.$log->position.'.';
+            }
+
+            if ($log->action == 'position_removed') {
+                $sentence = 'Removed the position called '.$log->position.' to '.$log->employee.' .';
             }
 
             $logsCollection->push([

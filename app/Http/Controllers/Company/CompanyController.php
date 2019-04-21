@@ -7,7 +7,7 @@ use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Adminland\Company\CreateCompany;
+use App\Services\Company\Adminland\Company\CreateCompany;
 
 class CompanyController extends Controller
 {

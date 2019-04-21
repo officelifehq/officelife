@@ -21,14 +21,24 @@ Technically, the software is developed with boring, proven, predictible, easy to
 
 Homas is built around the notion that while companies own data about their employees, users have complete control over which data they give to companies.
 
-Why open source?
+## Setup
 
-
-
-## Users vs employees
+### Users vs employees
 
 Homas makes the distinction between users and employees.
 
 A user is someone who creates an account on the Homas platform. An employee is an entity who is part of a company on Homas. A user can be an employee in one or more companies, but an employee can only be linked to a single user.
 
 What we just explained is an important concept in Homas. In an ideal world, every company would run on Homas to manage their human resources, and once a user has a profile on Homas, he can simply join other companies as he changes jobs, and most data about him would follow (if he wants to). At any time, the user has the control over his data.
+
+### Creating an account for a company
+
+### Adding employees
+
+### Inviting users
+
+### Teams
+
+A team is a group of people. This is vague on purpose. It’s up to you to decide whether a team is a department, a separate business entity or a team within another bigger team.
+
+A team is created in Adminland by an administrator or a human resource representative. A team has one team leader (and only one).

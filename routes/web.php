@@ -32,13 +32,15 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager');
             Route::post('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport');
 
-            Route::get('{employee}/logs', 'Company\\Employee\\LogsController@index');
+            Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index');
 
             Route::resource('{employee}/position', 'Company\\Employee\\Position\\EmployeePositionController')->only([
                 'store', 'destroy',
             ]);
 
-            Route::get('titles', 'Company\\Employee\\EmployeePositionController@index');
+            Route::resource('{employee}/team', 'Company\\Employee\\Team\\EmployeeTeamController')->only([
+                'store', 'destroy',
+            ]);
         });
 
         Route::prefix('teams')->group(function () {

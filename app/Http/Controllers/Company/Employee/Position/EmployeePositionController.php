@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Company\Employee\Position;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use App\Services\Employee\Position\AssignPositionToEmployee;
-use App\Services\Employee\Position\RemovePositionFromEmployee;
+use App\Services\Company\Employee\Position\AssignPositionToEmployee;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
+use App\Services\Company\Employee\Position\RemovePositionFromEmployee;
 
 class EmployeePositionController extends Controller
 {

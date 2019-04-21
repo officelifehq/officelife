@@ -6,9 +6,9 @@ use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\Api\ApiController;
-use App\Services\Adminland\Team\CreateTeam;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Services\Company\Adminland\Team\CreateTeam;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 

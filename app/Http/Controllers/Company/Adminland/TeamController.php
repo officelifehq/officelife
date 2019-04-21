@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Adminland\Team\CreateTeam;
+use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 
 class TeamController extends Controller

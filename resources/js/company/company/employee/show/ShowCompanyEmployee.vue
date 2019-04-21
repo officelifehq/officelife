@@ -19,7 +19,7 @@
             <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/employees'">All employees</a>
+            <a :href="'/' + company.id + '/employees'">{{ $t('app.breadcrumb_employee_list') }}</a>
           </li>
           <li class="di">
             {{ employee.name }}
@@ -55,7 +55,7 @@
           </h2>
           <ul class="list tc pa0 f6 mb0">
             <li class="di-l db mb0-l mb2 mr2">
-              <assign-employee-title
+              <assign-employee-position
                 :company="company"
                 :employee="employee"
                 :user="user"
@@ -69,10 +69,12 @@
               No indication of status
             </li>
             <li class="di-l db mb0-l mb2">
-              No teams
-            </li>
-            <li class="di-l db mb0-l mb2">
-              Add direct reports
+              <assign-employee-team
+                :company="company"
+                :employee="employee"
+                :user="user"
+                :teams="teams"
+              />
             </li>
           </ul>
         </div>
@@ -139,6 +141,10 @@ export default {
       default: null,
     },
     positions: {
+      type: Array,
+      default: null,
+    },
+    teams: {
       type: Array,
       default: null,
     },
