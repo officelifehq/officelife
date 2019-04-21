@@ -1,4 +1,4 @@
-describe('Employee', function () {
+describe('Employee - Assign managers and direct reports', function () {
   it('should assign a manager and a direct report', function () {
     cy.login()
 

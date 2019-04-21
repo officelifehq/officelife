@@ -55,7 +55,7 @@
           </h2>
           <ul class="list tc pa0 f6 mb0">
             <li class="di-l db mb0-l mb2 mr2">
-              <assign-employee-title
+              <assign-employee-position
                 :company="company"
                 :employee="employee"
                 :user="user"

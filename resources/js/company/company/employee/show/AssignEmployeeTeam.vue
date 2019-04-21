@@ -22,54 +22,69 @@
   <div class="di relative">
     <!-- Assigning a team is restricted to HR or admin -->
     <ul v-if="user.permission_level <= 200" class="ma0 pa0 di existing-teams">
-      <li class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
-        Teams:
+      <li class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true" v-show="updatedEmployee.teams.length != 0" data-cy="open-team-modal">
+        {{ $t('employee.team_title') }}
       </li>
       <li v-for="team in updatedEmployee.teams" :key="team.id" class="di">
         {{ team.name }}
       </li>
     </ul>
-    <ul v-else class="ma0 pa0 existing-teams">
-      <li>Teams: </li>
+    <ul v-else class="ma0 pa0 existing-teams di">
+      <li class="di" v-show="updatedEmployee.teams.length != 0">
+        {{ $t('employee.team_title') }}
+      </li>
       <li v-for="team in updatedEmployee.teams" :key="team.id" class="di">
         {{ team.name }}
       </li>
     </ul>
 
     <!-- Action when there is no team defined -->
-    <a v-show="updatedEmployee.teams.length == 0" v-if="user.permission_level <= 200" class="pointer" @click.prevent="modal = true">{{ $t('employee.team_modal_title') }}</a>
-    <span v-else v-show="updatedEmployee.teams.length == 0">{{ $t('employee.team_blank') }}</span>
+    <a v-show="updatedEmployee.teams.length == 0" v-if="user.permission_level <= 200" class="pointer" @click.prevent="modal = true" data-cy="open-team-modal-blank">{{ $t('employee.team_modal_title') }}</a>
+    <span v-else v-show="updatedEmployee.teams.length == 0">{{ $t('employee.team_modal_blank') }}</span>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
-      <p class="pa2 ma0 bb bb-gray">
-        {{ $t('employee.team_modal_title') }}
-      </p>
-      <form @submit.prevent="search">
-        <div class="relative pv2 ph2 bb bb-gray">
-          <input id="search" v-model="search" type="text" name="search"
-                 :placeholder="$t('employee.team_modal_filter')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
-                 @keydown.esc="toggleModal"
-          />
-        </div>
-      </form>
 
-      <!-- List of teams in modal -->
-      <ul class="pl0 list ma0 overflow-auto relative teams-list">
-        <li v-for="team in filteredList" :key="team.id">
-          <!-- case if the team is selected -->
-          <div v-if="isAssigned(team.id)" class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="reset(team)">
-            {{ team.name }}
+      <!-- Shown when there is at least one team in the account -->
+      <div v-show="teams.length != 0">
+        <p class="pa2 ma0 bb bb-gray">
+          {{ $t('employee.team_modal_title') }}
+        </p>
 
-            <img src="/img/check.svg" class="pr1 absolute right-1" />
+        <form @submit.prevent="search">
+          <div class="relative pv2 ph2 bb bb-gray">
+            <input id="search" v-model="search" type="text" name="search"
+                  :placeholder="$t('employee.team_modal_filter')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
+                  @keydown.esc="toggleModal"
+            />
           </div>
+        </form>
 
-          <!-- case if the team is not yet selected -->
-          <div v-else class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="assign(team)">
-            {{ team.name }}
-          </div>
-        </li>
-      </ul>
+        <!-- List of teams in modal -->
+        <ul class="pl0 list ma0 overflow-auto relative teams-list">
+          <li v-for="team in filteredList" :key="team.id" :data-cy="'list-team-' + team.id">
+            <!-- case if the team is selected -->
+            <div v-if="isAssigned(team.id)" class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="reset(team)">
+              {{ team.name }}
+
+              <img src="/img/check.svg" class="pr1 absolute right-1" />
+            </div>
+
+            <!-- case if the team is not yet selected -->
+            <div v-else class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="assign(team)">
+              {{ team.name }}
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Shown if there is no teams setup in the account yet -->
+      <div v-show="teams.length == 0">
+        <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">{{ $t('employee.team_modal_blank_title') }} <a :href="'/' + company.id + '/account/teams'" data-cy="modal-blank-state-cta">{{ $t('employee.team_modal_blank_cta') }}</a></p>
+        <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
+                                        /img/company/account/blank-team-2x.png 2x"
+        />
+      </div>
     </div>
   </div>
 </template>
