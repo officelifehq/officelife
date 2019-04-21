@@ -17,11 +17,11 @@
 <template>
   <div class="di relative">
     <!-- Assigning a title is restricted to HR or admin -->
-    <span v-if="user.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true" data-cy="open-position-modal">{{ title }}</span>
+    <span v-if="user.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-position-modal" @click.prevent="modal = true">{{ title }}</span>
     <span v-else data-cy="position-title">{{ title }}</span>
 
     <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="user.permission_level <= 200" class="pointer" @click.prevent="modal = true" data-cy="open-position-modal-blank">{{ $t('employee.position_modal_title') }}</a>
+    <a v-show="title == ''" v-if="user.permission_level <= 200" class="pointer" data-cy="open-position-modal-blank" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
     <span v-else v-show="title == ''">{{ $t('employee.position_blank') }}</span>
 
     <!-- Modal -->
@@ -39,11 +39,11 @@
       </form>
 
       <ul class="pl0 list ma0 overflow-auto relative positions-list">
-        <li v-for="position in filteredList" :key="position.id" class="pv2 ph3 bb bb-gray-hover bb-gray pointer" @click="assign(position)" :data-cy="'list-position-' + position.id">
+        <li v-for="position in filteredList" :key="position.id" class="pv2 ph3 bb bb-gray-hover bb-gray pointer" :data-cy="'list-position-' + position.id" @click="assign(position)">
           {{ position.title }}
         </li>
       </ul>
-      <a v-if="title != ''" class="pointer pv2 ph3 db no-underline c-delete bb-0" @click="reset" data-cy="position-reset-button">{{ $t('employee.position_modal_reset') }}</a>
+      <a v-if="title != ''" class="pointer pv2 ph3 db no-underline c-delete bb-0" data-cy="position-reset-button" @click="reset">{{ $t('employee.position_modal_reset') }}</a>
     </div>
   </div>
 </template>
