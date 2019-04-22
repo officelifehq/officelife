@@ -31,6 +31,11 @@
       <div class="cf mw9 center">
         <!-- LEFT COLUMN -->
         <div class="fl w-40-l w-100">
+          <ul>
+            <li v-for="employee in employees" :key="employee.id">
+              {{ employee.name }}
+            </li>
+          </ul>
         </div>
 
         <!-- RIGHT COLUMN -->
