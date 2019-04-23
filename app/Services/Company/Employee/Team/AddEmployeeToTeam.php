@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Employee\Team;
 
+use Carbon\Carbon;
 use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
@@ -49,7 +50,12 @@ class AddEmployeeToTeam extends BaseService
         $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
 
-        $team->employees()->attach($data['employee_id'], ['company_id' => $data['company_id']]);
+        $team->employees()->attach(
+            $data['employee_id'], [
+                'company_id' => $data['company_id'],
+                'created_at' => Carbon::now('UTC'),
+            ]
+        );
 
         $dataToLog = [
             'author_id' => $author->id,

@@ -2543,6 +2543,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   directives: {
@@ -2559,6 +2577,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     employees: {
       type: Array,
+      default: null
+    },
+    mostRecentEmployee: {
+      type: String,
+      default: null
+    },
+    employeeCount: {
+      type: Number,
       default: null
     },
     team: {
@@ -9924,31 +9950,83 @@ var render = function() {
         { staticClass: "mw8 center br3 mb4 bg-white box relative z-1" },
         [
           _c("div", { staticClass: "pa3 relative" }, [
-            _c("h2", { staticClass: "normal ma0" }, [
+            _c("h2", { staticClass: "normal ma0 mb2" }, [
               _vm._v("\n          " + _vm._s(_vm.team.name) + "\n        ")
+            ]),
+            _vm._v(" "),
+            _c("ul", { staticClass: "ma0 pa0 f6" }, [
+              _c("li", { staticClass: "di mr2" }, [
+                _c("img", {
+                  staticClass: "pr1",
+                  attrs: { src: "/img/leader.svg" }
+                }),
+                _vm._v("\n            Lead by John Rambo\n          ")
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "di" }, [
+                _c("img", {
+                  staticClass: "pr1",
+                  attrs: { src: "/img/location.svg" }
+                }),
+                _vm._v("\n            Office #5, south east\n          ")
+              ])
             ])
           ])
         ]
       ),
       _vm._v(" "),
-      _c("div", { staticClass: "cf mw9 center" }, [
-        _c("div", { staticClass: "fl w-40-l w-100" }, [
-          _c(
-            "ul",
-            _vm._l(_vm.employees, function(employee) {
-              return _c("li", { key: employee.id }, [
-                _vm._v(
-                  "\n            " + _vm._s(employee.name) + "\n          "
-                )
-              ])
-            }),
-            0
-          )
+      _c("div", { staticClass: "cf mw6 center mb4" }, [
+        _c("div", { staticClass: "bg-white box pa3 mb4" }, [
+          _c("p", { staticClass: "lh-copy ma0 mb2" }, [
+            _vm._v(
+              "This team has " +
+                _vm._s(_vm.employeeCount) +
+                " members, the most recent being "
+            ),
+            _c("a", { attrs: { href: "" } }, [
+              _vm._v(_vm._s(_vm.mostRecentEmployee.name))
+            ]),
+            _vm._v(".")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ma0" }, [
+            _c("a", { attrs: { href: "" } }, [_vm._v("View team members")])
+          ])
         ]),
         _vm._v(" "),
-        _c("div", {
-          staticClass: "flex items-center justify-center flex-column mb4"
-        })
+        _c("div", { staticClass: "bg-white box pa3 mb4" }, [
+          _c("p", { staticClass: "ma0 mb2" }, [
+            _vm._v("Want to find out how someone in this team can help you?")
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ma0" }, [
+            _c("a", { attrs: { href: "" } }, [
+              _vm._v("Read about the different ways they can help you")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bg-white box pa3 mb4" }, [
+          _c("p", { staticClass: "f6 ma0 mb1" }, [_vm._v("2 days ago")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "lh-copy ma0 mb2" }, [
+            _vm._v(
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor."
+            )
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ma0" }, [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Read all the news")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "bg-white box pa3" }, [
+          _c("p", { staticClass: "ma0 mb2" }, [_vm._v("New to the team?")]),
+          _vm._v(" "),
+          _c("p", { staticClass: "ma0" }, [
+            _c("a", { attrs: { href: "" } }, [_vm._v("Start here")])
+          ])
+        ])
       ])
     ])
   ])
