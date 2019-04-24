@@ -2,14 +2,14 @@
 
 ## Homas in 1 minute
 
-Homas is a new kind of human resource software. Its main goals are to:
+Homas is a new kind of human resource software. Unlike other robotic HR tools, it has been designed to mimic what happens in the real world. Its main goals are to:
 - help managers be more empathetic,
 - help companies be better at managing people's dreams and ambitions,
 - help employees communicate with their employers,
 - give users and companies a complete control over their data,
 - reduce the use of LinkedIn and all the bullshit associated with it in today's world.
 
-Unlike any other popular tools in this field, Homas is open source and can be installed on a server that you own if you so desire.
+Homas is open source and can be installed on a server that you own if you so desire.
 
 In terms of user experience, the software aims to be simple to use with the minimum amount of configuration. Design is not a priority - user experience is.
 
@@ -27,11 +27,32 @@ Homas is built around the notion that while companies own data about their emplo
 
 Homas makes the distinction between users and employees.
 
-A user is someone who creates an account on the Homas platform. An employee is an entity who is part of a company on Homas. A user can be an employee in one or more companies, but an employee can only be linked to a single user.
+A user is someone who creates an account on the Homas platform. An employee is an entity who is part of a company on Homas. A user can be an employee in one or more companies, but an employee can only be linked to a single user. A user account is necessary for each employee to interact with the software and change data. However you don't need to give accounts to employees if you don't want to.
 
-What we just explained is an important concept in Homas. In an ideal world, every company would run on Homas to manage their human resources, and once a user has a profile on Homas, he can simply join other companies as he changes jobs, and most data about him would follow (if he wants to). At any time, the user has the control over his data.
+Once a user has an account on Homas, he can decide to either create a company, or join an existing company.
+
+The natural way to create this software would have been that an employee is a user, and get rid of those two notions altogether to only keep the notion of User. This would have been a severe limitation though. In an ideal world, every company would run on Homas to manage their human resources, and once a user has a profile on Homas, he can simply join other companies as he changes jobs, and most data about him would follow (if he wants to). It's important to realize that at any time, the user has the control over his data and can decide to remove them from the company he's joined.
 
 ### Creating an account for a company
+
+To create an account, you simply need a valid email address and a strong password. Nothing else is needed, really. Upon signing up, the system will send you an email to confirm the validity of the email, but you can use the software without it. Confirming the email address is necessary to be able to add employees to your account.
+
+Once you create your account, you are presented with the option to either create a company, or join an existing company.
+
+Clicking on Create a company will ask you to name the company, and that's it. There is one important rule here: the company name is unique on an instance of Homas. That means it's not possible to create two companies named Microsoft, for instance. If you believe that the name of your company has been already used on the system and that this is an abuse, please contact us - we will sort this out.
+
+As you are the one who has created the company, you will be an administrator of the company, with full control over the account of the company. To know more about what it means, read the documentation about roles.
+
+### Creating an account to join an existing company
+
+### Understanding roles
+
+When adding an employee in the system, you need to indicate a role. A role is a set of rights the employee will have in the system, once the employee is linked to a user account.
+
+There are only three roles in Homas:
+- Administrator
+- Human Resource Administrator
+-
 
 ### Adding employees
 

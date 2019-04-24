@@ -24,13 +24,17 @@ class TeamController extends Controller
         $company = Cache::get('currentCompany');
         $team = Team::findOrFail($teamId);
 
-        $employees = $team->employees()->get();
+        $employees = $team->employees()->orderBy('created_at', 'desc')->get();
+        $employeeCount = $employees->count();
+        $mostRecentEmployee = $employees->first();
 
         return View::component('ShowCompanyTeam', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
             'team' => new TeamResource($team),
-            'employees' => EmployeeResource::collection($employees),
+            'employeeCount' => $employeeCount,
+            'mostRecentEmployee' => new EmployeeResource($mostRecentEmployee),
+            //'employees' => EmployeeResource::collection($employees),
         ]);
     }
 }

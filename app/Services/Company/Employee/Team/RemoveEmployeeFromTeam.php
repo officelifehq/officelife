@@ -5,6 +5,7 @@ namespace App\Services\Company\Employee\Team;
 use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Services\Company\Team\LogTeamAction;
 use App\Services\Company\Employee\LogEmployeeAction;
 use App\Services\Company\Adminland\Company\LogAuditAction;
 
@@ -61,6 +62,14 @@ class RemoveEmployeeFromTeam extends BaseService
 
         (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
+            'action' => 'employee_removed_from_team',
+            'objects' => json_encode($dataToLog),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ]);
+
+        (new LogTeamAction)->execute([
+            'company_id' => $data['company_id'],
+            'team_id' => $data['team_id'],
             'action' => 'employee_removed_from_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

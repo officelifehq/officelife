@@ -77,6 +77,12 @@ class RemoveEmployeeFromTeamTest extends TestCase
             'action' => 'employee_removed_from_team',
         ]);
 
+        $this->assertDatabaseHas('team_logs', [
+            'company_id' => $employee->company_id,
+            'team_id' => $team->id,
+            'action' => 'employee_removed_from_team',
+        ]);
+
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
