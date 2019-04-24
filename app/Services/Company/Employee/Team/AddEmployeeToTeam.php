@@ -51,7 +51,8 @@ class AddEmployeeToTeam extends BaseService
             ->findOrFail($data['team_id']);
 
         $team->employees()->attach(
-            $data['employee_id'], [
+            $data['employee_id'],
+            [
                 'company_id' => $data['company_id'],
                 'created_at' => Carbon::now('UTC'),
             ]
