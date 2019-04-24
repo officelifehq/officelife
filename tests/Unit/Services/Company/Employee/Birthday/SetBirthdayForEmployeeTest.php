@@ -14,7 +14,7 @@ class SetBirthdayForEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /**
-     * Set the base for the test
+     * Set the base for the test.
      *
      * @return Employee
      */
