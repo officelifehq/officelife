@@ -9334,6 +9334,13 @@ textarea::-webkit-input-placeholder {
   background-color: #fafbfc;
 }
 
+input[type=text]::-moz-placeholder,
+input[type=email]::-moz-placeholder,
+input[type=password]::-moz-placeholder,
+textarea::-moz-placeholder {
+  background-color: #fafbfc;
+}
+
 input[type=text]:-ms-input-placeholder,
 input[type=email]:-ms-input-placeholder,
 input[type=password]:-ms-input-placeholder,
@@ -9366,6 +9373,13 @@ input[type=text]:focus::-webkit-input-placeholder,
 input[type=email]:focus::-webkit-input-placeholder,
 input[type=password]:focus::-webkit-input-placeholder,
 textarea:focus::-webkit-input-placeholder {
+  background-color: #fff;
+}
+
+input[type=text]:focus::-moz-placeholder,
+input[type=email]:focus::-moz-placeholder,
+input[type=password]:focus::-moz-placeholder,
+textarea:focus::-moz-placeholder {
   background-color: #fff;
 }
 
