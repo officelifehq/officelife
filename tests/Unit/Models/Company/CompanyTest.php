@@ -8,8 +8,8 @@ use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Company\EmployeeEvent;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompanyTest extends TestCase
 {

@@ -7,8 +7,8 @@ use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Company\EmployeeEvent;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeTest extends TestCase
 {

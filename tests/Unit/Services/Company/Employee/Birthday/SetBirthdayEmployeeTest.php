@@ -4,7 +4,6 @@ namespace Tests\Unit\Services\Company\Employee\Birthday;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
