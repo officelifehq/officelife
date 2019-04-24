@@ -23,6 +23,7 @@ class CreateEmployeesTable extends Migration
             $table->date('birthdate')->nullable();
             $table->uuid('uuid');
             $table->string('avatar');
+            $table->date('hired_at')->nullable();
             $table->integer('permission_level');
             $table->string('invitation_link')->nullable();
             $table->timestamp('invitation_used_at')->nullable();

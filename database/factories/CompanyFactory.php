@@ -95,3 +95,16 @@ $factory->define(App\Models\Company\Position::class, function (Faker $faker) {
         'title' => 'Assistant to the regional manager',
     ];
 });
+
+$factory->define(App\Models\Company\EmployeeEvent::class, function (Faker $faker) {
+    return [
+        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'employee_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $data['company_id'],
+            ])->id;
+        },
+        'label' => 'Birthday',
+        'date' => '1981-10-29',
+    ];
+});

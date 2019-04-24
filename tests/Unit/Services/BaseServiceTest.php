@@ -55,12 +55,32 @@ class BaseServiceTest extends TestCase
             $stub->validatePermissions($employee->user_id, $employee->company_id, config('homas.authorizations.administrator'))
         );
 
+        // test that an HR can't do an action reserved for an administrator
         $employee = factory(Employee::class)->create([
             'permission_level' => config('homas.authorizations.hr'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
         $stub->validatePermissions($employee->user->id, $employee->company_id, config('homas.authorizations.administrator'));
+
+        // test that an user can't do an action reserved for an administrator
+        $employee = factory(Employee::class)->create([
+            'permission_level' => config('homas.authorizations.user'),
+        ]);
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $stub->validatePermissions($employee->user->id, $employee->company_id, config('homas.authorizations.administrator'));
+
+        // test that a user can modify his own data regardless of his permission
+        // level
+        $employee = factory(Employee::class)->create([
+            'permission_level' => config('homas.authorizations.user'),
+        ]);
+
+        $this->assertInstanceOf(
+            User::class,
+            $stub->validatePermissions($employee->user_id, $employee->company_id, config('homas.authorizations.administrator'), $employee->id)
+        );
     }
 
     /** @test */

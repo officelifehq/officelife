@@ -13,8 +13,29 @@ class DateHelper
      * @param Carbon $date
      * @return string
      */
-    public static function getShortDateWithTime($date)
+    public static function getShortDateWithTime($date): string
     {
         return $date->format(trans('format.short_date_year_time'));
+    }
+
+    /**
+     * Calculate the next occurence in the future for this date.
+     *
+     * @param Carbon $date
+     * @return Carbon
+     */
+    public static function getNextOccurence(Carbon $date): Carbon
+    {
+        if ($date->isFuture()) {
+            return $date;
+        }
+
+        $date->addYear();
+
+        while ($date->isPast()) {
+            $date = static::getNextOccurence($date);
+        }
+
+        return $date;
     }
 }

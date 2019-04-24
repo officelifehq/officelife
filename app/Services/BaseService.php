@@ -36,17 +36,25 @@ abstract class BaseService
 
     /**
      * Checks if the user has the permission to do the action.
+     * If, however, we pass the employee ID as parameter, and if the user is
+     * the actual employee who does the action, we grant the right to do the
+     * action without checking for the permission.
      *
      * @param int $userId
      * @param int $companyId
      * @param int $requiredPermissionLevel
+     * @param int $employeeId
      * @return User
      */
-    public function validatePermissions(int $userId, int $companyId, int $requiredPermissionLevel): User
+    public function validatePermissions(int $userId, int $companyId, int $requiredPermissionLevel, int $employeeId = null): User
     {
         $employee = Employee::where('user_id', $userId)
             ->where('company_id', $companyId)
             ->firstOrFail();
+
+        if ($employee->id == $employeeId) {
+            return $employee->user;
+        }
 
         if ($requiredPermissionLevel < $employee->permission_level) {
             throw new NotEnoughPermissionException;

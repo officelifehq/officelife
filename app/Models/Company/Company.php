@@ -80,4 +80,14 @@ class Company extends Model
     {
         return $this->hasMany(Position::class);
     }
+
+    /**
+     * Get the employee event records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function employeeEvents()
+    {
+        return $this->hasMany(EmployeeEvent::class);
+    }
 }

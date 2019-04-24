@@ -35,7 +35,7 @@ class AuditLog extends Model
     ];
 
     /**
-     * Get the account record associated with the audit log.
+     * Get the company record associated with the audit log.
      *
      * @return BelongsTo
      */
