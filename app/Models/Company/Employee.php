@@ -164,6 +164,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the employee events record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function employeeEvents()
+    {
+        return $this->hasMany(EmployeeEvent::class);
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string

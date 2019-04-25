@@ -7,6 +7,7 @@ use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
+use App\Models\Company\EmployeeEvent;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeTest extends TestCase
@@ -83,6 +84,17 @@ class EmployeeTest extends TestCase
         $employee = factory(Employee::class)->create();
 
         $this->assertTrue($employee->position()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_employee_events()
+    {
+        $employee = factory(Employee::class)->create();
+        factory(EmployeeEvent::class, 2)->create([
+            'employee_id' => $employee->id,
+        ]);
+
+        $this->assertTrue($employee->employeeEvents()->exists());
     }
 
     /** @test */
