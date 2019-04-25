@@ -16,8 +16,9 @@ class Step extends Model
     protected $fillable = [
         'flow_id',
         'number',
-        'unit',
+        'unit_of_time',
         'modifier',
+        'real_number_of_days',
     ];
 
     /**

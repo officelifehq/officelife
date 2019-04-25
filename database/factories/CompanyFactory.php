@@ -120,8 +120,9 @@ $factory->define(App\Models\Company\Step::class, function (Faker $faker) {
     return [
         'flow_id' => factory(App\Models\Company\Flow::class)->create()->id,
         'number' => 3,
-        'unit' => 'days',
+        'unit_of_time' => 'days',
         'modifier' => 'after',
+        'real_number_of_days' => 3,
     ];
 });
 
