@@ -108,3 +108,28 @@ $factory->define(App\Models\Company\EmployeeEvent::class, function (Faker $faker
         'date' => '1981-10-29',
     ];
 });
+
+$factory->define(App\Models\Company\Flow::class, function (Faker $faker) {
+    return [
+        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'name' => 'Birthdate',
+    ];
+});
+
+$factory->define(App\Models\Company\Step::class, function (Faker $faker) {
+    return [
+        'flow_id' => factory(App\Models\Company\Flow::class)->create()->id,
+        'number' => 3,
+        'unit' => 'days',
+        'modifier' => 'after',
+    ];
+});
+
+$factory->define(App\Models\Company\Action::class, function (Faker $faker) {
+    return [
+        'step_id' => factory(App\Models\Company\Step::class)->create()->id,
+        'nature' => 'notification',
+        'recipient' => 'manager',
+        'specific_recipient_information' => null,
+    ];
+});

@@ -90,4 +90,14 @@ class Company extends Model
     {
         return $this->hasMany(EmployeeEvent::class);
     }
+
+    /**
+     * Get the flow records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function flows()
+    {
+        return $this->hasMany(Flow::class);
+    }
 }

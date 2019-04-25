@@ -32,6 +32,8 @@ class CreateEmployeesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->index('invitation_link');
+            $table->index('first_name');
+            $table->index('last_name');
         });
     }
 }
