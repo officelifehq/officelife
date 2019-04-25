@@ -25,10 +25,10 @@ class CreateFlowsTable extends Migration
         Schema::create('steps', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('flow_id');
-            $table->integer('number')->default(0);
+            $table->integer('number')->nullable();
             $table->string('unit_of_time')->nullable();
             $table->string('modifier')->default('same_day');
-            $table->integer('real_number_of_days')->default(0);
+            $table->double('real_number_of_days')->default(0);
             $table->timestamps();
             $table->foreign('flow_id')->references('id')->on('flows')->onDelete('cascade');
         });

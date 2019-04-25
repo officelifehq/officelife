@@ -28,4 +28,83 @@ class StepTest extends ApiTestCase
 
         $this->assertTrue($step->actions()->exists());
     }
+
+    /** @test */
+    public function it_calculates_the_real_number_of_days()
+    {
+        $step = factory(Step::class)->create([
+            'modifier' => 'same_day',
+        ]);
+        $step->calculateDays();
+        $this->assertEquals(
+            0,
+            $step->real_number_of_days
+        );
+
+        $step = factory(Step::class)->create([
+            'modifier' => 'before',
+            'unit_of_time' => 'days',
+            'number' => 9,
+        ]);
+        $step->calculateDays();
+        $this->assertEquals(
+            -9,
+            $step->real_number_of_days
+        );
+
+        $step = factory(Step::class)->create([
+            'modifier' => 'before',
+            'unit_of_time' => 'weeks',
+            'number' => 9,
+        ]);
+        $step->calculateDays();
+        $this->assertEquals(
+            -63,
+            $step->real_number_of_days
+        );
+
+        $step = factory(Step::class)->create([
+            'modifier' => 'before',
+            'unit_of_time' => 'months',
+            'number' => 9,
+        ]);
+        $step->calculateDays();
+        $this->assertEquals(
+            -270,
+            $step->real_number_of_days
+        );
+
+        $step = factory(Step::class)->create([
+            'modifier' => 'after',
+            'unit_of_time' => 'days',
+            'number' => 9,
+        ]);
+        $step->calculateDays();
+        $this->assertEquals(
+            9,
+            $step->real_number_of_days
+        );
+
+        $step = factory(Step::class)->create([
+            'modifier' => 'after',
+            'unit_of_time' => 'weeks',
+            'number' => 9,
+        ]);
+        $step->calculateDays();
+        $this->assertEquals(
+            63,
+            $step->real_number_of_days
+        );
+
+        $step = factory(Step::class)->create([
+            'modifier' => 'after',
+            'unit_of_time' => 'months',
+            'number' => 9,
+        ]);
+        $step->calculateDays();
+        $this->assertEquals(
+            270,
+            $step->real_number_of_days
+        );
+    }
 }
