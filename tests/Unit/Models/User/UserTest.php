@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\User\Notification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
@@ -20,6 +21,16 @@ class UserTest extends TestCase
             'user_id' => $user->id,
         ]);
         $this->assertTrue($user->employees()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_notifications()
+    {
+        $user = factory(User::class)->create([]);
+        factory(Notification::class, 3)->create([
+            'user_id' => $user->id,
+        ]);
+        $this->assertTrue($user->notifications()->exists());
     }
 
     /** @test */

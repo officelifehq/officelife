@@ -9,9 +9,9 @@ use App\Models\Company\Action;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Flow\RemoveActionfromStep;
+use App\Services\Company\Adminland\Flow\RemoveActionFromStep;
 
-class RemoveActionfromStepTest extends TestCase
+class RemoveActionFromStepTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -36,7 +36,7 @@ class RemoveActionfromStepTest extends TestCase
             'action_id' => $action->id,
         ];
 
-        $step = (new RemoveActionfromStep)->execute($request);
+        $step = (new RemoveActionFromStep)->execute($request);
 
         $this->assertDatabaseMissing('actions', [
             'id' => $action->id,
@@ -70,7 +70,7 @@ class RemoveActionfromStepTest extends TestCase
             'action_id' => $action->id,
         ];
 
-        (new RemoveActionfromStep)->execute($request);
+        (new RemoveActionFromStep)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
@@ -88,6 +88,6 @@ class RemoveActionfromStepTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new RemoveActionfromStep)->execute($request);
+        (new RemoveActionFromStep)->execute($request);
     }
 }
