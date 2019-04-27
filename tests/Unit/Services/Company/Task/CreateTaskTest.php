@@ -3,12 +3,12 @@
 namespace Tests\Unit\Services\Company\Employee\Team;
 
 use Tests\TestCase;
-use App\Models\Company\Team;
 use App\Models\Company\Task;
+use App\Models\Company\Team;
 use App\Models\Company\Employee;
+use App\Services\Company\Task\CreateTask;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Task\CreateTask;
 
 class CreateTaskTest extends TestCase
 {

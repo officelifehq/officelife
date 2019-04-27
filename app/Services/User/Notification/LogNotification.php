@@ -26,7 +26,7 @@ class LogNotification extends BaseService
                 Rule::in([
                     'task_assigned',
                 ]),
-                'max:255'
+                'max:255',
             ],
             'content' => 'required|string|max:255',
             'is_dummy' => 'nullable|boolean',

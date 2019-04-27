@@ -4,9 +4,9 @@ namespace Tests\Unit\Models\Company;
 
 use Tests\ApiTestCase;
 use App\Models\Company\Task;
+use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Models\Company\Team;
 
 class TaskTest extends ApiTestCase
 {
