@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\TestCase;
+use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -40,5 +41,16 @@ class TeamTest extends TestCase
     {
         $team = factory(Team::class)->create([]);
         $this->assertTrue($team->leader()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_tasks()
+    {
+        $team = factory(Team::class)->create([]);
+        factory(Task::class, 2)->create([
+            'team_id' => $team->id,
+        ]);
+
+        $this->assertTrue($team->tasks()->exists());
     }
 }

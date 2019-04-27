@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\User;
 
 use Tests\TestCase;
+use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
@@ -95,6 +96,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($employee->employeeEvents()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_tasks()
+    {
+        $employee = factory(Employee::class)->create();
+        factory(Task::class, 2)->create([
+            'assignee_id' => $employee->id,
+        ]);
+
+        $this->assertTrue($employee->tasks()->exists());
     }
 
     /** @test */
