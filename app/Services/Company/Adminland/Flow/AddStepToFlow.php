@@ -6,7 +6,6 @@ use App\Models\Company\Flow;
 use App\Models\Company\Step;
 use App\Services\BaseService;
 use Illuminate\Validation\Rule;
-use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class AddStepToFlow extends BaseService
 {
@@ -38,7 +37,6 @@ class AddStepToFlow extends BaseService
                     'same_day',
                 ]),
             ],
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -69,18 +67,6 @@ class AddStepToFlow extends BaseService
         ]);
 
         $step->calculateDays();
-
-        (new LogAuditAction)->execute([
-            'company_id' => $data['company_id'],
-            'action' => 'step_created',
-            'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
-                'flow_id' => $flow->id,
-                'flow_name' => $flow->name,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
 
         $step->refresh();
         return $step;

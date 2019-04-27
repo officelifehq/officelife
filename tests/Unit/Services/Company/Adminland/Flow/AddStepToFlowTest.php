@@ -48,31 +48,6 @@ class AddStepToFlowTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
-    {
-        $employee = factory(Employee::class)->create([]);
-        $flow = factory(Flow::class)->create([
-            'company_id' => $employee->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $flow->company_id,
-            'author_id' => $employee->user_id,
-            'flow_id' => $flow->id,
-            'number' => 6,
-            'unit_of_time' => 'days',
-            'modifier' => 'before',
-        ];
-
-        (new AddStepToFlow)->execute($request);
-
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employee->company_id,
-            'action' => 'step_created',
-        ]);
-    }
-
-    /** @test */
     public function it_fails_if_wrong_parameters_are_given()
     {
         $employee = factory(Employee::class)->create([]);
