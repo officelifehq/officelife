@@ -69,6 +69,7 @@ class AddStepToFlow extends BaseService
         $step->calculateDays();
 
         $step->refresh();
+
         return $step;
     }
 }

@@ -7,7 +7,7 @@ use App\Services\BaseService;
 use App\Models\Company\Action;
 use App\Services\Company\Adminland\Company\LogAuditAction;
 
-class RemoveActionfromStep extends BaseService
+class RemoveActionFromStep extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.

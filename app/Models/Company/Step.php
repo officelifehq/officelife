@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * There are 3 possible cases:
  *  - "7 days before"
  *  - "The same day"
- *  - "7 days after"
+ *  - "7 days after".
  *
  *  There are 3 components for this object:
  *   - the number: 7
