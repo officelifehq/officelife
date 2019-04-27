@@ -38,7 +38,7 @@ class LogNotification extends BaseService
 
         $user = User::findOrFail($data['user_id']);
 
-        if (!empty($data['company_id'])) {
+        if (! empty($data['company_id'])) {
             $company = Company::findOrFail($data['company_id']);
 
             if (is_null($user->getEmployeeObjectForCompany($company))) {

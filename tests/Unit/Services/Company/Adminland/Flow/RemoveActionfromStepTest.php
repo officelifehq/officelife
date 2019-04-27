@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Flow\RemoveActionFromStep;
 
-class RemoveActionFromStepTest extends TestCase
+class RemoveActionfromStepTest extends TestCase
 {
     use DatabaseTransactions;
 
