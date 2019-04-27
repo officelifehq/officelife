@@ -23,7 +23,7 @@ class LogNotificationTest extends TestCase
 
         $request = [
             'user_id' => $user->id,
-            'action' => 'added_to_company',
+            'action' => 'task_assigned',
             'content' => '{team_id: 1}',
         ];
 
@@ -33,7 +33,7 @@ class LogNotificationTest extends TestCase
             'id' => $notification->id,
             'user_id' => $user->id,
             'company_id' => null,
-            'action' => 'added_to_company',
+            'action' => 'task_assigned',
             'content' => '{team_id: 1}',
         ]);
 
@@ -51,7 +51,7 @@ class LogNotificationTest extends TestCase
         $request = [
             'user_id' => $employee->user_id,
             'company_id' => $employee->company_id,
-            'action' => 'added_to_company',
+            'action' => 'task_assigned',
             'content' => '{team_id: 1}',
         ];
 
@@ -61,7 +61,7 @@ class LogNotificationTest extends TestCase
             'id' => $notification->id,
             'user_id' => $employee->user_id,
             'company_id' => $employee->company_id,
-            'action' => 'added_to_company',
+            'action' => 'task_assigned',
             'content' => '{team_id: 1}',
         ]);
     }
@@ -75,7 +75,7 @@ class LogNotificationTest extends TestCase
         $request = [
             'user_id' => $employee->user_id,
             'company_id' => $company->id,
-            'action' => 'added_to_company',
+            'action' => 'task_assigned',
             'content' => '{team_id: 1}',
         ];
 

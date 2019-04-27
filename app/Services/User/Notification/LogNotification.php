@@ -5,6 +5,7 @@ namespace App\Services\User\Notification;
 use App\Models\User\User;
 use App\Services\BaseService;
 use App\Models\Company\Company;
+use Illuminate\Validation\Rule;
 use App\Models\User\Notification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -20,7 +21,13 @@ class LogNotification extends BaseService
         return [
             'user_id' => 'required|integer|exists:users,id',
             'company_id' => 'nullable|integer|exists:companies,id',
-            'action' => 'required|string|max:255',
+            'action' => [
+                'required',
+                Rule::in([
+                    'task_assigned',
+                ]),
+                'max:255',
+            ],
             'content' => 'required|string|max:255',
             'is_dummy' => 'nullable|boolean',
         ];

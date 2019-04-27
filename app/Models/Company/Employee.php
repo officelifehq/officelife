@@ -174,6 +174,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the tasks record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'assignee_id');
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string

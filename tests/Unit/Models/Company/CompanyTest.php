@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\User;
 
 use Tests\TestCase;
 use App\Models\Company\Flow;
+use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
@@ -80,5 +81,16 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->flows()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_tasks()
+    {
+        $company = factory(Company::class)->create();
+        factory(Task::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->tasks()->exists());
     }
 }

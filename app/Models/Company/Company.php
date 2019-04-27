@@ -100,4 +100,14 @@ class Company extends Model
     {
         return $this->hasMany(Flow::class);
     }
+
+    /**
+     * Get the task records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
