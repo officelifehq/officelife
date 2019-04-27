@@ -134,3 +134,10 @@ $factory->define(App\Models\Company\Action::class, function (Faker $faker) {
         'specific_recipient_information' => null,
     ];
 });
+
+$factory->define(App\Models\Company\Task::class, function (Faker $faker) {
+    return [
+        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'title' => 'Welcome the new employee',
+    ];
+});
