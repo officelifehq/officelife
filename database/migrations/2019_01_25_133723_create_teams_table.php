@@ -20,6 +20,7 @@ class CreateTeamsTable extends Migration
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->index('name');
         });
 
         Schema::create('employee_team', function (Blueprint $table) {

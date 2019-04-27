@@ -13,3 +13,11 @@ $factory->define(App\Models\User\User::class, function (Faker $faker) {
         'uuid' => $faker->uuid,
     ];
 });
+
+$factory->define(App\Models\User\Notification::class, function (Faker $faker) {
+    return [
+        'user_id' => factory(App\Models\User\User::class)->create()->id,
+        'action' => 'notification',
+        'content' => '{}',
+    ];
+});

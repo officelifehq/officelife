@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models\Account;
+namespace Tests\Unit\Models\Company;
 
 use Tests\ApiTestCase;
 use App\Models\Company\Team;

@@ -70,6 +70,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the notification record associated with the user.
+     *
+     * @return hasMany
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    /**
      * Get the name of the user.
      *
      * @param string $value
