@@ -50,12 +50,12 @@ class CreateTask extends BaseService
             config('homas.authorizations.hr')
         );
 
-        if (!empty($data['team_id'])) {
+        if (! empty($data['team_id'])) {
             Team::where('company_id', $data['company_id'])
                 ->findOrFail($data['team_id']);
         }
 
-        if (!empty($data['assignee_id'])) {
+        if (! empty($data['assignee_id'])) {
             Employee::where('company_id', $data['company_id'])
                 ->findOrFail($data['assignee_id']);
         }
@@ -76,11 +76,11 @@ class CreateTask extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        if (!empty($data['team_id'])) {
+        if (! empty($data['team_id'])) {
             $this->addLogTeamAction($data, $dataToLog);
         }
 
-        if (!empty($data['assignee_id'])) {
+        if (! empty($data['assignee_id'])) {
             $this->addLogEmployeeAction($data, $dataToLog, $author);
         }
 
