@@ -150,6 +150,11 @@ export default {
     this.updatedEmployee = this.employee
   },
 
+  mounted() {
+    // prevent click outside event with popupItem.
+    this.popupItem = this.$el
+  },
+
   methods: {
     toggleModal() {
       this.modal = false

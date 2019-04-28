@@ -10,7 +10,7 @@
 		<div class="cf">
 			<div class="fl w-10 pa2">
 				<a class="relative header-logo" href="">
-          <img src="/img/logo/logo.svg" height="30" />
+          <img src="/img/logo.svg" height="30" />
         </a>
 			</div>
 			<div class="fl w-70 tc">
@@ -84,7 +84,7 @@
     </div>
     <div class="absolute pa2 header-logo">
       <a href="">
-          <img src="/img/logo/logo.svg" width="30" height="27" />
+          <img src="/img/logo.svg" width="30" height="27" />
       </a>
     </div>
 	</div>

@@ -166,6 +166,9 @@ export default {
       })
       localStorage.clear()
     }
+
+    // prevent click outside event with popupItem.
+    this.popupItem = this.$el
   },
 
   methods: {
