@@ -34,7 +34,7 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index');
 
-            Route::resource('{employee}/position', 'Company\\Employee\\Position\\EmployeePositionController')->only([
+            Route::resource('{employee}/position' , 'Company\\Employee\\Position\\EmployeePositionController')->only([
                 'store', 'destroy',
             ]);
 
@@ -70,6 +70,9 @@ Route::middleware(['auth'])->group(function () {
 
             // position management
             Route::resource('account/positions', 'Company\\Adminland\\Position\AdminPositionController');
+
+            // flow management
+            Route::resource('account/flows', 'Company\\Adminland\\Flow\AdminFlowController');
         });
     });
 });
