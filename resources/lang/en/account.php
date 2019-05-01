@@ -7,6 +7,7 @@ return [
     'home_manage_employees' => 'Add/remove existing employees',
     'home_manage_positions' => 'Add/remove job positions',
     'home_manage_teams' => 'Add/remove teams',
+    'home_manage_flows' => 'Add/remove flows',
     'home_audit_log' => 'View audit log to see who has done what',
     'home_generate_fake_data' => 'Generate fake data',
     'home_remove_fake_data' => 'Remove fake data',
@@ -46,4 +47,9 @@ return [
     'position_success_new' => 'The position has been created',
     'position_success_update' => 'The position has been updated',
     'position_success_destroy' => 'The position has been destroyed',
+
+    'flows_title' => 'All the flows in {company}',
+    'flows_cta' => 'Create a flow',
+    'flows_number_flows' => '{company} has one flow. | {company} has {count} flows.',
+    'flows_blank' => 'Flows lets you define how the system should react when something in the company happens. It’s... quite powerful.',
 ];

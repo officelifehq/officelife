@@ -19,13 +19,28 @@ class AdminFlowController extends Controller
     {
         $company = Cache::get('currentCompany');
         $flows = FlowResource::collection(
-            $company->flows()->orderBy('title', 'asc')->get()
+            $company->flows()->orderBy('name', 'asc')->get()
         );
 
         return View::component('ShowAccountFlows', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
             'flows' => $flows,
+        ]);
+    }
+
+    /**
+     * Show the Create flow view.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $company = Cache::get('currentCompany');
+
+        return View::component('CreateAccountFlow', [
+            'company' => $company,
+            'user' => auth()->user()->getEmployeeObjectForCompany($company),
         ]);
     }
 }
