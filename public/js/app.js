@@ -1042,6 +1042,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -1055,6 +1085,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      steps: [],
+      numberOfSteps: 1,
+      numberOfBeforeSteps: 0,
+      numberOfAfterSteps: 1,
       form: {
         first_name: null,
         last_name: null,
@@ -1067,7 +1101,54 @@ __webpack_require__.r(__webpack_exports__);
       errorTemplate: Error
     };
   },
+  mounted: function mounted() {
+    this.steps.push({
+      id: this.numberOfSteps++,
+      type: 'same_day'
+    });
+  },
+  computed: {
+    firstStep: function firstStep() {
+      return this.steps[0].id;
+    },
+    lastStep: function lastStep() {
+      return this.steps[this.steps.length - 1].id;
+    },
+    orderedSteps: function orderedSteps() {
+      return _.orderBy(this.steps, 'id');
+    }
+  },
   methods: {
+    // Check whether the given step is not the last and not the first
+    // Useful to determine if we need to put a separator between steps
+    notFirstAndLastStep: function notFirstAndLastStep(id) {
+      if (this.firstStep == id && this.numberOfSteps == 2) {
+        return false;
+      }
+
+      if (this.lastStep == id) {
+        return false;
+      }
+
+      return true;
+    },
+    addStepBefore: function addStepBefore() {
+      this.numberOfBeforeStep--;
+      console.log(this.numberOfBeforeStep);
+      this.steps.push({
+        id: this.numberOfBeforeStep,
+        type: 'before'
+      });
+      this.numberOfSteps++;
+    },
+    addStepAfter: function addStepAfter() {
+      this.numberOfAfterSteps++;
+      this.steps.push({
+        id: this.numberOfAfterSteps,
+        type: 'after'
+      });
+      this.numberOfSteps++;
+    },
     submit: function submit() {
       var _this = this;
 
@@ -3667,7 +3748,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.flow[data-v-4d4b36e3] {\n  background-color: #f4f6fa;\n  box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.14);\n  border-radius: 8px;\n}\n.actions li[data-v-4d4b36e3]:not(:last-child) {\n  margin-bottom: 10px;\n}\n", ""]);
+exports.push([module.i, "\n.flow[data-v-4d4b36e3] {\n  background-color: #f4f6fa;\n  box-shadow: inset 1px 2px 2px rgba(0, 0, 0, 0.14);\n  border-radius: 8px;\n}\n.actions-dots[data-v-4d4b36e3] {\n  top: 15px;\n}\n", ""]);
 
 // exports
 
@@ -9527,69 +9608,188 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("div", { staticClass: "mb3 flow pv4" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "step tc measure center bg-white ma3 br3"
-                      },
-                      [
-                        _c("div", { staticClass: "condition pa3 bb bb-gray" }, [
-                          _c("p", { staticClass: "ma0 pa0 mb2" }, [
-                            _vm._v("The day this event happens")
-                          ]),
-                          _vm._v(" "),
-                          _c("select", [
-                            _c("option", [_vm._v("Employee's hiring date")])
-                          ])
-                        ]),
+                  _c(
+                    "div",
+                    { staticClass: "mb3 flow pv4" },
+                    _vm._l(_vm.orderedSteps, function(step) {
+                      return _c("div", [
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.firstStep == step.id,
+                                expression: "firstStep == step.id"
+                              }
+                            ],
+                            staticClass: "tc"
+                          },
+                          [
+                            _c("img", {
+                              staticClass: "center pointer",
+                              attrs: {
+                                src: "/img/company/account/flow_plus_top.svg"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addStepBefore()
+                                }
+                              }
+                            })
+                          ]
+                        ),
                         _vm._v(" "),
-                        _c("div", { staticClass: "actions pa3" }, [
-                          _c("p", { staticClass: "ma0 pa0 mb3" }, [
-                            _vm._v("Do the following")
-                          ]),
-                          _vm._v(" "),
-                          _c("ul", { staticClass: "list ma0 pa0 tl" }, [
-                            _c("li", { staticClass: "relative db" }, [
-                              _vm._v("\n                    Notify "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass:
-                                    "bb b--dotted bt-0 bl-0 br-0 pointer"
-                                },
-                                [_vm._v("an employee")]
-                              ),
-                              _vm._v(" with "),
-                              _c(
-                                "span",
-                                {
-                                  staticClass:
-                                    "bb b--dotted bt-0 bl-0 br-0 pointer"
-                                },
-                                [_vm._v("a message")]
-                              ),
-                              _vm._v(" "),
-                              _c("img", {
-                                staticClass: "absolute right-0 pointer",
-                                attrs: { src: "/img/common/triple-dots.svg" }
-                              })
-                            ]),
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "step tc measure center bg-white br3 ma3 mt0 mb0"
+                          },
+                          [
+                            _c(
+                              "div",
+                              { staticClass: "condition pa3 bb bb-gray" },
+                              [
+                                _c("p", { staticClass: "ma0 pa0 mb2" }, [
+                                  _vm._v("The day this event happens")
+                                ]),
+                                _vm._v(" "),
+                                _c("select", [
+                                  _c("option", [
+                                    _vm._v("Employee's hiring date")
+                                  ])
+                                ])
+                              ]
+                            ),
                             _vm._v(" "),
-                            _c("li", { staticClass: "relative db" }, [
-                              _vm._v(
-                                "\n                    Notify an employee with a message\n                    "
-                              ),
+                            _c(
+                              "div",
+                              { staticClass: "actions pa3 bb bb-gray" },
+                              [
+                                _c("p", { staticClass: "ma0 pa0 mb3" }, [
+                                  _vm._v("Do the following")
+                                ]),
+                                _vm._v(" "),
+                                _c("ul", { staticClass: "list ma0 pa0 tl" }, [
+                                  _c(
+                                    "li",
+                                    {
+                                      staticClass:
+                                        "relative db bb-gray-hover pv2 ph1"
+                                    },
+                                    [
+                                      _c("span", { staticClass: "number" }, [
+                                        _vm._v("1")
+                                      ]),
+                                      _vm._v("\n                      Notify "),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass:
+                                            "bb b--dotted bt-0 bl-0 br-0 pointer"
+                                        },
+                                        [_vm._v("an employee")]
+                                      ),
+                                      _vm._v(" with "),
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass:
+                                            "bb b--dotted bt-0 bl-0 br-0 pointer"
+                                        },
+                                        [_vm._v("a message")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("img", {
+                                        staticClass:
+                                          "absolute right-0 pointer actions-dots",
+                                        attrs: {
+                                          src: "/img/common/triple-dots.svg"
+                                        }
+                                      })
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "li",
+                                    {
+                                      staticClass:
+                                        "relative db bb-gray-hover pv2 ph1"
+                                    },
+                                    [
+                                      _c("span", { staticClass: "number" }, [
+                                        _vm._v("2")
+                                      ]),
+                                      _vm._v(
+                                        "\n                      Notify an employee with a message\n                      "
+                                      ),
+                                      _c("img", {
+                                        staticClass:
+                                          "absolute right-0 pointer actions-dots",
+                                        attrs: {
+                                          src: "/img/common/triple-dots.svg"
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "pa3" }, [
+                              _c(
+                                "a",
+                                { staticClass: "btn dib", attrs: { href: "" } },
+                                [_vm._v("Add action")]
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.notFirstAndLastStep(step.id)
+                          ? _c("div", { staticClass: "tc" }, [
                               _c("img", {
-                                staticClass: "absolute right-0 pointer",
-                                attrs: { src: "/img/common/triple-dots.svg" }
+                                staticClass: "center pointer",
+                                attrs: {
+                                  src: "/img/company/account/flow_line.svg"
+                                }
                               })
                             ])
-                          ])
-                        ])
-                      ]
-                    )
-                  ]),
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.lastStep == step.id,
+                                expression: "lastStep == step.id"
+                              }
+                            ],
+                            staticClass: "tc"
+                          },
+                          [
+                            _c("img", {
+                              staticClass: "center pointer",
+                              attrs: {
+                                src: "/img/company/account/flow_plus_bottom.svg"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.addStepAfter()
+                                }
+                              }
+                            })
+                          ]
+                        )
+                      ])
+                    }),
+                    0
+                  ),
                   _vm._v(" "),
                   _c("div", { staticClass: "mv4" }, [
                     _c(

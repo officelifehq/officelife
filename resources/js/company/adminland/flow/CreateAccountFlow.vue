@@ -5,8 +5,8 @@
   border-radius: 8px;
 }
 
-.actions li:not(:last-child) {
-  margin-bottom: 10px;
+.actions-dots {
+  top: 15px;
 }
 </style>
 
@@ -55,29 +55,59 @@
 
             <!-- Flow -->
             <div class="mb3 flow pv4">
-
-              <div class="step tc measure center bg-white ma3 br3">
-                <div class="condition pa3 bb bb-gray">
-                  <p class="ma0 pa0 mb2">The day this event happens</p>
-                  <select>
-                    <option>Employee's hiring date</option>
-                  </select>
+              <div v-for="step in orderedSteps">
+                <!-- PLUS BUTTON -->
+                <div class="tc" v-show="firstStep == step.id">
+                  <img src="/img/company/account/flow_plus_top.svg" class="center pointer" @click="addStepBefore()" />
                 </div>
-                <div class="actions pa3">
-                  <p class="ma0 pa0 mb3">Do the following</p>
-                  <ul class="list ma0 pa0 tl">
-                    <li class="relative db">
-                      Notify <span class="bb b--dotted bt-0 bl-0 br-0 pointer">an employee</span> with <span class="bb b--dotted bt-0 bl-0 br-0 pointer">a message</span>
-                      <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer" />
-                    </li>
-                    <li class="relative db">
-                      Notify an employee with a message
-                      <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer" />
-                    </li>
-                  </ul>
+
+                <div class="step tc measure center bg-white br3 ma3 mt0 mb0">
+
+                  <!-- CASE OF "BEFORE" STEP -->
+
+                  <!-- CASE OF "SAME DAY" STEP -->
+                  <div class="condition pa3 bb bb-gray">
+                    <p class="ma0 pa0 mb2">The day this event happens</p>
+                    <select>
+                      <option>Employee's hiring date</option>
+                    </select>
+                  </div>
+
+                  <!-- CASE OF "AFTER" STEP -->
+
+                  <!-- list of actions -->
+                  <div class="actions pa3 bb bb-gray">
+                    <p class="ma0 pa0 mb3">Do the following</p>
+                    <ul class="list ma0 pa0 tl">
+                      <li class="relative db bb-gray-hover pv2 ph1">
+                        <span class="number">1</span>
+                        Notify <span class="bb b--dotted bt-0 bl-0 br-0 pointer">an employee</span> with <span class="bb b--dotted bt-0 bl-0 br-0 pointer">a message</span>
+                        <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer actions-dots" />
+                      </li>
+                      <li class="relative db bb-gray-hover pv2 ph1">
+                        <span class="number">2</span>
+                        Notify an employee with a message
+                        <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer actions-dots" />
+                      </li>
+                    </ul>
+                  </div>
+
+                  <!-- add actions -->
+                  <div class="pa3">
+                    <a href="" class="btn dib">Add action</a>
+                  </div>
+                </div>
+
+                <!-- DIVIDER -->
+                <div class="tc" v-if="notFirstAndLastStep(step.id)">
+                  <img src="/img/company/account/flow_line.svg" class="center pointer" />
+                </div>
+
+                <!-- PLUS BUTTON -->
+                <div class="tc" v-show="lastStep == step.id">
+                  <img src="/img/company/account/flow_plus_bottom.svg" class="center pointer" @click="addStepAfter()" />
                 </div>
               </div>
-
             </div>
 
             <!-- Actions -->
@@ -107,11 +137,15 @@ export default {
     user: {
       type: Object,
       default: null,
-    },
+    }
   },
 
   data() {
     return {
+      steps: [],
+      numberOfSteps: 1,
+      numberOfBeforeSteps: 0,
+      numberOfAfterSteps: 1,
       form: {
         first_name: null,
         last_name: null,
@@ -125,7 +159,60 @@ export default {
     }
   },
 
+  mounted() {
+    this.steps.push({
+      id: this.numberOfSteps++,
+      type: 'same_day',
+    })
+  },
+
+  computed: {
+    firstStep() {
+      return this.steps[0].id
+    },
+
+    lastStep() {
+      return this.steps[this.steps.length - 1].id
+    },
+
+    orderedSteps: function () {
+      return _.orderBy(this.steps, 'id')
+    }
+  },
+
   methods: {
+    // Check whether the given step is not the last and not the first
+    // Useful to determine if we need to put a separator between steps
+    notFirstAndLastStep(id) {
+      if (this.firstStep == id && this.numberOfSteps == 2) {
+        return false
+      }
+      if (this.lastStep == id) {
+        return false
+      }
+
+      return true
+    },
+
+    addStepBefore() {
+      this.numberOfBeforeStep--
+      console.log(this.numberOfBeforeStep)
+      this.steps.push({
+        id: this.numberOfBeforeStep,
+        type: 'before',
+      })
+      this.numberOfSteps++
+    },
+
+    addStepAfter() {
+      this.numberOfAfterSteps++
+      this.steps.push({
+        id: this.numberOfAfterSteps,
+        type: 'after',
+      })
+      this.numberOfSteps++
+    },
+
     submit() {
       this.loadingState = 'loading'
 
