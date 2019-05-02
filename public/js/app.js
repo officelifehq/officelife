@@ -1072,6 +1072,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -1103,7 +1109,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.steps.push({
-      id: this.numberOfSteps++,
+      id: 1,
       type: 'same_day'
     });
   },
@@ -1133,21 +1139,20 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     },
     addStepBefore: function addStepBefore() {
-      this.numberOfBeforeStep--;
-      console.log(this.numberOfBeforeStep);
+      this.numberOfBeforeSteps = this.numberOfBeforeSteps + 1;
       this.steps.push({
-        id: this.numberOfBeforeStep,
+        id: this.numberOfBeforeSteps * -1,
         type: 'before'
       });
-      this.numberOfSteps++;
+      this.numberOfSteps = this.numberOfSteps + 1;
     },
     addStepAfter: function addStepAfter() {
-      this.numberOfAfterSteps++;
+      this.numberOfAfterSteps = this.numberOfAfterSteps + 1;
       this.steps.push({
         id: this.numberOfAfterSteps,
         type: 'after'
       });
-      this.numberOfSteps++;
+      this.numberOfSteps = this.numberOfSteps + 1;
     },
     submit: function submit() {
       var _this = this;
@@ -9519,9 +9524,7 @@ var render = function() {
             _c("li", { staticClass: "di" }, [
               _c(
                 "a",
-                {
-                  attrs: { href: "/" + _vm.company.id + "/account/employees" }
-                },
+                { attrs: { href: "/" + _vm.company.id + "/account/flows" } },
                 [_vm._v(_vm._s(_vm.$t("app.breadcrumb_account_manage_flows")))]
               )
             ]),
@@ -9650,7 +9653,37 @@ var render = function() {
                           [
                             _c(
                               "div",
-                              { staticClass: "condition pa3 bb bb-gray" },
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: step.type == "before",
+                                    expression: "step.type == 'before'"
+                                  }
+                                ],
+                                staticClass: "condition pa3 bb bb-gray"
+                              },
+                              [
+                                _c("p", { staticClass: "ma0 pa0 mb2" }, [
+                                  _vm._v("BEFORE " + _vm._s(step.id))
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: step.type == "same_day",
+                                    expression: "step.type == 'same_day'"
+                                  }
+                                ],
+                                staticClass: "condition pa3 bb bb-gray"
+                              },
                               [
                                 _c("p", { staticClass: "ma0 pa0 mb2" }, [
                                   _vm._v("The day this event happens")
@@ -9660,6 +9693,26 @@ var render = function() {
                                   _c("option", [
                                     _vm._v("Employee's hiring date")
                                   ])
+                                ])
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: step.type == "after",
+                                    expression: "step.type == 'after'"
+                                  }
+                                ],
+                                staticClass: "condition pa3 bb bb-gray"
+                              },
+                              [
+                                _c("p", { staticClass: "ma0 pa0 mb2" }, [
+                                  _vm._v("AFTER " + _vm._s(step.id))
                                 ])
                               ]
                             ),

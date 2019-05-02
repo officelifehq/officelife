@@ -23,7 +23,7 @@
             ...
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/account/employees'">{{ $t('app.breadcrumb_account_manage_flows') }}</a>
+            <a :href="'/' + company.id + '/account/flows'">{{ $t('app.breadcrumb_account_manage_flows') }}</a>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_add_employee') }}
@@ -64,9 +64,12 @@
                 <div class="step tc measure center bg-white br3 ma3 mt0 mb0">
 
                   <!-- CASE OF "BEFORE" STEP -->
+                  <div class="condition pa3 bb bb-gray" v-show="step.type == 'before'">
+                    <p class="ma0 pa0 mb2">BEFORE {{ step.id }}</p>
+                  </div>
 
                   <!-- CASE OF "SAME DAY" STEP -->
-                  <div class="condition pa3 bb bb-gray">
+                  <div class="condition pa3 bb bb-gray" v-show="step.type == 'same_day'">
                     <p class="ma0 pa0 mb2">The day this event happens</p>
                     <select>
                       <option>Employee's hiring date</option>
@@ -74,6 +77,9 @@
                   </div>
 
                   <!-- CASE OF "AFTER" STEP -->
+                  <div class="condition pa3 bb bb-gray" v-show="step.type == 'after'">
+                    <p class="ma0 pa0 mb2">AFTER {{ step.id }}</p>
+                  </div>
 
                   <!-- list of actions -->
                   <div class="actions pa3 bb bb-gray">
@@ -161,7 +167,7 @@ export default {
 
   mounted() {
     this.steps.push({
-      id: this.numberOfSteps++,
+      id: 1,
       type: 'same_day',
     })
   },
@@ -195,22 +201,21 @@ export default {
     },
 
     addStepBefore() {
-      this.numberOfBeforeStep--
-      console.log(this.numberOfBeforeStep)
+      this.numberOfBeforeSteps = this.numberOfBeforeSteps + 1
       this.steps.push({
-        id: this.numberOfBeforeStep,
+        id: this.numberOfBeforeSteps * -1,
         type: 'before',
       })
-      this.numberOfSteps++
+      this.numberOfSteps = this.numberOfSteps + 1
     },
 
     addStepAfter() {
-      this.numberOfAfterSteps++
+      this.numberOfAfterSteps = this.numberOfAfterSteps + 1
       this.steps.push({
         id: this.numberOfAfterSteps,
         type: 'after',
       })
-      this.numberOfSteps++
+      this.numberOfSteps = this.numberOfSteps + 1
     },
 
     submit() {
