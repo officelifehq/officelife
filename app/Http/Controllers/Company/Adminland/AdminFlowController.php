@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;

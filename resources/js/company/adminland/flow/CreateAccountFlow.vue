@@ -5,8 +5,16 @@
   border-radius: 8px;
 }
 
-.actions-dots {
-  top: 15px;
+.box-plus-button {
+  top: -19px;
+}
+
+.green-box {
+  border: 2px solid #1cbb70;
+}
+
+.lh0 {
+  line-height: 0;
 }
 </style>
 
@@ -55,13 +63,18 @@
 
             <!-- Flow -->
             <div class="mb3 flow pv4">
-              <div v-for="step in orderedSteps">
+
+              <div v-for="step in orderedSteps" :key="step.id">
+
                 <!-- PLUS BUTTON -->
-                <div class="tc" v-show="firstStep == step.id">
+                <div class="tc lh0" v-show="oldestStep == step.id">
                   <img src="/img/company/account/flow_plus_top.svg" class="center pointer" @click="addStepBefore()" />
                 </div>
 
-                <div class="step tc measure center bg-white br3 ma3 mt0 mb0">
+                <div class="step tc measure center bg-white br3 ma3 mt0 mb0 relative" v-bind:class="{'green-box':(numberOfSteps > 1 && step.type == 'same_day')}">
+
+                  <!-- DELETE BUTTON -->
+                  <img v-show="step.type != 'same_day'" src="/img/trash_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" @click.prevent="removeStep(step)" />
 
                   <!-- CASE OF "BEFORE" STEP -->
                   <div class="condition pa3 bb bb-gray" v-show="step.type == 'before'">
@@ -82,35 +95,16 @@
                   </div>
 
                   <!-- list of actions -->
-                  <div class="actions pa3 bb bb-gray">
-                    <p class="ma0 pa0 mb3">Do the following</p>
-                    <ul class="list ma0 pa0 tl">
-                      <li class="relative db bb-gray-hover pv2 ph1">
-                        <span class="number">1</span>
-                        Notify <span class="bb b--dotted bt-0 bl-0 br-0 pointer">an employee</span> with <span class="bb b--dotted bt-0 bl-0 br-0 pointer">a message</span>
-                        <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer actions-dots" />
-                      </li>
-                      <li class="relative db bb-gray-hover pv2 ph1">
-                        <span class="number">2</span>
-                        Notify an employee with a message
-                        <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer actions-dots" />
-                      </li>
-                    </ul>
-                  </div>
-
-                  <!-- add actions -->
-                  <div class="pa3">
-                    <a href="" class="btn dib">Add action</a>
-                  </div>
+                  <actions v-model="step.actions" />
                 </div>
 
                 <!-- DIVIDER -->
-                <div class="tc" v-if="notFirstAndLastStep(step.id)">
+                <div class="tc lh0" v-if="notFirstAndLastStep(step.id)">
                   <img src="/img/company/account/flow_line.svg" class="center pointer" />
                 </div>
 
                 <!-- PLUS BUTTON -->
-                <div class="tc" v-show="lastStep == step.id">
+                <div class="tc" v-show="newestStep == step.id">
                   <img src="/img/company/account/flow_plus_bottom.svg" class="center pointer" @click="addStepAfter()" />
                 </div>
               </div>
@@ -151,7 +145,9 @@ export default {
       steps: [],
       numberOfSteps: 1,
       numberOfBeforeSteps: 0,
-      numberOfAfterSteps: 1,
+      numberOfAfterSteps: 0,
+      oldestStep: 0,
+      newestStep: 0,
       form: {
         first_name: null,
         last_name: null,
@@ -167,20 +163,13 @@ export default {
 
   mounted() {
     this.steps.push({
-      id: 1,
+      id: 0,
       type: 'same_day',
+      actions: [],
     })
   },
 
   computed: {
-    firstStep() {
-      return this.steps[0].id
-    },
-
-    lastStep() {
-      return this.steps[this.steps.length - 1].id
-    },
-
     orderedSteps: function () {
       return _.orderBy(this.steps, 'id')
     }
@@ -190,10 +179,10 @@ export default {
     // Check whether the given step is not the last and not the first
     // Useful to determine if we need to put a separator between steps
     notFirstAndLastStep(id) {
-      if (this.firstStep == id && this.numberOfSteps == 2) {
+      if (this.oldestStep == id && this.numberOfSteps == 1) {
         return false
       }
-      if (this.lastStep == id) {
+      if (this.newestStep == id) {
         return false
       }
 
@@ -201,35 +190,48 @@ export default {
     },
 
     addStepBefore() {
-      this.numberOfBeforeSteps = this.numberOfBeforeSteps + 1
+      this.oldestStep = this.oldestStep + 1 * -1
       this.steps.push({
-        id: this.numberOfBeforeSteps * -1,
+        id: this.oldestStep,
         type: 'before',
+        actions: [],
       })
       this.numberOfSteps = this.numberOfSteps + 1
+      this.numberOfBeforeSteps = this.numberOfBeforeSteps + 1
     },
 
     addStepAfter() {
-      this.numberOfAfterSteps = this.numberOfAfterSteps + 1
+      this.newestStep = this.newestStep + 1
       this.steps.push({
-        id: this.numberOfAfterSteps,
+        id: this.newestStep,
         type: 'after',
+        actions: [],
       })
       this.numberOfSteps = this.numberOfSteps + 1
+      this.numberOfAfterSteps = this.numberOfAfterSteps + 1
     },
 
-    submit() {
-      this.loadingState = 'loading'
+    removeStep(step) {
+      var idToRemove = step.id
+      this.steps.splice(this.steps.findIndex(i => i.id === step.id), 1)
 
-      axios.post('/' + this.company.id + '/account/employees', this.form)
-        .then(response => {
-          localStorage.success = 'The employee has been added'
-          Turbolinks.visit('/' + response.data.company_id + '/account/employees')
-        })
-        .catch(error => {
-          this.loadingState = null
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+      if (step.type == 'before') {
+        this.numberOfSteps = this.numberOfSteps - 1
+        this.numberOfBeforeSteps = this.numberOfBeforeSteps - 1
+
+        if (step.id == this.oldestStep) {
+          this.oldestStep = Math.min.apply(Math, this.steps.map(function(o) { return o.id }))
+        }
+      }
+
+      if (step.type == 'after') {
+        this.numberOfSteps = this.numberOfSteps - 1
+        this.numberOfAfterSteps = this.numberOfAfterSteps - 1
+
+        if (step.id == this.newestStep) {
+          this.newestStep = Math.max.apply(Math, this.steps.map(function(o) { return o.id }))
+        }
+      }
     },
   }
 }
