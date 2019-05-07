@@ -6,18 +6,16 @@
     top: 3px;
   }
 }
-
-.actions-dots {
-  top: 15px;
-}
 </style>
 
 <template>
   <div>
-    <div class="bb bb-gray pa3" v-show="orderedActions.length != 0">
-      <p class="ma0 pa0 mb3">Do the following</p>
+    <div v-show="orderedActions.length != 0" class="bb bb-gray pa3">
+      <p class="ma0 pa0 mb3">
+        Do the following
+      </p>
       <ul class="list ma0 pa0 tl">
-        <li class="relative db bb-gray-hover pv2 ph1" v-for="action in orderedActions" :key="action.id">
+        <li v-for="action in orderedActions" :key="action.id" class="relative db bb-gray-hover pv2 ph1">
           <action-notification :action="action" />
         </li>
       </ul>
@@ -25,9 +23,9 @@
 
     <!-- add actions -->
     <div class="pa3">
-      <a class="btn dib" @click.prevent="showActionMenu = true" v-show="!showActionMenu">Add action</a>
+      <a v-show="!showActionMenu" class="btn dib" @click.prevent="showActionMenu = true">Add action</a>
 
-      <div class="tc" v-show="showActionMenu">
+      <div v-show="showActionMenu" class="tc">
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer" @click="addAction('notification')">
           <img src="/img/company/account/action-notification.svg" class="relative mr1" height="18" width="20" />
           Notify an employee
@@ -68,14 +66,14 @@ export default {
     }
   },
 
-  mounted() {
-    this.localActions = this.value
-  },
-
   computed: {
     orderedActions: function () {
       return _.orderBy(this.localActions, 'id')
     }
+  },
+
+  mounted() {
+    this.localActions = this.value
   },
 
   methods: {

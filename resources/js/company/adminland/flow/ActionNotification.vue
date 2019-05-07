@@ -1,10 +1,15 @@
 <style lang="scss" scoped>
+.actions-dots {
+  top: 15px;
+}
 </style>
 
 <template>
   <div>
-    <span class="number">{{ action.id }}</span>
+    <span class="number">{{ action.id }}. </span>
+
     Notify <span class="bb b--dotted bt-0 bl-0 br-0 pointer">an employee</span> with <span class="bb b--dotted bt-0 bl-0 br-0 pointer">a message</span>
+
     <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer actions-dots" />
   </div>
 </template>

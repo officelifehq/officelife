@@ -63,35 +63,88 @@
 
             <!-- Flow -->
             <div class="mb3 flow pv4">
-
               <div v-for="step in orderedSteps" :key="step.id">
-
                 <!-- PLUS BUTTON -->
-                <div class="tc lh0" v-show="oldestStep == step.id">
+                <div v-show="oldestStep == step.id" class="tc lh0">
                   <img src="/img/company/account/flow_plus_top.svg" class="center pointer" @click="addStepBefore()" />
                 </div>
 
-                <div class="step tc measure center bg-white br3 ma3 mt0 mb0 relative" v-bind:class="{'green-box':(numberOfSteps > 1 && step.type == 'same_day')}">
-
+                <div class="step tc measure center bg-white br3 ma3 mt0 mb0 relative" :class="{'green-box':(numberOfSteps > 1 && step.type == 'same_day')}">
                   <!-- DELETE BUTTON -->
                   <img v-show="step.type != 'same_day'" src="/img/trash_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" @click.prevent="removeStep(step)" />
 
                   <!-- CASE OF "BEFORE" STEP -->
-                  <div class="condition pa3 bb bb-gray" v-show="step.type == 'before'">
-                    <p class="ma0 pa0 mb2">BEFORE {{ step.id }}</p>
+                  <div v-show="step.type == 'before'" class="condition pa3 bb bb-gray">
+                    <ul class="list ma0 pa0 mb2">
+                      <li class="di mr2">
+                        <input id="" v-model="step.number" type="number" min="1" max="100"
+                               name="" class="tc br2 f5 ba b--black-40 pa2 outline-0"
+                               required
+                        />
+                      </li>
+                      <li class="di mr2">
+                        <input :id="'frequency_days_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_before_' + step.id" value="days"
+                               class="mr1"
+                        /> <label :for="'frequency_days_' + step.id">days</label>
+                      </li>
+                      <li class="di mr2">
+                        <input :id="'frequency_weeks_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_before_' + step.id" value="weeks"
+                               class="mr1"
+                        /> <label :for="'frequency_weeks_' + step.id">weeks</label>
+                      </li>
+                      <li class="di">
+                        <input :id="'frequency_months_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_before_' + step.id" value="months"
+                               class="mr1"
+                        /> <label :for="'frequency_months_' + step.id">months</label>
+                      </li>
+                    </ul>
+
+                    <p class="ma0 pa0">
+                      before <span class="brush-blue">{{ selectedDate }}</span>
+                    </p>
                   </div>
 
                   <!-- CASE OF "SAME DAY" STEP -->
-                  <div class="condition pa3 bb bb-gray" v-show="step.type == 'same_day'">
-                    <p class="ma0 pa0 mb2">The day this event happens</p>
-                    <select>
-                      <option>Employee's hiring date</option>
+                  <div v-show="step.type == 'same_day'" class="condition pa3 bb bb-gray">
+                    <p class="ma0 pa0 mb2">
+                      The day this event happens
+                    </p>
+                    <select v-model="selectedDate">
+                      <option value="employee_hiring_date">
+                        Employee's hiring date
+                      </option>
                     </select>
                   </div>
 
                   <!-- CASE OF "AFTER" STEP -->
-                  <div class="condition pa3 bb bb-gray" v-show="step.type == 'after'">
-                    <p class="ma0 pa0 mb2">AFTER {{ step.id }}</p>
+                  <div v-show="step.type == 'after'" class="condition pa3 bb bb-gray">
+                    <ul class="list ma0 pa0 mb2">
+                      <li class="di mr2">
+                        <input id="" v-model="step.number" type="number" min="1" max="100"
+                               name="" class="tc br2 f5 ba b--black-40 pa2 outline-0"
+                               required
+                        />
+                      </li>
+                      <li class="di mr2">
+                        <input :id="'frequency_days_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_after_' + step.id" value="days"
+                               class="mr1"
+                        /> <label :for="'frequency_days_' + step.id">days</label>
+                      </li>
+                      <li class="di mr2">
+                        <input :id="'frequency_weeks_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_after_' + step.id" value="weeks"
+                               class="mr1"
+                        /> <label :for="'frequency_weeks_' + step.id">weeks</label>
+                      </li>
+                      <li class="di">
+                        <input :id="'frequency_months_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_after_' + step.id" value="months"
+                               class="mr1"
+                        /> <label :for="'frequency_months_' + step.id">months</label>
+                      </li>
+                    </ul>
+
+                    <p class="ma0 pa0">
+                      after <span class="brush-blue">{{ selectedDate }}</span>
+                    </p>
                   </div>
 
                   <!-- list of actions -->
@@ -99,12 +152,12 @@
                 </div>
 
                 <!-- DIVIDER -->
-                <div class="tc lh0" v-if="notFirstAndLastStep(step.id)">
+                <div v-if="notFirstAndLastStep(step.id)" class="tc lh0">
                   <img src="/img/company/account/flow_line.svg" class="center pointer" />
                 </div>
 
                 <!-- PLUS BUTTON -->
-                <div class="tc" v-show="newestStep == step.id">
+                <div v-show="newestStep == step.id" class="tc">
                   <img src="/img/company/account/flow_plus_bottom.svg" class="center pointer" @click="addStepAfter()" />
                 </div>
               </div>
@@ -148,6 +201,7 @@ export default {
       numberOfAfterSteps: 0,
       oldestStep: 0,
       newestStep: 0,
+      selectedDate: '',
       form: {
         first_name: null,
         last_name: null,
@@ -161,18 +215,20 @@ export default {
     }
   },
 
-  mounted() {
-    this.steps.push({
-      id: 0,
-      type: 'same_day',
-      actions: [],
-    })
-  },
-
   computed: {
     orderedSteps: function () {
       return _.orderBy(this.steps, 'id')
     }
+  },
+
+  mounted() {
+    this.steps.push({
+      id: 0,
+      type: 'same_day',
+      frequency: 'days',
+      number: 1,
+      actions: [],
+    })
   },
 
   methods: {
@@ -194,6 +250,8 @@ export default {
       this.steps.push({
         id: this.oldestStep,
         type: 'before',
+        frequency: 'days',
+        number: 1,
         actions: [],
       })
       this.numberOfSteps = this.numberOfSteps + 1
@@ -205,6 +263,8 @@ export default {
       this.steps.push({
         id: this.newestStep,
         type: 'after',
+        frequency: 'days',
+        number: 1,
         actions: [],
       })
       this.numberOfSteps = this.numberOfSteps + 1
