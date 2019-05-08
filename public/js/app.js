@@ -944,6 +944,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -960,7 +962,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  directives: {
+    ClickOutside: vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
   props: {
     action: {
       type: Object,
@@ -968,10 +1024,55 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   data: function data() {
-    return {};
+    return {
+      who: '',
+      notification: {
+        target: ''
+      },
+      displayModal: false,
+      showEveryoneConfirmationModal: false
+    };
   },
-  mounted: function mounted() {},
-  methods: {}
+  mounted: function mounted() {
+    // prevent click outside event with popupItem.
+    this.popupItem = this.$el;
+    this.who = 'an employee';
+  },
+  methods: {
+    displayConfirmationModal: function displayConfirmationModal() {
+      this.showEveryoneConfirmationModal = true;
+      this.displayModal = false;
+    },
+    toggleModals: function toggleModals() {
+      this.showEveryoneConfirmationModal = false;
+      this.displayModal = false;
+    },
+    setTarget: function setTarget(target) {
+      this.notification.target = target;
+      this.toggleModals();
+
+      switch (target) {
+        case 'actualEmployee':
+          this.who = 'the actual employee';
+          break;
+
+        case 'everyone':
+          this.who = 'everyone in the company';
+          break;
+
+        case 'managers':
+          this.who = 'the manager(s) of the employee';
+          break;
+
+        case 'directReports':
+          this.who = 'the direct report(s) of the employee';
+          break;
+
+        default:
+          this.who = 'an employee';
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -3884,7 +3985,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".actions-dots[data-v-ab8a8f26] {\n  top: 15px;\n}", ""]);
+exports.push([module.i, ".actions-dots[data-v-ab8a8f26] {\n  top: 15px;\n}\n.employee-modal[data-v-ab8a8f26] {\n  top: 30px;\n  left: -120px;\n  right: 290px;\n}\n.confirmation-menu[data-v-ab8a8f26] {\n  top: 30px;\n  left: -160px;\n  right: initial;\n  width: 310px;\n}", ""]);
 
 // exports
 
@@ -9804,18 +9905,209 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "relative pr3 lh-copy" }, [
     _c("span", { staticClass: "number" }, [
       _vm._v(_vm._s(_vm.action.id) + ". ")
     ]),
     _vm._v("\n\n  Notify "),
-    _c("span", { staticClass: "bb b--dotted bt-0 bl-0 br-0 pointer" }, [
-      _vm._v("an employee")
-    ]),
+    _c(
+      "span",
+      {
+        staticClass: "bb b--dotted bt-0 bl-0 br-0 pointer",
+        on: {
+          click: function($event) {
+            $event.preventDefault()
+            _vm.displayModal = true
+          }
+        }
+      },
+      [_vm._v(_vm._s(_vm.who))]
+    ),
     _vm._v(" with "),
     _c("span", { staticClass: "bb b--dotted bt-0 bl-0 br-0 pointer" }, [
       _vm._v("a message")
     ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.displayModal,
+            expression: "displayModal"
+          },
+          {
+            name: "click-outside",
+            rawName: "v-click-outside",
+            value: _vm.toggleModals,
+            expression: "toggleModals"
+          }
+        ],
+        staticClass:
+          "popupmenu employee-modal absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster"
+      },
+      [
+        _c("ul", { staticClass: "list ma0 pa0" }, [
+          _c("li", { staticClass: "pv2" }, [
+            _c(
+              "a",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.setTarget("actualEmployee")
+                  }
+                }
+              },
+              [_vm._v("The actual employee")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "pv2" }, [
+            _c(
+              "a",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.displayEmployeeSearchBox($event)
+                  }
+                }
+              },
+              [_vm._v("A specific employee")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "pv2" }, [
+            _c(
+              "a",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.setTarget("managers")
+                  }
+                }
+              },
+              [_vm._v("The employee’s manager(s)")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "pv2" }, [
+            _c(
+              "a",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.setTarget("directReports")
+                  }
+                }
+              },
+              [_vm._v("The employee’s direct report(s)")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "pv2" }, [
+            _c(
+              "a",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.displayTeamSearchBox($event)
+                  }
+                }
+              },
+              [_vm._v("All the employee team's members")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "pv2" }, [
+            _c(
+              "a",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.displayConfirmationModal($event)
+                  }
+                }
+              },
+              [_vm._v("Everyone in the company")]
+            )
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showEveryoneConfirmationModal,
+            expression: "showEveryoneConfirmationModal"
+          },
+          {
+            name: "click-outside",
+            rawName: "v-click-outside",
+            value: _vm.toggleModals,
+            expression: "toggleModals"
+          }
+        ],
+        staticClass:
+          "popupmenu confirmation-menu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster"
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("ul", { staticClass: "list ma0 pa0 pb2" }, [
+          _c("li", { staticClass: "pv2 di relative mr2" }, [
+            _c(
+              "a",
+              {
+                staticClass: "pointer ml1",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.setTarget("everyone")
+                  }
+                }
+              },
+              [_vm._v("Yes, I’m sure")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "pv2 di" }, [
+            _c(
+              "a",
+              {
+                staticClass: "pointer",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    _vm.showEveryoneConfirmationModal = false
+                    _vm.displayModal = true
+                  }
+                }
+              },
+              [_vm._v("No, forget it")]
+            )
+          ])
+        ])
+      ]
+    ),
     _vm._v(" "),
     _c("img", {
       staticClass: "absolute right-0 pointer actions-dots",
@@ -9823,7 +10115,18 @@ var render = function() {
     })
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", { staticClass: "lh-copy" }, [
+      _vm._v("Are you sure? This will alert "),
+      _c("span", { staticClass: "brush-blue" }, [_vm._v("all the employees")]),
+      _vm._v(" of the company.")
+    ])
+  }
+]
 render._withStripped = true
 
 
