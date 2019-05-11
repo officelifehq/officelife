@@ -148,7 +148,7 @@
         </div>
         <div class="absolute pa2 header-logo">
           <a href="">
-            <img src="/img/logo/logo.svg" width="30" height="27" />
+            <img src="/img/logo.svg" width="30" height="27" />
           </a>
         </div>
       </div>

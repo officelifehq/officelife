@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'hierarchy_title' => 'Position in the company',
+    'hierarchy_title' => 'Hierarchy in the company',
     'hierarchy_blank' => 'Add a manager or a direct report to position this employee within the company.',
     'hierarchy_modal_add_manager' => 'Add a manager',
     'hierarchy_modal_add_direct_report' => 'Add a direct report',

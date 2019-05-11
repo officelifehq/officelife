@@ -69,7 +69,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('account/teams/{team}/destroy', 'Company\\Adminland\\TeamController@destroy');
 
             // position management
-            Route::resource('account/positions', 'Company\\Adminland\\Position\AdminPositionController');
+            Route::resource('account/positions', 'Company\\Adminland\\Position\\AdminPositionController');
+
+            // flow management
+            Route::resource('account/flows', 'Company\\Adminland\\AdminFlowController');
         });
     });
 });

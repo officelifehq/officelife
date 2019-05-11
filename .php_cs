@@ -6,7 +6,8 @@ $finder = Symfony\Component\Finder\Finder::create()
     ->notPath('storage')
     ->in(__DIR__)
     ->name('*.php')
-    ->notName('*.blade.php');
+    ->notName('*.blade.php')
+    ->ignoreVCS(true);
 
 return PhpCsFixer\Config::create()
     ->setRules([

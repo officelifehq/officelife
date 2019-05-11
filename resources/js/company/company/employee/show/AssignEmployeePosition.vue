@@ -111,6 +111,9 @@ export default {
     }
 
     this.updatedEmployee = this.employee
+
+    // prevent click outside event with popupItem.
+    this.popupItem = this.$el
   },
 
   methods: {

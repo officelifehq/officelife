@@ -15,6 +15,7 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
     'sure' => 'Are you sure?',
+    'yes_sure' => 'Yes I’m sure',
 
     'previous' => 'Previous',
     'next' => 'Next',
@@ -26,6 +27,7 @@ return [
     'breadcrumb_account_manage_employees' => 'Manage employees',
     'breadcrumb_account_add_employee' => 'Add an employee',
     'breadcrumb_account_manage_teams' => 'Manage teams',
+    'breadcrumb_account_manage_flows' => 'Manage flows',
     'breadcrumb_account_audit_logs' => 'Audit logs',
     'breadcrumb_account_manage_positions' => 'Positions',
     'breadcrumb_employee_list' => 'All employees',
