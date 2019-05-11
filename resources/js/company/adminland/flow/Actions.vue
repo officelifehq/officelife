@@ -11,12 +11,12 @@
 <template>
   <div>
     <div v-show="orderedActions.length != 0" class="bb bb-gray pa3">
-      <p class="ma0 pa0 mb3">
-        Do the following
+      <p class="ma0 pa0 mb1 f6">
+        {{ $t('account.flow_new_action_following') }}
       </p>
       <ul class="list ma0 pa0 tl">
         <li v-for="action in orderedActions" :key="action.id" class="relative db bb-gray-hover pv2 ph1">
-          <action-notification :action="action" />
+          <action-notification :action="action" @destroy="destroyAction(action)" @update="updateAction($event, action)" />
         </li>
       </ul>
     </div>
@@ -28,15 +28,15 @@
       <div v-show="showActionMenu" class="tc">
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer" @click="addAction('notification')">
           <img src="/img/company/account/action-notification.svg" class="relative mr1" height="18" width="20" />
-          Notify an employee
+          {{ $t('account.flow_new_action_notification') }}
         </div>
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer">
           <img src="/img/company/account/action-task.svg" class="relative mr1" height="20" width="20" />
-          Add a task
+          {{ $t('account.flow_new_action_task') }}
         </div>
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer">
           <img src="/img/company/account/action-email.svg" class="relative mr1" height="20" width="20" />
-          Send an email
+          {{ $t('account.flow_new_action_email') }}
         </div>
       </div>
     </div>
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       localActions: [],
-      numberOfActions: 0,
+      uniqueIds: 0,
       showActionMenu: false,
     }
   },
@@ -78,15 +78,23 @@ export default {
 
   methods: {
     addAction(type) {
-      this.numberOfActions = this.numberOfActions + 1
+      this.uniqueIds = this.uniqueIds + 1
       this.localActions.push({
-        id: this.numberOfActions,
+        id: this.uniqueIds,
         type: type,
       })
 
       this.showActionMenu = false
       this.$emit('change', this.localActions)
     },
+
+    updateAction(event, action) {
+      Vue.set(this.localActions, this.localActions.indexOf(action), event)
+    },
+
+    destroyAction(action) {
+      this.localActions.splice(this.localActions.findIndex(i => i.id === action.id), 1)
+    }
   }
 }
 

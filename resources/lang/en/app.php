@@ -15,6 +15,7 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
     'sure' => 'Are you sure?',
+    'yes_sure' => 'Yes I’m sure',
 
     'previous' => 'Previous',
     'next' => 'Next',
