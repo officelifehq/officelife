@@ -203,6 +203,7 @@ export default {
         employeeId: 0,
         teamId: 0,
         message: '',
+        complete: false,
       },
       form: {
         searchTerm: null,
@@ -272,6 +273,14 @@ export default {
       this.showEditMessage = false
     },
 
+    // check if an action is considered "complete". If not, this will prevent
+    // the form to be submitted in the parent component.
+    checkComplete() {
+      if (this.notification.message != '' && this.notification.message != this.$t('account.flow_new_action_label_unknown_message') && this.notification.target) {
+        this.notification.complete = true
+      }
+    },
+
     setTarget(target) {
       this.notification.target = target
       this.toggleModals()
@@ -300,6 +309,7 @@ export default {
         this.who = this.$t('account.flow_new_action_label_employee')
       }
 
+      this.checkComplete()
       this.$emit('update', this.notification)
     },
 
@@ -365,6 +375,7 @@ export default {
       }
       this.message = this.notification.message
       this.toggleModals()
+      this.checkComplete()
       this.$emit('update', this.notification)
     }
   }

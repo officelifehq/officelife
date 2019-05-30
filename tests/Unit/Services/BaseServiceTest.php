@@ -19,8 +19,7 @@ class BaseServiceTest extends TestCase
     {
         $stub = $this->getMockForAbstractClass(BaseService::class);
 
-        $this->assertInternalType(
-            'array',
+        $this->assertIsArray(
             $stub->rules()
         );
     }

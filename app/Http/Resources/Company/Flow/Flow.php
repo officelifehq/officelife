@@ -18,6 +18,9 @@ class Flow extends JsonResource
             'id' => $this->id,
             'object' => 'flow',
             'name' => $this->name,
+            'steps' => [
+                'count' => $this->steps->count(),
+            ],
             'company' => [
                 'id' => $this->company_id,
             ],

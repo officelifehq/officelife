@@ -43,7 +43,7 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5 center">
           <h2 class="tc normal mb4">
-            Add a new flow
+            {{ $t('account.flows_cta') }}
           </h2>
 
           <!-- Form Errors -->
@@ -52,9 +52,10 @@
           <form @submit.prevent="submit">
             <!-- Name -->
             <div class="mb3">
-              <label class="db fw4 lh-copy f6" for="first_name">{{ $t('account.flow_new_flow') }}</label>
-              <input id="first_name" v-model="form.first_name" type="text" name="first_name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
+              <label class="db fw4 lh-copy f6" for="name">{{ $t('account.flow_new_flow') }}</label>
+              <input id="name" v-model="form.name" type="text" name="name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
                      required
+                     @change="checkComplete"
               />
               <p class="f7 mb4 lh-title">
                 {{ $t('account.flow_new_help') }}
@@ -100,7 +101,7 @@
                     </ul>
 
                     <p class="ma0 pa0">
-                      {{ $t('account.flow_new_before') }} <span class="brush-blue">{{ selectedDate }}</span>
+                      {{ $t('account.flow_new_before') }} <span class="brush-blue">{{ form.selectedDate }}</span>
                     </p>
                   </div>
 
@@ -109,7 +110,7 @@
                     <p class="ma0 pa0 mb2">
                       {{ $t('account.flow_new_the_day_event_happens') }}
                     </p>
-                    <select v-model="selectedDate">
+                    <select v-model="form.selectedDate" @change="checkComplete">
                       <option value="employee_hiring_date">
                         Employee's hiring date
                       </option>
@@ -143,12 +144,12 @@
                     </ul>
 
                     <p class="ma0 pa0">
-                      {{ $t('account.flow_new_after') }} <span class="brush-blue">{{ selectedDate }}</span>
+                      {{ $t('account.flow_new_after') }} <span class="brush-blue">{{ form.selectedDate }}</span>
                     </p>
                   </div>
 
                   <!-- list of actions -->
-                  <actions v-model="step.actions" />
+                  <actions v-model="step.actions" @completed="checkComplete($event)" />
                 </div>
 
                 <!-- DIVIDER -->
@@ -195,19 +196,17 @@ export default {
 
   data() {
     return {
-      steps: [],
       numberOfSteps: 1,
+      isComplete: false,
       numberOfBeforeSteps: 0,
       numberOfAfterSteps: 0,
       oldestStep: 0,
       newestStep: 0,
-      selectedDate: '',
       form: {
-        first_name: null,
-        last_name: null,
-        email: null,
-        permission_level: null,
-        send_invitation: false,
+        name: null,
+        type: null,
+        selectedDate: null,
+        steps: [],
         errors: [],
       },
       loadingState: '',
@@ -217,12 +216,12 @@ export default {
 
   computed: {
     orderedSteps: function () {
-      return _.orderBy(this.steps, 'id')
+      return _.orderBy(this.form.steps, 'id')
     }
   },
 
   mounted() {
-    this.steps.push({
+    this.form.steps.push({
       id: 0,
       type: 'same_day',
       frequency: 'days',
@@ -247,7 +246,7 @@ export default {
 
     addStepBefore() {
       this.oldestStep = this.oldestStep + 1 * -1
-      this.steps.push({
+      this.form.steps.push({
         id: this.oldestStep,
         type: 'before',
         frequency: 'days',
@@ -260,7 +259,7 @@ export default {
 
     addStepAfter() {
       this.newestStep = this.newestStep + 1
-      this.steps.push({
+      this.form.steps.push({
         id: this.newestStep,
         type: 'after',
         frequency: 'days',
@@ -273,7 +272,7 @@ export default {
 
     removeStep(step) {
       var idToRemove = step.id
-      this.steps.splice(this.steps.findIndex(i => i.id === step.id), 1)
+      this.form.steps.splice(this.form.steps.findIndex(i => i.id === step.id), 1)
 
       if (step.type == 'before') {
         this.numberOfSteps = this.numberOfSteps - 1
@@ -282,7 +281,7 @@ export default {
         if (step.id == this.oldestStep) {
           // this basically calculates what is the mininum number that we should
           // assign to the step
-          this.oldestStep = Math.min.apply(Math, this.steps.map(function(o) { return o.id }))
+          this.oldestStep = Math.min.apply(Math, this.form.steps.map(function(o) { return o.id }))
         }
       }
 
@@ -291,10 +290,51 @@ export default {
         this.numberOfAfterSteps = this.numberOfAfterSteps - 1
 
         if (step.id == this.newestStep) {
-          this.newestStep = Math.max.apply(Math, this.steps.map(function(o) { return o.id }))
+          this.newestStep = Math.max.apply(Math, this.form.steps.map(function(o) { return o.id }))
         }
       }
     },
+
+    submit() {
+      this.loadingState = 'loading'
+
+      axios.post('/' + this.company.id + '/account/flows', this.form)
+        .then(response => {
+          localStorage.success = 'The flow has been added'
+          Turbolinks.visit('/' + response.data.company_id + '/account/flows')
+        })
+        .catch(error => {
+          this.loadingState = null
+          this.form.errors = _.flatten(_.toArray(error.response.data))
+        })
+    },
+
+    checkComplete(event) {
+      var isCompleteYet = true
+
+      // check if the event is selected
+      if (this.form.selectedDate == null) {
+        isCompleteYet = false
+      }
+
+      // check if a name has been set for the flow
+      if (!this.form.name) {
+        isCompleteYet = false
+      }
+
+      // check if all the steps have the all actions they need
+      for (let index = 0; index < this.form.steps.length; index++) {
+        const actions = this.form.steps[index]['actions']
+
+        for (let otherIndex = 0; otherIndex < actions.length; otherIndex++) {
+          if (actions[otherIndex]['complete'] == false || !actions[otherIndex]['complete']) {
+            isCompleteYet = false
+          }
+        }
+      }
+
+      this.isComplete = isCompleteYet
+    }
   }
 }
 

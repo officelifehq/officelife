@@ -20,7 +20,7 @@ class AddActionToStep extends BaseService
             'author_id' => 'required|integer|exists:users,id',
             'flow_id' => 'required|integer|exists:flows,id',
             'step_id' => 'required|integer|exists:steps,id',
-            'nature' => 'required|string',
+            'type' => 'required|string',
             'recipient' => 'required|string',
             'specific_recipient_information' => 'required|string',
         ];
@@ -47,7 +47,7 @@ class AddActionToStep extends BaseService
 
         $action = Action::create([
             'step_id' => $data['step_id'],
-            'nature' => $data['nature'],
+            'type' => $data['type'],
             'recipient' => $data['recipient'],
             'specific_recipient_information' => $data['specific_recipient_information'],
         ]);

@@ -31,7 +31,7 @@ class AddActionToStepTest extends TestCase
             'author_id' => $employee->user_id,
             'flow_id' => $step->flow_id,
             'step_id' => $step->id,
-            'nature' => 'notification',
+            'type' => 'notification',
             'recipient' => 'manager',
             'specific_recipient_information' => '{manager_id:1}',
         ];
@@ -41,7 +41,7 @@ class AddActionToStepTest extends TestCase
         $this->assertDatabaseHas('actions', [
             'id' => $action->id,
             'step_id' => $step->id,
-            'nature' => 'notification',
+            'type' => 'notification',
             'recipient' => 'manager',
             'specific_recipient_information' => '{manager_id:1}',
         ]);

@@ -60,6 +60,7 @@ export default {
 
   data() {
     return {
+      complete: false,
       localActions: [],
       uniqueIds: 0,
       showActionMenu: false,
@@ -86,10 +87,24 @@ export default {
 
       this.showActionMenu = false
       this.$emit('change', this.localActions)
+      this.$emit('completed', this.complete)
     },
 
     updateAction(event, action) {
       Vue.set(this.localActions, this.localActions.indexOf(action), event)
+
+      // check whether the actions are "complete" to prevent submitting a wrong
+      // json to the backend
+      var isCompleteYet = true
+      for (let index = 0; index < this.localActions.length; index++) {
+        const action = this.localActions[index]
+        if (action.complete == false || !action.complete) {
+          isCompleteYet = false
+        }
+      }
+
+      this.complete = isCompleteYet
+      this.$emit('completed', this.complete)
     },
 
     destroyAction(action) {
