@@ -19,7 +19,7 @@ class BaseServiceTest extends TestCase
     {
         $stub = $this->getMockForAbstractClass(BaseService::class);
 
-        $this-> assertIsArray(
+        $this->assertIsArray(
             $stub->rules()
         );
     }
