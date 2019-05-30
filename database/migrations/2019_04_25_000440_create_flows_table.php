@@ -36,7 +36,7 @@ class CreateFlowsTable extends Migration
         Schema::create('actions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('step_id');
-            $table->string('nature');
+            $table->string('type');
             $table->string('recipient');
             $table->text('specific_recipient_information')->nullable();
             $table->timestamps();

@@ -129,7 +129,7 @@ $factory->define(App\Models\Company\Step::class, function (Faker $faker) {
 $factory->define(App\Models\Company\Action::class, function (Faker $faker) {
     return [
         'step_id' => factory(App\Models\Company\Step::class)->create()->id,
-        'nature' => 'notification',
+        'type' => 'notification',
         'recipient' => 'manager',
         'specific_recipient_information' => null,
     ];

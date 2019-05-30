@@ -38,7 +38,7 @@
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10"
             >
               <div class="flex-auto">
-                <span class="db b">{{ flow.name }}</span>
+                <span class="db b">{{ flow.name }} <span class="normal f6">({{ flow.steps.count }} steps)</span></span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
                     <a :href="'/' + company.id + '/flows/' + flow.id">{{ $t('app.view') }}</a>
@@ -85,7 +85,19 @@ export default {
       type: Object,
       default: null,
     },
-  }
+  },
+
+  mounted() {
+    if (localStorage.success) {
+      this.$snotify.success(localStorage.success, {
+        timeout: 2000,
+        showProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+      })
+      localStorage.clear()
+    }
+  },
 }
 
 </script>

@@ -14,7 +14,7 @@ class Action extends Model
      */
     protected $fillable = [
         'step_id',
-        'nature',
+        'type',
         'recipient',
         'specific_recipient_information',
     ];
