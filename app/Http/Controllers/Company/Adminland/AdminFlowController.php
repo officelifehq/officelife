@@ -10,6 +10,7 @@ use App\Services\Company\Adminland\Flow\CreateFlow;
 use App\Services\Company\Adminland\Flow\AddStepToFlow;
 use App\Services\Company\Adminland\Flow\AddActionToStep;
 use App\Http\Resources\Company\Flow\Flow as FlowResource;
+use App\Models\Company\Flow;
 
 class AdminFlowController extends Controller
 {
@@ -29,6 +30,25 @@ class AdminFlowController extends Controller
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
             'flows' => $flows,
+        ]);
+    }
+
+    /**
+     * Display the detail of a flow.
+     *
+     * @param int $companyId
+     * @param int $flowId
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, int $companyId, int $flowId)
+    {
+        $company = Cache::get('currentCompany');
+        $flow = Flow::findOrFail($flowId);
+
+        return View::component('ShowAccountFlow', [
+            'company' => $company,
+            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'flow' => new FlowResource($flow),
         ]);
     }
 
@@ -60,6 +80,7 @@ class AdminFlowController extends Controller
             'company_id' => $companyId,
             'author_id' => auth()->user()->id,
             'name' => $request->get('name'),
+            'type' => $request->get('type'),
         ];
 
         $flow = (new CreateFlow)->execute($data);

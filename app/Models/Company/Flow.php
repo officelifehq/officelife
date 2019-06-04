@@ -19,6 +19,7 @@ class Flow extends Model
     protected $fillable = [
         'company_id',
         'name',
+        'type',
         'is_dummy',
     ];
 

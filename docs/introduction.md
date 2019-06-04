@@ -51,8 +51,12 @@ When adding an employee in the system, you need to indicate a role. A role is a 
 
 There are only three roles in Homas:
 - Administrator
-- Human Resource Administrator
--
+- Human Resource Representative
+- Employee.
+
+We want to keep the application simple, so we want as few roles as possible. With those permissions and the presence of the audit log that tracks everything that happens in the application, those roles should be enough.
+
+That being said, an employee can be a manager. When an employee is a manager, he has some controls and additional powers over a regular employee, but only towards the employees he manages.
 
 ### Adding employees
 

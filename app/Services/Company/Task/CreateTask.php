@@ -8,9 +8,9 @@ use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Services\Company\Team\LogTeamAction;
-use App\Services\User\Notification\LogNotification;
 use App\Services\Company\Employee\LogEmployeeAction;
 use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Services\User\Notification\CreateNotificationInUIForEmployee;
 
 class CreateTask extends BaseService
 {
@@ -144,11 +144,11 @@ class CreateTask extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        (new LogNotification)->execute([
+        (new CreateNotificationInUIForEmployee)->execute([
             'user_id' => $user->id,
             'company_id' => $data['company_id'],
             'action' => 'task_assigned',
-            'content' => '{team_id: 1}',
+            'content' => $data['title'],
         ]);
     }
 }
