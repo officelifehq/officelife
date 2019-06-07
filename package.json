@@ -28,7 +28,7 @@
         "vue-template-compiler": "^2.5.22"
     },
     "dependencies": {
-        "cypress": "^3.1.5",
+        "cypress": "3.3",
         "laravel-mix-purgecss": "^4.1.0",
         "turbolinks": "^5.2.0",
         "underscore": "^1.9.1",
