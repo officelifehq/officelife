@@ -31,7 +31,7 @@
             <a :href="'/' + company.id + '/account/flows/create'" class="btn primary absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.flows_cta') }}</a>
           </p>
 
-          <!-- LIST OF TEAMS -->
+          <!-- LIST OF FLOWS -->
           <ul v-show="flows.length != 0" class="list pl0 mt0 center">
             <li
               v-for="flow in flows" :key="flow.id"
@@ -41,13 +41,13 @@
                 <span class="db b">{{ flow.name }} <span class="normal f6">({{ flow.steps.count }} steps)</span></span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <a :href="'/' + company.id + '/flows/' + flow.id">{{ $t('app.view') }}</a>
+                    <a :href="'/' + company.id + '/account/flows/' + flow.id">{{ $t('app.view') }}</a>
                   </li>
                   <li class="di pr2">
-                    <a :href="'/' + company.id + '/flows/' + flow.id + '/lock'">{{ $t('app.rename') }}</a>
+                    <a :href="'/' + company.id + '/account/flows/' + flow.id + '/lock'">{{ $t('app.rename') }}</a>
                   </li>
                   <li class="di">
-                    <a :href="'/' + company.id + '/flows/' + flow.id + '/destroy'">{{ $t('app.delete') }}</a>
+                    <a :href="'/' + company.id + '/account/flows/' + flow.id + '/destroy'">{{ $t('app.delete') }}</a>
                   </li>
                 </ul>
               </div>

@@ -11,58 +11,62 @@
             <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</a>
+            ...
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_flows') }}
+            <a :href="'/' + company.id + '/account/flows'">{{ $t('app.breadcrumb_account_manage_flows') }}</a>
+          </li>
+          <li class="di">
+            View a flow
           </li>
         </ul>
       </div>
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
-        <!-- WHEN THERE ARE TEAMS -->
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.flows_title', { company: company.name}) }}
+            {{ flow.name }}
           </h2>
           <p class="relative">
-            <span class="dib mb3 di-l">{{ $tc('account.flows_number_flows', flows.length, { company: company.name, count: flows.length}) }}</span>
-            <a :href="'/' + company.id + '/account/flows/create'" class="btn primary absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.flows_cta') }}</a>
+            This flow is about {{ $t('account.flow_new_type_' + flow.type) }} and has {{ flow.steps.count }} steps.
           </p>
 
-          <!-- LIST OF TEAMS -->
-          <ul v-show="flows.length != 0" class="list pl0 mt0 center">
-            <li
-              v-for="flow in flows" :key="flow.id"
-              class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10"
-            >
-              <div class="flex-auto">
-                <span class="db b">{{ flow.name }} <span class="normal f6">({{ flow.steps.count }} steps)</span></span>
-                <ul class="f6 list pl0">
-                  <li class="di pr2">
-                    <a :href="'/' + company.id + '/flows/' + flow.id">{{ $t('app.view') }}</a>
-                  </li>
-                  <li class="di pr2">
-                    <a :href="'/' + company.id + '/flows/' + flow.id + '/lock'">{{ $t('app.rename') }}</a>
-                  </li>
-                  <li class="di">
-                    <a :href="'/' + company.id + '/flows/' + flow.id + '/destroy'">{{ $t('app.delete') }}</a>
-                  </li>
-                </ul>
-              </div>
+          <!-- List of steps happening before -->
+          <ul>
+            <li v-for="step in flow.steps.data" :key="step.id" v-show="step.modifier == 'before'">
+              {{ step.number }} {{ step.unit_of_time }} before {{ flow.type }}
+              <ul>
+                <li v-for="action in step.actions.data" :key="action.id">
+                  {{ action.type }} for {{ action.recipient }}
+                </li>
+              </ul>
             </li>
           </ul>
-        </div>
 
-        <!-- NO flows -->
-        <div v-show="flows.length == 0" class="pa3">
-          <p class="tc measure center mb4 lh-copy">
-            {{ $t('account.flows_blank') }}
-          </p>
-          <img class="db center mb4" srcset="/img/company/account/blank-flow-1x.png,
-                                        /img/company/account/blank-flow-2x.png 2x"
-          />
+          <!-- List of steps happening on the day of the event -->
+          <ul>
+            <li v-for="step in flow.steps.data" :key="step.id" v-show="step.modifier == 'same_day'">
+              On {{ flow.type }}
+              <ul>
+                <li v-for="action in step.actions.data" :key="action.id">
+                  {{ action.type }} for {{ action.recipient }}
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <!-- List of steps happening after -->
+          <ul>
+            <li v-for="step in flow.steps.data" :key="step.id" v-show="step.modifier == 'after'">
+              {{ step.number }} {{ step.unit_of_time }} after {{ flow.type }}
+              <ul>
+                <li v-for="action in step.actions.data" :key="action.id">
+                  {{ action.type }} for {{ action.recipient }}
+                </li>
+              </ul>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -77,26 +81,14 @@ export default {
       type: Object,
       default: null,
     },
-    flows: {
-      type: Array,
+    flow: {
+      type: Object,
       default: null,
     },
     user: {
       type: Object,
       default: null,
     },
-  },
-
-  mounted() {
-    if (localStorage.success) {
-      this.$snotify.success(localStorage.success, {
-        timeout: 2000,
-        showProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-      })
-      localStorage.clear()
-    }
   },
 }
 

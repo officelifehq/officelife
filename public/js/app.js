@@ -1886,30 +1886,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
       type: Object,
       "default": null
     },
-    flows: {
-      type: Array,
+    flow: {
+      type: Object,
       "default": null
     },
     user: {
       type: Object,
       "default": null
-    }
-  },
-  mounted: function mounted() {
-    if (localStorage.success) {
-      this.$snotify.success(localStorage.success, {
-        timeout: 2000,
-        showProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true
-      });
-      localStorage.clear();
     }
   }
 });
@@ -3738,6 +3731,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -12370,17 +12364,19 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("li", { staticClass: "di" }, [
-              _c("a", { attrs: { href: "/" + _vm.company.id + "/account" } }, [
-                _vm._v(_vm._s(_vm.$t("app.breadcrumb_account_home")))
-              ])
+              _vm._v("\n          ...\n        ")
             ]),
             _vm._v(" "),
             _c("li", { staticClass: "di" }, [
-              _vm._v(
-                "\n          " +
-                  _vm._s(_vm.$t("app.breadcrumb_account_manage_flows")) +
-                  "\n        "
+              _c(
+                "a",
+                { attrs: { href: "/" + _vm.company.id + "/account/flows" } },
+                [_vm._v(_vm._s(_vm.$t("app.breadcrumb_account_manage_flows")))]
               )
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "di" }, [
+              _vm._v("\n          View a flow\n        ")
             ])
           ])
         ]
@@ -12394,160 +12390,156 @@ var render = function() {
         [
           _c("div", { staticClass: "pa3 mt5" }, [
             _c("h2", { staticClass: "tc normal mb4" }, [
-              _vm._v(
-                "\n          " +
-                  _vm._s(
-                    _vm.$t("account.flows_title", { company: _vm.company.name })
-                  ) +
-                  "\n        "
-              )
+              _vm._v("\n          " + _vm._s(_vm.flow.name) + "\n        ")
             ]),
             _vm._v(" "),
             _c("p", { staticClass: "relative" }, [
-              _c("span", { staticClass: "dib mb3 di-l" }, [
-                _vm._v(
-                  _vm._s(
-                    _vm.$tc("account.flows_number_flows", _vm.flows.length, {
-                      company: _vm.company.name,
-                      count: _vm.flows.length
-                    })
-                  )
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass:
-                    "btn primary absolute-l relative dib-l db right-0",
-                  attrs: {
-                    href: "/" + _vm.company.id + "/account/flows/create",
-                    "data-cy": "add-employee-button"
-                  }
-                },
-                [_vm._v(_vm._s(_vm.$t("account.flows_cta")))]
+              _vm._v(
+                "\n          This flow is about " +
+                  _vm._s(_vm.$t("account.flow_new_type_" + _vm.flow.type)) +
+                  " and has " +
+                  _vm._s(_vm.flow.steps.count) +
+                  " steps.\n        "
               )
             ]),
             _vm._v(" "),
             _c(
               "ul",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.flows.length != 0,
-                    expression: "flows.length != 0"
-                  }
-                ],
-                staticClass: "list pl0 mt0 center"
-              },
-              _vm._l(_vm.flows, function(flow) {
+              _vm._l(_vm.flow.steps.data, function(step) {
                 return _c(
                   "li",
                   {
-                    key: flow.id,
-                    staticClass:
-                      "flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10"
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: step.modifier == "before",
+                        expression: "step.modifier == 'before'"
+                      }
+                    ],
+                    key: step.id
                   },
                   [
-                    _c("div", { staticClass: "flex-auto" }, [
-                      _c("span", { staticClass: "db b" }, [
-                        _vm._v(_vm._s(flow.name) + " "),
-                        _c("span", { staticClass: "normal f6" }, [
-                          _vm._v("(" + _vm._s(flow.steps.count) + " steps)")
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("ul", { staticClass: "f6 list pl0" }, [
-                        _c("li", { staticClass: "di pr2" }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href: "/" + _vm.company.id + "/flows/" + flow.id
-                              }
-                            },
-                            [_vm._v(_vm._s(_vm.$t("app.view")))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "di pr2" }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href:
-                                  "/" +
-                                  _vm.company.id +
-                                  "/flows/" +
-                                  flow.id +
-                                  "/lock"
-                              }
-                            },
-                            [_vm._v(_vm._s(_vm.$t("app.rename")))]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("li", { staticClass: "di" }, [
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href:
-                                  "/" +
-                                  _vm.company.id +
-                                  "/flows/" +
-                                  flow.id +
-                                  "/destroy"
-                              }
-                            },
-                            [_vm._v(_vm._s(_vm.$t("app.delete")))]
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(step.number) +
+                        " " +
+                        _vm._s(step.unit_of_time) +
+                        " before " +
+                        _vm._s(_vm.flow.type) +
+                        "\n            "
+                    ),
+                    _c(
+                      "ul",
+                      _vm._l(step.actions.data, function(action) {
+                        return _c("li", { key: action.id }, [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(action.type) +
+                              " for " +
+                              _vm._s(action.recipient) +
+                              "\n              "
                           )
                         ])
-                      ])
-                    ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c(
+              "ul",
+              _vm._l(_vm.flow.steps.data, function(step) {
+                return _c(
+                  "li",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: step.modifier == "same_day",
+                        expression: "step.modifier == 'same_day'"
+                      }
+                    ],
+                    key: step.id
+                  },
+                  [
+                    _vm._v(
+                      "\n            On " +
+                        _vm._s(_vm.flow.type) +
+                        "\n            "
+                    ),
+                    _c(
+                      "ul",
+                      _vm._l(step.actions.data, function(action) {
+                        return _c("li", { key: action.id }, [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(action.type) +
+                              " for " +
+                              _vm._s(action.recipient) +
+                              "\n              "
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              }),
+              0
+            ),
+            _vm._v(" "),
+            _c(
+              "ul",
+              _vm._l(_vm.flow.steps.data, function(step) {
+                return _c(
+                  "li",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: step.modifier == "after",
+                        expression: "step.modifier == 'after'"
+                      }
+                    ],
+                    key: step.id
+                  },
+                  [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(step.number) +
+                        " " +
+                        _vm._s(step.unit_of_time) +
+                        " after " +
+                        _vm._s(_vm.flow.type) +
+                        "\n            "
+                    ),
+                    _c(
+                      "ul",
+                      _vm._l(step.actions.data, function(action) {
+                        return _c("li", { key: action.id }, [
+                          _vm._v(
+                            "\n                " +
+                              _vm._s(action.type) +
+                              " for " +
+                              _vm._s(action.recipient) +
+                              "\n              "
+                          )
+                        ])
+                      }),
+                      0
+                    )
                   ]
                 )
               }),
               0
             )
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.flows.length == 0,
-                  expression: "flows.length == 0"
-                }
-              ],
-              staticClass: "pa3"
-            },
-            [
-              _c("p", { staticClass: "tc measure center mb4 lh-copy" }, [
-                _vm._v(
-                  "\n          " +
-                    _vm._s(_vm.$t("account.flows_blank")) +
-                    "\n        "
-                )
-              ]),
-              _vm._v(" "),
-              _c("img", {
-                staticClass: "db center mb4",
-                attrs: {
-                  srcset:
-                    "/img/company/account/blank-flow-1x.png" +
-                    ", " +
-                    "/img/company/account/blank-flow-2x.png" +
-                    " 2x"
-                }
-              })
-            ]
-          )
+          ])
         ]
       )
     ])
@@ -12689,7 +12681,11 @@ var render = function() {
                             "a",
                             {
                               attrs: {
-                                href: "/" + _vm.company.id + "/flows/" + flow.id
+                                href:
+                                  "/" +
+                                  _vm.company.id +
+                                  "/account/flows/" +
+                                  flow.id
                               }
                             },
                             [_vm._v(_vm._s(_vm.$t("app.view")))]
@@ -12704,7 +12700,7 @@ var render = function() {
                                 href:
                                   "/" +
                                   _vm.company.id +
-                                  "/flows/" +
+                                  "/account/flows/" +
                                   flow.id +
                                   "/lock"
                               }
@@ -12721,7 +12717,7 @@ var render = function() {
                                 href:
                                   "/" +
                                   _vm.company.id +
-                                  "/flows/" +
+                                  "/account/flows/" +
                                   flow.id +
                                   "/destroy"
                               }
@@ -15894,7 +15890,9 @@ var render = function() {
             _vm._v(" "),
             _c("li", [_vm._v("Log an expense")]),
             _vm._v(" "),
-            _c("li", [_vm._v("View one on ones")])
+            _c("li", [_vm._v("View one on ones")]),
+            _vm._v(" "),
+            _c("li", [_vm._v("View all my tasks")])
           ])
         ])
       ])

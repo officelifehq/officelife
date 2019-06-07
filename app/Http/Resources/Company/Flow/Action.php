@@ -3,9 +3,9 @@
 namespace App\Http\Resources\Company\Flow;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Company\Flow\Step as StepResource;
+use App\Http\Resources\Company\Flow\Action as ActionResource;
 
-class Flow extends JsonResource
+class Action extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,16 +17,10 @@ class Flow extends JsonResource
     {
         return [
             'id' => $this->id,
-            'object' => 'flow',
-            'name' => $this->name,
+            'object' => 'step',
             'type' => $this->type,
-            'steps' => [
-                'count' => $this->steps->count(),
-                'data' => StepResource::collection($this->steps),
-            ],
-            'company' => [
-                'id' => $this->company_id,
-            ],
+            'recipient' => $this->recipient,
+            'recipient_specific_information' => $this->recipient_specific_information,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
