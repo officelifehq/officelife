@@ -83,7 +83,7 @@ class AuditController extends Controller
             }
 
             if ($log->action == 'flow_created') {
-                $sentence = 'Created the flow called ' . $log->object->{'flow_name'} . '.';
+                $sentence = 'Created the flow called '.$log->object->{'flow_name'}.'.';
             }
 
             $logsCollection->push([
