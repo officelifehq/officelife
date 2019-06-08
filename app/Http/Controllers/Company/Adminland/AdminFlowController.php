@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use App\Models\Company\Flow;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -10,7 +11,6 @@ use App\Services\Company\Adminland\Flow\CreateFlow;
 use App\Services\Company\Adminland\Flow\AddStepToFlow;
 use App\Services\Company\Adminland\Flow\AddActionToStep;
 use App\Http\Resources\Company\Flow\Flow as FlowResource;
-use App\Models\Company\Flow;
 
 class AdminFlowController extends Controller
 {

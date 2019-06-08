@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Company\Flow;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Company\Flow\Action as ActionResource;
 
 class Action extends JsonResource
 {

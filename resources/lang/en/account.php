@@ -69,7 +69,7 @@ return [
     'flow_new_type_employee_leaves_holidays' => 'An employee leaves for holidays',
     'flow_new_type_employee_returns_holidays' => 'An employee comes back from holidays',
     'flow_new_type_employee_returns_leave' => 'An employee returns from a leave',
-    'flow_new_the_day_event_happens' => 'The day this event happens',
+    'flow_new_the_day_event_happens' => 'The moment this event happens',
     'flow_new_action_following' => 'Do the following',
     'flow_new_action_notification' => 'Notify an employee',
     'flow_new_action_task' => 'Add a task',

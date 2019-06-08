@@ -32,7 +32,7 @@ class CreateFlow extends BaseService
                     'employee_new_position',
                     'employee_leaves_holidays',
                     'employee_returns_holidays',
-                    'employee_returns_leave'
+                    'employee_returns_leave',
                 ]),
             ],
             'is_dummy' => 'nullable|boolean',
@@ -58,6 +58,7 @@ class CreateFlow extends BaseService
         $flow = Flow::create([
             'company_id' => $data['company_id'],
             'name' => $data['name'],
+            'type' => $data['type'],
         ]);
 
         (new LogAuditAction)->execute([
