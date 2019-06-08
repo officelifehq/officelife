@@ -9,7 +9,18 @@
   margin: 0 auto;
 }
 
-.bg-modal-find {
+.notifications-box {
+  border: 1px solid rgba(27,31,35,.15);
+  box-shadow: 0 3px 12px rgba(27,31,35,.15);
+  top: 63px;
+  width: 500px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+.bg-modal-find,
+.bg-modal-notifications {
   position: fixed;
   z-index: 100;
   top: 0;
@@ -48,6 +59,12 @@
                 <span class="fw5">
                   <img class="relative" src="/img/header/icon-find.svg" />
                   {{ $t('app.header_find') }}
+                </span>
+              </li>
+              <li class="di header-menu-item pa2 pointer" data-cy="header-notifications-link" @click="showNotifications">
+                <span class="fw5">
+                  <img class="relative" src="/img/header/icon-find.svg" />
+                  {{ $t('app.header_notifications') }}
                 </span>
               </li>
             </ul>
@@ -98,6 +115,22 @@
               </div>
             </li>
           </ul>
+        </div>
+      </div>
+
+      <!-- NOTIFICATIONS BOX -->
+      <div v-show="modalNotifications" class="absolute z-max notifications-box">
+        <div class="br2 bg-white tl pv3 ph3 bounceIn faster">
+          <div v-show="notifications.length == 0">
+            No notifications
+          </div>
+
+          <ul v-show="notifications.length > 0">
+            <li v-for="notification in notifications" :key="notification.id">
+              {{ notification.action }}
+            </li>
+          </ul>
+
         </div>
       </div>
     </header>
@@ -155,6 +188,7 @@
     </header>
 
     <div :class="[ modalFind ? 'bg-modal-find' : '' ]"></div>
+    <div :class="[ modalNotifications ? 'bg-modal-notifications' : '' ]"></div>
 
     <slot></slot>
   </div>
@@ -175,12 +209,17 @@ export default {
       type: Object,
       default: null,
     },
+    notifications: {
+      type: Array,
+      default: null,
+    },
   },
 
   data() {
     return {
       loadingState: '',
       modalFind: false,
+      modalNotifications: false,
       dataReturnedFromSearch: false,
       form: {
         searchTerm: null,
@@ -216,6 +255,10 @@ export default {
       this.$nextTick(() => {
         this.$refs.search.focus()
       })
+    },
+
+    showNotifications() {
+      this.modalNotifications = !this.modalNotifications
     },
 
     submit() {

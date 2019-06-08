@@ -111,6 +111,10 @@ export default {
       type: Object,
       default: null,
     },
+    notifications: {
+      type: Array,
+      default: null,
+    },
     teams: {
       type: Array,
       default: null,

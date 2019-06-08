@@ -35,7 +35,7 @@
 </style>
 
 <template>
-  <layout title="Home" :no-menu="false" :user="user">
+  <layout title="Home" :no-menu="false" :user="user" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- Blank state -->
       <div v-show="employees.length == 0" class="cf mt4 mt5-l mw7 center">
@@ -95,6 +95,10 @@ export default {
     },
     user: {
       type: Object,
+      default: null,
+    },
+    notifications: {
+      type: Array,
       default: null,
     },
   },

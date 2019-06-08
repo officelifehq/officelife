@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
 
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
-            Route::get('account/audit', 'Company\\Adminland\\AuditController@index');
+            Route::get('account/audit', 'Company\\Adminland\\AdminAuditController@index');
             Route::get('account/dummy', 'Company\\Adminland\\DummyController@index');
         });
 

@@ -18,6 +18,7 @@ class Notification extends Model
         'company_id',
         'action',
         'content',
+        'read',
         'is_dummy',
     ];
 

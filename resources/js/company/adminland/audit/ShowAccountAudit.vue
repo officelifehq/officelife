@@ -2,7 +2,7 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user">
+  <layout title="Home" :user="user" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -60,7 +60,15 @@ export default {
       type: Object,
       default: null,
     },
+    notifications: {
+      type: Array,
+      default: null,
+    },
     logs: {
+      type: Array,
+      default: null,
+    },
+    notifications: {
       type: Array,
       default: null,
     },
