@@ -8,11 +8,11 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\User\Notification;
 use Illuminate\Validation\ValidationException;
-use App\Services\User\Notification\LogNotification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\User\Notification\CreateNotificationInUIForEmployee;
 
-class LogNotificationTest extends TestCase
+class CreateNotificationInUIForEmployeeTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -27,7 +27,7 @@ class LogNotificationTest extends TestCase
             'content' => '{team_id: 1}',
         ];
 
-        $notification = (new LogNotification)->execute($request);
+        $notification = (new CreateNotificationInUIForEmployee)->execute($request);
 
         $this->assertDatabaseHas('notifications', [
             'id' => $notification->id,
@@ -55,7 +55,7 @@ class LogNotificationTest extends TestCase
             'content' => '{team_id: 1}',
         ];
 
-        $notification = (new LogNotification)->execute($request);
+        $notification = (new CreateNotificationInUIForEmployee)->execute($request);
 
         $this->assertDatabaseHas('notifications', [
             'id' => $notification->id,
@@ -80,7 +80,7 @@ class LogNotificationTest extends TestCase
         ];
 
         $this->expectException(ModelNotFoundException::class);
-        (new LogNotification)->execute($request);
+        (new CreateNotificationInUIForEmployee)->execute($request);
     }
 
     /** @test */
@@ -91,6 +91,6 @@ class LogNotificationTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new LogNotification)->execute($request);
+        (new CreateNotificationInUIForEmployee)->execute($request);
     }
 }

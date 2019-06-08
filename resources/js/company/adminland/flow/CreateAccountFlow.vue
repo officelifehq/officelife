@@ -101,7 +101,7 @@
                     </ul>
 
                     <p class="ma0 pa0">
-                      {{ $t('account.flow_new_before') }} <span class="brush-blue">{{ form.selectedDate }}</span>
+                      {{ $t('account.flow_new_before') }} <span class="brush-blue">{{ $t('account.flow_new_type_' + form.type) }}</span>
                     </p>
                   </div>
 
@@ -110,9 +110,36 @@
                     <p class="ma0 pa0 mb2">
                       {{ $t('account.flow_new_the_day_event_happens') }}
                     </p>
-                    <select v-model="form.selectedDate" @change="checkComplete">
-                      <option value="employee_hiring_date">
-                        Employee's hiring date
+                    <select v-model="form.type" @change="checkComplete">
+                      <option value="employee_joins_company">
+                        {{ $t('account.flow_new_type_employee_joins_company') }}
+                      </option>
+                      <option value="employee_leaves_company">
+                        {{ $t('account.flow_new_type_employee_leaves_company') }}
+                      </option>
+                      <option value="employee_birthday">
+                        {{ $t('account.flow_new_type_employee_birthday') }}
+                      </option>
+                      <option value="employee_joins_team">
+                        {{ $t('account.flow_new_type_employee_joins_team') }}
+                      </option>
+                      <option value="employee_leaves_team">
+                        {{ $t('account.flow_new_type_employee_leaves_team') }}
+                      </option>
+                      <option value="employee_becomes_manager">
+                        {{ $t('account.flow_new_type_employee_becomes_manager') }}
+                      </option>
+                      <option value="employee_new_position">
+                        {{ $t('account.flow_new_type_employee_new_position') }}
+                      </option>
+                      <option value="employee_leaves_holidays">
+                        {{ $t('account.flow_new_type_employee_leaves_holidays') }}
+                      </option>
+                      <option value="employee_returns_holidays">
+                        {{ $t('account.flow_new_type_employee_returns_holidays') }}
+                      </option>
+                      <option value="employee_returns_leave">
+                        {{ $t('account.flow_new_type_employee_returns_leave') }}
                       </option>
                     </select>
                   </div>
@@ -144,7 +171,7 @@
                     </ul>
 
                     <p class="ma0 pa0">
-                      {{ $t('account.flow_new_after') }} <span class="brush-blue">{{ form.selectedDate }}</span>
+                      {{ $t('account.flow_new_after') }} <span class="brush-blue">{{ $t('account.flow_new_type_' + form.type) }}</span>
                     </p>
                   </div>
 
@@ -205,7 +232,6 @@ export default {
       form: {
         name: null,
         type: null,
-        selectedDate: null,
         steps: [],
         errors: [],
       },
@@ -313,7 +339,7 @@ export default {
       var isCompleteYet = true
 
       // check if the event is selected
-      if (this.form.selectedDate == null) {
+      if (this.form.type == null) {
         isCompleteYet = false
       }
 

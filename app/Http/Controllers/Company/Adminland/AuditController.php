@@ -82,6 +82,10 @@ class AuditController extends Controller
                 $sentence = 'Removed the position called '.$log->position.' to '.$log->employee.' .';
             }
 
+            if ($log->action == 'flow_created') {
+                $sentence = 'Created the flow called '.$log->object->{'flow_name'}.'.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,

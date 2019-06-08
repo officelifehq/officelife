@@ -4,6 +4,7 @@ namespace App\Services\Company\Adminland\Flow;
 
 use App\Models\Company\Flow;
 use App\Services\BaseService;
+use Illuminate\Validation\Rule;
 use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class CreateFlow extends BaseService
@@ -19,6 +20,21 @@ class CreateFlow extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
             'name' => 'required|string|max:255',
+            'type' => [
+                'required',
+                Rule::in([
+                    'employee_joins_company',
+                    'employee_leaves_company',
+                    'employee_birthday',
+                    'employee_joins_team',
+                    'employee_leaves_team',
+                    'employee_becomes_manager',
+                    'employee_new_position',
+                    'employee_leaves_holidays',
+                    'employee_returns_holidays',
+                    'employee_returns_leave',
+                ]),
+            ],
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -42,6 +58,7 @@ class CreateFlow extends BaseService
         $flow = Flow::create([
             'company_id' => $data['company_id'],
             'name' => $data['name'],
+            'type' => $data['type'],
         ]);
 
         (new LogAuditAction)->execute([

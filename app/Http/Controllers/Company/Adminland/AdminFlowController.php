@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use App\Models\Company\Flow;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -33,6 +34,25 @@ class AdminFlowController extends Controller
     }
 
     /**
+     * Display the detail of a flow.
+     *
+     * @param int $companyId
+     * @param int $flowId
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, int $companyId, int $flowId)
+    {
+        $company = Cache::get('currentCompany');
+        $flow = Flow::findOrFail($flowId);
+
+        return View::component('ShowAccountFlow', [
+            'company' => $company,
+            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'flow' => new FlowResource($flow),
+        ]);
+    }
+
+    /**
      * Show the Create flow view.
      *
      * @return \Illuminate\Http\Response
@@ -60,6 +80,7 @@ class AdminFlowController extends Controller
             'company_id' => $companyId,
             'author_id' => auth()->user()->id,
             'name' => $request->get('name'),
+            'type' => $request->get('type'),
         ];
 
         $flow = (new CreateFlow)->execute($data);

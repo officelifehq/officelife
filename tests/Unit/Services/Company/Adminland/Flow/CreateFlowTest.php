@@ -22,6 +22,7 @@ class CreateFlowTest extends TestCase
             'company_id' => $employee->company_id,
             'author_id' => $employee->user_id,
             'name' => 'Selling team',
+            'type' => 'employee_joins_company',
         ];
 
         $flow = (new CreateFlow)->execute($request);
@@ -30,6 +31,7 @@ class CreateFlowTest extends TestCase
             'id' => $flow->id,
             'company_id' => $employee->company_id,
             'name' => 'Selling team',
+            'type' => 'employee_joins_company',
         ]);
 
         $this->assertInstanceOf(
@@ -47,6 +49,7 @@ class CreateFlowTest extends TestCase
             'company_id' => $employee->company_id,
             'author_id' => $employee->user_id,
             'name' => 'Selling team',
+            'type' => 'employee_joins_company',
         ];
 
         $flow = (new CreateFlow)->execute($request);

@@ -19,6 +19,7 @@ class Flow extends Model
     protected $fillable = [
         'company_id',
         'name',
+        'type',
         'is_dummy',
     ];
 
@@ -57,6 +58,6 @@ class Flow extends Model
      */
     public function steps()
     {
-        return $this->hasMany(Step::class);
+        return $this->hasMany(Step::class)->orderBy('real_number_of_days', 'asc');
     }
 }

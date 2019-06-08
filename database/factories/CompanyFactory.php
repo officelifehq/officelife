@@ -113,6 +113,7 @@ $factory->define(App\Models\Company\Flow::class, function (Faker $faker) {
     return [
         'company_id' => factory(App\Models\Company\Company::class)->create()->id,
         'name' => 'Birthdate',
+        'type' => 'employee_joins_company',
     ];
 });
 

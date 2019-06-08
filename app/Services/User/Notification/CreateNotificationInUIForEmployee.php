@@ -9,7 +9,7 @@ use Illuminate\Validation\Rule;
 use App\Models\User\Notification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class LogNotification extends BaseService
+class CreateNotificationInUIForEmployee extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -35,6 +35,8 @@ class LogNotification extends BaseService
 
     /**
      * Create a notification for the user.
+     * A notification is a small warning in the UI that the user will see when
+     * he logs in.
      *
      * @param array $data
      * @return Notification

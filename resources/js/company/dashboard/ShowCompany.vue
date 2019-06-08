@@ -74,6 +74,7 @@
             <li>Reply to what you've done this week</li>
             <li>Log an expense</li>
             <li>View one on ones</li>
+            <li>View all my tasks</li>
           </ul>
         </div>
       </div>
