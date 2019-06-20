@@ -28,6 +28,7 @@ class Notification extends Model
      * @var array
      */
     protected $casts = [
+        'read' => 'boolean',
         'is_dummy' => 'boolean',
     ];
 

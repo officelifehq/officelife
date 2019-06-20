@@ -2543,6 +2543,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    company: {
+      type: Object,
+      "default": null
+    },
+    user: {
+      type: Object,
+      "default": null
+    },
+    notifications: {
+      type: Array,
+      "default": null
+    }
+  },
   data: function data() {
     return {
       form: {
@@ -4256,6 +4270,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -4452,7 +4468,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
+  directives: {
+    ClickOutside: vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
   props: {
     title: {
       type: String,
@@ -4475,7 +4496,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       loadingState: '',
       modalFind: false,
-      modalNotifications: false,
+      showModalNotifications: false,
       dataReturnedFromSearch: false,
       form: {
         searchTerm: null,
@@ -4491,7 +4512,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.updatePageTitle(this.title);
+    this.updatePageTitle(this.title); // prevent click outside event with popupItem.
+
+    this.popupItem = this.$el;
   },
   methods: {
     updatePageTitle: function updatePageTitle(title) {
@@ -4510,24 +4533,33 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     showNotifications: function showNotifications() {
-      this.modalNotifications = !this.modalNotifications;
-    },
-    submit: function submit() {
       var _this2 = this;
 
-      axios.post('/search/employees', this.form).then(function (response) {
-        _this2.dataReturnedFromSearch = true;
-        _this2.employees = response.data.data;
-      })["catch"](function (error) {
+      this.showModalNotifications = !this.showModalNotifications;
+      axios.post('/notifications/read')["catch"](function (error) {
         _this2.loadingState = null;
         _this2.form.errors = _.flatten(_.toArray(error.response.data));
       });
-      axios.post('/search/teams', this.form).then(function (response) {
-        _this2.dataReturnedFromSearch = true;
-        _this2.teams = response.data.data;
+    },
+    hideNotifications: function hideNotifications() {
+      this.showModalNotifications = false;
+    },
+    submit: function submit() {
+      var _this3 = this;
+
+      axios.post('/search/employees', this.form).then(function (response) {
+        _this3.dataReturnedFromSearch = true;
+        _this3.employees = response.data.data;
       })["catch"](function (error) {
-        _this2.loadingState = null;
-        _this2.form.errors = _.flatten(_.toArray(error.response.data));
+        _this3.loadingState = null;
+        _this3.form.errors = _.flatten(_.toArray(error.response.data));
+      });
+      axios.post('/search/teams', this.form).then(function (response) {
+        _this3.dataReturnedFromSearch = true;
+        _this3.teams = response.data.data;
+      })["catch"](function (error) {
+        _this3.loadingState = null;
+        _this3.form.errors = _.flatten(_.toArray(error.response.data));
       });
     }
   }
@@ -4889,7 +4921,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.find-box[data-v-10a60d4e] {\n  border: 1px solid rgba(27,31,35,.15);\n  box-shadow: 0 3px 12px rgba(27,31,35,.15);\n  top: 63px;\n  width: 500px;\n  left: 0;\n  right: 0;\n  margin: 0 auto;\n}\n.notifications-box[data-v-10a60d4e] {\n  border: 1px solid rgba(27,31,35,.15);\n  box-shadow: 0 3px 12px rgba(27,31,35,.15);\n  top: 63px;\n  width: 500px;\n  left: 0;\n  right: 0;\n  margin: 0 auto;\n}\n.bg-modal-find[data-v-10a60d4e],\n.bg-modal-notifications[data-v-10a60d4e] {\n  position: fixed;\n  z-index: 100;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(0, 0, 0, 0.3);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n", ""]);
+exports.push([module.i, "\n.find-box[data-v-10a60d4e] {\n  border: 1px solid rgba(27,31,35,.15);\n  box-shadow: 0 3px 12px rgba(27,31,35,.15);\n  top: 63px;\n  width: 500px;\n  left: 0;\n  right: 0;\n  margin: 0 auto;\n}\n.notifications-box[data-v-10a60d4e] {\n  border: 1px solid rgba(27,31,35,.15);\n  box-shadow: 0 3px 12px rgba(27,31,35,.15);\n  top: 63px;\n  width: 500px;\n  left: 0;\n  right: 0;\n  margin: 0 auto;\n}\n.bg-modal-find[data-v-10a60d4e] {\n  position: fixed;\n  z-index: 100;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(0, 0, 0, 0.3);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n", ""]);
 
 // exports
 
@@ -16726,7 +16758,7 @@ var render = function() {
                   _c(
                     "li",
                     {
-                      staticClass: "di header-menu-item pa2 pointer",
+                      staticClass: "di header-menu-item pa2 pointer mr2",
                       attrs: { "data-cy": "header-find-link" },
                       on: { click: _vm.showFindModal }
                     },
@@ -16756,7 +16788,7 @@ var render = function() {
                       _c("span", { staticClass: "fw5" }, [
                         _c("img", {
                           staticClass: "relative",
-                          attrs: { src: "/img/header/icon-find.svg" }
+                          attrs: { src: "/img/header/icon-notification.svg" }
                         }),
                         _vm._v(
                           "\n                " +
@@ -16974,75 +17006,88 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _c(
-          "div",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.modalNotifications,
-                expression: "modalNotifications"
-              }
-            ],
-            staticClass: "absolute z-max notifications-box"
-          },
-          [
-            _c(
+        _vm.showModalNotifications
+          ? _c(
               "div",
-              { staticClass: "br2 bg-white tl pv3 ph3 bounceIn faster" },
+              {
+                directives: [
+                  {
+                    name: "click-outside",
+                    rawName: "v-click-outside",
+                    value: _vm.hideNotifications,
+                    expression: "hideNotifications"
+                  }
+                ],
+                staticClass: "absolute z-max notifications-box"
+              },
               [
                 _c(
                   "div",
-                  {
-                    directives: [
+                  { staticClass: "br2 bg-white tl pv3 ph3 bounceIn faster" },
+                  [
+                    _c(
+                      "div",
                       {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.notifications.length == 0,
-                        expression: "notifications.length == 0"
-                      }
-                    ]
-                  },
-                  [_vm._v("\n          No notifications\n        ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "ul",
-                  {
-                    directives: [
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.notifications.length == 0,
+                            expression: "notifications.length == 0"
+                          }
+                        ]
+                      },
+                      [
+                        _c("img", {
+                          staticClass: "db center mb2",
+                          attrs: {
+                            srcset:
+                              "/img/header/notification_blank.png" +
+                              ", " +
+                              "/img/header/notitication_blank@2x.png" +
+                              " 2x"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "tc" }, [
+                          _vm._v("All is clear!")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "ul",
                       {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.notifications.length > 0,
-                        expression: "notifications.length > 0"
-                      }
-                    ]
-                  },
-                  _vm._l(_vm.notifications, function(notification) {
-                    return _c("li", { key: notification.id }, [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(notification.action) +
-                          "\n          "
-                      )
-                    ])
-                  }),
-                  0
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.notifications.length > 0,
+                            expression: "notifications.length > 0"
+                          }
+                        ]
+                      },
+                      _vm._l(_vm.notifications, function(notification) {
+                        return _c("li", { key: notification.id }, [
+                          _vm._v(
+                            "\n            " +
+                              _vm._s(notification.action) +
+                              "\n          "
+                          )
+                        ])
+                      }),
+                      0
+                    )
+                  ]
                 )
               ]
             )
-          ]
-        )
+          : _vm._e()
       ]),
       _vm._v(" "),
       _vm._m(1),
       _vm._v(" "),
       _c("div", { class: [_vm.modalFind ? "bg-modal-find" : ""] }),
-      _vm._v(" "),
-      _c("div", {
-        class: [_vm.modalNotifications ? "bg-modal-notifications" : ""]
-      }),
       _vm._v(" "),
       _vm._t("default")
     ],

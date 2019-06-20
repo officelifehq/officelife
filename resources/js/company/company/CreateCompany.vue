@@ -34,6 +34,20 @@
 <script>
 
 export default {
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+    notifications: {
+      type: Array,
+      default: null,
+    },
+  },
 
   data() {
     return {

@@ -25,7 +25,7 @@ class AdminlandController extends Controller
             'company' => $company,
             'numberEmployees' => $numberEmployees,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
         ]);
     }
 }
