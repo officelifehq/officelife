@@ -29,7 +29,7 @@ class DestroyEmployee extends BaseService
      * @param array $data
      * @return void
      */
-    public function execute(array $data)
+    public function execute(array $data) : void
     {
         $this->validate($data);
 
