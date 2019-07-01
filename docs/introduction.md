@@ -23,6 +23,8 @@ Homas is built around the notion that while companies own data about their emplo
 
 ## Setup
 
+### Developers
+
 ### Users vs employees
 
 Homas makes the distinction between users and employees.

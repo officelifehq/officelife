@@ -15,11 +15,16 @@
     "devDependencies": {
         "axios": "^0.18",
         "cross-env": "^5.1",
+        "cypress": "3.3",
         "eslint": "^5.15.3",
         "eslint-plugin-vue": "^5.2.2",
+        "husky": "^2.7.0",
         "laravel-mix": "^4.0.7",
+        "lint-staged": "^8.2.1",
         "lodash": "^4.17.5",
+        "mrm": "^1.2.2",
         "popper.js": "^1.12",
+        "prettier": "^1.18.2",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
@@ -28,7 +33,6 @@
         "vue-template-compiler": "^2.5.22"
     },
     "dependencies": {
-        "cypress": "3.3",
         "laravel-mix-purgecss": "^4.1.0",
         "turbolinks": "^5.2.0",
         "underscore": "^1.9.1",
@@ -36,5 +40,23 @@
         "vue-i18n": "^8.8.2",
         "vue-loaders": "^2.0.0",
         "vue-snotify": "^3.2.1"
+    },
+    "lint-staged": {
+        "linters": {
+            "resources/**/*.{css, scss}": [
+                "prettier --write",
+                "yarn run prod",
+                "git add"
+            ],
+            "*.php": [
+                "php ./vendor/bin/php-cs-fixer fix --config .php_cs",
+                "git add"
+            ]
+        }
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
     }
 }
