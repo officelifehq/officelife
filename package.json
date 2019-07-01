@@ -20,6 +20,7 @@
         "eslint-plugin-vue": "^5.2.2",
         "husky": "^2.7.0",
         "laravel-mix": "^4.0.7",
+        "laravel-mix-purgecss": "^4.1.0",
         "lint-staged": "^8.2.1",
         "lodash": "^4.17.5",
         "mrm": "^1.2.2",
@@ -33,7 +34,6 @@
         "vue-template-compiler": "^2.5.22"
     },
     "dependencies": {
-        "laravel-mix-purgecss": "^4.1.0",
         "turbolinks": "^5.2.0",
         "underscore": "^1.9.1",
         "vue-click-outside": "^1.0.7",
@@ -50,6 +50,10 @@
             ],
             "*.php": [
                 "php ./vendor/bin/php-cs-fixer fix --config .php_cs",
+                "git add"
+            ],
+            "*.vue": [
+                "eslint --ext .js,.vue resources/js/",
                 "git add"
             ]
         }
