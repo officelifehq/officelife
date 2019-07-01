@@ -24,6 +24,7 @@ class User extends JsonResource
             'nickname' => $this->nickname,
             'avatar' => $this->avatar,
             'uuid' => $this->uuid,
+            'default_dashboard_view' => $this->default_dashboard_view,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

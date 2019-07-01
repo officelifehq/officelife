@@ -24,7 +24,13 @@ Route::middleware(['auth'])->group(function () {
 
     // only available if user is in the right account
     Route::middleware(['company'])->prefix('{company}')->group(function () {
-        Route::get('dashboard', 'Company\\CompanyController@index');
+        Route::prefix('dashboard')->group(function () {
+            Route::get('', 'Company\\Dashboard\\DashboardController@index');
+            Route::get('me', 'Company\\Dashboard\\DashboardMeController@index');
+            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index');
+            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index');
+            Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index');
+        });
 
         Route::prefix('employees')->group(function () {
             Route::get('{employee}', 'Company\\Employee\\EmployeeController@show');

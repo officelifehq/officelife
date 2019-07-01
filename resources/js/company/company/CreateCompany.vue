@@ -66,7 +66,7 @@ export default {
 
       axios.post('/company', this.form)
         .then(response => {
-          Turbolinks.visit('/' + response.data.company_id + '/dashboard')
+          Turbolinks.visit('/' + response.data.company_id + '/dashboard/me')
         })
         .catch(error => {
           this.loadingState = null

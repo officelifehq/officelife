@@ -566,6 +566,10 @@ __webpack_require__.r(__webpack_exports__);
       type: Object,
       "default": null
     },
+    employee: {
+      type: Object,
+      "default": null
+    },
     notifications: {
       type: Array,
       "default": null
@@ -2573,7 +2577,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.loadingState = 'loading';
       axios.post('/company', this.form).then(function (response) {
-        Turbolinks.visit('/' + response.data.company_id + '/dashboard');
+        Turbolinks.visit('/' + response.data.company_id + '/dashboard/me');
       })["catch"](function (error) {
         _this.loadingState = null;
         _this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -3895,6 +3899,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -3902,6 +3923,10 @@ __webpack_require__.r(__webpack_exports__);
       "default": null
     },
     user: {
+      type: Object,
+      "default": null
+    },
+    employee: {
       type: Object,
       "default": null
     },
@@ -4484,6 +4509,10 @@ __webpack_require__.r(__webpack_exports__);
       "default": false
     },
     user: {
+      type: Object,
+      "default": null
+    },
+    employee: {
       type: Object,
       "default": null
     },
@@ -9379,6 +9408,7 @@ var render = function() {
       attrs: {
         title: "Home",
         user: _vm.user,
+        employee: _vm.employee,
         "no-menu": false,
         notifications: _vm.notifications
       }
@@ -9519,8 +9549,8 @@ var render = function() {
                     {
                       name: "show",
                       rawName: "v-show",
-                      value: _vm.user.permission_level < 200,
-                      expression: "user.permission_level < 200"
+                      value: _vm.employee.permission_level < 200,
+                      expression: "employee.permission_level < 200"
                     }
                   ]
                 },
@@ -16092,13 +16122,64 @@ var render = function() {
   return _c(
     "layout",
     {
-      attrs: { title: "Home", user: _vm.user, notifications: _vm.notifications }
+      attrs: {
+        title: "Home",
+        user: _vm.user,
+        employee: _vm.employee,
+        notifications: _vm.notifications
+      }
     },
     [
       _c("div", { staticClass: "ph2 ph0-ns" }, [
         _c("div", { staticClass: "cf mt4 mw7 center" }, [
           _c("h2", { staticClass: "tc fw5" }, [
             _vm._v("\n        " + _vm._s(_vm.company.name) + "\n      ")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cf mw7 center br3 mb3 tc" }, [
+          _c("div", { staticClass: "cf dib btn-group" }, [
+            _c(
+              "a",
+              {
+                staticClass: "f6 fl ph3 pv2 dib pointer",
+                class: { selected: _vm.user.default_dashboard_view == "me" },
+                attrs: { href: "/" + _vm.company.id + "/dashboard/me" }
+              },
+              [_vm._v("\n          Me\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "f6 fl ph3 pv2 pointer dib",
+                class: { selected: _vm.user.default_dashboard_view == "team" },
+                attrs: { href: "/" + _vm.company.id + "/dashboard/team" }
+              },
+              [_vm._v("\n          My team\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "f6 fl ph3 pv2 dib",
+                class: {
+                  selected: _vm.user.default_dashboard_view == "company"
+                },
+                attrs: { href: "/" + _vm.company.id + "/dashboard/company" }
+              },
+              [_vm._v("\n          My company\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "f6 fl ph3 pv2 dib",
+                class: { selected: _vm.user.default_dashboard_view == "hr" },
+                attrs: { href: "/" + _vm.company.id + "/dashboard/hr" }
+              },
+              [_vm._v("\n          HR area\n        ")]
+            )
           ])
         ]),
         _vm._v(" "),
@@ -16109,8 +16190,9 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.user.permission_level == _vm.ownerPermissionLevel,
-                expression: "user.permission_level == ownerPermissionLevel"
+                value:
+                  _vm.employee.permission_level == _vm.ownerPermissionLevel,
+                expression: "employee.permission_level == ownerPermissionLevel"
               }
             ],
             staticClass: "cf mw7 center br3 mb3 bg-white box"
