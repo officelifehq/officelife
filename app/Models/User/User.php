@@ -86,7 +86,7 @@ class User extends Authenticatable
      * @param string $value
      * @return string
      */
-    public function getNameAttribute($value) : String
+    public function getNameAttribute($value) : string
     {
         if (is_null($this->first_name)) {
             return $this->email;
