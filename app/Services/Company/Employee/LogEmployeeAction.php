@@ -32,7 +32,7 @@ class LogEmployeeAction extends BaseService
      * @param array $data
      * @return EmployeeLog
      */
-    public function execute(array $data): EmployeeLog
+    public function execute(array $data) : EmployeeLog
     {
         $this->validate($data);
 

@@ -13,7 +13,7 @@ class DateHelper
      * @param Carbon $date
      * @return string
      */
-    public static function getShortDateWithTime($date): string
+    public static function getShortDateWithTime($date) : string
     {
         return $date->format(trans('format.short_date_year_time'));
     }
@@ -24,7 +24,7 @@ class DateHelper
      * @param Carbon $date
      * @return Carbon
      */
-    public static function getNextOccurence(Carbon $date): Carbon
+    public static function getNextOccurence(Carbon $date) : Carbon
     {
         if ($date->isFuture()) {
             return $date;

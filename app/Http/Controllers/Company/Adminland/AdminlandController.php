@@ -24,7 +24,9 @@ class AdminlandController extends Controller
         return View::component('ShowAccount', [
             'company' => $company,
             'numberEmployees' => $numberEmployees,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'user' => auth()->user(),
+            'employee' => auth()->user()->getEmployeeObjectForCompany($company),
+            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
         ]);
     }
 }

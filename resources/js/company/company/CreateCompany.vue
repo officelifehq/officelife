@@ -1,5 +1,5 @@
 <template>
-  <layout title="Home" :no-menu="true">
+  <layout title="Home" :no-menu="true" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="fn fl-ns w-50-ns pa3">
@@ -34,6 +34,20 @@
 <script>
 
 export default {
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+    notifications: {
+      type: Array,
+      default: null,
+    },
+  },
 
   data() {
     return {
@@ -52,7 +66,7 @@ export default {
 
       axios.post('/company', this.form)
         .then(response => {
-          Turbolinks.visit('/' + response.data.company_id + '/dashboard')
+          Turbolinks.visit('/' + response.data.company_id + '/dashboard/me')
         })
         .catch(error => {
           this.loadingState = null

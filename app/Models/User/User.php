@@ -27,6 +27,7 @@ class User extends Authenticatable
         'middle_name',
         'nickname',
         'uuid',
+        'default_dashboard_view',
     ];
 
     /**
@@ -76,7 +77,7 @@ class User extends Authenticatable
      */
     public function notifications()
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(Notification::class)->orderBy('created_at', 'desc');
     }
 
     /**
@@ -85,7 +86,7 @@ class User extends Authenticatable
      * @param string $value
      * @return string
      */
-    public function getNameAttribute($value): String
+    public function getNameAttribute($value) : string
     {
         if (is_null($this->first_name)) {
             return $this->email;
@@ -105,7 +106,7 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getPathConfirmationLink(): string
+    public function getPathConfirmationLink() : string
     {
         return secure_url('register/confirm/'.$this->verification_link);
     }

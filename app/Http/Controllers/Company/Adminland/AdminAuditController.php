@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 
-class AuditController extends Controller
+class AdminAuditController extends Controller
 {
     /**
      * Show the audit log.
@@ -97,6 +97,7 @@ class AuditController extends Controller
             'company' => $company,
             'logs' => $logsCollection,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
             'paginator' => [
                 'count' => $logs->count(),
                 'currentPage' => $logs->currentPage(),

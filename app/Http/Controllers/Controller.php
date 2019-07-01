@@ -26,7 +26,7 @@ class Controller extends BaseController
      * @param int $requiredPermissionLevel
      * @return User
      */
-    public function validateAccess(int $userId, int $companyId, int $employeeId, int $requiredPermissionLevel): User
+    public function validateAccess(int $userId, int $companyId, int $employeeId, int $requiredPermissionLevel) : User
     {
         $employee = Employee::where('user_id', $userId)
             ->where('company_id', $companyId)

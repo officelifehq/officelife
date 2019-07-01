@@ -9,6 +9,16 @@
   margin: 0 auto;
 }
 
+.notifications-box {
+  border: 1px solid rgba(27,31,35,.15);
+  box-shadow: 0 3px 12px rgba(27,31,35,.15);
+  top: 63px;
+  width: 500px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
 .bg-modal-find {
   position: fixed;
   z-index: 100;
@@ -44,10 +54,16 @@
                   {{ $t('app.header_home') }}
                 </span>
               </li>
-              <li class="di header-menu-item pa2 pointer" data-cy="header-find-link" @click="showFindModal">
+              <li class="di header-menu-item pa2 pointer mr2" data-cy="header-find-link" @click="showFindModal">
                 <span class="fw5">
                   <img class="relative" src="/img/header/icon-find.svg" />
                   {{ $t('app.header_find') }}
+                </span>
+              </li>
+              <li class="di header-menu-item pa2 pointer" data-cy="header-notifications-link" @click="showNotifications">
+                <span class="fw5">
+                  <img class="relative" src="/img/header/icon-notification.svg" />
+                  {{ $t('app.header_notifications') }}
                 </span>
               </li>
             </ul>
@@ -98,6 +114,25 @@
               </div>
             </li>
           </ul>
+        </div>
+      </div>
+
+      <!-- NOTIFICATIONS BOX -->
+      <div v-if="showModalNotifications" class="absolute z-max notifications-box" v-click-outside="hideNotifications">
+        <div class="br2 bg-white tl pv3 ph3 bounceIn faster" >
+          <div v-show="notifications.length == 0">
+            <img class="db center mb2" srcset="/img/header/notification_blank.png,
+                                        /img/header/notitication_blank@2x.png 2x"
+            />
+            <p class="tc">All is clear!</p>
+          </div>
+
+          <ul v-show="notifications.length > 0">
+            <li v-for="notification in notifications" :key="notification.id">
+              {{ notification.action }}
+            </li>
+          </ul>
+
         </div>
       </div>
     </header>
@@ -161,7 +196,13 @@
 </template>
 
 <script>
+import ClickOutside from 'vue-click-outside'
+
 export default {
+  directives: {
+    ClickOutside
+  },
+
   props: {
     title: {
       type: String,
@@ -175,12 +216,21 @@ export default {
       type: Object,
       default: null,
     },
+    employee: {
+      type: Object,
+      default: null,
+    },
+    notifications: {
+      type: Array,
+      default: null,
+    },
   },
 
   data() {
     return {
       loadingState: '',
       modalFind: false,
+      showModalNotifications: false,
       dataReturnedFromSearch: false,
       form: {
         searchTerm: null,
@@ -199,7 +249,11 @@ export default {
 
   mounted() {
     this.updatePageTitle(this.title)
+
+    // prevent click outside event with popupItem.
+    this.popupItem = this.$el
   },
+
 
   methods: {
     updatePageTitle(title) {
@@ -216,6 +270,20 @@ export default {
       this.$nextTick(() => {
         this.$refs.search.focus()
       })
+    },
+
+    showNotifications() {
+      this.showModalNotifications = !this.showModalNotifications
+
+      axios.post('/notifications/read')
+        .catch(error => {
+          this.loadingState = null
+          this.form.errors = _.flatten(_.toArray(error.response.data))
+        })
+    },
+
+    hideNotifications() {
+      this.showModalNotifications = false
     },
 
     submit() {

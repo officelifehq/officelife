@@ -72,7 +72,7 @@ class GenerateDummyData extends BaseService
      * @param array $data
      * @return Employee
      */
-    private function addEmployee(array $data): Employee
+    private function addEmployee(array $data) : Employee
     {
         $faker = Faker::create();
 
@@ -123,7 +123,7 @@ class GenerateDummyData extends BaseService
      * @param int $employees
      * @return Team
      */
-    private function createTeamWithEmployees(array $data, String $name, int $employees): Team
+    private function createTeamWithEmployees(array $data, string $name, int $employees) : Team
     {
         $faker = Faker::create();
 

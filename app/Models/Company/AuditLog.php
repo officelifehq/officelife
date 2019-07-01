@@ -61,7 +61,7 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getDateAttribute($value): string
+    public function getDateAttribute($value) : string
     {
         return DateHelper::getShortDateWithTime($this->created_at);
     }
@@ -72,7 +72,7 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getAuthorAttribute($value): string
+    public function getAuthorAttribute($value) : string
     {
         try {
             $author = User::findOrFail($this->object->{'author_id'});
@@ -89,7 +89,7 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getTeamAttribute($value): string
+    public function getTeamAttribute($value) : string
     {
         try {
             $team = Team::findOrFail($this->object->{'team_id'});
@@ -106,7 +106,7 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getUserAttribute($value): string
+    public function getUserAttribute($value) : string
     {
         try {
             $user = User::findOrFail($this->object->{'user_id'});
@@ -123,7 +123,7 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getEmployeeAttribute($value): string
+    public function getEmployeeAttribute($value) : string
     {
         try {
             $employee = Employee::findOrFail($this->object->{'employee_id'});
@@ -140,7 +140,7 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getManagerAttribute($value): string
+    public function getManagerAttribute($value) : string
     {
         try {
             $manager = Employee::findOrFail($this->object->{'manager_id'});
@@ -157,7 +157,7 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getPositionAttribute($value): string
+    public function getPositionAttribute($value) : string
     {
         try {
             $position = Position::findOrFail($this->object->{'position_id'});

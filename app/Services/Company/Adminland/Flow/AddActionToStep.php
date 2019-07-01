@@ -32,7 +32,7 @@ class AddActionToStep extends BaseService
      * @param array $data
      * @return Action
      */
-    public function execute(array $data): Action
+    public function execute(array $data) : Action
     {
         $this->validate($data);
 

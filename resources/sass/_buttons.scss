@@ -63,26 +63,34 @@
   border-radius: 11px;
 }
 
-.btn-group span {
+.btn-group span,
+.btn-group a {
   background: #fff;
+  border-bottom: 0;
   border-right: 1px solid #e3e3e7;
+  color: $body-color;
+  text-decoration: none;
 }
 
-.btn-group span:hover {
+.btn-group span,
+.btn-group a:hover {
   background-color: #d7e0e9;
 }
 
-.btn-group span.selected {
+.btn-group span,
+.btn-group a.selected {
   background: #d7e0e9;
   font-weight: 600;
 }
 
-.btn-group span:first-child {
+.btn-group span,
+.btn-group a:first-child {
   border-bottom-left-radius: 11px;
   border-top-left-radius: 11px;
 }
 
-.btn-group span:last-child {
+.btn-group span,
+.btn-group a:last-child {
   border-bottom-right-radius: 11px;
   border-top-right-radius: 11px;
   border-right: 0;

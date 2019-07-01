@@ -19,7 +19,7 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :no-menu="false">
+  <layout title="Home" :user="user" :employee="employee" :no-menu="false" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
@@ -62,7 +62,7 @@
           </ul>
 
           <!-- ACCOUNT OWNER -->
-          <div v-show="user.permission_level < 200">
+          <div v-show="employee.permission_level < 200">
             <p v-html="$t('account.home_role_owner')"></p>
             <ul class="options list pl0">
               <li class="pa2 pl0 relative">
@@ -92,6 +92,14 @@ export default {
     },
     user: {
       type: Object,
+      default: null,
+    },
+    employee: {
+      type: Object,
+      default: null,
+    },
+    notifications: {
+      type: Array,
       default: null,
     },
     nbEmployees: {

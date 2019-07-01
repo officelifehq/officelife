@@ -19,6 +19,7 @@ class CreateNotificationsTable extends Migration
             $table->unsignedBigInteger('company_id')->nullable();
             $table->string('action');
             $table->string('content');
+            $table->boolean('read')->default(false);
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -18,6 +18,7 @@ class Notification extends Model
         'company_id',
         'action',
         'content',
+        'read',
         'is_dummy',
     ];
 
@@ -27,6 +28,7 @@ class Notification extends Model
      * @var array
      */
     protected $casts = [
+        'read' => 'boolean',
         'is_dummy' => 'boolean',
     ];
 

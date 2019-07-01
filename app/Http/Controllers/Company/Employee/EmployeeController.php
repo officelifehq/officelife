@@ -35,6 +35,7 @@ class EmployeeController extends Controller
         return View::component('ShowCompanyEmployee', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
             'employee' => new EmployeeResource($employee),
             'managers' => EmployeeResource::collection($managers),
             'directReports' => EmployeeResource::collection($directReports),

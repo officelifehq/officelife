@@ -88,6 +88,7 @@ class EmployeeLogsController extends Controller
             'employee' => new EmployeeResource($employee),
             'logs' => $logsCollection,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
             'paginator' => [
                 'count' => $logs->count(),
                 'currentPage' => $logs->currentPage(),

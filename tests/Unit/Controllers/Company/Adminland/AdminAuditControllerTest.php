@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class AuditControllerTest extends TestCase
+class AdminAuditControllerTest extends TestCase
 {
     use DatabaseTransactions;
 

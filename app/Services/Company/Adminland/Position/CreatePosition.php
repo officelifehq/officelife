@@ -29,7 +29,7 @@ class CreatePosition extends BaseService
      * @param array $data
      * @return Position
      */
-    public function execute(array $data): Position
+    public function execute(array $data) : Position
     {
         $this->validate($data);
 

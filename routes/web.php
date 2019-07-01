@@ -20,9 +20,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
 
+    Route::post('notifications/read', 'User\\Notification\\MarkNotificationAsReadController@store');
+
     // only available if user is in the right account
     Route::middleware(['company'])->prefix('{company}')->group(function () {
-        Route::get('dashboard', 'Company\\CompanyController@index');
+        Route::prefix('dashboard')->group(function () {
+            Route::get('', 'Company\\Dashboard\\DashboardController@index');
+            Route::get('me', 'Company\\Dashboard\\DashboardMeController@index');
+            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index');
+            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index');
+            Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index');
+        });
 
         Route::prefix('employees')->group(function () {
             Route::get('{employee}', 'Company\\Employee\\EmployeeController@show');
@@ -49,7 +57,7 @@ Route::middleware(['auth'])->group(function () {
 
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
-            Route::get('account/audit', 'Company\\Adminland\\AuditController@index');
+            Route::get('account/audit', 'Company\\Adminland\\AdminAuditController@index');
             Route::get('account/dummy', 'Company\\Adminland\\DummyController@index');
         });
 

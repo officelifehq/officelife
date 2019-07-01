@@ -38,7 +38,7 @@ class AddEmployeeToCompany extends BaseService
      * @param array $data
      * @return Employee
      */
-    public function execute(array $data): Employee
+    public function execute(array $data) : Employee
     {
         $this->validate($data);
 
@@ -82,7 +82,7 @@ class AddEmployeeToCompany extends BaseService
      * @param User $author
      * @return Employee
      */
-    private function createEmployee(array $data, User $author): Employee
+    private function createEmployee(array $data, User $author) : Employee
     {
         $uuid = Str::uuid()->toString();
 

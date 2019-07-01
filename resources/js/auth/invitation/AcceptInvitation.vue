@@ -1,5 +1,5 @@
 <template>
-  <layout title="Home" :user="user">
+  <layout title="Home" :user="user" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <div class="cf mw6 center br3 mb3 bg-white box">
         <div class="pa3">
@@ -27,6 +27,10 @@ export default {
     },
     user: {
       type: Object,
+      default: null,
+    },
+    notifications: {
+      type: Array,
       default: null,
     },
     invitationLink: {
