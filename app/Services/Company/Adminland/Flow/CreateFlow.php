@@ -45,7 +45,7 @@ class CreateFlow extends BaseService
      * @param array $data
      * @return Flow
      */
-    public function execute(array $data): Flow
+    public function execute(array $data) : Flow
     {
         $this->validate($data);
 

@@ -41,7 +41,7 @@ class CreateNotificationInUIForEmployee extends BaseService
      * @param array $data
      * @return Notification
      */
-    public function execute(array $data): Notification
+    public function execute(array $data) : Notification
     {
         $this->validate($data);
 

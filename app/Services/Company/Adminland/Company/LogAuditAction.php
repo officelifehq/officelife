@@ -31,7 +31,7 @@ class LogAuditAction extends BaseService
      * @param array $data
      * @return AuditLog
      */
-    public function execute(array $data): AuditLog
+    public function execute(array $data) : AuditLog
     {
         $this->validate($data);
 

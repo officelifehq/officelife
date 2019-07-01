@@ -38,7 +38,7 @@ class InviteUser extends BaseService
      * @param array $data
      * @return Employee
      */
-    public function execute(array $data): Employee
+    public function execute(array $data) : Employee
     {
         $this->validate($data);
 
@@ -73,7 +73,7 @@ class InviteUser extends BaseService
      * @param array $data
      * @return Employee
      */
-    private function inviteEmployee($data): Employee
+    private function inviteEmployee($data) : Employee
     {
         $employee = Employee::find($data['employee_id']);
 

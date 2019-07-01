@@ -72,7 +72,7 @@ class TeamLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getDateAttribute($value): string
+    public function getDateAttribute($value) : string
     {
         return DateHelper::getShortDateWithTime($this->created_at);
     }
@@ -83,7 +83,7 @@ class TeamLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getAuthorAttribute($value): string
+    public function getAuthorAttribute($value) : string
     {
         try {
             $author = User::findOrFail($this->object->{'author_id'});
@@ -100,7 +100,7 @@ class TeamLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getTeamAttribute($value): string
+    public function getTeamAttribute($value) : string
     {
         try {
             $team = Team::findOrFail($this->object->{'team_id'});
@@ -117,7 +117,7 @@ class TeamLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getTeamLeaderAttribute($value): string
+    public function getTeamLeaderAttribute($value) : string
     {
         try {
             $teamLeader = Employee::findOrFail($this->object->{'team_leader_id'});

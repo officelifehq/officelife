@@ -18,7 +18,7 @@ class SetBirthdayForEmployeeTest extends TestCase
      *
      * @return Employee
      */
-    private function initialize(): Employee
+    private function initialize() : Employee
     {
         Carbon::setTestNow(Carbon::create(2017, 1, 1));
         $employee = factory(Employee::class)->create([]);

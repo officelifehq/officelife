@@ -38,13 +38,13 @@ class UpdateDashboardView extends BaseService
      * @param array $data
      * @return bool
      */
-    public function execute(array $data): bool
+    public function execute(array $data) : bool
     {
         $this->validate($data);
 
         $user = User::findOrFail($data['user_id']);
 
-        if (!empty($data['company_id'])) {
+        if (! empty($data['company_id'])) {
             $company = Company::findOrFail($data['company_id']);
 
             if (is_null($user->getEmployeeObjectForCompany($company))) {

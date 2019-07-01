@@ -46,7 +46,7 @@ class AddStepToFlow extends BaseService
      * @param array $data
      * @return Step
      */
-    public function execute(array $data): Step
+    public function execute(array $data) : Step
     {
         $this->validate($data);
 
