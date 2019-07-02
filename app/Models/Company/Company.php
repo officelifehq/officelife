@@ -110,4 +110,14 @@ class Company extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    /**
+     * Get the homework records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function homework()
+    {
+        return $this->hasMany(Homework::class);
+    }
 }
