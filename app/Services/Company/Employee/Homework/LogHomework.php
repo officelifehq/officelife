@@ -88,7 +88,7 @@ class LogHomework extends BaseService
      * Check if the employee has already logged something today.
      *
      * @param array $data
-     * @return boolean
+     * @return bool
      */
     private function hasAlreadyLoggedHomeworkToday(array $data) : bool
     {
