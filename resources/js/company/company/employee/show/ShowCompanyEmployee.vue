@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
+import ClickOutside from 'vue-click-outside';
 
 export default {
   directives: {
@@ -157,7 +157,7 @@ export default {
   data() {
     return {
       profileMenu: false,
-    }
+    };
   },
 
   mounted() {
@@ -167,19 +167,19 @@ export default {
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
-      })
-      localStorage.clear()
+      });
+      localStorage.clear();
     }
 
     // prevent click outside event with popupItem.
-    this.popupItem = this.$el
+    this.popupItem = this.$el;
   },
 
   methods: {
     toggleProfileMenu() {
-      this.profileMenu = false
+      this.profileMenu = false;
     },
   }
-}
+};
 
 </script>

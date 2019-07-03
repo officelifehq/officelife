@@ -67,27 +67,27 @@ export default {
   data() {
     return {
       menu: false,
-    }
+    };
   },
 
   created() {
-    window.addEventListener('click', this.close)
+    window.addEventListener('click', this.close);
   },
 
   beforeDestroy() {
-    window.removeEventListener('click', this.close)
+    window.removeEventListener('click', this.close);
   },
 
   methods: {
     prepareComponent() {
-      this.getPrimaryEmotions()
+      this.getPrimaryEmotions();
     },
 
     close(e) {
       if (!this.$el.contains(e.target)) {
-        this.menu = false
+        this.menu = false;
       }
     },
   }
-}
+};
 </script>

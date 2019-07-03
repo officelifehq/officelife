@@ -19,9 +19,9 @@ export default {
     errors: {
       type: Array,
       default: function () {
-        return []
+        return [];
       }
     },
   },
-}
+};
 </script>

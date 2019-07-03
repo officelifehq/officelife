@@ -237,12 +237,12 @@ export default {
       },
       loadingState: '',
       errorTemplate: Error,
-    }
+    };
   },
 
   computed: {
     orderedSteps: function () {
-      return _.orderBy(this.form.steps, 'id')
+      return _.orderBy(this.form.steps, 'id');
     }
   },
 
@@ -253,7 +253,7 @@ export default {
       frequency: 'days',
       number: 1,
       actions: [],
-    })
+    });
   },
 
   methods: {
@@ -261,107 +261,107 @@ export default {
     // Useful to determine if we need to put a separator between steps
     notFirstAndLastStep(id) {
       if (this.oldestStep == id && this.numberOfSteps == 1) {
-        return false
+        return false;
       }
       if (this.newestStep == id) {
-        return false
+        return false;
       }
 
-      return true
+      return true;
     },
 
     addStepBefore() {
-      this.oldestStep = this.oldestStep + 1 * -1
+      this.oldestStep = this.oldestStep + 1 * -1;
       this.form.steps.push({
         id: this.oldestStep,
         type: 'before',
         frequency: 'days',
         number: 1,
         actions: [],
-      })
-      this.numberOfSteps = this.numberOfSteps + 1
-      this.numberOfBeforeSteps = this.numberOfBeforeSteps + 1
+      });
+      this.numberOfSteps = this.numberOfSteps + 1;
+      this.numberOfBeforeSteps = this.numberOfBeforeSteps + 1;
     },
 
     addStepAfter() {
-      this.newestStep = this.newestStep + 1
+      this.newestStep = this.newestStep + 1;
       this.form.steps.push({
         id: this.newestStep,
         type: 'after',
         frequency: 'days',
         number: 1,
         actions: [],
-      })
-      this.numberOfSteps = this.numberOfSteps + 1
-      this.numberOfAfterSteps = this.numberOfAfterSteps + 1
+      });
+      this.numberOfSteps = this.numberOfSteps + 1;
+      this.numberOfAfterSteps = this.numberOfAfterSteps + 1;
     },
 
     removeStep(step) {
-      var idToRemove = step.id
-      this.form.steps.splice(this.form.steps.findIndex(i => i.id === step.id), 1)
+      var idToRemove = step.id;
+      this.form.steps.splice(this.form.steps.findIndex(i => i.id === step.id), 1);
 
       if (step.type == 'before') {
-        this.numberOfSteps = this.numberOfSteps - 1
-        this.numberOfBeforeSteps = this.numberOfBeforeSteps - 1
+        this.numberOfSteps = this.numberOfSteps - 1;
+        this.numberOfBeforeSteps = this.numberOfBeforeSteps - 1;
 
         if (step.id == this.oldestStep) {
           // this basically calculates what is the mininum number that we should
           // assign to the step
-          this.oldestStep = Math.min.apply(Math, this.form.steps.map(function(o) { return o.id }))
+          this.oldestStep = Math.min.apply(Math, this.form.steps.map(function(o) { return o.id; }));
         }
       }
 
       if (step.type == 'after') {
-        this.numberOfSteps = this.numberOfSteps - 1
-        this.numberOfAfterSteps = this.numberOfAfterSteps - 1
+        this.numberOfSteps = this.numberOfSteps - 1;
+        this.numberOfAfterSteps = this.numberOfAfterSteps - 1;
 
         if (step.id == this.newestStep) {
-          this.newestStep = Math.max.apply(Math, this.form.steps.map(function(o) { return o.id }))
+          this.newestStep = Math.max.apply(Math, this.form.steps.map(function(o) { return o.id; }));
         }
       }
     },
 
     submit() {
-      this.loadingState = 'loading'
+      this.loadingState = 'loading';
 
       axios.post('/' + this.company.id + '/account/flows', this.form)
         .then(response => {
-          localStorage.success = 'The flow has been added'
-          Turbolinks.visit('/' + response.data.company_id + '/account/flows')
+          localStorage.success = 'The flow has been added';
+          Turbolinks.visit('/' + response.data.company_id + '/account/flows');
         })
         .catch(error => {
-          this.loadingState = null
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     checkComplete(event) {
-      var isCompleteYet = true
+      var isCompleteYet = true;
 
       // check if the event is selected
       if (this.form.type == null) {
-        isCompleteYet = false
+        isCompleteYet = false;
       }
 
       // check if a name has been set for the flow
       if (!this.form.name) {
-        isCompleteYet = false
+        isCompleteYet = false;
       }
 
       // check if all the steps have the all actions they need
       for (let index = 0; index < this.form.steps.length; index++) {
-        const actions = this.form.steps[index]['actions']
+        const actions = this.form.steps[index]['actions'];
 
         for (let otherIndex = 0; otherIndex < actions.length; otherIndex++) {
           if (actions[otherIndex]['complete'] == false || !actions[otherIndex]['complete']) {
-            isCompleteYet = false
+            isCompleteYet = false;
           }
         }
       }
 
-      this.isComplete = isCompleteYet
+      this.isComplete = isCompleteYet;
     }
   }
-}
+};
 
 </script>

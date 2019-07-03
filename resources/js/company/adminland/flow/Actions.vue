@@ -64,53 +64,53 @@ export default {
       localActions: [],
       uniqueIds: 0,
       showActionMenu: false,
-    }
+    };
   },
 
   computed: {
     orderedActions: function () {
-      return _.orderBy(this.localActions, 'id')
+      return _.orderBy(this.localActions, 'id');
     }
   },
 
   mounted() {
-    this.localActions = this.value
+    this.localActions = this.value;
   },
 
   methods: {
     addAction(type) {
-      this.uniqueIds = this.uniqueIds + 1
+      this.uniqueIds = this.uniqueIds + 1;
       this.localActions.push({
         id: this.uniqueIds,
         type: type,
-      })
+      });
 
-      this.showActionMenu = false
-      this.$emit('change', this.localActions)
-      this.$emit('completed', this.complete)
+      this.showActionMenu = false;
+      this.$emit('change', this.localActions);
+      this.$emit('completed', this.complete);
     },
 
     updateAction(event, action) {
-      Vue.set(this.localActions, this.localActions.indexOf(action), event)
+      Vue.set(this.localActions, this.localActions.indexOf(action), event);
 
       // check whether the actions are "complete" to prevent submitting a wrong
       // json to the backend
-      var isCompleteYet = true
+      var isCompleteYet = true;
       for (let index = 0; index < this.localActions.length; index++) {
-        const action = this.localActions[index]
+        const action = this.localActions[index];
         if (action.complete == false || !action.complete) {
-          isCompleteYet = false
+          isCompleteYet = false;
         }
       }
 
-      this.complete = isCompleteYet
-      this.$emit('completed', this.complete)
+      this.complete = isCompleteYet;
+      this.$emit('completed', this.complete);
     },
 
     destroyAction(action) {
-      this.localActions.splice(this.localActions.findIndex(i => i.id === action.id), 1)
+      this.localActions.splice(this.localActions.findIndex(i => i.id === action.id), 1);
     }
   }
-}
+};
 
 </script>

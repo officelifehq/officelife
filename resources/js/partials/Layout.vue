@@ -197,7 +197,7 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
+import ClickOutside from 'vue-click-outside';
 
 export default {
   directives: {
@@ -239,75 +239,75 @@ export default {
       },
       employees: [],
       teams: [],
-    }
+    };
   },
 
   watch: {
     title(title) {
-      this.updatePageTitle(title)
+      this.updatePageTitle(title);
     }
   },
 
   mounted() {
-    this.updatePageTitle(this.title)
+    this.updatePageTitle(this.title);
 
     // prevent click outside event with popupItem.
-    this.popupItem = this.$el
+    this.popupItem = this.$el;
   },
 
 
   methods: {
     updatePageTitle(title) {
-      document.title = title ? `${title} | Example app` : 'Example app'
+      document.title = title ? `${title} | Example app` : 'Example app';
     },
 
     showFindModal() {
-      this.dataReturnedFromSearch = false
-      this.form.searchTerm = null
-      this.employees = []
-      this.teams = []
-      this.modalFind = !this.modalFind
+      this.dataReturnedFromSearch = false;
+      this.form.searchTerm = null;
+      this.employees = [];
+      this.teams = [];
+      this.modalFind = !this.modalFind;
 
       this.$nextTick(() => {
-        this.$refs.search.focus()
-      })
+        this.$refs.search.focus();
+      });
     },
 
     showNotifications() {
-      this.showModalNotifications = !this.showModalNotifications
+      this.showModalNotifications = !this.showModalNotifications;
 
       axios.post('/notifications/read')
         .catch(error => {
-          this.loadingState = null
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     hideNotifications() {
-      this.showModalNotifications = false
+      this.showModalNotifications = false;
     },
 
     submit() {
       axios.post('/search/employees', this.form)
         .then(response => {
-          this.dataReturnedFromSearch = true
-          this.employees = response.data.data
+          this.dataReturnedFromSearch = true;
+          this.employees = response.data.data;
         })
         .catch(error => {
-          this.loadingState = null
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
 
       axios.post('/search/teams', this.form)
         .then(response => {
-          this.dataReturnedFromSearch = true
-          this.teams = response.data.data
+          this.dataReturnedFromSearch = true;
+          this.teams = response.data.data;
         })
         .catch(error => {
-          this.loadingState = null
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     }
   },
-}
+};
 </script>

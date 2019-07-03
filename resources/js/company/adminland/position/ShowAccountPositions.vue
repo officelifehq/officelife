@@ -146,20 +146,20 @@ export default {
         title: null,
         errors: [],
       },
-    }
+    };
   },
 
   methods: {
     displayUpdateModal(position) {
-      this.idToUpdate = position.id
+      this.idToUpdate = position.id;
 
       this.$nextTick(() => {
-        this.$refs.title.focus()
-      })
+        this.$refs.title.focus();
+      });
     },
 
     submit() {
-      this.loadingState = 'loading'
+      this.loadingState = 'loading';
 
       axios.post('/' + this.company.id + '/account/positions', this.form)
         .then(response => {
@@ -168,17 +168,17 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
+          });
 
-          this.loadingState = null
-          this.form.title = null
-          this.modal = false
-          this.positions.push(response.data.data)
+          this.loadingState = null;
+          this.form.title = null;
+          this.modal = false;
+          this.positions.push(response.data.data);
         })
         .catch(error => {
-          this.loadingState = null
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     update(id) {
@@ -189,17 +189,17 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
+          });
 
-          this.idToUpdate = 0
-          this.form.title = null
+          this.idToUpdate = 0;
+          this.form.title = null;
 
-          id = this.positions.findIndex(x => x.id === id)
-          this.$set(this.positions, id, response.data.data)
+          id = this.positions.findIndex(x => x.id === id);
+          this.$set(this.positions, id, response.data.data);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     destroy(id) {
@@ -210,17 +210,17 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
+          });
 
-          this.idToDelete = 0
-          id = this.positions.findIndex(x => x.id === id)
-          this.positions.splice(id, 1)
+          this.idToDelete = 0;
+          id = this.positions.findIndex(x => x.id === id);
+          this.positions.splice(id, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
   }
-}
+};
 
 </script>

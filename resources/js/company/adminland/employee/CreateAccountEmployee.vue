@@ -154,24 +154,24 @@ export default {
       },
       loadingState: '',
       errorTemplate: Error,
-    }
+    };
   },
 
   methods: {
     submit() {
-      this.loadingState = 'loading'
+      this.loadingState = 'loading';
 
       axios.post('/' + this.company.id + '/account/employees', this.form)
         .then(response => {
-          localStorage.success = 'The employee has been added'
-          Turbolinks.visit('/' + response.data.company_id + '/account/employees')
+          localStorage.success = 'The employee has been added';
+          Turbolinks.visit('/' + response.data.company_id + '/account/employees');
         })
         .catch(error => {
-          this.loadingState = null
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
   }
-}
+};
 
 </script>

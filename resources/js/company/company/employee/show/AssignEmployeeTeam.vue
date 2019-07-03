@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
+import ClickOutside from 'vue-click-outside';
 
 export default {
   directives: {
@@ -126,42 +126,42 @@ export default {
       modal: false,
       search: '',
       updatedEmployee: Object,
-    }
+    };
   },
 
   computed: {
     filteredList() {
       // filter the list when searching
       // also, sort the list by name
-      var list
+      var list;
       list = this.teams.filter(team => {
-        return team.name.toLowerCase().includes(this.search.toLowerCase())
-      })
+        return team.name.toLowerCase().includes(this.search.toLowerCase());
+      });
 
       function compare(a, b) {
         if (a.name < b.name)
-          return -1
+          return -1;
         if (a.name > b.name)
-          return 1
-        return 0
+          return 1;
+        return 0;
       }
 
-      return list.sort(compare)
+      return list.sort(compare);
     }
   },
 
   created() {
-    this.updatedEmployee = this.employee
+    this.updatedEmployee = this.employee;
   },
 
   mounted() {
     // prevent click outside event with popupItem.
-    this.popupItem = this.$el
+    this.popupItem = this.$el;
   },
 
   methods: {
     toggleModal() {
-      this.modal = false
+      this.modal = false;
     },
 
     assign(team) {
@@ -172,13 +172,13 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
+          });
 
-          this.updatedEmployee = response.data.data
+          this.updatedEmployee = response.data.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     reset(team) {
@@ -189,24 +189,24 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
+          });
 
-          this.updatedEmployee = response.data.data
+          this.updatedEmployee = response.data.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     isAssigned : function(id){
       for(var i=0; i < this.updatedEmployee.teams.length; i++){
         if (this.updatedEmployee.teams[i].id == id) {
-          return true
+          return true;
         }
       }
-      return false
+      return false;
     }
   }
-}
+};
 
 </script>

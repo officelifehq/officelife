@@ -98,10 +98,10 @@ export default {
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
-      })
-      localStorage.clear()
+      });
+      localStorage.clear();
     }
   },
-}
+};
 
 </script>
