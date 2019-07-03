@@ -2,10 +2,12 @@
 
 namespace App\Services\Company\Employee\Homework;
 
+use Carbon\Carbon;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Homework;
 use App\Services\Company\Employee\LogEmployeeAction;
+use App\Exceptions\HomeworkAlreadyLoggedTodayException;
 use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class LogHomework extends BaseService
@@ -46,6 +48,8 @@ class LogHomework extends BaseService
         $employee = Employee::where('company_id', $data['company_id'])
             ->findOrFail($data['employee_id']);
 
+        $this->hasAlreadyLoggedHomeworkToday($data);
+
         $homework = Homework::create([
             'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
@@ -61,7 +65,7 @@ class LogHomework extends BaseService
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'homework_id' => $homework,
+                'homework_id' => $homework->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
@@ -75,11 +79,30 @@ class LogHomework extends BaseService
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'homework_id' => $homework,
+                'homework_id' => $homework->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $homework;
+    }
+
+    /**
+     * Check if the employee has already logged something today.
+     *
+     * @param array $data
+     * @return boolean
+     */
+    private function hasAlreadyLoggedHomeworkToday(array $data) : bool
+    {
+        $homework = Homework::where('employee_id', $data['employee_id'])
+            ->whereDate('created_at', Carbon::today())
+            ->get();
+
+        if ($homework->count() != 0) {
+            throw new HomeworkAlreadyLoggedTodayException();
+        }
+
+        return false;
     }
 }

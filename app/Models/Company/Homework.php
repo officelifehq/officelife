@@ -18,7 +18,6 @@ class Homework extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id',
         'employee_id',
         'content',
         'is_dummy',
@@ -41,16 +40,6 @@ class Homework extends Model
     protected $casts = [
         'is_dummy' => 'boolean',
     ];
-
-    /**
-     * Get the company record associated with the position.
-     *
-     * @return BelongsTo
-     */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
 
     /**
      * Get the employee records associated with the position.

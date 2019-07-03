@@ -2,10 +2,12 @@
 
 namespace Tests\Unit\Services\Company\Employee\Homework;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\Homework;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\HomeworkAlreadyLoggedTodayException;
 use App\Services\Company\Employee\Homework\LogHomework;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -63,6 +65,29 @@ class LogHomeworkTest extends TestCase
             'company_id' => $dwight->company_id,
             'action' => 'homework_logged',
         ]);
+    }
+
+    /** @test */
+    public function it_doesnt_let_record_a_homework_if_one_has_already_been_submitted_today()
+    {
+        Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
+
+        $dwight = factory(Employee::class)->create([]);
+        factory(Homework::class)->create([
+            'company_id' => $dwight->company_id,
+            'employee_id' => $dwight->id,
+            'created_at' => now(),
+        ]);
+
+        $request = [
+            'company_id' => $dwight->company_id,
+            'author_id' => $dwight->user_id,
+            'employee_id' => $dwight->id,
+            'content' => 'I have sold paper',
+        ];
+
+        $this->expectException(HomeworkAlreadyLoggedTodayException::class);
+        (new LogHomework)->execute($request);
     }
 
     /** @test */

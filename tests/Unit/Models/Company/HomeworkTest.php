@@ -16,11 +16,4 @@ class HomeworkTest extends TestCase
         $homework = factory(Homework::class)->create([]);
         $this->assertTrue($homework->employee()->exists());
     }
-
-    /** @test */
-    public function it_belongs_to_a_company()
-    {
-        $homework = factory(Homework::class)->create([]);
-        $this->assertTrue($homework->company()->exists());
-    }
 }
