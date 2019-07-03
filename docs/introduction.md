@@ -71,3 +71,9 @@ That being said, an employee can be a manager. When an employee is a manager, he
 A team is a group of people. This is vague on purpose. It’s up to you to decide whether a team is a department, a separate business entity or a team within another bigger team.
 
 A team is created in Adminland by an administrator or a human resource representative. A team has one team leader (and only one).
+
+### Work done
+
+Employees can log the work they've done for a given day. If provided, this information will appear on their profile page as well as their team's page.
+
+Employees can only log what they've done once per day. By definition, we don't allow someone to change the date – that means if they omit one day, they can't come back the next day and fill the information. This is done on purpose in order to force people to actually use this feature if a team needs it.

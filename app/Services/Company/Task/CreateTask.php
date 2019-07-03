@@ -115,7 +115,7 @@ class CreateTask extends BaseService
      * @param array $dataToLog
      * @return void
      */
-    private function addLogTeamAction(array $data, array $dataToLog)
+    private function addLogTeamAction(array $data, array $dataToLog) : void
     {
         (new LogTeamAction)->execute([
             'company_id' => $data['company_id'],
@@ -134,7 +134,7 @@ class CreateTask extends BaseService
      * @param User $user
      * @return void
      */
-    private function addLogEmployeeAction(array $data, array $dataToLog, User $user)
+    private function addLogEmployeeAction(array $data, array $dataToLog, User $user) : void
     {
         (new LogEmployeeAction)->execute([
             'company_id' => $data['company_id'],

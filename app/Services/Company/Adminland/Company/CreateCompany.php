@@ -65,7 +65,7 @@ class CreateCompany extends BaseService
      * @param User $author
      * @return void
      */
-    private function addFirstEmployee(Company $company, User $author)
+    private function addFirstEmployee(Company $company, User $author) : void
     {
         $uuid = Str::uuid()->toString();
 
@@ -93,7 +93,7 @@ class CreateCompany extends BaseService
      * @param User $author
      * @return void
      */
-    private function provisionDefaultPositions(Company $company, User $author)
+    private function provisionDefaultPositions(Company $company, User $author) : void
     {
         $positions = [
             trans('app.default_position_ceo'),

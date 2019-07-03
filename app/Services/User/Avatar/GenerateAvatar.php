@@ -42,7 +42,7 @@ class GenerateAvatar extends BaseService
      * @param  array  $data
      * @return int
      */
-    private function size(array $data)
+    private function size(array $data) : int
     {
         if (isset($data['size'])) {
             return $data['size'];

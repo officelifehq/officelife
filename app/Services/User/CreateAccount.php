@@ -90,7 +90,7 @@ class CreateAccount extends BaseService
      * @param User $user
      * @return void
      */
-    private function scheduleConfirmationEmail(User $user)
+    private function scheduleConfirmationEmail(User $user) : void
     {
         Mail::to($user->email)
             ->queue(new ConfirmAccount($user));

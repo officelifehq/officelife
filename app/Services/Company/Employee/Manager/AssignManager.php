@@ -89,7 +89,7 @@ class AssignManager extends BaseService
      * @param Employee $employee
      * @return void
      */
-    private function logInEmployeeLogs(array $data, User $author, Employee $manager, Employee $employee)
+    private function logInEmployeeLogs(array $data, User $author, Employee $manager, Employee $employee) : void
     {
         // Log information about the employee having a manager assigned
         (new LogEmployeeAction)->execute([

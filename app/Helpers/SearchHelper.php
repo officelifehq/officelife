@@ -12,7 +12,7 @@ class SearchHelper
      * @param  array  $array
      * @return string
      */
-    public static function buildQuery(array $array, string $searchTerm)
+    public static function buildQuery(array $array, string $searchTerm) : string
     {
         $first = true;
         $queryString = '';

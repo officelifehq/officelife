@@ -184,6 +184,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the homework record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function homework()
+    {
+        return $this->hasMany(Homework::class);
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string

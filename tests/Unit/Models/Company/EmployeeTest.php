@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
+use App\Models\Company\Homework;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
 use App\Models\Company\EmployeeEvent;
@@ -107,6 +108,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($employee->tasks()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_homework()
+    {
+        $employee = factory(Employee::class)->create();
+        factory(Homework::class, 2)->create([
+            'employee_id' => $employee->id,
+        ]);
+
+        $this->assertTrue($employee->homework()->exists());
     }
 
     /** @test */
