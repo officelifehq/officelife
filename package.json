@@ -54,6 +54,7 @@
             ],
             "*.vue": [
                 "eslint --ext .js,.vue resources/js/",
+                "yarn run prod",
                 "git add"
             ]
         }
