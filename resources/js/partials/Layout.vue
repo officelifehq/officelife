@@ -92,8 +92,8 @@
             <li class="b mb3">
               <span class="f6 mb2 dib">{{ $t('app.header_search_employees') }}</span>
               <ul v-if="employees.length > 0" class="list ma0 pl0">
-                <li v-for="employee in employees" :key="employee.id">
-                  <a :href="'/' + employee.company.id + '/employees/' + employee.id">{{ employee.name }}</a>
+                <li v-for="localEmployee in employees" :key="localEmployee.id">
+                  <a :href="'/' + localEmployee.company.id + '/employees/' + localEmployee.id">{{ localEmployee.name }}</a>
                 </li>
               </ul>
               <div v-else class="silver">
@@ -118,13 +118,15 @@
       </div>
 
       <!-- NOTIFICATIONS BOX -->
-      <div v-if="showModalNotifications" class="absolute z-max notifications-box" v-click-outside="hideNotifications">
-        <div class="br2 bg-white tl pv3 ph3 bounceIn faster" >
+      <div v-if="showModalNotifications" v-click-outside="hideNotifications" class="absolute z-max notifications-box">
+        <div class="br2 bg-white tl pv3 ph3 bounceIn faster">
           <div v-show="notifications.length == 0">
             <img class="db center mb2" srcset="/img/header/notification_blank.png,
                                         /img/header/notitication_blank@2x.png 2x"
             />
-            <p class="tc">All is clear!</p>
+            <p class="tc">
+              All is clear!
+            </p>
           </div>
 
           <ul v-show="notifications.length > 0">
@@ -132,7 +134,6 @@
               {{ notification.action }}
             </li>
           </ul>
-
         </div>
       </div>
     </header>

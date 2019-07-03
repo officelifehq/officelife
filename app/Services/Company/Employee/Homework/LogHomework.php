@@ -20,7 +20,6 @@ class LogHomework extends BaseService
     public function rules()
     {
         return [
-            'company_id' => 'required|integer|exists:companies,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'content' => 'required|string|max:65535',
             'is_dummy' => 'nullable|boolean',
@@ -38,27 +37,25 @@ class LogHomework extends BaseService
     {
         $this->validate($data);
 
+        $employee = Employee::findOrFail($data['employee_id']);
+
         $author = $this->validatePermissions(
             $data['author_id'],
-            $data['company_id'],
-            config('homas.authorizations.hr'),
+            $employee->company_id,
+            config('homas.authorizations.user'),
             $data['employee_id']
         );
-
-        $employee = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
 
         $this->hasAlreadyLoggedHomeworkToday($data);
 
         $homework = Homework::create([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'content' => $data['content'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         (new LogAuditAction)->execute([
-            'company_id' => $data['company_id'],
+            'company_id' => $employee->company_id,
             'action' => 'employee_homework_logged',
             'objects' => json_encode([
                 'author_id' => $author->id,
@@ -71,7 +68,7 @@ class LogHomework extends BaseService
         ]);
 
         (new LogEmployeeAction)->execute([
-            'company_id' => $data['company_id'],
+            'company_id' => $employee->company_id,
             'employee_id' => $data['employee_id'],
             'action' => 'homework_logged',
             'objects' => json_encode([

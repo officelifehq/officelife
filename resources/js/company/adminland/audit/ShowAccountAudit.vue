@@ -68,10 +68,6 @@ export default {
       type: Array,
       default: null,
     },
-    notifications: {
-      type: Array,
-      default: null,
-    },
     paginator: {
       type: Object,
       default: null,

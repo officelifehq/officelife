@@ -21,7 +21,6 @@ class LogHomeworkTest extends TestCase
         $dwight = factory(Employee::class)->create([]);
 
         $request = [
-            'company_id' => $dwight->company_id,
             'author_id' => $dwight->user_id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',
@@ -31,7 +30,6 @@ class LogHomeworkTest extends TestCase
 
         $this->assertDatabaseHas('homework', [
             'id' => $homework->id,
-            'company_id' => $dwight->company_id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',
         ]);
@@ -48,7 +46,6 @@ class LogHomeworkTest extends TestCase
         $dwight = factory(Employee::class)->create([]);
 
         $request = [
-            'company_id' => $dwight->company_id,
             'author_id' => $dwight->user_id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',
@@ -74,13 +71,11 @@ class LogHomeworkTest extends TestCase
 
         $dwight = factory(Employee::class)->create([]);
         factory(Homework::class)->create([
-            'company_id' => $dwight->company_id,
             'employee_id' => $dwight->id,
             'created_at' => now(),
         ]);
 
         $request = [
-            'company_id' => $dwight->company_id,
             'author_id' => $dwight->user_id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',

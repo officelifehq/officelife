@@ -145,12 +145,7 @@ $factory->define(App\Models\Company\Task::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\Homework::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
-        'employee_id' => function (array $data) {
-            return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $data['company_id'],
-            ])->id;
-        },
+        'employee_id' => factory(App\Models\Company\Employee::class)->create()->id,
         'content' => 'This is what I have done',
     ];
 });

@@ -34,7 +34,7 @@
 
           <!-- List of steps happening before -->
           <ul>
-            <li v-for="step in flow.steps.data" :key="step.id" v-show="step.modifier == 'before'">
+            <li v-for="step in flow.steps.data" v-show="step.modifier == 'before'" :key="step.id">
               {{ step.number }} {{ step.unit_of_time }} before {{ flow.type }}
               <ul>
                 <li v-for="action in step.actions.data" :key="action.id">
@@ -46,7 +46,7 @@
 
           <!-- List of steps happening on the day of the event -->
           <ul>
-            <li v-for="step in flow.steps.data" :key="step.id" v-show="step.modifier == 'same_day'">
+            <li v-for="step in flow.steps.data" v-show="step.modifier == 'same_day'" :key="step.id">
               On {{ flow.type }}
               <ul>
                 <li v-for="action in step.actions.data" :key="action.id">
@@ -58,7 +58,7 @@
 
           <!-- List of steps happening after -->
           <ul>
-            <li v-for="step in flow.steps.data" :key="step.id" v-show="step.modifier == 'after'">
+            <li v-for="step in flow.steps.data" v-show="step.modifier == 'after'" :key="step.id">
               {{ step.number }} {{ step.unit_of_time }} after {{ flow.type }}
               <ul>
                 <li v-for="action in step.actions.data" :key="action.id">
