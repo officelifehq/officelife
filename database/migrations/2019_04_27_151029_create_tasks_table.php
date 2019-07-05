@@ -13,6 +13,9 @@ class CreateTasksTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('tasks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_id');
@@ -20,8 +23,8 @@ class CreateTasksTable extends Migration
             $table->unsignedBigInteger('assignee_id')->nullable();
             $table->boolean('completed')->default(false);
             $table->string('title');
-            $table->date('due_at')->nullable();
-            $table->date('completed_at')->nullable();
+            $table->datetime('due_at')->nullable();
+            $table->datetime('completed_at')->nullable();
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

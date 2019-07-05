@@ -59,7 +59,7 @@ class AddUserToCompanyTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given()
     {
         $adminEmployee = $this->createAdministrator();
-        $user = factory(User::class)->create([]);
+        factory(User::class)->create([]);
 
         $request = [
             'company_id' => $adminEmployee->company_id,

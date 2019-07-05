@@ -29,7 +29,7 @@ class UpdateHiringInformationTest extends TestCase
         $this->assertDatabaseHas('employees', [
             'id' => $employee->id,
             'company_id' => $employee->company_id,
-            'hired_at' => '2010-02-20',
+            'hired_at' => '2010-02-20 00:00:00',
         ]);
 
         $this->assertInstanceOf(
