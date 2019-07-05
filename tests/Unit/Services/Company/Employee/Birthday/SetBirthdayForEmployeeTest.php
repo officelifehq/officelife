@@ -41,7 +41,7 @@ class SetBirthdayForEmployeeTest extends TestCase
         $this->assertDatabaseHas('employees', [
             'id' => $employee->id,
             'company_id' => $employee->company_id,
-            'birthdate' => '1978-10-01',
+            'birthdate' => '1978-10-01 00:00:00',
         ]);
 
         $this->assertInstanceOf(
@@ -59,7 +59,7 @@ class SetBirthdayForEmployeeTest extends TestCase
             'employee_id' => $employee->id,
             'company_id' => $employee->company_id,
             'label' => 'birthday',
-            'date' => '2017-10-01',
+            'date' => '2017-10-01 00:00:00',
         ]);
     }
 

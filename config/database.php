@@ -83,7 +83,7 @@ return [
         ],
 
         'testing' => [
-            'driver' => 'mysql',
+            'driver' => env('DB_TEST_DRIVER', 'mysql'),
             'host' => env('DB_TEST_HOST', 'localhost'),
             'port' => env('DB_TEST_PORT', '3306'),
             'database' => env('DB_TEST_DATABASE'),

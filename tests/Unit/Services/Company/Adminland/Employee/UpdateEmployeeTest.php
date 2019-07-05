@@ -35,7 +35,7 @@ class UpdateEmployeeTest extends TestCase
             'email' => 'dwight@dundermifflin.com',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
-            'birthdate' => '1978-01-20',
+            'birthdate' => '1978-01-20 00:00:00',
         ]);
 
         $this->assertInstanceOf(
