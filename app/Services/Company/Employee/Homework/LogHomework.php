@@ -2,7 +2,6 @@
 
 namespace App\Services\Company\Employee\Homework;
 
-use Carbon\Carbon;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Homework;
@@ -84,24 +83,5 @@ class LogHomework extends BaseService
         ]);
 
         return $homework;
-    }
-
-    /**
-     * Check if the employee has already logged something today.
-     *
-     * @param array $data
-     * @return bool
-     */
-    private function hasAlreadyLoggedHomeworkToday(array $data) : bool
-    {
-        $homework = Homework::where('employee_id', $data['employee_id'])
-            ->whereDate('created_at', Carbon::today())
-            ->get();
-
-        if ($homework->count() != 0) {
-            throw new HomeworkAlreadyLoggedTodayException();
-        }
-
-        return false;
     }
 }

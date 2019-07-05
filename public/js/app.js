@@ -3912,6 +3912,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -3950,8 +3954,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tiptap__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tiptap */ "./node_modules/tiptap/dist/tiptap.esm.js");
 /* harmony import */ var tiptap_extensions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! tiptap-extensions */ "./node_modules/tiptap-extensions/dist/extensions.esm.js");
-//
-//
 //
 //
 //
@@ -41819,200 +41821,194 @@ var render = function() {
       }
     },
     [
-      _c(
-        "div",
-        { staticClass: "ph2 ph0-ns" },
-        [
-          _c("div", { staticClass: "cf mt4 mw7 center" }, [
-            _c("h2", { staticClass: "tc fw5" }, [
-              _vm._v("\n        " + _vm._s(_vm.company.name) + "\n      ")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "cf mw7 center br3 mb3 tc" }, [
-            _c("div", { staticClass: "cf dib btn-group" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "f6 fl ph3 pv2 dib pointer",
-                  class: { selected: _vm.user.default_dashboard_view == "me" },
-                  attrs: { href: "/" + _vm.company.id + "/dashboard/me" }
+      _c("div", { staticClass: "ph2 ph0-ns" }, [
+        _c("div", { staticClass: "cf mt4 mw7 center" }, [
+          _c("h2", { staticClass: "tc fw5" }, [
+            _vm._v("\n        " + _vm._s(_vm.company.name) + "\n      ")
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cf mw7 center br3 mb3 tc" }, [
+          _c("div", { staticClass: "cf dib btn-group" }, [
+            _c(
+              "a",
+              {
+                staticClass: "f6 fl ph3 pv2 dib pointer",
+                class: { selected: _vm.user.default_dashboard_view == "me" },
+                attrs: { href: "/" + _vm.company.id + "/dashboard/me" }
+              },
+              [_vm._v("\n          Me\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "f6 fl ph3 pv2 pointer dib",
+                class: { selected: _vm.user.default_dashboard_view == "team" },
+                attrs: { href: "/" + _vm.company.id + "/dashboard/team" }
+              },
+              [_vm._v("\n          My team\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "f6 fl ph3 pv2 dib",
+                class: {
+                  selected: _vm.user.default_dashboard_view == "company"
                 },
-                [_vm._v("\n          Me\n        ")]
-              ),
+                attrs: { href: "/" + _vm.company.id + "/dashboard/company" }
+              },
+              [_vm._v("\n          My company\n        ")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "f6 fl ph3 pv2 dib",
+                class: { selected: _vm.user.default_dashboard_view == "hr" },
+                attrs: { href: "/" + _vm.company.id + "/dashboard/hr" }
+              },
+              [_vm._v("\n          HR area\n        ")]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value:
+                  _vm.employee.permission_level == _vm.ownerPermissionLevel,
+                expression: "employee.permission_level == ownerPermissionLevel"
+              }
+            ],
+            staticClass: "cf mw7 center br3 mb3 bg-white box"
+          },
+          [
+            _c("div", { staticClass: "pa3 relative" }, [
+              _c("p", { staticClass: "b" }, [
+                _vm._v(
+                  "\n          Would you like to fill your account with fake data?\n        "
+                )
+              ]),
               _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "f6 fl ph3 pv2 pointer dib",
-                  class: {
-                    selected: _vm.user.default_dashboard_view == "team"
-                  },
-                  attrs: { href: "/" + _vm.company.id + "/dashboard/team" }
-                },
-                [_vm._v("\n          My team\n        ")]
-              ),
+              _c("p", { staticClass: "measure" }, [
+                _vm._v(
+                  "\n          This will let you play with an account with a lot of data. You will be able to remove them at any time to start fresh.\n        "
+                )
+              ]),
               _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "f6 fl ph3 pv2 dib",
-                  class: {
-                    selected: _vm.user.default_dashboard_view == "company"
-                  },
-                  attrs: { href: "/" + _vm.company.id + "/dashboard/company" }
-                },
-                [_vm._v("\n          My company\n        ")]
-              ),
+              _c("img", {
+                staticClass: "dummy w-25 absolute",
+                attrs: { src: "/img/company/account/fake-data.png" }
+              }),
               _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "f6 fl ph3 pv2 dib",
-                  class: { selected: _vm.user.default_dashboard_view == "hr" },
-                  attrs: { href: "/" + _vm.company.id + "/dashboard/hr" }
-                },
-                [_vm._v("\n          HR area\n        ")]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value:
-                    _vm.employee.permission_level == _vm.ownerPermissionLevel,
-                  expression:
-                    "employee.permission_level == ownerPermissionLevel"
-                }
-              ],
-              staticClass: "cf mw7 center br3 mb3 bg-white box"
-            },
-            [
-              _c("div", { staticClass: "pa3 relative" }, [
-                _c("p", { staticClass: "b" }, [
-                  _vm._v(
-                    "\n          Would you like to fill your account with fake data?\n        "
-                  )
-                ]),
+              _c("ul", { staticClass: "list pa0 ma0" }, [
+                _c(
+                  "li",
+                  { staticClass: "di pr2" },
+                  [
+                    _c("loading-button", {
+                      attrs: {
+                        classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
+                        state: _vm.loadingState,
+                        text: "generate"
+                      }
+                    })
+                  ],
+                  1
+                ),
                 _vm._v(" "),
-                _c("p", { staticClass: "measure" }, [
-                  _vm._v(
-                    "\n          This will let you play with an account with a lot of data. You will be able to remove them at any time to start fresh.\n        "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("img", {
-                  staticClass: "dummy w-25 absolute",
-                  attrs: { src: "/img/company/account/fake-data.png" }
-                }),
-                _vm._v(" "),
-                _c("ul", { staticClass: "list pa0 ma0" }, [
-                  _c(
-                    "li",
-                    { staticClass: "di pr2" },
-                    [
-                      _c("loading-button", {
-                        attrs: {
-                          classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
-                          state: _vm.loadingState,
-                          text: "generate"
-                        }
-                      })
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("li", { staticClass: "di" }, [
-                    _c("a", { attrs: { href: "" } }, [
-                      _vm._v("Dismiss this message")
-                    ])
+                _c("li", { staticClass: "di" }, [
+                  _c("a", { attrs: { href: "" } }, [
+                    _vm._v("Dismiss this message")
                   ])
                 ])
               ])
-            ]
-          ),
-          _vm._v(" "),
-          _c("editor"),
-          _vm._v(" "),
-          _c("div", { staticClass: "cf mw7 center br3 mb3 bg-white box" }, [
-            _c("div", { staticClass: "pa3" }, [
-              _c("ul", [
-                _c("li", [
-                  _c(
-                    "a",
-                    { attrs: { href: "/" + _vm.company.id + "/account" } },
-                    [_vm._v("Access Adminland")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("li", [_vm._v("latest news")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("hr: expense overview")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("hr: view all teams")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("view company morale")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("view all employees")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("menu de la semaine")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Mise en avant random d'un employé")])
-              ])
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "cf mt4 mw7 center br3 mb3 bg-white box" }, [
-            _c("div", { staticClass: "pa3" }, [
-              _c("h2", [_vm._v("Team")]),
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "cf mw7 center br3 mb3 bg-white box" }, [
+          _c("div", { staticClass: "pa3" }, [_c("editor")], 1)
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cf mw7 center br3 mb3 bg-white box" }, [
+          _c("div", { staticClass: "pa3" }, [
+            _c("ul", [
+              _c("li", [
+                _c(
+                  "a",
+                  { attrs: { href: "/" + _vm.company.id + "/account" } },
+                  [_vm._v("Access Adminland")]
+                )
+              ]),
               _vm._v(" "),
-              _c("ul", [
-                _c("li", [_vm._v("team agenda")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("anniversaires")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("latest news")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("manager: view time off requests")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("manager: view morale")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("manager: expense approval")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("manager: one on one")])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "cf mt4 mw7 center br3 mb3 bg-white box" }, [
-            _c("div", { staticClass: "pa3" }, [
-              _c("h2", [_vm._v("Me")]),
+              _c("li", [_vm._v("latest news")]),
               _vm._v(" "),
-              _c("ul", [
-                _c("li", [_vm._v("View holidays")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Book time off")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Log morale")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Reply to what you've done this week")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("Log an expense")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("View one on ones")]),
-                _vm._v(" "),
-                _c("li", [_vm._v("View all my tasks")])
-              ])
+              _c("li", [_vm._v("hr: expense overview")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("hr: view all teams")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("view company morale")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("view all employees")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("menu de la semaine")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Mise en avant random d'un employé")])
             ])
           ])
-        ],
-        1
-      )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cf mt4 mw7 center br3 mb3 bg-white box" }, [
+          _c("div", { staticClass: "pa3" }, [
+            _c("h2", [_vm._v("Team")]),
+            _vm._v(" "),
+            _c("ul", [
+              _c("li", [_vm._v("team agenda")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("anniversaires")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("latest news")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("manager: view time off requests")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("manager: view morale")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("manager: expense approval")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("manager: one on one")])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "cf mt4 mw7 center br3 mb3 bg-white box" }, [
+          _c("div", { staticClass: "pa3" }, [
+            _c("h2", [_vm._v("Me")]),
+            _vm._v(" "),
+            _c("ul", [
+              _c("li", [_vm._v("View holidays")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Book time off")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Log morale")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Reply to what you've done this week")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("Log an expense")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("View one on ones")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("View all my tasks")])
+            ])
+          ])
+        ])
+      ])
     ]
   )
 }
@@ -42059,8 +42055,24 @@ var render = function() {
                       class: { "is-active": isActive.bold() },
                       on: { click: commands.bold }
                     },
-                    [_c("icon", { attrs: { name: "bold" } })],
-                    1
+                    [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "icon__svg",
+                          attrs: { "data-v-2b9db09d": "" }
+                        },
+                        [
+                          _c("use", {
+                            attrs: {
+                              "data-v-2b9db09d": "",
+                              "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                              "xlink:href": "#icon--bold"
+                            }
+                          })
+                        ]
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(

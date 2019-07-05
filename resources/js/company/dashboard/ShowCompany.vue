@@ -51,7 +51,11 @@
         </div>
       </div>
 
-      <editor />
+      <div class="cf mw7 center br3 mb3 bg-white box">
+        <div class="pa3">
+          <editor />
+        </div>
+      </div>
 
       <div class="cf mw7 center br3 mb3 bg-white box">
         <div class="pa3">

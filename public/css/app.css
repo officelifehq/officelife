@@ -9197,6 +9197,19 @@ label {
   margin-bottom: 0.5rem;
 }
 
+.ProseMirror {
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+}
+
+.ProseMirror:focus {
+  background-color: #fff;
+  border-color: #346cb0;
+  outline: 0;
+  box-shadow: 0 0 0 1px #346cb0;
+}
+
 .register-https {
   color: #727184;
   left: 10px;

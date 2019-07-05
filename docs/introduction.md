@@ -78,4 +78,4 @@ A team is created in Adminland by an administrator or a human resource represent
 
 Employees can log the work they've done for a given day. If provided, this information will appear on their profile page as well as their team's page.
 
-Employees can only log what they've done once per day. By definition, we don't allow someone to change the date – that means if they omit one day, they can't come back the next day and fill the information. This is done on purpose in order to force people to actually use this feature if a team needs it.
+Employees can only log what they've done once per day. By definition, we don't allow someone to change the date of a post they have written – that means if they omit one day, they can't come back the next day and fill the information. This is done on purpose in order to force people to actually use this feature if a team needs it.
