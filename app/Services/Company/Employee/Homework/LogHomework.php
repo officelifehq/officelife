@@ -46,7 +46,9 @@ class LogHomework extends BaseService
             $data['employee_id']
         );
 
-        $this->hasAlreadyLoggedHomeworkToday($data);
+        if ($employee->hasAlreadyLoggedHomeworkToday()) {
+            throw new HomeworkAlreadyLoggedTodayException();
+        }
 
         $homework = Homework::create([
             'employee_id' => $data['employee_id'],

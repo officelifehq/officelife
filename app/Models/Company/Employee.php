@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use Carbon\Carbon;
 use App\Models\User\User;
 use App\Traits\Searchable;
 use Illuminate\Support\Collection;
@@ -298,5 +299,19 @@ class Employee extends Model
         }
 
         return false;
+    }
+
+    /**
+     * Check if the employee has already logged something today.
+     *
+     * @return bool
+     */
+    public function hasAlreadyLoggedHomeworkToday() : bool
+    {
+        $homework = Homework::where('employee_id', $this->id)
+            ->whereDate('created_at', Carbon::today())
+            ->get();
+
+        return $homework->count() != 0;
     }
 }
