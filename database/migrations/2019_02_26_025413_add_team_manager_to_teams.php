@@ -13,6 +13,9 @@ class AddTeamManagerToTeams extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::table('teams', function (Blueprint $table) {
             $table->unsignedBigInteger('team_leader_id')->after('company_id')->nullable();
             $table->foreign('team_leader_id')->references('id')->on('employees')->onDelete('set null');

@@ -13,6 +13,9 @@ class CreateEmployeesTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('employees', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id')->nullable();
@@ -20,10 +23,10 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->date('birthdate')->nullable();
+            $table->datetime('birthdate')->nullable();
             $table->uuid('uuid');
-            $table->string('avatar');
-            $table->date('hired_at')->nullable();
+            $table->string('avatar')->nullable();
+            $table->datetime('hired_at')->nullable();
             $table->integer('permission_level');
             $table->string('invitation_link')->nullable();
             $table->timestamp('invitation_used_at')->nullable();

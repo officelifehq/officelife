@@ -25,6 +25,8 @@ Homas is built around the notion that while companies own data about their emplo
 
 ### Developers
 
+Dates all have the `datetime` format in order for us to use SQLite for testing purposes.
+
 ### Users vs employees
 
 Homas makes the distinction between users and employees.
