@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
+use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
-use App\Models\Company\Homework;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
 use App\Models\Company\EmployeeEvent;
@@ -112,14 +112,14 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_homework()
+    public function it_has_many_worklog()
     {
         $dwight = factory(Employee::class)->create();
-        factory(Homework::class, 2)->create([
+        factory(Worklog::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
 
-        $this->assertTrue($dwight->homework()->exists());
+        $this->assertTrue($dwight->worklogs()->exists());
     }
 
     /** @test */
@@ -208,23 +208,23 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_if_a_homework_has_already_been_logged_today()
+    public function it_checks_if_a_worklog_has_already_been_logged_today()
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
         $dwight = factory(Employee::class)->create([]);
-        factory(Homework::class)->create([
+        factory(Worklog::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => now(),
         ]);
 
-        $this->assertTrue($dwight->hasAlreadyLoggedHomeworkToday());
+        $this->assertTrue($dwight->hasAlreadyLoggedWorklogToday());
 
         $dwight = factory(Employee::class)->create([]);
-        factory(Homework::class)->create([
+        factory(Worklog::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => Carbon::yesterday(),
         ]);
-        $this->assertFalse($dwight->hasAlreadyLoggedHomeworkToday());
+        $this->assertFalse($dwight->hasAlreadyLoggedWorklogToday());
     }
 }

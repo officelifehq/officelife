@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHomeworkTable extends Migration
+class CreateWorklogTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class CreateHomeworkTable extends Migration
         // necessary for SQLlite
         Schema::enableForeignKeyConstraints();
 
-        Schema::create('homework', function (Blueprint $table) {
+        Schema::create('worklog', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->text('content');

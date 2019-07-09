@@ -143,7 +143,7 @@ $factory->define(App\Models\Company\Task::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\Homework::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Worklog::class, function (Faker $faker) {
     return [
         'employee_id' => factory(App\Models\Company\Employee::class)->create()->id,
         'content' => 'This is what I have done',

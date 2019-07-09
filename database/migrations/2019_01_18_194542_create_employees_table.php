@@ -30,6 +30,7 @@ class CreateEmployeesTable extends Migration
             $table->integer('permission_level');
             $table->string('invitation_link')->nullable();
             $table->timestamp('invitation_used_at')->nullable();
+            $table->integer('consecutive_worklog_missed')->default(0);
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');

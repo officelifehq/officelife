@@ -185,13 +185,13 @@ class Employee extends Model
     }
 
     /**
-     * Get the homework record associated with the employee.
+     * Get the worklog record associated with the employee.
      *
      * @return HasMany
      */
-    public function homework()
+    public function worklogs()
     {
-        return $this->hasMany(Homework::class);
+        return $this->hasMany(Worklog::class);
     }
 
     /**
@@ -306,12 +306,12 @@ class Employee extends Model
      *
      * @return bool
      */
-    public function hasAlreadyLoggedHomeworkToday() : bool
+    public function hasAlreadyLoggedWorklogToday() : bool
     {
-        $homework = Homework::where('employee_id', $this->id)
+        $worklog = Worklog::where('employee_id', $this->id)
             ->whereDate('created_at', Carbon::today())
             ->get();
 
-        return $homework->count() != 0;
+        return $worklog->count() != 0;
     }
 }
