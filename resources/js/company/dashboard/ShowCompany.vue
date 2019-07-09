@@ -83,6 +83,7 @@
             <li>manager: view morale</li>
             <li>manager: expense approval</li>
             <li>manager: one on one</li>
+            <li>revue 360 de son boss ou d'employées</li>
           </ul>
         </div>
       </div>

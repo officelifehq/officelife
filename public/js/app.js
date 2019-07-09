@@ -3916,6 +3916,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -41982,7 +41983,9 @@ var render = function() {
               _vm._v(" "),
               _c("li", [_vm._v("manager: expense approval")]),
               _vm._v(" "),
-              _c("li", [_vm._v("manager: one on one")])
+              _c("li", [_vm._v("manager: one on one")]),
+              _vm._v(" "),
+              _c("li", [_vm._v("revue 360 de son boss ou d'employées")])
             ])
           ])
         ]),
