@@ -24,6 +24,7 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'first_name' => 'Dwight',
         'last_name' => 'Schrute',
         'birthdate' => '1978-01-20',
+        'consecutive_worklog_missed' => 0,
     ];
 });
 
@@ -143,9 +144,11 @@ $factory->define(App\Models\Company\Task::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\Homework::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Worklog::class, function (Faker $faker) {
     return [
-        'employee_id' => factory(App\Models\Company\Employee::class)->create()->id,
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
         'content' => 'This is what I have done',
     ];
 });

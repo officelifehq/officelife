@@ -39,7 +39,7 @@ module.exports = {
         ],
         "semi": [
             "error",
-            "never"
+            "always"
         ],
         "semi-spacing": [
             "error",

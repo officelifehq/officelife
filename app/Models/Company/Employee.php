@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use Carbon\Carbon;
 use App\Models\User\User;
 use App\Traits\Searchable;
 use Illuminate\Support\Collection;
@@ -35,6 +36,7 @@ class Employee extends Model
         'permission_level',
         'invitation_link',
         'invitation_used_at',
+        'consecutive_worklog_missed',
         'uuid',
         'is_dummy',
         'avatar',
@@ -184,13 +186,13 @@ class Employee extends Model
     }
 
     /**
-     * Get the homework record associated with the employee.
+     * Get the worklog record associated with the employee.
      *
      * @return HasMany
      */
-    public function homework()
+    public function worklogs()
     {
-        return $this->hasMany(Homework::class);
+        return $this->hasMany(Worklog::class);
     }
 
     /**
@@ -298,5 +300,19 @@ class Employee extends Model
         }
 
         return false;
+    }
+
+    /**
+     * Check if the employee has already logged something today.
+     *
+     * @return bool
+     */
+    public function hasAlreadyLoggedWorklogToday() : bool
+    {
+        $worklog = Worklog::where('employee_id', $this->id)
+            ->whereDate('created_at', Carbon::today())
+            ->get();
+
+        return $worklog->count() != 0;
     }
 }

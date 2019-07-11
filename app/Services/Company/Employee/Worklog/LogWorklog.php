@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Services\Company\Employee\Homework;
+namespace App\Services\Company\Employee\Worklog;
 
-use Carbon\Carbon;
 use App\Services\BaseService;
+use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
-use App\Models\Company\Homework;
 use App\Services\Company\Employee\LogEmployeeAction;
-use App\Exceptions\HomeworkAlreadyLoggedTodayException;
+use App\Exceptions\WorklogAlreadyLoggedTodayException;
 use App\Services\Company\Adminland\Company\LogAuditAction;
 
-class LogHomework extends BaseService
+class LogWorklog extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -29,11 +28,13 @@ class LogHomework extends BaseService
     /**
      * Log the work that the employee has done.
      * Logging can only happen once per day.
+     * Logging can only be done by the employee, so there is no author_id field
+     * with this service.
      *
      * @param array $data
-     * @return Homework
+     * @return Worklog
      */
-    public function execute(array $data) : Homework
+    public function execute(array $data) : Worklog
     {
         $this->validate($data);
 
@@ -46,9 +47,13 @@ class LogHomework extends BaseService
             $data['employee_id']
         );
 
-        $this->hasAlreadyLoggedHomeworkToday($data);
+        if ($employee->hasAlreadyLoggedWorklogToday()) {
+            throw new WorklogAlreadyLoggedTodayException();
+        }
 
-        $homework = Homework::create([
+        $this->resetWorklogMissed($employee);
+
+        $Worklog = Worklog::create([
             'employee_id' => $data['employee_id'],
             'content' => $data['content'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
@@ -56,13 +61,13 @@ class LogHomework extends BaseService
 
         (new LogAuditAction)->execute([
             'company_id' => $employee->company_id,
-            'action' => 'employee_homework_logged',
+            'action' => 'employee_worklog_logged',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'homework_id' => $homework->id,
+                'Worklog_id' => $Worklog->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
@@ -70,36 +75,30 @@ class LogHomework extends BaseService
         (new LogEmployeeAction)->execute([
             'company_id' => $employee->company_id,
             'employee_id' => $data['employee_id'],
-            'action' => 'homework_logged',
+            'action' => 'worklog_logged',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'homework_id' => $homework->id,
+                'Worklog_id' => $Worklog->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        return $homework;
+        return $Worklog;
     }
 
     /**
-     * Check if the employee has already logged something today.
+     * Reset the counter indicating the number of missed daily worklog for the
+     * given employee.
      *
-     * @param array $data
-     * @return bool
+     * @param Employee $employee
+     * @return void
      */
-    private function hasAlreadyLoggedHomeworkToday(array $data) : bool
+    private function resetWorklogMissed(Employee $employee)
     {
-        $homework = Homework::where('employee_id', $data['employee_id'])
-            ->whereDate('created_at', Carbon::today())
-            ->get();
-
-        if ($homework->count() != 0) {
-            throw new HomeworkAlreadyLoggedTodayException();
-        }
-
-        return false;
+        $employee->consecutive_worklog_missed = 0;
+        $employee->save();
     }
 }

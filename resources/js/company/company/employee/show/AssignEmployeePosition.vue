@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
+import ClickOutside from 'vue-click-outside';
 
 export default {
   directives: {
@@ -85,44 +85,44 @@ export default {
       search: '',
       title: '',
       updatedEmployee: Object,
-    }
+    };
   },
 
   computed: {
     filteredList() {
       // filter the list when searching
       // also, sort the list by title
-      var list
+      var list;
       list = this.positions.filter(position => {
-        return position.title.toLowerCase().includes(this.search.toLowerCase())
-      })
+        return position.title.toLowerCase().includes(this.search.toLowerCase());
+      });
 
       function compare(a, b) {
         if (a.title < b.title)
-          return -1
+          return -1;
         if (a.title > b.title)
-          return 1
-        return 0
+          return 1;
+        return 0;
       }
 
-      return list.sort(compare)
+      return list.sort(compare);
     }
   },
 
   mounted() {
     if (this.employee.position != null) {
-      this.title = this.employee.position.title
+      this.title = this.employee.position.title;
     }
 
-    this.updatedEmployee = this.employee
+    this.updatedEmployee = this.employee;
 
     // prevent click outside event with popupItem.
-    this.popupItem = this.$el
+    this.popupItem = this.$el;
   },
 
   methods: {
     toggleModal() {
-      this.modal = false
+      this.modal = false;
     },
 
     assign(position) {
@@ -133,15 +133,15 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
+          });
 
-          this.title = response.data.data.position.title
-          this.updatedEmployee = response.data.data
-          this.modal = false
+          this.title = response.data.data.position.title;
+          this.updatedEmployee = response.data.data;
+          this.modal = false;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     reset() {
@@ -152,17 +152,17 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
+          });
 
-          this.title = ''
-          this.modal = false
-          this.updatedEmployee = response.data.data
+          this.title = '';
+          this.modal = false;
+          this.updatedEmployee = response.data.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
   }
-}
+};
 
 </script>

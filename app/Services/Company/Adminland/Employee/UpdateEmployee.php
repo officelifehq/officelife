@@ -53,6 +53,8 @@ class UpdateEmployee extends BaseService
             'birthdate' => $this->nullOrDate($data, 'birthdate'),
         ]);
 
+        $employee->refresh();
+
         (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
             'action' => 'employee_updated',

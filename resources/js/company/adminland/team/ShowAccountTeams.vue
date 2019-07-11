@@ -152,15 +152,15 @@ export default {
       },
       loadingState: '',
       errorTemplate: Error,
-    }
+    };
   },
 
   created() {
-    window.addEventListener('click', this.close)
+    window.addEventListener('click', this.close);
   },
 
   beforeDestroy() {
-    window.removeEventListener('click', this.close)
+    window.removeEventListener('click', this.close);
   },
 
   mounted() {
@@ -170,20 +170,20 @@ export default {
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
-      })
-      localStorage.clear()
+      });
+      localStorage.clear();
     }
   },
 
   methods: {
     close(e) {
       if (!this.$el.contains(e.target)) {
-        this.modal = false
+        this.modal = false;
       }
     },
 
     submit() {
-      this.loadingState = 'loading'
+      this.loadingState = 'loading';
 
       axios.post('/' + this.company.id + '/account/teams', this.form)
         .then(response => {
@@ -192,19 +192,19 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
+          });
 
-          this.loadingState = null
-          this.form.name = null
-          this.modal = false
-          this.teams.push(response.data.data)
+          this.loadingState = null;
+          this.form.name = null;
+          this.modal = false;
+          this.teams.push(response.data.data);
         })
         .catch(error => {
-          this.loadingState = null
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
   }
-}
+};
 
 </script>

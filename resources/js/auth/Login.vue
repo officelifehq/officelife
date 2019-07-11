@@ -51,26 +51,26 @@ export default {
       },
       loadingState: '',
       errorTemplate: Error,
-    }
+    };
   },
 
   methods: {
     submit() {
-      this.loadingState = 'loading'
+      this.loadingState = 'loading';
 
       axios.post('/login', this.form)
         .then(response => {
-          Turbolinks.visit('/home')
+          Turbolinks.visit('/home');
         })
         .catch(error => {
-          this.loadingState = null
+          this.loadingState = null;
           if (typeof error.response.data === 'object') {
-            this.form.errors = _.flatten(_.toArray(error.response.data))
+            this.form.errors = _.flatten(_.toArray(error.response.data));
           } else {
-            this.form.errors = [this.$t('app.error_try_again')]
+            this.form.errors = [this.$t('app.error_try_again')];
           }
-        })
+        });
     },
   }
-}
+};
 </script>

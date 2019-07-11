@@ -53,6 +53,12 @@
 
       <div class="cf mw7 center br3 mb3 bg-white box">
         <div class="pa3">
+          <editor />
+        </div>
+      </div>
+
+      <div class="cf mw7 center br3 mb3 bg-white box">
+        <div class="pa3">
           <ul>
             <li><a :href="'/' + company.id + '/account'">Access Adminland</a></li>
             <li>latest news</li>
@@ -77,6 +83,7 @@
             <li>manager: view morale</li>
             <li>manager: expense approval</li>
             <li>manager: one on one</li>
+            <li>revue 360 de son boss ou d'employées</li>
           </ul>
         </div>
       </div>
@@ -123,5 +130,5 @@ export default {
       default: 0,
     },
   },
-}
+};
 </script>

@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 
 use Tests\TestCase;
 use App\Models\User\User;
+use App\Models\Company\Worklog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -47,6 +48,9 @@ class GenerateDummyDataTest extends TestCase
         $this->assertDatabaseHas('companies', [
             'has_dummy_data' => true,
         ]);
+
+        $worklogsNumber = Worklog::count();
+        $this->assertGreaterThan(1, $worklogsNumber);
     }
 
     /** @test */

@@ -189,10 +189,10 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
-import 'vue-loaders/dist/vue-loaders.css'
-import * as VueLoaders from 'vue-loaders'
-Vue.use(VueLoaders)
+import ClickOutside from 'vue-click-outside';
+import 'vue-loaders/dist/vue-loaders.css';
+import * as VueLoaders from 'vue-loaders';
+Vue.use(VueLoaders);
 
 export default {
 
@@ -240,70 +240,70 @@ export default {
       managerModalId: 0,
       directReportModalId: 0,
       deleteEmployeeConfirmation: false,
-    }
+    };
   },
 
   mounted() {
     // prevent click outside event with popupItem.
-    this.popupItem = this.$el
+    this.popupItem = this.$el;
   },
 
   methods: {
     toggleModals() {
       if (this.modal == 'hide') {
-        this.modal = 'menu'
+        this.modal = 'menu';
       } else {
-        this.modal = 'hide'
+        this.modal = 'hide';
       }
-      this.searchManagers = []
-      this.searchDirectReports = []
-      this.form.searchTerm = null
+      this.searchManagers = [];
+      this.searchDirectReports = [];
+      this.form.searchTerm = null;
     },
 
     displayManagerModal() {
-      this.modal = 'manager'
+      this.modal = 'manager';
 
       this.$nextTick(() => {
-        this.$refs.search.focus()
-      })
+        this.$refs.search.focus();
+      });
     },
 
     displayDirectReportModal() {
-      this.modal = 'directReport'
+      this.modal = 'directReport';
 
       this.$nextTick(() => {
-        this.$refs.search.focus()
-      })
+        this.$refs.search.focus();
+      });
     },
 
     hideManagerModal() {
-      this.managerModalId = 0
+      this.managerModalId = 0;
     },
 
     hideDirectReportModal() {
-      this.directReportModalId = 0
+      this.directReportModalId = 0;
     },
 
     search: _.debounce(
       function() {
 
         if (this.form.searchTerm != '') {
-          this.processingSearch = true
+          this.processingSearch = true;
 
           axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/search/hierarchy', this.form)
             .then(response => {
               if (this.modal == 'manager') {
-                this.searchManagers = response.data.data
+                this.searchManagers = response.data.data;
               }
               if (this.modal == 'directReport') {
-                this.searchDirectReports = response.data.data
+                this.searchDirectReports = response.data.data;
               }
-              this.processingSearch = false
+              this.processingSearch = false;
             })
             .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data))
-              this.processingSearch = false
-            })
+              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.processingSearch = false;
+            });
         }
       }, 500),
 
@@ -315,13 +315,13 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
-          this.managers.push(response.data.data)
-          this.modal = 'hide'
+          });
+          this.managers.push(response.data.data);
+          this.modal = 'hide';
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     assignDirectReport(directReport) {
@@ -332,13 +332,13 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
-          this.directReports.push(response.data.data)
-          this.modal = 'hide'
+          });
+          this.directReports.push(response.data.data);
+          this.modal = 'hide';
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     unassignManager(manager) {
@@ -349,14 +349,14 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
-          this.managers.splice(this.managers.indexOf(response.data.data), 1)
-          this.deleteEmployeeConfirmation = false
-          this.managerModalId = 0
+          });
+          this.managers.splice(this.managers.indexOf(response.data.data), 1);
+          this.deleteEmployeeConfirmation = false;
+          this.managerModalId = 0;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     },
 
     unassignDirectReport(directReport) {
@@ -367,15 +367,15 @@ export default {
             showProgressBar: true,
             closeOnClick: true,
             pauseOnHover: true,
-          })
-          this.directReports.splice(this.directReports.indexOf(response.data.data), 1)
-          this.deleteEmployeeConfirmation = false
-          this.directReportModalId = 0
+          });
+          this.directReports.splice(this.directReports.indexOf(response.data.data), 1);
+          this.deleteEmployeeConfirmation = false;
+          this.directReportModalId = 0;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data))
-        })
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
     }
   }
-}
+};
 </script>

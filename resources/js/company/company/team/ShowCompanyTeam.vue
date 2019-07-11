@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
+import ClickOutside from 'vue-click-outside';
 
 export default {
   directives: {
@@ -123,7 +123,7 @@ export default {
 
   data() {
     return {
-    }
+    };
   },
 
   mounted() {
@@ -133,13 +133,13 @@ export default {
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
-      })
-      localStorage.clear()
+      });
+      localStorage.clear();
     }
   },
 
   methods: {
   }
-}
+};
 
 </script>

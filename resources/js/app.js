@@ -5,9 +5,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap')
+require('./bootstrap');
 
-window.Vue = require('vue')
+window.Vue = require('vue');
 
 /**
  * The following block of code may be used to automatically register your
@@ -17,35 +17,35 @@ window.Vue = require('vue')
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-const files = require.context('./', true, /\.vue$/i)
-files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+const files = require.context('./', true, /\.vue$/i);
+files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
 // toaster
-import Snotify from 'vue-snotify'
-import 'vue-snotify/styles/simple.css'
-Vue.use(Snotify)
+import Snotify from 'vue-snotify';
+import 'vue-snotify/styles/simple.css';
+Vue.use(Snotify);
 
 // i18n
-import VueI18n from 'vue-i18n'
-Vue.use(VueI18n)
+import VueI18n from 'vue-i18n';
+Vue.use(VueI18n);
 
-import messages from '../../public/js/langs/en.json'
+import messages from '../../public/js/langs/en.json';
 
 export const i18n = new VueI18n({
   locale: 'en', // set locale
   fallbackLocale: 'en',
   messages: { 'en': messages }
-})
+});
 
 // Start Turbolinks
-require('turbolinks').start()
+require('turbolinks').start();
 
 // Boot the Vue component
 document.addEventListener('turbolinks:load', (event) => {
-  const root = document.getElementById('app')
+  const root = document.getElementById('app');
 
   if (window.vue) {
-    window.vue.$destroy(true)
+    window.vue.$destroy(true);
   }
 
   window.vue = new Vue({
@@ -55,5 +55,5 @@ document.addEventListener('turbolinks:load', (event) => {
         props: JSON.parse(root.dataset.props)
       }
     )
-  }).$mount(root)
-})
+  }).$mount(root);
+});

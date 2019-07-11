@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Homework extends Model
+class Worklog extends Model
 {
     use LogsActivity;
 
-    protected $table = 'homework';
+    protected $table = 'worklog';
 
     /**
      * The attributes that are mass assignable.

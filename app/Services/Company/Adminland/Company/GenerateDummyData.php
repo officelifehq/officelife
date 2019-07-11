@@ -2,12 +2,14 @@
 
 namespace App\Services\Company\Adminland\Company;
 
+use Carbon\Carbon;
 use App\Models\User\User;
 use Faker\Factory as Faker;
 use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use Illuminate\Support\Facades\DB;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -48,6 +50,8 @@ class GenerateDummyData extends BaseService
         $this->createFiveUsersWithoutTeam($data);
 
         $this->createThreeTeamsWithEmployees($data);
+
+        $this->createWorklogEntries();
 
         $company->has_dummy_data = true;
         $company->save();
@@ -116,21 +120,19 @@ class GenerateDummyData extends BaseService
     }
 
     /**
-     * Create five employees without a team.
+     * Create employees in a given team.
      *
      * @param array $data
-     * @param string $name
-     * @param int $employees
+     * @param string $teamName
+     * @param int $numberOfEmployees
      * @return Team
      */
-    private function createTeamWithEmployees(array $data, string $name, int $employees) : Team
+    private function createTeamWithEmployees(array $data, string $teamName, int $numberOfEmployees) : Team
     {
-        $faker = Faker::create();
-
         $request = [
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
-            'name' => $name,
+            'name' => $teamName,
             'is_dummy' => true,
         ];
 
@@ -138,7 +140,7 @@ class GenerateDummyData extends BaseService
         $team->is_dummy = true;
         $team->save();
 
-        for ($i = 1; $i <= $employees; $i++) {
+        for ($i = 1; $i <= $numberOfEmployees; $i++) {
             $employee = $this->addEmployee($data);
 
             $request = [
@@ -153,5 +155,36 @@ class GenerateDummyData extends BaseService
         }
 
         return $team;
+    }
+
+    /**
+     * Create fake worklog entries for random employees.
+     * This method does not use the dedicated service to add a worklog to an
+     * employee because the service doesn't let people change the created_at
+     * date (on purpose). Hence the only option is to record worklogs in the
+     * database directly.
+     *
+     * @return void
+     */
+    private function createWorklogEntries()
+    {
+        $faker = Faker::create();
+
+        Employee::chunk(200, function ($employees) use ($faker) {
+            foreach ($employees as $employee) {
+                if (rand(1, 2) == 1) {
+                    for ($j = 0; $j < rand(1, 20); $j++) {
+                        $date = Carbon::instance($faker->dateTimeThisYear($max = 'now'))->toDateString();
+
+                        DB::table('worklog')->insert([
+                            'employee_id' => $employee->id,
+                            'content' => $faker->realText(50),
+                            'is_dummy' => true,
+                            'created_at' => $date,
+                        ]);
+                    }
+                }
+            }
+        });
     }
 }

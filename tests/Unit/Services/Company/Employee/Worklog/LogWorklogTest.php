@@ -1,22 +1,22 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\Homework;
+namespace Tests\Unit\Services\Company\Employee\Worklog;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
-use App\Models\Company\Homework;
 use Illuminate\Validation\ValidationException;
-use App\Exceptions\HomeworkAlreadyLoggedTodayException;
-use App\Services\Company\Employee\Homework\LogHomework;
+use App\Services\Company\Employee\Worklog\LogWorklog;
+use App\Exceptions\WorklogAlreadyLoggedTodayException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LogHomeworkTest extends TestCase
+class LogWorklogTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_a_homework()
+    public function it_logs_a_worklog()
     {
         $dwight = factory(Employee::class)->create([]);
 
@@ -26,18 +26,39 @@ class LogHomeworkTest extends TestCase
             'content' => 'I have sold paper',
         ];
 
-        $homework = (new LogHomework)->execute($request);
+        $worklog = (new LogWorklog)->execute($request);
 
-        $this->assertDatabaseHas('homework', [
-            'id' => $homework->id,
+        $this->assertDatabaseHas('worklog', [
+            'id' => $worklog->id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',
         ]);
 
         $this->assertInstanceOf(
-            Homework::class,
-            $homework
+            Worklog::class,
+            $worklog
         );
+    }
+
+    /** @test */
+    public function it_logs_a_worklog_and_resets_the_counter_of_missed_worklog()
+    {
+        $dwight = factory(Employee::class)->create([
+            'consecutive_worklog_missed' => 4,
+        ]);
+
+        $request = [
+            'author_id' => $dwight->user_id,
+            'employee_id' => $dwight->id,
+            'content' => 'I have sold paper',
+        ];
+
+        $worklog = (new LogWorklog)->execute($request);
+
+        $this->assertDatabaseHas('employees', [
+            'id' => $dwight->id,
+            'consecutive_worklog_missed' => 0,
+        ]);
     }
 
     /** @test */
@@ -51,26 +72,26 @@ class LogHomeworkTest extends TestCase
             'content' => 'I have sold paper',
         ];
 
-        (new LogHomework)->execute($request);
+        (new LogWorklog)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $dwight->company_id,
-            'action' => 'employee_homework_logged',
+            'action' => 'employee_worklog_logged',
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $dwight->company_id,
-            'action' => 'homework_logged',
+            'action' => 'worklog_logged',
         ]);
     }
 
     /** @test */
-    public function it_doesnt_let_record_a_homework_if_one_has_already_been_submitted_today()
+    public function it_doesnt_let_record_a_worklog_if_one_has_already_been_submitted_today()
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
         $dwight = factory(Employee::class)->create([]);
-        factory(Homework::class)->create([
+        factory(Worklog::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => now(),
         ]);
@@ -81,8 +102,8 @@ class LogHomeworkTest extends TestCase
             'content' => 'I have sold paper',
         ];
 
-        $this->expectException(HomeworkAlreadyLoggedTodayException::class);
-        (new LogHomework)->execute($request);
+        $this->expectException(WorklogAlreadyLoggedTodayException::class);
+        (new LogWorklog)->execute($request);
     }
 
     /** @test */
@@ -93,6 +114,6 @@ class LogHomeworkTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new LogHomework)->execute($request);
+        (new LogWorklog)->execute($request);
     }
 }
