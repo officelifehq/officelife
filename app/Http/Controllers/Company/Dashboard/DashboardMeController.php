@@ -26,7 +26,7 @@ class DashboardMeController extends Controller
             'view' => 'me',
         ]);
 
-        return View::component('ShowCompany', [
+        return View::component('ShowDashboardMe', [
             'company' => $company,
             'user' => auth()->user()->refresh(),
             'employee' => auth()->user()->getEmployeeObjectForCompany($company),
