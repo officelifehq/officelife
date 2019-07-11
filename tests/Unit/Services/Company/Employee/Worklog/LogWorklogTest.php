@@ -41,6 +41,27 @@ class LogWorklogTest extends TestCase
     }
 
     /** @test */
+    public function it_logs_a_worklog_and_resets_the_counter_of_missed_worklog()
+    {
+        $dwight = factory(Employee::class)->create([
+            'consecutive_worklog_missed' => 4,
+        ]);
+
+        $request = [
+            'author_id' => $dwight->user_id,
+            'employee_id' => $dwight->id,
+            'content' => 'I have sold paper',
+        ];
+
+        $worklog = (new LogWorklog)->execute($request);
+
+        $this->assertDatabaseHas('employees', [
+            'id' => $dwight->id,
+            'consecutive_worklog_missed' => 0,
+        ]);
+    }
+
+    /** @test */
     public function it_logs_an_action()
     {
         $dwight = factory(Employee::class)->create([]);

@@ -2,6 +2,7 @@
 
 namespace App\Jobs\Employee;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use App\Models\Company\Employee;
 use Illuminate\Queue\SerializesModels;
@@ -24,17 +25,22 @@ class LogMissedWorklogEntry implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * Find all the employees that haven't logged a worklog at the end of the
+     * day, and increase the counter of missed worklog days.
+     * This job is meant to be executed every day at 11pm (UTC).
      *
      * @return void
      */
     public function handle()
     {
-        $employees = Employee::whereHas('worklogs', function ($query) {
+        $employeesWithLogs = Employee::whereHas('worklogs', function ($query) {
             $query->whereDate('created_at', Carbon::today());
         })->get();
 
-        foreach ($employees as $employee) {
+        $allEmployees = Employee::select('id')->get();
+        $employeesWithoutLogs = $allEmployees->diff($employeesWithLogs);
+
+        foreach ($employeesWithoutLogs as $employee) {
             $employee->consecutive_worklog_missed = $employee->consecutive_worklog_missed + 1;
             $employee->save();
         }

@@ -27,6 +27,10 @@ Homas is built around the notion that while companies own data about their emplo
 
 Dates all have the `datetime` format in order for us to use SQLite for testing purposes.
 
+#### Crons
+
+* LogMissedWorklogEntry that runs at 11pm every day
+
 ### Users vs employees
 
 Homas makes the distinction between users and employees.
@@ -84,4 +88,4 @@ Employees can log the work they've done for a given day. When an employee provid
 
 Employees can only log what they've done once per day. By definition, we don't allow someone to change the date of a post they have written – that means if they omit one day, they can't come back the next day and fill the information. This is done on purpose in order to force people to actually use this feature if a team needs it.
 
-Every night, the server checks whose employees have logged their work and keeps count. It’s up to the company to decide how they want to enforce this policy of logging the work. A company can choose to create automated rules using the powerful flow feature if they want to be warned when an employee skips, say, 7 days of logging work in a row.
+Every night at 11pm (UTC), the server checks whose employees have logged their work and keeps count. It’s up to the company to decide how they want to enforce this policy of logging the work. A company can choose to create automated rules using the powerful flow feature if they want to be warned when an employee skips, say, 7 days of logging work in a row.

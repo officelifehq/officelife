@@ -51,7 +51,7 @@ class GenerateDummyData extends BaseService
 
         $this->createThreeTeamsWithEmployees($data);
 
-        $this->createWorklogEntries($data);
+        $this->createWorklogEntries();
 
         $company->has_dummy_data = true;
         $company->save();
@@ -120,19 +120,19 @@ class GenerateDummyData extends BaseService
     }
 
     /**
-     * Create five employees without a team.
+     * Create employees in a given team.
      *
      * @param array $data
-     * @param string $name
-     * @param int $employees
+     * @param string $teamName
+     * @param int $numberOfEmployees
      * @return Team
      */
-    private function createTeamWithEmployees(array $data, string $name, int $employees) : Team
+    private function createTeamWithEmployees(array $data, string $teamName, int $numberOfEmployees) : Team
     {
         $request = [
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
-            'name' => $name,
+            'name' => $teamName,
             'is_dummy' => true,
         ];
 
@@ -140,7 +140,7 @@ class GenerateDummyData extends BaseService
         $team->is_dummy = true;
         $team->save();
 
-        for ($i = 1; $i <= $employees; $i++) {
+        for ($i = 1; $i <= $numberOfEmployees; $i++) {
             $employee = $this->addEmployee($data);
 
             $request = [

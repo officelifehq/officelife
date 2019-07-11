@@ -36,6 +36,7 @@ class Employee extends Model
         'permission_level',
         'invitation_link',
         'invitation_used_at',
+        'consecutive_worklog_missed',
         'uuid',
         'is_dummy',
         'avatar',

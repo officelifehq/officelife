@@ -51,6 +51,8 @@ class LogWorklog extends BaseService
             throw new WorklogAlreadyLoggedTodayException();
         }
 
+        $this->resetWorklogMissed($employee);
+
         $Worklog = Worklog::create([
             'employee_id' => $data['employee_id'],
             'content' => $data['content'],
@@ -85,5 +87,18 @@ class LogWorklog extends BaseService
         ]);
 
         return $Worklog;
+    }
+
+    /**
+     * Reset the counter indicating the number of missed daily worklog for the
+     * given employee.
+     *
+     * @param Employee $employee
+     * @return void
+     */
+    private function resetWorklogMissed(Employee $employee)
+    {
+        $employee->consecutive_worklog_missed = 0;
+        $employee->save();
     }
 }
