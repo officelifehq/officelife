@@ -31,50 +31,7 @@
         </div>
       </div>
 
-      <div class="cf mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <editor />
-        </div>
-      </div>
-
-      <div class="cf mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <h2 class="mt0 fw5 f4">
-            👨‍🌾 What have you done today?
-          </h2>
-          <p class="db">
-            Let your coworkers know what you've been up to today.
-          </p>
-          <p class="ma0">
-            <a href="" class="btn btn-secondary dib">Log your work</a>
-          </p>
-        </div>
-      </div>
-
-      <div class="cf mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <h2 class="mt0 fw5 f4">
-            👨‍🌾 What have you done today?
-          </h2>
-          <p class="db">
-            Let your coworkers know what you've been up to today. <a href="">Read your previous entries</a>
-          </p>
-          <p class="ma0">
-            <a href="" class="btn btn-secondary dib">Log your work</a>
-          </p>
-        </div>
-      </div>
-
-      <div class="cf mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <h2 class="mt0 fw5 f4">
-            👨‍🌾 What have you done today?
-          </h2>
-          <p class="db ma0">
-            You have already logged your work today. <a href="">Read your previous entries</a>
-          </p>
-        </div>
-      </div>
+      <dashboard-worklog />
 
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3">

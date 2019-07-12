@@ -30,7 +30,6 @@ Dates all have the `datetime` format in order for us to use SQLite for testing p
 #### Crons
 
 * `LogMissedWorklogEntry` that runs at 11pm every day. This job checks all the employees who hasn't logged a worklog on the current day, and increments the `consecutive_worklog_missed` field in the Employee table for each found employee.
-* `WorklogWeeklyStats` that runs every Sunday at midnight. This job calculates the usage of the worklog feature for each employee on the server.
 
 ### Users vs employees
 
