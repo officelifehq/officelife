@@ -31,7 +31,10 @@
         </div>
       </div>
 
-      <dashboard-worklog />
+      <dashboard-worklog
+        :employee="employee"
+        :teams="teams"
+      />
 
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3">
@@ -80,6 +83,10 @@ export default {
     },
     employee: {
       type: Object,
+      default: null,
+    },
+    teams: {
+      type: Array,
       default: null,
     },
     notifications: {

@@ -17,12 +17,13 @@
 
         <!-- Shows the editor -->
         <div v-show="showEditor" class="">
-          <editor />
+          <editor @update="console.log('dsaf')" />
           <p class="db lh-copy f6">
             👋 Your manager and your team members (if you are assigned to a team) will be able to read this status. Also, you won't be able to edit this status once it’s submitted.
           </p>
           <p>
-            <a href="" class="btn primary">Submit</a>
+            <a href="" class="btn primary mr2">Submit</a>
+            <a href="">Cancel</a>
           </p>
         </div>
       </div>
@@ -58,6 +59,14 @@
 <script>
 export default {
   props: {
+    employee: {
+      type: Object,
+      default: null,
+    },
+    teams: {
+      type: Array,
+      default: null,
+    },
   },
 
   data() {
@@ -65,5 +74,26 @@ export default {
       showEditor: false,
     };
   },
+
+  methods: {
+    store() {
+      axios.post('/' + this.company.id + '/dashboard/worklog', position)
+        .then(response => {
+          this.$snotify.success(this.$t('employee.position_modal_assign_success'), {
+            timeout: 2000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          });
+
+          this.title = response.data.data.position.title;
+          this.updatedEmployee = response.data.data;
+          this.modal = false;
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+  }
 };
 </script>

@@ -3866,12 +3866,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: {},
+  props: {
+    employee: {
+      type: Object,
+      "default": null
+    },
+    teams: {
+      type: Array,
+      "default": null
+    }
+  },
   data: function data() {
     return {
       showEditor: false
     };
+  },
+  methods: {
+    store: function store() {
+      var _this = this;
+
+      axios.post('/' + this.company.id + '/dashboard/worklog', position).then(function (response) {
+        _this.$snotify.success(_this.$t('employee.position_modal_assign_success'), {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+
+        _this.title = response.data.data.position.title;
+        _this.updatedEmployee = response.data.data;
+        _this.modal = false;
+      })["catch"](function (error) {
+        _this.form.errors = _.flatten(_.toArray(error.response.data));
+      });
+    }
   }
 });
 
@@ -4099,6 +4129,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -4111,6 +4144,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     employee: {
       type: Object,
+      "default": null
+    },
+    teams: {
+      type: Array,
       "default": null
     },
     notifications: {
@@ -4152,6 +4189,8 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   data: function data() {
+    var _this = this;
+
     return {
       editor: new tiptap__WEBPACK_IMPORTED_MODULE_0__["Editor"]({
         extensions: [new tiptap_extensions__WEBPACK_IMPORTED_MODULE_1__["Blockquote"](), new tiptap_extensions__WEBPACK_IMPORTED_MODULE_1__["BulletList"](), new tiptap_extensions__WEBPACK_IMPORTED_MODULE_1__["CodeBlock"](), new tiptap_extensions__WEBPACK_IMPORTED_MODULE_1__["HardBreak"](), new tiptap_extensions__WEBPACK_IMPORTED_MODULE_1__["Heading"]({
@@ -4161,8 +4200,15 @@ __webpack_require__.r(__webpack_exports__);
           emptyNodeText: 'Write something …',
           showOnlyWhenEditable: true
         })],
-        content: "\n          <h2>\n            Hi there,\n          </h2>\n          <p>\n            this is a very <em>basic</em> example of tiptap.\n          </p>\n          <pre><code>body { display: none; }</code></pre>\n          <ul>\n            <li>\n              A regular list\n            </li>\n            <li>\n              With regular items\n            </li>\n          </ul>\n          <blockquote>\n            It's amazing \uD83D\uDC4F\n            <br />\n            \u2013 mom\n          </blockquote>\n        "
-      })
+        content: "\n          <p></p>\n        ",
+        onUpdate: function onUpdate(_ref) {
+          var getJSON = _ref.getJSON,
+              getHTML = _ref.getHTML;
+
+          _this.$emit('update', getHTML());
+        }
+      }),
+      html: 'Update content to see changes'
     };
   },
   beforeDestroy: function beforeDestroy() {
@@ -41986,7 +42032,13 @@ var render = function() {
             ]
           },
           [
-            _c("editor"),
+            _c("editor", {
+              on: {
+                update: function($event) {
+                  return _vm.console.log("dsaf")
+                }
+              }
+            }),
             _vm._v(" "),
             _c("p", { staticClass: "db lh-copy f6" }, [
               _vm._v(
@@ -42012,9 +42064,11 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("p", [
-      _c("a", { staticClass: "btn primary", attrs: { href: "" } }, [
+      _c("a", { staticClass: "btn primary mr2", attrs: { href: "" } }, [
         _vm._v("Submit")
-      ])
+      ]),
+      _vm._v(" "),
+      _c("a", { attrs: { href: "" } }, [_vm._v("Cancel")])
     ])
   },
   function() {
@@ -42382,7 +42436,9 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("dashboard-worklog"),
+          _c("dashboard-worklog", {
+            attrs: { employee: _vm.employee, teams: _vm.teams }
+          }),
           _vm._v(" "),
           _c("div", { staticClass: "cf mt4 mw7 center br3 mb3 bg-white box" }, [
             _c("div", { staticClass: "pa3" }, [
@@ -47511,7 +47567,6 @@ var map = {
 	"./company/dashboard/DashboardWorklog.vue": "./resources/js/company/dashboard/DashboardWorklog.vue",
 	"./company/dashboard/ShowCompany.vue": "./resources/js/company/dashboard/ShowCompany.vue",
 	"./company/dashboard/ShowDashboardMe.vue": "./resources/js/company/dashboard/ShowDashboardMe.vue",
-	"./company/dashboard/ShowWorklogDashboardComponent.vue": "./resources/js/company/dashboard/ShowWorklogDashboardComponent.vue",
 	"./components/form/Editor.vue": "./resources/js/components/form/Editor.vue",
 	"./components/form/LoadingButton.vue": "./resources/js/components/form/LoadingButton.vue",
 	"./components/header/HeaderMenu.vue": "./resources/js/components/header/HeaderMenu.vue",
@@ -49776,38 +49831,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowDashboardMe_vue_vue_type_template_id_7ad1b7d4_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
-
-/***/ }),
-
-/***/ "./resources/js/company/dashboard/ShowWorklogDashboardComponent.vue":
-/*!**************************************************************************!*\
-  !*** ./resources/js/company/dashboard/ShowWorklogDashboardComponent.vue ***!
-  \**************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-var render, staticRenderFns
-var script = {}
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
-  script,
-  render,
-  staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-component.options.__file = "resources/js/company/dashboard/ShowWorklogDashboardComponent.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 

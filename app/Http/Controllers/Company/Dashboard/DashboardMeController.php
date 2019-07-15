@@ -26,10 +26,13 @@ class DashboardMeController extends Controller
             'view' => 'me',
         ]);
 
+        $employee = auth()->user()->getEmployeeObjectForCompany($company);
+
         return View::component('ShowDashboardMe', [
             'company' => $company,
             'user' => auth()->user()->refresh(),
-            'employee' => auth()->user()->getEmployeeObjectForCompany($company),
+            'employee' => $employee,
+            'teams' => $employee->teams()->get(),
             'notifications' => auth()->user()->notifications->where('read', false)->take(5),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);
