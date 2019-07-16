@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index');
             Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index');
 
-            Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@create');
+            Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
         });
 
         Route::prefix('employees')->group(function () {

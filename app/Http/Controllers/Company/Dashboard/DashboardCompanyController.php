@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\User\Preferences\UpdateDashboardView;
+use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class DashboardCompanyController extends Controller
 {
@@ -29,7 +30,7 @@ class DashboardCompanyController extends Controller
         return View::component('ShowCompany', [
             'company' => $company,
             'user' => auth()->user()->refresh(),
-            'employee' => auth()->user()->getEmployeeObjectForCompany($company),
+            'employee' => new EmployeeResource(auth()->user()->getEmployeeObjectForCompany($company)),
             'notifications' => auth()->user()->notifications->where('read', false)->take(5),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);

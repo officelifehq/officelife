@@ -27,6 +27,7 @@ class Employee extends JsonResource
             'avatar' => $this->avatar,
             'position' => $this->position,
             'teams' => is_null($this->teams) ? null : TeamResource::collection($this->teams),
+            'has_logged_worklog_today' => $this->hasAlreadyLoggedWorklogToday(),
             'company' => [
                 'id' => $this->company_id,
             ],

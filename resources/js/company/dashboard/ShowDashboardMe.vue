@@ -14,7 +14,7 @@
         </h2>
       </div>
 
-      <div class="cf mw7 center br3 mb3 tc">
+      <div class="cf mw7 center br3 mb5 tc">
         <div class="cf dib btn-group">
           <a :href="'/' + company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(user.default_dashboard_view == 'me')}">
             Me
@@ -33,7 +33,9 @@
 
       <dashboard-worklog
         :employee="employee"
+        :company="company"
         :teams="teams"
+        :worklog-count="worklogCount"
       />
 
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
@@ -88,6 +90,10 @@ export default {
     teams: {
       type: Array,
       default: null,
+    },
+    worklogCount: {
+      type: Number,
+      default: 0,
     },
     notifications: {
       type: Array,
