@@ -76,7 +76,7 @@ class LogWorklog extends BaseService
         (new LogEmployeeAction)->execute([
             'company_id' => $employee->company_id,
             'employee_id' => $data['employee_id'],
-            'action' => 'worklog_logged',
+            'action' => 'employee_worklog_logged',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,

@@ -76,6 +76,10 @@ class EmployeeLogsController extends Controller
                 $sentence = $log->author.' removed from '.$log->team.'.';
             }
 
+            if ($log->action == 'employee_worklog_logged') {
+                $sentence = $log->author.' added a worklog.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,
