@@ -19,6 +19,7 @@ class AdminAuditController extends Controller
         $company = Cache::get('currentCompany');
         $logs = $company->logs()->paginate(15);
 
+        // @TODO: extract this entire listing into a dedicated class somewhere
         $logsCollection = collect([]);
         $sentence = '';
         foreach ($logs as $log) {
@@ -84,6 +85,10 @@ class AdminAuditController extends Controller
 
             if ($log->action == 'flow_created') {
                 $sentence = 'Created the flow called '.$log->object->{'flow_name'}.'.';
+            }
+
+            if ($log->action == 'employee_worklog_logged') {
+                $sentence = 'Added a worklog.';
             }
 
             $logsCollection->push([

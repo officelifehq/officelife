@@ -29,7 +29,7 @@ Dates all have the `datetime` format in order for us to use SQLite for testing p
 
 #### Crons
 
-* LogMissedWorklogEntry that runs at 11pm every day
+* `LogMissedWorklogEntry` that runs at 11pm every day. This job checks all the employees who hasn't logged a worklog on the current day, and increments the `consecutive_worklog_missed` field in the Employee table for each found employee.
 
 ### Users vs employees
 
@@ -78,7 +78,7 @@ A team is a group of people. This is vague on purpose. It’s up to you to decid
 
 A team is created in Adminland by an administrator or a human resource representative. A team has one team leader (and only one).
 
-### Work done
+### Work logs
 
 Employees can log the work they've done for a given day. When an employee provides this information, it becomes visible but only for those people:
 - the employee himself,

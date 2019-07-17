@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
+use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class AdminlandController extends Controller
 {
@@ -25,7 +26,7 @@ class AdminlandController extends Controller
             'company' => $company,
             'numberEmployees' => $numberEmployees,
             'user' => auth()->user(),
-            'employee' => auth()->user()->getEmployeeObjectForCompany($company),
+            'employee' => new EmployeeResource(auth()->user()->getEmployeeObjectForCompany($company)),
             'notifications' => auth()->user()->notifications->where('read', false)->take(5),
         ]);
     }

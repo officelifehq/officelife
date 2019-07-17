@@ -81,7 +81,7 @@ class LogWorklogTest extends TestCase
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $dwight->company_id,
-            'action' => 'worklog_logged',
+            'action' => 'employee_worklog_logged',
         ]);
     }
 

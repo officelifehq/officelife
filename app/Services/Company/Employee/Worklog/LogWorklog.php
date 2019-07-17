@@ -19,6 +19,7 @@ class LogWorklog extends BaseService
     public function rules()
     {
         return [
+            'author_id' => 'required|integer|exists:users,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'content' => 'required|string|max:65535',
             'is_dummy' => 'nullable|boolean',
@@ -75,7 +76,7 @@ class LogWorklog extends BaseService
         (new LogEmployeeAction)->execute([
             'company_id' => $employee->company_id,
             'employee_id' => $data['employee_id'],
-            'action' => 'worklog_logged',
+            'action' => 'employee_worklog_logged',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
