@@ -813,16 +813,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.28",
+            "version": "v5.8.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "341fb54bea9693cada2a5b8d398621a57f82862d"
+                "reference": "489ae2218c7eb138caac780de584d8df9fe8160b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/341fb54bea9693cada2a5b8d398621a57f82862d",
-                "reference": "341fb54bea9693cada2a5b8d398621a57f82862d",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/489ae2218c7eb138caac780de584d8df9fe8160b",
+                "reference": "489ae2218c7eb138caac780de584d8df9fe8160b",
                 "shasum": ""
             },
             "require": {
@@ -956,20 +956,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-07-09T14:00:02+00:00"
+            "time": "2019-07-16T14:05:28+00:00"
         },
         {
             "name": "laravel/passport",
-            "version": "v7.3.1",
+            "version": "v7.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "89c81aa8ced151f8e67f47972e1dab71d60e90b4"
+                "reference": "a738f62b72b9982c043c9d52e5d0438f999c630a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/89c81aa8ced151f8e67f47972e1dab71d60e90b4",
-                "reference": "89c81aa8ced151f8e67f47972e1dab71d60e90b4",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/a738f62b72b9982c043c9d52e5d0438f999c630a",
+                "reference": "a738f62b72b9982c043c9d52e5d0438f999c630a",
                 "shasum": ""
             },
             "require": {
@@ -1026,7 +1026,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2019-07-02T15:36:59+00:00"
+            "time": "2019-07-11T21:16:43+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1520,16 +1520,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.20.0",
+            "version": "2.21.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "bc671b896c276795fad8426b0aa24e8ade0f2498"
+                "reference": "a8bfb6631e3bc982427406d13ad817fc45d47b61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/bc671b896c276795fad8426b0aa24e8ade0f2498",
-                "reference": "bc671b896c276795fad8426b0aa24e8ade0f2498",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a8bfb6631e3bc982427406d13ad817fc45d47b61",
+                "reference": "a8bfb6631e3bc982427406d13ad817fc45d47b61",
                 "shasum": ""
             },
             "require": {
@@ -1545,6 +1545,9 @@
                 "phpunit/phpunit": "^7.5 || ^8.0",
                 "squizlabs/php_codesniffer": "^3.4"
             },
+            "bin": [
+                "bin/carbon"
+            ],
             "type": "library",
             "extra": {
                 "laravel": {
@@ -1567,6 +1570,10 @@
                     "name": "Brian Nesbitt",
                     "email": "brian@nesbot.com",
                     "homepage": "http://nesbot.com"
+                },
+                {
+                    "name": "kylekatarnls",
+                    "homepage": "http://github.com/kylekatarnls"
                 }
             ],
             "description": "A simple API extension for DateTime.",
@@ -1576,7 +1583,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-06-25T10:00:57+00:00"
+            "time": "2019-07-17T07:49:05+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1846,16 +1853,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.20",
+            "version": "2.0.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "d6819a55b05e123db1e881d8b230d57f912126be"
+                "reference": "9f1287e68b3f283339a9f98f67515dd619e5bf9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/d6819a55b05e123db1e881d8b230d57f912126be",
-                "reference": "d6819a55b05e123db1e881d8b230d57f912126be",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/9f1287e68b3f283339a9f98f67515dd619e5bf9d",
+                "reference": "9f1287e68b3f283339a9f98f67515dd619e5bf9d",
                 "shasum": ""
             },
             "require": {
@@ -1934,7 +1941,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2019-06-23T16:33:11+00:00"
+            "time": "2019-07-12T12:53:49+00:00"
         },
         {
             "name": "psr/container",
@@ -2380,16 +2387,16 @@
         },
         {
             "name": "spatie/laravel-activitylog",
-            "version": "3.6.1",
+            "version": "3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-activitylog.git",
-                "reference": "c1113b5eb9235ff465e6108f4d911da8fcbbbfaf"
+                "reference": "d5fd05eb9edcb2416ada4f1e026d47ee9f8706a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/c1113b5eb9235ff465e6108f4d911da8fcbbbfaf",
-                "reference": "c1113b5eb9235ff465e6108f4d911da8fcbbbfaf",
+                "url": "https://api.github.com/repos/spatie/laravel-activitylog/zipball/d5fd05eb9edcb2416ada4f1e026d47ee9f8706a3",
+                "reference": "d5fd05eb9edcb2416ada4f1e026d47ee9f8706a3",
                 "shasum": ""
             },
             "require": {
@@ -2448,7 +2455,7 @@
                 "spatie",
                 "user"
             ],
-            "time": "2019-05-29T06:52:22+00:00"
+            "time": "2019-07-16T14:13:01+00:00"
         },
         {
             "name": "spatie/string",
@@ -6959,16 +6966,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.2.4",
+            "version": "8.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "25fe0b5031b24722f66a75ad479a074cccc1bb37"
+                "reference": "c1b8534b3730f20f58600124129197bf1183dc92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/25fe0b5031b24722f66a75ad479a074cccc1bb37",
-                "reference": "25fe0b5031b24722f66a75ad479a074cccc1bb37",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c1b8534b3730f20f58600124129197bf1183dc92",
+                "reference": "c1b8534b3730f20f58600124129197bf1183dc92",
                 "shasum": ""
             },
             "require": {
@@ -7038,7 +7045,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-07-03T08:30:33+00:00"
+            "time": "2019-07-15T06:26:24+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
