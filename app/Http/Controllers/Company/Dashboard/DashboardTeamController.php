@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\User\Preferences\UpdateDashboardView;
+use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class DashboardTeamController extends Controller
@@ -27,10 +28,14 @@ class DashboardTeamController extends Controller
             'view' => 'team',
         ]);
 
-        return View::component('ShowCompany', [
+        $employee = auth()->user()->getEmployeeObjectForCompany($company);
+
+        return View::component('ShowDashboardTeam', [
             'company' => $company,
             'user' => auth()->user()->refresh(),
-            'employee' => new EmployeeResource(auth()->user()->getEmployeeObjectForCompany($company)),
+            'employee' => new EmployeeResource($employee),
+            'teams' => TeamResource::collection($employee->teams()->get()),
+            'worklogCount' => $employee->worklogs()->count(),
             'notifications' => auth()->user()->notifications->where('read', false)->take(5),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);

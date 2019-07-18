@@ -69,7 +69,7 @@ export default {
     };
   },
 
-  mounted: function() {
+  created: function() {
     this.updatedWorklogCount = this.worklogCount;
     this.updatedEmployee = this.employee;
   },
