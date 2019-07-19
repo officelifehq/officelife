@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
+use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,22 @@ class DashboardTeamController extends Controller
         ]);
 
         $employee = auth()->user()->getEmployeeObjectForCompany($company);
+
+        // building the collection containing the days with the worklogs
+        $dates = collect([]);
+        $monday = Carbon::now()->startOfWeek();
+        $dates->push([
+            'day' => DateHelper::getLongDayAndMonth($monday->subDays(3)),
+            'name' => DateHelper::getLongDayAndMonth($monday->subDays(3)),
+        ]);
+
+        for ($i = 0; $i < 5 ; $i++) {
+            $currentDate->month = $month;
+            $months->push([
+                'id' => $month,
+                'name' => mb_convert_case($currentDate->format($format), MB_CASE_TITLE, 'UTF-8'),
+            ]);
+        }
 
         return View::component('ShowDashboardTeam', [
             'company' => $company,

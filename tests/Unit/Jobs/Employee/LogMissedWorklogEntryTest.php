@@ -22,7 +22,7 @@ class LogMissedWorklogEntryTest extends TestCase
             'consecutive_worklog_missed' => 0,
         ]);
 
-        LogMissedWorklogEntry::dispatch();
+        LogMissedWorklogEntry::dispatch(Carbon::today());
 
         $numberOfEmployees = Employee::where('consecutive_worklog_missed', '!=', 0)->count();
 
@@ -40,12 +40,13 @@ class LogMissedWorklogEntryTest extends TestCase
         $dwight = factory(Employee::class)->create([
             'consecutive_worklog_missed' => 0,
         ]);
+
         factory(Worklog::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => '2018-01-01',
         ]);
 
-        LogMissedWorklogEntry::dispatch();
+        LogMissedWorklogEntry::dispatch(Carbon::today());
 
         $numberOfEmployees = Employee::where('consecutive_worklog_missed', '!=', 0)->count();
 

@@ -36,6 +36,10 @@
           <h2 class="mt0 fw5 f4">
             😀 What your team has done this week
           </h2>
+          <ul>
+            <li>
+            </li>
+          </ul>
           <p class="db">
             <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_placeholder') }}</span>
             <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
