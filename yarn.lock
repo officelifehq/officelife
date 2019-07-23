@@ -917,9 +917,9 @@ acorn-jsx@^5.0.0:
   integrity sha512-HJ7CfNHrfJLlNTzIEUTj43LNWGkqpRLxm3YjAlcD0ACydk9XynzYsCBHxut+iqt+1aBXkx9UP/w/ZqMr13XIzg==
 
 acorn@^6.0.2, acorn@^6.0.7, acorn@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.2.0.tgz#67f0da2fc339d6cfb5d6fb244fd449f33cd8bbe3"
-  integrity sha512-8oe72N3WPMjA+2zVG71Ia0nXZ8DpQH+QyyHO+p06jT8eg8FGG3FbcUIi8KziHlAfheJQZeoqbvq1mQSQHXKYLw==
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.2.1.tgz#3ed8422d6dec09e6121cc7a843ca86a330a86b51"
+  integrity sha512-JD0xT5FCRDNyjDda3Lrg/IxFscp9q4tiYtxE1/nOzlKCk7hIRuYjhq1kCNkbPjMRMZuFq20HNQn1I9k8Oj0E+Q==
 
 adjust-sourcemap-loader@^1.1.0:
   version "1.2.0"
@@ -1614,9 +1614,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000980, caniuse-lite@^1.0.30000984:
-  version "1.0.30000984"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000984.tgz#dc96c3c469e9bcfc6ad5bdd24c77ec918ea76fe0"
-  integrity sha512-n5tKOjMaZ1fksIpQbjERuqCyfgec/m9pferkFQbLmWtqLUdmt12hNhjSwsmPdqeiG2NkITOQhr1VYIwWSAceiA==
+  version "1.0.30000985"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000985.tgz#0eb40f6c8a8c219155cbe43c4975c0efb4a0f77f"
+  integrity sha512-1ngiwkgqAYPG0JSSUp3PUDGPKKY59EK7NrGGX+VOxaKCNzRbNc7uXMny+c3VJfZxtoK3wSImTvG9T9sXiTw2+w==
 
 capture-stack-trace@^1.0.0:
   version "1.0.1"
@@ -2718,9 +2718,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.3.191:
-  version "1.3.194"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.194.tgz#a96452a96d4539131957aade9f634a45721f2819"
-  integrity sha512-w0LHR2YD9Ex1o+Sz4IN2hYzCB8vaFtMNW+yJcBf6SZlVqgFahkne/4rGVJdk4fPF98Gch9snY7PiabOh+vqHNg==
+  version "1.3.199"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.199.tgz#f9a62a74cda77854310a2abffde8b75591ea09a1"
+  integrity sha512-gachlDdHSK47s0N2e58GH9HMC6Z4ip0SfmYUa5iEbE50AKaOUXysaJnXMfKj0xB245jWbYcyFSH+th3rqsF8hA==
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -5128,9 +5128,9 @@ lodash@4.17.11:
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
 
 lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.5:
-  version "4.17.14"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
-  integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
 log-symbols@2.2.0, log-symbols@^2.2.0:
   version "2.2.0"
@@ -6972,12 +6972,12 @@ prosemirror-transform@^1.0.0, prosemirror-transform@^1.1.0, prosemirror-transfor
   dependencies:
     prosemirror-model "^1.0.0"
 
-prosemirror-utils@^0.9.3:
+prosemirror-utils@^0.9.4:
   version "0.9.4"
   resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-0.9.4.tgz#9de3c638040070cf312a5adcf76fd58cf94e7a7d"
   integrity sha512-6R3AqS+g3ohnWvgWb/eE1v+Kl1Hp0q/FXflJk8/tHEzXHCxjPXJrU8onf458kANSbB+g8yaCRjd7+3/Gne1LKA==
 
-prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.9.11:
+prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.9.12:
   version "1.9.12"
   resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.9.12.tgz#d0afc22387080ab2f6e0c44bca97486f3af6fbb0"
   integrity sha512-og0JxRtce/hsg+61aPgCasfQtkqWYKuWmunU8H4+194AUpaYWg4ZmLNY9qWjfN7XKXoEtV4vPOUJ5RrYVijGjw==
@@ -7232,14 +7232,14 @@ regenerate@^1.2.1, regenerate@^1.4.0:
   integrity sha512-1G6jJVDWrt0rK99kBjvEtziZNCICAuvIPkSiUFIQxVP06RCVpq3dmDo2oi6ABpYaDYaTRr67BEhL8r1wgEZZKg==
 
 regenerator-runtime@^0.13.2:
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.2.tgz#32e59c9a6fb9b1a4aff09b4930ca2d4477343447"
-  integrity sha512-S/TQAZJO+D3m9xeN1WTI8dLKBBiRgXBlTJvbWjCThHWZj9EvHK70Ff50/tYj2J/fvBY6JtFVwRuazHN2E7M9BA==
+  version "0.13.3"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
+  integrity sha512-naKIZz2GQ8JWh///G7L3X6LaQUAMp2lvb1rvwwsURe/VXwD6VMfr+/1NuNw3ag8v2kY1aQ/go5SNn79O9JU7yw==
 
 regenerator-transform@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.14.0.tgz#2ca9aaf7a2c239dd32e4761218425b8c7a86ecaf"
-  integrity sha512-rtOelq4Cawlbmq9xuMR5gdFmv7ku/sFoB7sRiywx7aq53bc52b4j6zvH7Te1Vt/X2YveDKnCGUbioieU7FEL3w==
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.14.1.tgz#3b2fce4e1ab7732c08f665dfdb314749c7ddd2fb"
+  integrity sha512-flVuee02C3FKRISbxhXl9mGzdbWUVHubl1SMaknjxkFB1/iqpJhArQUvRxOOPEc/9tAiX0BaQ28FJH10E4isSQ==
   dependencies:
     private "^0.1.6"
 
@@ -7623,9 +7623,9 @@ sass-loader@^7.1.0:
     semver "^5.5.0"
 
 sass@^1.15.2:
-  version "1.22.6"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.6.tgz#1192aeb55b954576c67eafd560bd17f417903ce9"
-  integrity sha512-tkOvFnETGZShLiRHylzzLai6aQLhBHTG3t15FMgWy+UsRx99ZdQcSBxwPYbiapl+2DndQtr6N4fXbCwjhon9yw==
+  version "1.22.7"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.22.7.tgz#5a1a77dc11aa659db4e782d238bf9f3d44a60546"
+  integrity sha512-ahREi0AdG7RTovSv14+yd1prQSfIvFcrDpOsth5EQf1+RM7SvOxsSttzNQaFmK1aa/k/3vyYwlYF5l0Xl+6c+g==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 
@@ -7812,9 +7812,9 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
 
 simple-git@^1.85.0:
-  version "1.121.0"
-  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-1.121.0.tgz#4bdf0828cd1b0bb3cb7ed9bead2771982ef5876a"
-  integrity sha512-LyYri/nuAX8+cx9nZw38mWO6oHNi//CmiPlkBL7aVjZIsdldve7eeDwXu9L4wP/74MpNHucXkXc/BOuIQShhPg==
+  version "1.122.0"
+  resolved "https://registry.yarnpkg.com/simple-git/-/simple-git-1.122.0.tgz#33b2d3a760aa02df470c79fbab5413d4f4e68945"
+  integrity sha512-plTwhnkIHrw2TFMJbJH/mKwWGgFbj03V9wcfBKa4FsuvgJbpwdlSJnlvkIQWDV1CVLaf2Gl6zSNeRRnxBRhX1g==
   dependencies:
     debug "^4.0.1"
 
@@ -8377,10 +8377,10 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
-tiptap-commands@^1.10.9:
-  version "1.10.9"
-  resolved "https://registry.yarnpkg.com/tiptap-commands/-/tiptap-commands-1.10.9.tgz#44a3fcbd0e87882c9eac46165a604eead298f10c"
-  integrity sha512-YIid8YQ3NdlPuhznPb4QaPGDfZwnMYcqYa+N2K9KUnqXsvZNL+n7Qk4cko6yJ8qVur04fyQc9qs3kgZ09rIxKA==
+tiptap-commands@^1.10.10:
+  version "1.10.10"
+  resolved "https://registry.yarnpkg.com/tiptap-commands/-/tiptap-commands-1.10.10.tgz#41c882ee7385c00a5613cbb2d6192181d791da10"
+  integrity sha512-5MYWuKQQaJzXbhL1uYG8ndQy5zlGMwt4Mct/VRInfydq1QWZsn2fg8+J87fu1wSY4LbRqn1oki0j67L4YznXMQ==
   dependencies:
     prosemirror-commands "^1.0.8"
     prosemirror-inputrules "^1.0.4"
@@ -8388,13 +8388,13 @@ tiptap-commands@^1.10.9:
     prosemirror-schema-list "^1.0.3"
     prosemirror-state "^1.2.3"
     prosemirror-tables "^0.8.1"
-    prosemirror-utils "^0.9.3"
-    tiptap-utils "^1.5.7"
+    prosemirror-utils "^0.9.4"
+    tiptap-utils "^1.5.8"
 
 tiptap-extensions@^1.24.0:
-  version "1.24.2"
-  resolved "https://registry.yarnpkg.com/tiptap-extensions/-/tiptap-extensions-1.24.2.tgz#3b8aaa302a89f208ac0bac797dd7dceb0eb48a6f"
-  integrity sha512-U897XVubCcRH0JISUIRD74PBgiazYl/Cb7tZwN0QUPt23sGuWB47Qq29bV8RjaOAznA/trv69YNIPOOO4m3F3A==
+  version "1.24.3"
+  resolved "https://registry.yarnpkg.com/tiptap-extensions/-/tiptap-extensions-1.24.3.tgz#c5c04127653a76220db1089ea2ba00df17f1cb11"
+  integrity sha512-pOPdIeE6sG6rTBSoZnPsX0Muc86BH6qQy73Uc7jRnSHQg91BKRDu3lo0tlINlLmvl3Ktinb4NmfLw5pZ4qIQ2g==
   dependencies:
     lowlight "^1.12.1"
     prosemirror-collab "^1.1.2"
@@ -8403,25 +8403,25 @@ tiptap-extensions@^1.24.0:
     prosemirror-state "^1.2.3"
     prosemirror-tables "^0.8.1"
     prosemirror-transform "^1.1.3"
-    prosemirror-utils "^0.9.3"
-    prosemirror-view "^1.9.11"
-    tiptap "^1.23.2"
-    tiptap-commands "^1.10.9"
+    prosemirror-utils "^0.9.4"
+    prosemirror-view "^1.9.12"
+    tiptap "^1.23.3"
+    tiptap-commands "^1.10.10"
 
-tiptap-utils@^1.5.7:
-  version "1.5.7"
-  resolved "https://registry.yarnpkg.com/tiptap-utils/-/tiptap-utils-1.5.7.tgz#30f32b5ec8b30464e2d18941b20112e2ac19e5af"
-  integrity sha512-RT0j0viMbKyotzgEIw94C9gtF/d31ARY3MMldjEEWSIKWNzbvJQlYn1MzLWDc0PjzUH8Jk7g4RmLzCftCPNKSA==
+tiptap-utils@^1.5.8:
+  version "1.5.8"
+  resolved "https://registry.yarnpkg.com/tiptap-utils/-/tiptap-utils-1.5.8.tgz#b7e6937d9d85f0a8473725b9a60e064bdda781c7"
+  integrity sha512-FkKmTzEHFr9wEDqu4rwegooFW2xjUzhbBP7sWXM1T57ZxLDcUBW60n2KiMLTswKcyMRryoRx0ZtwRmeole+1RQ==
   dependencies:
     prosemirror-model "^1.7.1"
     prosemirror-state "^1.2.3"
     prosemirror-tables "^0.8.1"
-    prosemirror-utils "^0.9.3"
+    prosemirror-utils "^0.9.4"
 
-tiptap@^1.23.0, tiptap@^1.23.2:
-  version "1.23.2"
-  resolved "https://registry.yarnpkg.com/tiptap/-/tiptap-1.23.2.tgz#49aa06106d71d87aac28be4512ed092fda0fb7d0"
-  integrity sha512-AWnhb2u64IeqkD9WsJscIR1R129vEiu7wfYyAlu2j2V+HQqsXH6y/6o01YCigGpDNIDwFsjTBiUGNpI/dw2Ctg==
+tiptap@^1.23.0, tiptap@^1.23.3:
+  version "1.23.3"
+  resolved "https://registry.yarnpkg.com/tiptap/-/tiptap-1.23.3.tgz#32dbfcd5f850460346313f8e0174ead7aa73f6dc"
+  integrity sha512-ZSaOBNVmuldyAg4Oq34I3L0naW285PeKVWhvi00rPJKovm3qgMhDF9bvVWaduTw7rQs8jkZ4l9WdcMJfVX3PtQ==
   dependencies:
     prosemirror-commands "^1.0.8"
     prosemirror-dropcursor "^1.1.1"
@@ -8430,9 +8430,9 @@ tiptap@^1.23.0, tiptap@^1.23.2:
     prosemirror-keymap "^1.0.1"
     prosemirror-model "^1.7.1"
     prosemirror-state "^1.2.3"
-    prosemirror-view "^1.9.11"
-    tiptap-commands "^1.10.9"
-    tiptap-utils "^1.5.7"
+    prosemirror-view "^1.9.12"
+    tiptap-commands "^1.10.10"
+    tiptap-utils "^1.5.8"
 
 tmp@0.1.0:
   version "0.1.0"

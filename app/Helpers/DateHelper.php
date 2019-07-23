@@ -24,7 +24,7 @@ class DateHelper
      * @param Carbon $date
      * @return string
      */
-    public static function getLongDayAndMonth($date): string
+    public static function getLongDayAndMonth($date) : string
     {
         return $date->isoFormat(trans('format.long_month_day'));
     }

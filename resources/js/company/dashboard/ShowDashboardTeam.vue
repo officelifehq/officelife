@@ -1,8 +1,4 @@
-<style scoped>
-.dummy {
-  right: 40px;
-  bottom: 20px;
-}
+<style lang="scss" scoped>
 </style>
 
 <template>
@@ -31,23 +27,24 @@
         </div>
       </div>
 
-      <div class="cf mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <h2 class="mt0 fw5 f4">
-            😀 What your team has done this week
-          </h2>
-          <ul>
-            <li>
-            </li>
-          </ul>
-          <p class="db">
-            <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_placeholder') }}</span>
-            <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
-          </p>
+      <!-- When there is no team associated with this person -->
+      <div v-show="teams.length == 0" class="cf mw7 center br3 mb3 bg-white box">
+        <div class="pa3 tc">
+          You are not associated with a team yet.
         </div>
       </div>
 
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
+      <!-- Only when there are teams -->
+      <dashboard-team-worklog
+        :teams="teams"
+        :worklog-dates="worklogDates"
+        :worklog-entries="worklogEntries"
+        :current-team="currentTeam"
+        :current-date="currentDate"
+        :company="company"
+      />
+
+      <div v-show="teams.length != 0" class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3">
           <h2>Team</h2>
           <ul>
@@ -63,7 +60,7 @@
         </div>
       </div>
 
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
+      <div v-show="teams.length != 0" class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3">
           <h2>Me</h2>
           <ul>
@@ -100,9 +97,21 @@ export default {
       type: Array,
       default: null,
     },
-    worklogCount: {
+    worklogDates: {
+      type: Array,
+      default: null,
+    },
+    worklogEntries: {
+      type: Array,
+      default: null,
+    },
+    currentDate: {
+      type: String,
+      default: null,
+    },
+    currentTeam: {
       type: Number,
-      default: 0,
+      default: null,
     },
     notifications: {
       type: Array,
