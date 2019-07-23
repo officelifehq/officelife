@@ -6,7 +6,7 @@
     <div class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3">
         <h2 class="mt0 fw5 f4">
-          👨‍🌾 {{ $t('dashboard.worklog_title') }}
+          🔨 {{ $t('dashboard.worklog_title') }}
         </h2>
         <p v-show="!showEditor && !updatedEmployee.has_logged_worklog_today" class="db">
           <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_placeholder') }}</span>

@@ -35,19 +35,19 @@
   <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
     <div class="pa3">
       <h2 class="mt0 fw5 f4">
-        😀 What your team has done this week
+        🔨 What your team has done this week
       </h2>
-      <ul class="list pa0 tc mv4">
-        <li v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib worklog-item relative pointer" :class="worklogDate.status" @click.prevent="load(worklogDate.friendlyDate)">
+      <div class="flex justify-center pa0 tc mv4">
+        <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib worklog-item relative pointer" :class="worklogDate.status" @click.prevent="load(worklogDate.friendlyDate)">
+          <span class="dot"></span>
           <span class="db mb2">
             {{ worklogDate.day }}
-            <span class="br3 pill bg-lightest-blue pa1 f7">{{ worklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }} / {{ worklogDate.numberOfEmployeesInTeam }}</span>
           </span>
           <span class="db f7 mb1">
             {{ worklogDate.name }}
           </span>
-        </li>
-      </ul>
+        </div>
+      </div>
       <div v-show="updatedWorklogEntries.length != 0">
         {{ }}
       </div>

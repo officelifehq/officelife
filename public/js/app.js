@@ -3956,15 +3956,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     teams: {
       type: Array,
-      "default": null
+      "default": function _default() {
+        return {};
+      }
     },
     worklogDates: {
       type: Array,
-      "default": 0
+      "default": function _default() {
+        return {};
+      }
     },
     worklogEntries: {
       type: Array,
-      "default": 0
+      "default": function _default() {
+        return {};
+      }
     },
     currentDate: {
       type: String,
@@ -27625,7 +27631,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prosemirror_utils__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(prosemirror_utils__WEBPACK_IMPORTED_MODULE_6__);
 
     /*!
-    * tiptap-commands v1.10.8
+    * tiptap-commands v1.10.9
     * (c) 2019 Scrumpy UG (limited liability)
     * @license MIT
     */
@@ -28125,7 +28131,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prosemirror_history__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(prosemirror_history__WEBPACK_IMPORTED_MODULE_10__);
 
     /*!
-    * tiptap-extensions v1.24.1
+    * tiptap-extensions v1.24.2
     * (c) 2019 Scrumpy UG (limited liability)
     * @license MIT
     */
@@ -28183,12 +28189,13 @@ function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
-    keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
   }
 
-  if (enumerableOnly) keys = keys.filter(function (sym) {
-    return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-  });
   return keys;
 }
 
@@ -30785,7 +30792,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prosemirror_utils__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(prosemirror_utils__WEBPACK_IMPORTED_MODULE_0__);
 
     /*!
-    * tiptap-utils v1.5.6
+    * tiptap-utils v1.5.7
     * (c) 2019 Scrumpy UG (limited liability)
     * @license MIT
     */
@@ -30959,7 +30966,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tiptap_commands__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! tiptap-commands */ "./node_modules/tiptap-commands/dist/commands.esm.js");
 
     /*!
-    * tiptap v1.23.1
+    * tiptap v1.23.2
     * (c) 2019 Scrumpy UG (limited liability)
     * @license MIT
     */
@@ -31032,12 +31039,13 @@ function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
   if (Object.getOwnPropertySymbols) {
-    keys.push.apply(keys, Object.getOwnPropertySymbols(object));
+    var symbols = Object.getOwnPropertySymbols(object);
+    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    });
+    keys.push.apply(keys, symbols);
   }
 
-  if (enumerableOnly) keys = keys.filter(function (sym) {
-    return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-  });
   return keys;
 }
 
@@ -32244,7 +32252,7 @@ function (_Emitter) {
     value: function focus() {
       var _this6 = this;
 
-      var position = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var position = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'start';
 
       if (position === null || position === false) {
         return;
@@ -32605,7 +32613,14 @@ function () {
       var start = coordsAtPos(view, from);
       var end = coordsAtPos(view, to, true); // The box in which the tooltip is positioned, to use as base
 
-      var box = this.options.element.offsetParent.getBoundingClientRect();
+      var parent = this.options.element.offsetParent;
+
+      if (!parent) {
+        this.hide();
+        return;
+      }
+
+      var box = parent.getBoundingClientRect();
       var el = this.options.element.getBoundingClientRect(); // Find a center-ish x position from the selection endpoints (when
       // crossing lines, end may be more to the left)
 
@@ -32796,7 +32811,14 @@ function () {
         return;
       }
 
-      var editorBoundings = this.options.element.offsetParent.getBoundingClientRect();
+      var parent = this.options.element.offsetParent;
+
+      if (!parent) {
+        this.hide();
+        return;
+      }
+
+      var editorBoundings = parent.getBoundingClientRect();
       var cursorBoundings = view.coordsAtPos(state.selection.anchor);
       var top = cursorBoundings.top - editorBoundings.top;
       this.isActive = true;
@@ -42632,15 +42654,15 @@ var render = function() {
         { staticClass: "pa3" },
         [
           _c("h2", { staticClass: "mt0 fw5 f4" }, [
-            _vm._v("\n      😀 What your team has done this week\n    ")
+            _vm._v("\n      🔨 What your team has done this week\n    ")
           ]),
           _vm._v(" "),
           _c(
-            "ul",
-            { staticClass: "list pa0 tc mv4" },
+            "div",
+            { staticClass: "flex justify-center pa0 tc mv4" },
             _vm._l(_vm.worklogDates, function(worklogDate) {
               return _c(
-                "li",
+                "div",
                 {
                   key: worklogDate.friendlyDate,
                   staticClass: "dib worklog-item relative pointer",
@@ -42653,22 +42675,11 @@ var render = function() {
                   }
                 },
                 [
+                  _c("span", { staticClass: "dot" }),
+                  _vm._v(" "),
                   _c("span", { staticClass: "db mb2" }, [
                     _vm._v(
-                      "\n          " + _vm._s(worklogDate.day) + "\n          "
-                    ),
-                    _c(
-                      "span",
-                      { staticClass: "br3 pill bg-lightest-blue pa1 f7" },
-                      [
-                        _vm._v(
-                          _vm._s(
-                            worklogDate.numberOfEmployeesWhoHaveLoggedWorklogs
-                          ) +
-                            " / " +
-                            _vm._s(worklogDate.numberOfEmployeesInTeam)
-                        )
-                      ]
+                      "\n          " + _vm._s(worklogDate.day) + "\n        "
                     )
                   ]),
                   _vm._v(" "),
@@ -42695,7 +42706,7 @@ var render = function() {
                 }
               ]
             },
-            [_vm._v("\n      sadlkjfalkd\n    ")]
+            [_vm._v("\n      " + _vm._s() + "\n    ")]
           ),
           _vm._v(" "),
           _vm._l(_vm.updatedWorklogEntries, function(worklogEntry) {
@@ -42755,7 +42766,7 @@ var render = function() {
       _c("div", { staticClass: "pa3" }, [
         _c("h2", { staticClass: "mt0 fw5 f4" }, [
           _vm._v(
-            "\n        👨‍🌾 " +
+            "\n        🔨 " +
               _vm._s(_vm.$t("dashboard.worklog_title")) +
               "\n      "
           )
@@ -51785,8 +51796,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/regis/htdocs/homas/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/regis/htdocs/homas/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/regis.freyd/htdocs/homas/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/regis.freyd/htdocs/homas/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
