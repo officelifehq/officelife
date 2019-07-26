@@ -14,7 +14,7 @@ class AuditLogActionTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $company = factory(Company::class)->create([]);
 
@@ -40,7 +40,7 @@ class AuditLogActionTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'action' => 'account_created',

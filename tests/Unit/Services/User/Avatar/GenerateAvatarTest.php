@@ -11,7 +11,8 @@ class GenerateAvatarTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_it_returns_an_url()
+    /** @test */
+    public function it_returns_an_url() : void
     {
         $request = [
             'uuid' => 'matt@wordpress.com',
@@ -26,7 +27,8 @@ class GenerateAvatarTest extends TestCase
         );
     }
 
-    public function test_it_returns_an_url_with_a_default_avatar_size()
+    /** @test */
+    public function it_returns_an_url_with_a_default_avatar_size() : void
     {
         $request = [
             'uuid' => 'matt@wordpress.com',
@@ -41,7 +43,8 @@ class GenerateAvatarTest extends TestCase
         );
     }
 
-    public function test_it_fails_if_wrong_parameters_are_given()
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'size' => 200,

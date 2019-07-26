@@ -14,7 +14,7 @@ class CreateTeamTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_team()
+    public function it_creates_a_team() : void
     {
         $employee = factory(Employee::class)->create([]);
 
@@ -39,7 +39,7 @@ class CreateTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $employee = factory(Employee::class)->create([]);
 
@@ -59,7 +59,7 @@ class CreateTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'name' => 'Selling team',

@@ -15,7 +15,7 @@ class CreateTaskTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_task()
+    public function it_creates_a_task() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -47,7 +47,7 @@ class CreateTaskTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_a_task()
+    public function it_logs_a_task() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -81,7 +81,7 @@ class CreateTaskTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_a_task_with_a_team()
+    public function it_logs_a_task_with_a_team() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -116,7 +116,7 @@ class CreateTaskTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_a_task_with_an_assignee()
+    public function it_logs_a_task_with_an_assignee() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -157,7 +157,7 @@ class CreateTaskTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([

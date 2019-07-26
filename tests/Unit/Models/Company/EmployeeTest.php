@@ -18,21 +18,21 @@ class EmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_user()
+    public function it_belongs_to_a_user() : void
     {
         $dwight = factory(Employee::class)->create([]);
         $this->assertTrue($dwight->user()->exists());
     }
 
     /** @test */
-    public function it_belongs_to_a_company()
+    public function it_belongs_to_a_company() : void
     {
         $dwight = factory(Employee::class)->create([]);
         $this->assertTrue($dwight->company()->exists());
     }
 
     /** @test */
-    public function it_has_many_teams()
+    public function it_has_many_teams() : void
     {
         $dwight = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -49,7 +49,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_direct_reports()
+    public function it_has_many_direct_reports() : void
     {
         $manager = factory(Employee::class)->create([]);
         factory(DirectReport::class, 3)->create([
@@ -60,7 +60,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_managers()
+    public function it_has_many_managers() : void
     {
         $dwight = factory(Employee::class)->create([]);
         factory(DirectReport::class, 3)->create([
@@ -71,7 +71,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_logs()
+    public function it_has_many_logs() : void
     {
         $dwight = factory(Employee::class)->create();
         factory(EmployeeLog::class, 2)->create([
@@ -82,7 +82,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_one_position()
+    public function it_has_one_position() : void
     {
         $dwight = factory(Employee::class)->create();
 
@@ -90,7 +90,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_employee_events()
+    public function it_has_many_employee_events() : void
     {
         $dwight = factory(Employee::class)->create();
         factory(EmployeeEvent::class, 2)->create([
@@ -101,7 +101,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_tasks()
+    public function it_has_many_tasks() : void
     {
         $dwight = factory(Employee::class)->create();
         factory(Task::class, 2)->create([
@@ -112,7 +112,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_worklog()
+    public function it_has_many_worklog() : void
     {
         $dwight = factory(Employee::class)->create();
         factory(Worklog::class, 2)->create([
@@ -123,7 +123,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_email_attribute()
+    public function it_returns_the_email_attribute() : void
     {
         $dwight = factory(Employee::class)->create([]);
         $this->assertEquals(
@@ -133,7 +133,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_name_attribute()
+    public function it_returns_the_name_attribute() : void
     {
         $dwight = factory(Employee::class)->create([]);
         $this->assertEquals(
@@ -143,7 +143,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_birthdate_attribute()
+    public function it_returns_the_birthdate_attribute() : void
     {
         $dwight = factory(Employee::class)->create([]);
         $this->assertEquals(
@@ -153,7 +153,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_get_the_list_of_the_employees_managers()
+    public function it_get_the_list_of_the_employees_managers() : void
     {
         $dwight = factory(Employee::class)->create([]);
         factory(DirectReport::class, 3)->create([
@@ -168,7 +168,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_get_the_list_of_the_employees_direct_reports()
+    public function it_get_the_list_of_the_employees_direct_reports() : void
     {
         $dwight = factory(Employee::class)->create([]);
         factory(DirectReport::class, 3)->create([
@@ -183,7 +183,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_path_for_the_invitation_link()
+    public function it_gets_the_path_for_the_invitation_link() : void
     {
         $dwight = factory(Employee::class)->create([
             'invitation_link' => 'dunder',
@@ -196,7 +196,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_whether_the_invitation_has_been_accepted()
+    public function it_checks_whether_the_invitation_has_been_accepted() : void
     {
         $dwight = factory(Employee::class)->create([]);
         $this->assertFalse($dwight->invitationAlreadyAccepted());
@@ -208,7 +208,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_if_a_worklog_has_already_been_logged_today()
+    public function it_checks_if_a_worklog_has_already_been_logged_today() : void
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 

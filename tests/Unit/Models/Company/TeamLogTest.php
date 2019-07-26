@@ -13,21 +13,21 @@ class TeamLogTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_company()
+    public function it_belongs_to_a_company() : void
     {
         $TeamLog = factory(TeamLog::class)->create([]);
         $this->assertTrue($TeamLog->company()->exists());
     }
 
     /** @test */
-    public function it_belongs_to_a_team()
+    public function it_belongs_to_a_team() : void
     {
         $TeamLog = factory(TeamLog::class)->create([]);
         $this->assertTrue($TeamLog->team()->exists());
     }
 
     /** @test */
-    public function it_returns_the_date_attribute()
+    public function it_returns_the_date_attribute() : void
     {
         $TeamLog = factory(TeamLog::class)->create([
             'created_at' => '2017-01-22 17:56:03',
@@ -39,7 +39,7 @@ class TeamLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_object_attribute()
+    public function it_returns_the_object_attribute() : void
     {
         $TeamLog = factory(TeamLog::class)->create([]);
         $this->assertEquals(
@@ -49,7 +49,7 @@ class TeamLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_author_attribute()
+    public function it_returns_the_author_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
 
@@ -86,7 +86,7 @@ class TeamLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_team_attribute()
+    public function it_returns_the_team_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
         $team = factory(Team::class)->create([
@@ -126,7 +126,7 @@ class TeamLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_team_leader_attribute()
+    public function it_returns_the_team_leader_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
 

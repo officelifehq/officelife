@@ -12,14 +12,14 @@ class NotificationTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_user()
+    public function it_belongs_to_a_user() : void
     {
         $notification = factory(Notification::class)->create([]);
         $this->assertTrue($notification->user()->exists());
     }
 
     /** @test */
-    public function it_belongs_to_a_company()
+    public function it_belongs_to_a_company() : void
     {
         $company = factory(Company::class)->create([]);
         $notification = factory(Notification::class)->create([

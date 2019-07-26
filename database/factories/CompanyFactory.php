@@ -11,7 +11,9 @@ $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
 $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
     return [
         'user_id' => factory(App\Models\User\User::class)->create()->id,
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'position_id' => function (array $data) {
             return factory(App\Models\Company\Position::class)->create([
                 'company_id' => $data['company_id'],
@@ -30,7 +32,9 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\Team::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'name' => $faker->name,
         'team_leader_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
@@ -42,7 +46,9 @@ $factory->define(App\Models\Company\Team::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'action' => 'account_created',
         'objects' => '{"user": 1}',
     ];
@@ -50,7 +56,9 @@ $factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'employee_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
                 'company_id' => $data['company_id'],
@@ -63,7 +71,9 @@ $factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) 
 
 $factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'team_id' => function (array $data) {
             return factory(App\Models\Company\Team::class)->create([
                 'company_id' => $data['company_id'],
@@ -76,7 +86,9 @@ $factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\DirectReport::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'manager_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
                 'company_id' => $data['company_id'],
@@ -92,14 +104,18 @@ $factory->define(App\Models\Company\DirectReport::class, function (Faker $faker)
 
 $factory->define(App\Models\Company\Position::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'title' => 'Assistant to the regional manager',
     ];
 });
 
 $factory->define(App\Models\Company\EmployeeEvent::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'employee_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
                 'company_id' => $data['company_id'],
@@ -112,7 +128,9 @@ $factory->define(App\Models\Company\EmployeeEvent::class, function (Faker $faker
 
 $factory->define(App\Models\Company\Flow::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'name' => 'Birthdate',
         'type' => 'employee_joins_company',
     ];
@@ -120,7 +138,9 @@ $factory->define(App\Models\Company\Flow::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\Step::class, function (Faker $faker) {
     return [
-        'flow_id' => factory(App\Models\Company\Flow::class)->create()->id,
+        'flow_id' => function () {
+            return factory(App\Models\Company\Flow::class)->create()->id;
+        },
         'number' => 3,
         'unit_of_time' => 'days',
         'modifier' => 'after',
@@ -130,7 +150,9 @@ $factory->define(App\Models\Company\Step::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\Action::class, function (Faker $faker) {
     return [
-        'step_id' => factory(App\Models\Company\Step::class)->create()->id,
+        'step_id' => function () {
+            return factory(App\Models\Company\Step::class)->create()->id;
+        },
         'type' => 'notification',
         'recipient' => 'manager',
         'specific_recipient_information' => null,
@@ -139,7 +161,9 @@ $factory->define(App\Models\Company\Action::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\Task::class, function (Faker $faker) {
     return [
-        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
         'title' => 'Welcome the new employee',
     ];
 });

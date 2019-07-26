@@ -19,6 +19,17 @@ class DateHelper
     }
 
     /**
+     * Returns the day and the month in a format like "July 29th".
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function getLongDayAndMonth($date) : string
+    {
+        return $date->isoFormat(trans('format.long_month_day'));
+    }
+
+    /**
      * Calculate the next occurence in the future for this date.
      *
      * @param Carbon $date

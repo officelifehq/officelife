@@ -11,7 +11,7 @@ class LogsControllerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_lets_you_see_employees_logs_with_the_right_permissions()
+    public function it_lets_you_see_employees_logs_with_the_right_permissions() : void
     {
         $employee = factory(Employee::class)->create([]);
         $route = '/employees/'.$employee->id.'/logs';

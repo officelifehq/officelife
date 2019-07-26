@@ -17,7 +17,7 @@ class CreateNotificationInUIForEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_a_notification_without_a_company_associated_with_it()
+    public function it_logs_a_notification_without_a_company_associated_with_it() : void
     {
         $user = factory(User::class)->create([]);
 
@@ -44,7 +44,7 @@ class CreateNotificationInUIForEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_a_notification()
+    public function it_logs_a_notification() : void
     {
         $employee = factory(Employee::class)->create([]);
 
@@ -67,7 +67,7 @@ class CreateNotificationInUIForEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_to_log_the_notification_when_the_user_doesnt_belong_to_the_company()
+    public function it_fails_to_log_the_notification_when_the_user_doesnt_belong_to_the_company() : void
     {
         $employee = factory(Employee::class)->create([]);
         $company = factory(Company::class)->create([]);
@@ -84,7 +84,7 @@ class CreateNotificationInUIForEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'action' => 'account_created',

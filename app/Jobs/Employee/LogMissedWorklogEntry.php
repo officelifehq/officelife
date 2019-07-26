@@ -14,14 +14,17 @@ class LogMissedWorklogEntry implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $date;
+
     /**
      * Create a new job instance.
      *
+     * @param Carbon $date
      * @return void
      */
-    public function __construct()
+    public function __construct(Carbon $date)
     {
-        //
+        $this->date = $date;
     }
 
     /**
@@ -34,7 +37,7 @@ class LogMissedWorklogEntry implements ShouldQueue
     public function handle()
     {
         $employeesWithLogs = Employee::whereHas('worklogs', function ($query) {
-            $query->whereDate('created_at', Carbon::today());
+            $query->whereDate('created_at', $this->date);
         })->get();
 
         $allEmployees = Employee::select('id')->get();

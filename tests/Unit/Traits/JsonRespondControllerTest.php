@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class JsonRespondControllerTest extends TestCase
 {
     /** @test */
-    public function it_gets_the_http_status_code()
+    public function it_gets_the_http_status_code() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
 
@@ -21,7 +21,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_the_http_status_code()
+    public function it_sets_the_http_status_code() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
 
@@ -34,7 +34,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_error_message()
+    public function it_gets_the_error_message() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
 
@@ -42,7 +42,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_the_error_message()
+    public function it_sets_the_error_message() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
 
@@ -55,7 +55,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_responds()
+    public function it_responds() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
         $array = ['test'];
@@ -74,7 +74,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_responds_not_found()
+    public function it_responds_not_found() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
         $array = ['test'];
@@ -93,7 +93,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_responds_validator_failed()
+    public function it_responds_validator_failed() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
 
@@ -111,7 +111,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_responds_not_right_parameters()
+    public function it_responds_not_right_parameters() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
         $array = ['test'];
@@ -130,7 +130,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_responds_invalid_query()
+    public function it_responds_invalid_query() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
         $array = ['test'];
@@ -149,7 +149,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_responds_unauthorized()
+    public function it_responds_unauthorized() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
         $array = ['test'];
@@ -168,7 +168,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_responds_with_error()
+    public function it_responds_with_error() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
 
@@ -181,7 +181,7 @@ class JsonRespondControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_responds_deleted_object()
+    public function it_responds_deleted_object() : void
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
 
