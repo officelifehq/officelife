@@ -29,6 +29,20 @@
     margin-bottom: 20px;
   }
 }
+
+.dot {
+  background-color: #FF6D67;
+  height: 13px;
+  width: 13px;
+
+  &.yellow {
+    background-color: #FFA634;
+  }
+
+  &.green {
+    background-color: #34C08F;
+  }
+}
 </style>
 
 <template>
@@ -39,7 +53,7 @@
       </h2>
       <div class="flex justify-center pa0 tc mv4">
         <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib worklog-item relative pointer" :class="worklogDate.status" @click.prevent="load(worklogDate.friendlyDate)">
-          <span class="dot"></span>
+          <span class="dot br-100 dib" :class="worklogDate.completionRate"></span>
           <span class="db mb2">
             {{ worklogDate.day }}
           </span>

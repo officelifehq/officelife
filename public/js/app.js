@@ -3948,6 +3948,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -5313,7 +5327,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".worklog-item[data-v-5bcdcf4d] {\n  margin-right: 30px;\n}\n.worklog-item[data-v-5bcdcf4d]:last-child {\n  margin-right: 0;\n}\n.worklog-item.future[data-v-5bcdcf4d] {\n  color: #9E9E9E;\n}\n.worklog-item.current[data-v-5bcdcf4d] {\n  font-weight: 500;\n  border-bottom: 2px solid black;\n}\n.worklog-item .pill.future[data-v-5bcdcf4d] {\n  display: none;\n}\n.worklog-entry[data-v-5bcdcf4d]:not(:last-child) {\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  margin-bottom: 20px;\n}", ""]);
+exports.push([module.i, ".worklog-item[data-v-5bcdcf4d] {\n  margin-right: 30px;\n}\n.worklog-item[data-v-5bcdcf4d]:last-child {\n  margin-right: 0;\n}\n.worklog-item.future[data-v-5bcdcf4d] {\n  color: #9E9E9E;\n}\n.worklog-item.current[data-v-5bcdcf4d] {\n  font-weight: 500;\n  border-bottom: 2px solid black;\n}\n.worklog-item .pill.future[data-v-5bcdcf4d] {\n  display: none;\n}\n.worklog-entry[data-v-5bcdcf4d]:not(:last-child) {\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  margin-bottom: 20px;\n}\n.dot[data-v-5bcdcf4d] {\n  background-color: #FF6D67;\n  height: 13px;\n  width: 13px;\n}\n.dot.yellow[data-v-5bcdcf4d] {\n  background-color: #FFA634;\n}\n.dot.green[data-v-5bcdcf4d] {\n  background-color: #34C08F;\n}", ""]);
 
 // exports
 
@@ -42675,7 +42689,10 @@ var render = function() {
                   }
                 },
                 [
-                  _c("span", { staticClass: "dot" }),
+                  _c("span", {
+                    staticClass: "dot br-100 dib",
+                    class: worklogDate.completionRate
+                  }),
                   _vm._v(" "),
                   _c("span", { staticClass: "db mb2" }, [
                     _vm._v(
@@ -51796,8 +51813,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/regis.freyd/htdocs/homas/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/regis.freyd/htdocs/homas/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/regis/htdocs/homas/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/regis/htdocs/homas/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
