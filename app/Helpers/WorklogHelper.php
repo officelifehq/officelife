@@ -41,7 +41,7 @@ class WorklogHelper
             'day' => $date->isoFormat('dddd'),
             'date' => DateHelper::getLongDayAndMonth($date),
             'friendlyDate' => $date->format('Y-m-d'),
-            'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1  ? 'current' : 'past'),
+            'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
             'completionRate' => $indicator,
             'numberOfEmployeesInTeam' => $numberOfEmployeesInTeam,
             'numberOfEmployeesWhoHaveLoggedWorklogs' => $numberOfEmployeesWhoHaveLoggedWorklogs,

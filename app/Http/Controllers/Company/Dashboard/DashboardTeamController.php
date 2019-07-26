@@ -34,7 +34,7 @@ class DashboardTeamController extends Controller
         // we display one team at a time. We need to check if a team has been
         // passed as a parameter. If not, we look for the first team the employee
         // is in.
-        if (!is_null($teamId)) {
+        if (! is_null($teamId)) {
             try {
                 $team = Team::where('company_id', $company->id)
                     ->where('id', $teamId)
@@ -49,9 +49,8 @@ class DashboardTeamController extends Controller
                 ]);
             }
 
-
             $exists = $employee->teams->contains($teamId);
-            if (!$exists) {
+            if (! $exists) {
                 return View::component('DashboardTeamEmptyState', [
                     'company' => $company,
                     'user' => auth()->user()->refresh(),
@@ -75,12 +74,12 @@ class DashboardTeamController extends Controller
 
         // the team is null at this stage, that means the URL didn't contain
         // a team ID, but the employee still is associated with at least one team
-        if (!isset($team)) {
+        if (! isset($team)) {
             $team = $teams->first();
         }
 
         // check if a specific date was required
-        if (!is_null($requestedDate)) {
+        if (! is_null($requestedDate)) {
             $requestedDate = Carbon::parse($requestedDate);
         } else {
             $requestedDate = Carbon::now();
@@ -96,7 +95,7 @@ class DashboardTeamController extends Controller
         $dates = collect([]);
         $lastFriday = $requestedDate->copy()->startOfWeek()->subDays(3);
         $dates->push(WorklogHelper::getInformationAboutTeam($team, $lastFriday));
-        for ($i = 0; $i < 5 ; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $day = $requestedDate->copy()->startOfWeek()->addDays($i);
             $dates->push(WorklogHelper::getInformationAboutTeam($team, $day));
         }
