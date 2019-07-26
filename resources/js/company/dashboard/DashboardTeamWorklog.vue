@@ -52,7 +52,7 @@
   <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
     <div class="pa3">
       <h2 class="mt0 fw5 f4">
-        🔨 What your team has done this week
+        🔨 {{ $t('dashboard.team_worklog_title') }}
       </h2>
       <div class="flex justify-around pa0 tc mt4 mb3 bb bb-gray pb3">
         <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib worklog-item relative pointer br2" :class="[{ selected: worklogDate == currentWorklogDate }, worklogDate.status]" @click.prevent="load(worklogDate)">
@@ -60,7 +60,7 @@
 
           <!-- Display of the day -->
           <span v-show="worklogDate.friendlyDate == currentDate" class="db mb2 f6">
-            Today
+            {{ $t('dashboard.team_worklog_today') }}
           </span>
           <span v-show="worklogDate.friendlyDate != currentDate" class="db mb2 f6">
             {{ worklogDate.day }}
@@ -73,7 +73,7 @@
         </div>
       </div>
       <p class="f6 mt0 mb3">
-        Team members who have logged their work: <span :class="currentWorklogDate.completionRate">{{ currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }}/{{ currentWorklogDate.numberOfEmployeesInTeam }}</span>
+        {{ $t('dashboard.team_worklog_stat') }} <span :class="currentWorklogDate.completionRate">{{ currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }}/{{ currentWorklogDate.numberOfEmployeesInTeam }}</span>
       </p>
       <div v-show="updatedWorklogEntries.length != 0">
         {{ }}
