@@ -1,18 +1,22 @@
 <style lang="scss" scoped>
 .worklog-item {
-  margin-right: 30px;
+  padding-left: 28px;
+  padding-top: 6px;
+  padding-right: 10px;
+  padding-bottom: 6px;
 
   &:last-child {
     margin-right: 0;
   }
 
   &.future {
-    color: #9E9E9E;
+    color: #9e9e9e;
   }
 
   &.current {
     font-weight: 500;
-    border-bottom: 2px solid black;
+    background-color: #fffaf5;
+    border: 1px solid #e6e6e6;
   }
 
   .pill {
@@ -31,16 +35,18 @@
 }
 
 .dot {
-  background-color: #FF6D67;
+  background-color: #ff6d67;
   height: 13px;
   width: 13px;
+  left: 9px;
+  top: 20px;
 
   &.yellow {
-    background-color: #FFA634;
+    background-color: #ffa634;
   }
 
   &.green {
-    background-color: #34C08F;
+    background-color: #34c08f;
   }
 }
 </style>
@@ -51,9 +57,9 @@
       <h2 class="mt0 fw5 f4">
         🔨 What your team has done this week
       </h2>
-      <div class="flex justify-center pa0 tc mv4">
-        <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib worklog-item relative pointer" :class="worklogDate.status" @click.prevent="load(worklogDate.friendlyDate)">
-          <span class="dot br-100 dib" :class="worklogDate.completionRate"></span>
+      <div class="flex justify-around pa0 tc mv4 bb bb-gray pb4">
+        <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib worklog-item relative pointer br2" :class="worklogDate.status" @click.prevent="load(worklogDate.friendlyDate)">
+          <span class="dot br-100 dib absolute" :class="worklogDate.completionRate"></span>
           <span class="db mb2">
             {{ worklogDate.day }}
           </span>

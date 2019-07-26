@@ -3962,6 +3962,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -5327,7 +5333,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".worklog-item[data-v-5bcdcf4d] {\n  margin-right: 30px;\n}\n.worklog-item[data-v-5bcdcf4d]:last-child {\n  margin-right: 0;\n}\n.worklog-item.future[data-v-5bcdcf4d] {\n  color: #9E9E9E;\n}\n.worklog-item.current[data-v-5bcdcf4d] {\n  font-weight: 500;\n  border-bottom: 2px solid black;\n}\n.worklog-item .pill.future[data-v-5bcdcf4d] {\n  display: none;\n}\n.worklog-entry[data-v-5bcdcf4d]:not(:last-child) {\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  margin-bottom: 20px;\n}\n.dot[data-v-5bcdcf4d] {\n  background-color: #FF6D67;\n  height: 13px;\n  width: 13px;\n}\n.dot.yellow[data-v-5bcdcf4d] {\n  background-color: #FFA634;\n}\n.dot.green[data-v-5bcdcf4d] {\n  background-color: #34C08F;\n}", ""]);
+exports.push([module.i, ".worklog-item[data-v-5bcdcf4d] {\n  padding-left: 28px;\n  padding-top: 6px;\n  padding-right: 10px;\n  padding-bottom: 6px;\n}\n.worklog-item[data-v-5bcdcf4d]:last-child {\n  margin-right: 0;\n}\n.worklog-item.future[data-v-5bcdcf4d] {\n  color: #9e9e9e;\n}\n.worklog-item.current[data-v-5bcdcf4d] {\n  font-weight: 500;\n  background-color: #fffaf5;\n  border: 1px solid #e6e6e6;\n}\n.worklog-item .pill.future[data-v-5bcdcf4d] {\n  display: none;\n}\n.worklog-entry[data-v-5bcdcf4d]:not(:last-child) {\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  margin-bottom: 20px;\n}\n.dot[data-v-5bcdcf4d] {\n  background-color: #ff6d67;\n  height: 13px;\n  width: 13px;\n  left: 9px;\n  top: 20px;\n}\n.dot.yellow[data-v-5bcdcf4d] {\n  background-color: #ffa634;\n}\n.dot.green[data-v-5bcdcf4d] {\n  background-color: #34c08f;\n}", ""]);
 
 // exports
 
@@ -42673,13 +42679,13 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "flex justify-center pa0 tc mv4" },
+            { staticClass: "flex justify-around pa0 tc mv4 bb bb-gray pb4" },
             _vm._l(_vm.worklogDates, function(worklogDate) {
               return _c(
                 "div",
                 {
                   key: worklogDate.friendlyDate,
-                  staticClass: "dib worklog-item relative pointer",
+                  staticClass: "dib worklog-item relative pointer br2",
                   class: worklogDate.status,
                   on: {
                     click: function($event) {
@@ -42690,7 +42696,7 @@ var render = function() {
                 },
                 [
                   _c("span", {
-                    staticClass: "dot br-100 dib",
+                    staticClass: "dot br-100 dib absolute",
                     class: worklogDate.completionRate
                   }),
                   _vm._v(" "),
