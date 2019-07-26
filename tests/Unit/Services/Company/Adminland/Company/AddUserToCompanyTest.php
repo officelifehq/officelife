@@ -13,7 +13,7 @@ class AddUserToCompanyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_adds_a_user_to_a_company()
+    public function it_adds_a_user_to_a_company() : void
     {
         $adminEmployee = $this->createAdministrator();
         $user = factory(User::class)->create([]);
@@ -35,7 +35,7 @@ class AddUserToCompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $adminEmployee = $this->createAdministrator();
         $user = factory(User::class)->create([]);
@@ -56,7 +56,7 @@ class AddUserToCompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $adminEmployee = $this->createAdministrator();
         factory(User::class)->create([]);

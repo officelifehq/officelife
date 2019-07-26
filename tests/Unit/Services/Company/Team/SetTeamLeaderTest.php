@@ -14,7 +14,7 @@ class SetTeamLeaderTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_sets_someone_as_team_leader()
+    public function it_sets_someone_as_team_leader() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -42,7 +42,7 @@ class SetTeamLeaderTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -66,7 +66,7 @@ class SetTeamLeaderTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([

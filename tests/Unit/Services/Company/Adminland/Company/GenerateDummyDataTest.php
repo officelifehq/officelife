@@ -15,7 +15,7 @@ class GenerateDummyDataTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_dummy_data()
+    public function it_creates_dummy_data() : void
     {
         $employee = $this->createAdministrator();
 
@@ -54,7 +54,7 @@ class GenerateDummyDataTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $user = factory(User::class)->create([]);
 

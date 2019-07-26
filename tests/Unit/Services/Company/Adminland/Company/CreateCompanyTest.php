@@ -13,7 +13,7 @@ class CreateCompanyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_company()
+    public function it_creates_a_company() : void
     {
         $author = factory(User::class)->create([]);
 
@@ -36,7 +36,7 @@ class CreateCompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $author = factory(User::class)->create([]);
 
@@ -54,7 +54,7 @@ class CreateCompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_populates_default_positions()
+    public function it_populates_default_positions() : void
     {
         $author = factory(User::class)->create([]);
 
@@ -73,7 +73,7 @@ class CreateCompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $author = factory(User::class)->create([]);
 

@@ -10,7 +10,7 @@ class HomeControllerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_loads_the_dashboard()
+    public function it_loads_the_dashboard() : void
     {
         $admin = $this->createAdministrator();
         $this->be($admin->user);

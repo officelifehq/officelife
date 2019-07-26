@@ -14,7 +14,7 @@ class UpdatePositionTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_a_position()
+    public function it_updates_a_position() : void
     {
         $position = factory(Position::class)->create([]);
         $employee = factory(Employee::class)->create([
@@ -43,7 +43,7 @@ class UpdatePositionTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $position = factory(Position::class)->create([]);
         $employee = factory(Employee::class)->create([
@@ -66,7 +66,7 @@ class UpdatePositionTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'title' => 'Assistant Regional Manager',

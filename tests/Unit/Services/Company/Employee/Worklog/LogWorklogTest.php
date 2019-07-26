@@ -16,7 +16,7 @@ class LogWorklogTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_a_worklog()
+    public function it_logs_a_worklog() : void
     {
         $dwight = factory(Employee::class)->create([]);
 
@@ -41,7 +41,7 @@ class LogWorklogTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_a_worklog_and_resets_the_counter_of_missed_worklog()
+    public function it_logs_a_worklog_and_resets_the_counter_of_missed_worklog() : void
     {
         $dwight = factory(Employee::class)->create([
             'consecutive_worklog_missed' => 4,
@@ -62,7 +62,7 @@ class LogWorklogTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $dwight = factory(Employee::class)->create([]);
 
@@ -86,7 +86,7 @@ class LogWorklogTest extends TestCase
     }
 
     /** @test */
-    public function it_doesnt_let_record_a_worklog_if_one_has_already_been_submitted_today()
+    public function it_doesnt_let_record_a_worklog_if_one_has_already_been_submitted_today() : void
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
@@ -107,7 +107,7 @@ class LogWorklogTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'name' => 'Selling team',

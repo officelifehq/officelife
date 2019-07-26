@@ -15,7 +15,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_removes_an_employee_from_a_team()
+    public function it_removes_an_employee_from_a_team() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -50,7 +50,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
@@ -91,7 +91,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $employee = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([

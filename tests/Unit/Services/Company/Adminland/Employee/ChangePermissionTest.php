@@ -13,7 +13,7 @@ class ChangePermissionTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_changes_permission()
+    public function it_changes_permission() : void
     {
         $employee = factory(Employee::class)->create([]);
 
@@ -38,7 +38,7 @@ class ChangePermissionTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $employee = factory(Employee::class)->create([]);
 
@@ -58,7 +58,7 @@ class ChangePermissionTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $employee = factory(Employee::class)->create([]);
 

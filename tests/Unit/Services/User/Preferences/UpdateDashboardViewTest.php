@@ -16,7 +16,7 @@ class UpdateDashboardViewTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_the_default_dashboard_view_parameter()
+    public function it_updates_the_default_dashboard_view_parameter() : void
     {
         $user = factory(User::class)->create([]);
         $employee = factory(Employee::class)->create([
@@ -40,7 +40,7 @@ class UpdateDashboardViewTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_when_the_user_doesnt_belong_to_the_company()
+    public function it_fails_when_the_user_doesnt_belong_to_the_company() : void
     {
         $user = factory(User::class)->create([]);
         $company = factory(Company::class)->create([]);
@@ -56,7 +56,7 @@ class UpdateDashboardViewTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'action' => 'account_created',

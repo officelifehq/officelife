@@ -14,7 +14,7 @@ class UserTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_has_many_employees()
+    public function it_has_many_employees() : void
     {
         $user = factory(User::class)->create([]);
         factory(Employee::class, 3)->create([
@@ -24,7 +24,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_notifications()
+    public function it_has_many_notifications() : void
     {
         $user = factory(User::class)->create([]);
         factory(Notification::class, 3)->create([
@@ -34,7 +34,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_name_attribute()
+    public function it_returns_the_name_attribute() : void
     {
         $user = new User;
         $user->email = 'dwight@dundermifflin.com';
@@ -60,7 +60,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_path_for_the_confirmation_link()
+    public function it_gets_the_path_for_the_confirmation_link() : void
     {
         $user = factory(User::class)->create([
             'verification_link' => 'dunder',
@@ -73,7 +73,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_employee_object_for_the_given_user()
+    public function it_gets_the_employee_object_for_the_given_user() : void
     {
         $employee = factory(Employee::class)->create([]);
 
@@ -84,7 +84,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_to_get_the_employee_object_is_user_is_not_part_of_the_company()
+    public function it_fails_to_get_the_employee_object_is_user_is_not_part_of_the_company() : void
     {
         $employee = factory(Employee::class)->create([]);
         $company = factory(Company::class)->create([]);

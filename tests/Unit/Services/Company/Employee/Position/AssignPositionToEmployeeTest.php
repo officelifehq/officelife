@@ -14,7 +14,7 @@ class AssignPositionToEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_assigns_a_position()
+    public function it_assigns_a_position() : void
     {
         $employee = factory(Employee::class)->create([]);
         $position = factory(Position::class)->create([
@@ -43,7 +43,7 @@ class AssignPositionToEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $employee = factory(Employee::class)->create([]);
         $position = factory(Position::class)->create([
@@ -72,7 +72,7 @@ class AssignPositionToEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'first_name' => 'Dwight',

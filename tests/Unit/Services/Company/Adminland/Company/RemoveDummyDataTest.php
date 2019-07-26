@@ -15,7 +15,7 @@ class RemoveDummyDataTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_removes_all_dummy_data()
+    public function it_removes_all_dummy_data() : void
     {
         $employee = factory(Employee::class)->create([]);
 
@@ -48,7 +48,7 @@ class RemoveDummyDataTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $employee = factory(Employee::class)->create([]);
 

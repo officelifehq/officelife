@@ -19,7 +19,7 @@ abstract class TestCase extends BaseTestCase
      * @param string $route
      * @param int $statusCode
      */
-    public function accessibleBy($employee, $permissionLevel, $route, $statusCode)
+    public function accessibleBy($employee, $permissionLevel, $route, $statusCode) : void
     {
         $this->be($employee->user);
         $employee->permission_level = $permissionLevel;
