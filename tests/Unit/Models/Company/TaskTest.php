@@ -13,14 +13,14 @@ class TaskTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_company()
+    public function it_belongs_to_a_company() : void
     {
         $task = factory(Task::class)->create([]);
         $this->assertTrue($task->company()->exists());
     }
 
     /** @test */
-    public function it_belongs_to_a_team()
+    public function it_belongs_to_a_team() : void
     {
         $team = factory(Team::class)->create([]);
         $task = factory(Task::class)->create([
@@ -31,7 +31,7 @@ class TaskTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_belongs_to_an_assignee()
+    public function it_belongs_to_an_assignee() : void
     {
         $employee = factory(Employee::class)->create([]);
         $task = factory(Task::class)->create([

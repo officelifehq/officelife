@@ -15,7 +15,7 @@ class RemoveStepFromFlowTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_removes_a_step_from_a_flow()
+    public function it_removes_a_step_from_a_flow() : void
     {
         $employee = factory(Employee::class)->create([]);
         $flow = factory(Flow::class)->create([
@@ -46,7 +46,7 @@ class RemoveStepFromFlowTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $employee = factory(Employee::class)->create([]);
         $flow = factory(Flow::class)->create([
@@ -72,7 +72,7 @@ class RemoveStepFromFlowTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $employee = factory(Employee::class)->create([]);
 

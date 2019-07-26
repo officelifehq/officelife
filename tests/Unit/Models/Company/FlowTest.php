@@ -12,14 +12,14 @@ class FlowTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_company()
+    public function it_belongs_to_a_company() : void
     {
         $flow = factory(Flow::class)->create([]);
         $this->assertTrue($flow->company()->exists());
     }
 
     /** @test */
-    public function it_has_many_steps()
+    public function it_has_many_steps() : void
     {
         $flow = factory(Flow::class)->create();
         factory(Step::class, 2)->create([

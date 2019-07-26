@@ -12,14 +12,14 @@ class PositionTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_company()
+    public function it_belongs_to_company() : void
     {
         $position = factory(Position::class)->create([]);
         $this->assertTrue($position->company()->exists());
     }
 
     /** @test */
-    public function it_belongs_to_many_employees()
+    public function it_belongs_to_many_employees() : void
     {
         $position = factory(Position::class)->create([]);
         factory(Employee::class, 3)->create([

@@ -14,7 +14,7 @@ class DestroyTeamTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_destroys_a_team()
+    public function it_destroys_a_team() : void
     {
         $team = factory(Team::class)->create([]);
         $employee = factory(Employee::class)->create([
@@ -35,7 +35,7 @@ class DestroyTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $team = factory(Team::class)->create([]);
         $employee = factory(Employee::class)->create([
@@ -57,7 +57,7 @@ class DestroyTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'name' => 'Selling team',

@@ -10,7 +10,8 @@ class SearchHelperTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_it_builds_a_sql_query()
+    /** @test */
+    public function it_builds_a_sql_query() : void
     {
         $array = [
             'column1',

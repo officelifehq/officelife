@@ -14,7 +14,7 @@ class AssignManagerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_assigns_a_manager()
+    public function it_assigns_a_manager() : void
     {
         $employee = factory(Employee::class)->create([]);
         $manager = factory(Employee::class)->create([
@@ -43,7 +43,7 @@ class AssignManagerTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $employee = factory(Employee::class)->create([]);
         $manager = factory(Employee::class)->create([
@@ -78,7 +78,7 @@ class AssignManagerTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'first_name' => 'Dwight',
@@ -89,7 +89,7 @@ class AssignManagerTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_employee_and_manager_are_the_same_person()
+    public function it_fails_if_employee_and_manager_are_the_same_person() : void
     {
         $employee = factory(Employee::class)->create([]);
 

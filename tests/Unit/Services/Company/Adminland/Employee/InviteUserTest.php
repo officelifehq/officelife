@@ -16,7 +16,7 @@ class InviteUserTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_invites_an_employee_to_become_a_user()
+    public function it_invites_an_employee_to_become_a_user() : void
     {
         $adminEmployee = $this->createAdministrator();
         $employee = factory(Employee::class)->create([
@@ -44,7 +44,7 @@ class InviteUserTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action()
+    public function it_logs_an_action() : void
     {
         $adminEmployee = $this->createAdministrator();
         $employee = factory(Employee::class)->create([
@@ -67,7 +67,7 @@ class InviteUserTest extends TestCase
     }
 
     /** @test */
-    public function it_raises_an_exception_if_invitation_link_has_already_been_accepted()
+    public function it_raises_an_exception_if_invitation_link_has_already_been_accepted() : void
     {
         $adminEmployee = $this->createAdministrator();
         $employee = factory(Employee::class)->create([
@@ -86,7 +86,7 @@ class InviteUserTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $adminEmployee = $this->createAdministrator();
         $employee = factory(Employee::class)->create([

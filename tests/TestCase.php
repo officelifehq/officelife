@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use App\Models\User\User;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -19,7 +18,7 @@ abstract class TestCase extends BaseTestCase
      * @param string $route
      * @param int $statusCode
      */
-    public function accessibleBy($employee, $permissionLevel, $route, $statusCode)
+    public function accessibleBy($employee, $permissionLevel, $route, $statusCode) : void
     {
         $this->be($employee->user);
         $employee->permission_level = $permissionLevel;

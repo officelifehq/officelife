@@ -12,14 +12,14 @@ class StepTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_flow()
+    public function it_belongs_to_a_flow() : void
     {
         $step = factory(Step::class)->create([]);
         $this->assertTrue($step->flow()->exists());
     }
 
     /** @test */
-    public function it_has_many_actions()
+    public function it_has_many_actions() : void
     {
         $step = factory(Step::class)->create();
         factory(Action::class, 2)->create([
@@ -30,7 +30,7 @@ class StepTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_calculates_the_real_number_of_days()
+    public function it_calculates_the_real_number_of_days() : void
     {
         $step = factory(Step::class)->create([
             'modifier' => 'same_day',

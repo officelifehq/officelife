@@ -11,7 +11,7 @@ class EmployeeControllerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_lets_you_see_the_list_of_employees_only_with_the_right_permissions()
+    public function it_lets_you_see_the_list_of_employees_only_with_the_right_permissions()  : void
     {
         $route = '/account/employees';
         $employee = factory(Employee::class)->create([]);
@@ -22,7 +22,7 @@ class EmployeeControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_lets_you_see_the_add_employee_screen_with_the_right_permissions()
+    public function it_lets_you_see_the_add_employee_screen_with_the_right_permissions() : void
     {
         $route = '/account/employees/create';
         $employee = factory(Employee::class)->create([]);

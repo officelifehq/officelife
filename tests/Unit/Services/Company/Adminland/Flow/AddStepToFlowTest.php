@@ -15,7 +15,7 @@ class AddStepToFlowTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_adds_a_step_to_a_flow()
+    public function it_adds_a_step_to_a_flow() : void
     {
         $employee = factory(Employee::class)->create([]);
         $flow = factory(Flow::class)->create([
@@ -48,7 +48,7 @@ class AddStepToFlowTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given()
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $employee = factory(Employee::class)->create([]);
         $flow = factory(Flow::class)->create([

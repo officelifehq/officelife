@@ -11,7 +11,7 @@ class EmployeeControllerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_lets_you_see_an_employee_with_the_right_permissions()
+    public function it_lets_you_see_an_employee_with_the_right_permissions() : void
     {
         $employee = factory(Employee::class)->create([]);
         $route = '/employees/'.$employee->id;

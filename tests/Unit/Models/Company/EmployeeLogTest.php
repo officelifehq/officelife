@@ -14,21 +14,21 @@ class EmployeeLogTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_company()
+    public function it_belongs_to_a_company() : void
     {
         $employeeLog = factory(EmployeeLog::class)->create([]);
         $this->assertTrue($employeeLog->company()->exists());
     }
 
     /** @test */
-    public function it_belongs_to_an_employee()
+    public function it_belongs_to_an_employee() : void
     {
         $employeeLog = factory(EmployeeLog::class)->create([]);
         $this->assertTrue($employeeLog->employee()->exists());
     }
 
     /** @test */
-    public function it_returns_the_date_attribute()
+    public function it_returns_the_date_attribute() : void
     {
         $employeeLog = factory(EmployeeLog::class)->create([
             'created_at' => '2017-01-22 17:56:03',
@@ -40,7 +40,7 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_object_attribute()
+    public function it_returns_the_object_attribute() : void
     {
         $employeeLog = factory(EmployeeLog::class)->create([]);
         $this->assertEquals(
@@ -50,7 +50,7 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_author_attribute()
+    public function it_returns_the_author_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
 
@@ -87,7 +87,7 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_team_attribute()
+    public function it_returns_the_team_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
         $team = factory(Team::class)->create([
@@ -127,7 +127,7 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_user_attribute()
+    public function it_returns_the_user_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
 
@@ -164,7 +164,7 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_manager_attribute()
+    public function it_returns_the_manager_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
 
@@ -201,7 +201,7 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_direct_report_attribute()
+    public function it_returns_the_direct_report_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
 
@@ -238,7 +238,7 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_position_attribute()
+    public function it_returns_the_position_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
         $position = factory(Position::class)->create([

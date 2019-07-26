@@ -158,7 +158,8 @@ class GenerateDummyData extends BaseService
     }
 
     /**
-     * Create fake worklog entries for random employees.
+     * Create fake worklog entries for all employees of the first team in the
+     * account.
      * This method does not use the dedicated service to add a worklog to an
      * employee because the service doesn't let people change the created_at
      * date (on purpose). Hence the only option is to record worklogs in the
@@ -170,21 +171,30 @@ class GenerateDummyData extends BaseService
     {
         $faker = Faker::create();
 
-        Employee::chunk(200, function ($employees) use ($faker) {
-            foreach ($employees as $employee) {
-                if (rand(1, 2) == 1) {
-                    for ($j = 0; $j < rand(1, 20); $j++) {
-                        $date = Carbon::instance($faker->dateTimeThisYear($max = 'now'))->toDateString();
+        $employees = Employee::whereHas('teams', function ($query) {
+            $query->where('name', 'Sales');
+        })->get();
 
-                        DB::table('worklog')->insert([
-                            'employee_id' => $employee->id,
-                            'content' => $faker->realText(50),
-                            'is_dummy' => true,
-                            'created_at' => $date,
-                        ]);
-                    }
+        foreach ($employees as $employee) {
+            $date = Carbon::now()->subMonths(3);
+
+            while (! $date->isSameDay(Carbon::now())) {
+                if (rand(1, 10) >= 8) {
+                    DB::table('worklog')->insert([
+                        'employee_id' => $employee->id,
+                        'content' => $faker->realText(50),
+                        'is_dummy' => true,
+                        'created_at' => $date,
+                    ]);
+
+                    $employee->consecutive_worklog_missed = 0;
+                } else {
+                    $employee->consecutive_worklog_missed = $employee->consecutive_worklog_missed + 1;
                 }
+
+                $employee->save();
+                $date->addDay();
             }
-        });
+        }
     }
 }

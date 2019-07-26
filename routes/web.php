@@ -28,8 +28,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index');
             Route::get('me', 'Company\\Dashboard\\DashboardMeController@index');
             Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index');
-            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index');
             Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index');
+
+            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index');
+            Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');
+            Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
 
             Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
         });
