@@ -17,7 +17,7 @@
         <ul class="mv2">
           @if(url()->current() != route('home'))
 					<li class="di header-menu-item pa2">
-						<a class="b no-underline no-color" href="">
+						<a class="b no-underline no-color" href="/">
 							<img class="relative" src="/img/header/icon-home.svg" />
 							Home
 						</a>

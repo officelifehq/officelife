@@ -3968,6 +3968,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -4004,19 +4009,28 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       updatedWorklogEntries: null,
-      updatedCurrentDate: null
+      updatedCurrentDate: null,
+      currentWorklogDate: {},
+      form: {
+        errors: []
+      }
     };
   },
   created: function created() {
     this.updatedWorklogEntries = this.worklogEntries;
+    this.currentWorklogDate = this.worklogDates.filter(function (item) {
+      return item.status == 'current';
+    })[0];
+    this.load(this.currentWorklogDate);
   },
   methods: {
-    load: function load(date) {
+    load: function load(worklogDate) {
       var _this = this;
 
-      axios.get('/' + this.company.id + '/dashboard/team/' + this.currentTeam + '/' + date).then(function (response) {
+      axios.get('/' + this.company.id + '/dashboard/team/' + this.currentTeam + '/' + worklogDate.friendlyDate).then(function (response) {
         _this.updatedWorklogEntries = response.data.worklogEntries;
         _this.updatedCurrentDate = response.data.currentDate;
+        _this.currentWorklogDate = worklogDate;
       })["catch"](function (error) {
         _this.form.errors = _.flatten(_.toArray(error.response.data));
       });
@@ -5333,7 +5347,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, ".worklog-item[data-v-5bcdcf4d] {\n  padding-left: 28px;\n  padding-top: 6px;\n  padding-right: 10px;\n  padding-bottom: 6px;\n}\n.worklog-item[data-v-5bcdcf4d]:last-child {\n  margin-right: 0;\n}\n.worklog-item.future[data-v-5bcdcf4d] {\n  color: #9e9e9e;\n}\n.worklog-item.current[data-v-5bcdcf4d] {\n  font-weight: 500;\n  background-color: #fffaf5;\n  border: 1px solid #e6e6e6;\n}\n.worklog-item .pill.future[data-v-5bcdcf4d] {\n  display: none;\n}\n.worklog-entry[data-v-5bcdcf4d]:not(:last-child) {\n  border-bottom-width: 1px;\n  border-bottom-style: solid;\n  margin-bottom: 20px;\n}\n.dot[data-v-5bcdcf4d] {\n  background-color: #ff6d67;\n  height: 13px;\n  width: 13px;\n  left: 9px;\n  top: 20px;\n}\n.dot.yellow[data-v-5bcdcf4d] {\n  background-color: #ffa634;\n}\n.dot.green[data-v-5bcdcf4d] {\n  background-color: #34c08f;\n}", ""]);
+exports.push([module.i, ".worklog-item[data-v-5bcdcf4d] {\n  padding-left: 28px;\n  padding-top: 6px;\n  padding-right: 10px;\n  padding-bottom: 6px;\n  border: 1px solid transparent;\n}\n.worklog-item.selected[data-v-5bcdcf4d] {\n  background-color: #fffaf5;\n  border: 1px solid #e6e6e6;\n}\n.worklog-item.future[data-v-5bcdcf4d] {\n  color: #9e9e9e;\n}\n.worklog-item.current[data-v-5bcdcf4d] {\n  font-weight: 500;\n}\n.dot[data-v-5bcdcf4d] {\n  background-color: #ff6d67;\n  height: 13px;\n  width: 13px;\n  left: 9px;\n  top: 20px;\n}\n.dot.yellow[data-v-5bcdcf4d] {\n  background-color: #ffa634;\n}\n.dot.green[data-v-5bcdcf4d] {\n  background-color: #34c08f;\n}\n.content[data-v-5bcdcf4d] {\n  background-color: #f3f9fc;\n  padding: 1px 10px;\n}\n.worklog-entry[data-v-5bcdcf4d]:not(:first-child) {\n  margin-top: 25px;\n}", ""]);
 
 // exports
 
@@ -5352,7 +5366,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "img[data-v-be8916ae] {\n  height: 22px;\n  top: -2px;\n  width: 22px;\n}\nspan[data-v-be8916ae] {\n  margin-left: 27px;\n}", ""]);
+exports.push([module.i, "img[data-v-be8916ae] {\n  height: 22px;\n  top: -2px;\n  width: 22px;\n}\nspan[data-v-be8916ae] {\n  margin-left: 29px;\n}", ""]);
 
 // exports
 
@@ -42679,18 +42693,23 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "flex justify-around pa0 tc mv4 bb bb-gray pb4" },
+            {
+              staticClass: "flex justify-around pa0 tc mt4 mb3 bb bb-gray pb3"
+            },
             _vm._l(_vm.worklogDates, function(worklogDate) {
               return _c(
                 "div",
                 {
                   key: worklogDate.friendlyDate,
                   staticClass: "dib worklog-item relative pointer br2",
-                  class: worklogDate.status,
+                  class: [
+                    { selected: worklogDate == _vm.currentWorklogDate },
+                    worklogDate.status
+                  ],
                   on: {
                     click: function($event) {
                       $event.preventDefault()
-                      return _vm.load(worklogDate.friendlyDate)
+                      return _vm.load(worklogDate)
                     }
                   }
                 },
@@ -42700,15 +42719,45 @@ var render = function() {
                     class: worklogDate.completionRate
                   }),
                   _vm._v(" "),
-                  _c("span", { staticClass: "db mb2" }, [
-                    _vm._v(
-                      "\n          " + _vm._s(worklogDate.day) + "\n        "
-                    )
-                  ]),
+                  _c(
+                    "span",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: worklogDate.friendlyDate == _vm.currentDate,
+                          expression: "worklogDate.friendlyDate == currentDate"
+                        }
+                      ],
+                      staticClass: "db mb2 f6"
+                    },
+                    [_vm._v("\n          Today\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: worklogDate.friendlyDate != _vm.currentDate,
+                          expression: "worklogDate.friendlyDate != currentDate"
+                        }
+                      ],
+                      staticClass: "db mb2 f6"
+                    },
+                    [
+                      _vm._v(
+                        "\n          " + _vm._s(worklogDate.day) + "\n        "
+                      )
+                    ]
+                  ),
                   _vm._v(" "),
                   _c("span", { staticClass: "db f7 mb1" }, [
                     _vm._v(
-                      "\n          " + _vm._s(worklogDate.name) + "\n        "
+                      "\n          " + _vm._s(worklogDate.date) + "\n        "
                     )
                   ])
                 ]
@@ -42716,6 +42765,19 @@ var render = function() {
             }),
             0
           ),
+          _vm._v(" "),
+          _c("p", { staticClass: "f6 mt0 mb3" }, [
+            _vm._v("Team members who have logged their work: "),
+            _c("span", { class: _vm.currentWorklogDate.completionRate }, [
+              _vm._v(
+                _vm._s(
+                  _vm.currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs
+                ) +
+                  "/" +
+                  _vm._s(_vm.currentWorklogDate.numberOfEmployeesInTeam)
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "div",
@@ -42742,14 +42804,13 @@ var render = function() {
               [
                 _c("small-name-and-avatar", {
                   attrs: {
-                    name:
-                      worklogEntry.first_name + " " + worklogEntry.last_name,
+                    name: worklogEntry.name,
                     avatar: worklogEntry.avatar
                   }
                 }),
                 _vm._v(" "),
                 _c("div", {
-                  staticClass: "lh-copy",
+                  staticClass: "lh-copy content mt2 br3",
                   domProps: { innerHTML: _vm._s(worklogEntry.content) }
                 })
               ],
@@ -51819,8 +51880,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/regis/htdocs/homas/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/regis/htdocs/homas/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/regis.freyd/htdocs/homas/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/regis.freyd/htdocs/homas/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

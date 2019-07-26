@@ -4,9 +4,11 @@
   padding-top: 6px;
   padding-right: 10px;
   padding-bottom: 6px;
+  border: 1px solid transparent;
 
-  &:last-child {
-    margin-right: 0;
+  &.selected {
+    background-color: #fffaf5;
+    border: 1px solid #e6e6e6;
   }
 
   &.future {
@@ -15,22 +17,6 @@
 
   &.current {
     font-weight: 500;
-    background-color: #fffaf5;
-    border: 1px solid #e6e6e6;
-  }
-
-  .pill {
-    &.future {
-      display: none;
-    }
-  }
-}
-
-.worklog-entry {
-  &:not(:last-child) {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    margin-bottom: 20px;
   }
 }
 
@@ -49,6 +35,17 @@
     background-color: #34c08f;
   }
 }
+
+.content {
+  background-color: #f3f9fc;
+  padding: 1px 10px;
+}
+
+.worklog-entry {
+  &:not(:first-child) {
+    margin-top: 25px;
+  }
+}
 </style>
 
 <template>
@@ -57,26 +54,36 @@
       <h2 class="mt0 fw5 f4">
         🔨 What your team has done this week
       </h2>
-      <div class="flex justify-around pa0 tc mv4 bb bb-gray pb4">
-        <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib worklog-item relative pointer br2" :class="worklogDate.status" @click.prevent="load(worklogDate.friendlyDate)">
+      <div class="flex justify-around pa0 tc mt4 mb3 bb bb-gray pb3">
+        <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib worklog-item relative pointer br2" :class="[{ selected: worklogDate == currentWorklogDate }, worklogDate.status]" @click.prevent="load(worklogDate)">
           <span class="dot br-100 dib absolute" :class="worklogDate.completionRate"></span>
-          <span class="db mb2">
+
+          <!-- Display of the day -->
+          <span v-show="worklogDate.friendlyDate == currentDate" class="db mb2 f6">
+            Today
+          </span>
+          <span v-show="worklogDate.friendlyDate != currentDate" class="db mb2 f6">
             {{ worklogDate.day }}
           </span>
+
+          <!--  -->
           <span class="db f7 mb1">
-            {{ worklogDate.name }}
+            {{ worklogDate.date }}
           </span>
         </div>
       </div>
+      <p class="f6 mt0 mb3">
+        Team members who have logged their work: <span :class="currentWorklogDate.completionRate">{{ currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }}/{{ currentWorklogDate.numberOfEmployeesInTeam }}</span>
+      </p>
       <div v-show="updatedWorklogEntries.length != 0">
         {{ }}
       </div>
       <div v-for="worklogEntry in updatedWorklogEntries" :key="worklogEntry.id" class="mb2 worklog-entry bb-gray">
         <small-name-and-avatar
-          :name="worklogEntry.first_name + ' ' + worklogEntry.last_name"
+          :name="worklogEntry.name"
           :avatar="worklogEntry.avatar"
         />
-        <div class="lh-copy" v-html="worklogEntry.content">
+        <div class="lh-copy content mt2 br3" v-html="worklogEntry.content">
         </div>
       </div>
     </div>
@@ -116,19 +123,28 @@ export default {
     return {
       updatedWorklogEntries: null,
       updatedCurrentDate: null,
+      currentWorklogDate: {},
+      form: {
+        errors: [],
+      },
     };
   },
 
   created() {
     this.updatedWorklogEntries = this.worklogEntries;
+    this.currentWorklogDate = this.worklogDates.filter(function (item) {
+      return (item.status == 'current');
+    })[0];
+    this.load(this.currentWorklogDate);
   },
 
   methods: {
-    load(date) {
-      axios.get('/' + this.company.id + '/dashboard/team/' + this.currentTeam + '/' + date)
+    load(worklogDate) {
+      axios.get('/' + this.company.id + '/dashboard/team/' + this.currentTeam + '/' + worklogDate.friendlyDate)
         .then(response => {
           this.updatedWorklogEntries= response.data.worklogEntries;
           this.updatedCurrentDate = response.data.currentDate;
+          this.currentWorklogDate = worklogDate;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

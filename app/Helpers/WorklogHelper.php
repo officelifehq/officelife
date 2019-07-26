@@ -19,7 +19,7 @@ class WorklogHelper
      * - > 80%: green
      *
      * @param Carbon $date
-     * @return string
+     * @return array
      */
     public static function getInformationAboutTeam(Team $team, Carbon $date) : array
     {
@@ -39,7 +39,7 @@ class WorklogHelper
 
         $data = [
             'day' => $date->isoFormat('dddd'),
-            'name' => DateHelper::getLongDayAndMonth($date),
+            'date' => DateHelper::getLongDayAndMonth($date),
             'friendlyDate' => $date->format('Y-m-d'),
             'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1  ? 'current' : 'past'),
             'completionRate' => $indicator,

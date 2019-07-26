@@ -42,7 +42,7 @@ class WorklogHelperTest extends TestCase
         $this->assertIsArray($response);
 
         $this->assertArrayHasKey('day', $response);
-        $this->assertArrayHasKey('name', $response);
+        $this->assertArrayHasKey('date', $response);
         $this->assertArrayHasKey('friendlyDate', $response);
         $this->assertArrayHasKey('status', $response);
         $this->assertArrayHasKey('completionRate', $response);

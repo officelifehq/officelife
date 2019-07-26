@@ -5,7 +5,7 @@ img {
   width: 22px;
 }
 span {
-  margin-left: 27px;
+  margin-left: 29px;
 }
 </style>
 
