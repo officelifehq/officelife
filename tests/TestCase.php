@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use App\Models\User\User;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 

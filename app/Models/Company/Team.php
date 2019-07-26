@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use Carbon\Carbon;
 use App\Traits\Searchable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;

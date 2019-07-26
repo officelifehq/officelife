@@ -27,9 +27,7 @@ class WorklogHelper
         $numberOfEmployeesWhoHaveLoggedWorklogs = count($team->worklogsForDate($date));
         $percent = $numberOfEmployeesWhoHaveLoggedWorklogs * 100 / $numberOfEmployeesInTeam;
 
-        if ($percent < 20) {
-            $indicator = 'red';
-        }
+        $indicator = 'red';
 
         if ($percent >= 20 && $percent <= 80) {
             $indicator = 'yellow';

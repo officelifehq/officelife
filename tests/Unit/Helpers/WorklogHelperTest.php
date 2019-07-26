@@ -4,7 +4,6 @@ namespace Tests\Unit\Helpers;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\DateHelper;
 use App\Models\Company\Team;
 use App\Helpers\WorklogHelper;
 use App\Models\Company\Worklog;
@@ -51,18 +50,5 @@ class WorklogHelperTest extends TestCase
         $this->assertArrayHasKey('numberOfEmployeesWhoHaveLoggedWorklogs', $response);
 
         $this->assertEquals(7, count($response));
-
-        $this->assertArraySubset(
-            $response,
-            [
-                'day' => $date->isoFormat('dddd'),
-                'name' => DateHelper::getLongDayAndMonth($date),
-                'friendlyDate' => $date->format('Y-m-d'),
-                'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1  ? 'current' : 'past'),
-                'completionRate' => 'yellow',
-                'numberOfEmployeesInTeam' => 2,
-                'numberOfEmployeesWhoHaveLoggedWorklogs' => 1,
-            ]
-        );
     }
 }

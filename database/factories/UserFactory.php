@@ -16,7 +16,9 @@ $factory->define(App\Models\User\User::class, function (Faker $faker) {
 
 $factory->define(App\Models\User\Notification::class, function (Faker $faker) {
     return [
-        'user_id' => factory(App\Models\User\User::class)->create()->id,
+        'user_id' => function () {
+            return factory(App\Models\User\User::class)->create()->id;
+        },
         'action' => 'notification',
         'content' => '{}',
     ];
