@@ -75,8 +75,8 @@
       <p class="f6 mt0 mb3">
         {{ $t('dashboard.team_worklog_stat') }} <span :class="currentWorklogDate.completionRate">{{ currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }}/{{ currentWorklogDate.numberOfEmployeesInTeam }}</span>
       </p>
-      <div v-show="updatedWorklogEntries.length != 0">
-        {{ }}
+      <div v-show="updatedWorklogEntries.length == 0" class="tc mt2">
+        😢 No one has posted a status
       </div>
       <div v-for="worklogEntry in updatedWorklogEntries" :key="worklogEntry.id" class="mb2 worklog-entry bb-gray">
         <small-name-and-avatar
