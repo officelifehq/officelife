@@ -47,8 +47,8 @@
         "linters": {
             "resources/**/*.{css, scss}": [
                 "prettier --write",
-                "git add",
-                "yarn run production"
+                "yarn run production",
+                "git add"
             ],
             "*.php": [
                 "php ./vendor/bin/php-cs-fixer fix --config .php_cs",
@@ -56,8 +56,8 @@
             ],
             "*.vue": [
                 "eslint --ext .js,.vue resources/js/ --fix",
-                "git add",
-                "yarn run production"
+                "yarn run production",
+                "git add"
             ]
         }
     },
