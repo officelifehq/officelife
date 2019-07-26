@@ -12,4 +12,5 @@ return [
     'team_worklog_title' => 'What your team has done this week',
     'team_worklog_today' => 'Today',
     'team_worklog_stat' => 'Team members who have logged their work:',
+    'team_worklog_blank' => 'No one has posted a status',
 ];
