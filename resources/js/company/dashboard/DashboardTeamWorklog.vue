@@ -63,7 +63,6 @@
       <div class="flex-ns justify-around pa0 tc mt4 mb3 bb bb-gray pb3">
         <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib-ns worklog-item relative pointer br2 db" :class="[{ selected: worklogDate == currentWorklogDate }, worklogDate.status]" @click.prevent="load(worklogDate)">
           <span class="dot br-100 dib absolute" :class="worklogDate.completionRate"></span>
-
           <!-- Display of the day -->
           <span v-show="worklogDate.friendlyDate == currentDate" class="db-ns dib mb2 f6">
             {{ $t('dashboard.team_worklog_today') }}
@@ -141,6 +140,13 @@ export default {
     this.currentWorklogDate = this.worklogDates.filter(function (item) {
       return (item.status == 'current');
     })[0];
+
+    if (typeof this.currentWorklogDate === 'undefined') {
+      // that means we are on either Saturday or Sunday, as it didn't find any
+      // other day in the work week. so we need to load the Friday of the current
+      // week
+      this.currentWorklogDate = this.worklogDates[this.worklogDates.length - 1];
+    }
     this.load(this.currentWorklogDate);
   },
 
