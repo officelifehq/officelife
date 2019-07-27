@@ -92,6 +92,8 @@ class DashboardTeamController extends Controller
         ]);
 
         // building the collection containing the days with the worklogs
+        // by default, the view should display the following days
+        // Last Fri/M/T/W/T/F
         $dates = collect([]);
         $lastFriday = $requestedDate->copy()->startOfWeek()->subDays(3);
         $dates->push(WorklogHelper::getInformationAboutTeam($team, $lastFriday));
