@@ -10,7 +10,7 @@
 		<div class="cf">
 			<div class="fl w-10 pa2">
 				<a class="relative header-logo" href="">
-          <img src="/img/logo.svg" height="30" />
+          <img src="/img/logo.svg" alt="logo" height="30" />
         </a>
 			</div>
 			<div class="fl w-70 tc">
@@ -18,13 +18,13 @@
           @if(url()->current() != route('home'))
 					<li class="di header-menu-item pa2">
 						<a class="b no-underline no-color" href="/">
-							<img class="relative" src="/img/header/icon-home.svg" />
+							<img class="relative" alt="link to homepage" src="/img/header/icon-home.svg" />
 							Home
 						</a>
 					</li>
 					<li class="di header-menu-item pa2">
 						<a class="b no-underline no-color" href="">
-							<img class="relative" src="/img/header/icon-find.svg" />
+							<img class="relative" alt="link to search" src="/img/header/icon-find.svg" />
 							Find
 						</a>
 					</li>
@@ -84,7 +84,7 @@
     </div>
     <div class="absolute pa2 header-logo">
       <a href="">
-          <img src="/img/logo.svg" width="30" height="27" />
+          <img src="/img/logo.svg" alt="logo" width="30" height="27" />
       </a>
     </div>
 	</div>
