@@ -1,23 +1,42 @@
 # Introduction
 
-## Homas in 1 minute
+## What is Homas?
 
-Homas is a new kind of human resource software. Unlike other robotic HR tools, it has been designed to mimic what happens in the real world. Its main goals are to:
+Homas is a different kind of human resource software. Unlike other soulless HR tools, it has been designed to mimic and represent what happens in the real world. Its main goals are to:
+
 - help managers be more empathetic,
 - help companies be better at managing people's dreams and ambitions,
-- help employees communicate with their employers,
-- give users and companies a complete control over their data,
-- reduce the use of LinkedIn and all the bullshit associated with it in today's world.
+- help employees better communicate with their employers.
 
-Homas is open source and can be installed on a server that you own if you so desire.
+Homas aims to be a combination of softwares like BambooHR, Officevibe and Monica – although in a single application and at a much more reasonable price.
 
-In terms of user experience, the software aims to be simple to use with the minimum amount of configuration. Design is not a priority - user experience is.
+At a high level, Homas allows a company to:
 
-To use the software, users have to pay a fair fixed monthly fee, regardless of the size of your team. We do not sell your data, don't use ads nor use external analytical services. You can export your data at anytime or use the API without restrictions.
+*
+*
+*
+*
+*
 
-Technically, the software is developed with boring, proven, predictible, easy to maintain technologies that make the tool fast and secure. We want to create a product useful for our users, not something that is technologically exciting.
+It also gives users and companies a complete control over their data. Homas is open source and can be installed on your own server if you so desire.
 
-## Homas in 10 minutes
+To use the software, companies have to pay a fair fixed annual fee, regardless of the size of your team. We do not sell your data, don't use ads nor use external analytical services. You can export your data at anytime or use the API without restrictions.
+
+In terms of user experience, the software aims to be simple to use with the minimum amount of configuration. The design itself is not a priority - user experience is.
+
+Technically, the software is developed with boring, proven, predictible, easy to maintain technologies that make the tool fast and secure. We want to create a product useful for users and companies, not something that is technologically exciting.
+
+## Why is Homas different?
+
+## Pricing and open source
+
+##
+
+# Development
+
+# Hosting Homas on your own server
+
+# Homas in 10 minutes
 
 Homas is built around the notion that while companies own data about their employees, users have complete control over which data they give to companies.
 
