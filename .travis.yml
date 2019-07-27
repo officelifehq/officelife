@@ -15,6 +15,8 @@ before_script:
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml
   - vendor/bin/psalm --show-info=false
+  # other script steps might be done before running the actual analysis
+  - sonar-scanner
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
@@ -23,3 +25,9 @@ after_success:
 cache:
   directories:
     - $HOME/.composer/cache/files
+
+addons:
+  sonarcloud:
+    organization: "homas" # the key of the org you chose at step #3
+    token:
+      secure: "aRg9kbvEySyVu+HVQoUw6cYlYYzHifSyhxoSUOm+K7sEKQvRhMbKWTmD9W93Tt7cdINqbwS6MCmWvkxjLtW5rrECa7fb/FMVc9mk092jE1SZswc2PpCdZtFtdLvxImCXEbexmIPxAbmcpHSXVAK14ym84CJ9vdAN/jQ5pp03N2qusW9DKzvrg2sgReHuzTu+2IpAIJLlJO9WKvn9Jm/LH+BjlaBvmC7qQ0iKTIoPSn0UsDAj/myWkqU37kMdKKNvW0yqcFX66IMCErx0KmjRCc9SigsrQZ2mXTldlruauTkBs/QhtRYFDutdqV1Z6PpyLQv/wFi7cRMWabLSyAk2uubIij/kvFjnl1sHJ+7LN45jKC77ywyBXA15a6gnyVhHCgyIDzBP4c//A16aXtmNrVZW9REqAWxwCkcyO9t17t27hVRnSLvIiSRalBRe4ZSQXLi2aSJZwWnbQQqWs6htVmB3eumGVJdjsbkeml/kxk8kNEs/ca89IjK9e8RKTZO5G3NEuhBjonfb+itgSHG2lVGXWSsUb4nFTD64LHTk5/12/pT1kBBRgq8f0EQ/fgwHM9iWfdM4mMNgSoBngJDD7eSh5kWbMYBfDc7Z1gn+tT4O4rwxMaHQ9M5oYspYUcGZgO/Rbv7V65e8yBCPyFOicRm9biif/5fE5U6N3Yw4sLg=" # encrypted value of your token
