@@ -27,6 +27,14 @@
         </div>
       </div>
 
+      <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
+        <ul>
+          <li v-for="team in teams" :key="team.id">
+            {{ team.name }}
+          </li>
+        </ul>
+      </div>
+
       <!-- When there is no team associated with this person -->
       <div v-show="teams.length == 0" class="cf mw7 center br3 mb3 bg-white box">
         <div class="pa3 tc">
