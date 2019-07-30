@@ -1,4 +1,17 @@
 <style lang="scss" scoped>
+.team-item {
+  border-width: 1px;
+  border-color: transparent;
+
+  &.selected {
+    background-color: #e1effd;
+    color: #3682df;
+  }
+
+  &:not(:last-child) {
+    margin-right: 15px;
+  }
+}
 </style>
 
 <template>
@@ -27,9 +40,12 @@
         </div>
       </div>
 
-      <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
-        <ul>
-          <li v-for="team in teams" :key="team.id">
+      <div v-show="teams.length > 1" class="cf mw7 center mb3">
+        <ul class="list mt0 mb3 pa0 center">
+          <li class="di mr2 black-30">
+            {{ $t('dashboard.team_viewing') }}
+          </li>
+          <li v-for="team in teams" :key="team.id" class="di team-item pa2 br2 pointer" :class="{ selected: currentTeam == team.id }" @click.prevent="loadTeam(team)">
             {{ team.name }}
           </li>
         </ul>
@@ -38,7 +54,7 @@
       <!-- When there is no team associated with this person -->
       <div v-show="teams.length == 0" class="cf mw7 center br3 mb3 bg-white box">
         <div class="pa3 tc">
-          You are not associated with a team yet.
+          {{ $t('dashboard.team_no_team_yet') }}
         </div>
       </div>
 
@@ -132,5 +148,12 @@ export default {
       default: 0,
     },
   },
+
+  methods: {
+    loadTeam(team) {
+      window.location.href = '/' + this.company.id + '/dashboard/team/' + team.id;
+    },
+
+  }
 };
 </script>

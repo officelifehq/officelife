@@ -13,6 +13,10 @@
 
   &.future {
     color: #9e9e9e;
+
+    .dot {
+      background-color: #9e9e9e;
+    }
   }
 
   &.current {

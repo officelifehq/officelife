@@ -22,14 +22,16 @@
 
         <!-- Shows the editor -->
         <div v-show="showEditor" class="">
-          <editor @update="updateText($event)" />
-          <p class="db lh-copy f6">
-            👋 {{ $t('dashboard.worklog_entry_description') }}
-          </p>
-          <p>
-            <a class="btn primary mr2" @click.prevent="store()">{{ $t('app.save') }}</a>
-            <a class="pointer" @click.prevent="showEditor = false">{{ $t('app.cancel') }}</a>
-          </p>
+          <form @submit.prevent="store()">
+            <editor @update="updateText($event)" />
+            <p class="db lh-copy f6">
+              👋 {{ $t('dashboard.worklog_entry_description') }}
+            </p>
+            <p>
+              <loading-button :classes="'btn primary w-auto-ns w-100 mb2 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" />
+              <a class="pointer" @click.prevent="showEditor = false">{{ $t('app.cancel') }}</a>
+            </p>
+          </form>
         </div>
       </div>
     </div>
@@ -66,6 +68,7 @@ export default {
       },
       updatedWorklogCount: 0,
       updatedEmployee: null,
+      loadingState: '',
     };
   },
 
@@ -80,6 +83,8 @@ export default {
     },
 
     store() {
+      this.loadingState = 'loading';
+
       axios.post('/' + this.company.id + '/dashboard/worklog', this.form)
         .then(response => {
           this.$snotify.success(this.$t('dashboard.worklog_added'), {
@@ -92,8 +97,10 @@ export default {
           this.updatedWorklogCount = this.updatedWorklogCount + 1;
           this.updatedEmployee = response.data.data;
           this.showEditor = false;
+          this.loadingState = null;
         })
         .catch(error => {
+          this.loadingState = null;
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },

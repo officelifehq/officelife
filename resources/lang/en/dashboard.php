@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'team_no_team_yet' => 'You are not associated with a team yet.',
+    'team_not_allowed' => 'You are not allowed to view this team.',
+    'team_dont_exist' => 'This team does not exist.',
+    'team_viewing' => 'Viewing',
+
     'worklog_title' => 'What have you done today?',
     'worklog_placeholder' => 'Let your coworkers know what you’ve been up to today.',
     'worklog_already_logged' => 'You have already logged your work today.',
