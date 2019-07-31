@@ -15,7 +15,7 @@
     "devDependencies": {
         "axios": "^0.18",
         "cross-env": "^5.1",
-        "cypress": "3.4.0",
+        "cypress": "3.4.1",
         "eslint": "^5.15.3",
         "eslint-plugin-vue": "^5.2.2",
         "husky": "^2.7.0",

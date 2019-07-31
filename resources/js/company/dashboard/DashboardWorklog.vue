@@ -17,18 +17,18 @@
           <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
         </p>
         <p v-show="!showEditor && !updatedEmployee.has_logged_worklog_today" class="ma0">
-          <a class="btn btn-secondary dib" @click.prevent="showEditor = true">{{ $t('dashboard.worklog_cta') }}</a>
+          <a class="btn btn-secondary dib" data-cy="log-worklog-cta" @click.prevent="showEditor = true">{{ $t('dashboard.worklog_cta') }}</a>
         </p>
 
         <!-- Shows the editor -->
         <div v-show="showEditor" class="">
           <form @submit.prevent="store()">
-            <editor @update="updateText($event)" />
+            <editor :cypress-selector="'worklog-content'" @update="updateText($event)" />
             <p class="db lh-copy f6">
               👋 {{ $t('dashboard.worklog_entry_description') }}
             </p>
-            <p>
-              <loading-button :classes="'btn primary w-auto-ns w-100 mb2 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" />
+            <p class="ma0">
+              <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-log-worklog'" />
               <a class="pointer" @click.prevent="showEditor = false">{{ $t('app.cancel') }}</a>
             </p>
           </form>

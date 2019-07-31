@@ -4,7 +4,7 @@ describe('Employee - Assign positions', function () {
 
     cy.createCompany()
 
-    cy.createTeam()
+    cy.createTeam('product')
 
     cy.visit('/1/employees/1')
 
@@ -28,7 +28,7 @@ describe('Employee - Assign positions', function () {
 
     cy.createCompany()
 
-    cy.createTeam()
+    cy.createTeam('product')
 
     cy.changePermission(1, 200)
     cy.visit('/1/employees/1')

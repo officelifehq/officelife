@@ -22,12 +22,14 @@ Cypress.Commands.add('createCompany', () => {
 })
 
 // Create a team called "product"
-Cypress.Commands.add('createTeam', () => {
+Cypress.Commands.add('createTeam', (productName) => {
   cy.visit('/1/account')
 
   cy.get('[data-cy=team-admin-link]').click()
   cy.get('[data-cy=add-team-button]').click()
-  cy.get('input[name=name]').type('product')
+
+  cy.get('input[name=name]').type(productName)
+
   cy.get('[data-cy=submit-add-team-button]').click()
 })
 

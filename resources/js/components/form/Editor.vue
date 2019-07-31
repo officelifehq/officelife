@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <editor-content class="editor__content" :editor="editor" />
+    <editor-content class="editor__content" :editor="editor" :data-cy="cypressSelector" />
   </div>
 </template>
 
@@ -34,6 +34,14 @@ export default {
     EditorContent,
     //Icon,
   },
+
+  props: {
+    cypressSelector: {
+      type: String,
+      default: '',
+    },
+  },
+
   data() {
     return {
       editor: new Editor({
