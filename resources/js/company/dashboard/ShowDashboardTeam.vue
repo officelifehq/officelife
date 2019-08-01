@@ -1,4 +1,17 @@
 <style lang="scss" scoped>
+.team-item {
+  border-width: 1px;
+  border-color: transparent;
+
+  &.selected {
+    background-color: #e1effd;
+    color: #3682df;
+  }
+
+  &:not(:last-child) {
+    margin-right: 15px;
+  }
+}
 </style>
 
 <template>
@@ -15,7 +28,7 @@
           <a :href="'/' + company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(user.default_dashboard_view == 'me')}">
             Me
           </a>
-          <a :href="'/' + company.id + '/dashboard/team'" class="f6 fl ph3 pv2 pointer dib" :class="{'selected':(user.default_dashboard_view == 'team')}">
+          <a :href="'/' + company.id + '/dashboard/team'" class="f6 fl ph3 pv2 pointer dib" :class="{'selected':(user.default_dashboard_view == 'team')}" data-cy="dashboard-team-tab">
             My team
           </a>
           <a :href="'/' + company.id + '/dashboard/company'" class="f6 fl ph3 pv2 dib" :class="{'selected':(user.default_dashboard_view == 'company')}">
@@ -27,10 +40,23 @@
         </div>
       </div>
 
+      <div v-show="teams.length > 1" class="cf mw7 center mb3">
+        <ul class="list mt0 mb3 pa0 center">
+          <li class="di mr2 black-30">
+            {{ $t('dashboard.team_viewing') }}
+          </li>
+          <li v-for="team in teams" :key="team.id" class="di team-item pa2 br2 pointer" :class="{ selected: currentTeam == team.id }" :data-cy="'team-selector-' + team.id "
+              @click.prevent="loadTeam(team)"
+          >
+            {{ team.name }}
+          </li>
+        </ul>
+      </div>
+
       <!-- When there is no team associated with this person -->
       <div v-show="teams.length == 0" class="cf mw7 center br3 mb3 bg-white box">
         <div class="pa3 tc">
-          You are not associated with a team yet.
+          {{ $t('dashboard.team_no_team_yet') }}
         </div>
       </div>
 
@@ -51,6 +77,8 @@
             <li>team agenda</li>
             <li>anniversaires</li>
             <li>latest news</li>
+            <li>view who is at work or from home</li>
+            <li>managers: view direct reports</li>
             <li>manager: view time off requests</li>
             <li>manager: view morale</li>
             <li>manager: expense approval</li>
@@ -122,5 +150,12 @@ export default {
       default: 0,
     },
   },
+
+  methods: {
+    loadTeam(team) {
+      window.location.href = '/' + this.company.id + '/dashboard/team/' + team.id;
+    },
+
+  }
 };
 </script>

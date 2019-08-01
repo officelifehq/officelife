@@ -15,6 +15,9 @@ before_script:
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml
   - vendor/bin/psalm --show-info=false
+  - vendor/bin/php-cs-fixer fix
+  - php artisan code:analyse
+
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)

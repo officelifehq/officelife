@@ -31,7 +31,7 @@
 
           <p class="relative">
             <span class="dib mb3 di-l" :class="positions.length == 0 ? 'white' : ''">{{ $tc('account.positions_number_positions', positions.length, { company: company.name, count: positions.length}) }}</span>
-            <a class="btn primary absolute-l relative dib-l db right-0" data-cy="add-position-button" @click.prevent="modal = true">{{ $t('account.positions_cta') }}</a>
+            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-position-button" @click.prevent="modal = true">{{ $t('account.positions_cta') }}</a>
           </p>
 
           <!-- MODAL TO ADD A POSITION -->

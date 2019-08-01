@@ -45,7 +45,7 @@ class DashboardTeamController extends Controller
                     'user' => auth()->user()->refresh(),
                     'employee' => new EmployeeResource($employee),
                     'notifications' => auth()->user()->notifications->where('read', false)->take(5),
-                    'message' => 'This team does not exist',
+                    'message' => trans('dashboard.team_dont_exist'),
                 ]);
             }
 
@@ -56,7 +56,7 @@ class DashboardTeamController extends Controller
                     'user' => auth()->user()->refresh(),
                     'employee' => new EmployeeResource($employee),
                     'notifications' => auth()->user()->notifications->where('read', false)->take(5),
-                    'message' => 'You are not allowed to view this team',
+                    'message' => trans('dashboard.not_allowed'),
                 ]);
             }
         }
@@ -68,7 +68,7 @@ class DashboardTeamController extends Controller
                 'user' => auth()->user()->refresh(),
                 'employee' => new EmployeeResource($employee),
                 'notifications' => auth()->user()->notifications->where('read', false)->take(5),
-                'message' => 'You are not associated with a this team yet',
+                'message' => trans('dashboard.team_no_team_yet'),
             ]);
         }
 

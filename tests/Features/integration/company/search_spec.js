@@ -4,7 +4,7 @@ describe('Company', function () {
 
     cy.createCompany()
 
-    cy.createTeam()
+    cy.createTeam('product')
 
     // Find a team called product
     cy.get('[data-cy=header-find-link]').click()

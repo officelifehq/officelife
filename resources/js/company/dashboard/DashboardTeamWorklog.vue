@@ -13,6 +13,10 @@
 
   &.future {
     color: #9e9e9e;
+
+    .dot {
+      background-color: #9e9e9e;
+    }
   }
 
   &.current {
@@ -25,7 +29,7 @@
   height: 13px;
   width: 13px;
   left: 9px;
-  top: 20px;
+  top: 18px;
 
   @media (max-width: 480px) {
     left: -4px;
@@ -64,10 +68,10 @@
         <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib-ns worklog-item relative pointer br2 db" :class="[{ selected: worklogDate == currentWorklogDate }, worklogDate.status]" @click.prevent="load(worklogDate)">
           <span class="dot br-100 dib absolute" :class="worklogDate.completionRate"></span>
           <!-- Display of the day -->
-          <span v-show="worklogDate.friendlyDate == currentDate" class="db-ns dib mb2 f6">
+          <span v-show="worklogDate.friendlyDate == currentDate" class="db-ns dib mb1 f6">
             {{ $t('dashboard.team_worklog_today') }}
           </span>
-          <span v-show="worklogDate.friendlyDate != currentDate" class="db-ns dib mb2 f6">
+          <span v-show="worklogDate.friendlyDate != currentDate" class="db-ns dib mb1 f6">
             {{ worklogDate.day }}
           </span>
 

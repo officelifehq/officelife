@@ -1,28 +1,29 @@
 .btn {
-  background: #fff;
-  border-radius: 3px;
+  background: linear-gradient(0deg, rgba(250,251,253,1) 0%, rgba(255,255,255,1) 100%);
+  border-radius: 5px;
   border: 1px solid #d3d3d9;
   color: #727184;
   cursor: pointer;
-  padding: 8px 16px;
+  padding: 8px 12px;
   text-align: center;
 
   &:hover {
     background-color: #d7e0e9;
-    color: #0052cc;
+    border-color: #b1aaaa;
+    color: #4d545f;
     text-decoration: none;
     border-bottom-width: 1px;
   }
 
   &.add {
-    background-color: #e9f3f3;
-    border-color: #98bbbb;
-    color: #218b8a;
+    background: #0093eb;
+    border-color: #0093eb;
+    color: #fff;
 
     &:hover {
-      background-color: #e9f3f3;
-      border-color: #218b8a;
-      color: #0052cc;
+      background-color: #1486ca;
+      border-color: #076ca9;
+      color: #fff;
     }
   }
 
@@ -55,6 +56,11 @@
 
   span {
     background-color: #f6fafd;
+  }
+
+  a {
+    right: 0;
+    top: -8px;
   }
 }
 

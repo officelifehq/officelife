@@ -8,29 +8,42 @@
         <h2 class="mt0 fw5 f4">
           🔨 {{ $t('dashboard.worklog_title') }}
         </h2>
+
+        <!-- employee hasn't logged yet -->
         <p v-show="!showEditor && !updatedEmployee.has_logged_worklog_today" class="db">
           <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_placeholder') }}</span>
           <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
         </p>
-        <p v-show="!showEditor && updatedEmployee.has_logged_worklog_today" class="db mb0">
+
+        <!-- employee has already logged -->
+        <p v-show="!showEditor && updatedEmployee.has_logged_worklog_today && !successMessage" class="db mb0">
           <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_already_logged') }}</span>
           <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
         </p>
+
+        <!-- button to log the worklog -->
         <p v-show="!showEditor && !updatedEmployee.has_logged_worklog_today" class="ma0">
-          <a class="btn btn-secondary dib" @click.prevent="showEditor = true">{{ $t('dashboard.worklog_cta') }}</a>
+          <a class="btn btn-secondary dib" data-cy="log-worklog-cta" @click.prevent="showEditor = true">{{ $t('dashboard.worklog_cta') }}</a>
         </p>
 
         <!-- Shows the editor -->
         <div v-show="showEditor" class="">
-          <editor @update="updateText($event)" />
-          <p class="db lh-copy f6">
-            👋 {{ $t('dashboard.worklog_entry_description') }}
-          </p>
-          <p>
-            <a class="btn primary mr2" @click.prevent="store()">{{ $t('app.save') }}</a>
-            <a class="pointer" @click.prevent="showEditor = false">{{ $t('app.cancel') }}</a>
-          </p>
+          <form @submit.prevent="store()">
+            <editor :cypress-selector="'worklog-content'" @update="updateText($event)" />
+            <p class="db lh-copy f6">
+              👋 {{ $t('dashboard.worklog_entry_description') }}
+            </p>
+            <p class="ma0">
+              <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-log-worklog'" />
+              <a class="pointer" @click.prevent="showEditor = false">{{ $t('app.cancel') }}</a>
+            </p>
+          </form>
         </div>
+
+        <!-- employee just logged the worklog, we display the success message -->
+        <p v-show="successMessage" class="db mb3 mt4 tc">
+          {{ $t('dashboard.worklog_added') }}
+        </p>
       </div>
     </div>
   </div>
@@ -66,6 +79,8 @@ export default {
       },
       updatedWorklogCount: 0,
       updatedEmployee: null,
+      loadingState: '',
+      successMessage: false,
     };
   },
 
@@ -80,9 +95,11 @@ export default {
     },
 
     store() {
+      this.loadingState = 'loading';
+
       axios.post('/' + this.company.id + '/dashboard/worklog', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('dashboard.worklog_added'), {
+          this.$snotify.success(this.$t('dashboard.worklog_success_message'), {
             timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
@@ -92,8 +109,11 @@ export default {
           this.updatedWorklogCount = this.updatedWorklogCount + 1;
           this.updatedEmployee = response.data.data;
           this.showEditor = false;
+          this.loadingState = null;
+          this.successMessage = true;
         })
         .catch(error => {
+          this.loadingState = null;
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },

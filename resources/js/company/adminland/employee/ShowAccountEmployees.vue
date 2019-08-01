@@ -27,7 +27,7 @@
           </h2>
           <p class="relative">
             <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: company.name, count: employees.length}) }}</span>
-            <a :href="'/' + company.id + '/account/employees/create'" class="btn primary absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.employees_cta') }}</a>
+            <a :href="'/' + company.id + '/account/employees/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.employees_cta') }}</a>
           </p>
           <ul class="list pl0 mt0 center">
             <li

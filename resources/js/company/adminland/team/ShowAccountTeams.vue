@@ -1,4 +1,4 @@
-<style scoped>
+<style style="scss" scoped>
   .add-modal {
     border: 1px solid rgba(27,31,35,.15);
     box-shadow: 0 3px 12px rgba(27,31,35,.15);
@@ -27,6 +27,11 @@
     left: auto;
     right: 9px;
     top: -16px;
+  }
+
+  .team-item:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
   }
 </style>
 
@@ -59,7 +64,7 @@
           <!-- ADD TEAM -->
           <div class="relative">
             <span v-show="teams.length != 0" class="dib mb3 di-l">{{ $tc('account.teams_number_teams', teams.length, { company: company.name, count: teams.length}) }}</span>
-            <a data-cy="add-team-button" class="btn primary tc absolute-l relative dib-l db right-0" @click.prevent="modal = !modal">{{ $t('account.teams_cta') }}</a>
+            <a data-cy="add-team-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="modal = !modal">{{ $t('account.teams_cta') }}</a>
 
             <div v-if="modal == true" class="absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster">
               <errors :errors="form.errors" />
@@ -87,7 +92,7 @@
           <ul v-show="teams.length != 0" class="list pl0 mt0 center">
             <li
               v-for="team in teams" :key="team.id"
-              class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10"
+              class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 team-item"
             >
               <div class="flex-auto">
                 <span class="db b">{{ team.name }}</span>
