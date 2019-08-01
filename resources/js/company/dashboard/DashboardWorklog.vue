@@ -8,14 +8,20 @@
         <h2 class="mt0 fw5 f4">
           🔨 {{ $t('dashboard.worklog_title') }}
         </h2>
+
+        <!-- employee hasn't logged yet -->
         <p v-show="!showEditor && !updatedEmployee.has_logged_worklog_today" class="db">
           <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_placeholder') }}</span>
           <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
         </p>
-        <p v-show="!showEditor && updatedEmployee.has_logged_worklog_today" class="db mb0">
+
+        <!-- employee has already logged -->
+        <p v-show="!showEditor && updatedEmployee.has_logged_worklog_today && !successMessage" class="db mb0">
           <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_already_logged') }}</span>
           <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
         </p>
+
+        <!-- button to log the worklog -->
         <p v-show="!showEditor && !updatedEmployee.has_logged_worklog_today" class="ma0">
           <a class="btn btn-secondary dib" data-cy="log-worklog-cta" @click.prevent="showEditor = true">{{ $t('dashboard.worklog_cta') }}</a>
         </p>
@@ -33,6 +39,11 @@
             </p>
           </form>
         </div>
+
+        <!-- employee just logged the worklog, we display the success message -->
+        <p v-show="successMessage" class="db mb3 mt4 tc">
+          {{ $t('dashboard.worklog_added') }}
+        </p>
       </div>
     </div>
   </div>
@@ -69,6 +80,7 @@ export default {
       updatedWorklogCount: 0,
       updatedEmployee: null,
       loadingState: '',
+      successMessage: false,
     };
   },
 
@@ -87,7 +99,7 @@ export default {
 
       axios.post('/' + this.company.id + '/dashboard/worklog', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('dashboard.worklog_added'), {
+          this.$snotify.success(this.$t('dashboard.worklog_success_message'), {
             timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
@@ -98,6 +110,7 @@ export default {
           this.updatedEmployee = response.data.data;
           this.showEditor = false;
           this.loadingState = null;
+          this.successMessage = true;
         })
         .catch(error => {
           this.loadingState = null;

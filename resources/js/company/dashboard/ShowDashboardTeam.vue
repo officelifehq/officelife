@@ -28,7 +28,7 @@
           <a :href="'/' + company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(user.default_dashboard_view == 'me')}">
             Me
           </a>
-          <a :href="'/' + company.id + '/dashboard/team'" class="f6 fl ph3 pv2 pointer dib" :class="{'selected':(user.default_dashboard_view == 'team')}">
+          <a :href="'/' + company.id + '/dashboard/team'" class="f6 fl ph3 pv2 pointer dib" :class="{'selected':(user.default_dashboard_view == 'team')}" data-cy="dashboard-team-tab">
             My team
           </a>
           <a :href="'/' + company.id + '/dashboard/company'" class="f6 fl ph3 pv2 dib" :class="{'selected':(user.default_dashboard_view == 'company')}">
@@ -45,7 +45,9 @@
           <li class="di mr2 black-30">
             {{ $t('dashboard.team_viewing') }}
           </li>
-          <li v-for="team in teams" :key="team.id" class="di team-item pa2 br2 pointer" :class="{ selected: currentTeam == team.id }" @click.prevent="loadTeam(team)">
+          <li v-for="team in teams" :key="team.id" class="di team-item pa2 br2 pointer" :class="{ selected: currentTeam == team.id }" :data-cy="'team-selector-' + team.id "
+              @click.prevent="loadTeam(team)"
+          >
             {{ team.name }}
           </li>
         </ul>

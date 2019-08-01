@@ -19,7 +19,7 @@
           <a :href="'/' + company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(user.default_dashboard_view == 'me')}">
             Me
           </a>
-          <a :href="'/' + company.id + '/dashboard/team'" class="f6 fl ph3 pv2 pointer dib" :class="{'selected':(user.default_dashboard_view == 'team')}">
+          <a :href="'/' + company.id + '/dashboard/team'" class="f6 fl ph3 pv2 pointer dib" :class="{'selected':(user.default_dashboard_view == 'team')}" data-cy="dashboard-team-tab">
             My team
           </a>
           <a :href="'/' + company.id + '/dashboard/company'" class="f6 fl ph3 pv2 dib" :class="{'selected':(user.default_dashboard_view == 'company')}">
