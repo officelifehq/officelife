@@ -19,7 +19,7 @@ class Worklog extends JsonResource
             'id' => $this->id,
             'object' => 'worklog',
             'employee' => new EmployeeResource($this->employee),
-            'content' => $this->recipient_specific_information,
+            'content' => $this->content,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

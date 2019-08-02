@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Services\Company\Employee\Manager\UnassignManager;
+use App\Http\Resources\Company\Worklog\Worklog as WorklogResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
@@ -31,6 +32,7 @@ class EmployeeController extends Controller
         $directReports = $employee->getListOfDirectReports();
         $positions = $company->positions()->get();
         $teams = $company->teams()->get();
+        $worklogs = $employee->worklogs()->latest()->take(7)->get();
 
         return View::component('ShowCompanyEmployee', [
             'company' => $company,
@@ -41,6 +43,7 @@ class EmployeeController extends Controller
             'directReports' => EmployeeResource::collection($directReports),
             'positions' => PositionResource::collection($positions),
             'teams' => TeamResource::collection($teams),
+            'worklogs' => WorklogResource::collection($worklogs),
         ]);
     }
 

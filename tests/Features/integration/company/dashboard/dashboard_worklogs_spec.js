@@ -1,4 +1,4 @@
-describe('Worklogs - employee', function () {
+describe('Dashboard - employee', function () {
   it('should let the employee logs a worklog', function () {
     cy.login()
 
