@@ -1,4 +1,9 @@
-<style scoped>
+<style lang="scss" scoped>
+.employee-item {
+  &:last-child {
+    border-bottom: 0;
+  }
+}
 </style>
 
 <template>
@@ -25,14 +30,18 @@
           <h2 class="tc normal mb4">
             {{ $t('account.employees_title', { company: company.name}) }}
           </h2>
+
+          <!-- HEADER: number of employees and button -->
           <p class="relative">
             <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: company.name, count: employees.length}) }}</span>
             <a :href="'/' + company.id + '/account/employees/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.employees_cta') }}</a>
           </p>
+
+          <!-- list of employees -->
           <ul class="list pl0 mt0 center">
             <li
               v-for="employee in employees" :key="employee.id"
-              class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10"
+              class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
             >
               <img class="w2 h2 w3-ns h3-ns br-100" :src="employee.avatar" />
               <div class="pl3 flex-auto">
