@@ -17,6 +17,26 @@ use App\Http\Resources\Company\Position\Position as PositionResource;
 class EmployeeController extends Controller
 {
     /**
+     * Display the list of employees.
+     *
+     * @param int $companyId
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request, int $companyId)
+    {
+        $company = Cache::get('currentCompany');
+
+        $employees = $company->employees()->orderBy('last_name', 'asc')->get();
+
+        return View::component('ShowEmployees', [
+            'company' => $company,
+            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'employees' => EmployeeResource::collection($employees),
+        ]);
+    }
+
+    /**
      * Display the detail of an employee.
      *
      * @param int $companyId
