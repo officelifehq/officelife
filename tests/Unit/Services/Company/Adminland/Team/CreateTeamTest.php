@@ -50,7 +50,7 @@ class CreateTeamTest extends TestCase
             'description' => 'Selling paper everyday',
         ];
 
-        $team = (new CreateTeam)->execute($request);
+        (new CreateTeam)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
