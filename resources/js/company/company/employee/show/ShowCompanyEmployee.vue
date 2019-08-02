@@ -93,18 +93,13 @@
         </div>
 
         <!-- RIGHT COLUMN -->
-        <div class="flex items-center justify-center flex-column mb4">
-          <div class="cf dib btn-group">
-            <span class="f6 fl ph3 pv2 dib pointer">
-              Summary
-            </span>
-            <span class="f6 fl ph3 pv2 pointer dib">
-              Life events
-            </span>
-            <span class="f6 fl ph3 pv2 dib selected">
-              Logs
-            </span>
-          </div>
+        <div class="fl w-60-l w-100 pl4-l">
+          <show-employee-worklogs
+            :company="company"
+            :employee="employee"
+            :worklogs="worklogs"
+            :user="user"
+          />
         </div>
       </div>
     </div>
@@ -149,6 +144,10 @@ export default {
       default: null,
     },
     teams: {
+      type: Array,
+      default: null,
+    },
+    worklogs: {
       type: Array,
       default: null,
     },
