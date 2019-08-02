@@ -1,6 +1,6 @@
 <style style="scss" scoped>
-.team-item:not(:last-child) {
-  margin-right: 10px;
+.employee-item:last-child {
+  border-bottom: 0;
 }
 </style>
 
@@ -27,7 +27,7 @@
             <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: company.name, count: employees.length}) }}</span>
           </p>
 
-          <ul class="list pl0 mt0 center">
+          <ul class="list pl0 mt0 mb0 center">
             <li
               v-for="employee in employees" :key="employee.id"
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
