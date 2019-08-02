@@ -1,4 +1,4 @@
-describe('Worklogs - teams', function () {
+describe('Dashboard - teams', function () {
   it('should display an empty tab when not associated with a team', function () {
     cy.login()
 
