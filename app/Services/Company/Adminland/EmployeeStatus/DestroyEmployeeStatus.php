@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Company\Adminland\Team;
+namespace App\Services\Company\Adminland\EmployeeStatus;
 
-use App\Models\Company\Team;
 use App\Services\BaseService;
+use App\Models\Company\EmployeeStatus;
 use App\Services\Company\Adminland\Company\LogAuditAction;
 
-class UpdateTeam extends BaseService
+class DestroyEmployeeStatus extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -18,19 +18,18 @@ class UpdateTeam extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:users,id',
-            'team_id' => 'required|integer|exists:teams,id',
-            'name' => 'required|string|max:255',
+            'employee_status_id' => 'required|integer|exists:employee_statuses,id',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Update a team.
+     * Destroy an employee status.
      *
      * @param array $data
-     * @return Team
+     * @return bool
      */
-    public function execute(array $data) : Team
+    public function execute(array $data) : bool
     {
         $this->validate($data);
 
@@ -40,28 +39,22 @@ class UpdateTeam extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
+        $employeeStatus = EmployeeStatus::where('company_id', $data['company_id'])
+            ->findOrFail($data['employee_status_id']);
 
-        $oldName = $team->name;
-
-        $team->update([
-            'name' => $data['name'],
-        ]);
+        $employeeStatus->delete();
 
         (new LogAuditAction)->execute([
             'company_id' => $data['company_id'],
-            'action' => 'team_updated',
+            'action' => 'employee_status_destroyed',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'team_id' => $team->id,
-                'team_old_name' => $oldName,
-                'team_new_name' => $data['name'],
+                'employee_status_name' => $employeeStatus->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        return $team;
+        return true;
     }
 }

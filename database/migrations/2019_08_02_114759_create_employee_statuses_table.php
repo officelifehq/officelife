@@ -24,6 +24,7 @@ class CreateEmployeeStatusesTable extends Migration
 
         Schema::table('employees', function (Blueprint $table) {
             $table->unsignedBigInteger('employee_status_id')->after('position_id')->nullable();
+            $table->foreign('employee_status_id')->references('id')->on('employee_statuses')->onDelete('set null');
         });
     }
 }

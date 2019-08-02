@@ -66,7 +66,8 @@ class UpdateTeamTest extends TestCase
                 'author_id' => $employee->user->id,
                 'author_name' => $employee->user->name,
                 'team_id' => $team->id,
-                'team_name' => 'Selling team',
+                'team_old_name' => $team->name,
+                'team_new_name' => 'Selling team',
             ]),
         ]);
     }
