@@ -1,8 +1,13 @@
+dist: precise
+
 language: php
 
 php:
   - 7.2
   - 7.3
+
+addons:
+  mariadb: 10.4
 
 before_script:
   - cp .env.travis .env
@@ -26,3 +31,5 @@ after_success:
 cache:
   directories:
     - $HOME/.composer/cache/files
+    - node_modules
+    - vendor
