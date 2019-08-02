@@ -52,6 +52,12 @@ class AddUserToCompanyTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'user_added_to_company',
+            'objects' => json_encode([
+                'author_id' => $adminEmployee->user->id,
+                'author_name' => $adminEmployee->user->name,
+                'user_id' => $employee->user->id,
+                'user_email' => $employee->user->email,
+            ]),
         ]);
     }
 

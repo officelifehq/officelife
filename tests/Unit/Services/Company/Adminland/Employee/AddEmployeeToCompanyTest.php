@@ -16,7 +16,6 @@ class AddEmployeeToCompanyTest extends TestCase
     public function it_adds_an_employee_to_a_company() : void
     {
         $adminEmployee = $this->createAdministrator();
-        $user = factory(User::class)->create([]);
 
         $request = [
             'company_id' => $adminEmployee->company_id,
@@ -45,7 +44,6 @@ class AddEmployeeToCompanyTest extends TestCase
     public function it_logs_an_action() : void
     {
         $adminEmployee = $this->createAdministrator();
-        $user = factory(User::class)->create([]);
 
         $request = [
             'company_id' => $adminEmployee->company_id,
@@ -62,11 +60,25 @@ class AddEmployeeToCompanyTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'employee_added_to_company',
+            'objects' => json_encode([
+                'author_id' => $adminEmployee->user->id,
+                'author_name' => $adminEmployee->user->name,
+                'employee_id' => $employee->id,
+                'employee_email' => 'dwight@dundermifflin.com',
+                'employee_first_name' => 'Dwight',
+                'employee_last_name' => 'Schrute',
+            ]),
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $employee->company_id,
             'action' => 'employee_created',
+            'objects' => json_encode([
+                'author_id' => $adminEmployee->user->id,
+                'author_name' => $adminEmployee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => 'Dwight Schrute',
+            ]),
         ]);
     }
 

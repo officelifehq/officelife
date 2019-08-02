@@ -53,6 +53,12 @@ class DestroyPositionTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $position->company_id,
             'action' => 'position_destroyed',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'position_id' => $position->id,
+                'position_title' => $position->title,
+            ]),
         ]);
     }
 

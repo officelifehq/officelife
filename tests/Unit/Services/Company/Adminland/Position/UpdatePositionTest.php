@@ -57,11 +57,18 @@ class UpdatePositionTest extends TestCase
             'title' => 'Assistant Regional Manager',
         ];
 
-        (new UpdatePosition)->execute($request);
+        $newPosition = (new UpdatePosition)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $position->company_id,
             'action' => 'position_updated',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'position_id' => $newPosition->id,
+                'position_title' => $newPosition->title,
+                'position_old_title' => $position->title,
+            ]),
         ]);
     }
 

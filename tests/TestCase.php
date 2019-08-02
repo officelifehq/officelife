@@ -3,7 +3,6 @@
 namespace Tests;
 
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -39,23 +38,5 @@ abstract class TestCase extends BaseTestCase
         return factory(Employee::class)->create([
             'permission_level' => config('homas.authorizations.administrator'),
         ]);
-    }
-
-    /**
-     * Grab the content of the given audit log and decode the json.
-     *
-     * @param Employee $employee
-     * @param string $action
-     * @return array
-     */
-    public function extractAuditLogJson(Employee $employee, string $action) : array
-    {
-        $log = DB::table('audit_logs')
-            ->select('objects')
-            ->where('company_id', $employee->company_id)
-            ->where('action', $action)
-            ->first();
-
-        return json_decode($log->objects, true);
     }
 }

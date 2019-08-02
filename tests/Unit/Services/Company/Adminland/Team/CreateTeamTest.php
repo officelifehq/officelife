@@ -50,11 +50,17 @@ class CreateTeamTest extends TestCase
             'description' => 'Selling paper everyday',
         ];
 
-        (new CreateTeam)->execute($request);
+        $team = (new CreateTeam)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'team_created',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
+            ]),
         ]);
     }
 

@@ -54,7 +54,7 @@ class LogWorklog extends BaseService
 
         $this->resetWorklogMissed($employee);
 
-        $Worklog = Worklog::create([
+        $worklog = Worklog::create([
             'employee_id' => $data['employee_id'],
             'content' => $data['content'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
@@ -68,7 +68,7 @@ class LogWorklog extends BaseService
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'Worklog_id' => $Worklog->id,
+                'worklog_id' => $worklog->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
@@ -82,12 +82,12 @@ class LogWorklog extends BaseService
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'Worklog_id' => $Worklog->id,
+                'worklog_id' => $worklog->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        return $Worklog;
+        return $worklog;
     }
 
     /**

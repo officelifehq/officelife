@@ -58,18 +58,38 @@ class UnassignManagerTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $directReport->directReport->company_id,
             'action' => 'manager_unassigned',
+            'objects' => json_encode([
+                'author_id' => $directReport->directReport->user->id,
+                'author_name' => $directReport->directReport->user->name,
+                'manager_id' => $directReport->manager->id,
+                'manager_name' => $directReport->manager->name,
+                'employee_id' => $directReport->directReport->id,
+                'employee_name' => $directReport->directReport->name,
+            ]),
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $directReport->directReport->company_id,
             'employee_id' => $directReport->directReport->id,
             'action' => 'manager_unassigned',
+            'objects' => json_encode([
+                'author_id' => $directReport->directReport->user->id,
+                'author_name' => $directReport->directReport->user->name,
+                'manager_id' => $directReport->manager->id,
+                'manager_name' => $directReport->manager->name,
+            ]),
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $directReport->directReport->company_id,
             'employee_id' => $manager->id,
             'action' => 'direct_report_unassigned',
+            'objects' => json_encode([
+                'author_id' => $directReport->directReport->user->id,
+                'author_name' => $directReport->directReport->user->name,
+                'direct_report_id' => $directReport->directReport->id,
+                'direct_report_name' => $directReport->directReport->name,
+            ]),
         ]);
     }
 

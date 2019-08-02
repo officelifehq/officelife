@@ -72,16 +72,30 @@ class LogWorklogTest extends TestCase
             'content' => 'I have sold paper',
         ];
 
-        (new LogWorklog)->execute($request);
+        $worklog = (new LogWorklog)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $dwight->company_id,
             'action' => 'employee_worklog_logged',
+            'objects' => json_encode([
+                'author_id' => $dwight->user->id,
+                'author_name' => $dwight->user->name,
+                'employee_id' => $dwight->id,
+                'employee_name' => $dwight->name,
+                'worklog_id' => $worklog->id,
+            ]),
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $dwight->company_id,
             'action' => 'employee_worklog_logged',
+            'objects' => json_encode([
+                'author_id' => $dwight->user->id,
+                'author_name' => $dwight->user->name,
+                'employee_id' => $dwight->id,
+                'employee_name' => $dwight->name,
+                'worklog_id' => $worklog->id,
+            ]),
         ]);
     }
 

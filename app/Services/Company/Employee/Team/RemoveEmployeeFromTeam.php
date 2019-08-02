@@ -54,10 +54,10 @@ class RemoveEmployeeFromTeam extends BaseService
         $dataToLog = [
             'author_id' => $author->id,
             'author_name' => $author->name,
-            'team_id' => $team->id,
-            'team_name' => $team->name,
             'employee_id' => $employee->id,
             'employee_name' => $employee->name,
+            'team_id' => $team->id,
+            'team_name' => $team->name,
         ];
 
         (new LogAuditAction)->execute([

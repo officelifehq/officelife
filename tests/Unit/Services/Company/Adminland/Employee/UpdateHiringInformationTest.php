@@ -50,11 +50,17 @@ class UpdateHiringInformationTest extends TestCase
             'hired_at' => '2010-02-20',
         ];
 
-        $updatedEmployee = (new UpdateHiringInformation)->execute($request);
+        (new UpdateHiringInformation)->execute($request);
 
         $this->assertdatabasehas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'employee_updated_hiring_information',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+            ]),
         ]);
     }
 

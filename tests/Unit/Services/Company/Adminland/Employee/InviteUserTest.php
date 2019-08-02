@@ -63,6 +63,14 @@ class InviteUserTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'employee_invited_to_become_user',
+            'objects' => json_encode([
+                'author_id' => $adminEmployee->user->id,
+                'author_name' => $adminEmployee->user->name,
+                'employee_id' => $employee->id,
+                'employee_email' => $employee->email,
+                'employee_first_name' => $employee->first_name,
+                'employee_last_name' => $employee->last_name,
+            ]),
         ]);
     }
 
@@ -89,7 +97,7 @@ class InviteUserTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given() : void
     {
         $adminEmployee = $this->createAdministrator();
-        $employee = factory(Employee::class)->create([
+        factory(Employee::class)->create([
             'company_id' => $adminEmployee->company_id,
         ]);
 

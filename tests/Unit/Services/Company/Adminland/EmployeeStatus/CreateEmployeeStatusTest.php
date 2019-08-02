@@ -55,21 +55,13 @@ class CreateEmployeeStatusTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'employee_status_created',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_status_id' => $employee->id,
+                'employee_status_name' => 'Permanent',
+            ]),
         ]);
-
-        $actualLog = $this->extractAuditLogJson($employee, 'employee_status_created');
-
-        $expectedLog = [
-            'author_id' => $employee->user->id,
-            'author_name' => $employee->user->name,
-            'employee_status_id' => $employee->id,
-            'employee_status_name' => 'Permanent',
-        ];
-
-        $this->assertEquals(
-            $expectedLog,
-            $actualLog
-        );
     }
 
     /** @test */

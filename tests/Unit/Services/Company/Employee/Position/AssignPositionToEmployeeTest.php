@@ -63,11 +63,25 @@ class AssignPositionToEmployeeTest extends TestCase
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'position_assigned',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'position_id' => $position->id,
+                'position_title' => $position->title,
+            ]),
         ]);
 
         $this->assertdatabasehas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'position_assigned',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+                'position_id' => $position->id,
+                'position_title' => $position->title,
+            ]),
         ]);
     }
 
