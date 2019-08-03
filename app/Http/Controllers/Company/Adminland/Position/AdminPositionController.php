@@ -28,7 +28,7 @@ class AdminPositionController extends Controller
         return View::component('ShowAccountPositions', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
             'positions' => $positions,
         ]);
     }

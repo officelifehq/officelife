@@ -9429,6 +9429,10 @@ textarea:focus::placeholder {
   background-repeat: repeat-x;
 }
 
+.adminland-headline a {
+  top: -10px;
+}
+
 .home-index-company {
   color: #4d4d4f;
   height: 100px;

@@ -59,7 +59,7 @@ class ChangePermissionTest extends TestCase
                 'author_name' => $employee->user->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'old_permission' => (string) $employee->permission_level,
+                'old_permission' => $employee->permission_level,
                 'new_permission' => config('homas.authorizations.hr'),
             ]),
         ]);

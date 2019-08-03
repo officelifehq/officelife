@@ -1,0 +1,223 @@
+<style scoped>
+.list li:last-child {
+  border-bottom: 0;
+}
+</style>
+
+<template>
+  <layout title="Home" :user="user" :notifications="notifications">
+    <div class="ph2 ph0-ns">
+      <!-- BREADCRUMB -->
+      <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
+        <ul class="list ph0 tc-l tl">
+          <li class="di">
+            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+          </li>
+          <li class="di">
+            <a :href="'/' + company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</a>
+          </li>
+          <li class="di">
+            {{ $t('app.breadcrumb_account_manage_employee_statuses') }}
+          </li>
+        </ul>
+      </div>
+
+      <!-- BODY -->
+      <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
+        <div class="pa3 mt5">
+          <h2 class="tc normal mb4">
+            {{ $t('account.employee_statuses_title', { company: company.name}) }}
+          </h2>
+
+          <p class="relative adminland-headline">
+            <span class="dib mb3 di-l" :class="statuses.length == 0 ? 'white' : ''">{{ $tc('account.employee_statuses_number_positions', statuses.length, { company: company.name, count: statuses.length}) }}</span>
+            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="modal = true; form.name = ''">{{ $t('account.employee_statuses_cta') }}</a>
+          </p>
+
+          <!-- MODAL TO ADD AN EMPLOYEE STATUS -->
+          <form v-show="modal" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="submit">
+            <label for="title">{{ $t('account.employee_statuses_new_title') }}</label>
+            <div class="cf">
+              <input id="title" v-model="form.name" type="text"
+                     name="title"
+                     :placeholder="$t('account.employee_statuses_placeholder')"
+                     class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
+                     required
+                     data-cy="add-title-input"
+                     @keydown.esc="modal = false"
+              />
+              <div class="fl w-30-ns w-100 tr">
+                <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false ; form.name = ''">{{ $t('app.cancel') }}</a>
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
+              </div>
+            </div>
+          </form>
+
+          <!-- LIST OF EXISTING EMPLOYEE STATUSES -->
+          <ul v-show="statuses.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list">
+            <li v-for="status in statuses" :key="status.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+              {{ status.name }}
+
+              <!-- RENAME POSITION FORM -->
+              <div v-show="idToUpdate == status.id" class="cf mt3">
+                <form @submit.prevent="update(status.id)">
+                  <input ref="freak" v-model="form.name"
+                         type="text"
+                         :placeholder="$t('account.employee_statuses_placeholder')"
+                         class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
+                         required
+                         autofocus
+                         :data-cy="'list-rename-input-name-' + status.id"
+                         @keydown.esc="idToUpdate = 0"
+                  />
+                  <div class="fl w-30-ns w-100 tr">
+                    <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-rename-cancel-button-' + status.id" @click.prevent="idToUpdate = 0">{{ $t('app.cancel') }}</a>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + status.id" :state="loadingState" :text="$t('app.update')" />
+                  </div>
+                </form>
+              </div>
+
+              <!-- LIST OF ACTIONS FOR EACH EMPLOYEE STATUS -->
+              <ul v-show="idToUpdate != status.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
+                <!-- RENAME A EMPLOYEE STATUS -->
+                <li class="di mr2">
+                  <a class="pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">{{ $t('app.rename') }}</a>
+                </li>
+
+                <!-- DELETE A EMPLOYEE STATUS -->
+                <li v-if="idToDelete == status.id" class="di">
+                  {{ $t('app.sure') }}
+                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + status.id" @click.prevent="destroy(status.id)">{{ $t('app.yes') }}</a>
+                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + status.id" @click.prevent="idToDelete = 0">{{ $t('app.no') }}</a>
+                </li>
+                <li v-else class="di">
+                  <a class="pointer" :data-cy="'list-delete-button-' + status.id" @click.prevent="idToDelete = status.id">{{ $t('app.delete') }}</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <!-- BLANK STATE -->
+          <div v-show="statuses.length == 0" class="pa3 mt5">
+            <p class="tc measure center mb4 lh-copy">
+              {{ $t('account.employee_statuses_blank') }}
+            </p>
+            <img class="db center mb4" srcset="/img/company/account/blank-position-1x.png,
+                                          /img/company/account/blank-position-2x.png 2x"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </layout>
+</template>
+
+<script>
+
+export default {
+  props: {
+    company: {
+      type: Object,
+      default: null,
+    },
+    user: {
+      type: Object,
+      default: null,
+    },
+    notifications: {
+      type: Array,
+      default: null,
+    },
+    statuses: {
+      type: Array,
+      default: null,
+    },
+  },
+
+  data() {
+    return {
+      modal: false,
+      deleteModal: false,
+      updateModal: false,
+      loadingState: '',
+      updateModalId: 0,
+      idToUpdate: 0,
+      idToDelete: 0,
+      form: {
+        name: null,
+        errors: [],
+      },
+    };
+  },
+
+  methods: {
+    displayUpdateModal(status) {
+      this.idToUpdate = status.id;
+    },
+
+    submit() {
+      this.loadingState = 'loading';
+
+      axios.post('/' + this.company.id + '/account/employeestatuses', this.form)
+        .then(response => {
+          this.$snotify.success(this.$t('account.employee_statuses_success_new'), {
+            timeout: 2000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          });
+
+          this.loadingState = null;
+          this.form.name = null;
+          this.modal = false;
+          this.statuses.push(response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    update(id) {
+      axios.put('/' + this.company.id + '/account/employeestatuses/' + id, this.form)
+        .then(response => {
+          this.$snotify.success(this.$t('account.employee_statuses_success_update'), {
+            timeout: 2000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          });
+
+          this.idToUpdate = 0;
+          this.form.name = null;
+
+          id = this.statuses.findIndex(x => x.id === id);
+          this.$set(this.statuses, id, response.data.data);
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    destroy(id) {
+      axios.delete('/' + this.company.id + '/account/employeestatuses/' + id)
+        .then(response => {
+          this.$snotify.success(this.$t('account.employee_statuses_success_destroy'), {
+            timeout: 2000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          });
+
+          this.idToDelete = 0;
+          id = this.statuses.findIndex(x => x.id === id);
+          this.statuses.splice(id, 1);
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+  }
+};
+
+</script>

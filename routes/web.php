@@ -74,19 +74,20 @@ Route::middleware(['auth'])->group(function () {
 
             // employee management
             Route::resource('account/employees', 'Company\\Adminland\\EmployeeController');
-            Route::get('account/employees/{employee}/destroy', 'Company\\Adminland\\EmployeeController@destroy');
             Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@index');
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
 
             // team management
             Route::resource('account/teams', 'Company\\Adminland\\TeamController');
-            Route::get('account/teams/{team}/destroy', 'Company\\Adminland\\TeamController@destroy');
 
             // position management
             Route::resource('account/positions', 'Company\\Adminland\\Position\\AdminPositionController');
 
             // flow management
             Route::resource('account/flows', 'Company\\Adminland\\AdminFlowController');
+
+            // employee statuses
+            Route::resource('account/employeestatuses', 'Company\\Adminland\\EmployeeStatusController');
         });
     });
 });

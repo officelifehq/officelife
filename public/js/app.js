@@ -556,6 +556,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     company: {
@@ -962,6 +970,237 @@ __webpack_require__.r(__webpack_exports__);
         pauseOnHover: true
       });
       localStorage.clear();
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    company: {
+      type: Object,
+      "default": null
+    },
+    user: {
+      type: Object,
+      "default": null
+    },
+    notifications: {
+      type: Array,
+      "default": null
+    },
+    statuses: {
+      type: Array,
+      "default": null
+    }
+  },
+  data: function data() {
+    return {
+      modal: false,
+      deleteModal: false,
+      updateModal: false,
+      loadingState: '',
+      updateModalId: 0,
+      idToUpdate: 0,
+      idToDelete: 0,
+      form: {
+        name: null,
+        errors: []
+      }
+    };
+  },
+  methods: {
+    displayUpdateModal: function displayUpdateModal(status) {
+      this.idToUpdate = status.id;
+    },
+    submit: function submit() {
+      var _this = this;
+
+      this.loadingState = 'loading';
+      axios.post('/' + this.company.id + '/account/employeestatuses', this.form).then(function (response) {
+        _this.$snotify.success(_this.$t('account.employee_statuses_success_new'), {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+
+        _this.loadingState = null;
+        _this.form.name = null;
+        _this.modal = false;
+
+        _this.statuses.push(response.data.data);
+      })["catch"](function (error) {
+        _this.loadingState = null;
+        _this.form.errors = _.flatten(_.toArray(error.response.data));
+      });
+    },
+    update: function update(id) {
+      var _this2 = this;
+
+      axios.put('/' + this.company.id + '/account/employeestatuses/' + id, this.form).then(function (response) {
+        _this2.$snotify.success(_this2.$t('account.employee_statuses_success_update'), {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+
+        _this2.idToUpdate = 0;
+        _this2.form.name = null;
+        id = _this2.statuses.findIndex(function (x) {
+          return x.id === id;
+        });
+
+        _this2.$set(_this2.statuses, id, response.data.data);
+      })["catch"](function (error) {
+        _this2.form.errors = _.flatten(_.toArray(error.response.data));
+      });
+    },
+    destroy: function destroy(id) {
+      var _this3 = this;
+
+      axios["delete"]('/' + this.company.id + '/account/employeestatuses/' + id).then(function (response) {
+        _this3.$snotify.success(_this3.$t('account.employee_statuses_success_destroy'), {
+          timeout: 2000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true
+        });
+
+        _this3.idToDelete = 0;
+        id = _this3.statuses.findIndex(function (x) {
+          return x.id === id;
+        });
+
+        _this3.statuses.splice(id, 1);
+      })["catch"](function (error) {
+        _this3.form.errors = _.flatten(_.toArray(error.response.data));
+      });
     }
   }
 });
@@ -5754,6 +5993,25 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 // module
 exports.push([module.i, "\ninput[type=checkbox][data-v-152dace3] {\n  top: 5px;\n}\ninput[type=radio][data-v-152dace3] {\n  top: -2px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css&":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.list li[data-v-0b177e34]:last-child {\n  border-bottom: 0;\n}\n", ""]);
 
 // exports
 
@@ -26971,6 +27229,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/adminland/flow/CreateAccountFlow.vue?vue&type=style&index=0&id=4d4b36e3&scoped=true&lang=css&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/company/adminland/flow/CreateAccountFlow.vue?vue&type=style&index=0&id=4d4b36e3&scoped=true&lang=css& ***!
@@ -36464,6 +36752,54 @@ var render = function() {
                     },
                     [_vm._v(_vm._s(_vm.$t("account.home_manage_flows")))]
                   )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "pa2 pl0 relative" }, [
+                  _c("img", {
+                    staticClass: "pr1 absolute",
+                    attrs: { src: "/img/company/account/flows.svg" }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "relative",
+                      attrs: {
+                        href:
+                          "/" + _vm.company.id + "/account/employeestatuses",
+                        "data-cy": "-admin-link"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(_vm.$t("account.home_manage_employee_statuses"))
+                      )
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "pa2 pl0 relative" }, [
+                  _c("img", {
+                    staticClass: "pr1 absolute",
+                    attrs: { src: "/img/company/account/flows.svg" }
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "relative",
+                      attrs: {
+                        href:
+                          "/" + _vm.company.id + "/account/employeestatuses",
+                        "data-cy": "-admin-link"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(_vm.$t("account.home_manage_employee_statuses"))
+                      )
+                    ]
+                  )
                 ])
               ]),
               _vm._v(" "),
@@ -37471,6 +37807,530 @@ var render = function() {
                   )
                 }),
                 0
+              )
+            ])
+          ]
+        )
+      ])
+    ]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=template&id=0b177e34&scoped=true&":
+/*!****************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=template&id=0b177e34&scoped=true& ***!
+  \****************************************************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "layout",
+    {
+      attrs: { title: "Home", user: _vm.user, notifications: _vm.notifications }
+    },
+    [
+      _c("div", { staticClass: "ph2 ph0-ns" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2"
+          },
+          [
+            _c("ul", { staticClass: "list ph0 tc-l tl" }, [
+              _c("li", { staticClass: "di" }, [
+                _c(
+                  "a",
+                  { attrs: { href: "/" + _vm.company.id + "/dashboard" } },
+                  [_vm._v(_vm._s(_vm.company.name))]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "di" }, [
+                _c(
+                  "a",
+                  { attrs: { href: "/" + _vm.company.id + "/account" } },
+                  [_vm._v(_vm._s(_vm.$t("app.breadcrumb_account_home")))]
+                )
+              ]),
+              _vm._v(" "),
+              _c("li", { staticClass: "di" }, [
+                _vm._v(
+                  "\n          " +
+                    _vm._s(
+                      _vm.$t("app.breadcrumb_account_manage_employee_statuses")
+                    ) +
+                    "\n        "
+                )
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "mw7 center br3 mb5 bg-white box restricted relative z-1"
+          },
+          [
+            _c("div", { staticClass: "pa3 mt5" }, [
+              _c("h2", { staticClass: "tc normal mb4" }, [
+                _vm._v(
+                  "\n          " +
+                    _vm._s(
+                      _vm.$t("account.employee_statuses_title", {
+                        company: _vm.company.name
+                      })
+                    ) +
+                    "\n        "
+                )
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "relative adminland-headline" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "dib mb3 di-l",
+                    class: _vm.statuses.length == 0 ? "white" : ""
+                  },
+                  [
+                    _vm._v(
+                      _vm._s(
+                        _vm.$tc(
+                          "account.employee_statuses_number_positions",
+                          _vm.statuses.length,
+                          {
+                            company: _vm.company.name,
+                            count: _vm.statuses.length
+                          }
+                        )
+                      )
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "a",
+                  {
+                    staticClass: "btn absolute-l relative dib-l db right-0",
+                    attrs: { "data-cy": "add-status-button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        _vm.modal = true
+                        _vm.form.name = ""
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.$t("account.employee_statuses_cta")))]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "form",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.modal,
+                      expression: "modal"
+                    }
+                  ],
+                  staticClass: "mb3 pa3 ba br2 bb-gray bg-gray",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.submit($event)
+                    }
+                  }
+                },
+                [
+                  _c("label", { attrs: { for: "title" } }, [
+                    _vm._v(
+                      _vm._s(_vm.$t("account.employee_statuses_new_title"))
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "cf" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.name,
+                          expression: "form.name"
+                        }
+                      ],
+                      staticClass:
+                        "br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns",
+                      attrs: {
+                        id: "title",
+                        type: "text",
+                        name: "title",
+                        placeholder: _vm.$t(
+                          "account.employee_statuses_placeholder"
+                        ),
+                        required: "",
+                        "data-cy": "add-title-input"
+                      },
+                      domProps: { value: _vm.form.name },
+                      on: {
+                        keydown: function($event) {
+                          if (
+                            !$event.type.indexOf("key") &&
+                            _vm._k($event.keyCode, "esc", 27, $event.key, [
+                              "Esc",
+                              "Escape"
+                            ])
+                          ) {
+                            return null
+                          }
+                          _vm.modal = false
+                        },
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "name", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "fl w-30-ns w-100 tr" },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn dib-l db mb2 mb0-ns",
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                _vm.modal = false
+                                _vm.form.name = ""
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(_vm.$t("app.cancel")))]
+                        ),
+                        _vm._v(" "),
+                        _c("loading-button", {
+                          attrs: {
+                            classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
+                            "data-cy": "modal-add-cta",
+                            state: _vm.loadingState,
+                            text: _vm.$t("app.add")
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "ul",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.statuses.length != 0,
+                      expression: "statuses.length != 0"
+                    }
+                  ],
+                  staticClass: "list pl0 mv0 center ba br2 bb-gray",
+                  attrs: { "data-cy": "statuses-list" }
+                },
+                _vm._l(_vm.statuses, function(status) {
+                  return _c(
+                    "li",
+                    {
+                      key: status.id,
+                      staticClass: "pv3 ph2 bb bb-gray bb-gray-hover"
+                    },
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(status.name) +
+                          "\n\n            "
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.idToUpdate == status.id,
+                              expression: "idToUpdate == status.id"
+                            }
+                          ],
+                          staticClass: "cf mt3"
+                        },
+                        [
+                          _c(
+                            "form",
+                            {
+                              on: {
+                                submit: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.update(status.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.form.name,
+                                    expression: "form.name"
+                                  }
+                                ],
+                                ref: "freak",
+                                refInFor: true,
+                                staticClass:
+                                  "br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns",
+                                attrs: {
+                                  type: "text",
+                                  placeholder: _vm.$t(
+                                    "account.employee_statuses_placeholder"
+                                  ),
+                                  required: "",
+                                  autofocus: "",
+                                  "data-cy":
+                                    "list-rename-input-name-" + status.id
+                                },
+                                domProps: { value: _vm.form.name },
+                                on: {
+                                  keydown: function($event) {
+                                    if (
+                                      !$event.type.indexOf("key") &&
+                                      _vm._k(
+                                        $event.keyCode,
+                                        "esc",
+                                        27,
+                                        $event.key,
+                                        ["Esc", "Escape"]
+                                      )
+                                    ) {
+                                      return null
+                                    }
+                                    _vm.idToUpdate = 0
+                                  },
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.form,
+                                      "name",
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "fl w-30-ns w-100 tr" },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass: "btn dib-l db mb2 mb0-ns",
+                                      attrs: {
+                                        "data-cy":
+                                          "list-rename-cancel-button-" +
+                                          status.id
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          $event.preventDefault()
+                                          _vm.idToUpdate = 0
+                                        }
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(_vm.$t("app.cancel")))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("loading-button", {
+                                    attrs: {
+                                      classes:
+                                        "btn add w-auto-ns w-100 mb2 pv2 ph3",
+                                      "data-cy":
+                                        "list-rename-cta-button-" + status.id,
+                                      state: _vm.loadingState,
+                                      text: _vm.$t("app.update")
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "ul",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.idToUpdate != status.id,
+                              expression: "idToUpdate != status.id"
+                            }
+                          ],
+                          staticClass: "list pa0 ma0 di-ns db fr-ns mt2 mt0-ns"
+                        },
+                        [
+                          _c("li", { staticClass: "di mr2" }, [
+                            _c(
+                              "a",
+                              {
+                                staticClass: "pointer",
+                                attrs: {
+                                  "data-cy": "list-rename-button-" + status.id
+                                },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    _vm.displayUpdateModal(status)
+                                    _vm.form.name = status.name
+                                  }
+                                }
+                              },
+                              [_vm._v(_vm._s(_vm.$t("app.rename")))]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _vm.idToDelete == status.id
+                            ? _c("li", { staticClass: "di" }, [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(_vm.$t("app.sure")) +
+                                    "\n                "
+                                ),
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "c-delete mr1 pointer",
+                                    attrs: {
+                                      "data-cy":
+                                        "list-delete-confirm-button-" +
+                                        status.id
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.destroy(status.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.$t("app.yes")))]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "pointer",
+                                    attrs: {
+                                      "data-cy":
+                                        "list-delete-cancel-button-" + status.id
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.idToDelete = 0
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.$t("app.no")))]
+                                )
+                              ])
+                            : _c("li", { staticClass: "di" }, [
+                                _c(
+                                  "a",
+                                  {
+                                    staticClass: "pointer",
+                                    attrs: {
+                                      "data-cy":
+                                        "list-delete-button-" + status.id
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        _vm.idToDelete = status.id
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.$t("app.delete")))]
+                                )
+                              ])
+                        ]
+                      )
+                    ]
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.statuses.length == 0,
+                      expression: "statuses.length == 0"
+                    }
+                  ],
+                  staticClass: "pa3 mt5"
+                },
+                [
+                  _c("p", { staticClass: "tc measure center mb4 lh-copy" }, [
+                    _vm._v(
+                      "\n            " +
+                        _vm._s(_vm.$t("account.employee_statuses_blank")) +
+                        "\n          "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("img", {
+                    staticClass: "db center mb4",
+                    attrs: {
+                      srcset:
+                        "/img/company/account/blank-position-1x.png" +
+                        ", " +
+                        "/img/company/account/blank-position-2x.png" +
+                        " 2x"
+                    }
+                  })
+                ]
               )
             ])
           ]
@@ -49519,7 +50379,7 @@ module.exports = function(module) {
 /*! exports provided: account, app, audit, auth, company, dashboard, employee, format, home, pagination, passwords, team, validation, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"account\":{\"employee_new_administrator\":\"Administrator\",\"employee_new_administrator_desc\":\"Can do everything, including account management.\",\"employee_new_email\":\"Email address\",\"employee_new_firstname\":\"Firstname\",\"employee_new_hr\":\"Human Resource Representative\",\"employee_new_hr_desc\":\"Have access to most features, including reading and writing private information, but can't manage the account itself.\",\"employee_new_lastname\":\"Lastname\",\"employee_new_permission_level\":\"What can this person do?\",\"employee_new_send_email\":\"Send an email to this person with a link to access the account. This is optional - you will be able to invite this person later.\",\"employee_new_title\":\"Add employee\",\"employee_new_user\":\"Employee\",\"employee_new_user_desc\":\"Can see all teams and employees, but can not manage the account or read private information.\",\"employees_change_permission\":\"Change permission\",\"employees_cta\":\"Add an employee\",\"employees_lock_account\":\"Lock account\",\"employees_number_employees\":\"{company} has one employee. | {company} has {count} employees.\",\"employees_title\":\"All the employees in {company}\",\"flow_new_action_email\":\"Send an email\",\"flow_new_action_following\":\"Do the following\",\"flow_new_action_label_actual_employee\":\"the actual employee\",\"flow_new_action_label_employee\":\"an employee\",\"flow_new_action_label_everyone\":\"everyone in the company\",\"flow_new_action_label_managers\":\"the manager(s) of the employee\",\"flow_new_action_label_reports\":\"the direct report(s) of the employee\",\"flow_new_action_label_team_employee\":\"the team of the employee\",\"flow_new_action_label_unknown_message\":\"an unknown message\",\"flow_new_action_notification\":\"Notify an employee\",\"flow_new_action_notification_actual_employee\":\"The actual employee\",\"flow_new_action_notification_confirmation\":\"Are you sure? This will alert all the employees of the company.\",\"flow_new_action_notification_everyone\":\"Everyone in the company\",\"flow_new_action_notification_manager\":\"The employee’s manager(s)\",\"flow_new_action_notification_report\":\"The employee’s direct report(s)\",\"flow_new_action_notification_search_employees\":\"Search an employee\",\"flow_new_action_notification_search_hint\":\"Type the first letters of the name\",\"flow_new_action_notification_search_teams\":\"Search a team\",\"flow_new_action_notification_specific_employee\":\"A specific employee\",\"flow_new_action_notification_specific_team\":\"A specific team\",\"flow_new_action_notification_team_members\":\"All the employee’s teams members\",\"flow_new_action_remove\":\"Remove action\",\"flow_new_action_task\":\"Add a task\",\"flow_new_after\":\"after\",\"flow_new_before\":\"before\",\"flow_new_days\":\"days\",\"flow_new_flow\":\"What is the name of the flow?\",\"flow_new_help\":\"This is an internal name, only used to identify the flow.\",\"flow_new_months\":\"months\",\"flow_new_the_day_event_happens\":\"The moment this event happens\",\"flow_new_type_employee_becomes_manager\":\"An employee becomes a manager\",\"flow_new_type_employee_birthday\":\"An employee has a birthday\",\"flow_new_type_employee_joins_company\":\"An employee joins the company\",\"flow_new_type_employee_joins_team\":\"An employee is added to a team\",\"flow_new_type_employee_leaves_company\":\"An employee leaves the company\",\"flow_new_type_employee_leaves_holidays\":\"An employee leaves for holidays\",\"flow_new_type_employee_leaves_team\":\"An employee is removed from a team\",\"flow_new_type_employee_new_position\":\"An employee has a new position\",\"flow_new_type_employee_returns_holidays\":\"An employee comes back from holidays\",\"flow_new_type_employee_returns_leave\":\"An employee returns from a leave\",\"flow_new_weeks\":\"weeks\",\"flows_blank\":\"Flows lets you define how the system should react when something in the company happens. It’s... quite powerful.\",\"flows_cta\":\"Create a flow\",\"flows_number_flows\":\"{company} has one flow. | {company} has {count} flows.\",\"flows_title\":\"All the flows in {company}\",\"home_audit_log\":\"View audit log to see who has done what\",\"home_generate_fake_data\":\"Generate fake data\",\"home_manage_employees\":\"Add/remove existing employees\",\"home_manage_flows\":\"Add/remove flows\",\"home_manage_positions\":\"Add/remove job positions\",\"home_manage_teams\":\"Add/remove teams\",\"home_remove_fake_data\":\"Remove fake data\",\"home_role_administrator\":\"As an <span class=\\\"fw5 brush-blue\\\">administrator</span>, you can…\",\"home_role_owner\":\"As an <span class=\\\"fw5 brush-orange\\\">owner</span>, you can…\",\"home_title\":\"Administration of your Homas account\",\"position_new_title\":\"Position name\",\"position_success_destroy\":\"The position has been destroyed\",\"position_success_new\":\"The position has been created\",\"position_success_update\":\"The position has been updated\",\"positions_blank\":\"Positions are terms that describe in a few words what an employee does. Like Marketing Coordinator for example.\",\"positions_cta\":\"Add a position\",\"positions_number_positions\":\"{company} has one position. | {company} has {count} positions.\",\"positions_title\":\"All the positions used in {company}\",\"team_new_name\":\"Name of the team\",\"teams_blank\":\"Teams are a great way for groups of people in your company to work together in Homas.\",\"teams_cta\":\"Add a team\",\"teams_number_teams\":\"{company} has one team. | {company} has {count} teams.\",\"teams_title\":\"All the teams listed in {company}\"},\"app\":{\"add\":\"Add\",\"breadcrumb_account_add_employee\":\"Add an employee\",\"breadcrumb_account_audit_logs\":\"Audit logs\",\"breadcrumb_account_home\":\"Account administration\",\"breadcrumb_account_manage_employees\":\"Manage employees\",\"breadcrumb_account_manage_flows\":\"Manage flows\",\"breadcrumb_account_manage_positions\":\"Positions\",\"breadcrumb_account_manage_teams\":\"Manage teams\",\"breadcrumb_employee_list\":\"All employees\",\"breadcrumb_employee_logs\":\"Logs\",\"breadcrumb_team_list\":\"All teams\",\"cancel\":\"Cancel\",\"choose\":\"Choose\",\"default_position_ceo\":\"CEO\",\"default_position_front_end_developer\":\"Front end developer\",\"default_position_marketing_specialist\":\"Marketing specialist\",\"default_position_sales_representative\":\"Sales representative\",\"delete\":\"Delete\",\"delete_confirm\":\"Sure?\",\"edit\":\"Edit\",\"header_find\":\"Find\",\"header_home\":\"Home\",\"header_logout\":\"Logout\",\"header_notifications\":\"What’s new\",\"header_search_employees\":\"Employees\",\"header_search_no_employee_found\":\"No employees found\",\"header_search_no_team_found\":\"No teams found\",\"header_search_placeholder\":\"Find an employee or a team by name\",\"header_search_teams\":\"Teams\",\"header_switch_company\":\"Switch company\",\"next\":\"Next\",\"no\":\"No\",\"no_position_defined\":\"No position defined\",\"no_results\":\"No results\",\"permission_100\":\"Administrator\",\"permission_200\":\"Human Resource Representative\",\"permission_300\":\"Employee\",\"previous\":\"Previous\",\"rename\":\"Rename\",\"save\":\"Save\",\"search\":\"Search\",\"sure\":\"Are you sure?\",\"update\":\"Update\",\"view\":\"View\",\"yes\":\"Yes\",\"yes_sure\":\"Yes I’m sure\"},\"audit\":{\"title\":\"Audit logs\"},\"auth\":{\"failed\":\"These credentials do not match our records.\",\"invitation_invalid_link\":\"This invitation link is invalid.\",\"invitation_link_already_accepted\":\"This invitation has already been accepted. Please sign in to your account.\",\"invitation_logged_accept_cta\":\"Yes, let me in\",\"invitation_logged_accept_title\":\"Would you like to join {name}?\",\"invitation_unlogged_choice_account\":\"Create an account\",\"invitation_unlogged_choice_account_desc\":\"Use this option if you don't have an account\",\"invitation_unlogged_choice_account_title\":\"Create an account\",\"invitation_unlogged_choice_login\":\"Sign in to your account\",\"invitation_unlogged_choice_login_desc\":\"Use this option if you already have an account on Homas\",\"invitation_unlogged_choice_login_title\":\"Use an existing Homas account\",\"invitation_unlogged_create_account_instead\":\"Login with an existing account instead.\",\"invitation_unlogged_desc\":\"To accept the invitation, use one of these two options below.\",\"invitation_unlogged_login_instead\":\"Create a new account instead.\",\"invitation_unlogged_title\":\"You have been invited to join the human resource software used by {name}.\",\"login_cta\":\"Login →\",\"login_email\":\"Your email address\",\"login_invalid_credentials\":\"😳 Invalid credentials\",\"login_password\":\"Your password\",\"register_cta\":\"Create your account →\",\"register_email\":\"Your email address\",\"register_email_help\":\"We'll never spam. You'll receive one email to confirm your email address once you sign up, and won't be added to any nasty email marketing campaigns, nor will you receive emails from a sales team.\",\"register_password\":\"Enter a hard-to-guess password\",\"register_title\":\"Create an account now\",\"throttle\":\"Too many login attempts. Please try again in :seconds seconds.\"},\"company\":{\"new_name\":\"What is the name of the company?\"},\"dashboard\":{\"team_dont_exist\":\"This team does not exist.\",\"team_no_team_yet\":\"You are not associated with a team yet.\",\"team_not_allowed\":\"You are not allowed to view this team.\",\"team_viewing\":\"Viewing\",\"team_worklog_blank\":\"No one has posted a status\",\"team_worklog_stat\":\"Team members who have logged their work:\",\"team_worklog_title\":\"What your team has done this week\",\"team_worklog_today\":\"Today\",\"worklog_added\":\"🤟 You rock!\",\"worklog_already_logged\":\"You have already logged your work today.\",\"worklog_cta\":\"Log your work\",\"worklog_entry_description\":\"Your manager and your team members (if you are assigned to a team) will be able to read this status. Also, you won’t be able to edit this status once it’s submitted.\",\"worklog_placeholder\":\"Let your coworkers know what you’ve been up to today.\",\"worklog_read_previous_entries\":\"Read your previous entries\",\"worklog_success_message\":\"The entry has been saved.\",\"worklog_title\":\"What have you done today?\"},\"employee\":{\"hierarchy_blank\":\"Add a manager or a direct report to position this employee within the company.\",\"hierarchy_list_direct_report_title\":\"Direct report | Direct reports\",\"hierarchy_list_manager_title\":\"Manager | Managers\",\"hierarchy_modal_add_direct_report\":\"Add a direct report\",\"hierarchy_modal_add_direct_report_search\":\"Assign an employee as {name}'s direct report\",\"hierarchy_modal_add_direct_report_success\":\"The direct report has been set\",\"hierarchy_modal_add_manager\":\"Add a manager\",\"hierarchy_modal_add_manager_search\":\"Assign an employee as {name}'s manager\",\"hierarchy_modal_add_manager_success\":\"The manager has been set\",\"hierarchy_modal_remove_direct_report\":\"Remove direct report\",\"hierarchy_modal_remove_direct_report_success\":\"The direct report has been unassigned\",\"hierarchy_modal_remove_manager\":\"Remove manager\",\"hierarchy_modal_remove_manager_success\":\"The manager has been unassigned\",\"hierarchy_search_placeholder\":\"Enter the first letters of the name\",\"hierarchy_search_results\":\"Search results:\",\"hierarchy_title\":\"Hierarchy in the company\",\"position_blank\":\"No position set\",\"position_modal_assign_success\":\"The position has been set\",\"position_modal_filter\":\"Filter the list\",\"position_modal_reset\":\"Remove current position\",\"position_modal_title\":\"Choose a position\",\"position_modal_unassign_success\":\"The position has been removed\",\"team_modal_assign_success\":\"The team has been assigned\",\"team_modal_blank\":\"No team set\",\"team_modal_blank_cta\":\"Create one now\",\"team_modal_blank_title\":\"There is no team in this account yet.\",\"team_modal_filter\":\"Filter the list\",\"team_modal_title\":\"Choose a team\",\"team_modal_unassign_success\":\"The team has been removed\",\"team_title\":\"Teams:\",\"worklog_blank\":\"There are no work logs yet 🤨\"},\"format\":{\"long_month_day\":\"MMMM Do\",\"short_date_year_time\":\"M d, Y H:i\"},\"home\":{\"companies_part_of\":\"All the companies you are part of\",\"create_company\":\"Create a company\",\"create_company_cta\":\"Add a company\",\"create_company_desc\":\"Choose this if you want to create an account for your company.\",\"join_company\":\"Join a company\",\"join_company_desc\":\"Choose this is you are an employee of an existing company and need access to your account.\",\"number_of_employees\":\"no employee | 1 employee | {count} employees\"},\"pagination\":{\"next\":\"Next &raquo;\",\"previous\":\"&laquo; Previous\"},\"passwords\":{\"password\":\"Passwords must be at least six characters and match the confirmation.\",\"reset\":\"Your password has been reset!\",\"sent\":\"We have e-mailed your password reset link!\",\"token\":\"This password reset token is invalid.\",\"user\":\"We can't find a user with that e-mail address.\"},\"team\":{\"new_name\":\"Name\",\"new_title\":\"Create team\"},\"validation\":{\"accepted\":\"The :attribute must be accepted.\",\"active_url\":\"The :attribute is not a valid URL.\",\"after\":\"The :attribute must be a date after :date.\",\"after_or_equal\":\"The :attribute must be a date after or equal to :date.\",\"alpha\":\"The :attribute may only contain letters.\",\"alpha_dash\":\"The :attribute may only contain letters, numbers, dashes and underscores.\",\"alpha_num\":\"The :attribute may only contain letters and numbers.\",\"array\":\"The :attribute must be an array.\",\"attributes\":[],\"before\":\"The :attribute must be a date before :date.\",\"before_or_equal\":\"The :attribute must be a date before or equal to :date.\",\"between\":{\"array\":\"The :attribute must have between :min and :max items.\",\"file\":\"The :attribute must be between :min and :max kilobytes.\",\"numeric\":\"The :attribute must be between :min and :max.\",\"string\":\"The :attribute must be between :min and :max characters.\"},\"boolean\":\"The :attribute field must be true or false.\",\"confirmed\":\"The :attribute confirmation does not match.\",\"custom\":{\"attribute-name\":{\"rule-name\":\"custom-message\"}},\"date\":\"The :attribute is not a valid date.\",\"date_equals\":\"The :attribute must be a date equal to :date.\",\"date_format\":\"The :attribute does not match the format :format.\",\"different\":\"The :attribute and :other must be different.\",\"digits\":\"The :attribute must be :digits digits.\",\"digits_between\":\"The :attribute must be between :min and :max digits.\",\"dimensions\":\"The :attribute has invalid image dimensions.\",\"distinct\":\"The :attribute field has a duplicate value.\",\"email\":\"The :attribute must be a valid email address.\",\"exists\":\"The selected :attribute is invalid.\",\"file\":\"The :attribute must be a file.\",\"filled\":\"The :attribute field must have a value.\",\"gt\":{\"array\":\"The :attribute must have more than :value items.\",\"file\":\"The :attribute must be greater than :value kilobytes.\",\"numeric\":\"The :attribute must be greater than :value.\",\"string\":\"The :attribute must be greater than :value characters.\"},\"gte\":{\"array\":\"The :attribute must have :value items or more.\",\"file\":\"The :attribute must be greater than or equal :value kilobytes.\",\"numeric\":\"The :attribute must be greater than or equal :value.\",\"string\":\"The :attribute must be greater than or equal :value characters.\"},\"image\":\"The :attribute must be an image.\",\"in\":\"The selected :attribute is invalid.\",\"in_array\":\"The :attribute field does not exist in :other.\",\"integer\":\"The :attribute must be an integer.\",\"ip\":\"The :attribute must be a valid IP address.\",\"ipv4\":\"The :attribute must be a valid IPv4 address.\",\"ipv6\":\"The :attribute must be a valid IPv6 address.\",\"json\":\"The :attribute must be a valid JSON string.\",\"lt\":{\"array\":\"The :attribute must have less than :value items.\",\"file\":\"The :attribute must be less than :value kilobytes.\",\"numeric\":\"The :attribute must be less than :value.\",\"string\":\"The :attribute must be less than :value characters.\"},\"lte\":{\"array\":\"The :attribute must not have more than :value items.\",\"file\":\"The :attribute must be less than or equal :value kilobytes.\",\"numeric\":\"The :attribute must be less than or equal :value.\",\"string\":\"The :attribute must be less than or equal :value characters.\"},\"max\":{\"array\":\"The :attribute may not have more than :max items.\",\"file\":\"The :attribute may not be greater than :max kilobytes.\",\"numeric\":\"The :attribute may not be greater than :max.\",\"string\":\"The :attribute may not be greater than :max characters.\"},\"mimes\":\"The :attribute must be a file of type: :values.\",\"mimetypes\":\"The :attribute must be a file of type: :values.\",\"min\":{\"array\":\"The :attribute must have at least :min items.\",\"file\":\"The :attribute must be at least :min kilobytes.\",\"numeric\":\"The :attribute must be at least :min.\",\"string\":\"The :attribute must be at least :min characters.\"},\"not_in\":\"The selected :attribute is invalid.\",\"not_regex\":\"The :attribute format is invalid.\",\"numeric\":\"The :attribute must be a number.\",\"present\":\"The :attribute field must be present.\",\"regex\":\"The :attribute format is invalid.\",\"required\":\"The :attribute field is required.\",\"required_if\":\"The :attribute field is required when :other is :value.\",\"required_unless\":\"The :attribute field is required unless :other is in :values.\",\"required_with\":\"The :attribute field is required when :values is present.\",\"required_with_all\":\"The :attribute field is required when :values are present.\",\"required_without\":\"The :attribute field is required when :values is not present.\",\"required_without_all\":\"The :attribute field is required when none of :values are present.\",\"same\":\"The :attribute and :other must match.\",\"size\":{\"array\":\"The :attribute must contain :size items.\",\"file\":\"The :attribute must be :size kilobytes.\",\"numeric\":\"The :attribute must be :size.\",\"string\":\"The :attribute must be :size characters.\"},\"starts_with\":\"The :attribute must start with one of the following: :values\",\"string\":\"The :attribute must be a string.\",\"timezone\":\"The :attribute must be a valid zone.\",\"unique\":\"The :attribute has already been taken.\",\"uploaded\":\"The :attribute failed to upload.\",\"url\":\"The :attribute format is invalid.\",\"uuid\":\"The :attribute must be a valid UUID.\"}}");
+module.exports = JSON.parse("{\"account\":{\"employee_new_administrator\":\"Administrator\",\"employee_new_administrator_desc\":\"Can do everything, including account management.\",\"employee_new_email\":\"Email address\",\"employee_new_firstname\":\"Firstname\",\"employee_new_hr\":\"Human Resource Representative\",\"employee_new_hr_desc\":\"Have access to most features, including reading and writing private information, but can't manage the account itself.\",\"employee_new_lastname\":\"Lastname\",\"employee_new_permission_level\":\"What can this person do?\",\"employee_new_send_email\":\"Send an email to this person with a link to access the account. This is optional - you will be able to invite this person later.\",\"employee_new_title\":\"Add employee\",\"employee_new_user\":\"Employee\",\"employee_new_user_desc\":\"Can see all teams and employees, but can not manage the account or read private information.\",\"employee_statuses_blank\":\"Statuses are terms that describe the employment status of an employee. Like full-time, part-time, etc....\",\"employee_statuses_cta\":\"Add an employee status\",\"employee_statuses_new_title\":\"Status name\",\"employee_statuses_number_positions\":\"{company} has one employee status. | {company} has {count} employee statuses.\",\"employee_statuses_placeholder\":\"Full-time\",\"employee_statuses_success_destroy\":\"The employee status has been destroyed\",\"employee_statuses_success_new\":\"The employee status has been created\",\"employee_statuses_success_update\":\"The employee status has been updated\",\"employee_statuses_title\":\"All the statuses of the employees in {company}\",\"employees_change_permission\":\"Change permission\",\"employees_cta\":\"Add an employee\",\"employees_lock_account\":\"Lock account\",\"employees_number_employees\":\"{company} has one employee. | {company} has {count} employees.\",\"employees_title\":\"All the employees in {company}\",\"flow_new_action_email\":\"Send an email\",\"flow_new_action_following\":\"Do the following\",\"flow_new_action_label_actual_employee\":\"the actual employee\",\"flow_new_action_label_employee\":\"an employee\",\"flow_new_action_label_everyone\":\"everyone in the company\",\"flow_new_action_label_managers\":\"the manager(s) of the employee\",\"flow_new_action_label_reports\":\"the direct report(s) of the employee\",\"flow_new_action_label_team_employee\":\"the team of the employee\",\"flow_new_action_label_unknown_message\":\"an unknown message\",\"flow_new_action_notification\":\"Notify an employee\",\"flow_new_action_notification_actual_employee\":\"The actual employee\",\"flow_new_action_notification_confirmation\":\"Are you sure? This will alert all the employees of the company.\",\"flow_new_action_notification_everyone\":\"Everyone in the company\",\"flow_new_action_notification_manager\":\"The employee’s manager(s)\",\"flow_new_action_notification_report\":\"The employee’s direct report(s)\",\"flow_new_action_notification_search_employees\":\"Search an employee\",\"flow_new_action_notification_search_hint\":\"Type the first letters of the name\",\"flow_new_action_notification_search_teams\":\"Search a team\",\"flow_new_action_notification_specific_employee\":\"A specific employee\",\"flow_new_action_notification_specific_team\":\"A specific team\",\"flow_new_action_notification_team_members\":\"All the employee’s teams members\",\"flow_new_action_remove\":\"Remove action\",\"flow_new_action_task\":\"Add a task\",\"flow_new_after\":\"after\",\"flow_new_before\":\"before\",\"flow_new_days\":\"days\",\"flow_new_flow\":\"What is the name of the flow?\",\"flow_new_help\":\"This is an internal name, only used to identify the flow.\",\"flow_new_months\":\"months\",\"flow_new_the_day_event_happens\":\"The moment this event happens\",\"flow_new_type_employee_becomes_manager\":\"An employee becomes a manager\",\"flow_new_type_employee_birthday\":\"An employee has a birthday\",\"flow_new_type_employee_joins_company\":\"An employee joins the company\",\"flow_new_type_employee_joins_team\":\"An employee is added to a team\",\"flow_new_type_employee_leaves_company\":\"An employee leaves the company\",\"flow_new_type_employee_leaves_holidays\":\"An employee leaves for holidays\",\"flow_new_type_employee_leaves_team\":\"An employee is removed from a team\",\"flow_new_type_employee_new_position\":\"An employee has a new position\",\"flow_new_type_employee_returns_holidays\":\"An employee comes back from holidays\",\"flow_new_type_employee_returns_leave\":\"An employee returns from a leave\",\"flow_new_weeks\":\"weeks\",\"flows_blank\":\"Flows lets you define how the system should react when something in the company happens. It’s... quite powerful.\",\"flows_cta\":\"Create a flow\",\"flows_number_flows\":\"{company} has one flow. | {company} has {count} flows.\",\"flows_title\":\"All the flows in {company}\",\"home_audit_log\":\"View audit log to see who has done what\",\"home_generate_fake_data\":\"Generate fake data\",\"home_manage_employees\":\"Add/remove existing employees\",\"home_manage_flows\":\"Add/remove flows\",\"home_manage_positions\":\"Add/remove job positions\",\"home_manage_teams\":\"Add/remove teams\",\"home_remove_fake_data\":\"Remove fake data\",\"home_role_administrator\":\"As an <span class=\\\"fw5 brush-blue\\\">administrator</span>, you can…\",\"home_role_owner\":\"As an <span class=\\\"fw5 brush-orange\\\">owner</span>, you can…\",\"home_title\":\"Administration of your Homas account\",\"position_new_title\":\"Position name\",\"position_success_destroy\":\"The position has been destroyed\",\"position_success_new\":\"The position has been created\",\"position_success_update\":\"The position has been updated\",\"positions_blank\":\"Positions are terms that describe in a few words what an employee does. Like Marketing Coordinator for example.\",\"positions_cta\":\"Add a position\",\"positions_number_positions\":\"{company} has one position. | {company} has {count} positions.\",\"positions_title\":\"All the positions used in {company}\",\"team_new_name\":\"Name of the team\",\"teams_blank\":\"Teams are a great way for groups of people in your company to work together in Homas.\",\"teams_cta\":\"Add a team\",\"teams_number_teams\":\"{company} has one team. | {company} has {count} teams.\",\"teams_title\":\"All the teams listed in {company}\"},\"app\":{\"add\":\"Add\",\"breadcrumb_account_add_employee\":\"Add an employee\",\"breadcrumb_account_audit_logs\":\"Audit logs\",\"breadcrumb_account_home\":\"Account administration\",\"breadcrumb_account_manage_employee_statuses\":\"Employee statuses\",\"breadcrumb_account_manage_employees\":\"Manage employees\",\"breadcrumb_account_manage_flows\":\"Manage flows\",\"breadcrumb_account_manage_positions\":\"Positions\",\"breadcrumb_account_manage_teams\":\"Manage teams\",\"breadcrumb_employee_list\":\"All employees\",\"breadcrumb_employee_logs\":\"Logs\",\"breadcrumb_team_list\":\"All teams\",\"cancel\":\"Cancel\",\"choose\":\"Choose\",\"default_position_ceo\":\"CEO\",\"default_position_front_end_developer\":\"Front end developer\",\"default_position_marketing_specialist\":\"Marketing specialist\",\"default_position_sales_representative\":\"Sales representative\",\"delete\":\"Delete\",\"delete_confirm\":\"Sure?\",\"edit\":\"Edit\",\"header_find\":\"Find\",\"header_home\":\"Home\",\"header_logout\":\"Logout\",\"header_notifications\":\"What’s new\",\"header_search_employees\":\"Employees\",\"header_search_no_employee_found\":\"No employees found\",\"header_search_no_team_found\":\"No teams found\",\"header_search_placeholder\":\"Find an employee or a team by name\",\"header_search_teams\":\"Teams\",\"header_switch_company\":\"Switch company\",\"next\":\"Next\",\"no\":\"No\",\"no_position_defined\":\"No position defined\",\"no_results\":\"No results\",\"permission_100\":\"Administrator\",\"permission_200\":\"Human Resource Representative\",\"permission_300\":\"Employee\",\"previous\":\"Previous\",\"rename\":\"Rename\",\"save\":\"Save\",\"search\":\"Search\",\"sure\":\"Are you sure?\",\"update\":\"Update\",\"view\":\"View\",\"yes\":\"Yes\",\"yes_sure\":\"Yes I’m sure\"},\"audit\":{\"title\":\"Audit logs\"},\"auth\":{\"failed\":\"These credentials do not match our records.\",\"invitation_invalid_link\":\"This invitation link is invalid.\",\"invitation_link_already_accepted\":\"This invitation has already been accepted. Please sign in to your account.\",\"invitation_logged_accept_cta\":\"Yes, let me in\",\"invitation_logged_accept_title\":\"Would you like to join {name}?\",\"invitation_unlogged_choice_account\":\"Create an account\",\"invitation_unlogged_choice_account_desc\":\"Use this option if you don't have an account\",\"invitation_unlogged_choice_account_title\":\"Create an account\",\"invitation_unlogged_choice_login\":\"Sign in to your account\",\"invitation_unlogged_choice_login_desc\":\"Use this option if you already have an account on Homas\",\"invitation_unlogged_choice_login_title\":\"Use an existing Homas account\",\"invitation_unlogged_create_account_instead\":\"Login with an existing account instead.\",\"invitation_unlogged_desc\":\"To accept the invitation, use one of these two options below.\",\"invitation_unlogged_login_instead\":\"Create a new account instead.\",\"invitation_unlogged_title\":\"You have been invited to join the human resource software used by {name}.\",\"login_cta\":\"Login →\",\"login_email\":\"Your email address\",\"login_invalid_credentials\":\"😳 Invalid credentials\",\"login_password\":\"Your password\",\"register_cta\":\"Create your account →\",\"register_email\":\"Your email address\",\"register_email_help\":\"We'll never spam. You'll receive one email to confirm your email address once you sign up, and won't be added to any nasty email marketing campaigns, nor will you receive emails from a sales team.\",\"register_password\":\"Enter a hard-to-guess password\",\"register_title\":\"Create an account now\",\"throttle\":\"Too many login attempts. Please try again in :seconds seconds.\"},\"company\":{\"new_name\":\"What is the name of the company?\"},\"dashboard\":{\"team_dont_exist\":\"This team does not exist.\",\"team_no_team_yet\":\"You are not associated with a team yet.\",\"team_not_allowed\":\"You are not allowed to view this team.\",\"team_viewing\":\"Viewing\",\"team_worklog_blank\":\"No one has posted a status\",\"team_worklog_stat\":\"Team members who have logged their work:\",\"team_worklog_title\":\"What your team has done this week\",\"team_worklog_today\":\"Today\",\"worklog_added\":\"🤟 You rock!\",\"worklog_already_logged\":\"You have already logged your work today.\",\"worklog_cta\":\"Log your work\",\"worklog_entry_description\":\"Your manager and your team members (if you are assigned to a team) will be able to read this status. Also, you won’t be able to edit this status once it’s submitted.\",\"worklog_placeholder\":\"Let your coworkers know what you’ve been up to today.\",\"worklog_read_previous_entries\":\"Read your previous entries\",\"worklog_success_message\":\"The entry has been saved.\",\"worklog_title\":\"What have you done today?\"},\"employee\":{\"hierarchy_blank\":\"Add a manager or a direct report to position this employee within the company.\",\"hierarchy_list_direct_report_title\":\"Direct report | Direct reports\",\"hierarchy_list_manager_title\":\"Manager | Managers\",\"hierarchy_modal_add_direct_report\":\"Add a direct report\",\"hierarchy_modal_add_direct_report_search\":\"Assign an employee as {name}'s direct report\",\"hierarchy_modal_add_direct_report_success\":\"The direct report has been set\",\"hierarchy_modal_add_manager\":\"Add a manager\",\"hierarchy_modal_add_manager_search\":\"Assign an employee as {name}'s manager\",\"hierarchy_modal_add_manager_success\":\"The manager has been set\",\"hierarchy_modal_remove_direct_report\":\"Remove direct report\",\"hierarchy_modal_remove_direct_report_success\":\"The direct report has been unassigned\",\"hierarchy_modal_remove_manager\":\"Remove manager\",\"hierarchy_modal_remove_manager_success\":\"The manager has been unassigned\",\"hierarchy_search_placeholder\":\"Enter the first letters of the name\",\"hierarchy_search_results\":\"Search results:\",\"hierarchy_title\":\"Hierarchy in the company\",\"position_blank\":\"No position set\",\"position_modal_assign_success\":\"The position has been set\",\"position_modal_filter\":\"Filter the list\",\"position_modal_reset\":\"Remove current position\",\"position_modal_title\":\"Choose a position\",\"position_modal_unassign_success\":\"The position has been removed\",\"team_modal_assign_success\":\"The team has been assigned\",\"team_modal_blank\":\"No team set\",\"team_modal_blank_cta\":\"Create one now\",\"team_modal_blank_title\":\"There is no team in this account yet.\",\"team_modal_filter\":\"Filter the list\",\"team_modal_title\":\"Choose a team\",\"team_modal_unassign_success\":\"The team has been removed\",\"team_title\":\"Teams:\",\"worklog_blank\":\"There are no work logs yet 🤨\"},\"format\":{\"long_month_day\":\"MMMM Do\",\"short_date_year_time\":\"M d, Y H:i\"},\"home\":{\"companies_part_of\":\"All the companies you are part of\",\"create_company\":\"Create a company\",\"create_company_cta\":\"Add a company\",\"create_company_desc\":\"Choose this if you want to create an account for your company.\",\"join_company\":\"Join a company\",\"join_company_desc\":\"Choose this is you are an employee of an existing company and need access to your account.\",\"number_of_employees\":\"no employee | 1 employee | {count} employees\"},\"pagination\":{\"next\":\"Next &raquo;\",\"previous\":\"&laquo; Previous\"},\"passwords\":{\"password\":\"Passwords must be at least six characters and match the confirmation.\",\"reset\":\"Your password has been reset!\",\"sent\":\"We have e-mailed your password reset link!\",\"token\":\"This password reset token is invalid.\",\"user\":\"We can't find a user with that e-mail address.\"},\"team\":{\"new_name\":\"Name\",\"new_title\":\"Create team\"},\"validation\":{\"accepted\":\"The :attribute must be accepted.\",\"active_url\":\"The :attribute is not a valid URL.\",\"after\":\"The :attribute must be a date after :date.\",\"after_or_equal\":\"The :attribute must be a date after or equal to :date.\",\"alpha\":\"The :attribute may only contain letters.\",\"alpha_dash\":\"The :attribute may only contain letters, numbers, dashes and underscores.\",\"alpha_num\":\"The :attribute may only contain letters and numbers.\",\"array\":\"The :attribute must be an array.\",\"attributes\":[],\"before\":\"The :attribute must be a date before :date.\",\"before_or_equal\":\"The :attribute must be a date before or equal to :date.\",\"between\":{\"array\":\"The :attribute must have between :min and :max items.\",\"file\":\"The :attribute must be between :min and :max kilobytes.\",\"numeric\":\"The :attribute must be between :min and :max.\",\"string\":\"The :attribute must be between :min and :max characters.\"},\"boolean\":\"The :attribute field must be true or false.\",\"confirmed\":\"The :attribute confirmation does not match.\",\"custom\":{\"attribute-name\":{\"rule-name\":\"custom-message\"}},\"date\":\"The :attribute is not a valid date.\",\"date_equals\":\"The :attribute must be a date equal to :date.\",\"date_format\":\"The :attribute does not match the format :format.\",\"different\":\"The :attribute and :other must be different.\",\"digits\":\"The :attribute must be :digits digits.\",\"digits_between\":\"The :attribute must be between :min and :max digits.\",\"dimensions\":\"The :attribute has invalid image dimensions.\",\"distinct\":\"The :attribute field has a duplicate value.\",\"email\":\"The :attribute must be a valid email address.\",\"exists\":\"The selected :attribute is invalid.\",\"file\":\"The :attribute must be a file.\",\"filled\":\"The :attribute field must have a value.\",\"gt\":{\"array\":\"The :attribute must have more than :value items.\",\"file\":\"The :attribute must be greater than :value kilobytes.\",\"numeric\":\"The :attribute must be greater than :value.\",\"string\":\"The :attribute must be greater than :value characters.\"},\"gte\":{\"array\":\"The :attribute must have :value items or more.\",\"file\":\"The :attribute must be greater than or equal :value kilobytes.\",\"numeric\":\"The :attribute must be greater than or equal :value.\",\"string\":\"The :attribute must be greater than or equal :value characters.\"},\"image\":\"The :attribute must be an image.\",\"in\":\"The selected :attribute is invalid.\",\"in_array\":\"The :attribute field does not exist in :other.\",\"integer\":\"The :attribute must be an integer.\",\"ip\":\"The :attribute must be a valid IP address.\",\"ipv4\":\"The :attribute must be a valid IPv4 address.\",\"ipv6\":\"The :attribute must be a valid IPv6 address.\",\"json\":\"The :attribute must be a valid JSON string.\",\"lt\":{\"array\":\"The :attribute must have less than :value items.\",\"file\":\"The :attribute must be less than :value kilobytes.\",\"numeric\":\"The :attribute must be less than :value.\",\"string\":\"The :attribute must be less than :value characters.\"},\"lte\":{\"array\":\"The :attribute must not have more than :value items.\",\"file\":\"The :attribute must be less than or equal :value kilobytes.\",\"numeric\":\"The :attribute must be less than or equal :value.\",\"string\":\"The :attribute must be less than or equal :value characters.\"},\"max\":{\"array\":\"The :attribute may not have more than :max items.\",\"file\":\"The :attribute may not be greater than :max kilobytes.\",\"numeric\":\"The :attribute may not be greater than :max.\",\"string\":\"The :attribute may not be greater than :max characters.\"},\"mimes\":\"The :attribute must be a file of type: :values.\",\"mimetypes\":\"The :attribute must be a file of type: :values.\",\"min\":{\"array\":\"The :attribute must have at least :min items.\",\"file\":\"The :attribute must be at least :min kilobytes.\",\"numeric\":\"The :attribute must be at least :min.\",\"string\":\"The :attribute must be at least :min characters.\"},\"not_in\":\"The selected :attribute is invalid.\",\"not_regex\":\"The :attribute format is invalid.\",\"numeric\":\"The :attribute must be a number.\",\"present\":\"The :attribute field must be present.\",\"regex\":\"The :attribute format is invalid.\",\"required\":\"The :attribute field is required.\",\"required_if\":\"The :attribute field is required when :other is :value.\",\"required_unless\":\"The :attribute field is required unless :other is in :values.\",\"required_with\":\"The :attribute field is required when :values is present.\",\"required_with_all\":\"The :attribute field is required when :values are present.\",\"required_without\":\"The :attribute field is required when :values is not present.\",\"required_without_all\":\"The :attribute field is required when none of :values are present.\",\"same\":\"The :attribute and :other must match.\",\"size\":{\"array\":\"The :attribute must contain :size items.\",\"file\":\"The :attribute must be :size kilobytes.\",\"numeric\":\"The :attribute must be :size.\",\"string\":\"The :attribute must be :size characters.\"},\"starts_with\":\"The :attribute must start with one of the following: :values\",\"string\":\"The :attribute must be a string.\",\"timezone\":\"The :attribute must be a valid zone.\",\"unique\":\"The :attribute has already been taken.\",\"uploaded\":\"The :attribute failed to upload.\",\"url\":\"The :attribute format is invalid.\",\"uuid\":\"The :attribute must be a valid UUID.\"}}");
 
 /***/ }),
 
@@ -49541,6 +50401,7 @@ var map = {
 	"./company/adminland/audit/ShowAccountAudit.vue": "./resources/js/company/adminland/audit/ShowAccountAudit.vue",
 	"./company/adminland/employee/CreateAccountEmployee.vue": "./resources/js/company/adminland/employee/CreateAccountEmployee.vue",
 	"./company/adminland/employee/ShowAccountEmployees.vue": "./resources/js/company/adminland/employee/ShowAccountEmployees.vue",
+	"./company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue": "./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue",
 	"./company/adminland/flow/ActionNotification.vue": "./resources/js/company/adminland/flow/ActionNotification.vue",
 	"./company/adminland/flow/Actions.vue": "./resources/js/company/adminland/flow/Actions.vue",
 	"./company/adminland/flow/CreateAccountFlow.vue": "./resources/js/company/adminland/flow/CreateAccountFlow.vue",
@@ -50455,6 +51316,93 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployees_vue_vue_type_template_id_e5bd15be_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployees_vue_vue_type_template_id_e5bd15be_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue ***!
+  \***************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ShowAccountEmployeeStatuses_vue_vue_type_template_id_0b177e34_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShowAccountEmployeeStatuses.vue?vue&type=template&id=0b177e34&scoped=true& */ "./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=template&id=0b177e34&scoped=true&");
+/* harmony import */ var _ShowAccountEmployeeStatuses_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShowAccountEmployeeStatuses.vue?vue&type=script&lang=js& */ "./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _ShowAccountEmployeeStatuses_vue_vue_type_style_index_0_id_0b177e34_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css& */ "./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _ShowAccountEmployeeStatuses_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ShowAccountEmployeeStatuses_vue_vue_type_template_id_0b177e34_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ShowAccountEmployeeStatuses_vue_vue_type_template_id_0b177e34_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "0b177e34",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ShowAccountEmployeeStatuses.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************!*\
+  !*** ./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_style_index_0_id_0b177e34_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=style&index=0&id=0b177e34&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_style_index_0_id_0b177e34_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_style_index_0_id_0b177e34_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_style_index_0_id_0b177e34_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_style_index_0_id_0b177e34_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_style_index_0_id_0b177e34_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
+
+/***/ }),
+
+/***/ "./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=template&id=0b177e34&scoped=true&":
+/*!**********************************************************************************************************************************!*\
+  !*** ./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=template&id=0b177e34&scoped=true& ***!
+  \**********************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_template_id_0b177e34_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./ShowAccountEmployeeStatuses.vue?vue&type=template&id=0b177e34&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/company/adminland/employeestatus/ShowAccountEmployeeStatuses.vue?vue&type=template&id=0b177e34&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_template_id_0b177e34_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ShowAccountEmployeeStatuses_vue_vue_type_template_id_0b177e34_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
