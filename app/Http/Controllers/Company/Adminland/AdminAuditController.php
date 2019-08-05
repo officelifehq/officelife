@@ -96,7 +96,7 @@ class AdminAuditController extends Controller
             }
 
             if ($log->action == 'employee_status_updated') {
-                $sentence = 'Changed the name of the employee status from '. $log->object->{'employee_status_old_name'}.' to '.$log->object->{'employee_status_new_name'}.'.';
+                $sentence = 'Changed the name of the employee status from '.$log->object->{'employee_status_old_name'}.' to '.$log->object->{'employee_status_new_name'}.'.';
             }
 
             $logsCollection->push([
