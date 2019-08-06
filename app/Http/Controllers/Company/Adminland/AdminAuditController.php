@@ -100,7 +100,7 @@ class AdminAuditController extends Controller
             }
 
             if ($log->action == 'employee_status_destroyed') {
-                $sentence = 'Destroyed the employee status called ' . $log->object->{'employee_status_name'} . '.';
+                $sentence = 'Destroyed the employee status called '.$log->object->{'employee_status_name'}.'.';
             }
 
             $logsCollection->push([
