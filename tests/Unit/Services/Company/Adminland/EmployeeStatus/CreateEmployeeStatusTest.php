@@ -50,7 +50,7 @@ class CreateEmployeeStatusTest extends TestCase
             'description' => 'Permanent',
         ];
 
-        (new CreateEmployeeStatus)->execute($request);
+        $employeeStatus = (new CreateEmployeeStatus)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
@@ -58,7 +58,7 @@ class CreateEmployeeStatusTest extends TestCase
             'objects' => json_encode([
                 'author_id' => $employee->user->id,
                 'author_name' => $employee->user->name,
-                'employee_status_id' => $employee->id,
+                'employee_status_id' => $employeeStatus->id,
                 'employee_status_name' => 'Permanent',
             ]),
         ]);
