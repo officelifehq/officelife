@@ -8,6 +8,7 @@ return [
     'home_manage_positions' => 'Add/remove job positions',
     'home_manage_teams' => 'Add/remove teams',
     'home_manage_flows' => 'Add/remove flows',
+    'home_manage_employee_statuses' => 'Add/remove employee statuses',
     'home_audit_log' => 'View audit log to see who has done what',
     'home_generate_fake_data' => 'Generate fake data',
     'home_remove_fake_data' => 'Remove fake data',
@@ -36,7 +37,6 @@ return [
     'teams_number_teams' => '{company} has one team. | {company} has {count} teams.',
     'teams_cta' => 'Add a team',
     'teams_blank' => 'Teams are a great way for groups of people in your company to work together in Homas.',
-
     'team_new_name' => 'Name of the team',
 
     'employee_statuses_title' => 'All the employee statuses in {company}',

@@ -3,6 +3,9 @@
   background-color: #f3f9fc;
   padding: 1px 10px;
 }
+.worklog-item:last-child {
+  margin-bottom: 0;
+}
 </style>
 
 <template>
@@ -19,7 +22,7 @@
       <!-- worklogs -->
       <div v-show="worklogs.length != 0" data-cy="list-worklogs">
         <ul class="list mv0 pa0">
-          <li v-for="worklog in worklogs" :key="worklog.id" class="mb3 relative">
+          <li v-for="worklog in worklogs" :key="worklog.id" class="mb3 relative worklog-item">
             <p class="f7 mb1">
               {{ worklog.created_at }}
             </p>
