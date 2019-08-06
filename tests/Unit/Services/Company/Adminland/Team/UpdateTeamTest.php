@@ -62,6 +62,13 @@ class UpdateTeamTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $team->company_id,
             'action' => 'team_updated',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'team_id' => $team->id,
+                'team_old_name' => $team->name,
+                'team_new_name' => 'Selling team',
+            ]),
         ]);
     }
 

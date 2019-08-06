@@ -53,6 +53,11 @@ class DestroyTeamTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $team->company_id,
             'action' => 'team_destroyed',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'team_name' => $team->name,
+            ]),
         ]);
     }
 

@@ -49,11 +49,19 @@ class ChangePermissionTest extends TestCase
             'permission_level' => config('homas.authorizations.hr'),
         ];
 
-        $employee = (new ChangePermission)->execute($request);
+        (new ChangePermission)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'permission_changed',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+                'old_permission' => $employee->permission_level,
+                'new_permission' => config('homas.authorizations.hr'),
+            ]),
         ]);
     }
 

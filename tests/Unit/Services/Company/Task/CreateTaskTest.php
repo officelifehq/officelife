@@ -60,23 +60,41 @@ class CreateTaskTest extends TestCase
             'title' => 'Fire Jim',
         ];
 
-        (new CreateTask)->execute($request);
+        $task = (new CreateTask)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'task_created',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'task_id' => $task->id,
+                'task_name' => $task->name,
+            ]),
         ]);
 
         $this->assertDatabaseMissing('team_logs', [
             'company_id' => $employee->company_id,
             'team_id' => $team->id,
             'action' => 'task_associated_to_team',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'task_id' => $task->id,
+                'task_name' => $task->name,
+            ]),
         ]);
 
         $this->assertDatabaseMissing('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'task_assigned_to_employee',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'task_id' => $task->id,
+                'task_name' => $task->name,
+            ]),
         ]);
     }
 
@@ -95,23 +113,41 @@ class CreateTaskTest extends TestCase
             'title' => 'Fire Jim',
         ];
 
-        (new CreateTask)->execute($request);
+        $task = (new CreateTask)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'task_created',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'task_id' => $task->id,
+                'task_name' => $task->name,
+            ]),
         ]);
 
         $this->assertDatabaseHas('team_logs', [
             'company_id' => $employee->company_id,
             'team_id' => $team->id,
             'action' => 'task_associated_to_team',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'task_id' => $task->id,
+                'task_name' => $task->name,
+            ]),
         ]);
 
         $this->assertDatabaseMissing('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'task_assigned_to_employee',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'task_id' => $task->id,
+                'task_name' => $task->name,
+            ]),
         ]);
     }
 
@@ -130,29 +166,48 @@ class CreateTaskTest extends TestCase
             'title' => 'Fire Jim',
         ];
 
-        (new CreateTask)->execute($request);
+        $task = (new CreateTask)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'task_created',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'task_id' => $task->id,
+                'task_name' => $task->name,
+            ]),
         ]);
 
         $this->assertDatabaseMissing('team_logs', [
             'company_id' => $employee->company_id,
             'team_id' => $team->id,
             'action' => 'task_associated_to_team',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'task_id' => $task->id,
+                'task_name' => $task->name,
+            ]),
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'task_assigned_to_employee',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'task_id' => $task->id,
+                'task_name' => $task->name,
+            ]),
         ]);
 
         $this->assertDatabaseHas('notifications', [
             'company_id' => $employee->company_id,
             'user_id' => $employee->user_id,
             'action' => 'task_assigned',
+            'content' => $task->title,
         ]);
     }
 

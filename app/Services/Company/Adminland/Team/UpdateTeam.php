@@ -43,6 +43,8 @@ class UpdateTeam extends BaseService
         $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
 
+        $oldName = $team->name;
+
         $team->update([
             'name' => $data['name'],
         ]);
@@ -54,7 +56,8 @@ class UpdateTeam extends BaseService
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'team_id' => $team->id,
-                'team_name' => $team->name,
+                'team_old_name' => $oldName,
+                'team_new_name' => $data['name'],
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);

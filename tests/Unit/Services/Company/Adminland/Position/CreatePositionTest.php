@@ -49,11 +49,17 @@ class CreatePositionTest extends TestCase
             'title' => 'Assistant to the regional manager',
         ];
 
-        (new CreatePosition)->execute($request);
+        $position = (new CreatePosition)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'position_created',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'position_id' => $position->id,
+                'position_title' => $position->title,
+            ]),
         ]);
     }
 

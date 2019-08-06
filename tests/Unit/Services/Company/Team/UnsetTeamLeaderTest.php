@@ -60,6 +60,12 @@ class UnsetTeamLeaderTest extends TestCase
             'company_id' => $employee->company_id,
             'team_id' => $team->id,
             'action' => 'team_leader_removed',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'team_leader_id' => $team->leader->id,
+                'team_leader_name' => $team->leader->name,
+            ]),
         ]);
     }
 

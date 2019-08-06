@@ -59,6 +59,14 @@
               <img src="/img/company/account/flows.svg" class="pr1 absolute" />
               <a :href="'/' + company.id + '/account/flows'" class="relative" data-cy="-admin-link">{{ $t('account.home_manage_flows') }}</a>
             </li>
+            <li class="pa2 pl0 relative">
+              <img src="/img/company/account/flows.svg" class="pr1 absolute" />
+              <a :href="'/' + company.id + '/account/employeestatuses'" class="relative" data-cy="employee-statuses-admin-link">{{ $t('account.home_manage_employee_statuses') }}</a>
+            </li>
+            <li class="pa2 pl0 relative">
+              <img src="/img/company/account/flows.svg" class="pr1 absolute" />
+              <a :href="'/' + company.id + '/account/employeestatuses'" class="relative" data-cy="-admin-link">{{ $t('account.home_manage_employee_statuses') }}</a>
+            </li>
           </ul>
 
           <!-- ACCOUNT OWNER -->

@@ -147,6 +147,13 @@ textarea {
   background-repeat: repeat-x;
 }
 
+// adminland
+.adminland-headline {
+  a {
+    top: -10px;
+  }
+}
+
 // pages specific styles
 .home-index-company {
   color: $body-color;

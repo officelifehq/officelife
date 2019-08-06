@@ -176,3 +176,12 @@ $factory->define(App\Models\Company\Worklog::class, function (Faker $faker) {
         'content' => 'This is what I have done',
     ];
 });
+
+$factory->define(App\Models\Company\EmployeeStatus::class, function (Faker $faker) {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'name' => 'Permanent',
+    ];
+});

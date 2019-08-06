@@ -71,12 +71,26 @@ class SetBirthdayForEmployeeTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'employee_birthday_set',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+                'birthday' => '1978-10-01',
+            ]),
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'birthday_set',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+                'birthday' => '1978-10-01',
+            ]),
         ]);
     }
 

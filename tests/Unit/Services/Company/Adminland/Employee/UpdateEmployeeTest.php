@@ -59,11 +59,17 @@ class UpdateEmployeeTest extends TestCase
             'birthdate' => '1978-01-20',
         ];
 
-        $updatedEmployee = (new UpdateEmployee)->execute($request);
+        (new UpdateEmployee)->execute($request);
 
         $this->assertdatabasehas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'employee_updated',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => 'Dwight Schrute',
+            ]),
         ]);
     }
 

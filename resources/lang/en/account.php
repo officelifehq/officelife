@@ -39,6 +39,16 @@ return [
 
     'team_new_name' => 'Name of the team',
 
+    'employee_statuses_title' => 'All the employee statuses in {company}',
+    'employee_statuses_number_positions' => '{company} has one employee status. | {company} has {count} employee statuses.',
+    'employee_statuses_cta' => 'Add an employee status',
+    'employee_statuses_blank' => 'Statuses are terms that describe the employment status of an employee. Like full-time, part-time, etc....',
+    'employee_statuses_new_title' => 'Status name',
+    'employee_statuses_placeholder' => 'Full-time',
+    'employee_statuses_success_new' => 'The employee status has been created',
+    'employee_statuses_success_update' => 'The employee status has been updated',
+    'employee_statuses_success_destroy' => 'The employee status has been destroyed',
+
     'positions_title' => 'All the positions used in {company}',
     'positions_number_positions' => '{company} has one position. | {company} has {count} positions.',
     'positions_cta' => 'Add a position',

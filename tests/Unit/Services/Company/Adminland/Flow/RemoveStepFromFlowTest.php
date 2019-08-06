@@ -68,6 +68,12 @@ class RemoveStepFromFlowTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'flow_updated',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'flow_id' => $flow->id,
+                'flow_name' => $flow->name,
+            ]),
         ]);
     }
 

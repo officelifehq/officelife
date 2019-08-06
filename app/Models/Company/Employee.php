@@ -82,6 +82,7 @@ class Employee extends Model
      * @var array
      */
     protected $casts = [
+        'permission_level' => 'integer',
     ];
 
     /**

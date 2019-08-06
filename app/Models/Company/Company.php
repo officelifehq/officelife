@@ -110,4 +110,14 @@ class Company extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    /**
+     * Get the employee statuses records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function employeeStatuses()
+    {
+        return $this->hasMany(EmployeeStatus::class);
+    }
 }

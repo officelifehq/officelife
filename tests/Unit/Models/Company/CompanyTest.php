@@ -11,6 +11,7 @@ use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\EmployeeEvent;
+use App\Models\Company\EmployeeStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompanyTest extends TestCase
@@ -92,5 +93,16 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->tasks()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_statuses() : void
+    {
+        $company = factory(Company::class)->create();
+        factory(EmployeeStatus::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->employeeStatuses()->exists());
     }
 }

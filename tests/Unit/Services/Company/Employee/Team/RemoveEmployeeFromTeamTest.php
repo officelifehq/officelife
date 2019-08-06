@@ -75,18 +75,42 @@ class RemoveEmployeeFromTeamTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'employee_removed_from_team',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
+            ]),
         ]);
 
         $this->assertDatabaseHas('team_logs', [
             'company_id' => $employee->company_id,
             'team_id' => $team->id,
             'action' => 'employee_removed_from_team',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
+            ]),
         ]);
 
         $this->assertDatabaseHas('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'employee_removed_from_team',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
+            ]),
         ]);
     }
 

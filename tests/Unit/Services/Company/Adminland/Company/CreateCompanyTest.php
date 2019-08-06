@@ -50,6 +50,11 @@ class CreateCompanyTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $company->id,
             'action' => 'account_created',
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
+                'company_name' => 'Dunder Mifflin',
+            ]),
         ]);
     }
 

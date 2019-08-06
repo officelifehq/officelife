@@ -30,6 +30,7 @@ return [
     'breadcrumb_account_manage_flows' => 'Manage flows',
     'breadcrumb_account_audit_logs' => 'Audit logs',
     'breadcrumb_account_manage_positions' => 'Positions',
+    'breadcrumb_account_manage_employee_statuses' => 'Employee statuses',
     'breadcrumb_employee_list' => 'All employees',
     'breadcrumb_employee_logs' => 'Logs',
     'breadcrumb_team_list' => 'All teams',
@@ -53,4 +54,6 @@ return [
     'default_position_sales_representative' => 'Sales representative',
     'default_position_marketing_specialist' => 'Marketing specialist',
     'default_position_front_end_developer' => 'Front end developer',
+    'default_employee_status_full_time' => 'Full-time',
+    'default_employee_status_part_time' => 'Part-time',
 ];

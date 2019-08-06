@@ -62,18 +62,38 @@ class AssignManagerTest extends TestCase
         $this->assertdatabasehas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'manager_assigned',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'manager_id' => $manager->id,
+                'manager_name' => $manager->name,
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+            ]),
         ]);
 
         $this->assertdatabasehas('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'manager_assigned',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'manager_id' => $manager->id,
+                'manager_name' => $manager->name,
+            ]),
         ]);
 
         $this->assertdatabasehas('employee_logs', [
             'company_id' => $employee->company_id,
             'employee_id' => $manager->id,
             'action' => 'direct_report_assigned',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'direct_report_id' => $employee->id,
+                'direct_report_name' => $employee->name,
+            ]),
         ]);
     }
 

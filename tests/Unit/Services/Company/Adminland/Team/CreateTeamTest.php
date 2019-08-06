@@ -55,6 +55,12 @@ class CreateTeamTest extends TestCase
         $this->assertDatabaseHas('audit_logs', [
             'company_id' => $employee->company_id,
             'action' => 'team_created',
+            'objects' => json_encode([
+                'author_id' => $employee->user->id,
+                'author_name' => $employee->user->name,
+                'team_id' => $team->id,
+                'team_name' => $team->name,
+            ]),
         ]);
     }
 
