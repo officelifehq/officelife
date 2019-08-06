@@ -78,7 +78,7 @@ class RemoveActionfromStepTest extends TestCase
             'objects' => json_encode([
                 'author_id' => $employee->user->id,
                 'author_name' => $employee->user->name,
-                'flow_id' => (string) $flow->id,
+                'flow_id' => $flow->id,
                 'flow_name' => $flow->name,
             ]),
         ]);

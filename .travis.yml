@@ -4,16 +4,18 @@ php:
   - 7.2
   - 7.3
 
-addons:
-  mariadb: 10.4
+services:
+  - mysql
 
 before_script:
   - cp .env.travis .env
   - mysql -e 'create database homas_test;'
   - composer self-update
-  - composer install --no-interaction
+  - composer install --no-progress --no-interaction --prefer-dist --no-suggest
   - php artisan migrate --no-interaction -vvv
   - php artisan db:seed --no-interaction -vvv
+  - php artisan config:cache
+  - php artisan route:cache
 
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.xml

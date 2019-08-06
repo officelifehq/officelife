@@ -55,7 +55,7 @@ class RemoveActionFromStep extends BaseService
                 'author_name' => $author->name,
                 'flow_id' => $step->flow_id,
                 'flow_name' => $step->flow->name,
-            ]),
+            ], JSON_NUMERIC_CHECK),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 

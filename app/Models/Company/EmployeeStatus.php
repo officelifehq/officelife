@@ -3,10 +3,13 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class EmployeeStatus extends Model
 {
+    use LogsActivity;
+
     protected $table = 'employee_statuses';
 
     /**
@@ -18,6 +21,15 @@ class EmployeeStatus extends Model
         'company_id',
         'name',
         'is_dummy',
+    ];
+
+    /**
+     * The attributes that are logged when changed.
+     *
+     * @var array
+     */
+    protected static $logAttributes = [
+        'name',
     ];
 
     /**
