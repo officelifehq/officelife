@@ -8,7 +8,6 @@ use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Services\User\Avatar\GenerateAvatar;
-use App\Services\Company\Adminland\Position\CreatePosition;
 
 class CreateCompany extends BaseService
 {
@@ -53,7 +52,10 @@ class CreateCompany extends BaseService
 
         $this->addFirstEmployee($company, $author);
 
-        $this->provisionDefaultPositions($company, $author);
+        (new ProvisionDefaultAccountData)->execute([
+            'company_id' => $company->id,
+            'author_id' => $author->id,
+        ]);
 
         return $company;
     }
@@ -84,30 +86,5 @@ class CreateCompany extends BaseService
             'last_name' => $author->last_name,
             'avatar' => $avatar,
         ]);
-    }
-
-    /**
-     * Provision the account with smart default positions.
-     *
-     * @param Company $company
-     * @param User $author
-     * @return void
-     */
-    private function provisionDefaultPositions(Company $company, User $author) : void
-    {
-        $positions = [
-            trans('app.default_position_ceo'),
-            trans('app.default_position_sales_representative'),
-            trans('app.default_position_marketing_specialist'),
-            trans('app.default_position_front_end_developer'),
-        ];
-
-        foreach ($positions as $position) {
-            (new CreatePosition)->execute([
-                'company_id' => $company->id,
-                'author_id' => $author->id,
-                'title' => $position,
-            ]);
-        }
     }
 }

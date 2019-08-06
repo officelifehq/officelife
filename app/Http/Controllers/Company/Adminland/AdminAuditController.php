@@ -99,6 +99,10 @@ class AdminAuditController extends Controller
                 $sentence = 'Changed the name of the employee status from '.$log->object->{'employee_status_old_name'}.' to '.$log->object->{'employee_status_new_name'}.'.';
             }
 
+            if ($log->action == 'employee_status_destroyed') {
+                $sentence = 'Destroyed the employee status called ' . $log->object->{'employee_status_name'} . '.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,

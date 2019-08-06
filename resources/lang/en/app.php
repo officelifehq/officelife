@@ -54,4 +54,6 @@ return [
     'default_position_sales_representative' => 'Sales representative',
     'default_position_marketing_specialist' => 'Marketing specialist',
     'default_position_front_end_developer' => 'Front end developer',
+    'default_employee_status_full_time' => 'Full-time',
+    'default_employee_status_part_time' => 'Part-time',
 ];
