@@ -4,6 +4,7 @@ namespace App\Http\Resources\Company\Employee;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Company\Team\Team as TeamResource;
+use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
 
 class Employee extends JsonResource
 {
@@ -28,6 +29,7 @@ class Employee extends JsonResource
             'position' => $this->position,
             'teams' => is_null($this->teams) ? null : TeamResource::collection($this->teams),
             'has_logged_worklog_today' => $this->hasAlreadyLoggedWorklogToday(),
+            'status' => is_null($this->status) ? null : new EmployeeStatusResource($this->status),
             'company' => [
                 'id' => $this->company_id,
             ],

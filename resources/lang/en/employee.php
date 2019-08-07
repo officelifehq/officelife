@@ -35,4 +35,15 @@ return [
     'team_title' => 'Teams:',
 
     'worklog_blank' => 'There are no work logs yet 🤨',
+
+    'status_title' => 'Status:',
+    'status_modal_title' => 'Employee status',
+    'status_modal_blank' => 'No status set',
+    'status_modal_cta' => 'Choose a status',
+    'status_modal_filter' => 'Filter the list',
+    'status_modal_blank_title' => 'There is no employee status defined in this account yet.',
+    'status_modal_blank_cta' => 'Create one now',
+    'status_modal_assign_success' => 'The status has been assigned',
+    'status_modal_unassign_success' => 'The status has been removed',
+    'status_modal_reset' => 'Remove current status',
 ];

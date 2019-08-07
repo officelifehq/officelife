@@ -46,7 +46,7 @@ describe('Employee - Assign positions', function () {
     cy.hasEmployeeLog('admin@admin.com removed the position called CEO', '/1/employees/1')
   })
 
-  it('should not let a normal user assign teams', function () {
+  it('should not let a normal user assign positions', function () {
     cy.login()
 
     cy.createCompany()

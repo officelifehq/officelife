@@ -37,6 +37,7 @@ class Employee extends Model
         'invitation_link',
         'invitation_used_at',
         'consecutive_worklog_missed',
+        'employee_status_id',
         'uuid',
         'is_dummy',
         'avatar',
@@ -74,6 +75,7 @@ class Employee extends Model
     protected static $logAttributes = [
         'permission_level',
         'position_id',
+        'employee_status_id',
     ];
 
     /**
@@ -194,6 +196,16 @@ class Employee extends Model
     public function worklogs()
     {
         return $this->hasMany(Worklog::class);
+    }
+
+    /**
+     * Get the employee status associated with the employee.
+     *
+     * @return belongsTo
+     */
+    public function status()
+    {
+        return $this->belongsTo(EmployeeStatus::class, 'employee_status_id');
     }
 
     /**

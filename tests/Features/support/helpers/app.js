@@ -21,7 +21,7 @@ Cypress.Commands.add('createCompany', () => {
   cy.get('[data-cy=create-company-submit]').click()
 })
 
-// Create a team called "product"
+// Create a team
 Cypress.Commands.add('createTeam', (productName) => {
   cy.visit('/1/account')
 
@@ -31,6 +31,18 @@ Cypress.Commands.add('createTeam', (productName) => {
   cy.get('input[name=name]').type(productName)
 
   cy.get('[data-cy=submit-add-team-button]').click()
+})
+
+// Create an employee status
+Cypress.Commands.add('createEmployeeStatus', (status) => {
+  cy.visit('/1/account')
+
+  cy.get('[data-cy=employee-statuses-admin-link]').click()
+  cy.get('[data-cy=add-status-button]').click()
+
+  cy.get('input[name=title]').type(status)
+
+  cy.get('[data-cy=modal-add-cta]').click()
 })
 
 // Create an employee

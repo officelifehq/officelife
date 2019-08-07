@@ -66,7 +66,12 @@
               No hire date
             </li>
             <li class="di-l db mb0-l mb2 mr2">
-              No indication of status
+              <assign-employee-status
+                :company="company"
+                :employee="employee"
+                :user="user"
+                :statuses="statuses"
+              />
             </li>
             <li class="di-l db mb0-l mb2">
               <assign-employee-team
@@ -148,6 +153,10 @@ export default {
       default: null,
     },
     worklogs: {
+      type: Array,
+      default: null,
+    },
+    statuses: {
       type: Array,
       default: null,
     },

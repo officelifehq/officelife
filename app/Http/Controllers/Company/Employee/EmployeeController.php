@@ -13,6 +13,7 @@ use App\Services\Company\Employee\Manager\UnassignManager;
 use App\Http\Resources\Company\Worklog\Worklog as WorklogResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\Position\Position as PositionResource;
+use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
 
 class EmployeeController extends Controller
 {
@@ -53,6 +54,7 @@ class EmployeeController extends Controller
         $positions = $company->positions()->get();
         $teams = $company->teams()->get();
         $worklogs = $employee->worklogs()->latest()->take(7)->get();
+        $employeeStatuses = $company->employeeStatuses()->get();
 
         return View::component('ShowCompanyEmployee', [
             'company' => $company,
@@ -64,6 +66,7 @@ class EmployeeController extends Controller
             'positions' => PositionResource::collection($positions),
             'teams' => TeamResource::collection($teams),
             'worklogs' => WorklogResource::collection($worklogs),
+            'statuses' => EmployeeStatusResource::collection($employeeStatuses),
         ]);
     }
 

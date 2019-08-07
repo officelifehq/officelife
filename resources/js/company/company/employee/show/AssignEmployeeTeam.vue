@@ -198,7 +198,7 @@ export default {
         });
     },
 
-    isAssigned : function(id){
+    isAssigned: function(id) {
       for(var i=0; i < this.updatedEmployee.teams.length; i++){
         if (this.updatedEmployee.teams[i].id == id) {
           return true;

@@ -80,6 +80,14 @@ class EmployeeLogsController extends Controller
                 $sentence = $log->author.' added a worklog.';
             }
 
+            if ($log->action == 'employee_status_assigned') {
+                $sentence = $log->author.' assigned the employee status called '.$log->object->{'employee_status_name'}.'.';
+            }
+
+            if ($log->action == 'employee_status_removed') {
+                $sentence = $log->author.' removed the employee status called '.$log->object->{'employee_status_name'}.'.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,
