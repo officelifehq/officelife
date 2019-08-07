@@ -5,9 +5,9 @@ namespace App\Services\Company\Employee\Worklog;
 use App\Services\BaseService;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
-use App\Services\Company\Employee\LogEmployeeAction;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
 use App\Exceptions\WorklogAlreadyLoggedTodayException;
-use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class LogWorklog extends BaseService
 {
@@ -16,7 +16,7 @@ class LogWorklog extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'author_id' => 'required|integer|exists:users,id',
@@ -60,7 +60,7 @@ class LogWorklog extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,
             'action' => 'employee_worklog_logged',
             'objects' => json_encode([
@@ -73,9 +73,9 @@ class LogWorklog extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        (new LogEmployeeAction)->execute([
+        LogEmployeeAudit::dispatch([
             'company_id' => $employee->company_id,
-            'employee_id' => $data['employee_id'],
+            'employee_id' => $employee->id,
             'action' => 'employee_worklog_logged',
             'objects' => json_encode([
                 'author_id' => $author->id,

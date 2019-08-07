@@ -5,8 +5,8 @@ namespace App\Services\Company\Employee\Position;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
-use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
 
 class AssignPositionToEmployee extends BaseService
 {
@@ -15,7 +15,7 @@ class AssignPositionToEmployee extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -50,20 +50,7 @@ class AssignPositionToEmployee extends BaseService
         $employee->position_id = $position->id;
         $employee->save();
 
-        (new LogEmployeeAction)->execute([
-            'company_id' => $data['company_id'],
-            'employee_id' => $data['employee_id'],
-            'action' => 'position_assigned',
-            'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
-                'position_id' => $position->id,
-                'position_title' => $position->title,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
-
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'position_assigned',
             'objects' => json_encode([
@@ -71,6 +58,19 @@ class AssignPositionToEmployee extends BaseService
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
+                'position_id' => $position->id,
+                'position_title' => $position->title,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ]);
+
+        LogEmployeeAudit::dispatch([
+            'company_id' => $data['company_id'],
+            'employee_id' => $data['employee_id'],
+            'action' => 'position_assigned',
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
                 'position_id' => $position->id,
                 'position_title' => $position->title,
             ]),

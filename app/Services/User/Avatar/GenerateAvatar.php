@@ -11,7 +11,7 @@ class GenerateAvatar extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'uuid' => 'required|string',

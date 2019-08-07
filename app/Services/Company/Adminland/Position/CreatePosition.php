@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Position;
 
 use App\Services\BaseService;
 use App\Models\Company\Position;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
 
 class CreatePosition extends BaseService
 {
@@ -13,7 +13,7 @@ class CreatePosition extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -44,7 +44,7 @@ class CreatePosition extends BaseService
             'title' => $data['title'],
         ]);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'position_created',
             'objects' => json_encode([

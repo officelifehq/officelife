@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Employee;
 
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
 
 class DestroyEmployee extends BaseService
 {
@@ -13,7 +13,7 @@ class DestroyEmployee extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'author_id' => 'required|integer|exists:users,id',
@@ -44,7 +44,7 @@ class DestroyEmployee extends BaseService
 
         $employee->delete();
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_destroyed',
             'objects' => json_encode([

@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
 use App\Services\User\Avatar\GenerateAvatar;
-use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class AddEmployeeToCompany extends BaseService
 {
@@ -18,7 +18,7 @@ class AddEmployeeToCompany extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -50,7 +50,7 @@ class AddEmployeeToCompany extends BaseService
 
         $employee = $this->createEmployee($data, $author);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_added_to_company',
             'objects' => json_encode([
@@ -102,7 +102,7 @@ class AddEmployeeToCompany extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        (new LogEmployeeAction)->execute([
+        LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
             'employee_id' => $employee->id,
             'action' => 'employee_created',
@@ -112,6 +112,7 @@ class AddEmployeeToCompany extends BaseService
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
             ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $employee;

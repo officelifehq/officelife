@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Team;
 
 use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
 
 class DestroyTeam extends BaseService
 {
@@ -13,7 +13,7 @@ class DestroyTeam extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -44,7 +44,7 @@ class DestroyTeam extends BaseService
 
         $team->delete();
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_destroyed',
             'objects' => json_encode([

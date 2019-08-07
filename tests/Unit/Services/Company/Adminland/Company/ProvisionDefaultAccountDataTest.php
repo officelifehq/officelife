@@ -3,7 +3,6 @@
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
 use Tests\TestCase;
-use App\Models\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\ProvisionDefaultAccountData;
 
@@ -14,12 +13,11 @@ class ProvisionDefaultAccountDataTest extends TestCase
     /** @test */
     public function it_populates_default_data_in_the_account() : void
     {
-        $adminEmployee = $this->createAdministrator();
-        $user = factory(User::class)->create([]);
+        $michael = $this->createAdministrator();
 
         $request = [
-            'company_id' => $adminEmployee->company_id,
-            'author_id' => $adminEmployee->user->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user->id,
         ];
 
         (new ProvisionDefaultAccountData)->execute($request);
@@ -33,7 +31,7 @@ class ProvisionDefaultAccountDataTest extends TestCase
 
         foreach ($positions as $position) {
             $this->assertDatabaseHas('positions', [
-                'company_id' => $adminEmployee->company_id,
+                'company_id' => $michael->company_id,
                 'title' => $position,
             ]);
         }
@@ -45,7 +43,7 @@ class ProvisionDefaultAccountDataTest extends TestCase
 
         foreach ($statuses as $status) {
             $this->assertDatabaseHas('employee_statuses', [
-                'company_id' => $adminEmployee->company_id,
+                'company_id' => $michael->company_id,
                 'name' => $status,
             ]);
         }

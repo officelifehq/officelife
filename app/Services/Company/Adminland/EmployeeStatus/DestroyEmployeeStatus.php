@@ -3,8 +3,8 @@
 namespace App\Services\Company\Adminland\EmployeeStatus;
 
 use App\Services\BaseService;
+use App\Jobs\Logs\LogAccountAudit;
 use App\Models\Company\EmployeeStatus;
-use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class DestroyEmployeeStatus extends BaseService
 {
@@ -13,7 +13,7 @@ class DestroyEmployeeStatus extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -44,7 +44,7 @@ class DestroyEmployeeStatus extends BaseService
 
         $employeeStatus->delete();
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_status_destroyed',
             'objects' => json_encode([

@@ -5,10 +5,10 @@ namespace App\Services\Company\Adminland\Employee;
 use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Company\InviteEmployeeToBecomeUser;
 use App\Exceptions\InvitationAlreadyUsedException;
-use App\Services\Company\Adminland\Company\LogAuditAction;
 
 /**
  * This service invites an employee by email.
@@ -22,7 +22,7 @@ class InviteUser extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -50,7 +50,7 @@ class InviteUser extends BaseService
 
         $employee = $this->inviteEmployee($data);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_invited_to_become_user',
             'objects' => json_encode([

@@ -6,6 +6,9 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Exceptions\WorklogAlreadyLoggedTodayException;
@@ -18,6 +21,8 @@ class LogWorklogTest extends TestCase
     /** @test */
     public function it_logs_a_worklog() : void
     {
+        Queue::fake();
+
         $dwight = factory(Employee::class)->create([]);
 
         $request = [
@@ -38,6 +43,28 @@ class LogWorklogTest extends TestCase
             Worklog::class,
             $worklog
         );
+
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight, $worklog) {
+            return $job->auditLog['action'] === 'employee_worklog_logged' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $dwight->user->id,
+                    'author_name' => $dwight->user->name,
+                    'employee_id' => $dwight->id,
+                    'employee_name' => $dwight->name,
+                    'worklog_id' => $worklog->id,
+                ]);
+        });
+
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight, $worklog) {
+            return $job->auditLog['action'] === 'employee_worklog_logged' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $dwight->user->id,
+                    'author_name' => $dwight->user->name,
+                    'employee_id' => $dwight->id,
+                    'employee_name' => $dwight->name,
+                    'worklog_id' => $worklog->id,
+                ]);
+        });
     }
 
     /** @test */
@@ -58,44 +85,6 @@ class LogWorklogTest extends TestCase
         $this->assertDatabaseHas('employees', [
             'id' => $dwight->id,
             'consecutive_worklog_missed' => 0,
-        ]);
-    }
-
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $dwight = factory(Employee::class)->create([]);
-
-        $request = [
-            'author_id' => $dwight->user_id,
-            'employee_id' => $dwight->id,
-            'content' => 'I have sold paper',
-        ];
-
-        $worklog = (new LogWorklog)->execute($request);
-
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $dwight->company_id,
-            'action' => 'employee_worklog_logged',
-            'objects' => json_encode([
-                'author_id' => $dwight->user->id,
-                'author_name' => $dwight->user->name,
-                'employee_id' => $dwight->id,
-                'employee_name' => $dwight->name,
-                'worklog_id' => $worklog->id,
-            ]),
-        ]);
-
-        $this->assertDatabaseHas('employee_logs', [
-            'company_id' => $dwight->company_id,
-            'action' => 'employee_worklog_logged',
-            'objects' => json_encode([
-                'author_id' => $dwight->user->id,
-                'author_name' => $dwight->user->name,
-                'employee_id' => $dwight->id,
-                'employee_name' => $dwight->name,
-                'worklog_id' => $worklog->id,
-            ]),
         ]);
     }
 

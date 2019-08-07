@@ -5,11 +5,11 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
+use App\Services\Logs\LogAuditAction;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Company\LogAuditAction;
 
-class AuditLogActionTest extends TestCase
+class LogAuditActionTest extends TestCase
 {
     use DatabaseTransactions;
 

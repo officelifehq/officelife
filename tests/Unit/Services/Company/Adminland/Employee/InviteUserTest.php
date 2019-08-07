@@ -4,7 +4,9 @@ namespace Tests\Unit\Services\Company\Adminland\Employee;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Mail\Company\InviteEmployeeToBecomeUser;
 use App\Exceptions\InvitationAlreadyUsedException;
@@ -18,75 +20,63 @@ class InviteUserTest extends TestCase
     /** @test */
     public function it_invites_an_employee_to_become_a_user() : void
     {
-        $adminEmployee = $this->createAdministrator();
-        $employee = factory(Employee::class)->create([
-            'company_id' => $adminEmployee->company_id,
+        Queue::fake();
+
+        $michael = $this->createAdministrator();
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
         ]);
 
         $request = [
-            'company_id' => $adminEmployee->company_id,
-            'author_id' => $adminEmployee->user->id,
-            'employee_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user->id,
+            'employee_id' => $dwight->id,
         ];
 
         Mail::fake();
-        $employee = (new InviteUser)->execute($request);
+        $dwight = (new InviteUser)->execute($request);
+
+        $this->assertInstanceOf(
+            Employee::class,
+            $dwight
+        );
 
         $this->assertDatabaseHas('employees', [
-            'id' => $employee->id,
-            'company_id' => $adminEmployee->company_id,
-            'invitation_link' => $employee->invitation_link,
+            'id' => $dwight->id,
+            'company_id' => $michael->company_id,
+            'invitation_link' => $dwight->invitation_link,
         ]);
 
-        Mail::assertQueued(InviteEmployeeToBecomeUser::class, function ($mail) use ($employee) {
-            return $mail->employee->id === $employee->id;
+        Mail::assertQueued(InviteEmployeeToBecomeUser::class, function ($mail) use ($dwight) {
+            return $mail->employee->id === $dwight->id;
         });
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $adminEmployee = $this->createAdministrator();
-        $employee = factory(Employee::class)->create([
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $adminEmployee->company_id,
-            'author_id' => $adminEmployee->user->id,
-            'employee_id' => $employee->id,
-        ];
-
-        Mail::fake();
-        $employee = (new InviteUser)->execute($request);
-
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employee->company_id,
-            'action' => 'employee_invited_to_become_user',
-            'objects' => json_encode([
-                'author_id' => $adminEmployee->user->id,
-                'author_name' => $adminEmployee->user->name,
-                'employee_id' => $employee->id,
-                'employee_email' => $employee->email,
-                'employee_first_name' => $employee->first_name,
-                'employee_last_name' => $employee->last_name,
-            ]),
-        ]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
+            return $job->auditLog['action'] === 'employee_invited_to_become_user' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'employee_id' => $dwight->id,
+                    'employee_email' => $dwight->email,
+                    'employee_first_name' => $dwight->first_name,
+                    'employee_last_name' => $dwight->last_name,
+                ]);
+        });
     }
 
     /** @test */
     public function it_raises_an_exception_if_invitation_link_has_already_been_accepted() : void
     {
-        $adminEmployee = $this->createAdministrator();
-        $employee = factory(Employee::class)->create([
-            'company_id' => $adminEmployee->company_id,
+        $michael = $this->createAdministrator();
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
             'invitation_used_at' => '1999-01-01',
         ]);
 
         $request = [
-            'company_id' => $adminEmployee->company_id,
-            'author_id' => $adminEmployee->user->id,
-            'employee_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user->id,
+            'employee_id' => $dwight->id,
         ];
 
         $this->expectException(InvitationAlreadyUsedException::class);
@@ -96,14 +86,14 @@ class InviteUserTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given() : void
     {
-        $adminEmployee = $this->createAdministrator();
+        $michael = $this->createAdministrator();
         factory(Employee::class)->create([
-            'company_id' => $adminEmployee->company_id,
+            'company_id' => $michael->company_id,
         ]);
 
         $request = [
-            'company_id' => $adminEmployee->company_id,
-            'author_id' => $adminEmployee->user->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user->id,
         ];
 
         $this->expectException(ValidationException::class);

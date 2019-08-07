@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Position;
 
 use App\Services\BaseService;
 use App\Models\Company\Position;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
 
 class DestroyPosition extends BaseService
 {
@@ -13,7 +13,7 @@ class DestroyPosition extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -44,13 +44,12 @@ class DestroyPosition extends BaseService
 
         $position->delete();
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'position_destroyed',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
-                'position_id' => $position->id,
                 'position_title' => $position->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

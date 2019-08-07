@@ -4,7 +4,8 @@ namespace App\Services\Company\Adminland\Team;
 
 use App\Models\Company\Team;
 use App\Services\BaseService;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogTeamAudit;
+use App\Jobs\Logs\LogAccountAudit;
 
 class UpdateTeam extends BaseService
 {
@@ -13,7 +14,7 @@ class UpdateTeam extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -49,8 +50,22 @@ class UpdateTeam extends BaseService
             'name' => $data['name'],
         ]);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
+            'action' => 'team_updated',
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
+                'team_id' => $team->id,
+                'team_old_name' => $oldName,
+                'team_new_name' => $data['name'],
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ]);
+
+        LogTeamAudit::dispatch([
+            'company_id' => $data['company_id'],
+            'team_id' => $team->id,
             'action' => 'team_updated',
             'objects' => json_encode([
                 'author_id' => $author->id,

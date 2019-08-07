@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
 use App\Services\User\Avatar\GenerateAvatar;
 
 class CreateCompany extends BaseService
@@ -16,7 +17,7 @@ class CreateCompany extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'author_id' => 'required|integer|exists:users,id',
@@ -40,7 +41,7 @@ class CreateCompany extends BaseService
 
         $author = User::find($data['author_id']);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $company->id,
             'action' => 'account_created',
             'objects' => json_encode([

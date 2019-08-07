@@ -4,7 +4,10 @@ namespace Tests\Unit\Services\Company\Adminland\Team;
 
 use Tests\TestCase;
 use App\Models\Company\Team;
+use App\Jobs\Logs\LogTeamAudit;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -16,11 +19,13 @@ class CreateTeamTest extends TestCase
     /** @test */
     public function it_creates_a_team() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        Queue::fake();
+
+        $michael = factory(Employee::class)->create([]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user_id,
             'name' => 'Selling team',
         ];
 
@@ -28,7 +33,7 @@ class CreateTeamTest extends TestCase
 
         $this->assertDatabaseHas('teams', [
             'id' => $team->id,
-            'company_id' => $employee->company_id,
+            'company_id' => $michael->company_id,
             'name' => 'Selling team',
         ]);
 
@@ -36,32 +41,26 @@ class CreateTeamTest extends TestCase
             Team::class,
             $team
         );
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $employee = factory(Employee::class)->create([]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $team) {
+            return $job->auditLog['action'] === 'team_created' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'team_id' => $team->id,
+                    'team_name' => $team->name,
+                ]);
+        });
 
-        $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
-            'name' => 'Selling team',
-            'description' => 'Selling paper everyday',
-        ];
-
-        $team = (new CreateTeam)->execute($request);
-
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employee->company_id,
-            'action' => 'team_created',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'team_id' => $team->id,
-                'team_name' => $team->name,
-            ]),
-        ]);
+        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $team) {
+            return $job->auditLog['action'] === 'team_created' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'team_id' => $team->id,
+                    'team_name' => $team->name,
+                ]);
+        });
     }
 
     /** @test */

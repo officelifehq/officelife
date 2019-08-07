@@ -4,6 +4,8 @@ namespace Tests\Unit\Services\Company\Adminland\Employee;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Employee\UpdateHiringInformation;
@@ -15,20 +17,22 @@ class UpdateHiringInformationTest extends TestCase
     /** @test */
     public function it_updates_the_hiring_information() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        Queue::fake();
+
+        $michael = factory(Employee::class)->create([]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
-            'employee_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user->id,
+            'employee_id' => $michael->id,
             'hired_at' => '2010-02-20',
         ];
 
         $updatedEmployee = (new UpdateHiringInformation)->execute($request);
 
         $this->assertDatabaseHas('employees', [
-            'id' => $employee->id,
-            'company_id' => $employee->company_id,
+            'id' => $michael->id,
+            'company_id' => $michael->company_id,
             'hired_at' => '2010-02-20 00:00:00',
         ]);
 
@@ -36,32 +40,16 @@ class UpdateHiringInformationTest extends TestCase
             Employee::class,
             $updatedEmployee
         );
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $employee = factory(Employee::class)->create([]);
-
-        $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
-            'employee_id' => $employee->id,
-            'hired_at' => '2010-02-20',
-        ];
-
-        (new UpdateHiringInformation)->execute($request);
-
-        $this->assertdatabasehas('audit_logs', [
-            'company_id' => $employee->company_id,
-            'action' => 'employee_updated_hiring_information',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
-            ]),
-        ]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
+            return $job->auditLog['action'] === 'employee_updated_hiring_information' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'employee_id' => $michael->id,
+                    'employee_name' => $michael->name,
+                ]);
+        });
     }
 
     /** @test */
