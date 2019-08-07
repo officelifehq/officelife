@@ -4,6 +4,8 @@ namespace Tests\Unit\Services\Company\Adminland\Employee;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Employee\UpdateEmployee;
@@ -15,23 +17,25 @@ class UpdateEmployeeTest extends TestCase
     /** @test */
     public function it_updates_an_employee() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        Queue::fake();
+
+        $michael = factory(Employee::class)->create([]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
-            'employee_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user->id,
+            'employee_id' => $michael->id,
             'email' => 'dwight@dundermifflin.com',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'birthdate' => '1978-01-20',
         ];
 
-        $updatedEmployee = (new UpdateEmployee)->execute($request);
+        $dwight = (new UpdateEmployee)->execute($request);
 
         $this->assertDatabaseHas('employees', [
-            'id' => $employee->id,
-            'company_id' => $employee->company_id,
+            'id' => $michael->id,
+            'company_id' => $michael->company_id,
             'email' => 'dwight@dundermifflin.com',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
@@ -40,37 +44,18 @@ class UpdateEmployeeTest extends TestCase
 
         $this->assertInstanceOf(
             Employee::class,
-            $updatedEmployee
+            $dwight
         );
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $employee = factory(Employee::class)->create([]);
-
-        $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
-            'employee_id' => $employee->id,
-            'email' => 'dwight@dundermifflin.com',
-            'first_name' => 'Dwight',
-            'last_name' => 'Schrute',
-            'birthdate' => '1978-01-20',
-        ];
-
-        (new UpdateEmployee)->execute($request);
-
-        $this->assertdatabasehas('audit_logs', [
-            'company_id' => $employee->company_id,
-            'action' => 'employee_updated',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'employee_id' => $employee->id,
-                'employee_name' => 'Dwight Schrute',
-            ]),
-        ]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
+            return $job->auditLog['action'] === 'employee_updated' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'employee_id' => $michael->id,
+                    'employee_name' => 'Dwight Schrute',
+                ]);
+        });
     }
 
     /** @test */

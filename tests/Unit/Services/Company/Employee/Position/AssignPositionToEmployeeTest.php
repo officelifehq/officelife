@@ -5,6 +5,9 @@ namespace Tests\Unit\Services\Company\Employee\Position;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
@@ -16,73 +19,54 @@ class AssignPositionToEmployeeTest extends TestCase
     /** @test */
     public function it_assigns_a_position() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        Queue::fake();
+
+        $michael = factory(Employee::class)->create([]);
         $position = factory(Position::class)->create([
-            'company_id' => $employee->company_id,
+            'company_id' => $michael->company_id,
         ]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
-            'employee_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user->id,
+            'employee_id' => $michael->id,
             'position_id' => $position->id,
         ];
 
-        $employee = (new AssignPositionToEmployee)->execute($request);
+        $michael = (new AssignPositionToEmployee)->execute($request);
 
         $this->assertDatabaseHas('employees', [
-            'company_id' => $employee->company_id,
-            'id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'id' => $michael->id,
             'position_id' => $position->id,
         ]);
 
         $this->assertInstanceOf(
             Employee::class,
-            $employee
+            $michael
         );
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $employee = factory(Employee::class)->create([]);
-        $position = factory(Position::class)->create([
-            'company_id' => $employee->company_id,
-        ]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $position) {
+            return $job->auditLog['action'] === 'position_assigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'employee_id' => $michael->id,
+                    'employee_name' => $michael->name,
+                    'position_id' => $position->id,
+                    'position_title' => $position->title,
+                ]);
+        });
 
-        $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
-            'employee_id' => $employee->id,
-            'position_id' => $position->id,
-        ];
-
-        (new AssignPositionToEmployee)->execute($request);
-
-        $this->assertdatabasehas('employee_logs', [
-            'company_id' => $employee->company_id,
-            'employee_id' => $employee->id,
-            'action' => 'position_assigned',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'position_id' => $position->id,
-                'position_title' => $position->title,
-            ]),
-        ]);
-
-        $this->assertdatabasehas('audit_logs', [
-            'company_id' => $employee->company_id,
-            'action' => 'position_assigned',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
-                'position_id' => $position->id,
-                'position_title' => $position->title,
-            ]),
-        ]);
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $position) {
+            return $job->auditLog['action'] === 'position_assigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'position_id' => $position->id,
+                    'position_title' => $position->title,
+                ]);
+        });
     }
 
     /** @test */

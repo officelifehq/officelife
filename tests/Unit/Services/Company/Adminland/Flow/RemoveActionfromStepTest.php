@@ -50,41 +50,6 @@ class RemoveActionfromStepTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_an_action() : void
-    {
-        $employee = factory(Employee::class)->create([]);
-        $flow = factory(Flow::class)->create([
-            'company_id' => $employee->company_id,
-        ]);
-        $step = factory(Step::class)->create([
-            'flow_id' => $flow->id,
-        ]);
-        $action = factory(Action::class)->create([
-            'step_id' => $step->id,
-        ]);
-
-        $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
-            'step_id' => $step->id,
-            'action_id' => $action->id,
-        ];
-
-        (new RemoveActionFromStep)->execute($request);
-
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employee->company_id,
-            'action' => 'flow_updated',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'flow_id' => $flow->id,
-                'flow_name' => $flow->name,
-            ]),
-        ]);
-    }
-
-    /** @test */
     public function it_fails_if_wrong_parameters_are_given() : void
     {
         $employee = factory(Employee::class)->create([]);

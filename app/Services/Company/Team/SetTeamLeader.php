@@ -4,7 +4,9 @@ namespace App\Services\Company\Team;
 
 use App\Models\Company\Team;
 use App\Services\BaseService;
+use App\Jobs\Logs\LogTeamAudit;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
 
 class SetTeamLeader extends BaseService
 {
@@ -13,7 +15,7 @@ class SetTeamLeader extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -49,9 +51,21 @@ class SetTeamLeader extends BaseService
         $team->team_leader_id = $data['employee_id'];
         $team->save();
 
-        (new LogTeamAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
-            'team_id' => $data['team_id'],
+            'action' => 'team_leader_assigned',
+            'objects' => json_encode([
+                'author_id' => $author->id,
+                'author_name' => $author->name,
+                'team_leader_id' => $employee->id,
+                'team_leader_name' => $employee->name,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ]);
+
+        LogTeamAudit::dispatch([
+            'company_id' => $data['company_id'],
+            'team_id' => $team->id,
             'action' => 'team_leader_assigned',
             'objects' => json_encode([
                 'author_id' => $author->id,

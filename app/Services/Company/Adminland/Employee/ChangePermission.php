@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Employee;
 
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
 
 class ChangePermission extends BaseService
 {
@@ -13,7 +13,7 @@ class ChangePermission extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -46,7 +46,7 @@ class ChangePermission extends BaseService
         $employee->permission_level = $data['permission_level'];
         $employee->save();
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'permission_changed',
             'objects' => json_encode([

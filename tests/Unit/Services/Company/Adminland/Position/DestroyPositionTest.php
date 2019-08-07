@@ -5,6 +5,8 @@ namespace Tests\Unit\Services\Company\Adminland\Position;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
+use App\Jobs\Logs\LogAccountAudit;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Position\DestroyPosition;
@@ -16,14 +18,16 @@ class DestroyPositionTest extends TestCase
     /** @test */
     public function it_destroys_a_position() : void
     {
+        Queue::fake();
+
         $position = factory(Position::class)->create([]);
-        $employee = factory(Employee::class)->create([
+        $michael = factory(Employee::class)->create([
             'company_id' => $position->company_id,
         ]);
 
         $request = [
             'company_id' => $position->company_id,
-            'author_id' => $employee->user->id,
+            'author_id' => $michael->user->id,
             'position_id' => $position->id,
         ];
 
@@ -32,34 +36,15 @@ class DestroyPositionTest extends TestCase
         $this->assertDatabaseMissing('positions', [
             'id' => $position->id,
         ]);
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $position = factory(Position::class)->create([]);
-        $employee = factory(Employee::class)->create([
-            'company_id' => $position->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $position->company_id,
-            'author_id' => $employee->user->id,
-            'position_id' => $position->id,
-        ];
-
-        (new DestroyPosition)->execute($request);
-
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $position->company_id,
-            'action' => 'position_destroyed',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'position_id' => $position->id,
-                'position_title' => $position->title,
-            ]),
-        ]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $position) {
+            return $job->auditLog['action'] === 'position_destroyed' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'position_title' => $position->title,
+                ]);
+        });
     }
 
     /** @test */

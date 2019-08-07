@@ -4,7 +4,10 @@ namespace Tests\Unit\Services\Company\Employee\Manager;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
 use App\Exceptions\SameIdsException;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
@@ -16,85 +19,64 @@ class AssignManagerTest extends TestCase
     /** @test */
     public function it_assigns_a_manager() : void
     {
-        $employee = factory(Employee::class)->create([]);
-        $manager = factory(Employee::class)->create([
-            'company_id' => $employee->company_id,
+        Queue::fake();
+
+        $dwight = factory(Employee::class)->create([]);
+        $michael = factory(Employee::class)->create([
+            'company_id' => $dwight->company_id,
         ]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
-            'employee_id' => $employee->id,
-            'manager_id' => $manager->id,
+            'company_id' => $dwight->company_id,
+            'author_id' => $dwight->user->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $michael->id,
         ];
 
-        $manager = (new AssignManager)->execute($request);
+        $michael = (new AssignManager)->execute($request);
 
         $this->assertDatabaseHas('direct_reports', [
-            'company_id' => $employee->company_id,
-            'employee_id' => $employee->id,
-            'manager_id' => $manager->id,
+            'company_id' => $dwight->company_id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $michael->id,
         ]);
 
         $this->assertInstanceOf(
             Employee::class,
-            $employee
+            $dwight
         );
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $employee = factory(Employee::class)->create([]);
-        $manager = factory(Employee::class)->create([
-            'company_id' => $employee->company_id,
-        ]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
+            return $job->auditLog['action'] === 'manager_assigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $dwight->user->id,
+                    'author_name' => $dwight->user->name,
+                    'manager_id' => $michael->id,
+                    'manager_name' => $michael->name,
+                    'employee_id' => $dwight->id,
+                    'employee_name' => $dwight->name,
+                ]);
+        });
 
-        $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
-            'employee_id' => $employee->id,
-            'manager_id' => $manager->id,
-        ];
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $dwight) {
+            return $job->auditLog['action'] === 'manager_assigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $dwight->user->id,
+                    'author_name' => $dwight->user->name,
+                    'manager_id' => $michael->id,
+                    'manager_name' => $michael->name,
+                ]);
+        });
 
-        $manager = (new AssignManager)->execute($request);
-
-        $this->assertdatabasehas('audit_logs', [
-            'company_id' => $employee->company_id,
-            'action' => 'manager_assigned',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'manager_id' => $manager->id,
-                'manager_name' => $manager->name,
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
-            ]),
-        ]);
-
-        $this->assertdatabasehas('employee_logs', [
-            'company_id' => $employee->company_id,
-            'employee_id' => $employee->id,
-            'action' => 'manager_assigned',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'manager_id' => $manager->id,
-                'manager_name' => $manager->name,
-            ]),
-        ]);
-
-        $this->assertdatabasehas('employee_logs', [
-            'company_id' => $employee->company_id,
-            'employee_id' => $manager->id,
-            'action' => 'direct_report_assigned',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'direct_report_id' => $employee->id,
-                'direct_report_name' => $employee->name,
-            ]),
-        ]);
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $dwight) {
+            return $job->auditLog['action'] === 'direct_report_assigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $dwight->user->id,
+                    'author_name' => $dwight->user->name,
+                    'direct_report_id' => $dwight->id,
+                    'direct_report_name' => $dwight->name,
+                ]);
+        });
     }
 
     /** @test */
@@ -111,13 +93,13 @@ class AssignManagerTest extends TestCase
     /** @test */
     public function it_fails_if_employee_and_manager_are_the_same_person() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        $dwight = factory(Employee::class)->create([]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
-            'employee_id' => $employee->id,
-            'manager_id' => $employee->id,
+            'company_id' => $dwight->company_id,
+            'author_id' => $dwight->user->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $dwight->id,
         ];
 
         $this->expectException(SameIdsException::class);

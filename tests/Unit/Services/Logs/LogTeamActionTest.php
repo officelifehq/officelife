@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Team;
+namespace Tests\Unit\Services\Logs;
 
 use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\TeamLog;
-use App\Services\Company\Team\LogTeamAction;
+use App\Services\Logs\LogTeamAction;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

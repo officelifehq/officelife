@@ -5,10 +5,10 @@ namespace App\Services\Company\Employee\Manager;
 use App\Models\User\User;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
 use App\Exceptions\SameIdsException;
 use App\Models\Company\DirectReport;
-use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class AssignManager extends BaseService
 {
@@ -17,7 +17,7 @@ class AssignManager extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -59,7 +59,7 @@ class AssignManager extends BaseService
             'employee_id' => $data['employee_id'],
         ]);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'manager_assigned',
             'objects' => json_encode([
@@ -92,7 +92,7 @@ class AssignManager extends BaseService
     private function logInEmployeeLogs(array $data, User $author, Employee $manager, Employee $employee) : void
     {
         // Log information about the employee having a manager assigned
-        (new LogEmployeeAction)->execute([
+        LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'manager_assigned',
@@ -106,7 +106,7 @@ class AssignManager extends BaseService
         ]);
 
         // Log information about the manager having assigned a direct report
-        (new LogEmployeeAction)->execute([
+        LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
             'employee_id' => $manager->id,
             'action' => 'direct_report_assigned',

@@ -4,7 +4,10 @@ namespace Tests\Unit\Services\Company\Team;
 
 use Tests\TestCase;
 use App\Models\Company\Team;
+use App\Jobs\Logs\LogTeamAudit;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Team\SetTeamLeader;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -16,15 +19,17 @@ class SetTeamLeaderTest extends TestCase
     /** @test */
     public function it_sets_someone_as_team_leader() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        Queue::fake();
+
+        $michael = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
-            'company_id' => $employee->company_id,
+            'company_id' => $michael->company_id,
         ]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
-            'employee_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user_id,
+            'employee_id' => $michael->id,
             'team_id' => $team->id,
         ];
 
@@ -32,57 +37,47 @@ class SetTeamLeaderTest extends TestCase
 
         $this->assertDatabaseHas('teams', [
             'id' => $team->id,
-            'team_leader_id' => $employee->id,
+            'team_leader_id' => $michael->id,
         ]);
 
         $this->assertInstanceOf(
             Team::class,
             $team
         );
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $employee = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
-            'company_id' => $employee->company_id,
-        ]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
+            return $job->auditLog['action'] === 'team_leader_assigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'team_leader_id' => $michael->id,
+                    'team_leader_name' => $michael->name,
+                ]);
+        });
 
-        $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
-            'employee_id' => $employee->id,
-            'team_id' => $team->id,
-        ];
-
-        (new SetTeamLeader)->execute($request);
-
-        $this->assertdatabasehas('team_logs', [
-            'company_id' => $employee->company_id,
-            'team_id' => $team->id,
-            'action' => 'team_leader_assigned',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'team_leader_id' => $employee->id,
-                'team_leader_name' => $employee->name,
-            ]),
-        ]);
+        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael) {
+            return $job->auditLog['action'] === 'team_leader_assigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'team_leader_id' => $michael->id,
+                    'team_leader_name' => $michael->name,
+                ]);
+        });
     }
 
     /** @test */
     public function it_fails_if_wrong_parameters_are_given() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        $michael = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([
-            'company_id' => $employee->company_id,
+            'company_id' => $michael->company_id,
         ]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
-            'employee_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->user_id,
+            'employee_id' => $michael->id,
         ];
 
         $this->expectException(ValidationException::class);

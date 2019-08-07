@@ -4,7 +4,7 @@ namespace App\Services\Company\Adminland\Employee;
 
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
 
 class UpdateHiringInformation extends BaseService
 {
@@ -13,7 +13,7 @@ class UpdateHiringInformation extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -46,7 +46,7 @@ class UpdateHiringInformation extends BaseService
             'hired_at' => $data['hired_at'],
         ]);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_updated_hiring_information',
             'objects' => json_encode([

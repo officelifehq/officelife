@@ -5,7 +5,7 @@ namespace App\Services\Company\Adminland\Flow;
 use App\Models\Company\Flow;
 use App\Services\BaseService;
 use Illuminate\Validation\Rule;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
 
 class CreateFlow extends BaseService
 {
@@ -14,7 +14,7 @@ class CreateFlow extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -61,7 +61,7 @@ class CreateFlow extends BaseService
             'type' => $data['type'],
         ]);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'flow_created',
             'objects' => json_encode([

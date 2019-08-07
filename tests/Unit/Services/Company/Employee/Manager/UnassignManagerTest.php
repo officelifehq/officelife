@@ -5,7 +5,10 @@ namespace Tests\Unit\Services\Company\Employee\Manager;
 use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
 use App\Models\Company\DirectReport;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -18,79 +21,61 @@ class UnassignManagerTest extends TestCase
     /** @test */
     public function it_unassigns_a_manager() : void
     {
-        $directReport = factory(DirectReport::class)->create([]);
+        Queue::fake();
+
+        $dwight = factory(DirectReport::class)->create([]);
 
         $request = [
-            'company_id' => $directReport->directReport->company_id,
-            'author_id' => $directReport->directReport->user->id,
-            'employee_id' => $directReport->directReport->id,
-            'manager_id' => $directReport->manager->id,
+            'company_id' => $dwight->directReport->company_id,
+            'author_id' => $dwight->directReport->user->id,
+            'employee_id' => $dwight->directReport->id,
+            'manager_id' => $dwight->manager->id,
         ];
 
         $manager = (new UnassignManager)->execute($request);
 
         $this->assertDatabaseMissing('direct_reports', [
-            'company_id' => $directReport->directReport->company_id,
-            'employee_id' => $directReport->directReport->id,
-            'manager_id' => $directReport->manager->id,
+            'company_id' => $dwight->directReport->company_id,
+            'employee_id' => $dwight->directReport->id,
+            'manager_id' => $dwight->manager->id,
         ]);
 
         $this->assertInstanceOf(
             Employee::class,
             $manager
         );
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $directReport = factory(DirectReport::class)->create([]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight) {
+            return $job->auditLog['action'] === 'manager_unassigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $dwight->directReport->user->id,
+                    'author_name' => $dwight->directReport->user->name,
+                    'manager_id' => $dwight->manager->id,
+                    'manager_name' => $dwight->manager->name,
+                    'employee_id' => $dwight->directReport->id,
+                    'employee_name' => $dwight->directReport->name,
+                ]);
+        });
 
-        $request = [
-            'company_id' => $directReport->directReport->company_id,
-            'author_id' => $directReport->directReport->user->id,
-            'employee_id' => $directReport->directReport->id,
-            'manager_id' => $directReport->manager->id,
-        ];
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight) {
+            return $job->auditLog['action'] === 'manager_unassigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $dwight->directReport->user->id,
+                    'author_name' => $dwight->directReport->user->name,
+                    'manager_id' => $dwight->manager->id,
+                    'manager_name' => $dwight->manager->name,
+                ]);
+        });
 
-        $manager = (new UnassignManager)->execute($request);
-
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $directReport->directReport->company_id,
-            'action' => 'manager_unassigned',
-            'objects' => json_encode([
-                'author_id' => $directReport->directReport->user->id,
-                'author_name' => $directReport->directReport->user->name,
-                'manager_id' => $directReport->manager->id,
-                'manager_name' => $directReport->manager->name,
-                'employee_id' => $directReport->directReport->id,
-                'employee_name' => $directReport->directReport->name,
-            ]),
-        ]);
-
-        $this->assertDatabaseHas('employee_logs', [
-            'company_id' => $directReport->directReport->company_id,
-            'employee_id' => $directReport->directReport->id,
-            'action' => 'manager_unassigned',
-            'objects' => json_encode([
-                'author_id' => $directReport->directReport->user->id,
-                'author_name' => $directReport->directReport->user->name,
-                'manager_id' => $directReport->manager->id,
-                'manager_name' => $directReport->manager->name,
-            ]),
-        ]);
-
-        $this->assertDatabaseHas('employee_logs', [
-            'company_id' => $directReport->directReport->company_id,
-            'employee_id' => $manager->id,
-            'action' => 'direct_report_unassigned',
-            'objects' => json_encode([
-                'author_id' => $directReport->directReport->user->id,
-                'author_name' => $directReport->directReport->user->name,
-                'direct_report_id' => $directReport->directReport->id,
-                'direct_report_name' => $directReport->directReport->name,
-            ]),
-        ]);
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight) {
+            return $job->auditLog['action'] === 'direct_report_unassigned' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $dwight->directReport->user->id,
+                    'author_name' => $dwight->directReport->user->name,
+                    'direct_report_id' => $dwight->directReport->id,
+                    'direct_report_name' => $dwight->directReport->name,
+                ]);
+        });
     }
 
     /** @test */

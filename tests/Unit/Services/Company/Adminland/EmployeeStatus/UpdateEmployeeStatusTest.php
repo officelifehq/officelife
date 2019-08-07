@@ -4,6 +4,8 @@ namespace Tests\Unit\Services\Company\Adminland\EmployeeStatus;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use Illuminate\Support\Facades\Queue;
 use App\Models\Company\EmployeeStatus;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -16,14 +18,16 @@ class UpdateEmployeeStatusTest extends TestCase
     /** @test */
     public function it_updates_an_employee_status() : void
     {
+        Queue::fake();
+
         $employeeStatus = factory(EmployeeStatus::class)->create([]);
-        $employee = factory(Employee::class)->create([
+        $michael = factory(Employee::class)->create([
             'company_id' => $employeeStatus->company_id,
         ]);
 
         $request = [
             'company_id' => $employeeStatus->company_id,
-            'author_id' => $employee->user->id,
+            'author_id' => $michael->user->id,
             'employee_status_id' => $employeeStatus->id,
             'name' => 'Non permanent',
         ];
@@ -40,36 +44,17 @@ class UpdateEmployeeStatusTest extends TestCase
             EmployeeStatus::class,
             $employeeStatus
         );
-    }
 
-    /** @test */
-    public function it_logs_an_action() : void
-    {
-        $employeeStatus = factory(EmployeeStatus::class)->create([]);
-        $employee = factory(Employee::class)->create([
-            'company_id' => $employeeStatus->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $employeeStatus->company_id,
-            'author_id' => $employee->user->id,
-            'employee_status_id' => $employeeStatus->id,
-            'name' => 'Non permanent',
-        ];
-
-        (new UpdateEmployeeStatus)->execute($request);
-
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $employeeStatus->company_id,
-            'action' => 'employee_status_updated',
-            'objects' => json_encode([
-                'author_id' => $employee->user->id,
-                'author_name' => $employee->user->name,
-                'employee_status_id' => $employeeStatus->id,
-                'employee_status_old_name' => $employeeStatus->name,
-                'employee_status_new_name' => 'Non permanent',
-            ]),
-        ]);
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $employeeStatus) {
+            return $job->auditLog['action'] === 'employee_status_updated' &&
+                $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'employee_status_id' => $employeeStatus->id,
+                    'employee_status_old_name' => $employeeStatus->name,
+                    'employee_status_new_name' => 'Non permanent',
+                ]);
+        });
     }
 
     /** @test */

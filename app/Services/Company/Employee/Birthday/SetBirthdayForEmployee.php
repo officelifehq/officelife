@@ -6,9 +6,9 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
 use App\Models\Company\EmployeeEvent;
-use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class SetBirthdayForEmployee extends BaseService
 {
@@ -17,7 +17,7 @@ class SetBirthdayForEmployee extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -65,7 +65,7 @@ class SetBirthdayForEmployee extends BaseService
             'date' => $dateOfEvent,
         ]);
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_birthday_set',
             'objects' => json_encode([
@@ -78,7 +78,7 @@ class SetBirthdayForEmployee extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        (new LogEmployeeAction)->execute([
+        LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'birthday_set',

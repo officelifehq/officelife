@@ -6,10 +6,10 @@ use App\Models\User\User;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Services\BaseService;
+use App\Jobs\Logs\LogTeamAudit;
 use App\Models\Company\Employee;
-use App\Services\Company\Team\LogTeamAction;
-use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
 use App\Services\User\Notification\CreateNotificationInUIForEmployee;
 
 class CreateTask extends BaseService
@@ -19,7 +19,7 @@ class CreateTask extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -69,7 +69,7 @@ class CreateTask extends BaseService
             'task_name' => $task->name,
         ];
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'task_created',
             'objects' => json_encode($dataToLog),
@@ -117,7 +117,7 @@ class CreateTask extends BaseService
      */
     private function addLogTeamAction(array $data, array $dataToLog) : void
     {
-        (new LogTeamAction)->execute([
+        LogTeamAudit::dispatch([
             'company_id' => $data['company_id'],
             'team_id' => $data['team_id'],
             'action' => 'task_associated_to_team',
@@ -136,7 +136,7 @@ class CreateTask extends BaseService
      */
     private function addLogEmployeeAction(array $data, array $dataToLog, User $user) : void
     {
-        (new LogEmployeeAction)->execute([
+        LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
             'employee_id' => $data['assignee_id'],
             'action' => 'task_assigned_to_employee',

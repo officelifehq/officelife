@@ -5,10 +5,10 @@ namespace App\Services\Company\Employee\Team;
 use Carbon\Carbon;
 use App\Models\Company\Team;
 use App\Services\BaseService;
+use App\Jobs\Logs\LogTeamAudit;
 use App\Models\Company\Employee;
-use App\Services\Company\Team\LogTeamAction;
-use App\Services\Company\Employee\LogEmployeeAction;
-use App\Services\Company\Adminland\Company\LogAuditAction;
+use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\Logs\LogEmployeeAudit;
 
 class AddEmployeeToTeam extends BaseService
 {
@@ -17,7 +17,7 @@ class AddEmployeeToTeam extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -67,24 +67,24 @@ class AddEmployeeToTeam extends BaseService
             'team_name' => $team->name,
         ];
 
-        (new LogAuditAction)->execute([
+        LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_added_to_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        (new LogTeamAction)->execute([
+        LogTeamAudit::dispatch([
             'company_id' => $data['company_id'],
-            'team_id' => $data['team_id'],
+            'team_id' => $team->id,
             'action' => 'employee_added_to_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        (new LogEmployeeAction)->execute([
+        LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
-            'employee_id' => $data['employee_id'],
+            'employee_id' => $employee->id,
             'action' => 'employee_added_to_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

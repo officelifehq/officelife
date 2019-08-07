@@ -16,7 +16,7 @@ class CreateAccount extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'email' => 'required|unique:users,email|email|max:255',

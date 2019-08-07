@@ -5,7 +5,6 @@ namespace App\Services\Company\Adminland\Flow;
 use App\Models\Company\Flow;
 use App\Models\Company\Step;
 use App\Services\BaseService;
-use App\Services\Company\Adminland\Company\LogAuditAction;
 
 class RemoveStepFromFlow extends BaseService
 {
@@ -14,7 +13,7 @@ class RemoveStepFromFlow extends BaseService
      *
      * @return array
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -46,18 +45,6 @@ class RemoveStepFromFlow extends BaseService
 
         $flow = $step->flow;
         $step->delete();
-
-        (new LogAuditAction)->execute([
-            'company_id' => $data['company_id'],
-            'action' => 'flow_updated',
-            'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
-                'flow_id' => $flow->id,
-                'flow_name' => $flow->name,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
 
         return $flow;
     }
