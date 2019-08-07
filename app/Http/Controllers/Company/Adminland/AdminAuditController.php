@@ -103,6 +103,14 @@ class AdminAuditController extends Controller
                 $sentence = 'Destroyed the employee status called '.$log->object->{'employee_status_name'}.'.';
             }
 
+            if ($log->action == 'employee_status_assigned') {
+                $sentence = 'Assigned the employee status called '.$log->object->{'employee_status_name'}.' to '.$log->employee.'.';
+            }
+
+            if ($log->action == 'employee_status_removed') {
+                $sentence = 'Removed the employee status called '.$log->object->{'employee_status_name'}.' from '.$log->employee.'.';
+            }
+
             $logsCollection->push([
                 'name' => $log->author,
                 'sentence' => $sentence,

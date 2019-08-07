@@ -55,6 +55,10 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('{employee}/team', 'Company\\Employee\\Team\\EmployeeTeamController')->only([
                 'store', 'destroy',
             ]);
+
+            Route::resource('{employee}/employeestatuses', 'Company\\Employee\\EmployeeStatus\\EmployeeStatusController')->only([
+                'store', 'destroy',
+            ]);
         });
 
         Route::prefix('teams')->group(function () {

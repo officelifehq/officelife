@@ -27,6 +27,11 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'last_name' => 'Schrute',
         'birthdate' => '1978-01-20',
         'consecutive_worklog_missed' => 0,
+        'employee_status_id' => function (array $data) {
+            return factory(App\Models\Company\EmployeeStatus::class)->create([
+                'company_id' => $data['company_id'],
+            ])->id;
+        },
     ];
 });
 

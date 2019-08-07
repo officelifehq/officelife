@@ -123,6 +123,14 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_one_status(): void
+    {
+        $dwight = factory(Employee::class)->create();
+
+        $this->assertTrue($dwight->status()->exists());
+    }
+
+    /** @test */
     public function it_returns_the_email_attribute() : void
     {
         $dwight = factory(Employee::class)->create([]);
