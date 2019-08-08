@@ -4,8 +4,6 @@ describe('Adminland - Positions management', function () {
 
     cy.createCompany()
 
-    cy.wait(500)
-
     cy.canAccess('/1/account/positions', 100, 'Positions')
     cy.canAccess('/1/account/positions', 200, 'Positions')
     cy.canNotAccess('/1/account/positions', 300)
@@ -15,8 +13,6 @@ describe('Adminland - Positions management', function () {
     cy.login()
 
     cy.createCompany()
-
-    cy.wait(500)
 
     cy.visit('/1/account')
     cy.get('[data-cy=position-admin-link]').click()
@@ -28,8 +24,6 @@ describe('Adminland - Positions management', function () {
     cy.login()
 
     cy.createCompany()
-
-    cy.wait(500)
 
     cy.visit('/1/account')
     cy.get('[data-cy=position-admin-link]').click()
@@ -73,8 +67,6 @@ describe('Adminland - Positions management', function () {
     cy.login()
 
     cy.createCompany()
-
-    cy.wait(500)
 
     cy.changePermission(1, 200)
     cy.visit('/1/account')

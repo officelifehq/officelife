@@ -4,8 +4,6 @@ describe('Adminland - Basic account management', function () {
 
     cy.createCompany()
 
-    cy.wait(500)
-
     cy.canAccess('/1/account', 100, 'Administration')
     cy.canAccess('/1/account', 200, 'Administration')
     cy.canNotAccess('/1/account', 300)
@@ -15,8 +13,6 @@ describe('Adminland - Basic account management', function () {
     cy.login()
 
     cy.createCompany()
-
-    cy.wait(500)
 
     cy.canAccess('/1/account/audit', 100, 'Audit logs')
     cy.canNotAccess('/1/account/audit', 200)

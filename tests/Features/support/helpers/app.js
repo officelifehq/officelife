@@ -8,6 +8,9 @@ Cypress.Commands.add('login', (role) => {
   cy.get('input[name=password]').type('admin')
 
   cy.get('button[type=submit]').click()
+
+  cy.wait(1000)
+
   cy.url().should('include', '/home')
 })
 
@@ -19,6 +22,8 @@ Cypress.Commands.add('createCompany', () => {
 
   cy.get('input[name=name]').type('Dunder Mifflin')
   cy.get('[data-cy=create-company-submit]').click()
+
+  cy.wait(500)
 })
 
 // Create a team

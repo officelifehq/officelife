@@ -4,8 +4,6 @@ describe('Adminland - Employee statuses', function () {
 
     cy.createCompany()
 
-    cy.wait(500)
-
     cy.canAccess('/1/account/employeestatuses', 100, 'All the employee statuses in Dunder Mifflin')
     cy.canAccess('/1/account/employeestatuses', 200, 'All the employee statuses in Dunder Mifflin')
     cy.canNotAccess('/1/account/employeestatuses', 300)
@@ -15,8 +13,6 @@ describe('Adminland - Employee statuses', function () {
     cy.login()
 
     cy.createCompany()
-
-    cy.wait(500)
 
     cy.visit('/1/account')
     cy.get('[data-cy=employee-statuses-admin-link]').click()
@@ -55,8 +51,6 @@ describe('Adminland - Employee statuses', function () {
     cy.login()
 
     cy.createCompany()
-
-    cy.wait(500)
 
     cy.changePermission(1, 200)
     cy.visit('/1/account')
