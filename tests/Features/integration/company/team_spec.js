@@ -4,8 +4,6 @@ describe('Company', function () {
 
     cy.createCompany()
 
-    cy.wait(500)
-
     cy.createTeam('product')
 
     cy.contains('product')

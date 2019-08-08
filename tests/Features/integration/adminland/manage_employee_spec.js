@@ -4,8 +4,6 @@ describe('Adminland - Employee management', function () {
 
     cy.createCompany()
 
-    cy.wait(500)
-
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin')
     cy.contains('Michael Scott')
     cy.hasAuditLog('Added Michael Scott as an employee', '/1/account/employees')
