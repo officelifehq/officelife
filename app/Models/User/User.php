@@ -124,14 +124,14 @@ class User extends Authenticatable
      * company.
      *
      * @param Company $company
-     * @param integer $numberOfNotificationsToFetch
+     * @param int $numberOfNotificationsToFetch
      * @return \Illuminate\Support\Collection|null
      */
     public function getLatestNotifications(Company $company, int $numberOfNotificationsToFetch = 5)
     {
         $employee = $this->getEmployeeObjectForCompany($company);
 
-        if (!$employee) {
+        if (! $employee) {
             return;
         }
 

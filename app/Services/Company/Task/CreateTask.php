@@ -2,7 +2,6 @@
 
 namespace App\Services\Company\Task;
 
-use App\Models\User\User;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
@@ -131,7 +130,6 @@ class CreateTask extends BaseService
      *
      * @param array $data
      * @param array $dataToLog
-     * @param User $user
      * @return void
      */
     private function addLogEmployeeAction(array $data, array $dataToLog) : void
