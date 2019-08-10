@@ -179,7 +179,7 @@ $factory->define(App\Models\Company\Notification::class, function (Faker $faker)
             return factory(App\Models\Company\Employee::class)->create()->id;
         },
         'action' => 'notification',
-        'content' => '{}',
+        'objects' => '{}',
         'read' => false,
     ];
 });

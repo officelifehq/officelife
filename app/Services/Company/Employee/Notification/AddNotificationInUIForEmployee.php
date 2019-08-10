@@ -2,12 +2,11 @@
 
 namespace App\Services\Company\Employee\Notification;
 
-use App\Models\User\User;
 use App\Services\BaseService;
 use Illuminate\Validation\Rule;
 use App\Models\Company\Notification;
 
-class CreateNotificationInUIForEmployee extends BaseService
+class AddNotificationInUIForEmployee extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -26,7 +25,7 @@ class CreateNotificationInUIForEmployee extends BaseService
                 ]),
                 'max:255',
             ],
-            'content' => 'required|string|max:255',
+            'objects' => 'required|json',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -46,7 +45,7 @@ class CreateNotificationInUIForEmployee extends BaseService
         $notification = Notification::create([
             'employee_id' => $data['employee_id'],
             'action' => $data['action'],
-            'content' => $data['content'],
+            'objects' => $data['objects'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 

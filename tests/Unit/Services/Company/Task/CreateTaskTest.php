@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Employee\Team;
 
 use Tests\TestCase;
 use App\Jobs\LogTeamAudit;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
@@ -80,6 +81,17 @@ class CreateTaskTest extends TestCase
                     'task_name' => $task->name,
                 ]);
         });
+
+        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($michael, $task) {
+            return $job->notification['action'] === 'task_assigned' &&
+                $job->notification['employee_id'] === $michael->id  &&
+                $job->notification['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'task_id' => $task->id,
+                    'task_name' => $task->name,
+                ]);
+        });
     }
 
     /** @test */
@@ -122,6 +134,8 @@ class CreateTaskTest extends TestCase
         });
 
         Queue::assertNotPushed(LogEmployeeAudit::class);
+
+        Queue::assertNotPushed(NotifyEmployee::class);
     }
 
     /** @test */
@@ -156,6 +170,17 @@ class CreateTaskTest extends TestCase
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $task) {
             return $job->auditLog['action'] === 'task_assigned_to_employee' &&
                 $job->auditLog['objects'] === json_encode([
+                    'author_id' => $michael->user->id,
+                    'author_name' => $michael->user->name,
+                    'task_id' => $task->id,
+                    'task_name' => $task->name,
+                ]);
+        });
+
+        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($michael, $task) {
+            return $job->notification['action'] === 'task_assigned' &&
+                $job->notification['employee_id'] === $michael->id  &&
+                $job->notification['objects'] === json_encode([
                     'author_id' => $michael->user->id,
                     'author_name' => $michael->user->name,
                     'task_id' => $task->id,

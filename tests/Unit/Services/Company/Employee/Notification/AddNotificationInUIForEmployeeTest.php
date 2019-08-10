@@ -6,9 +6,9 @@ use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Notification\CreateNotificationInUIForEmployee;
+use App\Services\Company\Employee\Notification\AddNotificationInUIForEmployee;
 
-class CreateNotificationInUIForEmployeeTest extends TestCase
+class AddNotificationInUIForEmployeeTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -20,16 +20,16 @@ class CreateNotificationInUIForEmployeeTest extends TestCase
         $request = [
             'employee_id' => $employee->id,
             'action' => 'task_assigned',
-            'content' => '{team_id: 1}',
+            'objects' => json_encode(['team_id' => 1]),
         ];
 
-        $notification = (new CreateNotificationInUIForEmployee)->execute($request);
+        $notification = (new AddNotificationInUIForEmployee)->execute($request);
 
         $this->assertDatabaseHas('notifications', [
             'id' => $notification->id,
             'employee_id' => $employee->id,
             'action' => 'task_assigned',
-            'content' => '{team_id: 1}',
+            'objects' => json_encode(['team_id' => 1]),
         ]);
     }
 
@@ -41,6 +41,6 @@ class CreateNotificationInUIForEmployeeTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new CreateNotificationInUIForEmployee)->execute($request);
+        (new AddNotificationInUIForEmployee)->execute($request);
     }
 }

@@ -20,7 +20,7 @@ class CreateNotificationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('employee_id');
             $table->string('action');
-            $table->string('content');
+            $table->text('objects');
             $table->boolean('read')->default(false);
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
