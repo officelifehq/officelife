@@ -84,7 +84,7 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(NotifyEmployee::class, function ($job) use ($michael, $task) {
             return $job->notification['action'] === 'task_assigned' &&
-                $job->notification['employee_id'] === $michael->id  &&
+                $job->notification['employee_id'] === $michael->id &&
                 $job->notification['objects'] === json_encode([
                     'author_id' => $michael->user->id,
                     'author_name' => $michael->user->name,
@@ -179,7 +179,7 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(NotifyEmployee::class, function ($job) use ($michael, $task) {
             return $job->notification['action'] === 'task_assigned' &&
-                $job->notification['employee_id'] === $michael->id  &&
+                $job->notification['employee_id'] === $michael->id &&
                 $job->notification['objects'] === json_encode([
                     'author_id' => $michael->user->id,
                     'author_name' => $michael->user->name,
