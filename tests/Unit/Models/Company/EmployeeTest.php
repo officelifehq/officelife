@@ -10,6 +10,7 @@ use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
+use App\Models\Company\Notification;
 use App\Models\Company\EmployeeEvent;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -112,7 +113,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_worklog() : void
+    public function it_has_many_worklogs() : void
     {
         $dwight = factory(Employee::class)->create();
         factory(Worklog::class, 2)->create([
@@ -128,6 +129,17 @@ class EmployeeTest extends TestCase
         $dwight = factory(Employee::class)->create();
 
         $this->assertTrue($dwight->status()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_notifications(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Notification::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->notifications()->exists());
     }
 
     /** @test */

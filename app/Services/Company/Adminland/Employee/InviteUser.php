@@ -3,9 +3,9 @@
 namespace App\Services\Company\Adminland\Employee;
 
 use Illuminate\Support\Str;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Company\InviteEmployeeToBecomeUser;
 use App\Exceptions\InvitationAlreadyUsedException;

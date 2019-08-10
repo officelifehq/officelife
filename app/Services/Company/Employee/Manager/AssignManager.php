@@ -3,10 +3,10 @@
 namespace App\Services\Company\Employee\Manager;
 
 use App\Models\User\User;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
-use App\Jobs\Logs\LogEmployeeAudit;
 use App\Exceptions\SameIdsException;
 use App\Models\Company\DirectReport;
 

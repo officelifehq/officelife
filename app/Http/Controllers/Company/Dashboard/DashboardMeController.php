@@ -36,7 +36,7 @@ class DashboardMeController extends Controller
             'employee' => new EmployeeResource($employee),
             'teams' => TeamResource::collection($employee->teams()->get()),
             'worklogCount' => $employee->worklogs()->count(),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);
     }

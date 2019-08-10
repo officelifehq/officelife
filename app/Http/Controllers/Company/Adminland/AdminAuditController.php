@@ -122,7 +122,7 @@ class AdminAuditController extends Controller
             'company' => $company,
             'logs' => $logsCollection,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
             'paginator' => [
                 'count' => $logs->count(),
                 'currentPage' => $logs->currentPage(),

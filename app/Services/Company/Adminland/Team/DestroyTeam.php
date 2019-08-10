@@ -3,8 +3,8 @@
 namespace App\Services\Company\Adminland\Team;
 
 use App\Models\Company\Team;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\Logs\LogAccountAudit;
 
 class DestroyTeam extends BaseService
 {

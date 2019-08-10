@@ -2,11 +2,11 @@
 
 namespace App\Services\Company\Employee\Position;
 
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
-use App\Jobs\Logs\LogAccountAudit;
-use App\Jobs\Logs\LogEmployeeAudit;
 
 class RemovePositionFromEmployee extends BaseService
 {

@@ -5,7 +5,7 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Company\Employee;
-use App\Models\User\Notification;
+use App\Models\Company\Notification;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\User\Notification\MarkNotificationsAsRead;
@@ -23,19 +23,17 @@ class MarkNotificationsAsReadTest extends TestCase
         ]);
 
         factory(Notification::class, 2)->create([
-            'user_id' => $user->id,
-            'company_id' => $employee->company_id,
+            'employee_id' => $employee->id,
         ]);
 
         $request = [
-            'user_id' => $user->id,
+            'employee_id' => $employee->id,
         ];
 
         $result = (new MarkNotificationsAsRead)->execute($request);
 
         $this->assertDatabaseHas('notifications', [
-            'user_id' => $user->id,
-            'company_id' => $employee->company_id,
+            'employee_id' => $employee->id,
             'read' => 0,
         ]);
 

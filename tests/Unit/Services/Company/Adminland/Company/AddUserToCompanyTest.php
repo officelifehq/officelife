@@ -4,8 +4,8 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 
 use Tests\TestCase;
 use App\Models\User\User;
+use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

@@ -2,9 +2,9 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 
 class UpdateHiringInformation extends BaseService
 {

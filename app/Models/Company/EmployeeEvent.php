@@ -5,6 +5,10 @@ namespace App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Employee events are what happened to an employee at a given date, like
+ * a birthdate.
+ */
 class EmployeeEvent extends Model
 {
     protected $table = 'employee_events';

@@ -3,8 +3,8 @@
 namespace App\Console;
 
 use Carbon\Carbon;
+use App\Jobs\LogMissedWorklogEntry;
 use Illuminate\Console\Scheduling\Schedule;
-use App\Jobs\Employee\LogMissedWorklogEntry;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel

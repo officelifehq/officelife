@@ -4,10 +4,10 @@ namespace Tests\Unit\Services\Company\Employee\Worklog;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
-use App\Jobs\Logs\LogEmployeeAudit;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Employee\Worklog\LogWorklog;

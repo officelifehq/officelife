@@ -31,7 +31,7 @@ class DashboardHRController extends Controller
             'company' => $company,
             'user' => auth()->user()->refresh(),
             'employee' => new EmployeeResource(auth()->user()->getEmployeeObjectForCompany($company)),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);
     }

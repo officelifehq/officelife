@@ -2,8 +2,8 @@
 
 namespace App\Services\Company\Adminland\EmployeeStatus;
 
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\Logs\LogAccountAudit;
 use App\Models\Company\EmployeeStatus;
 
 class DestroyEmployeeStatus extends BaseService

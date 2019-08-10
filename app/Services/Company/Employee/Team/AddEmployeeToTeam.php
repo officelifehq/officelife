@@ -3,12 +3,12 @@
 namespace App\Services\Company\Employee\Team;
 
 use Carbon\Carbon;
+use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\Logs\LogTeamAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
-use App\Jobs\Logs\LogEmployeeAudit;
 
 class AddEmployeeToTeam extends BaseService
 {

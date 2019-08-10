@@ -1,33 +1,33 @@
 <?php
 
-namespace App\Jobs\Logs;
+namespace App\Jobs\Employee;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Logs\LogEmployeeAction;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Services\Company\Employee\Notification\CreateNotificationInUIForEmployee;
 
-class LogEmployeeAudit implements ShouldQueue
+class CreateNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
-     * The audit log instance.
+     * The notification instance.
      *
      * @var array
      */
-    public $auditLog;
+    public $notification;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(array $auditLog)
+    public function __construct(array $notification)
     {
-        $this->auditLog = $auditLog;
+        $this->notification = $notification;
     }
 
     /**
@@ -38,15 +38,14 @@ class LogEmployeeAudit implements ShouldQueue
     public function handle()
     {
         $isDummy = true;
-        if (empty($this->auditLog['is_dummy'])) {
+        if (empty($this->notification['is_dummy'])) {
             $isDummy = false;
         }
 
-        (new LogEmployeeAction)->execute([
-            'company_id' => $this->auditLog['company_id'],
-            'employee_id' => $this->auditLog['employee_id'],
-            'action' => $this->auditLog['action'],
-            'objects' => $this->auditLog['objects'],
+        (new CreateNotificationInUIForEmployee)->execute([
+            'employee_id' => $this->notification['employee_id'],
+            'action' => $this->notification['action'],
+            'content' => $this->notification['content'],
             'is_dummy' => $isDummy,
         ]);
     }

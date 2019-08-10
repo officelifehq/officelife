@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Jobs\Employee;
+namespace Tests\Unit\Jobs;
 
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
-use App\Jobs\Employee\LogMissedWorklogEntry;
+use App\Jobs\LogMissedWorklogEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LogMissedWorklogEntryTest extends TestCase

@@ -4,8 +4,8 @@ namespace Tests\Unit\Services\Company\Adminland\Flow;
 
 use Tests\TestCase;
 use App\Models\Company\Flow;
+use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Adminland\Flow\CreateFlow;
