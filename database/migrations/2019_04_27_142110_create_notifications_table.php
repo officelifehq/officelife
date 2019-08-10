@@ -18,15 +18,13 @@ class CreateNotificationsTable extends Migration
 
         Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('company_id')->nullable();
+            $table->unsignedBigInteger('employee_id');
             $table->string('action');
-            $table->string('content');
+            $table->text('objects');
             $table->boolean('read')->default(false);
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 }

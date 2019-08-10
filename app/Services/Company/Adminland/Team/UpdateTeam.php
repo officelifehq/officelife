@@ -2,10 +2,10 @@
 
 namespace App\Services\Company\Adminland\Team;
 
+use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\Logs\LogTeamAudit;
-use App\Jobs\Logs\LogAccountAudit;
 
 class UpdateTeam extends BaseService
 {

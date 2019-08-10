@@ -28,7 +28,6 @@ class HomeController extends Controller
         return View::component('Home', [
             'employees' => $companiesCollection,
             'user' => auth()->user(),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
         ]);
     }
 }

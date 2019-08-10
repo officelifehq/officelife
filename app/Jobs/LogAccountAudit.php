@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Jobs\Logs;
+namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
+use App\Services\Logs\LogAuditAction;
 use Illuminate\Queue\SerializesModels;
-use App\Services\Logs\LogEmployeeAction;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class LogEmployeeAudit implements ShouldQueue
+class LogAccountAudit implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -42,9 +42,8 @@ class LogEmployeeAudit implements ShouldQueue
             $isDummy = false;
         }
 
-        (new LogEmployeeAction)->execute([
+        (new LogAuditAction)->execute([
             'company_id' => $this->auditLog['company_id'],
-            'employee_id' => $this->auditLog['employee_id'],
             'action' => $this->auditLog['action'],
             'objects' => $this->auditLog['objects'],
             'is_dummy' => $isDummy,

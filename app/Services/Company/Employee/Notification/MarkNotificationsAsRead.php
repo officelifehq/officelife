@@ -3,7 +3,7 @@
 namespace App\Services\User\Notification;
 
 use App\Services\BaseService;
-use App\Models\User\Notification;
+use App\Models\Company\Notification;
 
 class MarkNotificationsAsRead extends BaseService
 {
@@ -15,7 +15,7 @@ class MarkNotificationsAsRead extends BaseService
     public function rules() : array
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
+            'employee_id' => 'required|integer|exists:employees,id',
         ];
     }
 
@@ -29,7 +29,7 @@ class MarkNotificationsAsRead extends BaseService
     {
         $this->validate($data);
 
-        Notification::where('user_id', 'user_id')
+        Notification::where('employee_id', 'employee_id')
             ->update(['read' => true]);
 
         return true;

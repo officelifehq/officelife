@@ -4,8 +4,8 @@ namespace Tests\Unit\Services\Company\Adminland\Team;
 
 use Tests\TestCase;
 use App\Models\Company\Team;
+use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Adminland\Team\DestroyTeam;

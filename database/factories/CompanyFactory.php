@@ -173,6 +173,17 @@ $factory->define(App\Models\Company\Task::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(App\Models\Company\Notification::class, function (Faker $faker) {
+    return [
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'action' => 'notification',
+        'objects' => '{}',
+        'read' => false,
+    ];
+});
+
 $factory->define(App\Models\Company\Worklog::class, function (Faker $faker) {
     return [
         'employee_id' => function () {

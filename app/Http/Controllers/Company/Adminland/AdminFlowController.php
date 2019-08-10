@@ -29,7 +29,7 @@ class AdminFlowController extends Controller
         return View::component('ShowAccountFlows', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
             'flows' => $flows,
         ]);
     }
@@ -49,7 +49,7 @@ class AdminFlowController extends Controller
         return View::component('ShowAccountFlow', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
             'flow' => new FlowResource($flow),
         ]);
     }
@@ -66,7 +66,7 @@ class AdminFlowController extends Controller
         return View::component('CreateAccountFlow', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
         ]);
     }
 

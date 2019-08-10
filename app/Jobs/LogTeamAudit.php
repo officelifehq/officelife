@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Logs;
+namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
 use App\Services\Logs\LogTeamAction;

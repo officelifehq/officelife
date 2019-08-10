@@ -3,10 +3,10 @@
 namespace App\Services\Company\Adminland\Company;
 
 use Illuminate\Support\Str;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 
 class AddUserToCompany extends BaseService
 {

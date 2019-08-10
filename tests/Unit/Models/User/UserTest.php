@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\User\Notification;
+use App\Models\Company\Notification;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
@@ -21,16 +21,6 @@ class UserTest extends TestCase
             'user_id' => $user->id,
         ]);
         $this->assertTrue($user->employees()->exists());
-    }
-
-    /** @test */
-    public function it_has_many_notifications() : void
-    {
-        $user = factory(User::class)->create([]);
-        factory(Notification::class, 3)->create([
-            'user_id' => $user->id,
-        ]);
-        $this->assertTrue($user->notifications()->exists());
     }
 
     /** @test */
@@ -75,22 +65,62 @@ class UserTest extends TestCase
     /** @test */
     public function it_gets_the_employee_object_for_the_given_user() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        $dwight = factory(Employee::class)->create([]);
 
         $this->assertInstanceOf(
             Employee::class,
-            $employee->user->getEmployeeObjectForCompany($employee->company)
+            $dwight->user->getEmployeeObjectForCompany($dwight->company)
         );
     }
 
     /** @test */
     public function it_fails_to_get_the_employee_object_is_user_is_not_part_of_the_company() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        $dwight = factory(Employee::class)->create([]);
         $company = factory(Company::class)->create([]);
 
         $this->assertNull(
-            $employee->user->getEmployeeObjectForCompany($company)
+            $dwight->user->getEmployeeObjectForCompany($company)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_latest_notifications_for_the_user(): void
+    {
+        $dwight = factory(Employee::class)->create([]);
+        factory(Notification::class, 3)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $result = $dwight->user->getLatestNotifications($dwight->company);
+
+        $this->assertEquals(
+            3,
+            $result->count()
+        );
+
+        factory(Notification::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $result = $dwight->user->getLatestNotifications($dwight->company, 5);
+
+        $this->assertEquals(
+            5,
+            $result->count()
+        );
+    }
+
+    /** @test */
+    public function it_fails_to_get_the_latest_notifications_if_the_user_does_not_have_a_company(): void
+    {
+        $dwight = factory(Employee::class)->create([]);
+        $company = factory(Company::class)->create([]);
+
+        $result = $dwight->user->getLatestNotifications($company);
+
+        $this->assertNull(
+            $result
         );
     }
 }

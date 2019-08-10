@@ -2,11 +2,11 @@
 
 namespace App\Services\Company\Team;
 
+use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\Logs\LogTeamAudit;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 
 class SetTeamLeader extends BaseService
 {

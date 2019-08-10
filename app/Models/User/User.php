@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Http\Resources\Company\Notification\Notification as NotificationResource;
 
 class User extends Authenticatable
 {
@@ -71,16 +72,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the notification record associated with the user.
-     *
-     * @return hasMany
-     */
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class)->orderBy('created_at', 'desc');
-    }
-
-    /**
      * Get the name of the user.
      *
      * @param string $value
@@ -126,5 +117,28 @@ class User extends Authenticatable
         if ($employee) {
             return $employee;
         }
+    }
+
+    /**
+     * Return the latest notifications for the user as the employee of the given
+     * company.
+     *
+     * @param Company $company
+     * @param int $numberOfNotificationsToFetch
+     * @return \Illuminate\Support\Collection|null
+     */
+    public function getLatestNotifications(Company $company, int $numberOfNotificationsToFetch = 5)
+    {
+        $employee = $this->getEmployeeObjectForCompany($company);
+
+        if (! $employee) {
+            return;
+        }
+
+        return NotificationResource::collection(
+            $employee->notifications
+                ->where('read', false)
+                ->take($numberOfNotificationsToFetch)
+        );
     }
 }

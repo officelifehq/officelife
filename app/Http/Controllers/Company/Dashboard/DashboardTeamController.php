@@ -44,7 +44,7 @@ class DashboardTeamController extends Controller
                     'company' => $company,
                     'user' => auth()->user()->refresh(),
                     'employee' => new EmployeeResource($employee),
-                    'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+                    'notifications' => auth()->user()->getLatestNotifications($company),
                     'message' => trans('dashboard.team_dont_exist'),
                 ]);
             }
@@ -55,7 +55,7 @@ class DashboardTeamController extends Controller
                     'company' => $company,
                     'user' => auth()->user()->refresh(),
                     'employee' => new EmployeeResource($employee),
-                    'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+                    'notifications' => auth()->user()->getLatestNotifications($company),
                     'message' => trans('dashboard.not_allowed'),
                 ]);
             }
@@ -67,7 +67,7 @@ class DashboardTeamController extends Controller
                 'company' => $company,
                 'user' => auth()->user()->refresh(),
                 'employee' => new EmployeeResource($employee),
-                'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+                'notifications' => auth()->user()->getLatestNotifications($company),
                 'message' => trans('dashboard.team_no_team_yet'),
             ]);
         }
@@ -111,7 +111,7 @@ class DashboardTeamController extends Controller
             'worklogDates' => $dates,
             'currentDate' => $requestedDate->format('Y-m-d'),
             'worklogEntries' => $team->worklogsForDate($requestedDate),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
         ]);
     }
 

@@ -3,8 +3,8 @@
 namespace Tests\Unit\Services\Company\Adminland\EmployeeStatus;
 
 use Tests\TestCase;
+use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 use Illuminate\Support\Facades\Queue;
 use App\Models\Company\EmployeeStatus;
 use Illuminate\Validation\ValidationException;

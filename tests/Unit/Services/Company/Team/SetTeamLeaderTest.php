@@ -3,10 +3,10 @@
 namespace Tests\Unit\Services\Company\Team;
 
 use Tests\TestCase;
+use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
-use App\Jobs\Logs\LogTeamAudit;
+use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Team\SetTeamLeader;
 use Illuminate\Validation\ValidationException;

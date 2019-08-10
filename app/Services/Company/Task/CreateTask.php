@@ -2,15 +2,14 @@
 
 namespace App\Services\Company\Task;
 
-use App\Models\User\User;
+use App\Jobs\LogTeamAudit;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\Logs\LogTeamAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
-use App\Jobs\Logs\LogEmployeeAudit;
-use App\Services\User\Notification\CreateNotificationInUIForEmployee;
 
 class CreateTask extends BaseService
 {
@@ -81,7 +80,7 @@ class CreateTask extends BaseService
         }
 
         if (! empty($data['assignee_id'])) {
-            $this->addLogEmployeeAction($data, $dataToLog, $author);
+            $this->addLogEmployeeAction($data, $dataToLog);
         }
 
         return $task;
@@ -131,10 +130,9 @@ class CreateTask extends BaseService
      *
      * @param array $data
      * @param array $dataToLog
-     * @param User $user
      * @return void
      */
-    private function addLogEmployeeAction(array $data, array $dataToLog, User $user) : void
+    private function addLogEmployeeAction(array $data, array $dataToLog) : void
     {
         LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -144,11 +142,11 @@ class CreateTask extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        (new CreateNotificationInUIForEmployee)->execute([
-            'user_id' => $user->id,
-            'company_id' => $data['company_id'],
+        NotifyEmployee::dispatch([
+            'employee_id' => $data['assignee_id'],
             'action' => 'task_assigned',
-            'content' => $data['title'],
+            'objects' => json_encode($dataToLog),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
     }
 }

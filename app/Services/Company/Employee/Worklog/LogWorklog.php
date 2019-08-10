@@ -2,11 +2,11 @@
 
 namespace App\Services\Company\Employee\Worklog;
 
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
-use App\Jobs\Logs\LogEmployeeAudit;
 use App\Exceptions\WorklogAlreadyLoggedTodayException;
 
 class LogWorklog extends BaseService

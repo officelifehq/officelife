@@ -31,7 +31,7 @@ class TeamController extends Controller
         return View::component('ShowCompanyTeam', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
             'team' => new TeamResource($team),
             'employeeCount' => $employeeCount,
             'mostRecentEmployee' => new EmployeeResource($mostRecentEmployee),

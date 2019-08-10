@@ -27,7 +27,7 @@ class EmployeeController extends Controller
         return View::component('ShowAccountEmployees', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
             'employees' => $employees,
         ]);
     }
@@ -44,7 +44,7 @@ class EmployeeController extends Controller
         return View::component('CreateAccountEmployee', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
         ]);
     }
 

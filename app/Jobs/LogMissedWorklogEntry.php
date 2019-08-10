@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs\Employee;
+namespace App\Jobs;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;

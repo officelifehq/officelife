@@ -1,26 +1,38 @@
 <?php
 
-namespace Tests\Unit\Jobs\Logs;
+namespace Tests\Unit\Jobs;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Jobs\Logs\LogEmployeeAudit;
+use App\Jobs\LogTeamAudit;
+use App\Models\Company\Team;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LogEmployeeAuditTest extends TestCase
+class LogTeamAuditTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_an_employee_audit() : void
+    public function it_logs_a_team_audit(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $team->employees()->attach(
+            $michael->id,
+            [
+                'company_id' => $michael->company_id,
+                'created_at' => Carbon::now('UTC'),
+            ]
+        );
 
         $request = [
             'company_id' => $michael->company_id,
-            'employee_id' => $michael->id,
+            'team_id' => $team->id,
             'action' => 'employee_status_created',
             'objects' => json_encode([
                 'author_id' => $michael->id,
@@ -29,11 +41,11 @@ class LogEmployeeAuditTest extends TestCase
             ]),
         ];
 
-        LogEmployeeAudit::dispatch($request);
+        LogTeamAudit::dispatch($request);
 
-        $this->assertDatabaseHas('employee_logs', [
+        $this->assertDatabaseHas('team_logs', [
             'company_id' => $michael->company_id,
-            'employee_id' => $michael->id,
+            'team_id' => $team->id,
             'action' => 'employee_status_created',
             'objects' => json_encode([
                 'author_id' => $michael->id,

@@ -2,9 +2,9 @@
 
 namespace App\Services\Company\Adminland\Position;
 
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Position;
-use App\Jobs\Logs\LogAccountAudit;
 
 class DestroyPosition extends BaseService
 {

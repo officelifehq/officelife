@@ -23,7 +23,7 @@ class CompanyController extends Controller
         return View::component('ShowCompany', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);
     }
@@ -40,7 +40,7 @@ class CompanyController extends Controller
 
         return View::component('CreateCompany', [
             'company' => $company,
-            'notifications' => auth()->user()->notifications->where('read', false)->take(5),
+            'notifications' => auth()->user()->getLatestNotifications($company),
         ]);
     }
 

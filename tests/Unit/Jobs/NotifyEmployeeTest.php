@@ -1,26 +1,23 @@
 <?php
 
-namespace Tests\Unit\Jobs\Logs;
+namespace Tests\Unit\Jobs;
 
-use Carbon\Carbon;
 use Tests\TestCase;
-use App\Jobs\Logs\LogAccountAudit;
+use App\Jobs\NotifyEmployee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LogAccountAuditTest extends TestCase
+class NotifyEmployeeTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_an_account_audit() : void
+    public function it_logs_a_notification() : void
     {
-        Carbon::setTestNow(Carbon::create(2018, 1, 1));
-
         $michael = $this->createAdministrator();
 
         $request = [
-            'company_id' => $michael->company_id,
-            'action' => 'employee_status_created',
+            'employee_id' => $michael->id,
+            'action' => 'task_assigned',
             'objects' => json_encode([
                 'author_id' => $michael->id,
                 'author_name' => $michael->name,
@@ -28,11 +25,11 @@ class LogAccountAuditTest extends TestCase
             ]),
         ];
 
-        LogAccountAudit::dispatch($request);
+        NotifyEmployee::dispatch($request);
 
-        $this->assertDatabaseHas('audit_logs', [
-            'company_id' => $michael->company_id,
-            'action' => 'employee_status_created',
+        $this->assertDatabaseHas('notifications', [
+            'employee_id' => $michael->id,
+            'action' => 'task_assigned',
             'objects' => json_encode([
                 'author_id' => $michael->id,
                 'author_name' => $michael->name,

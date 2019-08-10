@@ -4,10 +4,10 @@ namespace App\Services\Company\Adminland\Company;
 
 use App\Models\User\User;
 use Illuminate\Support\Str;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
 use App\Services\User\Avatar\GenerateAvatar;
 
 class CreateCompany extends BaseService

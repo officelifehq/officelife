@@ -3,9 +3,9 @@
 namespace App\Services\Company\Adminland\Flow;
 
 use App\Models\Company\Flow;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use Illuminate\Validation\Rule;
-use App\Jobs\Logs\LogAccountAudit;
 
 class CreateFlow extends BaseService
 {

@@ -3,10 +3,10 @@
 namespace Tests\Unit\Services\Company\Employee\Manager;
 
 use Tests\TestCase;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Jobs\Logs\LogAccountAudit;
-use App\Jobs\Logs\LogEmployeeAudit;
 use App\Models\Company\DirectReport;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;

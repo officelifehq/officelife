@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models\Company;
 
-use App\Models\Company\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -14,10 +13,9 @@ class Notification extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
-        'company_id',
+        'employee_id',
         'action',
-        'content',
+        'objects',
         'read',
         'is_dummy',
     ];
@@ -33,22 +31,12 @@ class Notification extends Model
     ];
 
     /**
-     * Get the user record associated with the notification.
+     * Get the employee record associated with the notification.
      *
      * @return BelongsTo
      */
-    public function user()
+    public function employee()
     {
-        return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the company record associated with the notification.
-     *
-     * @return BelongsTo
-     */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Employee::class);
     }
 }
