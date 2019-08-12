@@ -19,7 +19,7 @@ class TeamController extends Controller
      */
     public function index(Request $request)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $teams = TeamResource::collection(
             $company->teams()->orderBy('name', 'desc')->get()
         );

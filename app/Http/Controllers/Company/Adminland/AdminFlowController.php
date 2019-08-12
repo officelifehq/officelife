@@ -21,7 +21,7 @@ class AdminFlowController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $flows = FlowResource::collection(
             $company->flows()->orderBy('created_at', 'desc')->get()
         );
@@ -43,7 +43,7 @@ class AdminFlowController extends Controller
      */
     public function show(Request $request, int $companyId, int $flowId)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $flow = Flow::findOrFail($flowId);
 
         return View::component('ShowAccountFlow', [
@@ -61,7 +61,7 @@ class AdminFlowController extends Controller
      */
     public function create()
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
 
         return View::component('CreateAccountFlow', [
             'company' => $company,

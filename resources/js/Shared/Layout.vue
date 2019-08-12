@@ -69,7 +69,7 @@
             </ul>
           </div>
           <div class="fl w-20 pa2 tr relative header-menu-settings">
-            <header-menu :user="user" />
+            <user-menu />
           </div>
         </div>
       </div>
@@ -198,8 +198,15 @@
 
 <script>
 import ClickOutside from 'vue-click-outside';
+import UserMenu from '@/Shared/UserMenu';
+import LoadingButton from '@/Shared/LoadingButton';
 
 export default {
+  components: {
+    UserMenu,
+    LoadingButton,
+  },
+
   directives: {
     ClickOutside
   },
@@ -212,10 +219,6 @@ export default {
     noMenu: {
       type: Boolean,
       default: false,
-    },
-    user: {
-      type: Object,
-      default: null,
     },
     employee: {
       type: Object,

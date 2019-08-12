@@ -22,7 +22,7 @@ class ApiTeamController extends ApiController
      */
     public function index(Request $request, int $companyId)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $teams = $company->teams()->get();
 
         return TeamResource::collection($teams);
@@ -38,7 +38,7 @@ class ApiTeamController extends ApiController
      */
     public function show(Request $request, $companyId, $teamId)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
 
         try {
             $team = Team::where('company_id', $company->id)

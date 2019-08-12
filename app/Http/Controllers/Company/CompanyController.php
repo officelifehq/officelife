@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Company;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redirect;
 use App\Services\Company\Adminland\Company\CreateCompany;
 
 class CompanyController extends Controller
@@ -16,11 +17,11 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
 
-        return View::component('ShowCompany', [
+        return Inertia::render('Dashboard/MyCompany', [
             'company' => $company,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),
             'notifications' => auth()->user()->getLatestNotifications($company),
@@ -31,17 +32,11 @@ class CompanyController extends Controller
     /**
      * Show the create company form.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $company = Cache::get('currentCompany');
-
-        return View::component('CreateCompany', [
-            'company' => $company,
-            'notifications' => auth()->user()->getLatestNotifications($company),
-        ]);
+        return Inertia::render('Home/CreateCompany');
     }
 
     /**
@@ -57,8 +52,6 @@ class CompanyController extends Controller
             'name' => $request->get('name'),
         ]);
 
-        return response()->json([
-            'company_id' => $company->id,
-        ]);
+        return Redirect::route('dashboard');
     }
 }

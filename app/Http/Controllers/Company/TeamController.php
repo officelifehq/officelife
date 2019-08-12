@@ -21,7 +21,7 @@ class TeamController extends Controller
      */
     public function show(Request $request, $companyId, $teamId)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $team = Team::findOrFail($teamId);
 
         $employees = $team->employees()->orderBy('created_at', 'desc')->get();

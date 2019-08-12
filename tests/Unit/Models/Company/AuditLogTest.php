@@ -50,7 +50,7 @@ class AuditLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $auditLog = factory(AuditLog::class)->create([
@@ -90,7 +90,7 @@ class AuditLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $auditLog = factory(AuditLog::class)->create([
@@ -127,7 +127,7 @@ class AuditLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $auditLog = factory(AuditLog::class)->create([
@@ -164,7 +164,7 @@ class AuditLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $auditLog = factory(AuditLog::class)->create([
@@ -201,7 +201,7 @@ class AuditLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $auditLog = factory(AuditLog::class)->create([
@@ -241,7 +241,7 @@ class AuditLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $auditLog = factory(AuditLog::class)->create([

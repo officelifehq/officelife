@@ -16,6 +16,11 @@ textarea {
   &:empty {
     background-color: #fbfbfd;
   }
+
+  &.error {
+    border-color: #ea241e;
+    border-width: 2px;
+  }
 }
 
 label {

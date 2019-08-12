@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
 {
@@ -13,10 +11,8 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $company = Cache::get('currentCompany');
-
         switch (auth()->user()->default_dashboard_view) {
             case 'company':
                 return redirect(tenant('/dashboard/company'));

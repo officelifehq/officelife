@@ -27,7 +27,7 @@ class DashboardTeamController extends Controller
      */
     public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $employee = auth()->user()->getEmployeeObjectForCompany($company);
         $teams = $employee->teams()->get();
 
@@ -126,7 +126,7 @@ class DashboardTeamController extends Controller
      */
     public function worklogDetails(Request $request, int $companyId, int $teamId, $requestedDate)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $requestedDate = Carbon::parse($requestedDate);
         $team = Team::where('company_id', $company->id)
             ->where('id', $teamId)

@@ -16,16 +16,16 @@
 
       <div class="cf mw7 center br3 mb3 tc">
         <div class="cf dib btn-group">
-          <a :href="'/' + company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(user.default_dashboard_view == 'me')}">
+          <a :href="'/' + company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':($page.auth.user.default_dashboard_view == 'me')}">
             Me
           </a>
-          <a :href="'/' + company.id + '/dashboard/team'" class="f6 fl ph3 pv2 pointer dib" :class="{'selected':(user.default_dashboard_view == 'team')}">
+          <a :href="'/' + company.id + '/dashboard/team'" class="f6 fl ph3 pv2 pointer dib" :class="{'selected':($page.auth.user.default_dashboard_view == 'team')}">
             My team
           </a>
-          <a :href="'/' + company.id + '/dashboard/company'" class="f6 fl ph3 pv2 dib" :class="{'selected':(user.default_dashboard_view == 'company')}">
+          <a :href="'/' + company.id + '/dashboard/company'" class="f6 fl ph3 pv2 dib" :class="{'selected':($page.auth.user.default_dashboard_view == 'company')}">
             My company
           </a>
-          <a :href="'/' + company.id + '/dashboard/hr'" class="f6 fl ph3 pv2 dib" :class="{'selected':(user.default_dashboard_view == 'hr')}">
+          <a :href="'/' + company.id + '/dashboard/hr'" class="f6 fl ph3 pv2 dib" :class="{'selected':($page.auth.user.default_dashboard_view == 'hr')}">
             HR area
           </a>
         </div>

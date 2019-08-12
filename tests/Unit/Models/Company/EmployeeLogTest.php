@@ -57,7 +57,7 @@ class EmployeeLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $employeeLog = factory(EmployeeLog::class)->create([
@@ -97,7 +97,7 @@ class EmployeeLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $employeeLog = factory(EmployeeLog::class)->create([
@@ -134,7 +134,7 @@ class EmployeeLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $employeeLog = factory(EmployeeLog::class)->create([
@@ -171,7 +171,7 @@ class EmployeeLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $employeeLog = factory(EmployeeLog::class)->create([
@@ -208,7 +208,7 @@ class EmployeeLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $employeeLog = factory(EmployeeLog::class)->create([

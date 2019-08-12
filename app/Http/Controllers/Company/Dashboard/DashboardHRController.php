@@ -19,7 +19,7 @@ class DashboardHRController extends Controller
      */
     public function index(Request $request)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
 
         (new UpdateDashboardView)->execute([
             'user_id' => auth()->user()->id,

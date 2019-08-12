@@ -21,7 +21,7 @@ class EmployeeStatusController extends Controller
      */
     public function index(Request $request)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $employeeStatuses = EmployeeStatusResource::collection(
             $company->employeeStatuses()->orderBy('name', 'asc')->get()
         );

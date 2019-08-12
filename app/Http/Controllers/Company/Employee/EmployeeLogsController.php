@@ -21,7 +21,7 @@ class EmployeeLogsController extends Controller
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $employee = Employee::findOrFail($employeeId);
 
         try {

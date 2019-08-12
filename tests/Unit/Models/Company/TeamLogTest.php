@@ -56,7 +56,7 @@ class TeamLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $TeamLog = factory(TeamLog::class)->create([
@@ -96,7 +96,7 @@ class TeamLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $TeamLog = factory(TeamLog::class)->create([
@@ -133,7 +133,7 @@ class TeamLogTest extends ApiTestCase
         Cache::shouldReceive('get')
             ->once()
             ->times(2)
-            ->with('currentCompany')
+            ->with('cachedCompanyObject')
             ->andReturn($adminEmployee->company);
 
         $TeamLog = factory(TeamLog::class)->create([

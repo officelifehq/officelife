@@ -32,7 +32,7 @@
 <template>
   <div>
     <a class="no-color no-underline relative pointer" data-cy="header-menu" @click.prevent="menu = !menu">
-      {{ user.email }} <span class="dropdown-caret"></span>
+      {{ $page.auth.user.email }} <span class="dropdown-caret"></span>
     </a>
     <div v-if="menu == true" class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
       <ul class="list ma0 pa0">
@@ -42,9 +42,9 @@
           </a>
         </li>
         <li class="pv2">
-          <a class="no-color no-underline" href="/logout" data-cy="logout-button">
+          <inertia-link href="/logout" class="no-color no-underline" data-cy="logout-button">
             {{ $t('app.header_logout') }}
-          </a>
+          </inertia-link>
         </li>
       </ul>
     </div>
@@ -54,10 +54,6 @@
 <script>
 export default {
   props: {
-    user: {
-      type: Object,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,
@@ -79,10 +75,6 @@ export default {
   },
 
   methods: {
-    prepareComponent() {
-      this.getPrimaryEmotions();
-    },
-
     close(e) {
       if (!this.$el.contains(e.target)) {
         this.menu = false;

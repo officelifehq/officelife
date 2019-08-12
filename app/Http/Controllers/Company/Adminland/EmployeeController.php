@@ -19,7 +19,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $employees = EmployeeResource::collection(
             $company->employees()->orderBy('created_at', 'desc')->get()
         );
@@ -39,7 +39,7 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
 
         return View::component('CreateAccountEmployee', [
             'company' => $company,

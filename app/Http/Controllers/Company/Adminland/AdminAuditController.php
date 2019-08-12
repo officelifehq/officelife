@@ -16,7 +16,7 @@ class AdminAuditController extends Controller
      */
     public function index(Request $request)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $logs = $company->logs()->paginate(15);
 
         // @TODO: extract this entire listing into a dedicated class somewhere

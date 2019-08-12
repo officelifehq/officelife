@@ -10,11 +10,7 @@
           <errors :errors="form.errors" />
 
           <form @submit.prevent="submit">
-            <!-- Email -->
-            <div class="">
-              <label class="db fw4 lh-copy f6" for="name">Name</label>
-              <input v-model="form.name" type="text" name="name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required />
-            </div>
+            <text-input v-model="form.name" :errors="$page.errors.name" :label="$t('company.new_name')" />
 
             <!-- Actions -->
             <div class="">
@@ -32,8 +28,19 @@
 </template>
 
 <script>
+import TextInput from '@/Shared/TextInput';
+import Errors from '@/Shared/Errors';
+import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout';
 
 export default {
+  components: {
+    Layout,
+    TextInput,
+    Errors,
+    LoadingButton,
+  },
+
   props: {
     company: {
       type: Object,
@@ -64,14 +71,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/company', this.form)
-        .then(response => {
-          Turbolinks.visit('/' + response.data.company_id + '/dashboard/me');
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
+      this.$inertia.post(this.route('company.store'), this.form)
+        .then(() =>
+          this.loadingState = null
+        );
     },
   }
 };

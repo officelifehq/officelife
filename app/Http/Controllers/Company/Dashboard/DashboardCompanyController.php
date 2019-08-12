@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
-use Illuminate\Http\Request;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -17,9 +16,9 @@ class DashboardCompanyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
 
         (new UpdateDashboardView)->execute([
             'user_id' => auth()->user()->id,

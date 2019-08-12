@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\Company\Company;
-use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -19,13 +18,18 @@ class CheckCompany
      */
     public function handle($request, Closure $next)
     {
-        $company = Company::findOrFail($request->route()->parameter('company'));
+        $company = Cache::get('cachedCompanyObject');
+        $employee = Cache::get('cachedEmployeeObject');
 
-        $employee = Employee::where('user_id', auth()->user()->id)
-            ->where('company_id', $company->id)
-            ->first();
+        if (is_null($company)) {
+            $company = Company::findOrFail($request->route()->parameter('company'));
+            Cache::put('cachedCompanyObject', $company, now()->addMinutes(60));
+        }
 
-        Cache::put('currentCompany', $company, now()->addMinutes(60));
+        if (is_null($employee)) {
+            $employee = auth()->user()->getEmployeeObjectForCompany($company);
+            Cache::put('cachedEmployeeObject', $employee, now()->addMinutes(60));
+        }
 
         if ($employee) {
             return $next($request);

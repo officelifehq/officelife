@@ -16,8 +16,8 @@ class CheckHRRole
      */
     public function handle($request, Closure $next)
     {
-        $company = Cache::get('currentCompany');
-        $employee = auth()->user()->getEmployeeObjectForCompany($company);
+        $company = Cache::get('cachedCompanyObject');
+        $employee = Cache::get('cachedEmployeeObject');
 
         if ($employee->permission_level <= config('homas.authorizations.hr')) {
             return $next($request);

@@ -20,7 +20,7 @@ class AdminPositionController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $positions = PositionResource::collection(
             $company->positions()->orderBy('title', 'asc')->get()
         );

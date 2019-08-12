@@ -25,7 +25,7 @@ class EmployeeController extends Controller
      */
     public function index(Request $request, int $companyId)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
 
         $employees = $company->employees()->orderBy('last_name', 'asc')->get();
 
@@ -46,7 +46,7 @@ class EmployeeController extends Controller
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         $employee = Employee::findOrFail($employeeId);
 
         $managers = $employee->getListOfManagers();

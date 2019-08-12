@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\View;
+use Inertia\Inertia;
 
 class HomeController extends Controller
 {
@@ -25,9 +25,8 @@ class HomeController extends Controller
             ]);
         }
 
-        return View::component('Home', [
+        return Inertia::render('Home/Home', [
             'employees' => $companiesCollection,
-            'user' => auth()->user(),
         ]);
     }
 }

@@ -9,7 +9,7 @@ if (! function_exists('tenant')) {
      */
     function tenant($route)
     {
-        $company = \Illuminate\Support\Facades\Cache::get('currentCompany');
+        $company = \Illuminate\Support\Facades\Cache::get('cachedCompanyObject');
 
         return config('app.url').'/'.$company->id.$route;
     }

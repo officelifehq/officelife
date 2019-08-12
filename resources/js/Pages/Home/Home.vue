@@ -35,12 +35,12 @@
 </style>
 
 <template>
-  <layout title="Home" :no-menu="false" :user="user" :notifications="notifications">
+  <layout title="Home" :no-menu="true" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- Blank state -->
       <div v-show="employees.length == 0" class="cf mt4 mt5-l mw7 center">
         <div class="fl w-100 w-25-m w-50-l pr2-l">
-          <a href="/company/create">
+          <inertia-link href="/company/create">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box" data-cy="create-company-blank-state">
                 <h3>{{ $t('home.create_company') }}</h3>
@@ -48,10 +48,10 @@
                 <img src="/img/home/create-company.png" class="home-company absolute" />
               </div>
             </div>
-          </a>
+          </inertia-link>
         </div>
         <div class="fl w-100 w-25-m w-50-l">
-          <a href="/company/create">
+          <inertia-link href="/company/create">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box">
                 <h3>{{ $t('home.join_company') }}</h3>
@@ -59,7 +59,7 @@
                 <img src="/img/home/join-company.png" class="home-join absolute" />
               </div>
             </div>
-          </a>
+          </inertia-link>
         </div>
       </div>
 
@@ -68,21 +68,25 @@
         <div class="mt4 mt5-l mw7 center section-btn relative">
           <p>
             <span class="pr2">{{ $t('home.companies_part_of') }}</span>
-            <a href="/company/create" class="btn absolute db-l dn">{{ $t('home.create_company_cta') }}</a>
+            <inertia-link href="/company/create" class="btn absolute db-l dn">
+              {{ $t('home.create_company_cta') }}
+            </inertia-link>
           </p>
         </div>
         <div class="cf mt4 mw7 center">
           <div v-for="employee in employees" :key="employee.id" class="fl w-100 w-25-m w-third-l pr2">
-            <a :href="'/' + employee.company_id + '/dashboard'">
+            <inertia-link :href="'/' + employee.company_id + '/dashboard'">
               <div class="br3 mb3 bg-white box pa3 home-index-company fw5 relative">
                 {{ employee.company_name }}
                 <span class="absolute normal f6">{{ $tc('home.number_of_employees', employee.number_of_employees, { count: employee.number_of_employees }) }}</span>
               </div>
-            </a>
+            </inertia-link>
           </div>
         </div>
         <div class="w-100 dn-ns db mt2">
-          <a href="/company/create" class="btn br3 pa3 white no-underline bb-0 db tc">{{ $t('home.create_company_cta') }}</a>
+          <inertia-link href="/company/create" class="btn br3 pa3 white no-underline bb-0 db tc">
+            {{ $t('home.create_company_cta') }}
+          </inertia-link>
         </div>
       </div>
     </div>
@@ -90,14 +94,16 @@
 </template>
 
 <script>
+import Layout from '@/Shared/Layout';
+
 export default {
+  components: {
+    Layout,
+  },
+
   props: {
     employees: {
       type: Array,
-      default: null,
-    },
-    user: {
-      type: Object,
       default: null,
     },
     notifications: {

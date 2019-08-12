@@ -19,7 +19,7 @@ class DummyController extends Controller
      */
     public function index(Request $request)
     {
-        $company = Cache::get('currentCompany');
+        $company = Cache::get('cachedCompanyObject');
         if ($company->has_dummy_data) {
             (new RemoveDummyData)->execute([
                 'company_id' => $company->id,
