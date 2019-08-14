@@ -1,8 +1,4 @@
-<style scoped>
-.dummy {
-  right: 40px;
-  bottom: 20px;
-}
+<style lang="scss" scoped>
 </style>
 
 <template>
@@ -31,41 +27,9 @@
         </div>
       </div>
 
-      <my-worklogs
-        :employee="employee"
-        :company="company"
-        :teams="teams"
-        :worklog-count="worklogCount"
-      />
-
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <h2>Team</h2>
-          <ul>
-            <li>team agenda</li>
-            <li>anniversaires</li>
-            <li>latest news</li>
-            <li>manager: view time off requests</li>
-            <li>manager: view morale</li>
-            <li>manager: expense approval</li>
-            <li>manager: one on one</li>
-            <li>revue 360 de son boss ou d'employées</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
-          <h2>Me</h2>
-          <ul>
-            <li>View holidays</li>
-            <li>Book time off</li>
-            <li>Log morale</li>
-            <li>Reply to what you've done this week</li>
-            <li>Log an expense</li>
-            <li>View one on ones</li>
-            <li>View all my tasks</li>
-          </ul>
+      <div class="cf mw7 center br3 mb3 bg-white box">
+        <div class="pa3 tc">
+          {{ message }}
         </div>
       </div>
     </div>
@@ -73,13 +37,11 @@
 </template>
 
 <script>
-import MyWorklogs from '@/Pages/Dashboard/MyWorklogs';
 import Layout from '@/Shared/Layout';
 
 export default {
   components: {
     Layout,
-    MyWorklogs,
   },
 
   props: {
@@ -91,22 +53,14 @@ export default {
       type: Object,
       default: null,
     },
-    teams: {
-      type: Array,
-      default: null,
-    },
-    worklogCount: {
-      type: Number,
-      default: 0,
-    },
     notifications: {
       type: Array,
       default: null,
     },
-    ownerPermissionLevel: {
-      type: Number,
-      default: 0,
-    },
+    message: {
+      type: String,
+      default: null,
+    }
   },
 };
 </script>

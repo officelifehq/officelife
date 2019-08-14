@@ -15,9 +15,9 @@
 <template>
   <div class="mb3">
     <label v-if="label" class="db fw4 lh-copy f6" :for="id">{{ label }}</label>
-    <input :id="id" ref="input" v-bind="$attrs" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" :class="{ error: errors.length }"
-           :required="required ? 'required' : ''" :type="type" :value="value" @input="$emit('input', $event.target.value)"
-    />
+    <textarea :id="id" ref="input" v-bind="$attrs" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" :class="{ error: errors.length }"
+              :required="required ? 'required' : ''" :type="type" :value="value" @input="$emit('input', $event.target.value)"
+    ></textarea>
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
@@ -46,11 +46,11 @@ export default {
       type: String,
       default: '',
     },
-    help: {
+    label: {
       type: String,
       default: '',
     },
-    label: {
+    help: {
       type: String,
       default: '',
     },

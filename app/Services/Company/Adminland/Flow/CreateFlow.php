@@ -71,7 +71,7 @@ class CreateFlow extends BaseService
                 'flow_name' => $flow->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $flow;
     }

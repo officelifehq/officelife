@@ -53,7 +53,7 @@ class DestroyEmployeeStatus extends BaseService
                 'employee_status_name' => $employeeStatus->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return true;
     }

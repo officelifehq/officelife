@@ -71,7 +71,7 @@ class AssignManager extends BaseService
                 'employee_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         $this->logInEmployeeLogs($data, $author, $manager, $employee);
 
@@ -103,7 +103,7 @@ class AssignManager extends BaseService
                 'manager_name' => $manager->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         // Log information about the manager having assigned a direct report
         LogEmployeeAudit::dispatch([
@@ -117,6 +117,6 @@ class AssignManager extends BaseService
                 'direct_report_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
     }
 }

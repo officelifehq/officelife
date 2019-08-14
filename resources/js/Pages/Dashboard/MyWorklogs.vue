@@ -29,7 +29,7 @@
         <!-- Shows the editor -->
         <div v-show="showEditor" class="">
           <form @submit.prevent="store()">
-            <editor :cypress-selector="'worklog-content'" @update="updateText($event)" />
+            <text-area v-model="form.content" :cypress-selector="'worklog-content'" />
             <p class="db lh-copy f6">
               👋 {{ $t('dashboard.worklog_entry_description') }}
             </p>
@@ -50,7 +50,15 @@
 </template>
 
 <script>
+import LoadingButton from '@/Shared/LoadingButton';
+import TextArea from '@/Shared/TextArea';
+
 export default {
+  components: {
+    LoadingButton,
+    TextArea,
+  },
+
   props: {
     company:  {
       type: Object,
@@ -105,7 +113,6 @@ export default {
             closeOnClick: true,
             pauseOnHover: true,
           });
-
           this.updatedWorklogCount = this.updatedWorklogCount + 1;
           this.updatedEmployee = response.data.data;
           this.showEditor = false;

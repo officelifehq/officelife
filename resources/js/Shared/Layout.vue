@@ -49,10 +49,12 @@
             <div v-show="noMenu" class="dib w-100"></div>
             <ul v-show="!noMenu" class="mv2">
               <li class="di header-menu-item pa2 pointer mr2">
-                <span class="fw5">
-                  <img class="relative" src="/img/header/icon-home.svg" />
-                  {{ $t('app.header_home') }}
-                </span>
+                <inertia-link href="/home">
+                  <span class="fw5">
+                    <img class="relative" src="/img/header/icon-home.svg" />
+                    {{ $t('app.header_home') }}
+                  </span>
+                </inertia-link>
               </li>
               <li class="di header-menu-item pa2 pointer mr2" data-cy="header-find-link" @click="showFindModal">
                 <span class="fw5">

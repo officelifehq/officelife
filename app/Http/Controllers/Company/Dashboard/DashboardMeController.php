@@ -26,7 +26,7 @@ class DashboardMeController extends Controller
             'user_id' => auth()->user()->id,
             'company_id' => $company->id,
             'view' => 'me',
-        ]);
+        ])->onQueue('low');
 
         return Inertia::render('Dashboard/Me', [
             'company' => $company,

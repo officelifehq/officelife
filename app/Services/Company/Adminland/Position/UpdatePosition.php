@@ -59,7 +59,7 @@ class UpdatePosition extends BaseService
                 'position_old_title' => $oldPositionTitle,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         $position->refresh();
 

@@ -61,7 +61,7 @@ class SetTeamLeader extends BaseService
                 'team_leader_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogTeamAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -74,7 +74,7 @@ class SetTeamLeader extends BaseService
                 'team_leader_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $team;
     }

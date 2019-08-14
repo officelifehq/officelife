@@ -7,7 +7,7 @@
 <script>
 
 //import Icon from 'Components/Icon'
-import { Editor, EditorContent } from 'tiptap';
+import { EditorContent } from 'tiptap';
 import {
   Blockquote,
   CodeBlock,

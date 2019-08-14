@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Dashboard;
 
 use Carbon\Carbon;
+use Inertia\Inertia;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\WorklogHelper;
@@ -40,9 +41,8 @@ class DashboardTeamController extends Controller
                     ->where('id', $teamId)
                     ->firstOrFail();
             } catch (ModelNotFoundException $e) {
-                return View::component('DashboardTeamEmptyState', [
+                return Inertia::render('Dashboard/MyTeamEmptyState', [
                     'company' => $company,
-                    'user' => auth()->user()->refresh(),
                     'employee' => new EmployeeResource($employee),
                     'notifications' => auth()->user()->getLatestNotifications($company),
                     'message' => trans('dashboard.team_dont_exist'),
@@ -51,9 +51,8 @@ class DashboardTeamController extends Controller
 
             $exists = $employee->teams->contains($teamId);
             if (! $exists) {
-                return View::component('DashboardTeamEmptyState', [
+                return Inertia::render('Dashboard/MyTeamEmptyState', [
                     'company' => $company,
-                    'user' => auth()->user()->refresh(),
                     'employee' => new EmployeeResource($employee),
                     'notifications' => auth()->user()->getLatestNotifications($company),
                     'message' => trans('dashboard.not_allowed'),
@@ -63,9 +62,8 @@ class DashboardTeamController extends Controller
 
         // if there are no teams, display a blank state
         if ($teams->count() == 0) {
-            return View::component('DashboardTeamEmptyState', [
+            return Inertia::render('Dashboard/MyTeamEmptyState', [
                 'company' => $company,
-                'user' => auth()->user()->refresh(),
                 'employee' => new EmployeeResource($employee),
                 'notifications' => auth()->user()->getLatestNotifications($company),
                 'message' => trans('dashboard.team_no_team_yet'),
@@ -102,9 +100,8 @@ class DashboardTeamController extends Controller
             $dates->push(WorklogHelper::getInformationAboutTeam($team, $day));
         }
 
-        return View::component('ShowDashboardTeam', [
+        return Inertia::render('Dashboard/MyTeam', [
             'company' => $company,
-            'user' => auth()->user()->refresh(),
             'employee' => new EmployeeResource($employee),
             'teams' => TeamResource::collection($teams),
             'currentTeam' => $team->id,

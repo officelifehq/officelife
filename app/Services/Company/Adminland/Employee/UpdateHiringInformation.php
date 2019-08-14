@@ -55,7 +55,7 @@ class UpdateHiringInformation extends BaseService
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
             ]),
-        ]);
+        ])->onQueue('low');
 
         return $employee;
     }

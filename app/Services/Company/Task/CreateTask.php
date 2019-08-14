@@ -73,7 +73,7 @@ class CreateTask extends BaseService
             'action' => 'task_created',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         if (! empty($data['team_id'])) {
             $this->addLogTeamAction($data, $dataToLog);
@@ -122,7 +122,7 @@ class CreateTask extends BaseService
             'action' => 'task_associated_to_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
     }
 
     /**
@@ -140,13 +140,13 @@ class CreateTask extends BaseService
             'action' => 'task_assigned_to_employee',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         NotifyEmployee::dispatch([
             'employee_id' => $data['assignee_id'],
             'action' => 'task_assigned',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
     }
 }

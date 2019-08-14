@@ -47,7 +47,7 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        $company = (new CreateCompany)->execute([
+        (new CreateCompany)->execute([
             'author_id' => auth()->user()->id,
             'name' => $request->get('name'),
         ]);

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Company\Dashboard;
 
 use Illuminate\Http\Request;
-use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
@@ -13,15 +13,12 @@ class DashboardWorklogController extends Controller
     /**
      * Create a worklog.
      *
-     * @param  Request $request
-     * @param int $companyId
+     * @var Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, int $companyId)
+    public function store(Request $request)
     {
-        $company = Company::findOrFail($companyId);
-
-        $employee = auth()->user()->getEmployeeObjectForCompany($company);
+        $employee = Cache::get('cachedEmployeeObject');
 
         $request = [
             'author_id' => auth()->user()->id,

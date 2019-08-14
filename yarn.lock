@@ -673,6 +673,19 @@
     debug "^3.1.0"
     lodash.once "^4.1.1"
 
+"@inertiajs/inertia-vue@^0.1.0":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@inertiajs/inertia-vue/-/inertia-vue-0.1.1.tgz#a31e9f394f7c2d9ffa1e9e510082a47d8316665b"
+  integrity sha512-YVtfoBxawI0mnoAdbRgRlRsUK/2pcjL6U4Y8Um38lvKY0hXb3hN3xFyqhCh451SUV+5YjJo19vNydZDk4n6i7g==
+
+"@inertiajs/inertia@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@inertiajs/inertia/-/inertia-0.1.1.tgz#86d7296a4bac0c7876fcb6aa281ef6c79415cdbc"
+  integrity sha512-PcaT1T3bNMfN/3ttQW9JOGXKpKM0Bqc69PuWh0Qp0V6c7hZMRE0vJthOKIRW35FpEDwsH6lArpYT7yO0FC6cYg==
+  dependencies:
+    axios "^0.18.0"
+    nprogress "^0.2.0"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -4208,19 +4221,6 @@ indexes-of@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/indexes-of/-/indexes-of-1.0.1.tgz#f30f716c8e2bd346c7b67d3df3915566a7c05607"
   integrity sha1-8w9xbI4r00bHtn0985FVZqfAVgc=
-
-inertia-vue@inertiajs/inertia-vue:
-  version "0.1.0"
-  resolved "https://codeload.github.com/inertiajs/inertia-vue/tar.gz/e644cfa77064aab3a2ba4b2dcf893566095bf405"
-  dependencies:
-    inertia inertiajs/inertia
-
-inertia@inertiajs/inertia:
-  version "0.1.0"
-  resolved "https://codeload.github.com/inertiajs/inertia/tar.gz/d0fc74fb85525d2fa1c1ed05439ad23b5943c1b1"
-  dependencies:
-    axios "^0.18.0"
-    nprogress "^0.2.0"
 
 infer-owner@^1.0.3:
   version "1.0.4"

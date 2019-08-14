@@ -71,7 +71,7 @@ class LogWorklog extends BaseService
                 'worklog_id' => $worklog->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
             'company_id' => $employee->company_id,
@@ -85,7 +85,7 @@ class LogWorklog extends BaseService
                 'worklog_id' => $worklog->id,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $worklog;
     }

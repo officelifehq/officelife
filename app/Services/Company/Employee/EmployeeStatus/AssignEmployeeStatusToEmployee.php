@@ -62,7 +62,7 @@ class AssignEmployeeStatusToEmployee extends BaseService
                 'employee_status_name' => $status->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -75,7 +75,7 @@ class AssignEmployeeStatusToEmployee extends BaseService
                 'employee_status_name' => $status->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $employee;
     }

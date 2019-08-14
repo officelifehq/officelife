@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"ce08d243e5b70dff9c45","1":"2c5574a33eda11cbcd9f","3":"9283360bb3367e64bf76","6":"bf690bb5f18d9b2653dd","7":"2f8b9eb78c749fce28fa","9":"0022611df3738b525ff7","10":"08b98f2b517404269224","11":"0a5cda1f17d37a121d2e"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a4a459717bd931884d10","1":"5d36bea40613a7b6b90e","2":"d4fa770b29c64d4d791c","3":"3d24ea05583234b0f32d","4":"90afef6320c447e3aa32","5":"29f332dc0f78b124dcaa","6":"b7f8f00ee46ea20a0c90","7":"cc619e834f624c962299","8":"a2cd71ce45fd67dbf68a","9":"dac9522d96d43f328b5e","10":"bae13ecc127cd2e2b066","12":"172bef64d791d4f1e80d","13":"10afee1b8a72b0ce40fc","14":"46439a5eaba5e2ea9ecc","15":"fb88ba6abc51282895b4"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -200,6 +200,32 @@
 /******/ })
 /************************************************************************/
 /******/ ({
+
+/***/ "./node_modules/@inertiajs/inertia-vue/dist/index.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@inertiajs/inertia-vue/dist/index.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var e=__webpack_require__(/*! @inertiajs/inertia */ "./node_modules/@inertiajs/inertia/dist/index.js"),t={functional:!0,props:{data:{type:Object,default:function(){return{}}},href:{type:String,required:!0},method:{type:String,default:"get"},replace:{type:Boolean,default:!1},preserveScroll:{type:Boolean,default:!1},preserveState:{type:Boolean,default:!1}},render:function(t,r){var n=r.props,i=r.data,o=r.children;return t("a",Object.assign({},i,{attrs:Object.assign({},i.attrs,{href:n.href}),on:Object.assign({},i.on||{},{click:function(t){i.on&&i.on.click&&i.on.click(t),e.shouldIntercept(t)&&(t.preventDefault(),e.Inertia.visit(n.href,{data:n.data,method:n.method,replace:n.replace,preserveScroll:n.preserveScroll,preserveState:n.preserveState}))}})}),o)}},r={created:function(){var t=this;if(this.$options.remember){Array.isArray(this.$options.remember)&&(this.$options.remember={data:this.$options.remember}),"string"==typeof this.$options.remember&&(this.$options.remember={data:[this.$options.remember]}),"string"==typeof this.$options.remember.data&&(this.$options.remember={data:[this.$options.remember.data]});var r=this.$options.remember.key instanceof Function?this.$options.remember.key():this.$options.remember.key,n=e.Inertia.restore(r);this.$options.remember.data.forEach(function(i){void 0!==n&&void 0!==n[i]&&(t[i]=n[i]),t.$watch(i,function(){e.Inertia.remember(t.$options.remember.data.reduce(function(e,r){var n;return Object.assign({},e,((n={})[r]=t[r],n))},{}),r)},{immediate:!0,deep:!0})})}}},n={},i={name:"Inertia",props:{initialPage:{type:Object,required:!0},resolveComponent:{type:Function,required:!0},transformProps:{type:Function,default:function(e){return e}}},data:function(){return{component:null,props:{},key:null}},created:function(){var t=this;n=this,e.Inertia.init({initialPage:this.initialPage,resolveComponent:this.resolveComponent,updatePage:function(e,r,n){var i=n.preserveState;t.component=e,t.props=t.transformProps(r),t.key=i?t.key:Date.now()}})},render:function(e){if(this.component)return e(this.component,{key:this.key,props:this.props})},install:function(i){Object.defineProperty(i.prototype,"$inertia",{get:function(){return e.Inertia}}),Object.defineProperty(i.prototype,"$page",{get:function(){return n.props}}),i.mixin(r),i.component("InertiaLink",t)}};exports.InertiaApp=i,exports.InertiaLink=t;
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/@inertiajs/inertia/dist/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@inertiajs/inertia/dist/index.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+function e(e){return e&&"object"==typeof e&&"default"in e?e.default:e}var t=e(__webpack_require__(/*! axios */ "./node_modules/axios/index.js")),i=e(__webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js")),n={modal:null,listener:null,show:function(e){var t=this,i=document.createElement("html");i.innerHTML=e,i.querySelectorAll("a").forEach(function(e){return e.setAttribute("target","_top")}),this.modal=document.createElement("div"),this.modal.style.position="fixed",this.modal.style.width="100vw",this.modal.style.height="100vh",this.modal.style.padding="50px",this.modal.style.backgroundColor="rgba(0, 0, 0, .6)",this.modal.style.zIndex=2e5,this.modal.addEventListener("click",function(){return t.hide()});var n=document.createElement("iframe");n.style.backgroundColor="white",n.style.borderRadius="5px",n.style.width="100%",n.style.height="100%",this.modal.appendChild(n),document.body.prepend(this.modal),document.body.style.overflow="hidden",n.contentWindow.document.open(),n.contentWindow.document.write(i.outerHTML),n.contentWindow.document.close(),this.listener=this.hideOnEscape.bind(this),document.addEventListener("keydown",this.listener)},hide:function(){this.modal.outerHTML="",this.modal=null,document.body.style.overflow="visible",document.removeEventListener("keydown",this.listener)},hideOnEscape:function(e){27===e.keyCode&&this.hide()}};i.configure({showSpinner:!1});var o={delay:null,loading:!1,start:function(){var e=this;clearTimeout(this.delay),this.delay=setTimeout(function(){e.loading=!0,i.set(0),i.start()},250)},increment:function(){this.loading&&i.inc(.4)},stop:function(){clearTimeout(this.delay),this.loading&&(i.done(),this.loading=!1)}};exports.Inertia={resolveComponent:null,updatePage:null,version:null,visitId:null,cancelToken:null,page:null,init:function(e){var t=e.initialPage,i=e.updatePage;this.resolveComponent=e.resolveComponent,this.updatePage=i,window.history.state&&"back_forward"===this.navigationType()?this.setPage(window.history.state):window.sessionStorage.getItem("inertia.hardVisit")?(window.sessionStorage.removeItem("inertia.hardVisit"),this.setPage(t,{preserveState:!0})):(t.url+=window.location.hash,this.setPage(t)),window.addEventListener("popstate",this.restoreState.bind(this))},navigationType:function(){if(window.performance&&window.performance.getEntriesByType("navigation").length)return window.performance.getEntriesByType("navigation")[0].type},isInertiaResponse:function(e){return e&&e.headers["x-inertia"]},cancelActiveVisits:function(){this.cancelToken&&this.cancelToken.cancel(this.cancelToken),this.cancelToken=t.CancelToken.source()},createVisitId:function(){return this.visitId={},this.visitId},visit:function(e,i){var s=this;void 0===i&&(i={});var r=i.method;void 0===r&&(r="get");var a=i.data;void 0===a&&(a={});var d=i.replace;void 0===d&&(d=!1);var c=i.preserveScroll;void 0===c&&(c=!1);var l=i.preserveState;void 0===l&&(l=!1);var h=i.only;void 0===h&&(h=[]),o.start(),this.cancelActiveVisits();var u=this.createVisitId();return t({method:r,url:e.toString(),data:"get"===r.toLowerCase()?{}:a,params:"get"===r.toLowerCase()?a:{},cancelToken:this.cancelToken.token,headers:Object.assign({},{Accept:"text/html, application/xhtml+xml","X-Requested-With":"XMLHttpRequest","X-Inertia":!0},h?{"X-Inertia-Partial-Component":this.page.component,"X-Inertia-Partial-Data":h.join(",")}:{},this.version?{"X-Inertia-Version":this.version}:{})}).then(function(e){if(s.isInertiaResponse(e))return e.data;n.show(e.data)}).catch(function(e){if(!t.isCancel(e))return 409===e.response.status&&e.response.headers["x-inertia-location"]?(o.stop(),s.hardVisit(!0,e.response.headers["x-inertia-location"])):s.isInertiaResponse(e.response)?e.response.data:e.response?(o.stop(),void n.show(e.response.data)):Promise.reject(e)}).then(function(e){if(e)return h.length&&(e.props=Object.assign({},s.page.props,e.props)),s.setPage(e,{visitId:u,replace:d,preserveScroll:c,preserveState:l})})},hardVisit:function(e,t){window.sessionStorage.setItem("inertia.hardVisit",!0),e?window.location.replace(t):window.location.href=t},setPage:function(e,t){var i=this;void 0===t&&(t={});var n=t.visitId;void 0===n&&(n=this.createVisitId());var s=t.replace;void 0===s&&(s=!1);var r=t.preserveScroll;void 0===r&&(r=!1);var a=t.preserveState;return void 0===a&&(a=!1),this.page=e,o.increment(),Promise.resolve(this.resolveComponent(e.component)).then(function(t){n===i.visitId&&(i.version=e.version,i.setState(e,s,a),i.updatePage(t,e.props,{preserveState:a}),i.setScroll(r),o.stop())})},setScroll:function(e){e||window.scrollTo(0,0)},setState:function(e,t,i){void 0===t&&(t=!1),void 0===i&&(i=!1),t||e.url===""+window.location.pathname+window.location.search?window.history.replaceState(Object.assign({},i&&window.history.state?{cache:window.history.state.cache}:{},e),"",e.url):window.history.pushState(e,"",e.url)},restoreState:function(e){e.state&&this.setPage(e.state)},replace:function(e,t){return void 0===t&&(t={}),this.visit(e,Object.assign({},{preserveState:!0},t,{replace:!0}))},reload:function(e){return void 0===e&&(e={}),this.replace(window.location.href,e)},post:function(e,t,i){return void 0===t&&(t={}),void 0===i&&(i={}),this.visit(e,Object.assign({},{preserveState:!0},i,{method:"post",data:t}))},put:function(e,t,i){return void 0===t&&(t={}),void 0===i&&(i={}),this.visit(e,Object.assign({},{preserveState:!0},i,{method:"put",data:t}))},patch:function(e,t,i){return void 0===t&&(t={}),void 0===i&&(i={}),this.visit(e,Object.assign({},{preserveState:!0},i,{method:"patch",data:t}))},delete:function(e,t){return void 0===t&&(t={}),this.visit(e,Object.assign({},t,{method:"delete"}))},remember:function(e,t){void 0===t&&(t="default");var i=Object.assign({},window.history.state);i.cache[t]=e,this.setState(i)},restore:function(e){if(void 0===e&&(e="default"),window.history.state.cache&&window.history.state.cache[e])return window.history.state.cache[e]}},exports.shouldIntercept=function(e){return!(e.target&&e.target.isContentEditable||e.defaultPrevented||e.which>1||e.altKey||e.ctrlKey||e.metaKey||e.shiftKey)};
+//# sourceMappingURL=index.js.map
+
+
+/***/ }),
 
 /***/ "./node_modules/axios/index.js":
 /*!*************************************!*\
@@ -1926,588 +1952,6 @@ function toComment(sourceMap) {
 	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
 
 	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia-vue/src/app.js":
-/*!*********************************************!*\
-  !*** ./node_modules/inertia-vue/src/app.js ***!
-  \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia/src/index.js");
-/* harmony import */ var _link__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./link */ "./node_modules/inertia-vue/src/link.js");
-/* harmony import */ var _remember__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./remember */ "./node_modules/inertia-vue/src/remember.js");
-
-
-
-
-let app = {}
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'Inertia',
-  props: {
-    initialPage: {
-      type: Object,
-      required: true,
-    },
-    resolveComponent: {
-      type: Function,
-      required: true,
-    },
-    transformProps: {
-      type: Function,
-      default: props => props,
-    },
-  },
-  data() {
-    return {
-      component: null,
-      props: {},
-      key: null,
-    }
-  },
-  created() {
-    app = this
-    inertia__WEBPACK_IMPORTED_MODULE_0__["default"].init({
-      initialPage: this.initialPage,
-      resolveComponent: this.resolveComponent,
-      updatePage: (component, props, { preserveState }) => {
-        this.component = component
-        this.props = this.transformProps(props)
-        this.key = preserveState ? this.key : Date.now()
-      },
-    })
-  },
-  render(h) {
-    if (this.component) {
-      return h(this.component, {
-        key: this.key,
-        props: this.props,
-      })
-    }
-  },
-  install(Vue) {
-    Object.defineProperty(Vue.prototype, '$inertia', { get: () => inertia__WEBPACK_IMPORTED_MODULE_0__["default"] })
-    Object.defineProperty(Vue.prototype, '$page', { get: () => app.props })
-    Vue.mixin(_remember__WEBPACK_IMPORTED_MODULE_2__["default"])
-    Vue.component('InertiaLink', _link__WEBPACK_IMPORTED_MODULE_1__["default"])
-  },
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia-vue/src/index.js":
-/*!***********************************************!*\
-  !*** ./node_modules/inertia-vue/src/index.js ***!
-  \***********************************************/
-/*! exports provided: default, Inertia, InertiaLink */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia/src/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Inertia", function() { return inertia__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app */ "./node_modules/inertia-vue/src/app.js");
-/* harmony import */ var _link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./link */ "./node_modules/inertia-vue/src/link.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "InertiaLink", function() { return _link__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = (_app__WEBPACK_IMPORTED_MODULE_1__["default"]);
-
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia-vue/src/link.js":
-/*!**********************************************!*\
-  !*** ./node_modules/inertia-vue/src/link.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia/src/index.js");
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  functional: true,
-  props: {
-    data: {
-      type: Object,
-      default: () => ({}),
-    },
-    href: {
-      type: String,
-      required: true,
-    },
-    method: {
-      type: String,
-      default: 'get',
-    },
-    replace: {
-      type: Boolean,
-      default: false,
-    },
-    preserveScroll: {
-      type: Boolean,
-      default: false,
-    },
-    preserveState: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  render(h, { props, data, children }) {
-    return h('a', {
-      ...data,
-      attrs: {
-        ...data.attrs,
-        href: props.href,
-      },
-      on: {
-        ...(data.on || {}),
-        click: event => {
-          if (data.on && data.on.click) {
-            data.on.click(event)
-          }
-
-          if (Object(inertia__WEBPACK_IMPORTED_MODULE_0__["shouldIntercept"])(event)) {
-            event.preventDefault()
-
-            inertia__WEBPACK_IMPORTED_MODULE_0__["default"].visit(props.href, {
-              data: props.data,
-              method: props.method,
-              replace: props.replace,
-              preserveScroll: props.preserveScroll,
-              preserveState: props.preserveState,
-            })
-          }
-        },
-      },
-    }, children)
-  },
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia-vue/src/remember.js":
-/*!**************************************************!*\
-  !*** ./node_modules/inertia-vue/src/remember.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia */ "./node_modules/inertia/src/index.js");
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  created() {
-    if (!this.$options.remember) {
-      return
-    }
-
-    if (Array.isArray(this.$options.remember)) {
-      this.$options.remember = { data: this.$options.remember }
-    }
-
-    if (typeof this.$options.remember === 'string') {
-      this.$options.remember = { data: [this.$options.remember] }
-    }
-
-    if (typeof this.$options.remember.data === 'string') {
-      this.$options.remember = { data: [this.$options.remember.data] }
-    }
-
-    const stateKey = this.$options.remember.key instanceof Function
-      ? this.$options.remember.key()
-      : this.$options.remember.key
-
-    const restored = inertia__WEBPACK_IMPORTED_MODULE_0__["default"].restore(stateKey)
-
-    this.$options.remember.data.forEach(key => {
-      if (restored !== undefined && restored[key] !== undefined) {
-        this[key] = restored[key]
-      }
-
-      this.$watch(key, () => {
-        inertia__WEBPACK_IMPORTED_MODULE_0__["default"].remember(
-          this.$options.remember.data.reduce((data, key) => ({ ...data, [key]: this[key] }), {}),
-          stateKey
-        )
-      }, { immediate: true, deep: true })
-    })
-  },
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia/src/index.js":
-/*!*******************************************!*\
-  !*** ./node_modules/inertia/src/index.js ***!
-  \*******************************************/
-/*! exports provided: default, shouldIntercept */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _inertia__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./inertia */ "./node_modules/inertia/src/inertia.js");
-/* harmony import */ var _should_intercept__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./should-intercept */ "./node_modules/inertia/src/should-intercept.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "shouldIntercept", function() { return _should_intercept__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = (_inertia__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia/src/inertia.js":
-/*!*********************************************!*\
-  !*** ./node_modules/inertia/src/inertia.js ***!
-  \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modal */ "./node_modules/inertia/src/modal.js");
-/* harmony import */ var _progress__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./progress */ "./node_modules/inertia/src/progress.js");
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  resolveComponent: null,
-  updatePage: null,
-  version: null,
-  visitId: null,
-  cancelToken: null,
-  page: null,
-
-  init({ initialPage, resolveComponent, updatePage }) {
-    this.resolveComponent = resolveComponent
-    this.updatePage = updatePage
-
-    if (window.history.state && this.navigationType() === 'back_forward') {
-      this.setPage(window.history.state)
-    } else {
-      initialPage.url += window.location.hash;
-      this.setPage(initialPage)
-    }
-
-    window.addEventListener('popstate', this.restoreState.bind(this))
-  },
-
-  navigationType() {
-    if (window.performance && window.performance.getEntriesByType('navigation').length) {
-      return window.performance.getEntriesByType('navigation')[0].type
-    }
-  },
-
-  isInertiaResponse(response) {
-    return response && response.headers['x-inertia']
-  },
-
-  cancelActiveVisits() {
-    if (this.cancelToken) {
-      this.cancelToken.cancel(this.cancelToken)
-    }
-
-    this.cancelToken = axios__WEBPACK_IMPORTED_MODULE_0___default.a.CancelToken.source()
-  },
-
-  createVisitId() {
-    this.visitId = {}
-    return this.visitId
-  },
-
-  visit(url, { method = 'get', data = {}, replace = false, preserveScroll = false, preserveState = false, only = [] } = {}) {
-    _progress__WEBPACK_IMPORTED_MODULE_2__["default"].start()
-    this.cancelActiveVisits()
-    let visitId = this.createVisitId()
-
-    return axios__WEBPACK_IMPORTED_MODULE_0___default()({
-      method,
-      url,
-      data: method.toLowerCase() === 'get' ? {} : data,
-      params: method.toLowerCase() === 'get' ? data : {},
-      cancelToken: this.cancelToken.token,
-      headers: {
-        Accept: 'text/html, application/xhtml+xml',
-        'X-Requested-With': 'XMLHttpRequest',
-        'X-Inertia': true,
-        ...(only ? {
-          'X-Inertia-Partial-Component': this.page.component,
-          'X-Inertia-Partial-Data': only.join(','),
-        } : {}),
-        ...(this.version ? { 'X-Inertia-Version': this.version } : {}),
-      },
-    }).then(response => {
-      if (this.isInertiaResponse(response)) {
-        return response.data
-      } else {
-        _modal__WEBPACK_IMPORTED_MODULE_1__["default"].show(response.data)
-      }
-    }).catch(error => {
-      if (axios__WEBPACK_IMPORTED_MODULE_0___default.a.isCancel(error)) {
-        return
-      } else if (error.response.status === 409 && error.response.headers['x-inertia-location']) {
-        _progress__WEBPACK_IMPORTED_MODULE_2__["default"].stop()
-        return this.hardVisit(true, error.response.headers['x-inertia-location'])
-      } else if (this.isInertiaResponse(error.response)) {
-        return error.response.data
-      } else if (error.response) {
-        _progress__WEBPACK_IMPORTED_MODULE_2__["default"].stop()
-        _modal__WEBPACK_IMPORTED_MODULE_1__["default"].show(error.response.data)
-      } else {
-        return Promise.reject(error)
-      }
-    }).then(page => {
-      if (page) {
-        if (only.length) {
-          page.props = { ...this.page.props, ...page.props }
-        }
-
-        return this.setPage(page, visitId, replace, preserveScroll, preserveState)
-      }
-    })
-  },
-
-  hardVisit(replace, url) {
-    if (replace) {
-      window.location.replace(url)
-    } else {
-      window.location.href = url
-    }
-  },
-
-  setPage(page, visitId = this.createVisitId(), replace = false, preserveScroll = false, preserveState = false) {
-    this.page = page
-    _progress__WEBPACK_IMPORTED_MODULE_2__["default"].increment()
-    return Promise.resolve(this.resolveComponent(page.component)).then(component => {
-      if (visitId === this.visitId) {
-        this.version = page.version
-        this.setState(page, replace, preserveState)
-        this.updatePage(component, page.props, { preserveState })
-        this.setScroll(preserveScroll)
-        _progress__WEBPACK_IMPORTED_MODULE_2__["default"].stop()
-      }
-    })
-  },
-
-  setScroll(preserveScroll) {
-    if (!preserveScroll) {
-      window.scrollTo(0, 0)
-    }
-  },
-
-  setState(page, replace = false, preserveState = false) {
-    if (replace || page.url === `${window.location.pathname}${window.location.search}`) {
-      window.history.replaceState({
-        ...((preserveState && window.history.state) ? { cache: window.history.state.cache } : {}),
-        ...page,
-      }, '', page.url)
-    } else {
-      window.history.pushState(page, '', page.url)
-    }
-  },
-
-  restoreState(event) {
-    if (event.state) {
-      this.setPage(event.state)
-    }
-  },
-
-  replace(url, options = {}) {
-    return this.visit(url, { preserveState: true, ...options, replace: true })
-  },
-
-  reload(options = {}) {
-    return this.replace(window.location.href, options)
-  },
-
-  post(url, data = {}, options = {}) {
-    return this.visit(url, { preserveState: true, ...options, method: 'post', data })
-  },
-
-  put(url, data = {}, options = {}) {
-    return this.visit(url, { preserveState: true, ...options, method: 'put', data })
-  },
-
-  patch(url, data = {}, options = {}) {
-    return this.visit(url, { preserveState: true, ...options, method: 'patch', data })
-  },
-
-  delete(url, options = {}) {
-    return this.visit(url, { ...options, method: 'delete' })
-  },
-
-  remember(data, key = 'default') {
-    this.setState({
-      ...window.history.state,
-      cache: { ...window.history.state.cache, [key]: data },
-    })
-  },
-
-  restore(key = 'default') {
-    if (window.history.state.cache && window.history.state.cache[key]) {
-      return window.history.state.cache[key]
-    }
-  },
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia/src/modal.js":
-/*!*******************************************!*\
-  !*** ./node_modules/inertia/src/modal.js ***!
-  \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ({
-  modal: null,
-  listener: null,
-
-  show(html) {
-    let page = document.createElement('html')
-    page.innerHTML = html
-    page.querySelectorAll('a').forEach(a => a.setAttribute('target', '_top'))
-
-    this.modal = document.createElement('div')
-    this.modal.style.position = 'fixed'
-    this.modal.style.width = '100vw'
-    this.modal.style.height = '100vh'
-    this.modal.style.padding = '50px'
-    this.modal.style.backgroundColor = 'rgba(0, 0, 0, .6)'
-    this.modal.style.zIndex = 200000
-    this.modal.addEventListener('click', () => this.hide())
-
-    let iframe = document.createElement('iframe')
-    iframe.style.backgroundColor = 'white'
-    iframe.style.borderRadius = '5px'
-    iframe.style.width = '100%'
-    iframe.style.height = '100%'
-    this.modal.appendChild(iframe)
-
-    document.body.prepend(this.modal)
-    document.body.style.overflow = 'hidden'
-    iframe.contentWindow.document.open()
-    iframe.contentWindow.document.write(page.outerHTML)
-    iframe.contentWindow.document.close()
-
-    this.listener = this.hideOnEscape.bind(this)
-    document.addEventListener('keydown', this.listener)
-  },
-
-  hide() {
-    this.modal.outerHTML = ''
-    this.modal = null
-    document.body.style.overflow = 'visible'
-    document.removeEventListener('keydown', this.listener)
-  },
-
-  hideOnEscape(event) {
-    if (event.keyCode === 27) {
-      this.hide()
-    }
-  },
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia/src/progress.js":
-/*!**********************************************!*\
-  !*** ./node_modules/inertia/src/progress.js ***!
-  \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nprogress */ "./node_modules/nprogress/nprogress.js");
-/* harmony import */ var nprogress__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nprogress__WEBPACK_IMPORTED_MODULE_0__);
-
-
-nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.configure({ showSpinner: false })
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  delay: null,
-  loading: false,
-
-  start() {
-    clearTimeout(this.delay)
-
-    this.delay = setTimeout(() => {
-      this.loading = true
-      nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.set(0)
-      nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.start()
-    }, 250)
-  },
-
-  increment() {
-    if (this.loading) {
-      nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.inc(0.4)
-    }
-  },
-
-  stop() {
-    clearTimeout(this.delay)
-
-    if (this.loading) {
-      nprogress__WEBPACK_IMPORTED_MODULE_0___default.a.done()
-      this.loading = false
-    }
-  },
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/inertia/src/should-intercept.js":
-/*!******************************************************!*\
-  !*** ./node_modules/inertia/src/should-intercept.js ***!
-  \******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return shouldIntercept; });
-function shouldIntercept(event) {
-  return !(
-    (event.target && event.target.isContentEditable)
-    || event.defaultPrevented
-    || event.which > 1
-    || event.altKey
-    || event.ctrlKey
-    || event.metaKey
-    || event.shiftKey
-  )
 }
 
 
@@ -32993,67 +32437,123 @@ module.exports = JSON.parse("{\"account\":{\"employee_new_administrator\":\"Admi
 var map = {
 	"./Auth/Login": [
 		"./resources/js/Pages/Auth/Login.vue",
-		9,
-		1
+		0,
+		2,
+		4
 	],
 	"./Auth/Login.vue": [
 		"./resources/js/Pages/Auth/Login.vue",
-		9,
-		1
+		0,
+		2,
+		4
 	],
 	"./Auth/Register": [
 		"./resources/js/Pages/Auth/Register.vue",
-		9,
-		0
+		0,
+		2,
+		5
 	],
 	"./Auth/Register.vue": [
 		"./resources/js/Pages/Auth/Register.vue",
-		9,
-		0
+		0,
+		2,
+		5
 	],
 	"./Dashboard/Me": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		9,
-		6,
-		11
+		0,
+		1,
+		3,
+		7
 	],
 	"./Dashboard/Me.vue": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		9,
-		6,
-		11
+		0,
+		1,
+		3,
+		7
 	],
 	"./Dashboard/MyCompany": [
 		"./resources/js/Pages/Dashboard/MyCompany.vue",
-		3
+		6
 	],
 	"./Dashboard/MyCompany.vue": [
 		"./resources/js/Pages/Dashboard/MyCompany.vue",
-		3
+		6
+	],
+	"./Dashboard/MyTeam": [
+		"./resources/js/Pages/Dashboard/MyTeam.vue",
+		0,
+		1,
+		12,
+		13
+	],
+	"./Dashboard/MyTeam.vue": [
+		"./resources/js/Pages/Dashboard/MyTeam.vue",
+		0,
+		1,
+		12,
+		13
+	],
+	"./Dashboard/MyTeamEmptyState": [
+		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
+		0,
+		1,
+		15
+	],
+	"./Dashboard/MyTeamEmptyState.vue": [
+		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
+		0,
+		1,
+		15
+	],
+	"./Dashboard/MyTeamWorklogs": [
+		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
+		12,
+		14
+	],
+	"./Dashboard/MyTeamWorklogs.vue": [
+		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
+		12,
+		14
+	],
+	"./Dashboard/MyWorklogs": [
+		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
+		0,
+		3,
+		10
+	],
+	"./Dashboard/MyWorklogs.vue": [
+		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
+		0,
+		3,
+		10
 	],
 	"./Home/CreateCompany": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		9,
-		6,
-		10
+		0,
+		1,
+		2,
+		9
 	],
 	"./Home/CreateCompany.vue": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		9,
-		6,
-		10
+		0,
+		1,
+		2,
+		9
 	],
 	"./Home/Home": [
 		"./resources/js/Pages/Home/Home.vue",
-		9,
-		6,
-		7
+		0,
+		1,
+		8
 	],
 	"./Home/Home.vue": [
 		"./resources/js/Pages/Home/Home.vue",
-		9,
-		6,
-		7
+		0,
+		1,
+		8
 	]
 };
 function webpackAsyncContext(req) {
@@ -33088,7 +32588,8 @@ module.exports = webpackAsyncContext;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i18n", function() { return i18n; });
-/* harmony import */ var inertia_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! inertia-vue */ "./node_modules/inertia-vue/src/index.js");
+/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @inertiajs/inertia-vue */ "./node_modules/@inertiajs/inertia-vue/dist/index.js");
+/* harmony import */ var _inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm.js");
 /* harmony import */ var vue_snotify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-snotify */ "./node_modules/vue-snotify/vue-snotify.esm.js");
 /* harmony import */ var vue_snotify_styles_simple_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-snotify/styles/simple.css */ "./node_modules/vue-snotify/styles/simple.css");
@@ -33113,9 +32614,19 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].mixin({
     }
   }
 });
-vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(inertia_vue__WEBPACK_IMPORTED_MODULE_0__["default"]); //window.axios = require('axios');
+vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__["InertiaApp"]); // Axios for some ajax queries
 
-window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"); // toaster
+window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+var token = document.head.querySelector('meta[name="csrf-token"]');
+
+if (token) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+} // toaster
+
 
 
 
@@ -33136,7 +32647,7 @@ var app = document.getElementById('app');
 new vue__WEBPACK_IMPORTED_MODULE_1__["default"]({
   i18n: i18n,
   render: function render(h) {
-    return h(inertia_vue__WEBPACK_IMPORTED_MODULE_0__["default"], {
+    return h(_inertiajs_inertia_vue__WEBPACK_IMPORTED_MODULE_0__["InertiaApp"], {
       props: {
         initialPage: JSON.parse(app.dataset.page),
         resolveComponent: function resolveComponent(name) {

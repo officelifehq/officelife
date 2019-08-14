@@ -16,7 +16,6 @@ class CheckAdministratorRole
      */
     public function handle($request, Closure $next)
     {
-        $company = Cache::get('cachedCompanyObject');
         $employee = Cache::get('cachedEmployeeObject');
 
         if (config('homas.authorizations.administrator') >= $employee->permission_level) {

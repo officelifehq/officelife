@@ -65,7 +65,7 @@ class RemoveEmployeeFromTeam extends BaseService
             'action' => 'employee_removed_from_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogTeamAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -73,7 +73,7 @@ class RemoveEmployeeFromTeam extends BaseService
             'action' => 'employee_removed_from_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -81,7 +81,7 @@ class RemoveEmployeeFromTeam extends BaseService
             'action' => 'employee_removed_from_team',
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         $employee->refresh();
 

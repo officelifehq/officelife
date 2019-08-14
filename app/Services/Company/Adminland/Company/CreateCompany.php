@@ -49,7 +49,7 @@ class CreateCompany extends BaseService
                 'author_name' => $author->name,
                 'company_name' => $company->name,
             ]),
-        ]);
+        ])->onQueue('low');
 
         $this->addFirstEmployee($company, $author);
 
