@@ -20,7 +20,6 @@ return [
     'employees_change_permission' => 'Change permission',
 
     'employee_new_title' => 'Add an employee to {name}',
-    'employee_new_title' => 'Add employee',
     'employee_new_firstname' => 'Firstname',
     'employee_new_lastname' => 'Lastname',
     'employee_new_email' => 'Email address',

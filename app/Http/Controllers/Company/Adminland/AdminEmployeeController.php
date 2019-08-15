@@ -42,10 +42,11 @@ class AdminEmployeeController extends Controller
     public function create()
     {
         $company = Cache::get('cachedCompanyObject');
+        $employee = Cache::get('cachedEmployeeObject');
 
-        return View::component('CreateAccountEmployee', [
+        return Inertia::render('Adminland/Employee/Create', [
             'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'employee' => new EmployeeResource($employee),
             'notifications' => auth()->user()->getLatestNotifications($company),
         ]);
     }
