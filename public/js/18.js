@@ -70,6 +70,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   inheritAttrs: false,
   props: {
@@ -87,6 +97,18 @@ __webpack_require__.r(__webpack_exports__);
       type: String,
       "default": ''
     },
+    customRef: {
+      type: String,
+      "default": 'input'
+    },
+    datacy: {
+      type: String,
+      "default": ''
+    },
+    placeholder: {
+      type: String,
+      "default": ''
+    },
     help: {
       type: String,
       "default": ''
@@ -98,6 +120,10 @@ __webpack_require__.r(__webpack_exports__);
     required: {
       type: Boolean,
       "default": false
+    },
+    extraClassUpperDiv: {
+      type: String,
+      "default": 'mb3'
     },
     errors: {
       type: Array,
@@ -115,6 +141,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     setSelectionRange: function setSelectionRange(start, end) {
       this.$refs.input.setSelectionRange(start, end);
+    },
+    sendEscKey: function sendEscKey() {
+      this.$emit('esc-key-pressed');
     }
   }
 });
@@ -232,7 +261,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mb3" }, [
+  return _c("div", { class: _vm.extraClassUpperDiv }, [
     _vm.label
       ? _c(
           "label",
@@ -245,18 +274,29 @@ var render = function() {
       "input",
       _vm._b(
         {
-          ref: "input",
+          ref: _vm.customRef,
           staticClass: "br2 f5 w-100 ba b--black-40 pa2 outline-0",
           class: { error: _vm.errors.length },
           attrs: {
             id: _vm.id,
             required: _vm.required ? "required" : "",
-            type: _vm.type
+            type: _vm.type,
+            placeholder: _vm.placeholder,
+            "data-cy": _vm.datacy
           },
           domProps: { value: _vm.value },
           on: {
             input: function($event) {
               return _vm.$emit("input", $event.target.value)
+            },
+            keydown: function($event) {
+              if (
+                !$event.type.indexOf("key") &&
+                _vm._k($event.keyCode, "esc", 27, $event.key, ["Esc", "Escape"])
+              ) {
+                return null
+              }
+              return _vm.sendEscKey($event)
             }
           }
         },

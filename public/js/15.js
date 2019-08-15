@@ -123,6 +123,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -271,7 +277,13 @@ var render = function() {
                   _c(
                     "inertia-link",
                     { attrs: { href: "/" + _vm.company.id + "/dashboard" } },
-                    [_vm._v(_vm._s(_vm.company.name))]
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.company.name) +
+                          "\n          "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -294,9 +306,11 @@ var render = function() {
                     },
                     [
                       _vm._v(
-                        _vm._s(
-                          _vm.$t("app.breadcrumb_account_manage_employees")
-                        )
+                        "\n            " +
+                          _vm._s(
+                            _vm.$t("app.breadcrumb_account_manage_employees")
+                          ) +
+                          "\n          "
                       )
                     ]
                   )
@@ -624,7 +638,13 @@ var render = function() {
                                     "/" + _vm.company.id + "/account/employees"
                                 }
                               },
-                              [_vm._v(_vm._s(_vm.$t("app.cancel")))]
+                              [
+                                _vm._v(
+                                  "\n                  " +
+                                    _vm._s(_vm.$t("app.cancel")) +
+                                    "\n                "
+                                )
+                              ]
                             )
                           ],
                           1

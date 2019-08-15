@@ -47,11 +47,11 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        (new CreateCompany)->execute([
+        $company = (new CreateCompany)->execute([
             'author_id' => auth()->user()->id,
             'name' => $request->get('name'),
         ]);
 
-        return Redirect::route('dashboard');
+        return Redirect::route('dashboard', $company->id);
     }
 }

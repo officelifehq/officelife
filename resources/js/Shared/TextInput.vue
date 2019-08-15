@@ -13,10 +13,20 @@
 </style>
 
 <template>
-  <div class="mb3">
+  <div :class="extraClassUpperDiv">
     <label v-if="label" class="db fw4 lh-copy f6" :for="id">{{ label }}</label>
-    <input :id="id" ref="input" v-bind="$attrs" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" :class="{ error: errors.length }"
-           :required="required ? 'required' : ''" :type="type" :value="value" @input="$emit('input', $event.target.value)"
+    <input :id="id"
+           :ref="customRef"
+           v-bind="$attrs"
+           class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
+           :class="{ error: errors.length }"
+           :required="required ? 'required' : ''"
+           :type="type"
+           :value="value"
+           :placeholder="placeholder"
+           :data-cy="datacy"
+           @input="$emit('input', $event.target.value)"
+           @keydown.esc="sendEscKey"
     />
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
@@ -46,6 +56,18 @@ export default {
       type: String,
       default: '',
     },
+    customRef: {
+      type: String,
+      default: 'input',
+    },
+    datacy: {
+      type: String,
+      default: '',
+    },
+    placeholder: {
+      type: String,
+      default: '',
+    },
     help: {
       type: String,
       default: '',
@@ -58,6 +80,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    extraClassUpperDiv: {
+      type: String,
+      default: 'mb3',
+    },
     errors: {
       type: Array,
       default: () => [],
@@ -68,12 +94,18 @@ export default {
     focus() {
       this.$refs.input.focus();
     },
+
     select() {
       this.$refs.input.select();
     },
+
     setSelectionRange(start, end) {
       this.$refs.input.setSelectionRange(start, end);
     },
+
+    sendEscKey() {
+      this.$emit('esc-key-pressed');
+    }
   },
 };
 </script>

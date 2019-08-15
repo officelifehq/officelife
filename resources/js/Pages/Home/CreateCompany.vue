@@ -1,41 +1,37 @@
 <template>
-  <layout title="Home" :no-menu="true" :notifications="notifications">
-    <div class="ph2 ph0-ns">
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-        <div class="fn fl-ns w-50-ns pa3">
-          Create a company
-        </div>
-        <div class="fn fl-ns w-50-ns pa3">
-          <!-- Form Errors -->
-          <errors :errors="form.errors" />
+  <div class="ph2 ph0-ns">
+    <div class="cf mt4 mw7 center br3 mb3 bg-white box">
+      <div class="fn fl-ns w-50-ns pa3">
+        Create a company
+      </div>
+      <div class="fn fl-ns w-50-ns pa3">
+        <!-- Form Errors -->
+        <errors :errors="form.errors" />
 
-          <form @submit.prevent="submit">
-            <text-input v-model="form.name" :errors="$page.errors.name" :label="$t('company.new_name')" />
+        <form @submit.prevent="submit">
+          <text-input v-model="form.name" :errors="$page.errors.name" :label="$t('company.new_name')" />
 
-            <!-- Actions -->
-            <div class="">
-              <div class="flex-ns justify-between">
-                <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'register'" data-cy="create-company-submit" />
-                </div>
+          <!-- Actions -->
+          <div class="">
+            <div class="flex-ns justify-between">
+              <div>
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'register'" data-cy="create-company-submit" />
               </div>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
-  </layout>
+  </div>
 </template>
 
 <script>
 import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
-import Layout from '@/Shared/Layout';
 
 export default {
   components: {
-    Layout,
     TextInput,
     Errors,
     LoadingButton,

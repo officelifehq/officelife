@@ -5,16 +5,20 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :employee="employee" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+            <inertia-link :href="'/' + company.id + '/dashboard'">
+              {{ company.name }}
+            </inertia-link>
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</a>
+            <inertia-link :href="'/' + company.id + '/account'">
+              {{ $t('app.breadcrumb_account_home') }}
+            </inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_positions') }}
@@ -34,41 +38,50 @@
             <a class="btn absolute-l relative dib-l db right-0" data-cy="add-position-button" @click.prevent="modal = true">{{ $t('account.positions_cta') }}</a>
           </p>
 
+          <p>The job position is what you would probably put on a resume to show what work you actually did.</p>
+
           <!-- MODAL TO ADD A POSITION -->
           <form v-show="modal" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="submit">
-            <label for="title">{{ $t('account.position_new_title') }}</label>
+            <errors :errors="form.errors" />
+
             <div class="cf">
-              <input id="title" v-model="form.title" type="text"
-                     name="title"
-                     :placeholder="'Marketing coordinator'"
-                     class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
-                     required
-                     data-cy="add-title-input"
-                     @keydown.esc="modal = false"
-              />
+              <div class="fl w-100 w-70-ns mb3 mb0-ns">
+                <text-input v-model="form.title"
+                            :placeholder="'Marketing coordinator'"
+                            :datacy="'add-title-input'"
+                            :errors="$page.errors.first_name"
+                            :extra-class-upper-div="'mb0'"
+                            @esc-key-pressed="modal = false"
+                />
+              </div>
               <div class="fl w-30-ns w-100 tr">
                 <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false">{{ $t('app.cancel') }}</a>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
+                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
               </div>
             </div>
           </form>
 
           <!-- LIST OF EXISTING POSITIONS -->
           <ul v-show="positions.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="positions-list">
-            <li v-for="position in positions" :key="position.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+            <li v-for="(position, index) in positions" :key="position.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
               {{ position.title }}
 
-              <!-- RENAME POSITION FORM --> <div v-show="idToUpdate == position.id" class="cf mt3">
+              <!-- RENAME POSITION FORM -->
+              <div v-show="idToUpdate == position.id" class="cf mt3">
                 <form @submit.prevent="update(position.id)">
-                  <input id="title" ref="title" v-model="form.title"
-                         type="text"
-                         name="title"
-                         :placeholder="'Marketing coordinator'"
-                         class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
-                         required
-                         :data-cy="'list-rename-input-name-' + position.id"
-                         @keydown.esc="idToUpdate = 0"
-                  />
+                  <div class="fl w-100 w-70-ns mb3 mb0-ns">
+                    <text-input :id="'title-' + position.id"
+                                :ref="'title' + position.id"
+                                v-model="form.title"
+                                :placeholder="'Marketing coordinator'"
+                                :custom-ref="'title' + position.id"
+                                :datacy="'list-rename-input-name-' + position.id"
+                                :errors="$page.errors.first_name"
+                                required
+                                :extra-class-upper-div="'mb0'"
+                                @esc-key-pressed="idToUpdate = 0"
+                    />
+                  </div>
                   <div class="fl w-30-ns w-100 tr">
                     <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-rename-cancel-button-' + position.id" @click.prevent="idToUpdate = 0">{{ $t('app.cancel') }}</a>
                     <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + position.id" :state="loadingState" :text="$t('app.update')" />
@@ -80,7 +93,7 @@
               <ul v-show="idToUpdate != position.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
                 <!-- RENAME A POSITION -->
                 <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-rename-button-' + position.id" @click.prevent="displayUpdateModal(position) ; form.title = position.title">{{ $t('app.rename') }}</a>
+                  <a class="pointer" :data-cy="'list-rename-button-' + position.id" @click.prevent="displayUpdateModal(position, index) ; form.title = position.title">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A POSITION -->
@@ -112,14 +125,25 @@
 </template>
 
 <script>
+import TextInput from '@/Shared/TextInput';
+import Errors from '@/Shared/Errors';
+import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout';
 
 export default {
+  components: {
+    Layout,
+    TextInput,
+    Errors,
+    LoadingButton,
+  },
+
   props: {
     company: {
       type: Object,
       default: null,
     },
-    user: {
+    employee: {
       type: Object,
       default: null,
     },
@@ -150,11 +174,15 @@ export default {
   },
 
   methods: {
-    displayUpdateModal(position) {
+    displayUpdateModal(position, index) {
       this.idToUpdate = position.id;
 
       this.$nextTick(() => {
-        this.$refs.title.focus();
+        // this is really barbaric, but I need to do this to
+        // first: target the TextInput with the right ref attribute
+        // second: target within the component, the refs of the input text
+        // this is because we try here to access $refs from a child component
+        this.$refs[`title${position.id}`][0].$refs[`title${position.id}`].focus();
       });
     },
 

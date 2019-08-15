@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a4a459717bd931884d10","1":"93fc660570e379adac70","3":"3d24ea05583234b0f32d","4":"84c674cb7d864710647e","5":"eb3fa7afe981d20bf773","6":"ce690883f7b185674303","7":"ffa6daf39029505e2d86","8":"beda3e423245b5f37604","9":"ad416a40baa9bea00bdd","10":"6c35dd5b08b1148dfce1","11":"9eee6422524122a85f59","12":"29afb35072ef050a3602","13":"389ef593f83e5ddf48dd","14":"46439a5eaba5e2ea9ecc","15":"46cd919327b02cfed5d0","16":"41cbd0106c034f2c69e9","17":"dfdae5bf201ccaa06d8d","18":"807c7c9d46a7c8440494"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a4a459717bd931884d10","1":"93fc660570e379adac70","2":"2bb89859e0fc5c9edc9e","3":"3d24ea05583234b0f32d","4":"84c674cb7d864710647e","5":"eb3fa7afe981d20bf773","6":"ce690883f7b185674303","7":"ffa6daf39029505e2d86","8":"beda3e423245b5f37604","9":"ad416a40baa9bea00bdd","10":"6c35dd5b08b1148dfce1","11":"9eee6422524122a85f59","13":"389ef593f83e5ddf48dd","14":"46439a5eaba5e2ea9ecc","15":"82814cea5ad84ad5c0a0","16":"41cbd0106c034f2c69e9","17":"dfdae5bf201ccaa06d8d","18":"c79eadc41d4e92fd03ab","19":"a28d925a7d736f27e72f"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -32473,6 +32473,20 @@ var map = {
 		1,
 		16
 	],
+	"./Adminland/Position/Index": [
+		"./resources/js/Pages/Adminland/Position/Index.vue",
+		0,
+		1,
+		18,
+		2
+	],
+	"./Adminland/Position/Index.vue": [
+		"./resources/js/Pages/Adminland/Position/Index.vue",
+		0,
+		1,
+		18,
+		2
+	],
 	"./Auth/Login": [
 		"./resources/js/Pages/Auth/Login.vue",
 		0,
@@ -32570,16 +32584,14 @@ var map = {
 	"./Home/CreateCompany": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
 		0,
-		1,
 		18,
-		12
+		19
 	],
 	"./Home/CreateCompany.vue": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
 		0,
-		1,
 		18,
-		12
+		19
 	],
 	"./Home/Index": [
 		"./resources/js/Pages/Home/Index.vue",

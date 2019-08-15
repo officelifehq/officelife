@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Company\Adminland\Position;
+namespace App\Http\Controllers\Company\Adminland;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Position\UpdatePosition;
 use App\Services\Company\Adminland\Position\DestroyPosition;
+use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
 class AdminPositionController extends Controller
@@ -21,13 +22,14 @@ class AdminPositionController extends Controller
     public function index()
     {
         $company = Cache::get('cachedCompanyObject');
+        $employee = Cache::get('cachedEmployeeObject');
         $positions = PositionResource::collection(
             $company->positions()->orderBy('title', 'asc')->get()
         );
 
-        return View::component('ShowAccountPositions', [
+        return Inertia::render('Adminland/Position/Index', [
             'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'employee' => new EmployeeResource($employee),
             'notifications' => auth()->user()->getLatestNotifications($company),
             'positions' => $positions,
         ]);
@@ -42,8 +44,10 @@ class AdminPositionController extends Controller
      */
     public function store(Request $request, $companyId)
     {
+        $company = Cache::get('cachedCompanyObject');
+
         $request = [
-            'company_id' => $companyId,
+            'company_id' => $company->id,
             'author_id' => auth()->user()->id,
             'title' => $request->get('title'),
         ];
