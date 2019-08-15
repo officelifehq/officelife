@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class AdminlandController extends Controller
@@ -19,13 +19,12 @@ class AdminlandController extends Controller
      */
     public function index(Request $request, $companyId)
     {
-        $company = Company::findOrFail($companyId);
+        $company = Cache::get('cachedCompanyObject');
         $numberEmployees = $company->employees()->count();
 
-        return View::component('ShowAccount', [
+        return Inertia::render('Adminland/Index', [
             'company' => $company,
             'numberEmployees' => $numberEmployees,
-            'user' => auth()->user(),
             'employee' => new EmployeeResource(auth()->user()->getEmployeeObjectForCompany($company)),
             'notifications' => auth()->user()->getLatestNotifications($company),
         ]);

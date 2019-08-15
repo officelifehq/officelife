@@ -213,6 +213,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -749,6 +757,38 @@ var render = function() {
                         )
                       ])
                     ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      staticClass: "di header-menu-item pa2 pointer",
+                      attrs: { "data-cy": "header-notifications-link" }
+                    },
+                    [
+                      _c(
+                        "inertia-link",
+                        {
+                          attrs: {
+                            href: "/" + _vm.employee.company.id + "/account"
+                          }
+                        },
+                        [
+                          _c("span", { staticClass: "fw5" }, [
+                            _c("img", {
+                              staticClass: "relative",
+                              attrs: {
+                                src: "/img/header/icon-notification.svg"
+                              }
+                            }),
+                            _vm._v(
+                              "\n                  Adminland\n                "
+                            )
+                          ])
+                        ]
+                      )
+                    ],
+                    1
                   )
                 ]
               )

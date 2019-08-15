@@ -25,7 +25,7 @@ class HomeController extends Controller
             ]);
         }
 
-        return Inertia::render('Home/Home', [
+        return Inertia::render('Home/Index', [
             'employees' => $companiesCollection,
         ]);
     }

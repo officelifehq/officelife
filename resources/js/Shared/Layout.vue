@@ -68,6 +68,14 @@
                   {{ $t('app.header_notifications') }}
                 </span>
               </li>
+              <li class="di header-menu-item pa2 pointer" data-cy="header-notifications-link">
+                <inertia-link :href="'/' + employee.company.id + '/account'">
+                  <span class="fw5">
+                    <img class="relative" src="/img/header/icon-notification.svg" />
+                    Adminland
+                  </span>
+                </inertia-link>
+              </li>
             </ul>
           </div>
           <div class="fl w-20 pa2 tr relative header-menu-settings">

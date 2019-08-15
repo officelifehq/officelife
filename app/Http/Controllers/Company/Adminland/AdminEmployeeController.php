@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -10,7 +11,7 @@ use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
-class EmployeeController extends Controller
+class AdminEmployeeController extends Controller
 {
     /**
      * Show the list of employees.
@@ -20,13 +21,14 @@ class EmployeeController extends Controller
     public function index()
     {
         $company = Cache::get('cachedCompanyObject');
+        $employee = Cache::get('cachedEmployeeObject');
         $employees = EmployeeResource::collection(
             $company->employees()->orderBy('created_at', 'desc')->get()
         );
 
-        return View::component('ShowAccountEmployees', [
+        return Inertia::render('Adminland/Employee/Index', [
             'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'employee' => new EmployeeResource($employee),
             'notifications' => auth()->user()->getLatestNotifications($company),
             'employees' => $employees,
         ]);

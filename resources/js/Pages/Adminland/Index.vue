@@ -19,13 +19,15 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :employee="employee" :no-menu="false" :notifications="notifications">
+  <layout title="Home" :employee="employee" :no-menu="false" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+            <inertia-link :href="'/' + company.id + '/dashboard'">
+              {{ company.name }}
+            </inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_home') }}
@@ -45,27 +47,39 @@
           <ul class="options list pl0 mb5">
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/employees.svg" class="pr1 absolute" />
-              <a :href="'/' + company.id + '/account/employees'" class="relative" data-cy="employee-admin-link">{{ $t('account.home_manage_employees') }}</a>
+              <inertia-link :href="'/' + company.id + '/account/employees'" class="relative" data-cy="employee-admin-link">
+                {{ $t('account.home_manage_employees') }}
+              </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/position.svg" class="pr1 absolute" />
-              <a :href="'/' + company.id + '/account/positions'" class="relative" data-cy="position-admin-link">{{ $t('account.home_manage_positions') }}</a>
+              <inertia-link :href="'/' + company.id + '/account/positions'" class="relative" data-cy="position-admin-link">
+                {{ $t('account.home_manage_positions') }}
+              </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/teams.svg" class="pr1 absolute" />
-              <a :href="'/' + company.id + '/account/teams'" class="relative" data-cy="team-admin-link">{{ $t('account.home_manage_teams') }}</a>
+              <inertia-link :href="'/' + company.id + '/account/teams'" class="relative" data-cy="team-admin-link">
+                {{ $t('account.home_manage_teams') }}
+              </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/flows.svg" class="pr1 absolute" />
-              <a :href="'/' + company.id + '/account/flows'" class="relative" data-cy="-admin-link">{{ $t('account.home_manage_flows') }}</a>
+              <inertia-link :href="'/' + company.id + '/account/flows'" class="relative" data-cy="-admin-link">
+                {{ $t('account.home_manage_flows') }}
+              </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/flows.svg" class="pr1 absolute" />
-              <a :href="'/' + company.id + '/account/employeestatuses'" class="relative" data-cy="employee-statuses-admin-link">{{ $t('account.home_manage_employee_statuses') }}</a>
+              <inertia-link :href="'/' + company.id + '/account/employeestatuses'" class="relative" data-cy="employee-statuses-admin-link">
+                {{ $t('account.home_manage_employee_statuses') }}
+              </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/flows.svg" class="pr1 absolute" />
-              <a :href="'/' + company.id + '/account/employeestatuses'" class="relative" data-cy="-admin-link">{{ $t('account.home_manage_employee_statuses') }}</a>
+              <inertia-link :href="'/' + company.id + '/account/employeestatuses'" class="relative" data-cy="-admin-link">
+                {{ $t('account.home_manage_employee_statuses') }}
+              </inertia-link>
             </li>
           </ul>
 
@@ -75,13 +89,19 @@
             <ul class="options list pl0">
               <li class="pa2 pl0 relative">
                 <img src="/img/company/account/audit.svg" class="pr1 absolute" />
-                <a :href="'/' + company.id + '/account/audit'" class="relative">{{ $t('account.home_audit_log') }}</a>
+                <inertia-link :href="'/' + company.id + '/account/audit'" class="relative">
+                  {{ $t('account.home_audit_log') }}
+                </inertia-link>
               </li>
               <li v-show="!company.has_dummy_data" class="pa2 pl0">
-                <a :href="'/' + company.id + '/account/dummy'">{{ $t('account.home_generate_fake_data') }}</a>
+                <inertia-link :href="'/' + company.id + '/account/dummy'">
+                  {{ $t('account.home_generate_fake_data') }}
+                </inertia-link>
               </li>
               <li v-show="company.has_dummy_data" class="pa2 pl0">
-                <a :href="'/' + company.id + '/account/dummy'">{{ $t('account.home_remove_fake_data') }}</a>
+                <inertia-link :href="'/' + company.id + '/account/dummy'">
+                  {{ $t('account.home_remove_fake_data') }}
+                </inertia-link>
               </li>
             </ul>
           </div>
@@ -92,13 +112,15 @@
 </template>
 
 <script>
+import Layout from '@/Shared/Layout';
+
 export default {
+  components: {
+    Layout,
+  },
+
   props: {
     company: {
-      type: Object,
-      default: null,
-    },
-    user: {
       type: Object,
       default: null,
     },

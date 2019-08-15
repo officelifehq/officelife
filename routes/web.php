@@ -78,7 +78,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('account', 'Company\\Adminland\\AdminlandController@index');
 
             // employee management
-            Route::resource('account/employees', 'Company\\Adminland\\EmployeeController');
+            Route::resource('account/employees', 'Company\\Adminland\\AdminEmployeeController');
             Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@index');
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
 

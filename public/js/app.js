@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a4a459717bd931884d10","1":"5d36bea40613a7b6b90e","2":"d4fa770b29c64d4d791c","3":"3d24ea05583234b0f32d","4":"90afef6320c447e3aa32","5":"29f332dc0f78b124dcaa","6":"b7f8f00ee46ea20a0c90","7":"cc619e834f624c962299","8":"a2cd71ce45fd67dbf68a","9":"dac9522d96d43f328b5e","10":"bae13ecc127cd2e2b066","12":"172bef64d791d4f1e80d","13":"10afee1b8a72b0ce40fc","14":"46439a5eaba5e2ea9ecc","15":"fb88ba6abc51282895b4"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"1":"93fc660570e379adac70","2":"d4fa770b29c64d4d791c","3":"3d24ea05583234b0f32d","4":"84c674cb7d864710647e","5":"eb3fa7afe981d20bf773","6":"ce690883f7b185674303","7":"ffa6daf39029505e2d86","8":"beda3e423245b5f37604","9":"ad416a40baa9bea00bdd","10":"6c35dd5b08b1148dfce1","11":"9eee6422524122a85f59","12":"29afb35072ef050a3602","13":"389ef593f83e5ddf48dd","14":"46439a5eaba5e2ea9ecc","15":"df4c4f2275bc1b59fd97","16":"41cbd0106c034f2c69e9","17":"dfdae5bf201ccaa06d8d"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -32435,125 +32435,145 @@ module.exports = JSON.parse("{\"account\":{\"employee_new_administrator\":\"Admi
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./Adminland/Employee/Index": [
+		"./resources/js/Pages/Adminland/Employee/Index.vue",
+		15,
+		1,
+		17
+	],
+	"./Adminland/Employee/Index.vue": [
+		"./resources/js/Pages/Adminland/Employee/Index.vue",
+		15,
+		1,
+		17
+	],
+	"./Adminland/Index": [
+		"./resources/js/Pages/Adminland/Index.vue",
+		15,
+		1,
+		16
+	],
+	"./Adminland/Index.vue": [
+		"./resources/js/Pages/Adminland/Index.vue",
+		15,
+		1,
+		16
+	],
 	"./Auth/Login": [
 		"./resources/js/Pages/Auth/Login.vue",
-		0,
+		15,
 		2,
-		4
+		5
 	],
 	"./Auth/Login.vue": [
 		"./resources/js/Pages/Auth/Login.vue",
-		0,
+		15,
 		2,
-		4
+		5
 	],
 	"./Auth/Register": [
 		"./resources/js/Pages/Auth/Register.vue",
-		0,
+		15,
 		2,
-		5
+		6
 	],
 	"./Auth/Register.vue": [
 		"./resources/js/Pages/Auth/Register.vue",
-		0,
+		15,
 		2,
-		5
+		6
 	],
 	"./Dashboard/Me": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		0,
+		15,
 		1,
 		3,
-		7
+		8
 	],
 	"./Dashboard/Me.vue": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		0,
+		15,
 		1,
 		3,
-		7
+		8
 	],
 	"./Dashboard/MyCompany": [
 		"./resources/js/Pages/Dashboard/MyCompany.vue",
-		6
+		7
 	],
 	"./Dashboard/MyCompany.vue": [
 		"./resources/js/Pages/Dashboard/MyCompany.vue",
-		6
+		7
 	],
 	"./Dashboard/MyTeam": [
 		"./resources/js/Pages/Dashboard/MyTeam.vue",
-		0,
+		15,
 		1,
-		12,
-		13
+		4,
+		9
 	],
 	"./Dashboard/MyTeam.vue": [
 		"./resources/js/Pages/Dashboard/MyTeam.vue",
-		0,
+		15,
 		1,
-		12,
-		13
+		4,
+		9
 	],
 	"./Dashboard/MyTeamEmptyState": [
 		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
-		0,
+		15,
 		1,
-		15
+		11
 	],
 	"./Dashboard/MyTeamEmptyState.vue": [
 		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
-		0,
+		15,
 		1,
-		15
+		11
 	],
 	"./Dashboard/MyTeamWorklogs": [
 		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
-		12,
+		4,
 		14
 	],
 	"./Dashboard/MyTeamWorklogs.vue": [
 		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
-		12,
+		4,
 		14
 	],
 	"./Dashboard/MyWorklogs": [
 		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
-		0,
+		15,
 		3,
-		10
+		13
 	],
 	"./Dashboard/MyWorklogs.vue": [
 		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
-		0,
+		15,
 		3,
-		10
+		13
 	],
 	"./Home/CreateCompany": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		0,
+		15,
 		1,
 		2,
-		9
+		12
 	],
 	"./Home/CreateCompany.vue": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		0,
+		15,
 		1,
 		2,
-		9
+		12
 	],
-	"./Home/Home": [
-		"./resources/js/Pages/Home/Home.vue",
-		0,
-		1,
-		8
+	"./Home/Index": [
+		"./resources/js/Pages/Home/Index.vue",
+		10
 	],
-	"./Home/Home.vue": [
-		"./resources/js/Pages/Home/Home.vue",
-		0,
-		1,
-		8
+	"./Home/Index.vue": [
+		"./resources/js/Pages/Home/Index.vue",
+		10
 	]
 };
 function webpackAsyncContext(req) {
