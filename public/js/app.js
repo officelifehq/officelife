@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"1":"a6171e7430037a91a9e3","2":"5d00339319d8b0e1c1cd","3":"def5f2db64dfb7979086","4":"84c674cb7d864710647e","5":"eb3fa7afe981d20bf773","6":"ce690883f7b185674303","7":"ffa6daf39029505e2d86","8":"1442cbf6023e0accee3c","9":"f57f4f72c38e0cabd5af","10":"eed5ad29351d582557d5","11":"ee76cbcd91771d188f21","12":"f13625d5faa083750fab","13":"baaff284d9bd5df0de25","14":"6188de5bc2b5b23d0dab","15":"d77dce776966997e0b40","16":"989536e55c9310abdd4b","17":"555c194ff8bfe23ddc0d","18":"014cd09cccff6a6401d6","19":"8cba707fb3aa68cb5066","20":"cd25430569da489ce546"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a4a459717bd931884d10","1":"a6171e7430037a91a9e3","2":"5d00339319d8b0e1c1cd","3":"a13b0be702f0bc0fb4c4","4":"77b7fe2a6a0d8565db15","5":"f9a5cc9ee5ac99103fca","6":"77456c0ff641dd08936d","7":"46cd65b449f465577c82","8":"e359047a8dc976d22630","9":"3b8a93252b6ee1f421be","10":"bae13ecc127cd2e2b066","11":"1745e6fc6dacca064e35","12":"e6d7e661937ddcb7ea4d","13":"0cac3e1f7f1c418260ba","14":"ab0e5e0bafbf9562d170","15":"78bdf26f17c3b3262a98","16":"8f640d6851aafcc72a2c","17":"0cbb4be0ea8a7ebd0e18","18":"9868af6e05c5467b9f8b","19":"c56664b116cf3e92ca7a","20":"ad6ae64e2a139cc5b1bf","22":"cb208c0870de727a6474","23":"ba9e2933da6c046236f5","24":"c3cc72093e9d4c122d5a","25":"af39fe351f98596909d3","26":"b42be41850b10501d709"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -32437,189 +32437,243 @@ module.exports = JSON.parse("{\"account\":{\"employee_new_administrator\":\"Admi
 var map = {
 	"./Adminland/Employee/Create": [
 		"./resources/js/Pages/Adminland/Employee/Create.vue",
-		20,
+		0,
 		1,
 		2,
-		8
+		11
 	],
 	"./Adminland/Employee/Create.vue": [
 		"./resources/js/Pages/Adminland/Employee/Create.vue",
-		20,
+		0,
 		1,
 		2,
-		8
+		11
 	],
 	"./Adminland/Employee/Index": [
 		"./resources/js/Pages/Adminland/Employee/Index.vue",
-		20,
+		0,
 		1,
-		9
+		12
 	],
 	"./Adminland/Employee/Index.vue": [
 		"./resources/js/Pages/Adminland/Employee/Index.vue",
-		20,
+		0,
 		1,
-		9
+		12
+	],
+	"./Adminland/Flow/ActionNotification": [
+		"./resources/js/Pages/Adminland/Flow/ActionNotification.vue",
+		0,
+		4,
+		25
+	],
+	"./Adminland/Flow/ActionNotification.vue": [
+		"./resources/js/Pages/Adminland/Flow/ActionNotification.vue",
+		0,
+		4,
+		25
+	],
+	"./Adminland/Flow/Actions": [
+		"./resources/js/Pages/Adminland/Flow/Actions.vue",
+		0,
+		4,
+		20,
+		26
+	],
+	"./Adminland/Flow/Actions.vue": [
+		"./resources/js/Pages/Adminland/Flow/Actions.vue",
+		0,
+		4,
+		20,
+		26
+	],
+	"./Adminland/Flow/Create": [
+		"./resources/js/Pages/Adminland/Flow/Create.vue",
+		0,
+		1,
+		4,
+		20,
+		3
+	],
+	"./Adminland/Flow/Create.vue": [
+		"./resources/js/Pages/Adminland/Flow/Create.vue",
+		0,
+		1,
+		4,
+		20,
+		3
+	],
+	"./Adminland/Flow/Index": [
+		"./resources/js/Pages/Adminland/Flow/Index.vue",
+		0,
+		1,
+		6
+	],
+	"./Adminland/Flow/Index.vue": [
+		"./resources/js/Pages/Adminland/Flow/Index.vue",
+		0,
+		1,
+		6
 	],
 	"./Adminland/Index": [
 		"./resources/js/Pages/Adminland/Index.vue",
-		20,
+		0,
 		1,
-		10
+		13
 	],
 	"./Adminland/Index.vue": [
 		"./resources/js/Pages/Adminland/Index.vue",
-		20,
+		0,
 		1,
-		10
+		13
 	],
 	"./Adminland/Position/Index": [
 		"./resources/js/Pages/Adminland/Position/Index.vue",
-		20,
+		0,
 		1,
 		2,
-		11
+		14
 	],
 	"./Adminland/Position/Index.vue": [
 		"./resources/js/Pages/Adminland/Position/Index.vue",
-		20,
+		0,
 		1,
 		2,
-		11
+		14
 	],
 	"./Adminland/Team/Index": [
 		"./resources/js/Pages/Adminland/Team/Index.vue",
-		20,
+		0,
 		1,
 		2,
-		12
+		15
 	],
 	"./Adminland/Team/Index.vue": [
 		"./resources/js/Pages/Adminland/Team/Index.vue",
-		20,
+		0,
 		1,
 		2,
-		12
+		15
 	],
 	"./Auth/Login": [
 		"./resources/js/Pages/Auth/Login.vue",
-		20,
+		0,
 		2,
-		5
+		8
 	],
 	"./Auth/Login.vue": [
 		"./resources/js/Pages/Auth/Login.vue",
-		20,
+		0,
 		2,
-		5
+		8
 	],
 	"./Auth/Register": [
 		"./resources/js/Pages/Auth/Register.vue",
-		20,
+		0,
 		2,
-		6
+		9
 	],
 	"./Auth/Register.vue": [
 		"./resources/js/Pages/Auth/Register.vue",
-		20,
+		0,
 		2,
-		6
+		9
 	],
 	"./Dashboard/Me": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		20,
+		0,
 		1,
-		3,
-		13
+		5,
+		16
 	],
 	"./Dashboard/Me.vue": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		20,
+		0,
 		1,
-		3,
-		13
+		5,
+		16
 	],
 	"./Dashboard/MyCompany": [
 		"./resources/js/Pages/Dashboard/MyCompany.vue",
-		7
+		17
 	],
 	"./Dashboard/MyCompany.vue": [
 		"./resources/js/Pages/Dashboard/MyCompany.vue",
-		7
+		17
 	],
 	"./Dashboard/MyTeam": [
 		"./resources/js/Pages/Dashboard/MyTeam.vue",
-		20,
+		0,
 		1,
-		4,
-		14
+		7,
+		18
 	],
 	"./Dashboard/MyTeam.vue": [
 		"./resources/js/Pages/Dashboard/MyTeam.vue",
-		20,
+		0,
 		1,
-		4,
-		14
+		7,
+		18
 	],
 	"./Dashboard/MyTeamEmptyState": [
 		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
-		20,
+		0,
 		1,
-		16
+		22
 	],
 	"./Dashboard/MyTeamEmptyState.vue": [
 		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
-		20,
+		0,
 		1,
-		16
+		22
 	],
 	"./Dashboard/MyTeamWorklogs": [
 		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
-		4,
-		19
+		7,
+		24
 	],
 	"./Dashboard/MyTeamWorklogs.vue": [
 		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
-		4,
-		19
+		7,
+		24
 	],
 	"./Dashboard/MyWorklogs": [
 		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
-		20,
-		3,
-		18
+		0,
+		5,
+		10
 	],
 	"./Dashboard/MyWorklogs.vue": [
 		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
-		20,
-		3,
-		18
+		0,
+		5,
+		10
 	],
 	"./Home/CreateCompany": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		20,
+		0,
 		1,
 		2,
-		17
+		23
 	],
 	"./Home/CreateCompany.vue": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		20,
+		0,
 		1,
 		2,
-		17
+		23
 	],
 	"./Home/Index": [
 		"./resources/js/Pages/Home/Index.vue",
-		20,
+		0,
 		1,
-		15
+		19
 	],
 	"./Home/Index.vue": [
 		"./resources/js/Pages/Home/Index.vue",
-		20,
+		0,
 		1,
-		15
+		19
 	]
 };
 function webpackAsyncContext(req) {

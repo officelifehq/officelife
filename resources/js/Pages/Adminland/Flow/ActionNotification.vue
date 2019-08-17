@@ -175,10 +175,12 @@
 <script>
 import ClickOutside from 'vue-click-outside';
 import 'vue-loaders/dist/vue-loaders.css';
-import * as VueLoaders from 'vue-loaders';
-Vue.use(VueLoaders);
+import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
 
 export default {
+  components: {
+    BallPulseLoader,
+  },
 
   directives: {
     ClickOutside

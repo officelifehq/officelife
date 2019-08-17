@@ -2,16 +2,20 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
+            </inertia-link>
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
+              {{ $t('app.breadcrumb_account_home') }}
+            </inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_flows') }}
@@ -24,11 +28,13 @@
         <!-- WHEN THERE ARE TEAMS -->
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.flows_title', { company: company.name}) }}
+            {{ $t('account.flows_title', { company: $page.auth.company.name}) }}
           </h2>
           <p class="relative">
-            <span class="dib mb3 di-l">{{ $tc('account.flows_number_flows', flows.length, { company: company.name, count: flows.length}) }}</span>
-            <a :href="'/' + company.id + '/account/flows/create'" class="btn primary absolute-l relative dib-l db right-0" data-cy="add-employee-button">{{ $t('account.flows_cta') }}</a>
+            <span class="dib mb3 di-l">{{ $tc('account.flows_number_flows', flows.length, { company: $page.auth.company.name, count: flows.length}) }}</span>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
+              {{ $t('account.flows_cta') }}
+            </inertia-link>
           </p>
 
           <!-- LIST OF FLOWS -->
@@ -41,13 +47,13 @@
                 <span class="db b">{{ flow.name }} <span class="normal f6">({{ flow.steps.count }} steps)</span></span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <a :href="'/' + company.id + '/account/flows/' + flow.id">{{ $t('app.view') }}</a>
+                    <a :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id">{{ $t('app.view') }}</a>
                   </li>
                   <li class="di pr2">
-                    <a :href="'/' + company.id + '/account/flows/' + flow.id + '/lock'">{{ $t('app.rename') }}</a>
+                    <a :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id + '/lock'">{{ $t('app.rename') }}</a>
                   </li>
                   <li class="di">
-                    <a :href="'/' + company.id + '/account/flows/' + flow.id + '/destroy'">{{ $t('app.delete') }}</a>
+                    <a :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id + '/destroy'">{{ $t('app.delete') }}</a>
                   </li>
                 </ul>
               </div>
@@ -70,19 +76,16 @@
 </template>
 
 <script>
+import Layout from '@/Shared/Layout';
 
 export default {
+  components: {
+    Layout,
+  },
+
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
     flows: {
       type: Array,
-      default: null,
-    },
-    user: {
-      type: Object,
       default: null,
     },
     notifications: {

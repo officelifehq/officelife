@@ -44,8 +44,13 @@
 </template>
 
 <script>
+import ActionNotification from '@/Pages/Adminland/Flow/ActionNotification';
 
 export default {
+  components: {
+    ActionNotification,
+  },
+
   model: {
     prop: 'value',
     event: 'change'

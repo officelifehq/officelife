@@ -42,12 +42,12 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + company.id + '/dashboard'">
-              {{ company.name }}
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
             </inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + company.id + '/account'">
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
               {{ $t('app.breadcrumb_account_home') }}
             </inertia-link>
           </li>
@@ -62,23 +62,22 @@
         <!-- WHEN THERE ARE TEAMS -->
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.teams_title', { company: company.name}) }}
+            {{ $t('account.teams_title', { company: $page.auth.company.name}) }}
           </h2>
 
           <!-- ADD TEAM -->
           <div class="relative">
-            <span v-show="teams.length != 0" class="dib mb3 di-l">{{ $tc('account.teams_number_teams', teams.length, { company: company.name, count: teams.length}) }}</span>
-            <a data-cy="add-team-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="modal = !modal">{{ $t('account.teams_cta') }}</a>
+            <span v-show="teams.length != 0" class="dib mb3 di-l">{{ $tc('account.teams_number_teams', teams.length, { company: $page.auth.company.name, count: teams.length}) }}</span>
+            <a data-cy="add-team-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="displayAddModal">{{ $t('account.teams_cta') }}</a>
 
             <div v-if="modal == true" class="absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster">
               <errors :errors="form.errors" />
 
               <form @submit.prevent="submit">
                 <div class="mb3">
-                  <text-input v-model="form.name"
+                  <text-input :ref="'newTeam'"
+                              v-model="form.name"
                               :placeholder="''"
-                              :custom-ref="'title' + position.id"
-                              :datacy="'list-rename-input-name-' + position.id"
                               :errors="$page.errors.name"
                               required
                               :label="$t('account.team_new_name')"
@@ -88,9 +87,9 @@
                 <div class="mv2">
                   <div class="flex-ns justify-between">
                     <div>
-                      <a class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="modal = false">{{ $t('app.cancel') }}</a>
+                      <a class="btn btn-secondary dib tc w-auto-ns w-100 pv2 ph3" @click="modal = false">{{ $t('app.cancel') }}</a>
                     </div>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="submit-add-team-button" />
+                    <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="submit-add-team-button" />
                   </div>
                 </div>
               </form>
@@ -107,13 +106,13 @@
                 <span class="db b">{{ team.name }}</span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <a :href="'/' + company.id + '/teams/' + team.id">{{ $t('app.view') }}</a>
+                    <a :href="'/' + $page.auth.company.id + '/teams/' + team.id">{{ $t('app.view') }}</a>
                   </li>
                   <li class="di pr2">
-                    <a :href="'/' + company.id + '/teams/' + team.id + '/lock'">{{ $t('app.rename') }}</a>
+                    <a :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/lock'">{{ $t('app.rename') }}</a>
                   </li>
                   <li class="di">
-                    <a :href="'/' + company.id + '/teams/' + team.id + '/destroy'">{{ $t('app.delete') }}</a>
+                    <a :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/destroy'">{{ $t('app.delete') }}</a>
                   </li>
                 </ul>
               </div>
@@ -193,6 +192,14 @@ export default {
   },
 
   methods: {
+    displayAddModal() {
+      this.modal = !this.modal;
+
+      this.$nextTick(() => {
+        this.$refs['newTeam'].$refs['input'].focus();
+      });
+    },
+
     close(e) {
       if (!this.$el.contains(e.target)) {
         this.modal = false;
@@ -202,7 +209,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.company.id + '/account/teams', this.form)
+      axios.post('/' + this.$page.auth.company.id + '/account/teams', this.form)
         .then(response => {
           this.$snotify.success('The team has been created', {
             timeout: 2000,

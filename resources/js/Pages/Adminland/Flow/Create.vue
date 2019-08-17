@@ -19,19 +19,23 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
+            </inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/account/flows'">{{ $t('app.breadcrumb_account_manage_flows') }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'">
+              {{ $t('app.breadcrumb_account_manage_flows') }}
+            </inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_add_employee') }}
@@ -195,7 +199,7 @@
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <a :href="'/' + company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">{{ $t('app.cancel') }}</a>
+                  <a :href="'/' + $page.auth.company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">{{ $t('app.cancel') }}</a>
                 </div>
                 <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
               </div>
@@ -208,17 +212,24 @@
 </template>
 
 <script>
+import Errors from '@/Shared/Errors';
+import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout';
+import Actions from '@/Pages/Adminland/Flow/Actions';
 
 export default {
+  components: {
+    Layout,
+    Errors,
+    LoadingButton,
+    Actions,
+  },
+
   props: {
-    company: {
-      type: Object,
+    notifications: {
+      type: Array,
       default: null,
     },
-    user: {
-      type: Object,
-      default: null,
-    }
   },
 
   data() {
@@ -324,7 +335,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.company.id + '/account/flows', this.form)
+      axios.post('/' + this.$page.auth.company.id + '/account/flows', this.form)
         .then(response => {
           localStorage.success = 'The flow has been added';
           Turbolinks.visit('/' + response.data.company_id + '/account/flows');

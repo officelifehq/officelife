@@ -8,7 +8,6 @@
 </template>
 
 <script>
-
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
 

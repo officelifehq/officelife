@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use Inertia\Inertia;
 use App\Models\Company\Flow;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -26,9 +27,7 @@ class AdminFlowController extends Controller
             $company->flows()->orderBy('created_at', 'desc')->get()
         );
 
-        return View::component('ShowAccountFlows', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+        return Inertia::render('Adminland/Flow/Index', [
             'notifications' => auth()->user()->getLatestNotifications($company),
             'flows' => $flows,
         ]);
@@ -37,6 +36,7 @@ class AdminFlowController extends Controller
     /**
      * Display the detail of a flow.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $flowId
      * @return \Illuminate\Http\Response
@@ -47,8 +47,6 @@ class AdminFlowController extends Controller
         $flow = Flow::findOrFail($flowId);
 
         return View::component('ShowAccountFlow', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
             'notifications' => auth()->user()->getLatestNotifications($company),
             'flow' => new FlowResource($flow),
         ]);
@@ -63,9 +61,7 @@ class AdminFlowController extends Controller
     {
         $company = Cache::get('cachedCompanyObject');
 
-        return View::component('CreateAccountFlow', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+        return Inertia::render('Adminland/Flow/Create', [
             'notifications' => auth()->user()->getLatestNotifications($company),
         ]);
     }
