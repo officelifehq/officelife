@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
 use App\Jobs\UpdateDashboardPreference;
 use App\Http\Resources\Company\Team\Team as TeamResource;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class DashboardMeController extends Controller
 {
@@ -29,8 +28,6 @@ class DashboardMeController extends Controller
         ])->onQueue('low');
 
         return Inertia::render('Dashboard/Me', [
-            'company' => $company,
-            'employee' => new EmployeeResource($employee),
             'teams' => TeamResource::collection($employee->teams()->get()),
             'worklogCount' => $employee->worklogs()->count(),
             'notifications' => auth()->user()->getLatestNotifications($company),

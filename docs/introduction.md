@@ -50,6 +50,10 @@ Dates all have the `datetime` format in order for us to use SQLite for testing p
 
 * `LogMissedWorklogEntry` that runs at 11pm every day. This job checks all the employees who hasn't logged a worklog on the current day, and increments the `consecutive_worklog_missed` field in the Employee table for each found employee.
 
+#### Shared data in Vue
+
+Data is shared accross views in Vue within Inertia. Shared data come from AppServiceProvider.
+
 ### Users vs employees
 
 Homas makes the distinction between users and employees.

@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a4a459717bd931884d10","1":"93fc660570e379adac70","2":"2bb89859e0fc5c9edc9e","3":"3d24ea05583234b0f32d","4":"84c674cb7d864710647e","5":"eb3fa7afe981d20bf773","6":"ce690883f7b185674303","7":"ffa6daf39029505e2d86","8":"beda3e423245b5f37604","9":"ad416a40baa9bea00bdd","10":"6c35dd5b08b1148dfce1","11":"9eee6422524122a85f59","13":"389ef593f83e5ddf48dd","14":"46439a5eaba5e2ea9ecc","15":"82814cea5ad84ad5c0a0","16":"41cbd0106c034f2c69e9","17":"dfdae5bf201ccaa06d8d","18":"c79eadc41d4e92fd03ab","19":"a28d925a7d736f27e72f"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"1":"a6171e7430037a91a9e3","2":"5d00339319d8b0e1c1cd","3":"def5f2db64dfb7979086","4":"84c674cb7d864710647e","5":"eb3fa7afe981d20bf773","6":"ce690883f7b185674303","7":"ffa6daf39029505e2d86","8":"1442cbf6023e0accee3c","9":"f57f4f72c38e0cabd5af","10":"eed5ad29351d582557d5","11":"ee76cbcd91771d188f21","12":"f13625d5faa083750fab","13":"baaff284d9bd5df0de25","14":"6188de5bc2b5b23d0dab","15":"d77dce776966997e0b40","16":"989536e55c9310abdd4b","17":"555c194ff8bfe23ddc0d","18":"014cd09cccff6a6401d6","19":"8cba707fb3aa68cb5066","20":"cd25430569da489ce546"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -32437,93 +32437,107 @@ module.exports = JSON.parse("{\"account\":{\"employee_new_administrator\":\"Admi
 var map = {
 	"./Adminland/Employee/Create": [
 		"./resources/js/Pages/Adminland/Employee/Create.vue",
-		0,
+		20,
 		1,
-		18,
-		15
+		2,
+		8
 	],
 	"./Adminland/Employee/Create.vue": [
 		"./resources/js/Pages/Adminland/Employee/Create.vue",
-		0,
+		20,
 		1,
-		18,
-		15
+		2,
+		8
 	],
 	"./Adminland/Employee/Index": [
 		"./resources/js/Pages/Adminland/Employee/Index.vue",
-		0,
+		20,
 		1,
-		17
+		9
 	],
 	"./Adminland/Employee/Index.vue": [
 		"./resources/js/Pages/Adminland/Employee/Index.vue",
-		0,
+		20,
 		1,
-		17
+		9
 	],
 	"./Adminland/Index": [
 		"./resources/js/Pages/Adminland/Index.vue",
-		0,
+		20,
 		1,
-		16
+		10
 	],
 	"./Adminland/Index.vue": [
 		"./resources/js/Pages/Adminland/Index.vue",
-		0,
+		20,
 		1,
-		16
+		10
 	],
 	"./Adminland/Position/Index": [
 		"./resources/js/Pages/Adminland/Position/Index.vue",
-		0,
+		20,
 		1,
-		18,
-		2
+		2,
+		11
 	],
 	"./Adminland/Position/Index.vue": [
 		"./resources/js/Pages/Adminland/Position/Index.vue",
-		0,
+		20,
 		1,
-		18,
-		2
+		2,
+		11
+	],
+	"./Adminland/Team/Index": [
+		"./resources/js/Pages/Adminland/Team/Index.vue",
+		20,
+		1,
+		2,
+		12
+	],
+	"./Adminland/Team/Index.vue": [
+		"./resources/js/Pages/Adminland/Team/Index.vue",
+		20,
+		1,
+		2,
+		12
 	],
 	"./Auth/Login": [
 		"./resources/js/Pages/Auth/Login.vue",
-		0,
-		18,
+		20,
+		2,
 		5
 	],
 	"./Auth/Login.vue": [
 		"./resources/js/Pages/Auth/Login.vue",
-		0,
-		18,
+		20,
+		2,
 		5
 	],
 	"./Auth/Register": [
 		"./resources/js/Pages/Auth/Register.vue",
-		0,
-		18,
+		20,
+		2,
 		6
 	],
 	"./Auth/Register.vue": [
 		"./resources/js/Pages/Auth/Register.vue",
-		0,
-		18,
+		20,
+		2,
 		6
 	],
 	"./Dashboard/Me": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		0,
+		20,
 		1,
 		3,
-		8
+		13
 	],
 	"./Dashboard/Me.vue": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		0,
+		20,
 		1,
 		3,
-		8
+		13
 	],
 	"./Dashboard/MyCompany": [
 		"./resources/js/Pages/Dashboard/MyCompany.vue",
@@ -32535,71 +32549,77 @@ var map = {
 	],
 	"./Dashboard/MyTeam": [
 		"./resources/js/Pages/Dashboard/MyTeam.vue",
-		0,
+		20,
 		1,
 		4,
-		9
+		14
 	],
 	"./Dashboard/MyTeam.vue": [
 		"./resources/js/Pages/Dashboard/MyTeam.vue",
-		0,
+		20,
 		1,
 		4,
-		9
+		14
 	],
 	"./Dashboard/MyTeamEmptyState": [
 		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
-		0,
+		20,
 		1,
-		11
+		16
 	],
 	"./Dashboard/MyTeamEmptyState.vue": [
 		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
-		0,
+		20,
 		1,
-		11
+		16
 	],
 	"./Dashboard/MyTeamWorklogs": [
 		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
 		4,
-		14
+		19
 	],
 	"./Dashboard/MyTeamWorklogs.vue": [
 		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
 		4,
-		14
+		19
 	],
 	"./Dashboard/MyWorklogs": [
 		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
-		0,
+		20,
 		3,
-		13
+		18
 	],
 	"./Dashboard/MyWorklogs.vue": [
 		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
-		0,
+		20,
 		3,
-		13
+		18
 	],
 	"./Home/CreateCompany": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		0,
-		18,
-		19
+		20,
+		1,
+		2,
+		17
 	],
 	"./Home/CreateCompany.vue": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		0,
-		18,
-		19
+		20,
+		1,
+		2,
+		17
 	],
 	"./Home/Index": [
 		"./resources/js/Pages/Home/Index.vue",
-		10
+		20,
+		1,
+		15
 	],
 	"./Home/Index.vue": [
 		"./resources/js/Pages/Home/Index.vue",
-		10
+		20,
+		1,
+		15
 	]
 };
 function webpackAsyncContext(req) {

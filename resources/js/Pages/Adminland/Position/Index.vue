@@ -5,18 +5,18 @@
 </style>
 
 <template>
-  <layout title="Home" :employee="employee" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + company.id + '/dashboard'">
-              {{ company.name }}
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
             </inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + company.id + '/account'">
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
               {{ $t('app.breadcrumb_account_home') }}
             </inertia-link>
           </li>
@@ -30,12 +30,12 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.positions_title', { company: company.name}) }}
+            {{ $t('account.positions_title', { company: $page.auth.company.name}) }}
           </h2>
 
           <p class="relative">
-            <span class="dib mb3 di-l" :class="positions.length == 0 ? 'white' : ''">{{ $tc('account.positions_number_positions', positions.length, { company: company.name, count: positions.length}) }}</span>
-            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-position-button" @click.prevent="modal = true">{{ $t('account.positions_cta') }}</a>
+            <span class="dib mb3 di-l" :class="positions.length == 0 ? 'white' : ''">{{ $tc('account.positions_number_positions', positions.length, { company: $page.auth.company.name, count: positions.length}) }}</span>
+            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-position-button" @click.prevent="displayAddModal">{{ $t('account.positions_cta') }}</a>
           </p>
 
           <p>The job position is what you would probably put on a resume to show what work you actually did.</p>
@@ -46,7 +46,8 @@
 
             <div class="cf">
               <div class="fl w-100 w-70-ns mb3 mb0-ns">
-                <text-input v-model="form.title"
+                <text-input :ref="'newPositionModal'"
+                            v-model="form.title"
                             :placeholder="'Marketing coordinator'"
                             :datacy="'add-title-input'"
                             :errors="$page.errors.first_name"
@@ -63,7 +64,7 @@
 
           <!-- LIST OF EXISTING POSITIONS -->
           <ul v-show="positions.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="positions-list">
-            <li v-for="(position, index) in positions" :key="position.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+            <li v-for="(position) in positions" :key="position.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
               {{ position.title }}
 
               <!-- RENAME POSITION FORM -->
@@ -93,7 +94,7 @@
               <ul v-show="idToUpdate != position.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
                 <!-- RENAME A POSITION -->
                 <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-rename-button-' + position.id" @click.prevent="displayUpdateModal(position, index) ; form.title = position.title">{{ $t('app.rename') }}</a>
+                  <a class="pointer" :data-cy="'list-rename-button-' + position.id" @click.prevent="displayUpdateModal(position) ; form.title = position.title">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A POSITION -->
@@ -139,14 +140,6 @@ export default {
   },
 
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    employee: {
-      type: Object,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,
@@ -174,7 +167,15 @@ export default {
   },
 
   methods: {
-    displayUpdateModal(position, index) {
+    displayAddModal() {
+      this.modal = true;
+
+      this.$nextTick(() => {
+        this.$refs['newPositionModal'].$refs['input'].focus();
+      });
+    },
+
+    displayUpdateModal(position) {
       this.idToUpdate = position.id;
 
       this.$nextTick(() => {
@@ -189,7 +190,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.company.id + '/account/positions', this.form)
+      axios.post('/' + this.$page.auth.company.id + '/account/positions', this.form)
         .then(response => {
           this.$snotify.success(this.$t('account.position_success_new'), {
             timeout: 2000,
@@ -210,7 +211,7 @@ export default {
     },
 
     update(id) {
-      axios.put('/' + this.company.id + '/account/positions/' + id, this.form)
+      axios.put('/' + this.$page.auth.company.id + '/account/positions/' + id, this.form)
         .then(response => {
           this.$snotify.success(this.$t('account.position_success_update'), {
             timeout: 2000,
@@ -231,7 +232,7 @@ export default {
     },
 
     destroy(id) {
-      axios.delete('/' + this.company.id + '/account/positions/' + id)
+      axios.delete('/' + this.$page.auth.company.id + '/account/positions/' + id)
         .then(response => {
           this.$snotify.success(this.$t('account.position_success_destroy'), {
             timeout: 2000,

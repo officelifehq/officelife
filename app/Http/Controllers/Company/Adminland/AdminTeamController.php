@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -9,24 +10,24 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 
-class TeamController extends Controller
+class AdminTeamController extends Controller
 {
     /**
      * Show the list of teams.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $company = Cache::get('cachedCompanyObject');
+        $employee = Cache::get('cachedEmployeeObject');
         $teams = TeamResource::collection(
             $company->teams()->orderBy('name', 'desc')->get()
         );
 
-        return View::component('ShowAccountTeams', [
+        return Inertia::render('Adminland/Team/Index', [
             'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+            'employee' => $employee,
             'notifications' => auth()->user()->getLatestNotifications($company),
             'teams' => $teams,
         ]);

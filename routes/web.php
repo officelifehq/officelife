@@ -83,7 +83,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
 
             // team management
-            Route::resource('account/teams', 'Company\\Adminland\\TeamController');
+            Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController');
 
             // position management
             Route::resource('account/positions', 'Company\\Adminland\\AdminPositionController');

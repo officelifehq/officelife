@@ -60,14 +60,6 @@ export default {
   },
 
   props: {
-    company:  {
-      type: Object,
-      default: null,
-    },
-    employee: {
-      type: Object,
-      default: null,
-    },
     teams: {
       type: Array,
       default: null,
@@ -94,7 +86,7 @@ export default {
 
   created: function() {
     this.updatedWorklogCount = this.worklogCount;
-    this.updatedEmployee = this.employee;
+    this.updatedEmployee = this.$page.auth.employee;
   },
 
   methods: {
@@ -105,7 +97,7 @@ export default {
     store() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.company.id + '/dashboard/worklog', this.form)
+      axios.post('/' + this.$page.auth.company.id + '/dashboard/worklog', this.form)
         .then(response => {
           this.$snotify.success(this.$t('dashboard.worklog_success_message'), {
             timeout: 2000,

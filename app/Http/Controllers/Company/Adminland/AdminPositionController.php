@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Position\UpdatePosition;
 use App\Services\Company\Adminland\Position\DestroyPosition;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\Position\Position as PositionResource;
 
 class AdminPositionController extends Controller
@@ -22,14 +21,11 @@ class AdminPositionController extends Controller
     public function index()
     {
         $company = Cache::get('cachedCompanyObject');
-        $employee = Cache::get('cachedEmployeeObject');
         $positions = PositionResource::collection(
             $company->positions()->orderBy('title', 'asc')->get()
         );
 
         return Inertia::render('Adminland/Position/Index', [
-            'company' => $company,
-            'employee' => new EmployeeResource($employee),
             'notifications' => auth()->user()->getLatestNotifications($company),
             'positions' => $positions,
         ]);

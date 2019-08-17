@@ -68,8 +68,8 @@
                   {{ $t('app.header_notifications') }}
                 </span>
               </li>
-              <li class="di header-menu-item pa2 pointer" data-cy="header-notifications-link">
-                <inertia-link :href="'/' + employee.company.id + '/account'">
+              <li v-if="$page.auth.company" class="di header-menu-item pa2 pointer" data-cy="header-notifications-link">
+                <inertia-link :href="'/' + $page.auth.company.id + '/account'">
                   <span class="fw5">
                     <img class="relative" src="/img/header/icon-notification.svg" />
                     Adminland
@@ -229,10 +229,6 @@ export default {
     noMenu: {
       type: Boolean,
       default: false,
-    },
-    employee: {
-      type: Object,
-      default: null,
     },
     notifications: {
       type: Array,

@@ -70,14 +70,6 @@ __webpack_require__.r(__webpack_exports__);
     TextArea: _Shared_TextArea__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   props: {
-    company: {
-      type: Object,
-      "default": null
-    },
-    employee: {
-      type: Object,
-      "default": null
-    },
     teams: {
       type: Array,
       "default": null
@@ -102,7 +94,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.updatedWorklogCount = this.worklogCount;
-    this.updatedEmployee = this.employee;
+    this.updatedEmployee = this.$page.auth.employee;
   },
   methods: {
     updateText: function updateText(text) {
@@ -112,7 +104,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       this.loadingState = 'loading';
-      axios.post('/' + this.company.id + '/dashboard/worklog', this.form).then(function (response) {
+      axios.post('/' + this.$page.auth.company.id + '/dashboard/worklog', this.form).then(function (response) {
         _this.$snotify.success(_this.$t('dashboard.worklog_success_message'), {
           timeout: 2000,
           showProgressBar: true,

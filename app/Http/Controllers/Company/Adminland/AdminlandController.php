@@ -6,7 +6,6 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class AdminlandController extends Controller
 {
@@ -23,9 +22,7 @@ class AdminlandController extends Controller
         $numberEmployees = $company->employees()->count();
 
         return Inertia::render('Adminland/Index', [
-            'company' => $company,
             'numberEmployees' => $numberEmployees,
-            'employee' => new EmployeeResource(auth()->user()->getEmployeeObjectForCompany($company)),
             'notifications' => auth()->user()->getLatestNotifications($company),
         ]);
     }

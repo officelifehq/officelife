@@ -36,16 +36,20 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+            <inertia-link :href="'/' + company.id + '/dashboard'">
+              {{ company.name }}
+            </inertia-link>
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</a>
+            <inertia-link :href="'/' + company.id + '/account'">
+              {{ $t('app.breadcrumb_account_home') }}
+            </inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_teams') }}
@@ -71,9 +75,14 @@
 
               <form @submit.prevent="submit">
                 <div class="mb3">
-                  <label class="db fw4 lh-copy f6" for="name">{{ $t('account.team_new_name') }}</label>
-                  <input id="name" v-model="form.name" type="text" name="name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
-                         required
+                  <text-input v-model="form.name"
+                              :placeholder="''"
+                              :custom-ref="'title' + position.id"
+                              :datacy="'list-rename-input-name-' + position.id"
+                              :errors="$page.errors.name"
+                              required
+                              :label="$t('account.team_new_name')"
+                              :extra-class-upper-div="'mb0'"
                   />
                 </div>
                 <div class="mv2">
@@ -127,19 +136,22 @@
 </template>
 
 <script>
+import TextInput from '@/Shared/TextInput';
+import Errors from '@/Shared/Errors';
+import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout';
 
 export default {
+  components: {
+    Layout,
+    TextInput,
+    Errors,
+    LoadingButton,
+  },
+
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
     teams: {
       type: Array,
-      default: null,
-    },
-    user: {
-      type: Object,
       default: null,
     },
     notifications: {

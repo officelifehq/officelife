@@ -4,11 +4,17 @@ namespace App\Providers;
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
+use App\Http\Resources\Company\Company\Company as CompanyResource;
+use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class AppServiceProvider extends ServiceProvider
 {
+    protected $company;
+    protected $employee;
+
     /**
      * Bootstrap any application services.
      *
@@ -16,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->company = Cache::get('cachedCompanyObject');
+        $this->employee = Cache::get('cachedEmployeeObject');
     }
 
     /**
@@ -44,6 +52,8 @@ class AppServiceProvider extends ServiceProvider
                         'email' => Auth::user()->email,
                         'default_dashboard_view' => Auth::user()->default_dashboard_view,
                     ] : null,
+                    'company' => $this->company ? new CompanyResource($this->company) : null,
+                    'employee' => $this->employee ? new EmployeeResource($this->employee) : null,
                 ];
             },
             'flash' => function () {

@@ -241,10 +241,6 @@ __webpack_require__.r(__webpack_exports__);
       type: Boolean,
       "default": false
     },
-    employee: {
-      type: Object,
-      "default": null
-    },
     notifications: {
       type: Array,
       "default": null
@@ -759,37 +755,40 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "li",
-                    {
-                      staticClass: "di header-menu-item pa2 pointer",
-                      attrs: { "data-cy": "header-notifications-link" }
-                    },
-                    [
-                      _c(
-                        "inertia-link",
+                  _vm.$page.auth.company
+                    ? _c(
+                        "li",
                         {
-                          attrs: {
-                            href: "/" + _vm.employee.company.id + "/account"
-                          }
+                          staticClass: "di header-menu-item pa2 pointer",
+                          attrs: { "data-cy": "header-notifications-link" }
                         },
                         [
-                          _c("span", { staticClass: "fw5" }, [
-                            _c("img", {
-                              staticClass: "relative",
+                          _c(
+                            "inertia-link",
+                            {
                               attrs: {
-                                src: "/img/header/icon-notification.svg"
+                                href:
+                                  "/" + _vm.$page.auth.company.id + "/account"
                               }
-                            }),
-                            _vm._v(
-                              "\n                  Adminland\n                "
-                            )
-                          ])
-                        ]
+                            },
+                            [
+                              _c("span", { staticClass: "fw5" }, [
+                                _c("img", {
+                                  staticClass: "relative",
+                                  attrs: {
+                                    src: "/img/header/icon-notification.svg"
+                                  }
+                                }),
+                                _vm._v(
+                                  "\n                  Adminland\n                "
+                                )
+                              ])
+                            ]
+                          )
+                        ],
+                        1
                       )
-                    ],
-                    1
-                  )
+                    : _vm._e()
                 ]
               )
             ]),
