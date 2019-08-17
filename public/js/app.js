@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a4a459717bd931884d10","1":"a6171e7430037a91a9e3","2":"5d00339319d8b0e1c1cd","3":"a13b0be702f0bc0fb4c4","4":"77b7fe2a6a0d8565db15","5":"f9a5cc9ee5ac99103fca","6":"77456c0ff641dd08936d","7":"46cd65b449f465577c82","8":"e359047a8dc976d22630","9":"3b8a93252b6ee1f421be","10":"bae13ecc127cd2e2b066","11":"1745e6fc6dacca064e35","12":"e6d7e661937ddcb7ea4d","13":"0cac3e1f7f1c418260ba","14":"ab0e5e0bafbf9562d170","15":"78bdf26f17c3b3262a98","16":"8f640d6851aafcc72a2c","17":"0cbb4be0ea8a7ebd0e18","18":"9868af6e05c5467b9f8b","19":"c56664b116cf3e92ca7a","20":"ad6ae64e2a139cc5b1bf","22":"cb208c0870de727a6474","23":"ba9e2933da6c046236f5","24":"c3cc72093e9d4c122d5a","25":"af39fe351f98596909d3","26":"b42be41850b10501d709"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a4a459717bd931884d10","1":"a6171e7430037a91a9e3","2":"5d00339319d8b0e1c1cd","3":"a13b0be702f0bc0fb4c4","4":"77b7fe2a6a0d8565db15","5":"f9a5cc9ee5ac99103fca","6":"77456c0ff641dd08936d","7":"46cd65b449f465577c82","8":"e359047a8dc976d22630","9":"3b8a93252b6ee1f421be","10":"bae13ecc127cd2e2b066","11":"1745e6fc6dacca064e35","12":"e6d7e661937ddcb7ea4d","13":"0cac3e1f7f1c418260ba","14":"ab0e5e0bafbf9562d170","15":"78bdf26f17c3b3262a98","16":"8f640d6851aafcc72a2c","17":"0cbb4be0ea8a7ebd0e18","18":"9868af6e05c5467b9f8b","19":"c56664b116cf3e92ca7a","20":"ad6ae64e2a139cc5b1bf","22":"cb208c0870de727a6474","23":"ba9e2933da6c046236f5","24":"c3cc72093e9d4c122d5a","25":"af39fe351f98596909d3","26":"b42be41850b10501d709","27":"ea8abdd0f5ade8f67ae6"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -32460,6 +32460,20 @@ var map = {
 		0,
 		1,
 		12
+	],
+	"./Adminland/EmployeeStatus/Index": [
+		"./resources/js/Pages/Adminland/EmployeeStatus/Index.vue",
+		0,
+		1,
+		2,
+		27
+	],
+	"./Adminland/EmployeeStatus/Index.vue": [
+		"./resources/js/Pages/Adminland/EmployeeStatus/Index.vue",
+		0,
+		1,
+		2,
+		27
 	],
 	"./Adminland/Flow/ActionNotification": [
 		"./resources/js/Pages/Adminland/Flow/ActionNotification.vue",

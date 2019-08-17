@@ -5,16 +5,20 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
+            </inertia-link>
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
+              {{ $t('app.breadcrumb_account_home') }}
+            </inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_employee_statuses') }}
@@ -26,26 +30,29 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.employee_statuses_title', { company: company.name}) }}
+            {{ $t('account.employee_statuses_title', { company: $page.auth.company.name}) }}
           </h2>
 
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l" :class="statuses.length == 0 ? 'white' : ''">{{ $tc('account.employee_statuses_number_positions', statuses.length, { company: company.name, count: statuses.length}) }}</span>
-            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="modal = true; form.name = ''">{{ $t('account.employee_statuses_cta') }}</a>
+            <span class="dib mb3 di-l" :class="statuses.length == 0 ? 'white' : ''">{{ $tc('account.employee_statuses_number_positions', statuses.length, { company: $page.auth.company.name, count: statuses.length}) }}</span>
+            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="displayAddModal">{{ $t('account.employee_statuses_cta') }}</a>
           </p>
 
           <!-- MODAL TO ADD AN EMPLOYEE STATUS -->
           <form v-show="modal" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="submit">
-            <label for="title">{{ $t('account.employee_statuses_new_title') }}</label>
+            <errors :errors="form.errors" />
+
             <div class="cf">
-              <input id="title" v-model="form.name" type="text"
-                     name="title"
-                     :placeholder="$t('account.employee_statuses_placeholder')"
-                     class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
-                     required
-                     data-cy="add-title-input"
-                     @keydown.esc="modal = false"
-              />
+              <div class="fl w-100 w-70-ns mb0-ns">
+                <text-input
+                  :ref="'newStatus'"
+                  v-model="form.name"
+                  :errors="$page.errors.name"
+                  required
+                  :placeholder="$t('account.employee_statuses_placeholder')"
+                  :extra-class-upper-div="'mb0'"
+                />
+              </div>
               <div class="fl w-30-ns w-100 tr">
                 <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false ; form.name = ''">{{ $t('app.cancel') }}</a>
                 <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
@@ -61,15 +68,18 @@
               <!-- RENAME POSITION FORM -->
               <div v-show="idToUpdate == status.id" class="cf mt3">
                 <form @submit.prevent="update(status.id)">
-                  <input ref="freak" v-model="form.name"
-                         type="text"
-                         :placeholder="$t('account.employee_statuses_placeholder')"
-                         class="br2 f5 ba b--black-40 pa2 outline-0 fl w-100 w-70-ns mb3 mb0-ns"
-                         required
-                         autofocus
-                         :data-cy="'list-rename-input-name-' + status.id"
-                         @keydown.esc="idToUpdate = 0"
-                  />
+                  <div class="fl w-100 w-70-ns mb3 mb0-ns">
+                    <text-input :id="'name-' + status.id"
+                                :ref="'name' + status.id"
+                                v-model="form.name"
+                                :custom-ref="'name' + status.id"
+                                :datacy="'list-rename-input-name-' + status.id"
+                                :errors="$page.errors.name"
+                                required
+                                :extra-class-upper-div="'mb0'"
+                                @esc-key-pressed="idToUpdate = 0"
+                    />
+                  </div>
                   <div class="fl w-30-ns w-100 tr">
                     <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-rename-cancel-button-' + status.id" @click.prevent="idToUpdate = 0">{{ $t('app.cancel') }}</a>
                     <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + status.id" :state="loadingState" :text="$t('app.update')" />
@@ -113,17 +123,20 @@
 </template>
 
 <script>
+import TextInput from '@/Shared/TextInput';
+import Errors from '@/Shared/Errors';
+import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout';
 
 export default {
+  components: {
+    Layout,
+    TextInput,
+    Errors,
+    LoadingButton,
+  },
+
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    user: {
-      type: Object,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,
@@ -151,14 +164,31 @@ export default {
   },
 
   methods: {
+    displayAddModal() {
+      this.modal = true;
+      this.form.name = '';
+
+      this.$nextTick(() => {
+        this.$refs['newStatus'].$refs['input'].focus();
+      });
+    },
+
     displayUpdateModal(status) {
       this.idToUpdate = status.id;
+
+      this.$nextTick(() => {
+        // this is really barbaric, but I need to do this to
+        // first: target the TextInput with the right ref attribute
+        // second: target within the component, the refs of the input text
+        // this is because we try here to access $refs from a child component
+        this.$refs[`name${status.id}`][0].$refs[`name${status.id}`].focus();
+      });
     },
 
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.company.id + '/account/employeestatuses', this.form)
+      axios.post('/' + this.$page.auth.company.id + '/account/employeestatuses', this.form)
         .then(response => {
           this.$snotify.success(this.$t('account.employee_statuses_success_new'), {
             timeout: 2000,
@@ -179,7 +209,7 @@ export default {
     },
 
     update(id) {
-      axios.put('/' + this.company.id + '/account/employeestatuses/' + id, this.form)
+      axios.put('/' + this.$page.auth.company.id + '/account/employeestatuses/' + id, this.form)
         .then(response => {
           this.$snotify.success(this.$t('account.employee_statuses_success_update'), {
             timeout: 2000,
@@ -200,7 +230,7 @@ export default {
     },
 
     destroy(id) {
-      axios.delete('/' + this.company.id + '/account/employeestatuses/' + id)
+      axios.delete('/' + this.$page.auth.company.id + '/account/employeestatuses/' + id)
         .then(response => {
           this.$snotify.success(this.$t('account.employee_statuses_success_destroy'), {
             timeout: 2000,

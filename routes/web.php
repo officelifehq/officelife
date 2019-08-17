@@ -92,7 +92,7 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('account/flows', 'Company\\Adminland\\AdminFlowController');
 
             // employee statuses
-            Route::resource('account/employeestatuses', 'Company\\Adminland\\EmployeeStatusController');
+            Route::resource('account/employeestatuses', 'Company\\Adminland\\AdminEmployeeStatusController');
         });
     });
 });

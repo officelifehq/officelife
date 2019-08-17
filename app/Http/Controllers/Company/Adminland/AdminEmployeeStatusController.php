@@ -2,33 +2,30 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\UpdateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\DestroyEmployeeStatus;
 use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
 
-class EmployeeStatusController extends Controller
+class AdminEmployeeStatusController extends Controller
 {
     /**
      * Show the list of employee statuses.
      *
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $company = Cache::get('cachedCompanyObject');
         $employeeStatuses = EmployeeStatusResource::collection(
             $company->employeeStatuses()->orderBy('name', 'asc')->get()
         );
 
-        return View::component('ShowAccountEmployeeStatuses', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+        return Inertia::render('Adminland/EmployeeStatus/Index', [
             'notifications' => auth()->user()->getLatestNotifications($company),
             'statuses' => $employeeStatuses,
         ]);
