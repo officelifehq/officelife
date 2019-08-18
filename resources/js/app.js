@@ -23,6 +23,8 @@ if (token) {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+// moment.js
+Vue.use(require('vue-moment'));
 
 // toaster
 import Snotify from 'vue-snotify';

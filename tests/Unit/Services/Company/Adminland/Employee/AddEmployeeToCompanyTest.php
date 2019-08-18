@@ -58,6 +58,7 @@ class AddEmployeeToCompanyTest extends TestCase
                     'employee_email' => 'dwight@dundermifflin.com',
                     'employee_first_name' => 'Dwight',
                     'employee_last_name' => 'Schrute',
+                    'employee_name' => 'Dwight Schrute',
                 ]);
         });
 

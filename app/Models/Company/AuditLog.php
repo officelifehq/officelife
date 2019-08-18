@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use App\Models\User\User;
+use App\Helpers\LogHelper;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -72,15 +73,9 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getAuthorAttribute($value) : string
+    public function getContentAttribute($value) : string
     {
-        try {
-            $author = User::findOrFail($this->object->{'author_id'});
-        } catch (ModelNotFoundException $e) {
-            return $this->object->{'author_name'};
-        }
-
-        return '<a href="'.tenant('/employees/'.$author->id).'">'.$author->name.'</a>';
+        return LogHelper::processLog($this);
     }
 
     /**
@@ -115,23 +110,6 @@ class AuditLog extends Model
         }
 
         return '<a href="'.tenant('/employees/'.$user->id).'">'.$user->name.'</a>';
-    }
-
-    /**
-     * Get the employee of the audit log, if defined.
-     *
-     * @return string
-     * @param mixed $value
-     */
-    public function getEmployeeAttribute($value) : string
-    {
-        try {
-            $employee = Employee::findOrFail($this->object->{'employee_id'});
-        } catch (ModelNotFoundException $e) {
-            return $this->object->{'employee_name'};
-        }
-
-        return '<a href="'.tenant('/employees/'.$employee->id).'">'.$employee->name.'</a>';
     }
 
     /**
