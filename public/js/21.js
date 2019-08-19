@@ -296,55 +296,70 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("ul", { staticClass: "f6 list pl0" }, [
-                          _c("li", { staticClass: "di pr2" }, [
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href:
-                                    "/" +
-                                    _vm.$page.auth.company.id +
-                                    "/account/flows/" +
-                                    flow.id
-                                }
-                              },
-                              [_vm._v(_vm._s(_vm.$t("app.view")))]
-                            )
-                          ]),
+                          _c(
+                            "li",
+                            { staticClass: "di pr2" },
+                            [
+                              _c(
+                                "inertia-link",
+                                {
+                                  attrs: {
+                                    href:
+                                      "/" +
+                                      _vm.$page.auth.company.id +
+                                      "/account/flows/" +
+                                      flow.id
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.$t("app.view")))]
+                              )
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
-                          _c("li", { staticClass: "di pr2" }, [
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href:
-                                    "/" +
-                                    _vm.$page.auth.company.id +
-                                    "/account/flows/" +
-                                    flow.id +
-                                    "/lock"
-                                }
-                              },
-                              [_vm._v(_vm._s(_vm.$t("app.rename")))]
-                            )
-                          ]),
+                          _c(
+                            "li",
+                            { staticClass: "di pr2" },
+                            [
+                              _c(
+                                "inertia-link",
+                                {
+                                  attrs: {
+                                    href:
+                                      "/" +
+                                      _vm.$page.auth.company.id +
+                                      "/account/flows/" +
+                                      flow.id +
+                                      "/lock"
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.$t("app.rename")))]
+                              )
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
-                          _c("li", { staticClass: "di" }, [
-                            _c(
-                              "a",
-                              {
-                                attrs: {
-                                  href:
-                                    "/" +
-                                    _vm.$page.auth.company.id +
-                                    "/account/flows/" +
-                                    flow.id +
-                                    "/destroy"
-                                }
-                              },
-                              [_vm._v(_vm._s(_vm.$t("app.delete")))]
-                            )
-                          ])
+                          _c(
+                            "li",
+                            { staticClass: "di" },
+                            [
+                              _c(
+                                "inertia-link",
+                                {
+                                  attrs: {
+                                    href:
+                                      "/" +
+                                      _vm.$page.auth.company.id +
+                                      "/account/flows/" +
+                                      flow.id +
+                                      "/destroy"
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.$t("app.delete")))]
+                              )
+                            ],
+                            1
+                          )
                         ])
                       ])
                     ]

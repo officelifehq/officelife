@@ -47,13 +47,19 @@
                 <span class="db b">{{ flow.name }} <span class="normal f6">({{ flow.steps.count }} steps)</span></span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <a :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id">{{ $t('app.view') }}</a>
+                    <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id">
+                      {{ $t('app.view') }}
+                    </inertia-link>
                   </li>
                   <li class="di pr2">
-                    <a :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id + '/lock'">{{ $t('app.rename') }}</a>
+                    <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id + '/lock'">
+                      {{ $t('app.rename') }}
+                    </inertia-link>
                   </li>
                   <li class="di">
-                    <a :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id + '/destroy'">{{ $t('app.delete') }}</a>
+                    <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id + '/destroy'">
+                      {{ $t('app.delete') }}
+                    </inertia-link>
                   </li>
                 </ul>
               </div>

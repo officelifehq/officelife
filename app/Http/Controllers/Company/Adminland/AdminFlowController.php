@@ -46,7 +46,7 @@ class AdminFlowController extends Controller
         $company = Cache::get('cachedCompanyObject');
         $flow = Flow::findOrFail($flowId);
 
-        return View::component('ShowAccountFlow', [
+        return Inertia::render('Adminland/Flow/Show', [
             'notifications' => auth()->user()->getLatestNotifications($company),
             'flow' => new FlowResource($flow),
         ]);

@@ -69,6 +69,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -180,7 +190,13 @@ var render = function() {
                         href: "/" + _vm.$page.auth.company.id + "/dashboard"
                       }
                     },
-                    [_vm._v(_vm._s(_vm.$page.auth.company.name))]
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.$page.auth.company.name) +
+                          "\n          "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -197,7 +213,13 @@ var render = function() {
                         href: "/" + _vm.$page.auth.company.id + "/account"
                       }
                     },
-                    [_vm._v(_vm._s(_vm.$t("app.breadcrumb_account_home")))]
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.$t("app.breadcrumb_account_home")) +
+                          "\n          "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -256,7 +278,13 @@ var render = function() {
                                       log.author.id
                                   }
                                 },
-                                [_vm._v(_vm._s(log.author.name))]
+                                [
+                                  _vm._v(
+                                    "\n                " +
+                                      _vm._s(log.author.name) +
+                                      "\n              "
+                                  )
+                                ]
                               )
                             : _c("span", { staticClass: "black-70" }, [
                                 _vm._v(_vm._s(log.author.name))
@@ -306,7 +334,13 @@ var render = function() {
                         title: "Previous"
                       }
                     },
-                    [_vm._v("← " + _vm._s(_vm.$t("app.previous")))]
+                    [
+                      _vm._v(
+                        "\n            ← " +
+                          _vm._s(_vm.$t("app.previous")) +
+                          "\n          "
+                      )
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -323,7 +357,13 @@ var render = function() {
                       staticClass: "fr dib",
                       attrs: { href: _vm.paginator.nextPageUrl, title: "Next" }
                     },
-                    [_vm._v(_vm._s(_vm.$t("app.next")) + " →")]
+                    [
+                      _vm._v(
+                        "\n            " +
+                          _vm._s(_vm.$t("app.next")) +
+                          " →\n          "
+                      )
+                    ]
                   )
                 ],
                 1
