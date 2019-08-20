@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Dashboard;
 
 use Inertia\Inertia;
+use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -18,7 +19,7 @@ class DashboardMeController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
         $employee = Cache::get('cachedEmployeeObject');
 
         UpdateDashboardPreference::dispatch([

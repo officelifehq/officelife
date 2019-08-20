@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
+use Inertia\Inertia;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
@@ -36,7 +37,7 @@ class UserInvitationController extends Controller
         }
 
         if (Auth::check()) {
-            return View::component('AcceptInvitation', [
+            return Inertia::render('Auth/Invitation/AcceptInvitation', [
                 'company' => $employee->company,
                 'employee' => new EmployeeResource($employee),
                 'invitationLink' => $invitationLink,
@@ -44,7 +45,7 @@ class UserInvitationController extends Controller
             ]);
         }
 
-        return View::component('AcceptInvitationUnlogged', [
+        return Inertia::render('Auth/Invitation/AcceptInvitationUnlogged', [
             'company' => $employee->company,
             'employee' => new EmployeeResource($employee),
             'invitationLink' => $invitationLink,

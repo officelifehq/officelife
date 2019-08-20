@@ -119,6 +119,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -436,6 +438,8 @@ var render = function() {
                   _vm._v(" "),
                   _c("li", [_vm._v("view who is at work or from home")]),
                   _vm._v(" "),
+                  _c("li", [_vm._v("view team activities")]),
+                  _vm._v(" "),
                   _c("li", [_vm._v("managers: view direct reports")]),
                   _vm._v(" "),
                   _c("li", [_vm._v("manager: view time off requests")]),
@@ -446,7 +450,13 @@ var render = function() {
                   _vm._v(" "),
                   _c("li", [_vm._v("manager: one on one")]),
                   _vm._v(" "),
-                  _c("li", [_vm._v("revue 360 de son boss ou d'employées")])
+                  _c("li", [_vm._v("revue 360 de son boss ou d'employées")]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _vm._v(
+                      "gérer les renouvellements de contrats des équipes temporaires"
+                    )
+                  ])
                 ])
               ])
             ]
@@ -472,11 +482,11 @@ var render = function() {
                 _c("ul", [
                   _c("li", [_vm._v("View holidays")]),
                   _vm._v(" "),
+                  _c("li", [_vm._v("view activities")]),
+                  _vm._v(" "),
                   _c("li", [_vm._v("Book time off")]),
                   _vm._v(" "),
                   _c("li", [_vm._v("Log morale")]),
-                  _vm._v(" "),
-                  _c("li", [_vm._v("Reply to what you've done this week")]),
                   _vm._v(" "),
                   _c("li", [_vm._v("Log an expense")]),
                   _vm._v(" "),

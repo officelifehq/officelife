@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Inertia\Inertia;
+use App\Helpers\InstanceHelper;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use App\Http\Resources\Company\Company\Company as CompanyResource;
@@ -22,8 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->company = Cache::get('cachedCompanyObject');
-        $this->employee = Cache::get('cachedEmployeeObject');
+        $this->registerInertia();
     }
 
     /**
@@ -33,7 +32,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerInertia();
     }
 
     public function registerInertia()
@@ -51,10 +49,9 @@ class AppServiceProvider extends ServiceProvider
                         'last_name' => Auth::user()->last_name,
                         'email' => Auth::user()->email,
                         'default_dashboard_view' => Auth::user()->default_dashboard_view,
-                        'permission_level' => Auth::user()->permission_level,
                     ] : null,
-                    'company' => $this->company ? new CompanyResource($this->company) : null,
-                    'employee' => $this->employee ? new EmployeeResource($this->employee) : null,
+                    'company' => Auth::user() && !is_null(InstanceHelper::getLoggedCompany()) ? new CompanyResource(InstanceHelper::getLoggedCompany()) : null,
+                    //'employee' => Auth::user() ? new EmployeeResource(InstanceHelper::getLoggedCompany()) : null,
                 ];
             },
             'flash' => function () {

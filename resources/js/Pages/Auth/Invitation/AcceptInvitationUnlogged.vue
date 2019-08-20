@@ -36,24 +36,27 @@
         <h2 class="tc f4">
           {{ $t('auth.invitation_unlogged_choice_account') }}
         </h2>
-        <!-- Form Errors -->
-        <errors :errors="form.errors" />
 
         <form @submit.prevent="submit">
+          <!-- Form Errors -->
+          <errors :errors="form.errors" />
+
           <!-- Email -->
-          <div class="">
-            <label class="db fw4 lh-copy f6" for="email">{{ $t('auth.register_email') }}</label>
-            <input v-model="form.email" type="email" name="email" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required />
-            <p class="f7 mb4 lh-title">
-              {{ $t('auth.register_email_help') }}
-            </p>
-          </div>
+          <text-input :id="'email'"
+                      v-model="form.email"
+                      :type="'email'"
+                      :errors="$page.errors.email"
+                      :label="$t('auth.register_email')"
+                      :help="$t('auth.register_email_help')"
+          />
 
           <!-- Password -->
-          <div class="mb4">
-            <label class="db fw4 lh-copy f6" for="password">{{ $t('auth.register_password') }}</label>
-            <input v-model="form.password" type="password" name="password" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required />
-          </div>
+          <text-input :id="'email'"
+                      v-model="form.password"
+                      :type="'password'"
+                      :errors="$page.errors.password"
+                      :label="$t('auth.register_password')"
+          />
 
           <!-- Actions -->
           <div class="">
@@ -79,16 +82,15 @@
 
         <form @submit.prevent="submit">
           <!-- Email -->
-          <div class="">
-            <label class="db fw4 lh-copy f6" for="email">{{ $t('auth.register_email') }}</label>
-            <input v-model="form.email" type="email" name="email" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required />
-          </div>
+          <text-input :id="'email'" v-model="form.email" :type="'email'" :errors="$page.errors.email" :label="$t('auth.register_email')" />
 
           <!-- Password -->
-          <div class="mb4">
-            <label class="db fw4 lh-copy f6" for="password">{{ $t('auth.register_password') }}</label>
-            <input v-model="form.password" type="password" name="password" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required />
-          </div>
+          <text-input :id="'password'"
+                      v-model="form.password"
+                      :type="'password'"
+                      :errors="$page.errors.password"
+                      :label="$t('auth.register_password')"
+          />
 
           <!-- Actions -->
           <div class="">
@@ -105,8 +107,17 @@
 </template>
 
 <script>
+import LoadingButton from '@/Shared/LoadingButton';
+import Errors from '@/Shared/Errors';
+import TextInput from '@/Shared/TextInput';
 
 export default {
+  components: {
+    TextInput,
+    LoadingButton,
+    Errors,
+  },
+
   props: {
     company: {
       type: Object,
@@ -146,7 +157,7 @@ export default {
 
       axios.post('/invite/employee/' + this.invitationLink + '/join', this.form)
         .then(response => {
-          Turbolinks.visit('/home');
+          this.$inertia.visit('/home');
         })
         .catch(error => {
           this.loadingState = null;

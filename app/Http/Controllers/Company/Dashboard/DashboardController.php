@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
+use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redirect;
 
 class DashboardController extends Controller
@@ -15,7 +15,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
 
         switch (auth()->user()->default_dashboard_view) {
             case 'company':

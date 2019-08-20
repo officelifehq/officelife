@@ -78,12 +78,14 @@
             <li>anniversaires</li>
             <li>latest news</li>
             <li>view who is at work or from home</li>
+            <li>view team activities</li>
             <li>managers: view direct reports</li>
             <li>manager: view time off requests</li>
             <li>manager: view morale</li>
             <li>manager: expense approval</li>
             <li>manager: one on one</li>
             <li>revue 360 de son boss ou d'employées</li>
+            <li>gérer les renouvellements de contrats des équipes temporaires</li>
           </ul>
         </div>
       </div>
@@ -93,9 +95,9 @@
           <h2>Me</h2>
           <ul>
             <li>View holidays</li>
+            <li>view activities</li>
             <li>Book time off</li>
             <li>Log morale</li>
-            <li>Reply to what you've done this week</li>
             <li>Log an expense</li>
             <li>View one on ones</li>
             <li>View all my tasks</li>
