@@ -1,766 +1,2194 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[11],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=script&lang=js&":
-/*!*******************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************************************************************************************************************************/
-/*! exports provided: default */
+/***/ "./node_modules/vue-loaders/dist/vue-loaders.es.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/vue-loaders/dist/vue-loaders.es.js ***!
+  \*********************************************************/
+/*! exports provided: install, BallBeatLoader, BallClipRotateLoader, BallClipRotateMultipleLoader, BallClipRotatePulseLoader, BallGridBeatLoader, BallGridPulseLoader, BallPulseLoader, BallPulseRiseLoader, BallPulseSyncLoader, BallRotateLoader, BallScaleLoader, BallScaleMultipleLoader, BallScaleRippleLoader, BallScaleRippleMultipleLoader, BallSpinFadeLoader, BallTrianglePathLoader, BallZigZagLoader, BallZigZagDeflectLoader, CubeTransitionLoader, LineScaleLoader, LineScalePartyLoader, LineScalePulseOutLoader, LineScalePulseOutRapidLoader, LineSpinFadeLoader, PacmanLoader, SemiCircleSpinLoader, SquareSpinLoader, TriangleSkewSpinLoader */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Shared_TextInput__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Shared/TextInput */ "./resources/js/Shared/TextInput.vue");
-/* harmony import */ var _Shared_Errors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Shared/Errors */ "./resources/js/Shared/Errors.vue");
-/* harmony import */ var _Shared_LoadingButton__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Shared/LoadingButton */ "./resources/js/Shared/LoadingButton.vue");
-/* harmony import */ var _Shared_Layout__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Shared/Layout */ "./resources/js/Shared/Layout.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallBeatLoader", function() { return ballBeat; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallClipRotateLoader", function() { return ballClipRotate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallClipRotateMultipleLoader", function() { return ballClipRotateMultiple; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallClipRotatePulseLoader", function() { return ballClipRotatePulse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallGridBeatLoader", function() { return ballGridBeat; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallGridPulseLoader", function() { return ballGridPulse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallPulseLoader", function() { return ballPulse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallPulseRiseLoader", function() { return ballPulseRise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallPulseSyncLoader", function() { return ballPulseSync; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallRotateLoader", function() { return ballRotate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallScaleLoader", function() { return ballScale; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallScaleMultipleLoader", function() { return ballScaleMultiple; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallScaleRippleLoader", function() { return ballScaleRipple; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallScaleRippleMultipleLoader", function() { return ballScaleRippleMultiple; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallSpinFadeLoader", function() { return ballSpinFade; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallTrianglePathLoader", function() { return ballTrianglePath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallZigZagLoader", function() { return ballZigZag; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BallZigZagDeflectLoader", function() { return ballZigZagDeflect; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CubeTransitionLoader", function() { return cubeTransition; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LineScaleLoader", function() { return lineScale; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LineScalePartyLoader", function() { return lineScaleParty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LineScalePulseOutLoader", function() { return lineScalePulseOut; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LineScalePulseOutRapidLoader", function() { return lineScalePulseOutRapid; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LineSpinFadeLoader", function() { return lineSpinFade; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PacmanLoader", function() { return pacman; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SemiCircleSpinLoader", function() { return semiCircleSpin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SquareSpinLoader", function() { return squareSpin; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TriangleSkewSpinLoader", function() { return triangleSkewSpin; });
+var _isObject = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
 
+var _anObject = function (it) {
+  if (!_isObject(it)) throw TypeError(it + ' is not an object!');
+  return it;
+};
 
+var _fails = function (exec) {
+  try {
+    return !!exec();
+  } catch (e) {
+    return true;
+  }
+};
 
+// Thank's IE8 for his funny defineProperty
+var _descriptors = !_fails(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
 
-/* harmony default export */ __webpack_exports__["default"] = ({
-  components: {
-    Layout: _Shared_Layout__WEBPACK_IMPORTED_MODULE_3__["default"],
-    TextInput: _Shared_TextInput__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Errors: _Shared_Errors__WEBPACK_IMPORTED_MODULE_1__["default"],
-    LoadingButton: _Shared_LoadingButton__WEBPACK_IMPORTED_MODULE_2__["default"]
-  },
-  props: {
-    company: {
-      type: Object,
-      "default": null
-    },
-    employee: {
-      type: Object,
-      "default": null
-    },
-    notifications: {
-      type: Array,
-      "default": null
-    }
-  },
-  data: function data() {
-    return {
-      form: {
-        first_name: null,
-        last_name: null,
-        email: null,
-        permission_level: null,
-        send_invitation: false,
-        errors: []
-      },
-      loadingState: '',
-      errorTemplate: Error
-    };
-  },
-  methods: {
-    submit: function submit() {
-      var _this = this;
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
 
-      this.loadingState = 'loading';
-      axios.post('/' + this.company.id + '/account/employees', this.form).then(function (response) {
-        localStorage.success = 'The employee has been added';
+var _global = createCommonjsModule(function (module) {
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+});
 
-        _this.$inertia.visit('/' + response.data.company_id + '/account/employees');
-      })["catch"](function (error) {
-        _this.loadingState = null;
-        _this.form.errors = _.flatten(_.toArray(error.response.data));
-      });
+var document = _global.document;
+// typeof document.createElement is 'object' in old IE
+var is = _isObject(document) && _isObject(document.createElement);
+var _domCreate = function (it) {
+  return is ? document.createElement(it) : {};
+};
+
+var _ie8DomDefine = !_descriptors && !_fails(function () {
+  return Object.defineProperty(_domCreate('div'), 'a', { get: function () { return 7; } }).a != 7;
+});
+
+// 7.1.1 ToPrimitive(input [, PreferredType])
+
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+var _toPrimitive = function (it, S) {
+  if (!_isObject(it)) return it;
+  var fn, val;
+  if (S && typeof (fn = it.toString) == 'function' && !_isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !_isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !_isObject(val = fn.call(it))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+var dP = Object.defineProperty;
+
+var f = _descriptors ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  _anObject(O);
+  P = _toPrimitive(P, true);
+  _anObject(Attributes);
+  if (_ie8DomDefine) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+var _objectDp = {
+	f: f
+};
+
+var dP$1 = _objectDp.f;
+var FProto = Function.prototype;
+var nameRE = /^\s*function ([^ (]*)/;
+var NAME = 'name';
+
+// 19.2.4.2 name
+NAME in FProto || _descriptors && dP$1(FProto, NAME, {
+  configurable: true,
+  get: function () {
+    try {
+      return ('' + this).match(nameRE)[1];
+    } catch (e) {
+      return '';
     }
   }
 });
 
-/***/ }),
+var ballBeat = {
+  render: function render() {
+    var _vm = this;
 
-/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css&":
-/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css& ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+    var _h = _vm.$createElement;
 
-exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
-// imports
+    var _c = _vm._self._c || _h;
 
+    return _c('div', {
+      staticClass: "ball-beat vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallBeatLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
 
-// module
-exports.push([module.i, "\ninput[type=checkbox][data-v-4343abcf] {\n  top: 5px;\n}\ninput[type=radio][data-v-4343abcf] {\n  top: -2px;\n}\n", ""]);
+      if (!color && !size) {
+        return;
+      }
 
-// exports
+      var styles = {};
 
+      if (size) {
+        styles.width = styles.height = size;
+      }
 
-/***/ }),
+      if (color) {
+        styles.backgroundColor = color;
+      }
 
-/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css&":
-/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css& ***!
-  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+      return styles;
+    }
+  }
+};
 
+var BORDER_RATION = 2 / 15;
+var ballClipRotate = {
+  render: function render() {
+    var _vm = this;
 
-var content = __webpack_require__(/*! !../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css&");
+    var _h = _vm.$createElement;
 
-if(typeof content === 'string') content = [[module.i, content, '']];
+    var _c = _vm._self._c || _h;
 
-var transform;
-var insertInto;
+    return _c('div', {
+      staticClass: "ball-clip-rotate vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallClipRotateLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
 
+      if (!color && !size) {
+        return;
+      }
 
+      var styles = {};
 
-var options = {"hmr":true}
+      if (size) {
+        styles.width = styles.height = size;
+        styles.borderWidth = "calc(".concat(size, " * ").concat(BORDER_RATION, ")");
+      }
 
-options.transform = transform
-options.insertInto = undefined;
+      if (color) {
+        styles.borderTopColor = styles.borderRightColor = styles.borderLeftColor = color;
+      }
 
-var update = __webpack_require__(/*! ../../../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+      return styles;
+    }
+  }
+};
 
-if(content.locals) module.exports = content.locals;
+var BASE_SIZE_PX = '35px';
+var BORDER_RATION$1 = 2 / 35;
+var INNER_BALL_SIZE_RATION = 15 / 30;
+var ballClipRotateMultiple = {
+  render: function render() {
+    var _vm = this;
 
-if(false) {}
+    var _h = _vm.$createElement;
 
-/***/ }),
+    var _c = _vm._self._c || _h;
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=template&id=4343abcf&scoped=true&":
-/*!***********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=template&id=4343abcf&scoped=true& ***!
-  \***********************************************************************************************************************************************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+    return _c('div', {
+      staticClass: "ball-clip-rotate-multiple vue-loaders",
+      style: _vm.rootStyles
+    }, [_c('div', {
+      style: _vm.outerBallStyles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.innerBallStyles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallClipRotateMultipleLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyles: function rootStyles() {
+      var size = this.size ? String(this.size) : BASE_SIZE_PX;
+      var styles = {
+        width: size,
+        height: size
+      };
+      return styles;
+    },
+    outerBallStyles: function outerBallStyles() {
+      var size = this.size ? String(this.size) : BASE_SIZE_PX;
+      var color = this.color ? String(this.color) : null;
+      var styles = {
+        width: size,
+        height: size,
+        borderWidth: "calc(".concat(size, " * ").concat(BORDER_RATION$1, ")"),
+        top: "calc(".concat(size, " * -1 * ").concat(BORDER_RATION$1, ")"),
+        left: "calc(".concat(size, " * -1 * ").concat(BORDER_RATION$1, ")")
+      };
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "layout",
-    {
-      attrs: {
-        title: "Home",
-        employee: _vm.employee,
-        notifications: _vm.notifications
+      if (color) {
+        styles.borderLeftColor = color;
+        styles.borderRightColor = color;
+      }
+
+      return styles;
+    },
+    innerBallStyles: function innerBallStyles() {
+      var size = this.size ? String(this.size) : BASE_SIZE_PX;
+      var color = this.color ? String(this.color) : null;
+      var styles = {
+        width: "calc(".concat(size, " * ").concat(INNER_BALL_SIZE_RATION, ")"),
+        height: "calc(".concat(size, " * ").concat(INNER_BALL_SIZE_RATION, ")"),
+        borderWidth: "calc(".concat(size, " * ").concat(BORDER_RATION$1, ")"),
+        top: "calc((".concat(size, " - (").concat(size, " * ").concat(INNER_BALL_SIZE_RATION, ")) / 2 - ").concat(size, " * ").concat(BORDER_RATION$1),
+        left: "calc((".concat(size, " - (").concat(size, " * ").concat(INNER_BALL_SIZE_RATION, ")) / 2 - ").concat(size, " * ").concat(BORDER_RATION$1)
+      };
+
+      if (color) {
+        styles.borderTopColor = color;
+        styles.borderBottomColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var BASE_SIZE_PX$1 = '30px';
+var BORDER_RATION$2 = 2 / 30;
+var INNER_BALL_SIZE_RATION$1 = 16 / 30;
+var INNER_BALL_OFFSET_RATION = 7 / 30;
+var ballClipRotatePulse = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-clip-rotate-pulse vue-loaders",
+      style: _vm.rootStyles
+    }, [_c('div', {
+      style: _vm.innerBallStyles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.outerBallStyles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallClipRotatePulseLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyles: function rootStyles() {
+      var size = this.size ? String(this.size) : BASE_SIZE_PX$1;
+      var styles = {
+        width: "calc(".concat(size, " / 2)"),
+        marginLeft: "calc(".concat(size, " / 2)"),
+        height: size
+      };
+      return styles;
+    },
+    outerBallStyles: function outerBallStyles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.top = "calc(".concat(size, " * -1 * ").concat(BORDER_RATION$2, ")");
+        styles.borderWidth = "calc(".concat(size, " * ").concat(BORDER_RATION$2, ")");
+        styles.left = "calc(".concat(size, " * -1 * ").concat(INNER_BALL_SIZE_RATION$1, ")");
+      }
+
+      if (color) {
+        styles.borderTopColor = color;
+        styles.borderBottomColor = color;
+      }
+
+      return styles;
+    },
+    innerBallStyles: function innerBallStyles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = "calc(".concat(size, " * ").concat(INNER_BALL_SIZE_RATION$1, ")");
+        styles.top = "calc(".concat(size, " * ").concat(INNER_BALL_OFFSET_RATION, ")");
+        styles.left = "calc(".concat(size, " * -1 * ").concat(INNER_BALL_OFFSET_RATION, ")");
+      }
+
+      if (color) {
+        styles.background = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballGridBeat = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-grid-beat vue-loaders",
+      style: _vm.rootStyles
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallGridBeatLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyles: function rootStyles() {
+      return {
+        width: "calc(3 * (".concat(this.size || '15px', " + 4px))")
+      };
+    },
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballGridPulse = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-grid-pulse vue-loaders",
+      style: _vm.rootStyles
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallGridPulseLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyles: function rootStyles() {
+      return {
+        width: "calc(3 * (".concat(this.size || '15px', " + 4px))")
+      };
+    },
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballPulse = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-pulse vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallPulseLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballPulseRise = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-pulse-rise vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallPulseRiseLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballPulseSync = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-pulse-sync vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallPulseSyncLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var OFFSET = 10 / 15;
+var ballRotate = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-rotate vue-loaders",
+      style: _vm.rootStyles
+    }, [_c('div', {
+      style: _vm.middle
+    }, [_c('div', {
+      style: _vm.innerLeft
+    }), _vm._v(" "), _c('div', {
+      style: _vm.innerRight
+    })])]);
+  },
+  staticRenderFns: [],
+  name: 'BallRotateLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyles: function rootStyles() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: size,
+          height: size,
+          padding: "calc(".concat(size, " + ").concat(size, " * ").concat(OFFSET, " + 2px)")
+        };
       }
     },
-    [
-      _c("div", { staticClass: "ph2 ph0-ns" }, [
-        _c(
-          "div",
-          {
-            staticClass:
-              "mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2"
-          },
-          [
-            _c("ul", { staticClass: "list ph0 tc-l tl" }, [
-              _c(
-                "li",
-                { staticClass: "di" },
-                [
-                  _c(
-                    "inertia-link",
-                    { attrs: { href: "/" + _vm.company.id + "/dashboard" } },
-                    [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(_vm.company.name) +
-                          "\n          "
-                      )
-                    ]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("li", { staticClass: "di" }, [
-                _vm._v("\n          ...\n        ")
-              ]),
-              _vm._v(" "),
-              _c(
-                "li",
-                { staticClass: "di" },
-                [
-                  _c(
-                    "inertia-link",
-                    {
-                      attrs: {
-                        href: "/" + _vm.company.id + "/account/employees"
-                      }
-                    },
-                    [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(
-                            _vm.$t("app.breadcrumb_account_manage_employees")
-                          ) +
-                          "\n          "
-                      )
-                    ]
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c("li", { staticClass: "di" }, [
-                _vm._v(
-                  "\n          " +
-                    _vm._s(_vm.$t("app.breadcrumb_account_add_employee")) +
-                    "\n        "
-                )
-              ])
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "mw7 center br3 mb5 bg-white box restricted relative z-1"
-          },
-          [
-            _c("div", { staticClass: "pa3 mt5 measure center" }, [
-              _c("h2", { staticClass: "tc normal mb4" }, [
-                _vm._v(
-                  "\n          " +
-                    _vm._s(
-                      _vm.$t("account.employee_new_title", {
-                        name: _vm.company.name
-                      })
-                    ) +
-                    "\n        "
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.submit($event)
-                    }
-                  }
-                },
-                [
-                  _c("errors", { attrs: { errors: _vm.form.errors } }),
-                  _vm._v(" "),
-                  _c("text-input", {
-                    attrs: {
-                      id: "first_name",
-                      errors: _vm.$page.errors.first_name,
-                      label: _vm.$t("account.employee_new_firstname")
-                    },
-                    model: {
-                      value: _vm.form.first_name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "first_name", $$v)
-                      },
-                      expression: "form.first_name"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("text-input", {
-                    attrs: {
-                      id: "last_name",
-                      errors: _vm.$page.errors.last_name,
-                      label: _vm.$t("account.employee_new_lastname")
-                    },
-                    model: {
-                      value: _vm.form.last_name,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "last_name", $$v)
-                      },
-                      expression: "form.last_name"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("text-input", {
-                    attrs: {
-                      id: "email",
-                      type: "email",
-                      errors: _vm.$page.errors.email,
-                      label: _vm.$t("account.employee_new_email")
-                    },
-                    model: {
-                      value: _vm.form.email,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form, "email", $$v)
-                      },
-                      expression: "form.email"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mb3" }, [
-                    _c("p", [
-                      _vm._v(
-                        _vm._s(_vm.$t("account.employee_new_permission_level"))
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "db relative" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.permission_level,
-                            expression: "form.permission_level"
-                          }
-                        ],
-                        staticClass: "mr1 relative",
-                        attrs: {
-                          id: "administrator",
-                          type: "radio",
-                          name: "permission_level",
-                          value: "100"
-                        },
-                        domProps: {
-                          checked: _vm._q(_vm.form.permission_level, "100")
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.$set(_vm.form, "permission_level", "100")
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "pointer",
-                          attrs: { for: "administrator" }
-                        },
-                        [
-                          _vm._v(
-                            _vm._s(_vm.$t("account.employee_new_administrator"))
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "ma0 lh-copy f6 mb3" }, [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(
-                              _vm.$t("account.employee_new_administrator_desc")
-                            ) +
-                            "\n              "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "db relative" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.permission_level,
-                            expression: "form.permission_level"
-                          }
-                        ],
-                        staticClass: "mr1 relative",
-                        attrs: {
-                          id: "hr",
-                          type: "radio",
-                          name: "permission_level",
-                          value: "200"
-                        },
-                        domProps: {
-                          checked: _vm._q(_vm.form.permission_level, "200")
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.$set(_vm.form, "permission_level", "200")
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        { staticClass: "pointer", attrs: { for: "hr" } },
-                        [_vm._v(_vm._s(_vm.$t("account.employee_new_hr")))]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "ma0 lh-copy f6 mb3" }, [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(_vm.$t("account.employee_new_hr_desc")) +
-                            "\n              "
-                        )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "db relative" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.permission_level,
-                            expression: "form.permission_level"
-                          }
-                        ],
-                        staticClass: "mr1 relative",
-                        attrs: {
-                          id: "user",
-                          type: "radio",
-                          name: "permission_level",
-                          value: "300"
-                        },
-                        domProps: {
-                          checked: _vm._q(_vm.form.permission_level, "300")
-                        },
-                        on: {
-                          change: function($event) {
-                            return _vm.$set(_vm.form, "permission_level", "300")
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        { staticClass: "pointer", attrs: { for: "user" } },
-                        [_vm._v(_vm._s(_vm.$t("account.employee_new_user")))]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "ma0 lh-copy f6 mb3" }, [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(_vm.$t("account.employee_new_user_desc")) +
-                            "\n              "
-                        )
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mb3 ba bb-gray bg-gray pa3" }, [
-                    _c("div", { staticClass: "flex items-start relative" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.send_invitation,
-                            expression: "form.send_invitation"
-                          }
-                        ],
-                        staticClass: "mr2 relative",
-                        attrs: {
-                          id: "send_email",
-                          type: "checkbox",
-                          name: "send_email"
-                        },
-                        domProps: {
-                          checked: Array.isArray(_vm.form.send_invitation)
-                            ? _vm._i(_vm.form.send_invitation, null) > -1
-                            : _vm.form.send_invitation
-                        },
-                        on: {
-                          change: function($event) {
-                            var $$a = _vm.form.send_invitation,
-                              $$el = $event.target,
-                              $$c = $$el.checked ? true : false
-                            if (Array.isArray($$a)) {
-                              var $$v = null,
-                                $$i = _vm._i($$a, $$v)
-                              if ($$el.checked) {
-                                $$i < 0 &&
-                                  _vm.$set(
-                                    _vm.form,
-                                    "send_invitation",
-                                    $$a.concat([$$v])
-                                  )
-                              } else {
-                                $$i > -1 &&
-                                  _vm.$set(
-                                    _vm.form,
-                                    "send_invitation",
-                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                  )
-                              }
-                            } else {
-                              _vm.$set(_vm.form, "send_invitation", $$c)
-                            }
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "label",
-                        {
-                          staticClass: "lh-copy ma0",
-                          attrs: { for: "send_email" }
-                        },
-                        [
-                          _vm._v(
-                            _vm._s(_vm.$t("account.employee_new_send_email"))
-                          )
-                        ]
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "mv4" }, [
-                    _c(
-                      "div",
-                      { staticClass: "flex-ns justify-between" },
-                      [
-                        _c(
-                          "div",
-                          [
-                            _c(
-                              "inertia-link",
-                              {
-                                staticClass:
-                                  "btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3",
-                                attrs: {
-                                  href:
-                                    "/" + _vm.company.id + "/account/employees"
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                  " +
-                                    _vm._s(_vm.$t("app.cancel")) +
-                                    "\n                "
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("loading-button", {
-                          attrs: {
-                            classes: "btn add w-auto-ns w-100 mb2 pv2 ph3",
-                            state: _vm.loadingState,
-                            text: _vm.$t("app.save"),
-                            "cypress-selector": "submit-add-employee-button"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ])
-                ],
-                1
-              )
-            ])
-          ]
-        )
-      ])
-    ]
-  )
+    middle: function middle() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    innerLeft: function innerLeft() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.left = "calc((".concat(size, " + ").concat(size, " * ").concat(OFFSET, " + 2px) * -1)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    innerRight: function innerRight() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.left = "calc(".concat(size, " + ").concat(size, " * ").concat(OFFSET, " + 2px)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballScale = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-scale vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallScaleLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballScaleMultiple = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-scale-multiple vue-loaders",
+      style: _vm.rootStyle
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallScaleMultipleLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyle: function rootStyle() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: size,
+          height: size
+        };
+      }
+    },
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballScaleRipple = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-scale-ripple vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallScaleRippleLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.borderColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var BORDER_RATION$3 = 2 / 50;
+var ballScaleRippleMultiple = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-scale-ripple-multiple vue-loaders",
+      style: _vm.rootStyle
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallScaleRippleMultipleLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyle: function rootStyle() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: "calc(".concat(size, " + ").concat(size, " * ").concat(BORDER_RATION$3, ")"),
+          height: "calc(".concat(size, " + ").concat(size, " * ").concat(BORDER_RATION$3, ")")
+        };
+      }
+    },
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.borderWidth = "calc(".concat(size, " * ").concat(BORDER_RATION$3, ")");
+      }
+
+      if (color) {
+        styles.borderColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var TO_CORNER_RATIO = 17.05 / 15;
+var TO_SIDE_RATIO = 25 / 15;
+var ballSpinFade = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-spin-fade-loader vue-loaders",
+      style: _vm.root
+    }, [_c('div', {
+      style: _vm.bottom
+    }), _vm._v(" "), _c('div', {
+      style: _vm.bottomRight
+    }), _vm._v(" "), _c('div', {
+      style: _vm.right
+    }), _vm._v(" "), _c('div', {
+      style: _vm.topRight
+    }), _vm._v(" "), _c('div', {
+      style: _vm.top
+    }), _vm._v(" "), _c('div', {
+      style: _vm.topLeft
+    }), _vm._v(" "), _c('div', {
+      style: _vm.left
+    }), _vm._v(" "), _c('div', {
+      style: _vm.bottomLeft
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallSpinFadeLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    root: function root() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: size,
+          height: size,
+          borderWidth: "calc(".concat(size, " * ").concat(TO_SIDE_RATIO, ")")
+        };
+      }
+    },
+    top: function top() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.top = "calc(".concat(size, " * ").concat(TO_SIDE_RATIO, " * -1)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    topRight: function topRight() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.top = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO, " * -1)");
+        styles.left = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    right: function right() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.left = "calc(".concat(size, " * ").concat(TO_SIDE_RATIO, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    bottomRight: function bottomRight() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.top = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO, ")");
+        styles.left = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    bottom: function bottom() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.top = "calc(".concat(size, " * ").concat(TO_SIDE_RATIO, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    bottomLeft: function bottomLeft() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.top = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO, ")");
+        styles.left = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO, " * -1)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    left: function left() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.left = "calc(".concat(size, " * ").concat(TO_SIDE_RATIO, " * -1)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    topLeft: function topLeft() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.top = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO, " * -1)");
+        styles.left = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO, " * -1)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var BORDER_RATION$4 = 1 / 10;
+var ballTrianglePath = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-triangle-path vue-loaders",
+      style: _vm.rootStyle
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallTrianglePathLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyle: function rootStyle() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: "calc(".concat(size, " + 50px)"),
+          height: "calc(".concat(size, " + 50px)")
+        };
+      }
+    },
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+        styles.borderWidth = "calc(".concat(size, " * ").concat(BORDER_RATION$4, ")");
+      }
+
+      if (color) {
+        styles.borderColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballZigZag = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-zig-zag vue-loaders",
+      style: _vm.rootStyle
+    }, [_c('div', {
+      style: _vm.top
+    }), _vm._v(" "), _c('div', {
+      style: _vm.bottom
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallZigZagLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyle: function rootStyle() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: size,
+          height: size
+        };
+      }
+    },
+    top: function top() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    bottom: function bottom() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var ballZigZagDeflect = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "ball-zig-zag-deflect vue-loaders",
+      style: _vm.rootStyle
+    }, [_c('div', {
+      style: _vm.top
+    }), _vm._v(" "), _c('div', {
+      style: _vm.bottom
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'BallZigZagDeflectLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyle: function rootStyle() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: size,
+          height: size
+        };
+      }
+    },
+    top: function top() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    bottom: function bottom() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var cubeTransition = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "cube-transition vue-loaders",
+      style: _vm.rootStyle
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'CubeTransitionLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    rootStyle: function rootStyle() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: "calc(".concat(size, " + 50px)"),
+          height: "calc(".concat(size, " + 50px)")
+        };
+      }
+    },
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var WIDTH_RATIO = 4 / 35;
+var BORDER_RATIO = 2 / 4;
+var lineScale = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "line-scale vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'LineScaleLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO, ")");
+        styles.height = size;
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var WIDTH_RATIO$1 = 4 / 35;
+var BORDER_RATIO$1 = 2 / 4;
+var lineScaleParty = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "line-scale-party vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'LineScalePartyLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$1, ")");
+        styles.height = size;
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$1, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var WIDTH_RATIO$2 = 4 / 35;
+var BORDER_RATIO$2 = 2 / 4;
+var lineScalePulseOut = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "line-scale-pulse-out vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'LineScalePulseOutLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$2, ")");
+        styles.height = size;
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$2, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var WIDTH_RATIO$3 = 4 / 35;
+var BORDER_RATIO$3 = 2 / 4;
+var lineScalePulseOutRapid = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "line-scale-pulse-out-rapid vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    }), _vm._v(" "), _c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'LineScalePulseOutRapidLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$3, ")");
+        styles.height = size;
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$3, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var TO_CORNER_RATIO$1 = 13.64 / 15;
+var TO_SIDE_RATIO$1 = 20 / 15;
+var WIDTH_RATIO$4 = 5 / 15;
+var BORDER_RATIO$4 = 2 / 15;
+var lineSpinFade = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "line-spin-fade-loader vue-loaders",
+      style: _vm.root
+    }, [_c('div', {
+      style: _vm.bottom
+    }), _vm._v(" "), _c('div', {
+      style: _vm.bottomRight
+    }), _vm._v(" "), _c('div', {
+      style: _vm.right
+    }), _vm._v(" "), _c('div', {
+      style: _vm.topRight
+    }), _vm._v(" "), _c('div', {
+      style: _vm.top
+    }), _vm._v(" "), _c('div', {
+      style: _vm.topLeft
+    }), _vm._v(" "), _c('div', {
+      style: _vm.left
+    }), _vm._v(" "), _c('div', {
+      style: _vm.bottomLeft
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'LineSpinFadeLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    root: function root() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: size,
+          height: size,
+          borderWidth: "calc(".concat(size, " * ").concat(TO_SIDE_RATIO$1, ")")
+        };
+      }
+    },
+    top: function top() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.height = size;
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$4, ")");
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$4, ")");
+        styles.top = "calc(".concat(size, " * ").concat(TO_SIDE_RATIO$1, " * -1)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    topRight: function topRight() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.height = size;
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$4, ")");
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$4, ")");
+        styles.top = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO$1, " * -1)");
+        styles.left = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO$1, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    right: function right() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.height = size;
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$4, ")");
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$4, ")");
+        styles.left = "calc(".concat(size, " * ").concat(TO_SIDE_RATIO$1, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    bottomRight: function bottomRight() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.height = size;
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$4, ")");
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$4, ")");
+        styles.top = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO$1, ")");
+        styles.left = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO$1, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    bottom: function bottom() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.height = size;
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$4, ")");
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$4, ")");
+        styles.top = "calc(".concat(size, " * ").concat(TO_SIDE_RATIO$1, ")");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    bottomLeft: function bottomLeft() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.height = size;
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$4, ")");
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$4, ")");
+        styles.top = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO$1, ")");
+        styles.left = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO$1, " * -1)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    left: function left() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.height = size;
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$4, ")");
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$4, ")");
+        styles.left = "calc(".concat(size, " * ").concat(TO_SIDE_RATIO$1, " * -1)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    },
+    topLeft: function topLeft() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.height = size;
+        styles.width = "calc(".concat(size, " * ").concat(WIDTH_RATIO$4, ")");
+        styles.borderRadius = "calc(".concat(size, " * ").concat(BORDER_RATIO$4, ")");
+        styles.top = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO$1, " * -1)");
+        styles.left = "calc(".concat(size, " * ").concat(TO_CORNER_RATIO$1, " * -1)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var CIRCLE_SIZE_RATIO = 10 / 50;
+var pacman = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "pacman vue-loaders",
+      style: _vm.root
+    }, [_c('div', {
+      style: _vm.bottom
+    }), _vm._v(" "), _c('div', {
+      style: _vm.top
+    }), _vm._v(" "), _c('div', {
+      style: _vm.circle
+    }), _vm._v(" "), _c('div', {
+      style: _vm.circle
+    }), _vm._v(" "), _c('div', {
+      style: _vm.circle
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'PacmanLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    root: function root() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          borderRightWidth: "calc(70px + ".concat(CIRCLE_SIZE_RATIO, " * ").concat(size, " - ").concat(size, ")")
+        };
+      }
+    },
+    top: function top() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.borderWidth = styles.borderRadius = "calc(".concat(size, " / 2)");
+        styles.marginTop = "calc(".concat(size, " * -1)");
+      }
+
+      if (color) {
+        styles.borderTopColor = styles.borderLeftColor = styles.borderBottomColor = color;
+      }
+
+      return styles;
+    },
+    bottom: function bottom() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.borderWidth = styles.borderRadius = "calc(".concat(size, " / 2)");
+      }
+
+      if (color) {
+        styles.borderTopColor = styles.borderLeftColor = styles.borderBottomColor = color;
+      }
+
+      return styles;
+    },
+    circle: function circle() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+      var circleSize = "(".concat(size, " * ").concat(CIRCLE_SIZE_RATIO, ")");
+
+      if (size) {
+        styles.width = styles.height = "calc(".concat(circleSize, ")");
+        styles.top = "calc(".concat(size, " * 0.5 + ").concat(circleSize, " / -2 + 6.25px)");
+      }
+
+      if (color) {
+        styles.backgroundColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var semiCircleSpin = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "semi-circle-spin vue-loaders",
+      style: _vm.root
+    }, [_c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'SemiCircleSpinLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    root: function root() {
+      var size = this.size ? String(this.size) : null;
+
+      if (size) {
+        return {
+          width: size,
+          height: size
+        };
+      }
+    },
+    styles: function styles() {
+      var color = this.color ? String(this.color) : null;
+
+      if (color) {
+        return {
+          backgroundImage: "linear-gradient(transparent 0,transparent 70%,".concat(color, " 30%,").concat(color, " 100%)")
+        };
+      }
+    }
+  }
+};
+
+var squareSpin = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "square-spin vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'SquareSpinLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.width = styles.height = size;
+      }
+
+      if (color) {
+        styles.background = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+var triangleSkewSpin = {
+  render: function render() {
+    var _vm = this;
+
+    var _h = _vm.$createElement;
+
+    var _c = _vm._self._c || _h;
+
+    return _c('div', {
+      staticClass: "triangle-skew-spin vue-loaders"
+    }, [_c('div', {
+      style: _vm.styles
+    })]);
+  },
+  staticRenderFns: [],
+  name: 'TriangleSkewSpinLoader',
+  props: {
+    size: String,
+    color: String
+  },
+  computed: {
+    styles: function styles() {
+      var size = this.size ? String(this.size) : null;
+      var color = this.color ? String(this.color) : null;
+
+      if (!color && !size) {
+        return;
+      }
+
+      var styles = {};
+
+      if (size) {
+        styles.borderLeftWidth = styles.borderRightWidth = styles.borderBottomWidth = "calc(".concat(size, " / 2)");
+      }
+
+      if (color) {
+        styles.borderBottomColor = color;
+      }
+
+      return styles;
+    }
+  }
+};
+
+function install(Vue) {
+  var compKeys = Object.keys(this).filter(function (key) {
+    return key !== 'install';
+  });
+  var ln = compKeys.length;
+
+  while (ln--) {
+    var component = this[compKeys[ln]];
+    Vue.component(component.name, component);
+  }
 }
-var staticRenderFns = []
-render._withStripped = true
 
-
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Adminland/Employee/Create.vue":
-/*!**********************************************************!*\
-  !*** ./resources/js/Pages/Adminland/Employee/Create.vue ***!
-  \**********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Create_vue_vue_type_template_id_4343abcf_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Create.vue?vue&type=template&id=4343abcf&scoped=true& */ "./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=template&id=4343abcf&scoped=true&");
-/* harmony import */ var _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Create.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Create_vue_vue_type_style_index_0_id_4343abcf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css& */ "./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-
-/* normalize component */
-
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
-  _Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Create_vue_vue_type_template_id_4343abcf_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Create_vue_vue_type_template_id_4343abcf_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
-  false,
-  null,
-  "4343abcf",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/Pages/Adminland/Employee/Create.vue"
-/* harmony default export */ __webpack_exports__["default"] = (component.exports);
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************!*\
-  !*** ./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css&":
-/*!*******************************************************************************************************************!*\
-  !*** ./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css& ***!
-  \*******************************************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_4343abcf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/style-loader!../../../../../node_modules/css-loader??ref--6-1!../../../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../../../node_modules/postcss-loader/src??ref--6-2!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=style&index=0&id=4343abcf&scoped=true&lang=css&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_4343abcf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_4343abcf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_4343abcf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_4343abcf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_style_index_0_id_4343abcf_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
-
-/***/ }),
-
-/***/ "./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=template&id=4343abcf&scoped=true&":
-/*!*****************************************************************************************************!*\
-  !*** ./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=template&id=4343abcf&scoped=true& ***!
-  \*****************************************************************************************************/
-/*! exports provided: render, staticRenderFns */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_4343abcf_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Create.vue?vue&type=template&id=4343abcf&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Adminland/Employee/Create.vue?vue&type=template&id=4343abcf&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_4343abcf_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Create_vue_vue_type_template_id_4343abcf_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

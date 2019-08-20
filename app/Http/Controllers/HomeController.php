@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -13,6 +14,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        Cache::forget('cachedCompanyObject');
+        Cache::forget('cachedEmployeeObject');
+
         $employees = auth()->user()->employees()->with('company')->get();
         $companiesCollection = collect([]);
 

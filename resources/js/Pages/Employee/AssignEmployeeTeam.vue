@@ -21,7 +21,7 @@
 <template>
   <div class="di relative">
     <!-- Assigning a team is restricted to HR or admin -->
-    <ul v-if="user.permission_level <= 200" class="ma0 pa0 di existing-teams">
+    <ul v-if="$page.auth.user.permission_level <= 200" class="ma0 pa0 di existing-teams">
       <li v-show="updatedEmployee.teams.length != 0" class="bb b--dotted bt-0 bl-0 br-0 pointer di" data-cy="open-team-modal" @click.prevent="modal = true">
         {{ $t('employee.team_title') }}
       </li>
@@ -39,7 +39,7 @@
     </ul>
 
     <!-- Action when there is no team defined -->
-    <a v-show="updatedEmployee.teams.length == 0" v-if="user.permission_level <= 200" class="pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">{{ $t('employee.team_modal_title') }}</a>
+    <a v-show="updatedEmployee.teams.length == 0" v-if="$page.auth.user.permission_level <= 200" class="pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">{{ $t('employee.team_modal_title') }}</a>
     <span v-else v-show="updatedEmployee.teams.length == 0">{{ $t('employee.team_modal_blank') }}</span>
 
     <!-- Modal -->
@@ -80,7 +80,7 @@
       <!-- Shown if there is no teams setup in the account yet -->
       <div v-show="teams.length == 0">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.team_modal_blank_title') }} <a :href="'/' + company.id + '/account/teams'" data-cy="modal-blank-state-cta">{{ $t('employee.team_modal_blank_cta') }}</a>
+          {{ $t('employee.team_modal_blank_title') }} <a :href="'/' + $page.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">{{ $t('employee.team_modal_blank_cta') }}</a>
         </p>
         <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
                                         /img/company/account/blank-team-2x.png 2x"
@@ -99,15 +99,7 @@ export default {
   },
 
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
     employee: {
-      type: Object,
-      default: null,
-    },
-    user: {
       type: Object,
       default: null,
     },
@@ -165,7 +157,7 @@ export default {
     },
 
     assign(team) {
-      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/team', team)
+      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/team', team)
         .then(response => {
           this.$snotify.success(this.$t('employee.team_modal_assign_success'), {
             timeout: 2000,
@@ -182,7 +174,7 @@ export default {
     },
 
     reset(team) {
-      axios.delete('/' + this.company.id + '/employees/' + this.employee.id + '/team/' + team.id)
+      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/team/' + team.id)
         .then(response => {
           this.$snotify.success(this.$t('employee.team_modal_unassign_success'), {
             timeout: 2000,

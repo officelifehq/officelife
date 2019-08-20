@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\Resources\Company\Team\Team as TeamResource;
@@ -13,6 +13,7 @@ use App\Services\Company\Employee\Manager\UnassignManager;
 use App\Http\Resources\Company\Worklog\Worklog as WorklogResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\Position\Position as PositionResource;
+use App\Http\Resources\Company\Employee\EmployeeList as EmployeeListResource;
 use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
 
 class EmployeeController extends Controller
@@ -27,13 +28,14 @@ class EmployeeController extends Controller
     {
         $company = Cache::get('cachedCompanyObject');
 
-        $employees = $company->employees()->orderBy('last_name', 'asc')->get();
+        $employees = $company->employees()->with('teams')
+            ->with('status')
+            ->orderBy('last_name', 'asc')
+            ->get();
 
-        return View::component('ShowEmployees', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
+        return Inertia::render('Employee/Index', [
+            'employees' => EmployeeListResource::collection($employees),
             'notifications' => auth()->user()->getLatestNotifications($company),
-            'employees' => EmployeeResource::collection($employees),
         ]);
     }
 
@@ -49,6 +51,7 @@ class EmployeeController extends Controller
         $company = Cache::get('cachedCompanyObject');
         $employee = Employee::findOrFail($employeeId);
 
+        $employees = $company->employees()->with('teams')->get();
         $managers = $employee->getListOfManagers();
         $directReports = $employee->getListOfDirectReports();
         $positions = $company->positions()->get();
@@ -56,13 +59,12 @@ class EmployeeController extends Controller
         $worklogs = $employee->worklogs()->latest()->take(7)->get();
         $employeeStatuses = $company->employeeStatuses()->get();
 
-        return View::component('ShowCompanyEmployee', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+        return Inertia::render('Employee/Show', [
             'employee' => new EmployeeResource($employee),
-            'managers' => EmployeeResource::collection($managers),
-            'directReports' => EmployeeResource::collection($directReports),
+            'employees' => EmployeeListResource::collection($employees),
+            'notifications' => auth()->user()->getLatestNotifications($company),
+            'managers' => EmployeeListResource::collection($managers),
+            'directReports' => EmployeeListResource::collection($directReports),
             'positions' => PositionResource::collection($positions),
             'teams' => TeamResource::collection($teams),
             'worklogs' => WorklogResource::collection($worklogs),

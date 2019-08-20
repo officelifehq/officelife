@@ -49,7 +49,7 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index');
 
-            Route::resource('{employee}/position', 'Company\\Employee\\EmployeePositionController')->only([
+            Route::resource('{employee}/position', 'Company\\Employee\\Position\\EmployeePositionController')->only([
                 'store', 'destroy',
             ]);
 

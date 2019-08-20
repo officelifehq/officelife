@@ -17,11 +17,11 @@
 <template>
   <div class="di relative">
     <!-- Assigning a title is restricted to HR or admin -->
-    <span v-if="user.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-position-modal" @click.prevent="modal = true">{{ title }}</span>
+    <span v-if="$page.auth.user.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-position-modal" @click.prevent="modal = true">{{ title }}</span>
     <span v-else data-cy="position-title">{{ title }}</span>
 
     <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="user.permission_level <= 200" class="pointer" data-cy="open-position-modal-blank" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
+    <a v-show="title == ''" v-if="$page.auth.user.permission_level <= 200" class="pointer" data-cy="open-position-modal-blank" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
     <span v-else v-show="title == ''">{{ $t('employee.position_blank') }}</span>
 
     <!-- Modal -->
@@ -57,15 +57,7 @@ export default {
   },
 
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
     employee: {
-      type: Object,
-      default: null,
-    },
-    user: {
       type: Object,
       default: null,
     },
@@ -114,7 +106,7 @@ export default {
       this.title = this.employee.position.title;
     }
 
-    this.updatedEmployee = this.employee;
+    this.updatedEmployee = this.$page.auth.employee;
 
     // prevent click outside event with popupItem.
     this.popupItem = this.$el;
@@ -126,7 +118,7 @@ export default {
     },
 
     assign(position) {
-      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/position', position)
+      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/position', position)
         .then(response => {
           this.$snotify.success(this.$t('employee.position_modal_assign_success'), {
             timeout: 2000,
@@ -145,7 +137,7 @@ export default {
     },
 
     reset() {
-      axios.delete('/' + this.company.id + '/employees/' + this.employee.id + '/position/' + this.updatedEmployee.position.id)
+      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/position/' + this.updatedEmployee.position.id)
         .then(response => {
           this.$snotify.success(this.$t('employee.position_modal_unassign_success'), {
             timeout: 2000,

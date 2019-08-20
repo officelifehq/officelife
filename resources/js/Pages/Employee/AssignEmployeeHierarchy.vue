@@ -36,7 +36,7 @@
 <template>
   <div class="mb4 relative">
     <span class="tc db fw5 mb2">{{ $t('employee.hierarchy_title') }}</span>
-    <img v-show="user.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button" @click.prevent="toggleModals()" />
+    <img v-show="$page.auth.user.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button" @click.prevent="toggleModals()" />
 
     <!-- MENU TO CHOOSE FROM -->
     <div v-if="modal == 'menu'" v-click-outside="toggleModals" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
@@ -125,7 +125,7 @@
         <ul class="list mv0">
           <li v-for="manager in managers" :key="manager.id" class="mb3 relative">
             <img :src="manager.avatar" class="br-100 absolute avatar" />
-            <a :href="'/' + company.id + '/employees/' + manager.id" class="mb2">{{ manager.name }}</a>
+            <a :href="'/' + $page.auth.company.id + '/employees/' + manager.id" class="mb2">{{ manager.name }}</a>
 
             <!-- position -->
             <span v-if="manager.position !== null" class="title db f7 mt1">{{ manager.position.title }}</span>
@@ -134,7 +134,7 @@
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModalId = manager.id" />
 
             <!-- DELETE MANAGER MENU -->
-            <div v-if="managerModalId == manager.id" v-show="user.permission_level <= 200" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+            <div v-if="managerModalId == manager.id" v-show="$page.auth.user.permission_level <= 200" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
               <ul class="list ma0 pa0">
                 <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                   <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
@@ -159,7 +159,7 @@
         <ul class="list mv0">
           <li v-for="directReport in directReports" :key="directReport.id" class="mb3 relative">
             <img :src="directReport.avatar" class="br-100 absolute avatar" />
-            <a :href="'/' + company.id + '/employees/' + directReport.id" class="mb2">{{ directReport.name }}</a>
+            <a :href="'/' + $page.auth.company.id + '/employees/' + directReport.id" class="mb2">{{ directReport.name }}</a>
 
             <!-- position -->
             <span v-if="directReport.position !== null" class="title db f7 mt1">{{ directReport.position.title }}</span>
@@ -168,7 +168,7 @@
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModalId = directReport.id" />
 
             <!-- DELETE DIRECT REPORT MENU -->
-            <div v-if="directReportModalId == directReport.id" v-show="user.permission_level <= 200" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+            <div v-if="directReportModalId == directReport.id" v-show="$page.auth.user.permission_level <= 200" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
               <ul class="list ma0 pa0">
                 <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                   <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
@@ -191,30 +191,24 @@
 <script>
 import ClickOutside from 'vue-click-outside';
 import 'vue-loaders/dist/vue-loaders.css';
-import * as VueLoaders from 'vue-loaders';
-Vue.use(VueLoaders);
+import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
 
 export default {
+  components: {
+    BallPulseLoader,
+  },
 
   directives: {
     ClickOutside
   },
 
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    user: {
+    employee: {
       type: Object,
       default: null,
     },
     notifications: {
       type: Array,
-      default: null,
-    },
-    employee: {
-      type: Object,
       default: null,
     },
     managers: {
@@ -290,7 +284,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/search/hierarchy', this.form)
+          axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/search/hierarchy', this.form)
             .then(response => {
               if (this.modal == 'manager') {
                 this.searchManagers = response.data.data;
@@ -308,7 +302,7 @@ export default {
       }, 500),
 
     assignManager(manager) {
-      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignManager', manager)
+      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/assignManager', manager)
         .then(response => {
           this.$snotify.success(this.$t('employee.hierarchy_modal_add_manager_success'), {
             timeout: 2000,
@@ -325,7 +319,7 @@ export default {
     },
 
     assignDirectReport(directReport) {
-      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/assignDirectReport', directReport)
+      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/assignDirectReport', directReport)
         .then(response => {
           this.$snotify.success(this.$t('employee.hierarchy_modal_add_direct_report_success'), {
             timeout: 2000,
@@ -342,7 +336,7 @@ export default {
     },
 
     unassignManager(manager) {
-      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/unassignManager', manager)
+      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/unassignManager', manager)
         .then(response => {
           this.$snotify.success(this.$t('employee.hierarchy_modal_remove_manager_success'), {
             timeout: 2000,
@@ -360,7 +354,7 @@ export default {
     },
 
     unassignDirectReport(directReport) {
-      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/unassignDirectReport', directReport)
+      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/unassignDirectReport', directReport)
         .then(response => {
           this.$snotify.success(this.$t('employee.hierarchy_modal_remove_direct_report_success'), {
             timeout: 2000,

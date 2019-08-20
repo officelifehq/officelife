@@ -22,7 +22,7 @@
   <div class="di relative">
     <!-- Case when there is a status -->
     <!-- Assigning an employee status is restricted to HR or admin -->
-    <ul v-if="user.permission_level <= 200 && updatedEmployee.status" class="ma0 pa0 di existing-statuses">
+    <ul v-if="$page.auth.user.permission_level <= 200 && updatedEmployee.status" class="ma0 pa0 di existing-statuses">
       <li class="bb b--dotted bt-0 bl-0 br-0 pointer di" data-cy="open-status-modal" @click.prevent="modal = true">
         {{ $t('employee.status_title') }}
       </li>
@@ -30,7 +30,7 @@
         {{ updatedEmployee.status.name }}
       </li>
     </ul>
-    <ul v-if="user.permission_level > 200 && updatedEmployee.status" class="ma0 pa0 existing-statuses di">
+    <ul v-if="$page.auth.user.permission_level > 200 && updatedEmployee.status" class="ma0 pa0 existing-statuses di">
       <li class="di">
         {{ $t('employee.status_title') }}
       </li>
@@ -40,7 +40,7 @@
     </ul>
 
     <!-- Action when there is no status defined -->
-    <a v-show="!updatedEmployee.status" v-if="user.permission_level <= 200" class="pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">{{ $t('employee.status_modal_cta') }}</a>
+    <a v-show="!updatedEmployee.status" v-if="$page.auth.user.permission_level <= 200" class="pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">{{ $t('employee.status_modal_cta') }}</a>
     <span v-else v-show="!updatedEmployee.status">{{ $t('employee.status_modal_blank') }}</span>
 
     <!-- Modal -->
@@ -84,7 +84,7 @@
       <!-- Shown if there is no statuses setup in the account yet -->
       <div v-show="statuses.length == 0">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.status_modal_blank_title') }} <a :href="'/' + company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">{{ $t('employee.status_modal_blank_cta') }}</a>
+          {{ $t('employee.status_modal_blank_title') }} <a :href="'/' + $page.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">{{ $t('employee.status_modal_blank_cta') }}</a>
         </p>
       </div>
     </div>
@@ -100,15 +100,7 @@ export default {
   },
 
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
     employee: {
-      type: Object,
-      default: null,
-    },
-    user: {
       type: Object,
       default: null,
     },
@@ -166,7 +158,7 @@ export default {
     },
 
     assign(status) {
-      axios.post('/' + this.company.id + '/employees/' + this.employee.id + '/employeestatuses', status)
+      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses', status)
         .then(response => {
           this.$snotify.success(this.$t('employee.status_modal_assign_success'), {
             timeout: 2000,
@@ -183,7 +175,7 @@ export default {
     },
 
     reset(status) {
-      axios.delete('/' + this.company.id + '/employees/' + this.employee.id + '/employeestatuses/' + status.id)
+      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses/' + status.id)
         .then(response => {
           this.$snotify.success(this.$t('employee.status_modal_unassign_success'), {
             timeout: 2000,

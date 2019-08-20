@@ -5,13 +5,15 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
+            </inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_list') }}
@@ -24,7 +26,7 @@
         <div class="pa3 mt2">
           <!-- HEADER: number of employees and button -->
           <p class="relative">
-            <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: company.name, count: employees.length}) }}</span>
+            <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: $page.auth.company.name, count: employees.length}) }}</span>
           </p>
 
           <ul class="list pl0 mt0 mb0 center">
@@ -51,7 +53,7 @@
                     </li>
                   </template>
                   <li class="di pr2">
-                    <a :href="'/' + company.id + '/employees/' + employee.id" data-cy="employee-view">{{ $t('app.view') }}</a>
+                    <a :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="employee-view">{{ $t('app.view') }}</a>
                   </li>
                 </ul>
               </div>
@@ -64,19 +66,16 @@
 </template>
 
 <script>
+import Layout from '@/Shared/Layout';
 
 export default {
+  components: {
+    Layout,
+  },
+
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
     employees: {
       type: Array,
-      default: null,
-    },
-    user: {
-      type: Object,
       default: null,
     },
     notifications: {

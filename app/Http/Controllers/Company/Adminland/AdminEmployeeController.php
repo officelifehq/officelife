@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
+use App\Http\Resources\Company\Employee\EmployeeList as EmployeeListResource;
 
 class AdminEmployeeController extends Controller
 {
@@ -21,16 +21,14 @@ class AdminEmployeeController extends Controller
     public function index()
     {
         $company = Cache::get('cachedCompanyObject');
-        $employee = Cache::get('cachedEmployeeObject');
-        $employees = EmployeeResource::collection(
-            $company->employees()->orderBy('created_at', 'desc')->get()
-        );
+        $employees = $company->employees()->with('teams')
+            ->with('status')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return Inertia::render('Adminland/Employee/Index', [
-            'company' => $company,
-            'employee' => new EmployeeResource($employee),
             'notifications' => auth()->user()->getLatestNotifications($company),
-            'employees' => $employees,
+            'employees' => EmployeeListResource::collection($employees),
         ]);
     }
 
@@ -42,11 +40,8 @@ class AdminEmployeeController extends Controller
     public function create()
     {
         $company = Cache::get('cachedCompanyObject');
-        $employee = Cache::get('cachedEmployeeObject');
 
         return Inertia::render('Adminland/Employee/Create', [
-            'company' => $company,
-            'employee' => new EmployeeResource($employee),
             'notifications' => auth()->user()->getLatestNotifications($company),
         ]);
     }

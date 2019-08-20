@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"a4a459717bd931884d10","1":"a6171e7430037a91a9e3","2":"5d00339319d8b0e1c1cd","3":"82740374c2c3d6034714","4":"8f2fbb937f785dffd60e","5":"a6370c0b74aeac094d0c","6":"fcd9c3fa5950f759b15b","7":"fa2203003d2ee22a9ad0","8":"e359047a8dc976d22630","9":"3b8a93252b6ee1f421be","10":"1c9f4d673adc867dd887","11":"1745e6fc6dacca064e35","12":"e6d7e661937ddcb7ea4d","13":"3c4075f27d08932289a0","14":"a31fa96826d4f7868bbd","15":"d10f430ae58e37d7aa39","16":"e9869353b543b4cde9f0","17":"754b2969514ff0494a01","18":"9868af6e05c5467b9f8b","19":"c56664b116cf3e92ca7a","20":"6f6f7f82ee48de825b32","21":"4dc493815dcae90e9894","22":"cb208c0870de727a6474","23":"ba9e2933da6c046236f5","24":"eaedc156c4f3a14b7689","25":"af39fe351f98596909d3","26":"b42be41850b10501d709","27":"c463e85afa461f0d83e5","29":"c30a09f50029bb9b63a3"}[chunkId] + ""
+/******/ 		return __webpack_require__.p + "js/" + ({}[chunkId]||chunkId) + ".js?id=" + {"0":"7fd33dc9eebe2246d4ce","1":"a6171e7430037a91a9e3","2":"5d00339319d8b0e1c1cd","3":"82740374c2c3d6034714","4":"8f2fbb937f785dffd60e","5":"a6370c0b74aeac094d0c","6":"fcd9c3fa5950f759b15b","7":"c1b5fca8c62a760ba44a","8":"37984e110189a77a9c05","9":"097d7597ae964f89a4d9","10":"955782f2fdfec1b48913","13":"6327d592575a8de4c49c","14":"710832de2c305b89be70","15":"6c7b677f51c32368cc73","16":"34b5d6ddd0c0b98c73a8","17":"1f8693a42eb0edfda995","18":"2a2023b02d41cd2af90f","19":"bd2a18c8f27fa52ba614","20":"2c09da558aa04fe045e9","21":"d9851477fc4d1e4af3d4","22":"2b2a575f8fc9546e328c","23":"932552d7c80dc5eef955","24":"aa0bb81aff6c10182d98","25":"ebcd04bcc389db0e3208","26":"dd3d4585afd888ae70e2","27":"24c9626b47175b75014b","29":"5c3150d351867bbdff9b","30":"a9f32000329b4c6f4565","31":"fde59128ea06886439e5","32":"2b6d3708dd3dc790864f","33":"22e62d28e33b153e54fb","34":"867d6c19152d2755b389","35":"e6cc69fbb023c0b22a68","36":"9ce83482e7235af3af28","37":"1c29b5942366c298d2c8","38":"99bd0181fe89effb52bd","39":"b92008040d7c3256f7d5","40":"49f11db23d1065e27e82","41":"a2fbf56d3937a558114a","42":"16716fd9b2b978251983","43":"3be9c5976fec30fb90d9"}[chunkId] + ""
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -37152,281 +37152,371 @@ module.exports = JSON.parse("{\"account\":{\"employee_new_administrator\":\"Admi
 var map = {
 	"./Adminland/Audit/Index": [
 		"./resources/js/Pages/Adminland/Audit/Index.vue",
-		0,
+		42,
 		1,
-		20
+		18
 	],
 	"./Adminland/Audit/Index.vue": [
 		"./resources/js/Pages/Adminland/Audit/Index.vue",
-		0,
+		42,
 		1,
-		20
+		18
 	],
 	"./Adminland/Employee/Create": [
 		"./resources/js/Pages/Adminland/Employee/Create.vue",
-		0,
+		42,
 		1,
 		2,
-		11
+		19
 	],
 	"./Adminland/Employee/Create.vue": [
 		"./resources/js/Pages/Adminland/Employee/Create.vue",
-		0,
+		42,
 		1,
 		2,
-		11
+		19
 	],
 	"./Adminland/Employee/Index": [
 		"./resources/js/Pages/Adminland/Employee/Index.vue",
-		0,
+		42,
 		1,
-		12
+		20
 	],
 	"./Adminland/Employee/Index.vue": [
 		"./resources/js/Pages/Adminland/Employee/Index.vue",
-		0,
+		42,
 		1,
-		12
+		20
 	],
 	"./Adminland/EmployeeStatus/Index": [
 		"./resources/js/Pages/Adminland/EmployeeStatus/Index.vue",
-		0,
+		42,
 		1,
 		2,
-		13
+		21
 	],
 	"./Adminland/EmployeeStatus/Index.vue": [
 		"./resources/js/Pages/Adminland/EmployeeStatus/Index.vue",
-		0,
+		42,
 		1,
 		2,
-		13
+		21
 	],
 	"./Adminland/Flow/ActionNotification": [
 		"./resources/js/Pages/Adminland/Flow/ActionNotification.vue",
-		0,
+		42,
 		3,
-		25
+		38
 	],
 	"./Adminland/Flow/ActionNotification.vue": [
 		"./resources/js/Pages/Adminland/Flow/ActionNotification.vue",
-		0,
+		42,
 		3,
-		25
+		38
 	],
 	"./Adminland/Flow/Actions": [
 		"./resources/js/Pages/Adminland/Flow/Actions.vue",
-		0,
+		42,
 		3,
 		5,
-		26
+		39
 	],
 	"./Adminland/Flow/Actions.vue": [
 		"./resources/js/Pages/Adminland/Flow/Actions.vue",
-		0,
+		42,
 		3,
 		5,
-		26
+		39
 	],
 	"./Adminland/Flow/Create": [
 		"./resources/js/Pages/Adminland/Flow/Create.vue",
-		0,
+		42,
 		1,
 		3,
 		5,
-		7
+		13
 	],
 	"./Adminland/Flow/Create.vue": [
 		"./resources/js/Pages/Adminland/Flow/Create.vue",
-		0,
+		42,
 		1,
 		3,
 		5,
-		7
+		13
 	],
 	"./Adminland/Flow/Index": [
 		"./resources/js/Pages/Adminland/Flow/Index.vue",
-		0,
+		42,
 		1,
-		21
+		30
 	],
 	"./Adminland/Flow/Index.vue": [
 		"./resources/js/Pages/Adminland/Flow/Index.vue",
-		0,
+		42,
 		1,
-		21
+		30
 	],
 	"./Adminland/Flow/Show": [
 		"./resources/js/Pages/Adminland/Flow/Show.vue",
-		0,
+		42,
 		1,
-		29
+		31
 	],
 	"./Adminland/Flow/Show.vue": [
 		"./resources/js/Pages/Adminland/Flow/Show.vue",
-		0,
+		42,
 		1,
-		29
+		31
 	],
 	"./Adminland/Index": [
 		"./resources/js/Pages/Adminland/Index.vue",
-		0,
+		42,
 		1,
-		14
+		22
 	],
 	"./Adminland/Index.vue": [
 		"./resources/js/Pages/Adminland/Index.vue",
-		0,
+		42,
 		1,
-		14
+		22
 	],
 	"./Adminland/Position/Index": [
 		"./resources/js/Pages/Adminland/Position/Index.vue",
-		0,
+		42,
 		1,
 		2,
-		15
+		23
 	],
 	"./Adminland/Position/Index.vue": [
 		"./resources/js/Pages/Adminland/Position/Index.vue",
-		0,
+		42,
 		1,
 		2,
-		15
+		23
 	],
 	"./Adminland/Team/Index": [
 		"./resources/js/Pages/Adminland/Team/Index.vue",
-		0,
+		42,
 		1,
 		2,
-		16
+		24
 	],
 	"./Adminland/Team/Index.vue": [
 		"./resources/js/Pages/Adminland/Team/Index.vue",
-		0,
+		42,
 		1,
 		2,
-		16
+		24
 	],
 	"./Auth/Login": [
 		"./resources/js/Pages/Auth/Login.vue",
-		0,
+		42,
 		2,
-		8
+		14
 	],
 	"./Auth/Login.vue": [
 		"./resources/js/Pages/Auth/Login.vue",
-		0,
+		42,
 		2,
-		8
+		14
 	],
 	"./Auth/Register": [
 		"./resources/js/Pages/Auth/Register.vue",
-		0,
+		42,
 		2,
-		9
+		15
 	],
 	"./Auth/Register.vue": [
 		"./resources/js/Pages/Auth/Register.vue",
-		0,
+		42,
 		2,
-		9
+		15
 	],
 	"./Dashboard/Me": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		0,
+		42,
 		1,
 		4,
-		17
+		25
 	],
 	"./Dashboard/Me.vue": [
 		"./resources/js/Pages/Dashboard/Me.vue",
-		0,
+		42,
 		1,
 		4,
-		17
+		25
 	],
 	"./Dashboard/MyCompany": [
 		"./resources/js/Pages/Dashboard/MyCompany.vue",
-		10
+		16
 	],
 	"./Dashboard/MyCompany.vue": [
 		"./resources/js/Pages/Dashboard/MyCompany.vue",
-		10
+		16
 	],
 	"./Dashboard/MyTeam": [
 		"./resources/js/Pages/Dashboard/MyTeam.vue",
-		0,
+		42,
 		1,
 		6,
-		18
+		26
 	],
 	"./Dashboard/MyTeam.vue": [
 		"./resources/js/Pages/Dashboard/MyTeam.vue",
-		0,
+		42,
 		1,
 		6,
-		18
+		26
 	],
 	"./Dashboard/MyTeamEmptyState": [
 		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
-		0,
+		42,
 		1,
-		22
+		32
 	],
 	"./Dashboard/MyTeamEmptyState.vue": [
 		"./resources/js/Pages/Dashboard/MyTeamEmptyState.vue",
-		0,
+		42,
 		1,
-		22
+		32
 	],
 	"./Dashboard/MyTeamWorklogs": [
 		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
 		6,
-		27
+		41
 	],
 	"./Dashboard/MyTeamWorklogs.vue": [
 		"./resources/js/Pages/Dashboard/MyTeamWorklogs.vue",
 		6,
-		27
+		41
 	],
 	"./Dashboard/MyWorklogs": [
 		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
-		0,
+		42,
 		4,
-		24
+		34
 	],
 	"./Dashboard/MyWorklogs.vue": [
 		"./resources/js/Pages/Dashboard/MyWorklogs.vue",
-		0,
+		42,
 		4,
-		24
+		34
+	],
+	"./Employee/AssignEmployeeHierarchy": [
+		"./resources/js/Pages/Employee/AssignEmployeeHierarchy.vue",
+		42,
+		7,
+		40
+	],
+	"./Employee/AssignEmployeeHierarchy.vue": [
+		"./resources/js/Pages/Employee/AssignEmployeeHierarchy.vue",
+		42,
+		7,
+		40
+	],
+	"./Employee/AssignEmployeePosition": [
+		"./resources/js/Pages/Employee/AssignEmployeePosition.vue",
+		10,
+		35
+	],
+	"./Employee/AssignEmployeePosition.vue": [
+		"./resources/js/Pages/Employee/AssignEmployeePosition.vue",
+		10,
+		35
+	],
+	"./Employee/AssignEmployeeStatus": [
+		"./resources/js/Pages/Employee/AssignEmployeeStatus.vue",
+		9,
+		36
+	],
+	"./Employee/AssignEmployeeStatus.vue": [
+		"./resources/js/Pages/Employee/AssignEmployeeStatus.vue",
+		9,
+		36
+	],
+	"./Employee/AssignEmployeeTeam": [
+		"./resources/js/Pages/Employee/AssignEmployeeTeam.vue",
+		43,
+		37
+	],
+	"./Employee/AssignEmployeeTeam.vue": [
+		"./resources/js/Pages/Employee/AssignEmployeeTeam.vue",
+		43,
+		37
+	],
+	"./Employee/Index": [
+		"./resources/js/Pages/Employee/Index.vue",
+		42,
+		1,
+		27
+	],
+	"./Employee/Index.vue": [
+		"./resources/js/Pages/Employee/Index.vue",
+		42,
+		1,
+		27
+	],
+	"./Employee/Show": [
+		"./resources/js/Pages/Employee/Show.vue",
+		42,
+		1,
+		7,
+		9,
+		43,
+		10,
+		8
+	],
+	"./Employee/Show.vue": [
+		"./resources/js/Pages/Employee/Show.vue",
+		42,
+		1,
+		7,
+		9,
+		43,
+		10,
+		8
+	],
+	"./Employee/ShowEmployeeLogs": [
+		"./resources/js/Pages/Employee/ShowEmployeeLogs.vue",
+		17
+	],
+	"./Employee/ShowEmployeeLogs.vue": [
+		"./resources/js/Pages/Employee/ShowEmployeeLogs.vue",
+		17
+	],
+	"./Employee/Worklogs": [
+		"./resources/js/Pages/Employee/Worklogs.vue",
+		0
+	],
+	"./Employee/Worklogs.vue": [
+		"./resources/js/Pages/Employee/Worklogs.vue",
+		0
 	],
 	"./Home/CreateCompany": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		0,
+		42,
 		1,
 		2,
-		23
+		33
 	],
 	"./Home/CreateCompany.vue": [
 		"./resources/js/Pages/Home/CreateCompany.vue",
-		0,
+		42,
 		1,
 		2,
-		23
+		33
 	],
 	"./Home/Index": [
 		"./resources/js/Pages/Home/Index.vue",
-		0,
+		42,
 		1,
-		19
+		29
 	],
 	"./Home/Index.vue": [
 		"./resources/js/Pages/Home/Index.vue",
-		0,
+		42,
 		1,
-		19
+		29
 	]
 };
 function webpackAsyncContext(req) {

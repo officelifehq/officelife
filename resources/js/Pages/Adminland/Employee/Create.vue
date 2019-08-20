@@ -14,15 +14,15 @@ input[type=radio] {
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + company.id + '/dashboard'">
-              {{ company.name }}
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
             </inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + company.id + '/account/employees'">
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'">
               {{ $t('app.breadcrumb_account_manage_employees') }}
             </inertia-link>
           </li>
@@ -36,7 +36,7 @@ input[type=radio] {
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5 measure center">
           <h2 class="tc normal mb4">
-            {{ $t('account.employee_new_title', { name: company.name}) }}
+            {{ $t('account.employee_new_title', { name: $page.auth.company.name}) }}
           </h2>
 
           <form @submit.prevent="submit">
@@ -100,7 +100,7 @@ input[type=radio] {
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -129,14 +129,6 @@ export default {
   },
 
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    employee: {
-      type: Object,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,
@@ -162,7 +154,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.company.id + '/account/employees', this.form)
+      axios.post('/' + this.$page.auth.company.id + '/account/employees', this.form)
         .then(response => {
           localStorage.success = 'The employee has been added';
           this.$inertia.visit('/' + response.data.company_id + '/account/employees');

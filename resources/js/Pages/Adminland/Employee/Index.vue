@@ -13,12 +13,12 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + company.id + '/dashboard'">
-              {{ company.name }}
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
             </inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + company.id + '/account'">
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
               {{ $t('app.breadcrumb_account_home') }}
             </inertia-link>
           </li>
@@ -32,13 +32,13 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.employees_title', { company: company.name}) }}
+            {{ $t('account.employees_title', { company: $page.auth.company.name}) }}
           </h2>
 
           <!-- HEADER: number of employees and button -->
           <p class="relative">
-            <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: company.name, count: employees.length}) }}</span>
-            <inertia-link :href="'/' + company.id + '/account/employees/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
+            <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: $page.auth.company.name, count: employees.length}) }}</span>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
               {{ $t('account.employees_cta') }}
             </inertia-link>
           </p>
@@ -57,7 +57,7 @@
                     <span class="badge f7">{{ $t('app.permission_' + currentEmployee.permission_level) }}</span>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="'/' + company.id + '/employees/' + currentEmployee.id" data-cy="employee-view">
+                    <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + currentEmployee.id" data-cy="employee-view">
                       {{ $t('app.view') }}
                     </inertia-link>
                   </li>
@@ -95,14 +95,6 @@ export default {
   },
 
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    employee: {
-      type: Object,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,

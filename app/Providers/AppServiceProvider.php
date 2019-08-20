@@ -51,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
                         'last_name' => Auth::user()->last_name,
                         'email' => Auth::user()->email,
                         'default_dashboard_view' => Auth::user()->default_dashboard_view,
+                        'permission_level' => Auth::user()->permission_level,
                     ] : null,
                     'company' => $this->company ? new CompanyResource($this->company) : null,
                     'employee' => $this->employee ? new EmployeeResource($this->employee) : null,

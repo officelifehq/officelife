@@ -35,27 +35,10 @@
 </template>
 
 <script>
-import 'vue-loaders/dist/vue-loaders.css';
-import * as VueLoaders from 'vue-loaders';
-Vue.use(VueLoaders);
-
 export default {
-
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    user: {
-      type: Object,
-      default: null,
-    },
     notifications: {
       type: Array,
-      default: null,
-    },
-    employee: {
-      type: Object,
       default: null,
     },
     worklogs: {
