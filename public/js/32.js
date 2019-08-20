@@ -92,13 +92,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "layout",
-    {
-      attrs: {
-        title: "Home",
-        employee: _vm.employee,
-        notifications: _vm.notifications
-      }
-    },
+    { attrs: { title: "Home", notifications: _vm.notifications } },
     [
       _c("div", { staticClass: "ph2 ph0-ns" }, [
         _c("div", { staticClass: "cf mt4 mw7 center" }, [

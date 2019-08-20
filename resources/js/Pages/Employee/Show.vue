@@ -47,7 +47,9 @@
                 <a class="pointer" data-cy="add-direct-report-button">Delete</a>
               </li>
               <li v-show="$page.auth.user.permission_level <= 200 || $page.auth.user.user_id == employee.user.id" class="pv2">
-                <a :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">View change log</a>
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">
+                  View change log
+                </inertia-link>
               </li>
             </ul>
           </div>

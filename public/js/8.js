@@ -569,7 +569,7 @@ var render = function() {
                           },
                           [
                             _c(
-                              "a",
+                              "inertia-link",
                               {
                                 staticClass: "pointer",
                                 attrs: {
@@ -584,7 +584,8 @@ var render = function() {
                               },
                               [_vm._v("View change log")]
                             )
-                          ]
+                          ],
+                          1
                         )
                       ])
                     ]

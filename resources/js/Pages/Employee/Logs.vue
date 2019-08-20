@@ -10,19 +10,23 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
+            </inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">
+              {{ employee.name }}
+            </inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_logs') }}
@@ -62,17 +66,14 @@
 </template>
 
 <script>
+import Layout from '@/Shared/Layout';
 
 export default {
+  components: {
+    Layout,
+  },
+
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    user: {
-      type: Object,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,

@@ -1,9 +1,9 @@
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <div class="cf mw6 center br3 mb3 bg-white box">
         <div class="pa3">
-          <p>{{ $t('auth.invitation_logged_accept_title', { name: company.name }) }}Would you like to join {{ company.name }}?</p>
+          <p>{{ $t('auth.invitation_logged_accept_title', { name: $page.auth.company.name }) }}Would you like to join {{ $page.auth.company.name }}?</p>
           <form @submit.prevent="submit">
             <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.invitation_logged_accept_cta')" />
           </form>
@@ -14,21 +14,16 @@
 </template>
 
 <script>
+import LoadingButton from '@/Shared/LoadingButton';
+import Layout from '@/Shared/Layout';
 
 export default {
+  components: {
+    Layout,
+    LoadingButton,
+  },
+
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    employee: {
-      type: Object,
-      default: null,
-    },
-    user: {
-      type: Object,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,

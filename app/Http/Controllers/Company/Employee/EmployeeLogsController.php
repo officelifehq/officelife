@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
@@ -95,8 +95,7 @@ class EmployeeLogsController extends Controller
             ]);
         }
 
-        return View::component('ShowEmployeeLogs', [
-            'company' => $company,
+        return Inertia::render('Employee/Logs', [
             'employee' => new EmployeeResource($employee),
             'logs' => $logsCollection,
             'user' => auth()->user()->getEmployeeObjectForCompany($company),

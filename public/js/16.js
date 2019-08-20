@@ -211,12 +211,7 @@ var render = function() {
   return _c(
     "layout",
     {
-      attrs: {
-        title: "Home",
-        user: _vm.user,
-        employee: _vm.employee,
-        notifications: _vm.notifications
-      }
+      attrs: { title: "Home", user: _vm.user, notifications: _vm.notifications }
     },
     [
       _c("div", { staticClass: "ph2 ph0-ns" }, [
