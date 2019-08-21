@@ -1014,16 +1014,16 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v7.3.5",
+            "version": "v7.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "57937b08dc8e444b4756782a5ba172b5ba54d4f5"
+                "reference": "4460bd1fb5d913d75e547caf02a5a19c6d77794d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/57937b08dc8e444b4756782a5ba172b5ba54d4f5",
-                "reference": "57937b08dc8e444b4756782a5ba172b5ba54d4f5",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/4460bd1fb5d913d75e547caf02a5a19c6d77794d",
+                "reference": "4460bd1fb5d913d75e547caf02a5a19c6d77794d",
                 "shasum": ""
             },
             "require": {
@@ -1034,6 +1034,7 @@
                 "illuminate/console": "~5.6.0|~5.7.0|~5.8.0|^6.0",
                 "illuminate/container": "~5.6.0|~5.7.0|~5.8.0|^6.0",
                 "illuminate/contracts": "~5.6.0|~5.7.0|~5.8.0|^6.0",
+                "illuminate/cookie": "~5.6.0|~5.7.0|~5.8.0|^6.0",
                 "illuminate/database": "~5.6.0|~5.7.0|~5.8.0|^6.0",
                 "illuminate/encryption": "~5.6.0|~5.7.0|~5.8.0|^6.0",
                 "illuminate/http": "~5.6.0|~5.7.0|~5.8.0|^6.0",
@@ -1080,7 +1081,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2019-08-06T18:10:19+00:00"
+            "time": "2019-08-20T18:10:43+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -8311,16 +8312,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "3.4.11",
+            "version": "3.4.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "85c9b6bb442039c773120059ae35a31f8ef9d488"
+                "reference": "86e5e50c1bb492045e70f2ebe1da3cad06e4e9b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/85c9b6bb442039c773120059ae35a31f8ef9d488",
-                "reference": "85c9b6bb442039c773120059ae35a31f8ef9d488",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/86e5e50c1bb492045e70f2ebe1da3cad06e4e9b2",
+                "reference": "86e5e50c1bb492045e70f2ebe1da3cad06e4e9b2",
                 "shasum": ""
             },
             "require": {
@@ -8394,7 +8395,7 @@
                 "inspection",
                 "php"
             ],
-            "time": "2019-08-09T15:40:46+00:00"
+            "time": "2019-08-20T18:26:32+00:00"
         },
         {
             "name": "webmozart/assert",

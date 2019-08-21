@@ -18,7 +18,6 @@ class EmployeeLog extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id',
         'employee_id',
         'action',
         'objects',
@@ -34,16 +33,6 @@ class EmployeeLog extends Model
     protected $casts = [
         'is_dummy' => 'boolean',
     ];
-
-    /**
-     * Get the account record associated with the employee log.
-     *
-     * @return BelongsTo
-     */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
 
     /**
      * Get the employee record associated with the employee log.
