@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 use App\Http\Resources\Company\Employee\EmployeeList as EmployeeListResource;
@@ -20,14 +21,14 @@ class AdminEmployeeController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
         $employees = $company->employees()->with('teams')
             ->with('status')
             ->orderBy('created_at', 'desc')
             ->get();
 
         return Inertia::render('Adminland/Employee/Index', [
-            'notifications' => auth()->user()->getLatestNotifications($company),
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'employees' => EmployeeListResource::collection($employees),
         ]);
     }
@@ -39,10 +40,10 @@ class AdminEmployeeController extends Controller
      */
     public function create()
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
 
         return Inertia::render('Adminland/Employee/Create', [
-            'notifications' => auth()->user()->getLatestNotifications($company),
+            'notifications' => Auth::user()->getLatestNotifications($company),
         ]);
     }
 
@@ -57,7 +58,7 @@ class AdminEmployeeController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'email' => $request->get('email'),
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
@@ -85,7 +86,7 @@ class AdminEmployeeController extends Controller
         $request = [
             'company_id' => $companyId,
             'employee_id' => $employeeId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
         ];
 
         (new DestroyEmployee)->execute($request);

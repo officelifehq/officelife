@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Company;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use App\Services\Company\Adminland\Company\CreateCompany;
 
@@ -19,12 +20,12 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
 
         return Inertia::render('Dashboard/MyCompany', [
             'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+            'user' => Auth::user()->getEmployeeObjectForCompany($company),
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);
     }
@@ -48,7 +49,7 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         $company = (new CreateCompany)->execute([
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'name' => $request->get('name'),
         ]);
 

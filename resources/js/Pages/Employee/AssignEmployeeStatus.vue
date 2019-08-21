@@ -22,7 +22,7 @@
   <div class="di relative">
     <!-- Case when there is a status -->
     <!-- Assigning an employee status is restricted to HR or admin -->
-    <ul v-if="$page.auth.user.permission_level <= 200 && updatedEmployee.status" class="ma0 pa0 di existing-statuses">
+    <ul v-if="$page.auth.employee.permission_level <= 200 && updatedEmployee.status" class="ma0 pa0 di existing-statuses">
       <li class="bb b--dotted bt-0 bl-0 br-0 pointer di" data-cy="open-status-modal" @click.prevent="modal = true">
         {{ $t('employee.status_title') }}
       </li>
@@ -30,7 +30,7 @@
         {{ updatedEmployee.status.name }}
       </li>
     </ul>
-    <ul v-if="$page.auth.user.permission_level > 200 && updatedEmployee.status" class="ma0 pa0 existing-statuses di">
+    <ul v-if="$page.auth.employee.permission_level > 200 && updatedEmployee.status" class="ma0 pa0 existing-statuses di">
       <li class="di">
         {{ $t('employee.status_title') }}
       </li>
@@ -40,7 +40,7 @@
     </ul>
 
     <!-- Action when there is no status defined -->
-    <a v-show="!updatedEmployee.status" v-if="$page.auth.user.permission_level <= 200" class="pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">{{ $t('employee.status_modal_cta') }}</a>
+    <a v-show="!updatedEmployee.status" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">{{ $t('employee.status_modal_cta') }}</a>
     <span v-else v-show="!updatedEmployee.status">{{ $t('employee.status_modal_blank') }}</span>
 
     <!-- Modal -->

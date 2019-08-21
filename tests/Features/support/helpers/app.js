@@ -45,7 +45,7 @@ Cypress.Commands.add('createEmployeeStatus', (status) => {
   cy.get('[data-cy=employee-statuses-admin-link]').click()
   cy.get('[data-cy=add-status-button]').click()
 
-  cy.get('input[name=title]').type(status)
+  cy.get('[data-cy=add-title-input]').type(status)
 
   cy.get('[data-cy=modal-add-cta]').click()
 })

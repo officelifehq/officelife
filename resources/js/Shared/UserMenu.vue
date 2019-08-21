@@ -37,7 +37,7 @@
     <div v-if="menu == true" class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
       <ul class="list ma0 pa0">
         <li class="pv2">
-          <inertia-link :href="'/home'" class="no-color no-underline">
+          <inertia-link :href="'/home'" class="no-color no-underline" data-cy="switch-company-button">
             {{ $t('app.header_switch_company') }}
           </inertia-link>
         </li>

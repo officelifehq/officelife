@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\Notification;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Services\User\Notification\MarkNotificationsAsRead;
 
 class MarkNotificationAsReadController extends Controller
@@ -17,7 +18,7 @@ class MarkNotificationAsReadController extends Controller
     public function store(Request $request)
     {
         $result = (new MarkNotificationsAsRead)->execute([
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::user()->id,
         ]);
 
         return response()->json([

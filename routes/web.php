@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
             Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
 
-            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index');
+            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
             Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');
             Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
 

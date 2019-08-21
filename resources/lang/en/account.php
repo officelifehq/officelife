@@ -107,7 +107,7 @@ return [
     'log_employee_added_to_company' => 'Added :employee as an employee.',
     'log_team_created' => 'Created the team called :name.',
     'log_employee_added_to_team' => 'Added :employee to :team.',
-    'log_employee_removed_from_team' => 'Remove :employee from :team.',
+    'log_employee_removed_from_team' => 'Removed :employee from :team.',
     'log_employee_updated' => 'Updated information about :employee.',
     'log_employee_updated_hiring_information' => 'Updated hiring about :employee.',
     'log_manager_assigned' => 'Assigned :manager as the manager of :employee.',

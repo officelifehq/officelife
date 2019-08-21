@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Cache;
+use App\Helpers\InstanceHelper;
 
 class CheckAdministratorRole
 {
@@ -16,7 +16,7 @@ class CheckAdministratorRole
      */
     public function handle($request, Closure $next)
     {
-        $employee = Cache::get('cachedEmployeeObject');
+        $employee = InstanceHelper::getLoggedEmployee();
 
         if (config('homas.authorizations.administrator') >= $employee->permission_level) {
             return $next($request);

@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Position\UpdatePosition;
 use App\Services\Company\Adminland\Position\DestroyPosition;
@@ -20,13 +21,13 @@ class AdminPositionController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
         $positions = PositionResource::collection(
             $company->positions()->orderBy('title', 'asc')->get()
         );
 
         return Inertia::render('Adminland/Position/Index', [
-            'notifications' => auth()->user()->getLatestNotifications($company),
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'positions' => $positions,
         ]);
     }
@@ -40,11 +41,11 @@ class AdminPositionController extends Controller
      */
     public function store(Request $request, $companyId)
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
 
         $request = [
             'company_id' => $company->id,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'title' => $request->get('title'),
         ];
 
@@ -65,7 +66,7 @@ class AdminPositionController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'position_id' => $positionId,
             'title' => $request->get('title'),
         ];
@@ -88,7 +89,7 @@ class AdminPositionController extends Controller
         $request = [
             'company_id' => $companyId,
             'position_id' => $positionId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
         ];
 
         (new DestroyPosition)->execute($request);

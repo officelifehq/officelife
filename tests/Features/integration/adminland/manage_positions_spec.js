@@ -51,6 +51,8 @@ describe('Adminland - Positions management', function () {
     cy.get('[data-cy=positions-list]').contains('Assistant regional manager')
     cy.hasAuditLog('Updated the position formely called Assistant to the regional manager to Assistant regional manager', '/1/account/positions')
 
+    cy.wait(2200)
+
     // delete the position
     cy.get('[data-cy=list-delete-button-5]').click()
     cy.get('[data-cy=list-delete-cancel-button-5]').click()
@@ -92,6 +94,8 @@ describe('Adminland - Positions management', function () {
     cy.get('[data-cy=list-rename-input-name-5]').type('Assistant regional manager')
     cy.get('[data-cy=list-rename-cta-button-5]').click()
     cy.get('[data-cy=positions-list]').contains('Assistant regional manager')
+
+    cy.wait(2200)
 
     // delete the position
     cy.get('[data-cy=list-delete-button-5]').click()

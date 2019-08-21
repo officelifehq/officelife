@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Employee\EmployeeStatus;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
 use App\Services\Company\Employee\EmployeeStatus\RemoveEmployeeStatusFromEmployee;
@@ -22,7 +23,7 @@ class EmployeeStatusController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
             'employee_status_id' => $request->get('id'),
         ];
@@ -44,7 +45,7 @@ class EmployeeStatusController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
         ];
 

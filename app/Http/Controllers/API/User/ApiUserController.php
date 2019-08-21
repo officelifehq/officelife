@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\User;
 
 use App\Models\User\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\ApiController;
 use App\Http\Resources\User\User as UserResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -19,7 +20,7 @@ class ApiUserController extends ApiController
     public function me(Request $request)
     {
         try {
-            $user = User::where('id', auth()->user()->id)->firstOrFail();
+            $user = User::where('id', Auth::user()->id)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return $this->respondNotFound();
         }

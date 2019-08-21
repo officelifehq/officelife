@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[37],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[46],{
 
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Pages/Team/Index.vue?vue&type=script&lang=js&":
 /*!****************************************************************************************************************************************************************!*\
@@ -12,10 +12,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Shared_Layout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Shared/Layout */ "./resources/js/Shared/Layout.vue");
 /* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
 /* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_1__);
-//
-//
-//
-//
 //
 //
 //
@@ -189,13 +185,7 @@ var render = function() {
                         href: "/" + _vm.$page.auth.company.id + "/dashboard"
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(_vm.$page.auth.company.name) +
-                          "\n          "
-                      )
-                    ]
+                    [_vm._v(_vm._s(_vm.$page.auth.company.name))]
                   )
                 ],
                 1
@@ -212,13 +202,7 @@ var render = function() {
                         href: "/" + _vm.$page.auth.company.id + "/teams"
                       }
                     },
-                    [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(_vm.$t("app.breadcrumb_team_list")) +
-                          "\n          "
-                      )
-                    ]
+                    [_vm._v(_vm._s(_vm.$t("app.breadcrumb_team_list")))]
                   )
                 ],
                 1

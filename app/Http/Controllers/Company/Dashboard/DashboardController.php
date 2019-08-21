@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Dashboard;
 
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class DashboardController extends Controller
@@ -17,7 +18,7 @@ class DashboardController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        switch (auth()->user()->default_dashboard_view) {
+        switch (Auth::user()->default_dashboard_view) {
             case 'company':
                 return Redirect::route('dashboard.company', ['company' => $company->id]);
                 break;

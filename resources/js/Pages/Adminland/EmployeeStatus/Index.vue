@@ -48,6 +48,7 @@
                   :ref="'newStatus'"
                   v-model="form.name"
                   :errors="$page.errors.name"
+                  :datacy="'add-title-input'"
                   required
                   :placeholder="$t('account.employee_statuses_placeholder')"
                   :extra-class-upper-div="'mb0'"

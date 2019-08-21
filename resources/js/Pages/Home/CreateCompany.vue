@@ -10,7 +10,7 @@
           <errors :errors="form.errors" />
 
           <form @submit.prevent="submit">
-            <text-input v-model="form.name" :errors="$page.errors.name" :label="$t('company.new_name')" />
+            <text-input v-model="form.name" :name="'name'" :errors="$page.errors.name" :label="$t('company.new_name')" />
 
             <!-- Actions -->
             <div class="">

@@ -78,6 +78,7 @@
                   <text-input :ref="'newTeam'"
                               v-model="form.name"
                               :placeholder="''"
+                              :name="'name'"
                               :errors="$page.errors.name"
                               required
                               :label="$t('account.team_new_name')"

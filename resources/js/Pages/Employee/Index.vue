@@ -53,7 +53,9 @@
                     </li>
                   </template>
                   <li class="di pr2">
-                    <a :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="employee-view">{{ $t('app.view') }}</a>
+                    <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="employee-view">
+                      {{ $t('app.view') }}
+                    </inertia-link>
                   </li>
                 </ul>
               </div>

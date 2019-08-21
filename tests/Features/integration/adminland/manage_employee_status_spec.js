@@ -36,7 +36,7 @@ describe('Adminland - Employee statuses', function () {
     cy.get('[data-cy=list-rename-input-name-1]').type('Part-time')
     cy.get('[data-cy=list-rename-cta-button-1]').click()
     cy.get('[data-cy=statuses-list]').contains('Part-time')
-    cy.hasAuditLog('Changed the name of the employee status from Full-time to Part-time', '/1/account/employeestatuses')
+    cy.hasAuditLog('Updated the name of the employee status from Full-time to Part-time', '/1/account/employeestatuses')
 
     // delete the position
     cy.get('[data-cy=list-delete-button-1]').click()

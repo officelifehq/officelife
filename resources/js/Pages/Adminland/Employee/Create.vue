@@ -43,13 +43,15 @@ input[type=radio] {
             <errors :errors="form.errors" />
 
             <!-- First name -->
-            <text-input :id="'first_name'" v-model="form.first_name" :errors="$page.errors.first_name" :label="$t('account.employee_new_firstname')" />
+            <text-input :id="'first_name'" v-model="form.first_name" :name="'first_name'" :errors="$page.errors.first_name" :label="$t('account.employee_new_firstname')" />
 
             <!-- Last name -->
-            <text-input :id="'last_name'" v-model="form.last_name" :errors="$page.errors.last_name" :label="$t('account.employee_new_lastname')" />
+            <text-input :id="'last_name'" v-model="form.last_name" :name="'last_name'" :errors="$page.errors.last_name" :label="$t('account.employee_new_lastname')" />
 
             <!-- Email -->
-            <text-input :id="'email'" v-model="form.email" :type="'email'" :errors="$page.errors.email" :label="$t('account.employee_new_email')" />
+            <text-input :id="'email'" v-model="form.email" :name="'email'" :type="'email'" :errors="$page.errors.email"
+                        :label="$t('account.employee_new_email')"
+            />
 
             <hr />
 

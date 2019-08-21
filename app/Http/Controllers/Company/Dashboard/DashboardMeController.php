@@ -6,7 +6,7 @@ use Inertia\Inertia;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Jobs\UpdateDashboardPreference;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 
@@ -20,10 +20,10 @@ class DashboardMeController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = Cache::get('cachedEmployeeObject');
+        $employee = InstanceHelper::getLoggedEmployee();
 
         UpdateDashboardPreference::dispatch([
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::user()->id,
             'company_id' => $company->id,
             'view' => 'me',
         ])->onQueue('low');
@@ -31,7 +31,7 @@ class DashboardMeController extends Controller
         return Inertia::render('Dashboard/Me', [
             'teams' => TeamResource::collection($employee->teams()->get()),
             'worklogCount' => $employee->worklogs()->count(),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);
     }

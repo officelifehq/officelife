@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\UpdateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\DestroyEmployeeStatus;
@@ -20,13 +21,13 @@ class AdminEmployeeStatusController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
         $employeeStatuses = EmployeeStatusResource::collection(
             $company->employeeStatuses()->orderBy('name', 'asc')->get()
         );
 
         return Inertia::render('Adminland/EmployeeStatus/Index', [
-            'notifications' => auth()->user()->getLatestNotifications($company),
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'statuses' => $employeeStatuses,
         ]);
     }
@@ -42,7 +43,7 @@ class AdminEmployeeStatusController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'name' => $request->get('name'),
         ];
 
@@ -65,7 +66,7 @@ class AdminEmployeeStatusController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_status_id' => $employeeStatusId,
             'name' => $request->get('name'),
         ];
@@ -88,7 +89,7 @@ class AdminEmployeeStatusController extends Controller
         $request = [
             'company_id' => $companyId,
             'employee_status_id' => $employeeStatusId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
         ];
 
         (new DestroyEmployeeStatus)->execute($request);

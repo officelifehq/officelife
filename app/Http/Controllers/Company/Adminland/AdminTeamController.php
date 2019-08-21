@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 
@@ -18,13 +19,13 @@ class AdminTeamController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
         $teams = TeamResource::collection(
             $company->teams()->orderBy('name', 'desc')->get()
         );
 
         return Inertia::render('Adminland/Team/Index', [
-            'notifications' => auth()->user()->getLatestNotifications($company),
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'teams' => $teams,
         ]);
     }
@@ -38,8 +39,8 @@ class AdminTeamController extends Controller
     public function store(Request $request)
     {
         $request = [
-            'company_id' => Cache::get('cachedCompanyObject')->id,
-            'author_id' => auth()->user()->id,
+            'company_id' => InstanceHelper::getLoggedCompany()->id,
+            'author_id' => Auth::user()->id,
             'name' => $request->get('name'),
         ];
 

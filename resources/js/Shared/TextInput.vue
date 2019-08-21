@@ -22,6 +22,7 @@
            :class="{ error: errors.length }"
            :required="required ? 'required' : ''"
            :type="type"
+           :name="name"
            :value="value"
            :placeholder="placeholder"
            :data-cy="datacy"
@@ -57,6 +58,10 @@ export default {
       default: '',
     },
     customRef: {
+      type: String,
+      default: 'input',
+    },
+    name: {
       type: String,
       default: 'input',
     },

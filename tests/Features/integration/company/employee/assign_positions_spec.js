@@ -12,7 +12,7 @@ describe('Employee - Assign positions', function () {
     cy.get('[data-cy=open-position-modal-blank]').click()
     cy.get('[data-cy=list-position-1]').click()
     cy.get('[data-cy=open-position-modal]').contains('CEO')
-    cy.hasAuditLog('Assigned to admin@admin.com the position called CEO', '/1/employees/1')
+    cy.hasAuditLog('Assigned the position called CEO to admin@admin.com', '/1/employees/1')
     cy.hasEmployeeLog('admin@admin.com assigned the position called CEO', '/1/employees/1')
 
     // Open the modal to assign a team and select the first line

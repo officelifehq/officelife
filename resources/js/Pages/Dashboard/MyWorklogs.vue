@@ -29,7 +29,7 @@
         <!-- Shows the editor -->
         <div v-show="showEditor" class="">
           <form @submit.prevent="store()">
-            <text-area v-model="form.content" :cypress-selector="'worklog-content'" />
+            <text-area v-model="form.content" :datacy="'worklog-content'" />
             <p class="db lh-copy f6">
               👋 {{ $t('dashboard.worklog_entry_description') }}
             </p>

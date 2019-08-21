@@ -2,16 +2,20 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
       <div class="mt4-l mt1 mw7 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <a :href="'/' + company.id + '/dashboard'">{{ company.name }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
+              {{ $page.auth.company.name }}
+            </inertia-link>
           </li>
           <li class="di">
-            <a :href="'/' + company.id + '/teams'">{{ $t('app.breadcrumb_team_list') }}</a>
+            <inertia-link :href="'/' + $page.auth.company.id + '/teams'">
+              {{ $t('app.breadcrumb_team_list') }}
+            </inertia-link>
           </li>
           <li class="di">
             {{ team.name }}
@@ -41,7 +45,7 @@
       <div class="cf mw6 center mb4">
         <div class="bg-white box pa3 mb4">
           <p class="lh-copy ma0 mb2">
-            This team has {{ employeeCount }} members, the most recent being <a href="">{{ mostRecentEmployee.name }}</a>.
+            This team has {{ employeeCount }} members, the most recent being <a href="">sdfsd</a>.
           </p>
           <p class="ma0">
             <a href="">View team members</a>
@@ -83,22 +87,19 @@
 </template>
 
 <script>
+import Layout from '@/Shared/Layout';
 import ClickOutside from 'vue-click-outside';
 
 export default {
+  components: {
+    Layout,
+  },
+
   directives: {
     ClickOutside
   },
 
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    user: {
-      type: Object,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,

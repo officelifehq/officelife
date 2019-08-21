@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeLogsController extends Controller
@@ -21,12 +22,12 @@ class EmployeeLogsController extends Controller
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {
-        $company = Cache::get('cachedCompanyObject');
+        $company = InstanceHelper::getLoggedCompany();
         $employee = Employee::findOrFail($employeeId);
 
         try {
             $this->validateAccess(
-                auth()->user()->id,
+                Auth::user()->id,
                 $companyId,
                 $employeeId,
                 config('homas.authorizations.hr')
@@ -98,8 +99,8 @@ class EmployeeLogsController extends Controller
         return Inertia::render('Employee/Logs', [
             'employee' => new EmployeeResource($employee),
             'logs' => $logsCollection,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+            'user' => Auth::user()->getEmployeeObjectForCompany($company),
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'paginator' => [
                 'count' => $logs->count(),
                 'currentPage' => $logs->currentPage(),

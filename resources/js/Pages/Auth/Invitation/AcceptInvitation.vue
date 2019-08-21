@@ -46,7 +46,7 @@ export default {
 
       axios.post('/invite/employee/' + this.invitationLink + '/accept')
         .then(response => {
-          Turbolinks.visit('/home');
+          this.$inertia.visit('/home');
         })
         .catch(error => {
           this.loadingState = null;

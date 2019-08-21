@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Company\Dashboard;
 
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
@@ -18,10 +19,10 @@ class DashboardWorklogController extends Controller
      */
     public function store(Request $request)
     {
-        $employee = Cache::get('cachedEmployeeObject');
+        $employee = InstanceHelper::getLoggedEmployee();
 
         $request = [
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $employee->id,
             'content' => $request->content,
         ];

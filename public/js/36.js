@@ -135,6 +135,7 @@ var render = function() {
                 [
                   _c("text-input", {
                     attrs: {
+                      name: "name",
                       errors: _vm.$page.errors.name,
                       label: _vm.$t("company.new_name")
                     },

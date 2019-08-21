@@ -36,7 +36,7 @@
 <template>
   <div class="mb4 relative">
     <span class="tc db fw5 mb2">{{ $t('employee.hierarchy_title') }}</span>
-    <img v-show="$page.auth.user.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button" @click.prevent="toggleModals()" />
+    <img v-show="$page.auth.employee.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button" @click.prevent="toggleModals()" />
 
     <!-- MENU TO CHOOSE FROM -->
     <div v-if="modal == 'menu'" v-click-outside="toggleModals" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
@@ -134,7 +134,7 @@
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModalId = manager.id" />
 
             <!-- DELETE MANAGER MENU -->
-            <div v-if="managerModalId == manager.id" v-show="$page.auth.user.permission_level <= 200" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+            <div v-if="managerModalId == manager.id" v-show="$page.auth.employee.permission_level <= 200" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
               <ul class="list ma0 pa0">
                 <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                   <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
@@ -168,7 +168,7 @@
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModalId = directReport.id" />
 
             <!-- DELETE DIRECT REPORT MENU -->
-            <div v-if="directReportModalId == directReport.id" v-show="$page.auth.user.permission_level <= 200" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+            <div v-if="directReportModalId == directReport.id" v-show="$page.auth.employee.permission_level <= 200" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
               <ul class="list ma0 pa0">
                 <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                   <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
