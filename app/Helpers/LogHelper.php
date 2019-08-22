@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use App\Models\Company\AuditLog;
+use App\Models\Company\EmployeeLog;
 
 class LogHelper
 {
@@ -14,7 +15,7 @@ class LogHelper
      * @param AuditLog $log
      * @return string
      */
-    public static function processLog(AuditLog $log) : string
+    public static function processAuditLog(AuditLog $log) : string
     {
         $sentence = '';
 
@@ -62,14 +63,14 @@ class LogHelper
 
         if ($log->action == 'manager_assigned') {
             $sentence = trans('account.log_manager_assigned', [
-                'manager' => $log->object->{'manager_name'},
+                'name' => $log->object->{'manager_name'},
                 'employee' => $log->object->{'employee_name'},
             ]);
         }
 
         if ($log->action == 'manager_unassigned') {
             $sentence = trans('account.log_manager_unassigned', [
-                'manager' => $log->object->{'manager_name'},
+                'name' => $log->object->{'manager_name'},
                 'employee' => $log->object->{'employee_name'},
             ]);
         }
@@ -153,6 +154,87 @@ class LogHelper
             $sentence = trans('account.log_employee_status_removed', [
                 'name' => $log->object->{'employee_status_name'},
                 'employee' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        return $sentence;
+    }
+
+    /**
+     * Transform an action into an understandable sentence.
+     *
+     * @param EmployeeLog $log
+     * @return string
+     */
+    public static function processEmployeeLog(EmployeeLog $log) : string
+    {
+        $sentence = '';
+
+        if ($log->action == 'employee_created') {
+            $sentence = trans('account.employee_log_employee_created');
+        }
+
+        if ($log->action == 'manager_assigned') {
+            $sentence = trans('account.employee_log_manager_assigned', [
+                'name' => $log->object->{'manager_name'},
+            ]);
+        }
+
+        if ($log->action == 'direct_report_assigned') {
+            $sentence = trans('account.employee_log_direct_report_assigned', [
+                'name' => $log->object->{'direct_report_name'},
+            ]);
+        }
+
+        if ($log->action == 'manager_unassigned') {
+            $sentence = trans('account.employee_log_manager_unassigned', [
+                'name' => $log->object->{'manager_name'},
+            ]);
+        }
+
+        if ($log->action == 'direct_report_unassigned') {
+            $sentence = trans('account.employee_log_direct_report_unassigned', [
+                'name' => $log->object->{'direct_report_name'},
+            ]);
+        }
+
+        if ($log->action == 'position_assigned') {
+            $sentence = trans('account.employee_log_position_assigned', [
+                'name' => $log->object->{'position_title'},
+            ]);
+        }
+
+        if ($log->action == 'position_removed') {
+            $sentence = trans('account.employee_log_position_removed', [
+                'name' => $log->object->{'position_title'},
+            ]);
+        }
+
+        if ($log->action == 'employee_added_to_team') {
+            $sentence = trans('account.employee_log_employee_added_to_team', [
+                'name' => $log->object->{'team_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_removed_from_team') {
+            $sentence = trans('account.employee_log_employee_removed_from_team', [
+                'name' => $log->object->{'team_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_worklog_logged') {
+            $sentence = trans('account.employee_log_employee_worklog_logged');
+        }
+
+        if ($log->action == 'employee_status_assigned') {
+            $sentence = trans('account.employee_log_employee_status_assigned', [
+                'name' => $log->object->{'employee_status_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_status_removed') {
+            $sentence = trans('account.employee_log_employee_status_removed', [
+                'name' => $log->object->{'employee_status_name'},
             ]);
         }
 

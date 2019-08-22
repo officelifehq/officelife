@@ -76,7 +76,6 @@ class RemoveEmployeeFromTeam extends BaseService
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $employee->id,
             'action' => 'employee_removed_from_team',
             'objects' => json_encode($dataToLog),

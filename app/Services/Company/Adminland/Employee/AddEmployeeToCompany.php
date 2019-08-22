@@ -104,7 +104,6 @@ class AddEmployeeToCompany extends BaseService
         ]);
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $employee->id,
             'action' => 'employee_created',
             'objects' => json_encode([

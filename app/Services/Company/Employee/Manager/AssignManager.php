@@ -107,7 +107,6 @@ class AssignManager extends BaseService
 
         // Log information about the manager having assigned a direct report
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $manager->id,
             'action' => 'direct_report_assigned',
             'objects' => json_encode([

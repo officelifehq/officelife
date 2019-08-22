@@ -48,8 +48,17 @@
                 class="flex items-center lh-copy pa2-l pa1 ph0-l bb b--black-10"
             >
               <div class="flex-auto">
-                <span class="db" v-html="log.sentence"></span>
-                <span class="db f6" v-html="log.date"></span>
+                <!-- log author -->
+                <inertia-link v-if="log.author.id" :href="'/' + $page.auth.company.id + '/employee/' + log.author.id" class="">
+                  {{ log.author.name }}
+                </inertia-link>
+                <span v-else class="black-70">{{ log.author.name }}</span>
+
+                <!-- log content -->
+                <span class="">{{ log.localized_content }}</span>
+
+                <!-- log date -->
+                <span class="db f6 log_date">{{ log.created_at | moment("dddd, MMMM Do YYYY") }}</span>
               </div>
             </li>
           </ul>

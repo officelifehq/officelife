@@ -125,4 +125,17 @@ return [
     'log_employee_status_destroyed' => 'Destroyed the employee status called :name.',
     'log_employee_status_assigned' => 'Assigned the employee status called :name to :employee.',
     'log_employee_status_removed' => 'Removed the employee status called :name from :employee.',
+
+    'employee_log_employee_created' => 'Created this employee entry.',
+    'employee_log_manager_assigned' => 'Assigned :name as a manager.',
+    'employee_log_direct_report_assigned' => 'Assigned :name as a direct report.',
+    'employee_log_manager_unassigned' => 'Removed :manager as a manager.',
+    'employee_log_direct_report_unassigned' => 'Removed :name as a direct report.',
+    'employee_log_position_assigned' => 'Assigned the position called :name.',
+    'employee_log_position_removed' => 'Removed the position called :name.',
+    'employee_log_employee_added_to_team' => 'Added to the team called :name.',
+    'employee_log_employee_removed_from_team' => 'Removed from the team caleld :name.',
+    'employee_log_employee_worklog_logged' => 'Added a worklog.',
+    'employee_log_employee_status_assigned' => 'Assigned the employee status called :name.',
+    'employee_log_employee_status_removed' => 'Removed the employee status called :name.',
 ];

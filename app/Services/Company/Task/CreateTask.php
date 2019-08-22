@@ -135,7 +135,6 @@ class CreateTask extends BaseService
     private function addLogEmployeeAction(array $data, array $dataToLog) : void
     {
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['assignee_id'],
             'action' => 'task_assigned_to_employee',
             'objects' => json_encode($dataToLog),

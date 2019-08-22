@@ -66,13 +66,13 @@ class AuditLog extends Model
     }
 
     /**
-     * Get the author of the audit log, if defined.
+     * Get the content of the audit log, if defined.
      *
      * @return string
      * @param mixed $value
      */
     public function getContentAttribute($value) : string
     {
-        return LogHelper::processLog($this);
+        return LogHelper::processAuditLog($this);
     }
 }

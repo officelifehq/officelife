@@ -16,7 +16,6 @@ class LogEmployeeAction extends BaseService
     public function rules() : array
     {
         return [
-            'company_id' => 'required|integer|exists:companies,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'action' => 'required|string|max:255',
             'objects' => 'required|json',
@@ -36,11 +35,7 @@ class LogEmployeeAction extends BaseService
     {
         $this->validate($data);
 
-        Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
-
         return EmployeeLog::create([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => $data['action'],
             'objects' => $data['objects'],

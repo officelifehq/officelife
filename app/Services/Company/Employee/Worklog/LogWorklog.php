@@ -74,7 +74,6 @@ class LogWorklog extends BaseService
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $employee->company_id,
             'employee_id' => $employee->id,
             'action' => 'employee_worklog_logged',
             'objects' => json_encode([

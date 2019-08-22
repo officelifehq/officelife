@@ -88,7 +88,6 @@ class UnassignManager extends BaseService
     {
         // Log information about the employee having a manager assigned
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'manager_unassigned',
             'objects' => json_encode([
@@ -102,7 +101,6 @@ class UnassignManager extends BaseService
 
         // Log information about the manager having assigned a direct report
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'direct_report_unassigned',
             'objects' => json_encode([

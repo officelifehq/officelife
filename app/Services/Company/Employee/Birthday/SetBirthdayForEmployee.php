@@ -79,7 +79,6 @@ class SetBirthdayForEmployee extends BaseService
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'birthday_set',
             'objects' => json_encode([

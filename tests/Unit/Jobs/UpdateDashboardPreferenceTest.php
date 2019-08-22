@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Jobs\UpdateDashboardPreference;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UpdateDashboardViewTest extends TestCase
+class UpdateDashboardPreferenceTest extends TestCase
 {
     use DatabaseTransactions;
 

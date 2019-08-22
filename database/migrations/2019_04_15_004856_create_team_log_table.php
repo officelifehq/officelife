@@ -18,14 +18,12 @@ class CreateTeamLogTable extends Migration
 
         Schema::create('team_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('team_id');
             $table->string('action');
             $table->text('objects');
             $table->string('ip_address')->nullable();
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });
     }

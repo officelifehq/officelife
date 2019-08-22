@@ -9,7 +9,7 @@ if (! function_exists('tenant')) {
      */
     function tenant($route)
     {
-        $company = App\Helpers\InstanceHelper::getLoggedCompany();
+        $company = \App\Helpers\InstanceHelper::getLoggedCompany();
 
         return config('app.url').'/'.$company->id.$route;
     }

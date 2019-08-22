@@ -14,7 +14,7 @@ class DashboardWorklogController extends Controller
     /**
      * Create a worklog.
      *
-     * @var Request $request
+     * @var Request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)

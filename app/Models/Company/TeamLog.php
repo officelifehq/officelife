@@ -18,7 +18,6 @@ class TeamLog extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id',
         'team_id',
         'action',
         'objects',

@@ -19,8 +19,6 @@ class InstanceHelper
         if (Auth::check()) {
             return Cache::get('cachedCompanyObject_'.Auth::user()->id);
         }
-
-        return;
     }
 
     /**
@@ -33,7 +31,5 @@ class InstanceHelper
         if (Auth::check()) {
             return Cache::get('cachedEmployeeObject_'.Auth::user()->id);
         }
-
-        return;
     }
 }

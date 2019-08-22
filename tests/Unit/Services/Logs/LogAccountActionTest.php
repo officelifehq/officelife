@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\Company;
+namespace Tests\Unit\Services\Company\Adminland\Logs;
 
 use Tests\TestCase;
 use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
-use App\Services\Logs\LogAuditAction;
+use App\Services\Logs\LogAccountAction;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LogAuditActionTest extends TestCase
+class LogAccountActionTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -24,7 +24,7 @@ class LogAuditActionTest extends TestCase
             'objects' => '{"user": 1}',
         ];
 
-        $auditLog = (new LogAuditAction)->execute($request);
+        $auditLog = (new LogAccountAction)->execute($request);
 
         $this->assertDatabaseHas('audit_logs', [
             'id' => $auditLog->id,
@@ -47,6 +47,6 @@ class LogAuditActionTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new LogAuditAction)->execute($request);
+        (new LogAccountAction)->execute($request);
     }
 }

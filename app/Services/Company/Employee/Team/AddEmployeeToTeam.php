@@ -83,7 +83,6 @@ class AddEmployeeToTeam extends BaseService
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $employee->id,
             'action' => 'employee_added_to_team',
             'objects' => json_encode($dataToLog),

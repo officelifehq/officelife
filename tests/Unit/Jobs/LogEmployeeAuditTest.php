@@ -32,7 +32,6 @@ class LogEmployeeAuditTest extends TestCase
         LogEmployeeAudit::dispatch($request);
 
         $this->assertDatabaseHas('employee_logs', [
-            'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'action' => 'employee_status_created',
             'objects' => json_encode([

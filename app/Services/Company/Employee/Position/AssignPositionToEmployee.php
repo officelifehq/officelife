@@ -65,7 +65,6 @@ class AssignPositionToEmployee extends BaseService
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'position_assigned',
             'objects' => json_encode([
