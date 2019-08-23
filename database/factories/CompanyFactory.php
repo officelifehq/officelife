@@ -71,13 +71,8 @@ $factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) 
 
 $factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
     return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
         'team_id' => function (array $data) {
-            return factory(App\Models\Company\Team::class)->create([
-                'company_id' => $data['company_id'],
-            ])->id;
+            return factory(App\Models\Company\Team::class)->create([])->id;
         },
         'action' => 'account_created',
         'objects' => '{"user": 1}',

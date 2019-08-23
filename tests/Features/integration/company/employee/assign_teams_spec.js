@@ -13,14 +13,14 @@ describe('Employee - Assign teams', function () {
     cy.get('[data-cy=list-team-1]').click()
     cy.get('.existing-teams').contains('product')
     cy.hasAuditLog('Added admin@admin.com to product', '/1/employees/1')
-    cy.hasEmployeeLog('admin@admin.com added to the team called product', '/1/employees/1')
+    cy.hasEmployeeLog('Added to the team called product', '/1/employees/1')
 
     // Open the modal to remove a team and select the first line
     cy.get('[data-cy=open-team-modal]').click()
     cy.get('[data-cy=list-team-1]').click()
     cy.get('.existing-teams').should('not.contain', 'product')
     cy.hasAuditLog('Removed admin@admin.com from product', '/1/employees/1')
-    cy.hasEmployeeLog('admin@admin.com removed from product', '/1/employees/1')
+    cy.hasEmployeeLog('Removed from the team called product', '/1/employees/1')
   })
 
   it('should assign a team and remove it as hr', function () {
@@ -37,13 +37,13 @@ describe('Employee - Assign teams', function () {
     cy.get('[data-cy=open-team-modal-blank]').click()
     cy.get('[data-cy=list-team-1]').click()
     cy.get('.existing-teams').contains('product')
-    cy.hasEmployeeLog('admin@admin.com added to the team called product', '/1/employees/1')
+    cy.hasEmployeeLog('Added to the team called product', '/1/employees/1')
 
     // Open the modal to remove a team and select the first line
     cy.get('[data-cy=open-team-modal]').click()
     cy.get('[data-cy=list-team-1]').click()
     cy.get('.existing-teams').should('not.contain', 'product')
-    cy.hasEmployeeLog('admin@admin.com removed from product', '/1/employees/1')
+    cy.hasEmployeeLog('Removed from the team called product', '/1/employees/1')
   })
 
   it('should not let a normal user assign teams', function () {

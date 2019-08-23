@@ -16,7 +16,6 @@ class LogTeamAction extends BaseService
     public function rules() : array
     {
         return [
-            'company_id' => 'required|integer|exists:companies,id',
             'team_id' => 'required|integer|exists:teams,id',
             'action' => 'required|string|max:255',
             'objects' => 'required|json',
@@ -35,11 +34,7 @@ class LogTeamAction extends BaseService
     {
         $this->validate($data);
 
-        Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
-
         return TeamLog::create([
-            'company_id' => $data['company_id'],
             'team_id' => $data['team_id'],
             'action' => $data['action'],
             'objects' => $data['objects'],

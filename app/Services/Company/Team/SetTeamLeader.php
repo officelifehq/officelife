@@ -64,7 +64,6 @@ class SetTeamLeader extends BaseService
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
-            'company_id' => $data['company_id'],
             'team_id' => $team->id,
             'action' => 'team_leader_assigned',
             'objects' => json_encode([
