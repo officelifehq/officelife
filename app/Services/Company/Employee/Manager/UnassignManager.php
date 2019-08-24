@@ -101,7 +101,7 @@ class UnassignManager extends BaseService
 
         // Log information about the manager having assigned a direct report
         LogEmployeeAudit::dispatch([
-            'employee_id' => $data['employee_id'],
+            'employee_id' => $manager->id,
             'action' => 'direct_report_unassigned',
             'objects' => json_encode([
                 'author_id' => $author->id,
