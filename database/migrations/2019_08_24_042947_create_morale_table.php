@@ -22,5 +22,14 @@ class CreateMoraleTable extends Migration
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
+
+        Schema::create('morale_company_history', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('company_id');
+            $table->double('average');
+            $table->boolean('is_dummy')->default(false);
+            $table->timestamps();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+        });
     }
 }
