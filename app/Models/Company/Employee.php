@@ -219,6 +219,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the morale record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function morales()
+    {
+        return $this->hasMany(Morale::class);
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string
@@ -337,5 +347,19 @@ class Employee extends Model
             ->get();
 
         return $worklog->count() != 0;
+    }
+
+    /**
+     * Check if the employee has already logged his morale today.
+     *
+     * @return bool
+     */
+    public function hasAlreadyLoggedMoraleToday() : bool
+    {
+        $morale = Morale::where('employee_id', $this->id)
+            ->whereDate('created_at', Carbon::today())
+            ->get();
+
+        return $morale->count() != 0;
     }
 }

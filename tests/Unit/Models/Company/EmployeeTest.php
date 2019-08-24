@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
+use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
@@ -143,6 +144,17 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_morale(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Morale::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->morales()->exists());
+    }
+
+    /** @test */
     public function it_returns_the_email_attribute() : void
     {
         $dwight = factory(Employee::class)->create([]);
@@ -246,5 +258,26 @@ class EmployeeTest extends TestCase
             'created_at' => Carbon::yesterday(),
         ]);
         $this->assertFalse($dwight->hasAlreadyLoggedWorklogToday());
+    }
+
+    /** @test */
+    public function it_checks_if_a_morale_has_already_been_logged_today() : void
+    {
+        Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
+
+        $dwight = factory(Employee::class)->create([]);
+        factory(Morale::class)->create([
+            'employee_id' => $dwight->id,
+            'created_at' => now(),
+        ]);
+
+        $this->assertTrue($dwight->hasAlreadyLoggedMoraleToday());
+
+        $dwight = factory(Employee::class)->create([]);
+        factory(Morale::class)->create([
+            'employee_id' => $dwight->id,
+            'created_at' => Carbon::yesterday(),
+        ]);
+        $this->assertFalse($dwight->hasAlreadyLoggedMoraleToday());
     }
 }

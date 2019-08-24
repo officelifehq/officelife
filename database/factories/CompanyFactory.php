@@ -191,3 +191,13 @@ $factory->define(App\Models\Company\EmployeeStatus::class, function (Faker $fake
         'name' => 'Permanent',
     ];
 });
+
+$factory->define(App\Models\Company\Morale::class, function (Faker $faker) {
+    return [
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'emotion' => 1,
+        'comment' => 'I hate Toby',
+    ];
+});

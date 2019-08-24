@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company\Employee\Position;
+namespace App\Http\Controllers\Company\Employee;
 
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
