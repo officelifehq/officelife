@@ -15,8 +15,8 @@ jobs:
     - name: auto-commit-php-cs-fixer
       uses: stefanzweifel/git-auto-commit-action@v1.0.0
       env:
-        COMMIT_AUTHOR_EMAIL: jon.doe@example.com
-        COMMIT_AUTHOR_NAME: Jon Doe
+        COMMIT_AUTHOR_EMAIL: djaiss@users.noreply.github.com
+        COMMIT_AUTHOR_NAME: Regis Freyd
         COMMIT_MESSAGE: Apply php-cs-fixer changes
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: phpinsights
