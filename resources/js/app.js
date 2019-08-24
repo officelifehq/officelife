@@ -5,20 +5,26 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+import { InertiaApp } from '@inertiajs/inertia-vue';
+import Vue from 'vue';
 
-window.Vue = require('vue');
+Vue.config.productionTip = false;
+Vue.mixin({ methods: { route: (...args) => window.route(...args).url() } });
+Vue.use(InertiaApp);
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+// Axios for some ajax queries
+window._ = require('lodash');
+window.axios = require('axios');
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+let token = document.head.querySelector('meta[name="csrf-token"]');
+if (token) {
+  window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+  console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
+}
 
-const files = require.context('./', true, /\.vue$/i);
-files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+// moment.js
+Vue.use(require('vue-moment'));
 
 // toaster
 import Snotify from 'vue-snotify';
@@ -37,23 +43,14 @@ export const i18n = new VueI18n({
   messages: { 'en': messages }
 });
 
-// Start Turbolinks
-require('turbolinks').start();
+const app = document.getElementById('app');
 
-// Boot the Vue component
-document.addEventListener('turbolinks:load', (event) => {
-  const root = document.getElementById('app');
-
-  if (window.vue) {
-    window.vue.$destroy(true);
-  }
-
-  window.vue = new Vue({
-    i18n,
-    render: h => h(
-      Vue.component(root.dataset.component), {
-        props: JSON.parse(root.dataset.props)
-      }
-    )
-  }).$mount(root);
-});
+new Vue({
+  i18n,
+  render: h => h(InertiaApp, {
+    props: {
+      initialPage: JSON.parse(app.dataset.page),
+      resolveComponent: name => import(`@/Pages/${name}`).then(module => module.default),
+    },
+  }),
+}).$mount(app);

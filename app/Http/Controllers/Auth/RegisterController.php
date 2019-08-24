@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class RegisterController extends Controller
@@ -24,7 +25,7 @@ class RegisterController extends Controller
             return redirect('/home');
         }
 
-        return View::component('Register');
+        return Inertia::render('Auth/Register');
     }
 
     /**
@@ -45,5 +46,7 @@ class RegisterController extends Controller
             'email' => $request->get('email'),
             'password' => $request->get('password'),
         ]);
+
+        return Redirect::route('home');
     }
 }

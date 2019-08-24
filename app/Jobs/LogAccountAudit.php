@@ -3,8 +3,8 @@
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;
-use App\Services\Logs\LogAuditAction;
 use Illuminate\Queue\SerializesModels;
+use App\Services\Logs\LogAccountAction;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -42,7 +42,7 @@ class LogAccountAudit implements ShouldQueue
             $isDummy = false;
         }
 
-        (new LogAuditAction)->execute([
+        (new LogAccountAction)->execute([
             'company_id' => $this->auditLog['company_id'],
             'action' => $this->auditLog['action'],
             'objects' => $this->auditLog['objects'],

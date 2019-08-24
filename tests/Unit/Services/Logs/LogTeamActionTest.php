@@ -19,7 +19,6 @@ class LogTeamActionTest extends TestCase
         $team = factory(Team::class)->create([]);
 
         $request = [
-            'company_id' => $team->company_id,
             'team_id' => $team->id,
             'action' => 'team_created',
             'objects' => '{"team": 1}',
@@ -29,7 +28,6 @@ class LogTeamActionTest extends TestCase
 
         $this->assertDatabaseHas('team_logs', [
             'id' => $teamLog->id,
-            'company_id' => $team->company_id,
             'team_id' => $team->id,
             'action' => 'team_created',
             'objects' => '{"team": 1}',

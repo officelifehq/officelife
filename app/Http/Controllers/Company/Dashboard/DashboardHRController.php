@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Services\User\Preferences\UpdateDashboardView;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class DashboardHRController extends Controller
 {
@@ -19,19 +19,16 @@ class DashboardHRController extends Controller
      */
     public function index(Request $request)
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
 
         (new UpdateDashboardView)->execute([
-            'user_id' => auth()->user()->id,
+            'user_id' => Auth::user()->id,
             'company_id' => $company->id,
             'view' => 'hr',
         ]);
 
-        return View::component('ShowCompany', [
-            'company' => $company,
-            'user' => auth()->user()->refresh(),
-            'employee' => new EmployeeResource(auth()->user()->getEmployeeObjectForCompany($company)),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+        return Inertia::render('Employee/Index', [
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);
     }

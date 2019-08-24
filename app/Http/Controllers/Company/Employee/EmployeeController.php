@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Services\Company\Employee\Manager\UnassignManager;
 use App\Http\Resources\Company\Worklog\Worklog as WorklogResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\Position\Position as PositionResource;
+use App\Http\Resources\Company\Employee\EmployeeList as EmployeeListResource;
 use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
 
 class EmployeeController extends Controller
@@ -25,15 +27,16 @@ class EmployeeController extends Controller
      */
     public function index(Request $request, int $companyId)
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
 
-        $employees = $company->employees()->orderBy('last_name', 'asc')->get();
+        $employees = $company->employees()->with('teams')
+            ->with('status')
+            ->orderBy('last_name', 'asc')
+            ->get();
 
-        return View::component('ShowEmployees', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->getLatestNotifications($company),
-            'employees' => EmployeeResource::collection($employees),
+        return Inertia::render('Employee/Index', [
+            'employees' => EmployeeListResource::collection($employees),
+            'notifications' => Auth::user()->getLatestNotifications($company),
         ]);
     }
 
@@ -46,9 +49,10 @@ class EmployeeController extends Controller
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
         $employee = Employee::findOrFail($employeeId);
 
+        $employees = $company->employees()->with('teams')->get();
         $managers = $employee->getListOfManagers();
         $directReports = $employee->getListOfDirectReports();
         $positions = $company->positions()->get();
@@ -56,13 +60,12 @@ class EmployeeController extends Controller
         $worklogs = $employee->worklogs()->latest()->take(7)->get();
         $employeeStatuses = $company->employeeStatuses()->get();
 
-        return View::component('ShowCompanyEmployee', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+        return Inertia::render('Employee/Show', [
             'employee' => new EmployeeResource($employee),
-            'managers' => EmployeeResource::collection($managers),
-            'directReports' => EmployeeResource::collection($directReports),
+            'employees' => EmployeeListResource::collection($employees),
+            'notifications' => Auth::user()->getLatestNotifications($company),
+            'managers' => EmployeeListResource::collection($managers),
+            'directReports' => EmployeeListResource::collection($directReports),
             'positions' => PositionResource::collection($positions),
             'teams' => TeamResource::collection($teams),
             'worklogs' => WorklogResource::collection($worklogs),
@@ -81,7 +84,7 @@ class EmployeeController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
             'manager_id' => $request->get('id'),
         ];
@@ -102,7 +105,7 @@ class EmployeeController extends Controller
     {
         $data = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $request->get('id'),
             'manager_id' => $employeeId,
         ];
@@ -125,7 +128,7 @@ class EmployeeController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
             'manager_id' => $request->get('id'),
         ];
@@ -146,7 +149,7 @@ class EmployeeController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $request->get('id'),
             'manager_id' => $managerId,
         ];

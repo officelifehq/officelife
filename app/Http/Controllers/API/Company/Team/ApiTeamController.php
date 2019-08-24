@@ -4,7 +4,8 @@ namespace App\Http\Controllers\API\Company\Team;
 
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use App\Helpers\InstanceHelper;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Api\ApiController;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
@@ -22,7 +23,7 @@ class ApiTeamController extends ApiController
      */
     public function index(Request $request, int $companyId)
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
         $teams = $company->teams()->get();
 
         return TeamResource::collection($teams);
@@ -38,7 +39,7 @@ class ApiTeamController extends ApiController
      */
     public function show(Request $request, $companyId, $teamId)
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
 
         try {
             $team = Team::where('company_id', $company->id)
@@ -66,7 +67,7 @@ class ApiTeamController extends ApiController
                     +
                     [
                     'company_id' => $companyId,
-                    'author_id' => auth()->user()->id,
+                    'author_id' => Auth::user()->id,
                 ]
             );
         } catch (ValidationException $e) {

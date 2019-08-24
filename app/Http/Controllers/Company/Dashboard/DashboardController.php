@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
-use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 class DashboardController extends Controller
 {
@@ -13,25 +14,25 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
 
-        switch (auth()->user()->default_dashboard_view) {
+        switch (Auth::user()->default_dashboard_view) {
             case 'company':
-                return redirect(tenant('/dashboard/company'));
+                return Redirect::route('dashboard.company', ['company' => $company->id]);
                 break;
 
             case 'team':
-                return redirect(tenant('/dashboard/team'));
+                return Redirect::route('dashboard.team', ['company' => $company->id]);
                 break;
 
             case 'hr':
-                return redirect(tenant('/dashboard/hr'));
+                return Redirect::route('dashboard.hr', ['company' => $company->id]);
                 break;
 
             default:
-                return redirect(tenant('/dashboard/me'));
+                return Redirect::route('dashboard.me', ['company' => $company->id]);
                 break;
         }
     }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Company\Adminland;
 
+use Inertia\Inertia;
 use App\Models\Company\Flow;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Flow\CreateFlow;
 use App\Services\Company\Adminland\Flow\AddStepToFlow;
 use App\Services\Company\Adminland\Flow\AddActionToStep;
@@ -21,15 +23,13 @@ class AdminFlowController extends Controller
      */
     public function index()
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
         $flows = FlowResource::collection(
             $company->flows()->orderBy('created_at', 'desc')->get()
         );
 
-        return View::component('ShowAccountFlows', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+        return Inertia::render('Adminland/Flow/Index', [
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'flows' => $flows,
         ]);
     }
@@ -37,19 +37,18 @@ class AdminFlowController extends Controller
     /**
      * Display the detail of a flow.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $flowId
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, int $companyId, int $flowId)
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
         $flow = Flow::findOrFail($flowId);
 
-        return View::component('ShowAccountFlow', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+        return Inertia::render('Adminland/Flow/Show', [
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'flow' => new FlowResource($flow),
         ]);
     }
@@ -61,12 +60,10 @@ class AdminFlowController extends Controller
      */
     public function create()
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
 
-        return View::component('CreateAccountFlow', [
-            'company' => $company,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+        return Inertia::render('Adminland/Flow/Create', [
+            'notifications' => Auth::user()->getLatestNotifications($company),
         ]);
     }
 
@@ -81,7 +78,7 @@ class AdminFlowController extends Controller
     {
         $data = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'name' => $request->get('name'),
             'type' => $request->get('type'),
         ];
@@ -92,7 +89,7 @@ class AdminFlowController extends Controller
         foreach ($request->get('steps') as $step) {
             $newStep = (new AddStepToFlow)->execute([
                 'company_id' => $companyId,
-                'author_id' => auth()->user()->id,
+                'author_id' => Auth::user()->id,
                 'flow_id' => $flow->id,
                 'number' => $step['number'],
                 'unit_of_time' => $step['frequency'],
@@ -103,7 +100,7 @@ class AdminFlowController extends Controller
             foreach ($step['actions'] as $action) {
                 (new AddActionToStep)->execute([
                     'company_id' => $companyId,
-                    'author_id' => auth()->user()->id,
+                    'author_id' => Auth::user()->id,
                     'flow_id' => $flow->id,
                     'step_id' => $newStep->id,
                     'type' => $action['type'],

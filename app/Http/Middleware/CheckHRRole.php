@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Cache;
+use App\Helpers\InstanceHelper;
 
 class CheckHRRole
 {
@@ -16,8 +16,7 @@ class CheckHRRole
      */
     public function handle($request, Closure $next)
     {
-        $company = Cache::get('currentCompany');
-        $employee = auth()->user()->getEmployeeObjectForCompany($company);
+        $employee = InstanceHelper::getLoggedEmployee();
 
         if ($employee->permission_level <= config('homas.authorizations.hr')) {
             return $next($request);

@@ -61,10 +61,9 @@ class UpdateTeam extends BaseService
                 'team_new_name' => $data['name'],
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogTeamAudit::dispatch([
-            'company_id' => $data['company_id'],
             'team_id' => $team->id,
             'action' => 'team_updated',
             'objects' => json_encode([
@@ -75,7 +74,7 @@ class UpdateTeam extends BaseService
                 'team_new_name' => $data['name'],
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $team;
     }

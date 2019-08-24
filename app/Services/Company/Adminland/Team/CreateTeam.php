@@ -55,10 +55,9 @@ class CreateTeam extends BaseService
                 'team_name' => $team->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogTeamAudit::dispatch([
-            'company_id' => $data['company_id'],
             'team_id' => $team->id,
             'action' => 'team_created',
             'objects' => json_encode([
@@ -68,7 +67,7 @@ class CreateTeam extends BaseService
                 'team_name' => $team->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $team;
     }

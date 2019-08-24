@@ -53,7 +53,7 @@ class DestroyTeam extends BaseService
                 'team_name' => $team->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return true;
     }

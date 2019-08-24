@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Adminland\Company\RemoveDummyData;
 use App\Services\Company\Adminland\Company\GenerateDummyData;
 
@@ -19,11 +20,11 @@ class DummyController extends Controller
      */
     public function index(Request $request)
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
         if ($company->has_dummy_data) {
             (new RemoveDummyData)->execute([
                 'company_id' => $company->id,
-                'author_id' => auth()->user()->id,
+                'author_id' => Auth::user()->id,
             ]);
 
             return redirect(tenant('/dashboard'));
@@ -31,7 +32,7 @@ class DummyController extends Controller
 
         (new GenerateDummyData)->execute([
             'company_id' => $company->id,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
         ]);
 
         return redirect(tenant('/dashboard'));

@@ -60,7 +60,7 @@ class UpdateEmployeeStatus extends BaseService
                 'employee_status_new_name' => $data['name'],
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $employeeStatus;
     }

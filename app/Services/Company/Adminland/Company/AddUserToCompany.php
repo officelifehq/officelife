@@ -59,7 +59,7 @@ class AddUserToCompany extends BaseService
                 'user_email' => $employee->user->email,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $employee;
     }

@@ -22,7 +22,7 @@ describe('Employee - Assign managers and direct reports', function () {
     // check employee log
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=view-log-button]').click()
-    cy.get('[data-cy=logs-list]').contains('admin@admin.com assigned Michael Scott as a manager.')
+    cy.get('[data-cy=logs-list]').contains('Assigned Michael Scott as a manager.')
     cy.get('[data-cy=breadcrumb-employee]').click()
 
     // remove manager
@@ -34,7 +34,7 @@ describe('Employee - Assign managers and direct reports', function () {
     // check employee log
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=view-log-button]').click()
-    cy.get('[data-cy=logs-list]').contains('admin@admin.com removed Michael Scott as a manager.')
+    cy.get('[data-cy=logs-list]').contains('Removed Michael Scott as a manager.')
     cy.get('[data-cy=breadcrumb-employee]').click()
 
     // I will now test that I can add dwight schrute as Jim's direct report
@@ -47,7 +47,7 @@ describe('Employee - Assign managers and direct reports', function () {
     // check employee log
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=view-log-button]').click()
-    cy.get('[data-cy=logs-list]').contains('admin@admin.com assigned Dwight Schrute as a direct report.')
+    cy.get('[data-cy=logs-list]').contains('Assigned Dwight Schrute as a direct report.')
     cy.get('[data-cy=breadcrumb-employee]').click()
 
     // remove direct report
@@ -59,7 +59,7 @@ describe('Employee - Assign managers and direct reports', function () {
     // check employee log
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=view-log-button]').click()
-    cy.get('[data-cy=logs-list]').contains('admin@admin.com removed Dwight Schrute as a direct report.')
+    cy.get('[data-cy=logs-list]').contains('Removed Dwight Schrute as a direct report.')
   })
 
   it('should check that assigning manager or direct report is reserved for a certain permission level', function () {

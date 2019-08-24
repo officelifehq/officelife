@@ -60,9 +60,10 @@ class AddEmployeeToCompany extends BaseService
                 'employee_email' => $data['email'],
                 'employee_first_name' => $data['first_name'],
                 'employee_last_name' => $data['last_name'],
+                'employee_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         if ($data['send_invitation']) {
             (new InviteUser)->execute([
@@ -103,7 +104,6 @@ class AddEmployeeToCompany extends BaseService
         ]);
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $employee->id,
             'action' => 'employee_created',
             'objects' => json_encode([
@@ -113,7 +113,7 @@ class AddEmployeeToCompany extends BaseService
                 'employee_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $employee;
     }

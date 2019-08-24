@@ -66,7 +66,7 @@ class UnassignManager extends BaseService
                 'employee_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         $this->logInEmployeeLogs($data, $author, $manager, $employee);
 
@@ -88,7 +88,6 @@ class UnassignManager extends BaseService
     {
         // Log information about the employee having a manager assigned
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'manager_unassigned',
             'objects' => json_encode([
@@ -98,12 +97,11 @@ class UnassignManager extends BaseService
                 'manager_name' => $manager->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         // Log information about the manager having assigned a direct report
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
-            'employee_id' => $data['employee_id'],
+            'employee_id' => $manager->id,
             'action' => 'direct_report_unassigned',
             'objects' => json_encode([
                 'author_id' => $author->id,
@@ -112,6 +110,6 @@ class UnassignManager extends BaseService
                 'direct_report_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
     }
 }

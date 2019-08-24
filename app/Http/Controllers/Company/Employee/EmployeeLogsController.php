@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
+use App\Http\Resources\Company\EmployeeLog\EmployeeLog as EmployeeLogResource;
 
 class EmployeeLogsController extends Controller
 {
@@ -21,12 +23,12 @@ class EmployeeLogsController extends Controller
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {
-        $company = Cache::get('currentCompany');
+        $company = InstanceHelper::getLoggedCompany();
         $employee = Employee::findOrFail($employeeId);
 
         try {
             $this->validateAccess(
-                auth()->user()->id,
+                Auth::user()->id,
                 $companyId,
                 $employeeId,
                 config('homas.authorizations.hr')
@@ -37,70 +39,12 @@ class EmployeeLogsController extends Controller
 
         $logs = $employee->employeeLogs()->paginate(15);
 
-        $logsCollection = collect([]);
-        $sentence = '';
-        foreach ($logs->all() as $log) {
-            if ($log->action == 'employee_created') {
-                $sentence = $log->author.' created this employee entry.';
-            }
+        $logs = EmployeeLogResource::collection($logs);
 
-            if ($log->action == 'manager_assigned') {
-                $sentence = $log->author.' assigned '.$log->manager.' as a manager.';
-            }
-
-            if ($log->action == 'direct_report_assigned') {
-                $sentence = $log->author.' assigned '.$log->directReport.' as a direct report.';
-            }
-
-            if ($log->action == 'manager_unassigned') {
-                $sentence = $log->author.' removed '.$log->manager.' as a manager.';
-            }
-
-            if ($log->action == 'direct_report_unassigned') {
-                $sentence = $log->author.' removed '.$log->directReport.' as a direct report.';
-            }
-
-            if ($log->action == 'position_assigned') {
-                $sentence = $log->author.' assigned the position called '.$log->position.'.';
-            }
-
-            if ($log->action == 'position_removed') {
-                $sentence = $log->author.' removed the position called '.$log->position.'.';
-            }
-
-            if ($log->action == 'employee_added_to_team') {
-                $sentence = $log->author.' added to the team called '.$log->team.'.';
-            }
-
-            if ($log->action == 'employee_removed_from_team') {
-                $sentence = $log->author.' removed from '.$log->team.'.';
-            }
-
-            if ($log->action == 'employee_worklog_logged') {
-                $sentence = $log->author.' added a worklog.';
-            }
-
-            if ($log->action == 'employee_status_assigned') {
-                $sentence = $log->author.' assigned the employee status called '.$log->object->{'employee_status_name'}.'.';
-            }
-
-            if ($log->action == 'employee_status_removed') {
-                $sentence = $log->author.' removed the employee status called '.$log->object->{'employee_status_name'}.'.';
-            }
-
-            $logsCollection->push([
-                'name' => $log->author,
-                'sentence' => $sentence,
-                'date' => $log->date,
-            ]);
-        }
-
-        return View::component('ShowEmployeeLogs', [
-            'company' => $company,
+        return Inertia::render('Employee/Logs', [
             'employee' => new EmployeeResource($employee),
-            'logs' => $logsCollection,
-            'user' => auth()->user()->getEmployeeObjectForCompany($company),
-            'notifications' => auth()->user()->getLatestNotifications($company),
+            'logs' => $logs,
+            'notifications' => Auth::user()->getLatestNotifications($company),
             'paginator' => [
                 'count' => $logs->count(),
                 'currentPage' => $logs->currentPage(),

@@ -62,7 +62,7 @@ class InviteUser extends BaseService
                 'employee_last_name' => $employee->last_name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $employee;
     }

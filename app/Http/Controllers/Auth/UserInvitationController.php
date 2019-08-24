@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
+use Inertia\Inertia;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
@@ -28,23 +28,23 @@ class UserInvitationController extends Controller
             $employee = Employee::where('invitation_link', $invitationLink)
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            return View::component('InvalidInvitationLink', []);
+            return Inertia::render('Auth/Invitation/InvalidInvitationLink', []);
         }
 
         if ($employee->invitationAlreadyAccepted()) {
-            return View::component('InvitationLinkAlreadyAccepted', []);
+            return Inertia::render('Auth/Invitation/InvitationLinkAlreadyAccepted', []);
         }
 
         if (Auth::check()) {
-            return View::component('AcceptInvitation', [
+            return Inertia::render('Auth/Invitation/AcceptInvitation', [
                 'company' => $employee->company,
                 'employee' => new EmployeeResource($employee),
                 'invitationLink' => $invitationLink,
-                'user' => auth()->user()->getEmployeeObjectForCompany($employee->company),
+                'user' => Auth::user()->getEmployeeObjectForCompany($employee->company),
             ]);
         }
 
-        return View::component('AcceptInvitationUnlogged', [
+        return Inertia::render('Auth/Invitation/AcceptInvitationUnlogged', [
             'company' => $employee->company,
             'employee' => new EmployeeResource($employee),
             'invitationLink' => $invitationLink,
@@ -102,7 +102,7 @@ class UserInvitationController extends Controller
             ->firstOrFail();
 
         $employee->invitation_used_at = Carbon::now();
-        $employee->user_id = auth()->user()->id;
+        $employee->user_id = Auth::user()->id;
         $employee->save();
     }
 }

@@ -60,10 +60,9 @@ class RemoveEmployeeStatusFromEmployee extends BaseService
                 'employee_status_name' => $employeeStatus->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'employee_status_removed',
             'objects' => json_encode([
@@ -73,7 +72,7 @@ class RemoveEmployeeStatusFromEmployee extends BaseService
                 'employee_status_name' => $employeeStatus->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         $employee->refresh();
 

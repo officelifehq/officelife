@@ -31,7 +31,6 @@ class LogTeamAuditTest extends TestCase
         );
 
         $request = [
-            'company_id' => $michael->company_id,
             'team_id' => $team->id,
             'action' => 'employee_status_created',
             'objects' => json_encode([
@@ -44,7 +43,6 @@ class LogTeamAuditTest extends TestCase
         LogTeamAudit::dispatch($request);
 
         $this->assertDatabaseHas('team_logs', [
-            'company_id' => $michael->company_id,
             'team_id' => $team->id,
             'action' => 'employee_status_created',
             'objects' => json_encode([

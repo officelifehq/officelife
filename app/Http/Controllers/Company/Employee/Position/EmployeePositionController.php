@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Employee\Position;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Services\Company\Employee\Position\RemovePositionFromEmployee;
@@ -22,7 +23,7 @@ class EmployeePositionController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
             'position_id' => $request->get('id'),
         ];
@@ -43,7 +44,7 @@ class EmployeePositionController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
         ];
 

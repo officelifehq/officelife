@@ -65,7 +65,7 @@ class UpdateEmployee extends BaseService
                 'employee_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $employee;
     }

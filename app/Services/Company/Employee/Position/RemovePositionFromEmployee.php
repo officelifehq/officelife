@@ -61,10 +61,9 @@ class RemovePositionFromEmployee extends BaseService
                 'position_title' => $position->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'position_removed',
             'objects' => json_encode([
@@ -74,7 +73,7 @@ class RemovePositionFromEmployee extends BaseService
                 'position_title' => $position->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $employee;
     }

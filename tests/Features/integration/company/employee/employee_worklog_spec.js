@@ -14,7 +14,7 @@ describe('Employee - worklogs', function () {
 
     // find the worklog tab, enter the text and press save
     cy.get('[data-cy=log-worklog-cta]').click()
-    cy.get('[data-cy=worklog-content]').find('[contenteditable]').type('I made a drawing')
+    cy.get('[data-cy=worklog-content]').type('I made a drawing')
     cy.get('[data-cy=submit-log-worklog]').click()
 
     cy.visit('/1/employees/1')

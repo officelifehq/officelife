@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\View;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -13,7 +15,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $employees = auth()->user()->employees()->with('company')->get();
+        Cache::forget('cachedCompanyObject_'.Auth::user()->id);
+        Cache::forget('cachedEmployeeObject_'.Auth::user()->id);
+
+        $employees = Auth::user()->employees()->with('company')->get();
         $companiesCollection = collect([]);
 
         foreach ($employees as $employee) {
@@ -25,9 +30,8 @@ class HomeController extends Controller
             ]);
         }
 
-        return View::component('Home', [
+        return Inertia::render('Home/Index', [
             'employees' => $companiesCollection,
-            'user' => auth()->user(),
         ]);
     }
 }

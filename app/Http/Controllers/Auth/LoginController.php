@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class LoginController extends Controller
@@ -13,7 +14,7 @@ class LoginController extends Controller
     use ThrottlesLogins;
 
     /**
-     * Shows the signin page.
+     * Shows the login page.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +24,7 @@ class LoginController extends Controller
             return redirect('/home');
         }
 
-        return View::component('Login');
+        return Inertia::render('Auth/Login');
     }
 
     /**
@@ -34,18 +35,17 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         if (Auth::check()) {
-            return redirect('/home');
+            return Redirect::route('home');
         }
 
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/home');
+            return Redirect::route('home');
         }
 
-        return response()->json([
-            'errors' => trans('auth.login_invalid_credentials'),
-        ], 403);
+        return Redirect::route('login')
+                        ->withErrors(trans('auth.login_invalid_credentials'));
     }
 
     /**
@@ -57,6 +57,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect('/login');
+        return Redirect::route('login');
     }
 }

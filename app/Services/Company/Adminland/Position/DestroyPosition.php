@@ -53,7 +53,7 @@ class DestroyPosition extends BaseService
                 'position_title' => $position->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return true;
     }

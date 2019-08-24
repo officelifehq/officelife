@@ -76,10 +76,9 @@ class SetBirthdayForEmployee extends BaseService
                 'birthday' => $data['date'],
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'birthday_set',
             'objects' => json_encode([
@@ -90,7 +89,7 @@ class SetBirthdayForEmployee extends BaseService
                 'birthday' => $data['date'],
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        ])->onQueue('low');
 
         return $employee;
     }

@@ -57,7 +57,7 @@ class ChangePermission extends BaseService
                 'old_permission' => $oldPermission,
                 'new_permission' => $data['permission_level'],
             ]),
-        ]);
+        ])->onQueue('low');
 
         return $employee;
     }

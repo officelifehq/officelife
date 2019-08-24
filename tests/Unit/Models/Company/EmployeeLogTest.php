@@ -3,22 +3,12 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\ApiTestCase;
-use App\Models\Company\Team;
-use App\Models\Company\Position;
 use App\Models\Company\EmployeeLog;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeLogTest extends ApiTestCase
 {
     use DatabaseTransactions;
-
-    /** @test */
-    public function it_belongs_to_a_company() : void
-    {
-        $employeeLog = factory(EmployeeLog::class)->create([]);
-        $this->assertTrue($employeeLog->company()->exists());
-    }
 
     /** @test */
     public function it_belongs_to_an_employee() : void
@@ -50,224 +40,22 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_author_attribute() : void
+    public function it_returns_the_content_attribute(): void
     {
         $adminEmployee = $this->createAdministrator();
 
-        Cache::shouldReceive('get')
-            ->once()
-            ->times(2)
-            ->with('currentCompany')
-            ->andReturn($adminEmployee->company);
-
-        $employeeLog = factory(EmployeeLog::class)->create([
+        $auditLog = factory(EmployeeLog::class)->create([
+            'action' => 'employee_worklog_logged',
             'objects' => json_encode([
                 'author_id' => $adminEmployee->user->id,
+                'employee_name' => $adminEmployee->user->name,
             ]),
-            'company_id' => $adminEmployee->company_id,
+            'employee_id' => $adminEmployee->id,
         ]);
 
         $this->assertEquals(
-            '<a href="'.tenant('/employees/'.$adminEmployee->user->id).'">'.$adminEmployee->user->name.'</a>',
-            $employeeLog->author
-        );
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'author_id' => 12345,
-                'author_name' => 'Dwight Schrute',
-            ]),
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $this->assertEquals(
-            'Dwight Schrute',
-            $employeeLog->author
-        );
-    }
-
-    /** @test */
-    public function it_returns_the_team_attribute() : void
-    {
-        $adminEmployee = $this->createAdministrator();
-        $team = factory(Team::class)->create([
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        Cache::shouldReceive('get')
-            ->once()
-            ->times(2)
-            ->with('currentCompany')
-            ->andReturn($adminEmployee->company);
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'team_id' => $team->id,
-            ]),
-            'company_id' => $team->company_id,
-        ]);
-
-        $this->assertEquals(
-            '<a href="'.tenant('/teams/'.$team->id).'">'.$team->name.'</a>',
-            $employeeLog->team
-        );
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'team_id' => 12345,
-                'team_name' => 'Sales',
-            ]),
-            'company_id' => $team->company_id,
-        ]);
-
-        $this->assertEquals(
-            'Sales',
-            $employeeLog->team
-        );
-    }
-
-    /** @test */
-    public function it_returns_the_user_attribute() : void
-    {
-        $adminEmployee = $this->createAdministrator();
-
-        Cache::shouldReceive('get')
-            ->once()
-            ->times(2)
-            ->with('currentCompany')
-            ->andReturn($adminEmployee->company);
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'user_id' => $adminEmployee->user->id,
-            ]),
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $this->assertEquals(
-            '<a href="'.tenant('/employees/'.$adminEmployee->user->id).'">'.$adminEmployee->user->name.'</a>',
-            $employeeLog->user
-        );
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'user_id' => 12345,
-                'user_name' => 'dwight@dundermifflin.com',
-            ]),
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $this->assertEquals(
-            'dwight@dundermifflin.com',
-            $employeeLog->user
-        );
-    }
-
-    /** @test */
-    public function it_returns_the_manager_attribute() : void
-    {
-        $adminEmployee = $this->createAdministrator();
-
-        Cache::shouldReceive('get')
-            ->once()
-            ->times(2)
-            ->with('currentCompany')
-            ->andReturn($adminEmployee->company);
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'manager_id' => $adminEmployee->id,
-            ]),
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $this->assertEquals(
-            '<a href="'.tenant('/employees/'.$adminEmployee->id).'">'.$adminEmployee->name.'</a>',
-            $employeeLog->manager
-        );
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'manager_id' => 12345,
-                'manager_name' => 'Dwight Schrute',
-            ]),
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $this->assertEquals(
-            'Dwight Schrute',
-            $employeeLog->manager
-        );
-    }
-
-    /** @test */
-    public function it_returns_the_direct_report_attribute() : void
-    {
-        $adminEmployee = $this->createAdministrator();
-
-        Cache::shouldReceive('get')
-            ->once()
-            ->times(2)
-            ->with('currentCompany')
-            ->andReturn($adminEmployee->company);
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'direct_report_id' => $adminEmployee->id,
-            ]),
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $this->assertEquals(
-            '<a href="'.tenant('/employees/'.$adminEmployee->id).'">'.$adminEmployee->name.'</a>',
-            $employeeLog->directReport
-        );
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'direct_report_id' => 12345,
-                'direct_report_name' => 'Dwight Schrute',
-            ]),
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $this->assertEquals(
-            'Dwight Schrute',
-            $employeeLog->directReport
-        );
-    }
-
-    /** @test */
-    public function it_returns_the_position_attribute() : void
-    {
-        $adminEmployee = $this->createAdministrator();
-        $position = factory(Position::class)->create([
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'position_id' => $position->id,
-            ]),
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $this->assertEquals(
-            $position->title,
-            $employeeLog->position
-        );
-
-        $employeeLog = factory(EmployeeLog::class)->create([
-            'objects' => json_encode([
-                'position_id' => 12345,
-                'position_title' => 'Assistant to the regional manager',
-            ]),
-            'company_id' => $adminEmployee->company_id,
-        ]);
-
-        $this->assertEquals(
-            'Assistant to the regional manager',
-            $employeeLog->position
+            'Added a worklog.',
+            $auditLog->content
         );
     }
 }

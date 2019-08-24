@@ -13,10 +13,12 @@
         "lint": "eslint --ext .js,.vue resources/js/"
     },
     "devDependencies": {
+        "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+        "@inertiajs/inertia-vue": "^0.1.0",
         "axios": "^0.18",
         "cross-env": "^5.1",
         "cypress": "3.4.1",
-        "eslint": "^5.15.3",
+        "eslint": "^6.1.0",
         "eslint-plugin-vue": "^5.2.2",
         "husky": "^2.7.0",
         "laravel-mix": "^4.0.7",
@@ -34,13 +36,14 @@
         "vue-template-compiler": "^2.5.22"
     },
     "dependencies": {
+        "@inertiajs/inertia": "^0.1.1",
         "tiptap": "^1.23.0",
         "tiptap-extensions": "^1.24.0",
-        "turbolinks": "^5.2.0",
         "underscore": "^1.9.1",
         "vue-click-outside": "^1.0.7",
         "vue-i18n": "^8.8.2",
         "vue-loaders": "^2.0.0",
+        "vue-moment": "^4.0.0",
         "vue-snotify": "^3.2.1"
     },
     "lint-staged": {

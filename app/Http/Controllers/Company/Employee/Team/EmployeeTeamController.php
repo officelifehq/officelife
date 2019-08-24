@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Employee\Team;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Employee\Team;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
@@ -23,7 +24,7 @@ class EmployeeTeamController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
             'team_id' => $request->get('id'),
         ];
@@ -45,7 +46,7 @@ class EmployeeTeamController extends Controller
     {
         $request = [
             'company_id' => $companyId,
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
             'team_id' => $teamId,
         ];
