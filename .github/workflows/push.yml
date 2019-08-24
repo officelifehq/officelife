@@ -1,18 +1,27 @@
-on: push
-name: phpunit / phpinsights / php-cs-fixer
+name: CI
+
+on: [push]
+
 jobs:
-  php-cs-fixer:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@master
-    - name: php-cs-fixer
-      uses: docker://oskarstark/php-cs-fixer-ga
-    - name: composer install
-      uses: MilesChou/composer-action@master
+    - uses: actions/checkout@v1
+
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
       with:
-        args: install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress
-          --prefer-dist
-    - name: phpunit
-      uses: ./actions/run-phpunit/
-      with:
-        args: tests/
+        node-version: 12.x
+
+    - name: Install composer dependencies
+      run: composer install --prefer-dist
+
+    - name: Install npm dependencies
+      run: npm install
+
+    - name: Run Mix
+      run: npm run production
+
+    - name: Run PHPUnit
+      run: php7.3 vendor/bin/phpunit
