@@ -12,9 +12,6 @@ use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class AppServiceProvider extends ServiceProvider
 {
-    protected $company;
-    protected $employee;
-
     /**
      * Bootstrap any application services.
      *

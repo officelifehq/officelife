@@ -96,12 +96,6 @@
 
         <PossiblyUndefinedMethod errorLevel="info" />
         <ReservedWord errorLevel="info" />
-
-        <UndefinedInterfaceMethod>
-            <errorLevel type="suppress">
-                <directory name="tests/Unit" />
-                <directory name="app/Helpers" />
-            </errorLevel>
-        </UndefinedInterfaceMethod>
+        <UndefinedInterfaceMethod errorLevel="info" />
     </issueHandlers>
 </psalm>
