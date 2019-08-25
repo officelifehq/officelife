@@ -22,7 +22,6 @@ class UpdateEmployee extends BaseService
             'email' => 'required|email|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'birthdate' => 'nullable|date',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -50,7 +49,6 @@ class UpdateEmployee extends BaseService
             'email' => $data['email'],
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
-            'birthdate' => $this->nullOrDate($data, 'birthdate'),
         ]);
 
         $employee->refresh();
