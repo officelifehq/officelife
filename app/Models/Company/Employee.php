@@ -219,6 +219,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the company news record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function news()
+    {
+        return $this->hasMany(CompanyNews::class, 'id', 'author_id');
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string

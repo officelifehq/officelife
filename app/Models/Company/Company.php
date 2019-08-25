@@ -120,4 +120,14 @@ class Company extends Model
     {
         return $this->hasMany(EmployeeStatus::class);
     }
+
+    /**
+     * Get the company news records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function news()
+    {
+        return $this->hasMany(CompanyNews::class);
+    }
 }

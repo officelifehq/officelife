@@ -191,3 +191,18 @@ $factory->define(App\Models\Company\EmployeeStatus::class, function (Faker $fake
         'name' => 'Permanent',
     ];
 });
+
+$factory->define(App\Models\Company\CompanyNews::class, function (Faker $faker) {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'author_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $data['company_id'],
+            ])->id;
+        },
+        'title' => 'Party at the office',
+        'content' => 'Michael and Dwight invite you to a party.',
+    ];
+});

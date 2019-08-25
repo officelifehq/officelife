@@ -125,6 +125,7 @@ return [
     'log_employee_status_destroyed' => 'Destroyed the employee status called :name.',
     'log_employee_status_assigned' => 'Assigned the employee status called :name to :employee.',
     'log_employee_status_removed' => 'Removed the employee status called :name from :employee.',
+    'log_company_news_created' => 'Wrote a company news called :name.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',

@@ -158,6 +158,12 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'news_created') {
+            $sentence = trans('account.log_company_news_created', [
+                'name' => $log->object->{'news_title'},
+            ]);
+        }
+
         return $sentence;
     }
 
