@@ -44,6 +44,9 @@ class LogEmployeeAudit implements ShouldQueue
 
         (new LogEmployeeAction)->execute([
             'employee_id' => $this->auditLog['employee_id'],
+            'author_id' => $this->auditLog['author_id'],
+            'author_name' => $this->auditLog['author_name'],
+            'audited_at' => $this->auditLog['audited_at'],
             'action' => $this->auditLog['action'],
             'objects' => $this->auditLog['objects'],
             'is_dummy' => $isDummy,

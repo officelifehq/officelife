@@ -39,9 +39,8 @@ class DestroyEmployeeStatusTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $employeeStatus) {
             return $job->auditLog['action'] === 'employee_status_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_status_name' => $employeeStatus->name,
                 ]);
         });

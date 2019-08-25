@@ -28,7 +28,6 @@ class UpdateEmployeeTest extends TestCase
             'email' => 'dwight@dundermifflin.com',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
-            'birthdate' => '1978-01-20',
         ];
 
         $dwight = (new UpdateEmployee)->execute($request);
@@ -39,7 +38,6 @@ class UpdateEmployeeTest extends TestCase
             'email' => 'dwight@dundermifflin.com',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
-            'birthdate' => '1978-01-20 00:00:00',
         ]);
 
         $this->assertInstanceOf(
@@ -49,9 +47,8 @@ class UpdateEmployeeTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'employee_updated' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $michael->id,
                     'employee_name' => 'Dwight Schrute',
                 ]);

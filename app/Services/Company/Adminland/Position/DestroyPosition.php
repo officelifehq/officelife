@@ -17,7 +17,7 @@ class DestroyPosition extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'position_id' => 'required|integer|exists:positions,id',
             'is_dummy' => 'nullable|boolean',
         ];

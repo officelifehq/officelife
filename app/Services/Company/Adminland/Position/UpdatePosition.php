@@ -17,7 +17,7 @@ class UpdatePosition extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'position_id' => 'required|integer|exists:positions,id',
             'title' => 'required|string|max:255',
             'is_dummy' => 'nullable|boolean',

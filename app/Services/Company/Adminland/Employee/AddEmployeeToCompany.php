@@ -2,7 +2,7 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
-use App\Models\User\User;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
@@ -22,7 +22,7 @@ class AddEmployeeToCompany extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'email' => 'required|email|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -53,9 +53,10 @@ class AddEmployeeToCompany extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_added_to_company',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_email' => $data['email'],
                 'employee_first_name' => $data['first_name'],
@@ -80,10 +81,10 @@ class AddEmployeeToCompany extends BaseService
      * Create the employee.
      *
      * @param array $data
-     * @param User $author
+     * @param Employee $author
      * @return Employee
      */
-    private function createEmployee(array $data, User $author) : Employee
+    private function createEmployee(array $data, Employee $author) : Employee
     {
         $uuid = Str::uuid()->toString();
 
@@ -106,9 +107,10 @@ class AddEmployeeToCompany extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'employee_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
             ]),

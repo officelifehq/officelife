@@ -22,7 +22,7 @@ class CreateTask extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'team_id' => 'nullable|integer|exists:teams,id',
             'assignee_id' => 'nullable|integer|exists:employees,id',
             'completed' => 'nullable|boolean',

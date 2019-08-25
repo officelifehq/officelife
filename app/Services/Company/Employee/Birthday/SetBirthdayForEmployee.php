@@ -21,7 +21,7 @@ class SetBirthdayForEmployee extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'date' => 'required|date|date_format:Y-m-d',
             'is_dummy' => 'nullable|boolean',

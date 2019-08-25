@@ -18,8 +18,11 @@ class AuditLog extends Model
      */
     protected $fillable = [
         'company_id',
+        'author_id',
+        'author_name',
         'action',
         'objects',
+        'audited_at',
         'ip_address',
         'is_dummy',
     ];
@@ -62,7 +65,7 @@ class AuditLog extends Model
      */
     public function getDateAttribute($value) : string
     {
-        return DateHelper::getShortDateWithTime($this->created_at);
+        return DateHelper::getShortDateWithTime($this->audited_at);
     }
 
     /**

@@ -18,7 +18,7 @@ class UpdateTeam extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
             'name' => 'required|string|max:255',
             'is_dummy' => 'nullable|boolean',

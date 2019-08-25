@@ -21,7 +21,7 @@ class EmployeeLogTest extends ApiTestCase
     public function it_returns_the_date_attribute() : void
     {
         $employeeLog = factory(EmployeeLog::class)->create([
-            'created_at' => '2017-01-22 17:56:03',
+            'audited_at' => '2017-01-22 17:56:03',
         ]);
         $this->assertEquals(
             'Jan 22, 2017 17:56',

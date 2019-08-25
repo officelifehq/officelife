@@ -40,27 +40,27 @@ abstract class BaseService
      * the actual employee who does the action, we grant the right to do the
      * action without checking for the permission.
      *
-     * @param int $userId
+     * @param int $employeeId
      * @param int $companyId
      * @param int $requiredPermissionLevel
-     * @param int $employeeId
-     * @return User
+     * @param int $otherEmployeeId
+     * @return Employee
      */
-    public function validatePermissions(int $userId, int $companyId, int $requiredPermissionLevel, int $employeeId = null) : User
+    public function validatePermissions(int $employeeId, int $companyId, int $requiredPermissionLevel, int $otherEmployeeId = null) : Employee
     {
-        $employee = Employee::where('user_id', $userId)
-            ->where('company_id', $companyId)
+        $employee = Employee::where('company_id', $companyId)
+            ->where('id', $employeeId)
             ->firstOrFail();
 
-        if ($employee->id == $employeeId) {
-            return $employee->user;
+        if ($employee->id == $otherEmployeeId) {
+            return $employee;
         }
 
         if ($requiredPermissionLevel < $employee->permission_level) {
             throw new NotEnoughPermissionException;
         }
 
-        return $employee->user;
+        return $employee;
     }
 
     /**

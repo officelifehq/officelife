@@ -19,7 +19,7 @@ class LogWorklog extends BaseService
     public function rules() : array
     {
         return [
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'content' => 'required|string|max:65535',
             'is_dummy' => 'nullable|boolean',
