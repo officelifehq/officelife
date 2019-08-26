@@ -41,8 +41,8 @@ class ProcessCompanyMorale implements ShouldQueue
     public function handle()
     {
         $moraleCompanyHistory = MoraleCompanyHistory::whereBetween('created_at', [
-                    $this->parameters['date']->toDateString() . ' 00:00:00',
-                    $this->parameters['date']->toDateString() . ' 23:59:59',
+                    $this->parameters['date']->toDateString().' 00:00:00',
+                    $this->parameters['date']->toDateString().' 23:59:59',
                 ])
                 ->where('company_id', $this->parameters['company_id'])
                 ->first();
@@ -53,8 +53,8 @@ class ProcessCompanyMorale implements ShouldQueue
 
         $employeesWithMorale = Employee::whereHas('morales', function ($query) {
             $query->whereBetween(
-                    'created_at',
-                    [
+                'created_at',
+                [
                         $this->parameters['date']->toDateString().' 00:00:00',
                         $this->parameters['date']->toDateString().' 23:59:59',
                     ]
@@ -68,8 +68,8 @@ class ProcessCompanyMorale implements ShouldQueue
         foreach ($employeesWithMorale as $employee) {
             $morale = Morale::where('employee_id', $employee->id)
                 ->whereBetween('created_at', [
-                    $this->parameters['date']->toDateString() . ' 00:00:00',
-                    $this->parameters['date']->toDateString() . ' 23:59:59',
+                    $this->parameters['date']->toDateString().' 00:00:00',
+                    $this->parameters['date']->toDateString().' 23:59:59',
                 ])
                 ->first();
 

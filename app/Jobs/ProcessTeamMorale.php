@@ -41,13 +41,13 @@ class ProcessTeamMorale implements ShouldQueue
     public function handle()
     {
         $moraleTeamHistory = MoraleTeamHistory::whereBetween('created_at', [
-            $this->parameters['date']->toDateString() . ' 00:00:00',
-            $this->parameters['date']->toDateString() . ' 23:59:59',
+            $this->parameters['date']->toDateString().' 00:00:00',
+            $this->parameters['date']->toDateString().' 23:59:59',
         ])
             ->where('team_id', $this->parameters['team_id'])
             ->first();
 
-        if (!is_null($moraleTeamHistory)) {
+        if (! is_null($moraleTeamHistory)) {
             return;
         }
 
@@ -62,8 +62,8 @@ class ProcessTeamMorale implements ShouldQueue
         foreach ($employees as $employee) {
             $morale = Morale::where('employee_id', $employee->id)
                 ->whereBetween('created_at', [
-                    $this->parameters['date']->toDateString() . ' 00:00:00',
-                    $this->parameters['date']->toDateString() . ' 23:59:59',
+                    $this->parameters['date']->toDateString().' 00:00:00',
+                    $this->parameters['date']->toDateString().' 23:59:59',
                 ])
                 ->first();
 

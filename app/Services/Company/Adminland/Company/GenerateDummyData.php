@@ -218,7 +218,7 @@ class GenerateDummyData extends BaseService
         foreach ($employees as $employee) {
             $date = Carbon::now()->subMonths(3);
 
-            while (!$date->isSameDay(Carbon::now())) {
+            while (! $date->isSameDay(Carbon::now())) {
                 if (rand(1, 10) >= 8) {
                     DB::table('morale')->insert([
                         'employee_id' => $employee->id,
