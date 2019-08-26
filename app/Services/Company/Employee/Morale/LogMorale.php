@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Services\Company\Employee\Worklog;
+namespace App\Services\Company\Employee\Morale;
 
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Worklog;
+use App\Models\Company\Morale;
+use Illuminate\Validation\Rule;
 use App\Models\Company\Employee;
-use App\Exceptions\WorklogAlreadyLoggedTodayException;
+use App\Exceptions\MoraleAlreadyLoggedTodayException;
 
-class LogWorklog extends BaseService
+class LogMorale extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -21,20 +22,26 @@ class LogWorklog extends BaseService
         return [
             'author_id' => 'required|integer|exists:users,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'content' => 'required|string|max:65535',
+            'emotion' => 'required',
+                Rule::in([
+                    1,
+                    2,
+                    3,
+                ]),
+            'comment' => 'required|string|max:65535',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Log the work that the employee has done.
-     * Logging can only happen once per day.
+     * Log how an employee feels at a specific day.
+     * This can only happen once per day.
      * Logging can only be done by the employee.
      *
      * @param array $data
-     * @return Worklog
+     * @return Morale
      */
-    public function execute(array $data) : Worklog
+    public function execute(array $data) : Morale
     {
         $this->validate($data);
 
@@ -47,57 +54,45 @@ class LogWorklog extends BaseService
             $data['employee_id']
         );
 
-        if ($employee->hasAlreadyLoggedWorklogToday()) {
-            throw new WorklogAlreadyLoggedTodayException();
+        if ($employee->hasAlreadyLoggedMoraleToday()) {
+            throw new MoraleAlreadyLoggedTodayException();
         }
 
-        $this->resetWorklogMissed($employee);
-
-        $worklog = Worklog::create([
+        $morale = Morale::create([
             'employee_id' => $data['employee_id'],
-            'content' => $data['content'],
+            'emotion' => $data['emotion'],
+            'comment' => $this->nullOrValue($data, 'comment'),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,
-            'action' => 'employee_worklog_logged',
+            'action' => 'employee_morale_logged',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'worklog_id' => $worklog->id,
+                'morale_id' => $morale->id,
+                'emotion' => $morale->emotion,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
-            'action' => 'employee_worklog_logged',
+            'action' => 'morale_logged',
             'objects' => json_encode([
                 'author_id' => $author->id,
                 'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'worklog_id' => $worklog->id,
+                'morale_id' => $morale->id,
+                'emotion' => $morale->emotion,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
-        return $worklog;
-    }
-
-    /**
-     * Reset the counter indicating the number of missed daily worklog for the
-     * given employee.
-     *
-     * @param Employee $employee
-     * @return void
-     */
-    private function resetWorklogMissed(Employee $employee)
-    {
-        $employee->consecutive_worklog_missed = 0;
-        $employee->save();
+        return $morale;
     }
 }

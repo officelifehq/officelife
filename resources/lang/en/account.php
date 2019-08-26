@@ -146,4 +146,8 @@ return [
     'team_log_task_associated_to_team' => 'Associated :name to the team.',
     'team_log_team_leader_assigned' => 'Assigned :name as the team leader.',
     'team_log_team_leader_removed' => 'Removed :name as the team leader.',
+
+    'morale_1' => 'Positive',
+    'morale_2' => 'Neutral',
+    'morale_3' => 'Negative',
 ];
