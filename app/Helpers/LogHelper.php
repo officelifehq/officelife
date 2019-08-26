@@ -248,7 +248,7 @@ class LogHelper
      * @param TeamLog $log
      * @return string
      */
-    public static function processTeamLog(TeamLog $log): string
+    public static function processTeamLog(TeamLog $log) : string
     {
         $sentence = '';
 

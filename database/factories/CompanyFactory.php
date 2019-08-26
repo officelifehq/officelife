@@ -201,3 +201,23 @@ $factory->define(App\Models\Company\Morale::class, function (Faker $faker) {
         'comment' => 'I hate Toby',
     ];
 });
+
+$factory->define(App\Models\Company\MoraleCompanyHistory::class, function (Faker $faker) {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'average' => 2.3,
+        'number_of_employees' => 30,
+    ];
+});
+
+$factory->define(App\Models\Company\MoraleTeamHistory::class, function (Faker $faker) {
+    return [
+        'team_id' => function () {
+            return factory(App\Models\Company\Team::class)->create()->id;
+        },
+        'average' => 2.3,
+        'number_of_team_members' => 30,
+    ];
+});

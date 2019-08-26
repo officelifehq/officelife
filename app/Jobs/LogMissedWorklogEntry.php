@@ -37,7 +37,7 @@ class LogMissedWorklogEntry implements ShouldQueue
     public function handle()
     {
         $employeesWithLogs = Employee::whereHas('worklogs', function ($query) {
-            $query->whereDate('created_at', $this->date);
+            $query->whereDate('created_at', '<', $this->date->modify('+1 day'));
         })->get();
 
         $allEmployees = Employee::select('id')->get();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Company\Flow;
+namespace App\Http\Resources\Company\Morale;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;

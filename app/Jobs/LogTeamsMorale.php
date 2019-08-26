@@ -3,8 +3,8 @@
 namespace App\Jobs;
 
 use Carbon\Carbon;
+use App\Models\Company\Team;
 use Illuminate\Bus\Queueable;
-use App\Models\Company\Employee;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -36,13 +36,13 @@ class LogTeamsMorale implements ShouldQueue
      */
     public function handle()
     {
-        $employeesWithMorale = Employee::whereHas('morale', function ($query) {
-            $query->whereDate('created_at', $this->date);
-        })->get();
-
-        foreach ($employeesWithoutLogs as $employee) {
-            $employee->consecutive_worklog_missed = $employee->consecutive_worklog_missed + 1;
-            $employee->save();
-        }
+        Team::select('id')->chunk(100, function ($teams) {
+            $teams->each(function (Team $team) {
+                ProcessTeamMorale::dispatch([
+                    'team_id' => $team->id,
+                    'date' => $this->date,
+                ])->onQueue('low');
+            });
+        });
     }
 }

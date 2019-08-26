@@ -37,13 +37,13 @@ class LogCompaniesMorale implements ShouldQueue
      */
     public function handle()
     {
-        $companies = Company::select('id')->get();
-
-        foreach ($companies as $company) {
-            ProcessCompanyMorale::dispatch([
-                'company_id' => $company->id,
-                'date' => $this->date,
-            ])->onQueue('low');
-        }
+        Company::select('id')->chunk(100, function ($companies) {
+            $companies->each(function (Company $company) {
+                ProcessCompanyMorale::dispatch([
+                        'company_id' => $company->id,
+                        'date' => $this->date,
+                    ])->onQueue('low');
+            });
+        });
     }
 }

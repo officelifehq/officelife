@@ -125,7 +125,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_one_status(): void
+    public function it_has_one_status() :void
     {
         $dwight = factory(Employee::class)->create();
 
@@ -133,7 +133,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_notifications(): void
+    public function it_has_many_notifications() :void
     {
         $dwight = factory(Employee::class)->create();
         factory(Notification::class, 2)->create([
@@ -144,7 +144,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_morale(): void
+    public function it_has_many_morale() :void
     {
         $dwight = factory(Employee::class)->create();
         factory(Morale::class, 2)->create([

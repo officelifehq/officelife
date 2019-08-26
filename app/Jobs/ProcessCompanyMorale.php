@@ -2,16 +2,16 @@
 
 namespace App\Jobs;
 
-use Carbon\Carbon;
-use App\Models\Company\Team;
 use Illuminate\Bus\Queueable;
-use App\Services\Logs\LogTeamAction;
+use App\Models\Company\Morale;
+use App\Models\Company\Employee;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use App\Models\Company\MoraleCompanyHistory;
 
-class ProcessTeamMorale implements ShouldQueue
+class ProcessCompanyMorale implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -40,19 +40,48 @@ class ProcessTeamMorale implements ShouldQueue
      */
     public function handle()
     {
-        // get all the emotion ratings for each morale of each employee of the
-        // given company at the given date
-        $employeesWithMorale = Employee::whereHas('morale', function ($query) {
-            $query->whereDate('created_at', $this->date);
-        })->where('company_id', $this->parameters['company_id'])
-        ->get();
+        $moraleCompanyHistory = MoraleCompanyHistory::whereBetween('created_at', [
+                    $this->parameters['date']->toDateString() . ' 00:00:00',
+                    $this->parameters['date']->toDateString() . ' 23:59:59',
+                ])
+                ->where('company_id', $this->parameters['company_id'])
+                ->first();
+
+        if (! is_null($moraleCompanyHistory)) {
+            return;
+        }
+
+        $employeesWithMorale = Employee::whereHas('morales', function ($query) {
+            $query->whereBetween(
+                    'created_at',
+                    [
+                        $this->parameters['date']->toDateString().' 00:00:00',
+                        $this->parameters['date']->toDateString().' 23:59:59',
+                    ]
+                );
+        })->select('id')
+            ->where('company_id', $this->parameters['company_id'])
+            ->get();
 
         // calculate the average of all the morale
         $sum = 0;
-        foreach ($employees as $employee) {
-            $sum = $sum + $employee
+        foreach ($employeesWithMorale as $employee) {
+            $morale = Morale::where('employee_id', $employee->id)
+                ->whereBetween('created_at', [
+                    $this->parameters['date']->toDateString() . ' 00:00:00',
+                    $this->parameters['date']->toDateString() . ' 23:59:59',
+                ])
+                ->first();
+
+            $sum = $sum + $morale->emotion;
         }
 
-        // save the result
+        $average = $sum / $employeesWithMorale->count();
+
+        MoraleCompanyHistory::create([
+            'company_id' => $this->parameters['company_id'],
+            'average' => $average,
+            'number_of_employees' => $employeesWithMorale->count(),
+        ]);
     }
 }
