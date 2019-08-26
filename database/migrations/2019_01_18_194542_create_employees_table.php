@@ -23,10 +23,8 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-            $table->datetime('birthdate')->nullable();
             $table->uuid('uuid');
             $table->string('avatar')->nullable();
-            $table->datetime('hired_at')->nullable();
             $table->integer('permission_level');
             $table->string('invitation_link')->nullable();
             $table->timestamp('invitation_used_at')->nullable();

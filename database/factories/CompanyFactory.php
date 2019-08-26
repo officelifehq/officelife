@@ -25,7 +25,6 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'email' => 'dwigth@dundermifflin.com',
         'first_name' => 'Dwight',
         'last_name' => 'Schrute',
-        'birthdate' => '1978-01-20',
         'consecutive_worklog_missed' => 0,
         'employee_status_id' => function (array $data) {
             return factory(App\Models\Company\EmployeeStatus::class)->create([
@@ -189,6 +188,16 @@ $factory->define(App\Models\Company\EmployeeStatus::class, function (Faker $fake
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'name' => 'Permanent',
+    ];
+});
+
+$factory->define(App\Models\Company\EmployeeImportantDate::class, function (Faker $faker) {
+    return [
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'occasion' => 'birthdate',
+        'date' => '1981-10-29',
     ];
 });
 

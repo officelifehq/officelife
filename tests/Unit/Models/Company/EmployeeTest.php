@@ -13,6 +13,7 @@ use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
 use App\Models\Company\EmployeeEvent;
+use App\Models\Company\EmployeeImportantDate;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeTest extends TestCase
@@ -144,6 +145,17 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_important_dates(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(EmployeeImportantDate::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->importantDates()->exists());
+    }
+
+    /** @test */
     public function it_has_many_morale() :void
     {
         $dwight = factory(Employee::class)->create();
@@ -178,8 +190,19 @@ class EmployeeTest extends TestCase
     public function it_returns_the_birthdate_attribute() : void
     {
         $dwight = factory(Employee::class)->create([]);
+        factory(EmployeeImportantDate::class)->create([
+            'employee_id' => $dwight,
+        ]);
+
         $this->assertEquals(
-            '1978-01-20 00:00:00',
+            '1981-10-29',
+            $dwight->birthdate->format('Y-m-d')
+        );
+
+        // test it returns null
+        $dwight = factory(Employee::class)->create([]);
+
+        $this->assertNull(
             $dwight->birthdate
         );
     }
