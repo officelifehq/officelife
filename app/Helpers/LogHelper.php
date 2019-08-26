@@ -158,6 +158,12 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_morale_logged') {
+            $sentence = trans('account.log_employee_morale_logged', [
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -239,6 +245,12 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'morale_logged') {
+            $sentence = trans('account.employee_log_morale_logged', [
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -248,7 +260,7 @@ class LogHelper
      * @param TeamLog $log
      * @return string
      */
-    public static function processTeamLog(TeamLog $log): string
+    public static function processTeamLog(TeamLog $log) : string
     {
         $sentence = '';
 

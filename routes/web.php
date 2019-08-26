@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
 
             Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
+            Route::post('morale', 'Company\\Dashboard\\DashboardMoraleController@store');
         });
 
         Route::prefix('employees')->group(function () {
@@ -49,15 +50,15 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index');
 
-            Route::resource('{employee}/position', 'Company\\Employee\\Position\\EmployeePositionController')->only([
+            Route::resource('{employee}/position', 'Company\\Employee\\EmployeePositionController')->only([
                 'store', 'destroy',
             ]);
 
-            Route::resource('{employee}/team', 'Company\\Employee\\Team\\EmployeeTeamController')->only([
+            Route::resource('{employee}/team', 'Company\\Employee\\EmployeeTeamController')->only([
                 'store', 'destroy',
             ]);
 
-            Route::resource('{employee}/employeestatuses', 'Company\\Employee\\EmployeeStatus\\EmployeeStatusController')->only([
+            Route::resource('{employee}/employeestatuses', 'Company\\Employee\\EmployeeStatusController')->only([
                 'store', 'destroy',
             ]);
         });

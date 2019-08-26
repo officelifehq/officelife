@@ -1,7 +1,7 @@
 <template>
   <div class="di">
     <button :class="classes" name="save" type="submit" :data-cy="cypressSelector">
-      <ball-pulse-loader v-if="state == 'loading'" color="#218b8a" size="7px" />
+      <ball-pulse-loader v-if="state == 'loading'" color="#fff" size="7px" />
       <span v-if="state != 'loading'">{{ text }}</span>
     </button>
   </div>

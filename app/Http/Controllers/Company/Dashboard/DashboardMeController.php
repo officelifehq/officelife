@@ -8,7 +8,6 @@ use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\UpdateDashboardPreference;
-use App\Http\Resources\Company\Team\Team as TeamResource;
 
 class DashboardMeController extends Controller
 {
@@ -29,8 +28,8 @@ class DashboardMeController extends Controller
         ])->onQueue('low');
 
         return Inertia::render('Dashboard/Me', [
-            'teams' => TeamResource::collection($employee->teams()->get()),
             'worklogCount' => $employee->worklogs()->count(),
+            'moraleCount' => $employee->morales()->count(),
             'notifications' => Auth::user()->getLatestNotifications($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);

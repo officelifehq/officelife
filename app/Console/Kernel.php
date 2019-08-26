@@ -3,6 +3,8 @@
 namespace App\Console;
 
 use Carbon\Carbon;
+use App\Jobs\LogTeamsMorale;
+use App\Jobs\LogCompaniesMorale;
 use App\Jobs\LogMissedWorklogEntry;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -27,6 +29,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(new LogMissedWorklogEntry(Carbon::today()))->dailyAt('23:00');
+        $schedule->job(new LogCompaniesMorale(Carbon::today()))->dailyAt('23:00');
+        $schedule->job(new LogTeamsMorale(Carbon::today()))->dailyAt('23:00');
     }
 
     /**

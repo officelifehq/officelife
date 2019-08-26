@@ -26,7 +26,7 @@ class CreatePositionsTable extends Migration
         });
 
         Schema::table('employees', function (Blueprint $table) {
-            $table->unsignedBigInteger('position_id')->after('hired_at')->nullable();
+            $table->unsignedBigInteger('position_id')->after('permission_level')->nullable();
             $table->foreign('position_id')->references('id')->on('positions')->onDelete('set null');
         });
     }

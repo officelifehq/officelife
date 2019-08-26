@@ -106,9 +106,20 @@ A team is created in Adminland by an administrator or a human resource represent
 Employees can log the work they've done for a given day. When an employee provides this information, it becomes visible but only for those people:
 - the employee himself,
 - people from the team(s) of the employee, on the actual team page
-- the manager of the employee, and all the managers above the managers,
+- the manager of the employee, or any managers,
 - people with the HR role.
 
 Employees can only log what they've done once per day. By definition, we don't allow someone to change the date of a post they have written – that means if they omit one day, they can't come back the next day and fill the information. This is done on purpose in order to force people to actually use this feature if a team needs it.
 
 Every night at 11pm (UTC), the server checks whose employees have logged their work and keeps count. It’s up to the company to decide how they want to enforce this policy of logging the work. A company can choose to create automated rules using the powerful flow feature if they want to be warned when an employee skips, say, 7 days of logging work in a row.
+
+### Morale
+
+Employees can indicate how they feel each day. They have the choice between a good day, a normal day or a bad day. After they have indicated their feelings, they can also add a comment to it. This feeling can't be changed once it’s logged, on purpose.
+
+This information is used to take the pulse on how a team or an entire company is going, and therefore will be displayed on a team page and on the company profile's page. However, data is completely anonymized. It will be impossible for anyone regardless of their roles, to know who has voted and what is the result of this vote.
+
+To be perfectly clear, the feeling, along with its comment, will be shown:
+- on the employee's profile page. In this case, only the employee will see this information. No one, not even an administrator, will be able to see how the employee feels.
+- on the team's page. In this case, we will only show the feeling of every team member without indicating who has said what, as well as the average feeling of the team on a given time range.
+- on the company's profile. In this case, like the team's page, we will only show the average feeling of the company.

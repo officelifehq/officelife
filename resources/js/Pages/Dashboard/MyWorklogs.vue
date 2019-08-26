@@ -3,20 +3,20 @@
 
 <template>
   <div>
+    <div class="cf mw7 center mb2 fw5">
+      🔨 {{ $t('dashboard.worklog_title') }}
+    </div>
+
     <div class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3">
-        <h2 class="mt0 fw5 f4">
-          🔨 {{ $t('dashboard.worklog_title') }}
-        </h2>
-
         <!-- employee hasn't logged yet -->
-        <p v-show="!showEditor && !updatedEmployee.has_logged_worklog_today" class="db">
+        <p v-show="!showEditor && !updatedEmployee.has_logged_worklog_today" class="db mt0">
           <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_placeholder') }}</span>
           <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
         </p>
 
         <!-- employee has already logged -->
-        <p v-show="!showEditor && updatedEmployee.has_logged_worklog_today && !successMessage" class="db mb0">
+        <p v-show="!showEditor && updatedEmployee.has_logged_worklog_today && !successMessage" class="db mb0 mt0">
           <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_already_logged') }}</span>
           <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
         </p>
@@ -60,10 +60,6 @@ export default {
   },
 
   props: {
-    teams: {
-      type: Array,
-      default: null,
-    },
     worklogCount: {
       type: Number,
       default: 0,

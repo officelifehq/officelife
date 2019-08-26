@@ -29,8 +29,7 @@ class LogWorklog extends BaseService
     /**
      * Log the work that the employee has done.
      * Logging can only happen once per day.
-     * Logging can only be done by the employee, so there is no author_id field
-     * with this service.
+     * Logging can only be done by the employee.
      *
      * @param array $data
      * @return Worklog
