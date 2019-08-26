@@ -190,13 +190,13 @@ class EmployeeTest extends TestCase
     public function it_returns_the_birthdate_attribute() : void
     {
         $dwight = factory(Employee::class)->create([]);
-        $importantDate = factory(EmployeeImportantDate::class)->create([
+        factory(EmployeeImportantDate::class)->create([
             'employee_id' => $dwight,
         ]);
 
         $this->assertEquals(
             '1981-10-29',
-            $dwight->birthdate
+            $dwight->birthdate->format('Y-m-d')
         );
 
         // test it returns null
