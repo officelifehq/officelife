@@ -24,7 +24,7 @@
         <ul class="list mv0 pa0">
           <li v-for="worklog in worklogs" :key="worklog.id" class="mb3 relative worklog-item">
             <p class="f7 mb1">
-              {{ worklog.created_at }}
+              {{ worklog.created_at | moment("dddd, MMMM Do YYYY") }}
             </p>
             <div class="content" v-html="worklog.content"></div>
           </li>

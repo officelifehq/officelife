@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Company\Employee\Team;
+namespace App\Http\Controllers\Company\Employee;
 
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Company\Employee\Team;
-use App\Services\Company\Employee\Team\AddEmployeeToTeam;
-use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
+use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
+use App\Services\Company\Employee\EmployeeStatus\RemoveEmployeeStatusFromEmployee;
 
-class EmployeeTeamController extends Controller
+class EmployeeStatusController extends Controller
 {
     /**
-     * Assign a team to the given employee.
+     * Assign an employee status to the given employee.
      *
      * @param int $companyId
      * @param int $employeeId
@@ -26,32 +25,31 @@ class EmployeeTeamController extends Controller
             'company_id' => $companyId,
             'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
-            'team_id' => $request->get('id'),
+            'employee_status_id' => $request->get('id'),
         ];
 
-        $employee = (new AddEmployeeToTeam)->execute($request);
+        $employee = (new AssignEmployeeStatusToEmployee)->execute($request);
 
         return new EmployeeResource($employee);
     }
 
     /**
-     * Remove the team for the given employee.
+     * Remove the employee status for the given employee.
      *
      * @param int $companyId
      * @param int $employeeId
-     * @param int $teamId
+     * @param int $employeeStatusId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, int $companyId, int $employeeId, int $teamId)
+    public function destroy(Request $request, int $companyId, int $employeeId, int $employeeStatusId)
     {
         $request = [
             'company_id' => $companyId,
             'author_id' => Auth::user()->id,
             'employee_id' => $employeeId,
-            'team_id' => $teamId,
         ];
 
-        $employee = (new RemoveEmployeeFromTeam)->execute($request);
+        $employee = (new RemoveEmployeeStatusFromEmployee)->execute($request);
 
         return new EmployeeResource($employee);
     }

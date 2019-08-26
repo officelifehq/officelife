@@ -30,7 +30,7 @@ class LogHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_string_explaining_the_employee_log(): void
+    public function it_returns_the_string_explaining_the_employee_log() :void
     {
         $adminEmployee = $this->createAdministrator();
 

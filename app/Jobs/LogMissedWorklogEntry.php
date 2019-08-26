@@ -36,8 +36,15 @@ class LogMissedWorklogEntry implements ShouldQueue
      */
     public function handle()
     {
-        $employeesWithLogs = Employee::whereHas('worklogs', function ($query) {
-            $query->whereDate('created_at', $this->date);
+        $date = $this->date;
+        $employeesWithLogs = Employee::whereHas('worklogs', function ($query) use ($date) {
+            $query->whereBetween(
+                'created_at',
+                [
+                    $date->toDateString().' 00:00:00',
+                    $date->toDateString().' 23:59:59',
+                ]
+            );
         })->get();
 
         $allEmployees = Employee::select('id')->get();

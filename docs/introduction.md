@@ -106,9 +106,19 @@ A team is created in Adminland by an administrator or a human resource represent
 Employees can log the work they've done for a given day. When an employee provides this information, it becomes visible but only for those people:
 - the employee himself,
 - people from the team(s) of the employee, on the actual team page
-- the manager of the employee, and all the managers above the managers,
+- the manager of the employee, or any managers,
 - people with the HR role.
 
 Employees can only log what they've done once per day. By definition, we don't allow someone to change the date of a post they have written – that means if they omit one day, they can't come back the next day and fill the information. This is done on purpose in order to force people to actually use this feature if a team needs it.
 
 Every night at 11pm (UTC), the server checks whose employees have logged their work and keeps count. It’s up to the company to decide how they want to enforce this policy of logging the work. A company can choose to create automated rules using the powerful flow feature if they want to be warned when an employee skips, say, 7 days of logging work in a row.
+
+### Morale
+
+Employees can indicate how they feel each day. They have the choice between a good day, a normal day or a bad day. After they have indicated their feelings, they can also add a comment to it. This feeling can't be changed once it’s logged, on purpose.
+
+The comment associated with each feeling can be viewed by:
+- the employee himself,
+- people from the team(s) of the employee, on the actual team page
+- the manager of the employee, or any managers,
+- people with the HR role.

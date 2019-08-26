@@ -53,6 +53,8 @@ class GenerateDummyData extends BaseService
 
         $this->createWorklogEntries();
 
+        $this->createMoraleEntries();
+
         $company->has_dummy_data = true;
         $company->save();
     }
@@ -173,7 +175,7 @@ class GenerateDummyData extends BaseService
 
         $employees = Employee::whereHas('teams', function ($query) {
             $query->where('name', 'Sales');
-        })->get();
+        })->where('is_dummy', true)->get();
 
         foreach ($employees as $employee) {
             $date = Carbon::now()->subMonths(3);
@@ -193,6 +195,39 @@ class GenerateDummyData extends BaseService
                 }
 
                 $employee->save();
+                $date->addDay();
+            }
+        }
+    }
+
+    /**
+     * Create fake morale entries for all employees.
+     * This method does not use the dedicated service to log a morale to an
+     * employee because the service doesn't let people change the created_at
+     * date (on purpose). Hence the only option is to record morales in the
+     * database directly.
+     *
+     * @return void
+     */
+    private function createMoraleEntries()
+    {
+        $faker = Faker::create();
+
+        $employees = Employee::where('is_dummy', true)->get();
+
+        foreach ($employees as $employee) {
+            $date = Carbon::now()->subMonths(3);
+
+            while (! $date->isSameDay(Carbon::now())) {
+                if (rand(1, 10) >= 8) {
+                    DB::table('morale')->insert([
+                        'employee_id' => $employee->id,
+                        'emotion' => rand(1, 3),
+                        'comment' => $faker->realText(50),
+                        'is_dummy' => true,
+                        'created_at' => $date,
+                    ]);
+                }
                 $date->addDay();
             }
         }

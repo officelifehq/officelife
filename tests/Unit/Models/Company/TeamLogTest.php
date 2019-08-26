@@ -40,7 +40,7 @@ class TeamLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_content_attribute(): void
+    public function it_returns_the_content_attribute() :void
     {
         $adminEmployee = $this->createAdministrator();
 
