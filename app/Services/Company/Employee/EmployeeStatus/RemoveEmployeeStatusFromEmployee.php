@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Employee\EmployeeStatus;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
@@ -51,9 +52,10 @@ class RemoveEmployeeStatusFromEmployee extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_status_removed',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'employee_status_id' => $employeeStatus->id,
@@ -65,9 +67,10 @@ class RemoveEmployeeStatusFromEmployee extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'employee_status_removed',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_status_id' => $employeeStatus->id,
                 'employee_status_name' => $employeeStatus->name,
             ]),

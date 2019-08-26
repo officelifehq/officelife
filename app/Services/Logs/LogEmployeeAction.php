@@ -18,7 +18,7 @@ class LogEmployeeAction extends BaseService
         return [
             'author_id' => 'required|integer|exists:employees,id',
             'author_name' => 'required|string|max:255',
-            'audited_at' => 'required',
+            'audited_at' => 'required|date',
             'employee_id' => 'required|integer|exists:employees,id',
             'action' => 'required|string|max:255',
             'objects' => 'required|json',

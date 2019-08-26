@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Position;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Position;
@@ -47,9 +48,10 @@ class CreatePosition extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'position_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'position_id' => $position->id,
                 'position_title' => $position->title,
             ]),

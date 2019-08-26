@@ -26,7 +26,7 @@ class LogMoraleTest extends TestCase
         $dwight = factory(Employee::class)->create([]);
 
         $request = [
-            'author_id' => $dwight->user_id,
+            'author_id' => $dwight->id,
             'employee_id' => $dwight->id,
             'emotion' => 1,
             'comment' => 'Michael is my idol',
@@ -49,9 +49,8 @@ class LogMoraleTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight, $morale) {
             return $job->auditLog['action'] === 'employee_morale_logged' &&
+                $job->auditLog['author_id'] === $dwight->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->user->id,
-                    'author_name' => $dwight->user->name,
                     'employee_id' => $dwight->id,
                     'employee_name' => $dwight->name,
                     'morale_id' => $morale->id,
@@ -61,9 +60,8 @@ class LogMoraleTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight, $morale) {
             return $job->auditLog['action'] === 'morale_logged' &&
+                $job->auditLog['author_id'] === $dwight->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->user->id,
-                    'author_name' => $dwight->user->name,
                     'employee_id' => $dwight->id,
                     'employee_name' => $dwight->name,
                     'morale_id' => $morale->id,
@@ -84,7 +82,7 @@ class LogMoraleTest extends TestCase
         ]);
 
         $request = [
-            'author_id' => $dwight->user_id,
+            'author_id' => $dwight->id,
             'employee_id' => $dwight->id,
             'emotion' => 1,
             'comment' => 'Michael is my idol',

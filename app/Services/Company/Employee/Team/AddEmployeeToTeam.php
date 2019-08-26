@@ -59,8 +59,6 @@ class AddEmployeeToTeam extends BaseService
         );
 
         $dataToLog = [
-            'author_id' => $author->id,
-            'author_name' => $author->name,
             'employee_id' => $employee->id,
             'employee_name' => $employee->name,
             'team_id' => $team->id,
@@ -70,6 +68,9 @@ class AddEmployeeToTeam extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_added_to_team',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
@@ -77,6 +78,9 @@ class AddEmployeeToTeam extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'employee_added_to_team',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
@@ -84,6 +88,9 @@ class AddEmployeeToTeam extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'employee_added_to_team',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');

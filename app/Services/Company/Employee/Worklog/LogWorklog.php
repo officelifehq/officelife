@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Employee\Worklog;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
@@ -62,9 +63,10 @@ class LogWorklog extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,
             'action' => 'employee_worklog_logged',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'worklog_id' => $worklog->id,
@@ -75,9 +77,10 @@ class LogWorklog extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'employee_worklog_logged',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'worklog_id' => $worklog->id,

@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Team;
 
+use Carbon\Carbon;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
@@ -47,9 +48,10 @@ class DestroyTeam extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_destroyed',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'team_name' => $team->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

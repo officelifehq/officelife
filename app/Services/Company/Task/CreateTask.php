@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Task;
 
+use Carbon\Carbon;
 use App\Jobs\LogTeamAudit;
 use App\Jobs\NotifyEmployee;
 use App\Models\Company\Task;
@@ -62,8 +63,6 @@ class CreateTask extends BaseService
         $task = $this->addTask($data);
 
         $dataToLog = [
-            'author_id' => $author->id,
-            'author_name' => $author->name,
             'task_id' => $task->id,
             'task_name' => $task->name,
         ];
@@ -72,15 +71,18 @@ class CreateTask extends BaseService
             'company_id' => $data['company_id'],
             'action' => 'task_created',
             'objects' => json_encode($dataToLog),
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         if (! empty($data['team_id'])) {
-            $this->addLogTeamAction($data, $dataToLog);
+            $this->addLogTeamAction($data, $dataToLog, $author);
         }
 
         if (! empty($data['assignee_id'])) {
-            $this->addLogEmployeeAction($data, $dataToLog);
+            $this->addLogEmployeeAction($data, $dataToLog, $author);
         }
 
         return $task;
@@ -112,14 +114,18 @@ class CreateTask extends BaseService
      *
      * @param array $data
      * @param array $dataToLog
+     * @param Employee $author
      * @return void
      */
-    private function addLogTeamAction(array $data, array $dataToLog) : void
+    private function addLogTeamAction(array $data, array $dataToLog, Employee $author) : void
     {
         LogTeamAudit::dispatch([
             'team_id' => $data['team_id'],
             'action' => 'task_associated_to_team',
             'objects' => json_encode($dataToLog),
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
@@ -129,14 +135,18 @@ class CreateTask extends BaseService
      *
      * @param array $data
      * @param array $dataToLog
+     * @param Employee $author
      * @return void
      */
-    private function addLogEmployeeAction(array $data, array $dataToLog) : void
+    private function addLogEmployeeAction(array $data, array $dataToLog, Employee $author) : void
     {
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['assignee_id'],
             'action' => 'task_assigned_to_employee',
             'objects' => json_encode($dataToLog),
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 

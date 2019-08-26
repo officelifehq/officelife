@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Flow;
 
+use Carbon\Carbon;
 use App\Models\Company\Flow;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
@@ -64,9 +65,10 @@ class CreateFlow extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'flow_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'flow_id' => $flow->id,
                 'flow_name' => $flow->name,
             ]),

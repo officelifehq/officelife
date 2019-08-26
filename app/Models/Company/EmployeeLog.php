@@ -37,6 +37,15 @@ class EmployeeLog extends Model
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'audited_at',
+    ];
+
+    /**
      * Get the employee record associated with the employee log.
      *
      * @return BelongsTo

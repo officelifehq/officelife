@@ -18,7 +18,7 @@ class LogAccountAction extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'author_name' => 'required|string|max:255',
-            'audited_at' => 'required',
+            'audited_at' => 'required|date',
             'action' => 'required|string|max:255',
             'objects' => 'required|json',
             'ip_address' => 'nullable|ipv4',

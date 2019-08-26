@@ -27,7 +27,7 @@ class DestroyTeamTest extends TestCase
 
         $request = [
             'company_id' => $team->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'team_id' => $team->id,
         ];
 
@@ -39,9 +39,8 @@ class DestroyTeamTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $team) {
             return $job->auditLog['action'] === 'team_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'team_name' => $team->name,
                 ]);
         });
