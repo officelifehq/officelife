@@ -125,6 +125,7 @@ return [
     'log_employee_status_destroyed' => 'Destroyed the employee status called :name.',
     'log_employee_status_assigned' => 'Assigned the employee status called :name to :employee.',
     'log_employee_status_removed' => 'Removed the employee status called :name from :employee.',
+    'log_employee_morale_logged' => 'Added an emotion on how the day went.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -138,6 +139,7 @@ return [
     'employee_log_employee_worklog_logged' => 'Added a worklog.',
     'employee_log_employee_status_assigned' => 'Assigned the employee status called :name.',
     'employee_log_employee_status_removed' => 'Removed the employee status called :name.',
+    'employee_log_morale_logged' => 'Added an emotion on how the day went.',
 
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',

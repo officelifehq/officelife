@@ -32,14 +32,12 @@
       </div>
 
       <my-worklogs
-        :teams="teams"
         :worklog-count="worklogCount"
         class="mb5"
       />
 
       <my-morale
-        :teams="teams"
-        :worklog-count="worklogCount"
+        :morale-count="moraleCount"
       />
 
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
@@ -89,11 +87,11 @@ export default {
   },
 
   props: {
-    teams: {
-      type: Array,
-      default: null,
-    },
     worklogCount: {
+      type: Number,
+      default: 0,
+    },
+    moraleCount: {
       type: Number,
       default: 0,
     },

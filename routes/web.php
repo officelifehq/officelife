@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
 
             Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
+            Route::post('morale', 'Company\\Dashboard\\DashboardMoraleController@store');
         });
 
         Route::prefix('employees')->group(function () {

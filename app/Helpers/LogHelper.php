@@ -158,6 +158,12 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_morale_logged') {
+            $sentence = trans('account.log_employee_morale_logged', [
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -236,6 +242,12 @@ class LogHelper
         if ($log->action == 'employee_status_removed') {
             $sentence = trans('account.employee_log_employee_status_removed', [
                 'name' => $log->object->{'employee_status_name'},
+            ]);
+        }
+
+        if ($log->action == 'morale_logged') {
+            $sentence = trans('account.employee_log_morale_logged', [
+                'name' => $log->object->{'employee_name'},
             ]);
         }
 

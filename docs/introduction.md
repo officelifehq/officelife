@@ -117,8 +117,9 @@ Every night at 11pm (UTC), the server checks whose employees have logged their w
 
 Employees can indicate how they feel each day. They have the choice between a good day, a normal day or a bad day. After they have indicated their feelings, they can also add a comment to it. This feeling can't be changed once it’s logged, on purpose.
 
-The comment associated with each feeling can be viewed by:
-- the employee himself,
-- people from the team(s) of the employee, on the actual team page
-- the manager of the employee, or any managers,
-- people with the HR role.
+This information is used to take the pulse on how a team or an entire company is going, and therefore will be displayed on a team page and on the company profile's page. However, data is completely anonymized. It will be impossible for anyone regardless of their roles, to know who has voted and what is the result of this vote.
+
+To be perfectly clear, the feeling, along with its comment, will be shown:
+- on the employee's profile page. In this case, only the employee will see this information. No one, not even an administrator, will be able to see how the employee feels.
+- on the team's page. In this case, we will only show the feeling of every team member without indicating who has said what, as well as the average feeling of the team on a given time range.
+- on the company's profile. In this case, like the team's page, we will only show the average feeling of the company.

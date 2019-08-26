@@ -9,25 +9,43 @@
 
     <div class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3">
-        <div class="flex-ns justify-center">
-          <a href="" class="btn mr3-ns mb0-ns mb2 dib-l db">😡 I've had a bad day</a>
-          <a href="" class="btn mr3-ns mb0-ns mb2 dib-l db">😌 It is normal day</a>
-          <a href="" class="btn dib-l db mb0-ns">🥳 Best day ever</a>
+        <div v-if="successMessage" class="tc">
+          <p>🙌</p>
+          <p>{{ $t('dashboard.morale_success_message') }}</p>
         </div>
+
+        <div v-if="updatedEmployee.has_logged_morale_today && !successMessage" class="tc">
+          <p>🙌</p>
+          <p>{{ $t('dashboard.morale_already_logged') }}</p>
+        </div>
+
+        <div v-if="! updatedEmployee.has_logged_morale_today">
+          <errors :errors="form.errors" />
+          <div class="flex-ns justify-center mt3 mb3">
+            <span class="btn mr3-ns mb0-ns mb2 dib-l db" @click.prevent="store(1)">😡 {{ $t('dashboard.morale_emotion_bad') }}</span>
+            <span class="btn mr3-ns mb0-ns mb2 dib-l db" @click.prevent="store(2)">😌 {{ $t('dashboard.morale_emotion_normal') }}</span>
+            <span class="btn dib-l db mb0-ns" @click.prevent="store(3)">🥳 {{ $t('dashboard.morale_emotion_good') }}</span>
+          </div>
+        </div>
+
+        <p v-if="!updatedEmployee.has_logged_morale_today && !successMessage" class="f7 mb0">
+          {{ $t('dashboard.morale_rules') }}
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Errors from '@/Shared/Errors';
 
 export default {
+  components: {
+    Errors,
+  },
+
   props: {
-    teams: {
-      type: Array,
-      default: null,
-    },
-    worklogCount: {
+    moraleCount: {
       type: Number,
       default: 0,
     },
@@ -37,46 +55,32 @@ export default {
     return {
       showEditor: false,
       form: {
-        content: null,
+        emotion: null,
         errors: [],
       },
-      updatedWorklogCount: 0,
       updatedEmployee: null,
-      loadingState: '',
       successMessage: false,
     };
   },
 
   created: function() {
-    this.updatedWorklogCount = this.worklogCount;
     this.updatedEmployee = this.$page.auth.employee;
   },
 
   methods: {
-    updateText(text) {
-      this.form.content = text;
-    },
+    store(emotion) {
+      this.successMessage = true;
+      this.form.emotion = emotion;
 
-    store() {
-      this.loadingState = 'loading';
-
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/worklog', this.form)
+      axios.post('/' + this.$page.auth.company.id + '/dashboard/morale', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('dashboard.worklog_success_message'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
-          this.updatedWorklogCount = this.updatedWorklogCount + 1;
+          this.moraleCount = this.moraleCount + 1;
           this.updatedEmployee = response.data.data;
-          this.showEditor = false;
-          this.loadingState = null;
           this.successMessage = true;
         })
         .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.successMessage = false;
+          this.form.errors = error.response.data.errors;
         });
     },
   }

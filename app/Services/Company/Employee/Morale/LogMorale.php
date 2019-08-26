@@ -28,7 +28,7 @@ class LogMorale extends BaseService
                     2,
                     3,
                 ]),
-            'comment' => 'required|string|max:65535',
+            'comment' => 'nullable|string|max:65535',
             'is_dummy' => 'nullable|boolean',
         ];
     }

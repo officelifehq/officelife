@@ -60,10 +60,6 @@ export default {
   },
 
   props: {
-    teams: {
-      type: Array,
-      default: null,
-    },
     worklogCount: {
       type: Number,
       default: 0,
