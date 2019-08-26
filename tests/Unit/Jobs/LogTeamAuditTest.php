@@ -16,7 +16,7 @@ class LogTeamAuditTest extends TestCase
     public function it_logs_a_team_audit() :void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
-        $date =Carbon::now();
+        $date = Carbon::now();
 
         $michael = $this->createAdministrator();
         $team = factory(Team::class)->create([
