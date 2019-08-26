@@ -38,9 +38,11 @@ class AdminTeamController extends Controller
      */
     public function store(Request $request)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => InstanceHelper::getLoggedCompany()->id,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'name' => $request->get('name'),
         ];
 

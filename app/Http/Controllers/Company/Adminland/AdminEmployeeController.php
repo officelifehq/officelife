@@ -56,9 +56,11 @@ class AdminEmployeeController extends Controller
      */
     public function store(Request $request, $companyId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'email' => $request->get('email'),
             'first_name' => $request->get('first_name'),
             'last_name' => $request->get('last_name'),
@@ -83,10 +85,12 @@ class AdminEmployeeController extends Controller
      */
     public function destroy(Request $request, $companyId, $employeeId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
             'employee_id' => $employeeId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
         ];
 
         (new DestroyEmployee)->execute($request);

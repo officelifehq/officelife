@@ -82,9 +82,11 @@ class EmployeeController extends Controller
      */
     public function assignManager(Request $request, int $companyId, int $employeeId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'manager_id' => $request->get('id'),
         ];
@@ -103,9 +105,11 @@ class EmployeeController extends Controller
      */
     public function assignDirectReport(Request $request, int $companyId, int $employeeId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $data = [
             'company_id' => $companyId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'employee_id' => $request->get('id'),
             'manager_id' => $employeeId,
         ];
@@ -126,9 +130,11 @@ class EmployeeController extends Controller
      */
     public function unassignManager(Request $request, int $companyId, int $employeeId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'manager_id' => $request->get('id'),
         ];
@@ -147,9 +153,11 @@ class EmployeeController extends Controller
      */
     public function unassignDirectReport(Request $request, int $companyId, int $managerId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'employee_id' => $request->get('id'),
             'manager_id' => $managerId,
         ];
