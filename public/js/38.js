@@ -73,9 +73,7 @@ var render = function() {
       },
       [
         _vm.state == "loading"
-          ? _c("ball-pulse-loader", {
-              attrs: { color: "#218b8a", size: "7px" }
-            })
+          ? _c("ball-pulse-loader", { attrs: { color: "#fff", size: "7px" } })
           : _vm._e(),
         _vm._v(" "),
         _vm.state != "loading"
