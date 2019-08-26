@@ -199,7 +199,7 @@ $factory->define(App\Models\Company\EmployeeImportantDate::class, function (Fake
         'occasion' => 'birthdate',
         'date' => '1981-10-29',
     ];
-});  
+});
 
 $factory->define(App\Models\Company\Morale::class, function (Faker $faker) {
     return [
