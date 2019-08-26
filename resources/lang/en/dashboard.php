@@ -19,4 +19,12 @@ return [
     'team_worklog_today' => 'Today',
     'team_worklog_stat' => 'Team members who have logged their work:',
     'team_worklog_blank' => 'No one has posted a status',
+
+    'morale_title' => 'How do you feel today?',
+    'morale_success_message' => 'Thanks for telling us how you feel.',
+    'morale_already_logged' => 'You have already indicated how you felt today. Come back tomorrow!',
+    'morale_emotion_bad' => 'I’ve had a bad day',
+    'morale_emotion_normal' => 'It’s a normal day',
+    'morale_emotion_good' => 'Best day ever',
+    'morale_rules' => 'You can vote once per day, and you can’t edit your vote. Your vote will be completely anonymous.',
 ];
