@@ -31,7 +31,7 @@ class RemoveActionfromStepTest extends TestCase
 
         $request = [
             'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
+            'author_id' => $employee->id,
             'step_id' => $step->id,
             'action_id' => $action->id,
         ];

@@ -73,12 +73,12 @@ class LogWorklogTest extends TestCase
         ]);
 
         $request = [
-            'author_id' => $dwight->user_id,
+            'author_id' => $dwight->id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',
         ];
 
-        $worklog = (new LogWorklog)->execute($request);
+        (new LogWorklog)->execute($request);
 
         $this->assertDatabaseHas('employees', [
             'id' => $dwight->id,
@@ -98,7 +98,7 @@ class LogWorklogTest extends TestCase
         ]);
 
         $request = [
-            'author_id' => $dwight->user_id,
+            'author_id' => $dwight->id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',
         ];

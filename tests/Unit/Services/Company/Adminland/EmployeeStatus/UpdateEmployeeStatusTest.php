@@ -27,7 +27,7 @@ class UpdateEmployeeStatusTest extends TestCase
 
         $request = [
             'company_id' => $employeeStatus->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'employee_status_id' => $employeeStatus->id,
             'name' => 'Non permanent',
         ];

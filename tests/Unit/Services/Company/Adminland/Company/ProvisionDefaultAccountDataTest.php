@@ -17,7 +17,7 @@ class ProvisionDefaultAccountDataTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
         ];
 
         (new ProvisionDefaultAccountData)->execute($request);

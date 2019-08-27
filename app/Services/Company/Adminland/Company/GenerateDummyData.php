@@ -109,11 +109,11 @@ class GenerateDummyData extends BaseService
         $team = $this->createTeamWithEmployees($data, 'Sales', 18);
 
         // add current user to the team
-        $currentUser = User::find($data['author_id']);
+        $currentEmployee = Employee::find($data['author_id']);
         $request = [
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
-            'employee_id' => $currentUser->getEmployeeObjectForCompany($team->company)->id,
+            'employee_id' => $currentEmployee->id,
             'team_id' => $team->id,
             'is_dummy' => true,
         ];

@@ -57,7 +57,7 @@ class CreateCompany extends BaseService
 
         (new ProvisionDefaultAccountData)->execute([
             'company_id' => $company->id,
-            'author_id' => $author->id,
+            'author_id' => $employee->id,
         ]);
 
         return $company;

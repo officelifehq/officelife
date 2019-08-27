@@ -28,7 +28,7 @@ class AddActionToStepTest extends TestCase
 
         $request = [
             'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
+            'author_id' => $employee->id,
             'flow_id' => $step->flow_id,
             'step_id' => $step->id,
             'type' => 'notification',

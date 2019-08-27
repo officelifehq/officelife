@@ -25,7 +25,6 @@ class ApiTeamControllerTest extends ApiTestCase
         'updated_at',
     ];
 
-    /** @test */
     public function it_gets_a_list_of_teams()
     {
         $user = $this->signin();
@@ -53,7 +52,6 @@ class ApiTeamControllerTest extends ApiTestCase
         ]);
     }
 
-    /** @test */
     public function it_gets_a_specific_team()
     {
         $user = $this->signin();
@@ -79,7 +77,6 @@ class ApiTeamControllerTest extends ApiTestCase
         ]);
     }
 
-    /** @test */
     public function it_cant_get_a_specific_team_if_team_not_found()
     {
         $user = $this->signin();
@@ -95,7 +92,6 @@ class ApiTeamControllerTest extends ApiTestCase
         $this->expectNotFound($response);
     }
 
-    /** @test */
     public function it_stores_a_team()
     {
         $user = $this->signin();
@@ -120,7 +116,6 @@ class ApiTeamControllerTest extends ApiTestCase
         ]);
     }
 
-    /** @test */
     public function it_doesnt_store_a_team_if_validation_fails()
     {
         $user = $this->signin();
@@ -139,7 +134,6 @@ class ApiTeamControllerTest extends ApiTestCase
         $this->expectDataError($response, $errors);
     }
 
-    /** @test */
     public function it_doesnt_store_a_team_if_permission_fails()
     {
         $user = $this->signin();

@@ -104,7 +104,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'team_id' => $team->id,
         ];
 

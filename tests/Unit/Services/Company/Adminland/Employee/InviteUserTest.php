@@ -74,7 +74,7 @@ class InviteUserTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
         ];
 
@@ -92,7 +92,7 @@ class InviteUserTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
         ];
 
         $this->expectException(ValidationException::class);

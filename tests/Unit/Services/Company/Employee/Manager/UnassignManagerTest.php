@@ -107,7 +107,7 @@ class UnassignManagerTest extends TestCase
 
         $request = [
             'company_id' => $company->id,
-            'author_id' => $employee->user->id,
+            'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'manager_id' => $manager->id,
         ];

@@ -23,7 +23,7 @@ class UpdateEmployeeTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'employee_id' => $michael->id,
             'email' => 'dwight@dundermifflin.com',
             'first_name' => 'Dwight',

@@ -59,7 +59,7 @@ class ChangePermissionTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
         ];
 
         $this->expectException(ValidationException::class);

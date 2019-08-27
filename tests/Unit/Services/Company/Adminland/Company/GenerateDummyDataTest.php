@@ -22,7 +22,7 @@ class GenerateDummyDataTest extends TestCase
 
         $request = [
             'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
+            'author_id' => $employee->id,
         ];
 
         (new GenerateDummyData)->execute($request);
