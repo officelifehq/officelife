@@ -17,7 +17,7 @@ class ProvisionDefaultAccountData extends BaseService
     public function rules() : array
     {
         return [
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'company_id' => 'required|integer|exists:companies,id',
         ];
     }

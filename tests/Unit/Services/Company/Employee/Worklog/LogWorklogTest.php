@@ -26,7 +26,7 @@ class LogWorklogTest extends TestCase
         $dwight = factory(Employee::class)->create([]);
 
         $request = [
-            'author_id' => $dwight->user_id,
+            'author_id' => $dwight->id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',
         ];
@@ -46,9 +46,8 @@ class LogWorklogTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight, $worklog) {
             return $job->auditLog['action'] === 'employee_worklog_logged' &&
+                $job->auditLog['author_id'] === $dwight->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->user->id,
-                    'author_name' => $dwight->user->name,
                     'employee_id' => $dwight->id,
                     'employee_name' => $dwight->name,
                     'worklog_id' => $worklog->id,
@@ -57,9 +56,8 @@ class LogWorklogTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight, $worklog) {
             return $job->auditLog['action'] === 'employee_worklog_logged' &&
+                $job->auditLog['author_id'] === $dwight->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->user->id,
-                    'author_name' => $dwight->user->name,
                     'employee_id' => $dwight->id,
                     'employee_name' => $dwight->name,
                     'worklog_id' => $worklog->id,
@@ -75,12 +73,12 @@ class LogWorklogTest extends TestCase
         ]);
 
         $request = [
-            'author_id' => $dwight->user_id,
+            'author_id' => $dwight->id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',
         ];
 
-        $worklog = (new LogWorklog)->execute($request);
+        (new LogWorklog)->execute($request);
 
         $this->assertDatabaseHas('employees', [
             'id' => $dwight->id,
@@ -100,7 +98,7 @@ class LogWorklogTest extends TestCase
         ]);
 
         $request = [
-            'author_id' => $dwight->user_id,
+            'author_id' => $dwight->id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',
         ];

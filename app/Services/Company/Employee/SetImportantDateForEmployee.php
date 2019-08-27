@@ -22,7 +22,7 @@ class SetImportantDateForEmployee extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'occasion' => 'required|string|max:255',
             'date' => 'required|date|date_format:Y-m-d',
@@ -81,9 +81,10 @@ class SetImportantDateForEmployee extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_birthday_set',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'birthday' => $data['date'],
@@ -94,9 +95,10 @@ class SetImportantDateForEmployee extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'birthday_set',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'birthday' => $data['date'],

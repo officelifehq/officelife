@@ -31,7 +31,7 @@ class CreateTaskTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'assignee_id' => $michael->id,
             'team_id' => $team->id,
             'title' => 'Fire Jim',
@@ -54,9 +54,8 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $task) {
             return $job->auditLog['action'] === 'task_created' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'task_id' => $task->id,
                     'task_name' => $task->name,
                 ]);
@@ -64,9 +63,8 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $task) {
             return $job->auditLog['action'] === 'task_associated_to_team' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'task_id' => $task->id,
                     'task_name' => $task->name,
                 ]);
@@ -74,9 +72,8 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $task) {
             return $job->auditLog['action'] === 'task_assigned_to_employee' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'task_id' => $task->id,
                     'task_name' => $task->name,
                 ]);
@@ -84,10 +81,7 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(NotifyEmployee::class, function ($job) use ($michael, $task) {
             return $job->notification['action'] === 'task_assigned' &&
-                $job->notification['employee_id'] === $michael->id &&
                 $job->notification['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'task_id' => $task->id,
                     'task_name' => $task->name,
                 ]);
@@ -106,7 +100,7 @@ class CreateTaskTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'team_id' => $team->id,
             'title' => 'Fire Jim',
         ];
@@ -115,9 +109,8 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $task) {
             return $job->auditLog['action'] === 'task_created' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'task_id' => $task->id,
                     'task_name' => $task->name,
                 ]);
@@ -125,9 +118,8 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $task) {
             return $job->auditLog['action'] === 'task_associated_to_team' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'task_id' => $task->id,
                     'task_name' => $task->name,
                 ]);
@@ -150,7 +142,7 @@ class CreateTaskTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'assignee_id' => $michael->id,
             'title' => 'Fire Jim',
         ];
@@ -159,9 +151,8 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $task) {
             return $job->auditLog['action'] === 'task_created' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'task_id' => $task->id,
                     'task_name' => $task->name,
                 ]);
@@ -169,9 +160,8 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $task) {
             return $job->auditLog['action'] === 'task_assigned_to_employee' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'task_id' => $task->id,
                     'task_name' => $task->name,
                 ]);
@@ -179,10 +169,7 @@ class CreateTaskTest extends TestCase
 
         Queue::assertPushed(NotifyEmployee::class, function ($job) use ($michael, $task) {
             return $job->notification['action'] === 'task_assigned' &&
-                $job->notification['employee_id'] === $michael->id &&
                 $job->notification['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'task_id' => $task->id,
                     'task_name' => $task->name,
                 ]);
@@ -201,7 +188,7 @@ class CreateTaskTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
         ];
 
         $this->expectException(ValidationException::class);

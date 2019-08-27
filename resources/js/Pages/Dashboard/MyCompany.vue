@@ -6,7 +6,7 @@
 </style>
 
 <template>
-  <layout title="Home" :user="user" :notifications="notifications">
+  <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <div class="cf mt4 mw7 center">
         <h2 class="tc fw5">
@@ -109,14 +109,6 @@
 <script>
 export default {
   props: {
-    company: {
-      type: Object,
-      default: null,
-    },
-    user: {
-      type: Object,
-      default: null,
-    },
     employee: {
       type: Object,
       default: null,

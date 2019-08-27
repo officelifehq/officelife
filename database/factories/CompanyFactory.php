@@ -54,6 +54,11 @@ $factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'action' => 'account_created',
+        'author_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([]);
+        },
+        'author_name' => 'Dwight Schrute',
+        'audited_at' => $faker->dateTimeThisCentury(),
         'objects' => '{"user": 1}',
     ];
 });
@@ -64,6 +69,11 @@ $factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) 
             return factory(App\Models\Company\Employee::class)->create()->id;
         },
         'action' => 'account_created',
+        'author_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([]);
+        },
+        'author_name' => 'Dwight Schrute',
+        'audited_at' => $faker->dateTimeThisCentury(),
         'objects' => '{"user": 1}',
     ];
 });
@@ -74,6 +84,11 @@ $factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
             return factory(App\Models\Company\Team::class)->create([])->id;
         },
         'action' => 'account_created',
+        'author_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([]);
+        },
+        'author_name' => 'Dwight Schrute',
+        'audited_at' => $faker->dateTimeThisCentury(),
         'objects' => '{"user": 1}',
     ];
 });

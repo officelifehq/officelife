@@ -36,7 +36,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'employee_id' => $michael->id,
             'team_id' => $team->id,
         ];
@@ -56,9 +56,8 @@ class RemoveEmployeeFromTeamTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $team) {
             return $job->auditLog['action'] === 'employee_removed_from_team' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $michael->id,
                     'employee_name' => $michael->name,
                     'team_id' => $team->id,
@@ -68,9 +67,8 @@ class RemoveEmployeeFromTeamTest extends TestCase
 
         Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $team) {
             return $job->auditLog['action'] === 'employee_removed_from_team' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $michael->id,
                     'employee_name' => $michael->name,
                     'team_id' => $team->id,
@@ -80,9 +78,8 @@ class RemoveEmployeeFromTeamTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $team) {
             return $job->auditLog['action'] === 'employee_removed_from_team' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $michael->id,
                     'employee_name' => $michael->name,
                     'team_id' => $team->id,
@@ -107,7 +104,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'team_id' => $team->id,
         ];
 

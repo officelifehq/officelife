@@ -29,7 +29,7 @@ class InviteUserTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
         ];
 
@@ -53,9 +53,8 @@ class InviteUserTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'employee_invited_to_become_user' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $dwight->id,
                     'employee_email' => $dwight->email,
                     'employee_first_name' => $dwight->first_name,
@@ -75,7 +74,7 @@ class InviteUserTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
         ];
 
@@ -93,7 +92,7 @@ class InviteUserTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
         ];
 
         $this->expectException(ValidationException::class);

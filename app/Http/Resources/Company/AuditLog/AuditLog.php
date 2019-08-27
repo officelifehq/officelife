@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Company\AuditLog;
 
-use App\Models\User\User;
+use App\Models\Company\Employee;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AuditLog extends JsonResource
@@ -15,7 +15,7 @@ class AuditLog extends JsonResource
      */
     public function toArray($request)
     {
-        $userFound = User::where('id', $this->object->{'author_id'})->first();
+        $employee = Employee::where('id', $this->author_id)->first();
 
         return [
             'id' => $this->id,
@@ -24,8 +24,8 @@ class AuditLog extends JsonResource
             'objects' => json_decode($this->objects),
             'localized_content' => $this->content,
             'author' => [
-                'id' => is_null($userFound) ? null : $userFound->id,
-                'name' => is_null($userFound) ? $this->object->{'author_name'} : $userFound->name,
+                'id' => is_null($employee) ? null : $employee->id,
+                'name' => is_null($employee) ? $this->author_name : $employee->name,
             ],
             'company' => [
                 'id' => $this->company_id,

@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\EmployeeStatus;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\EmployeeStatus;
@@ -17,7 +18,7 @@ class CreateEmployeeStatus extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'name' => 'required|string|max:255',
             'is_dummy' => 'nullable|boolean',
         ];
@@ -47,9 +48,10 @@ class CreateEmployeeStatus extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_status_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_status_id' => $employeeStatus->id,
                 'employee_status_name' => $employeeStatus->name,
             ]),

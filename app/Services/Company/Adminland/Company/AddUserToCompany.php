@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Company;
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
@@ -19,7 +20,7 @@ class AddUserToCompany extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'user_id' => 'required|integer|exists:users,id',
             'permission_level' => 'required|integer',
             'is_dummy' => 'nullable|boolean',
@@ -52,9 +53,10 @@ class AddUserToCompany extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'user_added_to_company',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'user_id' => $employee->user->id,
                 'user_email' => $employee->user->email,
             ]),

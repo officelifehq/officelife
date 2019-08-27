@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Team;
 
+use Carbon\Carbon;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
@@ -18,7 +19,7 @@ class UnsetTeamLeader extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
             'is_dummy' => 'nullable|boolean',
         ];
@@ -51,9 +52,10 @@ class UnsetTeamLeader extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_leader_removed',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'team_leader_id' => $oldTeamLeader->id,
                 'team_leader_name' => $oldTeamLeader->name,
             ]),
@@ -63,9 +65,10 @@ class UnsetTeamLeader extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'team_leader_removed',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'team_leader_id' => $oldTeamLeader->id,
                 'team_leader_name' => $oldTeamLeader->name,
             ]),

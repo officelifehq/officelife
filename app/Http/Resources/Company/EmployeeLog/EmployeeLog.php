@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Company\EmployeeLog;
 
-use App\Models\User\User;
+use App\Models\Company\Employee;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmployeeLog extends JsonResource
@@ -15,7 +15,7 @@ class EmployeeLog extends JsonResource
      */
     public function toArray($request)
     {
-        $userFound = User::where('id', $this->object->{'author_id'})->first();
+        $employeeFound = Employee::where('id', $this->author_id)->first();
 
         return [
             'id' => $this->id,
@@ -24,8 +24,8 @@ class EmployeeLog extends JsonResource
             'objects' => json_decode($this->objects),
             'localized_content' => $this->content,
             'author' => [
-                'id' => is_null($userFound) ? null : $userFound->id,
-                'name' => is_null($userFound) ? $this->object->{'author_name'} : $userFound->name,
+                'id' => is_null($employeeFound) ? null : $employeeFound->id,
+                'name' => is_null($employeeFound) ? $this->author_name : $employeeFound->name,
             ],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

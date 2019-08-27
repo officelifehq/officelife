@@ -18,7 +18,7 @@ class AddStepToFlow extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'flow_id' => 'required|integer|exists:flows,id',
             'number' => 'nullable|integer',
             'unit_of_time' => [

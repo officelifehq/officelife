@@ -23,11 +23,14 @@ class UnassignManagerTest extends TestCase
     {
         Queue::fake();
 
-        $dwight = factory(DirectReport::class)->create([]);
+        $michael = factory(Employee::class)->create([]);
+        $dwight = factory(DirectReport::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
 
         $request = [
             'company_id' => $dwight->directReport->company_id,
-            'author_id' => $dwight->directReport->user->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->directReport->id,
             'manager_id' => $dwight->manager->id,
         ];
@@ -45,11 +48,10 @@ class UnassignManagerTest extends TestCase
             $manager
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight, $michael) {
             return $job->auditLog['action'] === 'manager_unassigned' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->directReport->user->id,
-                    'author_name' => $dwight->directReport->user->name,
                     'manager_id' => $dwight->manager->id,
                     'manager_name' => $dwight->manager->name,
                     'employee_id' => $dwight->directReport->id,
@@ -57,21 +59,19 @@ class UnassignManagerTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight) {
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight, $michael) {
             return $job->auditLog['action'] === 'manager_unassigned' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->directReport->user->id,
-                    'author_name' => $dwight->directReport->user->name,
                     'manager_id' => $dwight->manager->id,
                     'manager_name' => $dwight->manager->name,
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight) {
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight, $michael) {
             return $job->auditLog['action'] === 'direct_report_unassigned' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->directReport->user->id,
-                    'author_name' => $dwight->directReport->user->name,
                     'direct_report_id' => $dwight->directReport->id,
                     'direct_report_name' => $dwight->directReport->name,
                 ]);
@@ -107,7 +107,7 @@ class UnassignManagerTest extends TestCase
 
         $request = [
             'company_id' => $company->id,
-            'author_id' => $employee->user->id,
+            'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'manager_id' => $manager->id,
         ];

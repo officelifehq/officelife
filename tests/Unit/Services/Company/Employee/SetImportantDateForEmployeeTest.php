@@ -30,7 +30,7 @@ class SetImportantDateForEmployeeTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'employee_id' => $michael->id,
             'occasion' => 'birthdate',
             'date' => '1978-10-01',
@@ -57,9 +57,8 @@ class SetImportantDateForEmployeeTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'employee_birthday_set' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $michael->id,
                     'employee_name' => $michael->name,
                     'birthday' => '1978-10-01',
@@ -68,9 +67,8 @@ class SetImportantDateForEmployeeTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'birthday_set' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $michael->id,
                     'employee_name' => $michael->name,
                     'birthday' => '1978-10-01',
@@ -120,7 +118,7 @@ class SetImportantDateForEmployeeTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'employee_id' => $michael->id,
         ];
 

@@ -28,7 +28,7 @@ class AssignManagerTest extends TestCase
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->user->id,
+            'author_id' => $dwight->id,
             'employee_id' => $dwight->id,
             'manager_id' => $michael->id,
         ];
@@ -48,9 +48,8 @@ class AssignManagerTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'manager_assigned' &&
+                $job->auditLog['author_id'] === $dwight->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->user->id,
-                    'author_name' => $dwight->user->name,
                     'manager_id' => $michael->id,
                     'manager_name' => $michael->name,
                     'employee_id' => $dwight->id,
@@ -60,9 +59,8 @@ class AssignManagerTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'manager_assigned' &&
+                $job->auditLog['author_id'] === $dwight->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->user->id,
-                    'author_name' => $dwight->user->name,
                     'manager_id' => $michael->id,
                     'manager_name' => $michael->name,
                 ]);
@@ -70,9 +68,8 @@ class AssignManagerTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'direct_report_assigned' &&
+                $job->auditLog['author_id'] === $dwight->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->user->id,
-                    'author_name' => $dwight->user->name,
                     'direct_report_id' => $dwight->id,
                     'direct_report_name' => $dwight->name,
                 ]);
@@ -97,7 +94,7 @@ class AssignManagerTest extends TestCase
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->user->id,
+            'author_id' => $dwight->id,
             'employee_id' => $dwight->id,
             'manager_id' => $dwight->id,
         ];

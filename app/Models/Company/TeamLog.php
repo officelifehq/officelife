@@ -20,6 +20,9 @@ class TeamLog extends Model
         'team_id',
         'action',
         'objects',
+        'author_id',
+        'author_name',
+        'audited_at',
         'ip_address',
         'is_dummy',
     ];
@@ -31,6 +34,15 @@ class TeamLog extends Model
      */
     protected $casts = [
         'is_dummy' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'audited_at',
     ];
 
     /**

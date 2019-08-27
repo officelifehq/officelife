@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Employee\Team;
 
+use Carbon\Carbon;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
@@ -20,7 +21,7 @@ class RemoveEmployeeFromTeam extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
             'is_dummy' => 'nullable|boolean',
@@ -52,8 +53,6 @@ class RemoveEmployeeFromTeam extends BaseService
         $team->employees()->detach($data['employee_id'], ['company_id' => $data['company_id']]);
 
         $dataToLog = [
-            'author_id' => $author->id,
-            'author_name' => $author->name,
             'employee_id' => $employee->id,
             'employee_name' => $employee->name,
             'team_id' => $team->id,
@@ -63,6 +62,9 @@ class RemoveEmployeeFromTeam extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_removed_from_team',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
@@ -70,6 +72,9 @@ class RemoveEmployeeFromTeam extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'employee_removed_from_team',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
@@ -77,6 +82,9 @@ class RemoveEmployeeFromTeam extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'employee_removed_from_team',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');

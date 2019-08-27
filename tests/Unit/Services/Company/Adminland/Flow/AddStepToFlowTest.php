@@ -24,7 +24,7 @@ class AddStepToFlowTest extends TestCase
 
         $request = [
             'company_id' => $flow->company_id,
-            'author_id' => $employee->user_id,
+            'author_id' => $employee->id,
             'flow_id' => $flow->id,
             'number' => 6,
             'unit_of_time' => 'days',

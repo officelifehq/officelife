@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Employee\EmployeeStatus;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
@@ -19,7 +20,7 @@ class AssignEmployeeStatusToEmployee extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'employee_status_id' => 'required|integer|exists:employee_statuses,id',
             'is_dummy' => 'nullable|boolean',
@@ -53,9 +54,10 @@ class AssignEmployeeStatusToEmployee extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_status_assigned',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'employee_status_id' => $status->id,
@@ -67,9 +69,10 @@ class AssignEmployeeStatusToEmployee extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'employee_status_assigned',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_status_id' => $status->id,
                 'employee_status_name' => $status->name,
             ]),

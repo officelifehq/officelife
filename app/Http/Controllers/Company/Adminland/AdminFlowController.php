@@ -76,9 +76,11 @@ class AdminFlowController extends Controller
      */
     public function store(Request $request, $companyId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $data = [
             'company_id' => $companyId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'name' => $request->get('name'),
             'type' => $request->get('type'),
         ];
@@ -89,7 +91,7 @@ class AdminFlowController extends Controller
         foreach ($request->get('steps') as $step) {
             $newStep = (new AddStepToFlow)->execute([
                 'company_id' => $companyId,
-                'author_id' => Auth::user()->id,
+                'author_id' => $loggedEmployee->id,
                 'flow_id' => $flow->id,
                 'number' => $step['number'],
                 'unit_of_time' => $step['frequency'],
@@ -100,7 +102,7 @@ class AdminFlowController extends Controller
             foreach ($step['actions'] as $action) {
                 (new AddActionToStep)->execute([
                     'company_id' => $companyId,
-                    'author_id' => Auth::user()->id,
+                    'author_id' => $loggedEmployee->id,
                     'flow_id' => $flow->id,
                     'step_id' => $newStep->id,
                     'type' => $action['type'],

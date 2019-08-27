@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
@@ -17,7 +18,7 @@ class UpdateEmployee extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'email' => 'required|email|max:255',
             'first_name' => 'required|string|max:255',
@@ -56,9 +57,10 @@ class UpdateEmployee extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_updated',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
             ]),

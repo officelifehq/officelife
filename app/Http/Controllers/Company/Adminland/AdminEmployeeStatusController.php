@@ -41,9 +41,11 @@ class AdminEmployeeStatusController extends Controller
      */
     public function store(Request $request, $companyId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'name' => $request->get('name'),
         ];
 
@@ -64,9 +66,11 @@ class AdminEmployeeStatusController extends Controller
      */
     public function update(Request $request, $companyId, $employeeStatusId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'employee_status_id' => $employeeStatusId,
             'name' => $request->get('name'),
         ];
@@ -86,10 +90,12 @@ class AdminEmployeeStatusController extends Controller
      */
     public function destroy(Request $request, $companyId, $employeeStatusId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
             'employee_status_id' => $employeeStatusId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
         ];
 
         (new DestroyEmployeeStatus)->execute($request);

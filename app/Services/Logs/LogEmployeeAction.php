@@ -16,6 +16,9 @@ class LogEmployeeAction extends BaseService
     public function rules() : array
     {
         return [
+            'author_id' => 'required|integer|exists:employees,id',
+            'author_name' => 'required|string|max:255',
+            'audited_at' => 'required|date',
             'employee_id' => 'required|integer|exists:employees,id',
             'action' => 'required|string|max:255',
             'objects' => 'required|json',
@@ -37,6 +40,9 @@ class LogEmployeeAction extends BaseService
 
         return EmployeeLog::create([
             'employee_id' => $data['employee_id'],
+            'author_id' => $data['author_id'],
+            'author_name' => $data['author_name'],
+            'audited_at' => $data['audited_at'],
             'action' => $data['action'],
             'objects' => $data['objects'],
             'ip_address' => $this->nullOrValue($data, 'ip_address'),

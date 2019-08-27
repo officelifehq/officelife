@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Team;
 
+use Carbon\Carbon;
 use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
@@ -18,7 +19,7 @@ class CreateTeam extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'name' => 'required|string|max:255',
             'is_dummy' => 'nullable|boolean',
         ];
@@ -48,9 +49,10 @@ class CreateTeam extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),
@@ -60,9 +62,10 @@ class CreateTeam extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'team_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),

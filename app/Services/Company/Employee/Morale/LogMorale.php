@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Employee\Morale;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
@@ -20,7 +21,7 @@ class LogMorale extends BaseService
     public function rules() : array
     {
         return [
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'emotion' => 'required',
                 Rule::in([
@@ -68,9 +69,10 @@ class LogMorale extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,
             'action' => 'employee_morale_logged',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'morale_id' => $morale->id,
@@ -82,9 +84,10 @@ class LogMorale extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'morale_logged',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'morale_id' => $morale->id,

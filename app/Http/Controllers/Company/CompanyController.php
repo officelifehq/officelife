@@ -23,8 +23,6 @@ class CompanyController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         return Inertia::render('Dashboard/MyCompany', [
-            'company' => $company,
-            'user' => Auth::user()->getEmployeeObjectForCompany($company),
             'notifications' => Auth::user()->getLatestNotifications($company),
             'ownerPermissionLevel' => config('homas.authorizations.administrator'),
         ]);

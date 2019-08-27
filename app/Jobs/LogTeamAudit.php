@@ -44,6 +44,9 @@ class LogTeamAudit implements ShouldQueue
 
         (new LogTeamAction)->execute([
             'team_id' => $this->auditLog['team_id'],
+            'author_id' => $this->auditLog['author_id'],
+            'author_name' => $this->auditLog['author_name'],
+            'audited_at' => $this->auditLog['audited_at'],
             'action' => $this->auditLog['action'],
             'objects' => $this->auditLog['objects'],
             'is_dummy' => $isDummy,

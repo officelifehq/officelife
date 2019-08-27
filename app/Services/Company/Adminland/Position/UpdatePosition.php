@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Position;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Position;
@@ -17,7 +18,7 @@ class UpdatePosition extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'position_id' => 'required|integer|exists:positions,id',
             'title' => 'required|string|max:255',
             'is_dummy' => 'nullable|boolean',
@@ -51,9 +52,10 @@ class UpdatePosition extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'position_updated',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'position_id' => $position->id,
                 'position_title' => $position->title,
                 'position_old_title' => $oldPositionTitle,

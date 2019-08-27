@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services\Logs;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
@@ -16,11 +17,15 @@ class LogEmployeeActionTest extends TestCase
     /** @test */
     public function it_logs_an_action() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        $michael = factory(Employee::class)->create([]);
+        $date = Carbon::now();
 
         $request = [
-            'employee_id' => $employee->id,
+            'employee_id' => $michael->id,
             'action' => 'account_created',
+            'author_id' => $michael->id,
+            'author_name' => $michael->name,
+            'audited_at' => $date,
             'objects' => '{"user": 1}',
         ];
 
@@ -28,8 +33,11 @@ class LogEmployeeActionTest extends TestCase
 
         $this->assertDatabaseHas('employee_logs', [
             'id' => $employeeLog->id,
-            'employee_id' => $employee->id,
+            'employee_id' => $michael->id,
             'action' => 'account_created',
+            'author_id' => $michael->id,
+            'author_name' => $michael->name,
+            'audited_at' => $date,
             'objects' => '{"user": 1}',
         ]);
 
