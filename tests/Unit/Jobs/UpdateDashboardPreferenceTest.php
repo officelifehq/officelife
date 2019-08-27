@@ -11,12 +11,12 @@ class UpdateDashboardPreferenceTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_the_user_preference_for_the_dashboard(): void
+    public function it_updates_the_user_preference_for_the_dashboard() :void
     {
         $michael = $this->createAdministrator();
 
         $request = [
-            'user_id' => $michael->user->id,
+            'user_id' => $michael->user_id,
             'company_id' => $michael->company_id,
             'view' => 'company',
         ];
@@ -24,7 +24,7 @@ class UpdateDashboardPreferenceTest extends TestCase
         UpdateDashboardPreference::dispatch($request);
 
         $this->assertDatabaseHas('users', [
-            'id' => $michael->user->id,
+            'id' => $michael->user_id,
             'default_dashboard_view' => 'company',
         ]);
     }

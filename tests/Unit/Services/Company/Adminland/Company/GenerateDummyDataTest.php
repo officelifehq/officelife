@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 
 use Tests\TestCase;
 use App\Models\User\User;
+use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -21,7 +22,7 @@ class GenerateDummyDataTest extends TestCase
 
         $request = [
             'company_id' => $employee->company_id,
-            'author_id' => $employee->user->id,
+            'author_id' => $employee->id,
         ];
 
         (new GenerateDummyData)->execute($request);
@@ -51,6 +52,9 @@ class GenerateDummyDataTest extends TestCase
 
         $worklogsNumber = Worklog::count();
         $this->assertGreaterThan(1, $worklogsNumber);
+
+        $moraleNumber = Morale::count();
+        $this->assertGreaterThan(1, $moraleNumber);
     }
 
     /** @test */

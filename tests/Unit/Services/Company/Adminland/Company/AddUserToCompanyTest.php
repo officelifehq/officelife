@@ -25,7 +25,7 @@ class AddUserToCompanyTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'user_id' => $user->id,
             'permission_level' => config('homas.authorizations.user'),
         ];
@@ -39,9 +39,8 @@ class AddUserToCompanyTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'user_added_to_company' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'user_id' => $dwight->user->id,
                     'user_email' => $dwight->user->email,
                 ]);
@@ -62,7 +61,7 @@ class AddUserToCompanyTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
         ];
 
         $this->expectException(ValidationException::class);

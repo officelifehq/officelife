@@ -23,7 +23,7 @@ class ChangePermissionTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'employee_id' => $michael->id,
             'permission_level' => config('homas.authorizations.hr'),
         ];
@@ -42,9 +42,8 @@ class ChangePermissionTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'permission_changed' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $michael->id,
                     'employee_name' => $michael->name,
                     'old_permission' => config('homas.authorizations.administrator'),
@@ -60,7 +59,7 @@ class ChangePermissionTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
         ];
 
         $this->expectException(ValidationException::class);

@@ -17,7 +17,7 @@ class AssignEmployeeStatusToEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_assigns_an_employee_status(): void
+    public function it_assigns_an_employee_status() :void
     {
         Queue::fake();
 
@@ -28,7 +28,7 @@ class AssignEmployeeStatusToEmployeeTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'employee_id' => $michael->id,
             'employee_status_id' => $employeeStatus->id,
         ];
@@ -48,9 +48,8 @@ class AssignEmployeeStatusToEmployeeTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $employeeStatus) {
             return $job->auditLog['action'] === 'employee_status_assigned' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $michael->id,
                     'employee_name' => $michael->name,
                     'employee_status_id' => $employeeStatus->id,
@@ -60,9 +59,8 @@ class AssignEmployeeStatusToEmployeeTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $employeeStatus) {
             return $job->auditLog['action'] === 'employee_status_assigned' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_status_id' => $employeeStatus->id,
                     'employee_status_name' => $employeeStatus->name,
                 ]);
@@ -70,7 +68,7 @@ class AssignEmployeeStatusToEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
+    public function it_fails_if_wrong_parameters_are_given() :void
     {
         $request = [
             'first_name' => 'Dwight',

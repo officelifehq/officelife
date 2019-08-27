@@ -13,9 +13,10 @@ class LogTeamAuditTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_a_team_audit(): void
+    public function it_logs_a_team_audit() :void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $date = Carbon::now();
 
         $michael = $this->createAdministrator();
         $team = factory(Team::class)->create([
@@ -33,9 +34,10 @@ class LogTeamAuditTest extends TestCase
         $request = [
             'team_id' => $team->id,
             'action' => 'employee_status_created',
+            'author_id' => $michael->id,
+            'author_name' => $michael->name,
+            'audited_at' => $date,
             'objects' => json_encode([
-                'author_id' => $michael->id,
-                'author_name' => $michael->name,
                 'company_name' => $michael->company->name,
             ]),
         ];
@@ -45,9 +47,10 @@ class LogTeamAuditTest extends TestCase
         $this->assertDatabaseHas('team_logs', [
             'team_id' => $team->id,
             'action' => 'employee_status_created',
+            'author_id' => $michael->id,
+            'author_name' => $michael->name,
+            'audited_at' => $date,
             'objects' => json_encode([
-                'author_id' => $michael->id,
-                'author_name' => $michael->name,
                 'company_name' => $michael->company->name,
             ]),
         ]);

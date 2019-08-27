@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Company;
 
+use Carbon\Carbon;
 use App\Models\User\User;
 use Illuminate\Support\Str;
 use App\Jobs\LogAccountAudit;
@@ -41,21 +42,22 @@ class CreateCompany extends BaseService
 
         $author = User::find($data['author_id']);
 
+        $employee = $this->addFirstEmployee($company, $author);
+
         LogAccountAudit::dispatch([
             'company_id' => $company->id,
             'action' => 'account_created',
+            'author_id' => $employee->id,
+            'author_name' => $employee->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'company_name' => $company->name,
             ]),
         ])->onQueue('low');
 
-        $this->addFirstEmployee($company, $author);
-
         (new ProvisionDefaultAccountData)->execute([
             'company_id' => $company->id,
-            'author_id' => $author->id,
+            'author_id' => $employee->id,
         ]);
 
         return $company;
@@ -66,9 +68,9 @@ class CreateCompany extends BaseService
      *
      * @param Company $company
      * @param User $author
-     * @return void
+     * @return Employee
      */
-    private function addFirstEmployee(Company $company, User $author) : void
+    private function addFirstEmployee(Company $company, User $author) : Employee
     {
         $uuid = Str::uuid()->toString();
 
@@ -77,7 +79,7 @@ class CreateCompany extends BaseService
             'size' => 200,
         ]);
 
-        Employee::create([
+        return Employee::create([
             'user_id' => $author->id,
             'company_id' => $company->id,
             'uuid' => Str::uuid()->toString(),

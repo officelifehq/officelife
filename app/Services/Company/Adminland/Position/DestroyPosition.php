@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Position;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Position;
@@ -17,7 +18,7 @@ class DestroyPosition extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'position_id' => 'required|integer|exists:positions,id',
             'is_dummy' => 'nullable|boolean',
         ];
@@ -47,9 +48,10 @@ class DestroyPosition extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'position_destroyed',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'position_title' => $position->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

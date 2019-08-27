@@ -2,7 +2,7 @@
 
 namespace App\Services\Company\Employee\Manager;
 
-use App\Models\User\User;
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
@@ -21,7 +21,7 @@ class AssignManager extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'manager_id' => 'required|integer|exists:employees,id',
             'is_dummy' => 'nullable|boolean',
@@ -62,9 +62,10 @@ class AssignManager extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'manager_assigned',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'manager_id' => $manager->id,
                 'manager_name' => $manager->name,
                 'employee_id' => $employee->id,
@@ -84,21 +85,22 @@ class AssignManager extends BaseService
      * Therefore we need two logs.
      *
      * @param array $data
-     * @param User $author
+     * @param Employee $author
      * @param Employee $manager
      * @param Employee $employee
      * @return void
      */
-    private function logInEmployeeLogs(array $data, User $author, Employee $manager, Employee $employee) : void
+    private function logInEmployeeLogs(array $data, Employee $author, Employee $manager, Employee $employee) : void
     {
         // Log information about the employee having a manager assigned
         LogEmployeeAudit::dispatch([
             'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
             'action' => 'manager_assigned',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'manager_id' => $manager->id,
                 'manager_name' => $manager->name,
             ]),
@@ -109,9 +111,10 @@ class AssignManager extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $manager->id,
             'action' => 'direct_report_assigned',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'direct_report_id' => $employee->id,
                 'direct_report_name' => $employee->name,
             ]),

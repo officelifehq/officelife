@@ -28,7 +28,7 @@ class UpdateTeamTest extends TestCase
 
         $request = [
             'company_id' => $team->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'team_id' => $team->id,
             'name' => 'Selling team',
         ];
@@ -48,9 +48,8 @@ class UpdateTeamTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $team) {
             return $job->auditLog['action'] === 'team_updated' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'team_id' => $team->id,
                     'team_old_name' => $team->name,
                     'team_new_name' => 'Selling team',
@@ -59,9 +58,8 @@ class UpdateTeamTest extends TestCase
 
         Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $team) {
             return $job->auditLog['action'] === 'team_updated' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'team_id' => $team->id,
                     'team_old_name' => $team->name,
                     'team_new_name' => 'Selling team',

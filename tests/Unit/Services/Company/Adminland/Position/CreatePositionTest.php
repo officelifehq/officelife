@@ -24,7 +24,7 @@ class CreatePositionTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'title' => 'Assistant to the regional manager',
         ];
 
@@ -43,9 +43,8 @@ class CreatePositionTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $position) {
             return $job->auditLog['action'] === 'position_created' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'position_id' => $position->id,
                     'position_title' => $position->title,
                 ]);

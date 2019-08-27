@@ -27,7 +27,7 @@ class UpdateEmployeeStatusTest extends TestCase
 
         $request = [
             'company_id' => $employeeStatus->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'employee_status_id' => $employeeStatus->id,
             'name' => 'Non permanent',
         ];
@@ -47,9 +47,8 @@ class UpdateEmployeeStatusTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $employeeStatus) {
             return $job->auditLog['action'] === 'employee_status_updated' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_status_id' => $employeeStatus->id,
                     'employee_status_old_name' => $employeeStatus->name,
                     'employee_status_new_name' => 'Non permanent',

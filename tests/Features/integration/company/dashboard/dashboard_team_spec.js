@@ -9,7 +9,7 @@ describe('Dashboard - teams', function () {
     cy.contains('You are not associated with a team yet')
   })
 
-  it('should display the list of teams if the enployee is associated with at least one team', function () {
+  it('should display the list of teams if the employee is associated with at least one team', function () {
     cy.login()
 
     cy.createCompany()

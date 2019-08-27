@@ -50,8 +50,8 @@ class BaseServiceTest extends TestCase
         ]);
 
         $this->assertInstanceOf(
-            User::class,
-            $stub->validatePermissions($employee->user_id, $employee->company_id, config('homas.authorizations.administrator'))
+            Employee::class,
+            $stub->validatePermissions($employee->id, $employee->company_id, config('homas.authorizations.administrator'))
         );
 
         // test that an HR can't do an action reserved for an administrator
@@ -60,7 +60,7 @@ class BaseServiceTest extends TestCase
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($employee->user->id, $employee->company_id, config('homas.authorizations.administrator'));
+        $stub->validatePermissions($employee->id, $employee->company_id, config('homas.authorizations.administrator'));
 
         // test that an user can't do an action reserved for an administrator
         $employee = factory(Employee::class)->create([
@@ -68,7 +68,7 @@ class BaseServiceTest extends TestCase
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($employee->user->id, $employee->company_id, config('homas.authorizations.administrator'));
+        $stub->validatePermissions($employee->id, $employee->company_id, config('homas.authorizations.administrator'));
 
         // test that a user can modify his own data regardless of his permission
         // level
@@ -78,7 +78,7 @@ class BaseServiceTest extends TestCase
 
         $this->assertInstanceOf(
             User::class,
-            $stub->validatePermissions($employee->user_id, $employee->company_id, config('homas.authorizations.administrator'), $employee->id)
+            $stub->validatePermissions($employee->id, $employee->company_id, config('homas.authorizations.administrator'), $employee->id)
         );
     }
 

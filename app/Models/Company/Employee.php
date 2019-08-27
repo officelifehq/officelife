@@ -30,8 +30,6 @@ class Employee extends Model
         'email',
         'first_name',
         'last_name',
-        'birthdate',
-        'hired_at',
         'position_id',
         'permission_level',
         'invitation_link',
@@ -93,8 +91,6 @@ class Employee extends Model
      * @var array
      */
     protected $dates = [
-        'birthdate',
-        'hired_at',
         'invitation_used_at',
     ];
 
@@ -229,6 +225,26 @@ class Employee extends Model
     }
 
     /**
+     * Get the important date records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function importantDates()
+    {
+        return $this->hasMany(EmployeeImportantDate::class);
+    }
+
+    /**
+     * Get the morale record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function morales()
+    {
+        return $this->hasMany(Morale::class);
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string
@@ -252,12 +268,20 @@ class Employee extends Model
     /**
      * Returns the birthdate attribute of the employee.
      *
-     * @return string
      * @param mixed $value
+     * @return Carbon
      */
     public function getBirthdateAttribute($value)
     {
-        return $value;
+        $importantDate = $this->importantDates()
+            ->where('occasion', 'birthdate')
+            ->first();
+
+        if (is_null($importantDate)) {
+            return;
+        }
+
+        return $importantDate->date;
     }
 
     /**
@@ -347,5 +371,19 @@ class Employee extends Model
             ->get();
 
         return $worklog->count() != 0;
+    }
+
+    /**
+     * Check if the employee has already logged his morale today.
+     *
+     * @return bool
+     */
+    public function hasAlreadyLoggedMoraleToday() : bool
+    {
+        $morale = Morale::where('employee_id', $this->id)
+            ->whereDate('created_at', Carbon::today())
+            ->get();
+
+        return $morale->count() != 0;
     }
 }

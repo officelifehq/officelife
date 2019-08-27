@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Company\Employee\Birthday;
+namespace App\Services\Company\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
@@ -9,8 +9,9 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeEvent;
+use App\Models\Company\EmployeeImportantDate;
 
-class SetBirthdayForEmployee extends BaseService
+class SetImportantDateForEmployee extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -21,17 +22,19 @@ class SetBirthdayForEmployee extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
+            'occasion' => 'required|string|max:255',
             'date' => 'required|date|date_format:Y-m-d',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Set the birthdate of an employee.
-     * This also sets an Employee Event that will be used to trigger all the
-     * flows associated with this event.
+     * Set an important date for an employee.
+     * Important dates are dates like birthdate or hiring date.
+     * For each one of these dates, we also add a kind of reminder, called
+     * Employee Event.
      *
      * @param array $data
      * @return Employee
@@ -50,27 +53,38 @@ class SetBirthdayForEmployee extends BaseService
         $employee = Employee::where('company_id', $data['company_id'])
             ->findOrFail($data['employee_id']);
 
-        // save the birthdate
-        $employee->birthdate = $data['date'];
-        $employee->save();
-
         // transform the birthdate as a carbon object
         $carbonObject = Carbon::createFromFormat('Y-m-d', $data['date']);
+
+        // save the birthdate
+        $this->setImportantDate($employee, $data['occasion'], $carbonObject);
+
+        // check to see if an employee event already exists about this occasion
+        $event = $employee->employeeEvents()
+            ->where('label', $data['occasion'])
+            ->first();
+
+        if (! is_null($event)) {
+            $event->delete();
+        }
+
+        // calculate the next occurence of the date in order to create an event
         $dateOfEvent = DateHelper::getNextOccurence($carbonObject);
 
         EmployeeEvent::create([
             'company_id' => $data['company_id'],
             'employee_id' => $data['employee_id'],
-            'label' => 'birthday',
+            'label' => $data['occasion'],
             'date' => $dateOfEvent,
         ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_birthday_set',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'birthday' => $data['date'],
@@ -81,9 +95,10 @@ class SetBirthdayForEmployee extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'birthday_set',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
                 'birthday' => $data['date'],
@@ -92,5 +107,33 @@ class SetBirthdayForEmployee extends BaseService
         ])->onQueue('low');
 
         return $employee;
+    }
+
+    /**
+     * Set the important date for the given occasion.
+     *
+     * @param Employee $employee
+     * @param string $occasion
+     * @param Carbon $date
+     * @return EmployeeImportantDate
+     */
+    private function setImportantDate(Employee $employee, string $occasion, Carbon $date) : EmployeeImportantDate
+    {
+        $importantDate = $employee->importantDates()
+            ->where('occasion', $occasion)
+            ->first();
+
+        if (is_null($importantDate)) {
+            return EmployeeImportantDate::create([
+                'employee_id' => $employee->id,
+                'occasion' => $occasion,
+                'date' => $date,
+            ]);
+        }
+
+        $importantDate->date = $date;
+        $importantDate->save();
+
+        return $importantDate;
     }
 }

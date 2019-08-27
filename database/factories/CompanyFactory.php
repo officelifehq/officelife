@@ -25,7 +25,6 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'email' => 'dwigth@dundermifflin.com',
         'first_name' => 'Dwight',
         'last_name' => 'Schrute',
-        'birthdate' => '1978-01-20',
         'consecutive_worklog_missed' => 0,
         'employee_status_id' => function (array $data) {
             return factory(App\Models\Company\EmployeeStatus::class)->create([
@@ -55,6 +54,11 @@ $factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'action' => 'account_created',
+        'author_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([]);
+        },
+        'author_name' => 'Dwight Schrute',
+        'audited_at' => $faker->dateTimeThisCentury(),
         'objects' => '{"user": 1}',
     ];
 });
@@ -65,6 +69,11 @@ $factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) 
             return factory(App\Models\Company\Employee::class)->create()->id;
         },
         'action' => 'account_created',
+        'author_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([]);
+        },
+        'author_name' => 'Dwight Schrute',
+        'audited_at' => $faker->dateTimeThisCentury(),
         'objects' => '{"user": 1}',
     ];
 });
@@ -75,6 +84,11 @@ $factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
             return factory(App\Models\Company\Team::class)->create([])->id;
         },
         'action' => 'account_created',
+        'author_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([]);
+        },
+        'author_name' => 'Dwight Schrute',
+        'audited_at' => $faker->dateTimeThisCentury(),
         'objects' => '{"user": 1}',
     ];
 });
@@ -189,6 +203,46 @@ $factory->define(App\Models\Company\EmployeeStatus::class, function (Faker $fake
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'name' => 'Permanent',
+    ];
+});
+
+$factory->define(App\Models\Company\EmployeeImportantDate::class, function (Faker $faker) {
+    return [
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'occasion' => 'birthdate',
+        'date' => '1981-10-29',
+    ];
+});
+
+$factory->define(App\Models\Company\Morale::class, function (Faker $faker) {
+    return [
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'emotion' => 1,
+        'comment' => 'I hate Toby',
+    ];
+});
+
+$factory->define(App\Models\Company\MoraleCompanyHistory::class, function (Faker $faker) {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'average' => 2.3,
+        'number_of_employees' => 30,
+    ];
+});
+
+$factory->define(App\Models\Company\MoraleTeamHistory::class, function (Faker $faker) {
+    return [
+        'team_id' => function () {
+            return factory(App\Models\Company\Team::class)->create()->id;
+        },
+        'average' => 2.3,
+        'number_of_team_members' => 30,
     ];
 });
 

@@ -18,8 +18,11 @@ class AuditLog extends Model
      */
     protected $fillable = [
         'company_id',
+        'author_id',
+        'author_name',
         'action',
         'objects',
+        'audited_at',
         'ip_address',
         'is_dummy',
     ];
@@ -31,6 +34,15 @@ class AuditLog extends Model
      */
     protected $casts = [
         'is_dummy' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'audited_at',
     ];
 
     /**
@@ -62,7 +74,7 @@ class AuditLog extends Model
      */
     public function getDateAttribute($value) : string
     {
-        return DateHelper::getShortDateWithTime($this->created_at);
+        return DateHelper::getShortDateWithTime($this->audited_at);
     }
 
     /**

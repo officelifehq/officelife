@@ -42,10 +42,11 @@ class AdminPositionController extends Controller
     public function store(Request $request, $companyId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         $request = [
             'company_id' => $company->id,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'title' => $request->get('title'),
         ];
 
@@ -64,9 +65,11 @@ class AdminPositionController extends Controller
      */
     public function update(Request $request, $companyId, $positionId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
             'position_id' => $positionId,
             'title' => $request->get('title'),
         ];
@@ -86,10 +89,12 @@ class AdminPositionController extends Controller
      */
     public function destroy(Request $request, $companyId, $positionId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $request = [
             'company_id' => $companyId,
             'position_id' => $positionId,
-            'author_id' => Auth::user()->id,
+            'author_id' => $loggedEmployee->id,
         ];
 
         (new DestroyPosition)->execute($request);

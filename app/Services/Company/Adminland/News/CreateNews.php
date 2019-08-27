@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\News;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
@@ -18,7 +19,7 @@ class CreateNews extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:65535',
             'is_dummy' => 'nullable|boolean',
@@ -56,9 +57,10 @@ class CreateNews extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'company_news_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
                 'news_id' => $news->id,
                 'news_title' => $news->title,
             ]),

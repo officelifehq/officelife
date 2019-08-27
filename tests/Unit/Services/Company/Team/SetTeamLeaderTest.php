@@ -28,7 +28,7 @@ class SetTeamLeaderTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'employee_id' => $michael->id,
             'team_id' => $team->id,
         ];
@@ -47,9 +47,8 @@ class SetTeamLeaderTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'team_leader_assigned' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'team_leader_id' => $michael->id,
                     'team_leader_name' => $michael->name,
                 ]);
@@ -57,9 +56,8 @@ class SetTeamLeaderTest extends TestCase
 
         Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'team_leader_assigned' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'team_leader_id' => $michael->id,
                     'team_leader_name' => $michael->name,
                 ]);
@@ -70,13 +68,13 @@ class SetTeamLeaderTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given() : void
     {
         $michael = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
+        factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'employee_id' => $michael->id,
         ];
 

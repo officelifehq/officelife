@@ -21,7 +21,7 @@ class RemoveDummyDataTest extends TestCase
 
         $request = [
             'company_id' => $employee->company_id,
-            'author_id' => $employee->user_id,
+            'author_id' => $employee->id,
         ];
 
         (new GenerateDummyData)->execute($request);

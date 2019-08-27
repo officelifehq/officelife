@@ -24,7 +24,7 @@ class CreateFlowTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'name' => 'Selling team',
             'type' => 'employee_joins_company',
         ];
@@ -45,9 +45,8 @@ class CreateFlowTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $flow) {
             return $job->auditLog['action'] === 'flow_created' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'flow_id' => $flow->id,
                     'flow_name' => $flow->name,
                 ]);

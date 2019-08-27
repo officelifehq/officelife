@@ -32,8 +32,12 @@
       </div>
 
       <my-worklogs
-        :teams="teams"
         :worklog-count="worklogCount"
+        class="mb5"
+      />
+
+      <my-morale
+        :morale-count="moraleCount"
       />
 
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
@@ -72,20 +76,22 @@
 
 <script>
 import MyWorklogs from '@/Pages/Dashboard/MyWorklogs';
+import MyMorale from '@/Pages/Dashboard/MyMorale';
 import Layout from '@/Shared/Layout';
 
 export default {
   components: {
     Layout,
     MyWorklogs,
+    MyMorale,
   },
 
   props: {
-    teams: {
-      type: Array,
-      default: null,
-    },
     worklogCount: {
+      type: Number,
+      default: 0,
+    },
+    moraleCount: {
       type: Number,
       default: 0,
     },

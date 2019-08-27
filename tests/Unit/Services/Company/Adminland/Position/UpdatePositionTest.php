@@ -27,7 +27,7 @@ class UpdatePositionTest extends TestCase
 
         $request = [
             'company_id' => $position->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'position_id' => $position->id,
             'title' => 'Assistant Regional Manager',
         ];
@@ -47,9 +47,8 @@ class UpdatePositionTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $position, $newPosition) {
             return $job->auditLog['action'] === 'position_updated' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'position_id' => $newPosition->id,
                     'position_title' => $newPosition->title,
                     'position_old_title' => $position->title,

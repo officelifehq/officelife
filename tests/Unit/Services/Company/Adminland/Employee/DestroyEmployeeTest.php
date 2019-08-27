@@ -27,7 +27,7 @@ class DestroyEmployeeTest extends TestCase
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->user->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
         ];
 
@@ -37,12 +37,10 @@ class DestroyEmployeeTest extends TestCase
             'id' => $dwight->id,
         ]);
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'employee_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $dwight->user->id,
-                    'author_name' => $dwight->user->name,
-                    'employee_id' => $dwight->id,
                     'employee_name' => $dwight->name,
                 ]);
         });
@@ -67,7 +65,7 @@ class DestroyEmployeeTest extends TestCase
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
         ];
 

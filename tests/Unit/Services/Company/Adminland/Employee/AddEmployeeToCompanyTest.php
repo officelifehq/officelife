@@ -24,7 +24,7 @@ class AddEmployeeToCompanyTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user->id,
+            'author_id' => $michael->id,
             'email' => 'dwight@dundermifflin.com',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
@@ -51,9 +51,8 @@ class AddEmployeeToCompanyTest extends TestCase
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'employee_added_to_company' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $dwight->id,
                     'employee_email' => 'dwight@dundermifflin.com',
                     'employee_first_name' => 'Dwight',
@@ -64,9 +63,8 @@ class AddEmployeeToCompanyTest extends TestCase
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'employee_created' &&
+                $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'author_id' => $michael->user->id,
-                    'author_name' => $michael->user->name,
                     'employee_id' => $dwight->id,
                     'employee_name' => 'Dwight Schrute',
                 ]);

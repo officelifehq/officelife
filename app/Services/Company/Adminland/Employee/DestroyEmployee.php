@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Adminland\Employee;
 
+use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
@@ -16,7 +17,7 @@ class DestroyEmployee extends BaseService
     public function rules() : array
     {
         return [
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|exists:employees,id|integer',
             'company_id' => 'required|exists:companies,id|integer',
             'is_dummy' => 'nullable|boolean',
@@ -47,10 +48,10 @@ class DestroyEmployee extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_destroyed',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'author_id' => $author->id,
-                'author_name' => $author->name,
-                'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

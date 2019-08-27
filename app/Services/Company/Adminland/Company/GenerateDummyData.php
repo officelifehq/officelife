@@ -25,7 +25,7 @@ class GenerateDummyData extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
         ];
     }
 
@@ -52,6 +52,8 @@ class GenerateDummyData extends BaseService
         $this->createThreeTeamsWithEmployees($data);
 
         $this->createWorklogEntries();
+
+        $this->createMoraleEntries();
 
         $company->has_dummy_data = true;
         $company->save();
@@ -107,11 +109,11 @@ class GenerateDummyData extends BaseService
         $team = $this->createTeamWithEmployees($data, 'Sales', 18);
 
         // add current user to the team
-        $currentUser = User::find($data['author_id']);
+        $currentEmployee = Employee::find($data['author_id']);
         $request = [
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
-            'employee_id' => $currentUser->getEmployeeObjectForCompany($team->company)->id,
+            'employee_id' => $currentEmployee->id,
             'team_id' => $team->id,
             'is_dummy' => true,
         ];
@@ -173,7 +175,7 @@ class GenerateDummyData extends BaseService
 
         $employees = Employee::whereHas('teams', function ($query) {
             $query->where('name', 'Sales');
-        })->get();
+        })->where('is_dummy', true)->get();
 
         foreach ($employees as $employee) {
             $date = Carbon::now()->subMonths(3);
@@ -193,6 +195,39 @@ class GenerateDummyData extends BaseService
                 }
 
                 $employee->save();
+                $date->addDay();
+            }
+        }
+    }
+
+    /**
+     * Create fake morale entries for all employees.
+     * This method does not use the dedicated service to log a morale to an
+     * employee because the service doesn't let people change the created_at
+     * date (on purpose). Hence the only option is to record morales in the
+     * database directly.
+     *
+     * @return void
+     */
+    private function createMoraleEntries()
+    {
+        $faker = Faker::create();
+
+        $employees = Employee::where('is_dummy', true)->get();
+
+        foreach ($employees as $employee) {
+            $date = Carbon::now()->subMonths(3);
+
+            while (! $date->isSameDay(Carbon::now())) {
+                if (rand(1, 10) >= 8) {
+                    DB::table('morale')->insert([
+                        'employee_id' => $employee->id,
+                        'emotion' => rand(1, 3),
+                        'comment' => $faker->realText(50),
+                        'is_dummy' => true,
+                        'created_at' => $date,
+                    ]);
+                }
                 $date->addDay();
             }
         }
