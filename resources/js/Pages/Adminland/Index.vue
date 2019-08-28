@@ -65,7 +65,7 @@
             </li>
             <li class="pa2 pl0 relative">
               <img src="/img/company/account/flows.svg" class="pr1 absolute" />
-              <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'" class="relative" data-cy="-admin-link">
+              <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'" class="relative" data-cy="flow-admin-link">
                 {{ $t('account.home_manage_flows') }}
               </inertia-link>
             </li>
@@ -76,9 +76,8 @@
               </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
-              <img src="/img/company/account/flows.svg" class="pr1 absolute" />
-              <inertia-link :href="'/' + $page.auth.company.id + '/account/employeestatuses'" class="relative" data-cy="-admin-link">
-                {{ $t('account.home_manage_employee_statuses') }}
+              📇 <inertia-link :href="'/' + $page.auth.company.id + '/account/news'" class="relative" data-cy="news-admin-link">
+                {{ $t('account.home_manage_company_news') }}
               </inertia-link>
             </li>
           </ul>

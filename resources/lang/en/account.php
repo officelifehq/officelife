@@ -155,4 +155,8 @@ return [
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',
     'morale_3' => 'Negative',
+
+    'company_news_title' => 'Company news',
+    'company_news_number_news' => ':company has :count company news.',
+    'company_news_cta' => 'Add a company news',
 ];

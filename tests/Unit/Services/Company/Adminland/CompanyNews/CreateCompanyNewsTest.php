@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\News;
+namespace Tests\Unit\Services\Company\Adminland\CompanyNews;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
@@ -8,10 +8,10 @@ use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Adminland\News\CreateNews;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 
-class CreateNewsTest extends TestCase
+class CreateCompanyNewsTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -29,12 +29,13 @@ class CreateNewsTest extends TestCase
             'content' => 'Wonderful article',
         ];
 
-        $news = (new CreateNews)->execute($request);
+        $news = (new CreateCompanyNews)->execute($request);
 
         $this->assertDatabaseHas('company_news', [
             'id' => $news->id,
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
+            'author_name' => $michael->name,
             'title' => 'Assistant to the regional manager',
             'content' => 'Wonderful article',
         ]);
@@ -62,6 +63,6 @@ class CreateNewsTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new CreateNews)->execute($request);
+        (new CreateCompanyNews)->execute($request);
     }
 }

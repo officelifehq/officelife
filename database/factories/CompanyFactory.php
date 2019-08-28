@@ -256,6 +256,7 @@ $factory->define(App\Models\Company\CompanyNews::class, function (Faker $faker) 
                 'company_id' => $data['company_id'],
             ])->id;
         },
+        'author_name' => 'Dwight Schrute',
         'title' => 'Party at the office',
         'content' => 'Michael and Dwight invite you to a party.',
     ];

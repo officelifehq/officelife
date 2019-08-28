@@ -34,6 +34,7 @@ return [
     'breadcrumb_employee_list' => 'All employees',
     'breadcrumb_employee_logs' => 'Logs',
     'breadcrumb_team_list' => 'All teams',
+    'breadcrumb_account_manage_company_news' => 'Company news',
 
     'header_home' => 'Home',
     'header_find' => 'Find',

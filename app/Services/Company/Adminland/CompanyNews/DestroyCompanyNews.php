@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Company\Adminland\News;
+namespace App\Services\Company\Adminland\CompanyNews;
 
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
@@ -8,31 +8,30 @@ use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
 
-class CreateNews extends BaseService
+class DestroyCompanyNews extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:65535',
+            'company_news_id' => 'required|integer|exists:company_news,id',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Create a company news.
+     * Destroy a company news.
      *
      * @param array $data
-     * @return CompanyNews
+     * @return bool
      */
-    public function execute(array $data) : CompanyNews
+    public function execute(array $data) : bool
     {
         $this->validate($data);
 
@@ -42,31 +41,27 @@ class CreateNews extends BaseService
             config('homas.authorizations.hr')
         );
 
+        $news = CompanyNews::where('company_id', $data['company_id'])
+            ->findOrFail($data['company_news_id']);
+
         $author = Employee::where('id', $data['author_id'])
             ->where('company_id', $data['company_id'])
             ->firstOrFail();
 
-        $news = CompanyNews::create([
-            'company_id' => $data['company_id'],
-            'author_id' => $data['author_id'],
-            'title' => $data['title'],
-            'content' => $data['content'],
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        $news->delete();
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
-            'action' => 'company_news_created',
+            'action' => 'company_news_destroyed',
             'author_id' => $author->id,
             'author_name' => $author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'news_id' => $news->id,
-                'news_title' => $news->title,
+                'company_news_title' => $news->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
-        return $news;
+        return true;
     }
 }

@@ -94,6 +94,9 @@ Route::middleware(['auth'])->group(function () {
 
             // employee statuses
             Route::resource('account/employeestatuses', 'Company\\Adminland\\AdminEmployeeStatusController');
+
+            // company news
+            Route::resource('account/news', 'Company\\Adminland\\AdminCompanyNewsController');
         });
     });
 });

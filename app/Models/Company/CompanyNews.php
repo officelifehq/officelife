@@ -20,6 +20,7 @@ class CompanyNews extends Model
     protected $fillable = [
         'company_id',
         'author_id',
+        'author_name',
         'title',
         'content',
         'is_dummy',

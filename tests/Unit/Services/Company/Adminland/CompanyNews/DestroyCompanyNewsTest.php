@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\News;
+namespace Tests\Unit\Services\Company\Adminland\CompanyNews;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
@@ -8,10 +8,10 @@ use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Adminland\News\DestroyNews;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Adminland\CompanyNews\DestroyCompanyNews;
 
-class DestroyNewsTest extends TestCase
+class DestroyCompanyNewsTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -31,7 +31,7 @@ class DestroyNewsTest extends TestCase
             'company_news_id' => $news->id,
         ];
 
-        (new DestroyNews)->execute($request);
+        (new DestroyCompanyNews)->execute($request);
 
         $this->assertDatabaseMissing('company_news', [
             'id' => $news->id,
@@ -54,6 +54,6 @@ class DestroyNewsTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new DestroyNews)->execute($request);
+        (new DestroyCompanyNews)->execute($request);
     }
 }
