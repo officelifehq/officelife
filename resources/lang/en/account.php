@@ -126,6 +126,8 @@ return [
     'log_employee_status_assigned' => 'Assigned the employee status called :name to :employee.',
     'log_employee_status_removed' => 'Removed the employee status called :name from :employee.',
     'log_company_news_created' => 'Wrote a company news called :name.',
+    'log_company_news_updated' => 'Updated the news called :name.',
+    'log_company_news_destroyed' => 'Destroyed the news called :name.',
     'log_employee_morale_logged' => 'Added an emotion on how the day went.',
 
     'employee_log_employee_created' => 'Created this employee entry.',

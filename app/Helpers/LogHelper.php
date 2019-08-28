@@ -158,9 +158,21 @@ class LogHelper
             ]);
         }
 
-        if ($log->action == 'news_created') {
+        if ($log->action == 'company_news_created') {
             $sentence = trans('account.log_company_news_created', [
-                'name' => $log->object->{'news_title'},
+                'name' => $log->object->{'company_news_title'},
+            ]);
+        }
+
+        if ($log->action == 'company_news_updated') {
+            $sentence = trans('account.log_company_news_updated', [
+                'name' => $log->object->{'company_news_title'},
+            ]);
+        }
+
+        if ($log->action == 'company_news_destroyed') {
+            $sentence = trans('account.log_company_news_destroyed', [
+                'name' => $log->object->{'company_news_title'},
             ]);
         }
 
