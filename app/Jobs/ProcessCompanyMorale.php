@@ -58,7 +58,7 @@ class ProcessCompanyMorale implements ShouldQueue
                         $this->parameters['date']->toDateString().' 00:00:00',
                         $this->parameters['date']->toDateString().' 23:59:59',
                     ]
-                );
+            );
         })->select('id')
             ->where('company_id', $this->parameters['company_id'])
             ->get();

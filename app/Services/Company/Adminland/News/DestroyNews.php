@@ -5,36 +5,33 @@ namespace App\Services\Company\Adminland\News;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
 
-class UpdateNews extends BaseService
+class DestroyNews extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'company_news_id' => 'required|integer|exists:company_news,id',
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:65535',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Update a company news.
+     * Destroy a company news.
      *
      * @param array $data
-     * @return CompanyNews
+     * @return bool
      */
-    public function execute(array $data) : CompanyNews
+    public function execute(array $data) : bool
     {
         $this->validate($data);
 
@@ -51,28 +48,20 @@ class UpdateNews extends BaseService
             ->where('company_id', $data['company_id'])
             ->firstOrFail();
 
-        $oldNewsTitle = $news->title;
-
-        $news->title = $data['title'];
-        $news->content = $data['content'];
-        $news->save();
+        $news->delete();
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
-            'action' => 'company_news_updated',
+            'action' => 'company_news_destroyed',
             'author_id' => $author->id,
             'author_name' => $author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'company_news_id' => $news->id,
                 'company_news_title' => $news->title,
-                'company_news_old_title' => $oldNewsTitle,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
-        $news->refresh();
-
-        return $news;
+        return true;
     }
 }

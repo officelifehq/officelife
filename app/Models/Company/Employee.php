@@ -221,7 +221,7 @@ class Employee extends Model
      */
     public function news()
     {
-        return $this->hasMany(CompanyNews::class, 'id', 'author_id');
+        return $this->hasMany(CompanyNews::class, 'author_id', 'id');
     }
 
     /**

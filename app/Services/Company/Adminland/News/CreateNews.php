@@ -42,7 +42,7 @@ class CreateNews extends BaseService
             config('homas.authorizations.hr')
         );
 
-        $author = Employee::where('user_id', $data['author_id'])
+        $author = Employee::where('id', $data['author_id'])
             ->where('company_id', $data['company_id'])
             ->firstOrFail();
 
