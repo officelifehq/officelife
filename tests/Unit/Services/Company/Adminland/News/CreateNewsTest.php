@@ -24,7 +24,7 @@ class CreateNewsTest extends TestCase
 
         $request = [
             'company_id' => $michael->company_id,
-            'author_id' => $michael->user_id,
+            'author_id' => $michael->id,
             'title' => 'Assistant to the regional manager',
             'content' => 'Wonderful article',
         ];
