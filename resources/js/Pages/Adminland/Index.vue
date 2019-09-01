@@ -46,39 +46,33 @@
           <p v-html="$t('account.home_role_administrator')"></p>
           <ul class="options list pl0 mb5">
             <li class="pa2 pl0 relative">
-              <img src="/img/company/account/employees.svg" class="pr1 absolute" />
-              <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'" class="relative" data-cy="employee-admin-link">
+              🤖 <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'" data-cy="employee-admin-link">
                 {{ $t('account.home_manage_employees') }}
               </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
-              <img src="/img/company/account/position.svg" class="pr1 absolute" />
-              <inertia-link :href="'/' + $page.auth.company.id + '/account/positions'" class="relative" data-cy="position-admin-link">
+              💂‍♀ ️<inertia-link :href="'/' + $page.auth.company.id + '/account/positions'" data-cy="position-admin-link">
                 {{ $t('account.home_manage_positions') }}
               </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
-              <img src="/img/company/account/teams.svg" class="pr1 absolute" />
-              <inertia-link :href="'/' + $page.auth.company.id + '/account/teams'" class="relative" data-cy="team-admin-link">
+              👯‍♀️ <inertia-link :href="'/' + $page.auth.company.id + '/account/teams'" data-cy="team-admin-link">
                 {{ $t('account.home_manage_teams') }}
               </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
-              <img src="/img/company/account/flows.svg" class="pr1 absolute" />
-              <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'" class="relative" data-cy="-admin-link">
+              🏄‍♂️ <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'" data-cy="flow-admin-link">
                 {{ $t('account.home_manage_flows') }}
               </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
-              <img src="/img/company/account/flows.svg" class="pr1 absolute" />
-              <inertia-link :href="'/' + $page.auth.company.id + '/account/employeestatuses'" class="relative" data-cy="employee-statuses-admin-link">
+              ⛑ <inertia-link :href="'/' + $page.auth.company.id + '/account/employeestatuses'" data-cy="employee-statuses-admin-link">
                 {{ $t('account.home_manage_employee_statuses') }}
               </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
-              <img src="/img/company/account/flows.svg" class="pr1 absolute" />
-              <inertia-link :href="'/' + $page.auth.company.id + '/account/employeestatuses'" class="relative" data-cy="-admin-link">
-                {{ $t('account.home_manage_employee_statuses') }}
+              📇 <inertia-link :href="'/' + $page.auth.company.id + '/account/news'" data-cy="news-admin-link">
+                {{ $t('account.home_manage_company_news') }}
               </inertia-link>
             </li>
           </ul>
@@ -88,8 +82,7 @@
             <p v-html="$t('account.home_role_owner')"></p>
             <ul class="options list pl0">
               <li class="pa2 pl0 relative">
-                <img src="/img/company/account/audit.svg" class="pr1 absolute" />
-                <inertia-link :href="'/' + $page.auth.company.id + '/account/audit'" class="relative">
+                📡 <inertia-link :href="'/' + $page.auth.company.id + '/account/audit'">
                   {{ $t('account.home_audit_log') }}
                 </inertia-link>
               </li>

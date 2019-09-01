@@ -125,6 +125,9 @@ return [
     'log_employee_status_destroyed' => 'Destroyed the employee status called :name.',
     'log_employee_status_assigned' => 'Assigned the employee status called :name to :employee.',
     'log_employee_status_removed' => 'Removed the employee status called :name from :employee.',
+    'log_company_news_created' => 'Wrote a company news called :name.',
+    'log_company_news_updated' => 'Updated the news called :name.',
+    'log_company_news_destroyed' => 'Destroyed the news called :name.',
     'log_employee_morale_logged' => 'Added an emotion on how the day went.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -152,4 +155,8 @@ return [
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',
     'morale_3' => 'Negative',
+
+    'company_news_title' => 'Company news',
+    'company_news_number_news' => ':company has :count company news.',
+    'company_news_cta' => 'Add a company news',
 ];

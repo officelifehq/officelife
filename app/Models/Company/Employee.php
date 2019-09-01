@@ -91,7 +91,6 @@ class Employee extends Model
      * @var array
      */
     protected $dates = [
-        'birthdate',
         'invitation_used_at',
     ];
 
@@ -213,6 +212,16 @@ class Employee extends Model
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    /**
+     * Get the company news record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function news()
+    {
+        return $this->hasMany(CompanyNews::class, 'author_id', 'id');
     }
 
     /**

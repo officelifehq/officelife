@@ -10,6 +10,7 @@ use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
+use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeEvent;
 use App\Models\Company\EmployeeStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -104,5 +105,16 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->employeeStatuses()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_news() : void
+    {
+        $company = factory(Company::class)->create();
+        factory(CompanyNews::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->news()->exists());
     }
 }

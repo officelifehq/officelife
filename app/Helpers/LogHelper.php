@@ -158,6 +158,24 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'company_news_created') {
+            $sentence = trans('account.log_company_news_created', [
+                'name' => $log->object->{'company_news_title'},
+            ]);
+        }
+
+        if ($log->action == 'company_news_updated') {
+            $sentence = trans('account.log_company_news_updated', [
+                'name' => $log->object->{'company_news_title'},
+            ]);
+        }
+
+        if ($log->action == 'company_news_destroyed') {
+            $sentence = trans('account.log_company_news_destroyed', [
+                'name' => $log->object->{'company_news_title'},
+            ]);
+        }
+
         if ($log->action == 'employee_morale_logged') {
             $sentence = trans('account.log_employee_morale_logged', [
                 'name' => $log->object->{'employee_name'},

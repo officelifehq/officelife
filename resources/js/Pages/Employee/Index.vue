@@ -34,7 +34,7 @@
               v-for="employee in employees" :key="employee.id"
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
             >
-              <img class="w2 h2 w3-ns h3-ns br-100" :src="employee.avatar" />
+              <img class="w2 h2 w3-ns h3-ns br-100" :src="employee.avatar" width="64" height="64" />
               <div class="pl3 flex-auto">
                 <span class="db black-70">{{ employee.name }}</span>
                 <ul class="f6 list pl0">

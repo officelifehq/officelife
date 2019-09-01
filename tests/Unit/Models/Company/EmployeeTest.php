@@ -9,6 +9,7 @@ use App\Models\Company\Team;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
@@ -142,6 +143,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->notifications()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_company_news(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(CompanyNews::class, 2)->create([
+            'author_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->news()->exists());
     }
 
     /** @test */

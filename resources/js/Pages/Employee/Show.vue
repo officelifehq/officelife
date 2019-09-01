@@ -55,7 +55,7 @@
           </div>
 
           <!-- AVATAR -->
-          <img :src="employee.avatar" class="avatar absolute br-100 db center" />
+          <img :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80" />
           <h2 class="tc normal mb1">
             {{ employee.name }}
           </h2>
