@@ -8813,6 +8813,11 @@ uuid@^3.0.1, uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"
   integrity sha512-pW0No1RGHgzlpHJO1nsVrHKpOEIxkGg1xB+v0ZmdNH5OAeAwzAVrCnI2/6Mtx+Uys6iaylxa+D3g4j63IKKjSQ==
 
+v-click-outside@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/v-click-outside/-/v-click-outside-2.1.3.tgz#b7297abe833a439dc0895e6418a494381e64b5e7"
+  integrity sha512-8d11/fN+nkSPeor87K8OtGc/lDbRwbUiFwdzxQEGidlXt6eko3gIgRM7ghgi4p/zohF3Ja9hAaydAajV3gnlPQ==
+
 v8-compile-cache@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.3.tgz#00f7494d2ae2b688cfe2899df6ed2c54bef91dbe"

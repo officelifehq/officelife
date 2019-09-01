@@ -1,40 +1,47 @@
 <style scoped>
-  .absolute {
-    border: 1px solid rgba(27,31,35,.15);
-    box-shadow: 0 3px 12px rgba(27,31,35,.15);
-    top: 36px;
-  }
+.menu {
+  border: 1px solid rgba(27,31,35,.15);
+  box-shadow: 0 3px 12px rgba(27,31,35,.15);
+  top: 36px;
+}
 
-  .absolute:after,
-  .absolute:before {
-    content: "";
-    display: inline-block;
-    position: absolute;
-  }
+.menu:after,
+.menu:before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+}
 
-  .absolute:after {
-    border: 7px solid transparent;
-    border-bottom-color: #fff;
-    left: auto;
-    right: 10px;
-    top: -14px;
-  }
+.menu:after {
+  border: 7px solid transparent;
+  border-bottom-color: #fff;
+  left: auto;
+  right: 10px;
+  top: -14px;
+}
 
-  .absolute:before {
-    border: 8px solid transparent;
-    border-bottom-color: rgba(27,31,35,.15);
-    left: auto;
-    right: 9px;
-    top: -16px;
-  }
+.menu:before {
+  border: 8px solid transparent;
+  border-bottom-color: rgba(27,31,35,.15);
+  left: auto;
+  right: 9px;
+  top: -16px;
+}
+
+.notifications {
+  background-color: #FAE19A;
+}
 </style>
 
 <template>
-  <div>
-    <a class="no-color no-underline relative pointer" data-cy="header-menu" @click.prevent="menu = !menu">
-      {{ $page.auth.user.email }} <span class="dropdown-caret"></span>
-    </a>
-    <div v-if="menu == true" class="absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+  <div class="relative">
+    <div class="relative">
+      <span class="mr2 f6 notifications pv1 ph2 br3 pointer" @click.prevent="showNotifications = true">🔥 3</span>
+      <a class="no-color no-underline relative pointer" data-cy="header-menu" @click.prevent="menu = !menu">
+        {{ $page.auth.user.email }} <span class="dropdown-caret"></span>
+      </a>
+    </div>
+    <div v-if="menu == true" class="absolute menu br2 bg-white z-max tl pv2 ph3 bounceIn faster">
       <ul class="list ma0 pa0">
         <li class="pv2">
           <inertia-link :href="'/home'" class="no-color no-underline" data-cy="switch-company-button">
@@ -48,11 +55,19 @@
         </li>
       </ul>
     </div>
+
+    <notifications-component :notifications="notifications" :show="showNotifications" />
   </div>
 </template>
 
 <script>
+import NotificationsComponent from '@/Shared/Notifications';
+
 export default {
+  components: {
+    NotificationsComponent,
+  },
+
   props: {
     notifications: {
       type: Array,
@@ -63,6 +78,7 @@ export default {
   data() {
     return {
       menu: false,
+      showNotifications: false,
     };
   },
 

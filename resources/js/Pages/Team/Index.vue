@@ -88,7 +88,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import ClickOutside from 'vue-click-outside';
+import vClickOutside from 'v-click-outside';
 
 export default {
   components: {
@@ -96,7 +96,7 @@ export default {
   },
 
   directives: {
-    ClickOutside
+    clickOutside: vClickOutside.directive
   },
 
   props: {

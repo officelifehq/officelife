@@ -49,11 +49,11 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside';
+import vClickOutside from 'v-click-outside';
 
 export default {
   directives: {
-    ClickOutside
+    clickOutside: vClickOutside.directive
   },
 
   props: {
@@ -107,9 +107,6 @@ export default {
     }
 
     this.updatedEmployee = this.$page.auth.employee;
-
-    // prevent click outside event with popupItem.
-    this.popupItem = this.$el;
   },
 
   methods: {
