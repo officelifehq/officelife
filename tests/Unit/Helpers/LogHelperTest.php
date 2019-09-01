@@ -4,6 +4,8 @@ namespace Tests\Unit\Helpers;
 
 use Tests\TestCase;
 use App\Helpers\LogHelper;
+use App\Models\Company\Team;
+use App\Models\Company\TeamLog;
 use App\Models\Company\AuditLog;
 use App\Models\Company\EmployeeLog;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -44,5 +46,21 @@ class LogHelperTest extends TestCase
         ]);
 
         $this->assertIsString(LogHelper::processEmployeeLog($auditLog));
+    }
+
+    /** @test */
+    public function it_returns_the_string_explaining_the_team_log(): void
+    {
+        $team = factory(Team::class)->create([]);
+
+        $auditLog = factory(TeamLog::class)->create([
+            'action' => 'team_log_team_created',
+            'objects' => json_encode([
+                'team_name' => $team->id,
+            ]),
+            'team_id' => $team->id,
+        ]);
+
+        $this->assertIsString(LogHelper::processTeamLog($auditLog));
     }
 }
