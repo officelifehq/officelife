@@ -40,7 +40,7 @@
             </inertia-link>
           </p>
 
-          <p>The job position is what you would probably put on a resume to show what work you actually did.</p>
+          <p>Here are all the news .</p>
 
           <!-- LIST OF EXISTING NEWS -->
           <ul v-show="news.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="news-list">
@@ -70,7 +70,7 @@
           <!-- BLANK STATE -->
           <div v-show="news.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.positions_blank') }}
+              Do you need to broadcast an announcement or a news to every employee of Behaviour? You can do so here!
             </p>
             <img class="db center mb4" srcset="/img/company/account/blank-position-1x.png,
                                           /img/company/account/blank-position-2x.png 2x"
