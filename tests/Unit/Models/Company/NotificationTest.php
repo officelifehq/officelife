@@ -16,4 +16,14 @@ class NotificationTest extends TestCase
         $notification = factory(Notification::class)->create([]);
         $this->assertTrue($notification->employee()->exists());
     }
+
+    /** @test */
+    public function it_returns_the_object_attribute(): void
+    {
+        $notification = factory(Notification::class)->create([]);
+        $this->assertEquals(
+            1,
+            $notification->object->{'user'}
+        );
+    }
 }

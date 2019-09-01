@@ -152,6 +152,8 @@ return [
     'team_log_team_leader_assigned' => 'Assigned :name as the team leader.',
     'team_log_team_leader_removed' => 'Removed :name as the team leader.',
 
+    'notification_dummy_data_generated' => 'Dummy data have been generated for :name.',
+
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',
     'morale_3' => 'Negative',

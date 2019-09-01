@@ -39,4 +39,15 @@ class Notification extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    /**
+     * Get the JSON object.
+     *
+     * @return array
+     * @param mixed $value
+     */
+    public function getObjectAttribute($value)
+    {
+        return json_decode($this->objects);
+    }
 }

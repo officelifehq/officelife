@@ -183,7 +183,7 @@ $factory->define(App\Models\Company\Notification::class, function (Faker $faker)
             return factory(App\Models\Company\Employee::class)->create()->id;
         },
         'action' => 'notification',
-        'objects' => '{}',
+        'objects' => '{"user": 1}',
         'read' => false,
     ];
 });

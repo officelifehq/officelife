@@ -5,6 +5,7 @@ namespace App\Services\Company\Adminland\Company;
 use Carbon\Carbon;
 use App\Models\User\User;
 use Faker\Factory as Faker;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
@@ -57,6 +58,14 @@ class GenerateDummyData extends BaseService
 
         $company->has_dummy_data = true;
         $company->save();
+
+        NotifyEmployee::dispatch([
+            'employee_id' => $data['author_id'],
+            'action' => 'dummy_data_generated',
+            'objects' => json_encode([
+                'name' => $company->name,
+            ]),
+        ])->onQueue('low');
     }
 
     /**
