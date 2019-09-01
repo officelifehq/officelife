@@ -11,6 +11,7 @@ use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -63,9 +64,12 @@ class GenerateDummyData extends BaseService
             'employee_id' => $data['author_id'],
             'action' => 'dummy_data_generated',
             'objects' => json_encode([
-                'name' => $company->name,
+                'company_name' => $company->name,
             ]),
         ])->onQueue('low');
+
+        $cachedCompanyObject = 'cachedCompanyObject_'.$data['author_id'];
+        Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
     }
 
     /**

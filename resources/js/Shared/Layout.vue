@@ -141,7 +141,7 @@
 
           <ul v-show="notifications.length > 0">
             <li v-for="notification in notifications" :key="notification.id">
-              {{ notification.action }}
+              {{ notification.localized_content }}
             </li>
           </ul>
         </div>

@@ -10,7 +10,7 @@ return [
     'home_manage_flows' => 'Add/remove flows',
     'home_manage_employee_statuses' => 'Add/remove employee statuses',
     'home_audit_log' => 'View audit log to see who has done what',
-    'home_generate_fake_data' => 'Generate fake data',
+    'home_generate_fake_data' => 'Populate account with fake data',
     'home_remove_fake_data' => 'Remove fake data',
 
     'employees_title' => 'All the employees in {company}',

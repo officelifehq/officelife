@@ -9,7 +9,7 @@ class NotificationHelper
     /**
      * Return an sentence explaining what the notification contains.
      *
-     * @param Notification $log
+     * @param Notification $notification
      * @return string
      */
     public static function process(Notification $notification) : string
