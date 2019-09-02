@@ -135,10 +135,17 @@ class User extends Authenticatable
             return;
         }
 
-        return NotificationResource::collection(
-            $employee->notifications
-                ->where('read', false)
-                ->take($numberOfNotificationsToFetch)
-        );
+        $notifs = $employee->notifications()
+            ->where('read', false)
+            ->orderBy('created_at', 'desc')
+            ->take($numberOfNotificationsToFetch);
+
+        dd($notifs);
+
+        if (count($notifs) > 1) {
+            return NotificationResource::collection($notifs);
+        } else {
+            return new NotificationResource($notifs);
+        }
     }
 }

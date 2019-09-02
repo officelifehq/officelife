@@ -36,7 +36,10 @@
 <template>
   <div class="relative">
     <div class="relative">
-      <span class="mr2 f6 notifications pv1 ph2 br3 pointer" @click.prevent="showNotifications = true">🔥 3</span>
+      <!-- notifications -->
+      <span class="mr2 f6 notifications pv1 ph2 br3 pointer" @click.prevent="showNotifications = !showNotifications">🔥 {{ notifications.length }}</span>
+
+      <!-- user menu -->
       <a class="no-color no-underline relative pointer" data-cy="header-menu" @click.prevent="menu = !menu">
         {{ $page.auth.user.email }} <span class="dropdown-caret"></span>
       </a>
@@ -62,8 +65,13 @@
 
 <script>
 import NotificationsComponent from '@/Shared/Notifications';
+import vClickOutside from 'v-click-outside';
 
 export default {
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
+
   components: {
     NotificationsComponent,
   },
@@ -82,20 +90,7 @@ export default {
     };
   },
 
-  created() {
-    window.addEventListener('click', this.close);
-  },
-
-  beforeDestroy() {
-    window.removeEventListener('click', this.close);
-  },
-
   methods: {
-    close(e) {
-      if (!this.$el.contains(e.target)) {
-        this.menu = false;
-      }
-    },
   }
 };
 </script>

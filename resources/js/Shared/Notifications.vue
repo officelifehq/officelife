@@ -3,7 +3,7 @@
 </style>
 
 <template>
-  <div v-click-outside="toggleNotifications" class="bg-white tl br2 absolute z-max">
+  <div class="bg-white tl br2 absolute z-max">
     <div v-show="show">
       <div v-show="notifications.length == 0">
         <img class="db center mb2" srcset="/img/header/notification_blank.png,
@@ -25,13 +25,7 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
-
 export default {
-  directives: {
-    clickOutside: vClickOutside.directive
-  },
-
   props: {
     notifications: {
       type: Array,
@@ -45,7 +39,6 @@ export default {
 
   data() {
     return {
-      menu: false,
       showNotifications: false,
     };
   },
@@ -55,9 +48,6 @@ export default {
   },
 
   methods: {
-    toggleNotifications() {
-      this.showNotifications != this.showNotifications;
-    },
   }
 };
 </script>
