@@ -68,6 +68,7 @@ class GenerateDummyData extends BaseService
             ]),
         ])->onQueue('low');
 
+        // reset the cached object as it has changed
         $cachedCompanyObject = 'cachedCompanyObject_'.$data['author_id'];
         Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
     }

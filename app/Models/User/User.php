@@ -140,9 +140,7 @@ class User extends Authenticatable
             ->orderBy('created_at', 'desc')
             ->take($numberOfNotificationsToFetch);
 
-        dd($notifs);
-
-        if (count($notifs) > 1) {
+        if ($notifs->count() > 1) {
             return NotificationResource::collection($notifs);
         } else {
             return new NotificationResource($notifs);
