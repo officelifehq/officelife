@@ -125,25 +125,30 @@ class User extends Authenticatable
      *
      * @param Company $company
      * @param int $numberOfNotificationsToFetch
-     * @return \Illuminate\Support\Collection|null
+     * @return \Illuminate\Support\Collection|array
      */
     public function getLatestNotifications(Company $company, int $numberOfNotificationsToFetch = 5)
     {
         $employee = $this->getEmployeeObjectForCompany($company);
 
         if (! $employee) {
-            return;
+            return [];
         }
 
         $notifs = $employee->notifications()
             ->where('read', false)
             ->orderBy('created_at', 'desc')
-            ->take($numberOfNotificationsToFetch);
+            ->take($numberOfNotificationsToFetch)
+            ->get();
 
         if ($notifs->count() > 1) {
             return NotificationResource::collection($notifs);
-        } else {
+        }
+
+        if ($notifs->count() == 1) {
             return new NotificationResource($notifs);
         }
+
+        return [];
     }
 }
