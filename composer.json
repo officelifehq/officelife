@@ -15,6 +15,7 @@
         "laravel/passport": "^7.1",
         "laravel/tinker": "^1.0",
         "mariuzzo/laravel-js-localization": "^1.4",
+        "parsedown/laravel": "^1.2",
         "spatie/laravel-activitylog": "^3.1",
         "tightenco/ziggy": "^0.7.1"
     },
