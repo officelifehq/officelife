@@ -26,7 +26,7 @@
             <p class="f7 mb1">
               {{ worklog.created_at | moment("dddd, MMMM Do YYYY") }}
             </p>
-            <div class="content" v-html="worklog.content"></div>
+            <div class="content" v-html="worklog.parsed_content"></div>
           </li>
         </ul>
       </div>
