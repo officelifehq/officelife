@@ -10,10 +10,10 @@ class StringHelper
      * Return the Markdown text as a parsed string.
      * Also apply a safe mode to get rid of dangerous html.
      *
-     * @param String $content
+     * @param string $content
      * @return string
      */
-    public static function parse(String $content) : string
+    public static function parse(string $content) : string
     {
         $parsedown = new Parsedown();
         $parsedown->setSafeMode(true);
