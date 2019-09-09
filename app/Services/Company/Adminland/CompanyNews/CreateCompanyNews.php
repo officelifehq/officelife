@@ -62,8 +62,8 @@ class CreateCompanyNews extends BaseService
             'author_name' => $author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'news_id' => $news->id,
-                'news_title' => $news->title,
+                'company_news_id' => $news->id,
+                'company_news_title' => $news->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');

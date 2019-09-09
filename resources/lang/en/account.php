@@ -157,6 +157,8 @@ return [
     'morale_3' => 'Negative',
 
     'company_news_title' => 'Company news',
-    'company_news_number_news' => ':company has :count company news.',
+    'company_news_number_news' => '{company} has {count} company news.',
     'company_news_cta' => 'Add a company news',
+    'company_news_written_by' => 'Written by {name}',
+    'company_news_success_destroy' => 'The company news has been deleted with success.',
 ];

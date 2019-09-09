@@ -49,8 +49,8 @@ class CreateCompanyNewsTest extends TestCase
             return $job->auditLog['action'] === 'company_news_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'news_id' => $news->id,
-                    'news_title' => $news->title,
+                    'company_news_id' => $news->id,
+                    'company_news_title' => $news->title,
                 ]);
         });
     }
