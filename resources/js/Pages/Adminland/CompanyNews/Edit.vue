@@ -27,7 +27,7 @@ input[type=radio] {
             </inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_add_company_news') }}
+            {{ $t('app.breadcrumb_account_edit_company_news') }}
           </li>
         </ul>
       </div>
@@ -36,7 +36,7 @@ input[type=radio] {
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5 measure center">
           <h2 class="tc normal mb4">
-            {{ $t('account.company_news_new_headline', { name: $page.auth.company.name}) }}
+            {{ $t('account.company_news_edit_headline', { name: $page.auth.company.name}) }}
           </h2>
 
           <form @submit.prevent="submit">
@@ -100,6 +100,10 @@ export default {
       type: Array,
       default: null,
     },
+    news: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -114,14 +118,19 @@ export default {
     };
   },
 
+  created() {
+    this.form.title = this.news.title;
+    this.form.content = this.news.content;
+  },
+
   methods: {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/news', this.form)
+      axios.put('/' + this.$page.auth.company.id + '/account/news/' + this.news.id, this.form)
         .then(response => {
-          localStorage.success = 'The news has been added';
-          this.$inertia.visit('/' + response.data.data.company_id + '/account/news');
+          localStorage.success = 'The news has been updated';
+          this.$inertia.visit('/' + response.data.data.company.id + '/account/news');
         })
         .catch(error => {
           this.loadingState = null;

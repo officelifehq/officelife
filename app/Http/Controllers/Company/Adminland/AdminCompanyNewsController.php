@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Models\Company\CompanyNews;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
+use App\Services\Company\Adminland\CompanyNews\UpdateCompanyNews;
 use App\Services\Company\Adminland\CompanyNews\DestroyCompanyNews;
-use App\Services\Company\Adminland\EmployeeStatus\UpdateEmployeeStatus;
 use App\Http\Resources\Company\CompanyNews\CompanyNews as CompanyNewsResource;
 
 class AdminCompanyNewsController extends Controller
@@ -47,7 +49,7 @@ class AdminCompanyNewsController extends Controller
     }
 
     /**
-     * Create the employee status.
+     * Create the company news.
      *
      * @param Request $request
      * @param int $companyId
@@ -72,31 +74,57 @@ class AdminCompanyNewsController extends Controller
     }
 
     /**
-     * Update the employee status.
+     * Show the company news edit page.
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $employeeStatusId
+     * @param int $newsId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $companyId, $employeeStatusId)
+    public function edit(Request $request, int $companyId, int $newsId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $news = CompanyNews::where('company_id', $companyId)
+                ->findOrFail($newsId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Adminland/CompanyNews/Edit', [
+            'notifications' => Auth::user()->getLatestNotifications($company),
+            'news' => $news,
+        ]);
+    }
+
+    /**
+     * Update the company news.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $newsId
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $companyId, $newsId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         $request = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
-            'employee_status_id' => $employeeStatusId,
-            'name' => $request->get('name'),
+            'company_news_id' => $newsId,
+            'title' => $request->get('title'),
+            'content' => $request->get('content'),
         ];
 
-        $employeeStatus = (new UpdateEmployeeStatus)->execute($request);
+        $news = (new UpdateCompanyNews)->execute($request);
 
-        return new EmployeeStatusResource($employeeStatus);
+        return new CompanyNewsResource($news);
     }
 
     /**
-     * Delete the employee status.
+     * Delete the company news.
      *
      * @param Request $request
      * @param int $companyId

@@ -24,6 +24,7 @@
               :type="type"
               :value="value"
               :data-cy="datacy"
+              :rows="rows"
               @input="$emit('input', $event.target.value)"
     ></textarea>
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
@@ -43,7 +44,7 @@ export default {
     id: {
       type: String,
       default() {
-        return `text-input-${this._uid}`;
+        return `text-area-${this._uid}`;
       },
     },
     type: {
@@ -69,6 +70,10 @@ export default {
     required: {
       type: Boolean,
       default: false,
+    },
+    rows: {
+      type: Number,
+      default: 23,
     },
     errors: {
       type: Array,

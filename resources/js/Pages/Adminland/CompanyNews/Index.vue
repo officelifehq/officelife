@@ -42,18 +42,18 @@
 
           <!-- LIST OF EXISTING NEWS -->
           <ul v-show="news.length != 0" class="list pl0 mv0 center" data-cy="news-list">
-            <li v-for="singleNews in news" :key="singleNews.id" class="pb3 pt1 bb bb-gray bb-gray-hover">
+            <li v-for="singleNews in news" :key="singleNews.id" class="pb2 pt1 bb bb-gray bb-gray-hover">
               <h3>{{ singleNews.title }}</h3>
 
-              <div class="content" v-html="singleNews.parsed_content"></div>
+              <div class="parsed-content" v-html="singleNews.parsed_content"></div>
 
               <!-- LIST OF ACTIONS FOR EACH NEWS -->
               <ul class="list pa0 ma0 di-ns db mt2 mt0-ns">
                 <!-- DATE -->
-                <span class="f7">{{ $t('account.company_news_written_by', { name: singleNews.author.name }) }} {{ singleNews.created_at | moment("dddd, MMMM Do YYYY") }}</span>
+                <span class="f7 mr1">{{ $t('account.company_news_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}</span>
 
                 <!-- RENAME A NEWS -->
-                <li class="di mr2 f7">
+                <li class="di mr1 f7">
                   <inertia-link :href="'/' + $page.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" data-cy="edit-news-button">
                     {{ $t('app.edit') }}
                   </inertia-link>
@@ -75,11 +75,8 @@
           <!-- BLANK STATE -->
           <div v-show="news.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              Do you need to broadcast an announcement or a news to every employee of Behaviour? You can do so here!
+              {{ $t('account.company_news_blank') }}
             </p>
-            <img class="db center mb4" srcset="/img/company/account/blank-position-1x.png,
-                                          /img/company/account/blank-position-2x.png 2x"
-            />
           </div>
         </div>
       </div>

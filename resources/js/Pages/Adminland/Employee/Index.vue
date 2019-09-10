@@ -36,7 +36,7 @@
           </h2>
 
           <!-- HEADER: number of employees and button -->
-          <p class="relative">
+          <p class="relative adminland-headline">
             <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: $page.auth.company.name, count: employees.length}) }}</span>
             <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
               {{ $t('account.employees_cta') }}

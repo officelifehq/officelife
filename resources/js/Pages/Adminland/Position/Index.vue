@@ -33,7 +33,7 @@
             {{ $t('account.positions_title', { company: $page.auth.company.name}) }}
           </h2>
 
-          <p class="relative">
+          <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="positions.length == 0 ? 'white' : ''">{{ $tc('account.positions_number_positions', positions.length, { company: $page.auth.company.name, count: positions.length}) }}</span>
             <a class="btn absolute-l relative dib-l db right-0" data-cy="add-position-button" @click.prevent="displayAddModal">{{ $t('account.positions_cta') }}</a>
           </p>
