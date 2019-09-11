@@ -30,7 +30,7 @@
           <h2 class="tc normal mb4">
             {{ $t('account.flows_title', { company: $page.auth.company.name}) }}
           </h2>
-          <p class="relative">
+          <p class="relative adminland-headline">
             <span class="dib mb3 di-l">{{ $tc('account.flows_number_flows', flows.length, { company: $page.auth.company.name, count: flows.length}) }}</span>
             <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
               {{ $t('account.flows_cta') }}
