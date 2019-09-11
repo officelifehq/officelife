@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Models\Company\CompanyNews;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
-use App\Services\Company\Adminland\EmployeeStatus\UpdateEmployeeStatus;
-use App\Services\Company\Adminland\EmployeeStatus\DestroyEmployeeStatus;
-use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
+use App\Services\Company\Adminland\CompanyNews\UpdateCompanyNews;
+use App\Services\Company\Adminland\CompanyNews\DestroyCompanyNews;
+use App\Http\Resources\Company\CompanyNews\CompanyNews as CompanyNewsResource;
 
 class AdminCompanyNewsController extends Controller
 {
@@ -22,18 +24,32 @@ class AdminCompanyNewsController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employeeStatuses = EmployeeStatusResource::collection(
-            $company->employeeStatuses()->orderBy('name', 'asc')->get()
+        $news = CompanyNewsResource::collection(
+            $company->news()->orderBy('created_at', 'desc')->get()
         );
 
-        return Inertia::render('Adminland/EmployeeStatus/Index', [
+        return Inertia::render('Adminland/CompanyNews/Index', [
             'notifications' => Auth::user()->getLatestNotifications($company),
-            'statuses' => $employeeStatuses,
+            'news' => $news,
         ]);
     }
 
     /**
-     * Create the employee status.
+     * Show the Create news view.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        return Inertia::render('Adminland/CompanyNews/Create', [
+            'notifications' => Auth::user()->getLatestNotifications($company),
+        ]);
+    }
+
+    /**
+     * Create the company news.
      *
      * @param Request $request
      * @param int $companyId
@@ -46,59 +62,86 @@ class AdminCompanyNewsController extends Controller
         $request = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
-            'name' => $request->get('name'),
+            'title' => $request->get('title'),
+            'content' => $request->get('content'),
         ];
 
-        $employeeStatus = (new CreateEmployeeStatus)->execute($request);
+        $news = (new CreateCompanyNews)->execute($request);
 
         return response()->json([
-            'data' => $employeeStatus,
+            'data' => $news,
         ]);
     }
 
     /**
-     * Update the employee status.
+     * Show the company news edit page.
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $employeeStatusId
+     * @param int $newsId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $companyId, $employeeStatusId)
+    public function edit(Request $request, int $companyId, int $newsId)
     {
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
-            'company_id' => $companyId,
-            'author_id' => $loggedEmployee->id,
-            'employee_status_id' => $employeeStatusId,
-            'name' => $request->get('name'),
-        ];
+        try {
+            $news = CompanyNews::where('company_id', $companyId)
+                ->findOrFail($newsId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
 
-        $employeeStatus = (new UpdateEmployeeStatus)->execute($request);
-
-        return new EmployeeStatusResource($employeeStatus);
+        return Inertia::render('Adminland/CompanyNews/Edit', [
+            'notifications' => Auth::user()->getLatestNotifications($company),
+            'news' => $news,
+        ]);
     }
 
     /**
-     * Delete the employee status.
+     * Update the company news.
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $employeeStatusId
+     * @param int $newsId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $companyId, $employeeStatusId)
+    public function update(Request $request, $companyId, $newsId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         $request = [
             'company_id' => $companyId,
-            'employee_status_id' => $employeeStatusId,
+            'author_id' => $loggedEmployee->id,
+            'company_news_id' => $newsId,
+            'title' => $request->get('title'),
+            'content' => $request->get('content'),
+        ];
+
+        $news = (new UpdateCompanyNews)->execute($request);
+
+        return new CompanyNewsResource($news);
+    }
+
+    /**
+     * Delete the company news.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $companyNewsId
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $companyId, $companyNewsId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $companyId,
+            'company_news_id' => $companyNewsId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyEmployeeStatus)->execute($request);
+        (new DestroyCompanyNews)->execute($request);
 
         return response()->json([
             'data' => true,

@@ -1,4 +1,4 @@
-<style scoped>
+<style lang="scss" scoped>
 .content {
   background-color: #f3f9fc;
   padding: 1px 10px;
@@ -26,7 +26,7 @@
             <p class="f7 mb1">
               {{ worklog.created_at | moment("dddd, MMMM Do YYYY") }}
             </p>
-            <div class="content" v-html="worklog.content"></div>
+            <div class="parsed-content" v-html="worklog.parsed_content"></div>
           </li>
         </ul>
       </div>

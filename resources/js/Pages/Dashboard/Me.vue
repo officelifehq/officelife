@@ -47,6 +47,7 @@
             <li>team agenda</li>
             <li>anniversaires</li>
             <li>latest news</li>
+            <li>view who is at work or from home</li>
             <li>manager: view time off requests</li>
             <li>manager: view morale</li>
             <li>manager: expense approval</li>

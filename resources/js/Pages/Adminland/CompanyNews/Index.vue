@@ -1,4 +1,4 @@
-<style scoped>
+<style lang="scss" scoped>
 .list li:last-child {
   border-bottom: 0;
 }
@@ -33,35 +33,40 @@
             {{ $t('account.company_news_title', { company: $page.auth.company.name}) }}
           </h2>
 
-          <p class="relative">
+          <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="news.length == 0 ? 'white' : ''">{{ $tc('account.company_news_number_news', news.length, { company: $page.auth.company.name, count: news.length}) }}</span>
-            <inertia-link class="btn absolute-l relative dib-l db right-0" data-cy="add-position-button">
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
               {{ $t('account.company_news_cta') }}
             </inertia-link>
           </p>
 
-          <p>Here are all the news .</p>
-
           <!-- LIST OF EXISTING NEWS -->
-          <ul v-show="news.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="news-list">
-            <li v-for="(news) in companyNews" :key="news.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
-              {{ news.title }}
+          <ul v-show="news.length != 0" class="list pl0 mv0 center" data-cy="news-list">
+            <li v-for="singleNews in news" :key="singleNews.id" class="pb2 pt1 bb bb-gray bb-gray-hover">
+              <h3>{{ singleNews.title }}</h3>
 
-              <!-- LIST OF ACTIONS FOR EACH POSITION -->
-              <ul v-show="idToUpdate != news.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
-                <!-- RENAME A POSITION -->
-                <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-rename-button-' + news.id" @click.prevent="displayUpdateModal(position) ; form.title = news.title">{{ $t('app.rename') }}</a>
+              <div class="parsed-content" v-html="singleNews.parsed_content"></div>
+
+              <!-- LIST OF ACTIONS FOR EACH NEWS -->
+              <ul class="list pa0 ma0 di-ns db mt2 mt0-ns">
+                <!-- DATE -->
+                <span class="f7 mr1">{{ $t('account.company_news_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}</span>
+
+                <!-- RENAME A NEWS -->
+                <li class="di mr1 f7">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">
+                    {{ $t('app.edit') }}
+                  </inertia-link>
                 </li>
 
-                <!-- DELETE A POSITION -->
-                <li v-if="idToDelete == news.id" class="di">
+                <!-- DELETE A NEWS -->
+                <li v-if="idToDelete == singleNews.id" class="di f7">
                   {{ $t('app.sure') }}
-                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + news.id" @click.prevent="destroy(news.id)">{{ $t('app.yes') }}</a>
-                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + news.id" @click.prevent="idToDelete = 0">{{ $t('app.no') }}</a>
+                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + singleNews.id" @click.prevent="destroy(singleNews.id)">{{ $t('app.yes') }}</a>
+                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + singleNews.id" @click.prevent="idToDelete = 0">{{ $t('app.no') }}</a>
                 </li>
-                <li v-else class="di">
-                  <a class="pointer" :data-cy="'list-delete-button-' + news.id" @click.prevent="idToDelete = news.id">{{ $t('app.delete') }}</a>
+                <li v-else class="di f7">
+                  <a class="pointer" :data-cy="'list-delete-button-' + singleNews.id" @click.prevent="idToDelete = singleNews.id">{{ $t('app.delete') }}</a>
                 </li>
               </ul>
             </li>
@@ -70,11 +75,8 @@
           <!-- BLANK STATE -->
           <div v-show="news.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              Do you need to broadcast an announcement or a news to every employee of Behaviour? You can do so here!
+              {{ $t('account.company_news_blank') }}
             </p>
-            <img class="db center mb4" srcset="/img/company/account/blank-position-1x.png,
-                                          /img/company/account/blank-position-2x.png 2x"
-            />
           </div>
         </div>
       </div>
@@ -95,7 +97,7 @@ export default {
       type: Array,
       default: null,
     },
-    companyNews: {
+    news: {
       type: Array,
       default: null,
     },
@@ -103,14 +105,15 @@ export default {
 
   data() {
     return {
+      idToDelete: 0,
     };
   },
 
   methods: {
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/positions/' + id)
+      axios.delete('/' + this.$page.auth.company.id + '/account/news/' + id)
         .then(response => {
-          this.$snotify.success(this.$t('account.position_success_destroy'), {
+          this.$snotify.success(this.$t('account.company_news_success_destroy'), {
             timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,

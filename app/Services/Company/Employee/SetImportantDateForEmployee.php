@@ -25,7 +25,7 @@ class SetImportantDateForEmployee extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'occasion' => 'required|string|max:255',
-            'date' => 'required|date|date_format:Y-m-d',
+            'date' => 'required|date_format:Y-m-d',
             'is_dummy' => 'nullable|boolean',
         ];
     }

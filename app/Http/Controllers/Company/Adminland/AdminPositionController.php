@@ -22,13 +22,19 @@ class AdminPositionController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $positions = PositionResource::collection(
-            $company->positions()->orderBy('title', 'asc')->get()
-        );
+        $positions = $company->positions()->orderBy('title', 'asc')->get();
+
+        $positionsCollection = collect([]);
+        foreach ($positions as $position) {
+            $positionsCollection->push([
+                'id' => $position->id,
+                'title' => $position->title,
+            ]);
+        }
 
         return Inertia::render('Adminland/Position/Index', [
             'notifications' => Auth::user()->getLatestNotifications($company),
-            'positions' => $positions,
+            'positions' => $positionsCollection,
         ]);
     }
 

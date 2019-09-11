@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
-use App\Http\Resources\Company\Employee\EmployeeList as EmployeeListResource;
 
 class AdminEmployeeController extends Controller
 {
@@ -22,14 +21,23 @@ class AdminEmployeeController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employees = $company->employees()->with('teams')
-            ->with('status')
+        $employees = $company->employees()
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'permission_level' => $employee->permission_level,
+                'avatar' => $employee->avatar,
+            ]);
+        }
+
         return Inertia::render('Adminland/Employee/Index', [
             'notifications' => Auth::user()->getLatestNotifications($company),
-            'employees' => EmployeeListResource::collection($employees),
+            'employees' => $employeesCollection,
         ]);
     }
 

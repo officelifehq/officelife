@@ -22,6 +22,7 @@ class Morale extends Model
         'emotion',
         'comment',
         'is_dummy',
+        'created_at',
     ];
 
     /**
