@@ -46,6 +46,7 @@ input[type=radio] {
             <text-input :id="'title'"
                         v-model="form.title"
                         :name="'title'"
+                        :datacy="'news-title-input'"
                         :errors="$page.errors.title"
                         :label="$t('account.company_news_new_title')"
                         :help="$t('account.company_news_new_title_help')"
@@ -55,7 +56,7 @@ input[type=radio] {
             <!-- Content -->
             <text-area v-model="form.content"
                        :label="$t('account.company_news_new_content')"
-                       :datacy="'news-content'"
+                       :datacy="'news-content-textarea'"
                        :required="true"
                        :rows="10"
                        :help="$t('account.company_news_new_content_help')"
@@ -65,11 +66,11 @@ input[type=radio] {
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news'" data-cy="cancel-button" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-employee-button'" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-update-news-button'" />
               </div>
             </div>
           </form>

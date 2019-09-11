@@ -12,6 +12,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 
 class GenerateDummyData extends BaseService
@@ -54,6 +55,8 @@ class GenerateDummyData extends BaseService
         $this->createWorklogEntries();
 
         $this->createMoraleEntries();
+
+        $this->createCompanyNewsEntries($data);
 
         $company->has_dummy_data = true;
         $company->save();
@@ -230,6 +233,31 @@ class GenerateDummyData extends BaseService
                 }
                 $date->addDay();
             }
+        }
+    }
+
+    /**
+     * Create fake company entries for all employees.
+     *
+     * @param array $data
+     * @return void
+     */
+    private function createCompanyNewsEntries(array $data)
+    {
+        $faker = Faker::create();
+        $numberOfCompanyNews = 20;
+
+        for ($i = 1; $i <= $numberOfCompanyNews; $i++) {
+            $request = [
+                'company_id' => $data['company_id'],
+                'author_id' => $data['author_id'],
+                'title' => $faker->realText(75),
+                'content' => $faker->realText(1500),
+                'created_at' => $faker->dateTimeThisYear()->format('Y-m-d H:i:s'),
+                'is_dummy' => true,
+            ];
+
+            (new CreateCompanyNews)->execute($request);
         }
     }
 }

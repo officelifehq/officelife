@@ -22,6 +22,7 @@ class CreateCompanyNews extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:65535',
+            'created_at' => 'nullable|date_format:Y-m-d H:i:s',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -54,6 +55,11 @@ class CreateCompanyNews extends BaseService
             'content' => $data['content'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
+
+        if (! empty($data['created_at'])) {
+            $news->created_at = $data['created_at'];
+            $news->save();
+        }
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],

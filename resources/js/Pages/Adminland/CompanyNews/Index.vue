@@ -54,7 +54,7 @@
 
                 <!-- RENAME A NEWS -->
                 <li class="di mr1 f7">
-                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" data-cy="edit-news-button">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">
                     {{ $t('app.edit') }}
                   </inertia-link>
                 </li>

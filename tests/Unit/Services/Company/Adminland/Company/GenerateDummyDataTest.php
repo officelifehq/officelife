@@ -7,6 +7,7 @@ use App\Models\User\User;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use Illuminate\Support\Facades\DB;
+use App\Models\Company\CompanyNews;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\GenerateDummyData;
@@ -55,6 +56,9 @@ class GenerateDummyDataTest extends TestCase
 
         $moraleNumber = Morale::count();
         $this->assertGreaterThan(1, $moraleNumber);
+
+        $companyNewsNumber = CompanyNews::count();
+        $this->assertEquals(20, $companyNewsNumber);
     }
 
     /** @test */
