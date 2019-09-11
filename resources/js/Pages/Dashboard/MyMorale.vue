@@ -19,7 +19,7 @@
           <p>{{ $t('dashboard.morale_already_logged') }}</p>
         </div>
 
-        <div v-if="! updatedEmployee.has_logged_morale_today">
+        <div v-if="! updatedEmployee.has_logged_morale_today && !successMessage">
           <errors :errors="form.errors" />
           <div class="flex-ns justify-center mt3 mb3">
             <span class="btn mr3-ns mb0-ns mb2 dib-l db" data-cy="log-morale-bad" @click.prevent="store(1)">😡 {{ $t('dashboard.morale_emotion_bad') }}</span>
@@ -76,7 +76,6 @@ export default {
         .then(response => {
           this.moraleCount = this.moraleCount + 1;
           this.updatedEmployee = response.data.data;
-          this.successMessage = true;
         })
         .catch(error => {
           this.successMessage = false;

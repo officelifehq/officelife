@@ -1,4 +1,4 @@
-<style scoped>
+<style lang="scss" scoped>
 .content {
   background-color: #f3f9fc;
   padding: 1px 10px;
