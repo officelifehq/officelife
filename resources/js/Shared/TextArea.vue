@@ -73,7 +73,7 @@ export default {
     },
     rows: {
       type: Number,
-      default: 23,
+      default: 3,
     },
     errors: {
       type: Array,
