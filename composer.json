@@ -11,13 +11,14 @@
         "php": "^7.1.3",
         "fideloper/proxy": "^4.0",
         "inertiajs/inertia-laravel": "dev-master",
-        "laravel/framework": "5.8.*",
+        "laravel/framework": "^6.0",
+        "laravel/helpers": "^1.1",
         "laravel/passport": "^7.1",
         "laravel/tinker": "^1.0",
         "mariuzzo/laravel-js-localization": "^1.4",
         "parsedown/laravel": "^1.2",
         "spatie/laravel-activitylog": "^3.1",
-        "tightenco/ziggy": "^0.7.1"
+        "tightenco/ziggy": "^0.8.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
@@ -32,7 +33,7 @@
         "php-coveralls/php-coveralls": "^2.1",
         "phpunit/phpunit": "^8.0",
         "vimeo/psalm": "^3.0",
-        "wnx/laravel-stats": "^1.8"
+        "wnx/laravel-stats": "^2.0"
     },
     "config": {
         "optimize-autoloader": true,
