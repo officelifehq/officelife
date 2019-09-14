@@ -22,6 +22,7 @@ class AddNotificationInUIForEmployee extends BaseService
                 Rule::in([
                     'task_assigned',
                     'employee_status_assigned',
+                    'dummy_data_generated',
                 ]),
                 'max:255',
             ],

@@ -107,7 +107,7 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside';
+import vClickOutside from 'v-click-outside';
 import Layout from '@/Shared/Layout';
 import AssignEmployeePosition from '@/Pages/Employee/AssignEmployeePosition';
 import AssignEmployeeStatus from '@/Pages/Employee/AssignEmployeeStatus';
@@ -126,7 +126,7 @@ export default {
   },
 
   directives: {
-    ClickOutside
+    clickOutside: vClickOutside.directive
   },
 
   props: {
@@ -180,9 +180,6 @@ export default {
       });
       localStorage.clear();
     }
-
-    // prevent click outside event with popupItem.
-    this.popupItem = this.$el;
   },
 
   methods: {

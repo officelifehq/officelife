@@ -173,7 +173,7 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside';
+import vClickOutside from 'v-click-outside';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
 
@@ -183,7 +183,7 @@ export default {
   },
 
   directives: {
-    ClickOutside
+    clickOutside: vClickOutside.directive
   },
 
   props: {

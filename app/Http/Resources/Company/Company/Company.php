@@ -18,6 +18,7 @@ class Company extends JsonResource
             'id' => $this->id,
             'object' => 'company',
             'name' => $this->name,
+            'has_dummy_data' => $this->has_dummy_data,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

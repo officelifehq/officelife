@@ -119,7 +119,7 @@ class UserTest extends TestCase
 
         $result = $dwight->user->getLatestNotifications($company);
 
-        $this->assertNull(
+        $this->assertEmpty(
             $result
         );
     }

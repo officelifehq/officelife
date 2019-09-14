@@ -51,7 +51,7 @@
               </inertia-link>
             </li>
             <li class="pa2 pl0 relative">
-              💂‍♀ ️<inertia-link :href="'/' + $page.auth.company.id + '/account/positions'" data-cy="position-admin-link">
+              💂‍♀ <inertia-link :href="'/' + $page.auth.company.id + '/account/positions'" data-cy="position-admin-link">
                 {{ $t('account.home_manage_positions') }}
               </inertia-link>
             </li>
@@ -80,7 +80,7 @@
           <!-- ACCOUNT OWNER -->
           <div v-show="$page.auth.employee.permission_level < 200">
             <p v-html="$t('account.home_role_owner')"></p>
-            <ul class="options list pl0">
+            <ul class="options list pl0 mb0">
               <li class="pa2 pl0 relative">
                 📡 <inertia-link :href="'/' + $page.auth.company.id + '/account/audit'">
                   {{ $t('account.home_audit_log') }}

@@ -1,4 +1,4 @@
-<style scoped>
+<style lang="scss" scoped>
 .find-box {
   border: 1px solid rgba(27,31,35,.15);
   box-shadow: 0 3px 12px rgba(27,31,35,.15);
@@ -17,6 +17,16 @@
   left: 0;
   right: 0;
   margin: 0 auto;
+}
+
+.notification-item {
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.notification-date {
+  color: #777A88;
 }
 
 .bg-modal-find {
@@ -45,7 +55,7 @@
               <img src="/img/logo.svg" height="30" />
             </a>
           </div>
-          <div class="fl w-60 tc">
+          <div class="fl w-50 tc">
             <div v-show="noMenu" class="dib w-100"></div>
             <ul v-show="!noMenu" class="mv2">
               <li class="di header-menu-item pa2 pointer mr2">
@@ -78,7 +88,8 @@
               </li>
             </ul>
           </div>
-          <div class="fl w-20 pa2 tr relative header-menu-settings">
+          <div class="fl w-30 pa2 tr relative header-menu-settings">
+            <notifications-component :notifications="notifications" />
             <user-menu />
           </div>
         </div>
@@ -122,26 +133,6 @@
               <div v-else class="silver">
                 {{ $t('app.header_search_no_team_found') }}
               </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- NOTIFICATIONS BOX -->
-      <div v-if="showModalNotifications" v-click-outside="hideNotifications" class="absolute z-max notifications-box">
-        <div class="br2 bg-white tl pv3 ph3 bounceIn faster">
-          <div v-show="notifications.length == 0">
-            <img class="db center mb2" srcset="/img/header/notification_blank.png,
-                                        /img/header/notitication_blank@2x.png 2x"
-            />
-            <p class="tc">
-              All is clear!
-            </p>
-          </div>
-
-          <ul v-show="notifications.length > 0">
-            <li v-for="notification in notifications" :key="notification.id">
-              {{ notification.action }}
             </li>
           </ul>
         </div>
@@ -207,18 +198,20 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside';
+import vClickOutside from 'v-click-outside';
 import UserMenu from '@/Shared/UserMenu';
 import LoadingButton from '@/Shared/LoadingButton';
+import NotificationsComponent from '@/Shared/Notifications';
 
 export default {
   components: {
     UserMenu,
     LoadingButton,
+    NotificationsComponent,
   },
 
   directives: {
-    ClickOutside
+    clickOutside: vClickOutside.directive
   },
 
   props: {
@@ -240,7 +233,7 @@ export default {
     return {
       loadingState: '',
       modalFind: false,
-      showModalNotifications: false,
+      showModalNotifications: true,
       dataReturnedFromSearch: false,
       form: {
         searchTerm: null,
@@ -259,9 +252,6 @@ export default {
 
   mounted() {
     this.updatePageTitle(this.title);
-
-    // prevent click outside event with popupItem.
-    this.popupItem = this.$el;
   },
 
 

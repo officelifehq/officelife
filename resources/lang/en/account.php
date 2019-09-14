@@ -11,7 +11,7 @@ return [
     'home_manage_employee_statuses' => 'Add/remove employee statuses',
     'home_manage_company_news ' => 'Add/remove company news',
     'home_audit_log' => 'View audit log to see who has done what',
-    'home_generate_fake_data' => 'Generate fake data',
+    'home_generate_fake_data' => 'Populate account with fake data',
     'home_remove_fake_data' => 'Remove fake data',
 
     'employees_title' => 'All the employees in {company}',
@@ -152,6 +152,8 @@ return [
     'team_log_task_associated_to_team' => 'Associated :name to the team.',
     'team_log_team_leader_assigned' => 'Assigned :name as the team leader.',
     'team_log_team_leader_removed' => 'Removed :name as the team leader.',
+
+    'notification_dummy_data_generated' => 'Dummy data have been generated for :name.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',

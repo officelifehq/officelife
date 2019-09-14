@@ -5,11 +5,13 @@ namespace App\Services\Company\Adminland\Company;
 use Carbon\Carbon;
 use App\Models\User\User;
 use Faker\Factory as Faker;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
@@ -60,6 +62,18 @@ class GenerateDummyData extends BaseService
 
         $company->has_dummy_data = true;
         $company->save();
+
+        NotifyEmployee::dispatch([
+            'employee_id' => $data['author_id'],
+            'action' => 'dummy_data_generated',
+            'objects' => json_encode([
+                'company_name' => $company->name,
+            ]),
+        ])->onQueue('low');
+
+        // reset the cached object as it has changed
+        $cachedCompanyObject = 'cachedCompanyObject_'.$data['author_id'];
+        Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
     }
 
     /**

@@ -18,7 +18,7 @@ class Notification extends JsonResource
             'id' => $this->id,
             'object' => 'notification',
             'action' => $this->action,
-            'content' => $this->content,
+            'localized_content' => $this->content,
             'read' => $this->read,
             'employee' => [
                 'id' => $this->employee_id,

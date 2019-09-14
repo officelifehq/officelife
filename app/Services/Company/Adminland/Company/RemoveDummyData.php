@@ -6,6 +6,7 @@ use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class RemoveDummyData extends BaseService
 {
@@ -48,6 +49,9 @@ class RemoveDummyData extends BaseService
 
         $company->has_dummy_data = false;
         $company->save();
+
+        $cachedCompanyObject = 'cachedCompanyObject_'.$data['author_id'];
+        Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
     }
 
     /**

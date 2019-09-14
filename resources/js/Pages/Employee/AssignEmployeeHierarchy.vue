@@ -39,7 +39,7 @@
     <img v-show="$page.auth.employee.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button" @click.prevent="toggleModals()" />
 
     <!-- MENU TO CHOOSE FROM -->
-    <div v-if="modal == 'menu'" v-click-outside="toggleModals" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+    <div v-if="modal == 'menu'" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
       <ul class="list ma0 pa0">
         <li class="pv2">
           <a class="pointer" data-cy="add-manager-button" @click.prevent="displayManagerModal()">{{ $t('employee.hierarchy_modal_add_manager') }}</a>
@@ -189,7 +189,7 @@
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside';
+import vClickOutside from 'v-click-outside';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
 
@@ -199,7 +199,7 @@ export default {
   },
 
   directives: {
-    ClickOutside
+    clickOutside: vClickOutside.directive
   },
 
   props: {
@@ -235,11 +235,6 @@ export default {
       directReportModalId: 0,
       deleteEmployeeConfirmation: false,
     };
-  },
-
-  mounted() {
-    // prevent click outside event with popupItem.
-    this.popupItem = this.$el;
   },
 
   methods: {
