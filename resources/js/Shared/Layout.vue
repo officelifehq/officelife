@@ -9,26 +9,6 @@
   margin: 0 auto;
 }
 
-.notifications-box {
-  border: 1px solid rgba(27,31,35,.15);
-  box-shadow: 0 3px 12px rgba(27,31,35,.15);
-  top: 63px;
-  width: 500px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-}
-
-.notification-item {
-  &:last-child {
-    border-bottom: 0;
-  }
-}
-
-.notification-date {
-  color: #777A88;
-}
-
 .bg-modal-find {
   position: fixed;
   z-index: 100;
@@ -41,103 +21,104 @@
   justify-content: center;
   align-items: center;
 }
+
+nav {
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+
+  a {
+    color: #4d4d4f;
+
+    &:hover {
+      border-bottom-width: 0;
+    }
+
+    &.special {
+      &:hover {
+        border-radius: 11px;
+        box-shadow: 1px 0px 1px rgba(43, 45, 80, 0.16), -1px 1px 1px rgba(43, 45, 80, 0.16), 0px 1px 4px rgba(43, 45, 80, 0.18);
+      }
+    }
+  }
+}
 </style>
 
 <template>
   <div>
     <vue-snotify />
 
-    <header class="bg-white dn db-m db-l mb3 relative">
-      <div class="ph3 pt1 w-100">
-        <div class="cf">
-          <div class="fl w-20 pa2">
-            <a class="relative header-logo" href="">
-              <img src="/img/logo.svg" height="30" />
-            </a>
+    <div class="dn db-m db-l">
+      <nav class="flex justify-between bb b--white-10">
+        <div class="flex-grow pa2 flex items-center">
+          <inertia-link href="/home" class="mr3 no-underline pa2 bb-0">
+            <img src="/img/logo.svg" height="30" width="30" />
+          </inertia-link>
+          <div v-if="!noMenu">
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr2 no-underline pa2 bb-0 special">
+              🏡 {{ $t('app.header_home') }}
+            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/employees'" class="mr2 no-underline pa2 bb-0 special">
+              👫 {{ $t('app.header_employees_teams') }}
+            </inertia-link>
+            <a data-cy="header-find-link" class="mr2 no-underline pa2 bb-0 special" @click="showFindModal">🔍 {{ $t('app.header_find') }}</a>
+            <inertia-link v-if="$page.auth.company && $page.auth.employee.permission_level <= 200" :href="'/' + $page.auth.company.id + '/account'" data-cy="header-notifications-link" class="no-underline pa2 bb-0 special">
+              👮‍♂️ Adminland
+            </inertia-link>
           </div>
-          <div class="fl w-50 tc">
-            <div v-show="noMenu" class="dib w-100"></div>
-            <ul v-show="!noMenu" class="mv2">
-              <li class="di header-menu-item pa2 pointer mr2">
-                <inertia-link href="/home">
-                  <span class="fw5">
-                    <img class="relative" src="/img/header/icon-home.svg" />
-                    {{ $t('app.header_home') }}
-                  </span>
-                </inertia-link>
-              </li>
-              <li class="di header-menu-item pa2 pointer mr2" data-cy="header-find-link" @click="showFindModal">
-                <span class="fw5">
-                  <img class="relative" src="/img/header/icon-find.svg" />
-                  {{ $t('app.header_find') }}
-                </span>
-              </li>
-              <li class="di header-menu-item pa2 pointer" data-cy="header-notifications-link" @click="showNotifications">
-                <span class="fw5">
-                  <img class="relative" src="/img/header/icon-notification.svg" />
-                  {{ $t('app.header_notifications') }}
-                </span>
-              </li>
-              <li v-if="$page.auth.company && $page.auth.employee.permission_level <= 200" class="di header-menu-item pa2 pointer" data-cy="header-notifications-link">
-                <inertia-link :href="'/' + $page.auth.company.id + '/account'">
-                  <span class="fw5">
-                    <img class="relative" src="/img/header/icon-notification.svg" />
-                    Adminland
-                  </span>
+        </div>
+        <div class="flex-grow pa2 flex items-center">
+          <notifications-component :notifications="notifications" />
+          <user-menu />
+        </div>
+      </nav>
+    </div>
+
+    <!-- FIND BOX -->
+    <div v-show="modalFind" class="absolute z-max find-box">
+      <div class="br2 bg-white tl pv3 ph3 bounceIn faster">
+        <form @submit.prevent="submit">
+          <div class="relative">
+            <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
+                   :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false"
+            />
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'" />
+          </div>
+        </form>
+
+        <!-- Search results -->
+        <ul v-show="dataReturnedFromSearch" class="pl0 list ma0 mt3" data-cy="results">
+          <!-- Employees -->
+          <li class="b mb3">
+            <span class="f6 mb2 dib">{{ $t('app.header_search_employees') }}</span>
+            <ul v-if="employees.length > 0" class="list ma0 pl0">
+              <li v-for="localEmployee in employees" :key="localEmployee.id">
+                <inertia-link :href="'/' + localEmployee.company.id + '/employees/' + localEmployee.id">
+                  {{ localEmployee.name }}
                 </inertia-link>
               </li>
             </ul>
-          </div>
-          <div class="fl w-30 pa2 tr relative header-menu-settings">
-            <notifications-component :notifications="notifications" />
-            <user-menu />
-          </div>
-        </div>
-      </div>
-
-      <!-- FIND BOX -->
-      <div v-show="modalFind" class="absolute z-max find-box">
-        <div class="br2 bg-white tl pv3 ph3 bounceIn faster">
-          <form @submit.prevent="submit">
-            <div class="relative">
-              <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
-                     :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false"
-              />
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'" />
+            <div v-else class="silver">
+              {{ $t('app.header_search_no_employee_found') }}
             </div>
-          </form>
+          </li>
 
-          <!-- Search results -->
-          <ul v-show="dataReturnedFromSearch" class="pl0 list ma0 mt3" data-cy="results">
-            <!-- Employees -->
-            <li class="b mb3">
-              <span class="f6 mb2 dib">{{ $t('app.header_search_employees') }}</span>
-              <ul v-if="employees.length > 0" class="list ma0 pl0">
-                <li v-for="localEmployee in employees" :key="localEmployee.id">
-                  <a :href="'/' + localEmployee.company.id + '/employees/' + localEmployee.id">{{ localEmployee.name }}</a>
-                </li>
-              </ul>
-              <div v-else class="silver">
-                {{ $t('app.header_search_no_employee_found') }}
-              </div>
-            </li>
-
-            <!-- Teams -->
-            <li class="fw5">
-              <span class="f6 mb2 dib">{{ $t('app.header_search_teams') }}</span>
-              <ul v-if="teams.length > 0" class="list ma0 pl0">
-                <li v-for="team in teams" :key="team.id">
-                  <a :href="'/' + team.company.id + '/teams/' + team.id">{{ team.name }}</a>
-                </li>
-              </ul>
-              <div v-else class="silver">
-                {{ $t('app.header_search_no_team_found') }}
-              </div>
-            </li>
-          </ul>
-        </div>
+          <!-- Teams -->
+          <li class="fw5">
+            <span class="f6 mb2 dib">{{ $t('app.header_search_teams') }}</span>
+            <ul v-if="teams.length > 0" class="list ma0 pl0">
+              <li v-for="team in teams" :key="team.id">
+                <inertia-link :href="'/' + team.company.id + '/teams/' + team.id">
+                  {{ team.name }}
+                </inertia-link>
+              </li>
+            </ul>
+            <div v-else class="silver">
+              {{ $t('app.header_search_no_team_found') }}
+            </div>
+          </li>
+        </ul>
       </div>
-    </header>
+    </div>
 
     <!-- MOBILE MENU -->
     <header class="bg-white mobile dn-ns mb3">

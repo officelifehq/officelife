@@ -35,7 +35,7 @@
 </style>
 
 <template>
-  <layout title="Home" :notifications="notifications">
+  <layout title="Home" :no-menu="true" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <!-- Blank state -->
       <div v-show="employees.length == 0" class="cf mt4 mt5-l mw7 center">
