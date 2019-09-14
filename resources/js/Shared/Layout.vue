@@ -55,7 +55,7 @@
               <img src="/img/logo.svg" height="30" />
             </a>
           </div>
-          <div class="fl w-60 tc">
+          <div class="fl w-50 tc">
             <div v-show="noMenu" class="dib w-100"></div>
             <ul v-show="!noMenu" class="mv2">
               <li class="di header-menu-item pa2 pointer mr2">
@@ -88,8 +88,9 @@
               </li>
             </ul>
           </div>
-          <div class="fl w-20 pa2 tr relative header-menu-settings">
-            <user-menu :notifications="notifications" />
+          <div class="fl w-30 pa2 tr relative header-menu-settings">
+            <notifications-component :notifications="notifications" />
+            <user-menu />
           </div>
         </div>
       </div>
@@ -200,11 +201,13 @@
 import vClickOutside from 'v-click-outside';
 import UserMenu from '@/Shared/UserMenu';
 import LoadingButton from '@/Shared/LoadingButton';
+import NotificationsComponent from '@/Shared/Notifications';
 
 export default {
   components: {
     UserMenu,
     LoadingButton,
+    NotificationsComponent,
   },
 
   directives: {

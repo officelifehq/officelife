@@ -2,7 +2,7 @@
 .menu {
   border: 1px solid rgba(27,31,35,.15);
   box-shadow: 0 3px 12px rgba(27,31,35,.15);
-  top: 36px;
+  background-color: #fff;
 }
 
 .menu:after,
@@ -17,7 +17,7 @@
   border-bottom-color: #fff;
   left: auto;
   right: 10px;
-  top: -14px;
+  top: -13px;
 }
 
 .menu:before {
@@ -27,70 +27,71 @@
   right: 9px;
   top: -16px;
 }
-
-.notifications {
-  background-color: #FAE19A;
-}
 </style>
 
 <template>
-  <div class="relative">
-    <div class="relative">
-      <!-- notifications -->
-      <span class="mr2 f6 notifications pv1 ph2 br3 pointer" @click.prevent="showNotifications = !showNotifications">🔥 {{ notifications.length }}</span>
+  <div class="relative di">
+    <a ref="popoverReference" class="no-color no-underline pointer" data-cy="header-menu" @click.prevent="openPopover">
+      {{ $page.auth.user.email }}
+    </a>
 
-      <!-- user menu -->
-      <a class="no-color no-underline relative pointer" data-cy="header-menu" @click.prevent="menu = !menu">
-        {{ $page.auth.user.email }} <span class="dropdown-caret"></span>
-      </a>
-    </div>
-    <div v-if="menu == true" class="absolute menu br2 bg-white z-max tl pv2 ph3 bounceIn faster">
-      <ul class="list ma0 pa0">
-        <li class="pv2">
-          <inertia-link :href="'/home'" class="no-color no-underline" data-cy="switch-company-button">
-            {{ $t('app.header_switch_company') }}
-          </inertia-link>
-        </li>
-        <li class="pv2">
-          <inertia-link href="/logout" class="no-color no-underline" data-cy="logout-button">
-            {{ $t('app.header_logout') }}
-          </inertia-link>
-        </li>
-      </ul>
-    </div>
-
-    <notifications-component :notifications="notifications" :show="showNotifications" />
+    <base-popover
+      v-if="isPopoverVisible"
+      :popover-options="popoverOptions"
+      @closePopover="closePopover"
+    >
+      <div class="menu pa3 f5 br3">
+        <ul class="list ma0 pa0">
+          <li class="pb2">
+            <inertia-link :href="'/home'" class="no-color no-underline" data-cy="switch-company-button">
+              {{ $t('app.header_switch_company') }}
+            </inertia-link>
+          </li>
+          <li class="pv1">
+            <inertia-link href="/logout" class="no-color no-underline" data-cy="logout-button">
+              {{ $t('app.header_logout') }}
+            </inertia-link>
+          </li>
+        </ul>
+      </div>
+    </base-popover>
   </div>
 </template>
 
 <script>
-import NotificationsComponent from '@/Shared/Notifications';
-import vClickOutside from 'v-click-outside';
+import BasePopover from '@/Shared/BasePopover';
 
 export default {
-  directives: {
-    clickOutside: vClickOutside.directive
-  },
-
   components: {
-    NotificationsComponent,
+    BasePopover,
   },
 
   props: {
-    notifications: {
-      type: Array,
-      default: null,
-    },
   },
 
   data() {
     return {
-      menu: false,
-      showNotifications: false,
+      isPopoverVisible: false,
+      popoverOptions: {
+        popoverReference: null,
+        placement: 'bottom-end',
+        offset: '0,0'
+      }
     };
   },
 
+  mounted() {
+    this.popoverOptions.popoverReference = this.$refs.popoverReference;
+  },
+
   methods: {
+    closePopover() {
+      this.isPopoverVisible = false;
+    },
+
+    openPopover() {
+      this.isPopoverVisible = true;
+    }
   }
 };
 </script>
