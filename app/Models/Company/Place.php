@@ -19,6 +19,9 @@ class Place extends Model
         'country_id',
         'latitude',
         'longitude',
+        'placable_id',
+        'placable_type',
+        'is_active',
         'is_dummy',
     ];
 
@@ -28,6 +31,15 @@ class Place extends Model
      * @var array
      */
     protected $casts = [
+        'is_active' => 'boolean',
         'is_dummy' => 'boolean',
     ];
+
+    /**
+     * Get the owning placable model.
+     */
+    public function placable()
+    {
+        return $this->morphTo();
+    }
 }

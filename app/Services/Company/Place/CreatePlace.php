@@ -4,6 +4,7 @@ namespace App\Services\Company\Place;
 
 use App\Models\Company\Place;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\DB;
 
 class CreatePlace extends BaseService
 {
@@ -21,7 +22,10 @@ class CreatePlace extends BaseService
             'city' => 'nullable|string|max:255',
             'province' => 'nullable|string|max:255',
             'postal_code' => 'nullable|string|max:255',
-            'country_id' => 'nullable|integer|max:255',
+            'country_id' => 'nullable|integer|exists:countries,id',
+            'placable_id' => 'required|integer',
+            'placable_type' => 'required|string|max:255',
+            'is_active' => 'nullable|boolean',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -44,6 +48,10 @@ class CreatePlace extends BaseService
 
         $place = $this->addPlace($data);
 
+        if ($this->valueOrFalse($data, 'is_active')) {
+            $this->setActive($place);
+        }
+
         return $place;
     }
 
@@ -61,7 +69,26 @@ class CreatePlace extends BaseService
             'province' => $this->nullOrValue($data, 'province'),
             'postal_code' => $this->nullOrValue($data, 'postal_code'),
             'country_id' => $this->nullOrValue($data, 'country_id'),
+            'placable_id' => $data['placable_id'],
+            'placable_type' => $data['placable_type'],
+            'is_active' => $this->valueOrFalse($data, 'is_active'),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
+    }
+
+    /**
+     * Set a place as active for the placable object.
+     * Check all the previous places for this entity and set them to inactive.
+     *
+     * @param Place $place
+     * @return void
+     */
+    private function setActive(Place $place)
+    {
+        DB::table('places')
+            ->where('placable_id', $place->placable_id)
+            ->where('placable_type', $place->placable_type)
+            ->where('id', '!=', $place->id)
+            ->update(['is_active' => false]);
     }
 }

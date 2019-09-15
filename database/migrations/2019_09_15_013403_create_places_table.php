@@ -265,6 +265,8 @@ class CreatePlacesTable extends Migration
 
         Schema::create('places', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('placable_id')->nullable();
+            $table->string('placable_type')->nullable();
             $table->string('street')->nullable();
             $table->string('city')->nullable();
             $table->string('province')->nullable();
@@ -272,6 +274,7 @@ class CreatePlacesTable extends Migration
             $table->unsignedBigInteger('country_id')->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
+            $table->boolean('is_active')->default(false);
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
