@@ -64,7 +64,7 @@ class CreatePlaceTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_all_previous_places_to_inactive(): void
+    public function it_sets_all_previous_places_to_inactive() : void
     {
         $michael = factory(Employee::class)->create([]);
         $country = factory(Country::class)->create([]);
@@ -108,6 +108,43 @@ class CreatePlaceTest extends TestCase
 
         $this->assertEquals(
             1,
+            $numberOfActivePlaces
+        );
+    }
+
+    /** @test */
+    public function it_doesnt_set_the_place_to_active() : void
+    {
+        $michael = factory(Employee::class)->create([]);
+        $country = factory(Country::class)->create([]);
+        factory(Place::class, 3)->create([
+            'placable_id' => $michael->id,
+            'placable_type' => 'App\Models\Company\Employee',
+            'is_active' => true,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'street' => '13 rue des champs',
+            'city' => 'Montreal',
+            'province' => 'QC',
+            'postal_code' => 'H2L2X3',
+            'country_id' => $country->id,
+            'placable_id' => $michael->id,
+            'placable_type' => 'App\Models\Company\Employee',
+            'is_active' => false,
+        ];
+
+        $place = (new CreatePlace)->execute($request);
+
+        $numberOfActivePlaces = DB::table('places')->where('placable_id', $place->placable_id)
+            ->where('placable_type', $place->placable_type)
+            ->where('is_active', true)
+            ->count();
+
+        $this->assertEquals(
+            3,
             $numberOfActivePlaces
         );
     }
