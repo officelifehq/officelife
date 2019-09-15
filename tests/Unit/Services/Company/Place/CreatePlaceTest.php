@@ -7,6 +7,8 @@ use App\Models\Company\Place;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\FetchAddressGeocoding;
+use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -18,6 +20,8 @@ class CreatePlaceTest extends TestCase
     /** @test */
     public function it_creates_a_place() : void
     {
+        Queue::fake();
+
         $michael = factory(Employee::class)->create([]);
         $country = factory(Country::class)->create([]);
 
@@ -61,6 +65,10 @@ class CreatePlaceTest extends TestCase
             0,
             $numberOfActivePlaces
         );
+
+        Queue::assertPushed(FetchAddressGeocoding::class, function ($job) use ($place) {
+            return $job->place->id === $place->id;
+        });
     }
 
     /** @test */

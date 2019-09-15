@@ -5,6 +5,7 @@ namespace App\Services\Company\Place;
 use App\Models\Company\Place;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\DB;
+use App\Jobs\FetchAddressGeocoding;
 
 class CreatePlace extends BaseService
 {
@@ -52,6 +53,8 @@ class CreatePlace extends BaseService
             $this->setActive($place);
         }
 
+        $this->geocodePlace($place);
+
         return $place;
     }
 
@@ -90,5 +93,16 @@ class CreatePlace extends BaseService
             ->where('placable_type', $place->placable_type)
             ->where('id', '!=', $place->id)
             ->update(['is_active' => false]);
+    }
+
+    /**
+     * Fetch the longitude/latitude for the new place.
+     *
+     * @param Place $place
+     * @return void
+     */
+    private function geocodePlace(Place $place)
+    {
+        FetchAddressGeocoding::dispatch($place)->onQueue('low');
     }
 }
