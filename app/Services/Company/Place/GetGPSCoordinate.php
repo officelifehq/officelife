@@ -27,6 +27,8 @@ class GetGPSCoordinate extends BaseService
     /**
      * Get the latitude and longitude from a place.
      * This method uses LocationIQ to process the geocoding.
+     * Should always be done through a job, and not be called directly.
+     * You should use the FetchAddressGeocoding job for this.
      *
      * @param array $data
      * @param GuzzleClient $client the Guzzle client, only needed when unit testing
@@ -36,7 +38,7 @@ class GetGPSCoordinate extends BaseService
     {
         $this->validate($data);
 
-        if (!is_null($client)) {
+        if (! is_null($client)) {
             $this->client = $client;
         } else {
             $this->client = new GuzzleClient();
@@ -65,7 +67,7 @@ class GetGPSCoordinate extends BaseService
             'q' => $place->getAddressAsString(),
         ]);
 
-        return Str::finish(config('homas.location_iq_url'), '/') . 'search.php?' . $query;
+        return Str::finish(config('homas.location_iq_url'), '/').'search.php?'.$query;
     }
 
     /**

@@ -97,6 +97,7 @@ class CreatePlace extends BaseService
 
     /**
      * Fetch the longitude/latitude for the new place.
+     * This is placed on a queue so it doesn't slow down the app.
      *
      * @param Place $place
      * @return void
