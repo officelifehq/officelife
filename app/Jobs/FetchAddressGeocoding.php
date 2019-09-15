@@ -24,7 +24,7 @@ class FetchAddressGeocoding implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @var Place $place
+     * @var Place
      * @return void
      */
     public function __construct(Place $place)
