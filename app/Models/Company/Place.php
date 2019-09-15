@@ -2,13 +2,10 @@
 
 namespace App\Models\Company;
 
-use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 
 class Place extends Model
 {
-    use Searchable;
-
     /**
      * The attributes that are mass assignable.
      *
