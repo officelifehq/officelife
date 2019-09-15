@@ -8,14 +8,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
-              {{ $t('app.breadcrumb_account_home') }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_flows') }}
@@ -31,7 +27,9 @@
             {{ $t('account.flows_title', { company: $page.auth.company.name}) }}
           </h2>
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l">{{ $tc('account.flows_number_flows', flows.length, { company: $page.auth.company.name, count: flows.length}) }}</span>
+            <span class="dib mb3 di-l">
+              {{ $tc('account.flows_number_flows', flows.length, { company: $page.auth.company.name, count: flows.length}) }}
+            </span>
             <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
               {{ $t('account.flows_cta') }}
             </inertia-link>
@@ -44,7 +42,11 @@
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10"
             >
               <div class="flex-auto">
-                <span class="db b">{{ flow.name }} <span class="normal f6">({{ flow.steps.count }} steps)</span></span>
+                <span class="db b">
+                  {{ flow.name }} <span class="normal f6">
+                    ({{ flow.steps.count }} steps)
+                  </span>
+                </span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
                     <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id">

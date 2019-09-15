@@ -22,9 +22,15 @@
         <div v-if="! updatedEmployee.has_logged_morale_today && !successMessage">
           <errors :errors="form.errors" />
           <div class="flex-ns justify-center mt3 mb3">
-            <span class="btn mr3-ns mb0-ns mb2 dib-l db" data-cy="log-morale-bad" @click.prevent="store(1)">😡 {{ $t('dashboard.morale_emotion_bad') }}</span>
-            <span class="btn mr3-ns mb0-ns mb2 dib-l db" data-cy="log-morale-normal" @click.prevent="store(2)">😌 {{ $t('dashboard.morale_emotion_normal') }}</span>
-            <span class="btn dib-l db mb0-ns" data-cy="log-morale-good" @click.prevent="store(3)">🥳 {{ $t('dashboard.morale_emotion_good') }}</span>
+            <span class="btn mr3-ns mb0-ns mb2 dib-l db" data-cy="log-morale-bad" @click.prevent="store(1)">
+              😡 {{ $t('dashboard.morale_emotion_bad') }}
+            </span>
+            <span class="btn mr3-ns mb0-ns mb2 dib-l db" data-cy="log-morale-normal" @click.prevent="store(2)">
+              😌 {{ $t('dashboard.morale_emotion_normal') }}
+            </span>
+            <span class="btn dib-l db mb0-ns" data-cy="log-morale-good" @click.prevent="store(3)">
+              🥳 {{ $t('dashboard.morale_emotion_good') }}
+            </span>
           </div>
         </div>
 

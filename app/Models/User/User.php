@@ -99,7 +99,7 @@ class User extends Authenticatable
      */
     public function getPathConfirmationLink() : string
     {
-        return secure_url('register/confirm/'.$this->verification_link);
+        return secure_url('invite/employee/'.$this->verification_link);
     }
 
     /**

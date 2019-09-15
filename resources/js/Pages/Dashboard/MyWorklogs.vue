@@ -11,19 +11,29 @@
       <div class="pa3">
         <!-- employee hasn't logged yet -->
         <p v-show="!editorShown && !updatedEmployee.has_logged_worklog_today" class="db mt0">
-          <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_placeholder') }}</span>
-          <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
+          <span class="dib-ns db mb0-ns mb2">
+            {{ $t('dashboard.worklog_placeholder') }}
+          </span>
+          <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">
+            {{ $t('dashboard.worklog_read_previous_entries') }}
+          </a>
         </p>
 
         <!-- employee has already logged -->
         <p v-show="!editorShown && updatedEmployee.has_logged_worklog_today && !successMessage" class="db mb0 mt0">
-          <span class="dib-ns db mb0-ns mb2">{{ $t('dashboard.worklog_already_logged') }}</span>
-          <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">{{ $t('dashboard.worklog_read_previous_entries') }}</a>
+          <span class="dib-ns db mb0-ns mb2">
+            {{ $t('dashboard.worklog_already_logged') }}
+          </span>
+          <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">
+            {{ $t('dashboard.worklog_read_previous_entries') }}
+          </a>
         </p>
 
         <!-- button to log the worklog -->
         <p v-show="!editorShown && !updatedEmployee.has_logged_worklog_today" class="ma0">
-          <a class="btn btn-secondary dib" data-cy="log-worklog-cta" @click.prevent="showEditor">{{ $t('dashboard.worklog_cta') }}</a>
+          <a class="btn btn-secondary dib" data-cy="log-worklog-cta" @click.prevent="showEditor">
+            {{ $t('dashboard.worklog_cta') }}
+          </a>
         </p>
 
         <!-- Shows the editor -->
@@ -35,7 +45,9 @@
             </p>
             <p class="ma0">
               <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-log-worklog'" />
-              <a class="pointer" @click.prevent="editorShown = false">{{ $t('app.cancel') }}</a>
+              <a class="pointer" @click.prevent="editorShown = false">
+                {{ $t('app.cancel') }}
+              </a>
             </p>
           </form>
         </div>

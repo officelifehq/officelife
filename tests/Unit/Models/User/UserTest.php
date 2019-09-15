@@ -57,7 +57,7 @@ class UserTest extends TestCase
         ]);
 
         $this->assertEquals(
-            config('app.url').'/register/confirm/dunder',
+            config('app.url').'/invite/employee/dunder',
             $user->getPathConfirmationLink()
         );
     }

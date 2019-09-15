@@ -11,14 +11,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
-              {{ $t('app.breadcrumb_account_home') }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_company_news') }}
@@ -34,7 +30,9 @@
           </h2>
 
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l" :class="news.length == 0 ? 'white' : ''">{{ $tc('account.company_news_number_news', news.length, { company: $page.auth.company.name, count: news.length}) }}</span>
+            <span class="dib mb3 di-l" :class="news.length == 0 ? 'white' : ''">
+              {{ $tc('account.company_news_number_news', news.length, { company: $page.auth.company.name, count: news.length}) }}
+            </span>
             <inertia-link :href="'/' + $page.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
               {{ $t('account.company_news_cta') }}
             </inertia-link>
@@ -50,7 +48,9 @@
               <!-- LIST OF ACTIONS FOR EACH NEWS -->
               <ul class="list pa0 ma0 di-ns db mt2 mt0-ns">
                 <!-- DATE -->
-                <span class="f7 mr1">{{ $t('account.company_news_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}</span>
+                <span class="f7 mr1">
+                  {{ $t('account.company_news_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}
+                </span>
 
                 <!-- RENAME A NEWS -->
                 <li class="di mr1 f7">
@@ -62,11 +62,17 @@
                 <!-- DELETE A NEWS -->
                 <li v-if="idToDelete == singleNews.id" class="di f7">
                   {{ $t('app.sure') }}
-                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + singleNews.id" @click.prevent="destroy(singleNews.id)">{{ $t('app.yes') }}</a>
-                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + singleNews.id" @click.prevent="idToDelete = 0">{{ $t('app.no') }}</a>
+                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + singleNews.id" @click.prevent="destroy(singleNews.id)">
+                    {{ $t('app.yes') }}
+                  </a>
+                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + singleNews.id" @click.prevent="idToDelete = 0">
+                    {{ $t('app.no') }}
+                  </a>
                 </li>
                 <li v-else class="di f7">
-                  <a class="pointer" :data-cy="'list-delete-button-' + singleNews.id" @click.prevent="idToDelete = singleNews.id">{{ $t('app.delete') }}</a>
+                  <a class="pointer" :data-cy="'list-delete-button-' + singleNews.id" @click.prevent="idToDelete = singleNews.id">
+                    {{ $t('app.delete') }}
+                  </a>
                 </li>
               </ul>
             </li>

@@ -17,12 +17,20 @@
 <template>
   <div class="di relative">
     <!-- Assigning a title is restricted to HR or admin -->
-    <span v-if="$page.auth.employee.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-position-modal" @click.prevent="modal = true">{{ title }}</span>
-    <span v-else data-cy="position-title">{{ title }}</span>
+    <span v-if="$page.auth.employee.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-position-modal" @click.prevent="modal = true">
+      {{ title }}
+    </span>
+    <span v-else data-cy="position-title">
+      {{ title }}
+    </span>
 
     <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-position-modal-blank" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
-    <span v-else v-show="title == ''">{{ $t('employee.position_blank') }}</span>
+    <a v-show="title == ''" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-position-modal-blank" @click.prevent="modal = true">
+      {{ $t('employee.position_modal_title') }}
+    </a>
+    <span v-else v-show="title == ''">
+      {{ $t('employee.position_blank') }}
+    </span>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
@@ -43,7 +51,9 @@
           {{ position.title }}
         </li>
       </ul>
-      <a v-if="title != ''" class="pointer pv2 ph3 db no-underline c-delete bb-0" data-cy="position-reset-button" @click="reset">{{ $t('employee.position_modal_reset') }}</a>
+      <a v-if="title != ''" class="pointer pv2 ph3 db no-underline c-delete bb-0" data-cy="position-reset-button" @click="reset">
+        {{ $t('employee.position_modal_reset') }}
+      </a>
     </div>
   </div>
 </template>

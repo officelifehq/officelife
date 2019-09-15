@@ -10,7 +10,9 @@
 
 <template>
   <div class="di">
-    <span class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(notifications.length > 0)}">🔥 {{ notifications.length }}</span>
+    <span class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(notifications.length > 0)}">
+      🔥 {{ notifications.length }}
+    </span>
   </div>
 </template>
 

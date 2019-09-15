@@ -11,9 +11,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_list') }}
@@ -26,7 +24,9 @@
         <div class="pa3 mt2">
           <!-- HEADER: number of employees and button -->
           <p class="relative">
-            <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: $page.auth.company.name, count: employees.length}) }}</span>
+            <span class="dib mb3 di-l">
+              {{ $tc('account.employees_number_employees', employees.length, { company: $page.auth.company.name, count: employees.length}) }}
+            </span>
           </p>
 
           <ul class="list pl0 mt0 mb0 center">
@@ -36,18 +36,24 @@
             >
               <img class="w2 h2 w3-ns h3-ns br-100" :src="employee.avatar" width="64" height="64" />
               <div class="pl3 flex-auto">
-                <span class="db black-70">{{ employee.name }}</span>
+                <span class="db black-70">
+                  {{ employee.name }}
+                </span>
                 <ul class="f6 list pl0">
                   <template v-if="employee.position">
                     <li class="di pr2">
-                      <span class="f7">{{ employee.position.title }}</span>
+                      <span class="f7">
+                        {{ employee.position.title }}
+                      </span>
                     </li>
                   </template>
                   <template v-if="employee.teams">
                     <li class="di pr2">
                       <ul class="di list pl0">
                         <li v-for="team in employee.teams" :key="team.id" class="di team-item">
-                          <span class="badge f7">{{ team.name }}</span>
+                          <span class="badge f7">
+                            {{ team.name }}
+                          </span>
                         </li>
                       </ul>
                     </li>

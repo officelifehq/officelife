@@ -14,17 +14,13 @@ input[type=radio] {
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'">
-              {{ $t('app.breadcrumb_account_manage_employees') }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'">{{ $t('app.breadcrumb_account_manage_employees') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_add_employee') }}
@@ -63,7 +59,9 @@ input[type=radio] {
                 <input id="administrator" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
                        value="100"
                 />
-                <label for="administrator" class="pointer">{{ $t('account.employee_new_administrator') }}</label>
+                <label for="administrator" class="pointer">
+                  {{ $t('account.employee_new_administrator') }}
+                </label>
                 <p class="ma0 lh-copy f6 mb3">
                   {{ $t('account.employee_new_administrator_desc') }}
                 </p>
@@ -73,7 +71,9 @@ input[type=radio] {
                 <input id="hr" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
                        value="200"
                 />
-                <label for="hr" class="pointer">{{ $t('account.employee_new_hr') }}</label>
+                <label for="hr" class="pointer">
+                  {{ $t('account.employee_new_hr') }}
+                </label>
                 <p class="ma0 lh-copy f6 mb3">
                   {{ $t('account.employee_new_hr_desc') }}
                 </p>
@@ -83,7 +83,9 @@ input[type=radio] {
                 <input id="user" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
                        value="300"
                 />
-                <label for="user" class="pointer">{{ $t('account.employee_new_user') }}</label>
+                <label for="user" class="pointer">
+                  {{ $t('account.employee_new_user') }}
+                </label>
                 <p class="ma0 lh-copy f6 mb3">
                   {{ $t('account.employee_new_user_desc') }}
                 </p>
@@ -94,7 +96,9 @@ input[type=radio] {
             <div class="mb3 ba bb-gray bg-gray pa3">
               <div class="flex items-start relative">
                 <input id="send_email" v-model="form.send_invitation" class="mr2 relative" type="checkbox" name="send_email" />
-                <label for="send_email" class="lh-copy ma0">{{ $t('account.employee_new_send_email') }}</label>
+                <label for="send_email" class="lh-copy ma0">
+                  {{ $t('account.employee_new_send_email') }}
+                </label>
               </div>
             </div>
 

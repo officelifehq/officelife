@@ -40,8 +40,12 @@
     </ul>
 
     <!-- Action when there is no status defined -->
-    <a v-show="!updatedEmployee.status" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">{{ $t('employee.status_modal_cta') }}</a>
-    <span v-else v-show="!updatedEmployee.status">{{ $t('employee.status_modal_blank') }}</span>
+    <a v-show="!updatedEmployee.status" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">
+      {{ $t('employee.status_modal_cta') }}
+    </a>
+    <span v-else v-show="!updatedEmployee.status">
+      {{ $t('employee.status_modal_blank') }}
+    </span>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
@@ -76,7 +80,9 @@
             </div>
           </li>
           <li>
-            <a v-if="updatedEmployee.status" class="pointer pv2 ph3 db no-underline c-delete bb-0" data-cy="status-reset-button" @click="reset(updatedEmployee.status)">{{ $t('employee.status_modal_reset') }}</a>
+            <a v-if="updatedEmployee.status" class="pointer pv2 ph3 db no-underline c-delete bb-0" data-cy="status-reset-button" @click="reset(updatedEmployee.status)">
+              {{ $t('employee.status_modal_reset') }}
+            </a>
           </li>
         </ul>
       </div>
@@ -84,7 +90,9 @@
       <!-- Shown if there is no statuses setup in the account yet -->
       <div v-show="statuses.length == 0">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.status_modal_blank_title') }} <a :href="'/' + $page.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">{{ $t('employee.status_modal_blank_cta') }}</a>
+          {{ $t('employee.status_modal_blank_title') }} <a :href="'/' + $page.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">
+            {{ $t('employee.status_modal_blank_cta') }}
+          </a>
         </p>
       </div>
     </div>

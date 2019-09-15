@@ -11,14 +11,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
-              {{ $t('app.breadcrumb_account_home') }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_audit_logs') }}
@@ -41,13 +37,19 @@
                 <inertia-link v-if="log.author.id" :href="'/' + $page.auth.company.id + '/employee/' + log.author.id" class="">
                   {{ log.author.name }}
                 </inertia-link>
-                <span v-else class="black-70">{{ log.author.name }}</span>
+                <span v-else class="black-70">
+                  {{ log.author.name }}
+                </span>
 
                 <!-- log content -->
-                <span class="">{{ log.localized_content }}</span>
+                <span class="">
+                  {{ log.localized_content }}
+                </span>
 
                 <!-- log date -->
-                <span class="db f6 log_date">{{ log.created_at | moment("dddd, MMMM Do YYYY") }}</span>
+                <span class="db f6 log_date">
+                  {{ log.created_at | moment("dddd, MMMM Do YYYY") }}
+                </span>
               </div>
             </li>
           </ul>

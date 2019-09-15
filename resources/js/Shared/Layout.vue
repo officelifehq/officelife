@@ -60,7 +60,9 @@ nav {
             <inertia-link :href="'/' + $page.auth.company.id + '/employees'" class="mr2 no-underline pa2 bb-0 special">
               👫 {{ $t('app.header_employees_teams') }}
             </inertia-link>
-            <a data-cy="header-find-link" class="mr2 no-underline pa2 bb-0 special" @click="showFindModal">🔍 {{ $t('app.header_find') }}</a>
+            <a data-cy="header-find-link" class="mr2 no-underline pa2 bb-0 special" @click="showFindModal">
+              🔍 {{ $t('app.header_find') }}
+            </a>
             <inertia-link v-if="$page.auth.company && $page.auth.employee.permission_level <= 200" :href="'/' + $page.auth.company.id + '/account'" data-cy="header-notifications-link" class="no-underline pa2 bb-0 special">
               👮‍♂️ Adminland
             </inertia-link>
@@ -89,7 +91,9 @@ nav {
         <ul v-show="dataReturnedFromSearch" class="pl0 list ma0 mt3" data-cy="results">
           <!-- Employees -->
           <li class="b mb3">
-            <span class="f6 mb2 dib">{{ $t('app.header_search_employees') }}</span>
+            <span class="f6 mb2 dib">
+              {{ $t('app.header_search_employees') }}
+            </span>
             <ul v-if="employees.length > 0" class="list ma0 pl0">
               <li v-for="localEmployee in employees" :key="localEmployee.id">
                 <inertia-link :href="'/' + localEmployee.company.id + '/employees/' + localEmployee.id">
@@ -104,7 +108,9 @@ nav {
 
           <!-- Teams -->
           <li class="fw5">
-            <span class="f6 mb2 dib">{{ $t('app.header_search_teams') }}</span>
+            <span class="f6 mb2 dib">
+              {{ $t('app.header_search_teams') }}
+            </span>
             <ul v-if="teams.length > 0" class="list ma0 pl0">
               <li v-for="team in teams" :key="team.id">
                 <inertia-link :href="'/' + team.company.id + '/teams/' + team.id">
@@ -124,7 +130,9 @@ nav {
     <header class="bg-white mobile dn-ns mb3">
       <div class="ph2 pv2 w-100 relative">
         <div class="pv2 relative menu-toggle">
-          <label for="menu-toggle" class="dib b relative">Menu</label>
+          <label for="menu-toggle" class="dib b relative">
+            Menu
+          </label>
           <input id="menu-toggle" type="checkbox" />
           <ul id="mobile-menu" class="list pa0 mt4 mb0">
             <li class="pv2 bt b--light-gray">

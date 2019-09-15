@@ -14,7 +14,9 @@
 
 <template>
   <div :class="extraClassUpperDiv">
-    <label v-if="label" class="db fw4 lh-copy f6" :for="id">{{ label }}</label>
+    <label v-if="label" class="db fw4 lh-copy f6" :for="id">
+      {{ label }}
+    </label>
     <input :id="id"
            :ref="customRef"
            v-bind="$attrs"
