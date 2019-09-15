@@ -58,7 +58,7 @@ class Notification extends Model
      * @return string
      * @param mixed $value
      */
-    public function getContentAttribute($value): string
+    public function getContentAttribute($value) : string
     {
         return NotificationHelper::process($this);
     }

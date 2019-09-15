@@ -18,7 +18,7 @@ class NotificationTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_object_attribute(): void
+    public function it_returns_the_object_attribute() : void
     {
         $notification = factory(Notification::class)->create([]);
         $this->assertEquals(
@@ -28,7 +28,7 @@ class NotificationTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_content_attribute(): void
+    public function it_returns_the_content_attribute() : void
     {
         $adminEmployee = $this->createAdministrator();
 

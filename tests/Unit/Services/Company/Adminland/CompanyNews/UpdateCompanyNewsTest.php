@@ -16,7 +16,7 @@ class UpdateCompanyNewsTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_a_company_news(): void
+    public function it_updates_a_company_news() : void
     {
         Queue::fake();
 
@@ -63,7 +63,7 @@ class UpdateCompanyNewsTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
+    public function it_fails_if_wrong_parameters_are_given() : void
     {
         $request = [
             'title' => 'Assistant to the regional manager',

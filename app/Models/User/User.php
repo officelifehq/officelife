@@ -141,12 +141,8 @@ class User extends Authenticatable
             ->take($numberOfNotificationsToFetch)
             ->get();
 
-        if ($notifs->count() > 1) {
+        if ($notifs->count() >= 1) {
             return NotificationResource::collection($notifs);
-        }
-
-        if ($notifs->count() == 1) {
-            return new NotificationResource($notifs);
         }
 
         return [];

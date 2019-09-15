@@ -261,3 +261,23 @@ $factory->define(App\Models\Company\CompanyNews::class, function (Faker $faker) 
         'content' => 'Michael and Dwight invite you to a party.',
     ];
 });
+
+$factory->define(App\Models\Company\Country::class, function (Faker $faker) {
+    return [
+        'name' => 'France',
+    ];
+});
+
+$factory->define(App\Models\Company\Place::class, function (Faker $faker) {
+    return [
+        'street' => $faker->streetAddress,
+        'city' => $faker->city,
+        'province' => $faker->state,
+        'postal_code' => $faker->postcode,
+        'country_id' => function () {
+            return factory(App\Models\Company\Country::class)->create()->id;
+        },
+        'latitude' => $faker->latitude,
+        'longitude' => $faker->longitude,
+    ];
+});
