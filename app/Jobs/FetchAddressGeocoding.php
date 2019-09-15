@@ -17,14 +17,14 @@ class FetchAddressGeocoding implements ShouldQueue
     /**
      * The place instance.
      *
-     * @var array
+     * @var Place
      */
     public $place;
 
     /**
      * Create a new job instance.
      *
-     * @var Place
+     * @var Place $place
      * @return void
      */
     public function __construct(Place $place)
