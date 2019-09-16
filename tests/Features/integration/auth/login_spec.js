@@ -1,5 +1,5 @@
 describe('Login', function () {
-  it('should sign up and logout', function () {
+  it('should sign up', function () {
     cy.login()
   })
 })

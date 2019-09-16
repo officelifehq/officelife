@@ -49,7 +49,7 @@
             >
               <img class="w2 h2 w3-ns h3-ns br-100" :src="currentEmployee.avatar" width="64" height="64" />
               <div class="pl3 flex-auto">
-                <span class="db black-70">
+                <span class="db black-70" :name="currentEmployee.name" :data-invitation-link="currentEmployee.invitation_link">
                   {{ currentEmployee.name }}
                 </span>
                 <ul class="f6 list pl0">

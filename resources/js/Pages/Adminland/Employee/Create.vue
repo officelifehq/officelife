@@ -95,7 +95,9 @@ input[type=radio] {
             <!-- Invite user -->
             <div class="mb3 ba bb-gray bg-gray pa3">
               <div class="flex items-start relative">
-                <input id="send_email" v-model="form.send_invitation" class="mr2 relative" type="checkbox" name="send_email" />
+                <input id="send_email" v-model="form.send_invitation" data-cy="send-email" class="mr2 relative" type="checkbox"
+                       name="send_email"
+                />
                 <label for="send_email" class="lh-copy ma0">
                   {{ $t('account.employee_new_send_email') }}
                 </label>
