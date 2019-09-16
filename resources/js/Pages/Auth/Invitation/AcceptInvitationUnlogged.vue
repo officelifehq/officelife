@@ -8,26 +8,26 @@
         {{ $t('auth.invitation_unlogged_desc') }}
       </p>
       <p v-show="displayCreateAccount">
-        <a class="pointer" @click="displaySignin = true; displayCreateAccount = false">
+        <inertia-link class="pointer" @click="displaySignin = true; displayCreateAccount = false">
           &larr; {{ $t('auth.invitation_unlogged_create_account_instead') }}
-        </a>
+        </inertia-link>
       </p>
       <p v-show="displaySignin">
-        <a class="pointer" @click="displayCreateAccount = true; displaySignin = false">
+        <inertia-link class="pointer" @click="displayCreateAccount = true; displaySignin = false">
           &larr; {{ $t('auth.invitation_unlogged_login_instead') }}
-        </a>
+        </inertia-link>
       </p>
     </div>
 
     <!-- LINKS TO SWITCH BETWEEN SIGNIN/LOGIN -->
-    <div v-show="!displayCreateAccount && !displaySignin" class="cf mt3 mw6 center br3 mb3 bg-white box pa3 pointer" @click="displayCreateAccount = true">
+    <div v-show="!displayCreateAccount && !displaySignin" class="cf mt3 mw6 center br3 mb3 bg-white box pa3 pointer" data-cy="accept-create-account" @click="displayCreateAccount = true">
       <p class="fw5">
         {{ $t('auth.invitation_unlogged_choice_account_title') }}
       </p>
       <p>{{ $t('auth.invitation_unlogged_choice_account_desc') }}</p>
     </div>
 
-    <div v-show="!displayCreateAccount && !displaySignin" class="cf mt3 mw6 center br3 mb3 bg-white box pa3 pointer" @click="displaySignin = true">
+    <div v-show="!displayCreateAccount && !displaySignin" class="cf mt3 mw6 center br3 mb3 bg-white box pa3 pointer" data-cy="accept-login-account" @click="displaySignin = true">
       <p class="fw5">
         {{ $t('auth.invitation_unlogged_choice_login_title') }}
       </p>
@@ -55,9 +55,10 @@
           />
 
           <!-- Password -->
-          <text-input :id="'email'"
+          <text-input :id="'password'"
                       v-model="form.password"
                       :type="'password'"
+                      :name="'password'"
                       :errors="$page.errors.password"
                       :label="$t('auth.register_password')"
           />
@@ -66,7 +67,7 @@
           <div class="">
             <div class="flex-ns justify-between">
               <div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.register_cta')" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'create-cta'" :state="loadingState" :text="$t('auth.register_cta')" />
               </div>
             </div>
           </div>

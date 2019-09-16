@@ -32,6 +32,7 @@ class AdminEmployeeController extends Controller
                 'name' => $employee->name,
                 'permission_level' => $employee->permission_level,
                 'avatar' => $employee->avatar,
+                'invitation_link' => $employee->invitation_link,
             ]);
         }
 

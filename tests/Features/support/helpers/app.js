@@ -14,6 +14,11 @@ Cypress.Commands.add('login', (role) => {
   cy.url().should('include', '/home')
 })
 
+Cypress.Commands.add('logout', () => {
+  cy.get('[data-cy=header-menu]').click()
+  cy.get('[data-cy=logout-button]').click()
+})
+
 // Create a company called "Dunder Mifflin"
 Cypress.Commands.add('createCompany', () => {
   cy.get('[data-cy=create-company-blank-state]').click()
@@ -51,7 +56,7 @@ Cypress.Commands.add('createEmployeeStatus', (status) => {
 })
 
 // Create an employee
-Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission) => {
+Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, sendEmail) => {
   cy.visit('/1/account')
 
   cy.get('[data-cy=employee-admin-link]').click()
@@ -73,6 +78,10 @@ Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission) 
 
   if (permission === 'user') {
     cy.get('[type="radio"]').check(['300'])
+  }
+
+  if (sendEmail === true) {
+    cy.get('[data-cy=send-email]').check()
   }
 
   cy.get('[data-cy=submit-add-employee-button]').click()

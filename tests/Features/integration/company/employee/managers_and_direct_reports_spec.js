@@ -6,9 +6,9 @@ describe('Employee - Assign managers and direct reports', function () {
 
     cy.wait(500)
 
-    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin')
-    cy.createEmployee('Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'admin')
-    cy.createEmployee('Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'admin')
+    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
+    cy.createEmployee('Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'admin', false)
+    cy.createEmployee('Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'admin', false)
     cy.get('[data-cy=employee-view]').first().click()
 
     // i should be now on Jim Halpert page so I will test that I can add
