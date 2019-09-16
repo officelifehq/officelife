@@ -31,7 +31,7 @@
       <div class="mw9 center br3 mb4 bg-white box relative z-1">
         <div class="pa3 relative pt5">
           <!-- EDIT BUTTON -->
-          <img v-show="$page.auth.employee.permission_level <= 200 || $page.auth.user.user_id == employee.user.id" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" @click="profileMenu = true" />
+          <img v-if="employeeOrAtLeastHR()" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" @click="profileMenu = true" />
 
           <!-- EDIT MENU -->
           <div v-if="profileMenu" v-click-outside="toggleProfileMenu" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
@@ -46,7 +46,7 @@
                   Delete
                 </a>
               </li>
-              <li v-show="$page.auth.employee.permission_level <= 200 || $page.auth.user.user_id == employee.user.id" class="pv2">
+              <li v-if="employeeOrAtLeastHR()" class="pv2">
                 <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">
                   View change log
                 </inertia-link>
@@ -186,6 +186,10 @@ export default {
     toggleProfileMenu() {
       this.profileMenu = false;
     },
+
+    employeeOrAtLeastHR() {
+      return this.$page.auth.employee.permission_level <= 200 || this.$page.auth.user.id == this.employee.user.id;
+    }
   }
 };
 
