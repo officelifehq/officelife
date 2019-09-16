@@ -34,31 +34,49 @@
 
 <template>
   <div class="relative pr3 lh-copy">
-    Notify <span class="bb b--dotted bt-0 bl-0 br-0 pointer" @click="displayModal = true">{{ who }}</span> with <span class="bb b--dotted bt-0 bl-0 br-0 pointer" @click="displayEditMessageTextarea">{{ message }}</span>
+    Notify <span class="bb b--dotted bt-0 bl-0 br-0 pointer" @click="displayModal = true">
+      {{ who }}
+    </span> with <span class="bb b--dotted bt-0 bl-0 br-0 pointer" @click="displayEditMessageTextarea">
+      {{ message }}
+    </span>
 
     <!-- Modal to display the first step of "An employee" -->
     <div v-show="displayModal" v-click-outside="toggleModals" class="popupmenu employee-modal absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
       <ul class="list ma0 pa0">
         <li class="pv1">
-          <a class="pointer" @click.prevent="setTarget('actualEmployee')">{{ $t('account.flow_new_action_notification_actual_employee') }}</a>
+          <a class="pointer" @click.prevent="setTarget('actualEmployee')">
+            {{ $t('account.flow_new_action_notification_actual_employee') }}
+          </a>
         </li>
         <li class="pv1">
-          <a class="pointer" @click.prevent="displayEmployeeSearchBox">{{ $t('account.flow_new_action_notification_specific_employee') }}</a>
+          <a class="pointer" @click.prevent="displayEmployeeSearchBox">
+            {{ $t('account.flow_new_action_notification_specific_employee') }}
+          </a>
         </li>
         <li class="pv1">
-          <a class="pointer" @click.prevent="setTarget('managers')">{{ $t('account.flow_new_action_notification_manager') }}</a>
+          <a class="pointer" @click.prevent="setTarget('managers')">
+            {{ $t('account.flow_new_action_notification_manager') }}
+          </a>
         </li>
         <li class="pv1">
-          <a class="pointer" @click.prevent="setTarget('directReports')">{{ $t('account.flow_new_action_notification_report') }}</a>
+          <a class="pointer" @click.prevent="setTarget('directReports')">
+            {{ $t('account.flow_new_action_notification_report') }}
+          </a>
         </li>
         <li class="pv1">
-          <a class="pointer" @click.prevent="setTarget('employeeTeam')">{{ $t('account.flow_new_action_notification_team_members') }}</a>
+          <a class="pointer" @click.prevent="setTarget('employeeTeam')">
+            {{ $t('account.flow_new_action_notification_team_members') }}
+          </a>
         </li>
         <li class="pv1">
-          <a class="pointer" @click.prevent="displayTeamSearchBox">{{ $t('account.flow_new_action_notification_specific_team') }}</a>
+          <a class="pointer" @click.prevent="displayTeamSearchBox">
+            {{ $t('account.flow_new_action_notification_specific_team') }}
+          </a>
         </li>
         <li class="pv1">
-          <a class="pointer" @click.prevent="displayConfirmationModal">{{ $t('account.flow_new_action_notification_everyone') }}</a>
+          <a class="pointer" @click.prevent="displayConfirmationModal">
+            {{ $t('account.flow_new_action_notification_everyone') }}
+          </a>
         </li>
       </ul>
     </div>
@@ -70,10 +88,14 @@
       </p>
       <ul class="list ma0 pa0 pb2">
         <li class="pv2 di relative mr2">
-          <a class="pointer ml1" @click.prevent="setTarget('everyone')">{{ $t('app.yes_sure') }}</a>
+          <a class="pointer ml1" @click.prevent="setTarget('everyone')">
+            {{ $t('app.yes_sure') }}
+          </a>
         </li>
         <li class="pv2 di">
-          <a class="pointer" @click.prevent="showEveryoneConfirmationModal = false; displayModal = true">{{ $t('app.no') }}</a>
+          <a class="pointer" @click.prevent="showEveryoneConfirmationModal = false; displayModal = true">
+            {{ $t('app.no') }}
+          </a>
         </li>
       </ul>
     </div>
@@ -94,11 +116,15 @@
       </form>
       <ul class="pl0 list ma0">
         <li class="fw5 mb3">
-          <span class="f6 mb2 dib">{{ $t('employee.hierarchy_search_results') }}</span>
+          <span class="f6 mb2 dib">
+            {{ $t('employee.hierarchy_search_results') }}
+          </span>
           <ul v-if="searchEmployees.length > 0" class="list ma0 pl0">
             <li v-for="employee in searchEmployees" :key="employee.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
               {{ employee.name }}
-              <a class="absolute right-1 pointer" data-cy="potential-manager-button" @click.prevent="assignEmployee(employee)">{{ $t('app.choose') }}</a>
+              <a class="absolute right-1 pointer" data-cy="potential-manager-button" @click.prevent="assignEmployee(employee)">
+                {{ $t('app.choose') }}
+              </a>
             </li>
           </ul>
           <div v-else class="silver">
@@ -124,11 +150,15 @@
       </form>
       <ul class="pl0 list ma0">
         <li class="fw5 mb3">
-          <span class="f6 mb2 dib">{{ $t('employee.hierarchy_search_results') }}</span>
+          <span class="f6 mb2 dib">
+            {{ $t('employee.hierarchy_search_results') }}
+          </span>
           <ul v-if="searchTeams.length > 0" class="list ma0 pl0">
             <li v-for="team in searchTeams" :key="team.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
               {{ team.name }}
-              <a class="absolute right-1 pointer" data-cy="potential-manager-button" @click.prevent="assignTeam(team)">{{ $t('app.choose') }}</a>
+              <a class="absolute right-1 pointer" data-cy="potential-manager-button" @click.prevent="assignTeam(team)">
+                {{ $t('app.choose') }}
+              </a>
             </li>
           </ul>
           <div v-else class="silver">
@@ -146,12 +176,18 @@
       <ul class="list ma0 pa0">
         <li v-show="!deleteActionConfirmation" class="pv2 relative">
           <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
-          <a class="pointer ml1 c-delete" @click.prevent="deleteActionConfirmation = true">{{ $t('account.flow_new_action_remove') }}</a>
+          <a class="pointer ml1 c-delete" @click.prevent="deleteActionConfirmation = true">
+            {{ $t('account.flow_new_action_remove') }}
+          </a>
         </li>
         <li v-show="deleteActionConfirmation" class="pv2">
           {{ $t('app.sure') }}
-          <a class="c-delete mr1 pointer" @click.prevent="destroyAction">{{ $t('app.yes') }}</a>
-          <a class="pointer" @click.prevent="deleteActionConfirmation = false">{{ $t('app.no') }}</a>
+          <a class="c-delete mr1 pointer" @click.prevent="destroyAction">
+            {{ $t('app.yes') }}
+          </a>
+          <a class="pointer" @click.prevent="deleteActionConfirmation = false">
+            {{ $t('app.no') }}
+          </a>
         </li>
       </ul>
     </div>
@@ -164,8 +200,12 @@
       <textarea v-model="updatedMessage" cols="30" rows="3" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" maxlength="255"></textarea>
       <div class="mv1">
         <div class="flex-ns justify-between">
-          <a class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="showEditMessage = false">{{ $t('app.cancel') }}</a>
-          <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="setMessage(updatedMessage)">{{ $t('app.save') }}</a>
+          <a class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="showEditMessage = false">
+            {{ $t('app.cancel') }}
+          </a>
+          <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="setMessage(updatedMessage)">
+            {{ $t('app.save') }}
+          </a>
         </div>
       </div>
     </div>

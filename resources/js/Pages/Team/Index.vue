@@ -8,14 +8,10 @@
       <div class="mt4-l mt1 mw7 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams'">
-              {{ $t('app.breadcrumb_team_list') }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/teams'">{{ $t('app.breadcrumb_team_list') }}</inertia-link>
           </li>
           <li class="di">
             {{ team.name }}
@@ -45,10 +41,14 @@
       <div class="cf mw6 center mb4">
         <div class="bg-white box pa3 mb4">
           <p class="lh-copy ma0 mb2">
-            This team has {{ employeeCount }} members, the most recent being <a href="">sdfsd</a>.
+            This team has {{ employeeCount }} members, the most recent being <a href="">
+              sdfsd
+            </a>.
           </p>
           <p class="ma0">
-            <a href="">View team members</a>
+            <a href="">
+              View team members
+            </a>
           </p>
         </div>
 
@@ -57,7 +57,9 @@
             Want to find out how someone in this team can help you?
           </p>
           <p class="ma0">
-            <a href="">Read about the different ways they can help you</a>
+            <a href="">
+              Read about the different ways they can help you
+            </a>
           </p>
         </div>
 
@@ -69,7 +71,9 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.
           </p>
           <p class="ma0">
-            <a href="">Read all the news</a>
+            <a href="">
+              Read all the news
+            </a>
           </p>
         </div>
 
@@ -78,7 +82,9 @@
             New to the team?
           </p>
           <p class="ma0">
-            <a href="">Start here</a>
+            <a href="">
+              Start here
+            </a>
           </p>
         </div>
       </div>

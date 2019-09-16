@@ -39,8 +39,12 @@
     </ul>
 
     <!-- Action when there is no team defined -->
-    <a v-show="updatedEmployee.teams.length == 0" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">{{ $t('employee.team_modal_title') }}</a>
-    <span v-else v-show="updatedEmployee.teams.length == 0">{{ $t('employee.team_modal_blank') }}</span>
+    <a v-show="updatedEmployee.teams.length == 0" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">
+      {{ $t('employee.team_modal_title') }}
+    </a>
+    <span v-else v-show="updatedEmployee.teams.length == 0">
+      {{ $t('employee.team_modal_blank') }}
+    </span>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
@@ -80,7 +84,9 @@
       <!-- Shown if there is no teams setup in the account yet -->
       <div v-show="teams.length == 0">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.team_modal_blank_title') }} <a :href="'/' + $page.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">{{ $t('employee.team_modal_blank_cta') }}</a>
+          {{ $t('employee.team_modal_blank_title') }} <a :href="'/' + $page.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">
+            {{ $t('employee.team_modal_blank_cta') }}
+          </a>
         </p>
         <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
                                         /img/company/account/blank-team-2x.png 2x"

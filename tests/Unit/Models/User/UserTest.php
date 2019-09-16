@@ -57,7 +57,7 @@ class UserTest extends TestCase
         ]);
 
         $this->assertEquals(
-            config('app.url').'/register/confirm/dunder',
+            config('app.url').'/invite/employee/dunder',
             $user->getPathConfirmationLink()
         );
     }
@@ -85,7 +85,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_latest_notifications_for_the_user() :void
+    public function it_gets_the_latest_notifications_for_the_user() : void
     {
         $dwight = factory(Employee::class)->create([]);
         factory(Notification::class, 3)->create([
@@ -112,7 +112,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_to_get_the_latest_notifications_if_the_user_does_not_have_a_company() :void
+    public function it_fails_to_get_the_latest_notifications_if_the_user_does_not_have_a_company() : void
     {
         $dwight = factory(Employee::class)->create([]);
         $company = factory(Company::class)->create([]);

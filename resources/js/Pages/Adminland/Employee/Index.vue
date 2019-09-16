@@ -13,14 +13,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
-              {{ $t('app.breadcrumb_account_home') }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_employees') }}
@@ -37,7 +33,9 @@
 
           <!-- HEADER: number of employees and button -->
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l">{{ $tc('account.employees_number_employees', employees.length, { company: $page.auth.company.name, count: employees.length}) }}</span>
+            <span class="dib mb3 di-l">
+              {{ $tc('account.employees_number_employees', employees.length, { company: $page.auth.company.name, count: employees.length}) }}
+            </span>
             <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
               {{ $t('account.employees_cta') }}
             </inertia-link>
@@ -51,10 +49,14 @@
             >
               <img class="w2 h2 w3-ns h3-ns br-100" :src="currentEmployee.avatar" width="64" height="64" />
               <div class="pl3 flex-auto">
-                <span class="db black-70">{{ currentEmployee.name }}</span>
+                <span class="db black-70">
+                  {{ currentEmployee.name }}
+                </span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <span class="badge f7">{{ $t('app.permission_' + currentEmployee.permission_level) }}</span>
+                    <span class="badge f7">
+                      {{ $t('app.permission_' + currentEmployee.permission_level) }}
+                    </span>
                   </li>
                   <li class="di pr2">
                     <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + currentEmployee.id" data-cy="employee-view">

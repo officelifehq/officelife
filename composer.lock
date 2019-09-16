@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eab4d38048606d567c264788fb82df1b",
+    "content-hash": "4bacd765b551723745714e3b42b8a751",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -6344,16 +6344,16 @@
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v3.9.1",
+            "version": "v3.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "c95774ba2f8f0bde82b1655b531a5098645f63bf"
+                "reference": "4b6b62c5fe8d891107eda65c5237f13932fedb1d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/c95774ba2f8f0bde82b1655b531a5098645f63bf",
-                "reference": "c95774ba2f8f0bde82b1655b531a5098645f63bf",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/4b6b62c5fe8d891107eda65c5237f13932fedb1d",
+                "reference": "4b6b62c5fe8d891107eda65c5237f13932fedb1d",
                 "shasum": ""
             },
             "require": {
@@ -6405,7 +6405,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2019-09-11T07:23:27+00:00"
+            "time": "2019-09-15T07:07:58+00:00"
         },
         {
             "name": "phar-io/manifest",

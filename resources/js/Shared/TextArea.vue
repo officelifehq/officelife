@@ -14,7 +14,9 @@
 
 <template>
   <div class="mb3">
-    <label v-if="label" class="db fw4 lh-copy f6" :for="id">{{ label }}</label>
+    <label v-if="label" class="db fw4 lh-copy f6" :for="id">
+      {{ label }}
+    </label>
     <textarea :id="id"
               ref="input"
               v-bind="$attrs"

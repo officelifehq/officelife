@@ -11,14 +11,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">
-              {{ $t('app.breadcrumb_account_home') }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_employee_statuses') }}
@@ -34,8 +30,12 @@
           </h2>
 
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l" :class="statuses.length == 0 ? 'white' : ''">{{ $tc('account.employee_statuses_number_positions', statuses.length, { company: $page.auth.company.name, count: statuses.length}) }}</span>
-            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="displayAddModal">{{ $t('account.employee_statuses_cta') }}</a>
+            <span class="dib mb3 di-l" :class="statuses.length == 0 ? 'white' : ''">
+              {{ $tc('account.employee_statuses_number_positions', statuses.length, { company: $page.auth.company.name, count: statuses.length}) }}
+            </span>
+            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="displayAddModal">
+              {{ $t('account.employee_statuses_cta') }}
+            </a>
           </p>
 
           <!-- MODAL TO ADD AN EMPLOYEE STATUS -->
@@ -55,7 +55,9 @@
                 />
               </div>
               <div class="fl w-30-ns w-100 tr">
-                <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false ; form.name = ''">{{ $t('app.cancel') }}</a>
+                <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false ; form.name = ''">
+                  {{ $t('app.cancel') }}
+                </a>
                 <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
               </div>
             </div>
@@ -82,7 +84,9 @@
                     />
                   </div>
                   <div class="fl w-30-ns w-100 tr">
-                    <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-rename-cancel-button-' + status.id" @click.prevent="idToUpdate = 0">{{ $t('app.cancel') }}</a>
+                    <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-rename-cancel-button-' + status.id" @click.prevent="idToUpdate = 0">
+                      {{ $t('app.cancel') }}
+                    </a>
                     <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + status.id" :state="loadingState" :text="$t('app.update')" />
                   </div>
                 </form>
@@ -92,17 +96,25 @@
               <ul v-show="idToUpdate != status.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
                 <!-- RENAME A EMPLOYEE STATUS -->
                 <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">{{ $t('app.rename') }}</a>
+                  <a class="pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">
+                    {{ $t('app.rename') }}
+                  </a>
                 </li>
 
                 <!-- DELETE A EMPLOYEE STATUS -->
                 <li v-if="idToDelete == status.id" class="di">
                   {{ $t('app.sure') }}
-                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + status.id" @click.prevent="destroy(status.id)">{{ $t('app.yes') }}</a>
-                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + status.id" @click.prevent="idToDelete = 0">{{ $t('app.no') }}</a>
+                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + status.id" @click.prevent="destroy(status.id)">
+                    {{ $t('app.yes') }}
+                  </a>
+                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + status.id" @click.prevent="idToDelete = 0">
+                    {{ $t('app.no') }}
+                  </a>
                 </li>
                 <li v-else class="di">
-                  <a class="pointer" :data-cy="'list-delete-button-' + status.id" @click.prevent="idToDelete = status.id">{{ $t('app.delete') }}</a>
+                  <a class="pointer" :data-cy="'list-delete-button-' + status.id" @click.prevent="idToDelete = status.id">
+                    {{ $t('app.delete') }}
+                  </a>
                 </li>
               </ul>
             </li>

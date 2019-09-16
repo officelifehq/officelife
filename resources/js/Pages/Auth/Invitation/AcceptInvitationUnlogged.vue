@@ -8,10 +8,14 @@
         {{ $t('auth.invitation_unlogged_desc') }}
       </p>
       <p v-show="displayCreateAccount">
-        <a class="pointer" @click="displaySignin = true; displayCreateAccount = false">&larr; {{ $t('auth.invitation_unlogged_create_account_instead') }}</a>
+        <a class="pointer" @click="displaySignin = true; displayCreateAccount = false">
+          &larr; {{ $t('auth.invitation_unlogged_create_account_instead') }}
+        </a>
       </p>
       <p v-show="displaySignin">
-        <a class="pointer" @click="displayCreateAccount = true; displaySignin = false">&larr; {{ $t('auth.invitation_unlogged_login_instead') }}</a>
+        <a class="pointer" @click="displayCreateAccount = true; displaySignin = false">
+          &larr; {{ $t('auth.invitation_unlogged_login_instead') }}
+        </a>
       </p>
     </div>
 

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
+use App\Models\Company\Place;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
@@ -127,7 +128,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_one_status() :void
+    public function it_has_one_status() : void
     {
         $dwight = factory(Employee::class)->create();
 
@@ -135,7 +136,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_notifications() :void
+    public function it_has_many_notifications() : void
     {
         $dwight = factory(Employee::class)->create();
         factory(Notification::class, 2)->create([
@@ -146,7 +147,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_company_news(): void
+    public function it_has_many_company_news() : void
     {
         $dwight = factory(Employee::class)->create();
         factory(CompanyNews::class, 2)->create([
@@ -157,7 +158,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_important_dates(): void
+    public function it_has_many_important_dates() : void
     {
         $dwight = factory(Employee::class)->create();
         factory(EmployeeImportantDate::class, 2)->create([
@@ -168,7 +169,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_morale() :void
+    public function it_has_many_morale() : void
     {
         $dwight = factory(Employee::class)->create();
         factory(Morale::class, 2)->create([
@@ -176,6 +177,18 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->morales()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_places() : void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Place::class, 2)->create([
+            'placable_id' => $dwight->id,
+            'placable_type' => 'App\Models\Company\Employee',
+        ]);
+
+        $this->assertTrue($dwight->places()->exists());
     }
 
     /** @test */

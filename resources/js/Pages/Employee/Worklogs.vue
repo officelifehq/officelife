@@ -10,7 +10,9 @@
 
 <template>
   <div class="mb4 relative">
-    <span class="tc db fw5 mb2">🔨 Work logs</span>
+    <span class="tc db fw5 mb2">
+      🔨 Work logs
+    </span>
 
     <!-- LIST OF WORKLOGS -->
     <div class="br3 bg-white box z-1 pa3">

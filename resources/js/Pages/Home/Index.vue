@@ -67,7 +67,9 @@
       <div v-show="employees.length != 0">
         <div class="mt4 mt5-l mw7 center section-btn relative">
           <p>
-            <span class="pr2">{{ $t('home.companies_part_of') }}</span>
+            <span class="pr2">
+              {{ $t('home.companies_part_of') }}
+            </span>
             <inertia-link href="/company/create" class="btn absolute db-l dn">
               {{ $t('home.create_company_cta') }}
             </inertia-link>
@@ -78,7 +80,9 @@
             <inertia-link :href="'/' + employee.company_id + '/dashboard'">
               <div class="br3 mb3 bg-white box pa3 home-index-company fw5 relative">
                 {{ employee.company_name }}
-                <span class="absolute normal f6">{{ $tc('home.number_of_employees', employee.number_of_employees, { count: employee.number_of_employees }) }}</span>
+                <span class="absolute normal f6">
+                  {{ $tc('home.number_of_employees', employee.number_of_employees, { count: employee.number_of_employees }) }}
+                </span>
               </div>
             </inertia-link>
           </div>

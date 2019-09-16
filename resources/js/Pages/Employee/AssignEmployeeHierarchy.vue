@@ -35,17 +35,23 @@
 
 <template>
   <div class="mb4 relative">
-    <span class="tc db fw5 mb2">{{ $t('employee.hierarchy_title') }}</span>
+    <span class="tc db fw5 mb2">
+      {{ $t('employee.hierarchy_title') }}
+    </span>
     <img v-show="$page.auth.employee.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button" @click.prevent="toggleModals()" />
 
     <!-- MENU TO CHOOSE FROM -->
     <div v-if="modal == 'menu'" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
       <ul class="list ma0 pa0">
         <li class="pv2">
-          <a class="pointer" data-cy="add-manager-button" @click.prevent="displayManagerModal()">{{ $t('employee.hierarchy_modal_add_manager') }}</a>
+          <a class="pointer" data-cy="add-manager-button" @click.prevent="displayManagerModal()">
+            {{ $t('employee.hierarchy_modal_add_manager') }}
+          </a>
         </li>
         <li class="pv2">
-          <a class="pointer" data-cy="add-direct-report-button" @click.prevent="displayDirectReportModal()">{{ $t('employee.hierarchy_modal_add_direct_report') }}</a>
+          <a class="pointer" data-cy="add-direct-report-button" @click.prevent="displayDirectReportModal()">
+            {{ $t('employee.hierarchy_modal_add_direct_report') }}
+          </a>
         </li>
       </ul>
     </div>
@@ -66,11 +72,15 @@
       </form>
       <ul class="pl0 list ma0">
         <li class="fw5 mb3">
-          <span class="f6 mb2 dib">{{ $t('employee.hierarchy_search_results') }}</span>
+          <span class="f6 mb2 dib">
+            {{ $t('employee.hierarchy_search_results') }}
+          </span>
           <ul v-if="searchManagers.length > 0" class="list ma0 pl0">
             <li v-for="manager in searchManagers" :key="manager.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
               {{ manager.name }}
-              <a class="absolute right-1 pointer" data-cy="potential-manager-button" @click.prevent="assignManager(manager)">{{ $t('app.choose') }}</a>
+              <a class="absolute right-1 pointer" data-cy="potential-manager-button" @click.prevent="assignManager(manager)">
+                {{ $t('app.choose') }}
+              </a>
             </li>
           </ul>
           <div v-else class="silver">
@@ -96,11 +106,15 @@
       </form>
       <ul class="pl0 list ma0">
         <li class="fw5 mb3">
-          <span class="f6 mb2 dib">{{ $t('employee.hierarchy_search_results') }}</span>
+          <span class="f6 mb2 dib">
+            {{ $t('employee.hierarchy_search_results') }}
+          </span>
           <ul v-if="searchDirectReports.length > 0" class="list ma0 pl0">
             <li v-for="directReport in searchDirectReports" :key="directReport.id" class="bb relative pv2 ph1 bb-gray bb-gray-hover">
               {{ directReport.name }}
-              <a class="absolute right-1 pointer" data-cy="potential-direct-report-button" @click.prevent="assignDirectReport(directReport)">{{ $t('app.choose') }}</a>
+              <a class="absolute right-1 pointer" data-cy="potential-direct-report-button" @click.prevent="assignDirectReport(directReport)">
+                {{ $t('app.choose') }}
+              </a>
             </li>
           </ul>
           <div v-else class="silver">
@@ -125,11 +139,17 @@
         <ul class="list mv0">
           <li v-for="manager in managers" :key="manager.id" class="mb3 relative">
             <img :src="manager.avatar" class="br-100 absolute avatar" />
-            <a :href="'/' + $page.auth.company.id + '/employees/' + manager.id" class="mb2">{{ manager.name }}</a>
+            <a :href="'/' + $page.auth.company.id + '/employees/' + manager.id" class="mb2">
+              {{ manager.name }}
+            </a>
 
             <!-- position -->
-            <span v-if="manager.position !== null" class="title db f7 mt1">{{ manager.position.title }}</span>
-            <span v-else class="title db f7 mt1">{{ $t('app.no_position_defined') }}</span>
+            <span v-if="manager.position !== null" class="title db f7 mt1">
+              {{ manager.position.title }}
+            </span>
+            <span v-else class="title db f7 mt1">
+              {{ $t('app.no_position_defined') }}
+            </span>
 
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModalId = manager.id" />
 
@@ -138,12 +158,18 @@
               <ul class="list ma0 pa0">
                 <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                   <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
-                  <a class="pointer ml1 c-delete" data-cy="remove-manager-button" @click.prevent="deleteEmployeeConfirmation = true">{{ $t('employee.hierarchy_modal_remove_manager') }}</a>
+                  <a class="pointer ml1 c-delete" data-cy="remove-manager-button" @click.prevent="deleteEmployeeConfirmation = true">
+                    {{ $t('employee.hierarchy_modal_remove_manager') }}
+                  </a>
                 </li>
                 <li v-show="deleteEmployeeConfirmation" class="pv2">
                   {{ $t('app.sure') }}
-                  <a data-cy="confirm-remove-manager" class="c-delete mr1 pointer" @click.prevent="unassignManager(manager)">{{ $t('app.yes') }}</a>
-                  <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">{{ $t('app.no') }}</a>
+                  <a data-cy="confirm-remove-manager" class="c-delete mr1 pointer" @click.prevent="unassignManager(manager)">
+                    {{ $t('app.yes') }}
+                  </a>
+                  <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">
+                    {{ $t('app.no') }}
+                  </a>
                 </li>
               </ul>
             </div>
@@ -159,11 +185,17 @@
         <ul class="list mv0">
           <li v-for="directReport in directReports" :key="directReport.id" class="mb3 relative">
             <img :src="directReport.avatar" class="br-100 absolute avatar" />
-            <a :href="'/' + $page.auth.company.id + '/employees/' + directReport.id" class="mb2">{{ directReport.name }}</a>
+            <a :href="'/' + $page.auth.company.id + '/employees/' + directReport.id" class="mb2">
+              {{ directReport.name }}
+            </a>
 
             <!-- position -->
-            <span v-if="directReport.position !== null" class="title db f7 mt1">{{ directReport.position.title }}</span>
-            <span v-else class="title db f7 mt1">{{ $t('app.no_position_defined') }}</span>
+            <span v-if="directReport.position !== null" class="title db f7 mt1">
+              {{ directReport.position.title }}
+            </span>
+            <span v-else class="title db f7 mt1">
+              {{ $t('app.no_position_defined') }}
+            </span>
 
             <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModalId = directReport.id" />
 
@@ -172,12 +204,18 @@
               <ul class="list ma0 pa0">
                 <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                   <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
-                  <a class="pointer ml1 c-delete" data-cy="remove-directreport-button" @click.prevent="deleteEmployeeConfirmation = true">{{ $t('employee.hierarchy_modal_remove_direct_report') }}</a>
+                  <a class="pointer ml1 c-delete" data-cy="remove-directreport-button" @click.prevent="deleteEmployeeConfirmation = true">
+                    {{ $t('employee.hierarchy_modal_remove_direct_report') }}
+                  </a>
                 </li>
                 <li v-show="deleteEmployeeConfirmation" class="pv2">
                   {{ $t('app.sure') }}
-                  <a data-cy="confirm-remove-directreport" class="c-delete mr1 pointer" @click.prevent="unassignDirectReport(directReport)">{{ $t('app.yes') }}</a>
-                  <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">{{ $t('app.no') }}</a>
+                  <a data-cy="confirm-remove-directreport" class="c-delete mr1 pointer" @click.prevent="unassignDirectReport(directReport)">
+                    {{ $t('app.yes') }}
+                  </a>
+                  <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">
+                    {{ $t('app.no') }}
+                  </a>
                 </li>
               </ul>
             </div>

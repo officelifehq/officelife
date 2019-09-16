@@ -245,6 +245,14 @@ class Employee extends Model
     }
 
     /**
+     * Get all of the employee's places.
+     */
+    public function places()
+    {
+        return $this->morphMany('App\Models\Company\Place', 'placable');
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string

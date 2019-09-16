@@ -11,7 +11,7 @@ class MoraleCompanyHistoryTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_company() :void
+    public function it_belongs_to_a_company() : void
     {
         $moraleCompanyHistory = factory(MoraleCompanyHistory::class)->create([]);
         $this->assertTrue($moraleCompanyHistory->company()->exists());

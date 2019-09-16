@@ -25,17 +25,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'">
-              {{ $t('app.breadcrumb_account_manage_flows') }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'">{{ $t('app.breadcrumb_account_manage_flows') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_add_employee') }}
@@ -56,7 +52,9 @@
           <form @submit.prevent="submit">
             <!-- Name -->
             <div class="mb3">
-              <label class="db fw4 lh-copy f6" for="name">{{ $t('account.flow_new_flow') }}</label>
+              <label class="db fw4 lh-copy f6" for="name">
+                {{ $t('account.flow_new_flow') }}
+              </label>
               <input id="name" v-model="form.name" type="text" name="name" class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
                      required
                      @change="checkComplete"
@@ -90,22 +88,30 @@
                       <li class="di mr2">
                         <input :id="'frequency_days_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_before_' + step.id" value="days"
                                class="mr1"
-                        /> <label :for="'frequency_days_' + step.id">{{ $t('account.flow_new_days') }}</label>
+                        /> <label :for="'frequency_days_' + step.id">
+                          {{ $t('account.flow_new_days') }}
+                        </label>
                       </li>
                       <li class="di mr2">
                         <input :id="'frequency_weeks_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_before_' + step.id" value="weeks"
                                class="mr1"
-                        /> <label :for="'frequency_weeks_' + step.id">{{ $t('account.flow_new_weeks') }}</label>
+                        /> <label :for="'frequency_weeks_' + step.id">
+                          {{ $t('account.flow_new_weeks') }}
+                        </label>
                       </li>
                       <li class="di">
                         <input :id="'frequency_months_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_before_' + step.id" value="months"
                                class="mr1"
-                        /> <label :for="'frequency_months_' + step.id">{{ $t('account.flow_new_months') }}</label>
+                        /> <label :for="'frequency_months_' + step.id">
+                          {{ $t('account.flow_new_months') }}
+                        </label>
                       </li>
                     </ul>
 
                     <p class="ma0 pa0">
-                      {{ $t('account.flow_new_before') }} <span class="brush-blue">{{ $t('account.flow_new_type_' + form.type) }}</span>
+                      {{ $t('account.flow_new_before') }} <span class="brush-blue">
+                        {{ $t('account.flow_new_type_' + form.type) }}
+                      </span>
                     </p>
                   </div>
 
@@ -160,22 +166,30 @@
                       <li class="di mr2">
                         <input :id="'frequency_days_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_after_' + step.id" value="days"
                                class="mr1"
-                        /> <label :for="'frequency_days_' + step.id">{{ $t('account.flow_new_days') }}</label>
+                        /> <label :for="'frequency_days_' + step.id">
+                          {{ $t('account.flow_new_days') }}
+                        </label>
                       </li>
                       <li class="di mr2">
                         <input :id="'frequency_weeks_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_after_' + step.id" value="weeks"
                                class="mr1"
-                        /> <label :for="'frequency_weeks_' + step.id">{{ $t('account.flow_new_weeks') }}</label>
+                        /> <label :for="'frequency_weeks_' + step.id">
+                          {{ $t('account.flow_new_weeks') }}
+                        </label>
                       </li>
                       <li class="di">
                         <input :id="'frequency_months_' + step.id" v-model="step.frequency" type="radio" :name="'frequency_after_' + step.id" value="months"
                                class="mr1"
-                        /> <label :for="'frequency_months_' + step.id">{{ $t('account.flow_new_months') }}</label>
+                        /> <label :for="'frequency_months_' + step.id">
+                          {{ $t('account.flow_new_months') }}
+                        </label>
                       </li>
                     </ul>
 
                     <p class="ma0 pa0">
-                      {{ $t('account.flow_new_after') }} <span class="brush-blue">{{ $t('account.flow_new_type_' + form.type) }}</span>
+                      {{ $t('account.flow_new_after') }} <span class="brush-blue">
+                        {{ $t('account.flow_new_type_' + form.type) }}
+                      </span>
                     </p>
                   </div>
 
@@ -199,7 +213,9 @@
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <a :href="'/' + $page.auth.company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">{{ $t('app.cancel') }}</a>
+                  <a :href="'/' + $page.auth.company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                    {{ $t('app.cancel') }}
+                  </a>
                 </div>
                 <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
               </div>

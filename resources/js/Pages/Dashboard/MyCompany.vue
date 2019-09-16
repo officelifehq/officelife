@@ -45,7 +45,9 @@
               <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'generate'" />
             </li>
             <li class="di">
-              <a href="">Dismiss this message</a>
+              <a href="">
+                Dismiss this message
+              </a>
             </li>
           </ul>
         </div>
@@ -60,7 +62,11 @@
       <div class="cf mw7 center br3 mb3 bg-white box">
         <div class="pa3">
           <ul>
-            <li><a :href="'/' + company.id + '/account'">Access Adminland</a></li>
+            <li>
+              <a :href="'/' + company.id + '/account'">
+                Access Adminland
+              </a>
+            </li>
             <li>latest news</li>
             <li>hr: expense overview</li>
             <li>hr: view all teams</li>

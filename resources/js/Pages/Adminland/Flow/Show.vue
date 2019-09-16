@@ -8,17 +8,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">
-              {{ $page.auth.company.name }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'">
-              {{ $t('app.breadcrumb_account_manage_flows') }}
-            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'">{{ $t('app.breadcrumb_account_manage_flows') }}</inertia-link>
           </li>
           <li class="di">
             View a flow

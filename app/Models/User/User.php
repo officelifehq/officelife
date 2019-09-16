@@ -99,7 +99,7 @@ class User extends Authenticatable
      */
     public function getPathConfirmationLink() : string
     {
-        return secure_url('register/confirm/'.$this->verification_link);
+        return secure_url('invite/employee/'.$this->verification_link);
     }
 
     /**
@@ -141,12 +141,8 @@ class User extends Authenticatable
             ->take($numberOfNotificationsToFetch)
             ->get();
 
-        if ($notifs->count() > 1) {
+        if ($notifs->count() >= 1) {
             return NotificationResource::collection($notifs);
-        }
-
-        if ($notifs->count() == 1) {
-            return new NotificationResource($notifs);
         }
 
         return [];

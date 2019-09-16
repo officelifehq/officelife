@@ -23,7 +23,9 @@
 
     <!-- add actions -->
     <div class="pa3">
-      <a v-show="!showActionMenu" class="btn dib" @click.prevent="showActionMenu = true">Add action</a>
+      <a v-show="!showActionMenu" class="btn dib" @click.prevent="showActionMenu = true">
+        Add action
+      </a>
 
       <div v-show="showActionMenu" class="tc">
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer" @click="addAction('notification')">

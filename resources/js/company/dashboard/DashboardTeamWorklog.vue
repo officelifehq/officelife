@@ -82,7 +82,9 @@
         </div>
       </div>
       <p class="f6 mt0 mb3">
-        {{ $t('dashboard.team_worklog_stat') }} <span :class="currentWorklogDate.completionRate">{{ currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }}/{{ currentWorklogDate.numberOfEmployeesInTeam }}</span>
+        {{ $t('dashboard.team_worklog_stat') }} <span :class="currentWorklogDate.completionRate">
+          {{ currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }}/{{ currentWorklogDate.numberOfEmployeesInTeam }}
+        </span>
       </p>
       <div v-show="updatedWorklogEntries.length == 0" class="tc mt2">
         😢 {{ $t('dashboard.team_worklog_blank') }}
