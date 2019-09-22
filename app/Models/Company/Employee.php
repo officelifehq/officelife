@@ -397,7 +397,7 @@ class Employee extends Model
     }
 
     /**
-     * Check if the employee has already logged his morale today.
+     * Get the current address of the employee.
      *
      * @return Place|null
      */

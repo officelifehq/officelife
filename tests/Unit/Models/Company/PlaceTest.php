@@ -38,4 +38,15 @@ class PlaceTest extends TestCase
             $place->getAddressAsString()
         );
     }
+
+    /** @test */
+    public function it_gets_the_partial_address_as_a_string() : void
+    {
+        $place = factory(Place::class)->create([]);
+
+        $this->assertEquals(
+            'Scranton (France)',
+            $place->getPartialAddress()
+        );
+    }
 }

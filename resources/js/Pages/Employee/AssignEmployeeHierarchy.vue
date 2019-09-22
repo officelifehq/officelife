@@ -141,9 +141,9 @@
         <ul class="list mv0">
           <li v-for="manager in managers" :key="manager.id" class="mb3 relative">
             <img :src="manager.avatar" class="br-100 absolute avatar" />
-            <a :href="'/' + $page.auth.company.id + '/employees/' + manager.id" class="mb2">
+            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + manager.id" class="mb2">
               {{ manager.name }}
-            </a>
+            </inertia-link>
 
             <!-- position -->
             <span v-if="manager.position !== null" class="title db f7 mt1">
@@ -187,9 +187,9 @@
         <ul class="list mv0">
           <li v-for="directReport in directReports" :key="directReport.id" class="mb3 relative">
             <img :src="directReport.avatar" class="br-100 absolute avatar" />
-            <a :href="'/' + $page.auth.company.id + '/employees/' + directReport.id" class="mb2">
+            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + directReport.id" class="mb2">
               {{ directReport.name }}
-            </a>
+            </inertia-link>
 
             <!-- position -->
             <span v-if="directReport.position !== null" class="title db f7 mt1">

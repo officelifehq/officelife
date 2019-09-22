@@ -102,4 +102,30 @@ class Place extends Model
             return $this->country->name;
         }
     }
+
+    /**
+     * Get the partial address, used to show basic information to other employees.
+     */
+    public function getPartialAddress()
+    {
+        $address = '';
+
+        if (! is_null($this->city)) {
+            $address = $this->city;
+        }
+
+        if (! is_null($this->country)) {
+            $address .= ' ('.$this->getCountryName().')';
+        }
+
+        if (empty($address)) {
+            return;
+        }
+
+        // trim extra whitespaces inside the address
+        $address = preg_replace('/\s+/', ' ', $address);
+        if (is_string($address)) {
+            return $address;
+        }
+    }
 }

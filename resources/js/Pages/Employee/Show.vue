@@ -1,4 +1,4 @@
-<style scoped>
+<style lang="scss" scoped>
 .avatar {
   width: 80px;
   height: 80px;
@@ -6,6 +6,12 @@
   left: 50%;
   margin-top: -40px; /* Half the height */
   margin-left: -40px; /* Half the width */
+}
+
+.map {
+  background-image: url('https://locationiq.com/docs-html/images/examplestaticmap.png');
+  background-repeat: no-repeat;
+  background-position: right center;
 }
 </style>
 
@@ -93,6 +99,24 @@
             :managers="managers"
             :direct-reports="directReports"
           />
+
+          <div class="mb4 relative">
+            <span class="tc db fw5 mb2">
+              📍 Location
+            </span>
+
+            <div v-if="employee.address" class="br3 bg-white box z-1 pa3 map">
+              <p class="mt0">
+                Lives in {{ employee.address.partial }}.
+              </p>
+              <p class="">
+                Local time: 9:23am. Clear night.
+              </p>
+              <span class="f7 silver">
+                Only you and HR can view your complete address.
+              </span>
+            </div>
+          </div>
         </div>
 
         <!-- RIGHT COLUMN -->

@@ -34,7 +34,7 @@
             >
               <div class="flex-auto">
                 <!-- log author -->
-                <inertia-link v-if="log.author.id" :href="'/' + $page.auth.company.id + '/employee/' + log.author.id" class="">
+                <inertia-link v-if="log.author.id" :href="'/' + $page.auth.company.id + '/employees/' + log.author.id" class="">
                   {{ log.author.name }}
                 </inertia-link>
                 <span v-else class="black-70">
