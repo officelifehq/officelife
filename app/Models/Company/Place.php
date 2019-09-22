@@ -110,11 +110,11 @@ class Place extends Model
     {
         $address = '';
 
-        if (!is_null($this->city)) {
+        if (! is_null($this->city)) {
             $address = $this->city;
         }
 
-        if (!is_null($this->country)) {
+        if (! is_null($this->country)) {
             $address .= ' ('.$this->getCountryName().')';
         }
 
