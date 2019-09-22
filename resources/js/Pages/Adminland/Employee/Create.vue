@@ -50,6 +50,7 @@ input[type=radio] {
                             :name="'first_name'"
                             :errors="$page.errors.first_name"
                             :label="$t('account.employee_new_firstname')"
+                            :required="true"
                 />
 
                 <!-- Last name -->
@@ -58,6 +59,7 @@ input[type=radio] {
                             :name="'last_name'"
                             :errors="$page.errors.last_name"
                             :label="$t('account.employee_new_lastname')"
+                            :required="true"
                 />
 
                 <!-- Email -->
@@ -67,6 +69,7 @@ input[type=radio] {
                             :type="'email'"
                             :errors="$page.errors.email"
                             :label="$t('account.employee_new_email')"
+                            :required="true"
                 />
 
                 <div class="flex items-start relative">
