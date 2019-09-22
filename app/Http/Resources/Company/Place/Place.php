@@ -19,6 +19,7 @@ class Place extends JsonResource
             'id' => $this->id,
             'object' => 'place',
             'readable' => $this->getAddressAsString(),
+            'partial' => $this->getPartialAddress(),
             'street' => $this->street,
             'city' => $this->city,
             'province' => $this->province,
