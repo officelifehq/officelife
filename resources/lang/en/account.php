@@ -9,7 +9,7 @@ return [
     'home_manage_teams' => 'Add/remove teams',
     'home_manage_flows' => 'Add/remove flows',
     'home_manage_employee_statuses' => 'Add/remove employee statuses',
-    'home_manage_company_news ' => 'Add/remove company news',
+    'home_company_news' => 'Add/remove company news',
     'home_audit_log' => 'View audit log to see who has done what',
     'home_generate_fake_data' => 'Populate account with fake data',
     'home_remove_fake_data' => 'Remove fake data',

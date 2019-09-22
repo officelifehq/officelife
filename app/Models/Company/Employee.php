@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Employee extends Model
@@ -393,5 +394,21 @@ class Employee extends Model
             ->get();
 
         return $morale->count() != 0;
+    }
+
+    /**
+     * Check if the employee has already logged his morale today.
+     *
+     * @return Place|null
+     */
+    public function getCurrentAddress()
+    {
+        try {
+            $place = $this->places()->where('is_active', true)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return;
+        }
+
+        return $place;
     }
 }

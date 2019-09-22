@@ -10,19 +10,28 @@
   }
 }
 
+.optional-badge {
+  border-radius: 4px;
+  color: #283e59;
+  background-color: #edf2f9;
+  padding: 3px 4px;
+}
+
 </style>
 
 <template>
   <div :class="extraClassUpperDiv">
     <label v-if="label" class="db fw4 lh-copy f6" :for="id">
       {{ label }}
+      <span v-if="!required" class="optional-badge f7">
+        {{ $t('app.optional') }}
+      </span>
     </label>
     <input :id="id"
            :ref="customRef"
            v-bind="$attrs"
            class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
-           :class="{ error: errors.length }"
-           :required="required ? 'required' : ''"
+           :required="required"
            :type="type"
            :name="name"
            :value="value"
@@ -31,7 +40,7 @@
            @input="$emit('input', $event.target.value)"
            @keydown.esc="sendEscKey"
     />
-    <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
+    <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
     <p v-if="help" class="f7 mb3 lh-title">
@@ -95,6 +104,12 @@ export default {
       type: Array,
       default: () => [],
     },
+  },
+
+  computed: {
+    hasError: function () {
+      return this.errors.length > 0 ? true : false;
+    }
   },
 
   methods: {

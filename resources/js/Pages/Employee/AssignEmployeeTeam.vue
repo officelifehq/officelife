@@ -84,9 +84,9 @@
       <!-- Shown if there is no teams setup in the account yet -->
       <div v-show="teams.length == 0">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.team_modal_blank_title') }} <a :href="'/' + $page.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">
+          {{ $t('employee.team_modal_blank_title') }} <inertia-link :href="'/' + $page.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">
             {{ $t('employee.team_modal_blank_cta') }}
-          </a>
+          </inertia-link>
         </p>
         <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
                                         /img/company/account/blank-team-2x.png 2x"

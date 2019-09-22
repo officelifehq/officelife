@@ -70,7 +70,7 @@
             </li>
             <li class="pa2 pl0 relative">
               📇 <inertia-link :href="'/' + $page.auth.company.id + '/account/news'" data-cy="news-admin-link">
-                {{ $t('account.home_manage_company_news') }}
+                {{ $t('account.home_company_news') }}
               </inertia-link>
             </li>
           </ul>

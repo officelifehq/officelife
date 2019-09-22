@@ -63,7 +63,7 @@ class GetGPSCoordinateTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_null_if_we_cant_make_the_call(): void
+    public function it_returns_null_if_we_cant_make_the_call() : void
     {
         config(['homas.location_iq_api_key' => 'test']);
 

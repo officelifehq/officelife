@@ -1,10 +1,11 @@
 <template>
-  <div v-if="Object.keys(errors).length > 0">
+  <div v-if="errors.length > 0">
     <p>app.error_title</p>
     <br />
-    <ul v-for="errorsList in errors" :key="errorsList.id">
-      <li v-for="error in errorsList" :key="error.id">
-        {{ error }}
+    {{ errors[0] }}
+    <ul>
+      <li v-for="error in errors[1]" :key="error.id">
+        {{ error[0] }}
       </li>
     </ul>
   </div>
@@ -14,8 +15,8 @@
 export default {
   props: {
     errors: {
-      type: Object,
-      default: null,
+      type: Array,
+      default: () => [],
     },
   },
 };

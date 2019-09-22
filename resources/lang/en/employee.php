@@ -46,4 +46,14 @@ return [
     'status_modal_assign_success' => 'The status has been assigned',
     'status_modal_unassign_success' => 'The status has been removed',
     'status_modal_reset' => 'Remove current status',
+
+    'edit_information_title' => 'Edit information',
+    'edit_information_address' => 'Address',
+    'edit_information_address_help' => 'Only administrators and HR will be able to see the complete address. Any other people will be able to see the city and country.',
+    'edit_information_street' => 'Street',
+    'edit_information_city' => 'City',
+    'edit_information_state' => 'State/province',
+    'edit_information_postal_code' => 'Postal code',
+    'edit_information_country' => 'Country',
+    'edit_information_success' => 'Information has been updated',
 ];
