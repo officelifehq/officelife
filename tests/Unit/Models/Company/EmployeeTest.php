@@ -328,4 +328,33 @@ class EmployeeTest extends TestCase
         ]);
         $this->assertFalse($dwight->hasAlreadyLoggedMoraleToday());
     }
+
+    /** @test */
+    public function it_returns_the_current_address() : void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Place::class, 2)->create([
+            'placable_id' => $dwight->id,
+            'placable_type' => 'App\Models\Company\Employee',
+        ]);
+
+        $this->assertNull($dwight->getCurrentAddress());
+
+        $place = factory(Place::class)->create([
+            'placable_id' => $dwight->id,
+            'placable_type' => 'App\Models\Company\Employee',
+            'is_active' => true,
+        ]);
+
+        $address = $dwight->getCurrentAddress();
+        $this->assertInstanceOf(
+            Place::class,
+            $address
+        );
+
+        $this->assertEquals(
+            $place->id,
+            $address->id
+        );
+    }
 }

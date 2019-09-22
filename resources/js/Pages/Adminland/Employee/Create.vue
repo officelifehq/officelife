@@ -30,89 +30,112 @@ input[type=radio] {
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
-        <div class="pa3 mt5 measure center">
-          <h2 class="tc normal mb4">
+        <div class="">
+          <h2 class="pa3 mt5 center tc normal mb2">
             {{ $t('account.employee_new_title', { name: $page.auth.company.name}) }}
           </h2>
 
           <form @submit.prevent="submit">
             <errors :errors="form.errors" />
 
-            <!-- First name -->
-            <text-input :id="'first_name'" v-model="form.first_name" :name="'first_name'" :errors="$page.errors.first_name" :label="$t('account.employee_new_firstname')" />
-
-            <!-- Last name -->
-            <text-input :id="'last_name'" v-model="form.last_name" :name="'last_name'" :errors="$page.errors.last_name" :label="$t('account.employee_new_lastname')" />
-
-            <!-- Email -->
-            <text-input :id="'email'" v-model="form.email" :name="'email'" :type="'email'" :errors="$page.errors.email"
-                        :label="$t('account.employee_new_email')"
-            />
-
-            <hr />
-
-            <!-- Permission level -->
-            <div class="mb3">
-              <p>{{ $t('account.employee_new_permission_level') }}</p>
-
-              <div class="db relative">
-                <input id="administrator" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
-                       value="100"
-                />
-                <label for="administrator" class="pointer">
-                  {{ $t('account.employee_new_administrator') }}
-                </label>
-                <p class="ma0 lh-copy f6 mb3">
-                  {{ $t('account.employee_new_administrator_desc') }}
-                </p>
+            <!-- Basic information -->
+            <div class="cf pa3 bb bb-gray pb4">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>{{ $t('account.employee_new_basic_information') }}</strong>
               </div>
-
-              <div class="db relative">
-                <input id="hr" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
-                       value="200"
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <!-- First name -->
+                <text-input :id="'first_name'"
+                            v-model="form.first_name"
+                            :name="'first_name'"
+                            :errors="$page.errors.first_name"
+                            :label="$t('account.employee_new_firstname')"
                 />
-                <label for="hr" class="pointer">
-                  {{ $t('account.employee_new_hr') }}
-                </label>
-                <p class="ma0 lh-copy f6 mb3">
-                  {{ $t('account.employee_new_hr_desc') }}
-                </p>
-              </div>
 
-              <div class="db relative">
-                <input id="user" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
-                       value="300"
+                <!-- Last name -->
+                <text-input :id="'last_name'"
+                            v-model="form.last_name"
+                            :name="'last_name'"
+                            :errors="$page.errors.last_name"
+                            :label="$t('account.employee_new_lastname')"
                 />
-                <label for="user" class="pointer">
-                  {{ $t('account.employee_new_user') }}
-                </label>
-                <p class="ma0 lh-copy f6 mb3">
-                  {{ $t('account.employee_new_user_desc') }}
-                </p>
+
+                <!-- Email -->
+                <text-input :id="'email'"
+                            v-model="form.email"
+                            :name="'email'"
+                            :type="'email'"
+                            :errors="$page.errors.email"
+                            :label="$t('account.employee_new_email')"
+                />
+
+                <div class="flex items-start relative">
+                  <input id="send_email" v-model="form.send_invitation" data-cy="send-email" class="mr2 relative pointer" type="checkbox"
+                         name="send_email"
+                  />
+                  <label for="send_email" class="lh-copy ma0 pointer">
+                    {{ $t('account.employee_new_send_email') }}
+                    <span class="f6">
+                      {{ $t('account.employee_new_send_email_optional') }}
+                    </span>
+                  </label>
+                </div>
               </div>
             </div>
 
-            <!-- Invite user -->
-            <div class="mb3 ba bb-gray bg-gray pa3">
-              <div class="flex items-start relative">
-                <input id="send_email" v-model="form.send_invitation" data-cy="send-email" class="mr2 relative" type="checkbox"
-                       name="send_email"
-                />
-                <label for="send_email" class="lh-copy ma0">
-                  {{ $t('account.employee_new_send_email') }}
-                </label>
+            <!-- Permission level -->
+            <div class="cf pa3 bb-gray bb pt4">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>{{ $t('account.employee_new_permission_level') }}</strong>
+              </div>
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <div class="db relative">
+                  <input id="administrator" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
+                         value="100"
+                  />
+                  <label for="administrator" class="pointer">
+                    {{ $t('account.employee_new_administrator') }}
+                  </label>
+                  <p class="ma0 lh-copy f6 mb3">
+                    {{ $t('account.employee_new_administrator_desc') }}
+                  </p>
+                </div>
+
+                <div class="db relative">
+                  <input id="hr" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
+                         value="200"
+                  />
+                  <label for="hr" class="pointer">
+                    {{ $t('account.employee_new_hr') }}
+                  </label>
+                  <p class="ma0 lh-copy f6 mb3">
+                    {{ $t('account.employee_new_hr_desc') }}
+                  </p>
+                </div>
+
+                <div class="db relative">
+                  <input id="user" v-model="form.permission_level" type="radio" class="mr1 relative" name="permission_level"
+                         value="300"
+                  />
+                  <label for="user" class="pointer">
+                    {{ $t('account.employee_new_user') }}
+                  </label>
+                  <p class="ma0 lh-copy f6 mb3">
+                    {{ $t('account.employee_new_user_desc') }}
+                  </p>
+                </div>
               </div>
             </div>
 
             <!-- Actions -->
-            <div class="mv4">
+            <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'" class="btn btn-secondary dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
+                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
               </div>
             </div>
           </form>

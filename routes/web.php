@@ -49,6 +49,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport');
 
             Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index');
+            Route::get('{employee}/edit', 'Company\\Employee\\EmployeeEditController@show');
+            Route::post('{employee}/update', 'Company\\Employee\\EmployeeEditController@update');
 
             Route::resource('{employee}/position', 'Company\\Employee\\EmployeePositionController')->only([
                 'store', 'destroy',

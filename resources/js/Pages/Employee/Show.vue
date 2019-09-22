@@ -36,10 +36,10 @@
           <!-- EDIT MENU -->
           <div v-if="profileMenu" v-click-outside="toggleProfileMenu" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
             <ul class="list ma0 pa0">
-              <li v-show="$page.auth.employee.permission_level <= 200" class="pv2">
-                <a class="pointer" data-cy="add-manager-button">
-                  Edit
-                </a>
+              <li v-show="employeeOrAtLeastHR()" class="pv2">
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" class="pointer" data-cy="show-edit-view">
+                  {{ $t('app.edit') }}
+                </inertia-link>
               </li>
               <li v-show="$page.auth.employee.permission_level <= 200" class="pv2">
                 <a class="pointer" data-cy="add-direct-report-button">

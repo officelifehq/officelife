@@ -226,7 +226,10 @@ export default {
       dataReturnedFromSearch: false,
       form: {
         searchTerm: null,
-        errors: [],
+        errors: {
+          type: Array,
+          default: null,
+        },
       },
       employees: [],
       teams: [],
