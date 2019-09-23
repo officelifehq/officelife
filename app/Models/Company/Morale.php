@@ -55,7 +55,7 @@ class Morale extends Model
     }
 
     /**
-     * Returns the birthdate attribute of the employee.
+     * Returns the emotion in a readable format.
      *
      * @return string
      * @param mixed $value
@@ -63,5 +63,28 @@ class Morale extends Model
     public function getTranslatedEmotionAttribute($value)
     {
         return trans('account.morale_'.$this->emotion);
+    }
+
+    /**
+     * Returns the emotion in a readable format.
+     *
+     * @return string
+     * @param mixed $value
+     */
+    public function getEmojiAttribute($value)
+    {
+        $emoji = '';
+
+        if ($this->emotion == 1) {
+            $emoji = '😡 '.trans('dashboard.morale_emotion_bad');
+        }
+        if ($this->emotion == 2) {
+            $emoji = '😌 '.trans('dashboard.morale_emotion_normal');
+        }
+        if ($this->emotion == 3) {
+            $emoji = '🥳 '.trans('dashboard.morale_emotion_good');
+        }
+
+        return $emoji;
     }
 }

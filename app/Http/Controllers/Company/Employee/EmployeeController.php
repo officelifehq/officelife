@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Helpers\StringHelper;
+use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
@@ -59,15 +60,13 @@ class EmployeeController extends Controller
         $worklogs = $employee->worklogs()->latest()->take(7)->get();
         $employeeStatuses = $company->employeeStatuses()->get();
 
-        // build a collection to reduce number of queries
-        $worklogs = $employee->worklogs()->latest()->take(7)->get();
-        $worklogsCollection = collect([]);
-        foreach ($worklogs as $worklog) {
-            $worklogsCollection->push([
-                'id' => $worklog->id,
-                'created_at' => $worklog->created_at,
-                'parsed_content' => StringHelper::parse($worklog->content),
-            ]);
+        // building the collection containing the days of the week with the
+        // worklogs
+        $worklogs = collect([]);
+        $currentDate = Carbon::now();
+        for ($i = 0; $i < 5; $i++) {
+            $day = $currentDate->copy()->startOfWeek()->addDays($i);
+            $worklogs->push(WorklogHelper::getInformation($employee, $day));
         }
 
         return Inertia::render('Employee/Show', [
@@ -77,7 +76,7 @@ class EmployeeController extends Controller
             'directReports' => EmployeeListResource::collection($directReports),
             'positions' => PositionResource::collection($positions),
             'teams' => TeamResource::collection($teams),
-            'worklogs' => $worklogsCollection,
+            'worklogs' => $worklogs,
             'statuses' => EmployeeStatusResource::collection($employeeStatuses),
         ]);
     }

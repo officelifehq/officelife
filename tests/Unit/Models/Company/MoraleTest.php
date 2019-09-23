@@ -29,4 +29,35 @@ class MoraleTest extends ApiTestCase
             $morale->translated_emotion
         );
     }
+
+    /** @test */
+    public function it_returns_an_emoji() : void
+    {
+        $morale = factory(Morale::class)->create([
+            'emotion' => 1,
+        ]);
+
+        $this->assertEquals(
+            '😡 '.trans('dashboard.morale_emotion_bad'),
+            $morale->emoji
+        );
+
+        $morale = factory(Morale::class)->create([
+            'emotion' => 2,
+        ]);
+
+        $this->assertEquals(
+            '😌 '.trans('dashboard.morale_emotion_normal'),
+            $morale->emoji
+        );
+
+        $morale = factory(Morale::class)->create([
+            'emotion' => 3,
+        ]);
+
+        $this->assertEquals(
+            '🥳 '.trans('dashboard.morale_emotion_good'),
+            $morale->emoji
+        );
+    }
 }
