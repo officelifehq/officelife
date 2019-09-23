@@ -3,8 +3,14 @@
   background-color: #f3f9fc;
   padding: 1px 10px;
 }
+
 .worklog-item:last-child {
   margin-bottom: 0;
+}
+
+.parsed-content {
+  background-color: #f3f9fc;
+  padding: 1px 10px;
 }
 </style>
 
@@ -25,10 +31,22 @@
       <div v-show="worklogs.length != 0" data-cy="list-worklogs">
         <ul class="list mv0 pa0">
           <li v-for="worklog in worklogs" :key="worklog.id" class="mb3 relative worklog-item">
-            <p class="f7 mb1">
-              {{ worklog.created_at | moment("dddd, MMMM Do YYYY") }}
-            </p>
-            <div class="parsed-content" v-html="worklog.parsed_content"></div>
+            <template v-if="worklog.worklog_parsed_content">
+              <div class="parsed-content mb1" v-html="worklog.worklog_parsed_content"></div>
+            </template>
+            <template v-else>
+              <div class="parsed-content mb1">
+                <p>No log this day</p>
+              </div>
+            </template>
+            <ul class="f7 mb1 list pl0">
+              <li class="di">
+                {{ worklog.friendly_date }}
+              </li>
+              <li class="di">
+                {{ worklog.morale }}
+              </li>
+            </ul>
           </li>
         </ul>
       </div>

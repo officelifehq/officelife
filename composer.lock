@@ -1241,8 +1241,8 @@
             "authors": [
                 {
                     "name": "Luís Otávio Cobucci Oblonczyk",
-                    "role": "Developer",
-                    "email": "lcobucci@gmail.com"
+                    "email": "lcobucci@gmail.com",
+                    "role": "Developer"
                 }
             ],
             "description": "A simple library to work with JSON Web Token and JSON Web Signature",
@@ -2668,9 +2668,9 @@
             "authors": [
                 {
                     "name": "Freek Van der Herten",
-                    "role": "Developer",
                     "email": "freek@spatie.be",
-                    "homepage": "https://murze.be"
+                    "homepage": "https://murze.be",
+                    "role": "Developer"
                 }
             ],
             "description": "String handling evolved",
@@ -4168,16 +4168,16 @@
         },
         {
             "name": "tightenco/ziggy",
-            "version": "v0.8.1",
+            "version": "v0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tightenco/ziggy.git",
-                "reference": "b1f5c5f3bb46f49b863a77662f9916213b1f70d7"
+                "reference": "f169e46073a478170d3f687d644bea5f316dfb5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tightenco/ziggy/zipball/b1f5c5f3bb46f49b863a77662f9916213b1f70d7",
-                "reference": "b1f5c5f3bb46f49b863a77662f9916213b1f70d7",
+                "url": "https://api.github.com/repos/tightenco/ziggy/zipball/f169e46073a478170d3f687d644bea5f316dfb5d",
+                "reference": "f169e46073a478170d3f687d644bea5f316dfb5d",
                 "shasum": ""
             },
             "require": {
@@ -4215,7 +4215,7 @@
                 }
             ],
             "description": "Generates a Blade directive exporting all of your named Laravel routes. Also provides a nice route() helper function in JavaScript.",
-            "time": "2019-09-10T16:59:34+00:00"
+            "time": "2019-09-03T14:43:23+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -4256,8 +4256,8 @@
             "authors": [
                 {
                     "name": "Tijs Verkoyen",
-                    "role": "Developer",
-                    "email": "css_to_inline_styles@verkoyen.eu"
+                    "email": "css_to_inline_styles@verkoyen.eu",
+                    "role": "Developer"
                 }
             ],
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
@@ -5017,8 +5017,8 @@
             "authors": [
                 {
                     "name": "Filipe Dobreira",
-                    "role": "Developer",
-                    "homepage": "https://github.com/filp"
+                    "homepage": "https://github.com/filp",
+                    "role": "Developer"
                 }
             ],
             "description": "php error handling for cool kids",
@@ -6445,18 +6445,18 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "role": "Developer",
-                    "email": "arne@blankerts.de"
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
                 },
                 {
                     "name": "Sebastian Heuer",
-                    "role": "Developer",
-                    "email": "sebastian@phpeople.de"
+                    "email": "sebastian@phpeople.de",
+                    "role": "Developer"
                 },
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "Developer",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "Developer"
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
@@ -8424,8 +8424,8 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "role": "Developer",
-                    "email": "arne@blankerts.de"
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
