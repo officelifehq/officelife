@@ -13,6 +13,7 @@ use App\Models\Company\Position;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeEvent;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompanyTest extends TestCase
@@ -116,5 +117,16 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->news()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_pto_policies() : void
+    {
+        $company = factory(Company::class)->create();
+        factory(CompanyPTOPolicy::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->ptoPolicies()->exists());
     }
 }

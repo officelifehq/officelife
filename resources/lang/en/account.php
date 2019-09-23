@@ -132,6 +132,8 @@ return [
     'log_company_news_updated' => 'Updated the news called :name.',
     'log_company_news_destroyed' => 'Destroyed the news called :name.',
     'log_employee_morale_logged' => 'Added an emotion on how the day went.',
+    'log_company_pto_policy_created' => 'Created a company PTO policy for :year.',
+    'log_company_pto_policy_updated' => 'Updated the company PTO policy for the year :year.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',

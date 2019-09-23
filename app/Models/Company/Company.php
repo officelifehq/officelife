@@ -130,4 +130,14 @@ class Company extends Model
     {
         return $this->hasMany(CompanyNews::class);
     }
+
+    /**
+     * Get the company PTO policy records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function ptoPolicies()
+    {
+        return $this->hasMany(CompanyPTOPolicy::class);
+    }
 }
