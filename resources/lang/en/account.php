@@ -13,6 +13,7 @@ return [
     'home_audit_log' => 'View audit log to see who has done what',
     'home_generate_fake_data' => 'Populate account with fake data',
     'home_remove_fake_data' => 'Remove fake data',
+    'home_manage_pto' => 'Manage paid time off policies',
 
     'employees_title' => 'All the employees in {company}',
     'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',

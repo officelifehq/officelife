@@ -293,8 +293,8 @@ $factory->define(App\Models\Company\CompanyPTOPolicy::class, function (Faker $fa
         },
         'year' => 2020,
         'total_worked_days' => 250,
-        'default_number_of_allowed_holidays' => 30,
-        'default_number_of_sick_days' => 3,
-        'default_number_of_pto_days' => 5,
+        'default_amount_of_allowed_holidays' => 30,
+        'default_amount_of_sick_days' => 3,
+        'default_amount_of_pto_days' => 5,
     ];
 });

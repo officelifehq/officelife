@@ -10,8 +10,11 @@
 
 <template>
   <div class="di">
-    <span class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(notifications.length > 0)}">
+    <span v-if="notifications" class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(notifications.length > 0)}">
       🔥 {{ notifications.length }}
+    </span>
+    <span v-else class="mr2 f6 notifications pv1 ph2 br3 pointer">
+      🔥 0
     </span>
   </div>
 </template>

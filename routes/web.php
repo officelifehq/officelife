@@ -99,6 +99,9 @@ Route::middleware(['auth'])->group(function () {
 
             // company news
             Route::resource('account/news', 'Company\\Adminland\\AdminCompanyNewsController');
+
+            // pto policies
+            Route::resource('account/ptopolicies', 'Company\\Adminland\\AdminPTOPoliciesController');
         });
     });
 });

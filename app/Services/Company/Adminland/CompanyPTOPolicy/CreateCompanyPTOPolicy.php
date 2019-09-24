@@ -22,9 +22,9 @@ class CreateCompanyPTOPolicy extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'year' => 'required|date_format:Y',
             'total_worked_days' => 'required|integer',
-            'default_number_of_allowed_holidays' => 'required|integer',
-            'default_number_of_sick_days' => 'required|integer',
-            'default_number_of_pto_days' => 'required|integer',
+            'default_amount_of_allowed_holidays' => 'required|integer',
+            'default_amount_of_sick_days' => 'required|integer',
+            'default_amount_of_pto_days' => 'required|integer',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -59,9 +59,9 @@ class CreateCompanyPTOPolicy extends BaseService
             'company_id' => $data['company_id'],
             'year' => $data['year'],
             'total_worked_days' => $data['total_worked_days'],
-            'default_number_of_allowed_holidays' => $data['default_number_of_allowed_holidays'],
-            'default_number_of_sick_days' => $data['default_number_of_sick_days'],
-            'default_number_of_pto_days' => $data['default_number_of_pto_days'],
+            'default_amount_of_allowed_holidays' => $data['default_amount_of_allowed_holidays'],
+            'default_amount_of_sick_days' => $data['default_amount_of_sick_days'],
+            'default_amount_of_pto_days' => $data['default_amount_of_pto_days'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 

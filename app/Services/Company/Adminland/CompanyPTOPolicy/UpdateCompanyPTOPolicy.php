@@ -22,9 +22,9 @@ class UpdateCompanyPTOPolicy extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'company_pto_policy_id' => 'required|integer|exists:company_pto_policies,id',
             'total_worked_days' => 'required|integer',
-            'default_number_of_allowed_holidays' => 'required|integer',
-            'default_number_of_sick_days' => 'required|integer',
-            'default_number_of_pto_days' => 'required|integer',
+            'default_amount_of_allowed_holidays' => 'required|integer',
+            'default_amount_of_sick_days' => 'required|integer',
+            'default_amount_of_pto_days' => 'required|integer',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -49,9 +49,9 @@ class UpdateCompanyPTOPolicy extends BaseService
             ->findOrFail($data['company_pto_policy_id']);
 
         $ptoPolicy->total_worked_days = $data['total_worked_days'];
-        $ptoPolicy->default_number_of_allowed_holidays = $data['default_number_of_allowed_holidays'];
-        $ptoPolicy->default_number_of_sick_days = $data['default_number_of_sick_days'];
-        $ptoPolicy->default_number_of_pto_days = $data['default_number_of_pto_days'];
+        $ptoPolicy->default_amount_of_allowed_holidays = $data['default_amount_of_allowed_holidays'];
+        $ptoPolicy->default_amount_of_sick_days = $data['default_amount_of_sick_days'];
+        $ptoPolicy->default_amount_of_pto_days = $data['default_amount_of_pto_days'];
         $ptoPolicy->save();
 
         LogAccountAudit::dispatch([

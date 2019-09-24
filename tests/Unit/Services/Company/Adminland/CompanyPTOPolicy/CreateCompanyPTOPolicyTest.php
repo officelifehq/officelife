@@ -28,9 +28,9 @@ class CreateCompanyPTOPolicyTest extends TestCase
             'author_id' => $michael->id,
             'year' => 2020,
             'total_worked_days' => 200,
-            'default_number_of_allowed_holidays' => 1,
-            'default_number_of_sick_days' => 1,
-            'default_number_of_pto_days' => 1,
+            'default_amount_of_allowed_holidays' => 1,
+            'default_amount_of_sick_days' => 1,
+            'default_amount_of_pto_days' => 1,
         ];
 
         $ptoPolicy = (new CreateCompanyPTOPolicy)->execute($request);
@@ -40,9 +40,9 @@ class CreateCompanyPTOPolicyTest extends TestCase
             'company_id' => $michael->company_id,
             'year' => 2020,
             'total_worked_days' => 200,
-            'default_number_of_allowed_holidays' => 1,
-            'default_number_of_sick_days' => 1,
-            'default_number_of_pto_days' => 1,
+            'default_amount_of_allowed_holidays' => 1,
+            'default_amount_of_sick_days' => 1,
+            'default_amount_of_pto_days' => 1,
         ]);
 
         $this->assertInstanceOf(
@@ -72,9 +72,9 @@ class CreateCompanyPTOPolicyTest extends TestCase
             'author_id' => $michael->id,
             'year' => 2020,
             'total_worked_days' => 200,
-            'default_number_of_allowed_holidays' => 1,
-            'default_number_of_sick_days' => 1,
-            'default_number_of_pto_days' => 1,
+            'default_amount_of_allowed_holidays' => 1,
+            'default_amount_of_sick_days' => 1,
+            'default_amount_of_pto_days' => 1,
         ];
 
         (new CreateCompanyPTOPolicy)->execute($request);

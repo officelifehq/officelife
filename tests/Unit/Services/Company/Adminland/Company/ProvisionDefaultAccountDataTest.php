@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\ProvisionDefaultAccountData;
@@ -13,6 +14,8 @@ class ProvisionDefaultAccountDataTest extends TestCase
     /** @test */
     public function it_populates_default_data_in_the_account() : void
     {
+        Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
+
         $michael = $this->createAdministrator();
 
         $request = [
@@ -45,6 +48,18 @@ class ProvisionDefaultAccountDataTest extends TestCase
             $this->assertDatabaseHas('employee_statuses', [
                 'company_id' => $michael->company_id,
                 'name' => $status,
+            ]);
+        }
+
+        $currentYear = Carbon::now();
+        for ($i = 1; $i <= 15; $i++) {
+            $this->assertDatabaseHas('company_pto_policies', [
+                'company_id' => $michael->company_id,
+                'year' => $currentYear->addYear()->format('Y'),
+                'total_worked_days' => 261,
+                'default_amount_of_allowed_holidays' => 30,
+                'default_amount_of_sick_days' => 5,
+                'default_amount_of_pto_days' => 5,
             ]);
         }
     }

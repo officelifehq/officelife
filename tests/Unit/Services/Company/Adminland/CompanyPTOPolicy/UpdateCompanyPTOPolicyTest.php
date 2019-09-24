@@ -30,9 +30,9 @@ class UpdateCompanyPTOPolicyTest extends TestCase
             'author_id' => $michael->id,
             'company_pto_policy_id' => $ptoPolicy->id,
             'total_worked_days' => 100,
-            'default_number_of_allowed_holidays' => 100,
-            'default_number_of_sick_days' => 100,
-            'default_number_of_pto_days' => 100,
+            'default_amount_of_allowed_holidays' => 100,
+            'default_amount_of_sick_days' => 100,
+            'default_amount_of_pto_days' => 100,
         ];
 
         $ptoPolicy = (new UpdateCompanyPTOPolicy)->execute($request);
@@ -41,9 +41,9 @@ class UpdateCompanyPTOPolicyTest extends TestCase
             'id' => $ptoPolicy->id,
             'company_id' => $michael->company_id,
             'total_worked_days' => 100,
-            'default_number_of_allowed_holidays' => 100,
-            'default_number_of_sick_days' => 100,
-            'default_number_of_pto_days' => 100,
+            'default_amount_of_allowed_holidays' => 100,
+            'default_amount_of_sick_days' => 100,
+            'default_amount_of_pto_days' => 100,
         ]);
 
         $this->assertInstanceOf(

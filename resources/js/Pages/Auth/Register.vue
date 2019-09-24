@@ -9,9 +9,20 @@
         <errors :errors="$page.errors" />
 
         <form @submit.prevent="submit">
-          <text-input v-model="form.email" :name="'email'" :errors="$page.errors.email" :label="$t('auth.register_email')" :help="$t('auth.register_email_help')" />
-          <text-input v-model="form.password" :name="'password'" :errors="$page.errors.password" class="mb3" type="password"
+          <text-input v-model="form.email"
+                      :name="'email'"
+                      :errors="$page.errors.email"
+                      :label="$t('auth.register_email')"
+                      :help="$t('auth.register_email_help')"
+                      :required="true"
+          />
+          <text-input v-model="form.password"
+                      :name="'password'"
+                      :errors="$page.errors.password"
+                      class="mb3"
+                      type="password"
                       :label="$t('auth.register_password')"
+                      :required="true"
           />
 
           <!-- Actions -->
