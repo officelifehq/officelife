@@ -73,6 +73,11 @@
                 {{ $t('account.home_company_news') }}
               </inertia-link>
             </li>
+            <li class="pa2 pl0 relative">
+              🌴 <inertia-link :href="'/' + $page.auth.company.id + '/account/ptopolicies'" data-cy="pto-policies-admin-link">
+                {{ $t('account.home_manage_pto') }}
+              </inertia-link>
+            </li>
           </ul>
 
           <!-- ACCOUNT OWNER -->

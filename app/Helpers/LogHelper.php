@@ -182,6 +182,18 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'company_pto_policy_created') {
+            $sentence = trans('account.log_company_pto_policy_created', [
+                'year' => $log->object->{'company_pto_policy_year'},
+            ]);
+        }
+
+        if ($log->action == 'company_pto_policy_updated') {
+            $sentence = trans('account.log_company_pto_policy_updated', [
+                'year' => $log->object->{'company_pto_policy_year'},
+            ]);
+        }
+
         return $sentence;
     }
 

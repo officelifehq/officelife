@@ -13,6 +13,7 @@ return [
     'home_audit_log' => 'View audit log to see who has done what',
     'home_generate_fake_data' => 'Populate account with fake data',
     'home_remove_fake_data' => 'Remove fake data',
+    'home_manage_pto' => 'Manage paid time off policies',
 
     'employees_title' => 'All the employees in {company}',
     'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
@@ -132,6 +133,8 @@ return [
     'log_company_news_updated' => 'Updated the news called :name.',
     'log_company_news_destroyed' => 'Destroyed the news called :name.',
     'log_employee_morale_logged' => 'Added an emotion on how the day went.',
+    'log_company_pto_policy_created' => 'Created a company PTO policy for :year.',
+    'log_company_pto_policy_updated' => 'Updated the company PTO policy for the year :year.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -173,4 +176,13 @@ return [
     'company_news_new_content' => 'Write something interesting',
     'company_news_new_content_help' => 'Everyone in the company will be able to read this news. Make sure you are not saying something silly.',
     'company_news_edit_headline' => 'Edit a company news',
+
+    'pto_policies_edit_title_1' => 'As software makers, we think it’s our responsability to promote a culture where employees are actually trusted and autonomous.',
+    'pto_policies_edit_title_2' => 'We have a very limited set of features around Paid Time Offs (a barbaric name that refers to the holidays employees are allowed to take each year). On purpose. Click here to read more about our way of thinking.',
+    'pto_policies_edit_title_3' => 'The only setting we need to know is the amount of working days each year has, so we can calculate how much holidays the employees gain each day.',
+    'pto_policies_edit_title_4' => 'You just need to make sure that for each one of those years below, the amount of days actually worked is correct for your country.',
+    'pto_policies_edit_title' => 'All {name} Paid Time Off policies',
+    'pto_policies_edit_year' => 'Year: {year}',
+    'pto_policies_update' => 'The policy has been updated.',
+    'pto_policies_number_days' => 'Employees have to work for {number} days.',
 ];

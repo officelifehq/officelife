@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Company;
-use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
 
 class UpdateCompanyNews extends BaseService
@@ -46,10 +45,6 @@ class UpdateCompanyNews extends BaseService
 
         $news = CompanyNews::where('company_id', $data['company_id'])
             ->findOrFail($data['company_news_id']);
-
-        $author = Employee::where('id', $data['author_id'])
-            ->where('company_id', $data['company_id'])
-            ->firstOrFail();
 
         $oldNewsTitle = $news->title;
 

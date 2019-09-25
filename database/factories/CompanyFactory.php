@@ -285,3 +285,16 @@ $factory->define(App\Models\Company\Place::class, function (Faker $faker) {
         'placable_id' => 'App\Models\Company\Employee',
     ];
 });
+
+$factory->define(App\Models\Company\CompanyPTOPolicy::class, function (Faker $faker) {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'year' => 2020,
+        'total_worked_days' => 250,
+        'default_amount_of_allowed_holidays' => 30,
+        'default_amount_of_sick_days' => 3,
+        'default_amount_of_pto_days' => 5,
+    ];
+});

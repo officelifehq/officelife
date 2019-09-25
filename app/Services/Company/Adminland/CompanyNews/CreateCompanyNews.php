@@ -5,7 +5,6 @@ namespace App\Services\Company\Adminland\CompanyNews;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
 
 class CreateCompanyNews extends BaseService
@@ -42,10 +41,6 @@ class CreateCompanyNews extends BaseService
             $data['company_id'],
             config('homas.authorizations.hr')
         );
-
-        $author = Employee::where('id', $data['author_id'])
-            ->where('company_id', $data['company_id'])
-            ->firstOrFail();
 
         $news = CompanyNews::create([
             'company_id' => $data['company_id'],

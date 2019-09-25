@@ -2,10 +2,12 @@
 
 namespace App\Services\Company\Adminland\Company;
 
+use Carbon\Carbon;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
+use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
 
 class ProvisionDefaultAccountData extends BaseService
 {
@@ -59,6 +61,20 @@ class ProvisionDefaultAccountData extends BaseService
                 'company_id' => $data['company_id'],
                 'author_id' => $data['author_id'],
                 'name' => $status,
+            ]);
+        }
+
+        // PTO policies
+        $currentYear = Carbon::now();
+        for ($i = 1; $i <= 15; $i++) {
+            (new CreateCompanyPTOPolicy)->execute([
+                'company_id' => $data['company_id'],
+                'author_id' => $data['author_id'],
+                'year' => $currentYear->addYear()->format('Y'),
+                'total_worked_days' => 261,
+                'default_amount_of_allowed_holidays' => 30,
+                'default_amount_of_sick_days' => 5,
+                'default_amount_of_pto_days' => 5,
             ]);
         }
     }
