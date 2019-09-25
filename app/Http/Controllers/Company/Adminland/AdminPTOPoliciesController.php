@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\CompanyNews;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Adminland\CompanyNews\UpdateCompanyNews;
-use App\Services\Company\Adminland\CompanyNews\DestroyCompanyNews;
+use App\Services\Company\Adminland\CompanyPTOPolicy\UpdateCompanyPTOPolicy;
 use App\Http\Resources\Company\CompanyPTOPolicy\CompanyPTOPolicy as CompanyPTOPolicyResource;
 
 class AdminPTOPoliciesController extends Controller
@@ -34,116 +31,26 @@ class AdminPTOPoliciesController extends Controller
     }
 
     /**
-     * Show the Create news view.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $company = InstanceHelper::getLoggedCompany();
-
-        return Inertia::render('Adminland/CompanyNews/Create', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
-        ]);
-    }
-
-    /**
-     * Create the company news.
+     * Update the pto policy.
      *
      * @param Request $request
      * @param int $companyId
+     * @param int $ptoPolicyId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $companyId)
+    public function update(Request $request, $companyId, $ptoPolicyId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         $request = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
+            'company_pto_policy_id' => $ptoPolicyId,
+            'total_worked_days' => $request->get('total_worked_days'),
         ];
 
-        $news = (new CreateCompanyNews)->execute($request);
+        $policy = (new UpdateCompanyPTOPolicy)->execute($request);
 
-        return response()->json([
-            'data' => $news,
-        ]);
-    }
-
-    /**
-     * Show the company news edit page.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $newsId
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Request $request, int $companyId, int $newsId)
-    {
-        $company = InstanceHelper::getLoggedCompany();
-
-        try {
-            $news = CompanyNews::where('company_id', $companyId)
-                ->findOrFail($newsId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
-
-        return Inertia::render('Adminland/CompanyNews/Edit', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
-            'news' => $news,
-        ]);
-    }
-
-    /**
-     * Update the company news.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $newsId
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $companyId, $newsId)
-    {
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
-
-        $request = [
-            'company_id' => $companyId,
-            'author_id' => $loggedEmployee->id,
-            'company_news_id' => $newsId,
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
-        ];
-
-        $news = (new UpdateCompanyNews)->execute($request);
-
-        return new CompanyNewsResource($news);
-    }
-
-    /**
-     * Delete the company news.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $companyNewsId
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, $companyId, $companyNewsId)
-    {
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
-
-        $request = [
-            'company_id' => $companyId,
-            'company_news_id' => $companyNewsId,
-            'author_id' => $loggedEmployee->id,
-        ];
-
-        (new DestroyCompanyNews)->execute($request);
-
-        return response()->json([
-            'data' => true,
-        ], 200);
+        return new CompanyPTOPolicyResource($policy);
     }
 }

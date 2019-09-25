@@ -26,39 +26,45 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.pto_policies_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.pto_policies_edit_title', { company: $page.auth.company.name}) }}
           </h2>
 
           <p class="lh-copy">
-            As software makers, we think it’s our responsability to promote a culture where employees are actually trusted and autonomous.
+            {{ $t('account.pto_policies_edit_title_1') }}
           </p>
           <p class="lh-copy">
-            We have a very limited set of features around Paid Time Offs (a barbaric name that refers to the holidays employees are allowed to take each year). On purpose. Click here to read more about our way of thinking.
+            {{ $t('account.pto_policies_edit_title_2') }}
           </p>
           <p class="lh-copy">
-            The only setting we need to know is the amount of working days each year has, so we can calculate how much holidays the employees gain each day.
+            {{ $t('account.pto_policies_edit_title_3') }}
           </p>
           <p class="lh-copy">
-            You just need to make sure that for each one of those years below, the amount of days actually worked is correct for your country.
+            {{ $t('account.pto_policies_edit_title_4') }}
           </p>
 
           <!-- LIST OF EXISTING PTO POLICIES -->
           <ul class="list pl0 mv0 center ba br2 bb-gray" data-cy="pto-policies-list">
-            <li v-for="(ptoPolicy) in ptoPolicies" :key="ptoPolicy.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
-              {{ ptoPolicy.year }} {{ ptoPolicy.total_worked_days }}
+            <li v-for="ptoPolicy in ptoPolicies" :key="ptoPolicy.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+              <span class="db mb3">
+                {{ $t('account.pto_policies_edit_year', { year: ptoPolicy.year}) }}
+              </span>
+              {{ $t('account.pto_policies_number_days', { number: ptoPolicy.total_worked_days }) }}
 
               <!-- RENAME PTO POLICY FORM -->
               <div v-show="idToUpdate == ptoPolicy.id" class="cf mt3">
                 <form @submit.prevent="update(ptoPolicy.id)">
                   <div class="fl w-100 w-70-ns mb3 mb0-ns">
-                    <text-input :id="'title-' + ptoPolicy.id"
-                                :ref="'title' + ptoPolicy.id"
-                                v-model="form.title"
+                    <text-input :id="'year-' + ptoPolicy.id"
+                                :ref="'year' + ptoPolicy.id"
+                                v-model="form.total_worked_days"
+                                :type="'number'"
+                                :min="1"
+                                :max="300"
                                 :placeholder="'Marketing coordinator'"
-                                :custom-ref="'title' + ptoPolicy.id"
+                                :custom-ref="'year' + ptoPolicy.id"
                                 :datacy="'list-edit-input-name-' + ptoPolicy.id"
-                                :errors="$page.errors.first_name"
-                                required
+                                :errors="$page.errors.total_worked_days"
+                                :required="true"
                                 :extra-class-upper-div="'mb0'"
                                 @esc-key-pressed="idToUpdate = 0"
                     />
@@ -76,24 +82,8 @@
               <ul v-show="idToUpdate != ptoPolicy.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
                 <!-- EDIT A PTO POLICY -->
                 <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-edit-button-' + ptoPolicy.id" @click.prevent="displayUpdateModal(position) ; form.title = ptoPolicy.title">
+                  <a class="pointer" :data-cy="'list-edit-button-' + ptoPolicy.id" @click.prevent="displayUpdateModal(ptoPolicy) ; form.total_worked_days = ptoPolicy.total_worked_days">
                     {{ $t('app.edit') }}
-                  </a>
-                </li>
-
-                <!-- DELETE A PTO POLICY -->
-                <li v-if="idToDelete == ptoPolicy.id" class="di">
-                  {{ $t('app.sure') }}
-                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + ptoPolicy.id" @click.prevent="destroy(ptoPolicy.id)">
-                    {{ $t('app.yes') }}
-                  </a>
-                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + ptoPolicy.id" @click.prevent="idToDelete = 0">
-                    {{ $t('app.no') }}
-                  </a>
-                </li>
-                <li v-else class="di">
-                  <a class="pointer" :data-cy="'list-delete-button-' + ptoPolicy.id" @click.prevent="idToDelete = ptoPolicy.id">
-                    {{ $t('app.delete') }}
                   </a>
                 </li>
               </ul>
@@ -138,22 +128,14 @@ export default {
       idToUpdate: 0,
       idToDelete: 0,
       form: {
-        title: null,
+        total_worked_days: null,
         errors: [],
       },
     };
   },
 
   methods: {
-    displayAddModal() {
-      this.modal = true;
-
-      this.$nextTick(() => {
-        this.$refs['newPositionModal'].$refs['input'].focus();
-      });
-    },
-
-    displayUpdateModal(position) {
+    displayUpdateModal(ptoPolicy) {
       this.idToUpdate = ptoPolicy.id;
 
       this.$nextTick(() => {
@@ -161,37 +143,14 @@ export default {
         // first: target the TextInput with the right ref attribute
         // second: target within the component, the refs of the input text
         // this is because we try here to access $refs from a child component
-        this.$refs[`title${ptoPolicy.id}`][0].$refs[`title${ptoPolicy.id}`].focus();
+        this.$refs[`year${ptoPolicy.id}`][0].$refs[`year${ptoPolicy.id}`].focus();
       });
     },
 
-    submit() {
-      this.loadingState = 'loading';
-
-      axios.post('/' + this.$page.auth.company.id + '/account/positions', this.form)
-        .then(response => {
-          this.$snotify.success(this.$t('account.position_success_new'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
-
-          this.loadingState = null;
-          this.form.title = null;
-          this.modal = false;
-          this.ptoPolicies.push(response.data.data);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
-
     update(id) {
-      axios.put('/' + this.$page.auth.company.id + '/account/positions/' + id, this.form)
+      axios.put('/' + this.$page.auth.company.id + '/account/ptopolicies/' + id, this.form)
         .then(response => {
-          this.$snotify.success(this.$t('account.position_success_update'), {
+          this.$snotify.success(this.$t('account.pto_policies_update'), {
             timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
@@ -199,10 +158,10 @@ export default {
           });
 
           this.idToUpdate = 0;
-          this.form.title = null;
+          this.form.year = null;
 
           id = this.ptoPolicies.findIndex(x => x.id === id);
-          this.$set(this.positions, id, response.data.data);
+          this.$set(this.ptoPolicies, id, response.data.data);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

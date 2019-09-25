@@ -35,6 +35,8 @@
            :type="type"
            :name="name"
            :value="value"
+           :max="max"
+           :min="min"
            :placeholder="placeholder"
            :data-cy="datacy"
            @input="$emit('input', $event.target.value)"
@@ -99,6 +101,14 @@ export default {
     extraClassUpperDiv: {
       type: String,
       default: 'mb3',
+    },
+    min: {
+      type: Number,
+      default: 0,
+    },
+    max: {
+      type: Number,
+      default: 0,
     },
     errors: {
       type: Array,

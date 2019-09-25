@@ -34,6 +34,7 @@ return [
     'breadcrumb_account_audit_logs' => 'Audit logs',
     'breadcrumb_account_manage_positions' => 'Positions',
     'breadcrumb_account_manage_employee_statuses' => 'Employee statuses',
+    'breadcrumb_account_manage_pto_policies' => 'Paid Time Off policies',
     'breadcrumb_employee_list' => 'All employees',
     'breadcrumb_employee_logs' => 'Logs',
     'breadcrumb_team_list' => 'All teams',

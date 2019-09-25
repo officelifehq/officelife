@@ -176,4 +176,13 @@ return [
     'company_news_new_content' => 'Write something interesting',
     'company_news_new_content_help' => 'Everyone in the company will be able to read this news. Make sure you are not saying something silly.',
     'company_news_edit_headline' => 'Edit a company news',
+
+    'pto_policies_edit_title_1' => 'As software makers, we think it’s our responsability to promote a culture where employees are actually trusted and autonomous.',
+    'pto_policies_edit_title_2' => 'We have a very limited set of features around Paid Time Offs (a barbaric name that refers to the holidays employees are allowed to take each year). On purpose. Click here to read more about our way of thinking.',
+    'pto_policies_edit_title_3' => 'The only setting we need to know is the amount of working days each year has, so we can calculate how much holidays the employees gain each day.',
+    'pto_policies_edit_title_4' => 'You just need to make sure that for each one of those years below, the amount of days actually worked is correct for your country.',
+    'pto_policies_edit_title' => 'All {name} Paid Time Off policies',
+    'pto_policies_edit_year' => 'Year: {year}',
+    'pto_policies_update' => 'The policy has been updated.',
+    'pto_policies_number_days' => 'Employees have to work for {number} days.',
 ];
