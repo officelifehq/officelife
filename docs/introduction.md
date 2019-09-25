@@ -126,17 +126,18 @@ To be perfectly clear, the feeling, along with its comment, will be shown:
 
 ### Paid time offs (PTO)
 
-Paid Time Off is the term used in the HR industry to represent the bank of days that the employee gains each month by working for his/her employer. There are entire companies built around PTOs management, and they are associated most of the time with payroll information. To be clear, I won't do payroll in our software. It’s a complex field, with a lot of regulations, and as a small independant project, I don't have the resources to work in this domain.
+Paid Time Off is the term used in the HR industry to represent the bank of days that the employee gains each month by working for his/her employer. There are entire companies built around PTOs management, and they are associated most of the time with payroll information. To be clear, I won't do payroll in this software. It’s a complex field, with a lot of regulations, and as a small independant project, I don't have the resources to work in this domain.
 
-Softwares that deal with PTOs are boring, complex and full of features. They try to cover all the possible use cases. I don't want to be this kind of tools. I want to create a software that promotes how I envision companies should deal with their employees holidays.
+Softwares that deal with PTOs are boring, complex and full of features. They try to cover all the possible use cases. They also promote gates, and permissions, and reflect the bad side of reality. I refuse to be part of this. I want to create a software that promotes how I envision companies should deal with employees and their rights. My approach is mainly based on how 37Signals has built Basecamp: focus on what's truly essential and forget the rest.
 
-This is our vision on the matter, and this is what Homas allows employees to do:
+This is my take on how we should handle PTOs, and this is what Homas allows employees to do:
 - An employee wants to take a break from work.
 - She checks her balance. If she has enough holidays in her bank, she logs a holiday.
 - Her manager and her team are informed that she wants to take a break.
 - That's it. No rejecting/approving processes. Going on holidays shouldn't be granted by an employer - it’s a legal right.
 
-There are a few settings that
+The only information that we need to know in advance are
+* the amount of days employees are supposed to work at a given year. This is useful so we can calculate how many holidays employees gain each day by working for the company, based on the number of holidays the employer gives each year.
 
 #### Note on unlimited vacation policies
 
