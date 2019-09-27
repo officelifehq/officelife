@@ -7,6 +7,9 @@ use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Audit log at the employee level.
+ */
 class EmployeeLog extends Model
 {
     protected $table = 'employee_logs';

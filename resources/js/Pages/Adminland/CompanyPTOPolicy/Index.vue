@@ -49,6 +49,7 @@
                 {{ $t('account.pto_policies_edit_year', { year: ptoPolicy.year}) }}
               </span>
               {{ $t('account.pto_policies_number_days', { number: ptoPolicy.total_worked_days }) }}
+              In 2021, employees have to work for 258 days. They are allowed to take 123 holidays
 
               <!-- RENAME PTO POLICY FORM -->
               <div v-show="idToUpdate == ptoPolicy.id" class="cf mt3">

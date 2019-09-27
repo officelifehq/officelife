@@ -117,6 +117,8 @@
               </span>
             </div>
           </div>
+
+          <holidays />
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -138,6 +140,7 @@ import AssignEmployeeStatus from '@/Pages/Employee/AssignEmployeeStatus';
 import AssignEmployeeTeam from '@/Pages/Employee/AssignEmployeeTeam';
 import AssignEmployeeHierarchy from '@/Pages/Employee/AssignEmployeeHierarchy';
 import Worklogs from '@/Pages/Employee/Worklogs';
+import Holidays from '@/Pages/Employee/Holidays';
 
 export default {
   components: {
@@ -147,6 +150,7 @@ export default {
     AssignEmployeeTeam,
     AssignEmployeeHierarchy,
     Worklogs,
+    Holidays,
   },
 
   directives: {

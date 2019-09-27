@@ -254,6 +254,22 @@ class Employee extends Model
     }
 
     /**
+     * Get all of the employee's daily logs.
+     */
+    public function dailyLogs()
+    {
+        return $this->hasMany(EmployeeDailyLog::class);
+    }
+
+    /**
+     * Get all of the employee's planned holidays.
+     */
+    public function plannedHolidays()
+    {
+        return $this->hasMany(EmployeePlannedHoliday::class);
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string
@@ -410,5 +426,9 @@ class Employee extends Model
         }
 
         return $place;
+    }
+
+    public function getHolidaysStats()
+    {
     }
 }

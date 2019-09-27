@@ -29,6 +29,8 @@ class CreateEmployeesTable extends Migration
             $table->string('invitation_link')->nullable();
             $table->timestamp('invitation_used_at')->nullable();
             $table->integer('consecutive_worklog_missed')->default(0);
+            $table->double('amount_of_allowed_holidays')->nullable();
+            $table->double('holiday_balance')->nullable();
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');

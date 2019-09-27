@@ -298,3 +298,30 @@ $factory->define(App\Models\Company\CompanyPTOPolicy::class, function (Faker $fa
         'default_amount_of_pto_days' => 5,
     ];
 });
+
+$factory->define(App\Models\Company\EmployeeDailyLog::class, function (Faker $faker) {
+    return [
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'holiday_balance' => 10,
+        'daily_accrued_amount' => 1,
+        'current_holidays_per_year' => 100,
+        'default_amount_of_allowed_holidays_in_company' => 100,
+        'on_holiday' => false,
+        'sick_day' => false,
+        'pto_day' => false,
+        'remote' => false,
+    ];
+});
+
+$factory->define(App\Models\Company\EmployeePlannedHoliday::class, function (Faker $faker) {
+    return [
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'planned_date' => '2010-01-01',
+        'full' => true,
+        'actually_taken' => false,
+    ];
+});
