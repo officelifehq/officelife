@@ -50,4 +50,35 @@ class DateHelperTest extends TestCase
             DateHelper::getNextOccurence($date)->format('Y-m-d')
         );
     }
+
+    /** @test */
+    public function it_generates_a_calendar() : void
+    {
+        $calendar = DateHelper::prepareCalendar(2020);
+
+        $this->assertEquals(
+            12,
+            sizeof($calendar)
+        );
+
+        $this->assertEquals(
+            30,
+            sizeof($calendar[1])
+        );
+
+        $this->assertEquals(
+            'Jan',
+            $calendar[0][0]['abbreviation']
+        );
+
+        $this->assertEquals(
+            3,
+            $calendar[0][1]['day_of_week']
+        );
+
+        $this->assertEquals(
+            'W',
+            $calendar[0][1]['abbreviation']
+        );
+    }
 }

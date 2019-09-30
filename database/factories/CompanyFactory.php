@@ -31,6 +31,7 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
                 'company_id' => $data['company_id'],
             ])->id;
         },
+        'amount_of_allowed_holidays' => 30,
     ];
 });
 
@@ -323,5 +324,17 @@ $factory->define(App\Models\Company\EmployeePlannedHoliday::class, function (Fak
         'planned_date' => '2010-01-01',
         'full' => true,
         'actually_taken' => false,
+    ];
+});
+
+$factory->define(App\Models\Company\CompanyCalendar::class, function (Faker $faker) {
+    return [
+        'company_pto_policy_id' => function () {
+            return factory(App\Models\Company\CompanyPTOPolicy::class)->create()->id;
+        },
+        'day' => '2010-01-01',
+        'day_of_year' => 1,
+        'day_of_week' => 1,
+        'is_worked' => true,
     ];
 });

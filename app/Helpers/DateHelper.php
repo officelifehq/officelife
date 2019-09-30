@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Carbon\Carbon;
 
+
 class DateHelper
 {
     /**
@@ -48,5 +49,42 @@ class DateHelper
         }
 
         return $date;
+    }
+
+    /**
+     * Return an array containing a yearly calendar.
+     *
+     * @param integer $year
+     * @param string $locale
+     * @return array
+     */
+    public static function prepareCalendar(int $year, string $locale = 'en') : array
+    {
+        $date = Carbon::create($year);
+        $date->setLocale($locale);
+        $calendar = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $currentMonth = collect([]);
+
+            $currentMonth->push([
+                'day' => 0,
+                'abbreviation' => $date->format('M'),
+            ]);
+
+            $daysInMonth = $date->daysInMonth;
+            for ($day = 1; $day <= $daysInMonth; $day++) {
+                $currentMonth->push([
+                    'day' => $date->dayOfYear,
+                    'day_of_week' => $date->dayOfWeek, // 0: sunday / 6: saturday
+                    'abbreviation' => substr($date->format('D'), 0, 1),
+                    'is_off' => ($date->dayOfWeek == 0 || $date->dayOfWeek == 6),
+                ]);
+                $date->addDay();
+            }
+
+            array_push($calendar, $currentMonth);
+        }
+
+        return $calendar;
     }
 }

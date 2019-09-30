@@ -2,12 +2,14 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\CompanyNews;
+use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\GenerateDummyData;
@@ -19,11 +21,18 @@ class GenerateDummyDataTest extends TestCase
     /** @test */
     public function it_creates_dummy_data() : void
     {
-        $employee = $this->createAdministrator();
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+
+        factory(CompanyPTOPolicy::class)->create([
+            'company_id' => $michael->company_id,
+            'year' => Carbon::now()->format('Y'),
+        ]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
         ];
 
         (new GenerateDummyData)->execute($request);
@@ -38,7 +47,7 @@ class GenerateDummyDataTest extends TestCase
         );
 
         $count = DB::table('teams')
-            ->where('company_id', $employee->company_id)
+            ->where('company_id', $michael->company_id)
             ->where('is_dummy', true)
             ->count();
 

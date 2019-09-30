@@ -42,7 +42,7 @@ class GenerateDummyData extends BaseService
     {
         $this->validate($data);
 
-        $author = $this->validatePermissions(
+        $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
             config('homas.authorizations.administrator')

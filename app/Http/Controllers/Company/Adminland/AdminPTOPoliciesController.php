@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
@@ -23,10 +24,12 @@ class AdminPTOPoliciesController extends Controller
         $policies = CompanyPTOPolicyResource::collection(
             $company->ptoPolicies()->orderBy('year', 'asc')->get()
         );
+        $holidays = DateHelper::prepareCalendar(2020);
 
         return Inertia::render('Adminland/CompanyPTOPolicy/Index', [
             'notifications' => Auth::user()->getLatestNotifications($company),
             'ptoPolicies' => $policies,
+            'holidays' => $holidays,
         ]);
     }
 

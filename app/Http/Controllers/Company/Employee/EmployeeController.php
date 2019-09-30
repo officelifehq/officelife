@@ -71,7 +71,6 @@ class EmployeeController extends Controller
 
         // holidays
 
-
         return Inertia::render('Employee/Show', [
             'employee' => new EmployeeResource($employee),
             'notifications' => Auth::user()->getLatestNotifications($company),

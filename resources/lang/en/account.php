@@ -182,7 +182,12 @@ return [
     'pto_policies_edit_title_3' => 'The only setting we need to know is the amount of working days each year has, so we can calculate how much holidays the employees gain each day.',
     'pto_policies_edit_title_4' => 'You just need to make sure that for each one of those years below, the amount of days actually worked is correct for your country.',
     'pto_policies_edit_title' => 'All {name} Paid Time Off policies',
-    'pto_policies_edit_year' => 'Year: {year}',
+    'pto_policies_edit_year' => 'In {year}...',
+    'pto_policies_stat_worked_days' => 'worked days',
+    'pto_policies_stat_default_holidays' => 'default amount of holidays per employee',
+    'pto_policies_stat_default_sick_days' => 'default amount of sick days',
+    'pto_policies_stat_default_ptos' => 'default amount of PTOs',
+    'pto_policies_stat_days' => '{number} days',
     'pto_policies_update' => 'The policy has been updated.',
     'pto_policies_number_days' => 'Employees have to work for {number} days.',
 ];

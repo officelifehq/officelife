@@ -3,11 +3,12 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Defines what the Paid Time Off (the holidays an employee can take during a
- * year).
+ * Define the Paid Time Off (the holidays an employee can take during a
+ * year) policy for the company.
  */
 class CompanyPTOPolicy extends Model
 {
@@ -37,5 +38,15 @@ class CompanyPTOPolicy extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get the company PTO policy records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function calendars()
+    {
+        return $this->hasMany(CompanyCalendar::class, 'company_pto_policy_id', 'id');
     }
 }

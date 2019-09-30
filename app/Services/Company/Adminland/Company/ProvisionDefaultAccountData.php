@@ -71,7 +71,6 @@ class ProvisionDefaultAccountData extends BaseService
                 'company_id' => $data['company_id'],
                 'author_id' => $data['author_id'],
                 'year' => $currentYear->addYear()->format('Y'),
-                'total_worked_days' => 261,
                 'default_amount_of_allowed_holidays' => 30,
                 'default_amount_of_sick_days' => 5,
                 'default_amount_of_pto_days' => 5,

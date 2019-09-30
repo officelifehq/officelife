@@ -2,11 +2,13 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
+use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -19,8 +21,15 @@ class AddEmployeeToCompanyTest extends TestCase
     public function it_adds_an_employee_to_a_company() : void
     {
         Queue::fake();
+        Carbon::setTestNow(Carbon::create(2020, 1, 1));
 
         $michael = $this->createAdministrator();
+
+        // used to populate the holidays
+        factory(CompanyPTOPolicy::class)->create([
+            'company_id' => $michael->company_id,
+            'year' => 2020,
+        ]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -45,6 +54,7 @@ class AddEmployeeToCompanyTest extends TestCase
             'company_id' => $michael->company_id,
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
+            'amount_of_allowed_holidays' => 30,
         ]);
 
         $this->assertNotNull($dwight->avatar);

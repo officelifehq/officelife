@@ -428,7 +428,15 @@ class Employee extends Model
         return $place;
     }
 
+    /**
+     * Get the statistics of the holidays for the current year.
+     *
+     * @return array
+     */
     public function getHolidaysStats()
     {
+        $ptoPolicy = $this->company->getCurrentPTOPolicy();
+        //$n
+        //$daysLeftToEarn = $ptoPolicy->
     }
 }
