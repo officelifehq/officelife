@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Company\CompanyPTOPolicy;
 use App\Services\Company\Adminland\CompanyPTOPolicy\UpdateCompanyPTOPolicy;
 use App\Http\Resources\Company\CompanyPTOPolicy\CompanyPTOPolicy as CompanyPTOPolicyResource;
 
@@ -24,12 +25,10 @@ class AdminPTOPoliciesController extends Controller
         $policies = CompanyPTOPolicyResource::collection(
             $company->ptoPolicies()->orderBy('year', 'asc')->get()
         );
-        $holidays = DateHelper::prepareCalendar(2020);
 
         return Inertia::render('Adminland/CompanyPTOPolicy/Index', [
             'notifications' => Auth::user()->getLatestNotifications($company),
             'ptoPolicies' => $policies,
-            'holidays' => $holidays,
         ]);
     }
 
@@ -55,5 +54,21 @@ class AdminPTOPoliciesController extends Controller
         $policy = (new UpdateCompanyPTOPolicy)->execute($request);
 
         return new CompanyPTOPolicyResource($policy);
+    }
+
+    /**
+     * Get the holidays for a given PTO policy.
+     *
+     * @param integer $companyId
+     * @param integer $companyPTOPolicyId
+     * @return array
+     */
+    public function getHolidays(int $companyId, int $companyPTOPolicyId)
+    {
+        $ptoPolicy = CompanyPTOPolicy::find($companyPTOPolicyId);
+
+        $calendar = DateHelper::prepareCalendar($ptoPolicy);
+
+        return $calendar;
     }
 }

@@ -48,7 +48,7 @@ class CreateCompanyPTOPolicyTest extends TestCase
         ]);
 
         $this->assertEquals(
-            365,
+            366,
             CompanyCalendar::count()
         );
 

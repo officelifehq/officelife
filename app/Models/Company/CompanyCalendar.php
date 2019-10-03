@@ -21,9 +21,20 @@ class CompanyCalendar extends Model
     protected $fillable = [
         'company_pto_policy_id',
         'day',
+        'day_of_week',
         'day_of_year',
         'is_worked',
         'is_dummy',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_worked' => 'boolean',
+        'is_dummy' => 'boolean',
     ];
 
     /**

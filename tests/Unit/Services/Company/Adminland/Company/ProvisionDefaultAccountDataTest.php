@@ -55,11 +55,11 @@ class ProvisionDefaultAccountDataTest extends TestCase
 
         Carbon::now();
         $this->assertEquals(
-            15,
+            5,
             CompanyPTOPolicy::count()
         );
         $this->assertEquals(
-            5475,
+            1828,
             CompanyCalendar::count()
         );
     }

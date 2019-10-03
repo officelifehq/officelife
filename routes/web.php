@@ -102,6 +102,7 @@ Route::middleware(['auth'])->group(function () {
 
             // pto policies
             Route::resource('account/ptopolicies', 'Company\\Adminland\\AdminPTOPoliciesController');
+            Route::get('account/ptopolicies/{ptopolicy}/getHolidays', 'Company\\Adminland\\AdminPTOPoliciesController@getHolidays');
         });
     });
 });
