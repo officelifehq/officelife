@@ -51,7 +51,6 @@ class DateHelper
         return $date;
     }
 
-
     /**
      * Get the number of days in a given year.
      *
@@ -69,7 +68,7 @@ class DateHelper
      * is the current month.
      * This is used to populate the PTO policies in the Adminland page.
      *
-     * @param CompanyPTOPolicy
+     * @param CompanyPTOPolicy $ptoPolicy
      * @param string $locale
      * @return array
      */

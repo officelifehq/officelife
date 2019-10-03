@@ -40,7 +40,7 @@ class CreateCompanyPTOPolicyTest extends TestCase
         $this->assertDatabaseHas('company_pto_policies', [
             'id' => $ptoPolicy->id,
             'company_id' => $michael->company_id,
-            'total_worked_days' => 261,
+            'total_worked_days' => 262,
             'year' => 2020,
             'default_amount_of_allowed_holidays' => 1,
             'default_amount_of_sick_days' => 1,

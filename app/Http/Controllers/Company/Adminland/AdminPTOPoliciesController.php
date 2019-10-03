@@ -59,8 +59,8 @@ class AdminPTOPoliciesController extends Controller
     /**
      * Get the holidays for a given PTO policy.
      *
-     * @param integer $companyId
-     * @param integer $companyPTOPolicyId
+     * @param int $companyId
+     * @param int $companyPTOPolicyId
      * @return array
      */
     public function getHolidays(int $companyId, int $companyPTOPolicyId)

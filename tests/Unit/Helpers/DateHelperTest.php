@@ -88,12 +88,12 @@ class DateHelperTest extends TestCase
 
         $this->assertEquals(
             12,
-            sizeof($calendar)
+            count($calendar)
         );
 
         $this->assertEquals(
             30,
-            sizeof($calendar[1])
+            count($calendar[1])
         );
 
         $this->assertEquals(

@@ -103,7 +103,7 @@ class CreateCompanyPTOPolicy extends BaseService
         $day = Carbon::create($data['year']);
         $numberOfDaysOff = 0;
 
-        for ($counter = 1; $counter <= DateHelper::daysInYear($day) ; $counter++) {
+        for ($counter = 1; $counter <= DateHelper::daysInYear($day); $counter++) {
             $isWorked = true;
             if ($day->isSaturday() || $day->isSunday()) {
                 $isWorked = false;
