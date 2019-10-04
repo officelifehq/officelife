@@ -54,7 +54,7 @@ class DateHelper
     /**
      * Get the number of days in a given year.
      *
-     * @param Carbon $year
+     * @param Carbon $date
      * @return int
      */
     public static function daysInYear(Carbon $date) : int
