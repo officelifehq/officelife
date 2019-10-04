@@ -10,6 +10,12 @@
   color: #B00;
 }
 
+.off {
+  background-color: #AEE4FE;
+  border: 1px #49c2fd solid;
+  border-radius: 11px;
+}
+
 td, th {
   padding-bottom: 5px;
   padding-top: 5px;
@@ -147,7 +153,7 @@ td, th {
                     </div>
                   </div>
 
-                  <p>Edit the calendar below to add/remove holidays.</p>
+                  <p>Edit the calendar below to add/remove holidays. Current number of extra day marked off: {{ counter }}</p>
                   <div class="tc db mt3">
                     <table class="center">
                       <thead>
@@ -241,10 +247,12 @@ export default {
 
   data() {
     return {
+      counter: 0,
       editModal: false,
       loadingState: '',
       idToUpdate: 0,
       localHolidays: null,
+      localChanges: [],
       form: {
         default_amount_of_allowed_holidays: null,
         default_amount_of_sick_days: null,
@@ -256,9 +264,16 @@ export default {
 
   methods: {
     isOff: function (holiday) {
-      return {
-        'weekend': holiday.day_of_week == 0 || holiday.day_of_week == 6
-      };
+      var classes = '';
+      if (holiday.day_of_week == 0 || holiday.day_of_week == 6) {
+        classes = 'weekend';
+      }
+
+      if (holiday.is_worked == false && holiday.day_of_week != 0 && holiday.day_of_week != 6) {
+        classes = classes + ' off';
+      }
+
+      return classes;
     },
 
     toggleUpdate(ptoPolicy) {
@@ -273,13 +288,29 @@ export default {
         this.localHolidays = null;
         this.idToUpdate = 0;
         this.editModal = false;
+        this.localChanges = [];
       }
     },
 
     toggleDayOff: function (day) {
-      console.log(day);
-      //day.is_worked != day.is_worked
-      day.is_worked = false;
+      if (day.day_of_week == 0 || day.day_of_week == 6) {
+        return;
+      }
+
+      // was the day off?
+      var wasWorking = day.is_worked;
+      console.log(wasWorking);
+      // toggle the day
+      day.is_worked != day.is_worked;
+      console.log(day.is_worked);
+      // check if we need to remove it from the array of changes that we will
+      // eventually send to the backend
+      if (wasWorking == false) {
+        var id = this.localChanges.findIndex(x => x.id === day.id);
+        this.localChanges.splice(id, 1);
+      } else {
+        this.localChanges.push(day);
+      }
     },
 
     load(ptoPolicy) {
