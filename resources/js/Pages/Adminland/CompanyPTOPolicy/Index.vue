@@ -4,7 +4,7 @@
 }
 
 .weekend {
-  background-color: #FFE2AF;
+  background-color: #ffe2af;
   border: 1px #ffbd49 solid;
   border-radius: 11px;
   color: #B00;
@@ -14,6 +14,7 @@
   background-color: #AEE4FE;
   border: 1px #49c2fd solid;
   border-radius: 11px;
+  color: #3341bd;
 }
 
 td, th {
@@ -24,6 +25,15 @@ td, th {
 
 .edit-link {
   top: 8px;
+}
+
+.day-item {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.holiday-td {
+  width: 25px;
 }
 </style>
 
@@ -114,13 +124,14 @@ td, th {
               <!-- edit -->
               <div v-show="idToUpdate == ptoPolicy.id" class="cf mt3">
                 <form @submit.prevent="update(ptoPolicy.id)">
+                  <h3>{{ $t('account.pto_policies_edit_default_employee_settings') }}</h3>
                   <div class="dt-ns dt--fixed di">
                     <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
                       <text-input :id="'city'"
                                   v-model="form.default_amount_of_allowed_holidays"
                                   :name="'city'"
                                   :errors="$page.errors.city"
-                                  :label="$t('employee.edit_information_city')"
+                                  :label="$t('account.pto_policies_edit_default_amount_of_allowed_holidays')"
                                   :required="true"
                                   :type="'number'"
                                   :min="1"
@@ -132,7 +143,7 @@ td, th {
                                   v-model="form.default_amount_of_sick_days"
                                   :name="'state'"
                                   :errors="$page.errors.default_amount_of_sick_days"
-                                  :label="$t('employee.edit_information_state')"
+                                  :label="$t('account.pto_policies_edit_default_amount_of_sick_days')"
                                   :required="true"
                                   :type="'number'"
                                   :min="1"
@@ -144,7 +155,7 @@ td, th {
                                   v-model="form.default_amount_of_pto_days"
                                   :name="'postal_code'"
                                   :errors="$page.errors.default_amount_of_pto_days"
-                                  :label="$t('employee.edit_information_postal_code')"
+                                  :label="$t('account.pto_policies_edit_default_amount_of_pto_days')"
                                   :required="true"
                                   :type="'number'"
                                   :min="1"
@@ -153,7 +164,10 @@ td, th {
                     </div>
                   </div>
 
-                  <p>Edit the calendar below to add/remove holidays. Current number of extra day marked off: {{ counter }}</p>
+                  <p>{{ $t('account.pto_policies_edit_click_calendar') }}</p>
+                  <p class="f6">
+                    {{ $t('account.pto_policies_edit_calendar_help') }}
+                  </p>
                   <div class="tc db mt3">
                     <table class="center">
                       <thead>
@@ -194,8 +208,8 @@ td, th {
                       </thead>
                       <tbody>
                         <tr v-for="holidayRow in localHolidays" :key="holidayRow.id" class="">
-                          <td v-for="holiday in holidayRow" :key="holiday.id" class="f6 tc">
-                            <span :class="isOff(holiday)" class="ph1 pointer" @click.prevent="toggleDayOff(holiday)">
+                          <td v-for="holiday in holidayRow" :key="holiday.id" class="f6 tc holiday-td">
+                            <span :class="isOff(holiday)" class="pointer day-item" @click.prevent="toggleDayOff(holiday)">
                               {{ holiday.abbreviation }}
                             </span>
                           </td>
@@ -204,7 +218,22 @@ td, th {
                     </table>
                   </div>
 
-                  <p>Note: we'll recalculate the balance of holidays for all your employees based on these new numbers if you happen to change.</p>
+                  <div class="dt-ns dt--fixed di">
+                    <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                      <span class="f6">
+                        {{ $t('account.pto_policies_legend') }}
+                      </span> <span class="weekend f7 pv1 ph2 mr1">
+                        {{ $t('account.pto_policies_legend_weekend') }}
+                      </span> <span class="off f7 pv1 ph2">
+                        {{ $t('account.pto_policies_legend_holiday') }}
+                      </span>
+                    </div>
+                    <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                      <p class="tr">
+                        {{ $t('account.pto_policies_edit_total', { totalWorkedDays: totalWorkedDays, year: ptoPolicy.year }) }}
+                      </p>
+                    </div>
+                  </div>
 
                   <div class="w-100 tr">
                     <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-edit-cancel-button-' + ptoPolicy.id" @click.prevent="idToUpdate = 0">
@@ -247,16 +276,16 @@ export default {
 
   data() {
     return {
-      counter: 0,
+      totalWorkedDays: 0,
       editModal: false,
       loadingState: '',
       idToUpdate: 0,
       localHolidays: null,
-      localChanges: [],
       form: {
         default_amount_of_allowed_holidays: null,
         default_amount_of_sick_days: null,
         default_amount_of_pto_days: null,
+        days_to_toggle: [],
         errors: [],
       },
     };
@@ -280,36 +309,44 @@ export default {
       if (!this.editModal) {
         this.load(ptoPolicy);
         this.idToUpdate = ptoPolicy.id;
+        this.totalWorkedDays = ptoPolicy.total_worked_days;
         this.form.default_amount_of_allowed_holidays = ptoPolicy.default_amount_of_allowed_holidays;
         this.form.default_amount_of_sick_days = ptoPolicy.default_amount_of_sick_days;
         this.form.default_amount_of_pto_days = ptoPolicy.default_amount_of_pto_days;
         this.editModal = true;
       } else {
+        this.totalWorkedDays = 0;
         this.localHolidays = null;
         this.idToUpdate = 0;
         this.editModal = false;
-        this.localChanges = [];
+        this.form.days_to_toggle = [];
       }
     },
 
     toggleDayOff: function (day) {
+      // we can't toggle a day in the weekend as it’s off by default
       if (day.day_of_week == 0 || day.day_of_week == 6) {
         return;
       }
 
-      // was the day off?
-      var wasWorking = day.is_worked;
-      console.log(wasWorking);
+      // was the day worked previoulsy?
+      var wasWorked = day.is_worked;
+
       // toggle the day
-      day.is_worked != day.is_worked;
-      console.log(day.is_worked);
-      // check if we need to remove it from the array of changes that we will
-      // eventually send to the backend
-      if (wasWorking == false) {
-        var id = this.localChanges.findIndex(x => x.id === day.id);
-        this.localChanges.splice(id, 1);
+      day.is_worked = !day.is_worked;
+
+      // push the day in the array of days that will be send to the backend
+      var id = this.form.days_to_toggle.findIndex(x => x.id === day.id);
+      if (id != -1) {
+        this.form.days_to_toggle.splice(id, 1);
       } else {
-        this.localChanges.push(day);
+        this.form.days_to_toggle.push(day);
+      }
+
+      if (wasWorked) {
+        this.totalWorkedDays = this.totalWorkedDays - 1;
+      } else {
+        this.totalWorkedDays = this.totalWorkedDays + 1;
       }
     },
 
@@ -319,7 +356,7 @@ export default {
           this.localHolidays = response.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = _.flatten(_.toArray(ersror.response.data));
         });
     },
 

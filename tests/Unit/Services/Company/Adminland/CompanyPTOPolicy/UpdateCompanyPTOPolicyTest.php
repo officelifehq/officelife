@@ -2,10 +2,12 @@
 
 namespace Tests\Unit\Services\Company\Adminland\CompanyPTOPolicy;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
+use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -19,17 +21,32 @@ class UpdateCompanyPTOPolicyTest extends TestCase
     public function it_updates_a_company_pto_policy() : void
     {
         Queue::fake();
+        Carbon::setTestNow(Carbon::create(2019, 1, 1));
 
         $michael = factory(Employee::class)->create([]);
         $ptoPolicy = factory(CompanyPTOPolicy::class)->create([
             'company_id' => $michael->company_id,
+        ]);
+        $calendarA = factory(CompanyCalendar::class)->create([
+            'company_pto_policy_id' => $ptoPolicy->id,
+            'day' => '2010-01-01',
+        ]);
+        $calendarB = factory(CompanyCalendar::class)->create([
+            'company_pto_policy_id' => $ptoPolicy->id,
+            'day' => '2010-01-02',
         ]);
 
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'company_pto_policy_id' => $ptoPolicy->id,
-            'total_worked_days' => 100,
+            'days_to_toggle' => [[
+                    'id' => $calendarA->id,
+                    'is_worked' => false,
+                ], [
+                    'id' => $calendarB->id,
+                    'is_worked' => false,
+            ]],
             'default_amount_of_allowed_holidays' => 100,
             'default_amount_of_sick_days' => 100,
             'default_amount_of_pto_days' => 100,
@@ -40,10 +57,20 @@ class UpdateCompanyPTOPolicyTest extends TestCase
         $this->assertDatabaseHas('company_pto_policies', [
             'id' => $ptoPolicy->id,
             'company_id' => $michael->company_id,
-            'total_worked_days' => 100,
+            'total_worked_days' => 248,
             'default_amount_of_allowed_holidays' => 100,
             'default_amount_of_sick_days' => 100,
             'default_amount_of_pto_days' => 100,
+        ]);
+
+        $this->assertDatabaseHas('company_calendars', [
+            'id' => $calendarA->id,
+            'is_worked' => 0,
+        ]);
+
+        $this->assertDatabaseHas('company_calendars', [
+            'id' => $calendarB->id,
+            'is_worked' => 0,
         ]);
 
         $this->assertInstanceOf(
