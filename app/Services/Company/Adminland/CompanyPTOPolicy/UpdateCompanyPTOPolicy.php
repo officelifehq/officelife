@@ -84,7 +84,7 @@ class UpdateCompanyPTOPolicy extends BaseService
      */
     private function markDaysOff(array $data) : int
     {
-        if (!isset($data['days_to_toggle'])) {
+        if (! isset($data['days_to_toggle'])) {
             return 0;
         }
 
