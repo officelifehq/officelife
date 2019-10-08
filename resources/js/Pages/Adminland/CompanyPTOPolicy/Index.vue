@@ -172,7 +172,7 @@ td, th {
                     <table class="center">
                       <thead>
                         <tr class="f6 tc">
-                          <th>Month</th>
+                          <th>{{ $t('account.pto_policies_month') }}</th>
                           <th>1</th>
                           <th>2</th>
                           <th>3</th>

@@ -194,6 +194,7 @@ return [
     'pto_policies_edit_default_amount_of_pto_days' => 'Allowed personal days per year',
     'pto_policies_edit_click_calendar' => 'Add/remove holidays by clicking in a day in the calendar below',
     'pto_policies_edit_calendar_help' => 'Note: we\'ll recalculate the balance of holidays for all your employees based any changes you would do here.',
+    'pto_policies_month' => 'Month',
     'pto_policies_legend' => 'Legend:',
     'pto_policies_legend_weekend' => 'Weekend',
     'pto_policies_legend_holiday' => 'Holiday',
