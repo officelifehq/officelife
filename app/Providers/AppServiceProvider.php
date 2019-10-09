@@ -5,6 +5,7 @@ namespace App\Providers;
 use Inertia\Inertia;
 use App\Helpers\InstanceHelper;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use App\Http\Resources\Company\Company\Company as CompanyResource;
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
         $this->registerInertia();
     }
 
