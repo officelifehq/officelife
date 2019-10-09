@@ -63,7 +63,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/signup', this.form)
+      this.$inertia.post(this.route('signup.attempt'), this.form)
         .then(() =>
           this.loadingState = null
         );
