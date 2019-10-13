@@ -40,16 +40,26 @@ class HolidayHelperTest extends TestCase
             'amount_of_allowed_holidays' => 30,
         ]);
 
+        // build the calendar of days
         $date = Carbon::create($policy->year);
         for ($i = 1; $i <= DateHelper::daysInYear($date); $i++) {
+            $isWorked = true;
+            if ($date->isSaturday() || $date->isSunday()) {
+                $isWorked = false;
+            }
+
             factory(CompanyCalendar::class)->create([
                 'company_pto_policy_id' => $policy->id,
                 'day' => $date->format('Y-m-d'),
+                'is_worked' => $isWorked,
             ]);
             $date->addDay();
         }
 
         Carbon::setTestNow(Carbon::create(2018, 10, 1));
-        HolidayHelper::getNumberOfDaysLeftToEarn($policy, $michael);
+        $this->assertEquals(
+            7.8,
+            HolidayHelper::getNumberOfDaysLeftToEarn($policy, $michael)
+        );
     }
 }

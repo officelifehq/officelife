@@ -118,7 +118,9 @@
             </div>
           </div>
 
-          <holidays />
+          <holidays
+            :employee="employee"
+          />
         </div>
 
         <!-- RIGHT COLUMN -->

@@ -136,8 +136,8 @@ This is my take on how we should handle PTOs, and this is what Homas allows empl
 - Her manager and her team are informed that she wants to take a break.
 - That's it. No rejecting/approving processes. Going on holidays shouldn't be granted by an employer - it’s a legal right.
 
-The only information that we need to know in advance are
-* the amount of days employees are supposed to work at a given year. This is useful so we can calculate how many holidays employees gain each day by working for the company, based on the number of holidays the employer gives each year.
+For paid time offs to work, we need to know a few information:
+* how many days are considered working days each year. This is useful so we can calculate how many holidays employees gain each day by working for the company, based on the number of holidays the employer gives each year.
 
 #### Note on unlimited vacation policies
 

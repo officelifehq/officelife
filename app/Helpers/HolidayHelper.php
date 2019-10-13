@@ -30,15 +30,17 @@ class HolidayHelper
      */
     public static function getNumberOfDaysLeftToEarn(CompanyPTOPolicy $ptoPolicy, Employee $employee) : float
     {
-        //$workedDays = $ptoPolicy->total_worked_days;
-        //$totalNumberOfHolidays = $ptoPolicy->default_amount_of_allowed_holidays;
+        $totalNumberOfWorkedDaysInYear = $ptoPolicy->total_worked_days;
+        $numberHolidaysEarnEachWorkedDay = $employee->amount_of_allowed_holidays / $totalNumberOfWorkedDaysInYear;
 
         $numberOfWorkedDaysLeftInYear = DB::table('company_calendars')
+            ->where('company_pto_policy_id', $ptoPolicy->id)
             ->where('day', '>', Carbon::now()->format('Y-m-d'))
+            ->where('is_worked', true)
             ->count();
 
-        dd($numberOfWorkedDaysLeftInYear);
+        $numberOfDaysLeftToEarn = $numberOfWorkedDaysLeftInYear * $numberHolidaysEarnEachWorkedDay;
 
-        // n$leftDaysToEarn = $employee->
+        return $numberOfDaysLeftToEarn;
     }
 }

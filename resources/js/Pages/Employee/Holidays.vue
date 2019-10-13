@@ -61,18 +61,18 @@
 
       <!-- Number of holidays total in year -->
       <p class="f7 grey tc mb1">
-        30 days of holidays total
+        {{ employee.holidays.amount_of_allowed_holidays }} days of holidays total
       </p>
       <div class="range mb1"></div>
 
       <!-- Days left to earn -->
       <div class="cf">
-        <div class="fl" style="width: 30%;">
+        <div class="fl" :style="'width: ' + employee.holidays.percent_year_completion_rate + '%'">
           &nbsp;
         </div>
-        <div class="fl" style="width: 70%;">
+        <div class="fl" :style="'width: ' + employee.holidays.reverse_percent_year_completion_rate + '%'">
           <p class="f7 grey tc mb1 mt1">
-            2.3 days left to earn
+            {{ employee.holidays.number_holidays_left_to_earn_this_year }} days left to earn
           </p>
           <div class="range mb1"></div>
         </div>
@@ -80,7 +80,7 @@
 
       <!-- Progress bar -->
       <div class="progress relative">
-        <div class="inside" style="width: 30%"></div>
+        <div class="inside" :style="'width: ' + employee.holidays.percent_year_completion_rate + '%'"></div>
         <div class="holiday absolute" style="width: 2%; left: 90%"></div>
         <div class="holiday absolute" style="width: 4%; left: 12%"></div>
       </div>
@@ -105,7 +105,7 @@
         </div>
         <div class="mb1 w-25-ns w-50 mr4-ns">
           <p class="db mb2 mt0 f3">
-            1.3 days
+            {{ employee.holidays.holidays_earned_each_month }} days
           </p>
           <p class="f7 mt0 fw3 grey">
             New holidays earned each month
@@ -135,8 +135,8 @@
 <script>
 export default {
   props: {
-    notifications: {
-      type: Array,
+    employee: {
+      type: Object,
       default: null,
     },
   },

@@ -867,16 +867,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v6.1.0",
+            "version": "v6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "a365bea7ff0dea9a50f5904be9e41656def9af4b"
+                "reference": "cacce5a77fa94793cf25345d67387632134d75dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/a365bea7ff0dea9a50f5904be9e41656def9af4b",
-                "reference": "a365bea7ff0dea9a50f5904be9e41656def9af4b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/cacce5a77fa94793cf25345d67387632134d75dd",
+                "reference": "cacce5a77fa94793cf25345d67387632134d75dd",
                 "shasum": ""
             },
             "require": {
@@ -972,6 +972,7 @@
                 "league/flysystem-sftp": "Required to use the Flysystem SFTP driver (^1.0).",
                 "moontoast/math": "Required to use ordered UUIDs (^1.1).",
                 "pda/pheanstalk": "Required to use the beanstalk queue driver (^4.0).",
+                "psr/http-message": "Required to allow Storage::put to accept a StreamInterface (^1.0)",
                 "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^4.0).",
                 "symfony/cache": "Required to PSR-6 cache bridge (^4.3.4).",
                 "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^1.2).",
@@ -1008,7 +1009,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-10-01T13:55:56+00:00"
+            "time": "2019-10-08T12:50:06+00:00"
         },
         {
             "name": "laravel/helpers",
@@ -1065,16 +1066,16 @@
         },
         {
             "name": "laravel/passport",
-            "version": "v7.5.0",
+            "version": "v7.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/passport.git",
-                "reference": "663e720a6d15e8ec70bf5309f774439a110efc89"
+                "reference": "d63cdd672c3d65b3c35b73d0ef13a9dbfcb71c08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/passport/zipball/663e720a6d15e8ec70bf5309f774439a110efc89",
-                "reference": "663e720a6d15e8ec70bf5309f774439a110efc89",
+                "url": "https://api.github.com/repos/laravel/passport/zipball/d63cdd672c3d65b3c35b73d0ef13a9dbfcb71c08",
+                "reference": "d63cdd672c3d65b3c35b73d0ef13a9dbfcb71c08",
                 "shasum": ""
             },
             "require": {
@@ -1132,7 +1133,7 @@
                 "oauth",
                 "passport"
             ],
-            "time": "2019-09-24T20:59:35+00:00"
+            "time": "2019-10-08T16:45:24+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1304,16 +1305,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.55",
+            "version": "1.0.56",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "33c91155537c6dc899eacdc54a13ac6303f156e6"
+                "reference": "90e3f83cb10ef6b058d70f95267030e7a6236518"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/33c91155537c6dc899eacdc54a13ac6303f156e6",
-                "reference": "33c91155537c6dc899eacdc54a13ac6303f156e6",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/90e3f83cb10ef6b058d70f95267030e7a6236518",
+                "reference": "90e3f83cb10ef6b058d70f95267030e7a6236518",
                 "shasum": ""
             },
             "require": {
@@ -1384,7 +1385,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-08-24T11:17:19+00:00"
+            "time": "2019-10-12T13:05:59+00:00"
         },
         {
             "name": "league/oauth2-server",
@@ -4323,16 +4324,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "2.1.3",
+            "version": "2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1"
+                "reference": "6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/279723778c40164bcf984a2df12ff2c6ec5e61c1",
-                "reference": "279723778c40164bcf984a2df12ff2c6ec5e61c1",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c",
+                "reference": "6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c",
                 "shasum": ""
             },
             "require": {
@@ -4345,6 +4346,7 @@
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
+                "ext-curl": "*",
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "http-interop/http-factory-tests": "^0.5.0",
@@ -4385,7 +4387,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2019-07-10T16:13:25+00:00"
+            "time": "2019-10-10T17:38:20+00:00"
         }
     ],
     "packages-dev": [
@@ -5321,25 +5323,25 @@
         },
         {
             "name": "maximebf/debugbar",
-            "version": "v1.15.0",
+            "version": "v1.15.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/maximebf/php-debugbar.git",
-                "reference": "30e7d60937ee5f1320975ca9bc7bcdd44d500f07"
+                "reference": "6c4277f6117e4864966c9cb58fb835cee8c74a1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/30e7d60937ee5f1320975ca9bc7bcdd44d500f07",
-                "reference": "30e7d60937ee5f1320975ca9bc7bcdd44d500f07",
+                "url": "https://api.github.com/repos/maximebf/php-debugbar/zipball/6c4277f6117e4864966c9cb58fb835cee8c74a1e",
+                "reference": "6c4277f6117e4864966c9cb58fb835cee8c74a1e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0",
+                "php": ">=5.6",
                 "psr/log": "^1.0",
-                "symfony/var-dumper": "^2.6|^3.0|^4.0"
+                "symfony/var-dumper": "^2.6|^3|^4"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.0|^5.0"
+                "phpunit/phpunit": "^5"
             },
             "suggest": {
                 "kriswallsmith/assetic": "The best way to manage assets",
@@ -5349,7 +5351,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.14-dev"
+                    "dev-master": "1.15-dev"
                 }
             },
             "autoload": {
@@ -5378,7 +5380,7 @@
                 "debug",
                 "debugbar"
             ],
-            "time": "2017-12-15T11:13:46+00:00"
+            "time": "2019-09-24T14:55:42+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -6294,22 +6296,22 @@
         },
         {
             "name": "orchestra/testbench",
-            "version": "v3.9.1",
+            "version": "v3.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench.git",
-                "reference": "b02947e93f339cec6860d4216a6ac8c5a3abaa81"
+                "reference": "cad74999ceecffff387cc9757cc5c3f84d3b918e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench/zipball/b02947e93f339cec6860d4216a6ac8c5a3abaa81",
-                "reference": "b02947e93f339cec6860d4216a6ac8c5a3abaa81",
+                "url": "https://api.github.com/repos/orchestral/testbench/zipball/cad74999ceecffff387cc9757cc5c3f84d3b918e",
+                "reference": "cad74999ceecffff387cc9757cc5c3f84d3b918e",
                 "shasum": ""
             },
             "require": {
-                "laravel/framework": "^6.0",
+                "laravel/framework": "^6.2",
                 "mockery/mockery": "^1.2",
-                "orchestra/testbench-core": "^3.9.0",
+                "orchestra/testbench-core": "^3.9.3",
                 "php": ">=7.2",
                 "phpunit/phpunit": "^8.0"
             },
@@ -6340,20 +6342,20 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2019-09-24T06:17:46+00:00"
+            "time": "2019-10-11T01:53:54+00:00"
         },
         {
             "name": "orchestra/testbench-core",
-            "version": "v3.9.2",
+            "version": "v3.9.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/orchestral/testbench-core.git",
-                "reference": "4b6b62c5fe8d891107eda65c5237f13932fedb1d"
+                "reference": "5629cd2fc10cf7262f43d77fe4fc9008ef73b625"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/4b6b62c5fe8d891107eda65c5237f13932fedb1d",
-                "reference": "4b6b62c5fe8d891107eda65c5237f13932fedb1d",
+                "url": "https://api.github.com/repos/orchestral/testbench-core/zipball/5629cd2fc10cf7262f43d77fe4fc9008ef73b625",
+                "reference": "5629cd2fc10cf7262f43d77fe4fc9008ef73b625",
                 "shasum": ""
             },
             "require": {
@@ -6361,14 +6363,14 @@
                 "php": ">=7.2"
             },
             "require-dev": {
-                "laravel/framework": "^6.0",
+                "laravel/framework": "^6.2",
                 "laravel/laravel": "dev-master",
                 "mockery/mockery": "^1.2.3",
                 "phpunit/phpunit": "^8.3"
             },
             "suggest": {
-                "laravel/framework": "Required for testing (^6.0).",
-                "mockery/mockery": "Allow to use Mockery for testing (^1.0).",
+                "laravel/framework": "Required for testing (^6.2).",
+                "mockery/mockery": "Allow to use Mockery for testing (^1.2).",
                 "orchestra/testbench-browser-kit": "Allow to use legacy Laravel BrowserKit for testing (^3.9).",
                 "orchestra/testbench-dusk": "Allow to use Laravel Dusk for testing (^3.9).",
                 "phpunit/phpunit": "Allow to use PHPUnit for testing (^8.0)."
@@ -6405,7 +6407,7 @@
                 "orchestral",
                 "testing"
             ],
-            "time": "2019-09-15T07:07:58+00:00"
+            "time": "2019-10-11T01:43:51+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -8433,16 +8435,16 @@
         },
         {
             "name": "vimeo/psalm",
-            "version": "3.5.3",
+            "version": "3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vimeo/psalm.git",
-                "reference": "c3e781c4a06cbb17dc32068eb5d6de075f6babdc"
+                "reference": "7857b07f91bed5afae98574243fed7ec4088d623"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vimeo/psalm/zipball/c3e781c4a06cbb17dc32068eb5d6de075f6babdc",
-                "reference": "c3e781c4a06cbb17dc32068eb5d6de075f6babdc",
+                "url": "https://api.github.com/repos/vimeo/psalm/zipball/7857b07f91bed5afae98574243fed7ec4088d623",
+                "reference": "7857b07f91bed5afae98574243fed7ec4088d623",
                 "shasum": ""
             },
             "require": {
@@ -8517,7 +8519,7 @@
                 "inspection",
                 "php"
             ],
-            "time": "2019-09-27T13:22:06+00:00"
+            "time": "2019-10-11T12:24:35+00:00"
         },
         {
             "name": "webmozart/assert",

@@ -5,6 +5,8 @@ namespace App\Models\Company;
 use Carbon\Carbon;
 use App\Models\User\User;
 use App\Traits\Searchable;
+use App\Helpers\DateHelper;
+use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -433,10 +435,24 @@ class Employee extends Model
      *
      * @return array
      */
-    public function getHolidaysStats()
+    public function getHolidaysInformation() : array
     {
         $ptoPolicy = $this->company->getCurrentPTOPolicy();
-        //$n
-        //$daysLeftToEarn = $ptoPolicy->
+
+        $numberOfDaysLeftToEarn = HolidayHelper::getNumberOfDaysLeftToEarn($ptoPolicy, $this);
+        $holidaysEarnedEachMonth = HolidayHelper::getHolidaysEarnedEachMonth($this);
+
+        // get the yearly completion rate
+        $currentDate = Carbon::now();
+        $daysInYear = DateHelper::daysInYear($currentDate);
+        $yearCompletionRate = Carbon::now()->dayOfYear * 100 / $daysInYear;
+
+        return [
+            'percent_year_completion_rate' => $yearCompletionRate,
+            'reverse_percent_year_completion_rate' => 100 - $yearCompletionRate,
+            'amount_of_allowed_holidays' => $this->amount_of_allowed_holidays,
+            'number_holidays_left_to_earn_this_year' => round($numberOfDaysLeftToEarn, 1),
+            'holidays_earned_each_month' => round($holidaysEarnedEachMonth, 1),
+        ];
     }
 }
