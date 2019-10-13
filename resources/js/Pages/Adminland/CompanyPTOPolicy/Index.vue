@@ -80,7 +80,8 @@ td, th {
             <li v-for="ptoPolicy in ptoPolicies" :key="ptoPolicy.id" class="pv3 ph3 bb bb-gray bb-gray-hover">
               <!-- title and edit button -->
               <h3 class="ma0 mb3 f3 fw5 relative">
-                {{ $t('account.pto_policies_edit_year', { year: ptoPolicy.year}) }} <a :data-cy="'list-edit-button-' + ptoPolicy.id" class="pointer absolute right-0 f6 fw4 edit-link" @click.prevent="toggleUpdate(ptoPolicy)">
+                {{ $t('account.pto_policies_edit_year', { year: ptoPolicy.year}) }}
+                <a :data-cy="'list-edit-button-' + ptoPolicy.id" class="pointer absolute right-0 f6 fw4 edit-link" @click.prevent="toggleUpdate(ptoPolicy)">
                   {{ $t('app.edit') }}
                 </a>
               </h3>
@@ -88,7 +89,7 @@ td, th {
               <!-- statistics -->
               <div v-show="idToUpdate != ptoPolicy.id" class="flex items-start-ns flex-wrap flex-nowrap-ns">
                 <div class="mb1 w-25-ns w-50 mr4-ns">
-                  <p class="db mb0 mt0 f4 fw3">
+                  <p class="db mb0 mt0 f4 fw3" :data-cy="'policy-worked-days-' + ptoPolicy.id">
                     {{ $t('account.pto_policies_stat_days', { number: ptoPolicy.total_worked_days }) }}
                   </p>
                   <p class="f7 mt1 mb0 fw3 grey">
@@ -96,15 +97,15 @@ td, th {
                   </p>
                 </div>
                 <div class="mb1 w-25-ns w-50 mr4-ns">
-                  <p class="db mb0 mt0 f4 fw3">
+                  <p class="db mb0 mt0 f4 fw3" :data-cy="'policy-holidays-' + ptoPolicy.id">
                     {{ $t('account.pto_policies_stat_days', { number: ptoPolicy.default_amount_of_allowed_holidays }) }}
                   </p>
-                  <p class="f7 mt1 mb0 fw3 grey">
+                  <p class="f7 mt1 mb0 fw3 grey" :data-cy="'policy-holidays-' + ptoPolicy.id">
                     {{ $t('account.pto_policies_stat_default_holidays') }}
                   </p>
                 </div>
                 <div class="mb1 w-25-ns w-50 mr4-ns">
-                  <p class="db mb0 mt0 f4 fw3">
+                  <p class="db mb0 mt0 f4 fw3" :data-cy="'policy-sick-' + ptoPolicy.id">
                     {{ $t('account.pto_policies_stat_days', { number: ptoPolicy.default_amount_of_sick_days }) }}
                   </p>
                   <p class="f7 mt1 mb0 fw3 grey">
@@ -112,7 +113,7 @@ td, th {
                   </p>
                 </div>
                 <div class="mb1 w-25-ns w-50">
-                  <p class="db mb0 mt0 f4 fw3">
+                  <p class="db mb0 mt0 f4 fw3" :data-cy="'policy-pto-' + ptoPolicy.id">
                     {{ $t('account.pto_policies_stat_days', { number: ptoPolicy.default_amount_of_pto_days }) }}
                   </p>
                   <p class="f7 mt1 mb0 fw3 grey">
@@ -124,42 +125,45 @@ td, th {
               <!-- edit -->
               <div v-show="idToUpdate == ptoPolicy.id" class="cf mt3">
                 <form @submit.prevent="update(ptoPolicy.id)">
-                  <h3>{{ $t('account.pto_policies_edit_default_employee_settings') }}</h3>
+                  <p>{{ $t('account.pto_policies_edit_default_employee_settings') }}</p>
                   <div class="dt-ns dt--fixed di">
                     <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
-                      <text-input :id="'city'"
+                      <text-input :id="'holidays'"
                                   v-model="form.default_amount_of_allowed_holidays"
-                                  :name="'city'"
-                                  :errors="$page.errors.city"
+                                  :name="'holidays'"
+                                  :errors="$page.errors.holidays"
                                   :label="$t('account.pto_policies_edit_default_amount_of_allowed_holidays')"
                                   :required="true"
                                   :type="'number'"
                                   :min="1"
                                   :max="300"
+                                  :datacy="'list-edit-input-holidays-' + ptoPolicy.id"
                       />
                     </div>
                     <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
-                      <text-input :id="'state'"
+                      <text-input :id="'sick'"
                                   v-model="form.default_amount_of_sick_days"
-                                  :name="'state'"
+                                  :name="'sick'"
                                   :errors="$page.errors.default_amount_of_sick_days"
                                   :label="$t('account.pto_policies_edit_default_amount_of_sick_days')"
                                   :required="true"
                                   :type="'number'"
                                   :min="1"
                                   :max="300"
+                                  :datacy="'list-edit-input-sick-' + ptoPolicy.id"
                       />
                     </div>
                     <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
-                      <text-input :id="'postal_code'"
+                      <text-input :id="'pto'"
                                   v-model="form.default_amount_of_pto_days"
-                                  :name="'postal_code'"
+                                  :name="'pto'"
                                   :errors="$page.errors.default_amount_of_pto_days"
                                   :label="$t('account.pto_policies_edit_default_amount_of_pto_days')"
                                   :required="true"
                                   :type="'number'"
                                   :min="1"
                                   :max="300"
+                                  :datacy="'list-edit-input-pto-' + ptoPolicy.id"
                       />
                     </div>
                   </div>
@@ -209,7 +213,7 @@ td, th {
                       <tbody>
                         <tr v-for="holidayRow in localHolidays" :key="holidayRow.id" class="">
                           <td v-for="holiday in holidayRow" :key="holiday.id" class="f6 tc holiday-td">
-                            <span :class="isOff(holiday)" class="pointer day-item" @click.prevent="toggleDayOff(holiday)">
+                            <span :class="isOff(holiday)" class="pointer day-item" :data-cy="'calendar-item-' + holiday.id + '-' + ptoPolicy.id" @click.prevent="toggleDayOff(holiday)">
                               {{ holiday.abbreviation }}
                             </span>
                           </td>
@@ -229,7 +233,7 @@ td, th {
                       </span>
                     </div>
                     <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
-                      <p class="tr">
+                      <p class="tr" :data-cy="'total-worked-days-' + ptoPolicy.id">
                         {{ $t('account.pto_policies_edit_total', { totalWorkedDays: totalWorkedDays, year: ptoPolicy.year }) }}
                       </p>
                     </div>
