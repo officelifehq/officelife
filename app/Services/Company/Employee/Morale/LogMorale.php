@@ -51,7 +51,7 @@ class LogMorale extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $employee->company_id,
-            config('homas.authorizations.user'),
+            config('villagers.authorizations.user'),
             $data['employee_id']
         );
 

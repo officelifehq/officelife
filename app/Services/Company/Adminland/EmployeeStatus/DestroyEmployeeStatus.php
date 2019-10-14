@@ -37,7 +37,7 @@ class DestroyEmployeeStatus extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('homas.authorizations.hr')
+            config('villagers.authorizations.hr')
         );
 
         $employeeStatus = EmployeeStatus::where('company_id', $data['company_id'])

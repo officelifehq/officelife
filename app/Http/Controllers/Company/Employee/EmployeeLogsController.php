@@ -31,7 +31,7 @@ class EmployeeLogsController extends Controller
                 Auth::user()->id,
                 $companyId,
                 $employeeId,
-                config('homas.authorizations.hr')
+                config('villagers.authorizations.hr')
             );
         } catch (\Exception $e) {
             return redirect('/home');

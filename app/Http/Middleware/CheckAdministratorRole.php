@@ -18,7 +18,7 @@ class CheckAdministratorRole
     {
         $employee = InstanceHelper::getLoggedEmployee();
 
-        if (config('homas.authorizations.administrator') >= $employee->permission_level) {
+        if (config('villagers.authorizations.administrator') >= $employee->permission_level) {
             return $next($request);
         }
 

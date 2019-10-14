@@ -15,22 +15,22 @@
         <div class="">
           <p>{{ trans('employee.new_permission_level') }}</p>
 
-          @if (auth()->user()->permission_level <= config('homas.authorizations.administrator'))
+          @if (auth()->user()->permission_level <= config('villagers.authorizations.administrator'))
           <div class="db">
-            <input type="radio" class="mr1" name="permission_level" id="administrator" value="{{ config('homas.authorizations.administrator') }}">
+            <input type="radio" class="mr1" name="permission_level" id="administrator" value="{{ config('villagers.authorizations.administrator') }}">
             <label for="administrator" class="pointer">{{ trans('employee.new_administrator') }}</label>
             <p>{{ trans('employee.new_administrator_desc') }}</p>
           </div>
           @endif
 
           <div class="db">
-            <input type="radio" class="mr1" name="permission_level" id="hr" value="{{ config('homas.authorizations.hr') }}">
+            <input type="radio" class="mr1" name="permission_level" id="hr" value="{{ config('villagers.authorizations.hr') }}">
             <label for="hr" class="pointer">{{ trans('employee.new_hr') }}</label>
             <p>{{ trans('employee.new_hr_desc') }}</p>
           </div>
 
           <div class="db">
-            <input type="radio" class="mr1" name="permission_level" id="user" value="{{ config('homas.authorizations.user') }}">
+            <input type="radio" class="mr1" name="permission_level" id="user" value="{{ config('villagers.authorizations.user') }}">
             <label for="user" class="pointer">{{ trans('employee.new_user') }}</label>
             <p>{{ trans('employee.new_user_desc') }}</p>
           </div>

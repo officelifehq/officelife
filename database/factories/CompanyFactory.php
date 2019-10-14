@@ -21,7 +21,7 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         },
         'uuid' => $faker->uuid,
         'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
-        'permission_level' => config('homas.authorizations.administrator'),
+        'permission_level' => config('villagers.authorizations.administrator'),
         'email' => 'dwigth@dundermifflin.com',
         'first_name' => 'Dwight',
         'last_name' => 'Schrute',

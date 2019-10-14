@@ -29,7 +29,7 @@ class DashboardHRController extends Controller
 
         return Inertia::render('Employee/Index', [
             'notifications' => Auth::user()->getLatestNotifications($company),
-            'ownerPermissionLevel' => config('homas.authorizations.administrator'),
+            'ownerPermissionLevel' => config('villagers.authorizations.administrator'),
         ]);
     }
 }

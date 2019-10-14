@@ -140,7 +140,7 @@ class ApiTeamControllerTest extends ApiTestCase
         $employee = factory(Employee::class)->create([
             'user_id' => $user->id,
         ]);
-        $employee->permission_level = config('homas.authorizations.user');
+        $employee->permission_level = config('villagers.authorizations.user');
         $employee->save();
 
         $response = $this->json('POST', '/api/'.$employee->company_id.'/teams/', [

@@ -53,7 +53,7 @@ class CreateFlow extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('homas.authorizations.hr')
+            config('villagers.authorizations.hr')
         );
 
         $flow = Flow::create([

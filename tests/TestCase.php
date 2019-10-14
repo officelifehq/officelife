@@ -36,7 +36,7 @@ abstract class TestCase extends BaseTestCase
     public function createAdministrator() : Employee
     {
         return factory(Employee::class)->create([
-            'permission_level' => config('homas.authorizations.administrator'),
+            'permission_level' => config('villagers.authorizations.administrator'),
         ]);
     }
 }

@@ -37,7 +37,7 @@ class RemoveActionFromStep extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('homas.authorizations.hr')
+            config('villagers.authorizations.hr')
         );
 
         $action = Action::where('step_id', $data['step_id'])
