@@ -60,6 +60,10 @@ class CreateCompany extends BaseService
             'author_id' => $employee->id,
         ]);
 
+        // add holidays for the newly created employee
+        $employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
+        $employee->save();
+
         return $company;
     }
 

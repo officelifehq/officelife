@@ -75,7 +75,7 @@ class WorklogHelper
 
         $data = [
             'date' => DateHelper::getShortDateWithTime($date),
-            'friendly_date' => $date->format('Y-m-d'),
+            'friendly_date' => DateHelper::getLongDayAndMonth($date),
             'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
             'worklog_parsed_content' => is_null($worklog) ? null : StringHelper::parse($worklog->content),
             'morale' => is_null($morale) ? null : $morale->emoji,

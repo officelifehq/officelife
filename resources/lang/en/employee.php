@@ -35,6 +35,8 @@ return [
     'team_title' => 'Teams:',
 
     'worklog_blank' => 'There are no work logs yet 🤨',
+    'worklog_title' => 'Work logs',
+    'worklog_no_worklog' => 'No work log this day',
 
     'status_title' => 'Status:',
     'status_modal_title' => 'Employee status',

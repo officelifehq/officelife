@@ -61,7 +61,7 @@
 
       <!-- Number of holidays total in year -->
       <p class="f7 grey tc mb1">
-        {{ employee.holidays.amount_of_allowed_holidays }} days of holidays total
+        {{ employee.holidays.amount_of_allowed_holidays }} days of holidays earned in a year
       </p>
       <div class="range mb1"></div>
 
