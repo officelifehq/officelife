@@ -95,7 +95,7 @@ describe('Adminland - Positions management', function () {
     cy.get('[data-cy=list-rename-cta-button-5]').click()
     cy.get('[data-cy=positions-list]').contains('Assistant regional manager')
 
-    cy.wait(2200)
+    cy.wait(3200)
 
     // delete the position
     cy.get('[data-cy=list-delete-button-5]').click()

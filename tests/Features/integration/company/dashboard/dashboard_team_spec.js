@@ -17,7 +17,7 @@ describe('Dashboard - teams', function () {
     cy.createTeam('product')
     cy.createTeam('sales')
 
-    // add a first team
+    // assign a first team
     cy.visit('/1/employees/1')
 
     cy.get('[data-cy=open-team-modal-blank]').click()
@@ -27,9 +27,9 @@ describe('Dashboard - teams', function () {
 
     cy.get('[data-cy=dashboard-team-tab]').click()
 
-    cy.get('body').should('not.contain', 'What your team has done this week')
+    cy.contains('What your team has done this week')
 
-    // add a second team
+    // assign a second team
     cy.visit('/1/employees/1')
     cy.get('[data-cy=open-team-modal]').click()
     cy.get('[data-cy=list-team-2]').click()
