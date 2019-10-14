@@ -9,15 +9,16 @@
 }
 
 .parsed-content {
-  background-color: #f3f9fc;
-  padding: 1px 10px;
+  p:last-child {
+    margin-bottom: 0;
+  }
 }
 </style>
 
 <template>
   <div class="mb4 relative">
-    <span class="tc db fw5 mb2">
-      🔨 Work logs
+    <span class="db fw5 mb2">
+      🔨 {{ $t('employee.worklog_title') }}
     </span>
 
     <!-- LIST OF WORKLOGS -->
@@ -32,11 +33,13 @@
         <ul class="list mv0 pa0">
           <li v-for="worklog in worklogs" :key="worklog.id" class="mb3 relative worklog-item">
             <template v-if="worklog.worklog_parsed_content">
-              <div class="parsed-content mb1" v-html="worklog.worklog_parsed_content"></div>
+              <div class="parsed-content" v-html="worklog.worklog_parsed_content"></div>
             </template>
             <template v-else>
-              <div class="parsed-content mb1">
-                <p>No log this day</p>
+              <div>
+                <p class="i mt0 mb1">
+                  {{ $t('employee.worklog_no_worklog') }}
+                </p>
               </div>
             </template>
             <ul class="f7 mb1 list pl0">

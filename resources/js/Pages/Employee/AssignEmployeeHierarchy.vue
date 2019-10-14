@@ -35,8 +35,8 @@
 
 <template>
   <div class="mb4 relative">
-    <span class="tc db fw5 mb2">
-      {{ $t('employee.hierarchy_title') }}
+    <span class="db fw5 mb2">
+      👨‍✈️ {{ $t('employee.hierarchy_title') }}
     </span>
     <img v-show="$page.auth.employee.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button" width="22"
          height="22" @click.prevent="toggleModals()"
