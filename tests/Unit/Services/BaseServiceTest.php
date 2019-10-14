@@ -46,39 +46,39 @@ class BaseServiceTest extends TestCase
         // administrator has all rights
         $stub = $this->getMockForAbstractClass(BaseService::class);
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('homas.authorizations.administrator'),
+            'permission_level' => config('villagers.authorizations.administrator'),
         ]);
 
         $this->assertInstanceOf(
             Employee::class,
-            $stub->validatePermissions($employee->id, $employee->company_id, config('homas.authorizations.administrator'))
+            $stub->validatePermissions($employee->id, $employee->company_id, config('villagers.authorizations.administrator'))
         );
 
         // test that an HR can't do an action reserved for an administrator
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('homas.authorizations.hr'),
+            'permission_level' => config('villagers.authorizations.hr'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($employee->id, $employee->company_id, config('homas.authorizations.administrator'));
+        $stub->validatePermissions($employee->id, $employee->company_id, config('villagers.authorizations.administrator'));
 
         // test that an user can't do an action reserved for an administrator
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('homas.authorizations.user'),
+            'permission_level' => config('villagers.authorizations.user'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($employee->id, $employee->company_id, config('homas.authorizations.administrator'));
+        $stub->validatePermissions($employee->id, $employee->company_id, config('villagers.authorizations.administrator'));
 
         // test that a user can modify his own data regardless of his permission
         // level
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('homas.authorizations.user'),
+            'permission_level' => config('villagers.authorizations.user'),
         ]);
 
         $this->assertInstanceOf(
             User::class,
-            $stub->validatePermissions($employee->id, $employee->company_id, config('homas.authorizations.administrator'), $employee->id)
+            $stub->validatePermissions($employee->id, $employee->company_id, config('villagers.authorizations.administrator'), $employee->id)
         );
     }
 

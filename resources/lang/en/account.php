@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'home_title' => 'Administration of your Homas account',
+    'home_title' => 'Administration of your Villagers account',
     'home_role_administrator' => 'As an <span class="fw5 brush-blue">administrator</span>, you can…',
     'home_role_owner' => 'As an <span class="fw5 brush-orange">owner</span>, you can…',
     'home_manage_employees' => 'Add/remove existing employees',
@@ -39,7 +39,7 @@ return [
     'teams_title' => 'All the teams listed in {company}',
     'teams_number_teams' => '{company} has one team. | {company} has {count} teams.',
     'teams_cta' => 'Add a team',
-    'teams_blank' => 'Teams are a great way for groups of people in your company to work together in Homas.',
+    'teams_blank' => 'Teams are a great way for groups of people in your company to work together in Villagers.',
     'team_new_name' => 'Name of the team',
 
     'employee_statuses_title' => 'All the employee statuses in {company}',

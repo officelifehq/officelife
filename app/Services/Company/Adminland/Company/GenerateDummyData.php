@@ -45,7 +45,7 @@ class GenerateDummyData extends BaseService
         $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('homas.authorizations.administrator')
+            config('villagers.authorizations.administrator')
         );
 
         $company = Company::find($data['company_id']);
@@ -105,7 +105,7 @@ class GenerateDummyData extends BaseService
             'email' => $faker->safeEmail,
             'first_name' => $faker->firstName,
             'last_name' => $faker->lastName,
-            'permission_level' => config('homas.authorizations.user'),
+            'permission_level' => config('villagers.authorizations.user'),
             'send_invitation' => false,
             'is_dummy' => true,
         ];

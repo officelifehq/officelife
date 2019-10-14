@@ -18,7 +18,7 @@ class CheckHRRole
     {
         $employee = InstanceHelper::getLoggedEmployee();
 
-        if ($employee->permission_level <= config('homas.authorizations.hr')) {
+        if ($employee->permission_level <= config('villagers.authorizations.hr')) {
             return $next($request);
         }
 

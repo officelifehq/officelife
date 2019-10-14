@@ -1,16 +1,16 @@
 # Introduction
 
-## What is Homas?
+## What is Villagers?
 
-Homas is a different kind of human resource software. Unlike other soulless HR tools, it has been designed to mimic and represent what happens in the real world. Its main goals are to:
+Villagers is a different kind of human resource software. Unlike other soulless HR tools, it has been designed to mimic and represent what happens in the real world. Its main goals are to:
 
 - help managers be more empathetic,
 - help companies be better at managing people's dreams and ambitions,
 - help employees better communicate with their employers.
 
-Homas aims to be a combination of softwares like BambooHR, Officevibe and Monica – although in a single application and at a much more reasonable price.
+Villagers aims to be a combination of softwares like BambooHR, Officevibe and Monica – although in a single application and at a much more reasonable price.
 
-At a high level, Homas allows a company to:
+At a high level, Villagers allows a company to:
 
 *
 *
@@ -18,7 +18,7 @@ At a high level, Homas allows a company to:
 *
 *
 
-It also gives users and companies a complete control over their data. Homas is open source and can be installed on your own server if you so desire.
+It also gives users and companies a complete control over their data. Villagers is open source and can be installed on your own server if you so desire.
 
 To use the software, companies have to pay a fair fixed annual fee, regardless of the size of your team. I do not sell your data, don't use ads nor use external analytical services. You can export your data at anytime or use the API without restrictions.
 
@@ -26,7 +26,7 @@ In terms of user experience, the software aims to be simple to use with the mini
 
 Technically, the software is developed with boring, proven, predictible, easy to maintain technologies that make the tool fast and secure. I want to create a product useful for users and companies, not something that is technologically exciting.
 
-## Why is Homas different?
+## Why is Villagers different?
 
 ## Pricing and open source
 
@@ -34,11 +34,11 @@ Technically, the software is developed with boring, proven, predictible, easy to
 
 # Development
 
-# Hosting Homas on your own server
+# Hosting Villagers on your own server
 
-# Homas in 10 minutes
+# Villagers in 10 minutes
 
-Homas is built around the notion that while companies own data about their employees, users have complete control over which data they give to companies.
+Villagers is built around the notion that while companies own data about their employees, users have complete control over which data they give to companies.
 
 ## Setup
 
@@ -56,13 +56,13 @@ Data is shared accross views in Vue within Inertia. Shared data come from AppSer
 
 ### Users vs employees
 
-Homas makes the distinction between users and employees.
+Villagers makes the distinction between users and employees.
 
-A user is someone who creates an account on the Homas platform. An employee is an entity who is part of a company on Homas. A user can be an employee in one or more companies, but an employee can only be linked to a single user. A user account is necessary for each employee to interact with the software and change data. HoIver you don't need to give accounts to employees if you don't want to.
+A user is someone who creates an account on the Villagers platform. An employee is an entity who is part of a company on Villagers. A user can be an employee in one or more companies, but an employee can only be linked to a single user. A user account is necessary for each employee to interact with the software and change data. HoIver you don't need to give accounts to employees if you don't want to.
 
-Once a user has an account on Homas, he can decide to either create a company, or join an existing company.
+Once a user has an account on Villagers, he can decide to either create a company, or join an existing company.
 
-The natural way to create this software would have been that an employee is a user, and get rid of those two notions altogether to only keep the notion of User. This would have been a severe limitation though. In an ideal world, every company would run on Homas to manage their human resources, and once a user has a profile on Homas, he can simply join other companies as he changes jobs, and most data about him would follow (if he wants to). It's important to realize that at any time, the user has the control over his data and can decide to remove them from the company he's joined.
+The natural way to create this software would have been that an employee is a user, and get rid of those two notions altogether to only keep the notion of User. This would have been a severe limitation though. In an ideal world, every company would run on Villagers to manage their human resources, and once a user has a profile on Villagers, he can simply join other companies as he changes jobs, and most data about him would follow (if he wants to). It's important to realize that at any time, the user has the control over his data and can decide to remove them from the company he's joined.
 
 At the database level, the <code>Users</code> table contains almost the same data as the <code>Employees</code> table. That is because information in the Users table is information given by the user himself, whereas information in the Employees table is filled by the company.
 
@@ -72,7 +72,7 @@ To create an account, you simply need a valid email address and a strong passwor
 
 Once you create your account, you are presented with the option to either create a company, or join an existing company.
 
-Clicking on Create a company will ask you to name the company, and that's it. There is one important rule here: the company name is unique on an instance of Homas. That means it's not possible to create two companies named Microsoft, for instance. If you believe that the name of your company has been already used on the system and that this is an abuse, please contact us - I will sort this out.
+Clicking on Create a company will ask you to name the company, and that's it. There is one important rule here: the company name is unique on an instance of Villagers. That means it's not possible to create two companies named Microsoft, for instance. If you believe that the name of your company has been already used on the system and that this is an abuse, please contact us - I will sort this out.
 
 As you are the one who has created the company, you will be an administrator of the company, with full control over the account of the company. To know more about what it means, read the documentation about roles.
 
@@ -82,7 +82,7 @@ As you are the one who has created the company, you will be an administrator of 
 
 When adding an employee in the system, you need to indicate a role. A role is a set of rights the employee will have in the system, once the employee is linked to a user account.
 
-There are only three roles in Homas:
+There are only three roles in Villagers:
 - Administrator
 - Human Resource Representative
 - Employee.
@@ -130,7 +130,7 @@ Paid Time Off is the term used in the HR industry to represent the bank of days 
 
 Softwares that deal with PTOs are boring, complex and full of features. They try to cover all the possible use cases. They also promote gates, and permissions, and reflect the bad side of reality. I refuse to be part of this. I want to create a software that promotes how I envision companies should deal with employees and their rights. My approach is mainly based on how 37Signals has built Basecamp: focus on what's truly essential and forget the rest.
 
-This is my take on how we should handle PTOs, and this is what Homas allows employees to do:
+This is my take on how we should handle PTOs, and this is what Villagers allows employees to do:
 - An employee wants to take a break from work.
 - She checks her balance. If she has enough holidays in her bank, she logs a holiday.
 - Her manager and her team are informed that she wants to take a break.
@@ -142,4 +142,4 @@ For the paid time offs feature to work, we need to know a few pieces of informat
 
 #### Note on unlimited vacation policies
 
-I personally believe that unlimited vacation policies are bullshit. When they exist, people actually don't take holidays at all. This is why, while this concept is supported in Homas, managers will be warned when people haven't taken an holidays for a few months, to make sure people don't burn out.
+I personally believe that unlimited vacation policies are bullshit. When they exist, people actually don't take holidays at all. This is why, while this concept is supported in Villagers, managers will be warned when people haven't taken an holidays for a few months, to make sure people don't burn out.

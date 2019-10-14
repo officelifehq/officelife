@@ -40,7 +40,7 @@ class AssignPositionToEmployee extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('homas.authorizations.hr')
+            config('villagers.authorizations.hr')
         );
 
         $employee = Employee::where('company_id', $data['company_id'])
