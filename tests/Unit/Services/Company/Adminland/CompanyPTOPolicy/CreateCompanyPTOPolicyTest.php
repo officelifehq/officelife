@@ -4,8 +4,10 @@ namespace Tests\Unit\Services\Company\Adminland\CompanyPTOPolicy;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
+use Illuminate\Support\Carbon;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
+use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -20,6 +22,7 @@ class CreateCompanyPTOPolicyTest extends TestCase
     public function it_creates_a_company_pto_policy() : void
     {
         Queue::fake();
+        Carbon::setTestNow(Carbon::create(2020, 1, 1));
 
         $michael = factory(Employee::class)->create([]);
 
@@ -27,7 +30,6 @@ class CreateCompanyPTOPolicyTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'year' => 2020,
-            'total_worked_days' => 200,
             'default_amount_of_allowed_holidays' => 1,
             'default_amount_of_sick_days' => 1,
             'default_amount_of_pto_days' => 1,
@@ -38,12 +40,17 @@ class CreateCompanyPTOPolicyTest extends TestCase
         $this->assertDatabaseHas('company_pto_policies', [
             'id' => $ptoPolicy->id,
             'company_id' => $michael->company_id,
+            'total_worked_days' => 262,
             'year' => 2020,
-            'total_worked_days' => 200,
             'default_amount_of_allowed_holidays' => 1,
             'default_amount_of_sick_days' => 1,
             'default_amount_of_pto_days' => 1,
         ]);
+
+        $this->assertEquals(
+            366,
+            CompanyCalendar::count()
+        );
 
         $this->assertInstanceOf(
             CompanyPTOPolicy::class,
@@ -71,7 +78,6 @@ class CreateCompanyPTOPolicyTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'year' => 2020,
-            'total_worked_days' => 200,
             'default_amount_of_allowed_holidays' => 1,
             'default_amount_of_sick_days' => 1,
             'default_amount_of_pto_days' => 1,

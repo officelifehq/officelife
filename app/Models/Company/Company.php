@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -139,5 +140,17 @@ class Company extends Model
     public function ptoPolicies()
     {
         return $this->hasMany(CompanyPTOPolicy::class);
+    }
+
+    /**
+     * Return the PTO policy for the current year.
+     *
+     * @return CompanyPTOPolicy
+     */
+    public function getCurrentPTOPolicy() : CompanyPTOPolicy
+    {
+        $ptoPolicy = $this->ptoPolicies()->where('year', Carbon::now()->format('Y'))->first();
+
+        return $ptoPolicy;
     }
 }

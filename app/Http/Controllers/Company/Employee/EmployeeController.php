@@ -69,6 +69,8 @@ class EmployeeController extends Controller
             $worklogs->push(WorklogHelper::getInformation($employee, $day));
         }
 
+        // holidays
+
         return Inertia::render('Employee/Show', [
             'employee' => new EmployeeResource($employee),
             'notifications' => Auth::user()->getLatestNotifications($company),

@@ -6,7 +6,9 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Company;
+use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UpdateCompanyPTOPolicy extends BaseService
 {
@@ -21,7 +23,7 @@ class UpdateCompanyPTOPolicy extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'company_pto_policy_id' => 'required|integer|exists:company_pto_policies,id',
-            'total_worked_days' => 'required|integer',
+            'days_to_toggle' => 'nullable|array',
             'default_amount_of_allowed_holidays' => 'nullable|integer',
             'default_amount_of_sick_days' => 'nullable|integer',
             'default_amount_of_pto_days' => 'nullable|integer',
@@ -48,7 +50,9 @@ class UpdateCompanyPTOPolicy extends BaseService
         $ptoPolicy = CompanyPTOPolicy::where('company_id', $data['company_id'])
             ->findOrFail($data['company_pto_policy_id']);
 
-        $ptoPolicy->total_worked_days = $data['total_worked_days'];
+        $newDayOffs = $this->markDaysOff($data);
+
+        $ptoPolicy->total_worked_days = $ptoPolicy->total_worked_days - $newDayOffs;
         $ptoPolicy->default_amount_of_allowed_holidays = $this->nullOrValue($data, 'default_amount_of_allowed_holidays');
         $ptoPolicy->default_amount_of_sick_days = $this->nullOrValue($data, 'default_amount_of_sick_days');
         $ptoPolicy->default_amount_of_pto_days = $this->nullOrValue($data, 'default_amount_of_pto_days');
@@ -70,5 +74,42 @@ class UpdateCompanyPTOPolicy extends BaseService
         $ptoPolicy->refresh();
 
         return $ptoPolicy;
+    }
+
+    /**
+     * Mark all the days as off for the given pto policy.
+     *
+     * @param array $data
+     * @return int
+     */
+    private function markDaysOff(array $data) : int
+    {
+        if (! isset($data['days_to_toggle'])) {
+            return 0;
+        }
+
+        if (count($data['days_to_toggle']) == 0) {
+            return 0;
+        }
+
+        $numberDaysOff = 0;
+        foreach ($data['days_to_toggle'] as $change) {
+            try {
+                $companyCalendar = CompanyCalendar::findOrFail($change['id']);
+            } catch (ModelNotFoundException $e) {
+                continue;
+            }
+
+            $companyCalendar->is_worked = $change['is_worked'];
+            $companyCalendar->save();
+
+            if ($change['is_worked'] == false) {
+                $numberDaysOff++;
+            } else {
+                $numberDaysOff--;
+            }
+        }
+
+        return $numberDaysOff;
     }
 }

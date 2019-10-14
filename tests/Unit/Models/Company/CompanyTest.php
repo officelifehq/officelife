@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models\User;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Flow;
 use App\Models\Company\Task;
@@ -128,5 +129,26 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->ptoPolicies()->exists());
+    }
+
+    /** @test */
+    public function it_returns_the_pto_policy_for_the_current_year() : void
+    {
+        Carbon::setTestNow(Carbon::create(2020, 1, 1));
+
+        $company = factory(Company::class)->create();
+        $firstPTO = factory(CompanyPTOPolicy::class)->create([
+            'company_id' => $company->id,
+            'year' => 2020,
+        ]);
+        factory(CompanyPTOPolicy::class)->create([
+            'company_id' => $company->id,
+            'year' => 2021,
+        ]);
+
+        $this->assertEquals(
+            $firstPTO->id,
+            $company->getCurrentPTOPolicy()->id
+        );
     }
 }

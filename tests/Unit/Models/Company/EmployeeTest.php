@@ -15,7 +15,10 @@ use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
 use App\Models\Company\EmployeeEvent;
+use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\EmployeeDailyLog;
 use App\Models\Company\EmployeeImportantDate;
+use App\Models\Company\EmployeePlannedHoliday;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeTest extends TestCase
@@ -192,6 +195,28 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_daily_logs(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(EmployeeDailyLog::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->dailyLogs()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_planned_holidays(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(EmployeePlannedHoliday::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->plannedHolidays()->exists());
+    }
+
+    /** @test */
     public function it_returns_the_email_attribute() : void
     {
         $dwight = factory(Employee::class)->create([]);
@@ -355,6 +380,30 @@ class EmployeeTest extends TestCase
         $this->assertEquals(
             $place->id,
             $address->id
+        );
+    }
+
+    /** @test */
+    public function it_returns_the_holidays_information() : void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $dwight = factory(Employee::class)->create();
+        $policy = factory(CompanyPTOPolicy::class)->create([
+            'company_id' => $dwight->company_id,
+            'year' => 2018,
+        ]);
+
+        $this->assertTrue(
+            array_key_exists('amount_of_allowed_holidays', $dwight->getHolidaysInformation())
+        );
+
+        $this->assertTrue(
+            array_key_exists('number_holidays_left_to_earn_this_year', $dwight->getHolidaysInformation())
+        );
+
+        $this->assertTrue(
+            array_key_exists('holidays_earned_each_month', $dwight->getHolidaysInformation())
         );
     }
 }

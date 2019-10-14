@@ -66,16 +66,16 @@ class ProvisionDefaultAccountData extends BaseService
 
         // PTO policies
         $currentYear = Carbon::now();
-        for ($i = 1; $i <= 15; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             (new CreateCompanyPTOPolicy)->execute([
                 'company_id' => $data['company_id'],
                 'author_id' => $data['author_id'],
-                'year' => $currentYear->addYear()->format('Y'),
-                'total_worked_days' => 261,
+                'year' => $currentYear->format('Y'),
                 'default_amount_of_allowed_holidays' => 30,
                 'default_amount_of_sick_days' => 5,
                 'default_amount_of_pto_days' => 5,
             ]);
+            $currentYear->addYear();
         }
     }
 }

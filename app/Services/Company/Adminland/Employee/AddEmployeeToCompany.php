@@ -50,6 +50,8 @@ class AddEmployeeToCompany extends BaseService
 
         $employee = $this->createEmployee($data, $author);
 
+        $employee = $this->addHolidays($data, $employee);
+
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_added_to_company',
@@ -116,6 +118,23 @@ class AddEmployeeToCompany extends BaseService
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
+
+        return $employee;
+    }
+
+    /**
+     * Add the default amount of holidays to this new employee.
+     *
+     * @param array $data
+     * @param Employee $employee
+     * @return Employee
+     */
+    private function addHolidays(array $data, Employee $employee) : Employee
+    {
+        $company = Company::find($data['company_id']);
+
+        $employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
+        $employee->save();
 
         return $employee;
     }

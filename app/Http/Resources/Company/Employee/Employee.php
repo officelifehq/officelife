@@ -33,6 +33,7 @@ class Employee extends JsonResource
             'has_logged_morale_today' => $this->hasAlreadyLoggedMoraleToday(),
             'status' => is_null($this->status) ? null : new EmployeeStatusResource($this->status),
             'address' => new PlaceResource($this->getCurrentAddress()),
+            'holidays' => $this->getHolidaysInformation(),
             'company' => [
                 'id' => $this->company_id,
             ],

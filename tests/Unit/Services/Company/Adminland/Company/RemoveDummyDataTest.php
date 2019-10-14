@@ -2,9 +2,11 @@
 
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
+use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\RemoveDummyData;
@@ -17,11 +19,18 @@ class RemoveDummyDataTest extends TestCase
     /** @test */
     public function it_removes_all_dummy_data() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = factory(Employee::class)->create([]);
+
+        factory(CompanyPTOPolicy::class)->create([
+            'company_id' => $michael->company_id,
+            'year' => Carbon::now()->format('Y'),
+        ]);
 
         $request = [
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
         ];
 
         (new GenerateDummyData)->execute($request);
@@ -37,7 +46,7 @@ class RemoveDummyDataTest extends TestCase
         );
 
         $count = DB::table('teams')
-            ->where('company_id', $employee->company_id)
+            ->where('company_id', $michael->company_id)
             ->where('is_dummy', true)
             ->count();
 
@@ -50,10 +59,10 @@ class RemoveDummyDataTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given() : void
     {
-        $employee = factory(Employee::class)->create([]);
+        $michael = factory(Employee::class)->create([]);
 
         $request = [
-            'company_id' => $employee->company_id,
+            'company_id' => $michael->company_id,
             'author_id' => 123456,
         ];
 

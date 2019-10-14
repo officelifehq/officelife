@@ -4,6 +4,8 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Company\CompanyCalendar;
+use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\ProvisionDefaultAccountData;
 
@@ -51,16 +53,14 @@ class ProvisionDefaultAccountDataTest extends TestCase
             ]);
         }
 
-        $currentYear = Carbon::now();
-        for ($i = 1; $i <= 15; $i++) {
-            $this->assertDatabaseHas('company_pto_policies', [
-                'company_id' => $michael->company_id,
-                'year' => $currentYear->addYear()->format('Y'),
-                'total_worked_days' => 261,
-                'default_amount_of_allowed_holidays' => 30,
-                'default_amount_of_sick_days' => 5,
-                'default_amount_of_pto_days' => 5,
-            ]);
-        }
+        Carbon::now();
+        $this->assertEquals(
+            5,
+            CompanyPTOPolicy::count()
+        );
+        $this->assertEquals(
+            1828,
+            CompanyCalendar::count()
+        );
     }
 }

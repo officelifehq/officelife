@@ -2,6 +2,39 @@
 .list li:last-child {
   border-bottom: 0;
 }
+
+.weekend {
+  background-color: #ffe2af;
+  border: 1px #ffbd49 solid;
+  border-radius: 11px;
+  color: #B00;
+}
+
+.off {
+  background-color: #AEE4FE;
+  border: 1px #49c2fd solid;
+  border-radius: 11px;
+  color: #3341bd;
+}
+
+td, th {
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-bottom: 1px #ddd dotted;
+}
+
+.edit-link {
+  top: 8px;
+}
+
+.day-item {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.holiday-td {
+  width: 25px;
+}
 </style>
 
 <template>
@@ -23,7 +56,7 @@
       </div>
 
       <!-- BODY -->
-      <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
+      <div class="mw8 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
             {{ $t('account.pto_policies_edit_title', { company: $page.auth.company.name}) }}
@@ -44,32 +77,169 @@
 
           <!-- LIST OF EXISTING PTO POLICIES -->
           <ul class="list pl0 mv0 center ba br2 bb-gray" data-cy="pto-policies-list">
-            <li v-for="ptoPolicy in ptoPolicies" :key="ptoPolicy.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
-              <span class="db mb3">
+            <li v-for="ptoPolicy in ptoPolicies" :key="ptoPolicy.id" class="pv3 ph3 bb bb-gray bb-gray-hover">
+              <!-- title and edit button -->
+              <h3 class="ma0 mb3 f3 fw5 relative">
                 {{ $t('account.pto_policies_edit_year', { year: ptoPolicy.year}) }}
-              </span>
-              {{ $t('account.pto_policies_number_days', { number: ptoPolicy.total_worked_days }) }}
+                <a :data-cy="'list-edit-button-' + ptoPolicy.id" class="pointer absolute right-0 f6 fw4 edit-link" @click.prevent="toggleUpdate(ptoPolicy)">
+                  {{ $t('app.edit') }}
+                </a>
+              </h3>
 
-              <!-- RENAME PTO POLICY FORM -->
+              <!-- statistics -->
+              <div v-show="idToUpdate != ptoPolicy.id" class="flex items-start-ns flex-wrap flex-nowrap-ns">
+                <div class="mb1 w-25-ns w-50 mr4-ns">
+                  <p class="db mb0 mt0 f4 fw3" :data-cy="'policy-worked-days-' + ptoPolicy.id">
+                    {{ $t('account.pto_policies_stat_days', { number: ptoPolicy.total_worked_days }) }}
+                  </p>
+                  <p class="f7 mt1 mb0 fw3 grey">
+                    {{ $t('account.pto_policies_stat_worked_days') }}
+                  </p>
+                </div>
+                <div class="mb1 w-25-ns w-50 mr4-ns">
+                  <p class="db mb0 mt0 f4 fw3" :data-cy="'policy-holidays-' + ptoPolicy.id">
+                    {{ $t('account.pto_policies_stat_days', { number: ptoPolicy.default_amount_of_allowed_holidays }) }}
+                  </p>
+                  <p class="f7 mt1 mb0 fw3 grey" :data-cy="'policy-holidays-' + ptoPolicy.id">
+                    {{ $t('account.pto_policies_stat_default_holidays') }}
+                  </p>
+                </div>
+                <div class="mb1 w-25-ns w-50 mr4-ns">
+                  <p class="db mb0 mt0 f4 fw3" :data-cy="'policy-sick-' + ptoPolicy.id">
+                    {{ $t('account.pto_policies_stat_days', { number: ptoPolicy.default_amount_of_sick_days }) }}
+                  </p>
+                  <p class="f7 mt1 mb0 fw3 grey">
+                    {{ $t('account.pto_policies_stat_default_sick_days') }}
+                  </p>
+                </div>
+                <div class="mb1 w-25-ns w-50">
+                  <p class="db mb0 mt0 f4 fw3" :data-cy="'policy-pto-' + ptoPolicy.id">
+                    {{ $t('account.pto_policies_stat_days', { number: ptoPolicy.default_amount_of_pto_days }) }}
+                  </p>
+                  <p class="f7 mt1 mb0 fw3 grey">
+                    {{ $t('account.pto_policies_stat_default_ptos') }}
+                  </p>
+                </div>
+              </div>
+
+              <!-- edit -->
               <div v-show="idToUpdate == ptoPolicy.id" class="cf mt3">
                 <form @submit.prevent="update(ptoPolicy.id)">
-                  <div class="fl w-100 w-70-ns mb3 mb0-ns">
-                    <text-input :id="'year-' + ptoPolicy.id"
-                                :ref="'year' + ptoPolicy.id"
-                                v-model="form.total_worked_days"
-                                :type="'number'"
-                                :min="1"
-                                :max="300"
-                                :placeholder="'Marketing coordinator'"
-                                :custom-ref="'year' + ptoPolicy.id"
-                                :datacy="'list-edit-input-name-' + ptoPolicy.id"
-                                :errors="$page.errors.total_worked_days"
-                                :required="true"
-                                :extra-class-upper-div="'mb0'"
-                                @esc-key-pressed="idToUpdate = 0"
-                    />
+                  <p>{{ $t('account.pto_policies_edit_default_employee_settings') }}</p>
+                  <div class="dt-ns dt--fixed di">
+                    <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                      <text-input :id="'holidays'"
+                                  v-model="form.default_amount_of_allowed_holidays"
+                                  :name="'holidays'"
+                                  :errors="$page.errors.holidays"
+                                  :label="$t('account.pto_policies_edit_default_amount_of_allowed_holidays')"
+                                  :required="true"
+                                  :type="'number'"
+                                  :min="1"
+                                  :max="300"
+                                  :datacy="'list-edit-input-holidays-' + ptoPolicy.id"
+                      />
+                    </div>
+                    <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                      <text-input :id="'sick'"
+                                  v-model="form.default_amount_of_sick_days"
+                                  :name="'sick'"
+                                  :errors="$page.errors.default_amount_of_sick_days"
+                                  :label="$t('account.pto_policies_edit_default_amount_of_sick_days')"
+                                  :required="true"
+                                  :type="'number'"
+                                  :min="1"
+                                  :max="300"
+                                  :datacy="'list-edit-input-sick-' + ptoPolicy.id"
+                      />
+                    </div>
+                    <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                      <text-input :id="'pto'"
+                                  v-model="form.default_amount_of_pto_days"
+                                  :name="'pto'"
+                                  :errors="$page.errors.default_amount_of_pto_days"
+                                  :label="$t('account.pto_policies_edit_default_amount_of_pto_days')"
+                                  :required="true"
+                                  :type="'number'"
+                                  :min="1"
+                                  :max="300"
+                                  :datacy="'list-edit-input-pto-' + ptoPolicy.id"
+                      />
+                    </div>
                   </div>
-                  <div class="fl w-30-ns w-100 tr">
+
+                  <p>{{ $t('account.pto_policies_edit_click_calendar') }}</p>
+                  <p class="f6">
+                    {{ $t('account.pto_policies_edit_calendar_help') }}
+                  </p>
+                  <div class="tc db mt3">
+                    <table class="center">
+                      <thead>
+                        <tr class="f6 tc">
+                          <th>{{ $t('account.pto_policies_month') }}</th>
+                          <th>1</th>
+                          <th>2</th>
+                          <th>3</th>
+                          <th>4</th>
+                          <th>5</th>
+                          <th>6</th>
+                          <th>7</th>
+                          <th>8</th>
+                          <th>9</th>
+                          <th>10</th>
+                          <th>11</th>
+                          <th>12</th>
+                          <th>13</th>
+                          <th>14</th>
+                          <th>15</th>
+                          <th>16</th>
+                          <th>17</th>
+                          <th>18</th>
+                          <th>19</th>
+                          <th>20</th>
+                          <th>21</th>
+                          <th>22</th>
+                          <th>23</th>
+                          <th>24</th>
+                          <th>25</th>
+                          <th>26</th>
+                          <th>27</th>
+                          <th>28</th>
+                          <th>29</th>
+                          <th>30</th>
+                          <th>31</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="holidayRow in localHolidays" :key="holidayRow.id" class="">
+                          <td v-for="holiday in holidayRow" :key="holiday.id" class="f6 tc holiday-td">
+                            <span :class="isOff(holiday)" class="pointer day-item" :data-cy="'calendar-item-' + holiday.id + '-' + ptoPolicy.id" @click.prevent="toggleDayOff(holiday)">
+                              {{ holiday.abbreviation }}
+                            </span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div class="dt-ns dt--fixed di">
+                    <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                      <span class="f6">
+                        {{ $t('account.pto_policies_legend') }}
+                      </span> <span class="weekend f7 pv1 ph2 mr1">
+                        {{ $t('account.pto_policies_legend_weekend') }}
+                      </span> <span class="off f7 pv1 ph2">
+                        {{ $t('account.pto_policies_legend_holiday') }}
+                      </span>
+                    </div>
+                    <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                      <p class="tr" :data-cy="'total-worked-days-' + ptoPolicy.id">
+                        {{ $t('account.pto_policies_edit_total', { totalWorkedDays: totalWorkedDays, year: ptoPolicy.year }) }}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="w-100 tr">
                     <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-edit-cancel-button-' + ptoPolicy.id" @click.prevent="idToUpdate = 0">
                       {{ $t('app.cancel') }}
                     </a>
@@ -77,16 +247,6 @@
                   </div>
                 </form>
               </div>
-
-              <!-- LIST OF ACTIONS FOR EACH PTO POLICY -->
-              <ul v-show="idToUpdate != ptoPolicy.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
-                <!-- EDIT A PTO POLICY -->
-                <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-edit-button-' + ptoPolicy.id" @click.prevent="displayUpdateModal(ptoPolicy) ; form.total_worked_days = ptoPolicy.total_worked_days">
-                    {{ $t('app.edit') }}
-                  </a>
-                </li>
-              </ul>
             </li>
           </ul>
         </div>
@@ -120,31 +280,88 @@ export default {
 
   data() {
     return {
-      modal: false,
-      deleteModal: false,
-      updateModal: false,
+      totalWorkedDays: 0,
+      editModal: false,
       loadingState: '',
-      updateModalId: 0,
       idToUpdate: 0,
-      idToDelete: 0,
+      localHolidays: null,
       form: {
-        total_worked_days: null,
+        default_amount_of_allowed_holidays: null,
+        default_amount_of_sick_days: null,
+        default_amount_of_pto_days: null,
+        days_to_toggle: [],
         errors: [],
       },
     };
   },
 
   methods: {
-    displayUpdateModal(ptoPolicy) {
-      this.idToUpdate = ptoPolicy.id;
+    isOff: function (holiday) {
+      var classes = '';
+      if (holiday.day_of_week == 0 || holiday.day_of_week == 6) {
+        classes = 'weekend';
+      }
 
-      this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`year${ptoPolicy.id}`][0].$refs[`year${ptoPolicy.id}`].focus();
-      });
+      if (holiday.is_worked == false && holiday.day_of_week != 0 && holiday.day_of_week != 6) {
+        classes = classes + ' off';
+      }
+
+      return classes;
+    },
+
+    toggleUpdate(ptoPolicy) {
+      if (!this.editModal) {
+        this.load(ptoPolicy);
+        this.idToUpdate = ptoPolicy.id;
+        this.totalWorkedDays = ptoPolicy.total_worked_days;
+        this.form.default_amount_of_allowed_holidays = ptoPolicy.default_amount_of_allowed_holidays;
+        this.form.default_amount_of_sick_days = ptoPolicy.default_amount_of_sick_days;
+        this.form.default_amount_of_pto_days = ptoPolicy.default_amount_of_pto_days;
+        this.editModal = true;
+      } else {
+        this.totalWorkedDays = 0;
+        this.localHolidays = null;
+        this.idToUpdate = 0;
+        this.editModal = false;
+        this.form.days_to_toggle = [];
+      }
+    },
+
+    toggleDayOff: function (day) {
+      // we can't toggle a day in the weekend as it’s off by default
+      if (day.day_of_week == 0 || day.day_of_week == 6) {
+        return;
+      }
+
+      // was the day worked previoulsy?
+      var wasWorked = day.is_worked;
+
+      // toggle the day
+      day.is_worked = !day.is_worked;
+
+      // push the day in the array of days that will be send to the backend
+      var id = this.form.days_to_toggle.findIndex(x => x.id === day.id);
+      if (id != -1) {
+        this.form.days_to_toggle.splice(id, 1);
+      } else {
+        this.form.days_to_toggle.push(day);
+      }
+
+      if (wasWorked) {
+        this.totalWorkedDays = this.totalWorkedDays - 1;
+      } else {
+        this.totalWorkedDays = this.totalWorkedDays + 1;
+      }
+    },
+
+    load(ptoPolicy) {
+      axios.get('/' + this.$page.auth.company.id + '/account/ptopolicies/' + ptoPolicy.id + '/getHolidays')
+        .then(response => {
+          this.localHolidays = response.data;
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(ersror.response.data));
+        });
     },
 
     update(id) {

@@ -5,7 +5,9 @@ namespace Tests\Unit\Helpers;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\DateHelper;
+use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
 
 class DateHelperTest extends TestCase
 {
@@ -48,6 +50,65 @@ class DateHelperTest extends TestCase
         $this->assertEquals(
             '2018-10-01',
             DateHelper::getNextOccurence($date)->format('Y-m-d')
+        );
+    }
+
+    /** @test */
+    public function it_returns_the_number_of_days_in_a_year() : void
+    {
+        $date = Carbon::createFromFormat('Y-m-d', '2019-10-01');
+        $this->assertEquals(
+            365,
+            DateHelper::daysInYear($date)
+        );
+
+        $date = Carbon::createFromFormat('Y-m-d', '2020-10-01');
+        $this->assertEquals(
+            366,
+            DateHelper::daysInYear($date)
+        );
+    }
+
+    /** @test */
+    public function it_generates_a_calendar() : void
+    {
+        $michael = factory(Employee::class)->create([]);
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'year' => 2020,
+            'default_amount_of_allowed_holidays' => 1,
+            'default_amount_of_sick_days' => 1,
+            'default_amount_of_pto_days' => 1,
+        ];
+
+        $ptoPolicy = (new CreateCompanyPTOPolicy)->execute($request);
+
+        $calendar = DateHelper::prepareCalendar($ptoPolicy);
+
+        $this->assertEquals(
+            12,
+            count($calendar)
+        );
+
+        $this->assertEquals(
+            30,
+            count($calendar[1])
+        );
+
+        $this->assertEquals(
+            'Jan',
+            $calendar[0][0]['abbreviation']
+        );
+
+        $this->assertEquals(
+            3,
+            $calendar[0][1]['day_of_week']
+        );
+
+        $this->assertEquals(
+            'W',
+            $calendar[0][1]['abbreviation']
         );
     }
 }

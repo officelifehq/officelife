@@ -136,8 +136,9 @@ This is my take on how we should handle PTOs, and this is what Homas allows empl
 - Her manager and her team are informed that she wants to take a break.
 - That's it. No rejecting/approving processes. Going on holidays shouldn't be granted by an employer - it’s a legal right.
 
-The only information that we need to know in advance are
-* the amount of days employees are supposed to work at a given year. This is useful so we can calculate how many holidays employees gain each day by working for the company, based on the number of holidays the employer gives each year.
+For the paid time offs feature to work, we need to know a few pieces of information, that you can edit for each year in the system:
+* how many days are considered working days each year. This is used to calculate how many holidays employees gain each day by working for the company, based on the number of holidays the employer gives each year. This will be also used to know which days should be taken into account when an employee wants to take a day off. For each year, you can edit the calendar and click on a day to mark it off. It’s up to your company to decide which days are considered off, and as it depends on your country, only weekends are considered off by default.
+* the default number of allowed sick days and the default number of Personal Time Off days. Every new employee that you create in your system will have those default values applied to her profile. However, changing those two settings will not be applied to existing employees.
 
 #### Note on unlimited vacation policies
 

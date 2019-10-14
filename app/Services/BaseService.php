@@ -29,7 +29,7 @@ abstract class BaseService
     public function validate(array $data) : bool
     {
         Validator::make($data, $this->rules())
-            ->validate();
+                ->validate();
 
         return true;
     }
