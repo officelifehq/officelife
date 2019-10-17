@@ -300,12 +300,12 @@ $factory->define(App\Models\Company\CompanyPTOPolicy::class, function (Faker $fa
     ];
 });
 
-$factory->define(App\Models\Company\EmployeeDailyLog::class, function (Faker $faker) {
+$factory->define(App\Models\Company\EmployeeDailyCalendarEntry::class, function (Faker $faker) {
     return [
         'employee_id' => function () {
             return factory(App\Models\Company\Employee::class)->create()->id;
         },
-        'holiday_balance' => 10,
+        'new_balance' => 10,
         'daily_accrued_amount' => 1,
         'current_holidays_per_year' => 100,
         'default_amount_of_allowed_holidays_in_company' => 100,

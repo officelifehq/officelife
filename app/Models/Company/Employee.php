@@ -260,7 +260,7 @@ class Employee extends Model
      */
     public function dailyLogs()
     {
-        return $this->hasMany(EmployeeDailyLog::class);
+        return $this->hasMany(EmployeeDailyCalendarEntry::class);
     }
 
     /**

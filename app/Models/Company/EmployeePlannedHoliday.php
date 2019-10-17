@@ -17,6 +17,7 @@ class EmployeePlannedHoliday extends Model
     protected $fillable = [
         'employee_id',
         'planned_date',
+        'type',
         'full',
         'actually_taken',
         'is_dummy',

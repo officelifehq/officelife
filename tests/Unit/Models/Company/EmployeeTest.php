@@ -16,9 +16,9 @@ use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
 use App\Models\Company\EmployeeEvent;
 use App\Models\Company\CompanyPTOPolicy;
-use App\Models\Company\EmployeeDailyLog;
 use App\Models\Company\EmployeeImportantDate;
 use App\Models\Company\EmployeePlannedHoliday;
+use App\Models\Company\EmployeeDailyCalendarEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class EmployeeTest extends TestCase
@@ -198,7 +198,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_daily_logs(): void
     {
         $dwight = factory(Employee::class)->create();
-        factory(EmployeeDailyLog::class, 2)->create([
+        factory(EmployeeDailyCalendarEntry::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
 
