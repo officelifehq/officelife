@@ -4,7 +4,9 @@ namespace App\Services\Company\Employee\Holiday;
 
 use Exception;
 use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
 use Illuminate\Validation\Rule;
 use App\Models\Company\Employee;
 use App\Models\Company\CompanyCalendar;
@@ -72,6 +74,32 @@ class CreateTimeOff extends BaseService
         } else {
             $plannedHoliday = $this->createPlannedHoliday($data, $suggestedDate);
         }
+
+        LogAccountAudit::dispatch([
+            'company_id' => $employee->company_id,
+            'action' => 'time_off_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'planned_holiday_id' => $plannedHoliday->id,
+                'planned_holiday_date' => $plannedHoliday->planned_date,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $employee->id,
+            'action' => 'time_off_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'planned_holiday_id' => $plannedHoliday->id,
+                'planned_holiday_date' => $plannedHoliday->planned_date,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
 
         return $plannedHoliday;
     }

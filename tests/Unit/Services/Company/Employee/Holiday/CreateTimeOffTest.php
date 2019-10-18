@@ -1,12 +1,15 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\Position;
+namespace Tests\Unit\Services\Company\Employee\Holiday;
 
 use Exception;
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Queue;
 use App\Models\Company\EmployeePlannedHoliday;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -58,6 +61,71 @@ class CreateTimeOffTest extends TestCase
             EmployeePlannedHoliday::class,
             $holiday
         );
+    }
+
+    /** @test */
+    public function it_logs_a_new_time_off_as_a_hr_rep() : void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = factory(Employee::class)->create([]);
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+            'permission_level' => config('villagers.authorizations.hr'),
+        ]);
+
+        // create a policy for this year
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'year' => 2018,
+            'default_amount_of_allowed_holidays' => 1,
+            'default_amount_of_sick_days' => 1,
+            'default_amount_of_pto_days' => 1,
+        ];
+        (new CreateCompanyPTOPolicy)->execute($request);
+
+        $request = [
+            'author_id' => $dwight->id,
+            'employee_id' => $michael->id,
+            'date' => '2018-10-10',
+            'type' => 'holiday',
+            'full' => true,
+        ];
+
+        Queue::fake();
+        $holiday = (new CreateTimeOff)->execute($request);
+
+        $this->assertDatabaseHas('employee_planned_holidays', [
+            'id' => $holiday->id,
+            'employee_id' => $michael->id,
+            'planned_date' => '2018-10-10',
+            'type' => 'holiday',
+            'full' => true,
+        ]);
+
+        $this->assertInstanceOf(
+            EmployeePlannedHoliday::class,
+            $holiday
+        );
+
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight, $holiday) {
+            return $job->auditLog['action'] === 'time_off_created' &&
+                $job->auditLog['author_id'] === $dwight->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'planned_holiday_id' => $holiday->id,
+                    'planned_holiday_date' => $holiday->planned_date,
+                ]);
+        });
+
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight, $holiday) {
+            return $job->auditLog['action'] === 'time_off_created' &&
+                $job->auditLog['author_id'] === $dwight->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'planned_holiday_id' => $holiday->id,
+                    'planned_holiday_date' => $holiday->planned_date,
+                ]);
+        });
     }
 
     /** @test */
