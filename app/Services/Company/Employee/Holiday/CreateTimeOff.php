@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Services\Company\Employee\Morale;
+namespace App\Services\Company\Employee\Holiday;
 
 use Exception;
 use Carbon\Carbon;
-use DomainException;
 use App\Services\BaseService;
 use Illuminate\Validation\Rule;
 use App\Models\Company\Employee;
 use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\EmployeePlannedHoliday;
-use App\Exceptions\StartDateAfterEndDateException;
 
-class LogTimeOff extends BaseService
+class CreateTimeOff extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -56,60 +54,26 @@ class LogTimeOff extends BaseService
             $data['employee_id']
         );
 
-        // $this->checkDates($data);
-
         // grab the PTO policy and check wether this day is a worked day or not
         $suggestedDate = Carbon::parse($data['date']);
         $ptoPolicy = $employee->company->getCurrentPTOPolicy();
         if (!$this->isDayWorkedForCompany($ptoPolicy, $suggestedDate)) {
-            throw new DomainException();
+            throw new Exception();
         }
 
         // check if an holiday already exists for this day
+        // If the date is already taken as a planned holiday in full, we can't take
+        // this day as it’s already taken.
+        // If the date is already taken but as half, it means we can take it but
+        // only as a half day.
         $existingPlannedHoliday = $this->getExistingPlannedHoliday($employee, $suggestedDate);
         if ($existingPlannedHoliday) {
-            // here we can only accept to log a half day of time off
-            $plannedHoliday = $existingPlannedHoliday;
-            if ($plannedHoliday->full) {
-                throw new Exception();
-            }
-
-            if ($data['full']) {
-                throw new Exception();
-            }
-
-            // all conditions are good, we can update the day as a full holiday
-            $plannedHoliday->full = true;
-            $plannedHoliday->save();
-        }
-
-        // case if the holiday doesn't already exist
-        if (!$existingPlannedHoliday) {
-            $plannedHoliday = EmployeePlannedHoliday::create([
-                'employee_id' => $data['employee_id'],
-                'planned_date' => $suggestedDate,
-                'type' => $data['type'],
-                'full' => $data['full'],
-            ]);
+            $plannedHoliday = $this->updateExistingPlannedHoliday($existingPlannedHoliday, $data);
+        } else {
+            $plannedHoliday = $this->createPlannedHoliday($data, $suggestedDate);
         }
 
         return $plannedHoliday;
-    }
-
-    /**
-     * Check if the start date is before the end date.
-     *
-     * @param array $data
-     * @return void
-     */
-    private function checkDates(array $data)
-    {
-        $start = Carbon::parse($data['start_date']);
-        $end = Carbon::parse($data['end_date']);
-
-        if ($end->lessThan($start)) {
-            throw new StartDateAfterEndDateException();
-        }
     }
 
     /**
@@ -121,37 +85,40 @@ class LogTimeOff extends BaseService
      */
     private function isDayWorkedForCompany(CompanyPTOPolicy $ptoPolicy, Carbon $date) : bool
     {
-        $day = CompanyCalendar::where('company_pto_policy_id', $ptoPolicy)
+        $day = CompanyCalendar::where('company_pto_policy_id', $ptoPolicy->id)
             ->where('day', $date->format('Y-m-d'))
             ->firstOrFail();
 
         return $day->is_worked;
     }
 
+    /**
+     * Get the planned holiday object for this date, if it already exists.
+     *
+     * @param Employee $employee
+     * @param Carbon $date
+     * @return EmployeePlannedHoliday
+     */
     private function getExistingPlannedHoliday(Employee $employee, Carbon $date)
     {
         $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
-            ->where('planned_date', $date)
+            ->where('planned_date', $date->format('Y-m-d'))
             ->first();
 
         return $holiday;
     }
 
     /**
-     * Check if the date is available to be marked as time off.
-     * If the date is already taken as a planned holiday in full, we can't take
-     * this day as it’s already taken.
-     * If the date is already taken but as half, it means we can take it but
-     * only as a half day.
-     * If the date is not used at all, we can take it.
+     * Update an existing planned holiday with new details.
      *
-     * @param Employee $employee
-     * @param Carbon $date
-     * @return boolean
+     * @param EmployeePlannedHoliday $holiday
+     * @param array $data
+     * @return EmployeePlannedHoliday
      */
-    private function isDateAvailable(EmployeePlannedHoliday $planned, array $data)
+    private function updateExistingPlannedHoliday(EmployeePlannedHoliday $holiday, array $data) : EmployeePlannedHoliday
     {
-        if ($planned->full) {
+        // here we can only accept to log a half day of time off
+        if ($holiday->full) {
             throw new Exception();
         }
 
@@ -159,6 +126,27 @@ class LogTimeOff extends BaseService
             throw new Exception();
         }
 
-        return true;
+        // all conditions are good, we can update the day as a full holiday
+        $holiday->full = true;
+        $holiday->save();
+
+        return $holiday;
+    }
+
+    /**
+     * Create a new planned holiday.
+     *
+     * @param array $data
+     * @param Carbon $date
+     * @return EmployeePlannedHoliday
+     */
+    private function createPlannedHoliday(array $data, Carbon $date) : EmployeePlannedHoliday
+    {
+        return EmployeePlannedHoliday::create([
+            'employee_id' => $data['employee_id'],
+            'planned_date' => $date,
+            'type' => $data['type'],
+            'full' => $data['full'],
+        ]);
     }
 }

@@ -19,7 +19,7 @@ class CreateEmployeePtoTable extends Migration
             $table->date('planned_date');
             $table->string('type');
             $table->boolean('full');
-            $table->boolean('actually_taken');
+            $table->boolean('actually_taken')->default(false);
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
