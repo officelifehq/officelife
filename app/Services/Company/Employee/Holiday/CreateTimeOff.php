@@ -59,7 +59,7 @@ class CreateTimeOff extends BaseService
         // grab the PTO policy and check wether this day is a worked day or not
         $suggestedDate = Carbon::parse($data['date']);
         $ptoPolicy = $employee->company->getCurrentPTOPolicy();
-        if (!$this->isDayWorkedForCompany($ptoPolicy, $suggestedDate)) {
+        if (! $this->isDayWorkedForCompany($ptoPolicy, $suggestedDate)) {
             throw new Exception();
         }
 
@@ -109,7 +109,7 @@ class CreateTimeOff extends BaseService
      *
      * @param CompanyPTOPolicy $ptoPolicy
      * @param Carbon $date
-     * @return boolean
+     * @return bool
      */
     private function isDayWorkedForCompany(CompanyPTOPolicy $ptoPolicy, Carbon $date) : bool
     {

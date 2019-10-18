@@ -136,9 +136,17 @@ This is my take on how we should handle PTOs, and this is what Villagers allows 
 - Her manager and her team are informed that she wants to take a break.
 - That's it. No rejecting/approving processes. Going on holidays shouldn't be granted by an employer - it’s a legal right.
 
-For the paid time offs feature to work, we need to know a few pieces of information, that you can edit for each year in the system:
-* how many days are considered working days each year. This is used to calculate how many holidays employees gain each day by working for the company, based on the number of holidays the employer gives each year. This will be also used to know which days should be taken into account when an employee wants to take a day off. For each year, you can edit the calendar and click on a day to mark it off. It’s up to your company to decide which days are considered off, and as it depends on your country, only weekends are considered off by default.
+Time offs are based on a yearly calendar. Each company has its own set of defined holidays during a given year. When you create an account on Villagers, your account is populated with 5 calendars for each of the next 5 years. On these calendars, weekends are considered time offs by default, and it’s up to you to define which other days you consider as time offs/holidays depending on the country you are living in.
+
+In the Adminland section of your account, you can manage your own PTO policy and change the following settings:
+* how many days are considered working days each year. This is used to calculate how many holidays employees gain each day by working for the company, based on the number of holidays the employer gives each year. This will be also used to know which days should be taken into account when an employee wants to take a day off. For each year, you can edit the calendar and click on a day to mark it off. It’s up to your company to decide which days are considered off, and as it depends on your country, only weekends are considered off by default. Also, it’s not possible to change the status of weekends. They will always be considered offs for everyone.
 * the default number of allowed sick days and the default number of Personal Time Off days. Every new employee that you create in your system will have those default values applied to her profile. However, changing those two settings will not be applied to existing employees.
+
+#### Log a time off
+
+Employees can log a time off in the future, or in the past. They can only choose between a half and a full day. When they log a time off, they have to choose between a holiday, a sick day or a PTO day.
+
+Note that an employee with the HR or admin privileges can also log a time off for any employee in the system.
 
 #### Note on unlimited vacation policies
 
