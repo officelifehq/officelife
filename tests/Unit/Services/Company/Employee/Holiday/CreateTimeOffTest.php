@@ -213,7 +213,7 @@ class CreateTimeOffTest extends TestCase
         (new CreateCompanyPTOPolicy)->execute($request);
 
         // let's take a day that is already taken as a day off
-        $existingPlannedHoliday = DB::table('employee_planned_holidays')->insertGetId([
+        DB::table('employee_planned_holidays')->insertGetId([
             'employee_id' => $michael->id,
             'planned_date' => '2018-10-10',
             'type' => 'holiday',
@@ -230,18 +230,31 @@ class CreateTimeOffTest extends TestCase
 
         $holiday = (new CreateTimeOff)->execute($request);
 
-        $this->assertDatabaseHas('employee_planned_holidays', [
-            'id' => $existingPlannedHoliday,
-            'employee_id' => $michael->id,
-            'planned_date' => '2018-10-10',
-            'type' => 'holiday',
-            'full' => true,
-        ]);
+        // there should be two entries in the database
+        $count = DB::table('employee_planned_holidays')->where('planned_date', '2018-10-10')
+            ->count();
+
+        $this->assertEquals(
+            2,
+            $count
+        );
 
         $this->assertInstanceOf(
             EmployeePlannedHoliday::class,
             $holiday
         );
+
+        // we now try to add another half day but it should reject it
+        $request = [
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'date' => '2018-10-10',
+            'type' => 'holiday',
+            'full' => false,
+        ];
+
+        $this->expectException(Exception::class);
+        $holiday = (new CreateTimeOff)->execute($request);
     }
 
     /** @test */

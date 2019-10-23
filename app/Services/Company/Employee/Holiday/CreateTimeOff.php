@@ -39,6 +39,11 @@ class CreateTimeOff extends BaseService
 
     /**
      * Log a time off for the given employee.
+     * A time off can only be of two types: half day or full day.
+     * For any given day you can therefore either be a full day, or two half
+     * days. We will not put in place rules against the types of PTO someone
+     * wants to take. That means he can take one half day of sick day, and the
+     * other half day as holiday, for instance.
      *
      * @param array $data
      * @return EmployeePlannedHoliday
@@ -56,8 +61,9 @@ class CreateTimeOff extends BaseService
             $data['employee_id']
         );
 
-        // grab the PTO policy and check wether this day is a worked day or not
         $suggestedDate = Carbon::parse($data['date']);
+
+        // grab the PTO policy and check wether this day is a worked day or not
         $ptoPolicy = $employee->company->getCurrentPTOPolicy();
         if (! $this->isDayWorkedForCompany($ptoPolicy, $suggestedDate)) {
             throw new Exception();
@@ -69,37 +75,16 @@ class CreateTimeOff extends BaseService
         // If the date is already taken but as half, it means we can take it but
         // only as a half day.
         $existingPlannedHoliday = $this->getExistingPlannedHoliday($employee, $suggestedDate);
+
         if ($existingPlannedHoliday) {
-            $plannedHoliday = $this->updateExistingPlannedHoliday($existingPlannedHoliday, $data);
+            if ($this->validateCreationHoliday($existingPlannedHoliday, $data)) {
+                $plannedHoliday = $this->createPlannedHoliday($data, $suggestedDate);
+            }
         } else {
             $plannedHoliday = $this->createPlannedHoliday($data, $suggestedDate);
         }
 
-        LogAccountAudit::dispatch([
-            'company_id' => $employee->company_id,
-            'action' => 'time_off_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'planned_holiday_id' => $plannedHoliday->id,
-                'planned_holiday_date' => $plannedHoliday->planned_date,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ])->onQueue('low');
-
-        LogEmployeeAudit::dispatch([
-            'employee_id' => $employee->id,
-            'action' => 'time_off_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'planned_holiday_id' => $plannedHoliday->id,
-                'planned_holiday_date' => $plannedHoliday->planned_date,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ])->onQueue('low');
+        $this->createLogs($employee, $author, $plannedHoliday, $data);
 
         return $plannedHoliday;
     }
@@ -131,34 +116,40 @@ class CreateTimeOff extends BaseService
     {
         $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
             ->where('planned_date', $date->format('Y-m-d'))
+            ->count();
+
+        if ($holiday > 1) {
+            throw new Exception();
+        }
+
+        $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
+            ->where('planned_date', $date->format('Y-m-d'))
             ->first();
 
         return $holiday;
     }
 
     /**
-     * Update an existing planned holiday with new details.
+     * Validate wether we can create a new holiday.
      *
      * @param EmployeePlannedHoliday $holiday
      * @param array $data
-     * @return EmployeePlannedHoliday
+     * @return boolean
      */
-    private function updateExistingPlannedHoliday(EmployeePlannedHoliday $holiday, array $data) : EmployeePlannedHoliday
+    private function validateCreationHoliday(EmployeePlannedHoliday $holiday, array $data) : bool
     {
-        // here we can only accept to log a half day of time off
+        // we can't log any new holiday - the day is already used
         if ($holiday->full) {
             throw new Exception();
         }
 
+        // here, we are in the case of a half day, but the person requested
+        // a full day
         if ($data['full']) {
             throw new Exception();
         }
 
-        // all conditions are good, we can update the day as a full holiday
-        $holiday->full = true;
-        $holiday->save();
-
-        return $holiday;
+        return true;
     }
 
     /**
@@ -176,5 +167,43 @@ class CreateTimeOff extends BaseService
             'type' => $data['type'],
             'full' => $data['full'],
         ]);
+    }
+
+    /**
+     * Create the audit logs.
+     *
+     * @param Employee $employee
+     * @param Employee $author
+     * @param EmployeePlannedHoliday $plannedHoliday
+     * @param array $data
+     * @return void
+     */
+    private function createLogs(Employee $employee, Employee $author, EmployeePlannedHoliday $plannedHoliday, array $data)
+    {
+        LogAccountAudit::dispatch([
+            'company_id' => $employee->company_id,
+            'action' => 'time_off_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'planned_holiday_id' => $plannedHoliday->id,
+                'planned_holiday_date' => $plannedHoliday->planned_date,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $employee->id,
+            'action' => 'time_off_created',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'planned_holiday_id' => $plannedHoliday->id,
+                'planned_holiday_date' => $plannedHoliday->planned_date,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
     }
 }
