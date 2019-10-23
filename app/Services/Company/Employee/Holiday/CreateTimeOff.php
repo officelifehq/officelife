@@ -75,6 +75,7 @@ class CreateTimeOff extends BaseService
         // If the date is already taken but as half, it means we can take it but
         // only as a half day.
         $existingPlannedHoliday = $this->getExistingPlannedHoliday($employee, $suggestedDate);
+        $plannedHoliday = '';
 
         if ($existingPlannedHoliday) {
             if ($this->validateCreationHoliday($existingPlannedHoliday, $data)) {
