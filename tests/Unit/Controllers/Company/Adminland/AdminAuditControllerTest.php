@@ -16,8 +16,8 @@ class AdminAuditControllerTest extends TestCase
         $route = '/account/audit';
         $employee = factory(Employee::class)->create([]);
 
-        $this->accessibleBy($employee, config('villagers.authorizations.administrator'), $route, 200);
-        $this->accessibleBy($employee, config('villagers.authorizations.hr'), $route, 401);
-        $this->accessibleBy($employee, config('villagers.authorizations.user'), $route, 401);
+        $this->accessibleBy($employee, config('kakene.authorizations.administrator'), $route, 200);
+        $this->accessibleBy($employee, config('kakene.authorizations.hr'), $route, 401);
+        $this->accessibleBy($employee, config('kakene.authorizations.user'), $route, 401);
     }
 }

@@ -36,7 +36,7 @@ class RemoveDummyData extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('villagers.authorizations.administrator')
+            config('kakene.authorizations.administrator')
         );
 
         $company = Company::find($data['company_id']);

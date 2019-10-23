@@ -44,7 +44,7 @@ class CreatePlace extends BaseService
         $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('villagers.authorizations.user')
+            config('kakene.authorizations.user')
         );
 
         $place = $this->addPlace($data);

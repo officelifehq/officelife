@@ -10,7 +10,7 @@ return [
     | This defines the name of the site.
     |
     */
-    'name' => 'Humanesis',
+    'name' => 'Kakene',
 
     /*
     |--------------------------------------------------------------------------

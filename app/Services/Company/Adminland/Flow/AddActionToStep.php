@@ -39,7 +39,7 @@ class AddActionToStep extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('villagers.authorizations.hr')
+            config('kakene.authorizations.hr')
         );
 
         $step = Step::where('flow_id', $data['flow_id'])

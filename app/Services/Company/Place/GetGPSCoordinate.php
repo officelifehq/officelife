@@ -62,17 +62,17 @@ class GetGPSCoordinate extends BaseService
      */
     private function buildQuery(Place $place)
     {
-        if (is_null(config('villagers.location_iq_api_key'))) {
+        if (is_null(config('kakene.location_iq_api_key'))) {
             return;
         }
 
         $query = http_build_query([
             'format' => 'json',
-            'key' => config('villagers.location_iq_api_key'),
+            'key' => config('kakene.location_iq_api_key'),
             'q' => $place->getAddressAsString(),
         ]);
 
-        return Str::finish(config('villagers.location_iq_url'), '/').'search.php?'.$query;
+        return Str::finish(config('kakene.location_iq_url'), '/').'search.php?'.$query;
     }
 
     /**

@@ -249,7 +249,7 @@ export default {
 
   methods: {
     updatePageTitle(title) {
-      document.title = title ? `${title} | Villagers` : 'Villagers';
+      document.title = title ? `${title} | kakene` : 'kakene';
     },
 
     showFindModal() {
