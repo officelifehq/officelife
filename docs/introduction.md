@@ -144,7 +144,7 @@ In the Adminland section of your account, you can manage your own PTO policy and
 
 #### Log a time off
 
-Employees can log a time off in the future, or in the past. They can only choose between a half and a full day. When they log a time off, they have to choose between a holiday, a sick day or a PTO day.
+Employees can log a time off in the future, or in the past. They can only choose between a half and a full day. When they log a time off, they have to choose between a holiday, a sick day or a PTO day. There can only be two half days for any given day. Also, of course, it’s not possible to log a time off on a day the company indicated that it was a holiday for the entire company.
 
 Note that an employee with the HR or admin privileges can also log a time off for any employee in the system.
 
