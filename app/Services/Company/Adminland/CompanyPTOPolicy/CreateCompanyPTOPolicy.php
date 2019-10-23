@@ -43,7 +43,7 @@ class CreateCompanyPTOPolicy extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('villagers.authorizations.hr')
+            config('kakene.authorizations.hr')
         );
 
         // check if there is a policy for the given year already

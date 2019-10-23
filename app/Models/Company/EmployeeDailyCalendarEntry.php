@@ -15,9 +15,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * This data comes from a cron job that is processed after midnight every day.
  */
-class EmployeeDailyLog extends Model
+class EmployeeDailyCalendarEntry extends Model
 {
-    protected $table = 'employee_daily_logs';
+    protected $table = 'employee_daily_calendar_entries';
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +26,7 @@ class EmployeeDailyLog extends Model
      */
     protected $fillable = [
         'employee_id',
-        'holiday_balance',
+        'new_balance',
         'daily_accrued_amount',
         'current_holidays_per_year',
         'default_amount_of_allowed_holidays_in_company',

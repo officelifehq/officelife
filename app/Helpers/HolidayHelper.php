@@ -43,4 +43,18 @@ class HolidayHelper
 
         return $numberOfDaysLeftToEarn;
     }
+
+    /**
+     * Return the number of holidays an employee earns each day.
+     *
+     * @param CompanyPTOPolicy $ptoPolicy
+     * @param Employee $employee
+     * @return float
+     */
+    public static function getHolidaysEarnedEachDay(CompanyPTOPolicy $ptoPolicy, Employee $employee) : float
+    {
+        $numberOfDaysWorkedInYear = $ptoPolicy->total_worked_days;
+
+        return round(1 * $employee->amount_of_allowed_holidays / $numberOfDaysWorkedInYear, 2);
+    }
 }

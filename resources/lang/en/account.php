@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'home_title' => 'Administration of your Villagers account',
+    'home_title' => 'Administration of your kakene account',
     'home_role_administrator' => 'As an <span class="fw5 brush-blue">administrator</span>, you can…',
     'home_role_owner' => 'As an <span class="fw5 brush-orange">owner</span>, you can…',
     'home_manage_employees' => 'Add/remove existing employees',
@@ -39,7 +39,7 @@ return [
     'teams_title' => 'All the teams listed in {company}',
     'teams_number_teams' => '{company} has one team. | {company} has {count} teams.',
     'teams_cta' => 'Add a team',
-    'teams_blank' => 'Teams are a great way for groups of people in your company to work together in Villagers.',
+    'teams_blank' => 'Teams are a great way for groups of people in your company to work together in kakene.',
     'team_new_name' => 'Name of the team',
 
     'employee_statuses_title' => 'All the employee statuses in {company}',
@@ -135,6 +135,8 @@ return [
     'log_employee_morale_logged' => 'Added an emotion on how the day went.',
     'log_company_pto_policy_created' => 'Created a company PTO policy for :year.',
     'log_company_pto_policy_updated' => 'Updated the company PTO policy for the year :year.',
+    'log_company_time_off_created' => 'Added a new time off for :date.',
+    'log_company_time_off_destroyed' => 'Removed a time off for :date.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -149,6 +151,8 @@ return [
     'employee_log_employee_status_assigned' => 'Assigned the employee status called :name.',
     'employee_log_employee_status_removed' => 'Removed the employee status called :name.',
     'employee_log_morale_logged' => 'Added an emotion on how the day went.',
+    'employee_log_time_off_created' => 'Added a new time off for :date.',
+    'employee_log_time_off_destroyed' => 'Removed a time off for :date.',
 
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',

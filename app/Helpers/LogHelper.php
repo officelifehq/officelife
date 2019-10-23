@@ -194,6 +194,18 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'time_off_created') {
+            $sentence = trans('account.log_company_time_off_created', [
+                'date' => $log->object->{'planned_holiday_date'},
+            ]);
+        }
+
+        if ($log->action == 'time_off_destroyed') {
+            $sentence = trans('account.log_company_time_off_destroyed', [
+                'date' => $log->object->{'planned_holiday_date'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -278,6 +290,18 @@ class LogHelper
         if ($log->action == 'morale_logged') {
             $sentence = trans('account.employee_log_morale_logged', [
                 'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'time_off_created') {
+            $sentence = trans('account.employee_log_time_off_created', [
+                'date' => $log->object->{'planned_holiday_date'},
+            ]);
+        }
+
+        if ($log->action == 'time_off_destroyed') {
+            $sentence = trans('account.employee_log_time_off_destroyed', [
+                'date' => $log->object->{'planned_holiday_date'},
             ]);
         }
 

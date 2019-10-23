@@ -44,7 +44,7 @@ class UpdateCompanyPTOPolicy extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('villagers.authorizations.hr')
+            config('kakene.authorizations.hr')
         );
 
         $ptoPolicy = CompanyPTOPolicy::where('company_id', $data['company_id'])

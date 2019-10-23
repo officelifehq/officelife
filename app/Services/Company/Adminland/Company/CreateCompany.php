@@ -87,7 +87,7 @@ class CreateCompany extends BaseService
             'user_id' => $author->id,
             'company_id' => $company->id,
             'uuid' => Str::uuid()->toString(),
-            'permission_level' => config('villagers.authorizations.administrator'),
+            'permission_level' => config('kakene.authorizations.administrator'),
             'email' => $author->email,
             'first_name' => $author->first_name,
             'last_name' => $author->last_name,

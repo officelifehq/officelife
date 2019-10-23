@@ -18,7 +18,7 @@ class CheckHRRole
     {
         $employee = InstanceHelper::getLoggedEmployee();
 
-        if ($employee->permission_level <= config('villagers.authorizations.hr')) {
+        if ($employee->permission_level <= config('kakene.authorizations.hr')) {
             return $next($request);
         }
 

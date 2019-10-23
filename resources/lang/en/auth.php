@@ -24,8 +24,8 @@ return [
     'invitation_unlogged_login_instead' => 'Create a new account instead.',
     'invitation_unlogged_choice_account_title' => 'Create an account',
     'invitation_unlogged_choice_account_desc' => 'Use this option if you don\'t have an account',
-    'invitation_unlogged_choice_login_title' => 'Use an existing Villagers account',
-    'invitation_unlogged_choice_login_desc' => 'Use this option if you already have an account on Villagers',
+    'invitation_unlogged_choice_login_title' => 'Use an existing kakene account',
+    'invitation_unlogged_choice_login_desc' => 'Use this option if you already have an account on kakene',
     'invitation_unlogged_choice_account' => 'Create an account',
     'invitation_unlogged_choice_login' => 'Sign in to your account',
 ];

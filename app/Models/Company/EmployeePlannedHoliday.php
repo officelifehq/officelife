@@ -17,9 +17,19 @@ class EmployeePlannedHoliday extends Model
     protected $fillable = [
         'employee_id',
         'planned_date',
+        'type',
         'full',
         'actually_taken',
         'is_dummy',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'planned_date',
     ];
 
     /**
