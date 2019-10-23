@@ -134,7 +134,7 @@ class CreateTimeOff extends BaseService
      *
      * @param EmployeePlannedHoliday $holiday
      * @param array $data
-     * @return boolean
+     * @return bool
      */
     private function validateCreationHoliday(EmployeePlannedHoliday $holiday, array $data) : bool
     {
