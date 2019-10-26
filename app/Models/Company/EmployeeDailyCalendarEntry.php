@@ -26,6 +26,7 @@ class EmployeeDailyCalendarEntry extends Model
      */
     protected $fillable = [
         'employee_id',
+        'log_date',
         'new_balance',
         'daily_accrued_amount',
         'current_holidays_per_year',
@@ -35,6 +36,15 @@ class EmployeeDailyCalendarEntry extends Model
         'pto_day',
         'remote',
         'is_dummy',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'log_date',
     ];
 
     /**
