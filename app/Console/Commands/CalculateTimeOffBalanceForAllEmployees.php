@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Models\Company\Employee;
 use App\Jobs\CalculateTimeOffBalance;
@@ -14,30 +13,27 @@ class CalculateTimeOffBalanceForAllEmployees extends Command
      *
      * @var string
      */
-    protected $signature = 'timeoff:calculate';
+    protected $signature = 'timeoff:calculate {day}';
+
+    /**
+     * The date the calculation is made.
+     */
+    protected $date;
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Change the permission of the employee';
-
-    /**
-     * The date this event should be registered.
-     *
-     */
-    public $date;
+    protected $description = 'Trigger the calculation of available time off balance for all employees';
 
     /**
      * Create a new job instance.
      *
-     * @param Carbon $date
      * @return void
      */
-    public function __construct(Carbon $date)
+    public function __construct()
     {
-        $this->date = $date;
         parent::__construct();
     }
 
@@ -48,12 +44,13 @@ class CalculateTimeOffBalanceForAllEmployees extends Command
      */
     public function handle()
     {
+        $this->date = $this->argument('day');
         Employee::select('id')->chunk(100, function ($employees) {
             $employees->each(function (Employee $employee) {
-                CalculateTimeOffBalance::dispatch([
-                    'employee_id' => $employee->id,
-                    'date' => $this->date,
-                ])->onQueue('low');
+                CalculateTimeOffBalance::dispatch(
+                    $employee,
+                    $this->date
+                )->onQueue('low');
             });
         });
     }

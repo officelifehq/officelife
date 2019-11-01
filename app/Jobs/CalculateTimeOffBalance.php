@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use App\Models\Company\Employee;
 use Illuminate\Queue\SerializesModels;
@@ -31,10 +30,10 @@ class CalculateTimeOffBalance implements ShouldQueue
      * Create a new job instance.
      *
      * @param Employee $employee
-     * @param Carbon $date
+     * @param string $date
      * @return void
      */
-    public function __construct(Employee $employee, Carbon $date)
+    public function __construct(Employee $employee, string $date)
     {
         $this->employee = $employee;
         $this->date = $date;
