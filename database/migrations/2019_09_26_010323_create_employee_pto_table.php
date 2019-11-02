@@ -28,6 +28,7 @@ class CreateEmployeePtoTable extends Migration
         Schema::create('employee_daily_calendar_entries', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('employee_id');
+            $table->date('log_date');
             $table->double('new_balance');
             $table->double('daily_accrued_amount');
             $table->double('current_holidays_per_year');

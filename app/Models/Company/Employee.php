@@ -42,6 +42,7 @@ class Employee extends Model
         'uuid',
         'is_dummy',
         'avatar',
+        'holiday_balance',
     ];
 
     /**

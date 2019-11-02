@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new LogMissedWorklogEntry(Carbon::today()))->dailyAt('23:00');
         $schedule->job(new LogCompaniesMorale(Carbon::today()))->dailyAt('23:00');
         $schedule->job(new LogTeamsMorale(Carbon::today()))->dailyAt('23:00');
+        $schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
     }
 
     /**

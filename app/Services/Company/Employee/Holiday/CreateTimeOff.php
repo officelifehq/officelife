@@ -6,11 +6,10 @@ use Exception;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Helpers\HolidayHelper;
 use App\Jobs\LogEmployeeAudit;
 use Illuminate\Validation\Rule;
 use App\Models\Company\Employee;
-use App\Models\Company\CompanyCalendar;
-use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\EmployeePlannedHoliday;
 
 class CreateTimeOff extends BaseService
@@ -65,7 +64,7 @@ class CreateTimeOff extends BaseService
 
         // grab the PTO policy and check wether this day is a worked day or not
         $ptoPolicy = $employee->company->getCurrentPTOPolicy();
-        if (! $this->isDayWorkedForCompany($ptoPolicy, $suggestedDate)) {
+        if (! HolidayHelper::isDayWorkedForCompany($ptoPolicy, $suggestedDate)) {
             throw new Exception();
         }
 
@@ -88,22 +87,6 @@ class CreateTimeOff extends BaseService
         $this->createLogs($employee, $author, $plannedHoliday, $data);
 
         return $plannedHoliday;
-    }
-
-    /**
-     * Check if the date is considered off in the company.
-     *
-     * @param CompanyPTOPolicy $ptoPolicy
-     * @param Carbon $date
-     * @return bool
-     */
-    private function isDayWorkedForCompany(CompanyPTOPolicy $ptoPolicy, Carbon $date) : bool
-    {
-        $day = CompanyCalendar::where('company_pto_policy_id', $ptoPolicy->id)
-            ->where('day', $date->format('Y-m-d'))
-            ->firstOrFail();
-
-        return $day->is_worked;
     }
 
     /**

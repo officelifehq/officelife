@@ -79,4 +79,44 @@ class HolidayHelperTest extends TestCase
             HolidayHelper::getHolidaysEarnedEachDay($policy, $michael)
         );
     }
+
+    /** @test */
+    public function it_checks_if_a_day_is_worked_in_the_company() : void
+    {
+        $policy = factory(CompanyPTOPolicy::class)->create([
+            'year' => 2018,
+        ]);
+
+        factory(CompanyCalendar::class)->create([
+            'company_pto_policy_id' => $policy->id,
+            'day' => '2018-10-01',
+            'is_worked' => true,
+        ]);
+
+        $date = Carbon::createFromFormat('Y-m-d', '2018-10-01');
+
+        $this->assertTrue(
+            HolidayHelper::isDayWorkedForCompany($policy, $date)
+        );
+    }
+
+    /** @test */
+    public function it_checks_if_a_day_is_not_worked_in_the_company(): void
+    {
+        $policy = factory(CompanyPTOPolicy::class)->create([
+            'year' => 2018,
+        ]);
+
+        factory(CompanyCalendar::class)->create([
+            'company_pto_policy_id' => $policy->id,
+            'day' => '2018-10-01',
+            'is_worked' => false,
+        ]);
+
+        $date = Carbon::createFromFormat('Y-m-d', '2018-10-01');
+
+        $this->assertFalse(
+            HolidayHelper::isDayWorkedForCompany($policy, $date)
+        );
+    }
 }
