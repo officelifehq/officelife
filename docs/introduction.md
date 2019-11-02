@@ -148,6 +148,10 @@ Employees can log a time off in the future, or in the past. They can only choose
 
 Note that an employee with the HR or admin privileges can also log a time off for any employee in the system.
 
+#### Earning time off
+
+Every day employees gain a tiny amount of new holidays, that adds up in their balance. This is calculated based on a simple formula: the system knows how many working days there are in the year as defined in the company's PTO policy, and the system also knows how many numbers of PTOs the employee has. Therefore it’s easy to know how much time off an employee earns each working day. A cron runs every night to calculate employee's new balance.
+
 #### Note on unlimited vacation policies
 
 I personally believe that unlimited vacation policies are bullshit. When they exist, people actually don't take holidays at all. This is why, while this concept is supported in Kakene, managers will be warned when people haven't taken an holidays for a few months, to make sure people don't burn out.
