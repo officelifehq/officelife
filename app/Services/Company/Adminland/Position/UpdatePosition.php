@@ -14,7 +14,7 @@ class UpdatePosition extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -31,7 +31,7 @@ class UpdatePosition extends BaseService
      * @param array $data
      * @return Position
      */
-    public function execute(array $data) : Position
+    public function execute(array $data): Position
     {
         $this->validate($data);
 

@@ -12,7 +12,7 @@ class NotificationHelper
      * @param Notification $notification
      * @return string
      */
-    public static function process(Notification $notification) : string
+    public static function process(Notification $notification): string
     {
         $sentence = '';
 

@@ -13,7 +13,7 @@ class LogEmployeeAction extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'author_id' => 'required|integer|exists:employees,id',
@@ -34,7 +34,7 @@ class LogEmployeeAction extends BaseService
      * @param array $data
      * @return EmployeeLog
      */
-    public function execute(array $data) : EmployeeLog
+    public function execute(array $data): EmployeeLog
     {
         $this->validate($data);
 

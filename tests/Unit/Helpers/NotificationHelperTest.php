@@ -12,7 +12,7 @@ class NotificationHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_manages_the_case_when_dummy_data_has_been_generated() : void
+    public function it_manages_the_case_when_dummy_data_has_been_generated(): void
     {
         $adminEmployee = $this->createAdministrator();
 

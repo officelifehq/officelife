@@ -77,7 +77,7 @@ class User extends Authenticatable
      * @param string $value
      * @return string
      */
-    public function getNameAttribute($value) : string
+    public function getNameAttribute($value): string
     {
         if (is_null($this->first_name)) {
             return $this->email;
@@ -97,7 +97,7 @@ class User extends Authenticatable
      *
      * @return string
      */
-    public function getPathConfirmationLink() : string
+    public function getPathConfirmationLink(): string
     {
         return secure_url('invite/employee/'.$this->verification_link);
     }

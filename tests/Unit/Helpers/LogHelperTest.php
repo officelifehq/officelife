@@ -15,7 +15,7 @@ class LogHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_returns_the_string_explaining_the_audit_log() : void
+    public function it_returns_the_string_explaining_the_audit_log(): void
     {
         $adminEmployee = $this->createAdministrator();
 
@@ -32,7 +32,7 @@ class LogHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_string_explaining_the_employee_log() : void
+    public function it_returns_the_string_explaining_the_employee_log(): void
     {
         $adminEmployee = $this->createAdministrator();
 
@@ -49,7 +49,7 @@ class LogHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_string_explaining_the_team_log() : void
+    public function it_returns_the_string_explaining_the_team_log(): void
     {
         $team = factory(Team::class)->create([]);
 

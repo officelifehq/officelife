@@ -55,7 +55,7 @@
           Available balance
         </div>
         <div class="w-50 tr f3">
-          25 days
+          {{ employee.holidays.current_balance_round }} days
         </div>
       </div>
 
@@ -99,7 +99,7 @@
           <p class="db mb2 mt0 f3 fw3">
             25 days
           </p>
-          <p class="f7 mt0 fw3 grey">
+          <p class="f7 mt0 fw3 grey lh-copy">
             Days taken so far this year
           </p>
         </div>
@@ -107,7 +107,7 @@
           <p class="db mb2 mt0 f3">
             {{ employee.holidays.holidays_earned_each_month }} days
           </p>
-          <p class="f7 mt0 fw3 grey">
+          <p class="f7 mt0 fw3 grey lh-copy">
             New holidays earned each month
           </p>
         </div>
@@ -115,7 +115,7 @@
           <p class="db mb2 mt0 f3 fw3">
             25 days
           </p>
-          <p class="f7 mt0 fw3 grey">
+          <p class="f7 mt0 fw3 grey lh-copy">
             Last taken holidays
           </p>
         </div>
@@ -123,7 +123,7 @@
           <p class="db mb2 mt0 f3 fw3">
             25 days
           </p>
-          <p class="f7 mt0 fw3 grey">
+          <p class="f7 mt0 fw3 grey lh-copy">
             Estimated balance at the end of the year
           </p>
         </div>

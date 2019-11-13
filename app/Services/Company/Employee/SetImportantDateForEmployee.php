@@ -18,7 +18,7 @@ class SetImportantDateForEmployee extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -39,7 +39,7 @@ class SetImportantDateForEmployee extends BaseService
      * @param array $data
      * @return Employee
      */
-    public function execute(array $data) : Employee
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 
@@ -117,7 +117,7 @@ class SetImportantDateForEmployee extends BaseService
      * @param Carbon $date
      * @return EmployeeImportantDate
      */
-    private function setImportantDate(Employee $employee, string $occasion, Carbon $date) : EmployeeImportantDate
+    private function setImportantDate(Employee $employee, string $occasion, Carbon $date): EmployeeImportantDate
     {
         $importantDate = $employee->importantDates()
             ->where('occasion', $occasion)

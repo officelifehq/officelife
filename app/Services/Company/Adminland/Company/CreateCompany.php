@@ -18,7 +18,7 @@ class CreateCompany extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'author_id' => 'required|integer|exists:users,id',
@@ -32,7 +32,7 @@ class CreateCompany extends BaseService
      * @param array $data
      * @return Company
      */
-    public function execute(array $data) : Company
+    public function execute(array $data): Company
     {
         $this->validate($data);
 
@@ -74,7 +74,7 @@ class CreateCompany extends BaseService
      * @param User $author
      * @return Employee
      */
-    private function addFirstEmployee(Company $company, User $author) : Employee
+    private function addFirstEmployee(Company $company, User $author): Employee
     {
         $uuid = Str::uuid()->toString();
 

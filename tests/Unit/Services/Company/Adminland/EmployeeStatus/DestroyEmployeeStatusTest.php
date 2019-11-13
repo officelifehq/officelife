@@ -16,7 +16,7 @@ class DestroyEmployeeStatusTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_destroys_an_employee_status() : void
+    public function it_destroys_an_employee_status(): void
     {
         Queue::fake();
 
@@ -47,7 +47,7 @@ class DestroyEmployeeStatusTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'name' => 'Selling team',

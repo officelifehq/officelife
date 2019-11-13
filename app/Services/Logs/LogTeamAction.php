@@ -13,7 +13,7 @@ class LogTeamAction extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'team_id' => 'required|integer|exists:teams,id',
@@ -33,7 +33,7 @@ class LogTeamAction extends BaseService
      * @param array $data
      * @return TeamLog
      */
-    public function execute(array $data) : TeamLog
+    public function execute(array $data): TeamLog
     {
         $this->validate($data);
 

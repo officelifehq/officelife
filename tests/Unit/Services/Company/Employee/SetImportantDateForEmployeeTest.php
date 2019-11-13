@@ -21,7 +21,7 @@ class SetImportantDateForEmployeeTest extends TestCase
      *
      * @return Employee
      */
-    private function initialize() : Employee
+    private function initialize(): Employee
     {
         Queue::fake();
 
@@ -40,7 +40,7 @@ class SetImportantDateForEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_the_important_date_of_an_employee() : void
+    public function it_sets_the_important_date_of_an_employee(): void
     {
         $michael = $this->initialize();
 
@@ -77,7 +77,7 @@ class SetImportantDateForEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_an_important_date() : void
+    public function it_creates_an_important_date(): void
     {
         $this->assertDatabaseMissing('employee_important_dates', [
             'occasion' => 'birthdate',
@@ -94,7 +94,7 @@ class SetImportantDateForEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_creates_an_event() : void
+    public function it_creates_an_event(): void
     {
         $this->assertDatabaseMissing('employee_events', [
             'label' => 'birthdate',
@@ -112,7 +112,7 @@ class SetImportantDateForEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = factory(Employee::class)->create([]);
 

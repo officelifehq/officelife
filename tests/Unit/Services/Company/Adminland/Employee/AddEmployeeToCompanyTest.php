@@ -18,7 +18,7 @@ class AddEmployeeToCompanyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_adds_an_employee_to_a_company() : void
+    public function it_adds_an_employee_to_a_company(): void
     {
         Queue::fake();
         Carbon::setTestNow(Carbon::create(2020, 1, 1));
@@ -82,7 +82,7 @@ class AddEmployeeToCompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = $this->createAdministrator();
 

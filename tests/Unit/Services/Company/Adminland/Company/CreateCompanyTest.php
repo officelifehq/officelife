@@ -17,7 +17,7 @@ class CreateCompanyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_company() : void
+    public function it_creates_a_company(): void
     {
         Queue::fake();
 
@@ -58,7 +58,7 @@ class CreateCompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $dwight = factory(User::class)->create([]);
 

@@ -14,7 +14,7 @@ class ControllerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_validates_permission_level() : void
+    public function it_validates_permission_level(): void
     {
         // administrator has all rights
         $stub = $this->getMockForAbstractClass(Controller::class);

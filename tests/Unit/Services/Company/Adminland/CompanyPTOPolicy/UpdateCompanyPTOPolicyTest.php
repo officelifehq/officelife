@@ -18,7 +18,7 @@ class UpdateCompanyPTOPolicyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_a_company_pto_policy() : void
+    public function it_updates_a_company_pto_policy(): void
     {
         Queue::fake();
         Carbon::setTestNow(Carbon::create(2019, 1, 1));
@@ -89,7 +89,7 @@ class UpdateCompanyPTOPolicyTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = factory(Employee::class)->create([]);
 

@@ -15,7 +15,7 @@ class MarkNotificationsAsReadTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_marks_all_notifications_in_the_account_as_read() : void
+    public function it_marks_all_notifications_in_the_account_as_read(): void
     {
         $user = factory(User::class)->create([]);
         $employee = factory(Employee::class)->create([
@@ -43,7 +43,7 @@ class MarkNotificationsAsReadTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'action' => 'account_created',

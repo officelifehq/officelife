@@ -15,7 +15,7 @@ class CreateAccountTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_user() : void
+    public function it_creates_a_user(): void
     {
         $request = [
             'email' => 'dwight@dundermifflin.com',
@@ -36,7 +36,7 @@ class CreateAccountTest extends TestCase
     }
 
     /** @test */
-    public function it_generates_a_confirmation_link() : void
+    public function it_generates_a_confirmation_link(): void
     {
         $request = [
             'email' => 'dwight@dundermifflin.com',
@@ -54,7 +54,7 @@ class CreateAccountTest extends TestCase
     }
 
     /** @test */
-    public function it_schedules_an_email() : void
+    public function it_schedules_an_email(): void
     {
         $request = [
             'email' => 'dwight@dundermifflin.com',
@@ -71,7 +71,7 @@ class CreateAccountTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'email' => 'dwight@dundermifflin.com',

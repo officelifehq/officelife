@@ -11,7 +11,7 @@ class EmployeeImportantDateTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_an_employee() : void
+    public function it_belongs_to_an_employee(): void
     {
         $date = factory(EmployeeImportantDate::class)->create([]);
         $this->assertTrue($date->employee()->exists());

@@ -11,7 +11,7 @@ class SearchHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_builds_a_sql_query() : void
+    public function it_builds_a_sql_query(): void
     {
         $array = [
             'column1',

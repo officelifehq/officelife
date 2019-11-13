@@ -16,7 +16,7 @@ class LogTeamActionTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_an_action() : void
+    public function it_logs_an_action(): void
     {
         $team = factory(Team::class)->create([]);
         $michael = factory(Employee::class)->create([
@@ -52,7 +52,7 @@ class LogTeamActionTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'action' => 'team_created',

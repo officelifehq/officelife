@@ -18,7 +18,7 @@ class AddEmployeeToTeamTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_adds_an_employee_to_a_team() : void
+    public function it_adds_an_employee_to_a_team(): void
     {
         Queue::fake();
 
@@ -82,7 +82,7 @@ class AddEmployeeToTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([

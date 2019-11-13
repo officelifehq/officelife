@@ -15,7 +15,7 @@ class RemoveDummyData extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -29,7 +29,7 @@ class RemoveDummyData extends BaseService
      * @param array $data
      * @return void
      */
-    public function execute(array $data) : void
+    public function execute(array $data): void
     {
         $this->validate($data);
 
@@ -60,7 +60,7 @@ class RemoveDummyData extends BaseService
      * @param array $data
      * @return void
      */
-    private function removeTeams(array $data) : void
+    private function removeTeams(array $data): void
     {
         DB::table('teams')
             ->where('company_id', $data['company_id'])
@@ -74,7 +74,7 @@ class RemoveDummyData extends BaseService
      * @param array $data
      * @return void
      */
-    private function removeEmployees(array $data) : void
+    private function removeEmployees(array $data): void
     {
         $employees = Employee::where('company_id', $data['company_id'])->get();
 
@@ -91,7 +91,7 @@ class RemoveDummyData extends BaseService
      * @param array $data
      * @return void
      */
-    private function removeAuditLogs(array $data) : void
+    private function removeAuditLogs(array $data): void
     {
         DB::table('audit_logs')
             ->where('company_id', $data['company_id'])

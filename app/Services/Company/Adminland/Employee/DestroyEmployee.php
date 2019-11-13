@@ -14,7 +14,7 @@ class DestroyEmployee extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'author_id' => 'required|integer|exists:employees,id',
@@ -30,7 +30,7 @@ class DestroyEmployee extends BaseService
      * @param array $data
      * @return void
      */
-    public function execute(array $data) : void
+    public function execute(array $data): void
     {
         $this->validate($data);
 

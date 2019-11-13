@@ -18,7 +18,7 @@ class CreatePlaceTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_place() : void
+    public function it_creates_a_place(): void
     {
         Queue::fake();
 
@@ -72,7 +72,7 @@ class CreatePlaceTest extends TestCase
     }
 
     /** @test */
-    public function it_sets_all_previous_places_to_inactive() : void
+    public function it_sets_all_previous_places_to_inactive(): void
     {
         $michael = factory(Employee::class)->create([]);
         $country = factory(Country::class)->create([]);
@@ -121,7 +121,7 @@ class CreatePlaceTest extends TestCase
     }
 
     /** @test */
-    public function it_doesnt_set_the_place_to_active() : void
+    public function it_doesnt_set_the_place_to_active(): void
     {
         $michael = factory(Employee::class)->create([]);
         $country = factory(Country::class)->create([]);
@@ -158,7 +158,7 @@ class CreatePlaceTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = factory(Employee::class)->create([]);
 

@@ -19,7 +19,7 @@ class LogMoraleTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_a_morale() : void
+    public function it_logs_a_morale(): void
     {
         Queue::fake();
 
@@ -71,7 +71,7 @@ class LogMoraleTest extends TestCase
     }
 
     /** @test */
-    public function it_doesnt_let_record_morale_if_one_has_already_been_submitted_today() : void
+    public function it_doesnt_let_record_morale_if_one_has_already_been_submitted_today(): void
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
@@ -93,7 +93,7 @@ class LogMoraleTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'name' => 'Selling team',

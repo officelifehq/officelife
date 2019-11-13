@@ -16,7 +16,7 @@ class HolidayHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_returns_the_number_of_holidays_earned_each_month() : void
+    public function it_returns_the_number_of_holidays_earned_each_month(): void
     {
         $michael = factory(Employee::class)->create([
             'amount_of_allowed_holidays' => 30,
@@ -29,7 +29,7 @@ class HolidayHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_number_of_days_left_to_earn_this_the_end_of_the_year() : void
+    public function it_returns_the_number_of_days_left_to_earn_this_the_end_of_the_year(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
@@ -81,7 +81,7 @@ class HolidayHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_if_a_day_is_worked_in_the_company() : void
+    public function it_checks_if_a_day_is_worked_in_the_company(): void
     {
         $policy = factory(CompanyPTOPolicy::class)->create([
             'year' => 2018,

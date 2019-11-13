@@ -16,7 +16,7 @@ class AssignPositionToEmployee extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -33,7 +33,7 @@ class AssignPositionToEmployee extends BaseService
      * @param array $data
      * @return Employee
      */
-    public function execute(array $data) : Employee
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 

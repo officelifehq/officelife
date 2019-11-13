@@ -14,7 +14,7 @@ class AddStepToFlow extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -46,7 +46,7 @@ class AddStepToFlow extends BaseService
      * @param array $data
      * @return Step
      */
-    public function execute(array $data) : Step
+    public function execute(array $data): Step
     {
         $this->validate($data);
 

@@ -16,7 +16,7 @@ class SetTeamLeader extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -33,7 +33,7 @@ class SetTeamLeader extends BaseService
      * @param array $data
      * @return Team
      */
-    public function execute(array $data) : Team
+    public function execute(array $data): Team
     {
         $this->validate($data);
 

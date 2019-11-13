@@ -25,7 +25,7 @@ class WorklogHelper
      * @param Carbon $date
      * @return array
      */
-    public static function getInformationAboutTeam(Team $team, Carbon $date) : array
+    public static function getInformationAboutTeam(Team $team, Carbon $date): array
     {
         $numberOfEmployeesInTeam = $team->employees()->count();
         $numberOfEmployeesWhoHaveLoggedWorklogs = count($team->worklogsForDate($date));
@@ -43,7 +43,7 @@ class WorklogHelper
 
         $data = [
             'day' => $date->isoFormat('dddd'),
-            'date' => DateHelper::getLongDayAndMonth($date),
+            'date' => DateHelper::getMonthAndDay($date),
             'friendlyDate' => $date->format('Y-m-d'),
             'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
             'completionRate' => $indicator,
@@ -63,7 +63,7 @@ class WorklogHelper
      * @param Carbon $date
      * @return array
      */
-    public static function getInformation(Employee $employee, Carbon $date) : array
+    public static function getInformation(Employee $employee, Carbon $date): array
     {
         $morale = Morale::where('employee_id', $employee->id)
             ->whereDate('created_at', $date)
@@ -75,7 +75,7 @@ class WorklogHelper
 
         $data = [
             'date' => DateHelper::getShortDateWithTime($date),
-            'friendly_date' => DateHelper::getLongDayAndMonth($date),
+            'friendly_date' => DateHelper::getDayAndMonthInParenthesis($date),
             'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
             'worklog_parsed_content' => is_null($worklog) ? null : StringHelper::parse($worklog->content),
             'morale' => is_null($morale) ? null : $morale->emoji,

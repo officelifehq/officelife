@@ -17,7 +17,7 @@ class LogWorklog extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'author_id' => 'required|integer|exists:employees,id',
@@ -35,7 +35,7 @@ class LogWorklog extends BaseService
      * @param array $data
      * @return Worklog
      */
-    public function execute(array $data) : Worklog
+    public function execute(array $data): Worklog
     {
         $this->validate($data);
 

@@ -19,7 +19,7 @@ class CreateTimeOff extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'author_id' => 'required|integer|exists:employees,id',
@@ -47,7 +47,7 @@ class CreateTimeOff extends BaseService
      * @param array $data
      * @return EmployeePlannedHoliday
      */
-    public function execute(array $data) : EmployeePlannedHoliday
+    public function execute(array $data): EmployeePlannedHoliday
     {
         $this->validate($data);
 
@@ -120,7 +120,7 @@ class CreateTimeOff extends BaseService
      * @param array $data
      * @return bool
      */
-    private function validateCreationHoliday(EmployeePlannedHoliday $holiday, array $data) : bool
+    private function validateCreationHoliday(EmployeePlannedHoliday $holiday, array $data): bool
     {
         // we can't log any new holiday - the day is already used
         if ($holiday->full) {
@@ -143,7 +143,7 @@ class CreateTimeOff extends BaseService
      * @param Carbon $date
      * @return EmployeePlannedHoliday
      */
-    private function createPlannedHoliday(array $data, Carbon $date) : EmployeePlannedHoliday
+    private function createPlannedHoliday(array $data, Carbon $date): EmployeePlannedHoliday
     {
         return EmployeePlannedHoliday::create([
             'employee_id' => $data['employee_id'],

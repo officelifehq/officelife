@@ -14,7 +14,7 @@ class CreatePlace extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -37,7 +37,7 @@ class CreatePlace extends BaseService
      * @param array $data
      * @return Place
      */
-    public function execute(array $data) : Place
+    public function execute(array $data): Place
     {
         $this->validate($data);
 
@@ -64,7 +64,7 @@ class CreatePlace extends BaseService
      * @param array $data
      * @return Place
      */
-    private function addPlace(array $data) : Place
+    private function addPlace(array $data): Place
     {
         return Place::create([
             'street' => $this->nullOrValue($data, 'street'),

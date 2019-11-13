@@ -19,7 +19,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_removes_an_employee_from_a_team() : void
+    public function it_removes_an_employee_from_a_team(): void
     {
         Queue::fake();
 
@@ -89,7 +89,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([

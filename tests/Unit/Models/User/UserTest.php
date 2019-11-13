@@ -14,7 +14,7 @@ class UserTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_has_many_employees() : void
+    public function it_has_many_employees(): void
     {
         $user = factory(User::class)->create([]);
         factory(Employee::class, 3)->create([
@@ -24,7 +24,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_name_attribute() : void
+    public function it_returns_the_name_attribute(): void
     {
         $user = new User;
         $user->email = 'dwight@dundermifflin.com';
@@ -50,7 +50,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_path_for_the_confirmation_link() : void
+    public function it_gets_the_path_for_the_confirmation_link(): void
     {
         $user = factory(User::class)->create([
             'verification_link' => 'dunder',
@@ -63,7 +63,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_employee_object_for_the_given_user() : void
+    public function it_gets_the_employee_object_for_the_given_user(): void
     {
         $dwight = factory(Employee::class)->create([]);
 
@@ -74,7 +74,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_to_get_the_employee_object_is_user_is_not_part_of_the_company() : void
+    public function it_fails_to_get_the_employee_object_is_user_is_not_part_of_the_company(): void
     {
         $dwight = factory(Employee::class)->create([]);
         $company = factory(Company::class)->create([]);
@@ -85,7 +85,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_latest_notifications_for_the_user() : void
+    public function it_gets_the_latest_notifications_for_the_user(): void
     {
         $dwight = factory(Employee::class)->create([]);
         factory(Notification::class, 3)->create([
@@ -112,7 +112,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_to_get_the_latest_notifications_if_the_user_does_not_have_a_company() : void
+    public function it_fails_to_get_the_latest_notifications_if_the_user_does_not_have_a_company(): void
     {
         $dwight = factory(Employee::class)->create([]);
         $company = factory(Company::class)->create([]);

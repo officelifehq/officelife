@@ -15,7 +15,7 @@ class BaseServiceTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_returns_an_empty_rule_array() : void
+    public function it_returns_an_empty_rule_array(): void
     {
         $stub = $this->getMockForAbstractClass(BaseService::class);
 
@@ -25,7 +25,7 @@ class BaseServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_validates_rules() : void
+    public function it_validates_rules(): void
     {
         $rules = [
             'street' => 'nullable|string|max:255',
@@ -41,7 +41,7 @@ class BaseServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_validates_permission_level() : void
+    public function it_validates_permission_level(): void
     {
         // administrator has all rights
         $stub = $this->getMockForAbstractClass(BaseService::class);
@@ -83,7 +83,7 @@ class BaseServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_null_or_the_actual_value() : void
+    public function it_returns_null_or_the_actual_value(): void
     {
         $stub = $this->getMockForAbstractClass(BaseService::class);
         $array = [
@@ -111,7 +111,7 @@ class BaseServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_null_or_the_actual_date() : void
+    public function it_returns_null_or_the_actual_date(): void
     {
         $stub = $this->getMockForAbstractClass(BaseService::class);
         $array = [
@@ -139,7 +139,7 @@ class BaseServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_default_value_or_the_given_value() : void
+    public function it_returns_the_default_value_or_the_given_value(): void
     {
         $stub = $this->getMockForAbstractClass(BaseService::class);
         $array = [

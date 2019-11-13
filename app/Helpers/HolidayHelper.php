@@ -16,7 +16,7 @@ class HolidayHelper
      * @param Employee $employee
      * @return float
      */
-    public static function getHolidaysEarnedEachMonth(Employee $employee) : float
+    public static function getHolidaysEarnedEachMonth(Employee $employee): float
     {
         return $employee->amount_of_allowed_holidays / 12;
     }
@@ -29,7 +29,7 @@ class HolidayHelper
      * @param Employee $employee
      * @return float
      */
-    public static function getNumberOfDaysLeftToEarn(CompanyPTOPolicy $ptoPolicy, Employee $employee) : float
+    public static function getNumberOfDaysLeftToEarn(CompanyPTOPolicy $ptoPolicy, Employee $employee): float
     {
         $totalNumberOfWorkedDaysInYear = $ptoPolicy->total_worked_days;
         $numberHolidaysEarnEachWorkedDay = $employee->amount_of_allowed_holidays / $totalNumberOfWorkedDaysInYear;
@@ -52,7 +52,7 @@ class HolidayHelper
      * @param Employee $employee
      * @return float
      */
-    public static function getHolidaysEarnedEachDay(CompanyPTOPolicy $ptoPolicy, Employee $employee) : float
+    public static function getHolidaysEarnedEachDay(CompanyPTOPolicy $ptoPolicy, Employee $employee): float
     {
         $numberOfDaysWorkedInYear = $ptoPolicy->total_worked_days;
 
@@ -66,7 +66,7 @@ class HolidayHelper
      * @param Carbon $date
      * @return bool
      */
-    public static function isDayWorkedForCompany(CompanyPTOPolicy $ptoPolicy, Carbon $date) : ?bool
+    public static function isDayWorkedForCompany(CompanyPTOPolicy $ptoPolicy, Carbon $date): ?bool
     {
         $day = CompanyCalendar::where('company_pto_policy_id', $ptoPolicy->id)
             ->where('day', $date->format('Y-m-d'))

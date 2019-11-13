@@ -16,7 +16,7 @@ class WorklogHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_gets_the_list_of_worklogs_for_a_given_team_and_a_given_day() : void
+    public function it_gets_the_list_of_worklogs_for_a_given_team_and_a_given_day(): void
     {
         $date = Carbon::now();
         $team = factory(Team::class)->create([]);
@@ -54,7 +54,7 @@ class WorklogHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_content_of_the_worklog_for_a_given_employee_and_a_given_day() : void
+    public function it_gets_the_content_of_the_worklog_for_a_given_employee_and_a_given_day(): void
     {
         $date = Carbon::now();
 
@@ -85,7 +85,7 @@ class WorklogHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_content_of_the_worklog_for_a_given_employee_and_a_given_day_without_morale() : void
+    public function it_gets_the_content_of_the_worklog_for_a_given_employee_and_a_given_day_without_morale(): void
     {
         $date = Carbon::now();
 

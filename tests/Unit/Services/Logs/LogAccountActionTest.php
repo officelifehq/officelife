@@ -16,7 +16,7 @@ class LogAccountActionTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_an_action() : void
+    public function it_logs_an_action(): void
     {
         $company = factory(Company::class)->create([]);
         $michael = factory(Employee::class)->create([
@@ -53,7 +53,7 @@ class LogAccountActionTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'action' => 'account_created',

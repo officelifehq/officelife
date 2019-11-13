@@ -16,7 +16,7 @@ class CreateEmployeeStatusTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_an_employee_status() : void
+    public function it_creates_an_employee_status(): void
     {
         Queue::fake();
 
@@ -52,7 +52,7 @@ class CreateEmployeeStatusTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'name' => 'Permanent',

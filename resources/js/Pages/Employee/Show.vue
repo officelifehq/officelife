@@ -7,6 +7,12 @@
   margin-top: -40px; /* Half the height */
   margin-left: -40px; /* Half the width */
 }
+
+.you {
+  background-color: #e6fffa;
+  border-color: #38b2ac;
+  color: #234e52;
+}
 </style>
 
 <template>
@@ -57,7 +63,9 @@
           <!-- AVATAR -->
           <img :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80" />
           <h2 class="tc normal mb1">
-            {{ employee.name }}
+            {{ employee.name }} <span v-if="employee.id == $page.auth.employee.id" class="f7 fw4 ba you br3 pa1 ml2 dib">
+              it’s you
+            </span>
           </h2>
           <ul class="list tc pa0 f6 mb0">
             <li class="di-l db mb0-l mb2 mr2">

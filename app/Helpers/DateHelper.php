@@ -14,7 +14,7 @@ class DateHelper
      * @param Carbon $date
      * @return string
      */
-    public static function getShortDateWithTime($date) : string
+    public static function getShortDateWithTime($date): string
     {
         return $date->format(trans('format.short_date_year_time'));
     }
@@ -25,9 +25,20 @@ class DateHelper
      * @param Carbon $date
      * @return string
      */
-    public static function getLongDayAndMonth($date) : string
+    public static function getMonthAndDay($date): string
     {
         return $date->isoFormat(trans('format.long_month_day'));
+    }
+
+    /**
+     * Returns the day and the month in a format like "Monday (July 29th)".
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function getDayAndMonthInParenthesis($date): string
+    {
+        return $date->isoFormat(trans('format.day_month_parenthesis'));
     }
 
     /**
@@ -36,7 +47,7 @@ class DateHelper
      * @param Carbon $date
      * @return Carbon
      */
-    public static function getNextOccurence(Carbon $date) : Carbon
+    public static function getNextOccurence(Carbon $date): Carbon
     {
         if ($date->isFuture()) {
             return $date;
@@ -57,7 +68,7 @@ class DateHelper
      * @param Carbon $date
      * @return int
      */
-    public static function daysInYear(Carbon $date) : int
+    public static function daysInYear(Carbon $date): int
     {
         return $date->isLeapYear() ? 366 : 365;
     }
@@ -72,7 +83,7 @@ class DateHelper
      * @param string $locale
      * @return array
      */
-    public static function prepareCalendar(CompanyPTOPolicy $ptoPolicy, string $locale = 'en') : array
+    public static function prepareCalendar(CompanyPTOPolicy $ptoPolicy, string $locale = 'en'): array
     {
         $calendarDays = $ptoPolicy->calendars()->select('id', 'is_worked', 'day_of_year')->get();
         $firstDayId = $calendarDays->first()->id;

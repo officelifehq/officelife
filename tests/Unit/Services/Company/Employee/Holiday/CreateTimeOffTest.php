@@ -21,7 +21,7 @@ class CreateTimeOffTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_a_new_time_off() : void
+    public function it_logs_a_new_time_off(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
@@ -64,7 +64,7 @@ class CreateTimeOffTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_a_new_time_off_as_a_hr_rep() : void
+    public function it_logs_a_new_time_off_as_a_hr_rep(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
@@ -129,7 +129,7 @@ class CreateTimeOffTest extends TestCase
     }
 
     /** @test */
-    public function it_cant_log_a_time_off_as_the_planned_date_is_already_taken_as_holiday() : void
+    public function it_cant_log_a_time_off_as_the_planned_date_is_already_taken_as_holiday(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = factory(Employee::class)->create([]);
@@ -159,7 +159,7 @@ class CreateTimeOffTest extends TestCase
     }
 
     /** @test */
-    public function it_cant_log_a_time_off_as_the_planned_date_is_already_taken_as_day_off_in_the_company() : void
+    public function it_cant_log_a_time_off_as_the_planned_date_is_already_taken_as_day_off_in_the_company(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = factory(Employee::class)->create([]);
@@ -196,7 +196,7 @@ class CreateTimeOffTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_a_half_time_off_if_the_planned_date_was_already_taken_but_it_was_only_a_half_day() : void
+    public function it_logs_a_half_time_off_if_the_planned_date_was_already_taken_but_it_was_only_a_half_day(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = factory(Employee::class)->create([]);
@@ -258,7 +258,7 @@ class CreateTimeOffTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'first_name' => 'Dwight',

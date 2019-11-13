@@ -20,7 +20,7 @@ class CreateTaskTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_task() : void
+    public function it_creates_a_task(): void
     {
         Queue::fake();
 
@@ -89,7 +89,7 @@ class CreateTaskTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_a_task_with_a_team() : void
+    public function it_logs_a_task_with_a_team(): void
     {
         Queue::fake();
 
@@ -131,7 +131,7 @@ class CreateTaskTest extends TestCase
     }
 
     /** @test */
-    public function it_logs_a_task_with_an_assignee() : void
+    public function it_logs_a_task_with_an_assignee(): void
     {
         Queue::fake();
 
@@ -179,7 +179,7 @@ class CreateTaskTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([

@@ -18,7 +18,7 @@ class LogMorale extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'author_id' => 'required|integer|exists:employees,id',
@@ -42,7 +42,7 @@ class LogMorale extends BaseService
      * @param array $data
      * @return Morale
      */
-    public function execute(array $data) : Morale
+    public function execute(array $data): Morale
     {
         $this->validate($data);
 

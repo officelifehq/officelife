@@ -22,7 +22,7 @@ class CompanyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_has_many_employees() : void
+    public function it_has_many_employees(): void
     {
         $company = factory(Company::class)->create();
         factory(Employee::class, 2)->create([
@@ -33,7 +33,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_logs() : void
+    public function it_has_many_logs(): void
     {
         $company = factory(Company::class)->create();
         factory(AuditLog::class, 2)->create([
@@ -44,7 +44,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_teams() : void
+    public function it_has_many_teams(): void
     {
         $company = factory(Company::class)->create();
         factory(Team::class, 2)->create([
@@ -55,7 +55,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_positions() : void
+    public function it_has_many_positions(): void
     {
         $company = factory(Company::class)->create();
         factory(Position::class, 2)->create([
@@ -66,7 +66,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_employee_events() : void
+    public function it_has_many_employee_events(): void
     {
         $company = factory(Company::class)->create();
         factory(EmployeeEvent::class, 2)->create([
@@ -77,7 +77,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_flows() : void
+    public function it_has_many_flows(): void
     {
         $company = factory(Company::class)->create();
         factory(Flow::class, 2)->create([
@@ -88,7 +88,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_tasks() : void
+    public function it_has_many_tasks(): void
     {
         $company = factory(Company::class)->create();
         factory(Task::class, 2)->create([
@@ -99,7 +99,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_statuses() : void
+    public function it_has_many_statuses(): void
     {
         $company = factory(Company::class)->create();
         factory(EmployeeStatus::class, 2)->create([
@@ -110,7 +110,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_news() : void
+    public function it_has_many_news(): void
     {
         $company = factory(Company::class)->create();
         factory(CompanyNews::class, 2)->create([
@@ -121,7 +121,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_pto_policies() : void
+    public function it_has_many_pto_policies(): void
     {
         $company = factory(Company::class)->create();
         factory(CompanyPTOPolicy::class, 2)->create([
@@ -132,7 +132,7 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_pto_policy_for_the_current_year() : void
+    public function it_returns_the_pto_policy_for_the_current_year(): void
     {
         Carbon::setTestNow(Carbon::create(2020, 1, 1));
 

@@ -15,7 +15,7 @@ class UpdateTeam extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -32,7 +32,7 @@ class UpdateTeam extends BaseService
      * @param array $data
      * @return Team
      */
-    public function execute(array $data) : Team
+    public function execute(array $data): Team
     {
         $this->validate($data);
 

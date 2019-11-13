@@ -11,7 +11,7 @@ class AdminlandControllerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_lets_you_see_the_account_dashboard_with_the_right_permissions() : void
+    public function it_lets_you_see_the_account_dashboard_with_the_right_permissions(): void
     {
         $route = '/account';
         $employee = factory(Employee::class)->create([]);

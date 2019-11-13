@@ -11,14 +11,14 @@ class EmployeeLogTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_an_employee() : void
+    public function it_belongs_to_an_employee(): void
     {
         $employeeLog = factory(EmployeeLog::class)->create([]);
         $this->assertTrue($employeeLog->employee()->exists());
     }
 
     /** @test */
-    public function it_returns_the_date_attribute() : void
+    public function it_returns_the_date_attribute(): void
     {
         $employeeLog = factory(EmployeeLog::class)->create([
             'audited_at' => '2017-01-22 17:56:03',
@@ -30,7 +30,7 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_object_attribute() : void
+    public function it_returns_the_object_attribute(): void
     {
         $employeeLog = factory(EmployeeLog::class)->create([]);
         $this->assertEquals(
@@ -40,7 +40,7 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_content_attribute() : void
+    public function it_returns_the_content_attribute(): void
     {
         $adminEmployee = $this->createAdministrator();
 

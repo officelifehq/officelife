@@ -13,7 +13,7 @@ class AddNotificationInUIForEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_a_notification() : void
+    public function it_logs_a_notification(): void
     {
         $employee = factory(Employee::class)->create([]);
 
@@ -34,7 +34,7 @@ class AddNotificationInUIForEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'action' => 'account_created',

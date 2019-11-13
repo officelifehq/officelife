@@ -15,7 +15,7 @@ abstract class BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [];
     }
@@ -26,7 +26,7 @@ abstract class BaseService
      * @param array $data
      * @return bool
      */
-    public function validate(array $data) : bool
+    public function validate(array $data): bool
     {
         Validator::make($data, $this->rules())
                 ->validate();
@@ -46,7 +46,7 @@ abstract class BaseService
      * @param int $otherEmployeeId
      * @return Employee
      */
-    public function validatePermissions(int $employeeId, int $companyId, int $requiredPermissionLevel, int $otherEmployeeId = null) : Employee
+    public function validatePermissions(int $employeeId, int $companyId, int $requiredPermissionLevel, int $otherEmployeeId = null): Employee
     {
         $employee = Employee::where('company_id', $companyId)
             ->where('id', $employeeId)

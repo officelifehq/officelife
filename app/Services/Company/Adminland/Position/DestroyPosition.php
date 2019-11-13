@@ -14,7 +14,7 @@ class DestroyPosition extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -30,7 +30,7 @@ class DestroyPosition extends BaseService
      * @param array $data
      * @return bool
      */
-    public function execute(array $data) : bool
+    public function execute(array $data): bool
     {
         $this->validate($data);
 

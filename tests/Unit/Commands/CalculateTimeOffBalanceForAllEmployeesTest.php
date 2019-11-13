@@ -14,7 +14,7 @@ class CalculateTimeOffBalanceForAllEmployeesTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_triggers_the_job() : void
+    public function it_triggers_the_job(): void
     {
         Bus::fake();
         factory(Employee::class)->create([]);
@@ -24,7 +24,7 @@ class CalculateTimeOffBalanceForAllEmployeesTest extends TestCase
     }
 
     /** @test */
-    public function it_missses_an_argument() : void
+    public function it_missses_an_argument(): void
     {
         $this->expectException(RuntimeException::class);
         $this->artisan('timeoff:calculate');

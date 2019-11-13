@@ -16,7 +16,7 @@ class CreateFlowTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_flow() : void
+    public function it_creates_a_flow(): void
     {
         Queue::fake();
 
@@ -54,7 +54,7 @@ class CreateFlowTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'name' => 'Selling team',

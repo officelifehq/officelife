@@ -15,7 +15,7 @@ class UpdateDashboardView extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'user_id' => 'required|integer|exists:users,id',
@@ -38,7 +38,7 @@ class UpdateDashboardView extends BaseService
      * @param array $data
      * @return bool
      */
-    public function execute(array $data) : bool
+    public function execute(array $data): bool
     {
         $this->validate($data);
 

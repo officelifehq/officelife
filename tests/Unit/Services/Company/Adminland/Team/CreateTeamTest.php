@@ -17,7 +17,7 @@ class CreateTeamTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_team() : void
+    public function it_creates_a_team(): void
     {
         Queue::fake();
 
@@ -62,7 +62,7 @@ class CreateTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'name' => 'Selling team',

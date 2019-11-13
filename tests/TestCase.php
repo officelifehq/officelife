@@ -18,7 +18,7 @@ abstract class TestCase extends BaseTestCase
      * @param string $route
      * @param int $statusCode
      */
-    public function accessibleBy($employee, $permissionLevel, $route, $statusCode) : void
+    public function accessibleBy($employee, $permissionLevel, $route, $statusCode): void
     {
         $this->be($employee->user);
         $employee->permission_level = $permissionLevel;
@@ -33,7 +33,7 @@ abstract class TestCase extends BaseTestCase
      *
      * @return Employee
      */
-    public function createAdministrator() : Employee
+    public function createAdministrator(): Employee
     {
         return factory(Employee::class)->create([
             'permission_level' => config('kakene.authorizations.administrator'),

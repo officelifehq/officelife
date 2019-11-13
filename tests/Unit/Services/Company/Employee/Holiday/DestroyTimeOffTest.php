@@ -19,7 +19,7 @@ class DestroyTimeOffTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_destroys_a_time_off() : void
+    public function it_destroys_a_time_off(): void
     {
         Queue::fake();
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
@@ -63,7 +63,7 @@ class DestroyTimeOffTest extends TestCase
     }
 
     /** @test */
-    public function it_destroys_a_time_off_as_hr() : void
+    public function it_destroys_a_time_off_as_hr(): void
     {
         Queue::fake();
         Carbon::setTestNow(Carbon::create(2018, 1, 1));

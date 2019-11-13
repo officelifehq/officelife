@@ -11,14 +11,14 @@ class NotificationTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_an_employee() : void
+    public function it_belongs_to_an_employee(): void
     {
         $notification = factory(Notification::class)->create([]);
         $this->assertTrue($notification->employee()->exists());
     }
 
     /** @test */
-    public function it_returns_the_object_attribute() : void
+    public function it_returns_the_object_attribute(): void
     {
         $notification = factory(Notification::class)->create([]);
         $this->assertEquals(
@@ -28,7 +28,7 @@ class NotificationTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_the_content_attribute() : void
+    public function it_returns_the_content_attribute(): void
     {
         $adminEmployee = $this->createAdministrator();
 

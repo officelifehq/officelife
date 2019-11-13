@@ -16,7 +16,7 @@ class RemovePositionFromEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_resets_an_employees_position() : void
+    public function it_resets_an_employees_position(): void
     {
         Queue::fake();
 
@@ -63,7 +63,7 @@ class RemovePositionFromEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'first_name' => 'Dwight',

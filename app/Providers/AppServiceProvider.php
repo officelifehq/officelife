@@ -49,8 +49,8 @@ class AppServiceProvider extends ServiceProvider
                         'email' => Auth::user()->email,
                         'default_dashboard_view' => Auth::user()->default_dashboard_view,
                     ] : null,
-                    'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? new CompanyResource(InstanceHelper::getLoggedCompany()) : null,
-                    'employee' => Auth::user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? new EmployeeResource(InstanceHelper::getLoggedEmployee()) : null,
+                    'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? new CompanyResource(InstanceHelper::getLoggedCompany()): null,
+                    'employee' => Auth::user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? new EmployeeResource(InstanceHelper::getLoggedEmployee()): null,
                 ];
             },
             'flash' => function () {

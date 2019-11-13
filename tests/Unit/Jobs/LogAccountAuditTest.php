@@ -12,7 +12,7 @@ class LogAccountAuditTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_an_account_audit() : void
+    public function it_logs_an_account_audit(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
