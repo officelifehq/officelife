@@ -16,7 +16,7 @@ class CreateAccount extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'email' => 'required|unique:users,email|email|max:255',
@@ -34,7 +34,7 @@ class CreateAccount extends BaseService
      * @param array $data
      * @return User
      */
-    public function execute(array $data) : User
+    public function execute(array $data): User
     {
         $this->validate($data);
 
@@ -49,7 +49,7 @@ class CreateAccount extends BaseService
      * @param array $data
      * @return User
      */
-    private function createUser(array $data) : User
+    private function createUser(array $data): User
     {
         $uuid = Str::uuid()->toString();
 
@@ -76,7 +76,7 @@ class CreateAccount extends BaseService
      * @param User $user
      * @return User
      */
-    private function generateConfirmationLink($user) : User
+    private function generateConfirmationLink($user): User
     {
         $user->verification_link = Str::uuid()->toString();
         $user->save();
@@ -90,7 +90,7 @@ class CreateAccount extends BaseService
      * @param User $user
      * @return void
      */
-    private function scheduleConfirmationEmail(User $user) : void
+    private function scheduleConfirmationEmail(User $user): void
     {
         Mail::to($user->email)
             ->queue(new ConfirmAccount($user));

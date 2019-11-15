@@ -22,7 +22,7 @@ class EmployeeControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_lets_you_see_the_add_employee_screen_with_the_right_permissions() : void
+    public function it_lets_you_see_the_add_employee_screen_with_the_right_permissions(): void
     {
         $route = '/account/employees/create';
         $employee = factory(Employee::class)->create([]);

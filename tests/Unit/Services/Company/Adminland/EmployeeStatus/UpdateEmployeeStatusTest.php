@@ -16,7 +16,7 @@ class UpdateEmployeeStatusTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_an_employee_status() : void
+    public function it_updates_an_employee_status(): void
     {
         Queue::fake();
 
@@ -57,7 +57,7 @@ class UpdateEmployeeStatusTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'name' => 'Selling team',

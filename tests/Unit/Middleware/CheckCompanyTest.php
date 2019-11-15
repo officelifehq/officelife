@@ -12,7 +12,7 @@ class CheckCompanyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_makes_sure_user_cant_access_a_company_he_is_not_part_of() : void
+    public function it_makes_sure_user_cant_access_a_company_he_is_not_part_of(): void
     {
         $employee = factory(Employee::class)->create([]);
 

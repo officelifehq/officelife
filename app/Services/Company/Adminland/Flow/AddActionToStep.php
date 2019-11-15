@@ -13,7 +13,7 @@ class AddActionToStep extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -32,7 +32,7 @@ class AddActionToStep extends BaseService
      * @param array $data
      * @return Action
      */
-    public function execute(array $data) : Action
+    public function execute(array $data): Action
     {
         $this->validate($data);
 

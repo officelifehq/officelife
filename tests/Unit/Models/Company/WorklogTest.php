@@ -11,7 +11,7 @@ class WorklogTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_an_employee() : void
+    public function it_belongs_to_an_employee(): void
     {
         $worklog = factory(Worklog::class)->create([]);
         $this->assertTrue($worklog->employee()->exists());

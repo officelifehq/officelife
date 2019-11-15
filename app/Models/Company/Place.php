@@ -96,7 +96,7 @@ class Place extends Model
      *
      * @return string
      */
-    public function getCountryName() : string
+    public function getCountryName(): string
     {
         if ($this->country) {
             return $this->country->name;

@@ -11,7 +11,7 @@ class NotifyEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_a_notification() : void
+    public function it_logs_a_notification(): void
     {
         $michael = $this->createAdministrator();
 

@@ -72,7 +72,7 @@ class TeamLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getDateAttribute($value) : string
+    public function getDateAttribute($value): string
     {
         return DateHelper::getShortDateWithTime($this->created_at);
     }
@@ -83,7 +83,7 @@ class TeamLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getContentAttribute($value) : string
+    public function getContentAttribute($value): string
     {
         return LogHelper::processTeamLog($this);
     }

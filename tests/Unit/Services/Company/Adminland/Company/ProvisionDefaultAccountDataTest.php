@@ -14,7 +14,7 @@ class ProvisionDefaultAccountDataTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_populates_default_data_in_the_account() : void
+    public function it_populates_default_data_in_the_account(): void
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 

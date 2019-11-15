@@ -72,7 +72,7 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getDateAttribute($value) : string
+    public function getDateAttribute($value): string
     {
         return DateHelper::getShortDateWithTime($this->audited_at);
     }
@@ -83,7 +83,7 @@ class AuditLog extends Model
      * @return string
      * @param mixed $value
      */
-    public function getContentAttribute($value) : string
+    public function getContentAttribute($value): string
     {
         return LogHelper::processAuditLog($this);
     }

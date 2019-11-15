@@ -14,7 +14,7 @@ class CreatePosition extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -30,7 +30,7 @@ class CreatePosition extends BaseService
      * @param array $data
      * @return Position
      */
-    public function execute(array $data) : Position
+    public function execute(array $data): Position
     {
         $this->validate($data);
 

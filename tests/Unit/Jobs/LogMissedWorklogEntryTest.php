@@ -14,7 +14,7 @@ class LogMissedWorklogEntryTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_an_employee_missing_a_worklog() : void
+    public function it_logs_an_employee_missing_a_worklog(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
@@ -33,7 +33,7 @@ class LogMissedWorklogEntryTest extends TestCase
     }
 
     /** @test */
-    public function it_doesnt_log_a_missing_worklog_day_if_the_employee_has_logged_today() : void
+    public function it_doesnt_log_a_missing_worklog_day_if_the_employee_has_logged_today(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 

@@ -27,7 +27,7 @@ class ApiTestCase extends TestCase
      *
      * @param TestResponse $response
      */
-    public function expectNotFound(TestResponse $response) : void
+    public function expectNotFound(TestResponse $response): void
     {
         $response->assertStatus(404);
 
@@ -45,7 +45,7 @@ class ApiTestCase extends TestCase
      * @param TestResponse $response
      * @param string|array $message
      */
-    public function expectDataError(TestResponse $response, $message = '') : void
+    public function expectDataError(TestResponse $response, $message = ''): void
     {
         $response->assertStatus(422);
 
@@ -63,7 +63,7 @@ class ApiTestCase extends TestCase
      * @param TestResponse $response
      * @param string|array $message
      */
-    public function expectNotAuthorized(TestResponse $response, $message = '') : void
+    public function expectNotAuthorized(TestResponse $response, $message = ''): void
     {
         $response->assertStatus(401);
 

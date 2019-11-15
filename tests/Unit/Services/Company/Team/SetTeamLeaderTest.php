@@ -17,7 +17,7 @@ class SetTeamLeaderTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_sets_someone_as_team_leader() : void
+    public function it_sets_someone_as_team_leader(): void
     {
         Queue::fake();
 
@@ -65,7 +65,7 @@ class SetTeamLeaderTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = factory(Employee::class)->create([]);
         factory(Team::class)->create([

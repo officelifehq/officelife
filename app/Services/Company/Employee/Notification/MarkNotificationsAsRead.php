@@ -12,7 +12,7 @@ class MarkNotificationsAsRead extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'employee_id' => 'required|integer|exists:employees,id',
@@ -25,7 +25,7 @@ class MarkNotificationsAsRead extends BaseService
      * @param array $data
      * @return bool
      */
-    public function execute(array $data) : bool
+    public function execute(array $data): bool
     {
         $this->validate($data);
 

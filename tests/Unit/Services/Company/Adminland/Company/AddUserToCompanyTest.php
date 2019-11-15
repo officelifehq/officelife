@@ -16,7 +16,7 @@ class AddUserToCompanyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_adds_a_user_to_a_company() : void
+    public function it_adds_a_user_to_a_company(): void
     {
         Queue::fake();
 
@@ -54,7 +54,7 @@ class AddUserToCompanyTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = $this->createAdministrator();
         factory(User::class)->create([]);

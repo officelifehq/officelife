@@ -12,7 +12,7 @@ class LogAccountAction extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -34,7 +34,7 @@ class LogAccountAction extends BaseService
      * @param array $data
      * @return AuditLog
      */
-    public function execute(array $data) : AuditLog
+    public function execute(array $data): AuditLog
     {
         $this->validate($data);
 

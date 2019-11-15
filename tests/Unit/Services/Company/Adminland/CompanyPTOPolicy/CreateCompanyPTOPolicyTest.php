@@ -19,7 +19,7 @@ class CreateCompanyPTOPolicyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_company_pto_policy() : void
+    public function it_creates_a_company_pto_policy(): void
     {
         Queue::fake();
         Carbon::setTestNow(Carbon::create(2020, 1, 1));
@@ -68,7 +68,7 @@ class CreateCompanyPTOPolicyTest extends TestCase
     }
 
     /** @test */
-    public function it_throws_an_exception_if_the_policy_is_already_set_for_the_year() : void
+    public function it_throws_an_exception_if_the_policy_is_already_set_for_the_year(): void
     {
         Queue::fake();
 
@@ -91,7 +91,7 @@ class CreateCompanyPTOPolicyTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'title' => 'Assistant to the regional manager',

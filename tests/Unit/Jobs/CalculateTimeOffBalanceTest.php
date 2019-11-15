@@ -14,7 +14,7 @@ class CalculateTimeOffBalanceTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_triggers_the_service() : void
+    public function it_triggers_the_service(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 

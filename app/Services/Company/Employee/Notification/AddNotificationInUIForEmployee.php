@@ -13,7 +13,7 @@ class AddNotificationInUIForEmployee extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'employee_id' => 'required|integer|exists:employees,id',
@@ -39,7 +39,7 @@ class AddNotificationInUIForEmployee extends BaseService
      * @param array $data
      * @return Notification
      */
-    public function execute(array $data) : Notification
+    public function execute(array $data): Notification
     {
         $this->validate($data);
 

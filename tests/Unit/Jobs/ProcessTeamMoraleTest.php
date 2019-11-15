@@ -16,7 +16,7 @@ class ProcessTeamMoraleTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_the_statistics_about_how_the_team_feels() : void
+    public function it_logs_the_statistics_about_how_the_team_feels(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 

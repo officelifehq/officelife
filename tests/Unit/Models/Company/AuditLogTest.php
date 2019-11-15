@@ -11,14 +11,14 @@ class AuditLogTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_company() : void
+    public function it_belongs_to_a_company(): void
     {
         $auditLog = factory(AuditLog::class)->create([]);
         $this->assertTrue($auditLog->company()->exists());
     }
 
     /** @test */
-    public function it_returns_the_date_attribute() : void
+    public function it_returns_the_date_attribute(): void
     {
         $auditLog = factory(AuditLog::class)->create([
             'audited_at' => '2017-01-22 17:56:03',
@@ -30,7 +30,7 @@ class AuditLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_object_attribute() : void
+    public function it_returns_the_object_attribute(): void
     {
         $auditLog = factory(AuditLog::class)->create([]);
         $this->assertEquals(
@@ -40,7 +40,7 @@ class AuditLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_content_attribute() : void
+    public function it_returns_the_content_attribute(): void
     {
         $adminEmployee = $this->createAdministrator();
 

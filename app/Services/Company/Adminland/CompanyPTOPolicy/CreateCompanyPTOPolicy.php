@@ -17,7 +17,7 @@ class CreateCompanyPTOPolicy extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -36,7 +36,7 @@ class CreateCompanyPTOPolicy extends BaseService
      * @param array $data
      * @return CompanyPTOPolicy
      */
-    public function execute(array $data) : CompanyPTOPolicy
+    public function execute(array $data): CompanyPTOPolicy
     {
         $this->validate($data);
 
@@ -98,7 +98,7 @@ class CreateCompanyPTOPolicy extends BaseService
      * @param CompanyPTOPolicy $ptoPolicy
      * @return int
      */
-    private function populateCalendar(array $data, CompanyPTOPolicy $ptoPolicy) : int
+    private function populateCalendar(array $data, CompanyPTOPolicy $ptoPolicy): int
     {
         $day = Carbon::create($data['year']);
         $numberOfDaysOff = 0;

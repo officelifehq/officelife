@@ -16,7 +16,7 @@ class ProcessDailyTimeOffBalanceTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_calculates_the_daily_time_off_balance() : void
+    public function it_calculates_the_daily_time_off_balance(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = factory(Employee::class)->create([
@@ -78,7 +78,7 @@ class ProcessDailyTimeOffBalanceTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'first_name' => 'Dwight',

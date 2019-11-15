@@ -15,7 +15,7 @@ class ProcessDailyTimeOffBalance extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'employee_id' => 'required|integer|exists:employees,id',
@@ -33,7 +33,7 @@ class ProcessDailyTimeOffBalance extends BaseService
      * @param array $data
      * @return EmployeeDailyCalendarEntry
      */
-    public function execute(array $data) : EmployeeDailyCalendarEntry
+    public function execute(array $data): EmployeeDailyCalendarEntry
     {
         $this->validate($data);
 

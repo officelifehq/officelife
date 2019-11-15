@@ -16,7 +16,7 @@ class DestroyPositionTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_destroys_a_position() : void
+    public function it_destroys_a_position(): void
     {
         Queue::fake();
 
@@ -47,7 +47,7 @@ class DestroyPositionTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'name' => 'Selling team',

@@ -147,7 +147,7 @@ class Company extends Model
      *
      * @return CompanyPTOPolicy
      */
-    public function getCurrentPTOPolicy() : CompanyPTOPolicy
+    public function getCurrentPTOPolicy(): CompanyPTOPolicy
     {
         $ptoPolicy = $this->ptoPolicies()->where('year', Carbon::now()->format('Y'))->first();
 

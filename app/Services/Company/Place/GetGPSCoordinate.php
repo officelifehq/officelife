@@ -22,7 +22,7 @@ class GetGPSCoordinate extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'place_id' => 'required|integer|exists:places,id',

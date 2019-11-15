@@ -16,7 +16,7 @@ class UnassignManager extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -33,7 +33,7 @@ class UnassignManager extends BaseService
      * @param array $data
      * @return Employee
      */
-    public function execute(array $data) : Employee
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 
@@ -85,7 +85,7 @@ class UnassignManager extends BaseService
      * @param Employee $employee
      * @return void
      */
-    private function logInEmployeeLogs(array $data, Employee $author, Employee $manager, Employee $employee) : void
+    private function logInEmployeeLogs(array $data, Employee $author, Employee $manager, Employee $employee): void
     {
         // Log information about the employee having a manager assigned
         LogEmployeeAudit::dispatch([

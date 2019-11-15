@@ -14,7 +14,7 @@ class UpdateEmployeeStatus extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -31,7 +31,7 @@ class UpdateEmployeeStatus extends BaseService
      * @param array $data
      * @return EmployeeStatus
      */
-    public function execute(array $data) : EmployeeStatus
+    public function execute(array $data): EmployeeStatus
     {
         $this->validate($data);
 

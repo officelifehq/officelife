@@ -13,7 +13,7 @@ class RemoveStepFromFlow extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -30,7 +30,7 @@ class RemoveStepFromFlow extends BaseService
      * @param array $data
      * @return Flow
      */
-    public function execute(array $data) : Flow
+    public function execute(array $data): Flow
     {
         $this->validate($data);
 

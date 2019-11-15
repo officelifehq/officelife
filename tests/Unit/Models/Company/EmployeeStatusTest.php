@@ -11,7 +11,7 @@ class EmployeeStatusTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_company() : void
+    public function it_belongs_to_a_company(): void
     {
         $employeeLog = factory(EmployeeStatus::class)->create([]);
         $this->assertTrue($employeeLog->company()->exists());

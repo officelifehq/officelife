@@ -11,7 +11,7 @@ class CompanyCalendarTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_company_pto_policy() : void
+    public function it_belongs_to_a_company_pto_policy(): void
     {
         $calendar = factory(CompanyCalendar::class)->create([]);
         $this->assertTrue($calendar->policy()->exists());

@@ -11,14 +11,14 @@ class PlaceTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_has_one_country() : void
+    public function it_has_one_country(): void
     {
         $place = factory(Place::class)->create([]);
         $this->assertTrue($place->country()->exists());
     }
 
     /** @test */
-    public function it_gets_the_country_name() : void
+    public function it_gets_the_country_name(): void
     {
         $place = factory(Place::class)->create([]);
 
@@ -29,7 +29,7 @@ class PlaceTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_address_as_a_string() : void
+    public function it_gets_the_address_as_a_string(): void
     {
         $place = factory(Place::class)->create([]);
 
@@ -40,7 +40,7 @@ class PlaceTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_partial_address_as_a_string() : void
+    public function it_gets_the_partial_address_as_a_string(): void
     {
         $place = factory(Place::class)->create([]);
 

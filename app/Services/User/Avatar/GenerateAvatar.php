@@ -11,7 +11,7 @@ class GenerateAvatar extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'uuid' => 'required|string',
@@ -42,7 +42,7 @@ class GenerateAvatar extends BaseService
      * @param  array  $data
      * @return int
      */
-    private function size(array $data) : int
+    private function size(array $data): int
     {
         if (isset($data['size'])) {
             return $data['size'];

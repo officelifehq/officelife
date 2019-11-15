@@ -11,7 +11,7 @@ class StringHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_returns_the_parsed_content() : void
+    public function it_returns_the_parsed_content(): void
     {
         $content = '**hi**';
 

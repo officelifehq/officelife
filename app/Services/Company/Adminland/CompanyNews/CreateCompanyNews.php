@@ -14,7 +14,7 @@ class CreateCompanyNews extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -32,7 +32,7 @@ class CreateCompanyNews extends BaseService
      * @param array $data
      * @return CompanyNews
      */
-    public function execute(array $data) : CompanyNews
+    public function execute(array $data): CompanyNews
     {
         $this->validate($data);
 

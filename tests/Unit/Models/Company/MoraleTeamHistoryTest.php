@@ -11,7 +11,7 @@ class MoraleTeamHistoryTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_team() : void
+    public function it_belongs_to_a_team(): void
     {
         $moraleTeamHistory = factory(MoraleTeamHistory::class)->create([]);
         $this->assertTrue($moraleTeamHistory->team()->exists());

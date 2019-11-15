@@ -19,7 +19,7 @@ class CreateTask extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -40,7 +40,7 @@ class CreateTask extends BaseService
      * @param array $data
      * @return Task
      */
-    public function execute(array $data) : Task
+    public function execute(array $data): Task
     {
         $this->validate($data);
 
@@ -94,7 +94,7 @@ class CreateTask extends BaseService
      * @param array $data
      * @return Task
      */
-    private function addTask(array $data) : Task
+    private function addTask(array $data): Task
     {
         return Task::create([
             'company_id' => $data['company_id'],
@@ -116,7 +116,7 @@ class CreateTask extends BaseService
      * @param Employee $author
      * @return void
      */
-    private function addLogTeamAction(array $data, array $dataToLog, Employee $author) : void
+    private function addLogTeamAction(array $data, array $dataToLog, Employee $author): void
     {
         LogTeamAudit::dispatch([
             'team_id' => $data['team_id'],
@@ -137,7 +137,7 @@ class CreateTask extends BaseService
      * @param Employee $author
      * @return void
      */
-    private function addLogEmployeeAction(array $data, array $dataToLog, Employee $author) : void
+    private function addLogEmployeeAction(array $data, array $dataToLog, Employee $author): void
     {
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['assignee_id'],

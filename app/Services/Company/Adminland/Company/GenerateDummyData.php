@@ -24,7 +24,7 @@ class GenerateDummyData extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -38,7 +38,7 @@ class GenerateDummyData extends BaseService
      * @param array $data
      * @return void
      */
-    public function execute(array $data)
+    public function execute(array $data): void
     {
         $this->validate($data);
 
@@ -95,7 +95,7 @@ class GenerateDummyData extends BaseService
      * @param array $data
      * @return Employee
      */
-    private function addEmployee(array $data) : Employee
+    private function addEmployee(array $data): Employee
     {
         $faker = Faker::create();
 
@@ -146,7 +146,7 @@ class GenerateDummyData extends BaseService
      * @param int $numberOfEmployees
      * @return Team
      */
-    private function createTeamWithEmployees(array $data, string $teamName, int $numberOfEmployees) : Team
+    private function createTeamWithEmployees(array $data, string $teamName, int $numberOfEmployees): Team
     {
         $request = [
             'company_id' => $data['company_id'],

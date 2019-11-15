@@ -16,7 +16,7 @@ class LogHelper
      * @param AuditLog $log
      * @return string
      */
-    public static function processAuditLog(AuditLog $log) : string
+    public static function processAuditLog(AuditLog $log): string
     {
         $sentence = '';
 
@@ -215,7 +215,7 @@ class LogHelper
      * @param EmployeeLog $log
      * @return string
      */
-    public static function processEmployeeLog(EmployeeLog $log) : string
+    public static function processEmployeeLog(EmployeeLog $log): string
     {
         $sentence = '';
 
@@ -314,7 +314,7 @@ class LogHelper
      * @param TeamLog $log
      * @return string
      */
-    public static function processTeamLog(TeamLog $log) : string
+    public static function processTeamLog(TeamLog $log): string
     {
         $sentence = '';
 

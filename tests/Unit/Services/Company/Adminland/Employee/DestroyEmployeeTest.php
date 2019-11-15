@@ -16,7 +16,7 @@ class DestroyEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_destroys_an_employee() : void
+    public function it_destroys_an_employee(): void
     {
         Queue::fake();
 
@@ -47,7 +47,7 @@ class DestroyEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'name' => 'Selling team',
@@ -58,7 +58,7 @@ class DestroyEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_the_employee_does_not_match_the_company() : void
+    public function it_fails_if_the_employee_does_not_match_the_company(): void
     {
         $michael = $this->createAdministrator();
         $dwight = factory(Employee::class)->create([]);

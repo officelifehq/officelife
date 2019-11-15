@@ -16,7 +16,7 @@ class CreatePositionTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_position() : void
+    public function it_creates_a_position(): void
     {
         Queue::fake();
 
@@ -52,7 +52,7 @@ class CreatePositionTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'title' => 'Assistant to the regional manager',

@@ -18,7 +18,7 @@ class AddEmployeeToCompany extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -38,7 +38,7 @@ class AddEmployeeToCompany extends BaseService
      * @param array $data
      * @return Employee
      */
-    public function execute(array $data) : Employee
+    public function execute(array $data): Employee
     {
         $this->validate($data);
 
@@ -86,7 +86,7 @@ class AddEmployeeToCompany extends BaseService
      * @param Employee $author
      * @return Employee
      */
-    private function createEmployee(array $data, Employee $author) : Employee
+    private function createEmployee(array $data, Employee $author): Employee
     {
         $uuid = Str::uuid()->toString();
 
@@ -129,7 +129,7 @@ class AddEmployeeToCompany extends BaseService
      * @param Employee $employee
      * @return Employee
      */
-    private function addHolidays(array $data, Employee $employee) : Employee
+    private function addHolidays(array $data, Employee $employee): Employee
     {
         $company = Company::find($data['company_id']);
 

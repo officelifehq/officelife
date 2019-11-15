@@ -17,7 +17,7 @@ class RemoveDummyDataTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_removes_all_dummy_data() : void
+    public function it_removes_all_dummy_data(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
@@ -57,7 +57,7 @@ class RemoveDummyDataTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = factory(Employee::class)->create([]);
 

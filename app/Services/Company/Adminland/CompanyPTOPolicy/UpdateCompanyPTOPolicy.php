@@ -17,7 +17,7 @@ class UpdateCompanyPTOPolicy extends BaseService
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
@@ -37,7 +37,7 @@ class UpdateCompanyPTOPolicy extends BaseService
      * @param array $data
      * @return CompanyPTOPolicy
      */
-    public function execute(array $data) : CompanyPTOPolicy
+    public function execute(array $data): CompanyPTOPolicy
     {
         $this->validate($data);
 
@@ -82,7 +82,7 @@ class UpdateCompanyPTOPolicy extends BaseService
      * @param array $data
      * @return int
      */
-    private function markDaysOff(array $data) : int
+    private function markDaysOff(array $data): int
     {
         if (! isset($data['days_to_toggle'])) {
             return 0;

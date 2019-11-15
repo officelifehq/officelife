@@ -17,7 +17,7 @@ class AssignManagerTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_assigns_a_manager() : void
+    public function it_assigns_a_manager(): void
     {
         Queue::fake();
 
@@ -77,7 +77,7 @@ class AssignManagerTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'first_name' => 'Dwight',
@@ -88,7 +88,7 @@ class AssignManagerTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_employee_and_manager_are_the_same_person() : void
+    public function it_fails_if_employee_and_manager_are_the_same_person(): void
     {
         $dwight = factory(Employee::class)->create([]);
 

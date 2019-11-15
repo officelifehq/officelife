@@ -11,14 +11,14 @@ class TeamLogTest extends ApiTestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_belongs_to_a_team() : void
+    public function it_belongs_to_a_team(): void
     {
         $teamLog = factory(TeamLog::class)->create([]);
         $this->assertTrue($teamLog->team()->exists());
     }
 
     /** @test */
-    public function it_returns_the_date_attribute() : void
+    public function it_returns_the_date_attribute(): void
     {
         $teamLog = factory(TeamLog::class)->create([
             'created_at' => '2017-01-22 17:56:03',
@@ -30,7 +30,7 @@ class TeamLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_object_attribute() : void
+    public function it_returns_the_object_attribute(): void
     {
         $teamLog = factory(TeamLog::class)->create([]);
         $this->assertEquals(
@@ -40,7 +40,7 @@ class TeamLogTest extends ApiTestCase
     }
 
     /** @test */
-    public function it_returns_the_content_attribute() : void
+    public function it_returns_the_content_attribute(): void
     {
         $adminEmployee = $this->createAdministrator();
 

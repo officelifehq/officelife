@@ -11,7 +11,7 @@ class UpdateDashboardPreferenceTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_the_user_preference_for_the_dashboard() : void
+    public function it_updates_the_user_preference_for_the_dashboard(): void
     {
         $michael = $this->createAdministrator();
 

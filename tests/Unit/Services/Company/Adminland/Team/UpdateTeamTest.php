@@ -17,7 +17,7 @@ class UpdateTeamTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_a_team() : void
+    public function it_updates_a_team(): void
     {
         Queue::fake();
 
@@ -68,7 +68,7 @@ class UpdateTeamTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'name' => 'Selling team',

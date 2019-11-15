@@ -17,7 +17,7 @@ class AssignPositionToEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_assigns_a_position() : void
+    public function it_assigns_a_position(): void
     {
         Queue::fake();
 
@@ -68,7 +68,7 @@ class AssignPositionToEmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_if_wrong_parameters_are_given() : void
+    public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
             'first_name' => 'Dwight',
