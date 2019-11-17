@@ -20,4 +20,15 @@ class Pronoun extends Model
         'label',
         'translation_key',
     ];
+
+    /**
+     * Get the complete label of the pronoun.
+     *
+     * @param string $value
+     * @return string
+     */
+    public function getLabelAttribute($value): string
+    {
+        return trans($this->translation_key);
+    }
 }

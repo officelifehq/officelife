@@ -212,6 +212,18 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'pronoun_assigned_to_employee') {
+            $sentence = trans('account.log_employee_pronoun_set', [
+                'name' => $log->object->{'pronoun_label'},
+            ]);
+        }
+
+        if ($log->action == 'pronoun_removed_from_employee') {
+            $sentence = trans('account.log_employee_pronoun_removed', [
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -315,6 +327,16 @@ class LogHelper
             $sentence = trans('account.employee_log_address_set', [
                 'address' => $log->object->{'partial_address'},
             ]);
+        }
+
+        if ($log->action == 'pronoun_assigned') {
+            $sentence = trans('account.employee_log_pronoun_set', [
+                'name' => $log->object->{'pronoun_label'},
+            ]);
+        }
+
+        if ($log->action == 'pronoun_removed') {
+            $sentence = trans('account.employee_log_pronoun_removed');
         }
 
         return $sentence;

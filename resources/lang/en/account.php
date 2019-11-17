@@ -138,6 +138,8 @@ return [
     'log_company_time_off_created' => 'Added a new time off for :date.',
     'log_company_time_off_destroyed' => 'Removed a time off for :date.',
     'log_employee_address_set' => 'Added an address at :address.',
+    'log_employee_pronoun_set' => 'Assigned the pronoun called :name to :employee.',
+    'log_employee_pronoun_removed' => 'Removed the gender pronoun from :name.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -155,6 +157,8 @@ return [
     'employee_log_time_off_created' => 'Added a new time off for :date.',
     'employee_log_time_off_destroyed' => 'Removed a time off for :date.',
     'employee_log_address_set' => 'Added an address at :address.',
+    'employee_log_pronoun_set' => 'Assigned the pronoun called :name.',
+    'employee_log_pronoun_removed' => 'Removed the gender pronoun.',
 
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',
