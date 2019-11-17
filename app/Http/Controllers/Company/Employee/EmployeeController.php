@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Company\Employee;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
+use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
 use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\User\Pronoun as PronounResource;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Services\Company\Employee\Manager\UnassignManager;
@@ -59,6 +61,7 @@ class EmployeeController extends Controller
         $teams = $company->teams()->get();
         $worklogs = $employee->worklogs()->latest()->take(7)->get();
         $employeeStatuses = $company->employeeStatuses()->get();
+        $pronouns = Pronoun::all();
 
         // building the collection containing the days of the week with the
         // worklogs
@@ -80,6 +83,7 @@ class EmployeeController extends Controller
             'teams' => TeamResource::collection($teams),
             'worklogs' => $worklogs,
             'statuses' => EmployeeStatusResource::collection($employeeStatuses),
+            'pronouns' => PronounResource::collection($pronouns),
         ]);
     }
 

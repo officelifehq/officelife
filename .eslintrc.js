@@ -83,7 +83,7 @@ module.exports = {
         "vue/singleline-html-element-content-newline": ["error", {
           "ignoreWhenNoAttributes": true,
           "ignoreWhenEmpty": true,
-          "ignores": ["pre", "textarea", "inertia-link"]
+          "ignores": ["pre", "textarea", "inertia-link", "a", "p", "li"]
         }]
     }
 };

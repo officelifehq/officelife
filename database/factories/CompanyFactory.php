@@ -19,6 +19,9 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
                 'company_id' => $data['company_id'],
             ])->id;
         },
+        'pronoun_id' => function () {
+            return factory(App\Models\User\Pronoun::class)->create()->id;
+        },
         'uuid' => $faker->uuid,
         'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
         'permission_level' => config('kakene.authorizations.administrator'),
@@ -338,5 +341,11 @@ $factory->define(App\Models\Company\CompanyCalendar::class, function (Faker $fak
         'day_of_year' => 1,
         'day_of_week' => 1,
         'is_worked' => true,
+    ];
+});
+
+$factory->define(App\Models\Company\Company::class, function (Faker $faker) {
+    return [
+        'name' => $faker->name,
     ];
 });

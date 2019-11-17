@@ -138,6 +138,8 @@ return [
     'log_company_time_off_created' => 'Added a new time off for :date.',
     'log_company_time_off_destroyed' => 'Removed a time off for :date.',
     'log_employee_address_set' => 'Added an address at :address.',
+    'log_employee_pronoun_set' => 'Assigned the pronoun called :name to :employee.',
+    'log_employee_pronoun_removed' => 'Removed the gender pronoun from :name.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -155,6 +157,8 @@ return [
     'employee_log_time_off_created' => 'Added a new time off for :date.',
     'employee_log_time_off_destroyed' => 'Removed a time off for :date.',
     'employee_log_address_set' => 'Added an address at :address.',
+    'employee_log_pronoun_set' => 'Assigned the pronoun called :name.',
+    'employee_log_pronoun_removed' => 'Removed the gender pronoun.',
 
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',
@@ -207,4 +211,12 @@ return [
     'pto_policies_legend_' => 'Add/remove holidays by clicking in a day in the calendar below',
     'pto_policies_edit_total' => 'Employees will have to work a total of {totalWorkedDays} in {year}.',
     'pto_policies_update' => 'The policy has been updated',
+
+    'pronoun_he_him' => 'he/him',
+    'pronoun_she_her' => 'she/her',
+    'pronoun_they_them' => 'they/them',
+    'pronoun_per_per' => 'per/per',
+    'pronoun_ve_ver' => 've/ver',
+    'pronoun_xe_xem' => 'xe/xem',
+    'pronoun_ze_hir' => 'ze/hir',
 ];

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User\User;
 use App\Traits\Searchable;
 use App\Helpers\DateHelper;
+use App\Models\User\Pronoun;
 use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -270,6 +271,16 @@ class Employee extends Model
     public function plannedHolidays()
     {
         return $this->hasMany(EmployeePlannedHoliday::class);
+    }
+
+    /**
+     * Get the pronoun record associated with the employee.
+     *
+     * @return belongsTo
+     */
+    public function pronoun()
+    {
+        return $this->belongsTo(Pronoun::class);
     }
 
     /**

@@ -13,3 +13,10 @@ $factory->define(App\Models\User\User::class, function (Faker $faker) {
         'uuid' => $faker->uuid,
     ];
 });
+
+$factory->define(App\Models\User\Pronoun::class, function (Faker $faker) {
+    return [
+        'label' => 'he/him',
+        'translation_key' => 'account.pronoun_he_him',
+    ];
+});

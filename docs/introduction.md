@@ -45,6 +45,7 @@ Kakene is built around the notion that while companies own data about their empl
 ### Developers
 
 * Dates must all have the `datetime` data type so we can use SQLite for testing purposes, even when we want to use a `date` type. Make sure to fill the date object with a trailing `00:00:00`. Otherwise we get conflicts between mySQL and SQlite.
+* Migrations should not have a `down` method.
 
 #### Crons
 
@@ -91,6 +92,14 @@ I want to keep the application simple, so I want as few roles as possible. With 
 
 That being said, an employee can be a manager. When an employee is a manager, he has some controls and additional poIrs over a regular employee, but only upon the employees he manages.
 
+#### Audit logs
+
+All actions made in the software are logged, along with the identity of who has done what and when. An action is always recorded at the company level, and listed in the Audit log page in the Settings panel. This page is available only to administrators of the company.
+
+Actions that are made on an employee are also logged at the employee level, and visible on the employee page by clicking on the View Log button. Those logs only are visible by the employee himself, or by employees with the HR or administrator role.
+
+Finally, actions are that made on a team are, again, logged at the team level.
+
 ### Adding employees
 
 ### Inviting users
@@ -120,6 +129,10 @@ Employees can set their home address on their profile page. HR representatives a
 A note on privacy: an employee's complete address is only shown to the employee himself, or to employees with the HR or administrator roles. When a regular employee goes to see the profile of another employee, he will only see a partial address, aka the city and the country. The map that is displayed, only shows the city as well, on purpose.
 
 Employees can change addresses as much as they want, there is no limitation.
+
+### Gender identity
+
+Kakene respects everyone's gender and identity. This is why employees can choose to be identified how they want to, by choosing from a long list of available gender neutral terms.
 
 ### Morale
 
