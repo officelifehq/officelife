@@ -2,8 +2,12 @@
 
 namespace App\Services\Company\Place;
 
+use Carbon\Carbon;
+use App\Jobs\LogAccountAudit;
 use App\Models\Company\Place;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
+use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\FetchAddressGeocoding;
 
@@ -41,7 +45,7 @@ class CreatePlace extends BaseService
     {
         $this->validate($data);
 
-        $this->validatePermissions(
+        $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
             config('kakene.authorizations.user')
@@ -54,6 +58,10 @@ class CreatePlace extends BaseService
         }
 
         $this->geocodePlace($place);
+
+        if ($data['placable_type'] == 'App\Models\Company\Employee') {
+            $this->addLog($data, $place, $author);
+        }
 
         return $place;
     }
@@ -105,5 +113,42 @@ class CreatePlace extends BaseService
     private function geocodePlace(Place $place)
     {
         FetchAddressGeocoding::dispatch($place)->onQueue('low');
+    }
+
+    /**
+     * Add logs.
+     *
+     * @param array $data
+     * @param Place $place
+     * @param Employee $author
+     * @return void
+     */
+    private function addLog(array $data, Place $place, Employee $author)
+    {
+        LogAccountAudit::dispatch([
+            'company_id' => $data['company_id'],
+            'action' => 'address_added_to_employee',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'place_id' => $place->id,
+                'partial_address' => $place->getPartialAddress(),
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $data['placable_id'],
+            'action' => 'address_added',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'place_id' => $place->id,
+                'partial_address' => $place->getPartialAddress(),
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
     }
 }

@@ -48,13 +48,14 @@ class AuditLogTest extends ApiTestCase
             'action' => 'employee_invited_to_become_user',
             'objects' => json_encode([
                 'author_id' => $adminEmployee->user->id,
-                'employee_name' => $adminEmployee->user->name,
+                'employee_first_name' => $adminEmployee->user->firstname,
+                'employee_last_name' => $adminEmployee->user->lastname,
             ]),
             'company_id' => $adminEmployee->company_id,
         ]);
 
         $this->assertEquals(
-            'Sent an invitation to '.$adminEmployee->user->name.' to join the company.',
+            'Sent an invitation to '.$adminEmployee->user->firstname.' '.$adminEmployee->user->lastname.' to join the company.',
             $auditLog->content
         );
     }

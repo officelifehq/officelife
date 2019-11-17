@@ -64,7 +64,7 @@
           <img :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80" />
           <h2 class="tc normal mb1">
             {{ employee.name }} <span v-if="employee.id == $page.auth.employee.id" class="f7 fw4 ba you br3 pa1 ml2 dib">
-              it’s you
+              {{ $t('employee.its_you') }}
             </span>
           </h2>
           <ul class="list tc pa0 f6 mb0">
@@ -96,14 +96,14 @@
       <div class="cf mw9 center">
         <!-- LEFT COLUMN -->
         <div class="fl w-40-l w-100">
+          <location
+            :employee="employee"
+          />
+
           <assign-employee-hierarchy
             :employee="employee"
             :managers="managers"
             :direct-reports="directReports"
-          />
-
-          <location
-            :employee="employee"
           />
 
           <holidays

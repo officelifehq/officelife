@@ -48,4 +48,24 @@ return [
     |
     */
     'location_iq_url' => env('LOCATION_IQ_URL', 'https://us1.locationiq.com/v1/'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Mapbox API key
+    |--------------------------------------------------------------------------
+    |
+    | Used to display static maps. See https://docs.mapbox.com/help/how-mapbox-works/static-maps/
+    |
+    */
+    'mapbox_api_key' => env('MAPBOX_API_KEY', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Mapbox username
+    |--------------------------------------------------------------------------
+    |
+    | Necessary for the Mapbox API to work.
+    |
+    */
+    'mapbox_username' => env('MAPBOX_USERNAME', null),
 ];

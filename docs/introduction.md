@@ -113,6 +113,14 @@ Employees can only log what they've done once per day. By definition, I don't al
 
 Every night at 11pm (UTC), the server checks whose employees have logged their work and keeps count. It’s up to the company to decide how they want to enforce this policy of logging the work. A company can choose to create automated rules using the poIrful flow feature if they want to be warned when an employee skips, say, 7 days of logging work in a row.
 
+### Employee's address
+
+Employees can set their home address on their profile page. HR representatives and administrators also have the possibility to set an address on behalf of the employee. Once an address is set, Kakene will automatically pull a map to visualize this address on the employee's profile page.
+
+A note on privacy: an employee's complete address is only shown to the employee himself, or to employees with the HR or administrator roles. When a regular employee goes to see the profile of another employee, he will only see a partial address, aka the city and the country. The map that is displayed, only shows the city as well, on purpose.
+
+Employees can change addresses as much as they want, there is no limitation.
+
 ### Morale
 
 Employees can indicate how they feel each day. They have the choice between a good day, a normal day or a bad day. After they have indicated their feelings, they can also add a comment to it. This feeling can't be changed once it’s logged, on purpose.

@@ -86,6 +86,7 @@
             <li>manager: one on one</li>
             <li>revue 360 de son boss ou d'employées</li>
             <li>gérer les renouvellements de contrats des équipes temporaires</li>
+            <li>page de "office"</li>
           </ul>
         </div>
       </div>

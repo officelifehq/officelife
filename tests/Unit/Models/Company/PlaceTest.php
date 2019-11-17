@@ -35,7 +35,7 @@ class PlaceTest extends TestCase
 
         $this->assertEquals(
             '1725 Slough Ave Scranton PA France',
-            $place->getAddressAsString()
+            $place->getCompleteAddress()
         );
     }
 
@@ -47,6 +47,34 @@ class PlaceTest extends TestCase
         $this->assertEquals(
             'Scranton (France)',
             $place->getPartialAddress()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_static_image_map(): void
+    {
+        config(['kakene.mapbox_api_key' => 'api_key']);
+        config(['kakene.mapbox_username' => 'test']);
+
+        $place = factory(Place::class)->create([
+            'longitude' => '-74.005941',
+            'latitude' => '40.712784',
+        ]);
+
+        $this->assertEquals(
+            'https://api.mapbox.com/styles/v1/test/ck335w8te1vzj1cn7aszafhm2/static/-74.005941,40.712784,7/300x300@2x?access_token=api_key',
+            $place->getStaticMapImage(7, 300, 300)
+        );
+    }
+
+    /** @test */
+    public function it_returns_an_open_streetmap_url()
+    {
+        $place = factory(Place::class)->create([]);
+
+        $this->assertEquals(
+            'https://www.openstreetmap.org/search?query=Scranton+%28France%29',
+            $place->getMapUrl()
         );
     }
 }
