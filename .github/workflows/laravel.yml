@@ -1,0 +1,29 @@
+name: Unit tests
+
+on: [push]
+
+jobs:
+  phpunit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - name: Install dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+    - name: Generate key
+      run: php artisan key:generate
+    - name: Create SQLite database
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
+    - name: Run migrations
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan migrate
+    - name: Execute tests via PHPUnit
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: vendor/bin/phpunit

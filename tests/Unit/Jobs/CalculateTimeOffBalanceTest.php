@@ -39,7 +39,7 @@ class CalculateTimeOffBalanceTest extends TestCase
 
         $this->assertDatabaseHas('employee_daily_calendar_entries', [
             'employee_id' => $michael->id,
-            'log_date' => '2018-10-10',
+            'log_date' => '2018-10-10 00:00:00',
             'new_balance' => 30.115,
             'daily_accrued_amount' => 0.115,
             'current_holidays_per_year' => 30,
