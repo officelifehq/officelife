@@ -23,7 +23,8 @@ class LogHelperTest extends TestCase
             'action' => 'employee_invited_to_become_user',
             'objects' => json_encode([
                 'author_id' => $adminEmployee->user->id,
-                'employee_name' => $adminEmployee->user->name,
+                'employee_first_name' => $adminEmployee->user->firstname,
+                'employee_last_name' => $adminEmployee->user->lastname,
             ]),
             'company_id' => $adminEmployee->company_id,
         ]);
