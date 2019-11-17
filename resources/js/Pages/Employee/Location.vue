@@ -16,10 +16,10 @@
            @click="navigateToUrl(employee.address.openstreetmap_url)"
       />
 
-      <p v-if="employeeOrAtLeastHR()" class="mt0">
+      <p v-if="employeeOrAtLeastHR()" class="mt0" data-cy="employee-location">
         {{ $t('employee.location_information', { address: employee.address.readable }) }}
       </p>
-      <p v-if="!employeeOrAtLeastHR()" class="mt0">
+      <p v-if="!employeeOrAtLeastHR()" class="mt0" data-cy="employee-location">
         {{ $t('employee.location_information', { address: employee.address.partial }) }}
       </p>
       <span class="f7 silver">

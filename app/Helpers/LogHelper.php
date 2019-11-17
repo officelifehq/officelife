@@ -78,7 +78,7 @@ class LogHelper
 
         if ($log->action == 'employee_invited_to_become_user') {
             $sentence = trans('account.log_employee_invited_to_become_user', [
-                'employee' => $log->object->{'employee_name'},
+                'employee' => $log->object->{'employee_first_name'}.' '.$log->object->{'employee_last_name'},
             ]);
         }
 
