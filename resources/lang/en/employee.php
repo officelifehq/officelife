@@ -1,6 +1,14 @@
 <?php
 
 return [
+    'its_you' => 'it’s you',
+
+    'location_title' => 'Location',
+    'location_no_info' => 'There is no address defined in this profile.',
+    'location_alt_employee' => 'Employee location',
+    'location_information' => 'Lives in {address}.',
+    'location_privacy_information' => 'Only you and HR can view your complete address.',
+
     'hierarchy_title' => 'Hierarchy in the company',
     'hierarchy_blank' => 'Add a manager or a direct report to position this employee within the company.',
     'hierarchy_modal_add_manager' => 'Add a manager',

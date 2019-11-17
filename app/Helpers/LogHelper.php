@@ -206,6 +206,12 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'address_added_to_employee') {
+            $sentence = trans('account.log_employee_address_set', [
+                'address' => $log->object->{'partial_address'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -302,6 +308,12 @@ class LogHelper
         if ($log->action == 'time_off_destroyed') {
             $sentence = trans('account.employee_log_time_off_destroyed', [
                 'date' => $log->object->{'planned_holiday_date'},
+            ]);
+        }
+
+        if ($log->action == 'address_added') {
+            $sentence = trans('account.employee_log_address_set', [
+                'address' => $log->object->{'partial_address'},
             ]);
         }
 

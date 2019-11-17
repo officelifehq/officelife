@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use App\Helpers\MapHelper;
 use Illuminate\Database\Eloquent\Model;
 
 class Place extends Model
@@ -56,7 +57,7 @@ class Place extends Model
      *
      * @return string|null
      */
-    public function getAddressAsString()
+    public function getCompleteAddress()
     {
         $address = '';
 
@@ -127,5 +128,31 @@ class Place extends Model
         if (is_string($address)) {
             return $address;
         }
+    }
+
+    /**
+     * Get the static image map for this place.
+     *
+     * @param integer $zoom
+     * @param integer $width
+     * @param integer $height
+     * @return string|null
+     */
+    public function getStaticMapImage(int $zoom, int $width, int $height): ?string
+    {
+        return MapHelper::getStaticImage($this, $zoom, $width, $height);
+    }
+
+    /**
+     * Get the URL on OpenStreetMap for the partial URL.
+     *
+     * @return string
+     */
+    public function getMapUrl(): string
+    {
+        $place = $this->getPartialAddress();
+        $place = urlencode($place);
+
+        return "https://www.openstreetmap.org/search?query={$place}";
     }
 }
