@@ -14,6 +14,8 @@ return [
     'pronoun_modal_filter' => 'Filter genders',
     'pronoun_modal_reset' => 'Reset gender pronoun',
     'pronoun_modal_cta' => 'Choose a gender pronoun',
+    'pronoun_modal_assign_success' => 'The pronoun has been set',
+    'pronoun_modal_unassign_success' => 'The pronoun has been removed',
 
     'hierarchy_title' => 'Hierarchy in the company',
     'hierarchy_blank' => 'Add a manager or a direct report to position this employee within the company.',
