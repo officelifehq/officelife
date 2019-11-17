@@ -65,7 +65,7 @@ class CreateTimeOff extends BaseService
         // grab the PTO policy and check wether this day is a worked day or not
         $ptoPolicy = $employee->company->getCurrentPTOPolicy();
         if (! HolidayHelper::isDayWorkedForCompany($ptoPolicy, $suggestedDate)) {
-            throw new Exception();
+            throw new Exception('The day is considered worked for the company');
         }
 
         // check if an holiday already exists for this day
@@ -99,7 +99,7 @@ class CreateTimeOff extends BaseService
     private function getExistingPlannedHoliday(Employee $employee, Carbon $date)
     {
         $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
-            ->where('planned_date', $date->format('Y-m-d'))
+            ->where('planned_date', $date->format('Y-m-d 00:00:00'))
             ->count();
 
         if ($holiday > 1) {
@@ -107,7 +107,7 @@ class CreateTimeOff extends BaseService
         }
 
         $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
-            ->where('planned_date', $date->format('Y-m-d'))
+            ->where('planned_date', $date->format('Y-m-d 00:00:00'))
             ->first();
 
         return $holiday;

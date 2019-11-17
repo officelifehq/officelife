@@ -33,6 +33,17 @@ class EmployeePlannedHoliday extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'full' => 'boolean',
+        'actually_taken' => 'boolean',
+        'is_dummy' => 'boolean',
+    ];
+
+    /**
      * Get the employee record associated with the employee event.
      *
      * @return BelongsTo

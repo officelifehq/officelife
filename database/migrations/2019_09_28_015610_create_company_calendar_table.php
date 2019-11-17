@@ -16,7 +16,7 @@ class CreateCompanyCalendarTable extends Migration
         Schema::create('company_calendars', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_pto_policy_id');
-            $table->date('day');
+            $table->datetime('day');
             $table->integer('day_of_week');
             $table->integer('day_of_year');
             $table->boolean('is_worked')->default(true);

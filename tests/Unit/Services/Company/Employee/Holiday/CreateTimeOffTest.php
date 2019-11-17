@@ -37,7 +37,7 @@ class CreateTimeOffTest extends TestCase
             'default_amount_of_pto_days' => 1,
         ];
 
-        $ptoPolicy = (new CreateCompanyPTOPolicy)->execute($request);
+        (new CreateCompanyPTOPolicy)->execute($request);
 
         $request = [
             'author_id' => $michael->id,
@@ -52,7 +52,7 @@ class CreateTimeOffTest extends TestCase
         $this->assertDatabaseHas('employee_planned_holidays', [
             'id' => $holiday->id,
             'employee_id' => $michael->id,
-            'planned_date' => '2018-10-10',
+            'planned_date' => '2018-10-10 00:00:00',
             'type' => 'holiday',
             'full' => true,
         ]);
@@ -99,7 +99,7 @@ class CreateTimeOffTest extends TestCase
         $this->assertDatabaseHas('employee_planned_holidays', [
             'id' => $holiday->id,
             'employee_id' => $michael->id,
-            'planned_date' => '2018-10-10',
+            'planned_date' => '2018-10-10 00:00:00',
             'type' => 'holiday',
             'full' => true,
         ]);
@@ -178,7 +178,7 @@ class CreateTimeOffTest extends TestCase
         // let's take a day that is already taken as a day off
         DB::table('employee_planned_holidays')->insert([
             'employee_id' => $michael->id,
-            'planned_date' => '2018-10-10',
+            'planned_date' => '2018-10-10 00:00:00',
             'type' => 'holiday',
             'full' => true,
         ]);
@@ -210,12 +210,13 @@ class CreateTimeOffTest extends TestCase
             'default_amount_of_sick_days' => 1,
             'default_amount_of_pto_days' => 1,
         ];
+
         (new CreateCompanyPTOPolicy)->execute($request);
 
         // let's take a day that is already taken as a day off
         DB::table('employee_planned_holidays')->insertGetId([
             'employee_id' => $michael->id,
-            'planned_date' => '2018-10-10',
+            'planned_date' => '2018-10-10 00:00:00',
             'type' => 'holiday',
             'full' => false,
         ]);
@@ -231,7 +232,7 @@ class CreateTimeOffTest extends TestCase
         $holiday = (new CreateTimeOff)->execute($request);
 
         // there should be two entries in the database
-        $count = DB::table('employee_planned_holidays')->where('planned_date', '2018-10-10')
+        $count = DB::table('employee_planned_holidays')->where('planned_date', '2018-10-10 00:00:00')
             ->count();
 
         $this->assertEquals(

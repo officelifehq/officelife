@@ -313,6 +313,7 @@ $factory->define(App\Models\Company\EmployeeDailyCalendarEntry::class, function 
         'sick_day' => false,
         'pto_day' => false,
         'remote' => false,
+        'log_date' => '2010-01-01',
     ];
 });
 
@@ -324,6 +325,7 @@ $factory->define(App\Models\Company\EmployeePlannedHoliday::class, function (Fak
         'planned_date' => '2010-01-01',
         'full' => true,
         'actually_taken' => false,
+        'type' => 'holiday',
     ];
 });
 
