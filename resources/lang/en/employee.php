@@ -9,6 +9,12 @@ return [
     'location_information' => 'Lives in {address}.',
     'location_privacy_information' => 'Only you and HR can view your complete address.',
 
+    'pronoun_title' => 'Pronouns',
+    'pronoun_modal_title' => 'Gender pronoun',
+    'pronoun_modal_filter' => 'Filter genders',
+    'pronoun_modal_reset' => 'Reset gender pronoun',
+    'pronoun_modal_cta' => 'Choose a gender pronoun',
+
     'hierarchy_title' => 'Hierarchy in the company',
     'hierarchy_blank' => 'Add a manager or a direct report to position this employee within the company.',
     'hierarchy_modal_add_manager' => 'Add a manager',

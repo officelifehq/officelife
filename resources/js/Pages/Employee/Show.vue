@@ -69,6 +69,12 @@
           </h2>
           <ul class="list tc pa0 f6 mb0">
             <li class="di-l db mb0-l mb2 mr2">
+              <assign-employee-gender-pronoun
+                :employee="employee"
+                :pronouns="pronouns"
+              />
+            </li>
+            <li class="di-l db mb0-l mb2 mr2">
               <assign-employee-position
                 :employee="employee"
                 :positions="positions"
@@ -126,6 +132,7 @@
 import vClickOutside from 'v-click-outside';
 import Layout from '@/Shared/Layout';
 import AssignEmployeePosition from '@/Pages/Employee/AssignEmployeePosition';
+import AssignEmployeeGenderPronoun from '@/Pages/Employee/AssignEmployeeGenderPronoun';
 import AssignEmployeeStatus from '@/Pages/Employee/AssignEmployeeStatus';
 import AssignEmployeeTeam from '@/Pages/Employee/AssignEmployeeTeam';
 import AssignEmployeeHierarchy from '@/Pages/Employee/AssignEmployeeHierarchy';
@@ -137,6 +144,7 @@ export default {
   components: {
     Layout,
     AssignEmployeePosition,
+    AssignEmployeeGenderPronoun,
     AssignEmployeeStatus,
     AssignEmployeeTeam,
     AssignEmployeeHierarchy,
@@ -179,6 +187,10 @@ export default {
       default: null,
     },
     statuses: {
+      type: Array,
+      default: null,
+    },
+    pronouns: {
       type: Array,
       default: null,
     },

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Company\Employee;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\User\Pronoun as PronounResource;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Http\Resources\Company\Place\Place as PlaceResource;
 use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
@@ -23,6 +24,7 @@ class Employee extends JsonResource
             'name' => $this->name,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'pronoun' => is_null($this->pronoun) ? null : new PronounResource($this->pronoun),
             'email' => $this->email,
             'birthdate' => $this->birthdate,
             'permission_level' => $this->permission_level,
