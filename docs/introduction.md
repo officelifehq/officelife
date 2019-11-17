@@ -45,6 +45,7 @@ Kakene is built around the notion that while companies own data about their empl
 ### Developers
 
 * Dates must all have the `datetime` data type so we can use SQLite for testing purposes, even when we want to use a `date` type. Make sure to fill the date object with a trailing `00:00:00`. Otherwise we get conflicts between mySQL and SQlite.
+* Migrations should not have a `down` method.
 
 #### Crons
 

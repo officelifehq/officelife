@@ -13,6 +13,9 @@ class CreateCompanyCalendarTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('company_calendars', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('company_pto_policy_id');

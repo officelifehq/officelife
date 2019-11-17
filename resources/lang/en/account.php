@@ -207,4 +207,12 @@ return [
     'pto_policies_legend_' => 'Add/remove holidays by clicking in a day in the calendar below',
     'pto_policies_edit_total' => 'Employees will have to work a total of {totalWorkedDays} in {year}.',
     'pto_policies_update' => 'The policy has been updated',
+
+    'pronoun_he_him' => 'he/him',
+    'pronoun_she_her' => 'she/her',
+    'pronoun_they_them' => 'they/them',
+    'pronoun_per_per' => 'per/per',
+    'pronoun_ve_ver' => 've/ver',
+    'pronoun_xe_xem' => 'xe/xem',
+    'pronoun_ze_hir' => 'ze/hir',
 ];

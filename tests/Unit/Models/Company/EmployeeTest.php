@@ -217,6 +217,14 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_one_pronoun(): void
+    {
+        $dwight = factory(Employee::class)->create();
+
+        $this->assertTrue($dwight->pronoun()->exists());
+    }
+
+    /** @test */
     public function it_returns_the_email_attribute(): void
     {
         $dwight = factory(Employee::class)->create([]);
