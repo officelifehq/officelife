@@ -68,6 +68,7 @@
             <li>Log an expense</li>
             <li>View one on ones</li>
             <li>View all my tasks</li>
+            <li>quizz hebdo pour apprendre à connaitre</li>
           </ul>
         </div>
       </div>
