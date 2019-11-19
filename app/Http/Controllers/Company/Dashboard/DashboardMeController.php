@@ -31,7 +31,7 @@ class DashboardMeController extends Controller
             'worklogCount' => $employee->worklogs()->count(),
             'moraleCount' => $employee->morales()->count(),
             'notifications' => Auth::user()->getLatestNotifications($company),
-            'ownerPermissionLevel' => config('kakene.authorizations.administrator'),
+            'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
         ]);
     }
 }

@@ -54,7 +54,7 @@
               </li>
               <li v-if="employeeOrAtLeastHR()" class="pv2">
                 <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">
-                  View change log
+                  {{ $t('employee.menu_changelog') }}
                 </inertia-link>
               </li>
             </ul>
@@ -102,6 +102,10 @@
       <div class="cf mw9 center">
         <!-- LEFT COLUMN -->
         <div class="fl w-40-l w-100">
+          <personal-description
+            :employee="employee"
+          />
+
           <location
             :employee="employee"
           />
@@ -131,6 +135,7 @@
 <script>
 import vClickOutside from 'v-click-outside';
 import Layout from '@/Shared/Layout';
+import PersonalDescription from '@/Pages/Employee/PersonalDescription';
 import AssignEmployeePosition from '@/Pages/Employee/AssignEmployeePosition';
 import AssignEmployeeGenderPronoun from '@/Pages/Employee/AssignEmployeeGenderPronoun';
 import AssignEmployeeStatus from '@/Pages/Employee/AssignEmployeeStatus';
@@ -143,6 +148,7 @@ import Location from '@/Pages/Employee/Location';
 export default {
   components: {
     Layout,
+    PersonalDescription,
     AssignEmployeePosition,
     AssignEmployeeGenderPronoun,
     AssignEmployeeStatus,

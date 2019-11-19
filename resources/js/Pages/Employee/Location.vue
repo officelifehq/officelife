@@ -16,9 +16,12 @@
            @click="navigateToUrl(employee.address.openstreetmap_url)"
       />
 
+      <!-- partial address -->
       <p v-if="employeeOrAtLeastHR()" class="mt0" data-cy="employee-location">
         {{ $t('employee.location_information', { address: employee.address.readable }) }}
       </p>
+
+      <!-- complete address if it's the employee or an employee with HR role at least -->
       <p v-if="!employeeOrAtLeastHR()" class="mt0" data-cy="employee-location">
         {{ $t('employee.location_information', { address: employee.address.partial }) }}
       </p>
@@ -27,6 +30,7 @@
       </span>
     </div>
 
+    <!-- case of no address set in profile -->
     <div v-else class="br3 bg-white box z-1 pa3">
       <p class="mb0 mt0 lh-copy mb0 f6">
         {{ $t('employee.location_no_info') }}

@@ -32,7 +32,7 @@ class EmployeeEditController extends Controller
                 Auth::user()->id,
                 $companyId,
                 $employeeId,
-                config('kakene.authorizations.hr')
+                config('officelife.authorizations.hr')
             );
         } catch (\Exception $e) {
             return redirect('/home');

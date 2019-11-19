@@ -25,14 +25,14 @@ class ChangePermissionTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'employee_id' => $michael->id,
-            'permission_level' => config('kakene.authorizations.hr'),
+            'permission_level' => config('officelife.authorizations.hr'),
         ];
 
         $michael = (new ChangePermission)->execute($request);
 
         $this->assertDatabaseHas('employees', [
             'id' => $michael->id,
-            'permission_level' => config('kakene.authorizations.hr'),
+            'permission_level' => config('officelife.authorizations.hr'),
         ]);
 
         $this->assertInstanceOf(
@@ -46,8 +46,8 @@ class ChangePermissionTest extends TestCase
                 $job->auditLog['objects'] === json_encode([
                     'employee_id' => $michael->id,
                     'employee_name' => $michael->name,
-                    'old_permission' => config('kakene.authorizations.administrator'),
-                    'new_permission' => config('kakene.authorizations.hr'),
+                    'old_permission' => config('officelife.authorizations.administrator'),
+                    'new_permission' => config('officelife.authorizations.hr'),
                 ]);
         });
     }

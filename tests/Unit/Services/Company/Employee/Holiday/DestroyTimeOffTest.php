@@ -71,7 +71,7 @@ class DestroyTimeOffTest extends TestCase
         $michael = factory(Employee::class)->create([]);
         $dwight = factory(Employee::class)->create([
             'company_id' => $michael->company_id,
-            'permission_level' => config('kakene.authorizations.hr'),
+            'permission_level' => config('officelife.authorizations.hr'),
         ]);
         $holiday = DB::table('employee_planned_holidays')->insertGetId([
             'employee_id' => $michael->id,

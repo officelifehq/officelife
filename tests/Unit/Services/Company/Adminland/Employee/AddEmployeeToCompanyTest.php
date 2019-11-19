@@ -37,7 +37,7 @@ class AddEmployeeToCompanyTest extends TestCase
             'email' => 'dwight@dundermifflin.com',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
-            'permission_level' => config('kakene.authorizations.user'),
+            'permission_level' => config('officelife.authorizations.user'),
             'send_invitation' => false,
         ];
 
@@ -89,7 +89,7 @@ class AddEmployeeToCompanyTest extends TestCase
         $request = [
             'company_id' => $michael->company_id,
             'last_name' => 'Schrute',
-            'permission_level' => config('kakene.authorizations.user'),
+            'permission_level' => config('officelife.authorizations.user'),
         ];
 
         $this->expectException(ValidationException::class);

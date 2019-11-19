@@ -56,7 +56,7 @@ class CreateTimeOff extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $employee->company_id,
-            config('kakene.authorizations.hr'),
+            config('officelife.authorizations.hr'),
             $data['employee_id']
         );
 

@@ -1,7 +1,16 @@
 <?php
 
 return [
+    'menu_changelog' => 'View changes',
+
     'its_you' => 'it’s you',
+
+    'description_title' => 'Description',
+    'description_no_description' => 'There is no description yet.',
+    'description_clear' => 'Clear description',
+    'description_text_help' => 'Everyone in the company will be able to read this when visiting your profile.',
+    'description_text_title' => 'How would you describe yourself? What are your passions?',
+    'description_success' => 'The description has been updated.',
 
     'location_title' => 'Location',
     'location_no_info' => 'There is no address defined on this profile.',

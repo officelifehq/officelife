@@ -224,6 +224,18 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_description_set') {
+            $sentence = trans('account.log_employee_description_set', [
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_description_cleared') {
+            $sentence = trans('account.log_employee_description_cleared', [
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -337,6 +349,14 @@ class LogHelper
 
         if ($log->action == 'pronoun_removed') {
             $sentence = trans('account.employee_log_pronoun_removed');
+        }
+
+        if ($log->action == 'description_set') {
+            $sentence = trans('account.employee_log_description_set');
+        }
+
+        if ($log->action == 'description_cleared') {
+            $sentence = trans('account.employee_log_description_cleared');
         }
 
         return $sentence;

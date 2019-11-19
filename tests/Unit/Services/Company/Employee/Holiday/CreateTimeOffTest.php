@@ -71,7 +71,7 @@ class CreateTimeOffTest extends TestCase
         $michael = factory(Employee::class)->create([]);
         $dwight = factory(Employee::class)->create([
             'company_id' => $michael->company_id,
-            'permission_level' => config('kakene.authorizations.hr'),
+            'permission_level' => config('officelife.authorizations.hr'),
         ]);
 
         // create a policy for this year

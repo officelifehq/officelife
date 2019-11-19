@@ -32,7 +32,7 @@ class DashboardCompanyController extends Controller
             'user' => Auth::user()->refresh(),
             'employee' => new EmployeeResource(Auth::user()->getEmployeeObjectForCompany($company)),
             'notifications' => Auth::user()->getLatestNotifications($company),
-            'ownerPermissionLevel' => config('kakene.authorizations.administrator'),
+            'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
         ]);
     }
 }

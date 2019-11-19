@@ -16,8 +16,8 @@ class AdminlandControllerTest extends TestCase
         $route = '/account';
         $employee = factory(Employee::class)->create([]);
 
-        $this->accessibleBy($employee, config('kakene.authorizations.administrator'), $route, 200);
-        $this->accessibleBy($employee, config('kakene.authorizations.hr'), $route, 200);
-        $this->accessibleBy($employee, config('kakene.authorizations.user'), $route, 401);
+        $this->accessibleBy($employee, config('officelife.authorizations.administrator'), $route, 200);
+        $this->accessibleBy($employee, config('officelife.authorizations.hr'), $route, 200);
+        $this->accessibleBy($employee, config('officelife.authorizations.user'), $route, 401);
     }
 }
