@@ -51,7 +51,7 @@ class LogMorale extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $employee->company_id,
-            config('kakene.authorizations.user'),
+            config('officelife.authorizations.user'),
             $data['employee_id']
         );
 

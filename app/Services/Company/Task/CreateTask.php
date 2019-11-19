@@ -47,7 +47,7 @@ class CreateTask extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('kakene.authorizations.hr')
+            config('officelife.authorizations.hr')
         );
 
         if (! empty($data['team_id'])) {

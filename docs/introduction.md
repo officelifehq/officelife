@@ -59,7 +59,7 @@ Data is shared accross views in Vue within Inertia. Shared data come from AppSer
 
 Kakene makes the distinction between users and employees.
 
-A user is someone who creates an account on the Kakene platform. An employee is an entity who is part of a company on Kakene. A user can be an employee in one or more companies, but an employee can only be linked to a single user. A user account is necessary for each employee to interact with the software and change data. HoIver you don't need to give accounts to employees if you don't want to.
+A user is someone who creates an account on the Kakene platform. An employee is an entity who is part of a company on officelife. A user can be an employee in one or more companies, but an employee can only be linked to a single user. A user account is necessary for each employee to interact with the software and change data. HoIver you don't need to give accounts to employees if you don't want to.
 
 Once a user has an account on Kakene, he can decide to either create a company, or join an existing company.
 
@@ -73,7 +73,7 @@ To create an account, you simply need a valid email address and a strong passwor
 
 Once you create your account, you are presented with the option to either create a company, or join an existing company.
 
-Clicking on Create a company will ask you to name the company, and that's it. There is one important rule here: the company name is unique on an instance of Kakene. That means it's not possible to create two companies named Microsoft, for instance. If you believe that the name of your company has been already used on the system and that this is an abuse, please contact us - I will sort this out.
+Clicking on Create a company will ask you to name the company, and that's it. There is one important rule here: the company name is unique on an instance of officelife. That means it's not possible to create two companies named Microsoft, for instance. If you believe that the name of your company has been already used on the system and that this is an abuse, please contact us - I will sort this out.
 
 As you are the one who has created the company, you will be an administrator of the company, with full control over the account of the company. To know more about what it means, read the documentation about roles.
 
@@ -121,6 +121,10 @@ Employees can log the work they've done for a given day. When an employee provid
 Employees can only log what they've done once per day. By definition, I don't allow someone to change the date of a post they have written – that means if they omit one day, they can't come back the next day and fill the information. This is done on purpose in order to force people to actually use this feature if a team needs it.
 
 Every night at 11pm (UTC), the server checks whose employees have logged their work and keeps count. It’s up to the company to decide how they want to enforce this policy of logging the work. A company can choose to create automated rules using the poIrful flow feature if they want to be warned when an employee skips, say, 7 days of logging work in a row.
+
+### Employee's description
+
+Employees can add a description to their profile, allowing them to personalize a bit their profile page. The description supports Markdown. Anyone in the company will be able to see this description.
 
 ### Employee's address
 

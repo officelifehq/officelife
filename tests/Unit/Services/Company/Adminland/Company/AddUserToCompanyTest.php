@@ -27,7 +27,7 @@ class AddUserToCompanyTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'user_id' => $user->id,
-            'permission_level' => config('kakene.authorizations.user'),
+            'permission_level' => config('officelife.authorizations.user'),
         ];
 
         $dwight = (new AddUserToCompany)->execute($request);

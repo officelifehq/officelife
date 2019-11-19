@@ -19,7 +19,7 @@ class GetGPSCoordinateTest extends TestCase
     /** @test */
     public function it_returns_null_if_geolocation_is_disabled()
     {
-        config(['kakene.location_iq_api_key' => null]);
+        config(['officelife.location_iq_api_key' => null]);
 
         $place = factory(Place::class)->create();
 
@@ -35,7 +35,7 @@ class GetGPSCoordinateTest extends TestCase
     /** @test */
     public function it_gets_gps_coordinates()
     {
-        config(['kakene.location_iq_api_key' => 'test']);
+        config(['officelife.location_iq_api_key' => 'test']);
 
         $body = file_get_contents(base_path('tests/Fixtures/Services/Company/Place/GetGPSCoordinateSampleResponse.json'));
         $mock = new MockHandler([new Response(200, [], $body)]);
@@ -65,7 +65,7 @@ class GetGPSCoordinateTest extends TestCase
     /** @test */
     public function it_returns_null_if_we_cant_make_the_call(): void
     {
-        config(['kakene.location_iq_api_key' => 'test']);
+        config(['officelife.location_iq_api_key' => 'test']);
 
         $place = factory(Place::class)->create([
             'street' => '',
@@ -85,7 +85,7 @@ class GetGPSCoordinateTest extends TestCase
     /** @test */
     public function it_returns_null_if_address_is_garbage(): void
     {
-        config(['kakene.location_iq_api_key' => 'test']);
+        config(['officelife.location_iq_api_key' => 'test']);
 
         $body = file_get_contents(base_path('tests/Fixtures/Services/Company/Place/GetGPSCoordinateGarbageResponse.json'));
         $mock = new MockHandler([new Response(404, [], $body)]);

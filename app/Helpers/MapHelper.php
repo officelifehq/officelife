@@ -17,22 +17,22 @@ class MapHelper
      */
     public static function getStaticImage(Place $place, int $zoom = 7, int $width, int $height): ?string
     {
-        if (!config('kakene.mapbox_api_key')) {
+        if (!config('officelife.mapbox_api_key')) {
             return null;
         }
 
-        if (!config('kakene.mapbox_username')) {
+        if (!config('officelife.mapbox_username')) {
             return null;
         }
 
         $url = 'https://api.mapbox.com/styles/v1/';
-        $url .= config('kakene.mapbox_username');
+        $url .= config('officelife.mapbox_username');
         $url .= '/ck335w8te1vzj1cn7aszafhm2/static/';
         $url .= $place->longitude.',';
         $url .= $place->latitude.',';
         $url .= $zoom.'/';
         $url .= $width.'x'.$height.'@2x';
-        $url .= '?access_token='.config('kakene.mapbox_api_key');
+        $url .= '?access_token='.config('officelife.mapbox_api_key');
 
         return $url;
     }

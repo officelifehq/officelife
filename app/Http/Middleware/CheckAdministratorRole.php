@@ -18,7 +18,7 @@ class CheckAdministratorRole
     {
         $employee = InstanceHelper::getLoggedEmployee();
 
-        if (config('kakene.authorizations.administrator') >= $employee->permission_level) {
+        if (config('officelife.authorizations.administrator') >= $employee->permission_level) {
             return $next($request);
         }
 

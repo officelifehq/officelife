@@ -36,7 +36,7 @@ abstract class TestCase extends BaseTestCase
     public function createAdministrator(): Employee
     {
         return factory(Employee::class)->create([
-            'permission_level' => config('kakene.authorizations.administrator'),
+            'permission_level' => config('officelife.authorizations.administrator'),
         ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Company\Employee;
 
+use App\Helpers\StringHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\User\Pronoun as PronounResource;
 use App\Http\Resources\Company\Team\Team as TeamResource;
@@ -24,6 +25,8 @@ class Employee extends JsonResource
             'name' => $this->name,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'raw_description' => is_null($this->description) ? null : $this->description,
+            'parsed_description' => is_null($this->description) ? null : StringHelper::parse($this->description),
             'pronoun' => is_null($this->pronoun) ? null : new PronounResource($this->pronoun),
             'email' => $this->email,
             'birthdate' => $this->birthdate,

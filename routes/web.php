@@ -67,6 +67,10 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('{employee}/pronoun', 'Company\\Employee\\EmployeePronounController')->only([
                 'store', 'destroy',
             ]);
+
+            Route::resource('{employee}/description', 'Company\\Employee\\EmployeeDescriptionController')->only([
+                'store', 'destroy',
+            ]);
         });
 
         Route::prefix('teams')->group(function () {

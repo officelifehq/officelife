@@ -39,7 +39,7 @@ return [
     'teams_title' => 'All the teams listed in {company}',
     'teams_number_teams' => '{company} has one team. | {company} has {count} teams.',
     'teams_cta' => 'Add a team',
-    'teams_blank' => 'Teams are a great way for groups of people in your company to work together in kakene.',
+    'teams_blank' => 'Teams are a great way for groups of people in your company to work together in officelife.',
     'team_new_name' => 'Name of the team',
 
     'employee_statuses_title' => 'All the employee statuses in {company}',
@@ -140,6 +140,8 @@ return [
     'log_employee_address_set' => 'Added an address at :address.',
     'log_employee_pronoun_set' => 'Assigned the pronoun called :name to :employee.',
     'log_employee_pronoun_removed' => 'Removed the gender pronoun from :name.',
+    'log_employee_description_set' => 'Set a personal description to :name.',
+    'log_employee_description_cleared' => 'Cleared the personal description of :name.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -159,6 +161,8 @@ return [
     'employee_log_address_set' => 'Added an address at :address.',
     'employee_log_pronoun_set' => 'Assigned the pronoun called :name.',
     'employee_log_pronoun_removed' => 'Removed the gender pronoun.',
+    'employee_log_description_set' => 'Set a personal description.',
+    'employee_log_description_cleared' => 'Cleared the personal description.',
 
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',

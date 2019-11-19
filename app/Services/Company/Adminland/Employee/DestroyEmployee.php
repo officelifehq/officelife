@@ -37,7 +37,7 @@ class DestroyEmployee extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('kakene.authorizations.administrator')
+            config('officelife.authorizations.administrator')
         );
 
         $employee = Employee::where('company_id', $data['company_id'])

@@ -53,7 +53,7 @@ class AddStepToFlow extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('kakene.authorizations.hr')
+            config('officelife.authorizations.hr')
         );
 
         $flow = Flow::where('company_id', $data['company_id'])

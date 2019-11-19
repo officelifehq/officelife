@@ -34,6 +34,7 @@ class Employee extends Model
         'email',
         'first_name',
         'last_name',
+        'description',
         'position_id',
         'permission_level',
         'invitation_link',

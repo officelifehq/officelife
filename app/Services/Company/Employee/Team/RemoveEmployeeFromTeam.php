@@ -41,7 +41,7 @@ class RemoveEmployeeFromTeam extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('kakene.authorizations.hr')
+            config('officelife.authorizations.hr')
         );
 
         $employee = Employee::where('company_id', $data['company_id'])

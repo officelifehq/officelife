@@ -19,7 +19,7 @@ class ControllerTest extends TestCase
         // administrator has all rights
         $stub = $this->getMockForAbstractClass(Controller::class);
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('kakene.authorizations.administrator'),
+            'permission_level' => config('officelife.authorizations.administrator'),
         ]);
 
         $this->assertInstanceOf(
@@ -28,38 +28,38 @@ class ControllerTest extends TestCase
                 $employee->user_id,
                 $employee->company_id,
                 $employee->id,
-                config('kakene.authorizations.hr')
+                config('officelife.authorizations.hr')
             )
         );
 
         // now testing the HR access level
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('kakene.authorizations.hr'),
+            'permission_level' => config('officelife.authorizations.hr'),
         ]);
         $stub->validateAccess(
             $employee->user_id,
             $employee->company_id,
             $employee->id,
-            config('kakene.authorizations.hr')
+            config('officelife.authorizations.hr')
         );
 
         // now testing the normal access level
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('kakene.authorizations.user'),
+            'permission_level' => config('officelife.authorizations.user'),
         ]);
         $stub->validateAccess(
             $employee->user_id,
             $employee->company_id,
             $employee->id,
-            config('kakene.authorizations.hr')
+            config('officelife.authorizations.hr')
         );
 
         // test that a normal user can't see another employee's forbidden content
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('kakene.authorizations.user'),
+            'permission_level' => config('officelife.authorizations.user'),
         ]);
         $employeeB = factory(Employee::class)->create([
-            'permission_level' => config('kakene.authorizations.user'),
+            'permission_level' => config('officelife.authorizations.user'),
             'company_id' => $employee->company_id,
         ]);
 
@@ -68,15 +68,15 @@ class ControllerTest extends TestCase
             $employee->user_id,
             $employee->company_id,
             $employeeB->id,
-            config('kakene.authorizations.hr')
+            config('officelife.authorizations.hr')
         );
 
         // same, but with different companies
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('kakene.authorizations.user'),
+            'permission_level' => config('officelife.authorizations.user'),
         ]);
         $employeeB = factory(Employee::class)->create([
-            'permission_level' => config('kakene.authorizations.user'),
+            'permission_level' => config('officelife.authorizations.user'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
@@ -84,7 +84,7 @@ class ControllerTest extends TestCase
             $employee->user_id,
             $employee->company_id,
             $employeeB->id,
-            config('kakene.authorizations.hr')
+            config('officelife.authorizations.hr')
         );
     }
 }

@@ -14,8 +14,8 @@ class MapHelperTest extends TestCase
     /** @test */
     public function it_returns_a_static_map_url(): void
     {
-        config(['kakene.mapbox_api_key' => 'api_key']);
-        config(['kakene.mapbox_username' => 'test']);
+        config(['officelife.mapbox_api_key' => 'api_key']);
+        config(['officelife.mapbox_username' => 'test']);
 
         $place = factory(Place::class)->create([
             'longitude' => '-74.005941',
@@ -33,8 +33,8 @@ class MapHelperTest extends TestCase
     /** @test */
     public function it_cant_return_a_map_without_the_api_key_env_variable(): void
     {
-        config(['kakene.mapbox_api_key' => null]);
-        config(['kakene.mapbox_username' => 'test']);
+        config(['officelife.mapbox_api_key' => null]);
+        config(['officelife.mapbox_username' => 'test']);
 
         $place = factory(Place::class)->create([
             'longitude' => '-74.005941',
@@ -49,8 +49,8 @@ class MapHelperTest extends TestCase
     /** @test */
     public function it_cant_return_a_map_without_the_username_env_variable(): void
     {
-        config(['kakene.mapbox_api_key' => 'api_key']);
-        config(['kakene.mapbox_username' => null]);
+        config(['officelife.mapbox_api_key' => 'api_key']);
+        config(['officelife.mapbox_username' => null]);
 
         $place = factory(Place::class)->create([
             'longitude' => '-74.005941',

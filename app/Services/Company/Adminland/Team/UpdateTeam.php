@@ -39,7 +39,7 @@ class UpdateTeam extends BaseService
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('kakene.authorizations.hr')
+            config('officelife.authorizations.hr')
         );
 
         $team = Team::where('company_id', $data['company_id'])

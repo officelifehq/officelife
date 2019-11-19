@@ -140,7 +140,7 @@ class ApiTeamControllerTest extends ApiTestCase
         $employee = factory(Employee::class)->create([
             'user_id' => $user->id,
         ]);
-        $employee->permission_level = config('kakene.authorizations.user');
+        $employee->permission_level = config('officelife.authorizations.user');
         $employee->save();
 
         $response = $this->json('POST', '/api/'.$employee->company_id.'/teams/', [

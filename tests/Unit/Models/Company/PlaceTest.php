@@ -53,8 +53,8 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_gets_a_static_image_map(): void
     {
-        config(['kakene.mapbox_api_key' => 'api_key']);
-        config(['kakene.mapbox_username' => 'test']);
+        config(['officelife.mapbox_api_key' => 'api_key']);
+        config(['officelife.mapbox_username' => 'test']);
 
         $place = factory(Place::class)->create([
             'longitude' => '-74.005941',
