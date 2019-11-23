@@ -236,6 +236,12 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_birthday_set') {
+            $sentence = trans('account.log_employee_birthday_set', [
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -357,6 +363,10 @@ class LogHelper
 
         if ($log->action == 'description_cleared') {
             $sentence = trans('account.employee_log_description_cleared');
+        }
+
+        if ($log->action == 'birthday_set') {
+            $sentence = trans('account.employee_birthday_set');
         }
 
         return $sentence;
