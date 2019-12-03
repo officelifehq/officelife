@@ -108,7 +108,7 @@ Finally, actions are that made on a team are, again, logged at the team level.
 
 A team is a group of people. This is vague on purpose. It’s up to you to decide whether a team is a department, a separate business entity or a team within another bigger team.
 
-A team is created in Adminland by an administrator or a human resource representative. A team has one team leader (and only one).
+A team is created in Adminland by an administrator or a human resource representative. A team has one team leader (and only one). A team can have one description that anyone who is part of the company can set (remember, everything in the system is logged, so don't fear that someone does something that you won't be able to track. Also, trust).
 
 ### Work logs
 
