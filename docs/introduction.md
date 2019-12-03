@@ -110,6 +110,12 @@ A team is a group of people. This is vague on purpose. It’s up to you to decid
 
 A team is created in Adminland by an administrator or a human resource representative. A team has one team leader (and only one). A team can have one description that anyone who is part of the company can set (remember, everything in the system is logged, so don't fear that someone does something that you won't be able to track. Also, trust).
 
+#### Useful links
+
+A team has a life on its own. There are many online places that are useful to a particular team: a dedicated Slack channel, a mailing list name, a private joke... Because each team is unique, it deserves its own set of links.
+
+A team can have multiple links, called useful links. Anyone can add, edit or remove those links. Use this feature to help your team, or guide users who visit your Team page.
+
 ### Work logs
 
 Employees can log the work they've done for a given day. When an employee provides this information, it becomes visible but only for those people:

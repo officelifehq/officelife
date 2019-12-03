@@ -145,6 +145,7 @@ return [
     'log_employee_birthday_set' => 'Set the birthdate of :name.',
     'log_team_description_set' => 'Set the description of the team called :name.',
     'log_team_description_cleared' => 'Cleared the description of the team called :name',
+    'log_team_useful_link_created' => 'Added a link called :link_name to the team called :name',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -177,6 +178,7 @@ return [
     'team_log_team_leader_removed' => 'Removed :name as the team leader.',
     'team_log_description_set' => 'Set the teams’s description',
     'team_log_description_cleared' => 'Cleared the teams’s description',
+    'team_log_useful_link_created' => 'Added a link called :name.',
 
     'notification_dummy_data_generated' => 'Dummy data have been generated for :name.',
 
