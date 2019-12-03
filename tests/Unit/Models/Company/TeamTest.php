@@ -8,6 +8,7 @@ use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\TeamUsefulLink;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TeamTest extends TestCase
@@ -84,5 +85,16 @@ class TeamTest extends TestCase
             2,
             count($team->worklogsForDate($date))
         );
+    }
+
+    /** @test */
+    public function it_has_many_links()
+    {
+        $team = factory(Team::class)->create([]);
+        factory(TeamUsefulLink::class, 2)->create([
+            'team_id' => $team->id,
+        ]);
+
+        $this->assertTrue($team->links()->exists());
     }
 }

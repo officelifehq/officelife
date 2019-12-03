@@ -350,3 +350,14 @@ $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
         'name' => $faker->name,
     ];
 });
+
+$factory->define(App\Models\Company\TeamUsefulLink::class, function (Faker $faker) {
+    return [
+        'team_id' => function () {
+            return factory(App\Models\Company\Team::class)->create()->id;
+        },
+        'type' => 'slack',
+        'label' => '#dunder-mifflin',
+        'url' => 'https://slack.com/dunder',
+    ];
+});

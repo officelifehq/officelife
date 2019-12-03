@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use App\Services\Company\Team\Links\CreateTeamUsefulLink;
+use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 
@@ -186,6 +188,36 @@ class GenerateDummyData extends BaseService
         $team->is_dummy = true;
         $team->save();
 
+        // add description
+        if (rand(1, 3) == 1) {
+            $request = [
+                'company_id' => $data['company_id'],
+                'author_id' => $data['author_id'],
+                'team_id' => $team->id,
+                'description' => 'This is probably the best team you have ever known. Welcome, passenger!',
+            ];
+
+            (new SetTeamDescription)->execute($request);
+        }
+
+        // add useful links
+        if (rand(1, 3) == 1) {
+            for ($i = 1; $i <= 3; $i++) {
+                $request = [
+                    'company_id' => $data['company_id'],
+                    'author_id' => $data['author_id'],
+                    'team_id' => $team->id,
+                    'type' => 'slack',
+                    'label' => '#dunder-mifflin',
+                    'url' => 'https://slack.com',
+                ];
+
+                (new CreateTeamUsefulLink)->execute($request);
+            }
+        }
+
+
+        // add employees
         for ($i = 1; $i <= $numberOfEmployees; $i++) {
             $employee = $this->addEmployee($data);
 
