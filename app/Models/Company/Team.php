@@ -24,6 +24,7 @@ class Team extends Model
     protected $fillable = [
         'company_id',
         'name',
+        'description',
         'team_leader_id',
         'is_dummy',
     ];

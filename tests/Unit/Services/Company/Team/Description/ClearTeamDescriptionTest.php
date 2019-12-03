@@ -1,56 +1,60 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\Description;
+namespace Tests\Unit\Services\Company\Team\Description;
 
 use Tests\TestCase;
+use App\Jobs\LogTeamAudit;
+use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
-use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Description\ClearPersonalDescription;
+use App\Services\Company\Team\Description\ClearTeamDescription;
 
-class ClearPersonalDescriptionTest extends TestCase
+class ClearTeamDescriptionTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_clears_a_personal_description(): void
+    public function it_clears_the_team_description(): void
     {
         Queue::fake();
 
         $michael = factory(Employee::class)->create([]);
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
 
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
-            'employee_id' => $michael->id,
+            'team_id' => $team->id,
         ];
 
-        $michael = (new ClearPersonalDescription)->execute($request);
+        $team = (new ClearTeamDescription)->execute($request);
 
-        $this->assertDatabaseHas('employees', [
+        $this->assertDatabaseHas('teams', [
             'company_id' => $michael->company_id,
-            'id' => $michael->id,
+            'id' => $team->id,
             'description' => null,
         ]);
 
         $this->assertInstanceOf(
-            Employee::class,
-            $michael
+            Team::class,
+            $team
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
-            return $job->auditLog['action'] === 'employee_description_cleared' &&
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $team) {
+            return $job->auditLog['action'] === 'team_description_cleared' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'employee_id' => $michael->id,
-                    'employee_name' => $michael->name,
+                    'team_id' => $team->id,
+                    'team_name' => $team->name,
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael) {
+        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'description_cleared' &&
                 $job->auditLog['author_id'] === $michael->id;
         });
@@ -64,6 +68,6 @@ class ClearPersonalDescriptionTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new ClearPersonalDescription)->execute($request);
+        (new ClearTeamDescription)->execute($request);
     }
 }

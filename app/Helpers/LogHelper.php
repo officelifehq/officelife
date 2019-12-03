@@ -242,6 +242,18 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'team_description_set') {
+            $sentence = trans('account.log_team_description_set', [
+                'name' => $log->object->{'team_name'},
+            ]);
+        }
+
+        if ($log->action == 'team_description_cleared') {
+            $sentence = trans('account.log_team_description_cleared', [
+                'name' => $log->object->{'team_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -424,6 +436,18 @@ class LogHelper
         if ($log->action == 'team_log_team_leader_removed') {
             $sentence = trans('account.team_log_team_leader_removed', [
                 'name' => $log->object->{'team_leader_name'},
+            ]);
+        }
+
+        if ($log->action == 'description_set') {
+            $sentence = trans('account.team_log_description_set', [
+                'name' => $log->object->{'team_name'},
+            ]);
+        }
+
+        if ($log->action == 'description_cleared') {
+            $sentence = trans('account.team_log_description_cleared', [
+                'name' => $log->object->{'team_name'},
             ]);
         }
 
