@@ -34,6 +34,7 @@ class Employee extends Model
         'email',
         'first_name',
         'last_name',
+        'birthdate',
         'description',
         'position_id',
         'permission_level',
@@ -98,6 +99,7 @@ class Employee extends Model
      */
     protected $dates = [
         'invitation_used_at',
+        'birthdate',
     ];
 
     /**
@@ -171,16 +173,6 @@ class Employee extends Model
     }
 
     /**
-     * Get the employee events record associated with the employee.
-     *
-     * @return HasMany
-     */
-    public function employeeEvents()
-    {
-        return $this->hasMany(EmployeeEvent::class);
-    }
-
-    /**
      * Get the tasks record associated with the employee.
      *
      * @return HasMany
@@ -228,16 +220,6 @@ class Employee extends Model
     public function news()
     {
         return $this->hasMany(CompanyNews::class, 'author_id', 'id');
-    }
-
-    /**
-     * Get the important date records associated with the employee.
-     *
-     * @return HasMany
-     */
-    public function importantDates()
-    {
-        return $this->hasMany(EmployeeImportantDate::class);
     }
 
     /**
@@ -303,25 +285,6 @@ class Employee extends Model
     public function getEmailAttribute($value)
     {
         return $value;
-    }
-
-    /**
-     * Returns the birthdate attribute of the employee.
-     *
-     * @param mixed $value
-     * @return Carbon
-     */
-    public function getBirthdateAttribute($value)
-    {
-        $importantDate = $this->importantDates()
-            ->where('occasion', 'birthdate')
-            ->first();
-
-        if (is_null($importantDate)) {
-            return;
-        }
-
-        return $importantDate->date;
     }
 
     /**

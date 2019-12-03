@@ -28,6 +28,7 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'email' => 'dwigth@dundermifflin.com',
         'first_name' => 'Dwight',
         'last_name' => 'Schrute',
+        'birthdate' => $faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
         'consecutive_worklog_missed' => 0,
         'employee_status_id' => function (array $data) {
             return factory(App\Models\Company\EmployeeStatus::class)->create([

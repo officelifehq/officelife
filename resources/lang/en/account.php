@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'home_title' => 'Administration of your kakene account',
+    'home_title' => 'Administration of your OfficeLife account',
     'home_role_administrator' => 'As an <span class="fw5 brush-blue">administrator</span>, you can…',
     'home_role_owner' => 'As an <span class="fw5 brush-orange">owner</span>, you can…',
     'home_manage_employees' => 'Add/remove existing employees',
@@ -142,6 +142,7 @@ return [
     'log_employee_pronoun_removed' => 'Removed the gender pronoun from :name.',
     'log_employee_description_set' => 'Set a personal description to :name.',
     'log_employee_description_cleared' => 'Cleared the personal description of :name.',
+    'log_employee_birthday_set' => 'Set the birthdate of :name.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -163,6 +164,7 @@ return [
     'employee_log_pronoun_removed' => 'Removed the gender pronoun.',
     'employee_log_description_set' => 'Set a personal description.',
     'employee_log_description_cleared' => 'Cleared the personal description.',
+    'employee_birthday_set' => 'Set the birthdate.',
 
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',

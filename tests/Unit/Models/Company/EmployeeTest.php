@@ -14,9 +14,7 @@ use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
-use App\Models\Company\EmployeeEvent;
 use App\Models\Company\CompanyPTOPolicy;
-use App\Models\Company\EmployeeImportantDate;
 use App\Models\Company\EmployeePlannedHoliday;
 use App\Models\Company\EmployeeDailyCalendarEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -98,17 +96,6 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_employee_events(): void
-    {
-        $dwight = factory(Employee::class)->create();
-        factory(EmployeeEvent::class, 2)->create([
-            'employee_id' => $dwight->id,
-        ]);
-
-        $this->assertTrue($dwight->employeeEvents()->exists());
-    }
-
-    /** @test */
     public function it_has_many_tasks(): void
     {
         $dwight = factory(Employee::class)->create();
@@ -158,17 +145,6 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->news()->exists());
-    }
-
-    /** @test */
-    public function it_has_many_important_dates(): void
-    {
-        $dwight = factory(Employee::class)->create();
-        factory(EmployeeImportantDate::class, 2)->create([
-            'employee_id' => $dwight->id,
-        ]);
-
-        $this->assertTrue($dwight->importantDates()->exists());
     }
 
     /** @test */
@@ -247,21 +223,15 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_returns_the_birthdate_attribute(): void
     {
-        $dwight = factory(Employee::class)->create([]);
-        factory(EmployeeImportantDate::class)->create([
-            'employee_id' => $dwight,
+        $randomDate = '1945-03-03';
+
+        $dwight = factory(Employee::class)->create([
+            'birthdate' => $randomDate,
         ]);
 
         $this->assertEquals(
-            '1981-10-29',
+            $randomDate,
             $dwight->birthdate->format('Y-m-d')
-        );
-
-        // test it returns null
-        $dwight = factory(Employee::class)->create([]);
-
-        $this->assertNull(
-            $dwight->birthdate
         );
     }
 

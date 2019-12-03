@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee;
+namespace Tests\Unit\Services\Company\Employee\Birthdate;
 
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -10,18 +10,14 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\SetImportantDateForEmployee;
+use App\Services\Company\Employee\Birthdate\SetBirthdate;
 
-class SetImportantDateForEmployeeTest extends TestCase
+class SetBirthdateTest extends TestCase
 {
     use DatabaseTransactions;
 
-    /**
-     * Set the base for the test.
-     *
-     * @return Employee
-     */
-    private function initialize(): Employee
+    /** @test */
+    public function it_sets_the_birthdate_of_the_employee(): void
     {
         Queue::fake();
 
@@ -32,27 +28,19 @@ class SetImportantDateForEmployeeTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'employee_id' => $michael->id,
-            'occasion' => 'birthdate',
             'date' => '1978-10-01',
         ];
 
-        return (new SetImportantDateForEmployee)->execute($request);
-    }
-
-    /** @test */
-    public function it_sets_the_important_date_of_an_employee(): void
-    {
-        $michael = $this->initialize();
+        $michael = (new SetBirthdate)->execute($request);
 
         $this->assertInstanceOf(
             Employee::class,
             $michael
         );
 
-        $this->assertDatabaseHas('employee_important_dates', [
-            'employee_id' => $michael->id,
-            'occasion' => 'birthdate',
-            'date' => '1978-10-01 00:00:00',
+        $this->assertDatabaseHas('employees', [
+            'id' => $michael->id,
+            'birthdate' => '1978-10-01 00:00:00',
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
@@ -69,46 +57,9 @@ class SetImportantDateForEmployeeTest extends TestCase
             return $job->auditLog['action'] === 'birthday_set' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'employee_id' => $michael->id,
-                    'employee_name' => $michael->name,
                     'birthday' => '1978-10-01',
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_creates_an_important_date(): void
-    {
-        $this->assertDatabaseMissing('employee_important_dates', [
-            'occasion' => 'birthdate',
-            'date' => '1978-10-01 00:00:00',
-        ]);
-
-        $michael = $this->initialize();
-
-        $this->assertDatabaseHas('employee_important_dates', [
-            'employee_id' => $michael->id,
-            'occasion' => 'birthdate',
-            'date' => '1978-10-01 00:00:00',
-        ]);
-    }
-
-    /** @test */
-    public function it_creates_an_event(): void
-    {
-        $this->assertDatabaseMissing('employee_events', [
-            'label' => 'birthdate',
-            'date' => '2017-10-01 00:00:00',
-        ]);
-
-        $michael = $this->initialize();
-
-        $this->assertDatabaseHas('employee_events', [
-            'employee_id' => $michael->id,
-            'company_id' => $michael->company_id,
-            'label' => 'birthdate',
-            'date' => '2017-10-01 00:00:00',
-        ]);
     }
 
     /** @test */
@@ -123,6 +74,6 @@ class SetImportantDateForEmployeeTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new SetImportantDateForEmployee)->execute($request);
+        (new SetBirthdate)->execute($request);
     }
 }

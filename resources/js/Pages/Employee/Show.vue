@@ -75,6 +75,11 @@
               />
             </li>
             <li class="di-l db mb0-l mb2 mr2">
+              <assign-employee-birthdate
+                :employee="employee"
+              />
+            </li>
+            <li class="di-l db mb0-l mb2 mr2">
               <assign-employee-position
                 :employee="employee"
                 :positions="positions"
@@ -141,6 +146,7 @@ import AssignEmployeeGenderPronoun from '@/Pages/Employee/AssignEmployeeGenderPr
 import AssignEmployeeStatus from '@/Pages/Employee/AssignEmployeeStatus';
 import AssignEmployeeTeam from '@/Pages/Employee/AssignEmployeeTeam';
 import AssignEmployeeHierarchy from '@/Pages/Employee/AssignEmployeeHierarchy';
+import AssignEmployeeBirthdate from '@/Pages/Employee/AssignEmployeeBirthdate';
 import Worklogs from '@/Pages/Employee/Worklogs';
 import Holidays from '@/Pages/Employee/Holidays';
 import Location from '@/Pages/Employee/Location';
@@ -154,6 +160,7 @@ export default {
     AssignEmployeeStatus,
     AssignEmployeeTeam,
     AssignEmployeeHierarchy,
+    AssignEmployeeBirthdate,
     Worklogs,
     Holidays,
     Location,
