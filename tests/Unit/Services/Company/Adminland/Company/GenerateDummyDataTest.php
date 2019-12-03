@@ -12,6 +12,7 @@ use App\Models\Company\CompanyNews;
 use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Adminland\Company\RemoveDummyData;
 use App\Services\Company\Adminland\Company\GenerateDummyData;
 
 class GenerateDummyDataTest extends TestCase
@@ -19,7 +20,7 @@ class GenerateDummyDataTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_dummy_data(): void
+    public function it_creates_and_removes_dummy_data(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
@@ -68,6 +69,27 @@ class GenerateDummyDataTest extends TestCase
 
         $companyNewsNumber = CompanyNews::count();
         $this->assertEquals(20, $companyNewsNumber);
+
+        (new RemoveDummyData)->execute($request);
+
+        $count = DB::table('employees')
+            ->where('is_dummy', true)
+            ->count();
+
+        $this->assertEquals(
+            0,
+            $count
+        );
+
+        $count = DB::table('teams')
+            ->where('company_id', $michael->company_id)
+            ->where('is_dummy', true)
+            ->count();
+
+        $this->assertEquals(
+            0,
+            $count
+        );
     }
 
     /** @test */

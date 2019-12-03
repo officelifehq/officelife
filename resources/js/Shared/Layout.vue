@@ -249,7 +249,7 @@ export default {
 
   methods: {
     updatePageTitle(title) {
-      document.title = title ? `${title} | kakene` : 'kakene';
+      document.title = title ? `${title} | OfficeLife` : 'OfficeLife';
     },
 
     showFindModal() {

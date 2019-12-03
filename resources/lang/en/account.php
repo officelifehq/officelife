@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'home_title' => 'Administration of your kakene account',
+    'home_title' => 'Administration of your OfficeLife account',
     'home_role_administrator' => 'As an <span class="fw5 brush-blue">administrator</span>, you can…',
     'home_role_owner' => 'As an <span class="fw5 brush-orange">owner</span>, you can…',
     'home_manage_employees' => 'Add/remove existing employees',

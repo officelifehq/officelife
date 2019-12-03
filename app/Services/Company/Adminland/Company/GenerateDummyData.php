@@ -13,6 +13,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Team\CreateTeam;
+use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -110,7 +111,33 @@ class GenerateDummyData extends BaseService
             'is_dummy' => true,
         ];
 
-        return (new AddEmployeeToCompany)->execute($request);
+        $employee = (new AddEmployeeToCompany)->execute($request);
+
+        $this->addBirthdate($employee, $data);
+
+        return $employee;
+    }
+
+    /**
+     * Set birthdate.
+     *
+     * @param Employee $employee
+     * @param array $data
+     * @return void
+     */
+    private function addBirthdate(Employee $employee, array $data): void
+    {
+        $faker = Faker::create();
+
+        $request = [
+            'company_id' => $data['company_id'],
+            'author_id' => $data['author_id'],
+            'employee_id' => $employee->id,
+            'date' => $faker->dateTimeThisCentury()->format('Y-m-d'),
+            'is_dummy' => true,
+        ];
+
+        (new SetBirthdate)->execute($request);
     }
 
     /**
