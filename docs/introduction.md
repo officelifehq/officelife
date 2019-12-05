@@ -1,16 +1,16 @@
 # Introduction
 
-## What is Kakene?
+## What is OfficeLife?
 
-Kakene is a different kind of human resource software. Unlike other soulless HR tools, it has been designed to mimic and represent what happens in the real world. Its main goals are to:
+OfficeLife is a different kind of human resource software. Unlike other soulless HR tools, it has been designed to mimic and represent what happens in the real world. Its main goals are to:
 
 - help managers be more empathetic,
 - help companies be better at managing people's dreams and ambitions,
 - help employees better communicate with their employers.
 
-Kakene aims to be a combination of softwares like BambooHR, Officevibe and Monica – although in a single application and at a much more reasonable price.
+OfficeLife aims to be a combination of softwares like BambooHR, Officevibe and Monica – although in a single application and at a much more reasonable price.
 
-At a high level, Kakene allows a company to:
+At a high level, OfficeLife allows a company to:
 
 *
 *
@@ -18,7 +18,7 @@ At a high level, Kakene allows a company to:
 *
 *
 
-It also gives users and companies a complete control over their data. Kakene is open source and can be installed on your own server if you so desire.
+It also gives users and companies a complete control over their data. OfficeLife is open source and can be installed on your own server if you so desire.
 
 To use the software, companies have to pay a fair fixed annual fee, regardless of the size of your team. I do not sell your data, don't use ads nor use external analytical services. You can export your data at anytime or use the API without restrictions.
 
@@ -26,7 +26,7 @@ In terms of user experience, the software aims to be simple to use with the mini
 
 Technically, the software is developed with boring, proven, predictible, easy to maintain technologies that make the tool fast and secure. I want to create a product useful for users and companies, not something that is technologically exciting.
 
-## Why is Kakene different?
+## Why is OfficeLife different?
 
 ## Pricing and open source
 
@@ -34,11 +34,11 @@ Technically, the software is developed with boring, proven, predictible, easy to
 
 # Development
 
-# Hosting Kakene on your own server
+# Hosting OfficeLife on your own server
 
-# Kakene in 10 minutes
+# OfficeLife in 10 minutes
 
-Kakene is built around the notion that while companies own data about their employees, users have complete control over which data they give to companies.
+OfficeLife is built around the notion that while companies own data about their employees, users have complete control over which data they give to companies.
 
 ## Setup
 
@@ -57,13 +57,13 @@ Data is shared accross views in Vue within Inertia. Shared data come from AppSer
 
 ### Users vs employees
 
-Kakene makes the distinction between users and employees.
+OfficeLife makes the distinction between users and employees.
 
-A user is someone who creates an account on the Kakene platform. An employee is an entity who is part of a company on officelife. A user can be an employee in one or more companies, but an employee can only be linked to a single user. A user account is necessary for each employee to interact with the software and change data. HoIver you don't need to give accounts to employees if you don't want to.
+A user is someone who creates an account on the OfficeLife platform. An employee is an entity who is part of a company on officelife. A user can be an employee in one or more companies, but an employee can only be linked to a single user. A user account is necessary for each employee to interact with the software and change data. HoIver you don't need to give accounts to employees if you don't want to.
 
-Once a user has an account on Kakene, he can decide to either create a company, or join an existing company.
+Once a user has an account on OfficeLife, he can decide to either create a company, or join an existing company.
 
-The natural way to create this software would have been that an employee is a user, and get rid of those two notions altogether to only keep the notion of User. This would have been a severe limitation though. In an ideal world, every company would run on Kakene to manage their human resources, and once a user has a profile on Kakene, he can simply join other companies as he changes jobs, and most data about him would follow (if he wants to). It's important to realize that at any time, the user has the control over his data and can decide to remove them from the company he's joined.
+The natural way to create this software would have been that an employee is a user, and get rid of those two notions altogether to only keep the notion of User. This would have been a severe limitation though. In an ideal world, every company would run on OfficeLife to manage their human resources, and once a user has a profile on OfficeLife, he can simply join other companies as he changes jobs, and most data about him would follow (if he wants to). It's important to realize that at any time, the user has the control over his data and can decide to remove them from the company he's joined.
 
 At the database level, the <code>Users</code> table contains almost the same data as the <code>Employees</code> table. That is because information in the Users table is information given by the user himself, whereas information in the Employees table is filled by the company.
 
@@ -83,7 +83,7 @@ As you are the one who has created the company, you will be an administrator of 
 
 When adding an employee in the system, you need to indicate a role. A role is a set of rights the employee will have in the system, once the employee is linked to a user account.
 
-There are only three roles in Kakene:
+There are only three roles in OfficeLife:
 - Administrator
 - Human Resource Representative
 - Employee.
@@ -134,7 +134,7 @@ Employees can add a description to their profile, allowing them to personalize a
 
 ### Employee's address
 
-Employees can set their home address on their profile page. HR representatives and administrators also have the possibility to set an address on behalf of the employee. Once an address is set, Kakene will automatically pull a map to visualize this address on the employee's profile page.
+Employees can set their home address on their profile page. HR representatives and administrators also have the possibility to set an address on behalf of the employee. Once an address is set, OfficeLife will automatically pull a map to visualize this address on the employee's profile page.
 
 A note on privacy: an employee's complete address is only shown to the employee himself, or to employees with the HR or administrator roles. When a regular employee goes to see the profile of another employee, he will only see a partial address, aka the city and the country. The map that is displayed, only shows the city as well, on purpose.
 
@@ -142,7 +142,7 @@ Employees can change addresses as much as they want, there is no limitation.
 
 ### Gender identity
 
-Kakene respects everyone's gender and identity. This is why employees can choose to be identified how they want to, by choosing from a long list of available gender neutral terms.
+OfficeLife respects everyone's gender and identity. This is why employees can choose to be identified how they want to, by choosing from a long list of available gender neutral terms.
 
 ### Morale
 
@@ -161,13 +161,13 @@ Paid Time Off is the term used in the HR industry to represent the bank of days 
 
 Softwares that deal with PTOs are boring, complex and full of features. They try to cover all the possible use cases. They also promote gates, and permissions, and reflect the bad side of reality. I refuse to be part of this. I want to create a software that promotes how I envision companies should deal with employees and their rights. My approach is mainly based on how 37Signals has built Basecamp: focus on what's truly essential and forget the rest.
 
-This is my take on how we should handle PTOs, and this is what Kakene allows employees to do:
+This is my take on how we should handle PTOs, and this is what OfficeLife allows employees to do:
 - An employee wants to take a break from work.
 - She checks her balance. If she has enough holidays in her bank, she logs a holiday.
 - Her manager and her team are informed that she wants to take a break.
 - That's it. No rejecting/approving processes. Going on holidays shouldn't be granted by an employer - it’s a legal right.
 
-Time offs are based on a yearly calendar. Each company has its own set of defined holidays during a given year. When you create an account on Kakene, your account is populated with 5 calendars for each of the next 5 years. On these calendars, weekends are considered time offs by default, and it’s up to you to define which other days you consider as time offs/holidays depending on the country you are living in.
+Time offs are based on a yearly calendar. Each company has its own set of defined holidays during a given year. When you create an account on OfficeLife, your account is populated with 5 calendars for each of the next 5 years. On these calendars, weekends are considered time offs by default, and it’s up to you to define which other days you consider as time offs/holidays depending on the country you are living in.
 
 In the Adminland section of your account, you can manage your own PTO policy and change the following settings:
 * how many days are considered working days each year. This is used to calculate how many holidays employees gain each day by working for the company, based on the number of holidays the employer gives each year. This will be also used to know which days should be taken into account when an employee wants to take a day off. For each year, you can edit the calendar and click on a day to mark it off. It’s up to your company to decide which days are considered off, and as it depends on your country, only weekends are considered off by default. Also, it’s not possible to change the status of weekends. They will always be considered offs for everyone.
@@ -185,4 +185,4 @@ Every day employees gain a tiny amount of new holidays, that adds up in their ba
 
 #### Note on unlimited vacation policies
 
-I personally believe that unlimited vacation policies are bullshit. When they exist, people actually don't take holidays at all. This is why, while this concept is supported in Kakene, managers will be warned when people haven't taken an holidays for a few months, to make sure people don't burn out.
+I personally believe that unlimited vacation policies are bullshit. When they exist, people actually don't take holidays at all. This is why, while this concept is supported in OfficeLife, managers will be warned when people haven't taken an holidays for a few months, to make sure people don't burn out.

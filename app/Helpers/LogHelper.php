@@ -261,6 +261,13 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'team_useful_link_updated') {
+            $sentence = trans('account.log_team_useful_link_updated', [
+                'name' => $log->object->{'team_name'},
+                'link_name' => $log->object->{'link_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -460,6 +467,12 @@ class LogHelper
 
         if ($log->action == 'useful_link_created') {
             $sentence = trans('account.team_log_useful_link_created', [
+                'name' => $log->object->{'link_name'},
+            ]);
+        }
+
+        if ($log->action == 'useful_link_updated') {
+            $sentence = trans('account.team_log_useful_link_updated', [
                 'name' => $log->object->{'link_name'},
             ]);
         }
