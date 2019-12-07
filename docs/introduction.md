@@ -116,6 +116,10 @@ A team has a life on its own. There are many online places that are useful to a 
 
 A team can have multiple links, called useful links. Anyone can add, edit or remove those links. Use this feature to help your team, or guide users who visit your Team page.
 
+#### Team news
+
+Every team can have a dedicated set of news, called Team News. These news only appear on the team's page. Anyone in the company can create a news for a team – it’s up to the company to make sure everyone is smart enough not to pollute other teams.
+
 ### Work logs
 
 Employees can log the work they've done for a given day. When an employee provides this information, it becomes visible but only for those people:
