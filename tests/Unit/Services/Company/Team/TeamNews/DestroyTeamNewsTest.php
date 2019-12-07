@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\CompanyPTOPolicy;
+namespace Tests\Unit\Services\Company\Adminland\CompanyNews;
 
 use Exception;
 use Tests\TestCase;
@@ -11,15 +11,15 @@ use App\Models\Company\Employee;
 use App\Models\Company\TeamNews;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Team\TeamNews\UpdateTeamNews;
+use App\Services\Company\Team\TeamNews\DestroyTeamNews;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UpdateTeamNewsTest extends TestCase
+class DestroyTeamNewsTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_a_team_news(): void
+    public function it_destroys_a_company_news(): void
     {
         Queue::fake();
 
@@ -32,56 +32,39 @@ class UpdateTeamNewsTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $oldNews = $news->title;
-
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'team_news_id' => $news->id,
-            'title' => 'Assistant to the regional manager',
-            'content' => 'Wonderful article',
         ];
 
-        $news = (new UpdateTeamNews)->execute($request);
+        (new DestroyTeamNews)->execute($request);
 
-        $this->assertDatabaseHas('team_news', [
+        $this->assertDatabaseMissing('team_news', [
             'id' => $news->id,
-            'team_id' => $team->id,
-            'author_id' => $michael->id,
-            'title' => 'Assistant to the regional manager',
-            'content' => 'Wonderful article',
         ]);
 
-        $this->assertInstanceOf(
-            TeamNews::class,
-            $news
-        );
-
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $news, $oldNews, $team) {
-            return $job->auditLog['action'] === 'team_news_updated' &&
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $news, $team) {
+            return $job->auditLog['action'] === 'team_news_destroyed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'team_id' => $team->id,
                     'team_name' => $team->name,
-                    'team_news_id' => $news->id,
                     'team_news_title' => $news->title,
-                    'team_news_old_title' => $oldNews,
                 ]);
         });
 
-        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $news, $oldNews) {
-            return $job->auditLog['action'] === 'team_news_updated' &&
+        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $news) {
+            return $job->auditLog['action'] === 'team_news_destroyed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'team_news_id' => $news->id,
                     'team_news_title' => $news->title,
-                    'team_news_old_title' => $oldNews,
                 ]);
         });
     }
 
     /** @test */
-    public function it_cant_update_the_team_news_if_the_team_is_not_linked_to_the_company(): void
+    public function it_cant_destroy_the_team_news_if_the_team_is_not_linked_to_the_company(): void
     {
         $michael = factory(Employee::class)->create([]);
         $team = factory(Team::class)->create([]);
@@ -94,22 +77,20 @@ class UpdateTeamNewsTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'team_news_id' => $news->id,
-            'title' => 'Assistant to the regional manager',
-            'content' => 'Wonderful article',
         ];
 
         $this->expectException(Exception::class);
-        $news = (new UpdateTeamNews)->execute($request);
+        $news = (new DestroyTeamNews)->execute($request);
     }
 
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
-            'title' => 'Assistant to the regional manager',
+            'name' => 'Selling team',
         ];
 
         $this->expectException(ValidationException::class);
-        (new UpdateTeamNews)->execute($request);
+        (new DestroyTeamNews)->execute($request);
     }
 }

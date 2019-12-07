@@ -289,6 +289,13 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'team_news_destroyed') {
+            $sentence = trans('account.log_team_news_destroyed', [
+                'name' => $log->object->{'team_name'},
+                'news_name' => $log->object->{'team_news_title'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -514,6 +521,12 @@ class LogHelper
             $sentence = trans('account.team_log_team_news_updated', [
                 'title' => $log->object->{'team_news_title'},
                 'old_title' => $log->object->{'team_news_old_title'},
+            ]);
+        }
+
+        if ($log->action == 'team_news_destroyed') {
+            $sentence = trans('account.team_log_team_news_destroyed', [
+                'title' => $log->object->{'team_news_title'},
             ]);
         }
 
