@@ -275,6 +275,20 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'team_news_created') {
+            $sentence = trans('account.log_team_news_created', [
+                'name' => $log->object->{'team_name'},
+                'news_name' => $log->object->{'team_news_title'},
+            ]);
+        }
+
+        if ($log->action == 'team_news_updated') {
+            $sentence = trans('account.log_team_news_updated', [
+                'name' => $log->object->{'team_name'},
+                'news_name' => $log->object->{'team_news_title'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -487,6 +501,19 @@ class LogHelper
         if ($log->action == 'useful_link_destroyed') {
             $sentence = trans('account.team_log_useful_link_destroyed', [
                 'name' => $log->object->{'link_name'},
+            ]);
+        }
+
+        if ($log->action == 'team_news_created') {
+            $sentence = trans('account.team_log_team_news_created', [
+                'name' => $log->object->{'team_news_title'},
+            ]);
+        }
+
+        if ($log->action == 'team_news_updated') {
+            $sentence = trans('account.team_log_team_news_updated', [
+                'title' => $log->object->{'team_news_title'},
+                'old_title' => $log->object->{'team_news_old_title'},
             ]);
         }
 
