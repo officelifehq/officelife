@@ -39,4 +39,22 @@ class TeamUsefulLink extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    /**
+     * Return the label attribute.
+     * The label attribute can be null, so if that's the case, we'll return the
+     * URL instead.
+     *
+     * @var mixed $value
+     * @return string
+     * @param mixed $value
+     */
+    public function getLabelAttribute($value): string
+    {
+        if (!$value) {
+            return $this->url;
+        }
+
+        return $value;
+    }
 }
