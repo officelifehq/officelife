@@ -10,6 +10,7 @@ use App\Models\Company\Place;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\TeamNews;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
@@ -198,6 +199,17 @@ class EmployeeTest extends TestCase
         $dwight = factory(Employee::class)->create();
 
         $this->assertTrue($dwight->pronoun()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_team_news(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(TeamNews::class, 2)->create([
+            'author_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->teamNews()->exists());
     }
 
     /** @test */

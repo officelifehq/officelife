@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTeamUsefulLinksTable extends Migration
+class CreateTeamNewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -16,14 +16,17 @@ class CreateTeamUsefulLinksTable extends Migration
         // necessary for SQLlite
         Schema::enableForeignKeyConstraints();
 
-        Schema::create('team_useful_links', function (Blueprint $table) {
+        Schema::create('team_news', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('team_id');
-            $table->string('type');
-            $table->string('label')->nullable();
-            $table->string('url');
+            $table->unsignedBigInteger('author_id')->nullable();
+            $table->string('author_name');
+            $table->string('title');
+            $table->text('content');
+            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('employees')->onDelete('set null');
         });
     }
 }

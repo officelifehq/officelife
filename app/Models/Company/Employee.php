@@ -267,6 +267,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the team news record associated with the employee.
+     *
+     * @return belongsTo
+     */
+    public function teamNews()
+    {
+        return $this->hasMany(TeamNews::class, 'author_id', 'id');
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string

@@ -144,10 +144,13 @@ return [
     'log_employee_description_cleared' => 'Cleared the personal description of :name.',
     'log_employee_birthday_set' => 'Set the birthdate of :name.',
     'log_team_description_set' => 'Set the description of the team called :name.',
-    'log_team_description_cleared' => 'Cleared the description of the team called :name',
-    'log_team_useful_link_created' => 'Added a link called :link_name to the team called :name',
-    'log_team_useful_link_updated' => 'Updated the link called :link_name to the team called :name',
-    'log_team_useful_link_destroyed' => 'Destroyed the link called :link_name to the team called :name',
+    'log_team_description_cleared' => 'Cleared the description of the team called :name.',
+    'log_team_useful_link_created' => 'Added a link called :link_name to the team called :name.',
+    'log_team_useful_link_updated' => 'Updated the link called :link_name to the team called :name.',
+    'log_team_useful_link_destroyed' => 'Removed the link called :link_name to the team called :name.',
+    'log_team_news_created' => 'Wrote a news called :news_name for the team called :name.',
+    'log_team_news_updated' => 'Updated the news called :news_name for the team called :name.',
+    'log_team_news_destroyed' => 'Removed the news called :news_name for the team called :name.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -183,6 +186,9 @@ return [
     'team_log_useful_link_created' => 'Added a link called :name.',
     'team_log_useful_link_updated' => 'Updated the link called :name.',
     'team_log_useful_link_destroyed' => 'Destroyed the link called :name.',
+    'team_log_team_news_created' => 'Wrote a news called :name.',
+    'team_log_team_news_updated' => 'Updated the news called :title.',
+    'team_log_team_news_destroyed' => 'Removed the news called :title.',
 
     'notification_dummy_data_generated' => 'Dummy data have been generated for :name.',
 
