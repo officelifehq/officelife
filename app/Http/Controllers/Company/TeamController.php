@@ -29,12 +29,12 @@ class TeamController extends Controller
         $employeeCount = $employees->count();
         $mostRecentEmployee = $employees->first();
 
-        return Inertia::render('Team/Index', [
+        return Inertia::render('Team/Show', [
             'notifications' => Auth::user()->getLatestNotifications($company),
             'team' => new TeamResource($team),
             'employeeCount' => $employeeCount,
             //'mostRecentEmployee' => new EmployeeResource($mostRecentEmployee),
-            //'employees' => EmployeeResource::collection($employees),
+            'employees' => EmployeeResource::collection($employees),
         ]);
     }
 }
