@@ -24,11 +24,12 @@ jobs:
           path: vendor
           key: composer-${{ hashFiles('composer.lock') }}
       - name: Install dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
+        run: composer install -n -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Generate key
         run: php artisan key:generate
       - name: Run migrations
         env:
+          APP_ENV: testing
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_NAME: officelife
@@ -38,6 +39,7 @@ jobs:
       - name: Execute tests via PHPUnit
         run: ./vendor/bin/phpunit
         env:
+          APP_ENV: testing
           DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_NAME: officelife
