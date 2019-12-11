@@ -5,6 +5,15 @@ on: [push]
 jobs:
   phpunit-tests:
     runs-on: ubuntu-latest
+    services:
+            mysql:
+                image: mysql:5.7
+                env:
+                    MYSQL_ALLOW_EMPTY_PASSWORD: yes
+                    MYSQL_DATABASE: officelife
+                ports:
+                    - 3306
+                options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
     - uses: actions/checkout@v1
     - name: Copy .env
@@ -17,13 +26,27 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
-    - name: Run migrations
+    - name: Run migrations on SQLite
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: php artisan migrate
-    - name: Execute tests via PHPUnit
+    - name: Execute tests via PHPUnit with SQLite
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
+      run: vendor/bin/phpunit
+    - name: Run migrations on mySQL
+      env:
+        DB_CONNECTION: mysql
+        DB_NAME: officelife
+        DB_USER: root
+        DB_PASSWORD:
+      run: php artisan migrate
+    - name: Execute tests via PHPUnit with SQLite
+      env:
+        DB_CONNECTION: mysql
+        DB_NAME: officelife
+        DB_USER: root
+        DB_PASSWORD:
       run: vendor/bin/phpunit
