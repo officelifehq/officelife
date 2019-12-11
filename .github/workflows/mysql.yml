@@ -31,8 +31,9 @@ jobs:
         env:
           APP_ENV: testing
           DB_CONNECTION: mysql
+          DB_HOST: mysql
+          DB_PORT: 3306
           DB_DATABASE: officelife
-          DB_NAME: officelife
           DB_USER: root
           DB_PASSWORD: password
         run: php artisan migrate
@@ -41,7 +42,8 @@ jobs:
         env:
           APP_ENV: testing
           DB_CONNECTION: mysql
+          DB_HOST: mysql
+          DB_PORT: 3306
           DB_DATABASE: officelife
-          DB_NAME: officelife
           DB_USER: root
           DB_PASSWORD: password
