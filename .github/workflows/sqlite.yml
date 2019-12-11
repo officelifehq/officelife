@@ -3,12 +3,17 @@ name: PHPUnit with SQLite
 on: [push]
 
 jobs:
-  tests:
+  phpunit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
       - name: Install dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Generate key
