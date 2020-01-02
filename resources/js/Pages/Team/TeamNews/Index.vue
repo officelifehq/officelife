@@ -5,12 +5,6 @@
     width: 23px;
   }
 }
-
-.content {
-  p:first-child {
-    margin-top: 0;
-  }
-}
 </style>
 
 <template>
@@ -46,7 +40,7 @@
             <h3 class="mb1">
               {{ newsItem.title }}
             </h3>
-            <div class="lh-copy content mt2 br3" v-html="newsItem.parsed_content">
+            <div class="lh-copy mt2 br3 parsed-content" v-html="newsItem.parsed_content">
             </div>
             <div class="f6 relative news-information silver mb3">
               <img :src="newsItem.author.avatar" class="br-100 relative mr1" />
