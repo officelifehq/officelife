@@ -32,14 +32,17 @@
           <ul class="list pl0 mt0 mb0 center">
             <li
               v-for="employee in employees" :key="employee.id"
-              class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
+              class="flex lh-copy pa3-l pa1 ph0-l pv0-ns pv2 bb b--black-10 employee-item"
             >
               <img class="w2 h2 w3-ns h3-ns br-100" :src="employee.avatar" width="64" height="64" />
-              <div class="pl3 flex-auto">
-                <span class="db black-70">
+              <div class="pl3">
+                <!-- name -->
+                <inertia-link class="dib black-70 pointer mb1" :href="'/' + $page.auth.company.id + '/employees/' + employee.id">
                   {{ employee.name }}
-                </span>
-                <ul class="f6 list pl0">
+                </inertia-link>
+
+                <!-- employee position -->
+                <ul class="f7 pl0">
                   <template v-if="employee.position">
                     <li class="di pr2">
                       <span class="f7">
@@ -47,22 +50,22 @@
                       </span>
                     </li>
                   </template>
-                  <template v-if="employee.teams">
+                </ul>
+
+                <!-- teams -->
+                <ul class="f7 pl0">
+                  <template v-if="employee.teams.length > 0">
                     <li class="di pr2">
                       <ul class="di list pl0">
-                        <li v-for="team in employee.teams" :key="team.id" class="di team-item">
-                          <span class="badge f7">
+                        <li class="di">Part of </li>
+                        <li v-for="team in employee.teams" :key="team.id" class="di mr2">
+                          <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">
                             {{ team.name }}
-                          </span>
+                          </inertia-link>
                         </li>
                       </ul>
                     </li>
                   </template>
-                  <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="employee-view">
-                      {{ $t('app.view') }}
-                    </inertia-link>
-                  </li>
                 </ul>
               </div>
             </li>

@@ -15,6 +15,26 @@ use App\Http\Resources\Company\TeamNews\TeamNews as TeamNewsResource;
 class TeamController extends Controller
 {
     /**
+     * Display the list of teams.
+     *
+     * @param int $companyId
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request, int $companyId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        $teams = $company->teams()->with('employees')
+            ->orderBy('name', 'asc')
+            ->get();
+
+        return Inertia::render('Team/Index', [
+            'teams' => TeamResource::collection($teams),
+            'notifications' => Auth::user()->getLatestNotifications($company),
+        ]);
+    }
+
+    /**
      * Display the detail of a team.
      *
      * @param int $companyId

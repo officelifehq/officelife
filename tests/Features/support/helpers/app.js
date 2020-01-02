@@ -130,3 +130,13 @@ Cypress.Commands.add('hasEmployeeLog', (content, redirectUrl) => {
 Cypress.Commands.add('changePermission', (userId, permission) => {
   cy.exec('php artisan test:changepermission ' + userId + ' ' + permission)
 })
+
+// Assign an employee to a team
+Cypress.Commands.add('assignEmployeeToTeam', () => {
+  cy.visit('/1/employees/1')
+
+  // Open the modal to assign a team and select the first line
+  cy.get('[data-cy=open-team-modal-blank]').click()
+  cy.get('[data-cy=list-team-1]').click()
+  cy.get('.existing-teams').contains('product')
+})

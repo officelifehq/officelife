@@ -1,5 +1,5 @@
-describe('Employee - Assign positions', function () {
-  it('should assign a position and remove it as administrator', function () {
+describe('Employee - List of employees', function () {
+  it('should let create employees and see it in a list', function () {
     cy.login()
 
     cy.createCompany()

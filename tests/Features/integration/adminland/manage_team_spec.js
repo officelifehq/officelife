@@ -1,4 +1,4 @@
-describe('Company', function () {
+describe('Adminland - Team management', function () {
   it('should create a team', function () {
     cy.login()
 
