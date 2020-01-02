@@ -147,7 +147,7 @@
 
           <!-- News -->
           <h3 class="db fw5 mb3 flex justify-between items-center">
-            <span>🗞 {{ $t('team.count_team_news', { count: news.length }) }}</span>
+            <span>🗞 {{ $t('team.count_team_news', { count: newsCount }) }}</span>
             <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn btn-secondary f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
           </h3>
 

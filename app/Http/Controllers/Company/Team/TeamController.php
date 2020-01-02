@@ -38,7 +38,6 @@ class TeamController extends Controller
             'news' => TeamNewsResource::collection($news),
             'newsCount' => $newsCount,
             'employeeCount' => $employeeCount,
-            //'mostRecentEmployee' => new EmployeeResource($mostRecentEmployee),
             'employees' => EmployeeResource::collection($employees),
         ]);
     }

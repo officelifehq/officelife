@@ -13,6 +13,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Team\CreateTeam;
+use App\Services\Company\Team\TeamNews\CreateTeamNews;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Team\Links\CreateTeamUsefulLink;
@@ -153,6 +154,9 @@ class GenerateDummyData extends BaseService
         $this->createTeamWithEmployees($data, 'Legal department', 3);
         $this->createTeamWithEmployees($data, 'Design Team', 6);
         $team = $this->createTeamWithEmployees($data, 'Sales', 18);
+
+        // add team news
+        $this->createTeamNewsEntry($data, $team);
 
         // add current user to the team
         $currentEmployee = Employee::find($data['author_id']);
@@ -331,6 +335,33 @@ class GenerateDummyData extends BaseService
             ];
 
             (new CreateCompanyNews)->execute($request);
+        }
+    }
+
+    /**
+     * Create a bunch of team news for the given team.
+     *
+     * @param array $data
+     * @param Team $team
+     * @return void
+     */
+    private function createTeamNewsEntry(array $data, Team $team)
+    {
+        $faker = Faker::create();
+        $numberOfNews = 20;
+
+        for ($i = 1; $i <= $numberOfNews; $i++) {
+            $request = [
+                'company_id' => $data['company_id'],
+                'author_id' => $data['author_id'],
+                'team_id' => $team->id,
+                'title' => $faker->realText(75),
+                'content' => $faker->realText(1500),
+                'created_at' => $faker->dateTimeThisYear()->format('Y-m-d H:i:s'),
+                'is_dummy' => true,
+            ];
+
+            (new CreateTeamNews)->execute($request);
         }
     }
 }
