@@ -5,7 +5,7 @@
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw7 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
+      <div class="mt4-l mt1 mw7 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>

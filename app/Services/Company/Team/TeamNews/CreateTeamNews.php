@@ -70,7 +70,7 @@ class CreateTeamNews extends BaseService
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_id' => $team->id,
-                'team_name' => $team->id,
+                'team_name' => $team->name,
                 'team_news_id' => $news->id,
                 'team_news_title' => $news->title,
             ]),

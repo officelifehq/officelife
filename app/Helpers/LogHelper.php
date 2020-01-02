@@ -215,6 +215,7 @@ class LogHelper
         if ($log->action == 'pronoun_assigned_to_employee') {
             $sentence = trans('account.log_employee_pronoun_set', [
                 'name' => $log->object->{'pronoun_label'},
+                'employee' => $log->object->{'employee_name'},
             ]);
         }
 

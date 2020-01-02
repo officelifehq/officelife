@@ -8,6 +8,7 @@ use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\TeamNews;
 use App\Models\Company\TeamUsefulLink;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -58,6 +59,28 @@ class TeamTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_links()
+    {
+        $team = factory(Team::class)->create([]);
+        factory(TeamUsefulLink::class, 2)->create([
+            'team_id' => $team->id,
+        ]);
+
+        $this->assertTrue($team->links()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_news()
+    {
+        $team = factory(Team::class)->create([]);
+        factory(TeamNews::class, 2)->create([
+            'team_id' => $team->id,
+        ]);
+
+        $this->assertTrue($team->news()->exists());
+    }
+
+    /** @test */
     public function it_returns_the_number_of_team_members_who_have_completed_a_worklog_at_a_given_time()
     {
         $date = Carbon::now();
@@ -85,16 +108,5 @@ class TeamTest extends TestCase
             2,
             count($team->worklogsForDate($date))
         );
-    }
-
-    /** @test */
-    public function it_has_many_links()
-    {
-        $team = factory(Team::class)->create([]);
-        factory(TeamUsefulLink::class, 2)->create([
-            'team_id' => $team->id,
-        ]);
-
-        $this->assertTrue($team->links()->exists());
     }
 }

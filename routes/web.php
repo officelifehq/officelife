@@ -74,7 +74,8 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('teams')->group(function () {
-            Route::get('{team}', 'Company\\TeamController@show');
+            Route::get('{team}', 'Company\\Team\\TeamController@show');
+            Route::resource('{team}/news', 'Company\\Team\\TeamNewsController');
         });
 
         // only available to administrator role

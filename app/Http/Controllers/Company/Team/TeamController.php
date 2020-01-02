@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company;
+namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
 use App\Models\Company\Team;
@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
+use App\Http\Resources\Company\TeamNews\TeamNews as TeamNewsResource;
 
 class TeamController extends Controller
 {
@@ -26,15 +27,18 @@ class TeamController extends Controller
         $team = Team::findOrFail($teamId);
 
         $employees = $team->employees()->orderBy('created_at', 'desc')->get();
+        $news = $team->news()->orderBy('created_at', 'desc')->limit(3)->get();
+        $newsCount = $team->news()->count();
         $employeeCount = $employees->count();
         $mostRecentEmployee = $employees->first();
 
-        return Inertia::render('Team/Index', [
+        return Inertia::render('Team/Show', [
             'notifications' => Auth::user()->getLatestNotifications($company),
             'team' => new TeamResource($team),
+            'news' => TeamNewsResource::collection($news),
+            'newsCount' => $newsCount,
             'employeeCount' => $employeeCount,
-            //'mostRecentEmployee' => new EmployeeResource($mostRecentEmployee),
-            //'employees' => EmployeeResource::collection($employees),
+            'employees' => EmployeeResource::collection($employees),
         ]);
     }
 }

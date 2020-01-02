@@ -56,7 +56,7 @@ class CreateTeamNewsTest extends TestCase
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'team_id' => $team->id,
-                    'team_name' => $team->id,
+                    'team_name' => $team->name,
                     'team_news_id' => $news->id,
                     'team_news_title' => $news->title,
                 ]);

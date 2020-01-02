@@ -118,7 +118,9 @@ A team can have multiple links, called useful links. Anyone can add, edit or rem
 
 #### Team news
 
-Every team can have a dedicated set of news, called Team News. These news only appear on the team's page. Anyone in the company can create a news for a team – it’s up to the company to make sure everyone is smart enough not to pollute other teams.
+Every team can have a dedicated set of news, called Team News. These news only appear on the team's page. Anyone in the company can create and manage a news for a team – it’s up to the company to make sure everyone is smart enough not to pollute other teams.
+
+The audit log for the team news are only available to the users with the administrator role.
 
 ### Work logs
 
