@@ -40,7 +40,7 @@ describe('Adminland - PTO policies', function () {
     cy.get('[data-cy=calendar-item-1-1]').click()
     cy.get('[data-cy=list-edit-cta-button-1]').click()
 
-    cy.get('[data-cy=total-worked-days-1]').contains('260')
+    cy.get('[data-cy=total-worked-days-1]').contains('261')
 
     cy.hasAuditLog('Updated the company PTO policy for the year', '/1/account/ptopolicies')
   })
@@ -87,6 +87,6 @@ describe('Adminland - PTO policies', function () {
     cy.get('[data-cy=calendar-item-1-1]').click()
     cy.get('[data-cy=list-edit-cta-button-1]').click()
 
-    cy.get('[data-cy=total-worked-days-1]').contains('260')
+    cy.get('[data-cy=total-worked-days-1]').contains('261')
   })
 })

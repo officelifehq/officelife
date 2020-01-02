@@ -118,6 +118,16 @@ class Team extends Model
     }
 
     /**
+     * Get the team news records associated with the team.
+     *
+     * @return hasMany
+     */
+    public function news()
+    {
+        return $this->hasMany(TeamNews::class);
+    }
+
+    /**
      * Returns an array of worklogs for a given date.
      * This method uses a raw SQL query as I don't know how to make this kind
      * of queries with Eloquent. It’s not elegant, but it’s performant.

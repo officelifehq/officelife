@@ -29,6 +29,13 @@
   border-top-left-radius: 6px;
 }
 
+.news-information {
+  img {
+    top: 7px;
+    width: 23px;
+  }
+}
+
 </style>
 
 <template>
@@ -58,10 +65,20 @@
             <h2 class="bb bb-gray pa3 ma0 fw5 team-title">
               {{ team.name }}
             </h2>
+
+            <!-- team description -->
             <p class="lh-copy ma0 pa3 bb bb-gray">
-              This team has {{ employeeCount }} members, the most recent being <a href="">
-                sdfsd
-              </a>.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.
+            </p>
+
+            <!-- team description blank -->
+            <p class="lh-copy ma0 pa3 bb bb-gray">
+              <a class="bb b--dotted bt-0 bl-0 br-0 pointer">Add a team description</a>
+            </p>
+
+            <!-- team info -->
+            <p class="lh-copy ma0 pa3 bb bb-gray">
+              This team has {{ employeeCount }} members, the most recent being sdfsd.
             </p>
 
             <!-- Team lead - blank -->
@@ -74,7 +91,7 @@
               <p class="silver f6 ma0 mb1">Team lead</p>
               <span class="pl3 db team-lead relative">
                 <img :src="'https://api.adorable.io/avatars/200/f25dbf67-01c1-4d12-91a2-927053fbf671.png'" class="br-100 absolute avatar" />
-                <inertia-link class="mb2">
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/'" class="mb2">
                   JOhn Doe
                 </inertia-link>
 
@@ -105,9 +122,10 @@
         <!-- RIGHT COLUMN -->
         <div class="fl w-70-l w-100 pl4-l">
           <!-- Employees -->
-          <span class="db fw5 mb2">
-            🤼‍♀️ {{ employees.length }} team members
-          </span>
+          <h3 class="db fw5 mb3">
+            🤼‍♀️ {{ $t('team.count_team_members', { count: employees.length }) }}
+          </h3>
+
           <div class="mb4 bg-white box pa3 cf">
             <div v-for="employee in employees" :key="employee.id" class="fl w-third-l w-100 mb4">
               <span class="pl3 db relative team-member">
@@ -116,7 +134,11 @@
                   {{ employee.name }}
                 </inertia-link>
 
-                <span class="db f7 mt1">
+                <!-- position -->
+                <span v-if="employee.position !== null" class="title db f7 mt1">
+                  {{ employee.position.title }}
+                </span>
+                <span v-else class="title db f7 mt1">
                   {{ $t('app.no_position_defined') }}
                 </span>
               </span>
@@ -124,12 +146,36 @@
           </div>
 
           <!-- News -->
-          <span class="db fw5 mb2">
-            🗞 {{ employees.length }} news
-          </span>
-          <div class="mb4 bg-white box pa3 cf">
-            <p class="lh-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue.</p>
-            <p class="lh-copy">Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.</p>
+          <h3 class="db fw5 mb3 flex justify-between items-center">
+            <span>🗞 {{ $t('team.count_team_news', { count: news.length }) }}</span>
+            <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn btn-secondary f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
+          </h3>
+
+          <div class="mb4">
+            <!-- if there are any news to display -->
+            <div v-if="news.length > 0">
+              <div class="bg-white box cf mb4 relative" data-cy="news-list">
+                <div v-for="newsItem in news" :key="newsItem.id" class="pa3 bb bb-gray">
+                  <h3 class="mt0 mb0-ns mb2 normal pointer" @click.prevent="goToNews()">
+                    {{ newsItem.title }}
+                  </h3>
+                  <div class="f6 relative news-information silver">
+                    <img :src="newsItem.author.avatar" class="br-100 relative mr1 dib-ns dn" />
+                    {{ $t('team.team_news_written_by_at', { name: newsItem.author.name, created_at: newsItem.localized_created_at }) }}
+                  </div>
+                </div>
+
+                <!-- link to go to the news page -->
+                <div class="pa3 tc">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/news'" data-cy="view-all-news">{{ $t('team.news_view_all') }}</inertia-link>
+                </div>
+              </div>
+            </div>
+
+            <!-- blank state -->
+            <div v-else class="bg-white box pa3 cf news mb4 tc">
+              {{ $t('team.news_blank') }}
+            </div>
           </div>
         </div>
       </div>
@@ -222,6 +268,14 @@ export default {
       type: Object,
       default: null,
     },
+    news: {
+      type: Array,
+      default: null,
+    },
+    newsCount: {
+      type: Number,
+      default: null,
+    },
   },
 
   data() {
@@ -242,6 +296,9 @@ export default {
   },
 
   methods: {
+    goToNews() {
+      this.$inertia.visit('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/news');
+    }
   }
 };
 

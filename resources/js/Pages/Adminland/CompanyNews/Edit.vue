@@ -126,7 +126,7 @@ export default {
 
       axios.put('/' + this.$page.auth.company.id + '/account/news/' + this.news.id, this.form)
         .then(response => {
-          localStorage.success = 'The news has been updated';
+          localStorage.success = this.$t('account.company_news_update_success');
           this.$inertia.visit('/' + response.data.data.company.id + '/account/news');
         })
         .catch(error => {
