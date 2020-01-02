@@ -60,7 +60,7 @@ nav {
             <inertia-link :href="'/' + $page.auth.company.id + '/employees'" class="mr2 no-underline pa2 bb-0 special">
               🧑 {{ $t('app.header_employees') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams'" class="mr2 no-underline pa2 bb-0 special">
+            <inertia-link :href="'/' + $page.auth.company.id + '/teams'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               👫 {{ $t('app.header_teams') }}
             </inertia-link>
             <a data-cy="header-find-link" class="mr2 no-underline pa2 bb-0 special pointer" @click="showFindModal">
