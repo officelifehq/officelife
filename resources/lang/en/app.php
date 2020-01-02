@@ -48,7 +48,8 @@ return [
 
     'header_home' => 'Home',
     'header_find' => 'Find',
-    'header_employees_teams' => 'Employees and teams',
+    'header_employees' => 'Employees',
+    'header_teams' => 'Teams',
     'header_switch_company' => 'Switch company',
     'header_logout' => 'Logout',
     'header_search_placeholder' => 'Find an employee or a team by name',

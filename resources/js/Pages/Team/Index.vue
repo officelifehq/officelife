@@ -1,91 +1,48 @@
-<style scoped>
+<style lang="scss" scoped>
+.avatar {
+  border: 2px solid #fff;
+  width: 20px;
+}
 </style>
 
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw7 br3 center breadcrumb relative z-0 f6 pb2">
+      <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2" :class="{'bg-white box': teams.length == 0}">
         <ul class="list ph0 tc-l tl">
           <li class="di">
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams'">{{ $t('app.breadcrumb_team_list') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ team.name }}
+            {{ $t('app.breadcrumb_team_list') }}
           </li>
         </ul>
       </div>
 
-      <!-- BODY -->
-      <div class="mw8 center br3 mb4 bg-white box relative z-1">
-        <div class="pa3 relative">
-          <h2 class="normal ma0 mb2">
-            {{ team.name }}
-          </h2>
-          <ul class="ma0 pa0 f6">
-            <li class="di mr2">
-              <img src="/img/leader.svg" class="pr1" />
-              Lead by John Rambo
-            </li>
-            <li class="di">
-              <img src="/img/location.svg" class="pr1" />
-              Office #5, south east
+      <div class="cf mw7 center" :class="{'bg-white box relative z-1': teams.length == 0}">
+        <!-- list of teams -->
+        <div v-for="team in teams" v-show="teams.length > 0" :key="team.id" class="bg-white box mb4 pa3">
+          <div class="">
+            <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id" class="">{{ team.name }}</inertia-link>
+            <span>({{ team.employees.length }} members)</span>
+          </div>
+          <div v-html="team.parsed_description"></div>
+          <ul v-show="team.employees.length > 0" class="list relative pl0 mb0">
+            <li v-for="employee in team.employees" :key="employee.id" class="di relative">
+              <img :src="employee.avatar" class="br-100 avatar pointer" @click.prevent="load(employee)" />
             </li>
           </ul>
         </div>
-      </div>
 
-      <div class="cf mw6 center mb4">
-        <div class="bg-white box pa3 mb4">
-          <p class="lh-copy ma0 mb2">
-            This team has {{ employeeCount }} members, the most recent being <a href="">
-              sdfsd
-            </a>.
+        <!-- no teams yet in the account -->
+        <div v-show="teams.length == 0">
+          <p class="tc measure center mb4 lh-copy">
+            {{ $t('team.team_list_blank') }}
           </p>
-          <p class="ma0">
-            <a href="">
-              View team members
-            </a>
-          </p>
-        </div>
-
-        <div class="bg-white box pa3 mb4">
-          <p class="ma0 mb2">
-            Want to find out how someone in this team can help you?
-          </p>
-          <p class="ma0">
-            <a href="">
-              Read about the different ways they can help you
-            </a>
-          </p>
-        </div>
-
-        <div class="bg-white box pa3 mb4">
-          <p class="f6 ma0 mb1">
-            2 days ago
-          </p>
-          <p class="lh-copy ma0 mb2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.
-          </p>
-          <p class="ma0">
-            <a href="">
-              Read all the news
-            </a>
-          </p>
-        </div>
-
-        <div class="bg-white box pa3">
-          <p class="ma0 mb2">
-            New to the team?
-          </p>
-          <p class="ma0">
-            <a href="">
-              Start here
-            </a>
-          </p>
+          <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
+                                        /img/company/account/blank-team-2x.png 2x"
+          />
         </div>
       </div>
     </div>
@@ -94,15 +51,10 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import vClickOutside from 'v-click-outside';
 
 export default {
   components: {
     Layout,
-  },
-
-  directives: {
-    clickOutside: vClickOutside.directive
   },
 
   props: {
@@ -110,20 +62,8 @@ export default {
       type: Array,
       default: null,
     },
-    employees: {
+    teams: {
       type: Array,
-      default: null,
-    },
-    mostRecentEmployee: {
-      type: String,
-      default: null,
-    },
-    employeeCount: {
-      type: Number,
-      default: null,
-    },
-    team: {
-      type: Object,
       default: null,
     },
   },
@@ -146,6 +86,9 @@ export default {
   },
 
   methods: {
+    load(employee) {
+      this.$inertia.visit('/' + this.$page.auth.company.id + '/employees/' + employee.id);
+    }
   }
 };
 

@@ -7,6 +7,8 @@ return [
     'count_team_members' => '{count} team members',
     'count_team_news' => '{count} news',
 
+    'team_list_blank' => 'Teams are a great way for groups of people in your company to work together in Officelife. Teams can be added in your Adminland.',
+
     'news_write' => 'Write a news',
     'news_view_all' => 'View all news',
     'news_blank' => 'No one has written a news on this team yet 😢',

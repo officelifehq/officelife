@@ -74,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('teams')->group(function () {
+            Route::get('', 'Company\\Team\\TeamController@index');
             Route::get('{team}', 'Company\\Team\\TeamController@show');
             Route::resource('{team}/news', 'Company\\Team\\TeamNewsController');
         });

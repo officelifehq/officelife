@@ -19,7 +19,9 @@ a {
   text-decoration: none;
 
   &:hover {
-    border-bottom-width: 2px;
+    border-bottom: 1px solid #4299e1;
+    color: #4299e1;
+    text-decoration: none;
   }
 
   &.c-delete {
