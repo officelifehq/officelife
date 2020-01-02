@@ -24,17 +24,18 @@ class CheckCompany
         $company = Cache::get($cachedCompanyObject);
         $employee = Cache::get($cachedEmployeeObject);
 
+        $requestedCompany = $request->route()->parameter('company');
+
         // if there is no company in caching
         if (is_null($company)) {
-            $company = Company::findOrFail($request->route()->parameter('company'));
+            $company = Company::findOrFail($requestedCompany);
             Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
         }
 
         // if the current company (in cache) doesn't match the company in the
-        // route, refresh the cached object
-        if ($request->route()->parameter('company') != $company->id) {
-            $company = Company::findOrFail($request->route()->parameter('company'));
-            Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
+        // route, abort
+        if ($requestedCompany != $company->id) {
+            abort(401);
         }
 
         $employee = Auth::user()->getEmployeeObjectForCompany($company);

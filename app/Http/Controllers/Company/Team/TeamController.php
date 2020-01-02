@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\TeamNews\TeamNews as TeamNewsResource;
@@ -44,7 +45,13 @@ class TeamController extends Controller
     public function show(Request $request, $companyId, $teamId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $team = Team::findOrFail($teamId);
+
+        try {
+            $team = Team::where('company_id', $companyId)
+                ->findOrFail($teamId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
 
         $employees = $team->employees()->orderBy('created_at', 'desc')->get();
         $news = $team->news()->orderBy('created_at', 'desc')->limit(3)->get();

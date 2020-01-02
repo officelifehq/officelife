@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Company\Team\TeamNews\CreateTeamNews;
 use App\Services\Company\Team\TeamNews\UpdateTeamNews;
 use App\Services\Company\Team\TeamNews\DestroyTeamNews;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Http\Resources\Company\TeamNews\TeamNews as TeamNewsResource;
 
@@ -26,7 +27,14 @@ class TeamNewsController extends Controller
     public function index(Request $request, $companyId, $teamId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $team = Team::findOrFail($teamId);
+
+        try {
+            $team = Team::where('company_id', $companyId)
+                ->findOrFail($teamId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
         $news = $team->news()->orderBy('created_at', 'desc')->paginate(3);
         $news = TeamNewsResource::collection($news);
 
@@ -59,7 +67,13 @@ class TeamNewsController extends Controller
     public function create(Request $request, $companyId, $teamId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $team = Team::findOrFail($teamId);
+
+        try {
+            $team = Team::where('company_id', $companyId)
+                ->findOrFail($teamId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
 
         return Inertia::render('Team/TeamNews/Create', [
             'team' => new TeamResource($team),
