@@ -8,6 +8,7 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\EmployeeLog\EmployeeLog as EmployeeLogResource;
 
@@ -24,7 +25,13 @@ class EmployeeLogsController extends Controller
     public function index(Request $request, int $companyId, int $employeeId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = Employee::findOrFail($employeeId);
+
+        try {
+            $employee = Employee::where('company_id', $companyId)
+                ->findOrFail($employeeId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
 
         try {
             $this->validateAccess(

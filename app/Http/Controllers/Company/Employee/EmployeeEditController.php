@@ -10,6 +10,7 @@ use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Place\CreatePlace;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeEditController extends Controller
@@ -25,7 +26,13 @@ class EmployeeEditController extends Controller
     public function show(Request $request, int $companyId, int $employeeId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = Employee::findOrFail($employeeId);
+
+        try {
+            $employee = Employee::where('company_id', $companyId)
+                ->findOrFail($employeeId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
 
         try {
             $this->validateAccess(

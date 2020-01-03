@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\User\Pronoun as PronounResource;
 use App\Services\Company\Employee\Manager\AssignManager;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Services\Company\Employee\Manager\UnassignManager;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
@@ -53,7 +54,13 @@ class EmployeeController extends Controller
     public function show(Request $request, int $companyId, int $employeeId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = Employee::findOrFail($employeeId);
+
+        try {
+            $employee = Employee::where('company_id', $companyId)
+                ->findOrFail($employeeId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
 
         $managers = $employee->getListOfManagers();
         $directReports = $employee->getListOfDirectReports();

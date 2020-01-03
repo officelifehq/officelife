@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\View;
 use App\Services\Company\Adminland\Flow\CreateFlow;
 use App\Services\Company\Adminland\Flow\AddStepToFlow;
 use App\Services\Company\Adminland\Flow\AddActionToStep;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Flow\Flow as FlowResource;
 
 class AdminFlowController extends Controller
@@ -45,7 +46,13 @@ class AdminFlowController extends Controller
     public function show(Request $request, int $companyId, int $flowId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $flow = Flow::findOrFail($flowId);
+
+        try {
+            $flow = Flow::where('company_id', $companyId)
+                ->findOrFail($flowId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
 
         return Inertia::render('Adminland/Flow/Show', [
             'notifications' => Auth::user()->getLatestNotifications($company),
