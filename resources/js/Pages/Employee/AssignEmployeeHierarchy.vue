@@ -60,6 +60,7 @@
 
     <!-- ADD MANAGER -->
     <div v-if="modal == 'manager'" v-click-outside="toggleModals" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+      <!-- FORM to search -->
       <form @submit.prevent="search">
         <div class="mb3 relative">
           <p>{{ $t('employee.hierarchy_modal_add_manager_search', { name: employee.first_name}) }}</p>
@@ -72,6 +73,8 @@
           </div>
         </div>
       </form>
+
+      <!-- RESULTS -->
       <ul class="pl0 list ma0">
         <li class="fw5 mb3">
           <span class="f6 mb2 dib">
@@ -94,6 +97,7 @@
 
     <!-- ADD DIRECT REPORT -->
     <div v-if="modal == 'directReport'" v-click-outside="toggleModals" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
+      <!-- FORM to search -->
       <form @submit.prevent="search">
         <div class="mb3 relative">
           <p>{{ $t('employee.hierarchy_modal_add_direct_report_search', { name: employee.first_name}) }}</p>
@@ -106,6 +110,8 @@
           </div>
         </div>
       </form>
+
+      <!-- RESULTS -->
       <ul class="pl0 list ma0">
         <li class="fw5 mb3">
           <span class="f6 mb2 dib">

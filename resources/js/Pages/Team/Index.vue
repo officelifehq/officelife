@@ -1,6 +1,7 @@
 <style lang="scss" scoped>
 .avatar {
   border: 2px solid #fff;
+  height: 20px;
   width: 20px;
 }
 </style>

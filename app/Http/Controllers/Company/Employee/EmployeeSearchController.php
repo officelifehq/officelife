@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Company\Employee;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
+use App\Http\Resources\Company\Employee\EmployeeListWithoutTeams as EmployeeResource;
 
 class EmployeeSearchController extends Controller
 {
