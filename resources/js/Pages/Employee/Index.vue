@@ -37,7 +37,7 @@
               <img class="w2 h2 w3-ns h3-ns br-100" :src="employee.avatar" width="64" height="64" />
               <div class="pl3">
                 <!-- name -->
-                <inertia-link class="dib black-70 pointer mb1" :href="'/' + $page.auth.company.id + '/employees/' + employee.id">
+                <inertia-link class="dib pointer mb1" :href="'/' + $page.auth.company.id + '/employees/' + employee.id">
                   {{ employee.name }}
                 </inertia-link>
 

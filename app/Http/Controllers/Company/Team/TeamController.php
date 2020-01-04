@@ -10,8 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Team\Team as TeamResource;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\TeamNews\TeamNews as TeamNewsResource;
+use App\Http\Resources\Company\Employee\EmployeeListWithoutTeams as EmployeeResource;
 
 class TeamController extends Controller
 {

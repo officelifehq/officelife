@@ -10,14 +10,6 @@
   padding-left: 44px;
 }
 
-.team-member {
-  padding-left: 44px;
-
-  .avatar {
-    top: 2px;
-  }
-}
-
 .useful-link {
   top: 6px;
 }
@@ -122,32 +114,14 @@
         <!-- RIGHT COLUMN -->
         <div class="fl w-70-l w-100 pl4-l">
           <!-- Employees -->
-          <h3 class="db fw5 mb3">
-            🤼‍♀️ {{ $t('team.count_team_members', { count: employees.length }) }}
-          </h3>
-
-          <div class="mb4 bg-white box pa3 cf">
-            <div v-for="employee in employees" :key="employee.id" class="fl w-third-l w-100 mb4">
-              <span class="pl3 db relative team-member">
-                <img :src="employee.avatar" class="br-100 absolute avatar" />
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="mb2">
-                  {{ employee.name }}
-                </inertia-link>
-
-                <!-- position -->
-                <span v-if="employee.position !== null" class="title db f7 mt1">
-                  {{ employee.position.title }}
-                </span>
-                <span v-else class="title db f7 mt1">
-                  {{ $t('app.no_position_defined') }}
-                </span>
-              </span>
-            </div>
-          </div>
+          <members
+            :employees="employees"
+            :team="team"
+          />
 
           <!-- News -->
           <h3 class="db fw5 mb3 flex justify-between items-center">
-            <span>🗞 {{ $t('team.count_team_news', { count: newsCount }) }}</span>
+            <span>🗞 {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
             <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn btn-secondary f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
           </h3>
 
@@ -179,57 +153,6 @@
           </div>
         </div>
       </div>
-
-      <div class="cf mw6 center mb4">
-        <div class="bg-white box pa3 mb4">
-          <p class="lh-copy ma0 mb2">
-            This team has {{ employeeCount }} members, the most recent being <a href="">
-              sdfsd
-            </a>.
-          </p>
-          <p class="ma0">
-            <a href="">
-              View team members
-            </a>
-          </p>
-        </div>
-
-        <div class="bg-white box pa3 mb4">
-          <p class="ma0 mb2">
-            Want to find out how someone in this team can help you?
-          </p>
-          <p class="ma0">
-            <a href="">
-              Read about the different ways they can help you
-            </a>
-          </p>
-        </div>
-
-        <div class="bg-white box pa3 mb4">
-          <p class="f6 ma0 mb1">
-            2 days ago
-          </p>
-          <p class="lh-copy ma0 mb2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.
-          </p>
-          <p class="ma0">
-            <a href="">
-              Read all the news
-            </a>
-          </p>
-        </div>
-
-        <div class="bg-white box pa3">
-          <p class="ma0 mb2">
-            New to the team?
-          </p>
-          <p class="ma0">
-            <a href="">
-              Start here
-            </a>
-          </p>
-        </div>
-      </div>
     </div>
   </layout>
 </template>
@@ -237,10 +160,12 @@
 <script>
 import Layout from '@/Shared/Layout';
 import vClickOutside from 'v-click-outside';
+import Members from '@/Pages/Team/Members';
 
 export default {
   components: {
     Layout,
+    Members,
   },
 
   directives: {
