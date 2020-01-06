@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Validation\ValidationException;
+use App\Models\Company\TeamNews as CompanyTeamNews;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\RemoveDummyData;
 use App\Services\Company\Adminland\Company\GenerateDummyData;
@@ -69,6 +70,9 @@ class GenerateDummyDataTest extends TestCase
 
         $companyNewsNumber = CompanyNews::count();
         $this->assertEquals(20, $companyNewsNumber);
+
+        $teamNewsNumber = CompanyTeamNews::count();
+        $this->assertEquals(20, $teamNewsNumber);
 
         (new RemoveDummyData)->execute($request);
 

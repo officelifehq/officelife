@@ -90,9 +90,9 @@
       <!-- Shown if there is no statuses setup in the account yet -->
       <div v-show="statuses.length == 0">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.status_modal_blank_title') }} <a :href="'/' + $page.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">
+          {{ $t('employee.status_modal_blank_title') }} <inertia-link :href="'/' + $page.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">
             {{ $t('employee.status_modal_blank_cta') }}
-          </a>
+          </inertia-link>
         </p>
       </div>
     </div>

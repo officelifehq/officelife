@@ -1,5 +1,5 @@
 {
-    "baseUrl": "https://homas.test",
+    "baseUrl": "https://officelife.test",
     "videosFolder": "tests/Features/videos",
     "screenshotsFolder": "tests/Features/screenshots",
     "supportFile": "tests/Features/support/index.js",

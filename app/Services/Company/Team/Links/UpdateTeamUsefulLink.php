@@ -29,7 +29,6 @@ class UpdateTeamUsefulLink extends BaseService
                 Rule::in([
                     'slack',
                     'email',
-                    'months',
                 ]),
             ],
             'label' => 'nullable|string|max:255',

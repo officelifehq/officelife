@@ -7,7 +7,7 @@ describe('Employee - worklogs', function () {
     // there should be no worklogs
     cy.visit('/1/employees/1')
 
-    cy.get('body').should('contain', 'No log this day')
+    cy.get('body').should('contain', 'No work log this day')
     cy.get('body').should('not.contain', 'I made a drawing')
 
     cy.visit('/1/dashboard')

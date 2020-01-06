@@ -150,7 +150,7 @@ return [
     'log_team_useful_link_destroyed' => 'Removed the link called :link_name to the team called :name.',
     'log_team_news_created' => 'Wrote a news called :news_name for the team called :name.',
     'log_team_news_updated' => 'Updated the news called :news_name for the team called :name.',
-    'log_team_news_destroyed' => 'Removed the news called :news_name for the team called :name.',
+    'log_team_news_destroyed' => 'Deleted the news called :news_name for the team called :name.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -188,7 +188,7 @@ return [
     'team_log_useful_link_destroyed' => 'Destroyed the link called :name.',
     'team_log_team_news_created' => 'Wrote a news called :name.',
     'team_log_team_news_updated' => 'Updated the news called :title.',
-    'team_log_team_news_destroyed' => 'Removed the news called :title.',
+    'team_log_team_news_destroyed' => 'Deleted the news called :title.',
 
     'notification_dummy_data_generated' => 'Dummy data have been generated for :name.',
 
@@ -208,6 +208,8 @@ return [
     'company_news_new_content' => 'Write something interesting',
     'company_news_new_content_help' => 'Everyone in the company will be able to read this news. Make sure you are not saying something silly.',
     'company_news_edit_headline' => 'Edit a company news',
+    'company_news_create_success' => 'The news has been published',
+    'company_news_update_success' => 'The news has been updated',
 
     'pto_policies_edit_title_1' => 'As software makers, we think it’s our responsability to promote a culture where employees are actually trusted and autonomous.',
     'pto_policies_edit_title_2' => 'We have a very limited set of features around Paid Time Offs (a barbaric name that refers to the holidays employees are allowed to take each year). On purpose. Click here to read more about our way of thinking.',
