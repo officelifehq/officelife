@@ -105,7 +105,7 @@ jobs:
         run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
       - name: Prepare the application
         run: |
-          php -r "file_exists('.env') || copy('.env.ci', '.env');"
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
           php artisan key:generate
       - name: Clear Config
         run: php artisan config:clear
@@ -117,9 +117,6 @@ jobs:
         run: vendor/bin/phpunit --coverage-text
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          APP_ENV: testing
-          DB_CONNECTION: mysql
-          DB_HOST: mysql
           #DB_PORT: 3306
           DB_DATABASE: officelife
           DB_USER: root
