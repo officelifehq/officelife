@@ -9,6 +9,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: officelife
         ports:
@@ -17,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.ci', '.env');"
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Cache composer dependencies
         uses: actions/cache@v1
         with:
@@ -29,19 +30,20 @@ jobs:
         run: php artisan key:generate
       - name: Run migrations
         env:
-          APP_ENV: testing
-          DB_CONNECTION: mysql
-          DB_HOST: mysql
-          DB_PORT: 3306
-          DB_DATABASE: officelife
-          DB_USER: root
-          DB_PASSWORD: password
+          # APP_ENV: testing
+          # DB_CONNECTION: mysql
+          # DB_HOST: mysql
+          # DB_PORT: 3306
+          # DB_DATABASE: officelife
+          # DB_USER: root
+          # DB_PASSWORD: password
+          DB_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: php artisan migrate
       - name: Execute tests via PHPUnit
         run: ./vendor/bin/phpunit
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          APP_ENV: testing
+          # APP_ENV: testing
           # DB_CONNECTION: mysql
           # DB_HOST: mysql
           # DB_PORT: 3306
