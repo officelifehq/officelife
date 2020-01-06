@@ -60,9 +60,9 @@ jobs:
           # DB_CONNECTION: mysql
           # DB_HOST: mysql
           # DB_PORT: 3306
-          DB_DATABASE: officelife
-          DB_USER: root
-          DB_PASSWORD: password
+          #DB_DATABASE: officelife
+          #DB_USER: root
+          #DB_PASSWORD: password
 # GitHub Action for Laravel with MySQL and Redis
 # name: Testing Laravel with MySQL
 # on: [push]
