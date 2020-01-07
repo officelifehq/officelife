@@ -62,9 +62,3 @@ jobs:
         run: vendor/bin/phpunit
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-      - name: Check PHP static errors
-        run: vendor/bin/psalm --show-info=false
-      - name: Fix PHP code to follow standards
-        run: vendor/bin/php-cs-fixer fix
-      - name: Static analysis tool
-        run: php artisan code:analyse
