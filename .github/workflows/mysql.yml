@@ -58,10 +58,6 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
       - name: Run seeds
         run: php artisan db:seed --no-interaction -vvv
-      - name: Caching stuff
-        run: |
-          php artisan config:cache
-          php artisan route:cache
       - name: Test with phpunit
         run: vendor/bin/phpunit
         env:
