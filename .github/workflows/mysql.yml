@@ -1,71 +1,7 @@
-# name: PHPUnit with MySQL
+name: PHPUnit with MySQL
 
-# on: [push]
-
-# jobs:
-#   phpunit:
-#     runs-on: ubuntu-latest
-#     env:
-#       DB_DATABASE: officelife
-#       DB_USERNAME: root
-#       DB_PASSWORD: password
-#       BROADCAST_DRIVER: log
-#       CACHE_DRIVER: redis
-#       QUEUE_CONNECTION: redis
-#       SESSION_DRIVER: redis
-#     services:
-#       mysql:
-#         image: mysql:5.7
-#         env:
-#           MYSQL_ALLOW_EMPTY_PASSWORD: true
-#           MYSQL_ROOT_PASSWORD: password
-#           MYSQL_DATABASE: officelife
-#         ports:
-#           - 3306
-#         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-#       redis:
-#         image: redis
-#         ports:
-#           - 6379/tcp
-#         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
-#     steps:
-#       - uses: actions/checkout@v1
-#       - name: Copy .env
-#         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-#       - name: Cache composer dependencies
-#         uses: actions/cache@v1
-#         with:
-#           path: vendor
-#           key: composer-${{ hashFiles('composer.lock') }}
-#       - name: Install dependencies
-#         run: composer install -n -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-#       - name: Generate key
-#         run: php artisan key:generate
-#       - name: Run migrations
-#         env:
-#           # APP_ENV: testing
-#           # DB_CONNECTION: mysql
-#           # DB_HOST: mysql
-#           # DB_PORT: 3306
-#           # DB_DATABASE: officelife
-#           # DB_USER: root
-#           # DB_PASSWORD: password
-#           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-#         run: php artisan migrate
-#       - name: Execute tests via PHPUnit
-#         run: ./vendor/bin/phpunit
-#         env:
-#           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-#           # APP_ENV: testing
-#           # DB_CONNECTION: mysql
-#           # DB_HOST: mysql
-#           # DB_PORT: 3306
-#           #DB_DATABASE: officelife
-#           DB_USER: root
-#           DB_PASSWORD: password
-# GitHub Action for Laravel with MySQL and Redis
-name: Testing Laravel with MySQL
 on: [push]
+
 jobs:
   laravel:
     name: PHP ${{ matrix.php-versions }}
@@ -105,8 +41,6 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          # Use composer.json for key, if composer.lock is not committed.
-          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
       - name: Install Composer dependencies
@@ -122,8 +56,13 @@ jobs:
         run: php artisan migrate -v
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
+      - name: Run seeds
+        run: php artisan db:seed --no-interaction -vvv
+      - name: Caching stuff
+        run: |
+          php artisan config:cache
+          php artisan route:cache
       - name: Test with phpunit
         run: vendor/bin/phpunit
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
-          #DB_PORT: 3306
