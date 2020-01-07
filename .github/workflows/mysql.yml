@@ -58,7 +58,7 @@ jobs:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
       - name: Run seeds
         run: php artisan db:seed --no-interaction -vvv
-      - name: Test with phpunit
+      - name: TeExecute tests via PHPUnit
         run: vendor/bin/phpunit
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
