@@ -233,7 +233,7 @@ $factory->define(App\Models\Company\Place::class, function (Faker $faker) {
         'placable_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([])->id;
         },
-        'placable_id' => 'App\Models\Company\Employee',
+        'placable_type' => 'App\Models\Company\Employee',
     ];
 });
 
