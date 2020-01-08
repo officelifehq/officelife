@@ -5,7 +5,6 @@ namespace App\Http\Resources\Company\Employee;
 use App\Helpers\StringHelper;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\User\Pronoun as PronounResource;
-use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Http\Resources\Company\Place\Place as PlaceResource;
 use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
 
@@ -33,12 +32,10 @@ class Employee extends JsonResource
             'permission_level' => $this->permission_level,
             'avatar' => $this->avatar,
             'position' => $this->position,
-            'teams' => is_null($this->teams) ? null : TeamResource::collection($this->teams),
             'has_logged_worklog_today' => $this->hasAlreadyLoggedWorklogToday(),
             'has_logged_morale_today' => $this->hasAlreadyLoggedMoraleToday(),
             'status' => is_null($this->status) ? null : new EmployeeStatusResource($this->status),
             'address' => new PlaceResource($this->getCurrentAddress()),
-            'holidays' => $this->getHolidaysInformation(),
             'company' => [
                 'id' => $this->company_id,
             ],

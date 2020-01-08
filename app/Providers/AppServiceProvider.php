@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
-use App\Http\Resources\Company\Company\Company as CompanyResource;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class AppServiceProvider extends ServiceProvider
@@ -49,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
                         'email' => Auth::user()->email,
                         'default_dashboard_view' => Auth::user()->default_dashboard_view,
                     ] : null,
-                    'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? new CompanyResource(InstanceHelper::getLoggedCompany()): null,
+                    'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? InstanceHelper::getLoggedCompany(): null,
                     'employee' => Auth::user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? new EmployeeResource(InstanceHelper::getLoggedEmployee()): null,
                 ];
             },

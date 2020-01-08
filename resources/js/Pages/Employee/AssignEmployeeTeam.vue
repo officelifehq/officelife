@@ -22,27 +22,27 @@
   <div class="di relative">
     <!-- Assigning a team is restricted to HR or admin -->
     <ul v-if="$page.auth.employee.permission_level <= 200" class="ma0 pa0 di existing-teams">
-      <li v-show="updatedEmployee.teams.length != 0" class="bb b--dotted bt-0 bl-0 br-0 pointer di" data-cy="open-team-modal" @click.prevent="modal = true">
+      <li v-show="updatedEmployeeTeams.length != 0" class="bb b--dotted bt-0 bl-0 br-0 pointer di" data-cy="open-team-modal" @click.prevent="modal = true">
         {{ $t('employee.team_title') }}
       </li>
-      <li v-for="team in updatedEmployee.teams" :key="team.id" class="di">
+      <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
         {{ team.name }}
       </li>
     </ul>
     <ul v-else class="ma0 pa0 existing-teams di">
-      <li v-show="updatedEmployee.teams.length != 0" class="di">
+      <li v-show="updatedEmployeeTeams.length != 0" class="di">
         {{ $t('employee.team_title') }}
       </li>
-      <li v-for="team in updatedEmployee.teams" :key="team.id" class="di">
+      <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
         {{ team.name }}
       </li>
     </ul>
 
     <!-- Action when there is no team defined -->
-    <a v-show="updatedEmployee.teams.length == 0" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">
+    <a v-show="updatedEmployeeTeams.length == 0" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">
       {{ $t('employee.team_modal_title') }}
     </a>
-    <span v-else v-show="updatedEmployee.teams.length == 0">
+    <span v-else v-show="updatedEmployeeTeams.length == 0">
       {{ $t('employee.team_modal_blank') }}
     </span>
 
@@ -109,6 +109,10 @@ export default {
       type: Object,
       default: null,
     },
+    employeeTeams: {
+      type: Array,
+      default: null,
+    },
     notifications: {
       type: Array,
       default: null,
@@ -123,7 +127,7 @@ export default {
     return {
       modal: false,
       search: '',
-      updatedEmployee: Object,
+      updatedEmployeeTeams: Array,
     };
   },
 
@@ -149,7 +153,7 @@ export default {
   },
 
   created() {
-    this.updatedEmployee = this.employee;
+    this.updatedEmployeeTeams = this.employeeTeams;
   },
 
   methods: {
@@ -167,7 +171,7 @@ export default {
             pauseOnHover: true,
           });
 
-          this.updatedEmployee = response.data.data;
+          this.updatedEmployeeTeams = response.data;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -184,7 +188,7 @@ export default {
             pauseOnHover: true,
           });
 
-          this.updatedEmployee = response.data.data;
+          this.updatedEmployeeTeams = response.data;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -192,8 +196,8 @@ export default {
     },
 
     isAssigned: function(id) {
-      for(var i=0; i < this.updatedEmployee.teams.length; i++){
-        if (this.updatedEmployee.teams[i].id == id) {
+      for(var i=0; i < this.updatedEmployeeTeams.length; i++){
+        if (this.updatedEmployeeTeams[i].id == id) {
           return true;
         }
       }

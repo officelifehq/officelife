@@ -97,6 +97,7 @@
             <li class="di-l db mb0-l mb2">
               <assign-employee-team
                 :employee="employee"
+                :employee-teams="employeeTeams"
                 :teams="teams"
               />
             </li>
@@ -173,6 +174,10 @@ export default {
   props: {
     employee: {
       type: Object,
+      default: null,
+    },
+    employeeTeams: {
+      type: Array,
       default: null,
     },
     notifications: {

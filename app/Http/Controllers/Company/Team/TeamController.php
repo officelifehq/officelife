@@ -25,12 +25,22 @@ class TeamController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        $teams = $company->teams()->with('employees')
+        $teams = $company->teams()
+            ->with('employees')
             ->orderBy('name', 'asc')
             ->get();
 
+        $teamsCollection = collect([]);
+        foreach ($teams as $team) {
+            $teamsCollection->push([
+                'id' => $team->id,
+                'name' => $team->name,
+                'employees' => $team->employees,
+            ]);
+        }
+
         return Inertia::render('Team/Index', [
-            'teams' => TeamResource::collection($teams),
+            'teams' => $teamsCollection,
             'notifications' => Auth::user()->getLatestNotifications($company),
         ]);
     }

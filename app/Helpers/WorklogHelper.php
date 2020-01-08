@@ -55,24 +55,18 @@ class WorklogHelper
     }
 
     /**
-     * Creates an array containing all the information regarding the worklogs
-     * logged on a specific day for a specific employee.
-     * Used on the Employee page.
+     * Prepares an array containing all the information regarding the worklogs
+     * logged on a specific day with the morale.
      *
-     * @param Employee $employee
+     * This will be used on the Employee page.
+     *
+     * @param Worklog $worklog
+     * @param Morale $morale
      * @param Carbon $date
      * @return array
      */
-    public static function getInformation(Employee $employee, Carbon $date): array
+    public static function getDailyInformationForEmployee(Worklog $worklog = null, Morale $morale = null, Carbon $date): array
     {
-        $morale = Morale::where('employee_id', $employee->id)
-            ->whereDate('created_at', $date)
-            ->first();
-
-        $worklog = Worklog::where('employee_id', $employee->id)
-            ->whereDate('created_at', $date)
-            ->first();
-
         $data = [
             'date' => DateHelper::getShortDateWithTime($date),
             'friendly_date' => DateHelper::getDayAndMonthInParenthesis($date),
