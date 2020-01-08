@@ -38,7 +38,18 @@ class CheckCompany
             abort(401);
         }
 
-        $employee = Auth::user()->getEmployeeObjectForCompany($company);
+        // was there a cached employee?
+        if (is_null($employee)) {
+            $employee = Auth::user()->getEmployeeObjectForCompany($company);
+        }
+
+        // if the employee for this company does not exist or if the employee
+        // does not belong to this company, abort
+        if (is_null($employee) || $employee->company_id != $company->id) {
+            abort(401);
+        }
+
+        // put the employee in cache
         Cache::put($cachedEmployeeObject, $employee, now()->addMinutes(60));
 
         if ($employee) {

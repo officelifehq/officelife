@@ -67,12 +67,12 @@
 
           <!-- Pagination -->
           <div class="center cf">
-            <a v-show="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
+            <inertia-link v-show="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
               &larr; {{ $t('app.previous') }}
-            </a>
-            <a v-show="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">
+            </inertia-link>
+            <inertia-link v-show="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">
               {{ $t('app.next') }} &rarr;
-            </a>
+            </inertia-link>
           </div>
         </div>
       </div>
