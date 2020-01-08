@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Team;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeTeamController extends Controller
 {
@@ -33,7 +32,7 @@ class EmployeeTeamController extends Controller
 
         $employee = (new AddEmployeeToTeam)->execute($request);
 
-        return new EmployeeResource($employee);
+        return $employee->teams;
     }
 
     /**
@@ -57,6 +56,6 @@ class EmployeeTeamController extends Controller
 
         $employee = (new RemoveEmployeeFromTeam)->execute($request);
 
-        return new EmployeeResource($employee);
+        return $employee->teams;
     }
 }

@@ -61,18 +61,18 @@ class WorklogHelperTest extends TestCase
         $dwight = factory(Employee::class)->create([]);
 
         // logging worklogs
-        factory(Worklog::class)->create([
+        $worklog = factory(Worklog::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => $date,
         ]);
 
         // logging morale
-        factory(Morale::class)->create([
+        $morale = factory(Morale::class)->create([
             'employee_id' => $dwight->id,
             'emotion' => 1,
         ]);
 
-        $response = WorklogHelper::getInformation($dwight, $date);
+        $response = WorklogHelper::getDailyInformationForEmployee($worklog, $morale, $date);
         $this->assertIsArray($response);
 
         $this->assertArrayHasKey('date', $response);
@@ -92,12 +92,13 @@ class WorklogHelperTest extends TestCase
         $dwight = factory(Employee::class)->create([]);
 
         // logging worklogs
-        factory(Worklog::class)->create([
+        $worklog = factory(Worklog::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => $date,
         ]);
 
-        $response = WorklogHelper::getInformation($dwight, $date);
+        $response = WorklogHelper::getDailyInformationForEmployee($worklog, null, $date);
+
         $this->assertIsArray($response);
 
         $this->assertArrayHasKey('date', $response);

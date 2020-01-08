@@ -18,7 +18,6 @@ use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Services\Company\Employee\Manager\UnassignManager;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\Position\Position as PositionResource;
-use App\Http\Resources\Company\Employee\EmployeeList as EmployeeListResource;
 use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
 
 class EmployeeController extends Controller
@@ -33,13 +32,23 @@ class EmployeeController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        $employees = $company->employees()->with('teams')
-            ->with('status')
+        $employees = $company->employees()
+            ->with('teams')
             ->orderBy('last_name', 'asc')
             ->get();
 
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'teams' => $employee->teams,
+            ]);
+        }
+
         return Inertia::render('Employee/Index', [
-            'employees' => EmployeeListResource::collection($employees),
+            'employees' => $employeesCollection,
             'notifications' => Auth::user()->getLatestNotifications($company),
         ]);
     }
@@ -57,6 +66,7 @@ class EmployeeController extends Controller
 
         try {
             $employee = Employee::where('company_id', $companyId)
+                ->with('teams')
                 ->findOrFail($employeeId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -66,28 +76,41 @@ class EmployeeController extends Controller
         $directReports = $employee->getListOfDirectReports();
         $positions = $company->positions()->get();
         $teams = $company->teams()->get();
-        $worklogs = $employee->worklogs()->latest()->take(7)->get();
         $employeeStatuses = $company->employeeStatuses()->get();
         $pronouns = Pronoun::all();
 
         // building the collection containing the days of the week with the
         // worklogs
-        $worklogs = collect([]);
+        $worklogs = $employee->worklogs()->latest()->take(7)->get();
+        $morales = $employee->morales()->latest()->take(7)->get();
+        $worklogsCollection = collect([]);
         $currentDate = Carbon::now();
         for ($i = 0; $i < 5; $i++) {
             $day = $currentDate->copy()->startOfWeek()->addDays($i);
-            $worklogs->push(WorklogHelper::getInformation($employee, $day));
+
+            $worklog = $worklogs->first(function ($worklog) use ($day) {
+                return $worklog->created_at->format('Y-m-d') == $day->format('Y-m-d');
+            });
+
+            $morale = $morales->first(function ($morale) use ($day) {
+                return $morale->created_at->format('Y-m-d') == $day->format('Y-m-d');
+            });
+
+            $worklogsCollection->push(
+                WorklogHelper::getDailyInformationForEmployee($worklog, $morale, $day)
+            );
         }
 
         // holidays
         return Inertia::render('Employee/Show', [
             'employee' => new EmployeeResource($employee),
+            'employeeTeams' => TeamResource::collection($employee->teams),
             'notifications' => Auth::user()->getLatestNotifications($company),
-            'managers' => EmployeeListResource::collection($managers),
-            'directReports' => EmployeeListResource::collection($directReports),
+            'managers' => EmployeeResource::collection($managers),
+            'directReports' => EmployeeResource::collection($directReports),
             'positions' => PositionResource::collection($positions),
             'teams' => TeamResource::collection($teams),
-            'worklogs' => $worklogs,
+            'worklogs' => $worklogsCollection,
             'statuses' => EmployeeStatusResource::collection($employeeStatuses),
             'pronouns' => PronounResource::collection($pronouns),
         ]);
