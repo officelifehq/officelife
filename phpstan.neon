@@ -20,3 +20,4 @@ parameters:
     excludes_analyse:
         - */*/*/*/*/CreateTimeOff.php
         - */*/*/*/*/EmployeeController.php
+        - */*/*/*/CheckCompany.php
