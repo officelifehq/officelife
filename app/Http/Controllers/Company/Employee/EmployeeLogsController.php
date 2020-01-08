@@ -45,12 +45,23 @@ class EmployeeLogsController extends Controller
         }
 
         $logs = $employee->employeeLogs()->paginate(15);
-
+        $logsCollection = collect([]);
+        foreach ($logs as $log) {
+            $logsCollection->push([
+                'id' => $log->id,
+                'author' => [
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                ],
+                'localized_content' => $log->content,
+                'created_at' => $log->created_at,
+            ]);
+        }
         $logs = EmployeeLogResource::collection($logs);
 
         return Inertia::render('Employee/Logs', [
             'employee' => new EmployeeResource($employee),
-            'logs' => $logs,
+            'logs' => $logsCollection,
             'notifications' => Auth::user()->getLatestNotifications($company),
             'paginator' => [
                 'count' => $logs->count(),

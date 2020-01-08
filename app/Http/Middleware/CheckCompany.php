@@ -4,13 +4,15 @@ namespace App\Http\Middleware;
 
 use Closure;
 use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CheckCompany
 {
     /**
-     * Handle an incoming request.
+     * Check that the user can access this company.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -18,33 +20,22 @@ class CheckCompany
      */
     public function handle($request, Closure $next)
     {
-        $cachedCompanyObject = 'cachedCompanyObject_'.Auth::user()->id;
-        $cachedEmployeeObject = 'cachedEmployeeObject_'.Auth::user()->id;
+        $requestedCompanyId = $request->route()->parameter('company');
 
-        $company = Cache::get($cachedCompanyObject);
-        $employee = Cache::get($cachedEmployeeObject);
-
-        $requestedCompany = $request->route()->parameter('company');
-
-        // if there is no company in caching
-        if (is_null($company)) {
-            $company = Company::findOrFail($requestedCompany);
-            Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
-        }
-
-        // if the current company (in cache) doesn't match the company in the
-        // route, abort
-        if ($requestedCompany != $company->id) {
+        try {
+            $employee = Employee::where('user_id', Auth::user()->id)
+                ->where('company_id', $requestedCompanyId)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
             abort(401);
         }
 
-        $employee = Auth::user()->getEmployeeObjectForCompany($company);
+        $cachedCompanyObject = 'cachedCompanyObject_' . Auth::user()->id;
+        $cachedEmployeeObject = 'cachedEmployeeObject_' . Auth::user()->id;
+
+        Cache::put($cachedCompanyObject, $employee->company, now()->addMinutes(60));
         Cache::put($cachedEmployeeObject, $employee, now()->addMinutes(60));
 
-        if ($employee) {
-            return $next($request);
-        }
-
-        abort(401);
+        return $next($request);
     }
 }

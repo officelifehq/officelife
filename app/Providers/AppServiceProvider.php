@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,7 +48,13 @@ class AppServiceProvider extends ServiceProvider
                         'default_dashboard_view' => Auth::user()->default_dashboard_view,
                     ] : null,
                     'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? InstanceHelper::getLoggedCompany(): null,
-                    'employee' => Auth::user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? new EmployeeResource(InstanceHelper::getLoggedEmployee()): null,
+                    'employee' => Auth::user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? [
+                        'id' => InstanceHelper::getLoggedEmployee()->id,
+                        'first_name' => InstanceHelper::getLoggedEmployee()->first_name,
+                        'last_name' => InstanceHelper::getLoggedEmployee()->last_name,
+                        'name' => InstanceHelper::getLoggedEmployee()->name,
+                        'permission_level' => InstanceHelper::getLoggedEmployee()->permission_level,
+                    ]: null,
                 ];
             },
             'flash' => function () {
