@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -37,7 +37,7 @@ class AdminEmployeeController extends Controller
         }
 
         return Inertia::render('Adminland/Employee/Index', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employees' => $employeesCollection,
         ]);
     }
@@ -52,7 +52,7 @@ class AdminEmployeeController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         return Inertia::render('Adminland/Employee/Create', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
 

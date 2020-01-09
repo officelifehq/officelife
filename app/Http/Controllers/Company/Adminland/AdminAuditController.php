@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\Company\AuditLog\AuditLog as AuditLogResource;
 
 class AdminAuditController extends Controller
 {
@@ -19,13 +18,25 @@ class AdminAuditController extends Controller
     public function index(Request $request)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $logs = $company->logs()->paginate(15);
+        $logs = $company->logs()->with('author')->paginate(15);
 
-        $logs = AuditLogResource::collection($logs);
+        $logsCollection = collect([]);
+        foreach ($logs as $log) {
+            $logsCollection->push([
+                'action' => $log->action,
+                'objects' => json_decode($log->objects),
+                'localized_content' => $log->content,
+                'author' => [
+                    'id' => is_null($log->author) ? null : $log->author->id,
+                    'name' => is_null($log->author) ? null : $log->author->name,
+                ],
+                'created_at' => $log->created_at,
+            ]);
+        }
 
         return Inertia::render('Adminland/Audit/Index', [
-            'logs' => $logs,
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'logs' => $logsCollection,
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'paginator' => [
                 'count' => $logs->count(),
                 'currentPage' => $logs->currentPage(),

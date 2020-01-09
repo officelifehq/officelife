@@ -6,8 +6,8 @@ use Inertia\Inertia;
 use App\Models\Company\Flow;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use App\Services\Company\Adminland\Flow\CreateFlow;
 use App\Services\Company\Adminland\Flow\AddStepToFlow;
@@ -30,7 +30,7 @@ class AdminFlowController extends Controller
         );
 
         return Inertia::render('Adminland/Flow/Index', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'flows' => $flows,
         ]);
     }
@@ -55,7 +55,7 @@ class AdminFlowController extends Controller
         }
 
         return Inertia::render('Adminland/Flow/Show', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'flow' => new FlowResource($flow),
         ]);
     }
@@ -70,7 +70,7 @@ class AdminFlowController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         return Inertia::render('Adminland/Flow/Create', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
 

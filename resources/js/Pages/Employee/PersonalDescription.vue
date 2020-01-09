@@ -93,6 +93,10 @@ export default {
 
   methods: {
     employeeOrAtLeastHR() {
+      if (!this.employee.user) {
+        return false;
+      }
+
       return this.$page.auth.employee.permission_level <= 200 || this.$page.auth.user.id == this.employee.user.id;
     },
 

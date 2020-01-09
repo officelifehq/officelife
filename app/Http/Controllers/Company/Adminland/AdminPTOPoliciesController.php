@@ -6,8 +6,8 @@ use Inertia\Inertia;
 use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Company\CompanyPTOPolicy;
 use App\Services\Company\Adminland\CompanyPTOPolicy\UpdateCompanyPTOPolicy;
 use App\Http\Resources\Company\CompanyPTOPolicy\CompanyPTOPolicy as CompanyPTOPolicyResource;
@@ -27,7 +27,7 @@ class AdminPTOPoliciesController extends Controller
         );
 
         return Inertia::render('Adminland/CompanyPTOPolicy/Index', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'ptoPolicies' => $policies,
         ]);
     }

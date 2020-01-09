@@ -133,11 +133,11 @@ class Employee extends Model
     }
 
     /**
-     * Get all the employees this employee reports to.
+     * Get all the employees this employee reports to (ie the managers).
      *
      * @return hasMany
      */
-    public function reportsTo()
+    public function managers()
     {
         return $this->hasMany(DirectReport::class, 'employee_id');
     }
@@ -147,7 +147,7 @@ class Employee extends Model
      *
      * @return hasMany
      */
-    public function managerOf()
+    public function directReports()
     {
         return $this->hasMany(DirectReport::class, 'manager_id');
     }
@@ -326,7 +326,7 @@ class Employee extends Model
     public function getListOfManagers(): Collection
     {
         $managersCollection = collect([]);
-        foreach ($this->reportsTo()->get() as $directReport) {
+        foreach ($this->managers()->get() as $directReport) {
             $managersCollection->push($directReport->manager);
         }
 
@@ -341,7 +341,7 @@ class Employee extends Model
     public function getListOfDirectReports(): Collection
     {
         $directReportCollection = collect([]);
-        foreach ($this->managerOf()->get() as $directReport) {
+        foreach ($this->directReports()->get() as $directReport) {
             $directReportCollection->push($directReport->directReport);
         }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Dashboard;
 use Inertia\Inertia;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\User\Preferences\UpdateDashboardView;
@@ -31,7 +32,7 @@ class DashboardCompanyController extends Controller
             'company' => $company,
             'user' => Auth::user()->refresh(),
             'employee' => new EmployeeResource(Auth::user()->getEmployeeObjectForCompany($company)),
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
         ]);
     }

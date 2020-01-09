@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\User\Preferences\UpdateDashboardView;
@@ -28,7 +29,7 @@ class DashboardHRController extends Controller
         ]);
 
         return Inertia::render('Employee/Index', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
         ]);
     }

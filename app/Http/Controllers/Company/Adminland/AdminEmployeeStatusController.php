@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\UpdateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\DestroyEmployeeStatus;
@@ -27,7 +27,7 @@ class AdminEmployeeStatusController extends Controller
         );
 
         return Inertia::render('Adminland/EmployeeStatus/Index', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'statuses' => $employeeStatuses,
         ]);
     }

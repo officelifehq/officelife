@@ -6,8 +6,8 @@ use Inertia\Inertia;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Http\Resources\Company\TeamNews\TeamNews as TeamNewsResource;
@@ -41,7 +41,7 @@ class TeamController extends Controller
 
         return Inertia::render('Team/Index', [
             'teams' => $teamsCollection,
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
 
@@ -70,7 +70,7 @@ class TeamController extends Controller
         $mostRecentEmployee = $employees->first();
 
         return Inertia::render('Team/Show', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'team' => new TeamResource($team),
             'news' => TeamNewsResource::collection($news),
             'newsCount' => $newsCount,

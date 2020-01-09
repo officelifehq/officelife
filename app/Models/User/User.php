@@ -125,7 +125,7 @@ class User extends Authenticatable
      *
      * @param Company $company
      * @param int $numberOfNotificationsToFetch
-     * @return \Illuminate\Support\Collection|array
+     * @return mixed
      */
     public function getLatestNotifications(Company $company, int $numberOfNotificationsToFetch = 5)
     {

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Http\Resources\Company\Team\Team as TeamResource;
 
@@ -25,7 +25,7 @@ class AdminTeamController extends Controller
         );
 
         return Inertia::render('Adminland/Team/Index', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'teams' => $teams,
         ]);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Dashboard;
 use Inertia\Inertia;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\UpdateDashboardPreference;
@@ -30,7 +31,7 @@ class DashboardMeController extends Controller
         return Inertia::render('Dashboard/Me', [
             'worklogCount' => $employee->worklogs()->count(),
             'moraleCount' => $employee->morales()->count(),
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
         ]);
     }

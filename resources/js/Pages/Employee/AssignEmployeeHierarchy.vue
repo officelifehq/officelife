@@ -135,101 +135,105 @@
     <!-- LIST OF EMPLOYEES -->
     <div class="br3 bg-white box z-1 pa3 list-employees">
       <!-- Blank state -->
-      <p v-if="managers.length == 0 && directReports.length == 0" class="lh-copy mb0 f6">
+      <p v-if="managersOfEmployee.length == 0 && directReports.length == 0" class="lh-copy mb0 f6">
         {{ $t('employee.hierarchy_blank') }}
       </p>
 
       <!-- Managers -->
-      <div v-show="managers.length != 0" data-cy="list-managers">
-        <p class="mt0 mb2 f6">
-          {{ $tc('employee.hierarchy_list_manager_title', managers.length) }}
-        </p>
-        <ul class="list mv0">
-          <li v-for="manager in managers" :key="manager.id" class="mb3 relative">
-            <img :src="manager.avatar" class="br-100 absolute avatar" />
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + manager.id" class="mb2">
-              {{ manager.name }}
-            </inertia-link>
+      <template v-if="managersOfEmployee.length != 0">
+        <div data-cy="list-managers">
+          <p class="mt0 mb2 f6">
+            {{ $tc('employee.hierarchy_list_manager_title', managersOfEmployee.length) }}
+          </p>
+          <ul class="list mv0">
+            <li v-for="manager in managersOfEmployee" :key="manager.id" class="mb3 relative">
+              <img :src="manager.avatar" class="br-100 absolute avatar" />
+              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + manager.id" class="mb2">
+                {{ manager.name }}
+              </inertia-link>
 
-            <!-- position -->
-            <span v-if="manager.position !== null" class="title db f7 mt1">
-              {{ manager.position.title }}
-            </span>
-            <span v-else class="title db f7 mt1">
-              {{ $t('app.no_position_defined') }}
-            </span>
+              <!-- position -->
+              <span v-if="manager.position !== null" class="title db f7 mt1">
+                {{ manager.position }}
+              </span>
+              <span v-else class="title db f7 mt1">
+                {{ $t('app.no_position_defined') }}
+              </span>
 
-            <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModalId = manager.id" />
+              <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModalId = manager.id" />
 
-            <!-- DELETE MANAGER MENU -->
-            <div v-if="managerModalId == manager.id" v-show="$page.auth.employee.permission_level <= 200" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
-              <ul class="list ma0 pa0">
-                <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
-                  <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
-                  <a class="pointer ml1 c-delete" data-cy="remove-manager-button" @click.prevent="deleteEmployeeConfirmation = true">
-                    {{ $t('employee.hierarchy_modal_remove_manager') }}
-                  </a>
-                </li>
-                <li v-show="deleteEmployeeConfirmation" class="pv2">
-                  {{ $t('app.sure') }}
-                  <a data-cy="confirm-remove-manager" class="c-delete mr1 pointer" @click.prevent="unassignManager(manager)">
-                    {{ $t('app.yes') }}
-                  </a>
-                  <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">
-                    {{ $t('app.no') }}
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
+              <!-- DELETE MANAGER MENU -->
+              <div v-if="managerModalId == manager.id" v-show="$page.auth.employee.permission_level <= 200" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+                <ul class="list ma0 pa0">
+                  <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
+                    <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                    <a class="pointer ml1 c-delete" data-cy="remove-manager-button" @click.prevent="deleteEmployeeConfirmation = true">
+                      {{ $t('employee.hierarchy_modal_remove_manager') }}
+                    </a>
+                  </li>
+                  <li v-show="deleteEmployeeConfirmation" class="pv2">
+                    {{ $t('app.sure') }}
+                    <a data-cy="confirm-remove-manager" class="c-delete mr1 pointer" @click.prevent="unassignManager(manager)">
+                      {{ $t('app.yes') }}
+                    </a>
+                    <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">
+                      {{ $t('app.no') }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </template>
 
       <!-- Direct reports -->
-      <div v-show="directReports.length != 0" :class="managers.length != 0 ? 'mt3' : ''" data-cy="list-direct-reports">
-        <p class="mt0 mb2 f6">
-          {{ $tc('employee.hierarchy_list_direct_report_title', directReports.length) }}
-        </p>
-        <ul class="list mv0">
-          <li v-for="directReport in directReports" :key="directReport.id" class="mb3 relative">
-            <img :src="directReport.avatar" class="br-100 absolute avatar" />
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + directReport.id" class="mb2">
-              {{ directReport.name }}
-            </inertia-link>
+      <template v-if="directReports.length != 0">
+        <div :class="managersOfEmployee.length != 0 ? 'mt3' : ''" data-cy="list-direct-reports">
+          <p class="mt0 mb2 f6">
+            {{ $tc('employee.hierarchy_list_direct_report_title', directReports.length) }}
+          </p>
+          <ul class="list mv0">
+            <li v-for="directReport in directReports" :key="directReport.id" class="mb3 relative">
+              <img :src="directReport.avatar" class="br-100 absolute avatar" />
+              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + directReport.id" class="mb2">
+                {{ directReport.name }}
+              </inertia-link>
 
-            <!-- position -->
-            <span v-if="directReport.position !== null" class="title db f7 mt1">
-              {{ directReport.position.title }}
-            </span>
-            <span v-else class="title db f7 mt1">
-              {{ $t('app.no_position_defined') }}
-            </span>
+              <!-- position -->
+              <span v-if="directReport.position !== null" class="title db f7 mt1">
+                {{ directReport.position.title }}
+              </span>
+              <span v-else class="title db f7 mt1">
+                {{ $t('app.no_position_defined') }}
+              </span>
 
-            <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModalId = directReport.id" />
+              <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModalId = directReport.id" />
 
-            <!-- DELETE DIRECT REPORT MENU -->
-            <div v-if="directReportModalId == directReport.id" v-show="$page.auth.employee.permission_level <= 200" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
-              <ul class="list ma0 pa0">
-                <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
-                  <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
-                  <a class="pointer ml1 c-delete" data-cy="remove-directreport-button" @click.prevent="deleteEmployeeConfirmation = true">
-                    {{ $t('employee.hierarchy_modal_remove_direct_report') }}
-                  </a>
-                </li>
-                <li v-show="deleteEmployeeConfirmation" class="pv2">
-                  {{ $t('app.sure') }}
-                  <a data-cy="confirm-remove-directreport" class="c-delete mr1 pointer" @click.prevent="unassignDirectReport(directReport)">
-                    {{ $t('app.yes') }}
-                  </a>
-                  <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">
-                    {{ $t('app.no') }}
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </div>
+              <!-- DELETE DIRECT REPORT MENU -->
+              <div v-if="directReportModalId == directReport.id" v-show="$page.auth.employee.permission_level <= 200" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+                <ul class="list ma0 pa0">
+                  <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
+                    <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                    <a class="pointer ml1 c-delete" data-cy="remove-directreport-button" @click.prevent="deleteEmployeeConfirmation = true">
+                      {{ $t('employee.hierarchy_modal_remove_direct_report') }}
+                    </a>
+                  </li>
+                  <li v-show="deleteEmployeeConfirmation" class="pv2">
+                    {{ $t('app.sure') }}
+                    <a data-cy="confirm-remove-directreport" class="c-delete mr1 pointer" @click.prevent="unassignDirectReport(directReport)">
+                      {{ $t('app.yes') }}
+                    </a>
+                    <a class="pointer" @click.prevent="deleteEmployeeConfirmation = false">
+                      {{ $t('app.no') }}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -253,11 +257,7 @@ export default {
       type: Object,
       default: null,
     },
-    notifications: {
-      type: Array,
-      default: null,
-    },
-    managers: {
+    managersOfEmployee: {
       type: Array,
       default: null,
     },
@@ -351,7 +351,7 @@ export default {
             closeOnClick: true,
             pauseOnHover: true,
           });
-          this.managers.push(response.data.data);
+          this.managersOfEmployee.push(response.data.data);
           this.modal = 'hide';
         })
         .catch(error => {
@@ -385,7 +385,7 @@ export default {
             closeOnClick: true,
             pauseOnHover: true,
           });
-          this.managers.splice(this.managers.indexOf(response.data.data), 1);
+          this.managersOfEmployee.splice(this.managersOfEmployee.indexOf(response.data.data), 1);
           this.deleteEmployeeConfirmation = false;
           this.managerModalId = 0;
         })

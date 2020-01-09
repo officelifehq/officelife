@@ -8,6 +8,7 @@ use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
@@ -45,7 +46,7 @@ class DashboardTeamController extends Controller
                 return Inertia::render('Dashboard/MyTeamEmptyState', [
                     'company' => $company,
                     'employee' => new EmployeeResource($employee),
-                    'notifications' => Auth::user()->getLatestNotifications($company),
+                    'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
                     'message' => trans('dashboard.team_dont_exist'),
                 ]);
             }
@@ -55,7 +56,7 @@ class DashboardTeamController extends Controller
                 return Inertia::render('Dashboard/MyTeamEmptyState', [
                     'company' => $company,
                     'employee' => new EmployeeResource($employee),
-                    'notifications' => Auth::user()->getLatestNotifications($company),
+                    'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
                     'message' => trans('dashboard.not_allowed'),
                 ]);
             }
@@ -66,7 +67,7 @@ class DashboardTeamController extends Controller
             return Inertia::render('Dashboard/MyTeamEmptyState', [
                 'company' => $company,
                 'employee' => new EmployeeResource($employee),
-                'notifications' => Auth::user()->getLatestNotifications($company),
+                'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
                 'message' => trans('dashboard.team_no_team_yet'),
             ]);
         }
@@ -109,7 +110,7 @@ class DashboardTeamController extends Controller
             'worklogDates' => $dates,
             'currentDate' => $requestedDate->format('Y-m-d'),
             'worklogEntries' => $team->worklogsForDate($requestedDate),
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
 

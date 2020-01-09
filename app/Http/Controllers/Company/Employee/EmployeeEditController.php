@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Place\CreatePlace;
@@ -56,7 +57,7 @@ class EmployeeEditController extends Controller
 
         return Inertia::render('Employee/EditContact', [
             'employee' => new EmployeeResource($employee),
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'countries' => $countriesCollection,
         ]);
     }
