@@ -63,7 +63,7 @@ class EmployeeTest extends TestCase
             'manager_id' => $manager->id,
         ]);
 
-        $this->assertTrue($manager->managerOf()->exists());
+        $this->assertTrue($manager->directReports()->exists());
     }
 
     /** @test */
@@ -74,7 +74,7 @@ class EmployeeTest extends TestCase
             'employee_id' => $dwight->id,
         ]);
 
-        $this->assertTrue($dwight->reportsTo()->exists());
+        $this->assertTrue($dwight->managers()->exists());
     }
 
     /** @test */

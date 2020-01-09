@@ -56,6 +56,16 @@ class AuditLog extends Model
     }
 
     /**
+     * Get the Employee record associated with the audit log.
+     *
+     * @return BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    /**
      * Get the JSON object.
      *
      * @return array

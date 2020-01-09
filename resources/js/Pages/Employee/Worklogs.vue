@@ -60,10 +60,6 @@
 <script>
 export default {
   props: {
-    notifications: {
-      type: Array,
-      default: null,
-    },
     worklogs: {
       type: Array,
       default: null,

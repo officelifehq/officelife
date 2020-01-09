@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -62,7 +63,7 @@ class EmployeeLogsController extends Controller
         return Inertia::render('Employee/Logs', [
             'employee' => new EmployeeResource($employee),
             'logs' => $logsCollection,
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'paginator' => [
                 'count' => $logs->count(),
                 'currentPage' => $logs->currentPage(),

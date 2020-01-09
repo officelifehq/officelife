@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Models\Company\CompanyNews;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 use App\Services\Company\Adminland\CompanyNews\UpdateCompanyNews;
@@ -29,7 +29,7 @@ class AdminCompanyNewsController extends Controller
         );
 
         return Inertia::render('Adminland/CompanyNews/Index', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'news' => $news,
         ]);
     }
@@ -44,7 +44,7 @@ class AdminCompanyNewsController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         return Inertia::render('Adminland/CompanyNews/Create', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
 
@@ -93,7 +93,7 @@ class AdminCompanyNewsController extends Controller
         }
 
         return Inertia::render('Adminland/CompanyNews/Edit', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'news' => $news,
         ]);
     }

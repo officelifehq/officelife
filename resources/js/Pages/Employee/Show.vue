@@ -118,7 +118,7 @@
 
           <assign-employee-hierarchy
             :employee="employee"
-            :managers="managers"
+            :managers-of-employee="managersOfEmployee"
             :direct-reports="directReports"
           />
 
@@ -184,7 +184,7 @@ export default {
       type: Array,
       default: null,
     },
-    managers: {
+    managersOfEmployee: {
       type: Array,
       default: null,
     },
@@ -238,6 +238,10 @@ export default {
     },
 
     employeeOrAtLeastHR() {
+      if (!this.employee.user) {
+        return false;
+      }
+
       return this.$page.auth.employee.permission_level <= 200 || this.$page.auth.user.id == this.employee.user.id;
     }
   }

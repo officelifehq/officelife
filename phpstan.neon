@@ -21,3 +21,4 @@ parameters:
         - */*/*/*/*/CreateTimeOff.php
         - */*/*/*/*/EmployeeController.php
         - */*/*/*/CheckCompany.php
+        - */*/*/*/*/AdminAuditController.php

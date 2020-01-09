@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Position\UpdatePosition;
 use App\Services\Company\Adminland\Position\DestroyPosition;
@@ -33,7 +33,7 @@ class AdminPositionController extends Controller
         }
 
         return Inertia::render('Adminland/Position/Index', [
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'positions' => $positionsCollection,
         ]);
     }

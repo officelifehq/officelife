@@ -36,8 +36,6 @@ jobs:
           php artisan key:generate
       - name: Clear Config
         run: php artisan config:clear
-      - name: Check PHP static errors
-        run: vendor/bin/psalm --show-info=false
       - name: Fix PHP code to follow standards
         run: vendor/bin/php-cs-fixer fix
       - name: Static analysis tool

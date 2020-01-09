@@ -9,16 +9,12 @@ use Illuminate\Http\Request;
 use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\User\Pronoun as PronounResource;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\Team\Team as TeamResource;
 use App\Services\Company\Employee\Manager\UnassignManager;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
-use App\Http\Resources\Company\Position\Position as PositionResource;
-use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
 
 class EmployeeController extends Controller
 {
@@ -49,7 +45,7 @@ class EmployeeController extends Controller
 
         return Inertia::render('Employee/Index', [
             'employees' => $employeesCollection,
-            'notifications' => Auth::user()->getLatestNotifications($company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
 
@@ -66,18 +62,45 @@ class EmployeeController extends Controller
 
         try {
             $employee = Employee::where('company_id', $companyId)
+                ->where('id', $employeeId)
                 ->with('teams')
-                ->findOrFail($employeeId);
+                ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
 
-        $managers = $employee->getListOfManagers();
-        $directReports = $employee->getListOfDirectReports();
-        $positions = $company->positions()->get();
-        $teams = $company->teams()->get();
-        $employeeStatuses = $company->employeeStatuses()->get();
-        $pronouns = Pronoun::all();
+        $companyPositions = $company->positions()->get();
+        $companyTeams = $company->teams()->get();
+        $companyEmployeeStatuses = $company->employeeStatuses()->get();
+        $companyPronouns = Pronoun::all();
+
+        // managers
+        $managers = $employee->managers;
+        $managersOfEmployee = collect([]);
+        foreach ($managers as $manager) {
+            $manager = $manager->manager;
+
+            $managersOfEmployee->push([
+                'id' => $manager->id,
+                'name' => $manager->name,
+                'avatar' => $manager->avatar,
+                'position' => ($manager->position) ? $manager->position->title : null,
+            ]);
+        }
+
+        // direct reports
+        $directReports = $employee->directReports;
+        $directReportsOfEmployee = collect([]);
+        foreach ($directReports as $directReport) {
+            $directReport = $directReport->directReport;
+
+            $directReportsOfEmployee->push([
+                'id' => $directReport->id,
+                'name' => $directReport->name,
+                'avatar' => $directReport->avatar,
+                'position' => ($directReport->position) ? $directReport->position->title : null,
+            ]);
+        }
 
         // building the collection containing the days of the week with the
         // worklogs
@@ -101,18 +124,28 @@ class EmployeeController extends Controller
             );
         }
 
-        // holidays
+        // information about the employee
+        $employeeObject = [
+            'id' => $employee->id,
+            'name' => $employee->name,
+            'avatar' => $employee->avatar,
+            'pronoun' => (!$employee->pronoun) ? null : [
+                'id' => $employee->pronoun->id,
+                'label' => $employee->pronoun->label,
+            ],
+        ];
+
         return Inertia::render('Employee/Show', [
-            'employee' => new EmployeeResource($employee),
-            'employeeTeams' => TeamResource::collection($employee->teams),
-            'notifications' => Auth::user()->getLatestNotifications($company),
-            'managers' => EmployeeResource::collection($managers),
-            'directReports' => EmployeeResource::collection($directReports),
-            'positions' => PositionResource::collection($positions),
-            'teams' => TeamResource::collection($teams),
+            'employee' => $employeeObject,
+            'employeeTeams' => $employee->teams,
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'managersOfEmployee' => $managersOfEmployee,
+            'directReports' => $directReportsOfEmployee,
+            'positions' => $companyPositions,
+            'teams' => $companyTeams,
             'worklogs' => $worklogsCollection,
-            'statuses' => EmployeeStatusResource::collection($employeeStatuses),
-            'pronouns' => PronounResource::collection($pronouns),
+            'statuses' => $companyEmployeeStatuses,
+            'pronouns' => $companyPronouns,
         ]);
     }
 

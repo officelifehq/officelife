@@ -112,10 +112,6 @@ export default {
       type: Object,
       default: null,
     },
-    notifications: {
-      type: Array,
-      default: null,
-    },
     statuses: {
       type: Array,
       default: null,

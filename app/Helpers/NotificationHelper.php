@@ -2,10 +2,39 @@
 
 namespace App\Helpers;
 
+use App\Models\Company\Employee;
+use Illuminate\Support\Collection;
 use App\Models\Company\Notification;
 
 class NotificationHelper
 {
+    /**
+     * Returns the notifications for this employee.
+     *
+     * @param Employee $employee
+     * @return Collection
+     */
+    public static function getNotifications(Employee $employee): Collection
+    {
+        $notifs = $employee->notifications()
+            ->where('read', false)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $notificationCollection = collect([]);
+        foreach ($notifs as $notification) {
+            $notificationCollection->push([
+                'id' => $notification->id,
+                'action' => $notification->action,
+                'localized_content' => $notification->content,
+                'read' => $notification->read,
+            ]);
+        }
+
+        return $notificationCollection;
+    }
+
+
     /**
      * Return an sentence explaining what the notification contains.
      *

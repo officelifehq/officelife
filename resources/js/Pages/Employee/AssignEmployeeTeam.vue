@@ -26,7 +26,7 @@
         {{ $t('employee.team_title') }}
       </li>
       <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
-        {{ team.name }}
+        <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">{{ team.name }}</inertia-link>
       </li>
     </ul>
     <ul v-else class="ma0 pa0 existing-teams di">
@@ -34,7 +34,7 @@
         {{ $t('employee.team_title') }}
       </li>
       <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
-        {{ team.name }}
+        <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">{{ team.name }}</inertia-link>
       </li>
     </ul>
 
@@ -110,10 +110,6 @@ export default {
       default: null,
     },
     employeeTeams: {
-      type: Array,
-      default: null,
-    },
-    notifications: {
       type: Array,
       default: null,
     },
