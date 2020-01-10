@@ -76,6 +76,10 @@ export default {
       type: Number,
       default: 0,
     },
+    employee: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -94,7 +98,7 @@ export default {
 
   created: function() {
     this.updatedWorklogCount = this.worklogCount;
-    this.updatedEmployee = this.$page.auth.employee;
+    this.updatedEmployee = this.employee;
   },
 
   methods: {

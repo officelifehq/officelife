@@ -129,9 +129,13 @@ class EmployeeController extends Controller
             'id' => $employee->id,
             'name' => $employee->name,
             'avatar' => $employee->avatar,
+            'permission_level' => $employee->getPermissionLevel(),
             'pronoun' => (!$employee->pronoun) ? null : [
                 'id' => $employee->pronoun->id,
                 'label' => $employee->pronoun->label,
+            ],
+            'user' => (!$employee->user) ? null : [
+                'id' => $employee->user->id,
             ],
         ];
 

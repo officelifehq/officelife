@@ -9,11 +9,13 @@
 
     <div class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3">
+        <!-- success message -->
         <div v-if="successMessage" class="tc">
           <p>🙌</p>
           <p>{{ $t('dashboard.morale_success_message') }}</p>
         </div>
 
+        <!-- morale already logged -->
         <div v-if="updatedEmployee.has_logged_morale_today && !successMessage" class="tc">
           <p>🙌</p>
           <p>{{ $t('dashboard.morale_already_logged') }}</p>
@@ -55,6 +57,10 @@ export default {
       type: Number,
       default: 0,
     },
+    employee: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -70,7 +76,7 @@ export default {
   },
 
   created: function() {
-    this.updatedEmployee = this.$page.auth.employee;
+    this.updatedEmployee = this.employee;
   },
 
   methods: {

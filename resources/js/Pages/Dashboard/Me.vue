@@ -33,11 +33,13 @@
 
       <my-worklogs
         :worklog-count="worklogCount"
+        :employee="employee"
         class="mb5"
       />
 
       <my-morale
         :morale-count="moraleCount"
+        :employee="employee"
       />
 
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
@@ -89,6 +91,10 @@ export default {
   },
 
   props: {
+    employee: {
+      type: Object,
+      default: null,
+    },
     worklogCount: {
       type: Number,
       default: 0,

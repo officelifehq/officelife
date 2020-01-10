@@ -63,8 +63,16 @@
           <!-- AVATAR -->
           <img :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80" />
           <h2 class="tc normal mb1">
-            {{ employee.name }} <span v-if="employee.id == $page.auth.employee.id" class="f7 fw4 ba you br3 pa1 ml2 dib">
+            {{ employee.name }}
+
+            <!-- "its you" badge -->
+            <span v-if="employee.id == $page.auth.employee.id" class="f7 fw4 ba you br3 pa1 ml2 dib">
               {{ $t('employee.its_you') }}
+            </span>
+
+            <!-- permission level -->
+            <span class="f7 fw4 ba you br3 pa1 ml2 dib">
+              {{ employee.permission_level }}
             </span>
           </h2>
           <ul class="list tc pa0 f6 mb0">
