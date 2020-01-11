@@ -21,10 +21,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
 
-    Route::post('notifications/read', 'User\\Notification\\MarkNotificationAsReadController@store');
-
     // only available if user is in the right account
     Route::middleware(['company'])->prefix('{company}')->group(function () {
+        Route::get('notifications', 'User\\Notification\\NotificationController@index');
+        Route::post('notifications/read', 'User\\Notification\\MarkNotificationAsReadController@store');
+
         Route::prefix('dashboard')->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
             Route::get('me', 'Company\\Dashboard\\DashboardMeController@index')->name('dashboard.me');

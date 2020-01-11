@@ -40,10 +40,71 @@ class CreateCompany extends BaseService
             'name' => $data['name'],
         ]);
 
-        $author = User::find($data['author_id']);
+        $user = User::find($data['author_id']);
+        $employee = $this->addFirstEmployee($company, $user);
+        $this->provisionDefaultAccountData($company, $employee);
 
-        $employee = $this->addFirstEmployee($company, $author);
+        // add holidays for the newly created employee
+        $employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
+        $employee->save();
 
+        $this->logAccountAudit($company, $employee);
+
+        return $company;
+    }
+
+    /**
+     * Add the first employee to the company.
+     *
+     * @param Company $company
+     * @param User $user
+     * @return Employee
+     */
+    private function addFirstEmployee(Company $company, User $user): Employee
+    {
+        $uuid = Str::uuid()->toString();
+
+        $avatar = (new GenerateAvatar)->execute([
+            'uuid' => $uuid,
+            'size' => 200,
+        ]);
+
+        return Employee::create([
+            'user_id' => $user->id,
+            'company_id' => $company->id,
+            'uuid' => Str::uuid()->toString(),
+            'permission_level' => config('officelife.authorizations.administrator'),
+            'email' => $user->email,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'avatar' => $avatar,
+        ]);
+    }
+
+    /**
+     * Provision the newly created account with default data.
+     *
+     * @param Company $company
+     * @param Employee $employee
+     * @return void
+     */
+    private function provisionDefaultAccountData(Company $company, Employee $employee): void
+    {
+        (new ProvisionDefaultAccountData)->execute([
+            'company_id' => $company->id,
+            'author_id' => $employee->id,
+        ]);
+    }
+
+    /**
+     * Add an audit log entry for this action.
+     *
+     * @param Company $company
+     * @param Employee $employee
+     * @return void
+     */
+    private function logAccountAudit(Company $company, Employee $employee): void
+    {
         LogAccountAudit::dispatch([
             'company_id' => $company->id,
             'action' => 'account_created',
@@ -54,44 +115,5 @@ class CreateCompany extends BaseService
                 'company_name' => $company->name,
             ]),
         ])->onQueue('low');
-
-        (new ProvisionDefaultAccountData)->execute([
-            'company_id' => $company->id,
-            'author_id' => $employee->id,
-        ]);
-
-        // add holidays for the newly created employee
-        $employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
-        $employee->save();
-
-        return $company;
-    }
-
-    /**
-     * Add the first employee to the company.
-     *
-     * @param Company $company
-     * @param User $author
-     * @return Employee
-     */
-    private function addFirstEmployee(Company $company, User $author): Employee
-    {
-        $uuid = Str::uuid()->toString();
-
-        $avatar = (new GenerateAvatar)->execute([
-            'uuid' => $uuid,
-            'size' => 200,
-        ]);
-
-        return Employee::create([
-            'user_id' => $author->id,
-            'company_id' => $company->id,
-            'uuid' => Str::uuid()->toString(),
-            'permission_level' => config('officelife.authorizations.administrator'),
-            'email' => $author->email,
-            'first_name' => $author->first_name,
-            'last_name' => $author->last_name,
-            'avatar' => $avatar,
-        ]);
     }
 }

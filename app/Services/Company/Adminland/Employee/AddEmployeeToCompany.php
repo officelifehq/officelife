@@ -4,6 +4,7 @@ namespace App\Services\Company\Adminland\Employee;
 
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
@@ -52,21 +53,9 @@ class AddEmployeeToCompany extends BaseService
 
         $employee = $this->addHolidays($data, $employee);
 
-        LogAccountAudit::dispatch([
-            'company_id' => $data['company_id'],
-            'action' => 'employee_added_to_company',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'employee_id' => $employee->id,
-                'employee_email' => $data['email'],
-                'employee_first_name' => $data['first_name'],
-                'employee_last_name' => $data['last_name'],
-                'employee_name' => $employee->name,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ])->onQueue('low');
+        $this->addNotification($data, $employee);
+
+        $this->logAccountAudit($data, $author, $employee);
 
         if ($data['send_invitation']) {
             (new InviteUser)->execute([
@@ -137,5 +126,52 @@ class AddEmployeeToCompany extends BaseService
         $employee->save();
 
         return $employee;
+    }
+
+    /**
+     * Add a welcome message for the employee.
+     *
+     * @param array $data
+     * @param Employee $employee
+     * @return void
+     */
+    private function addNotification(array $data, Employee $employee): void
+    {
+        $company = Company::findOrFail($data['company_id']);
+
+        NotifyEmployee::dispatch([
+            'employee_id' => $employee->id,
+            'action' => 'employee_added_to_company',
+            'objects' => json_encode([
+                'company_name' => $company->name,
+            ]),
+        ])->onQueue('low');
+    }
+
+    /**
+     * Add an audit log entry for this action.
+     *
+     * @param array $data
+     * @param Employee $author
+     * @param Employee $employee
+     * @return void
+     */
+    private function logAccountAudit(array $data, Employee $author, Employee $employee): void
+    {
+        LogAccountAudit::dispatch([
+            'company_id' => $data['company_id'],
+            'action' => 'employee_added_to_company',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'employee_id' => $employee->id,
+                'employee_email' => $data['email'],
+                'employee_first_name' => $data['first_name'],
+                'employee_last_name' => $data['last_name'],
+                'employee_name' => $employee->name,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
     }
 }

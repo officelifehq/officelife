@@ -8,6 +8,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Notification;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\User\Notification\MarkNotificationsAsRead;
 
 class MarkNotificationsAsReadTest extends TestCase
@@ -18,28 +19,51 @@ class MarkNotificationsAsReadTest extends TestCase
     public function it_marks_all_notifications_in_the_account_as_read(): void
     {
         $user = factory(User::class)->create([]);
-        $employee = factory(Employee::class)->create([
+        $michael = factory(Employee::class)->create([
             'user_id' => $user->id,
         ]);
 
         factory(Notification::class, 2)->create([
-            'employee_id' => $employee->id,
+            'employee_id' => $michael->id,
+            'read' => false,
         ]);
 
         $request = [
-            'employee_id' => $employee->id,
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
         ];
 
         $result = (new MarkNotificationsAsRead)->execute($request);
 
         $this->assertDatabaseHas('notifications', [
-            'employee_id' => $employee->id,
-            'read' => 0,
+            'employee_id' => $michael->id,
+            'read' => true,
         ]);
 
         $this->assertTrue(
             $result
         );
+    }
+
+    /** @test */
+    public function it_fails_if_the_employee_is_not_an_administrator(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+        $dwight = factory(Employee::class)->create([]);
+
+        factory(Notification::class, 2)->create([
+            'employee_id' => $michael->id,
+        ]);
+
+        $request = [
+            'author_id' => $dwight->id,
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+        ];
+
+        $this->expectException(ModelNotFoundException::class);
+        (new MarkNotificationsAsRead)->execute($request);
     }
 
     /** @test */

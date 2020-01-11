@@ -58,7 +58,7 @@ export default {
   },
 
   mounted() {
-    document.title = 'Login | Ping CRM';
+    document.title = 'Login';
   },
 
   methods: {

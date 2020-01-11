@@ -45,6 +45,7 @@ return [
     'breadcrumb_team_show_team_news' => 'Team news',
     'breadcrumb_team_add_team_news' => 'Add a team news',
     'breadcrumb_team_update_team_news' => 'Update a team news',
+    'breadcrumb_notification_list' => 'Notifications',
 
     'header_home' => 'Home',
     'header_find' => 'Find',
@@ -68,4 +69,7 @@ return [
     'default_position_front_end_developer' => 'Front end developer',
     'default_employee_status_full_time' => 'Full-time',
     'default_employee_status_part_time' => 'Part-time',
+
+    'notification_blank_state' => 'There are no new notifications',
+    'notification_view_all' => 'View all notifications',
 ];
