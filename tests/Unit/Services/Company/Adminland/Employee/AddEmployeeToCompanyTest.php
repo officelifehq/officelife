@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Adminland\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
@@ -77,6 +78,13 @@ class AddEmployeeToCompanyTest extends TestCase
                 $job->auditLog['objects'] === json_encode([
                     'employee_id' => $dwight->id,
                     'employee_name' => 'Dwight Schrute',
+                ]);
+        });
+
+        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($dwight) {
+            return $job->notification['action'] === 'employee_added_to_company' &&
+                $job->notification['objects'] === json_encode([
+                    'company_name' => $dwight->company->name,
                 ]);
         });
     }

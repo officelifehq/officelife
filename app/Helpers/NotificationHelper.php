@@ -51,6 +51,12 @@ class NotificationHelper
             ]);
         }
 
+        if ($notification->action == 'employee_added_to_company') {
+            $sentence = trans('account.notification_employee_added_to_company', [
+                'name' => $notification->object->{'company_name'},
+            ]);
+        }
+
         return $sentence;
     }
 }

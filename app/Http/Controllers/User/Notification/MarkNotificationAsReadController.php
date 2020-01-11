@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\User\Notification;
 
 use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Services\User\Notification\MarkNotificationsAsRead;
 
 class MarkNotificationAsReadController extends Controller
@@ -13,12 +13,18 @@ class MarkNotificationAsReadController extends Controller
      * Mark the notifications as read.
      *
      * @param Request $request
+     * @param int $companyId
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, int $companyId)
     {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         $result = (new MarkNotificationsAsRead)->execute([
-            'user_id' => Auth::user()->id,
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $loggedEmployee->id,
         ]);
 
         return response()->json([

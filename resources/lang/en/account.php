@@ -191,6 +191,7 @@ return [
     'team_log_team_news_destroyed' => 'Deleted the news called :title.',
 
     'notification_dummy_data_generated' => 'Dummy data have been generated for :name.',
+    'notification_employee_added_to_company' => 'You have been added to :name.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',

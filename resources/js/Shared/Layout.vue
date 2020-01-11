@@ -267,20 +267,6 @@ export default {
       });
     },
 
-    showNotifications() {
-      this.showModalNotifications = !this.showModalNotifications;
-
-      axios.post('/notifications/read')
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
-
-    hideNotifications() {
-      this.showModalNotifications = false;
-    },
-
     submit() {
       axios.post('/search/employees', this.form)
         .then(response => {

@@ -69,4 +69,27 @@ class NotificationHelperTest extends TestCase
             $string
         );
     }
+
+    /** @test */
+    public function it_manages_the_case_when_an_employee_has_been_added_to_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $notification = factory(Notification::class)->create([
+            'action' => 'employee_added_to_company',
+            'objects' => json_encode([
+                'company_name' => $michael->company->name,
+            ]),
+            'employee_id' => $michael->id,
+        ]);
+
+        $string = NotificationHelper::process($notification);
+
+        $this->assertIsString($string);
+
+        $this->assertEquals(
+            'You have been added to '.$michael->company->name.'.',
+            $string
+        );
+    }
 }

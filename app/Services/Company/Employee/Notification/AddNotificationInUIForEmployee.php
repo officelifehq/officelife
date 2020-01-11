@@ -23,6 +23,7 @@ class AddNotificationInUIForEmployee extends BaseService
                     'task_assigned',
                     'employee_status_assigned',
                     'dummy_data_generated',
+                    'employee_added_to_company',
                 ]),
                 'max:255',
             ],

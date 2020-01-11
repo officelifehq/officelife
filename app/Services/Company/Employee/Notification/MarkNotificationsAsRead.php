@@ -15,6 +15,8 @@ class MarkNotificationsAsRead extends BaseService
     public function rules(): array
     {
         return [
+            'company_id' => 'required|integer|exists:companies,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
         ];
     }
@@ -29,7 +31,14 @@ class MarkNotificationsAsRead extends BaseService
     {
         $this->validate($data);
 
-        Notification::where('employee_id', 'employee_id')
+        $this->validatePermissions(
+            $data['author_id'],
+            $data['company_id'],
+            config('officelife.authorizations.administrator'),
+            $data['employee_id']
+        );
+
+        Notification::where('employee_id', $data['employee_id'])
             ->update(['read' => true]);
 
         return true;
