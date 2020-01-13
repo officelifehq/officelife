@@ -49,4 +49,25 @@ class CompanyPTOPolicy extends Model
     {
         return $this->hasMany(CompanyCalendar::class, 'company_pto_policy_id', 'id');
     }
+
+    /**
+     * Transform the object to an array representing this object.
+     *
+     * @return array
+     */
+    public function toObject(): array
+    {
+        return [
+            'id' => $this->id,
+            'company' => [
+                'id' => $this->company_id,
+            ],
+            'year' => $this->year,
+            'total_worked_days' => $this->total_worked_days,
+            'default_amount_of_allowed_holidays' => $this->default_amount_of_allowed_holidays,
+            'default_amount_of_sick_days' => $this->default_amount_of_sick_days,
+            'default_amount_of_pto_days' => $this->default_amount_of_pto_days,
+            'created_at' => $this->created_at,
+        ];
+    }
 }

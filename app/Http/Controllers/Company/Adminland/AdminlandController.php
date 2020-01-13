@@ -20,10 +20,8 @@ class AdminlandController extends Controller
     public function index(Request $request, $companyId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $numberEmployees = $company->employees()->count();
 
         return Inertia::render('Adminland/Index', [
-            'numberEmployees' => $numberEmployees,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

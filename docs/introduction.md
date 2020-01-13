@@ -42,11 +42,12 @@ OfficeLife is built around the notion that while companies own data about their 
 
 ## Setup
 
-### Developers
+### Tips for developers
 
 * Dates must all have the `datetime` data type so we can use SQLite for testing purposes, even when we want to use a `date` type. Make sure to fill the date object with a trailing `00:00:00`. Otherwise we get conflicts between mySQL and SQlite.
 * Migrations should not have a `down` method.
-* Do not use Resources when you can avoid doing so. A resource should never contain nested resources if it’s used by a web controller as it can lead to a lot of unecessary queries. Resources should always be used in the API. When you need to build some data to pass to the web view, build your own collection instead, as the controllers should optimize the queries made to the database as much as possible.
+* Do not use Resources when you can avoid doing so. A resource should never contain nested resources if it’s used by a web controller as it can lead to a lot of unecessary queries. Resources should always be used in the API.
+* When you need to build some data to pass to the web view, build your own collection instead, as the controllers should optimize the queries made to the database as much as possible. If you need a specific collection that is used in many places, consider creating a Collection in the `app/Http/Collections` folder. This acts like a Resource but for pure web queries. Those Collections use the `toObject` method in each model. Also, never put nested collections in a Collection – this will only create more unnecessary queries to the database.
 
 #### Crons
 

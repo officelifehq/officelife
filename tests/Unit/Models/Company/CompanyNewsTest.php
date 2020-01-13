@@ -5,13 +5,11 @@ namespace Tests\Unit\Models\Company;
 use Tests\ApiTestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
-use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompanyNewsTest extends ApiTestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use DatabaseTransactions;
 
     /** @test */
     public function it_belongs_to_a_company(): void
@@ -42,9 +40,12 @@ class CompanyNewsTest extends ApiTestCase
             'created_at' => '2020-01-12 00:00:00',
         ]);
 
-        $this->assertArraySubset(
+        $this->assertEquals(
             [
                 'id' => $news->id,
+                'company' => [
+                    'id' => $news->company_id,
+                ],
                 'title' => 'news',
                 'content' => 'a content',
                 'parsed_content' => '<p>a content</p>',
@@ -69,7 +70,9 @@ class CompanyNewsTest extends ApiTestCase
         $this->assertArraySubset(
             [
                 'id' => $news->id,
-                'company_id' => $news->company_id,
+                'company' => [
+                    'id' => $news->company_id,
+                ],
                 'title' => 'news',
                 'content' => 'a content',
                 'parsed_content' => '<p>a content</p>',

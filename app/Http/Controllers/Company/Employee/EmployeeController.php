@@ -11,6 +11,10 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\TeamCollection;
+use App\Http\Collections\PronounCollection;
+use App\Http\Collections\PositionCollection;
+use App\Http\Collections\EmployeeStatusCollection;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Manager\UnassignManager;
@@ -68,11 +72,6 @@ class EmployeeController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
-
-        $companyPositions = $company->positions()->get();
-        $companyTeams = $company->teams()->get();
-        $companyEmployeeStatuses = $company->employeeStatuses()->get();
-        $companyPronouns = Pronoun::all();
 
         // managers
         $managers = $employee->managers;
@@ -140,16 +139,16 @@ class EmployeeController extends Controller
         ];
 
         return Inertia::render('Employee/Show', [
-            'employee' => $employeeObject,
-            'employeeTeams' => $employee->teams,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employee' => $employeeObject,
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
-            'positions' => $companyPositions,
-            'teams' => $companyTeams,
             'worklogs' => $worklogsCollection,
-            'statuses' => $companyEmployeeStatuses,
-            'pronouns' => $companyPronouns,
+            'employeeTeams' => TeamCollection::prepare($employee->teams),
+            'positions' => PositionCollection::prepare($company->positions()->get()),
+            'teams' => TeamCollection::prepare($company->teams()->get()),
+            'statuses' => EmployeeStatusCollection::prepare($company->employeeStatuses()->get()),
+            'pronouns' => PronounCollection::prepare(Pronoun::all()),
         ]);
     }
 

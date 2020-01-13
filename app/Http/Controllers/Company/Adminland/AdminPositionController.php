@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\PositionCollection;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Position\UpdatePosition;
 use App\Services\Company\Adminland\Position\DestroyPosition;
-use App\Http\Resources\Company\Position\Position as PositionResource;
 
 class AdminPositionController extends Controller
 {
@@ -23,18 +23,11 @@ class AdminPositionController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $positions = $company->positions()->orderBy('title', 'asc')->get();
-
-        $positionsCollection = collect([]);
-        foreach ($positions as $position) {
-            $positionsCollection->push([
-                'id' => $position->id,
-                'title' => $position->title,
-            ]);
-        }
+        $positionCollection = PositionCollection::prepare($positions);
 
         return Inertia::render('Adminland/Position/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'positions' => $positionsCollection,
+            'positions' => $positionCollection,
         ]);
     }
 
@@ -58,7 +51,9 @@ class AdminPositionController extends Controller
 
         $position = (new CreatePosition)->execute($request);
 
-        return new PositionResource($position);
+        return response()->json([
+            'data' => $position->toObject(),
+        ], 201);
     }
 
     /**
@@ -82,7 +77,9 @@ class AdminPositionController extends Controller
 
         $position = (new UpdatePosition)->execute($request);
 
-        return new PositionResource($position);
+        return response()->json([
+            'data' => $position->toObject(),
+        ], 200);
     }
 
     /**

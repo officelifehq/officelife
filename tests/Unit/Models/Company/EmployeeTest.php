@@ -8,8 +8,10 @@ use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\Company\Place;
 use App\Models\Company\Morale;
+use App\Models\Company\Company;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\Position;
 use App\Models\Company\TeamNews;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
@@ -233,6 +235,36 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_an_object(): void
+    {
+        $dunder = factory(Company::class)->create([]);
+        $position = factory(Position::class)->create([
+            'company_id' => $dunder->id,
+        ]);
+        $michael = factory(Employee::class)->create([
+            'company_id' => $dunder->id,
+            'first_name' => 'michael',
+            'last_name' => 'scott',
+            'permission_level' => '100',
+            'avatar' => 'avatar',
+            'position_id' => $position->id,
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => $status->id,
+                'company' => [
+                    'id' => $dunder->id,
+                ],
+                'name' => 'dunder',
+                'created_at' => '2020-01-12 00:00:00',
+            ],
+            $status->toObject()
+        );
+    }
+
+    /** @test */
     public function it_returns_the_birthdate_attribute(): void
     {
         $randomDate = '1945-03-03';
@@ -248,7 +280,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_get_the_list_of_the_employees_managers(): void
+    public function it_gets_the_list_of_the_employees_managers(): void
     {
         $dwight = factory(Employee::class)->create([]);
         factory(DirectReport::class, 3)->create([

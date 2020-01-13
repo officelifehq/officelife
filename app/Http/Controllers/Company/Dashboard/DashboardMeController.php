@@ -29,7 +29,6 @@ class DashboardMeController extends Controller
         ])->onQueue('low');
 
         $worklogCount = $employee->worklogs()->count();
-        $moraleCount =  $employee->morales()->count();
 
         $employee = [
             'id' => $employee->id,
@@ -40,7 +39,6 @@ class DashboardMeController extends Controller
         return Inertia::render('Dashboard/Me', [
             'employee' => $employee,
             'worklogCount' => $worklogCount,
-            'moraleCount' => $moraleCount,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
         ]);

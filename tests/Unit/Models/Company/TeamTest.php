@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
+use App\Models\Company\Company;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\TeamNews;
@@ -78,6 +79,53 @@ class TeamTest extends TestCase
         ]);
 
         $this->assertTrue($team->news()->exists());
+    }
+
+    /** @test */
+    public function it_returns_an_object(): void
+    {
+        $dunder = factory(Company::class)->create([]);
+        $team = factory(Team::class)->create([
+            'company_id' => $dunder->id,
+            'name' => 'sales',
+            'description' => 'this is a description',
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => $team->id,
+                'company' => [
+                    'id' => $dunder->id,
+                ],
+                'name' => 'sales',
+                'raw_description' => 'this is a description',
+                'parsed_description' => '<p>this is a description</p>',
+                'created_at' => '2020-01-12 00:00:00',
+            ],
+            $team->toObject()
+        );
+
+        $team = factory(Team::class)->create([
+            'company_id' => $dunder->id,
+            'name' => 'sales',
+            'description' => null,
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => $team->id,
+                'company' => [
+                    'id' => $dunder->id,
+                ],
+                'name' => 'sales',
+                'raw_description' => null,
+                'parsed_description' => null,
+                'created_at' => '2020-01-12 00:00:00',
+            ],
+            $team->toObject()
+        );
     }
 
     /** @test */

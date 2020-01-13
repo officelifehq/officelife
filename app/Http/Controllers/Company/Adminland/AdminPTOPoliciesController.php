@@ -9,8 +9,8 @@ use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Http\Collections\CompanyPTOPolicyCollection;
 use App\Services\Company\Adminland\CompanyPTOPolicy\UpdateCompanyPTOPolicy;
-use App\Http\Resources\Company\CompanyPTOPolicy\CompanyPTOPolicy as CompanyPTOPolicyResource;
 
 class AdminPTOPoliciesController extends Controller
 {
@@ -22,13 +22,13 @@ class AdminPTOPoliciesController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $policies = CompanyPTOPolicyResource::collection(
-            $company->ptoPolicies()->orderBy('year', 'asc')->get()
-        );
+        $policies = $company->ptoPolicies()->orderBy('year', 'asc')->get();
+
+        $policiesCollection = CompanyPTOPolicyCollection::prepare($policies);
 
         return Inertia::render('Adminland/CompanyPTOPolicy/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'ptoPolicies' => $policies,
+            'ptoPolicies' => $policiesCollection,
         ]);
     }
 
@@ -57,7 +57,9 @@ class AdminPTOPoliciesController extends Controller
 
         $policy = (new UpdateCompanyPTOPolicy)->execute($request);
 
-        return new CompanyPTOPolicyResource($policy);
+        return response()->json([
+            'data' => $policy->toObject(),
+        ], 200);
     }
 
     /**

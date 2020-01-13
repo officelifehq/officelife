@@ -96,9 +96,7 @@
               <ul v-show="idToUpdate != status.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
                 <!-- RENAME A EMPLOYEE STATUS -->
                 <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">
-                    {{ $t('app.rename') }}
-                  </a>
+                  <a class="pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A EMPLOYEE STATUS -->

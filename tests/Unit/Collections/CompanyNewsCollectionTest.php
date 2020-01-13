@@ -5,14 +5,12 @@ namespace Tests\Unit\Collections;
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
-use GrahamCampbell\TestBenchCore\HelperTrait;
 use App\Http\Collections\CompanyNewsCollection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CompanyNewsCollectionTest extends TestCase
 {
-    use DatabaseTransactions,
-        HelperTrait;
+    use DatabaseTransactions;
 
     /** @test */
     public function it_returns_a_collection(): void

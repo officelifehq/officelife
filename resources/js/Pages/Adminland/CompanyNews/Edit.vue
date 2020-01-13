@@ -131,6 +131,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
+          console.log(error);
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },

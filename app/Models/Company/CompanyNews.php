@@ -66,7 +66,9 @@ class CompanyNews extends Model
     {
         return [
             'id' => $this->id,
-            'company_id' => $this->company_id,
+            'company' => [
+                'id' => $this->company_id,
+            ],
             'title' => $this->title,
             'content' => $this->content,
             'parsed_content' => StringHelper::parse($this->content),

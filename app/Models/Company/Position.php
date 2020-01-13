@@ -80,4 +80,21 @@ class Position extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+    /**
+     * Transform the object to an array representing this object.
+     *
+     * @return array
+     */
+    public function toObject(): array
+    {
+        return [
+            'id' => $this->id,
+            'company' => [
+                'id' => $this->company_id,
+            ],
+            'title' => $this->title,
+            'created_at' => $this->created_at,
+        ];
+    }
 }

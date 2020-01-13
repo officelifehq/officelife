@@ -277,6 +277,29 @@ class Employee extends Model
     }
 
     /**
+     * Transform the object to an array representing this object.
+     *
+     * @return array
+     */
+    public function toObject(): array
+    {
+        return [
+            'id' => $this->id,
+            'company' => [
+                'id' => $this->company_id,
+            ],
+            'name' => $this->name,
+            'avatar' => $this->avatar,
+            'permission_level' => $this->getPermissionLevel(),
+            'position' => [
+                'id' => is_null($this->position) ? null : $this->position->id,
+                'title' => is_null($this->position) ? $this->position : $this->position->title,
+            ],
+            'created_at' => $this->created_at,
+        ];
+    }
+
+    /**
      * Get the permission level of the employee.
      *
      * @return string
