@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\AuditLogCollection;
 
 class AdminAuditController extends Controller
 {
@@ -20,19 +21,7 @@ class AdminAuditController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $logs = $company->logs()->with('author')->paginate(15);
 
-        $logsCollection = collect([]);
-        foreach ($logs as $log) {
-            $logsCollection->push([
-                'action' => $log->action,
-                'objects' => json_decode($log->objects),
-                'localized_content' => $log->content,
-                'author' => [
-                    'id' => is_null($log->author) ? null : $log->author->id,
-                    'name' => is_null($log->author) ? null : $log->author->name,
-                ],
-                'created_at' => $log->created_at,
-            ]);
-        }
+        $logsCollection = AuditLogCollection::prepare($logs);
 
         return Inertia::render('Adminland/Audit/Index', [
             'logs' => $logsCollection,

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
+use App\Helpers\DateHelper;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
+use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\TeamNews;
 use App\Http\Controllers\Controller;
@@ -35,12 +37,35 @@ class TeamNewsController extends Controller
             return redirect('home');
         }
 
+        // news
         $news = $team->news()->orderBy('created_at', 'desc')->paginate(3);
-        $news = TeamNewsResource::collection($news);
+        $newsCollection = collect([]);
+        foreach ($news as $newsItem) {
+            $author = $newsItem->author;
+
+            $newsCollection->push([
+                'title' => $newsItem->title,
+                'content' => $newsItem->content,
+                'parsed_content' => StringHelper::parse($newsItem->content),
+                'author' => [
+                    'id' => is_null($author) ? null : $author->id,
+                    'name' => is_null($author) ? $this->author_name : $author->name,
+                    'avatar' => is_null($author) ? null : $author->avatar,
+                ],
+                'localized_created_at' => DateHelper::getShortDateWithTime($newsItem->created_at),
+            ]);
+        }
+
+        // team
+        $teamObject = [
+            'id' => $team->id,
+            'name' => $team->name,
+            'parsed_description' => $team->parsed_description,
+        ];
 
         return Inertia::render('Team/TeamNews/Index', [
-            'team' => new TeamResource($team),
-            'news' => $news,
+            'team' => $teamObject,
+            'news' => $newsCollection,
             'paginator' => [
                 'count' => $news->count(),
                 'currentPage' => $news->currentPage(),
@@ -66,8 +91,6 @@ class TeamNewsController extends Controller
      */
     public function create(Request $request, $companyId, $teamId)
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         try {
             $team = Team::where('company_id', $companyId)
                 ->findOrFail($teamId);
@@ -75,8 +98,15 @@ class TeamNewsController extends Controller
             return redirect('home');
         }
 
+        // team
+        $teamObject = [
+            'id' => $team->id,
+            'name' => $team->name,
+            'parsed_description' => $team->parsed_description,
+        ];
+
         return Inertia::render('Team/TeamNews/Create', [
-            'team' => new TeamResource($team),
+            'team' => $teamObject,
         ]);
     }
 

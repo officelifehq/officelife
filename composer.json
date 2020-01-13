@@ -27,6 +27,7 @@
         "beyondcode/laravel-dump-server": "^1.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "fzaninotto/faker": "^1.4",
+        "graham-campbell/testbench-core": "^3.1",
         "johnkary/phpunit-speedtrap": "^3.1",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",

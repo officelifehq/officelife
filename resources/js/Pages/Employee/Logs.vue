@@ -37,7 +37,7 @@
           <img :src="employee.avatar" class="avatar absolute br-100 db center" />
 
           <h2 class="tc normal mb4">
-            Everything that ever happened to {{ employee.first_name }}
+            Everything that ever happened to {{ employee.name }}
           </h2>
           <ul class="list pl0 mt0 center" data-cy="logs-list">
             <li v-for="log in logs" :key="log.id"
@@ -45,7 +45,7 @@
             >
               <div class="flex-auto">
                 <!-- log author -->
-                <inertia-link v-if="log.author.id" :href="'/' + $page.auth.company.id + '/employee/' + log.author.id" class="">
+                <inertia-link v-if="log.author.id" :href="'/' + $page.auth.company.id + '/employees/' + log.author.id" class="">
                   {{ log.author.name }}
                 </inertia-link>
                 <span v-else class="black-70">

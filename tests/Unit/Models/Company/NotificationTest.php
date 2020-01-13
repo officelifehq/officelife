@@ -30,18 +30,18 @@ class NotificationTest extends TestCase
     /** @test */
     public function it_returns_the_content_attribute(): void
     {
-        $adminEmployee = $this->createAdministrator();
+        $michael = $this->createAdministrator();
 
         $notification = factory(Notification::class)->create([
             'action' => 'dummy_data_generated',
             'objects' => json_encode([
-                'company_name' => $adminEmployee->company->name,
+                'company_name' => $michael->company->name,
             ]),
-            'employee_id' => $adminEmployee->id,
+            'employee_id' => $michael->id,
         ]);
 
         $this->assertEquals(
-            'Dummy data have been generated for '.$adminEmployee->company->name.'.',
+            'Dummy data have been generated for '.$michael->company->name.'.',
             $notification->content
         );
     }

@@ -59,6 +59,16 @@ class EmployeeLog extends Model
     }
 
     /**
+     * Get the author record associated with the employee log.
+     *
+     * @return BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    /**
      * Get the JSON object.
      *
      * @return array

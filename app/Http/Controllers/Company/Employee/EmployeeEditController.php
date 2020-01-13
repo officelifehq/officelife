@@ -26,8 +26,6 @@ class EmployeeEditController extends Controller
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->findOrFail($employeeId);

@@ -42,15 +42,15 @@ class EmployeeLogTest extends ApiTestCase
     /** @test */
     public function it_returns_the_content_attribute(): void
     {
-        $adminEmployee = $this->createAdministrator();
+        $michael = $this->createAdministrator();
 
         $auditLog = factory(EmployeeLog::class)->create([
             'action' => 'employee_worklog_logged',
             'objects' => json_encode([
-                'author_id' => $adminEmployee->user->id,
-                'employee_name' => $adminEmployee->user->name,
+                'author_id' => $michael->user->id,
+                'employee_name' => $michael->user->name,
             ]),
-            'employee_id' => $adminEmployee->id,
+            'employee_id' => $michael->id,
         ]);
 
         $this->assertEquals(

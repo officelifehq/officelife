@@ -42,20 +42,20 @@ class AuditLogTest extends ApiTestCase
     /** @test */
     public function it_returns_the_content_attribute(): void
     {
-        $adminEmployee = $this->createAdministrator();
+        $michael = $this->createAdministrator();
 
         $auditLog = factory(AuditLog::class)->create([
             'action' => 'employee_invited_to_become_user',
             'objects' => json_encode([
-                'author_id' => $adminEmployee->user->id,
-                'employee_first_name' => $adminEmployee->user->firstname,
-                'employee_last_name' => $adminEmployee->user->lastname,
+                'author_id' => $michael->user->id,
+                'employee_first_name' => $michael->user->firstname,
+                'employee_last_name' => $michael->user->lastname,
             ]),
-            'company_id' => $adminEmployee->company_id,
+            'company_id' => $michael->company_id,
         ]);
 
         $this->assertEquals(
-            'Sent an invitation to '.$adminEmployee->user->firstname.' '.$adminEmployee->user->lastname.' to join the company.',
+            'Sent an invitation to '.$michael->user->firstname.' '.$michael->user->lastname.' to join the company.',
             $auditLog->content
         );
     }
