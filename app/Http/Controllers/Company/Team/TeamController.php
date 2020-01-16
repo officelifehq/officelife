@@ -60,13 +60,6 @@ class TeamController extends Controller
             return redirect('home');
         }
 
-        // team
-        $teamObject = [
-            'id' => $team->id,
-            'name' => $team->name,
-            'parsed_description' => $team->parsed_description,
-        ];
-
         // employees
         $employees = $team->employees()->orderBy('created_at', 'desc')->get();
         $employeesCollection = collect([]);
@@ -75,7 +68,6 @@ class TeamController extends Controller
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'avatar' => $employee->avatar,
-                'position' => $employee->employees,
                 'position' => ($employee->position) ? $employee->position->title : null,
             ]);
         }
@@ -92,7 +84,7 @@ class TeamController extends Controller
                 'parsed_content' => StringHelper::parse($newsItem->content),
                 'author' => [
                     'id' => is_null($author) ? null : $author->id,
-                    'name' => is_null($author) ? $this->author_name : $author->name,
+                    'name' => is_null($author) ? null : $author->name,
                     'avatar' => is_null($author) ? null : $author->avatar,
                 ],
                 'localized_created_at' => DateHelper::getShortDateWithTime($newsItem->created_at),
@@ -101,7 +93,7 @@ class TeamController extends Controller
 
         return Inertia::render('Team/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'team' => $teamObject,
+            'team' => $team->toObject(),
             'news' => $newsCollection,
             'newsCount' => $news->count(),
             'employeeCount' => $employees->count(),

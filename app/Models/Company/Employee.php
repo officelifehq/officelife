@@ -7,6 +7,7 @@ use App\Models\User\User;
 use App\Traits\Searchable;
 use App\Helpers\DateHelper;
 use App\Models\User\Pronoun;
+use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -283,6 +284,8 @@ class Employee extends Model
      */
     public function toObject(): array
     {
+        $address = $this->getCurrentAddress();
+
         return [
             'id' => $this->id,
             'company' => [
@@ -290,10 +293,24 @@ class Employee extends Model
             ],
             'name' => $this->name,
             'avatar' => $this->avatar,
+            'raw_description' => $this->description,
+            'parsed_description' => is_null($this->description) ? null : StringHelper::parse($this->description),
             'permission_level' => $this->getPermissionLevel(),
-            'position' => [
-                'id' => is_null($this->position) ? null : $this->position->id,
-                'title' => is_null($this->position) ? $this->position : $this->position->title,
+            'address' => is_null($address) ? null : $address->toObject(),
+            'position' => (!$this->position) ? null : [
+                'id' => $this->position->id,
+                'title' => $this->position->title,
+            ],
+            'pronoun' => (!$this->pronoun) ? null : [
+                'id' => $this->pronoun->id,
+                'label' => $this->pronoun->label,
+            ],
+            'user' => (!$this->user) ? null : [
+                'id' => $this->user->id,
+            ],
+            'status' => (!$this->status) ? null : [
+                'id' => $this->status->id,
+                'name' => $this->status->name,
             ],
             'created_at' => $this->created_at,
         ];

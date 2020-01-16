@@ -67,7 +67,7 @@ class CompanyNewsTest extends ApiTestCase
             'created_at' => '2020-01-12 00:00:00',
         ]);
 
-        $this->assertArraySubset(
+        $this->assertEquals(
             [
                 'id' => $news->id,
                 'company' => [

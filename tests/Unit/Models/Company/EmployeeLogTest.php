@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\ApiTestCase;
+use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -15,6 +16,37 @@ class EmployeeLogTest extends ApiTestCase
     {
         $employeeLog = factory(EmployeeLog::class)->create([]);
         $this->assertTrue($employeeLog->employee()->exists());
+    }
+
+    /** @test */
+    public function it_returns_an_object(): void
+    {
+        $michael = factory(Employee::class)->create([
+            'first_name' => 'michael',
+            'last_name' => 'scott',
+        ]);
+        $log = factory(EmployeeLog::class)->create([
+            'author_id' => $michael->id,
+            'author_name' => 'michael scott',
+            'action' => 'account_created',
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => $log->id,
+                'action' => 'account_created',
+                'objects' => json_decode('{"user": 1}'),
+                'localized_content' => '',
+                'author' => [
+                    'id' => $michael->id,
+                    'name' => 'michael scott',
+                ],
+                'localized_created_at' => 'Jan 12, 2020 00:00',
+                'created_at' => '2020-01-12 00:00:00',
+            ],
+            $log->toObject()
+        );
     }
 
     /** @test */

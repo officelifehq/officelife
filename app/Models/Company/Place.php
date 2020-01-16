@@ -53,6 +53,28 @@ class Place extends Model
     }
 
     /**
+     * Transform the object to an array representing this object.
+     *
+     * @return array
+     */
+    public function toObject(): array
+    {
+        return [
+            'id' => $this->id,
+            'readable' => $this->getCompleteAddress(),
+            'partial' => $this->getPartialAddress(),
+            'street' => $this->street,
+            'city' => $this->city,
+            'province' => $this->province,
+            'postal_code' => $this->postal_code,
+            'country' => $this->country,
+            'openstreetmap_url' => $this->getMapUrl(),
+            'employee_cover_image_url' => $this->getStaticMapImage(7, 600, 130),
+            'created_at' => $this->created_at,
+        ];
+    }
+
+    /**
      * Get the address as a sentence.
      *
      * @return string|null

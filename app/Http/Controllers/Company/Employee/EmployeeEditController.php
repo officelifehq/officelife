@@ -12,7 +12,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeEditController extends Controller
 {
@@ -54,7 +53,7 @@ class EmployeeEditController extends Controller
         }
 
         return Inertia::render('Employee/EditContact', [
-            'employee' => new EmployeeResource($employee),
+            'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'countries' => $countriesCollection,
         ]);

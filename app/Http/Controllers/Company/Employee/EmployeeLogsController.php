@@ -42,14 +42,6 @@ class EmployeeLogsController extends Controller
             return redirect('/home');
         }
 
-        // employee
-        $employeeObject = [
-            'id' => $employee->id,
-            'name' => $employee->name,
-            'avatar' => $employee->avatar,
-            'permission_level' => $employee->getPermissionLevel(),
-        ];
-
         // logs
         $logs = $employee->employeeLogs()->with('author')->paginate(15);
         $logsCollection = collect([]);
@@ -67,7 +59,7 @@ class EmployeeLogsController extends Controller
         $logs = EmployeeLogResource::collection($logs);
 
         return Inertia::render('Employee/Logs', [
-            'employee' => $employeeObject,
+            'employee' => $employee->toObject(),
             'logs' => $logsCollection,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'paginator' => [

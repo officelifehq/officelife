@@ -3,19 +3,16 @@
 namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
-use App\Helpers\DateHelper;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\TeamNews;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\TeamNewsCollection;
 use App\Services\Company\Team\TeamNews\CreateTeamNews;
 use App\Services\Company\Team\TeamNews\UpdateTeamNews;
 use App\Services\Company\Team\TeamNews\DestroyTeamNews;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\Team\Team as TeamResource;
-use App\Http\Resources\Company\TeamNews\TeamNews as TeamNewsResource;
 
 class TeamNewsController extends Controller
 {
@@ -39,32 +36,10 @@ class TeamNewsController extends Controller
 
         // news
         $news = $team->news()->orderBy('created_at', 'desc')->paginate(3);
-        $newsCollection = collect([]);
-        foreach ($news as $newsItem) {
-            $author = $newsItem->author;
-
-            $newsCollection->push([
-                'title' => $newsItem->title,
-                'content' => $newsItem->content,
-                'parsed_content' => StringHelper::parse($newsItem->content),
-                'author' => [
-                    'id' => is_null($author) ? null : $author->id,
-                    'name' => is_null($author) ? $this->author_name : $author->name,
-                    'avatar' => is_null($author) ? null : $author->avatar,
-                ],
-                'localized_created_at' => DateHelper::getShortDateWithTime($newsItem->created_at),
-            ]);
-        }
-
-        // team
-        $teamObject = [
-            'id' => $team->id,
-            'name' => $team->name,
-            'parsed_description' => $team->parsed_description,
-        ];
+        $newsCollection = TeamNewsCollection::prepare($news);
 
         return Inertia::render('Team/TeamNews/Index', [
-            'team' => $teamObject,
+            'team' => $team->toObject(),
             'news' => $newsCollection,
             'paginator' => [
                 'count' => $news->count(),
@@ -98,15 +73,8 @@ class TeamNewsController extends Controller
             return redirect('home');
         }
 
-        // team
-        $teamObject = [
-            'id' => $team->id,
-            'name' => $team->name,
-            'parsed_description' => $team->parsed_description,
-        ];
-
         return Inertia::render('Team/TeamNews/Create', [
-            'team' => $teamObject,
+            'team' => $team->toObject(),
         ]);
     }
 
@@ -132,7 +100,7 @@ class TeamNewsController extends Controller
         $news = (new CreateTeamNews)->execute($request);
 
         return response()->json([
-            'data' => $news,
+            'data' => $news->toObject(),
         ]);
     }
 
@@ -151,8 +119,8 @@ class TeamNewsController extends Controller
         $news = TeamNews::where('team_id', $teamId)->findOrFail($newsId);
 
         return Inertia::render('Team/TeamNews/Edit', [
-            'team' => new TeamResource($team),
-            'news' => new TeamNewsResource($news),
+            'team' => $team->toObject(),
+            'news' => $news->toObject(),
         ]);
     }
 

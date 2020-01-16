@@ -8,7 +8,6 @@ use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
 use App\Services\Company\Employee\Pronoun\RemovePronounFromEmployee;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeePronounController extends Controller
 {
@@ -32,7 +31,9 @@ class EmployeePronounController extends Controller
 
         $employee = (new AssignPronounToEmployee)->execute($request);
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => $employee->toObject(),
+        ], 200);
     }
 
     /**
@@ -55,6 +56,8 @@ class EmployeePronounController extends Controller
 
         $employee = (new RemovePronounFromEmployee)->execute($request);
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => $employee->toObject(),
+        ], 200);
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Services\Company\Employee\Description\SetPersonalDescription;
 use App\Services\Company\Employee\Description\ClearPersonalDescription;
 
@@ -32,7 +31,9 @@ class EmployeeDescriptionController extends Controller
 
         $employee = (new SetPersonalDescription)->execute($request);
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => $employee->toObject(),
+        ], 200);
     }
 
     /**
@@ -55,6 +56,8 @@ class EmployeeDescriptionController extends Controller
 
         $employee = (new ClearPersonalDescription)->execute($request);
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => $employee->toObject(),
+        ], 200);
     }
 }
