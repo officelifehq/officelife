@@ -7,6 +7,7 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Team;
+use App\Http\Collections\TeamCollection;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
 
@@ -32,7 +33,7 @@ class EmployeeTeamController extends Controller
 
         $employee = (new AddEmployeeToTeam)->execute($request);
 
-        return $employee->teams;
+        return TeamCollection::prepare($employee->teams);
     }
 
     /**
@@ -56,6 +57,6 @@ class EmployeeTeamController extends Controller
 
         $employee = (new RemoveEmployeeFromTeam)->execute($request);
 
-        return $employee->teams;
+        return TeamCollection::prepare($employee->teams);
     }
 }

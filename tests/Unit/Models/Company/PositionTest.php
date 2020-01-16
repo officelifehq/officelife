@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\TestCase;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -28,5 +29,28 @@ class PositionTest extends TestCase
         ]);
 
         $this->assertTrue($position->employees()->exists());
+    }
+
+    /** @test */
+    public function it_returns_an_object(): void
+    {
+        $dunder = factory(Company::class)->create([]);
+        $position = factory(Position::class)->create([
+            'company_id' => $dunder->id,
+            'title' => 'dunder',
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => $position->id,
+                'company' => [
+                    'id' => $dunder->id,
+                ],
+                'title' => 'dunder',
+                'created_at' => '2020-01-12 00:00:00',
+            ],
+            $position->toObject()
+        );
     }
 }

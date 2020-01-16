@@ -11,7 +11,6 @@ use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class UserInvitationController extends Controller
 {
@@ -38,7 +37,7 @@ class UserInvitationController extends Controller
         if (Auth::check()) {
             return Inertia::render('Auth/Invitation/AcceptInvitation', [
                 'company' => $employee->company,
-                'employee' => new EmployeeResource($employee),
+                'employee' => $employee->toObject(),
                 'invitationLink' => $invitationLink,
                 'user' => Auth::user()->getEmployeeObjectForCompany($employee->company),
             ]);
@@ -46,7 +45,7 @@ class UserInvitationController extends Controller
 
         return Inertia::render('Auth/Invitation/AcceptInvitationUnlogged', [
             'company' => $employee->company,
-            'employee' => new EmployeeResource($employee),
+            'employee' => $employee->toObject(),
             'invitationLink' => $invitationLink,
         ]);
     }

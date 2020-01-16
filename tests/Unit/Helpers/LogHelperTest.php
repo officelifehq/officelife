@@ -17,16 +17,16 @@ class LogHelperTest extends TestCase
     /** @test */
     public function it_returns_the_string_explaining_the_audit_log(): void
     {
-        $adminEmployee = $this->createAdministrator();
+        $michael = $this->createAdministrator();
 
         $auditLog = factory(AuditLog::class)->create([
             'action' => 'employee_invited_to_become_user',
             'objects' => json_encode([
-                'author_id' => $adminEmployee->user->id,
-                'employee_first_name' => $adminEmployee->user->firstname,
-                'employee_last_name' => $adminEmployee->user->lastname,
+                'author_id' => $michael->user->id,
+                'employee_first_name' => $michael->user->firstname,
+                'employee_last_name' => $michael->user->lastname,
             ]),
-            'company_id' => $adminEmployee->company_id,
+            'company_id' => $michael->company_id,
         ]);
 
         $this->assertIsString(LogHelper::processAuditLog($auditLog));
@@ -35,15 +35,15 @@ class LogHelperTest extends TestCase
     /** @test */
     public function it_returns_the_string_explaining_the_employee_log(): void
     {
-        $adminEmployee = $this->createAdministrator();
+        $michael = $this->createAdministrator();
 
         $auditLog = factory(EmployeeLog::class)->create([
             'action' => 'direct_report_assigned',
             'objects' => json_encode([
-                'author_id' => $adminEmployee->user->id,
-                'direct_report_name' => $adminEmployee->user->name,
+                'author_id' => $michael->user->id,
+                'direct_report_name' => $michael->user->name,
             ]),
-            'employee_id' => $adminEmployee->id,
+            'employee_id' => $michael->id,
         ]);
 
         $this->assertIsString(LogHelper::processEmployeeLog($auditLog));

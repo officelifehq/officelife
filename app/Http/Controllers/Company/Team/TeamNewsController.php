@@ -8,12 +8,11 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\TeamNews;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\TeamNewsCollection;
 use App\Services\Company\Team\TeamNews\CreateTeamNews;
 use App\Services\Company\Team\TeamNews\UpdateTeamNews;
 use App\Services\Company\Team\TeamNews\DestroyTeamNews;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\Team\Team as TeamResource;
-use App\Http\Resources\Company\TeamNews\TeamNews as TeamNewsResource;
 
 class TeamNewsController extends Controller
 {
@@ -35,12 +34,13 @@ class TeamNewsController extends Controller
             return redirect('home');
         }
 
+        // news
         $news = $team->news()->orderBy('created_at', 'desc')->paginate(3);
-        $news = TeamNewsResource::collection($news);
+        $newsCollection = TeamNewsCollection::prepare($news);
 
         return Inertia::render('Team/TeamNews/Index', [
-            'team' => new TeamResource($team),
-            'news' => $news,
+            'team' => $team->toObject(),
+            'news' => $newsCollection,
             'paginator' => [
                 'count' => $news->count(),
                 'currentPage' => $news->currentPage(),
@@ -66,8 +66,6 @@ class TeamNewsController extends Controller
      */
     public function create(Request $request, $companyId, $teamId)
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         try {
             $team = Team::where('company_id', $companyId)
                 ->findOrFail($teamId);
@@ -76,7 +74,7 @@ class TeamNewsController extends Controller
         }
 
         return Inertia::render('Team/TeamNews/Create', [
-            'team' => new TeamResource($team),
+            'team' => $team->toObject(),
         ]);
     }
 
@@ -102,7 +100,7 @@ class TeamNewsController extends Controller
         $news = (new CreateTeamNews)->execute($request);
 
         return response()->json([
-            'data' => $news,
+            'data' => $news->toObject(),
         ]);
     }
 
@@ -121,8 +119,8 @@ class TeamNewsController extends Controller
         $news = TeamNews::where('team_id', $teamId)->findOrFail($newsId);
 
         return Inertia::render('Team/TeamNews/Edit', [
-            'team' => new TeamResource($team),
-            'news' => new TeamNewsResource($news),
+            'team' => $team->toObject(),
+            'news' => $news->toObject(),
         ]);
     }
 

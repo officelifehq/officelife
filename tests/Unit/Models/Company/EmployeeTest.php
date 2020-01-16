@@ -4,12 +4,16 @@ namespace Tests\Unit\Models\User;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\User\User;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
+use App\Models\User\Pronoun;
 use App\Models\Company\Place;
 use App\Models\Company\Morale;
+use App\Models\Company\Company;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\Position;
 use App\Models\Company\TeamNews;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
@@ -233,6 +237,62 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_an_object(): void
+    {
+        $dunder = factory(Company::class)->create([]);
+        $dwight = factory(User::class)->create([]);
+        $position = factory(Position::class)->create([
+            'company_id' => $dunder->id,
+            'title' => 'developer',
+        ]);
+        $pronoun = factory(Pronoun::class)->create([]);
+        $michael = factory(Employee::class)->create([
+            'company_id' => $dunder->id,
+            'first_name' => 'michael',
+            'last_name' => 'scott',
+            'permission_level' => '100',
+            'avatar' => 'avatar',
+            'position_id' => $position->id,
+            'description' => 'awesome employee',
+            'pronoun_id' => $pronoun->id,
+            'user_id' => $dwight->id,
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => $michael->id,
+                'company' => [
+                    'id' => $dunder->id,
+                ],
+                'name' => 'michael scott',
+                'avatar' => 'avatar',
+                'permission_level' => 'Administrator',
+                'raw_description' => 'awesome employee',
+                'parsed_description' => '<p>awesome employee</p>',
+                'address' => null,
+                'status' => [
+                    'id' => $michael->status->id,
+                    'name' => $michael->status->name,
+                ],
+                'position' => [
+                    'id' => $position->id,
+                    'title' => 'developer',
+                ],
+                'pronoun' => [
+                    'id' => $pronoun->id,
+                    'label' => $pronoun->label,
+                ],
+                'user' => [
+                    'id' => $dwight->id,
+                ],
+                'created_at' => '2020-01-12 00:00:00',
+            ],
+            $michael->toObject()
+        );
+    }
+
+    /** @test */
     public function it_returns_the_birthdate_attribute(): void
     {
         $randomDate = '1945-03-03';
@@ -248,7 +308,7 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_get_the_list_of_the_employees_managers(): void
+    public function it_gets_the_list_of_the_employees_managers(): void
     {
         $dwight = factory(Employee::class)->create([]);
         factory(DirectReport::class, 3)->create([

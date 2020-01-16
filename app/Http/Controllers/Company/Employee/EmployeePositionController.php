@@ -7,7 +7,6 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Services\Company\Employee\Position\RemovePositionFromEmployee;
 
 class EmployeePositionController extends Controller
@@ -32,7 +31,9 @@ class EmployeePositionController extends Controller
 
         $employee = (new AssignPositionToEmployee)->execute($request);
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => $employee->toObject(),
+        ], 200);
     }
 
     /**
@@ -54,6 +55,8 @@ class EmployeePositionController extends Controller
 
         $employee = (new RemovePositionFromEmployee)->execute($request);
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => $employee->toObject(),
+        ], 200);
     }
 }

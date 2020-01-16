@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\TeamCollection;
 use App\Services\Company\Adminland\Team\CreateTeam;
-use App\Http\Resources\Company\Team\Team as TeamResource;
 
 class AdminTeamController extends Controller
 {
@@ -20,13 +20,13 @@ class AdminTeamController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $teams = TeamResource::collection(
-            $company->teams()->orderBy('name', 'desc')->get()
-        );
+
+        $teams = $company->teams()->orderBy('name', 'desc')->get();
+        $teamCollection = TeamCollection::prepare($teams);
 
         return Inertia::render('Adminland/Team/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'teams' => $teams,
+            'teams' => $teamCollection,
         ]);
     }
 
@@ -49,7 +49,7 @@ class AdminTeamController extends Controller
         $team = (new CreateTeam)->execute($request);
 
         return response()->json([
-            'data' => $team,
-        ]);
+            'data' => $team->toObject(),
+        ], 201);
     }
 }

@@ -10,7 +10,6 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 use App\Http\Resources\Company\EmployeeLog\EmployeeLog as EmployeeLogResource;
 
 class EmployeeLogsController extends Controller
@@ -25,8 +24,6 @@ class EmployeeLogsController extends Controller
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->findOrFail($employeeId);
@@ -45,14 +42,15 @@ class EmployeeLogsController extends Controller
             return redirect('/home');
         }
 
-        $logs = $employee->employeeLogs()->paginate(15);
+        // logs
+        $logs = $employee->employeeLogs()->with('author')->paginate(15);
         $logsCollection = collect([]);
         foreach ($logs as $log) {
             $logsCollection->push([
                 'id' => $log->id,
                 'author' => [
-                    'id' => $employee->id,
-                    'name' => $employee->name,
+                    'id' => is_null($log->author) ? null : $log->author->id,
+                    'name' => is_null($log->author) ? $log->author_name : $log->author->name,
                 ],
                 'localized_content' => $log->content,
                 'created_at' => $log->created_at,
@@ -61,7 +59,7 @@ class EmployeeLogsController extends Controller
         $logs = EmployeeLogResource::collection($logs);
 
         return Inertia::render('Employee/Logs', [
-            'employee' => new EmployeeResource($employee),
+            'employee' => $employee->toObject(),
             'logs' => $logsCollection,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'paginator' => [

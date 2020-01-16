@@ -129,7 +129,6 @@ export default {
             pauseOnHover: true,
           });
           this.updatedWorklogCount = this.updatedWorklogCount + 1;
-          this.updatedEmployee = response.data.data;
           this.loadingState = null;
         })
         .catch(error => {

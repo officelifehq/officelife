@@ -41,4 +41,21 @@ class EmployeeStatus extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    /**
+     * Transform the object to an array representing this object.
+     *
+     * @return array
+     */
+    public function toObject(): array
+    {
+        return [
+            'id' => $this->id,
+            'company' => [
+                'id' => $this->company_id,
+            ],
+            'name' => $this->name,
+            'created_at' => $this->created_at,
+        ];
+    }
 }

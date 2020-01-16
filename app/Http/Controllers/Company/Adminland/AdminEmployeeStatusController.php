@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\EmployeeStatusCollection;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\UpdateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\DestroyEmployeeStatus;
-use App\Http\Resources\Company\EmployeeStatus\EmployeeStatus as EmployeeStatusResource;
 
 class AdminEmployeeStatusController extends Controller
 {
@@ -22,13 +22,13 @@ class AdminEmployeeStatusController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employeeStatuses = EmployeeStatusResource::collection(
-            $company->employeeStatuses()->orderBy('name', 'asc')->get()
-        );
+        $employeeStatuses = $company->employeeStatuses()->orderBy('name', 'asc')->get();
+
+        $statusCollection = EmployeeStatusCollection::prepare($employeeStatuses);
 
         return Inertia::render('Adminland/EmployeeStatus/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'statuses' => $employeeStatuses,
+            'statuses' => $statusCollection,
         ]);
     }
 
@@ -52,8 +52,8 @@ class AdminEmployeeStatusController extends Controller
         $employeeStatus = (new CreateEmployeeStatus)->execute($request);
 
         return response()->json([
-            'data' => $employeeStatus,
-        ]);
+            'data' => $employeeStatus->toObject(),
+        ], 201);
     }
 
     /**
@@ -77,7 +77,9 @@ class AdminEmployeeStatusController extends Controller
 
         $employeeStatus = (new UpdateEmployeeStatus)->execute($request);
 
-        return new EmployeeStatusResource($employeeStatus);
+        return response()->json([
+            'data' => $employeeStatus->toObject(),
+        ], 200);
     }
 
     /**

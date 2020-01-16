@@ -18,6 +18,37 @@ class PlaceTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_an_object(): void
+    {
+        $news = factory(Place::class)->create([
+            'street' => '1725 Slough Ave',
+            'city' => 'Scranton',
+            'province' => 'PA',
+            'postal_code' => '',
+            'latitude' => '1',
+            'longitude' => '2',
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => $news->id,
+                'readable' => $news->getCompleteAddress(),
+                'partial' => $news->getPartialAddress(),
+                'street' => $news->street,
+                'city' => $news->city,
+                'province' => $news->province,
+                'postal_code' => $news->postal_code,
+                'country' => $news->country,
+                'openstreetmap_url' => $news->getMapUrl(),
+                'employee_cover_image_url' => $news->getStaticMapImage(7, 600, 130),
+                'created_at' => '2020-01-12 00:00:00',
+            ],
+            $news->toObject()
+        );
+    }
+
+    /** @test */
     public function it_gets_the_country_name(): void
     {
         $place = factory(Place::class)->create([]);

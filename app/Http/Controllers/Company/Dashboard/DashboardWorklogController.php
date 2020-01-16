@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Worklog\LogWorklog;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class DashboardWorklogController extends Controller
 {
@@ -30,6 +29,8 @@ class DashboardWorklogController extends Controller
 
         $employee->refresh();
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 }

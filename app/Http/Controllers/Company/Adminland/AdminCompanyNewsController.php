@@ -8,11 +8,11 @@ use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Models\Company\CompanyNews;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\CompanyNewsCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 use App\Services\Company\Adminland\CompanyNews\UpdateCompanyNews;
 use App\Services\Company\Adminland\CompanyNews\DestroyCompanyNews;
-use App\Http\Resources\Company\CompanyNews\CompanyNews as CompanyNewsResource;
 
 class AdminCompanyNewsController extends Controller
 {
@@ -24,13 +24,13 @@ class AdminCompanyNewsController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $news = CompanyNewsResource::collection(
-            $company->news()->orderBy('created_at', 'desc')->get()
-        );
+        $news = $company->news()->with('author')->orderBy('created_at', 'desc')->get();
+
+        $newsCollection = CompanyNewsCollection::prepare($news);
 
         return Inertia::render('Adminland/CompanyNews/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'news' => $news,
+            'news' => $newsCollection,
         ]);
     }
 
@@ -41,8 +41,6 @@ class AdminCompanyNewsController extends Controller
      */
     public function create()
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         return Inertia::render('Adminland/CompanyNews/Create', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -69,8 +67,8 @@ class AdminCompanyNewsController extends Controller
         $news = (new CreateCompanyNews)->execute($request);
 
         return response()->json([
-            'data' => $news,
-        ]);
+            'data' => $news->toObject(),
+        ], 201);
     }
 
     /**
@@ -83,8 +81,6 @@ class AdminCompanyNewsController extends Controller
      */
     public function edit(Request $request, int $companyId, int $newsId)
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         try {
             $news = CompanyNews::where('company_id', $companyId)
                 ->findOrFail($newsId);
@@ -94,7 +90,7 @@ class AdminCompanyNewsController extends Controller
 
         return Inertia::render('Adminland/CompanyNews/Edit', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'news' => $news,
+            'news' => $news->toObject(),
         ]);
     }
 
@@ -120,7 +116,9 @@ class AdminCompanyNewsController extends Controller
 
         $news = (new UpdateCompanyNews)->execute($request);
 
-        return new CompanyNewsResource($news);
+        return response()->json([
+            'data' => $news->toObject(),
+        ], 200);
     }
 
     /**

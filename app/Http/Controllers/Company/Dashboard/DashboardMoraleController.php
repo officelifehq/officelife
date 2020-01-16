@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Morale\LogMorale;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class DashboardMoraleController extends Controller
 {
@@ -31,6 +30,8 @@ class DashboardMoraleController extends Controller
 
         $employee->refresh();
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 }

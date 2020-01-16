@@ -110,7 +110,7 @@ export default {
       this.title = this.employee.position.title;
     }
 
-    this.updatedEmployee = this.$page.auth.employee;
+    this.updatedEmployee = this.employee;
   },
 
   methods: {

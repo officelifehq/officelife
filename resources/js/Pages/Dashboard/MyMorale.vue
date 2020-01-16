@@ -53,10 +53,6 @@ export default {
   },
 
   props: {
-    moraleCount: {
-      type: Number,
-      default: 0,
-    },
     employee: {
       type: Object,
       default: null,
@@ -86,8 +82,7 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/dashboard/morale', this.form)
         .then(response => {
-          this.moraleCount = this.moraleCount + 1;
-          this.updatedEmployee = response.data.data;
+          this.updatedEmployee.has_logged_morale_today = true;
         })
         .catch(error => {
           this.successMessage = false;

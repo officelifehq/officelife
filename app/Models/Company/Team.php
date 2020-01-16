@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Carbon\Carbon;
 use App\Traits\Searchable;
+use App\Helpers\StringHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -125,6 +126,25 @@ class Team extends Model
     public function news()
     {
         return $this->hasMany(TeamNews::class);
+    }
+
+    /**
+     * Transform the object to an array representing this object.
+     *
+     * @return array
+     */
+    public function toObject(): array
+    {
+        return [
+            'id' => $this->id,
+            'company' => [
+                'id' => $this->company_id,
+            ],
+            'name' => $this->name,
+            'raw_description' => is_null($this->description) ? null : $this->description,
+            'parsed_description' => is_null($this->description) ? null : StringHelper::parse($this->description),
+            'created_at' => $this->created_at,
+        ];
     }
 
     /**

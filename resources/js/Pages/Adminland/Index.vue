@@ -120,10 +120,6 @@ export default {
       type: Array,
       default: null,
     },
-    nbEmployees: {
-      type: Number,
-      default: 0,
-    },
   },
 };
 </script>

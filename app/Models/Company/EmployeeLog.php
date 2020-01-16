@@ -59,6 +59,37 @@ class EmployeeLog extends Model
     }
 
     /**
+     * Get the author record associated with the employee log.
+     *
+     * @return BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    /**
+     * Transform the object to an array representing this object.
+     *
+     * @return array
+     */
+    public function toObject(): array
+    {
+        return [
+            'id' => $this->id,
+            'action' => $this->action,
+            'objects' => json_decode($this->objects),
+            'localized_content' => $this->content,
+            'author' => [
+                'id' => is_null($this->author) ? null : $this->author->id,
+                'name' => is_null($this->author) ? $this->author_name : $this->author->name,
+            ],
+            'localized_created_at' => DateHelper::getShortDateWithTime($this->created_at),
+            'created_at' => $this->created_at,
+        ];
+    }
+
+    /**
      * Get the JSON object.
      *
      * @return array

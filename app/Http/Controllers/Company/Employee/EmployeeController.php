@@ -11,10 +11,13 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\TeamCollection;
+use App\Http\Collections\PronounCollection;
+use App\Http\Collections\PositionCollection;
+use App\Http\Collections\EmployeeStatusCollection;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Manager\UnassignManager;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class EmployeeController extends Controller
 {
@@ -64,15 +67,14 @@ class EmployeeController extends Controller
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
                 ->with('teams')
+                ->with('pronoun')
+                ->with('user')
+                ->with('status')
+                ->with('places')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
-
-        $companyPositions = $company->positions()->get();
-        $companyTeams = $company->teams()->get();
-        $companyEmployeeStatuses = $company->employeeStatuses()->get();
-        $companyPronouns = Pronoun::all();
 
         // managers
         $managers = $employee->managers;
@@ -124,32 +126,17 @@ class EmployeeController extends Controller
             );
         }
 
-        // information about the employee
-        $employeeObject = [
-            'id' => $employee->id,
-            'name' => $employee->name,
-            'avatar' => $employee->avatar,
-            'permission_level' => $employee->getPermissionLevel(),
-            'pronoun' => (!$employee->pronoun) ? null : [
-                'id' => $employee->pronoun->id,
-                'label' => $employee->pronoun->label,
-            ],
-            'user' => (!$employee->user) ? null : [
-                'id' => $employee->user->id,
-            ],
-        ];
-
         return Inertia::render('Employee/Show', [
-            'employee' => $employeeObject,
-            'employeeTeams' => $employee->teams,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employee' => $employee->toObject(),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
-            'positions' => $companyPositions,
-            'teams' => $companyTeams,
             'worklogs' => $worklogsCollection,
-            'statuses' => $companyEmployeeStatuses,
-            'pronouns' => $companyPronouns,
+            'employeeTeams' => TeamCollection::prepare($employee->teams),
+            'positions' => PositionCollection::prepare($company->positions()->get()),
+            'teams' => TeamCollection::prepare($company->teams()->get()),
+            'statuses' => EmployeeStatusCollection::prepare($company->employeeStatuses()->get()),
+            'pronouns' => PronounCollection::prepare(Pronoun::all()),
         ]);
     }
 
@@ -173,7 +160,9 @@ class EmployeeController extends Controller
 
         $manager = (new AssignManager)->execute($request);
 
-        return new EmployeeResource($manager);
+        return response()->json([
+            'data' => $manager->toObject(),
+        ], 200);
     }
 
     /**
@@ -198,7 +187,9 @@ class EmployeeController extends Controller
 
         $directReport = Employee::findOrFail($request->get('id'));
 
-        return new EmployeeResource($directReport);
+        return response()->json([
+            'data' => $directReport->toObject(),
+        ], 200);
     }
 
     /**
@@ -221,7 +212,9 @@ class EmployeeController extends Controller
 
         $manager = (new UnassignManager)->execute($request);
 
-        return new EmployeeResource($manager);
+        return response()->json([
+            'data' => $manager->toObject(),
+        ], 200);
     }
 
     /**
@@ -244,6 +237,8 @@ class EmployeeController extends Controller
 
         $manager = (new UnassignManager)->execute($request);
 
-        return new EmployeeResource($manager);
+        return response()->json([
+            'data' => $manager->toObject(),
+        ], 200);
     }
 }

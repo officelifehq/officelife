@@ -3,6 +3,7 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\ApiTestCase;
+use App\Models\Company\Company;
 use App\Models\Company\EmployeeStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -15,5 +16,28 @@ class EmployeeStatusTest extends ApiTestCase
     {
         $employeeLog = factory(EmployeeStatus::class)->create([]);
         $this->assertTrue($employeeLog->company()->exists());
+    }
+
+    /** @test */
+    public function it_returns_an_object(): void
+    {
+        $dunder = factory(Company::class)->create([]);
+        $status = factory(EmployeeStatus::class)->create([
+            'company_id' => $dunder->id,
+            'name' => 'dunder',
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => $status->id,
+                'company' => [
+                    'id' => $dunder->id,
+                ],
+                'name' => 'dunder',
+                'created_at' => '2020-01-12 00:00:00',
+            ],
+            $status->toObject()
+        );
     }
 }

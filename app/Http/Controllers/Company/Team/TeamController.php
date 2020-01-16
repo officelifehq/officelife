@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
+use App\Helpers\DateHelper;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
+use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\Team\Team as TeamResource;
-use App\Http\Resources\Company\TeamNews\TeamNews as TeamNewsResource;
-use App\Http\Resources\Company\Employee\EmployeeListWithoutTeams as EmployeeResource;
 
 class TeamController extends Controller
 {
@@ -54,8 +53,6 @@ class TeamController extends Controller
      */
     public function show(Request $request, $companyId, $teamId)
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         try {
             $team = Team::where('company_id', $companyId)
                 ->findOrFail($teamId);
@@ -63,19 +60,44 @@ class TeamController extends Controller
             return redirect('home');
         }
 
+        // employees
         $employees = $team->employees()->orderBy('created_at', 'desc')->get();
-        $news = $team->news()->orderBy('created_at', 'desc')->limit(3)->get();
-        $newsCount = $team->news()->count();
-        $employeeCount = $employees->count();
-        $mostRecentEmployee = $employees->first();
+        $employeesCollection = collect([]);
+        foreach ($team->employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'position' => ($employee->position) ? $employee->position->title : null,
+            ]);
+        }
+
+        // news
+        $news = $team->news()->with('author')->orderBy('created_at', 'desc')->get();
+        $newsCollection = collect([]);
+        foreach ($news->take(3) as $newsItem) {
+            $author = $newsItem->author;
+
+            $newsCollection->push([
+                'title' => $newsItem->title,
+                'content' => $newsItem->content,
+                'parsed_content' => StringHelper::parse($newsItem->content),
+                'author' => [
+                    'id' => is_null($author) ? null : $author->id,
+                    'name' => is_null($author) ? null : $author->name,
+                    'avatar' => is_null($author) ? null : $author->avatar,
+                ],
+                'localized_created_at' => DateHelper::getShortDateWithTime($newsItem->created_at),
+            ]);
+        }
 
         return Inertia::render('Team/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'team' => new TeamResource($team),
-            'news' => TeamNewsResource::collection($news),
-            'newsCount' => $newsCount,
-            'employeeCount' => $employeeCount,
-            'employees' => EmployeeResource::collection($employees),
+            'team' => $team->toObject(),
+            'news' => $newsCollection,
+            'newsCount' => $news->count(),
+            'employeeCount' => $employees->count(),
+            'employees' => $employeesCollection,
         ]);
     }
 }

@@ -118,7 +118,7 @@ export default {
       axios.post('/' + this.$page.auth.company.id + '/account/news', this.form)
         .then(response => {
           localStorage.success = this.$t('account.company_news_create_success');
-          this.$inertia.visit('/' + response.data.data.company_id + '/account/news');
+          this.$inertia.visit('/' + response.data.data.company.id + '/account/news');
         })
         .catch(error => {
           this.loadingState = null;

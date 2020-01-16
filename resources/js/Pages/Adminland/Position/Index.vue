@@ -98,9 +98,7 @@
               <ul v-show="idToUpdate != position.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
                 <!-- RENAME A POSITION -->
                 <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-rename-button-' + position.id" @click.prevent="displayUpdateModal(position) ; form.title = position.title">
-                    {{ $t('app.rename') }}
-                  </a>
+                  <a class="pointer" :data-cy="'list-rename-button-' + position.id" @click.prevent="displayUpdateModal(position) ; form.title = position.title">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A POSITION -->

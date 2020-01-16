@@ -77,7 +77,7 @@
 
             <!-- position -->
             <span v-show="!editMode" v-if="employee.position" class="title db f7 mt1">
-              {{ employee.position.title }}
+              {{ employee.position }}
             </span>
             <span v-show="!editMode" v-else class="title db f7 mt1">
               {{ $t('app.no_position_defined') }}
