@@ -17,7 +17,7 @@ class TeamNewsCollectionTest extends TestCase
     {
         $sales = factory(Team::class)->create([]);
         factory(TeamNews::class, 2)->create([
-            'team_id' => $sales->company_id,
+            'team_id' => $sales->id,
         ]);
 
         $news = $sales->news()->orderBy('created_at', 'desc')->get();

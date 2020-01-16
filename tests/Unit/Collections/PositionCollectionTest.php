@@ -19,7 +19,7 @@ class PositionCollectionTest extends TestCase
             'company_id' => $positionA->company_id,
         ]);
 
-        $positions = $positionA->company->positions()->orderBy('name', 'asc')->get();
+        $positions = $positionA->company->positions()->orderBy('title', 'asc')->get();
         $collection = PositionCollection::prepare($positions);
 
         $this->assertEquals(
