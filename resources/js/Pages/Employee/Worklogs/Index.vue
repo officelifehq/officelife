@@ -46,48 +46,61 @@
           {{ $t('employee.worklog_title') }}
         </h2>
 
-        <!-- list of years -->
-        <ul class="list years tc">
-          <li class="di">{{ $t('employee.worklog_year_selector') }}</li>
-          <li v-for="singleYear in years" :key="singleYear.number" class="di mh2">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + singleYear.number" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</inertia-link>
-          </li>
-        </ul>
+        <!-- case when there are worklogs -->
+        <template v-if="worklogs.length > 0">
+          <!-- list of years -->
+          <ul class="list years tc" data-cy="worklog-year-selector">
+            <li class="di">{{ $t('employee.worklog_year_selector') }}</li>
+            <li v-for="singleYear in years" :key="singleYear.number" class="di mh2">
+              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + singleYear.number" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</inertia-link>
+            </li>
+          </ul>
 
-        <div class="cf w-100">
-          <!-- left column -->
-          <div class="fl w-third pa3">
-            <!-- list of months -->
-            <p class="f6 mt0 silver">{{ $t('employee.worklog_filter_month') }}</p>
-            <ul class="pl0 list months f6">
-              <li class="mb2"><inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year">All</inertia-link></li>
-              <li v-for="month in months" :key="month.month" class="mb2">
-                <!-- we are viewing a specific month, so we need to highlight the proper month in the UI -->
-                <template v-if="currentMonth">
-                  <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</inertia-link>
-                  <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
-                </template>
+          <calendar-heatmap :end-date="year + '-12-31'" :values="graphData" class="pa3" />
 
-                <template v-else>
-                  <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month">{{ month.translation }} ({{ month.occurences }})</inertia-link>
-                  <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
-                </template>
-              </li>
-            </ul>
-          </div>
+          <div class="cf w-100">
+            <!-- left column -->
+            <div class="fl-ns w-third-ns pa3">
+              <!-- list of months -->
+              <p class="f6 mt0 silver">{{ $t('employee.worklog_filter_month') }}</p>
+              <ul class="pl0 list months f6">
+                <li class="mb2"><inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year">All</inertia-link></li>
+                <li v-for="month in months" :key="month.month" class="mb2" :data-cy="'worklog-month-selector-' + month.month">
+                  <!-- we are viewing a specific month, so we need to highlight the proper month in the UI -->
+                  <template v-if="currentMonth">
+                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
+                  </template>
 
-          <!-- right columns -->
-          <div class="fl w-two-thirds pa3">
-            <!-- list of worklogs -->
-            <div v-for="worklog in worklogs" :key="worklog.id">
-              <p class="mt0 f6 mb1 silver">{{ worklog.localized_created_at }}</p>
-              <div class="parsed-content" v-html="worklog.parsed_content"></div>
-              <div class="tc mb3 green">
-                ~
+                  <template v-else>
+                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
+                  </template>
+                </li>
+              </ul>
+            </div>
+
+            <!-- right columns -->
+            <div class="fl-ns w-two-thirds-ns pa3">
+              <!-- list of worklogs -->
+              <div v-for="worklog in worklogs" :key="worklog.id">
+                <p class="mt0 f6 mb1 silver">{{ worklog.localized_created_at }}</p>
+                <div class="parsed-content" v-html="worklog.parsed_content"></div>
+                <div class="tc mb3 green">
+                  ~
+                </div>
               </div>
+
+              <!-- blank state -->
+              <p v-if="worklogs.length == 0" class="tc mt5">{{ $t('employee.worklog_blank_state_for_month') }}</p>
             </div>
           </div>
-        </div>
+        </template>
+
+        <!-- case of worklogs -->
+        <template v-else>
+          <p class="tc pa3" data-cy="blank-worklog-message">{{ $t('employee.worklog_blank') }}</p>
+        </template>
       </div>
     </div>
   </layout>
@@ -95,10 +108,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import { CalendarHeatmap } from 'vue-calendar-heatmap';
 
 export default {
   components: {
     Layout,
+    CalendarHeatmap,
   },
 
   props: {
@@ -134,6 +149,10 @@ export default {
       type: Number,
       default: null,
     },
+    graphData: {
+      type: Array,
+      default: null,
+    }
   },
 
   data() {

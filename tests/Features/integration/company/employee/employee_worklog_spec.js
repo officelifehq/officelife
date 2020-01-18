@@ -20,5 +20,9 @@ describe('Employee - worklogs', function () {
     cy.visit('/1/employees/1')
 
     cy.get('body').should('contain', 'I made a drawing')
+
+    // see the complete worklog page
+    cy.get('[data-cy=view-all-worklogs]').click()
+    cy.url().should('include', '/1/employees/1/worklogs')
   })
 })

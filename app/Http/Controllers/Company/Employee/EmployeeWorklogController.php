@@ -112,6 +112,7 @@ class EmployeeWorklogController extends Controller
 
         $yearsCollection = WorklogHelper::getYears($worklogs);
         $monthsCollection = WorklogHelper::getMonths($worklogs, $year);
+        $graphDataCollection = WorklogHelper::getYearlyCalendar($worklogs, $year);
 
         // only select worklogs for the current year
         $worklogs = $worklogs->filter(function ($log) use ($year) {
@@ -135,6 +136,7 @@ class EmployeeWorklogController extends Controller
             'currentYear' => $year,
             'currentMonth' => ($month) ? $month : null,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'graphData' => $graphDataCollection,
         ]);
     }
 }

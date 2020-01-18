@@ -53,8 +53,8 @@
               </ul>
             </li>
           </ul>
-          <div class="pa3 tc">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs'" data-cy="view-all-news">{{ $t('employee.worklog_view_all') }}</inertia-link>
+          <div v-if="employeeOrAtLeastHR()" class="pa3 tc">
+            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs'" data-cy="view-all-worklogs">{{ $t('employee.worklog_view_all') }}</inertia-link>
           </div>
         </div>
       </template>
@@ -66,7 +66,7 @@
 export default {
   props: {
     employee: {
-      type: Array,
+      type: Object,
       default: null,
     },
     worklogs: {
@@ -81,6 +81,21 @@ export default {
   },
 
   methods: {
+    employeeOrAtLeastHR() {
+      if (this.$page.auth.employee.permission_level <= 200) {
+        return true;
+      }
+
+      if (!this.employee.user) {
+        return false;
+      }
+
+      if (this.$page.auth.user.id == this.employee.user.id) {
+        return true;
+      }
+
+      return false;
+    }
   }
 };
 </script>

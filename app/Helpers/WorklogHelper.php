@@ -3,6 +3,7 @@
 namespace App\Helpers;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use App\Models\Company\Team;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
@@ -120,5 +121,37 @@ class WorklogHelper
         }
 
         return $monthsCollection;
+    }
+
+    /**
+     * Prepare a yearly calendar containing all the days in a year along with the
+     * information whether the employee has a worklog for that day or not.
+     */
+    public static function getYearlyCalendar(Collection $worklogs, int $year): Collection
+    {
+        $worklogs = $worklogs->filter(function ($log) use ($year) {
+            return $log->created_at->year === $year;
+        });
+
+        $calendar = collect([]);
+        $currentDate = CarbonImmutable::createFromDate($year, 1, 1);
+        for ($day = 1; $day <= $currentDate->daysInYear; $day++) {
+
+            // for this date, do we have a worklog?
+            $worklog = $worklogs->filter(function ($log) use ($currentDate) {
+                return $log->created_at->format('Y-m-d') === $currentDate->format('Y-m-d');
+            });
+
+            // adding one day as I don't understand why the plugin is off by one day
+            $dayAfter = $currentDate;
+
+            $calendar->push([
+                'date' => $dayAfter->addDay()->format('Y-m-d'),
+                'count' => ($worklog->count() == 1) ? 1 : 0,
+            ]);
+            $currentDate = $currentDate->addDay();
+        }
+
+        return $calendar;
     }
 }

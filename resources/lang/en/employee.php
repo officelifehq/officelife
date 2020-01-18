@@ -65,6 +65,7 @@ return [
     'worklog_view_all' => 'View worklog history',
     'worklog_year_selector' => 'Choose a year:',
     'worklog_filter_month' => 'Filter by month',
+    'worklog_blank_state_for_month' => 'There are no worklogs for this date 😭',
 
     'status_title' => 'Status:',
     'status_modal_title' => 'Employee status',

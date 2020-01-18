@@ -10,11 +10,13 @@ use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class WorklogHelperTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions,
+        HelperTrait;
 
     /** @test */
     public function it_gets_the_list_of_worklogs_for_a_given_team_and_a_given_day(): void
@@ -235,6 +237,55 @@ class WorklogHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+
+        $this->assertInstanceOf(
+            Collection::class,
+            $collection
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_representing_all_the_worklogs_for_a_given_year(): void
+    {
+        $dwight = factory(Employee::class)->create([]);
+
+        // logging worklogs
+        factory(Worklog::class)->create([
+            'employee_id' => $dwight->id,
+            'created_at' => '2020-01-01 00:00:00',
+        ]);
+        factory(Worklog::class)->create([
+            'employee_id' => $dwight->id,
+            'created_at' => '2020-02-01 00:00:00',
+        ]);
+        factory(Worklog::class, 2)->create([
+            'employee_id' => $dwight->id,
+            'created_at' => '2020-03-01 00:00:00',
+        ]);
+
+        $worklogs = $dwight->worklogs;
+
+        $collection = WorklogHelper::getYearlyCalendar($worklogs, 2020);
+
+        $this->assertArraySubset(
+            [
+                'date' => '2020-01-02',
+                'count' => 1,
+            ],
+            $collection[0]
+        );
+        $this->assertArraySubset(
+            [
+                'date' => '2020-01-03',
+                'count' => 0,
+            ],
+            $collection[1]
+        );
+
+        $this->assertEquals(
+            366,
+            $collection->count()
         );
 
         $this->assertInstanceOf(
