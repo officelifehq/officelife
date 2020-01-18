@@ -470,7 +470,7 @@ class Employee extends Model
 
         // get the yearly completion rate
         $currentDate = Carbon::now();
-        $daysInYear = DateHelper::daysInYear($currentDate);
+        $daysInYear = DateHelper::getNumberOfDaysInYear($currentDate);
         $yearCompletionRate = Carbon::now()->dayOfYear * 100 / $daysInYear;
 
         return [

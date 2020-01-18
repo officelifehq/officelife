@@ -42,7 +42,7 @@ class HolidayHelperTest extends TestCase
 
         // build the calendar of days
         $date = Carbon::create($policy->year);
-        for ($i = 1; $i <= DateHelper::daysInYear($date); $i++) {
+        for ($i = 1; $i <= DateHelper::getNumberOfDaysInYear($date); $i++) {
             $isWorked = true;
             if ($date->isSaturday() || $date->isSunday()) {
                 $isWorked = false;

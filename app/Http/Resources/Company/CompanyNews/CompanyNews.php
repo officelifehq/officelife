@@ -32,7 +32,7 @@ class CompanyNews extends JsonResource
             'company' => [
                 'id' => $this->company_id,
             ],
-            'localized_created_at' => DateHelper::getShortDateWithTime($this->created_at),
+            'localized_created_at' => DateHelper::formatShortDateWithTime($this->created_at),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

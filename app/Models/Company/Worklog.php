@@ -2,6 +2,8 @@
 
 namespace App\Models\Company;
 
+use App\Helpers\DateHelper;
+use App\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +12,7 @@ class Worklog extends Model
 {
     use LogsActivity;
 
-    protected $table = 'worklog';
+    protected $table = 'worklogs';
 
     /**
      * The attributes that are mass assignable.
@@ -49,5 +51,25 @@ class Worklog extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    /**
+     * Transform the object to an array representing this object.
+     *
+     * @return array
+     */
+    public function toObject(): array
+    {
+        return [
+            'id' => $this->id,
+            'employee' => [
+                'id' => $this->employee->id,
+                'name' => $this->employee->name,
+            ],
+            'content' => $this->content,
+            'parsed_content' => StringHelper::parse($this->content),
+            'localized_created_at' => DateHelper::formatDate($this->created_at),
+            'created_at' => $this->created_at,
+        ];
     }
 }

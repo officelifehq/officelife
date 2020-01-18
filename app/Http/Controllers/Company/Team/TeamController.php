@@ -87,7 +87,7 @@ class TeamController extends Controller
                     'name' => is_null($author) ? null : $author->name,
                     'avatar' => is_null($author) ? null : $author->avatar,
                 ],
-                'localized_created_at' => DateHelper::getShortDateWithTime($newsItem->created_at),
+                'localized_created_at' => DateHelper::formatShortDateWithTime($newsItem->created_at),
             ]);
         }
 

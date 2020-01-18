@@ -262,7 +262,7 @@ class GenerateDummyData extends BaseService
 
             while (! $date->isSameDay(Carbon::now())) {
                 if (rand(1, 10) >= 8) {
-                    DB::table('worklog')->insert([
+                    DB::table('worklogs')->insert([
                         'employee_id' => $employee->id,
                         'content' => $faker->realText(50),
                         'is_dummy' => true,

@@ -157,7 +157,7 @@ class Team extends Model
      */
     public function worklogsForDate($date): array
     {
-        $worklogs = DB::select('select worklog.content as content, employees.id as id, employees.first_name as first_name, employees.email as email, employees.last_name, employees.avatar from employees, worklog, employee_team where employees.id = employee_team.employee_id and employees.id = worklog.employee_id and worklog.created_at LIKE \''.$date->format('Y-m-d').'%\' and employee_team.team_id = '.$this->id.';');
+        $worklogs = DB::select('select worklogs.content as content, employees.id as id, employees.first_name as first_name, employees.email as email, employees.last_name, employees.avatar from employees, worklogs, employee_team where employees.id = employee_team.employee_id and employees.id = worklogs.employee_id and worklogs.created_at LIKE \''.$date->format('Y-m-d').'%\' and employee_team.team_id = '.$this->id.';');
 
         foreach ($worklogs as $worklog) {
             $employee = new Employee();

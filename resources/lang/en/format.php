@@ -18,4 +18,6 @@ return [
     'short_date_year_time' => 'M d, Y H:i',
     'long_month_day' => 'MMMM Do',
     'day_month_parenthesis' => 'dddd (MMM Do)',
+    'date' => 'M d, Y',
+    'full_month' => 'F',
 ];

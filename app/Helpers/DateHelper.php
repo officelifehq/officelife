@@ -8,44 +8,49 @@ use App\Models\Company\CompanyPTOPolicy;
 class DateHelper
 {
     /**
+     * Returns a date according to the timezone of the user, in a
+     * short format like "Oct 29, 1981".
+     */
+    public static function formatDate(Carbon $date): string
+    {
+        return $date->format(trans('format.date'));
+    }
+
+    /**
      * Returns a date and the time according to the timezone of the user, in a
      * short format like "Oct 29, 1981 19:32".
-     *
-     * @param Carbon $date
-     * @return string
      */
-    public static function getShortDateWithTime($date): string
+    public static function formatShortDateWithTime(Carbon $date): string
     {
         return $date->format(trans('format.short_date_year_time'));
     }
 
     /**
      * Returns the day and the month in a format like "July 29th".
-     *
-     * @param Carbon $date
-     * @return string
      */
-    public static function getMonthAndDay($date): string
+    public static function formatMonthAndDay(Carbon $date): string
     {
         return $date->isoFormat(trans('format.long_month_day'));
     }
 
     /**
      * Returns the day and the month in a format like "Monday (July 29th)".
-     *
-     * @param Carbon $date
-     * @return string
      */
-    public static function getDayAndMonthInParenthesis($date): string
+    public static function formatDayAndMonthInParenthesis(Carbon $date): string
     {
         return $date->isoFormat(trans('format.day_month_parenthesis'));
     }
 
     /**
+     * Translate the given month to a string using the locale of the app.
+     */
+    public static function translateMonth(Carbon $date): string
+    {
+        return $date->format(trans('format.full_month'));
+    }
+
+    /**
      * Calculate the next occurence in the future for this date.
-     *
-     * @param Carbon $date
-     * @return Carbon
      */
     public static function getNextOccurence(Carbon $date): Carbon
     {
@@ -64,11 +69,8 @@ class DateHelper
 
     /**
      * Get the number of days in a given year.
-     *
-     * @param Carbon $date
-     * @return int
      */
-    public static function daysInYear(Carbon $date): int
+    public static function getNumberOfDaysInYear(Carbon $date): int
     {
         return $date->isLeapYear() ? 366 : 365;
     }
@@ -78,10 +80,6 @@ class DateHelper
      * This array contains a row for each month. The first entry in this array
      * is the current month.
      * This is used to populate the PTO policies in the Adminland page.
-     *
-     * @param CompanyPTOPolicy $ptoPolicy
-     * @param string $locale
-     * @return array
      */
     public static function prepareCalendar(CompanyPTOPolicy $ptoPolicy, string $locale = 'en'): array
     {

@@ -138,6 +138,7 @@
         <!-- RIGHT COLUMN -->
         <div class="fl w-60-l w-100 pl4-l">
           <worklogs
+            :employee="employee"
             :worklogs="worklogs"
           />
         </div>
@@ -149,16 +150,16 @@
 <script>
 import vClickOutside from 'v-click-outside';
 import Layout from '@/Shared/Layout';
-import PersonalDescription from '@/Pages/Employee/PersonalDescription';
-import AssignEmployeePosition from '@/Pages/Employee/AssignEmployeePosition';
-import AssignEmployeeGenderPronoun from '@/Pages/Employee/AssignEmployeeGenderPronoun';
-import AssignEmployeeStatus from '@/Pages/Employee/AssignEmployeeStatus';
-import AssignEmployeeTeam from '@/Pages/Employee/AssignEmployeeTeam';
-import AssignEmployeeHierarchy from '@/Pages/Employee/AssignEmployeeHierarchy';
-import AssignEmployeeBirthdate from '@/Pages/Employee/AssignEmployeeBirthdate';
-import Worklogs from '@/Pages/Employee/Worklogs';
-import Holidays from '@/Pages/Employee/Holidays';
-import Location from '@/Pages/Employee/Location';
+import PersonalDescription from '@/Pages/Employee/Partials/PersonalDescription';
+import AssignEmployeePosition from '@/Pages/Employee/Partials/AssignEmployeePosition';
+import AssignEmployeeGenderPronoun from '@/Pages/Employee/Partials/AssignEmployeeGenderPronoun';
+import AssignEmployeeStatus from '@/Pages/Employee/Partials/AssignEmployeeStatus';
+import AssignEmployeeTeam from '@/Pages/Employee/Partials/AssignEmployeeTeam';
+import AssignEmployeeHierarchy from '@/Pages/Employee/Partials/AssignEmployeeHierarchy';
+import AssignEmployeeBirthdate from '@/Pages/Employee/Partials/AssignEmployeeBirthdate';
+import Worklogs from '@/Pages/Employee/Partials/Worklogs';
+import Holidays from '@/Pages/Employee/Partials/Holidays';
+import Location from '@/Pages/Employee/Partials/Location';
 
 export default {
   components: {

@@ -68,7 +68,7 @@ class CreateCompanyPTOPolicy extends BaseService
 
         // fix the number of worked days to be sure
         $offDays = $this->populateCalendar($data, $ptoPolicy);
-        $numberOfWorkedDays = DateHelper::daysInYear(Carbon::now()) - $offDays;
+        $numberOfWorkedDays = DateHelper::getNumberOfDaysInYear(Carbon::now()) - $offDays;
         $ptoPolicy->total_worked_days = $numberOfWorkedDays;
         $ptoPolicy->save();
 
@@ -103,7 +103,7 @@ class CreateCompanyPTOPolicy extends BaseService
         $day = Carbon::create($data['year']);
         $numberOfDaysOff = 0;
 
-        for ($counter = 1; $counter <= DateHelper::daysInYear($day); $counter++) {
+        for ($counter = 1; $counter <= DateHelper::getNumberOfDaysInYear($day); $counter++) {
             $isWorked = true;
             if ($day->isSaturday() || $day->isSunday()) {
                 $isWorked = false;

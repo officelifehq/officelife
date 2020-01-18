@@ -1,12 +1,4 @@
 <style scoped>
-.avatar {
-  width: 80px;
-  height: 80px;
-  top: 32px;
-  left: 50%;
-  margin-top: -40px; /* Half the height */
-  margin-left: -40px; /* Half the width */
-}
 </style>
 
 <template>

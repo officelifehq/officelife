@@ -46,6 +46,7 @@ return [
     'breadcrumb_team_add_team_news' => 'Add a team news',
     'breadcrumb_team_update_team_news' => 'Update a team news',
     'breadcrumb_notification_list' => 'Notifications',
+    'breadcrumb_employee_worklogs' => 'Worklogs',
 
     'header_home' => 'Home',
     'header_find' => 'Find',

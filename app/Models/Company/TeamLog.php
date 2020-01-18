@@ -74,7 +74,7 @@ class TeamLog extends Model
      */
     public function getDateAttribute($value): string
     {
-        return DateHelper::getShortDateWithTime($this->created_at);
+        return DateHelper::formatShortDateWithTime($this->created_at);
     }
 
     /**

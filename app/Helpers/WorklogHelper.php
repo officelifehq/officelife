@@ -7,6 +7,7 @@ use App\Models\Company\Team;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use Illuminate\Support\Collection;
 
 class WorklogHelper
 {
@@ -20,10 +21,6 @@ class WorklogHelper
      * - less than 20% of team members have filled the worklogs: red
      * - 20% -> 80%: yellow
      * - > 80%: green
-     *
-     * @param Team $team
-     * @param Carbon $date
-     * @return array
      */
     public static function getInformationAboutTeam(Team $team, Carbon $date): array
     {
@@ -43,7 +40,7 @@ class WorklogHelper
 
         $data = [
             'day' => $date->isoFormat('dddd'),
-            'date' => DateHelper::getMonthAndDay($date),
+            'date' => DateHelper::formatMonthAndDay($date),
             'friendlyDate' => $date->format('Y-m-d'),
             'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
             'completionRate' => $indicator,
@@ -59,22 +56,69 @@ class WorklogHelper
      * logged on a specific day with the morale.
      *
      * This will be used on the Employee page.
-     *
-     * @param Worklog $worklog
-     * @param Morale $morale
-     * @param Carbon $date
-     * @return array
      */
     public static function getDailyInformationForEmployee(Worklog $worklog = null, Morale $morale = null, Carbon $date): array
     {
         $data = [
-            'date' => DateHelper::getShortDateWithTime($date),
-            'friendly_date' => DateHelper::getDayAndMonthInParenthesis($date),
+            'date' => DateHelper::formatShortDateWithTime($date),
+            'friendly_date' => DateHelper::formatDayAndMonthInParenthesis($date),
             'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
             'worklog_parsed_content' => is_null($worklog) ? null : StringHelper::parse($worklog->content),
             'morale' => is_null($morale) ? null : $morale->emoji,
         ];
 
         return $data;
+    }
+
+    /**
+     * Get a collection representing all the years the employee has logged a
+     * worklog for.
+     */
+    public static function getYears(Collection $worklogs): Collection
+    {
+        $yearsCollection = collect([]);
+        foreach ($worklogs as $worklog) {
+            $year = Carbon::createFromFormat('Y-m-d H:i:s', $worklog->created_at, )->format('Y');
+            $yearsCollection->push([
+                'number' => intval($year),
+            ]);
+        }
+        $yearsCollection = $yearsCollection->unique()->sortBy(function ($product, $key) {
+            return $product['number'];
+        });
+
+        return $yearsCollection;
+    }
+
+    /**
+     * Get a collection representing all the months the employee has logged a
+     * worklog for, for a given year.
+     */
+    public static function getMonths(Collection $worklogs, int $year): Collection
+    {
+        $worklogs = $worklogs->filter(function ($log) use ($year) {
+            return $log->created_at->year === $year;
+        });
+
+        $monthsCollection = collect([]);
+
+        for ($month = 1; $month < 13; $month++) {
+            $logsInMonth = collect([]);
+            $date = Carbon::createFromDate($year, $month);
+
+            foreach ($worklogs as $worklog) {
+                if ($worklog->created_at->month === $month) {
+                    $logsInMonth->push($worklog);
+                }
+            }
+
+            $monthsCollection->push([
+                'month' => $month,
+                'occurences' => $logsInMonth->count(),
+                'translation' => DateHelper::translateMonth($date),
+            ]);
+        }
+
+        return $monthsCollection;
     }
 }
