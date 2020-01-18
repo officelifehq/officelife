@@ -33,7 +33,7 @@ class LogWorklogTest extends TestCase
 
         $worklog = (new LogWorklog)->execute($request);
 
-        $this->assertDatabaseHas('worklog', [
+        $this->assertDatabaseHas('worklogs', [
             'id' => $worklog->id,
             'employee_id' => $dwight->id,
             'content' => 'I have sold paper',

@@ -62,6 +62,10 @@ return [
     'worklog_blank' => 'There are no work logs yet 🤨',
     'worklog_title' => 'Work logs',
     'worklog_no_worklog' => 'No work log this day',
+    'worklog_view_all' => 'View worklog history',
+    'worklog_year_selector' => 'Choose a year:',
+    'worklog_filter_month' => 'Filter by month',
+    'worklog_blank_state_for_month' => 'There are no worklogs for this date 😭',
 
     'status_title' => 'Status:',
     'status_modal_title' => 'Employee status',

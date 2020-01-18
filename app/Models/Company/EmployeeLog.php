@@ -84,7 +84,7 @@ class EmployeeLog extends Model
                 'id' => is_null($this->author) ? null : $this->author->id,
                 'name' => is_null($this->author) ? $this->author_name : $this->author->name,
             ],
-            'localized_created_at' => DateHelper::getShortDateWithTime($this->created_at),
+            'localized_created_at' => DateHelper::formatShortDateWithTime($this->created_at),
             'created_at' => $this->created_at,
         ];
     }
@@ -108,7 +108,7 @@ class EmployeeLog extends Model
      */
     public function getDateAttribute($value): string
     {
-        return DateHelper::getShortDateWithTime($this->audited_at);
+        return DateHelper::formatShortDateWithTime($this->audited_at);
     }
 
     /**

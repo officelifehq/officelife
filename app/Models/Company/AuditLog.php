@@ -84,7 +84,7 @@ class AuditLog extends Model
      */
     public function getDateAttribute($value): string
     {
-        return DateHelper::getShortDateWithTime($this->audited_at);
+        return DateHelper::formatShortDateWithTime($this->audited_at);
     }
 
     /**

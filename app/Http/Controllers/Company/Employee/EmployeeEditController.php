@@ -52,7 +52,7 @@ class EmployeeEditController extends Controller
             ]);
         }
 
-        return Inertia::render('Employee/EditContact', [
+        return Inertia::render('Employee/Edit', [
             'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'countries' => $countriesCollection,

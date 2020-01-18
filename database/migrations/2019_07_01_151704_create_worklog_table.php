@@ -16,7 +16,7 @@ class CreateWorklogTable extends Migration
         // necessary for SQLlite
         Schema::enableForeignKeyConstraints();
 
-        Schema::create('worklog', function (Blueprint $table) {
+        Schema::create('worklogs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->text('content');

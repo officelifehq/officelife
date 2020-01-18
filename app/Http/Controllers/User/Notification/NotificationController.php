@@ -32,7 +32,7 @@ class NotificationController extends Controller
                 'action' => $notification->action,
                 'localized_content' => $notification->content,
                 'read' => $notification->read,
-                'created_at' => DateHelper::getShortDateWithTime($notification->created_at),
+                'created_at' => DateHelper::formatShortDateWithTime($notification->created_at),
             ]);
         }
 

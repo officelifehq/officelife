@@ -58,7 +58,7 @@ class EmployeeLogsController extends Controller
         }
         $logs = EmployeeLogResource::collection($logs);
 
-        return Inertia::render('Employee/Logs', [
+        return Inertia::render('Employee/Logs/Index', [
             'employee' => $employee->toObject(),
             'logs' => $logsCollection,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),

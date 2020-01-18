@@ -14,13 +14,24 @@ class DateHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
+    public function it_gets_the_date_with_english_locale(): void
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
+
+        $this->assertEquals(
+            'Oct 01, 1978',
+            DateHelper::formatDate($date)
+        );
+    }
+
+    /** @test */
     public function it_gets_the_short_date_with_time_in_english_locale(): void
     {
         $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
 
         $this->assertEquals(
             'Oct 01, 1978 17:56',
-            DateHelper::getShortDateWithTime($date)
+            DateHelper::formatShortDateWithTime($date)
         );
     }
 
@@ -31,7 +42,7 @@ class DateHelperTest extends TestCase
 
         $this->assertEquals(
             'October 1st',
-            DateHelper::getMonthAndDay($date)
+            DateHelper::formatMonthAndDay($date)
         );
     }
 
@@ -42,7 +53,18 @@ class DateHelperTest extends TestCase
 
         $this->assertEquals(
             'Sunday (Oct 1st)',
-            DateHelper::getDayAndMonthInParenthesis($date)
+            DateHelper::formatDayAndMonthInParenthesis($date)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_month_as_a_string_and_translated(): void
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
+
+        $this->assertEquals(
+            'October',
+            DateHelper::translateMonth($date)
         );
     }
 
@@ -70,13 +92,13 @@ class DateHelperTest extends TestCase
         $date = Carbon::createFromFormat('Y-m-d', '2019-10-01');
         $this->assertEquals(
             365,
-            DateHelper::daysInYear($date)
+            DateHelper::getNumberOfDaysInYear($date)
         );
 
         $date = Carbon::createFromFormat('Y-m-d', '2020-10-01');
         $this->assertEquals(
             366,
-            DateHelper::daysInYear($date)
+            DateHelper::getNumberOfDaysInYear($date)
         );
     }
 

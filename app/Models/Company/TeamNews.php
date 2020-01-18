@@ -77,7 +77,7 @@ class TeamNews extends Model
                 'name' => is_null($this->author) ? $this->author_name : $this->author->name,
                 'avatar' => is_null($this->author) ? null : $this->author->avatar,
             ],
-            'localized_created_at' => DateHelper::getShortDateWithTime($this->created_at),
+            'localized_created_at' => DateHelper::formatShortDateWithTime($this->created_at),
             'created_at' => $this->created_at,
         ];
     }

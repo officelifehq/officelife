@@ -160,7 +160,7 @@
 <script>
 import Layout from '@/Shared/Layout';
 import vClickOutside from 'v-click-outside';
-import Members from '@/Pages/Team/Members';
+import Members from '@/Pages/Team/Partials/Members';
 
 export default {
   components: {

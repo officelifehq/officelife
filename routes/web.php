@@ -72,6 +72,12 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('{employee}/description', 'Company\\Employee\\EmployeeDescriptionController')->only([
                 'store', 'destroy',
             ]);
+
+            Route::resource('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController')->only([
+                'index',
+            ]);
+            Route::get('{employee}/worklogs/{year}', 'Company\\Employee\\EmployeeWorklogController@year');
+            Route::get('{employee}/worklogs/{year}/{month}', 'Company\\Employee\\EmployeeWorklogController@month');
         });
 
         Route::prefix('teams')->group(function () {
