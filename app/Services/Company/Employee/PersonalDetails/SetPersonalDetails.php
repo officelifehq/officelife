@@ -24,7 +24,7 @@ class SetPersonalDetails extends BaseService
             'employee_id' => 'required|integer|exists:employees,id',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email:rfc,dns|max:255',
+            'email' => 'required|email:rfc|max:255',
             'is_dummy' => 'nullable|boolean',
         ];
     }
