@@ -7,6 +7,7 @@ use App\Models\User\User;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\NotEnoughPermissionException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 abstract class BaseService
 {
@@ -35,6 +36,21 @@ abstract class BaseService
     }
 
     /**
+     * Check that the employee effectively belongs to the given company.
+     */
+    public function validateEmployeeBelongsToCompany(array $data): Employee
+    {
+        try {
+            $employee = Employee::where('company_id', $data['company_id'])
+                ->findOrFail($data['employee_id']);
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException(trans('app.error_wrong_employee_id'));
+        }
+
+        return $employee;
+    }
+
+    /**
      * Checks if the user has the permission to do the action.
      * If, however, we pass the employee ID as parameter, and if the user is
      * the actual employee who does the action, we grant the right to do the
@@ -48,9 +64,13 @@ abstract class BaseService
      */
     public function validatePermissions(int $employeeId, int $companyId, int $requiredPermissionLevel, int $otherEmployeeId = null): Employee
     {
-        $employee = Employee::where('company_id', $companyId)
-            ->where('id', $employeeId)
-            ->firstOrFail();
+        try {
+            $employee = Employee::where('company_id', $companyId)
+                ->where('id', $employeeId)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException(trans('app.error_wrong_employee_id'));
+        }
 
         if ($employee->id == $otherEmployeeId) {
             return $employee;

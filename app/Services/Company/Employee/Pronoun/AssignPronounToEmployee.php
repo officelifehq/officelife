@@ -44,8 +44,7 @@ class AssignPronounToEmployee extends BaseService
             $data['author_id']
         );
 
-        $employee = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
+        $employee = $this->validateEmployeeBelongsToCompany($data);
 
         $pronoun = Pronoun::findOrFail($data['pronoun_id']);
 

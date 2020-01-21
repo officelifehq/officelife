@@ -94,7 +94,7 @@ class CreatePlace extends BaseService
      * @param Place $place
      * @return void
      */
-    private function setActive(Place $place)
+    private function setActive(Place $place): void
     {
         DB::table('places')
             ->where('placable_id', $place->placable_id)
@@ -110,7 +110,7 @@ class CreatePlace extends BaseService
      * @param Place $place
      * @return void
      */
-    private function geocodePlace(Place $place)
+    private function geocodePlace(Place $place): void
     {
         FetchAddressGeocoding::dispatch($place)->onQueue('low');
     }
@@ -123,7 +123,7 @@ class CreatePlace extends BaseService
      * @param Employee $author
      * @return void
      */
-    private function addLog(array $data, Place $place, Employee $author)
+    private function addLog(array $data, Place $place, Employee $author): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],

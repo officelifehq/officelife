@@ -42,8 +42,7 @@ class RemovePositionFromEmployee extends BaseService
             config('officelife.authorizations.hr')
         );
 
-        $employee = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
+        $employee = $this->validateEmployeeBelongsToCompany($data);
 
         $position = $employee->position;
 

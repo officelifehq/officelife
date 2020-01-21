@@ -256,6 +256,7 @@ class EmployeeTest extends TestCase
             'description' => 'awesome employee',
             'pronoun_id' => $pronoun->id,
             'user_id' => $dwight->id,
+            'birthdate' => '2010-01-01 00:00:00',
             'created_at' => '2020-01-12 00:00:00',
         ]);
 
@@ -266,7 +267,16 @@ class EmployeeTest extends TestCase
                     'id' => $dunder->id,
                 ],
                 'name' => 'michael scott',
+                'first_name' => 'michael',
+                'last_name' => 'scott',
                 'avatar' => 'avatar',
+                'email' => 'dwigth@dundermifflin.com',
+                'birthdate' => [
+                    'full' => 'Jan 01, 2010',
+                    'year' => 2010,
+                    'month' => 1,
+                    'day' => 1,
+                ],
                 'permission_level' => 'Administrator',
                 'raw_description' => 'awesome employee',
                 'parsed_description' => '<p>awesome employee</p>',

@@ -20,6 +20,10 @@ return [
     'optional' => 'optional',
     'choose_value' => 'Choose a value',
 
+    'error_title' => '👇 Oops. An error occured.',
+    'error_wrong_employee_id' => 'We can’t find the requested employee.',
+    'error_invalid_date' => 'The date is invalid.',
+
     'previous' => 'Previous',
     'next' => 'Next',
 

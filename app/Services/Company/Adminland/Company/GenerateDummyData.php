@@ -131,12 +131,15 @@ class GenerateDummyData extends BaseService
     private function addBirthdate(Employee $employee, array $data): void
     {
         $faker = Faker::create();
+        $date = Carbon::createFromFormat('Y-m-d', $faker->dateTimeThisCentury()->format('Y-m-d'));
 
         $request = [
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
             'employee_id' => $employee->id,
-            'date' => $faker->dateTimeThisCentury()->format('Y-m-d'),
+            'year' => $date->year,
+            'month' => $date->month,
+            'day' => $date->day,
             'is_dummy' => true,
         ];
 
