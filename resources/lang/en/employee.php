@@ -79,6 +79,8 @@ return [
     'status_modal_reset' => 'Remove current status',
 
     'edit_information_title' => 'Edit information',
+    'edit_information_menu' => 'Edit personal information',
+    'edit_information_menu_address' => 'Change home address',
     'edit_information_address' => 'Address',
     'edit_information_address_help' => 'Only administrators and HR will be able to see the complete address. Any other people will be able to see the city and country.',
     'edit_information_street' => 'Street',

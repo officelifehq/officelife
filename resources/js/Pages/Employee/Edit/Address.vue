@@ -1,4 +1,13 @@
-<style scoped>
+<style lang="scss" scoped>
+.edit-information-menu {
+  a {
+    border-bottom: 0;
+  }
+
+  .selected {
+    color: #4d4d4f;
+  }
+}
 </style>
 
 <template>
@@ -30,15 +39,15 @@
           </h2>
 
           <div class="cf w-100">
-            <ul class="list pl0 db tc">
+            <ul class="list pl0 db tc bb bb-gray pa2 edit-information-menu">
               <li class="di mr2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" class="">
-                  Personal information
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
+                  {{ $t('employee.edit_information_menu') }}
                 </inertia-link>
               </li>
               <li class="di">
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/address/edit'" class="" data-cy="dashboard-team-tab">
-                  Address
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/address/edit'" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
+                  {{ $t('employee.edit_information_menu_address') }}
                 </inertia-link>
               </li>
             </ul>

@@ -1,0 +1,37 @@
+# inspired by https://james.brooks.page/blog/jigsaw-github-actions/
+
+name: Build production assets
+
+on:
+  push:
+    paths:
+      - '**.vue'
+      - '**.scss'
+    branches-ignore:
+      - 'master'
+
+jobs:
+  build-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: Install node dependencies
+        run: npm install
+      - name: Build Site
+        run: npm run production
+      - name: Commit files
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "chore: automated build for production assets"
+          git push
