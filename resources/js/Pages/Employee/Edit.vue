@@ -41,12 +41,12 @@
           <div class="cf w-100">
             <ul class="list pl0 db tc bb bb-gray pa2 edit-information-menu">
               <li class="di mr2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
                   {{ $t('employee.edit_information_menu') }}
                 </inertia-link>
               </li>
               <li class="di">
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/address/edit'" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
                   {{ $t('employee.edit_information_menu_address') }}
                 </inertia-link>
               </li>

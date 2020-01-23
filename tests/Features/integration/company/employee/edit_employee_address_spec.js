@@ -8,7 +8,8 @@ describe('Employee - assign address', function () {
     cy.visit('/1/employees/2')
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=show-edit-view]').click()
-    cy.url().should('include', '/2/edit')
+    cy.get('[data-cy=menu-address-link]').click()
+    cy.url().should('include', '/2/address/edit')
     cy.get('body').should('contain', 'Edit information')
 
     cy.get('input[name=street]').type('612 St Jacques St')
@@ -39,7 +40,7 @@ describe('Employee - assign address', function () {
     cy.visit('/1/employees/2')
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=show-edit-view]').click()
-    cy.url().should('include', '/2/edit')
+    cy.get('[data-cy=menu-address-link]').click()
     cy.get('body').should('contain', 'Edit information')
 
     cy.get('input[name=street]').type('612 St Jacques St')
@@ -64,7 +65,7 @@ describe('Employee - assign address', function () {
     cy.visit('/1/employees/1')
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=show-edit-view]').click()
-    cy.url().should('include', '/1/edit')
+    cy.get('[data-cy=menu-address-link]').click()
     cy.get('body').should('contain', 'Edit information')
 
     cy.get('input[name=street]').type('612 St Jacques St')
@@ -107,8 +108,7 @@ describe('Employee - assign address', function () {
     // set an address
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=show-edit-view]').click()
-    cy.url().should('include', '/2/edit')
-    cy.get('body').should('contain', 'Edit information')
+    cy.get('[data-cy=menu-address-link]').click()
 
     cy.get('input[name=street]').type('612 St Jacques St')
     cy.get('input[name=city]').type('Montreal')
@@ -145,7 +145,7 @@ describe('Employee - assign address', function () {
     // set an address
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=show-edit-view]').click()
-    cy.url().should('include', '/1/edit')
+    cy.get('[data-cy=menu-address-link]').click()
     cy.get('body').should('contain', 'Edit information')
 
     cy.get('input[name=street]').type('612 St Jacques St')

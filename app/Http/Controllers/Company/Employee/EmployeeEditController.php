@@ -28,7 +28,7 @@ class EmployeeEditController extends Controller
      * @param int $employeeId
      * @return Response
      */
-    public function show(Request $request, int $companyId, int $employeeId): Response
+    public function show(Request $request, int $companyId, int $employeeId)
     {
         try {
             $employee = Employee::where('company_id', $companyId)
