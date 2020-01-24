@@ -53,6 +53,8 @@ class TeamController extends Controller
      */
     public function show(Request $request, $companyId, $teamId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         try {
             $team = Team::where('company_id', $companyId)
                 ->findOrFail($teamId);
@@ -91,6 +93,11 @@ class TeamController extends Controller
             ]);
         }
 
+        // does the current logged user belongs to the team?
+        $result = $employeesCollection->filter(function ($employee) use ($loggedEmployee) {
+            return $employee['id'] === $loggedEmployee->id;
+        });
+
         return Inertia::render('Team/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'team' => $team->toObject(),
@@ -98,6 +105,7 @@ class TeamController extends Controller
             'newsCount' => $news->count(),
             'employeeCount' => $employees->count(),
             'employees' => $employeesCollection,
+            'userBelongsToTheTeam' => $result->count() > 0,
         ]);
     }
 }

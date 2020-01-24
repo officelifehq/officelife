@@ -91,6 +91,10 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{team}/members/attach/{employee}', 'Company\\Team\\TeamMembersController@attach');
             Route::post('{team}/members/detach/{employee}', 'Company\\Team\\TeamMembersController@detach');
 
+            Route::resource('{team}/description', 'Company\\Team\\TeamDescriptionController')->only([
+                'store', 'destroy',
+            ]);
+
             Route::resource('{team}/news', 'Company\\Team\\TeamNewsController');
         });
 

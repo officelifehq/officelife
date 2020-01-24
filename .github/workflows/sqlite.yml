@@ -4,9 +4,20 @@ on: [push]
 
 jobs:
   phpunit:
+    name: PHP ${{ matrix.php-versions }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['7.3', '7.4']
     steps:
       - uses: actions/checkout@v1
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v1 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, dom, fileinfo
+          coverage: none
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Cache composer dependencies

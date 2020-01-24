@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Models\User\User;
+use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Validator;
 use App\Exceptions\NotEnoughPermissionException;
@@ -48,6 +49,21 @@ abstract class BaseService
         }
 
         return $employee;
+    }
+
+    /**
+     * Check that the team effectively belongs to the given company.
+     */
+    public function validateTeamBelongsToCompany(array $data): Team
+    {
+        try {
+            $team = Team::where('company_id', $data['company_id'])
+                ->findOrFail($data['team_id']);
+        } catch (ModelNotFoundException $e) {
+            throw new ModelNotFoundException(trans('app.error_wrong_employee_id'));
+        }
+
+        return $team;
     }
 
     /**

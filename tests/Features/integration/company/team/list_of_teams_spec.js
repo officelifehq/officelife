@@ -18,7 +18,7 @@ describe('Teams - List of teams', function () {
     cy.createCompany()
 
     cy.createTeam('product')
-    cy.assignEmployeeToTeam()
+    cy.assignEmployeeToTeam(1, 1)
 
     // access the team link in the header
     cy.get('[data-cy=header-teams-link').click()
