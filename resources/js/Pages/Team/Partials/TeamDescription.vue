@@ -33,7 +33,7 @@
 
     <!-- team description blank -->
     <div v-show="!updatedTeam.parsed_description && !editMode" class="lh-copy ma0 pa3 bb bb-gray">
-      <a v-if="teamMemberOrAtLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="editMode = true">{{ $t('team.description_cta') }}</a>
+      <a v-if="teamMemberOrAtLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="add-description-blank-state" @click.prevent="editMode = true">{{ $t('team.description_cta') }}</a>
 
       <span v-if="!teamMemberOrAtLeastHR()" class="f6">
         {{ $t('team.description_blank') }}
