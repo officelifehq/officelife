@@ -5,6 +5,7 @@ namespace Tests\Unit\Services;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
+use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
@@ -71,6 +72,38 @@ class BaseServiceTest extends TestCase
         $this->expectException(ModelNotFoundException::class);
         $michael = $stub->validateEmployeeBelongsToCompany([
             'employee_id' => $michael->id,
+            'company_id' => $dunder->id,
+        ]);
+    }
+
+    /** @test */
+    public function it_validates_that_the_team_belongs_to_the_company(): void
+    {
+        $dunder = factory(Company::class)->create([]);
+        $sales = factory(Team::class)->create([
+            'company_id' => $dunder->id,
+        ]);
+
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+        $sales = $stub->validateTeamBelongsToCompany([
+            'team_id' => $sales->id,
+            'company_id' => $dunder->id,
+        ]);
+
+        $this->assertInstanceOf(
+            Team::class,
+            $sales
+        );
+
+        // it throws an exception if the employee doesn't belong to the company
+        $dunder = factory(Company::class)->create([]);
+        $sales = factory(Team::class)->create([]);
+
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+
+        $this->expectException(ModelNotFoundException::class);
+        $stub->validateTeamBelongsToCompany([
+            'team_id' => $sales->id,
             'company_id' => $dunder->id,
         ]);
     }

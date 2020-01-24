@@ -40,7 +40,7 @@
     </ul>
 
     <!-- Action when there is no status defined -->
-    <a v-show="!updatedEmployee.status" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">
+    <a v-show="!updatedEmployee.status" v-if="$page.auth.employee.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">
       {{ $t('employee.status_modal_cta') }}
     </a>
     <span v-else v-show="!updatedEmployee.status">

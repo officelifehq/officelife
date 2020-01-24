@@ -59,14 +59,10 @@
             </h2>
 
             <!-- team description -->
-            <p class="lh-copy ma0 pa3 bb bb-gray">
-              {{ team.parsed_description }}
-            </p>
-
-            <!-- team description blank -->
-            <p class="lh-copy ma0 pa3 bb bb-gray">
-              <a class="bb b--dotted bt-0 bl-0 br-0 pointer">Add a team description</a>
-            </p>
+            <team-description
+              :team="team"
+              :user-belongs-to-the-team="userBelongsToTheTeam"
+            />
 
             <!-- team info -->
             <p class="lh-copy ma0 pa3 bb bb-gray">
@@ -161,11 +157,13 @@
 import Layout from '@/Shared/Layout';
 import vClickOutside from 'v-click-outside';
 import Members from '@/Pages/Team/Partials/Members';
+import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
 
 export default {
   components: {
     Layout,
     Members,
+    TeamDescription,
   },
 
   directives: {
@@ -201,6 +199,10 @@ export default {
       type: Number,
       default: null,
     },
+    userBelongsToTheTeam: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   data() {

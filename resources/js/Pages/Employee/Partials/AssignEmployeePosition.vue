@@ -25,7 +25,7 @@
     </span>
 
     <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-position-modal-blank" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
+    <a v-show="title == ''" v-if="$page.auth.employee.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-position-modal-blank" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
     <span v-else v-show="title == ''">
       {{ $t('employee.position_blank') }}
     </span>

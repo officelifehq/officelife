@@ -37,7 +37,7 @@
     </ul>
 
     <!-- Action when there is no pronoun defined -->
-    <a v-show="!updatedEmployee.pronoun" v-if="employeeOrAtLeastHR()" class="pointer" data-cy="open-pronoun-modal-blank" @click.prevent="modal = true">{{ $t('employee.pronoun_modal_cta') }}</a>
+    <a v-show="!updatedEmployee.pronoun" v-if="employeeOrAtLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-pronoun-modal-blank" @click.prevent="modal = true">{{ $t('employee.pronoun_modal_cta') }}</a>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">

@@ -32,4 +32,9 @@ return [
     'members_remove' => 'Remove from team',
     'members_blank' => 'There are no members in this team yet 😱',
     'members_no_results' => 'No results found',
+
+    'description_title' => 'Describe the team to give interesting insights about what it does',
+    'description_help' => 'Everyone in the company will be able to read this description.',
+    'description_cta' => 'Add a description to explain what the team is responsible for',
+    'description_blank' => 'No one in the team has set a description yet.',
 ];

@@ -39,7 +39,7 @@
     </ul>
 
     <!-- Action when there is no team defined -->
-    <a v-show="updatedEmployeeTeams.length == 0" v-if="$page.auth.employee.permission_level <= 200" class="pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">
+    <a v-show="updatedEmployeeTeams.length == 0" v-if="$page.auth.employee.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">
       {{ $t('employee.team_modal_title') }}
     </a>
     <span v-else v-show="updatedEmployeeTeams.length == 0">
