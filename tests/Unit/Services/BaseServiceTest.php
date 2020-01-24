@@ -6,9 +6,11 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
 use App\Services\BaseService;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class BaseServiceTest extends TestCase
 {
@@ -30,6 +32,7 @@ class BaseServiceTest extends TestCase
         $rules = [
             'street' => 'nullable|string|max:255',
         ];
+
         $stub = $this->getMockForAbstractClass(BaseService::class);
         $stub->rules([$rules]);
 
@@ -41,44 +44,88 @@ class BaseServiceTest extends TestCase
     }
 
     /** @test */
+    public function it_validates_that_the_employee_belongs_to_the_company(): void
+    {
+        $dunder = factory(Company::class)->create([]);
+        $michael = factory(Employee::class)->create([
+            'company_id' => $dunder->id,
+        ]);
+
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+        $michael = $stub->validateEmployeeBelongsToCompany([
+            'employee_id' => $michael->id,
+            'company_id' => $dunder->id,
+        ]);
+
+        $this->assertInstanceOf(
+            Employee::class,
+            $michael
+        );
+
+        // it throws an exception if the employee doesn't belong to the company
+        $dunder = factory(Company::class)->create([]);
+        $michael = factory(Employee::class)->create([]);
+
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+
+        $this->expectException(ModelNotFoundException::class);
+        $michael = $stub->validateEmployeeBelongsToCompany([
+            'employee_id' => $michael->id,
+            'company_id' => $dunder->id,
+        ]);
+    }
+
+    /** @test */
     public function it_validates_permission_level(): void
     {
         // administrator has all rights
         $stub = $this->getMockForAbstractClass(BaseService::class);
-        $employee = factory(Employee::class)->create([
+        $michael = factory(Employee::class)->create([
             'permission_level' => config('officelife.authorizations.administrator'),
         ]);
 
         $this->assertInstanceOf(
             Employee::class,
-            $stub->validatePermissions($employee->id, $employee->company_id, config('officelife.authorizations.administrator'))
+            $stub->validatePermissions($michael->id, $michael->company_id, config('officelife.authorizations.administrator'))
         );
 
         // test that an HR can't do an action reserved for an administrator
-        $employee = factory(Employee::class)->create([
+        $michael = factory(Employee::class)->create([
             'permission_level' => config('officelife.authorizations.hr'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($employee->id, $employee->company_id, config('officelife.authorizations.administrator'));
+        $stub->validatePermissions($michael->id, $michael->company_id, config('officelife.authorizations.administrator'));
 
         // test that an user can't do an action reserved for an administrator
-        $employee = factory(Employee::class)->create([
+        $michael = factory(Employee::class)->create([
             'permission_level' => config('officelife.authorizations.user'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($employee->id, $employee->company_id, config('officelife.authorizations.administrator'));
+        $stub->validatePermissions($michael->id, $michael->company_id, config('officelife.authorizations.administrator'));
 
         // test that a user can modify his own data regardless of his permission
         // level
-        $employee = factory(Employee::class)->create([
+        $michael = factory(Employee::class)->create([
             'permission_level' => config('officelife.authorizations.user'),
         ]);
 
         $this->assertInstanceOf(
             User::class,
-            $stub->validatePermissions($employee->id, $employee->company_id, config('officelife.authorizations.administrator'), $employee->id)
+            $stub->validatePermissions($michael->id, $michael->company_id, config('officelife.authorizations.administrator'), $michael->id)
+        );
+
+        // test that it returns an exception if the company and the employee
+        // doesn't match
+        $michael = factory(Employee::class)->create([
+            'permission_level' => config('officelife.authorizations.user'),
+        ]);
+        $dunder = factory(Company::class)->create([]);
+
+        $this->assertInstanceOf(
+            User::class,
+            $stub->validatePermissions($michael->id, $dunder->id, config('officelife.authorizations.user'))
         );
     }
 

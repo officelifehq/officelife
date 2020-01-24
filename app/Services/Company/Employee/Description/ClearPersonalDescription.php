@@ -42,8 +42,7 @@ class ClearPersonalDescription extends BaseService
             $data['employee_id']
         );
 
-        $employee = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
+        $employee = $this->validateEmployeeBelongsToCompany($data);
 
         $employee->description = null;
         $employee->save();

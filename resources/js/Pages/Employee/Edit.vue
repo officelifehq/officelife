@@ -1,4 +1,13 @@
-<style scoped>
+<style lang="scss" scoped>
+.edit-information-menu {
+  a {
+    border-bottom: 0;
+  }
+
+  .selected {
+    color: #4d4d4f;
+  }
+}
 </style>
 
 <template>
@@ -29,70 +38,129 @@
             {{ $t('employee.edit_information_title') }}
           </h2>
 
+          <div class="cf w-100">
+            <ul class="list pl0 db tc bb bb-gray pa2 edit-information-menu">
+              <li class="di mr2">
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
+                  {{ $t('employee.edit_information_menu') }}
+                </inertia-link>
+              </li>
+              <li class="di">
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
+                  {{ $t('employee.edit_information_menu_address') }}
+                </inertia-link>
+              </li>
+            </ul>
+          </div>
+
           <form @submit.prevent="submit()">
-            <errors :errors="form.errors" />
+            <template v-if="form.errors.length > 0">
+              <div class="cf pa3 pb1 w-100">
+                <errors :errors="form.errors" />
+              </div>
+            </template>
 
             <!-- Basic information -->
-            <div class="cf pa3 bb bb-gray pb4">
+            <div class="cf pa3 pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>{{ $t('employee.edit_information_address') }}</strong>
+                <strong>{{ $t('employee.edit_information_name') }}</strong>
                 <p class="f7 silver lh-copy pr3-ns">
-                  {{ $t('employee.edit_information_address_help') }}
+                  {{ $t('employee.edit_information_name_help') }}
                 </p>
               </div>
-              <div class="fl-ns w-two-thirds-ns w-100">
-                <!-- street -->
-                <text-input :id="'street'"
-                            v-model="form.street"
-                            :name="'street'"
-                            :errors="$page.errors.street"
-                            :label="$t('employee.edit_information_street')"
-                            :required="true"
-                />
 
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <!-- name -->
                 <div class="dt-ns dt--fixed di">
                   <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
-                    <!-- city -->
-                    <text-input :id="'city'"
-                                v-model="form.city"
-                                :name="'city'"
-                                :errors="$page.errors.city"
-                                :label="$t('employee.edit_information_city')"
+                    <!-- first name -->
+                    <text-input :id="'firstname'"
+                                v-model="form.first_name"
+                                :name="'firstname'"
+                                :errors="$page.errors.firstname"
+                                :label="$t('employee.edit_information_firstname')"
                                 :required="true"
                     />
                   </div>
                   <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
-                    <!-- state -->
-                    <text-input :id="'state'"
-                                v-model="form.state"
-                                :name="'state'"
-                                :errors="$page.errors.state"
-                                :label="$t('employee.edit_information_state')"
-                    />
-                  </div>
-                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
-                    <!-- postal code -->
-                    <text-input :id="'postal_code'"
-                                v-model="form.postal_code"
-                                :name="'postal_code'"
-                                :errors="$page.errors.postal_code"
-                                :label="$t('employee.edit_information_postal_code')"
+                    <!-- last name -->
+                    <text-input :id="'lastname'"
+                                v-model="form.last_name"
+                                :name="'lastname'"
+                                :errors="$page.errors.lastname"
+                                :label="$t('employee.edit_information_lastname')"
                                 :required="true"
                     />
                   </div>
                 </div>
 
-                <select-box :id="'country_id'"
-                            v-model="form.country_id"
-                            :options="countries"
-                            :name="'country_id'"
-                            :errors="$page.errors.country_id"
-                            :label="$t('employee.edit_information_country')"
-                            :placeholder="$t('app.choose_value')"
+                <!-- email -->
+                <text-input :id="'email'"
+                            v-model="form.email"
+                            :name="'email'"
+                            :errors="$page.errors.email"
+                            :label="$t('employee.edit_information_email')"
                             :required="true"
-                            :value="form.country_id"
-                            :datacy="'country_selector'"
+                            :type="'email'"
+                            :help="$t('employee.edit_information_email_help')"
                 />
+              </div>
+            </div>
+
+            <div class="cf pa3 bb bb-gray pb4">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>{{ $t('employee.edit_information_birthdate') }}</strong>
+                <p class="f7 silver lh-copy pr3-ns">
+                  {{ $t('employee.edit_information_birthdate_help') }}
+                </p>
+              </div>
+
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <!-- birthdate -->
+                <div class="dt-ns dt--fixed di">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                    <!-- year -->
+                    <text-input :id="'year'"
+                                v-model="form.year"
+                                :name="'year'"
+                                :errors="$page.errors.year"
+                                :label="$t('employee.edit_information_year')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1900"
+                                :max="2020"
+                                :help="$t('employee.edit_information_year_help')"
+                    />
+                  </div>
+                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                    <!-- month -->
+                    <text-input :id="'month'"
+                                v-model="form.month"
+                                :name="'month'"
+                                :errors="$page.errors.month"
+                                :label="$t('employee.edit_information_month')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1"
+                                :max="12"
+                                :help="$t('employee.edit_information_month_help')"
+                    />
+                  </div>
+                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                    <!-- day -->
+                    <text-input :id="'day'"
+                                v-model="form.day"
+                                :name="'day'"
+                                :errors="$page.errors.day"
+                                :label="$t('employee.edit_information_day')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1"
+                                :max="31"
+                                :help="$t('employee.edit_information_day_help')"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -116,7 +184,6 @@
 
 <script>
 import TextInput from '@/Shared/TextInput';
-import SelectBox from '@/Shared/Select';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
@@ -126,16 +193,11 @@ export default {
     Layout,
     TextInput,
     Errors,
-    SelectBox,
     LoadingButton,
   },
 
   props: {
     notifications: {
-      type: Array,
-      default: null,
-    },
-    countries: {
       type: Array,
       default: null,
     },
@@ -148,45 +210,37 @@ export default {
   data() {
     return {
       form: {
-        street: null,
-        city: null,
-        state: null,
-        postal_code: null,
-        country_id: null,
+        first_name: null,
+        last_name: null,
+        email: null,
+        year: null,
+        month: null,
+        day: null,
         errors: {
           type: Array,
           default: null,
         },
       },
-      existing_address: {
-        street: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country_id: 0,
-      },
       loadingState: '',
-      errorTemplate: Error,
     };
   },
 
   created() {
-    if (this.employee.address !== null) {
-      this.form.city = this.employee.address.city;
-      this.form.street = this.employee.address.street;
-      this.form.state = this.employee.address.province;
-      this.form.postal_code = this.employee.address.postal_code;
-      this.form.country_id = {
-        label: this.employee.address.country.name,
-        value: this.employee.address.country.id,
-      };
+    this.form.email = this.employee.email;
+    this.form.first_name = this.employee.first_name;
+    this.form.last_name = this.employee.last_name;
+    this.form.email = this.employee.email;
+
+    if (this.employee.birthdate != null) {
+      this.form.year = this.employee.birthdate.year;
+      this.form.month = this.employee.birthdate.month;
+      this.form.day = this.employee.birthdate.day;
     }
   },
 
   methods: {
     submit() {
       this.loadingState = 'loading';
-      this.form.country_id = this.form.country_id.value;
 
       axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/update', this.form)
         .then(response => {

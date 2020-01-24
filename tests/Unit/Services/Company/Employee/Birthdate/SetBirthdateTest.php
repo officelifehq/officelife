@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Services\Company\Employee\Birthdate;
 
+use Exception;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
@@ -28,7 +29,9 @@ class SetBirthdateTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'employee_id' => $michael->id,
-            'date' => '1978-10-01',
+            'year' => 1978,
+            'month' => 10,
+            'day' => 01,
         ];
 
         $michael = (new SetBirthdate)->execute($request);
@@ -60,6 +63,24 @@ class SetBirthdateTest extends TestCase
                     'birthday' => '1978-10-01',
                 ]);
         });
+    }
+
+    /** @test */
+    public function it_throws_an_exception_if_the_date_is_not_valid(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'year' => 1978,
+            'month' => 2,
+            'day' => 31,
+        ];
+
+        $this->expectException(Exception::class);
+        (new SetBirthdate)->execute($request);
     }
 
     /** @test */

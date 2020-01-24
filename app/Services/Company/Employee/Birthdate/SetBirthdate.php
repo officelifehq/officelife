@@ -7,13 +7,12 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use Carbon\Exceptions\InvalidDateException;
 
 class SetBirthdate extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
-     *
-     * @return array
      */
     public function rules(): array
     {
@@ -21,16 +20,14 @@ class SetBirthdate extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'date' => 'required|date_format:Y-m-d',
-            'is_dummy' => 'nullable|boolean',
+            'year' => 'required|integer',
+            'month' => 'required|integer',
+            'day' => 'required|integer',
         ];
     }
 
     /**
      * Set the birthdate of an employee.
-     *
-     * @param array $data
-     * @return Employee
      */
     public function execute(array $data): Employee
     {
@@ -43,16 +40,38 @@ class SetBirthdate extends BaseService
             $data['employee_id']
         );
 
-        $employee = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
+        $employee = $this->validateEmployeeBelongsToCompany($data);
 
-        // transform the birthdate as a carbon object
-        $carbonObject = Carbon::createFromFormat('Y-m-d', $data['date']);
+        $carbonObject = $this->checkDateValidity($data);
 
-        // save the birthdate
-        $employee->birthdate = $carbonObject;
+        $employee = $this->save($employee, $carbonObject);
+
+        $this->log($data, $author, $employee, $carbonObject);
+
+        return $employee;
+    }
+
+    private function checkDateValidity(array $data): Carbon
+    {
+        try {
+            $carbonObject = Carbon::createSafe($data['year'], $data['month'], $data['day']);
+        } catch (InvalidDateException $e) {
+            throw new \Exception(trans('app.error_invalid_date'));
+        }
+
+        return $carbonObject;
+    }
+
+    private function save(Employee $employee, Carbon $date): Employee
+    {
+        $employee->birthdate = $date;
         $employee->save();
 
+        return $employee;
+    }
+
+    private function log(array $data, Employee $author, Employee $employee, Carbon $date): void
+    {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_birthday_set',
@@ -62,7 +81,7 @@ class SetBirthdate extends BaseService
             'objects' => json_encode([
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'birthday' => $data['date'],
+                'birthday' => $date->format('Y-m-d'),
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
@@ -74,11 +93,9 @@ class SetBirthdate extends BaseService
             'author_name' => $author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'birthday' => $data['date'],
+                'birthday' => $date->format('Y-m-d'),
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
-
-        return $employee;
     }
 }

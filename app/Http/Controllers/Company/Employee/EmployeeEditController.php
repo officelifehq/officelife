@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Country;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Employee\Birthdate\SetBirthdate;
+use App\Services\Company\Employee\PersonalDetails\SetPersonalDetails;
 
 class EmployeeEditController extends Controller
 {
@@ -21,9 +26,85 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Request $request, int $companyId, int $employeeId)
+    {
+        try {
+            $employee = Employee::where('company_id', $companyId)
+                ->findOrFail($employeeId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            $this->validateAccess(
+                Auth::user()->id,
+                $companyId,
+                $employeeId,
+                config('officelife.authorizations.hr')
+            );
+        } catch (\Exception $e) {
+            return redirect('/home');
+        }
+
+        return Inertia::render('Employee/Edit', [
+            'employee' => $employee->toObject(),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Update the information about the employee's address.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return JsonResponse
+     */
+    public function update(Request $request, $companyId, $employeeId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'email' => $request->input('email'),
+        ];
+
+        (new SetPersonalDetails)->execute($data);
+
+        $date = Carbon::createFromDate($request->input('year'), $request->input('month'), $request->input('day'));
+
+        $request = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+            'date' => $date->format('Y-m-d'),
+            'year' => intval($request->input('year')),
+            'month' => intval($request->input('month')),
+            'day' => intval($request->input('day')),
+        ];
+
+        (new SetBirthdate)->execute($request);
+
+        return response()->json([
+            'company_id' => $companyId,
+        ], 200);
+    }
+
+    /**
+     * Show the employee edit address page.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return Response
+     */
+    public function address(Request $request, int $companyId, int $employeeId): Response
     {
         try {
             $employee = Employee::where('company_id', $companyId)
@@ -52,7 +133,7 @@ class EmployeeEditController extends Controller
             ]);
         }
 
-        return Inertia::render('Employee/Edit', [
+        return Inertia::render('Employee/Edit/Address', [
             'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'countries' => $countriesCollection,
@@ -60,14 +141,14 @@ class EmployeeEditController extends Controller
     }
 
     /**
-     * Update the information about the employee.
+     * Update the information about the employee's address.
      *
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function update(Request $request, $companyId, $employeeId)
+    public function updateAddress(Request $request, $companyId, $employeeId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -88,6 +169,6 @@ class EmployeeEditController extends Controller
 
         return response()->json([
             'company_id' => $companyId,
-        ]);
+        ], 200);
     }
 }

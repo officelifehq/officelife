@@ -297,6 +297,13 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_personal_details_set') {
+            $sentence = trans('account.log_employee_personal_details_set', [
+                'name' => $log->object->{'employee_name'},
+                'email' => $log->object->{'employee_email'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -422,6 +429,13 @@ class LogHelper
 
         if ($log->action == 'birthday_set') {
             $sentence = trans('account.employee_birthday_set');
+        }
+
+        if ($log->action == 'personal_details_set') {
+            $sentence = trans('account.employee_personal_details_set', [
+                'name' => $log->object->{'name'},
+                'email' => $log->object->{'email'},
+            ]);
         }
 
         return $sentence;

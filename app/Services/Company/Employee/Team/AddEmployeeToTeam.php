@@ -44,8 +44,7 @@ class AddEmployeeToTeam extends BaseService
             config('officelife.authorizations.hr')
         );
 
-        $employee = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
+        $employee = $this->validateEmployeeBelongsToCompany($data);
 
         $team = Team::where('company_id', $data['company_id'])
             ->findOrFail($data['team_id']);
