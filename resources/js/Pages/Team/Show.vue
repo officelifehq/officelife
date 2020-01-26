@@ -94,7 +94,7 @@
           <!-- News -->
           <h3 class="db fw5 mb3 flex justify-between items-center">
             <span>🗞 {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn btn-secondary f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
+            <inertia-link v-if="userBelongsToTheTeam || $page.auth.employee.permission_level <= 200" :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn btn-secondary f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
           </h3>
 
           <div class="mb4">
