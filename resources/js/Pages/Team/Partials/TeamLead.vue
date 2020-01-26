@@ -71,7 +71,7 @@
     </template>
 
     <!-- team lead blank state -->
-    <div v-show="!this.updatedTeam.team_leader && !editMode" class="lh-copy ma0 pa3 bb bb-gray">
+    <div v-show="!updatedTeam.team_leader && !editMode" class="lh-copy ma0 pa3 bb bb-gray">
       <a v-if="atLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="add-team-lead-blank-state" @click.prevent="displaySearch()">{{ $t('team.team_lead_cta') }}</a>
 
       <span v-if="!atLeastHR()" class="f6">
