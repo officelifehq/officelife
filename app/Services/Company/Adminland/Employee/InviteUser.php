@@ -79,7 +79,7 @@ class InviteUser extends BaseService
     {
         $employee = Employee::find($data['employee_id']);
 
-        if ($employee->invitationAlreadyAccepted()) {
+        if ($employee->invitation_used_at) {
             throw new InvitationAlreadyUsedException();
         }
 

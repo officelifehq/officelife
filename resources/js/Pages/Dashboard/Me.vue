@@ -71,6 +71,8 @@
             <li>View one on ones</li>
             <li>View all my tasks</li>
             <li>quizz hebdo pour apprendre à connaitre</li>
+            <li>donner des statistics sur le nombre de femmes/hommes avec un poste à responsabilité</li>
+            <li>donner le ratio homme/femme par poste dans l'onglet Positions</li>
           </ul>
         </div>
       </div>

@@ -46,15 +46,15 @@ class EmployeeTest extends TestCase
     public function it_has_many_teams(): void
     {
         $dwight = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
+        $sales = factory(Team::class)->create([
             'company_id' => $dwight->company_id,
         ]);
-        $teamB = factory(Team::class)->create([
+        $salesB = factory(Team::class)->create([
             'company_id' => $dwight->company_id,
         ]);
 
-        $dwight->teams()->sync([$team->id => ['company_id' => $dwight->company_id]]);
-        $dwight->teams()->sync([$teamB->id => ['company_id' => $dwight->company_id]]);
+        $dwight->teams()->sync([$sales->id]);
+        $dwight->teams()->sync([$salesB->id]);
 
         $this->assertTrue($dwight->teams()->exists());
     }
@@ -361,18 +361,6 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_checks_whether_the_invitation_has_been_accepted(): void
-    {
-        $dwight = factory(Employee::class)->create([]);
-        $this->assertFalse($dwight->invitationAlreadyAccepted());
-
-        $dwight = factory(Employee::class)->create([
-            'invitation_used_at' => '1999-01-01',
-        ]);
-        $this->assertTrue($dwight->invitationAlreadyAccepted());
-    }
-
-    /** @test */
     public function it_checks_if_a_worklog_has_already_been_logged_today(): void
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
@@ -449,7 +437,7 @@ class EmployeeTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $dwight = factory(Employee::class)->create();
-        $policy = factory(CompanyPTOPolicy::class)->create([
+        factory(CompanyPTOPolicy::class)->create([
             'company_id' => $dwight->company_id,
             'year' => 2018,
         ]);
@@ -469,5 +457,30 @@ class EmployeeTest extends TestCase
         $this->assertTrue(
             array_key_exists('holidays_earned_each_month', $dwight->getHolidaysInformation())
         );
+    }
+
+    /** @test */
+    public function it_checks_if_the_employee_is_in_a_given_team(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        $sales = factory(Team::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $sales->employees()->attach(
+            $dwight->id,
+            [
+                'created_at' => Carbon::now('UTC'),
+            ]
+        );
+
+        $this->assertTrue($dwight->isInTeam($sales));
+
+        $dwight = factory(Employee::class)->create();
+        $sales = factory(Team::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $this->assertFalse($dwight->isInTeam($sales));
     }
 }

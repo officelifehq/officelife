@@ -57,6 +57,30 @@ class NotificationHelper
             ]);
         }
 
+        if ($notification->action == 'employee_added_to_team') {
+            $sentence = trans('account.notification_employee_added_to_team', [
+                'name' => $notification->object->{'team_name'},
+            ]);
+        }
+
+        if ($notification->action == 'employee_removed_from_team') {
+            $sentence = trans('account.notification_employee_removed_from_team', [
+                'name' => $notification->object->{'team_name'},
+            ]);
+        }
+
+        if ($notification->action == 'team_lead_set') {
+            $sentence = trans('account.notification_team_lead_set', [
+                'name' => $notification->object->{'team_name'},
+            ]);
+        }
+
+        if ($notification->action == 'team_lead_removed') {
+            $sentence = trans('account.notification_team_lead_removed', [
+                'name' => $notification->object->{'team_name'},
+            ]);
+        }
+
         return $sentence;
     }
 }

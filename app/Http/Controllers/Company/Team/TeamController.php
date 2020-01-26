@@ -57,6 +57,7 @@ class TeamController extends Controller
 
         try {
             $team = Team::where('company_id', $companyId)
+                ->with('leader')
                 ->findOrFail($teamId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -70,7 +71,10 @@ class TeamController extends Controller
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'avatar' => $employee->avatar,
-                'position' => ($employee->position) ? $employee->position->title : null,
+                'position' => (!$employee->position) ? null : [
+                    'id' => $employee->position->id,
+                    'title' => $employee->position->title,
+                ],
             ]);
         }
 
@@ -94,6 +98,7 @@ class TeamController extends Controller
         }
 
         // does the current logged user belongs to the team?
+        // this is useful to know whether the user can do actions because he's part of the team
         $result = $employeesCollection->filter(function ($employee) use ($loggedEmployee) {
             return $employee['id'] === $loggedEmployee->id;
         });

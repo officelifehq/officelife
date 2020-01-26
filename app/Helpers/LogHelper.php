@@ -304,6 +304,20 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'team_leader_assigned') {
+            $sentence = trans('account.log_team_leader_assigned', [
+                'name' => $log->object->{'team_leader_name'},
+                'team_name' => $log->object->{'team_name'},
+            ]);
+        }
+
+        if ($log->action == 'team_leader_removed') {
+            $sentence = trans('account.log_team_leader_removed', [
+                'name' => $log->object->{'team_leader_name'},
+                'team_name' => $log->object->{'team_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -484,13 +498,13 @@ class LogHelper
             ]);
         }
 
-        if ($log->action == 'team_log_team_leader_assigned') {
+        if ($log->action == 'team_leader_assigned') {
             $sentence = trans('account.team_log_team_leader_assigned', [
                 'name' => $log->object->{'team_leader_name'},
             ]);
         }
 
-        if ($log->action == 'team_log_team_leader_removed') {
+        if ($log->action == 'team_leader_removed') {
             $sentence = trans('account.team_log_team_leader_removed', [
                 'name' => $log->object->{'team_leader_name'},
             ]);

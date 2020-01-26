@@ -41,8 +41,7 @@ class ClearTeamDescription extends BaseService
             config('officelife.authorizations.user')
         );
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
+        $team = $this->validateTeamBelongsToCompany($data);
 
         $team->description = null;
         $team->save();

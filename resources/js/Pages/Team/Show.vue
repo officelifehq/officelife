@@ -1,15 +1,4 @@
 <style lang="scss" scoped>
-
-.avatar {
-  left: 1px;
-  top: 5px;
-  width: 35px;
-}
-
-.team-lead {
-  padding-left: 44px;
-}
-
 .useful-link {
   top: 6px;
 }
@@ -69,25 +58,12 @@
               This team has {{ employeeCount }} members, the most recent being sdfsd.
             </p>
 
-            <!-- Team lead - blank -->
-            <p class="lh-copy ma0 pa3 bb bb-gray">
-              <a class="bb b--dotted bt-0 bl-0 br-0 pointer">Assign a team lead</a>
-            </p>
-
             <!-- Team lead -->
-            <div class="lh-copy ma0 pa3 bb bb-gray">
-              <p class="silver f6 ma0 mb1">Team lead</p>
-              <span class="pl3 db team-lead relative">
-                <img :src="'https://api.adorable.io/avatars/200/f25dbf67-01c1-4d12-91a2-927053fbf671.png'" class="br-100 absolute avatar" />
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/'" class="mb2">
-                  JOhn Doe
-                </inertia-link>
-
-                <span class="db f7 mt1">
-                  {{ $t('app.no_position_defined') }}
-                </span>
-              </span>
-            </div>
+            <team-lead
+              :team="team"
+              :user-belongs-to-the-team="userBelongsToTheTeam"
+              @lead-set="refreshTeamMembers($event)"
+            />
 
             <!-- Links -->
             <div class="ma0 pa3">
@@ -111,7 +87,7 @@
         <div class="fl w-70-l w-100 pl4-l">
           <!-- Employees -->
           <members
-            :employees="employees"
+            :employees="updatedEmployees"
             :team="team"
           />
 
@@ -158,12 +134,14 @@ import Layout from '@/Shared/Layout';
 import vClickOutside from 'v-click-outside';
 import Members from '@/Pages/Team/Partials/Members';
 import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
+import TeamLead from '@/Pages/Team/Partials/TeamLead';
 
 export default {
   components: {
     Layout,
     Members,
     TeamDescription,
+    TeamLead,
   },
 
   directives: {
@@ -207,6 +185,10 @@ export default {
 
   data() {
     return {
+      updatedEmployees: {
+        type: Array,
+        default: [],
+      }
     };
   },
 
@@ -222,9 +204,17 @@ export default {
     }
   },
 
+  created() {
+    this.updatedEmployees = this.employees;
+  },
+
   methods: {
     goToNews() {
       this.$inertia.visit('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/news');
+    },
+
+    refreshTeamMembers(object) {
+      this.updatedEmployees.push(object);
     }
   }
 };

@@ -152,6 +152,8 @@ return [
     'log_team_news_updated' => 'Updated the news called :news_name for the team called :name.',
     'log_team_news_destroyed' => 'Deleted the news called :news_name for the team called :name.',
     'log_employee_personal_details_set' => 'Set the employee name and email address to :name and :email.',
+    'log_team_leader_assigned' => 'Assigned :name as the team leader of the team called :team_name.',
+    'log_team_leader_removed' => 'Removed :name as the team lead of the team called :team_name.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -194,6 +196,10 @@ return [
 
     'notification_dummy_data_generated' => 'Dummy data have been generated for :name.',
     'notification_employee_added_to_company' => 'You have been added to :name.',
+    'notification_employee_added_to_team' => 'You have been added to the team called :name.',
+    'notification_employee_removed_from_team' => 'You have been removed from the team called :name.',
+    'notification_team_lead_set' => 'You have been assigned as the team lead for the team called :name.',
+    'notification_team_lead_removed' => 'You are not longer the team lead of the team called :name.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',

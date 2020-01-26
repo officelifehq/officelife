@@ -30,7 +30,7 @@ class UserInvitationController extends Controller
             return Inertia::render('Auth/Invitation/InvalidInvitationLink', []);
         }
 
-        if ($employee->invitationAlreadyAccepted()) {
+        if ($employee->invitation_used_at) {
             return Inertia::render('Auth/Invitation/InvitationLinkAlreadyAccepted', []);
         }
 

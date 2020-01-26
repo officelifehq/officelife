@@ -4,12 +4,13 @@ namespace App\Services\Company\Team;
 
 use Carbon\Carbon;
 use App\Jobs\LogTeamAudit;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 
-class SetTeamLeader extends BaseService
+class UnSetTeamLead extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -21,14 +22,13 @@ class SetTeamLeader extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'employee_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Set the employee as the team leader.
+     * Remove the team's leader.
      *
      * @param array $data
      * @return Team
@@ -43,41 +43,72 @@ class SetTeamLeader extends BaseService
             config('officelife.authorizations.hr')
         );
 
-        $employee = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['employee_id']);
+        $team = $this->validateTeamBelongsToCompany($data);
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
+        $oldTeamLeader = $team->leader;
 
-        $team->team_leader_id = $data['employee_id'];
+        $team->team_leader_id = null;
         $team->save();
 
+        $this->addNotification($oldTeamLeader, $team);
+
+        $this->log($data, $author, $oldTeamLeader, $team);
+
+        return $team;
+    }
+
+    /**
+     * Add a notification in the UI for the employee who has been demoted.
+     *
+     * @param Employee $employee
+     * @param Team $team
+     * @return void
+     */
+    private function addNotification(Employee $employee, Team $team): void
+    {
+        NotifyEmployee::dispatch([
+            'employee_id' => $employee->id,
+            'action' => 'team_lead_removed',
+            'objects' => json_encode([
+                'team_name' => $team->name,
+            ]),
+        ])->onQueue('low');
+    }
+
+    /**
+     * Log the information in the audit logs.
+     *
+     * @param array $data
+     * @param Employee $author
+     * @param Employee $oldTeamLeader
+     * @param Team $team
+     * @return void
+     */
+    private function log(array $data, Employee $author, Employee $oldTeamLeader, Team $team): void
+    {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
-            'action' => 'team_leader_assigned',
+            'action' => 'team_leader_removed',
             'author_id' => $author->id,
             'author_name' => $author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'team_leader_id' => $employee->id,
-                'team_leader_name' => $employee->name,
+                'team_leader_name' => $oldTeamLeader->name,
+                'team_name' => $team->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
-            'action' => 'team_leader_assigned',
+            'action' => 'team_leader_removed',
             'author_id' => $author->id,
             'author_name' => $author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'team_leader_id' => $employee->id,
-                'team_leader_name' => $employee->name,
+                'team_leader_name' => $oldTeamLeader->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
-
-        return $team;
     }
 }

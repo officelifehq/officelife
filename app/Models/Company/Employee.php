@@ -124,7 +124,7 @@ class Employee extends Model
     }
 
     /**
-     * Get the teams record associated with the user.
+     * Get the teams record associated with the employee.
      *
      * @return belongsToMany
      */
@@ -408,20 +408,6 @@ class Employee extends Model
     }
 
     /**
-     * Return true if the invitation to become a user has already been accepted.
-     *
-     * @return bool
-     */
-    public function invitationAlreadyAccepted(): bool
-    {
-        if ($this->invitation_used_at) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Check if the employee has already logged something today.
      *
      * @return bool
@@ -490,5 +476,22 @@ class Employee extends Model
             'number_holidays_left_to_earn_this_year' => round($numberOfDaysLeftToEarn, 1),
             'holidays_earned_each_month' => round($holidaysEarnedEachMonth, 1),
         ];
+    }
+
+    /**
+     * Check wether the employee is part of the given team.
+     *
+     * @param Team $team
+     * @return boolean
+     */
+    public function isInTeam(Team $team): bool
+    {
+        $teams = $this->teams;
+
+        $result = $teams->filter(function ($singleTeam) use ($team) {
+            return $singleTeam->id === $team->id;
+        });
+
+        return $result->count() == 1;
     }
 }
