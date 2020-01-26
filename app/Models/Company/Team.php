@@ -143,6 +143,14 @@ class Team extends Model
             'name' => $this->name,
             'raw_description' => is_null($this->description) ? null : $this->description,
             'parsed_description' => is_null($this->description) ? null : StringHelper::parse($this->description),
+            'team_leader' => is_null($this->leader) ? null : [
+                'id' => $this->leader->id,
+                'name' => $this->leader->name,
+                'avatar' => $this->leader->avatar,
+                'position' => (!$this->leader->position) ? null : [
+                    'title' => $this->leader->position->title,
+                ],
+            ],
             'created_at' => $this->created_at,
         ];
     }

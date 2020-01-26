@@ -32,7 +32,12 @@ class EmployeePositionController extends Controller
         $employee = (new AssignPositionToEmployee)->execute($request);
 
         return response()->json([
-            'data' => $employee->toObject(),
+            'data' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'position' => ($employee->position) ? $employee->position->title : null,
+            ],
         ], 200);
     }
 

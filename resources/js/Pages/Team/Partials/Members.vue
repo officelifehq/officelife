@@ -77,7 +77,7 @@
 
             <!-- position -->
             <span v-show="!editMode" v-if="employee.position" class="title db f7 mt1">
-              {{ employee.position }}
+              {{ employee.position.title }}
             </span>
             <span v-show="!editMode" v-else class="title db f7 mt1">
               {{ $t('app.no_position_defined') }}
@@ -146,6 +146,16 @@ export default {
 
   mounted() {
     this.listOfEmployees = this.employees;
+
+    // when a team lead is set, we must react to the event emitted by the
+    // TeamLead.vue component and add the team lead to the list of employees
+    this.$root.$on('leadSet', employee => {
+      var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
+
+      if (id == -1) {
+        this.listOfEmployees.push(employee);
+      }
+    });
   },
 
   methods: {

@@ -37,4 +37,10 @@ return [
     'description_help' => 'Everyone in the company will be able to read this description.',
     'description_cta' => 'Add a description to explain what the team is responsible for',
     'description_blank' => 'No one in the team has set a description yet.',
+    'description_success' => 'The description has been set.',
+
+    'team_lead_label' => 'Team lead',
+    'team_lead_added' => 'The team has now a new team lead.',
+    'team_lead_removed' => 'The team lead has been removed.',
+    'team_lead_remove_confirmation' => 'Are you sure?',
 ];

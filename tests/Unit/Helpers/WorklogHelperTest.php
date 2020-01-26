@@ -32,8 +32,8 @@ class WorklogHelperTest extends TestCase
             'company_id' => $team->company_id,
         ]);
 
-        $team->employees()->syncWithoutDetaching([$dwight->id => ['company_id' => $team->company_id]]);
-        $team->employees()->syncWithoutDetaching([$michael->id => ['company_id' => $team->company_id]]);
+        $team->employees()->syncWithoutDetaching([$dwight->id]);
+        $team->employees()->syncWithoutDetaching([$michael->id]);
 
         // logging worklogs
         factory(Worklog::class)->create([

@@ -27,11 +27,9 @@ class CreateTeamsTable extends Migration
         });
 
         Schema::create('employee_team', function (Blueprint $table) {
-            $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('team_id');
             $table->timestamps();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });

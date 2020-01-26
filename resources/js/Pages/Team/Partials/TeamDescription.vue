@@ -1,23 +1,4 @@
 <style lang="scss" scoped>
-.avatar {
-  left: 1px;
-  top: 5px;
-  width: 35px;
-}
-
-.team-member {
-  padding-left: 44px;
-
-  .avatar {
-    top: 2px;
-  }
-}
-
-.ball-pulse {
-  right: 8px;
-  top: 37px;
-  position: absolute;
-}
 </style>
 
 <template>
@@ -27,13 +8,13 @@
       </div>
 
       <p v-if="teamMemberOrAtLeastHR()" class="pl3 pb3 pr3 f6 mb0">
-        <a class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="team-description-edit" @click.prevent="editMode = true">{{ $t('app.edit') }}</a>
+        <a class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="team-description-edit" @click.prevent="showEditMode()">{{ $t('app.edit') }}</a>
       </p>
     </div>
 
     <!-- team description blank -->
     <div v-show="!updatedTeam.parsed_description && !editMode" class="lh-copy ma0 pa3 bb bb-gray">
-      <a v-if="teamMemberOrAtLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="add-description-blank-state" @click.prevent="editMode = true">{{ $t('team.description_cta') }}</a>
+      <a v-if="teamMemberOrAtLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="add-description-blank-state" @click.prevent="showEditMode()">{{ $t('team.description_cta') }}</a>
 
       <span v-if="!teamMemberOrAtLeastHR()" class="f6">
         {{ $t('team.description_blank') }}
@@ -49,7 +30,8 @@
           </div>
         </template>
 
-        <text-area v-model="form.description"
+        <text-area ref="description"
+                   v-model="form.description"
                    :label="$t('team.description_title')"
                    :datacy="'team-description-textarea'"
                    :required="true"
@@ -113,12 +95,20 @@ export default {
   },
 
   methods: {
+    showEditMode() {
+      this.editMode = true;
+
+      this.$nextTick(() => {
+        this.$refs.description.focus();
+      });
+    },
+
     submit() {
       this.loadingState = 'loading';
 
       axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/description', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('employee.description_success'), {
+          this.$snotify.success(this.$t('team.description_success'), {
             timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,

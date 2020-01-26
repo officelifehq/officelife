@@ -4,6 +4,7 @@ namespace App\Services\Company\Employee\Team;
 
 use Carbon\Carbon;
 use App\Jobs\LogTeamAudit;
+use App\Jobs\NotifyEmployee;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
@@ -46,11 +47,51 @@ class RemoveEmployeeFromTeam extends BaseService
 
         $employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
+        $team = $this->validateTeamBelongsToCompany($data);
 
-        $team->employees()->detach($data['employee_id'], ['company_id' => $data['company_id']]);
+        $team->employees()->detach(
+            $data['employee_id'],
+            ['company_id' => $data['company_id']]
+        );
 
+        $this->addNotification($employee, $team);
+
+        $this->log($data, $employee, $author, $team);
+
+        $employee->refresh();
+
+        return $employee;
+    }
+
+    /**
+     * Add a notification in the UI for the employee that is added to the team.
+     *
+     * @param Employee $employee
+     * @param Team $team
+     * @return void
+     */
+    private function addNotification(Employee $employee, Team $team): void
+    {
+        NotifyEmployee::dispatch([
+            'employee_id' => $employee->id,
+            'action' => 'employee_removed_from_team',
+            'objects' => json_encode([
+                'team_name' => $team->name,
+            ]),
+        ])->onQueue('low');
+    }
+
+    /**
+     * Add the logs in the different audit logs.
+     *
+     * @param array $data
+     * @param Employee $employee
+     * @param Employee $author
+     * @param Team $team
+     * @return void
+     */
+    private function log(array $data, Employee $employee, Employee $author, Team $team): void
+    {
         $dataToLog = [
             'employee_id' => $employee->id,
             'employee_name' => $employee->name,
@@ -87,9 +128,5 @@ class RemoveEmployeeFromTeam extends BaseService
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
-
-        $employee->refresh();
-
-        return $employee;
     }
 }

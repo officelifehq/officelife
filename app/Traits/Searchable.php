@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Helpers\SearchHelper;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 trait Searchable
 {
@@ -17,7 +18,7 @@ trait Searchable
      * @param  string $sortOrder
      * @param  string $whereCondition
      *
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|null
+     * @return LengthAwarePaginator|null
      */
     public function scopeSearch(Builder $builder, $needle, $companyId, $limitPerPage, $sortOrder, $whereCondition = null)
     {

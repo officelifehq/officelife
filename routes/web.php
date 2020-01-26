@@ -95,6 +95,11 @@ Route::middleware(['auth'])->group(function () {
                 'store', 'destroy',
             ]);
 
+            Route::resource('{team}/lead', 'Company\\Team\\TeamLeadController')->only([
+                'store', 'destroy',
+            ]);
+            Route::post('{team}/lead/search', 'Company\\Team\\TeamLeadController@search');
+
             Route::resource('{team}/news', 'Company\\Team\\TeamNewsController');
         });
 

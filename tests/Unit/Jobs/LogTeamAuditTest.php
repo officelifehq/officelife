@@ -19,20 +19,19 @@ class LogTeamAuditTest extends TestCase
         $date = Carbon::now();
 
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $sales = factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
 
-        $team->employees()->attach(
+        $sales->employees()->attach(
             $michael->id,
             [
-                'company_id' => $michael->company_id,
                 'created_at' => Carbon::now('UTC'),
             ]
         );
 
         $request = [
-            'team_id' => $team->id,
+            'team_id' => $sales->id,
             'action' => 'employee_status_created',
             'author_id' => $michael->id,
             'author_name' => $michael->name,
@@ -45,7 +44,7 @@ class LogTeamAuditTest extends TestCase
         LogTeamAudit::dispatch($request);
 
         $this->assertDatabaseHas('team_logs', [
-            'team_id' => $team->id,
+            'team_id' => $sales->id,
             'action' => 'employee_status_created',
             'author_id' => $michael->id,
             'author_name' => $michael->name,

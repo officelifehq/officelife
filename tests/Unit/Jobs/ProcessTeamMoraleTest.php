@@ -21,7 +21,7 @@ class ProcessTeamMoraleTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $sales = factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -29,18 +29,16 @@ class ProcessTeamMoraleTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
 
-        $team->employees()->attach(
+        $sales->employees()->attach(
             $dwight->id,
             [
-                'company_id' => $dwight->company_id,
                 'created_at' => Carbon::now('UTC'),
             ]
         );
 
-        $team->employees()->attach(
+        $sales->employees()->attach(
             $michael->id,
             [
-                'company_id' => $michael->company_id,
                 'created_at' => Carbon::now('UTC'),
             ]
         );
@@ -56,7 +54,7 @@ class ProcessTeamMoraleTest extends TestCase
         ]);
 
         $request = [
-            'team_id' => $team->id,
+            'team_id' => $sales->id,
             'date' => Carbon::now(),
         ];
 
@@ -68,7 +66,7 @@ class ProcessTeamMoraleTest extends TestCase
         );
 
         $this->assertDatabaseHas('morale_team_history', [
-            'team_id' => $team->id,
+            'team_id' => $sales->id,
             'average' => 2,
             'number_of_team_members' => 2,
         ]);

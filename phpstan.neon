@@ -22,3 +22,5 @@ parameters:
         - */*/*/*/*/EmployeeController.php
         - */*/*/*/CheckCompany.php
         - */*/*/*/*/AdminAuditController.php
+        - */*/*/*/*/TeamController.php
+        - */*/*/*/*/TeamLeadController.php
