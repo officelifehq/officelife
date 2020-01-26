@@ -1,5 +1,5 @@
 describe('Team - Team lead management', function () {
-  it.skip('should let you add a team lead who was not part of the team as an administrator', function () {
+  it('should let you add a team lead who was not part of the team as an administrator', function () {
     cy.login()
 
     cy.createCompany()
@@ -32,7 +32,7 @@ describe('Team - Team lead management', function () {
     cy.hasAuditLog('Removed Jim Halpert as the team lead of the team called product', '/1/teams/1')
   })
 
-  it.skip('should let you add a team lead who was not part of the team as an hr', function () {
+  it('should let you add a team lead who was not part of the team as an hr', function () {
     cy.login()
 
     cy.createCompany()
@@ -65,7 +65,7 @@ describe('Team - Team lead management', function () {
     cy.get('[data-cy=team-lead-undefined]').should('not.exist')
   })
 
-  it.skip('should not let you add a team lead who was not part of the team as an employee', function () {
+  it('should not let you add a team lead who was not part of the team as an employee', function () {
     cy.login()
 
     cy.createCompany()

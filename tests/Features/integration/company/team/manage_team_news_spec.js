@@ -95,7 +95,7 @@ describe('Team - Team news management', function () {
     cy.get('[data-cy=news-list]').should('not.contain', 'No news of the week')
   })
 
-  it('should let you manage team news as a normal user', function () {
+  it('should let you manage team news as a normal user who is part of the team', function () {
     cy.login()
 
     cy.createCompany()
@@ -103,9 +103,17 @@ describe('Team - Team news management', function () {
 
     cy.wait(1000)
 
-    cy.changePermission(1, 200)
-
     cy.visit('/1/teams/1')
+
+    cy.get('[data-cy=manage-team-on]').click()
+
+    // search for an employee
+    cy.get('[data-cy=member-input]').type('admin@admin.com')
+    cy.wait(600)
+    cy.get('[data-cy=employee-id-1]').click()
+    cy.visit('/1/teams/1')
+
+    cy.changePermission(1, 300)
 
     // open the new page
     cy.get('[data-cy=add-team-news]').click()
@@ -135,5 +143,21 @@ describe('Team - Team news management', function () {
     cy.get('[data-cy=delete-news-button-1]').click()
     cy.get('[data-cy=delete-news-button-confirm-1]').click()
     cy.get('[data-cy=news-list]').should('not.contain', 'No news of the week')
+  })
+
+  it('should not let you manage team news as a normal user who is not part of the team', function () {
+    cy.login()
+
+    cy.createCompany()
+    cy.createTeam('product')
+
+    cy.wait(1000)
+
+    cy.changePermission(1, 300)
+
+    cy.visit('/1/teams/1')
+
+    // open the new page
+    cy.get('[data-cy=add-team-news]').should('not.exist')
   })
 })
