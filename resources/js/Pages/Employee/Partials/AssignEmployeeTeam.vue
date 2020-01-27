@@ -27,6 +27,11 @@
       </li>
       <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
         <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">{{ team.name }}</inertia-link>
+        <template v-if="team.team_leader">
+          <span v-if="team.team_leader.id == employee.id">
+            (leader)
+          </span>
+        </template>
       </li>
     </ul>
     <ul v-else class="ma0 pa0 existing-teams di">

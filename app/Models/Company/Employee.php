@@ -481,15 +481,15 @@ class Employee extends Model
     /**
      * Check wether the employee is part of the given team.
      *
-     * @param Team $team
+     * @param int $teamId
      * @return boolean
      */
-    public function isInTeam(Team $team): bool
+    public function isInTeam(int $teamId): bool
     {
         $teams = $this->teams;
 
-        $result = $teams->filter(function ($singleTeam) use ($team) {
-            return $singleTeam->id === $team->id;
+        $result = $teams->filter(function ($singleTeam) use ($teamId) {
+            return $singleTeam->id === $teamId;
         });
 
         return $result->count() == 1;
