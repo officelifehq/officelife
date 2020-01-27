@@ -474,13 +474,13 @@ class EmployeeTest extends TestCase
             ]
         );
 
-        $this->assertTrue($dwight->isInTeam($sales));
+        $this->assertTrue($dwight->isInTeam($sales->id));
 
         $dwight = factory(Employee::class)->create();
         $sales = factory(Team::class)->create([
             'company_id' => $dwight->company_id,
         ]);
 
-        $this->assertFalse($dwight->isInTeam($sales));
+        $this->assertFalse($dwight->isInTeam($sales->id));
     }
 }

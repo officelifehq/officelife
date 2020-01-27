@@ -86,7 +86,7 @@ class SetTeamLead extends BaseService
      */
     private function addEmployeeToTeam(array $data, Employee $employee, Team $team)
     {
-        if ($employee->isInTeam($team)) {
+        if ($employee->isInTeam($team->id)) {
             return;
         }
 
