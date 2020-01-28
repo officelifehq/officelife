@@ -29,6 +29,7 @@ class CreateTeamUsefulLink extends BaseService
                 Rule::in([
                     'slack',
                     'email',
+                    'url',
                 ]),
             ],
             'label' => 'nullable|string|max:255',
@@ -55,8 +56,7 @@ class CreateTeamUsefulLink extends BaseService
             config('officelife.authorizations.user')
         );
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
+        $team = $this->validateTeamBelongsToCompany($data);
 
         $link = $this->createLink($data);
 

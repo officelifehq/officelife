@@ -41,6 +41,22 @@ class TeamUsefulLink extends Model
     }
 
     /**
+     * Transform the object to an array representing this object.
+     *
+     * @return array
+     */
+    public function toObject(): array
+    {
+        return [
+            'id' => $this->id,
+            'type' => $this->type,
+            'label' => $this->label,
+            'url' => $this->url,
+            'created_at' => $this->created_at,
+        ];
+    }
+
+    /**
      * Return the label attribute.
      * The label attribute can be null, so if that's the case, we'll return the
      * URL instead.

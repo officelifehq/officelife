@@ -10,6 +10,7 @@ use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\TeamUsefulLinkCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TeamController extends Controller
@@ -111,6 +112,7 @@ class TeamController extends Controller
             'employeeCount' => $employees->count(),
             'employees' => $employeesCollection,
             'userBelongsToTheTeam' => $result->count() > 0,
+            'links' => TeamUsefulLinkCollection::prepare($team->links),
         ]);
     }
 }

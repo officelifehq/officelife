@@ -223,7 +223,6 @@ class GenerateDummyData extends BaseService
             }
         }
 
-
         // add employees
         for ($i = 1; $i <= $numberOfEmployees; $i++) {
             $employee = $this->addEmployee($data);
