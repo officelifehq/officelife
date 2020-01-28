@@ -66,20 +66,11 @@
             />
 
             <!-- Links -->
-            <div class="ma0 pa3">
-              <p class="silver f6 ma0 mb1">Links</p>
-              <ul class="list pl0 mb0">
-                <li class="mb2 relative">
-                  <img src="/img/slack.svg" class="relative useful-link" />
-                  <a href="" class="relative ml1">sadfsadfs</a>
-                </li>
-                <li class="mb2 relative">
-                  <img src="/img/mail.svg" class="relative useful-link" />
-                  <a href="" class="relative ml1">sadfsadfs</a>
-                </li>
-                <li class="mt3"><a href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6"><span>+</span> Add a new link</a></li>
-              </ul>
-            </div>
+            <team-useful-link
+              :team="team"
+              :user-belongs-to-the-team="userBelongsToTheTeam"
+              :links="links"
+            />
           </div>
         </div>
 
@@ -135,6 +126,7 @@ import vClickOutside from 'v-click-outside';
 import Members from '@/Pages/Team/Partials/Members';
 import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
 import TeamLead from '@/Pages/Team/Partials/TeamLead';
+import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
 
 export default {
   components: {
@@ -142,6 +134,7 @@ export default {
     Members,
     TeamDescription,
     TeamLead,
+    TeamUsefulLink,
   },
 
   directives: {
@@ -180,7 +173,11 @@ export default {
     userBelongsToTheTeam: {
       type: Boolean,
       default: false,
-    }
+    },
+    links: {
+      type: Array,
+      default: null,
+    },
   },
 
   data() {

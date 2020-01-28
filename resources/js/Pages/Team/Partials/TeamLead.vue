@@ -47,25 +47,27 @@
           <img v-if="$page.auth.employee.permission_level <= 200" src="/img/common/triple-dots.svg" class="absolute right-0 pointer team-lead-action" data-cy="display-remove-team-lead-modal" @click.prevent="removeMode = true" />
 
           <!-- REMOVE TEAM LEADER MENU -->
-          <div v-if="removeMode" v-show="$page.auth.employee.permission_level <= 200" v-click-outside="hideRemovalMode" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn">
-            <ul class="list ma0 pa0">
-              <li v-show="!removalConfirmation" class="pv2 relative">
-                <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
-                <a class="pointer ml1 c-delete" data-cy="remove-team-lead-button" @click.prevent="removalConfirmation = true">
-                  {{ $t('team.team_lead_remove_confirmation') }}
-                </a>
-              </li>
-              <li v-show="removalConfirmation" class="pv2">
-                {{ $t('app.sure') }}
-                <a data-cy="confirm-remove-team-lead" class="c-delete mr1 pointer" @click.prevent="removeTeamLead()">
-                  {{ $t('app.yes') }}
-                </a>
-                <a class="pointer" @click.prevent="removalConfirmation = false">
-                  {{ $t('app.no') }}
-                </a>
-              </li>
-            </ul>
-          </div>
+          <template v-if="removeMode">
+            <div v-show="$page.auth.employee.permission_level <= 200" v-click-outside="hideRemovalMode" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn">
+              <ul class="list ma0 pa0">
+                <li v-show="!removalConfirmation" class="pv2 relative">
+                  <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
+                  <a class="pointer ml1 c-delete" data-cy="remove-team-lead-button" @click.prevent="removalConfirmation = true">
+                    {{ $t('team.team_lead_remove_confirmation') }}
+                  </a>
+                </li>
+                <li v-show="removalConfirmation" class="pv2">
+                  {{ $t('app.sure') }}
+                  <a data-cy="confirm-remove-team-lead" class="c-delete mr1 pointer" @click.prevent="removeTeamLead()">
+                    {{ $t('app.yes') }}
+                  </a>
+                  <a class="pointer" @click.prevent="removalConfirmation = false">
+                    {{ $t('app.no') }}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </template>
         </span>
       </div>
     </template>
@@ -122,14 +124,15 @@
 
 <script>
 import Errors from '@/Shared/Errors';
+import IconDelete from '@/Shared/IconDelete';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
 import vClickOutside from 'v-click-outside';
 
-
 export default {
   components: {
     Errors,
+    IconDelete,
     BallPulseLoader,
   },
 
@@ -179,7 +182,7 @@ export default {
     },
 
     hideRemovalMode() {
-      this.editMode = false;
+      this.removeMode = false;
     },
 
     search: _.debounce(

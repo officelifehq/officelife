@@ -18,6 +18,25 @@ class TeamUsefulLinkTest extends ApiTestCase
     }
 
     /** @test */
+    public function it_returns_an_object(): void
+    {
+        $link = factory(TeamUsefulLink::class)->create([
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
+
+        $this->assertEquals(
+            [
+                'id' => $link->id,
+                'type' => $link->type,
+                'label' => $link->label,
+                'url' => $link->url,
+                'created_at' => '2020-01-12 00:00:00',
+            ],
+            $link->toObject()
+        );
+    }
+
+    /** @test */
     public function it_returns_the_label_attribute_if_it_is_defined(): void
     {
         $teamUsefulLink = factory(TeamUsefulLink::class)->create([

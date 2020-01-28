@@ -90,7 +90,10 @@ class EmployeeController extends Controller
                 'id' => $manager->id,
                 'name' => $manager->name,
                 'avatar' => $manager->avatar,
-                'position' => ($manager->position) ? $manager->position->title : null,
+                'position' => (!$manager->position) ? null : [
+                    'id' => $manager->position->id,
+                    'title' => $manager->position->title,
+                ],
             ]);
         }
 
@@ -104,7 +107,10 @@ class EmployeeController extends Controller
                 'id' => $directReport->id,
                 'name' => $directReport->name,
                 'avatar' => $directReport->avatar,
-                'position' => ($directReport->position) ? $directReport->position->title : null,
+                'position' => (!$directReport->position) ? null : [
+                    'id' => $directReport->position->id,
+                    'title' => $directReport->position->title,
+                ],
             ]);
         }
 

@@ -40,7 +40,22 @@ return [
     'description_success' => 'The description has been set.',
 
     'team_lead_label' => 'Team lead',
+    'team_lead_blank' => 'This team does not have a lead.',
+    'team_lead_cta' => 'Assign someone as the team lead',
     'team_lead_added' => 'The team has now a new team lead.',
     'team_lead_removed' => 'The team lead has been removed.',
-    'team_lead_remove_confirmation' => 'Are you sure?',
+    'team_lead_remove_confirmation' => 'Remove team lead',
+
+    'useful_link_title' => 'Links',
+    'useful_link_cta' => 'Add a new link',
+    'useful_link_edit' => 'Edit current links',
+    'useful_link_exit_edit_mode' => 'Exit edit mode',
+    'useful_link_type_of_link' => 'Type of link',
+    'useful_link_new_label' => 'Link label',
+    'useful_link_new_label_help' => 'This is what will be shown to users.',
+    'useful_link_new_url' => 'Actual link',
+    'useful_link_new_url_help' => 'The URL (or email address) the link points to.',
+    'useful_link_form_url' => 'External URL',
+    'useful_link_form_email' => 'Email address',
+    'useful_link_form_slack' => 'Slack channel',
 ];

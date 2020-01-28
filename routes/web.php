@@ -101,6 +101,10 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{team}/lead/search', 'Company\\Team\\TeamLeadController@search');
 
             Route::resource('{team}/news', 'Company\\Team\\TeamNewsController');
+
+            Route::resource('{team}/links', 'Company\\Team\\TeamUsefulLinkController')->only([
+                'store', 'destroy',
+            ]);
         });
 
         // only available to administrator role
