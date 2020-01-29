@@ -41,6 +41,9 @@ return [
     'teams_cta' => 'Add a team',
     'teams_blank' => 'Teams are a great way for groups of people in your company to work together in officelife.',
     'team_new_name' => 'Name of the team',
+    'team_creation_success' => 'The team has been created.',
+    'team_update_success' => 'The team has been updated.',
+    'team_destroy_success' => 'The team has been deleted.',
 
     'employee_statuses_title' => 'All the employee statuses in {company}',
     'employee_statuses_number_positions' => '{company} has one employee status. | {company} has {count} employee statuses.',

@@ -200,7 +200,7 @@
       <textarea v-model="updatedMessage" cols="30" rows="3" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" maxlength="255"></textarea>
       <div class="mv1">
         <div class="flex-ns justify-between">
-          <a class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="showEditMessage = false">
+          <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="showEditMessage = false">
             {{ $t('app.cancel') }}
           </a>
           <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click="setMessage(updatedMessage)">

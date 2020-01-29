@@ -61,8 +61,8 @@
             {{ $t('account.teams_title', { company: $page.auth.company.name}) }}
           </h2>
 
-          <!-- ADD TEAM -->
-          <div class="relative">
+          <!-- add a team -->
+          <div class="relative mb4">
             <span v-show="teams.length != 0" class="dib mb3 di-l">
               {{ $tc('account.teams_number_teams', teams.length, { company: $page.auth.company.name, count: teams.length}) }}
             </span>
@@ -71,7 +71,11 @@
             </a>
 
             <div v-if="modal == true" class="absolute add-modal br2 bg-white z-max tl pv2 ph3 bounceIn faster">
-              <errors :errors="form.errors" />
+              <template v-if="form.errors.length > 0">
+                <div class="cf pb1 w-100 mb2">
+                  <errors :errors="form.errors" />
+                </div>
+              </template>
 
               <form @submit.prevent="submit">
                 <div class="mb3">
@@ -83,12 +87,13 @@
                               required
                               :label="$t('account.team_new_name')"
                               :extra-class-upper-div="'mb0'"
+                              @esc-key-pressed="modal = false"
                   />
                 </div>
                 <div class="mv2">
                   <div class="flex-ns justify-between">
                     <div>
-                      <a class="btn btn-secondary dib tc w-auto-ns w-100 pv2 ph3" @click="modal = false">
+                      <a class="btn dib tc w-auto-ns w-100 pv2 ph3" @click="modal = false">
                         {{ $t('app.cancel') }}
                       </a>
                     </div>
@@ -103,30 +108,98 @@
           <ul v-show="teams.length != 0" class="list pl0 mt0 center">
             <li
               v-for="team in teams" :key="team.id"
-              class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 team-item"
+              class="pa3-l pa1 ph0-l bb b--black-10 team-item"
             >
-              <div class="flex-auto">
-                <span class="db b">
+              <!-- normal case (ie not rename mode) -->
+              <template v-if="teamToRename.id != team.id && teamToDelete.id != team.id">
+                <span class="db b mb2">
                   {{ team.name }}
                 </span>
+
+                <!-- list of actions -->
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <a :href="'/' + $page.auth.company.id + '/teams/' + team.id">
-                      {{ $t('app.view') }}
-                    </a>
+                    <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">Visit team page</inertia-link>
                   </li>
                   <li class="di pr2">
-                    <a :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/lock'">
-                      {{ $t('app.rename') }}
-                    </a>
+                    <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/logs'">View audit logs</inertia-link>
+                  </li>
+                  <li class="di pr2">
+                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="showRenameModal(team)">{{ $t('app.rename') }}</a>
                   </li>
                   <li class="di">
-                    <a :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/destroy'">
-                      {{ $t('app.delete') }}
-                    </a>
+                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="showDeletionModal(team)">{{ $t('app.delete') }}</a>
                   </li>
                 </ul>
-              </div>
+              </template>
+
+              <!-- rename modal -->
+              <template v-if="teamToRename.id == team.id && renameMode">
+                <template v-if="form.errors.length > 0">
+                  <div class="cf pb1 w-100 mb2">
+                    <errors :errors="form.errors" />
+                  </div>
+                </template>
+
+                <!-- form -->
+                <form class="flex" @submit.prevent="update(team)">
+                  <div class="w-100 w-70-ns mb3 mb0-ns">
+                    <text-input :id="'name-' + team.id"
+                                :ref="'name' + team.id"
+                                v-model="form.name"
+                                :placeholder="'Product team'"
+                                :custom-ref="'name' + team.id"
+                                :datacy="'list-rename-input-name-' + team.id"
+                                :errors="$page.errors.name"
+                                required
+                                :extra-class-upper-div="'mb0'"
+                                @esc-key-pressed="teamToRename = 0"
+                    />
+                  </div>
+
+                  <!-- actions -->
+                  <div class="w-30-ns w-100 tr">
+                    <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" :data-cy="'list-rename-cancel-button-' + team.id" @click.prevent="teamToRename = 0">
+                      {{ $t('app.cancel') }}
+                    </a>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + team.id" :state="loadingState" :text="$t('app.update')" />
+                  </div>
+                </form>
+              </template>
+
+              <!-- deletion modal -->
+              <template v-if="teamToDelete.id == team.id && deletionMode">
+                <template v-if="form.errors.length > 0">
+                  <div class="cf pb1 w-100 mb2">
+                    <errors :errors="form.errors" />
+                  </div>
+                </template>
+
+                <!-- form -->
+                <form class="flex" @submit.prevent="update(team)">
+                  <div class="w-100 w-70-ns mb3 mb0-ns">
+                    <text-input :id="'name-' + team.id"
+                                :ref="'name' + team.id"
+                                v-model="form.name"
+                                :placeholder="'Product team'"
+                                :custom-ref="'name' + team.id"
+                                :datacy="'list-rename-input-name-' + team.id"
+                                :errors="$page.errors.name"
+                                required
+                                :extra-class-upper-div="'mb0'"
+                                @esc-key-pressed="teamToRename = 0"
+                    />
+                  </div>
+
+                  <!-- actions -->
+                  <div class="w-30-ns w-100 tr">
+                    <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" :data-cy="'list-rename-cancel-button-' + team.id" @click.prevent="teamToRename = 0">
+                      {{ $t('app.cancel') }}
+                    </a>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + team.id" :state="loadingState" :text="$t('app.update')" />
+                  </div>
+                </form>
+              </template>
             </li>
           </ul>
         </div>
@@ -173,6 +246,10 @@ export default {
   data() {
     return {
       modal: false,
+      renameMode: false,
+      deletionMode: false,
+      teamToRename: Object,
+      teamToDelete: Object,
       form: {
         name: null,
         errors: [],
@@ -180,14 +257,6 @@ export default {
       loadingState: '',
       errorTemplate: Error,
     };
-  },
-
-  created() {
-    window.addEventListener('click', this.close);
-  },
-
-  beforeDestroy() {
-    window.removeEventListener('click', this.close);
   },
 
   mounted() {
@@ -203,18 +272,34 @@ export default {
   },
 
   methods: {
+    showRenameModal(team) {
+      this.form.errors = [];
+      this.renameMode = true;
+      this.teamToRename = team;
+      this.form.name = team.name;
+
+      this.$nextTick(() => {
+        // this is really barbaric, but I need to do this to
+        // first: target the TextInput with the right ref attribute
+        // second: target within the component, the refs of the input text
+        // this is because we try here to access $refs from a child component
+        this.$refs[`name${team.id}`][0].$refs[`name${team.id}`].focus();
+      });
+    },
+
+    showDeletionModal(team) {
+      this.form.errors = [];
+      this.deletionMode = true;
+      this.teamToDelete = team;
+    },
+
     displayAddModal() {
       this.modal = !this.modal;
+      this.form.errors = [];
 
       this.$nextTick(() => {
         this.$refs['newTeam'].$refs['input'].focus();
       });
-    },
-
-    close(e) {
-      if (!this.$el.contains(e.target)) {
-        this.modal = false;
-      }
     },
 
     submit() {
@@ -222,7 +307,7 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/account/teams', this.form)
         .then(response => {
-          this.$snotify.success('The team has been created', {
+          this.$snotify.success(this.$t('account.team_creation_success'), {
             timeout: 2000,
             showProgressBar: true,
             closeOnClick: true,
@@ -236,6 +321,46 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    update(team) {
+      axios.put('/' + this.$page.auth.company.id + '/account/teams/' + team.id, this.form)
+        .then(response => {
+          this.$snotify.success(this.$t('account.team_update_success'), {
+            timeout: 2000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          });
+
+          this.teamToRename = 0;
+          this.form.name = null;
+
+          var id = this.teams.findIndex(x => x.id == team.id);
+          this.$set(this.teams, id, response.data.data);
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    destroy(id) {
+      axios.delete('/' + this.$page.auth.company.id + '/account/teams/' + id)
+        .then(response => {
+          this.$snotify.success(this.$t('account.team_destroy_success'), {
+            timeout: 2000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+          });
+
+          this.teamToDelete = 0;
+          var id = this.teams.findIndex(x => x.id == id);
+          this.teams.splice(id, 1);
+        })
+        .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },

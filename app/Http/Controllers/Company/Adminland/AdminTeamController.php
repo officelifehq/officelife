@@ -9,6 +9,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamCollection;
 use App\Services\Company\Adminland\Team\CreateTeam;
+use App\Services\Company\Adminland\Team\UpdateTeam;
 
 class AdminTeamController extends Controller
 {
@@ -21,7 +22,7 @@ class AdminTeamController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        $teams = $company->teams()->orderBy('name', 'desc')->get();
+        $teams = $company->teams()->with('leader')->orderBy('name', 'asc')->get();
         $teamCollection = TeamCollection::prepare($teams);
 
         return Inertia::render('Adminland/Team/Index', [
@@ -51,5 +52,31 @@ class AdminTeamController extends Controller
         return response()->json([
             'data' => $team->toObject(),
         ], 201);
+    }
+
+    /**
+     * Update the name of the team.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $teamId
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, int $companyId, int $teamId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'team_id' => $teamId,
+            'name' => $request->input('name'),
+        ];
+
+        $team = (new UpdateTeam)->execute($data);
+
+        return response()->json([
+            'data' => $team->toObject(),
+        ], 200);
     }
 }
