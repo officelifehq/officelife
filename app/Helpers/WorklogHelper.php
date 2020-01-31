@@ -105,7 +105,7 @@ class WorklogHelper
 
         for ($month = 1; $month < 13; $month++) {
             $logsInMonth = collect([]);
-            $date = Carbon::createFromDate($year, $month);
+            $date = Carbon::createFromDate($year, $month, 1);
 
             foreach ($worklogs as $worklog) {
                 if ($worklog->created_at->month === $month) {

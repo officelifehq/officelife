@@ -1,5 +1,5 @@
-describe('Teams - List of teams', function () {
-  it('should display a blank list', function () {
+describe('Teams - Manage teams', function () {
+  it('should display a blank state', function () {
     cy.login()
 
     cy.createCompany()

@@ -44,6 +44,9 @@ return [
     'team_creation_success' => 'The team has been created.',
     'team_update_success' => 'The team has been updated.',
     'team_destroy_success' => 'The team has been deleted.',
+    'team_visit_page' => 'Visit team page',
+    'team_view_audit_logs' => 'View audit logs',
+    'team_confirm_deletion' => 'Are you sure you want to delete the team called {name}? This will remove all the team members from this team, as well as delete all the notes, news and associated data with it.',
 
     'employee_statuses_title' => 'All the employee statuses in {company}',
     'employee_statuses_number_positions' => '{company} has one employee status. | {company} has {count} employee statuses.',

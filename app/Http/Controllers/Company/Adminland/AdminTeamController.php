@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamCollection;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Adminland\Team\UpdateTeam;
+use App\Services\Company\Adminland\Team\DestroyTeam;
 
 class AdminTeamController extends Controller
 {
@@ -77,6 +78,31 @@ class AdminTeamController extends Controller
 
         return response()->json([
             'data' => $team->toObject(),
+        ], 200);
+    }
+
+    /**
+     * Delete the team.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $teamId
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, int $companyId, int $teamId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'team_id' => $teamId,
+        ];
+
+        (new DestroyTeam)->execute($data);
+
+        return response()->json([
+            'data' => true,
         ], 200);
     }
 }

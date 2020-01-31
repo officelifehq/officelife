@@ -27,16 +27,15 @@
     }
   }
 
-  &.primary {
-    background-color: #63c467;
-    border-bottom: 0;
-    border-color: #63c467;
+  &.destroy {
+    background: #e53e3e;
+    border-color: #c53030;
     color: #fff;
-    right: 0;
-    top: -8px;
 
     &:hover {
-      border-bottom-color: #4ca94f;
+      background-color: #1486ca;
+      border-color: #076ca9;
+      color: #fff;
     }
   }
 }

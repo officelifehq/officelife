@@ -119,10 +119,10 @@
                 <!-- list of actions -->
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">Visit team page</inertia-link>
+                    <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">{{ $t('account.team_visit_page') }}</inertia-link>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/logs'">View audit logs</inertia-link>
+                    <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</inertia-link>
                   </li>
                   <li class="di pr2">
                     <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="showRenameModal(team)">{{ $t('app.rename') }}</a>
@@ -176,28 +176,12 @@
                 </template>
 
                 <!-- form -->
-                <form class="flex" @submit.prevent="update(team)">
-                  <div class="w-100 w-70-ns mb3 mb0-ns">
-                    <text-input :id="'name-' + team.id"
-                                :ref="'name' + team.id"
-                                v-model="form.name"
-                                :placeholder="'Product team'"
-                                :custom-ref="'name' + team.id"
-                                :datacy="'list-rename-input-name-' + team.id"
-                                :errors="$page.errors.name"
-                                required
-                                :extra-class-upper-div="'mb0'"
-                                @esc-key-pressed="teamToRename = 0"
-                    />
-                  </div>
-
-                  <!-- actions -->
-                  <div class="w-30-ns w-100 tr">
-                    <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" :data-cy="'list-rename-cancel-button-' + team.id" @click.prevent="teamToRename = 0">
-                      {{ $t('app.cancel') }}
-                    </a>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + team.id" :state="loadingState" :text="$t('app.update')" />
-                  </div>
+                <form @submit.prevent="destroy(team)">
+                  <p class="lh-copy">{{ $t('account.team_confirm_deletion', {name: team.name}) }}</p>
+                  <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3 mr3" :data-cy="'list-destroy-cancel-button-' + team.id" @click.prevent="teamToDelete = 0">
+                    {{ $t('app.cancel') }}
+                  </a>
+                  <loading-button :classes="'btn destroy w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-destroy-cta-button-' + team.id" :state="loadingState" :text="$t('app.delete')" />
                 </form>
               </template>
             </li>
@@ -346,8 +330,8 @@ export default {
         });
     },
 
-    destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/teams/' + id)
+    destroy(team) {
+      axios.delete('/' + this.$page.auth.company.id + '/account/teams/' + team.id)
         .then(response => {
           this.$snotify.success(this.$t('account.team_destroy_success'), {
             timeout: 2000,
@@ -357,7 +341,7 @@ export default {
           });
 
           this.teamToDelete = 0;
-          var id = this.teams.findIndex(x => x.id == id);
+          var id = this.teams.findIndex(x => x.id == team.id);
           this.teams.splice(id, 1);
         })
         .catch(error => {
