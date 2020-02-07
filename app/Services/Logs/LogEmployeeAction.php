@@ -45,7 +45,7 @@ class LogEmployeeAction extends BaseService
             'audited_at' => $data['audited_at'],
             'action' => $data['action'],
             'objects' => $data['objects'],
-            'ip_address' => $this->nullOrValue($data, 'ip_address'),
+            'ip_address' => $this->valueOrNull($data, 'ip_address'),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
     }

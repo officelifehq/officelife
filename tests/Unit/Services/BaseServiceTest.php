@@ -172,7 +172,7 @@ class BaseServiceTest extends TestCase
 
         $this->assertEquals(
             'this',
-            $stub->nullOrValue($array, 'value')
+            $stub->valueOrNull($array, 'value')
         );
 
         $array = [
@@ -180,13 +180,13 @@ class BaseServiceTest extends TestCase
         ];
 
         $this->assertNull(
-            $stub->nullOrValue($array, 'otherValue')
+            $stub->valueOrNull($array, 'otherValue')
         );
 
         $array = [];
 
         $this->assertNull(
-            $stub->nullOrValue($array, 'value')
+            $stub->valueOrNull($array, 'value')
         );
     }
 

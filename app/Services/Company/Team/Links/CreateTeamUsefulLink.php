@@ -75,7 +75,7 @@ class CreateTeamUsefulLink extends BaseService
     {
         return TeamUsefulLink::create([
             'team_id' => $data['team_id'],
-            'label' => $this->nullOrValue($data, 'label'),
+            'label' => $this->valueOrNull($data, 'label'),
             'type' => $data['type'],
             'url' => $data['url'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

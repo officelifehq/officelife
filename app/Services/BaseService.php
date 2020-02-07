@@ -106,7 +106,7 @@ abstract class BaseService
      * @param mixed $index
      * @return mixed
      */
-    public function nullOrValue($data, $index)
+    public function valueOrNull($data, $index)
     {
         if (empty($data[$index])) {
             return;
