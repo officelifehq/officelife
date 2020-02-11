@@ -36,6 +36,19 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'team_updated') {
+            $sentence = trans('account.log_team_updated', [
+                'old_name' => $log->object->{'team_old_name'},
+                'new_name' => $log->object->{'team_new_name'},
+            ]);
+        }
+
+        if ($log->action == 'team_destroyed') {
+            $sentence = trans('account.log_team_destroyed', [
+                'name' => $log->object->{'team_name'},
+            ]);
+        }
+
         if ($log->action == 'employee_added_to_team') {
             $sentence = trans('account.log_employee_added_to_team', [
                 'employee' => $log->object->{'employee_name'},

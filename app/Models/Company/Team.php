@@ -137,6 +137,7 @@ class Team extends Model
     {
         return [
             'id' => $this->id,
+            'url' => url('/'.$this->company_id.'/teams/'.$this->id),
             'company' => [
                 'id' => $this->company_id,
             ],

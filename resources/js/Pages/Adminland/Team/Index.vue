@@ -112,23 +112,23 @@
             >
               <!-- normal case (ie not rename mode) -->
               <template v-if="teamToRename.id != team.id && teamToDelete.id != team.id">
-                <span class="db b mb2">
+                <span class="db b mb2" :data-cy="'list-team-' + team.id">
                   {{ team.name }}
                 </span>
 
                 <!-- list of actions -->
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">{{ $t('account.team_visit_page') }}</inertia-link>
+                    <inertia-link :href="team.url">{{ $t('account.team_visit_page') }}</inertia-link>
                   </li>
                   <li class="di pr2">
                     <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</inertia-link>
                   </li>
                   <li class="di pr2">
-                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="showRenameModal(team)">{{ $t('app.rename') }}</a>
+                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'team-rename-link-' + team.id" @click.prevent="showRenameModal(team)">{{ $t('app.rename') }}</a>
                   </li>
                   <li class="di">
-                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="showDeletionModal(team)">{{ $t('app.delete') }}</a>
+                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'team-destroy-link-' + team.id" @click.prevent="showDeletionModal(team)">{{ $t('app.delete') }}</a>
                   </li>
                 </ul>
               </template>
@@ -251,7 +251,7 @@ export default {
         closeOnClick: true,
         pauseOnHover: true,
       });
-      localStorage.clear();
+      localStorage.removeItem(success);
     }
   },
 

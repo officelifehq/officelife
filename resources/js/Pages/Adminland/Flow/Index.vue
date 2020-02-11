@@ -110,7 +110,7 @@ export default {
         closeOnClick: true,
         pauseOnHover: true,
       });
-      localStorage.clear();
+      localStorage.removeItem(success);
     }
   },
 };

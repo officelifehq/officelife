@@ -116,6 +116,8 @@ return [
     'log_account_created' => 'Created the account.',
     'log_employee_added_to_company' => 'Added :employee as an employee.',
     'log_team_created' => 'Created the team called :name.',
+    'log_team_updated' => 'Changed the name of the team from :old_name to :new_name.',
+    'log_team_destroyed' => 'Deleted the team called :name.',
     'log_employee_added_to_team' => 'Added :employee to :team.',
     'log_employee_removed_from_team' => 'Removed :employee from :team.',
     'log_employee_updated' => 'Updated information about :employee.',
