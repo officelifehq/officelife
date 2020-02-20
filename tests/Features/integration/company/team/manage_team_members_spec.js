@@ -107,4 +107,28 @@ describe('Team - Members management', function () {
     cy.visit('/1/teams/1')
     cy.get('[data-cy=manage-team-on]').should('not.exist')
   })
+
+  it('should indicate who the newest member is', function () {
+    cy.login()
+
+    cy.createCompany()
+    cy.createTeam('product')
+    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
+
+    cy.wait(1000)
+    cy.visit('/1/teams/1')
+
+    cy.get('[data-cy=latest-added-employee-name]').should('not.exist')
+
+    // enable management
+    cy.get('[data-cy=manage-team-on]').click()
+
+    // search for an employee and add him
+    cy.get('[data-cy=member-input]').type('Michael')
+    cy.wait(600)
+    cy.get('[data-cy=employee-id-2]').click()
+
+    cy.visit('/1/teams/1')
+    cy.get('[data-cy=latest-added-employee-name]').contains('This team has 1 members, the newest being Michael Scott')
+  })
 })
