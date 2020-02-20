@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
-use App\Helpers\DateHelper;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Collections\TeamNewsCollection;
 use App\Http\Collections\TeamUsefulLinkCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -65,9 +64,9 @@ class TeamController extends Controller
         }
 
         // employees
-        $employees = $team->employees()->orderBy('created_at', 'desc')->get();
+        $employees = $team->employees()->orderBy('employee_team.created_at', 'desc')->get();
         $employeesCollection = collect([]);
-        foreach ($team->employees as $employee) {
+        foreach ($employees as $employee) {
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
@@ -81,22 +80,7 @@ class TeamController extends Controller
 
         // news
         $news = $team->news()->with('author')->orderBy('created_at', 'desc')->get();
-        $newsCollection = collect([]);
-        foreach ($news->take(3) as $newsItem) {
-            $author = $newsItem->author;
-
-            $newsCollection->push([
-                'title' => $newsItem->title,
-                'content' => $newsItem->content,
-                'parsed_content' => StringHelper::parse($newsItem->content),
-                'author' => [
-                    'id' => is_null($author) ? null : $author->id,
-                    'name' => is_null($author) ? null : $author->name,
-                    'avatar' => is_null($author) ? null : $author->avatar,
-                ],
-                'localized_created_at' => DateHelper::formatShortDateWithTime($newsItem->created_at),
-            ]);
-        }
+        $newsCollection = TeamNewsCollection::prepare($news->take(3));
 
         // does the current logged user belongs to the team?
         // this is useful to know whether the user can do actions because he's part of the team
@@ -104,11 +88,18 @@ class TeamController extends Controller
             return $employee['id'] === $loggedEmployee->id;
         });
 
+        // most recent member
+        $mostRecentMember = trans('team.most_recent_team_member', [
+            'count' => $employees->count(),
+            'link' => ($employees->count() > 0) ? $employees->take(1)->first()->name : '',
+        ]);
+
         return Inertia::render('Team/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'team' => $team->toObject(),
             'news' => $newsCollection,
             'newsCount' => $news->count(),
+            'mostRecentEmployee' => $mostRecentMember,
             'employeeCount' => $employees->count(),
             'employees' => $employeesCollection,
             'userBelongsToTheTeam' => $result->count() > 0,

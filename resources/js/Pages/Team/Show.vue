@@ -54,8 +54,8 @@
             />
 
             <!-- team info -->
-            <p class="lh-copy ma0 pa3 bb bb-gray">
-              This team has {{ employeeCount }} members, the most recent being sdfsd.
+            <p v-if="employeeCount != 0" class="lh-copy ma0 pa3 bb bb-gray" data-cy="latest-added-employee-name">
+              {{ mostRecentEmployee }}
             </p>
 
             <!-- Team lead -->
