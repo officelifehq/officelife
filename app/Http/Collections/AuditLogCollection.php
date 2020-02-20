@@ -25,7 +25,8 @@ class AuditLogCollection
                     'id' => is_null($log->author) ? null : $log->author->id,
                     'name' => is_null($log->author) ? $log->author_name : $log->author->name,
                 ],
-                'created_at' => $log->created_at,
+                'localized_audited_at' => $log->date,
+                'audited_at' => $log->audited_at,
             ]);
         }
 

@@ -53,9 +53,9 @@ class UpdateCompanyPTOPolicy extends BaseService
         $newDayOffs = $this->markDaysOff($data);
 
         $ptoPolicy->total_worked_days = $ptoPolicy->total_worked_days - $newDayOffs;
-        $ptoPolicy->default_amount_of_allowed_holidays = $this->nullOrValue($data, 'default_amount_of_allowed_holidays');
-        $ptoPolicy->default_amount_of_sick_days = $this->nullOrValue($data, 'default_amount_of_sick_days');
-        $ptoPolicy->default_amount_of_pto_days = $this->nullOrValue($data, 'default_amount_of_pto_days');
+        $ptoPolicy->default_amount_of_allowed_holidays = $this->valueOrNull($data, 'default_amount_of_allowed_holidays');
+        $ptoPolicy->default_amount_of_sick_days = $this->valueOrNull($data, 'default_amount_of_sick_days');
+        $ptoPolicy->default_amount_of_pto_days = $this->valueOrNull($data, 'default_amount_of_pto_days');
         $ptoPolicy->save();
 
         LogAccountAudit::dispatch([

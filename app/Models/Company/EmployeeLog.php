@@ -84,8 +84,8 @@ class EmployeeLog extends Model
                 'id' => is_null($this->author) ? null : $this->author->id,
                 'name' => is_null($this->author) ? $this->author_name : $this->author->name,
             ],
-            'localized_created_at' => DateHelper::formatShortDateWithTime($this->created_at),
-            'created_at' => $this->created_at,
+            'localized_audited_at' => $this->date,
+            'audited_at' => $this->audited_at,
         ];
     }
 

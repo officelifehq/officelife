@@ -98,8 +98,8 @@ class CreateTask extends BaseService
     {
         return Task::create([
             'company_id' => $data['company_id'],
-            'team_id' => $this->nullOrValue($data, 'team_id'),
-            'assignee_id' => $this->nullOrValue($data, 'assignee_id'),
+            'team_id' => $this->valueOrNull($data, 'team_id'),
+            'assignee_id' => $this->valueOrNull($data, 'assignee_id'),
             'completed' => $this->valueOrFalse($data, 'completed'),
             'title' => $data['title'],
             'due_at' => $this->nullOrDate($data, 'due_at'),

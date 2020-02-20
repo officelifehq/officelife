@@ -9,8 +9,8 @@ use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Collections\EmployeeLogCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\EmployeeLog\EmployeeLog as EmployeeLogResource;
 
 class EmployeeLogsController extends Controller
 {
@@ -44,19 +44,7 @@ class EmployeeLogsController extends Controller
 
         // logs
         $logs = $employee->employeeLogs()->with('author')->paginate(15);
-        $logsCollection = collect([]);
-        foreach ($logs as $log) {
-            $logsCollection->push([
-                'id' => $log->id,
-                'author' => [
-                    'id' => is_null($log->author) ? null : $log->author->id,
-                    'name' => is_null($log->author) ? $log->author_name : $log->author->name,
-                ],
-                'localized_content' => $log->content,
-                'created_at' => $log->created_at,
-            ]);
-        }
-        $logs = EmployeeLogResource::collection($logs);
+        $logsCollection = EmployeeLogCollection::prepare($logs);
 
         return Inertia::render('Employee/Logs/Index', [
             'employee' => $employee->toObject(),

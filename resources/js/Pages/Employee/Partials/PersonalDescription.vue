@@ -24,7 +24,11 @@
     <!-- edit description -->
     <div v-if="showEdit" class="br3 bg-white box z-1 pa3">
       <form @submit.prevent="submit">
-        <errors :errors="form.errors" />
+        <template v-if="form.errors.length > 0">
+          <div class="cf pb1 w-100 mb2">
+            <errors :errors="form.errors" />
+          </div>
+        </template>
 
         <text-area v-model="form.description"
                    :label="$t('employee.description_text_title')"
@@ -38,12 +42,12 @@
         <div class="mt4">
           <div class="flex-ns justify-between">
             <div>
-              <a class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="clear-description" @click="clear()">
+              <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="clear-description" @click="clear()">
                 ❌ {{ $t('employee.description_clear') }}
               </a>
             </div>
             <div class="">
-              <a class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-description" @click="showEdit = false">
+              <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-description" @click="showEdit = false">
                 {{ $t('app.cancel') }}
               </a>
               <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-description'" />

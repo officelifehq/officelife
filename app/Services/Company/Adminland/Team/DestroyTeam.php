@@ -40,8 +40,7 @@ class DestroyTeam extends BaseService
             config('officelife.authorizations.hr')
         );
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
+        $team = $this->validateTeamBelongsToCompany($data);
 
         $team->delete();
 

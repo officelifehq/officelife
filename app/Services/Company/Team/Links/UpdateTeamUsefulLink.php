@@ -61,7 +61,7 @@ class UpdateTeamUsefulLink extends BaseService
 
         $link->update([
             'type' => $data['type'],
-            'label' => $this->nullOrValue($data, 'label'),
+            'label' => $this->valueOrNull($data, 'label'),
             'url' => $data['url'],
         ]);
 

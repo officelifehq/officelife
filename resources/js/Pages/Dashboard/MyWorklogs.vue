@@ -31,7 +31,7 @@
 
         <!-- button to log the worklog -->
         <p v-show="!editorShown && !updatedEmployee.has_logged_worklog_today" class="ma0">
-          <a class="btn btn-secondary dib" data-cy="log-worklog-cta" @click.prevent="showEditor">
+          <a class="btn dib" data-cy="log-worklog-cta" @click.prevent="showEditor">
             {{ $t('dashboard.worklog_cta') }}
           </a>
         </p>

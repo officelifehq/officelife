@@ -3,25 +3,32 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamCollection;
+use Inertia\Response as InertiaResponse;
+use App\Http\Collections\TeamLogCollection;
 use App\Services\Company\Adminland\Team\CreateTeam;
+use App\Services\Company\Adminland\Team\UpdateTeam;
+use App\Services\Company\Adminland\Team\DestroyTeam;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AdminTeamController extends Controller
 {
     /**
      * Show the list of teams.
      *
-     * @return \Illuminate\Http\Response
+     * @return InertiaResponse
      */
-    public function index()
+    public function index(): InertiaResponse
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        $teams = $company->teams()->orderBy('name', 'desc')->get();
+        $teams = $company->teams()->with('leader')->orderBy('name', 'asc')->get();
         $teamCollection = TeamCollection::prepare($teams);
 
         return Inertia::render('Adminland/Team/Index', [
@@ -34,9 +41,9 @@ class AdminTeamController extends Controller
      * Create the team.
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -51,5 +58,95 @@ class AdminTeamController extends Controller
         return response()->json([
             'data' => $team->toObject(),
         ], 201);
+    }
+
+    /**
+     * Update the name of the team.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $teamId
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $companyId, int $teamId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'team_id' => $teamId,
+            'name' => $request->input('name'),
+        ];
+
+        $team = (new UpdateTeam)->execute($data);
+
+        return response()->json([
+            'data' => $team->toObject(),
+        ], 200);
+    }
+
+    /**
+     * Delete the team.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $teamId
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $companyId, int $teamId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'team_id' => $teamId,
+        ];
+
+        (new DestroyTeam)->execute($data);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
+    }
+
+    /**
+     * Display the logs page for the given team.
+     *
+     * @param Request $request
+     * @param integer $companyId
+     * @param integer $teamId
+     * @return InertiaResponse
+     */
+    public function logs(Request $request, int $companyId, int $teamId): InertiaResponse
+    {
+        try {
+            $team = Team::findOrFail($teamId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $logs = $team->logs()->with('author')->paginate(15);
+
+        $logsCollection = TeamLogCollection::prepare($logs);
+
+        return Inertia::render('Adminland/Team/Logs', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'logs' => $logsCollection,
+            'paginator' => [
+                'count' => $logs->count(),
+                'currentPage' => $logs->currentPage(),
+                'firstItem' => $logs->firstItem(),
+                'hasMorePages' => $logs->hasMorePages(),
+                'lastItem' => $logs->lastItem(),
+                'lastPage' => $logs->lastPage(),
+                'nextPageUrl' => $logs->nextPageUrl(),
+                'onFirstPage' => $logs->onFirstPage(),
+                'perPage' => $logs->perPage(),
+                'previousPageUrl' => $logs->previousPageUrl(),
+                'total' => $logs->total(),
+            ],
+        ]);
     }
 }

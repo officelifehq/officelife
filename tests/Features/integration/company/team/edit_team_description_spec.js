@@ -16,6 +16,7 @@ describe('Team - Edit description', function () {
     cy.get('body').should('contain', 'I made a drawing')
 
     cy.hasAuditLog('Set the description of the team called', '/1/teams/1')
+    cy.hasTeamLog('Set the team’s description', '/1/account/teams')
   })
 
   it('should let an HR update the team description', function () {
@@ -34,6 +35,8 @@ describe('Team - Edit description', function () {
     cy.get('[data-cy=team-description-submit-description-button]').click()
 
     cy.get('body').should('contain', 'I made a drawing')
+
+    cy.hasTeamLog('Set the team’s description', '/1/account/teams')
   })
 
   it('should not let a random employee update the team description', function () {
@@ -68,5 +71,8 @@ describe('Team - Edit description', function () {
     cy.get('[data-cy=team-description-submit-description-button]').click()
 
     cy.get('body').should('contain', 'I made a drawing')
+
+    cy.changePermission(1, 100)
+    cy.hasTeamLog('Set the team’s description', '/1/account/teams')
   })
 })

@@ -52,7 +52,7 @@ class TeamController extends Controller
      * @param int $teamId
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $companyId, $teamId)
+    public function show(Request $request, int $companyId, int $teamId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

@@ -19,6 +19,13 @@ class EmployeeLogTest extends ApiTestCase
     }
 
     /** @test */
+    public function it_belongs_to_an_author(): void
+    {
+        $employeeLog = factory(EmployeeLog::class)->create([]);
+        $this->assertTrue($employeeLog->author()->exists());
+    }
+
+    /** @test */
     public function it_returns_an_object(): void
     {
         $michael = factory(Employee::class)->create([
@@ -29,7 +36,7 @@ class EmployeeLogTest extends ApiTestCase
             'author_id' => $michael->id,
             'author_name' => 'michael scott',
             'action' => 'account_created',
-            'created_at' => '2020-01-12 00:00:00',
+            'audited_at' => '2020-01-12 00:00:00',
         ]);
 
         $this->assertEquals(
@@ -42,8 +49,8 @@ class EmployeeLogTest extends ApiTestCase
                     'id' => $michael->id,
                     'name' => 'michael scott',
                 ],
-                'localized_created_at' => 'Jan 12, 2020 00:00',
-                'created_at' => '2020-01-12 00:00:00',
+                'localized_audited_at' => 'Jan 12, 2020 00:00',
+                'audited_at' => '2020-01-12 00:00:00',
             ],
             $log->toObject()
         );

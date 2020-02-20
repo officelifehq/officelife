@@ -62,7 +62,7 @@ input[type=radio] {
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news'" data-cy="cancel-button" class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news'" data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -131,7 +131,6 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          console.log(error);
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },

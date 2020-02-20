@@ -75,11 +75,11 @@ class CreatePlace extends BaseService
     private function addPlace(array $data): Place
     {
         return Place::create([
-            'street' => $this->nullOrValue($data, 'street'),
-            'city' => $this->nullOrValue($data, 'city'),
-            'province' => $this->nullOrValue($data, 'province'),
-            'postal_code' => $this->nullOrValue($data, 'postal_code'),
-            'country_id' => $this->nullOrValue($data, 'country_id'),
+            'street' => $this->valueOrNull($data, 'street'),
+            'city' => $this->valueOrNull($data, 'city'),
+            'province' => $this->valueOrNull($data, 'province'),
+            'postal_code' => $this->valueOrNull($data, 'postal_code'),
+            'country_id' => $this->valueOrNull($data, 'country_id'),
             'placable_id' => $data['placable_id'],
             'placable_type' => $data['placable_type'],
             'is_active' => $this->valueOrFalse($data, 'is_active'),

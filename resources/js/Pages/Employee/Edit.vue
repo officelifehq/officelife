@@ -168,7 +168,7 @@
             <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="btn btn-secondary dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>

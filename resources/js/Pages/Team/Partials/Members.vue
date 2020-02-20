@@ -26,8 +26,8 @@
       <span>🤼‍♀️ {{ $tc('team.count_team_members', listOfEmployees.length, { count: listOfEmployees.length }) }}</span>
 
       <!-- actions -->
-      <a v-if="!editMode && $page.auth.employee.permission_level <= 200" href="" class="btn btn-secondary f5" data-cy="manage-team-on" @click.prevent="editMode = true">{{ $t('team.members_enable_manage_mode') }}</a>
-      <a v-if="editMode && $page.auth.employee.permission_level <= 200" href="" class="btn btn-secondary f5" data-cy="manage-team-off" @click.prevent="editMode = false">{{ $t('team.members_disable_manage_mode') }}</a>
+      <a v-if="!editMode && $page.auth.employee.permission_level <= 200" href="" class="btn f5" data-cy="manage-team-on" @click.prevent="editMode = true">{{ $t('team.members_enable_manage_mode') }}</a>
+      <a v-if="editMode && $page.auth.employee.permission_level <= 200" href="" class="btn f5" data-cy="manage-team-off" @click.prevent="editMode = false">{{ $t('team.members_disable_manage_mode') }}</a>
     </h3>
 
     <div class="mb4 bg-white box cf">

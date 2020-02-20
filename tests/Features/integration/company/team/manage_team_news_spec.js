@@ -31,6 +31,7 @@ describe('Team - Team news management', function () {
     // check to see if the data is there in the table
     cy.get('[data-cy=news-list]').contains('News of the week')
     cy.hasAuditLog('Wrote a news called News of the week for the team', '/1/teams/1')
+    cy.hasTeamLog('Wrote a news called News of the week', '/1/teams/1')
 
     // go to the page showing all the news
     cy.get('[data-cy=view-all-news]').click()
@@ -41,6 +42,7 @@ describe('Team - Team news management', function () {
     cy.get('[data-cy=news-content-textarea').type('Dwight is now officially the new assistant regional manager.')
     cy.get('[data-cy=submit-update-news-button]').click()
     cy.hasAuditLog('Updated the news called No news of the week', '/1/teams/1/news')
+    cy.hasTeamLog('Updated the news called No news of the week', '/1/teams/1/news')
 
     cy.wait(1000)
 
@@ -51,6 +53,7 @@ describe('Team - Team news management', function () {
     cy.get('[data-cy=delete-news-button-confirm-1]').click()
     cy.get('[data-cy=news-list]').should('not.contain', 'No news of the week')
     cy.hasAuditLog('Deleted the news called No news of the week', '/1/teams/1/news')
+    cy.hasTeamLog('Deleted the news called No news of the week', '/1/teams/1/news')
   })
 
   it('should let you manage team news as an HR', function () {
@@ -76,6 +79,8 @@ describe('Team - Team news management', function () {
     // check to see if the data is there in the table
     cy.get('[data-cy=news-list]').contains('News of the week')
 
+    cy.hasTeamLog('Wrote a news called News of the week', '/1/teams/1')
+
     // go to the page showing all the news
     cy.get('[data-cy=view-all-news]').click()
     cy.get('[data-cy=edit-news-button-1]').click()
@@ -85,6 +90,8 @@ describe('Team - Team news management', function () {
     cy.get('[data-cy=news-content-textarea').type('Dwight is now officially the new assistant regional manager.')
     cy.get('[data-cy=submit-update-news-button]').click()
 
+    cy.hasTeamLog('Updated the news called No news of the week', '/1/teams/1/news')
+
     cy.wait(1000)
 
     // delete the news
@@ -93,6 +100,8 @@ describe('Team - Team news management', function () {
     cy.get('[data-cy=delete-news-button-1]').click()
     cy.get('[data-cy=delete-news-button-confirm-1]').click()
     cy.get('[data-cy=news-list]').should('not.contain', 'No news of the week')
+
+    cy.hasTeamLog('Deleted the news called No news of the week', '/1/teams/1/news')
   })
 
   it('should let you manage team news as a normal user who is part of the team', function () {

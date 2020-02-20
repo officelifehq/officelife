@@ -17,6 +17,7 @@
     <label v-if="label" class="db fw4 lh-copy f6" :for="id">
       {{ label }}
     </label>
+
     <textarea :id="id"
               ref="input"
               v-bind="$attrs"
@@ -29,9 +30,11 @@
               :rows="rows"
               @input="$emit('input', $event.target.value)"
     ></textarea>
+
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
+
     <p v-if="help" class="f7 mb3 lh-title">
       {{ help }}
     </p>

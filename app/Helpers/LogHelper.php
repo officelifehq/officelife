@@ -36,6 +36,19 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'team_updated') {
+            $sentence = trans('account.log_team_updated', [
+                'old_name' => $log->object->{'team_old_name'},
+                'new_name' => $log->object->{'team_new_name'},
+            ]);
+        }
+
+        if ($log->action == 'team_destroyed') {
+            $sentence = trans('account.log_team_destroyed', [
+                'name' => $log->object->{'team_name'},
+            ]);
+        }
+
         if ($log->action == 'employee_added_to_team') {
             $sentence = trans('account.log_employee_added_to_team', [
                 'employee' => $log->object->{'employee_name'},
@@ -465,34 +478,34 @@ class LogHelper
     {
         $sentence = '';
 
-        if ($log->action == 'team_log_team_created') {
+        if ($log->action == 'team_created') {
             $sentence = trans('account.team_log_team_created', [
                 'name' => $log->object->{'team_name'},
             ]);
         }
 
-        if ($log->action == 'team_log_team_updated') {
+        if ($log->action == 'team_updated') {
             $sentence = trans('account.team_log_team_updated', [
                 'old_name' => $log->object->{'team_old_name'},
                 'new_name' => $log->object->{'team_new_name'},
             ]);
         }
 
-        if ($log->action == 'team_log_employee_added_to_team') {
+        if ($log->action == 'employee_added_to_team') {
             $sentence = trans('account.team_log_employee_added_to_team', [
                 'employee_name' => $log->object->{'employee_name'},
                 'team_name' => $log->object->{'team_name'},
             ]);
         }
 
-        if ($log->action == 'team_log_employee_removed_from_team') {
+        if ($log->action == 'employee_removed_from_team') {
             $sentence = trans('account.team_log_employee_removed_from_team', [
                 'employee_name' => $log->object->{'employee_name'},
                 'team_name' => $log->object->{'team_name'},
             ]);
         }
 
-        if ($log->action == 'team_log_task_associated_to_team') {
+        if ($log->action == 'task_associated_to_team') {
             $sentence = trans('account.team_log_task_associated_to_team', [
                 'name' => $log->object->{'task_name'},
             ]);

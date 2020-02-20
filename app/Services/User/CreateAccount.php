@@ -56,10 +56,10 @@ class CreateAccount extends BaseService
         $user = User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'first_name' => $this->nullOrValue($data, 'first_name'),
-            'last_name' => $this->nullOrValue($data, 'last_name'),
-            'middle_name' => $this->nullOrValue($data, 'middle_name'),
-            'nickname' => $this->nullOrValue($data, 'nickname'),
+            'first_name' => $this->valueOrNull($data, 'first_name'),
+            'last_name' => $this->valueOrNull($data, 'last_name'),
+            'middle_name' => $this->valueOrNull($data, 'middle_name'),
+            'nickname' => $this->valueOrNull($data, 'nickname'),
             'uuid' => $uuid,
         ]);
 

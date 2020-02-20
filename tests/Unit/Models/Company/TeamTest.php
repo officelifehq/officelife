@@ -95,6 +95,7 @@ class TeamTest extends TestCase
         $this->assertEquals(
             [
                 'id' => $sales->id,
+                'url' => config('app.url').'/'.$dunder->id.'/teams/'.$sales->id,
                 'company' => [
                     'id' => $dunder->id,
                 ],

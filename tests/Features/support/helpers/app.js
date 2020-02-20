@@ -126,6 +126,16 @@ Cypress.Commands.add('hasEmployeeLog', (content, redirectUrl) => {
   cy.visit(redirectUrl)
 })
 
+// Assert that a team log has been created with the following content
+// and redirect the page to the given url
+Cypress.Commands.add('hasTeamLog', (content, redirectUrl) => {
+  cy.visit('/1/account/teams/1/logs')
+
+  cy.contains(content)
+
+  cy.visit(redirectUrl)
+})
+
 // Change persmission of the user
 Cypress.Commands.add('changePermission', (userId, permission) => {
   cy.exec('php artisan test:changepermission ' + userId + ' ' + permission)

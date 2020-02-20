@@ -93,24 +93,20 @@
               </div>
 
               <!-- LIST OF ACTIONS FOR EACH EMPLOYEE STATUS -->
-              <ul v-show="idToUpdate != status.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
+              <ul v-show="idToUpdate != status.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns f6">
                 <!-- RENAME A EMPLOYEE STATUS -->
                 <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">{{ $t('app.rename') }}</a>
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A EMPLOYEE STATUS -->
                 <li v-if="idToDelete == status.id" class="di">
                   {{ $t('app.sure') }}
-                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + status.id" @click.prevent="destroy(status.id)">
-                    {{ $t('app.yes') }}
-                  </a>
-                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + status.id" @click.prevent="idToDelete = 0">
-                    {{ $t('app.no') }}
-                  </a>
+                  <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + status.id" @click.prevent="destroy(status.id)">{{ $t('app.yes') }}</a>
+                  <a class="pointer" :data-cy="'list-delete-cancel-button-' + status.id" @click.prevent="idToDelete = 0">{{ $t('app.no') }}</a>
                 </li>
                 <li v-else class="di">
-                  <a class="pointer" :data-cy="'list-delete-button-' + status.id" @click.prevent="idToDelete = status.id">
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + status.id" @click.prevent="idToDelete = status.id">
                     {{ $t('app.delete') }}
                   </a>
                 </li>
@@ -232,7 +228,7 @@ export default {
           this.idToUpdate = 0;
           this.form.name = null;
 
-          id = this.statuses.findIndex(x => x.id === id);
+          var id = this.statuses.findIndex(x => x.id === id);
           this.$set(this.statuses, id, response.data.data);
         })
         .catch(error => {
@@ -251,7 +247,7 @@ export default {
           });
 
           this.idToDelete = 0;
-          id = this.statuses.findIndex(x => x.id === id);
+          var id = this.statuses.findIndex(x => x.id === id);
           this.statuses.splice(id, 1);
         })
         .catch(error => {

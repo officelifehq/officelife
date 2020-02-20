@@ -19,6 +19,7 @@ describe('Team - Team lead management', function () {
 
     cy.get('[data-cy=current-team-lead]').contains('Jim Halpert')
     cy.hasAuditLog('Assigned Jim Halpert as the team leader of the team called product', '/1/teams/1')
+    cy.hasTeamLog('Assigned Jim Halpert as the team leader', '/1/teams/1')
 
     // also, the employee should be a member of the team now
     cy.get('[data-cy=members-list]').contains('Jim Halpert')
@@ -30,6 +31,7 @@ describe('Team - Team lead management', function () {
 
     cy.get('[data-cy=team-lead-undefined]').should('not.exist')
     cy.hasAuditLog('Removed Jim Halpert as the team lead of the team called product', '/1/teams/1')
+    cy.hasTeamLog('Removed Jim Halpert as the team lead', '/1/account/teams')
   })
 
   it('should let you add a team lead who was not part of the team as an hr', function () {
@@ -57,12 +59,16 @@ describe('Team - Team lead management', function () {
     // also, the employee should be a member of the team now
     cy.get('[data-cy=members-list]').contains('Jim Halpert')
 
+    cy.hasTeamLog('Assigned Jim Halpert as the team leader', '/1/teams/1')
+
     // now remove the team lead
     cy.get('[data-cy=display-remove-team-lead-modal]').click()
     cy.get('[data-cy=remove-team-lead-button]').click()
     cy.get('[data-cy=confirm-remove-team-lead]').click()
 
     cy.get('[data-cy=team-lead-undefined]').should('not.exist')
+
+    cy.hasTeamLog('Removed Jim Halpert as the team lead', '/1/teams/1')
   })
 
   it('should not let you add a team lead who was not part of the team as an employee', function () {

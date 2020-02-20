@@ -86,7 +86,7 @@
           <div class="mb0">
             <div class="flex-ns justify-between">
               <div>
-                <a class="btn btn-secondary dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addMode = false">
+                <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addMode = false">
                   {{ $t('app.cancel') }}
                 </a>
               </div>

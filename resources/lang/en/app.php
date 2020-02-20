@@ -25,6 +25,7 @@ return [
     'error_wrong_employee_id' => 'We can’t find the requested employee.',
     'error_wrong_team_id' => 'We can’t find the requested team.',
     'error_invalid_date' => 'The date is invalid.',
+    'error_team_name_not_unique' => 'There is already a team with this name.',
 
     'previous' => 'Previous',
     'next' => 'Next',
@@ -47,6 +48,7 @@ return [
     'breadcrumb_account_manage_company_news' => 'Company news',
     'breadcrumb_account_add_company_news' => 'Add a company news',
     'breadcrumb_account_edit_company_news' => 'Edit a company news',
+    'breadcrumb_account_manage_team_logs' => 'Team logs',
     'breadcrumb_employee_edit' => 'Edit information',
     'breadcrumb_team_show_team_news' => 'Team news',
     'breadcrumb_team_add_team_news' => 'Add a team news',

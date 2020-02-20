@@ -62,7 +62,7 @@ class LogMorale extends BaseService
         $morale = Morale::create([
             'employee_id' => $data['employee_id'],
             'emotion' => $data['emotion'],
-            'comment' => $this->nullOrValue($data, 'comment'),
+            'comment' => $this->valueOrNull($data, 'comment'),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
