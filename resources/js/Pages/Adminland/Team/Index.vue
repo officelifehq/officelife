@@ -122,7 +122,7 @@
                     <inertia-link :href="team.url">{{ $t('account.team_visit_page') }}</inertia-link>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</inertia-link>
+                    <inertia-link :href="'/' + $page.auth.company.id + '/account/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</inertia-link>
                   </li>
                   <li class="di pr2">
                     <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'team-rename-link-' + team.id" @click.prevent="showRenameModal(team)">{{ $t('app.rename') }}</a>

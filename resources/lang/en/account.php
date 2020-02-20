@@ -193,7 +193,7 @@ return [
     'team_log_task_associated_to_team' => 'Associated :name to the team.',
     'team_log_team_leader_assigned' => 'Assigned :name as the team leader.',
     'team_log_team_leader_removed' => 'Removed :name as the team leader.',
-    'team_log_description_set' => 'Set the teams’s description',
+    'team_log_description_set' => 'Set the team’s description',
     'team_log_description_cleared' => 'Cleared the teams’s description',
     'team_log_useful_link_created' => 'Added a link called :name.',
     'team_log_useful_link_updated' => 'Updated the link called :name.',

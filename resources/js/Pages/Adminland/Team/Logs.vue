@@ -1,11 +1,6 @@
 <style scoped>
-.avatar {
-  width: 80px;
-  height: 80px;
-  top: 32px;
-  left: 50%;
-  margin-top: -40px; /* Half the height */
-  margin-left: -40px; /* Half the width */
+.log_date {
+  color: #777A88;
 }
 </style>
 
@@ -22,24 +17,21 @@
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/teams'">{{ $t('app.breadcrumb_account_manage_teams') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_employee_logs') }}
+            {{ $t('app.breadcrumb_account_manage_team_logs') }}
           </li>
         </ul>
       </div>
 
       <!-- BODY -->
-      <div class="mw7 center br3 mb5 bg-white box relative z-1">
-        <div class="pa3 relative pt5">
-          <!-- AVATAR -->
-          <img :src="employee.avatar" class="avatar absolute br-100 db center" />
-
+      <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
+        <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            Everything that ever happened to {{ employee.name }}
+            {{ $t('audit.title') }}
           </h2>
-          <ul class="list pl0 mt0 center" data-cy="logs-list">
+          <ul class="list pl0 mt0 center">
             <li v-for="log in logs" :key="log.id"
                 class="flex items-center lh-copy pa2-l pa1 ph0-l bb b--black-10"
             >
@@ -91,10 +83,6 @@ export default {
   props: {
     notifications: {
       type: Array,
-      default: null,
-    },
-    employee: {
-      type: Object,
       default: null,
     },
     logs: {

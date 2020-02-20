@@ -48,7 +48,7 @@
 
                 <!-- log date -->
                 <span class="db f6 log_date">
-                  {{ log.created_at | moment("dddd, MMMM Do YYYY") }}
+                  {{ log.localized_audited_at }}
                 </span>
               </div>
             </li>

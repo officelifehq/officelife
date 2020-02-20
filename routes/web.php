@@ -125,6 +125,7 @@ Route::middleware(['auth'])->group(function () {
 
             // team management
             Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController');
+            Route::get('account/teams/{team}/logs', 'Company\\Adminland\\AdminTeamController@logs');
 
             // position management
             Route::resource('account/positions', 'Company\\Adminland\\AdminPositionController');

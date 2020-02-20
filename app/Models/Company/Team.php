@@ -129,6 +129,16 @@ class Team extends Model
     }
 
     /**
+     * Get the team logs record associated with the team.
+     *
+     * @return HasMany
+     */
+    public function logs()
+    {
+        return $this->hasMany(TeamLog::class)->orderBy('audited_at', 'desc');
+    }
+
+    /**
      * Transform the object to an array representing this object.
      *
      * @return array

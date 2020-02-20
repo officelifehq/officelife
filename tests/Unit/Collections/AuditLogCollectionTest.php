@@ -25,11 +25,13 @@ class AuditLogCollectionTest extends TestCase
             'author_id' => $michael->id,
             'author_name' => $michael->name,
             'company_id' => $michael->company_id,
+            'audited_at' => '2020-01-12 00:00:00',
         ]);
         factory(AuditLog::class)->create([
             'author_id' => $dwight->id,
             'author_name' => $dwight->name,
             'company_id' => $michael->company_id,
+            'audited_at' => '2020-01-12 00:00:00',
         ]);
 
         $logs = $michael->company->logs()->with('author')->get();
@@ -50,7 +52,8 @@ class AuditLogCollectionTest extends TestCase
                     'id' => is_null($auditLogA->author) ? null : $auditLogA->author->id,
                     'name' => is_null($auditLogA->author) ? $auditLogA->author_name : $auditLogA->author->name,
                 ],
-                'created_at' => $auditLogA->created_at,
+                'localized_audited_at' => 'Jan 12, 2020 00:00',
+                'audited_at' => $auditLogA->audited_at,
             ],
             $collection[0]
         );

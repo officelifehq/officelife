@@ -42,6 +42,7 @@ describe('Team - Members management', function () {
     cy.get('[data-cy=members-list]').contains('Michael Scott')
 
     cy.hasAuditLog('Added Michael Scott to product', '/1/teams/1')
+    cy.hasTeamLog('Added Michael Scott to the team', '/1/teams/1')
 
     // remove the employee
     cy.get('[data-cy=manage-team-on]').click()
@@ -49,6 +50,7 @@ describe('Team - Members management', function () {
     cy.get('[data-cy=members-list]').should('not.exist')
     cy.get('[data-cy=members-list-blank-state]').should('exist')
     cy.hasAuditLog('Removed Michael Scott from product', '/1/teams/1')
+    cy.hasTeamLog('Removed Michael Scott from the team', '/1/teams/1')
   })
 
   it('should let you manage team members as an hr', function () {
@@ -74,6 +76,11 @@ describe('Team - Members management', function () {
     // does the list contain the newly added member
     cy.get('[data-cy=members-list]').contains('Michael Scott')
 
+    cy.hasTeamLog('Added Michael Scott to the team', '/1/teams/1')
+
+    // enable management
+    cy.get('[data-cy=manage-team-on]').click()
+
     // remove the employee
     cy.get('[data-cy=remove-employee-2]').click()
     cy.get('[data-cy=members-list]').should('not.exist')
@@ -83,6 +90,8 @@ describe('Team - Members management', function () {
     cy.get('[data-cy=manage-team-off]').click()
     cy.get('[data-cy=manage-team-on]').should('exist')
     cy.get('[data-cy=manage-team-off]').should('not.exist')
+
+    cy.hasTeamLog('Removed Michael Scott from the team', '/1/teams/1')
   })
 
   it('should not let you manage members as a normal user', function () {
