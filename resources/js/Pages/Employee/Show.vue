@@ -77,18 +77,18 @@
           </h2>
           <ul class="list tc pa0 f6 mb0">
             <li class="di-l db mb0-l mb2 mr2">
-              <assign-employee-gender-pronoun
+              <employee-gender-pronoun
                 :employee="employee"
                 :pronouns="pronouns"
               />
             </li>
             <li class="di-l db mb0-l mb2 mr2">
-              <assign-employee-birthdate
+              <employee-birthdate
                 :employee="employee"
               />
             </li>
             <li class="di-l db mb0-l mb2 mr2">
-              <assign-employee-position
+              <employee-position
                 :employee="employee"
                 :positions="positions"
               />
@@ -97,13 +97,13 @@
               No hire date
             </li>
             <li class="di-l db mb0-l mb2 mr2">
-              <assign-employee-status
+              <employee-status
                 :employee="employee"
                 :statuses="statuses"
               />
             </li>
             <li class="di-l db mb0-l mb2">
-              <assign-employee-team
+              <employee-team
                 :employee="employee"
                 :employee-teams="employeeTeams"
                 :teams="teams"
@@ -124,7 +124,7 @@
             :employee="employee"
           />
 
-          <assign-employee-hierarchy
+          <employee-hierarchy
             :employee="employee"
             :managers-of-employee="managersOfEmployee"
             :direct-reports="directReports"
@@ -151,12 +151,12 @@
 import vClickOutside from 'v-click-outside';
 import Layout from '@/Shared/Layout';
 import PersonalDescription from '@/Pages/Employee/Partials/PersonalDescription';
-import AssignEmployeePosition from '@/Pages/Employee/Partials/AssignEmployeePosition';
-import AssignEmployeeGenderPronoun from '@/Pages/Employee/Partials/AssignEmployeeGenderPronoun';
-import AssignEmployeeStatus from '@/Pages/Employee/Partials/AssignEmployeeStatus';
-import AssignEmployeeTeam from '@/Pages/Employee/Partials/AssignEmployeeTeam';
-import AssignEmployeeHierarchy from '@/Pages/Employee/Partials/AssignEmployeeHierarchy';
-import AssignEmployeeBirthdate from '@/Pages/Employee/Partials/AssignEmployeeBirthdate';
+import EmployeePosition from '@/Pages/Employee/Partials/EmployeePosition';
+import EmployeeGenderPronoun from '@/Pages/Employee/Partials/EmployeeGenderPronoun';
+import EmployeeStatus from '@/Pages/Employee/Partials/EmployeeStatus';
+import EmployeeTeam from '@/Pages/Employee/Partials/EmployeeTeam';
+import EmployeeHierarchy from '@/Pages/Employee/Partials/EmployeeHierarchy';
+import EmployeeBirthdate from '@/Pages/Employee/Partials/EmployeeBirthdate';
 import Worklogs from '@/Pages/Employee/Partials/Worklogs';
 import Holidays from '@/Pages/Employee/Partials/Holidays';
 import Location from '@/Pages/Employee/Partials/Location';
@@ -165,12 +165,12 @@ export default {
   components: {
     Layout,
     PersonalDescription,
-    AssignEmployeePosition,
-    AssignEmployeeGenderPronoun,
-    AssignEmployeeStatus,
-    AssignEmployeeTeam,
-    AssignEmployeeHierarchy,
-    AssignEmployeeBirthdate,
+    EmployeePosition,
+    EmployeeGenderPronoun,
+    EmployeeStatus,
+    EmployeeTeam,
+    EmployeeHierarchy,
+    EmployeeBirthdate,
     Worklogs,
     Holidays,
     Location,
