@@ -12,6 +12,9 @@ return [
     'description_text_title' => 'How would you describe yourself? What are your passions?',
     'description_success' => 'The description has been updated.',
 
+    'birthdate_information_full' => 'Born on {date} (age: {age})',
+    'birthdate_information_partial' => 'Born on {date}',
+
     'location_title' => 'Location',
     'location_no_info' => 'There is no address defined on this profile.',
     'location_alt_employee' => 'Employee location',
