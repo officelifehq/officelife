@@ -239,6 +239,8 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_returns_an_object(): void
     {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
         $dunder = factory(Company::class)->create([]);
         $dwight = factory(User::class)->create([]);
         $position = factory(Position::class)->create([
@@ -273,9 +275,11 @@ class EmployeeTest extends TestCase
                 'email' => 'dwigth@dundermifflin.com',
                 'birthdate' => [
                     'full' => 'Jan 01, 2010',
+                    'partial' => 'January 1st',
                     'year' => 2010,
                     'month' => 1,
                     'day' => 1,
+                    'age' => 8,
                 ],
                 'permission_level' => 'Administrator',
                 'raw_description' => 'awesome employee',

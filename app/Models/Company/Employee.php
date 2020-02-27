@@ -298,9 +298,11 @@ class Employee extends Model
             'email' => $this->email,
             'birthdate' => (!$this->birthdate) ? null : [
                 'full' => DateHelper::formatDate($this->birthdate),
+                'partial' => DateHelper::formatMonthAndDay($this->birthdate),
                 'year' => $this->birthdate->year,
                 'month' => $this->birthdate->month,
                 'day' => $this->birthdate->day,
+                'age' => Carbon::now()->year - $this->birthdate->year,
             ],
             'raw_description' => $this->description,
             'parsed_description' => is_null($this->description) ? null : StringHelper::parse($this->description),

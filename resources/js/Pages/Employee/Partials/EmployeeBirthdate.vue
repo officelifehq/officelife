@@ -9,7 +9,10 @@
 <template>
   <div class="di relative">
     <!-- Case when the birthdate is set -->
-    <p>{{ employee.birthdate.full }}</p>
+    <template v-if="employee.birthdate">
+      <p v-if="employeeOrAtLeastHR()" class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_full', { date: employee.birthdate.full, age: employee.birthdate.age }) }}</p>
+      <p v-else class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_partial', { date: employee.birthdate.partial }) }}</p>
+    </template>
   </div>
 </template>
 
@@ -25,70 +28,10 @@ export default {
 
   data() {
     return {
-      modal: false,
-      search: '',
-      form: {
-        year: 1,
-        month: 1,
-        day: 1,
-      },
-      updatedEmployee: Object,
     };
   },
 
-  created() {
-    this.updatedEmployee = this.employee;
-  },
-
   methods: {
-    toggleModal() {
-      this.modal = false;
-    },
-
-    assign(pronoun) {
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/pronoun', pronoun)
-        .then(response => {
-          this.$snotify.success(this.$t('employee.pronoun_modal_assign_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
-
-          this.updatedEmployee = response.data.data;
-        })
-        .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
-
-    reset(pronoun) {
-      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/pronoun/' + pronoun.id)
-        .then(response => {
-          this.$snotify.success(this.$t('employee.pronoun_modal_unassign_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
-
-          this.updatedEmployee = response.data.data;
-        })
-        .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
-
-    isAssigned : function(id) {
-      if (!this.updatedEmployee.pronoun) {
-        return false;
-      }
-      if (this.updatedEmployee.pronoun.id == id) {
-        return true;
-      }
-      return false;
-    },
-
     employeeOrAtLeastHR() {
       if (this.$page.auth.employee.permission_level <= 200) {
         return true;
