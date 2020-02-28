@@ -159,12 +159,7 @@ export default {
     assign(status) {
       axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses', status)
         .then(response => {
-          this.$snotify.success(this.$t('employee.status_modal_assign_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.status_modal_assign_success'), 'success');
 
           this.updatedEmployee = response.data.data;
         })
@@ -176,12 +171,7 @@ export default {
     reset(status) {
       axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses/' + status.id)
         .then(response => {
-          this.$snotify.success(this.$t('employee.status_modal_unassign_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.status_modal_unassign_success'), 'success');
 
           this.updatedEmployee = response.data.data;
         })

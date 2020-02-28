@@ -367,12 +367,7 @@ export default {
     update(id) {
       axios.put('/' + this.$page.auth.company.id + '/account/ptopolicies/' + id, this.form)
         .then(response => {
-          this.$snotify.success(this.$t('account.pto_policies_update'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.pto_policies_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.year = null;

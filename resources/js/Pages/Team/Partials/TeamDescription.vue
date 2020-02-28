@@ -108,12 +108,7 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/description', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('team.description_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('team.description_success'), 'success');
 
           this.updatedTeam = response.data.data;
           this.form.description = this.updatedTeam.raw_description;

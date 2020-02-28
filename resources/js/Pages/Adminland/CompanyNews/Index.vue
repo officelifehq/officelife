@@ -119,12 +119,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.$page.auth.company.id + '/account/news/' + id)
         .then(response => {
-          this.$snotify.success(this.$t('account.company_news_success_destroy'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.company_news_success_destroy'), 'success');
 
           this.idToDelete = 0;
           id = this.news.findIndex(x => x.id === id);

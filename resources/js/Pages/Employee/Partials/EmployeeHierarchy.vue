@@ -351,12 +351,7 @@ export default {
     assignManager(manager) {
       axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/assignManager', manager)
         .then(response => {
-          this.$snotify.success(this.$t('employee.hierarchy_modal_add_manager_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.hierarchy_modal_add_manager_success'), 'success');
           this.managersOfEmployee.push(response.data.data);
           this.modal = 'hide';
         })
@@ -368,12 +363,7 @@ export default {
     assignDirectReport(directReport) {
       axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/assignDirectReport', directReport)
         .then(response => {
-          this.$snotify.success(this.$t('employee.hierarchy_modal_add_direct_report_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.hierarchy_modal_add_direct_report_success'), 'success');
           this.directReports.push(response.data.data);
           this.modal = 'hide';
         })
@@ -385,12 +375,7 @@ export default {
     unassignManager(manager) {
       axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/unassignManager', manager)
         .then(response => {
-          this.$snotify.success(this.$t('employee.hierarchy_modal_remove_manager_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.hierarchy_modal_remove_manager_success'), 'success');
 
           this.managersOfEmployee.splice(this.managersOfEmployee.findIndex(i => i.id === response.data.data.id), 1);
           this.deleteEmployeeConfirmation = false;
@@ -404,12 +389,7 @@ export default {
     unassignDirectReport(directReport) {
       axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/unassignDirectReport', directReport)
         .then(response => {
-          this.$snotify.success(this.$t('employee.hierarchy_modal_remove_direct_report_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.hierarchy_modal_remove_direct_report_success'), 'success');
 
           this.directReports.splice(this.directReports.findIndex(i => i.id === response.data.data.id), 1);
           this.deleteEmployeeConfirmation = false;

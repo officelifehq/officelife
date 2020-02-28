@@ -122,12 +122,7 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/dashboard/worklog', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('dashboard.worklog_success_message'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('dashboard.worklog_success_message'), 'success');
           this.updatedWorklogCount = this.updatedWorklogCount + 1;
           this.loadingState = null;
         })
