@@ -117,13 +117,8 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      this.$snotify.success(localStorage.success, {
-        timeout: 2000,
-        showProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-      });
-      localStorage.removeItem(success);
+      flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
     }
   },
 
@@ -131,12 +126,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/news/' + id)
         .then(response => {
-          this.$snotify.success(this.$t('team.team_news_destroy_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('team.team_news_destroy_success'), 'success');
 
           this.idToDelete = 0;
           id = this.news.findIndex(x => x.id === id);

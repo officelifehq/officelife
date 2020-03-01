@@ -202,12 +202,7 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/account/positions', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('account.position_success_new'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.position_success_new'), 'success');
 
           this.loadingState = null;
           this.form.title = null;
@@ -223,12 +218,7 @@ export default {
     update(id) {
       axios.put('/' + this.$page.auth.company.id + '/account/positions/' + id, this.form)
         .then(response => {
-          this.$snotify.success(this.$t('account.position_success_update'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.position_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.title = null;
@@ -244,12 +234,7 @@ export default {
     destroy(id) {
       axios.delete('/' + this.$page.auth.company.id + '/account/positions/' + id)
         .then(response => {
-          this.$snotify.success(this.$t('account.position_success_destroy'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.position_success_destroy'), 'success');
 
           this.idToDelete = 0;
           id = this.positions.findIndex(x => x.id === id);

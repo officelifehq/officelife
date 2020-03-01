@@ -192,12 +192,7 @@ export default {
           this.potentialMembers = [];
           this.form.searchTerm = '';
 
-          this.$snotify.success(this.$t('account.employee_statuses_success_destroy'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -212,12 +207,7 @@ export default {
           var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
           this.listOfEmployees.splice(id, 1);
 
-          this.$snotify.success(this.$t('account.employee_statuses_success_destroy'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

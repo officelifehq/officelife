@@ -17,10 +17,12 @@ window._ = require('lodash');
 window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
-// moment.js
-Vue.use(require('vue-moment'));
-
 // toaster
+window.events = new Vue();
+window.flash = function (message, level = 'success') {
+  window.events.$emit('flash', { message, level });
+};
+
 import Snotify from 'vue-snotify';
 import 'vue-snotify/styles/simple.css';
 Vue.use(Snotify);

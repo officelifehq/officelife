@@ -104,13 +104,8 @@ export default {
 
   mounted() {
     if (localStorage.success) {
-      this.$snotify.success(localStorage.success, {
-        timeout: 2000,
-        showProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-      });
-      localStorage.removeItem(success);
+      flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
     }
   },
 };

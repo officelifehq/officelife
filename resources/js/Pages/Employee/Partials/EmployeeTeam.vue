@@ -165,12 +165,7 @@ export default {
     assign(team) {
       axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/team', team)
         .then(response => {
-          this.$snotify.success(this.$t('employee.team_modal_assign_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.team_modal_assign_success'), 'success');
 
           this.updatedEmployeeTeams = response.data;
         })
@@ -182,12 +177,7 @@ export default {
     reset(team) {
       axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/team/' + team.id)
         .then(response => {
-          this.$snotify.success(this.$t('employee.team_modal_unassign_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.team_modal_unassign_success'), 'success');
 
           this.updatedEmployeeTeams = response.data;
         })
