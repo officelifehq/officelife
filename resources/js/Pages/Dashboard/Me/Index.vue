@@ -14,30 +14,15 @@
         </h2>
       </div>
 
-      <div class="cf mw7 center br3 mb5 tc">
-        <div class="cf dib btn-group">
-          <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':($page.auth.user.default_dashboard_view == 'me')}">
-            Me
-          </inertia-link>
-          <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':($page.auth.user.default_dashboard_view == 'team')}" data-cy="dashboard-team-tab">
-            My team
-          </inertia-link>
-          <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/company'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':($page.auth.user.default_dashboard_view == 'company')}" data-cy="dashboard-company-tab">
-            My company
-          </inertia-link>
-          <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/hr'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':($page.auth.user.default_dashboard_view == 'hr')}" data-cy="dashboard-hr-tab">
-            HR area
-          </inertia-link>
-        </div>
-      </div>
+      <dashboard-menu :employee="employee" />
 
-      <my-worklogs
+      <worklogs
         :worklog-count="worklogCount"
         :employee="employee"
         class="mb5"
       />
 
-      <my-morale
+      <morale
         :morale-count="moraleCount"
         :employee="employee"
       />
@@ -81,15 +66,17 @@
 </template>
 
 <script>
-import MyWorklogs from '@/Pages/Dashboard/MyWorklogs';
-import MyMorale from '@/Pages/Dashboard/MyMorale';
+import Worklogs from '@/Pages/Dashboard/Me/Partials/Worklogs';
+import Morale from '@/Pages/Dashboard/Me/Partials/Morale';
 import Layout from '@/Shared/Layout';
+import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
 export default {
   components: {
     Layout,
-    MyWorklogs,
-    MyMorale,
+    Worklogs,
+    Morale,
+    DashboardMenu,
   },
 
   props: {

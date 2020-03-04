@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
                         'first_name' => Auth::user()->first_name,
                         'last_name' => Auth::user()->last_name,
                         'email' => Auth::user()->email,
-                        'default_dashboard_view' => Auth::user()->default_dashboard_view,
+                        'name' => Auth::user()->name,
                     ] : null,
                     'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? InstanceHelper::getLoggedCompany(): null,
                     'employee' => Auth::user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? [

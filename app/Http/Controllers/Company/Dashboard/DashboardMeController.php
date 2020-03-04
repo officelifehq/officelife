@@ -34,9 +34,10 @@ class DashboardMeController extends Controller
             'id' => $employee->id,
             'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
+            'dashboard_view' => 'me',
         ];
 
-        return Inertia::render('Dashboard/Me', [
+        return Inertia::render('Dashboard/Me/Index', [
             'employee' => $employee,
             'worklogCount' => $worklogCount,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),

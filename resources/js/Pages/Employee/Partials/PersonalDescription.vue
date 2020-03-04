@@ -120,12 +120,7 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/description', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('employee.description_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.description_success'), 'success');
 
           this.updatedEmployee = response.data.data;
           this.showEdit = false;
@@ -140,12 +135,7 @@ export default {
     clear() {
       axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/description/' + this.employee.id)
         .then(response => {
-          this.$snotify.success(this.$t('employee.description_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.description_success'), 'success');
 
           this.updatedEmployee = response.data.data;
           this.showEdit = false;

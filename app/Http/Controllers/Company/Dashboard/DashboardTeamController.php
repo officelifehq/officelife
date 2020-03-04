@@ -4,18 +4,19 @@ namespace App\Http\Controllers\Company\Dashboard;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
+use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
+use App\Http\Collections\TeamCollection;
 use App\Services\User\Preferences\UpdateDashboardView;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\Team\Team as TeamResource;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class DashboardTeamController extends Controller
 {
@@ -26,13 +27,26 @@ class DashboardTeamController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param mixed $requestedDate
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null)
+    public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
-        $teams = $employee->teams()->get();
+        $teams = $employee->teams()->with('employees')->get();
+
+        (new UpdateDashboardView)->execute([
+            'user_id' => Auth::user()->id,
+            'company_id' => $company->id,
+            'view' => 'team',
+        ]);
+
+        $employee = [
+            'id' => $employee->id,
+            'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
+            'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
+            'dashboard_view' => 'team',
+        ];
 
         // we display one team at a time. We need to check if a team has been
         // passed as a parameter. If not, we look for the first team the employee
@@ -43,33 +57,18 @@ class DashboardTeamController extends Controller
                     ->where('id', $teamId)
                     ->firstOrFail();
             } catch (ModelNotFoundException $e) {
-                return Inertia::render('Dashboard/MyTeamEmptyState', [
-                    'company' => $company,
-                    'employee' => new EmployeeResource($employee),
-                    'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                    'message' => trans('dashboard.team_dont_exist'),
-                ]);
+                $this->displayBlankState($company, $employee);
             }
 
-            $exists = $employee->teams->contains($teamId);
+            $exists = $teams->contains($teamId);
             if (! $exists) {
-                return Inertia::render('Dashboard/MyTeamEmptyState', [
-                    'company' => $company,
-                    'employee' => new EmployeeResource($employee),
-                    'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                    'message' => trans('dashboard.not_allowed'),
-                ]);
+                $this->displayBlankState($company, $employee);
             }
         }
 
         // if there are no teams, display a blank state
         if ($teams->count() == 0) {
-            return Inertia::render('Dashboard/MyTeamEmptyState', [
-                'company' => $company,
-                'employee' => new EmployeeResource($employee),
-                'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                'message' => trans('dashboard.team_no_team_yet'),
-            ]);
+            $this->displayBlankState($company, $employee);
         }
 
         // the team is null at this stage, that means the URL didn't contain
@@ -85,12 +84,6 @@ class DashboardTeamController extends Controller
             $requestedDate = Carbon::now();
         }
 
-        (new UpdateDashboardView)->execute([
-            'user_id' => Auth::user()->id,
-            'company_id' => $company->id,
-            'view' => 'team',
-        ]);
-
         // building the collection containing the days with the worklogs
         // by default, the view should display the following days
         // Last Fri/M/T/W/T/F
@@ -102,15 +95,28 @@ class DashboardTeamController extends Controller
             $dates->push(WorklogHelper::getInformationAboutTeam($team, $day));
         }
 
-        return Inertia::render('Dashboard/MyTeam', [
+        // upcoming birthdays
+        //$team->employees->
+
+        return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
-            'employee' => new EmployeeResource($employee),
-            'teams' => TeamResource::collection($teams),
+            'employee' => $employee,
+            'teams' => TeamCollection::prepare($teams),
             'currentTeam' => $team->id,
             'worklogDates' => $dates,
             'currentDate' => $requestedDate->format('Y-m-d'),
             'worklogEntries' => $team->worklogsForDate($requestedDate),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    private function displayBlankState(Company $company, array $employee): Response
+    {
+        return Inertia::render('Dashboard/MyTeamEmptyState', [
+            'company' => $company,
+            'employee' => $employee,
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'message' => trans('dashboard.not_allowed'),
         ]);
     }
 
