@@ -139,12 +139,7 @@ export default {
     assign(pronoun) {
       axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/pronoun', pronoun)
         .then(response => {
-          this.$snotify.success(this.$t('employee.pronoun_modal_assign_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.pronoun_modal_assign_success'), 'success');
 
           this.updatedEmployee = response.data.data;
         })
@@ -156,12 +151,7 @@ export default {
     reset(pronoun) {
       axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/pronoun/' + pronoun.id)
         .then(response => {
-          this.$snotify.success(this.$t('employee.pronoun_modal_unassign_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('employee.pronoun_modal_unassign_success'), 'success');
 
           this.updatedEmployee = response.data.data;
         })

@@ -45,8 +45,6 @@ nav {
 
 <template>
   <div>
-    <vue-snotify />
-
     <div class="dn db-m db-l">
       <nav class="flex justify-between bb b--white-10">
         <div class="flex-grow pa2 flex items-center">
@@ -186,6 +184,8 @@ nav {
     <div :class="[ modalFind ? 'bg-modal-find' : '' ]"></div>
 
     <slot></slot>
+
+    <toaster />
   </div>
 </template>
 
@@ -194,12 +194,14 @@ import vClickOutside from 'v-click-outside';
 import UserMenu from '@/Shared/UserMenu';
 import LoadingButton from '@/Shared/LoadingButton';
 import NotificationsComponent from '@/Shared/Notifications';
+import Toaster from '@/Shared/Toaster';
 
 export default {
   components: {
     UserMenu,
     LoadingButton,
     NotificationsComponent,
+    Toaster,
   },
 
   directives: {

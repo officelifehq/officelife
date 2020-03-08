@@ -243,18 +243,6 @@ export default {
     };
   },
 
-  mounted() {
-    if (localStorage.success) {
-      this.$snotify.success(localStorage.success, {
-        timeout: 2000,
-        showProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-      });
-      localStorage.removeItem(success);
-    }
-  },
-
   methods: {
     showRenameModal(team) {
       this.form.errors = [];
@@ -291,12 +279,7 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/account/teams', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('account.team_creation_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.team_creation_success'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
@@ -312,12 +295,7 @@ export default {
     update(team) {
       axios.put('/' + this.$page.auth.company.id + '/account/teams/' + team.id, this.form)
         .then(response => {
-          this.$snotify.success(this.$t('account.team_update_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.team_update_success'), 'success');
 
           this.teamToRename = 0;
           this.form.name = null;
@@ -333,12 +311,7 @@ export default {
     destroy(team) {
       axios.delete('/' + this.$page.auth.company.id + '/account/teams/' + team.id)
         .then(response => {
-          this.$snotify.success(this.$t('account.team_destroy_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('account.team_destroy_success'), 'success');
 
           this.teamToDelete = 0;
           var id = this.teams.findIndex(x => x.id == team.id);

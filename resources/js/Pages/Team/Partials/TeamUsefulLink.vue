@@ -163,12 +163,7 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/links', this.form)
         .then(response => {
-          this.$snotify.success(this.$t('team.description_success'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('team.description_success'), 'success');
 
           this.updatedLinks.push(response.data.data);
 
@@ -187,12 +182,7 @@ export default {
     removeLink(link) {
       axios.delete('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/links/' + link.id)
         .then(response => {
-          this.$snotify.success(this.$t('team.team_lead_removed'), {
-            timeout: 2000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-          });
+          flash(this.$t('team.team_lead_removed'), 'success');
 
           this.updatedLinks.splice(this.updatedLinks.findIndex(i => i.id == response.data.data), 1);
           this.editMode = false;
