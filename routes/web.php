@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', 'Auth\\LoginController@index')->name('default');
+
 // auth
 Route::get('signup', 'Auth\\RegisterController@index')->name('signup');
 Route::post('signup', 'Auth\\RegisterController@store')->name('signup.attempt');

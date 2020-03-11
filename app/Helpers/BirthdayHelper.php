@@ -9,8 +9,15 @@ class BirthdayHelper
     /**
      * Indicates whether the given date is a birthday in the next X days.
      */
-    public static function isBirthdaySoon(Carbon $date, int $numberOfDays): bool
+    public static function isBirthdaySoon(Carbon $startDate, Carbon $birthdate, int $numberOfDays): bool
     {
-        return $date->format(trans('format.date'));
+        $future = $startDate->addDays($numberOfDays);
+        $birthdate->year = $startDate->year;
+
+        if ($birthdate->isPast()) {
+            return false;
+        }
+
+        return $birthdate->lessThanOrEqualTo($future) && $future->greaterThanOrEqualTo($startDate);
     }
 }

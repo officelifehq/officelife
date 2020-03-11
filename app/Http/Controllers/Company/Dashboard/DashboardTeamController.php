@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Collections\TeamCollection;
 use App\Services\User\Preferences\UpdateDashboardView;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Company\Dashboard\DashboardTeamViewHelper;
 
 class DashboardTeamController extends Controller
 {
@@ -55,6 +56,7 @@ class DashboardTeamController extends Controller
             try {
                 $team = Team::where('company_id', $company->id)
                     ->where('id', $teamId)
+                    ->with('employees')
                     ->firstOrFail();
             } catch (ModelNotFoundException $e) {
                 $this->displayBlankState($company, $employee);
@@ -96,7 +98,7 @@ class DashboardTeamController extends Controller
         }
 
         // upcoming birthdays
-        //$team->employees->
+        $birthdays = DashboardTeamViewHelper::birthdays($team);
 
         return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
@@ -106,10 +108,19 @@ class DashboardTeamController extends Controller
             'worklogDates' => $dates,
             'currentDate' => $requestedDate->format('Y-m-d'),
             'worklogEntries' => $team->worklogsForDate($requestedDate),
+            'birthdays' => $birthdays,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
 
+    /**
+     * Display the default blank state if there are no information about the
+     * team.
+     *
+     * @param Company $company
+     * @param array $employee
+     * @return Response
+     */
     private function displayBlankState(Company $company, array $employee): Response
     {
         return Inertia::render('Dashboard/MyTeamEmptyState', [
