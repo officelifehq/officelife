@@ -32,7 +32,7 @@
 <template>
   <div class="relative di">
     <a ref="popoverReference" class="no-color no-underline pointer" data-cy="header-menu" @click.prevent="openPopover">
-      {{ $page.auth.user.email }}
+      {{ $page.auth.user.name }}
     </a>
 
     <base-popover

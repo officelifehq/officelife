@@ -26,7 +26,16 @@
 
 export default {
 
-  props: ['level', 'message'],
+  props: {
+    level: {
+      type: String,
+      default: '',
+    },
+    message: {
+      type: String,
+      default: '',
+    },
+  },
 
   data() {
     return {

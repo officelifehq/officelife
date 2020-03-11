@@ -59,42 +59,44 @@
 </style>
 
 <template>
-  <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
-    <div class="pa3">
-      <h2 class="mt0 fw5 f4">
-        🔨 {{ $t('dashboard.team_worklog_title') }}
-      </h2>
-      <div class="flex-ns justify-around pa0 tc mt4 mb3 bb bb-gray pb3">
-        <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib-ns worklog-item relative pointer br2 db" :class="[{ selected: worklogDate == currentWorklogDate }, worklogDate.status]" @click.prevent="load(worklogDate)">
-          <span class="dot br-100 dib absolute" :class="worklogDate.completionRate"></span>
-          <!-- Display of the day -->
-          <span v-show="worklogDate.friendlyDate == currentDate" class="db-ns dib mb1 f6">
-            {{ $t('dashboard.team_worklog_today') }}
-          </span>
-          <span v-show="worklogDate.friendlyDate != currentDate" class="db-ns dib mb1 f6">
-            {{ worklogDate.day }}
-          </span>
+  <div class="mb5">
+    <div class="cf mw7 center mb2 fw5">
+      🔨 {{ $t('dashboard.team_worklog_title') }}
+    </div>
+    <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
+      <div class="pa3">
+        <div class="flex-ns justify-around pa0 tc mt4 mb3 bb bb-gray pb3">
+          <div v-for="worklogDate in worklogDates" :key="worklogDate.friendlyDate" class="dib-ns worklog-item relative pointer br2 db" :class="[{ selected: worklogDate == currentWorklogDate }, worklogDate.status]" @click.prevent="load(worklogDate)">
+            <span class="dot br-100 dib absolute" :class="worklogDate.completionRate"></span>
+            <!-- Display of the day -->
+            <span v-show="worklogDate.friendlyDate == currentDate" class="db-ns dib mb1 f6">
+              {{ $t('dashboard.team_worklog_today') }}
+            </span>
+            <span v-show="worklogDate.friendlyDate != currentDate" class="db-ns dib mb1 f6">
+              {{ worklogDate.day }}
+            </span>
 
-          <!--  -->
-          <span class="db0-ns f7 mb1 dib">
-            {{ worklogDate.date }}
-          </span>
+            <!--  -->
+            <span class="db0-ns f7 mb1 dib">
+              {{ worklogDate.date }}
+            </span>
+          </div>
         </div>
-      </div>
-      <p class="f6 mt0 mb3">
-        {{ $t('dashboard.team_worklog_stat') }} <span :class="currentWorklogDate.completionRate">
-          {{ currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }}/{{ currentWorklogDate.numberOfEmployeesInTeam }}
-        </span>
-      </p>
-      <div v-show="updatedWorklogEntries.length == 0" class="tc mt2">
-        😢 {{ $t('dashboard.team_worklog_blank') }}
-      </div>
-      <div v-for="worklogEntry in updatedWorklogEntries" :key="worklogEntry.id" class="worklog-entry bb-gray">
-        <small-name-and-avatar
-          :name="worklogEntry.name"
-          :avatar="worklogEntry.avatar"
-        />
-        <div class="lh-copy content mt2 br3" v-html="worklogEntry.content">
+        <p class="f6 mt0 mb3">
+          {{ $t('dashboard.team_worklog_stat') }} <span :class="currentWorklogDate.completionRate">
+            {{ currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }}/{{ currentWorklogDate.numberOfEmployeesInTeam }}
+          </span>
+        </p>
+        <div v-show="updatedWorklogEntries.length == 0" class="tc mt2">
+          😢 {{ $t('dashboard.team_worklog_blank') }}
+        </div>
+        <div v-for="worklogEntry in updatedWorklogEntries" :key="worklogEntry.id" class="worklog-entry bb-gray">
+          <small-name-and-avatar
+            :name="worklogEntry.name"
+            :avatar="worklogEntry.avatar"
+          />
+          <div class="lh-copy content mt2 br3" v-html="worklogEntry.content">
+          </div>
         </div>
       </div>
     </div>
@@ -102,8 +104,13 @@
 </template>
 
 <script>
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
 export default {
+  components: {
+    SmallNameAndAvatar
+  },
+
   props: {
     company: {
       type: Object,

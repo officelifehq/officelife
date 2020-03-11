@@ -43,4 +43,53 @@ describe('Dashboard - teams', function () {
     cy.contains('product')
     cy.contains('sales')
   })
+
+  it('should display the upcoming birthdays of employees on the team dashboard', function () {
+    cy.login()
+
+    cy.createCompany()
+    cy.createTeam('product')
+
+    cy.wait(1000)
+    cy.assignEmployeeToTeam(1, 1)
+
+    // visit the dashboard, the team tab and find that the birthday is empty
+    cy.visit('/1/dashboard')
+    cy.get('[data-cy=dashboard-team-tab]').click()
+    cy.get('[data-cy=team-birthdate-blank]').should('exist')
+
+    // edit the user birthdate
+    cy.visit('/1/employees/1')
+    cy.get('[data-cy=edit-profile-button]').click()
+    cy.get('[data-cy=show-edit-view]').click()
+    cy.get('input[name=firstname]').type('dwight')
+    cy.get('input[name=lastname]').type('schrute')
+    cy.get('input[name=email]').clear()
+    cy.get('input[name=email]').type('dwight@dundermifflin.com')
+    cy.get('input[name=year]').type('1981')
+    cy.get('input[name=month]').type(Cypress.moment().add(2, 'days').month() + 1)
+    cy.get('input[name=day]').type(Cypress.moment().add(2, 'days').date())
+    cy.get('[data-cy=submit-edit-employee-button]').click()
+
+    // now, on the dashboard team tab, there should be a birthdate
+    cy.visit('/1/dashboard')
+    cy.get('[data-cy=dashboard-team-tab]').click()
+    cy.get('[data-cy=team-birthdate-blank]').should('not.exist')
+    cy.get('[data-cy=birthdays-list]').contains('dwight schrute')
+
+    // change the birthdate and make sure the birthdate doesn't appear anymore
+    // edit the user birthdate
+    cy.visit('/1/employees/1')
+    cy.get('[data-cy=edit-profile-button]').click()
+    cy.get('[data-cy=show-edit-view]').click()
+    cy.get('input[name=month]').clear()
+    cy.get('input[name=month]').type(Cypress.moment().add(40, 'days').month() + 1)
+    cy.get('input[name=day]').clear()
+    cy.get('input[name=day]').type(Cypress.moment().add(40, 'days').date())
+    cy.get('[data-cy=submit-edit-employee-button]').click()
+
+    cy.visit('/1/dashboard')
+    cy.get('[data-cy=dashboard-team-tab]').click()
+    cy.get('[data-cy=team-birthdate-blank]').should('exist')
+  })
 })

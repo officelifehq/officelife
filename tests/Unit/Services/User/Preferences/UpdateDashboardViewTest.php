@@ -3,7 +3,6 @@
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
 use Tests\TestCase;
-use App\Models\User\User;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Validation\ValidationException;
@@ -18,21 +17,18 @@ class UpdateDashboardViewTest extends TestCase
     /** @test */
     public function it_updates_the_default_dashboard_view_parameter(): void
     {
-        $user = factory(User::class)->create([]);
-        $employee = factory(Employee::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $employee = factory(Employee::class)->create([]);
 
         $request = [
-            'user_id' => $user->id,
+            'employee_id' => $employee->id,
             'company_id' => $employee->company_id,
             'view' => 'company',
         ];
 
         $bool = (new UpdateDashboardView)->execute($request);
 
-        $this->assertDatabaseHas('users', [
-            'id' => $user->id,
+        $this->assertDatabaseHas('employees', [
+            'id' => $employee->id,
             'default_dashboard_view' => 'company',
         ]);
 
@@ -40,13 +36,13 @@ class UpdateDashboardViewTest extends TestCase
     }
 
     /** @test */
-    public function it_fails_when_the_user_doesnt_belong_to_the_company(): void
+    public function it_fails_when_the_employee_doesnt_belong_to_the_company(): void
     {
-        $user = factory(User::class)->create([]);
+        $employee = factory(Employee::class)->create([]);
         $company = factory(Company::class)->create([]);
 
         $request = [
-            'user_id' => $user->id,
+            'employee_id' => $employee->id,
             'company_id' => $company->id,
             'view' => 'company',
         ];

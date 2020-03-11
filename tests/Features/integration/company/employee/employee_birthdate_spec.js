@@ -27,7 +27,7 @@ describe('Employee - edit birthdate', function () {
     // check that we display the full date of the employee as an admin can see
     // the full date
     cy.visit('/1/employees/2')
-    cy.get('[data-cy=employee-birthdate-information]').contains('Born on Mar 10, 1981 (age: 39)')
+    cy.get('[data-cy=employee-birthdate-information]').contains('Born on Mar 10, 1981 (age: ')
   })
 
   it('should let a HR see and edit birthdate', function () {
@@ -59,7 +59,7 @@ describe('Employee - edit birthdate', function () {
     // check that we display the full date of the employee as an HR can see
     // the full date
     cy.visit('/1/employees/2')
-    cy.get('[data-cy=employee-birthdate-information]').contains('Born on Mar 10, 1981 (age: 39)')
+    cy.get('[data-cy=employee-birthdate-information]').contains('Born on Mar 10, 1981 (age: ')
   })
 
   it('should let a normal user see and edit his own birthdate', function () {
@@ -90,7 +90,7 @@ describe('Employee - edit birthdate', function () {
     // check that we display the full date of the employee as an HR can see
     // the full date
     cy.visit('/1/employees/1')
-    cy.get('[data-cy=employee-birthdate-information]').contains('Born on Mar 10, 1981 (age: 39)')
+    cy.get('[data-cy=employee-birthdate-information]').contains('Born on Mar 10, 1981 (age: ')
   })
 
   it('should not let a normal user edit someone elses birthdate but he can see a partial birthdate', function () {

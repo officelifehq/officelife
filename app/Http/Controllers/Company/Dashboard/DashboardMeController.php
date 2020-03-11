@@ -7,7 +7,6 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Jobs\UpdateDashboardPreference;
 
 class DashboardMeController extends Controller
@@ -23,23 +22,24 @@ class DashboardMeController extends Controller
         $employee = InstanceHelper::getLoggedEmployee();
 
         UpdateDashboardPreference::dispatch([
-            'user_id' => Auth::user()->id,
+            'employee_id' => $employee->id,
             'company_id' => $company->id,
             'view' => 'me',
         ])->onQueue('low');
 
         $worklogCount = $employee->worklogs()->count();
 
-        $employee = [
+        $employeeInformation = [
             'id' => $employee->id,
             'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
+            'dashboard_view' => 'me',
         ];
 
-        return Inertia::render('Dashboard/Me', [
-            'employee' => $employee,
+        return Inertia::render('Dashboard/Me/Index', [
+            'employee' => $employeeInformation,
             'worklogCount' => $worklogCount,
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'notifications' => NotificationHelper::getNotifications($employee),
             'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
         ]);
     }

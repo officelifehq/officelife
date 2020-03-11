@@ -8,7 +8,6 @@ use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Services\User\Preferences\UpdateDashboardView;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class DashboardCompanyController extends Controller
@@ -21,12 +20,6 @@ class DashboardCompanyController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-
-        (new UpdateDashboardView)->execute([
-            'user_id' => Auth::user()->id,
-            'company_id' => $company->id,
-            'view' => 'company',
-        ]);
 
         return Inertia::render('ShowCompany', [
             'company' => $company,

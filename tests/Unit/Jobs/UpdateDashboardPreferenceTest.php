@@ -16,15 +16,15 @@ class UpdateDashboardPreferenceTest extends TestCase
         $michael = $this->createAdministrator();
 
         $request = [
-            'user_id' => $michael->user_id,
+            'employee_id' => $michael->id,
             'company_id' => $michael->company_id,
             'view' => 'company',
         ];
 
         UpdateDashboardPreference::dispatch($request);
 
-        $this->assertDatabaseHas('users', [
-            'id' => $michael->user_id,
+        $this->assertDatabaseHas('employees', [
+            'id' => $michael->id,
             'default_dashboard_view' => 'company',
         ]);
     }

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('/', 'Auth\\LoginController@index')->name('default');
+
 // auth
 Route::get('signup', 'Auth\\RegisterController@index')->name('signup');
 Route::post('signup', 'Auth\\RegisterController@store')->name('signup.attempt');
@@ -41,8 +43,8 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('employees')->group(function () {
-            Route::get('', 'Company\\Employee\\EmployeeController@index');
-            Route::get('{employee}', 'Company\\Employee\\EmployeeController@show');
+            Route::get('', 'Company\\Employee\\EmployeeController@index')->name('employees.index');
+            Route::get('{employee}', 'Company\\Employee\\EmployeeController@show')->name('employees.show');
             Route::post('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager');
             Route::post('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport');
             Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');
@@ -119,7 +121,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('account', 'Company\\Adminland\\AdminlandController@index');
 
             // employee management
-            Route::resource('account/employees', 'Company\\Adminland\\AdminEmployeeController');
+            Route::resource('account/employees', 'Company\\Adminland\\AdminEmployeeController', ['as' => 'account']);
             Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@index');
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
 
