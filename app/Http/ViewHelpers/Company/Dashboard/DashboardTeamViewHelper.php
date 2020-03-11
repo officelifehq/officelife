@@ -6,16 +6,15 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Models\Company\Team;
 use App\Helpers\BirthdayHelper;
-use Illuminate\Support\Collection;
 
 class DashboardTeamViewHelper
 {
     /**
      * Array containing all the upcoming birthdays for employees in this team.
      * @param Team $team
-     * @return Collection
+     * @return array
      */
-    public static function birthdays(Team $team): Collection
+    public static function birthdays(Team $team): array
     {
         $employees = $team->employees;
 
@@ -25,7 +24,7 @@ class DashboardTeamViewHelper
         });
 
         // build the collection of data
-        $birthdaysCollection = collect();
+        $birthdaysCollection = collect([]);
         foreach ($employees as $employee) {
             if (!$employee->birthdate) {
                 continue;
@@ -34,22 +33,21 @@ class DashboardTeamViewHelper
             if (BirthdayHelper::isBirthdaySoon(Carbon::now(), $employee->birthdate, 30)) {
                 $birthdaysCollection->push([
                     'id' => $employee->id,
+                    'url' => route('employees.show', [
+                        'company' => $employee->company,
+                        'employee' => $employee,
+                    ]),
                     'name' => $employee->name,
                     'avatar' => $employee->avatar,
-                    'birthdate' => [
-                        'full' => DateHelper::formatDate($employee->birthdate),
-                        'year' => $employee->birthdate->year,
-                        'month' => $employee->birthdate->month,
-                        'day' => $employee->birthdate->day,
-                        'age' => Carbon::now()->year - $employee->birthdate->year,
-                    ],
+                    'birthdate' => DateHelper::formatMonthAndDay($employee->birthdate),
                     'sort_key' => Carbon::createFromDate(Carbon::now()->year, $employee->birthdate->month, $employee->birthdate->day)->format('Y-m-d'),
                 ]);
             }
         }
 
-        // sort the entries by dates
-        $birthdaysCollection = $birthdaysCollection->sortBy('sort_key');
+        // sort the entries by soonest birthdates
+        // we need to use values()->all() so it resets the keys properly.
+        $birthdaysCollection = $birthdaysCollection->sortBy('sort_key')->values()->all();
 
         return $birthdaysCollection;
     }

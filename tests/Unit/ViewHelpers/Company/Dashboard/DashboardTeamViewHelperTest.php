@@ -44,9 +44,9 @@ class DashboardTeamViewHelperTest extends ApiTestCase
         $sales->employees()->syncWithoutDetaching([$angela->id]);
         $sales->employees()->syncWithoutDetaching([$john->id]);
 
-        $collection = DashboardTeamViewHelper::birthdays($sales);
+        $array = DashboardTeamViewHelper::birthdays($sales);
 
-        $this->assertEquals(2, $collection->count());
+        $this->assertEquals(2, count($array));
 
         $this->assertEquals(
             [
@@ -54,30 +54,20 @@ class DashboardTeamViewHelperTest extends ApiTestCase
                     'id' => $angela->id,
                     'name' => 'Angela Bernard',
                     'avatar' => $angela->avatar,
-                    'birthdate' => [
-                        'full' => 'Jan 05, 1989',
-                        'year' => 1989,
-                        'month' => 1,
-                        'day' => 5,
-                        'age' => 29,
-                    ],
+                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
+                    'birthdate' => 'January 5th',
                     'sort_key' => '2018-01-05',
                 ],
                 1 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
                     'avatar' => $dwight->avatar,
-                    'birthdate' => [
-                        'full' => 'Jan 29, 1892',
-                        'year' => 1892,
-                        'month' => 1,
-                        'day' => 29,
-                        'age' => 126,
-                    ],
+                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
+                    'birthdate' => 'January 29th',
                     'sort_key' => '2018-01-29',
                 ],
             ],
-            $collection->values()->all()
+            $array
         );
     }
 }

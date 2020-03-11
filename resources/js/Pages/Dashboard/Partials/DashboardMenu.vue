@@ -1,7 +1,7 @@
 <template>
   <div class="cf mw7 center br3 mb5 tc">
     <div class="cf dib btn-group">
-      <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'me')}">
+      <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(employee.dashboard_view == 'me')}">
         Me
       </inertia-link>
       <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'team')}" data-cy="dashboard-team-tab">

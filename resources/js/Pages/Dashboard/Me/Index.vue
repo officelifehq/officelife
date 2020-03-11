@@ -29,23 +29,6 @@
 
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3">
-          <h2>Team</h2>
-          <ul>
-            <li>team agenda</li>
-            <li>anniversaires</li>
-            <li class="strike">latest news</li>
-            <li>view who is at work or from home</li>
-            <li>manager: view time off requests</li>
-            <li>manager: view morale</li>
-            <li>manager: expense approval</li>
-            <li>manager: one on one</li>
-            <li>revue 360 de son boss ou d'employées</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-        <div class="pa3">
           <h2>Me</h2>
           <ul>
             <li>View holidays</li>
