@@ -28,7 +28,6 @@ class User extends Authenticatable
         'middle_name',
         'nickname',
         'uuid',
-        'default_dashboard_view',
     ];
 
     /**

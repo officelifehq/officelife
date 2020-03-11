@@ -76,5 +76,20 @@ describe('Dashboard - teams', function () {
     cy.get('[data-cy=dashboard-team-tab]').click()
     cy.get('[data-cy=team-birthdate-blank]').should('not.exist')
     cy.get('[data-cy=birthdays-list]').contains('dwight schrute')
+
+    // change the birthdate and make sure the birthdate doesn't appear anymore
+    // edit the user birthdate
+    cy.visit('/1/employees/1')
+    cy.get('[data-cy=edit-profile-button]').click()
+    cy.get('[data-cy=show-edit-view]').click()
+    cy.get('input[name=month]').clear()
+    cy.get('input[name=month]').type(Cypress.moment().add(40, 'days').month() + 1)
+    cy.get('input[name=day]').clear()
+    cy.get('input[name=day]').type(Cypress.moment().add(40, 'days').date())
+    cy.get('[data-cy=submit-edit-employee-button]').click()
+
+    cy.visit('/1/dashboard')
+    cy.get('[data-cy=dashboard-team-tab]').click()
+    cy.get('[data-cy=team-birthdate-blank]').should('exist')
   })
 })

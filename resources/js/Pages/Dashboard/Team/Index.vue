@@ -96,7 +96,7 @@ export default {
     Layout,
     Worklogs,
     Birthdays,
-    DashboardMenu
+    DashboardMenu,
   },
 
   props: {

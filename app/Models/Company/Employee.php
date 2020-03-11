@@ -47,6 +47,7 @@ class Employee extends Model
         'is_dummy',
         'avatar',
         'holiday_balance',
+        'default_dashboard_view',
     ];
 
     /**

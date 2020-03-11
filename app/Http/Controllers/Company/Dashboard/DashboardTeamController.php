@@ -9,13 +9,11 @@ use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Jobs\UpdateDashboardPreference;
 use App\Http\Collections\TeamCollection;
-use App\Services\User\Preferences\UpdateDashboardView;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Dashboard\DashboardTeamViewHelper;
 
@@ -36,18 +34,28 @@ class DashboardTeamController extends Controller
         $employee = InstanceHelper::getLoggedEmployee();
         $teams = $employee->teams()->with('employees')->get();
 
-        (new UpdateDashboardView)->execute([
-            'user_id' => Auth::user()->id,
-            'company_id' => $company->id,
-            'view' => 'team',
-        ]);
-
-        $employee = [
+        $employeeInformation = [
             'id' => $employee->id,
             'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
             'dashboard_view' => 'team',
         ];
+
+        UpdateDashboardPreference::dispatch([
+            'employee_id' => $employee->id,
+            'company_id' => $company->id,
+            'view' => 'team',
+        ])->onQueue('low');
+
+        // if there are no teams, display a blank state
+        if ($teams->count() == 0) {
+            return Inertia::render('Dashboard/Team/Partials/MyTeamEmptyState', [
+                'company' => $company,
+                'employee' => $employeeInformation,
+                'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+                'message' => trans('dashboard.not_allowed'),
+            ]);
+        }
 
         // we display one team at a time. We need to check if a team has been
         // passed as a parameter. If not, we look for the first team the employee
@@ -59,18 +67,23 @@ class DashboardTeamController extends Controller
                     ->with('employees')
                     ->firstOrFail();
             } catch (ModelNotFoundException $e) {
-                $this->displayBlankState($company, $employee);
+                return Inertia::render('Dashboard/Team/Partials/MyTeamEmptyState', [
+                    'company' => $company,
+                    'employee' => $employeeInformation,
+                    'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+                    'message' => trans('dashboard.not_allowed'),
+                ]);
             }
 
             $exists = $teams->contains($teamId);
             if (! $exists) {
-                $this->displayBlankState($company, $employee);
+                return Inertia::render('Dashboard/Team/Partials/MyTeamEmptyState', [
+                    'company' => $company,
+                    'employee' => $employeeInformation,
+                    'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+                    'message' => trans('dashboard.not_allowed'),
+                ]);
             }
-        }
-
-        // if there are no teams, display a blank state
-        if ($teams->count() == 0) {
-            $this->displayBlankState($company, $employee);
         }
 
         // the team is null at this stage, that means the URL didn't contain
@@ -102,7 +115,7 @@ class DashboardTeamController extends Controller
 
         return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
-            'employee' => $employee,
+            'employee' => $employeeInformation,
             'teams' => TeamCollection::prepare($teams),
             'currentTeam' => $team->id,
             'worklogDates' => $dates,
@@ -110,24 +123,6 @@ class DashboardTeamController extends Controller
             'worklogEntries' => $team->worklogsForDate($requestedDate),
             'birthdays' => $birthdays,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-        ]);
-    }
-
-    /**
-     * Display the default blank state if there are no information about the
-     * team.
-     *
-     * @param Company $company
-     * @param array $employee
-     * @return Response
-     */
-    private function displayBlankState(Company $company, array $employee): Response
-    {
-        return Inertia::render('Dashboard/MyTeamEmptyState', [
-            'company' => $company,
-            'employee' => $employee,
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'message' => trans('dashboard.not_allowed'),
         ]);
     }
 

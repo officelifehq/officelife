@@ -4,9 +4,8 @@ namespace App\Services\User\Preferences;
 
 use App\Models\User\User;
 use App\Services\BaseService;
-use App\Models\Company\Company;
 use Illuminate\Validation\Rule;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\Company\Employee;
 
 class UpdateDashboardView extends BaseService
 {
@@ -18,7 +17,7 @@ class UpdateDashboardView extends BaseService
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
+            'employee_id' => 'required|integer|exists:employees,id',
             'company_id' => 'nullable|integer|exists:companies,id',
             'view' => [
                 'required',
@@ -42,18 +41,12 @@ class UpdateDashboardView extends BaseService
     {
         $this->validate($data);
 
-        $user = User::findOrFail($data['user_id']);
+        $employee = Employee::where('id', $data['employee_id'])
+            ->where('company_id', $data['company_id'])
+            ->firstOrFail();
 
-        if (! empty($data['company_id'])) {
-            $company = Company::findOrFail($data['company_id']);
-
-            if (is_null($user->getEmployeeObjectForCompany($company))) {
-                throw new ModelNotFoundException();
-            }
-        }
-
-        $user->default_dashboard_view = $data['view'];
-        $user->save();
+        $employee->default_dashboard_view = $data['view'];
+        $employee->save();
 
         return true;
     }
