@@ -279,6 +279,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the work from home record associated with the employee.
+     *
+     * @return belongsTo
+     */
+    public function workFromHomes()
+    {
+        return $this->hasMany(WorkFromHome::class);
+    }
+
+    /**
      * Transform the object to an array representing this object.
      *
      * @return array

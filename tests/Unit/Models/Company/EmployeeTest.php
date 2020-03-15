@@ -19,6 +19,7 @@ use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
+use App\Models\Company\WorkFromHome;
 use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\EmployeePlannedHoliday;
 use App\Models\Company\EmployeeDailyCalendarEntry;
@@ -214,6 +215,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->teamNews()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_work_from_homes(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(WorkFromHome::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->workFromHomes()->exists());
     }
 
     /** @test */

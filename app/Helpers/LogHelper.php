@@ -331,6 +331,13 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_work_from_home_logged') {
+            $sentence = trans('account.log_employee_work_from_home_logged', [
+                'name' => $log->object->{'employee_name'},
+                'date' => $log->object->{'date'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -462,6 +469,12 @@ class LogHelper
             $sentence = trans('account.employee_personal_details_set', [
                 'name' => $log->object->{'name'},
                 'email' => $log->object->{'email'},
+            ]);
+        }
+
+        if ($log->action == 'work_from_home_logged') {
+            $sentence = trans('account.employee_log_work_from_home_logged', [
+                'date' => $log->object->{'date'},
             ]);
         }
 
