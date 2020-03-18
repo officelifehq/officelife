@@ -16,6 +16,11 @@
 
       <dashboard-menu :employee="employee" />
 
+      <work-from-home
+        :employee="employee"
+        class="mb5"
+      />
+
       <worklogs
         :worklog-count="worklogCount"
         :employee="employee"
@@ -51,6 +56,7 @@
 <script>
 import Worklogs from '@/Pages/Dashboard/Me/Partials/Worklogs';
 import Morale from '@/Pages/Dashboard/Me/Partials/Morale';
+import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -59,6 +65,7 @@ export default {
     Layout,
     Worklogs,
     Morale,
+    WorkFromHome,
     DashboardMenu,
   },
 
