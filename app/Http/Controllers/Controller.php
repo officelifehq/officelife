@@ -14,13 +14,13 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected User $authenticatedUser;
+    public User $authenticatedUser;
 
-    protected int $restrictedToCompanyId;
+    public int $restrictedToCompanyId;
 
-    protected Employee $restrictedToEmployee;
+    public Employee $restrictedToEmployee;
 
-    protected int $requiredPermissionLevel;
+    public int $requiredPermissionLevel;
 
     /**
      * Check if the user has the permission to view the page.
