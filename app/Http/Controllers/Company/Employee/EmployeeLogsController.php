@@ -32,12 +32,11 @@ class EmployeeLogsController extends Controller
         }
 
         try {
-            $this->validateAccess(
-                Auth::user()->id,
-                $companyId,
-                $employeeId,
-                config('officelife.authorizations.hr')
-            );
+            $this->asUser(Auth::user())
+                ->forEmployee($employee)
+                ->forCompanyId($companyId)
+                ->asPermissionLevel(config('officelife.authorizations.hr'))
+                ->canAccessCurrentPage();
         } catch (\Exception $e) {
             return redirect('/home');
         }

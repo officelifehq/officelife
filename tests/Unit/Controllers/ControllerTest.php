@@ -24,34 +24,37 @@ class ControllerTest extends TestCase
 
         $this->assertInstanceOf(
             User::class,
-            $stub->validateAccess(
-                $employee->user_id,
-                $employee->company_id,
-                $employee->id,
-                config('officelife.authorizations.hr')
-            )
+            $stub->asUser($employee->user)
+                ->forEmployee($employee)
+                ->forCompanyId($employee->company_id)
+                ->asPermissionLevel(config('officelife.authorizations.administrator'))
+                ->canAccessCurrentPage()
         );
 
         // now testing the HR access level
         $employee = factory(Employee::class)->create([
             'permission_level' => config('officelife.authorizations.hr'),
         ]);
-        $stub->validateAccess(
-            $employee->user_id,
-            $employee->company_id,
-            $employee->id,
-            config('officelife.authorizations.hr')
+        $this->assertInstanceOf(
+            User::class,
+            $stub->asUser($employee->user)
+                ->forEmployee($employee)
+                ->forCompanyId($employee->company_id)
+                ->asPermissionLevel(config('officelife.authorizations.hr'))
+                ->canAccessCurrentPage()
         );
 
         // now testing the normal access level
         $employee = factory(Employee::class)->create([
             'permission_level' => config('officelife.authorizations.user'),
         ]);
-        $stub->validateAccess(
-            $employee->user_id,
-            $employee->company_id,
-            $employee->id,
-            config('officelife.authorizations.hr')
+        $this->assertInstanceOf(
+            User::class,
+            $stub->asUser($employee->user)
+                ->forEmployee($employee)
+                ->forCompanyId($employee->company_id)
+                ->asPermissionLevel(config('officelife.authorizations.user'))
+                ->canAccessCurrentPage()
         );
 
         // test that a normal user can't see another employee's forbidden content
@@ -64,14 +67,13 @@ class ControllerTest extends TestCase
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validateAccess(
-            $employee->user_id,
-            $employee->company_id,
-            $employeeB->id,
-            config('officelife.authorizations.hr')
-        );
+        $stub->asUser($employee->user)
+            ->forEmployee($employeeB)
+            ->forCompanyId($employee->company_id)
+            ->asPermissionLevel(config('officelife.authorizations.hr'))
+            ->canAccessCurrentPage();
 
-        // same, but with different companies
+        // // same, but with different companies
         $employee = factory(Employee::class)->create([
             'permission_level' => config('officelife.authorizations.user'),
         ]);
@@ -80,11 +82,10 @@ class ControllerTest extends TestCase
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validateAccess(
-            $employee->user_id,
-            $employee->company_id,
-            $employeeB->id,
-            config('officelife.authorizations.hr')
-        );
+        $stub->asUser($employee->user)
+            ->forEmployee($employeeB)
+            ->forCompanyId($employeeB->company_id)
+            ->asPermissionLevel(config('officelife.authorizations.hr'))
+            ->canAccessCurrentPage();
     }
 }
