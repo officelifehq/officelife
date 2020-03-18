@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Company\Employee\Morale;
+namespace App\Services\Company\Employee\WorkFromHome;
 
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
@@ -48,7 +48,8 @@ class UpdateWorkFromHomeInformation extends BaseService
         );
 
         // check to see if there is already an entry for this date
-        $entry = WorkFromHome::where('date', $data['date'])
+        $date = Carbon::createFromFormat('Y-m-d', $data['date'])->format('Y-m-d 00:00:00');
+        $entry = WorkFromHome::where('date', $date)
             ->where('employee_id', $data['employee_id'])
             ->first();
 
@@ -56,8 +57,11 @@ class UpdateWorkFromHomeInformation extends BaseService
         // working from home, we need to delete the entry.
         if ($entry && $data['work_from_home'] == false) {
             $entry->delete();
+            $this->logEntryDestroyed($data, $employee, $author);
         }
 
+        // if entry doesn't exist and the boolean is true, we need to create the
+        // entry in the database
         if (!$entry && $data['work_from_home'] == true) {
             $entry = WorkFromHome::create([
                 'employee_id' => $data['employee_id'],
@@ -65,13 +69,13 @@ class UpdateWorkFromHomeInformation extends BaseService
                 'work_from_home' => true,
             ]);
 
-            $this->log($data, $employee, $author);
+            $this->logEntryCreated($data, $employee, $author);
         }
 
         return $employee;
     }
 
-    private function log(array $data, Employee $employee, Employee $author): void
+    private function logEntryCreated(array $data, Employee $employee, Employee $author): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,
@@ -90,6 +94,35 @@ class UpdateWorkFromHomeInformation extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'work_from_home_logged',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'date' => $data['date'],
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
+    }
+
+    private function logEntryDestroyed(array $data, Employee $employee, Employee $author): void
+    {
+        LogAccountAudit::dispatch([
+            'company_id' => $employee->company_id,
+            'action' => 'employee_work_from_home_destroyed',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'employee_id' => $employee->id,
+                'employee_name' => $employee->name,
+                'date' => $data['date'],
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $employee->id,
+            'action' => 'work_from_home_destroyed',
             'author_id' => $author->id,
             'author_name' => $author->name,
             'audited_at' => Carbon::now(),

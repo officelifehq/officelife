@@ -163,6 +163,7 @@ return [
     'log_team_leader_assigned' => 'Assigned :name as the team leader of the team called :team_name.',
     'log_team_leader_removed' => 'Removed :name as the team lead of the team called :team_name.',
     'log_employee_work_from_home_logged' => 'Indicated that :name has worked from home on :date.',
+    'log_employee_work_from_home_destroyed' => 'Removed the entry that :name has worked from home on :date.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
@@ -187,6 +188,7 @@ return [
     'employee_birthday_set' => 'Set the birthdate.',
     'employee_personal_details_set' => 'Set the name and email to :name and :email.',
     'employee_log_work_from_home_logged' => 'Worked from home on :date.',
+    'employee_log_work_from_home_destroyed' => 'Removed the entry about working from home on :date.',
 
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',

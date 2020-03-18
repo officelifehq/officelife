@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\PersonalDetails;
+namespace Tests\Unit\Services\Company\Employee\WorkFromHome;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Morale\UpdateWorkFromHomeInformation;
+use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 
 class UpdateWorkFromHomeInformationTest extends TestCase
 {
@@ -67,8 +67,69 @@ class UpdateWorkFromHomeInformationTest extends TestCase
         $michael = (new UpdateWorkFromHomeInformation)->execute($request);
         $this->assertEquals(
             1,
-            DB::table('employee_work_from_home')->count()
+            DB::table('employee_work_from_home')->where('employee_id', $michael->id)->count()
         );
+    }
+
+    /** @test */
+    public function it_deletes_an_existing_entry(): void
+    {
+        Queue::fake();
+
+        $michael = factory(Employee::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'date' => '2018-01-01',
+            'work_from_home' => true,
+        ];
+
+        // we need to call the service twice.
+        // once to create entry, the other one to trigger its deletion
+        $michael = (new UpdateWorkFromHomeInformation)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'date' => '2018-01-01',
+            'work_from_home' => true,
+        ]);
+        $michael = (new UpdateWorkFromHomeInformation)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'date' => '2018-01-01',
+            'work_from_home' => false,
+        ]);
+
+        $this->assertEquals(
+            0,
+            DB::table('employee_work_from_home')->where('employee_id', $michael->id)->count()
+        );
+
+        $this->assertInstanceOf(
+            Employee::class,
+            $michael
+        );
+
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
+            return $job->auditLog['action'] === 'employee_work_from_home_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'employee_id' => $michael->id,
+                    'employee_name' => $michael->name,
+                    'date' => '2018-01-01',
+                ]);
+        });
+
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael) {
+            return $job->auditLog['action'] === 'work_from_home_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'date' => '2018-01-01',
+                ]);
+        });
     }
 
     /** @test */
