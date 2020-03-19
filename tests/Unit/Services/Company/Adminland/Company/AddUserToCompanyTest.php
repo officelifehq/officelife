@@ -22,7 +22,7 @@ class AddUserToCompanyTest extends TestCase
         Queue::fake();
 
         $michael = $this->createAdministrator();
-        $this->callService($michael);
+        $this->executeService($michael);
     }
 
     /** @test */
@@ -31,10 +31,34 @@ class AddUserToCompanyTest extends TestCase
         Queue::fake();
 
         $michael = $this->createHR();
-        $this->callService($michael);
+        $this->executeService($michael);
     }
 
-    protected function callService(Employee $michael): void
+    /** @test */
+    public function normal_user_cant_call_the_service(): void
+    {
+        $michael = $this->createEmployee();
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $michael = $this->createAdministrator();
+        factory(User::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new AddUserToCompany)->execute($request);
+    }
+
+    protected function executeService(Employee $michael): void
     {
         $user = factory(User::class)->create([]);
 
@@ -66,37 +90,5 @@ class AddUserToCompanyTest extends TestCase
             'user_id' => $user->id,
             'company_id' => $michael->company_id,
         ]);
-    }
-
-    /** @test */
-    public function normal_user_cant_call_the_service(): void
-    {
-        $michael = $this->createEmployee();
-        $user = factory(User::class)->create([]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'user_id' => $user->id,
-            'permission_level' => config('officelife.permission_level.user'),
-        ];
-
-        $this->expectException(NotEnoughPermissionException::class);
-        (new AddUserToCompany)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $michael = $this->createAdministrator();
-        factory(User::class)->create([]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new AddUserToCompany)->execute($request);
     }
 }

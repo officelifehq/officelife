@@ -34,11 +34,10 @@ class CreatePosition extends BaseService
     {
         $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.permission_level.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->canExecuteService();
 
         $position = Position::create([
             'company_id' => $data['company_id'],
@@ -48,8 +47,8 @@ class CreatePosition extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'position_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'position_id' => $position->id,

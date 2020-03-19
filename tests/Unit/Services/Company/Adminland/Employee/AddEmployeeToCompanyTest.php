@@ -37,6 +37,31 @@ class AddEmployeeToCompanyTest extends TestCase
         $this->executeService($michael, true);
     }
 
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $michael = $this->createEmployee();
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael, true);
+        $this->executeService($michael, false);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'last_name' => 'Schrute',
+            'permission_level' => config('officelife.permission_level.user'),
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new AddEmployeeToCompany)->execute($request);
+    }
+
     private function executeService(Employee $michael, bool $sendEmail): void
     {
         Queue::fake();
@@ -110,39 +135,5 @@ class AddEmployeeToCompanyTest extends TestCase
                 return $mail->employee->id === $dwight->id;
             });
         }
-    }
-
-    /** @test */
-    public function normal_user_cant_execute_the_service(): void
-    {
-        $michael = $this->createEmployee();
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'email' => 'dwight@dundermifflin.com',
-            'first_name' => 'Dwight',
-            'last_name' => 'Schrute',
-            'permission_level' => config('officelife.permission_level.user'),
-            'send_invitation' => false,
-        ];
-
-        $this->expectException(NotEnoughPermissionException::class);
-        (new AddEmployeeToCompany)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $michael = $this->createAdministrator();
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'last_name' => 'Schrute',
-            'permission_level' => config('officelife.permission_level.user'),
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new AddEmployeeToCompany)->execute($request);
     }
 }

@@ -33,67 +33,13 @@ class InviteEmployeeToBecomeUserTest extends TestCase
         $this->executeService($michael);
     }
 
-    private function executeService(Employee $michael): void
-    {
-        Queue::fake();
-        Mail::fake();
-
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $dwight->id,
-        ];
-
-        $dwight = (new InviteEmployeeToBecomeUser)->execute($request);
-
-        $this->assertInstanceOf(
-            Employee::class,
-            $dwight
-        );
-
-        $this->assertDatabaseHas('employees', [
-            'id' => $dwight->id,
-            'company_id' => $michael->company_id,
-            'invitation_link' => $dwight->invitation_link,
-        ]);
-
-        Mail::assertQueued(InviteEmployeeToBecomeUserMail::class, function ($mail) use ($dwight) {
-            return $mail->employee->id === $dwight->id;
-        });
-
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
-            return $job->auditLog['action'] === 'employee_invited_to_become_user' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'employee_id' => $dwight->id,
-                    'employee_email' => $dwight->email,
-                    'employee_first_name' => $dwight->first_name,
-                    'employee_last_name' => $dwight->last_name,
-                ]);
-        });
-    }
-
     /** @test */
     public function normal_user_cant_execute_the_service(): void
     {
         $michael = $this->createEmployee();
 
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $dwight->id,
-        ];
-
         $this->expectException(NotEnoughPermissionException::class);
-        (new InviteEmployeeToBecomeUser)->execute($request);
+        $this->executeService($michael);
     }
 
     /** @test */
@@ -146,5 +92,49 @@ class InviteEmployeeToBecomeUserTest extends TestCase
 
         $this->expectException(ModelNotFoundException::class);
         (new InviteEmployeeToBecomeUser)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
+    {
+        Queue::fake();
+        Mail::fake();
+
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+        ];
+
+        $dwight = (new InviteEmployeeToBecomeUser)->execute($request);
+
+        $this->assertInstanceOf(
+            Employee::class,
+            $dwight
+        );
+
+        $this->assertDatabaseHas('employees', [
+            'id' => $dwight->id,
+            'company_id' => $michael->company_id,
+            'invitation_link' => $dwight->invitation_link,
+        ]);
+
+        Mail::assertQueued(InviteEmployeeToBecomeUserMail::class, function ($mail) use ($dwight) {
+            return $mail->employee->id === $dwight->id;
+        });
+
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
+            return $job->auditLog['action'] === 'employee_invited_to_become_user' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'employee_id' => $dwight->id,
+                    'employee_email' => $dwight->email,
+                    'employee_first_name' => $dwight->first_name,
+                    'employee_last_name' => $dwight->last_name,
+                ]);
+        });
     }
 }

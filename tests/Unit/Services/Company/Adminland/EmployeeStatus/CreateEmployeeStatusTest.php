@@ -30,6 +30,26 @@ class CreateEmployeeStatusTest extends TestCase
         $this->executeService($michael);
     }
 
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $michael = $this->createEmployee();
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'name' => 'Permanent',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateEmployeeStatus)->execute($request);
+    }
+
     private function executeService(Employee $michael): void
     {
         Queue::fake();
@@ -60,31 +80,5 @@ class CreateEmployeeStatusTest extends TestCase
                     'employee_status_name' => 'Permanent',
                 ]);
         });
-    }
-
-    /** @test */
-    public function normal_user_cant_execute_the_service(): void
-    {
-        $michael = $this->createEmployee();
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'name' => 'Permanent',
-        ];
-
-        $this->expectException(NotEnoughPermissionException::class);
-        (new CreateEmployeeStatus)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'name' => 'Permanent',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new CreateEmployeeStatus)->execute($request);
     }
 }

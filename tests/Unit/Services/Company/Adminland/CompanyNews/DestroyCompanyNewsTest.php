@@ -39,31 +39,6 @@ class DestroyCompanyNewsTest extends TestCase
         $this->executeService($michael, $news);
     }
 
-    private function executeService(Employee $michael, CompanyNews $news): void
-    {
-        Queue::fake();
-
-        $request = [
-            'company_id' => $news->company_id,
-            'author_id' => $michael->id,
-            'company_news_id' => $news->id,
-        ];
-
-        (new DestroyCompanyNews)->execute($request);
-
-        $this->assertDatabaseMissing('company_news', [
-            'id' => $news->id,
-        ]);
-
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $news) {
-            return $job->auditLog['action'] === 'company_news_destroyed' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'company_news_title' => $news->title,
-                ]);
-        });
-    }
-
     /** @test */
     public function normal_user_cant_execute_the_service(): void
     {
@@ -73,14 +48,8 @@ class DestroyCompanyNewsTest extends TestCase
             'permission_level' => config('officelife.permission_level.user'),
         ]);
 
-        $request = [
-            'company_id' => $news->company_id,
-            'author_id' => $michael->id,
-            'company_news_id' => $news->id,
-        ];
-
         $this->expectException(NotEnoughPermissionException::class);
-        (new DestroyCompanyNews)->execute($request);
+        $this->executeService($michael, $news);
     }
 
     /** @test */
@@ -108,5 +77,30 @@ class DestroyCompanyNewsTest extends TestCase
 
         $this->expectException(ModelNotFoundException::class);
         (new DestroyCompanyNews)->execute($request);
+    }
+
+    private function executeService(Employee $michael, CompanyNews $news): void
+    {
+        Queue::fake();
+
+        $request = [
+            'company_id' => $news->company_id,
+            'author_id' => $michael->id,
+            'company_news_id' => $news->id,
+        ];
+
+        (new DestroyCompanyNews)->execute($request);
+
+        $this->assertDatabaseMissing('company_news', [
+            'id' => $news->id,
+        ]);
+
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $news) {
+            return $job->auditLog['action'] === 'company_news_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'company_news_title' => $news->title,
+                ]);
+        });
     }
 }

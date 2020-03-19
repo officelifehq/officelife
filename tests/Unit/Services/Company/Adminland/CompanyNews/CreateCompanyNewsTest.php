@@ -34,6 +34,26 @@ class CreateCompanyNewsTest extends TestCase
         $this->executeService($michael);
     }
 
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $michael = $this->createEmployee();
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'title' => 'Assistant to the regional manager',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateCompanyNews)->execute($request);
+    }
+
     private function executeService(Employee $michael): void
     {
         $request = [
@@ -67,32 +87,5 @@ class CreateCompanyNewsTest extends TestCase
                     'company_news_title' => $news->title,
                 ]);
         });
-    }
-
-    /** @test */
-    public function normal_user_cant_execute_the_service(): void
-    {
-        $michael = $this->createEmployee();
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'title' => 'Assistant to the regional manager',
-            'content' => 'Wonderful article',
-        ];
-
-        $this->expectException(NotEnoughPermissionException::class);
-        (new CreateCompanyNews)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'title' => 'Assistant to the regional manager',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new CreateCompanyNews)->execute($request);
     }
 }

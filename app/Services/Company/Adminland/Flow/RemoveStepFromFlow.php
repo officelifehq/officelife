@@ -34,14 +34,16 @@ class RemoveStepFromFlow extends BaseService
     {
         $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.permission_level.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->canExecuteService();
 
         $step = Step::where('flow_id', $data['flow_id'])
             ->findOrFail($data['step_id']);
+
+        Flow::where('company_id', $data['company_id'])
+            ->findOrFail($step->flow->id);
 
         $flow = $step->flow;
         $step->delete();

@@ -29,6 +29,40 @@ class DestroyEmployeeStatusTest extends TestCase
         $this->executeService(config('officelife.permission_level.hr'));
     }
 
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService(config('officelife.permission_level.user'));
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'name' => 'Selling team',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new DestroyEmployeeStatus)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_the_employee_status_does_not_match_the_company(): void
+    {
+        $employeeStatus = factory(EmployeeStatus::class)->create([]);
+        $michael = $this->createAdministrator();
+
+        $request = [
+            'company_id' => $employeeStatus->company_id,
+            'author_id' => $michael->id,
+            'employee_status_id' => $employeeStatus->id,
+        ];
+
+        $this->expectException(ModelNotFoundException::class);
+        (new DestroyEmployeeStatus)->execute($request);
+    }
+
     private function executeService(int $permissionLevel): void
     {
         Queue::fake();
@@ -58,51 +92,5 @@ class DestroyEmployeeStatusTest extends TestCase
                     'employee_status_name' => $employeeStatus->name,
                 ]);
         });
-    }
-
-    /** @test */
-    public function normal_user_cant_execute_the_service(): void
-    {
-        $employeeStatus = factory(EmployeeStatus::class)->create([]);
-        $michael = factory(Employee::class)->create([
-            'company_id' => $employeeStatus->company_id,
-            'permission_level' => config('officelife.permission_level.user'),
-        ]);
-
-        $request = [
-            'company_id' => $employeeStatus->company_id,
-            'author_id' => $michael->id,
-            'employee_status_id' => $employeeStatus->id,
-        ];
-
-        $this->expectException(NotEnoughPermissionException::class);
-        (new DestroyEmployeeStatus)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'name' => 'Selling team',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new DestroyEmployeeStatus)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_the_employee_status_does_not_match_the_company(): void
-    {
-        $employeeStatus = factory(EmployeeStatus::class)->create([]);
-        $michael = $this->createAdministrator();
-
-        $request = [
-            'company_id' => $employeeStatus->company_id,
-            'author_id' => $michael->id,
-            'employee_status_id' => $employeeStatus->id,
-        ];
-
-        $this->expectException(ModelNotFoundException::class);
-        (new DestroyEmployeeStatus)->execute($request);
     }
 }

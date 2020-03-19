@@ -29,51 +29,13 @@ class DestroyEmployeeTest extends TestCase
         $this->executeService($michael);
     }
 
-    private function executeService(Employee $michael): void
-    {
-        Queue::fake();
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $dwight->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $dwight->id,
-        ];
-
-        (new DestroyEmployee)->execute($request);
-
-        $this->assertDatabaseMissing('employees', [
-            'id' => $dwight->id,
-        ]);
-
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
-            return $job->auditLog['action'] === 'employee_destroyed' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'employee_name' => $dwight->name,
-                ]);
-        });
-    }
-
     /** @test */
     public function normal_user_cant_execute_the_service(): void
     {
         $michael = $this->createEmployee();
 
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $dwight->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $dwight->id,
-        ];
-
         $this->expectException(NotEnoughPermissionException::class);
-        (new DestroyEmployee)->execute($request);
+        $this->executeService($michael);
     }
 
     /** @test */
@@ -101,5 +63,33 @@ class DestroyEmployeeTest extends TestCase
 
         $this->expectException(ModelNotFoundException::class);
         (new DestroyEmployee)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
+    {
+        Queue::fake();
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $request = [
+            'company_id' => $dwight->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+        ];
+
+        (new DestroyEmployee)->execute($request);
+
+        $this->assertDatabaseMissing('employees', [
+            'id' => $dwight->id,
+        ]);
+
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
+            return $job->auditLog['action'] === 'employee_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'employee_name' => $dwight->name,
+                ]);
+        });
     }
 }

@@ -30,6 +30,46 @@ class ChangePermissionTest extends TestCase
         $this->executeService($michael, config('officelife.permission_level.hr'));
     }
 
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $michael = $this->createEmployee();
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael, config('officelife.permission_level.user'));
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new ChangePermission)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_the_employee_does_not_match_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = factory(Employee::class)->create([]);
+
+        $request = [
+            'company_id' => $dwight->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'permission_level' => config('officelife.permission_level.hr'),
+        ];
+
+        $this->expectException(ModelNotFoundException::class);
+        (new ChangePermission)->execute($request);
+    }
+
     private function executeService(Employee $michael, int $permission): void
     {
         Queue::fake();
@@ -62,52 +102,5 @@ class ChangePermissionTest extends TestCase
                     'new_permission' => config('officelife.permission_level.hr'),
                 ]);
         });
-    }
-
-    /** @test */
-    public function normal_user_cant_execute_the_service(): void
-    {
-        $michael = $this->createEmployee();
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $michael->id,
-            'permission_level' => config('officelife.permission_level.hr'),
-        ];
-
-        $this->expectException(NotEnoughPermissionException::class);
-        (new ChangePermission)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $michael = factory(Employee::class)->create([]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new ChangePermission)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_the_employee_does_not_match_the_company(): void
-    {
-        $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([]);
-
-        $request = [
-            'company_id' => $dwight->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $michael->id,
-            'permission_level' => config('officelife.permission_level.hr'),
-        ];
-
-        $this->expectException(ModelNotFoundException::class);
-        (new ChangePermission)->execute($request);
     }
 }
