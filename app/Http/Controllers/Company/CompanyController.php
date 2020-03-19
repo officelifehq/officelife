@@ -25,7 +25,7 @@ class CompanyController extends Controller
 
         return Inertia::render('Dashboard/MyCompany', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
+            'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
         ]);
     }
 

@@ -37,12 +37,12 @@ class CreateTeamNews extends BaseService
      */
     public function execute(array $data): TeamNews
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('officelife.authorizations.user')
+            config('officelife.permission_level.user')
         );
 
         $team = Team::where('company_id', $data['company_id'])

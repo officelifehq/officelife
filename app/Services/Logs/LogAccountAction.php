@@ -36,7 +36,7 @@ class LogAccountAction extends BaseService
      */
     public function execute(array $data): AuditLog
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         return AuditLog::create([
             'company_id' => $data['company_id'],

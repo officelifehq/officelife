@@ -44,14 +44,14 @@ class LogMorale extends BaseService
      */
     public function execute(array $data): Morale
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $employee = Employee::findOrFail($data['employee_id']);
 
         $author = $this->validatePermissions(
             $data['author_id'],
             $employee->company_id,
-            config('officelife.authorizations.user'),
+            config('officelife.permission_level.user'),
             $data['employee_id']
         );
 

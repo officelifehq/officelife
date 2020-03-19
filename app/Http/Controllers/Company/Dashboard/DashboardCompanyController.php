@@ -26,7 +26,7 @@ class DashboardCompanyController extends Controller
             'user' => Auth::user()->refresh(),
             'employee' => new EmployeeResource(Auth::user()->getEmployeeObjectForCompany($company)),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
+            'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
         ]);
     }
 }

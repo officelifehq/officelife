@@ -35,7 +35,7 @@ class EmployeeLogsController extends Controller
             $this->asUser(Auth::user())
                 ->forEmployee($employee)
                 ->forCompanyId($companyId)
-                ->asPermissionLevel(config('officelife.authorizations.hr'))
+                ->asPermissionLevel(config('officelife.permission_level.hr'))
                 ->canAccessCurrentPage();
         } catch (\Exception $e) {
             return redirect('/home');

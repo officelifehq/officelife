@@ -43,12 +43,12 @@ class CreatePlace extends BaseService
      */
     public function execute(array $data): Place
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('officelife.authorizations.user')
+            config('officelife.permission_level.user')
         );
 
         $place = $this->addPlace($data);

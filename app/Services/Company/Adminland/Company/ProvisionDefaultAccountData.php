@@ -32,7 +32,7 @@ class ProvisionDefaultAccountData extends BaseService
      */
     public function execute(array $data): void
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         // positions
         $positions = [

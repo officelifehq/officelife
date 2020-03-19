@@ -49,14 +49,14 @@ class CreateTimeOff extends BaseService
      */
     public function execute(array $data): EmployeePlannedHoliday
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $employee = Employee::findOrFail($data['employee_id']);
 
         $author = $this->validatePermissions(
             $data['author_id'],
             $employee->company_id,
-            config('officelife.authorizations.hr'),
+            config('officelife.permission_level.hr'),
             $data['employee_id']
         );
 

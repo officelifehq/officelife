@@ -33,12 +33,12 @@ class UpdatePosition extends BaseService
      */
     public function execute(array $data): Position
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('officelife.authorizations.hr')
+            config('officelife.permission_level.hr')
         );
 
         $position = Position::where('company_id', $data['company_id'])

@@ -8,6 +8,7 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\AddUserToCompany;
 
@@ -16,18 +17,32 @@ class AddUserToCompanyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_adds_a_user_to_a_company(): void
+    public function it_adds_a_user_to_a_company_as_administrator(): void
     {
         Queue::fake();
 
         $michael = $this->createAdministrator();
+        $this->callService($michael);
+    }
+
+    /** @test */
+    public function it_adds_a_user_to_a_company_as_hr(): void
+    {
+        Queue::fake();
+
+        $michael = $this->createHR();
+        $this->callService($michael);
+    }
+
+    protected function callService(Employee $michael): void
+    {
         $user = factory(User::class)->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'user_id' => $user->id,
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
         ];
 
         $dwight = (new AddUserToCompany)->execute($request);
@@ -51,6 +66,23 @@ class AddUserToCompanyTest extends TestCase
             'user_id' => $user->id,
             'company_id' => $michael->company_id,
         ]);
+    }
+
+    /** @test */
+    public function normal_user_cant_call_the_service(): void
+    {
+        $michael = $this->createEmployee();
+        $user = factory(User::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'user_id' => $user->id,
+            'permission_level' => config('officelife.permission_level.user'),
+        ];
+
+        $this->expectException(NotEnoughPermissionException::class);
+        (new AddUserToCompany)->execute($request);
     }
 
     /** @test */

@@ -35,7 +35,7 @@ class LogTeamAction extends BaseService
      */
     public function execute(array $data): TeamLog
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         return TeamLog::create([
             'team_id' => $data['team_id'],

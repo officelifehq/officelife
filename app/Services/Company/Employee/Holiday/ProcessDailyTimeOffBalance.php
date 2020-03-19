@@ -35,7 +35,7 @@ class ProcessDailyTimeOffBalance extends BaseService
      */
     public function execute(array $data): EmployeeDailyCalendarEntry
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $employee = Employee::findOrFail($data['employee_id']);
         $date = Carbon::parse($data['date']);

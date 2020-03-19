@@ -39,7 +39,7 @@ class UpdateDashboardView extends BaseService
      */
     public function execute(array $data): bool
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $employee = Employee::where('id', $data['employee_id'])
             ->where('company_id', $data['company_id'])

@@ -35,12 +35,12 @@ class AssignPronounToEmployee extends BaseService
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('officelife.authorizations.hr'),
+            config('officelife.permission_level.hr'),
             $data['author_id']
         );
 

@@ -16,8 +16,8 @@ class AdminAuditControllerTest extends TestCase
         $route = '/account/audit';
         $employee = factory(Employee::class)->create([]);
 
-        $this->accessibleBy($employee, config('officelife.authorizations.administrator'), $route, 200);
-        $this->accessibleBy($employee, config('officelife.authorizations.hr'), $route, 401);
-        $this->accessibleBy($employee, config('officelife.authorizations.user'), $route, 401);
+        $this->accessibleBy($employee, config('officelife.permission_level.administrator'), $route, 200);
+        $this->accessibleBy($employee, config('officelife.permission_level.hr'), $route, 401);
+        $this->accessibleBy($employee, config('officelife.permission_level.user'), $route, 401);
     }
 }

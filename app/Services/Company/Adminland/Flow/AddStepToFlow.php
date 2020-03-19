@@ -48,12 +48,12 @@ class AddStepToFlow extends BaseService
      */
     public function execute(array $data): Step
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $author = $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('officelife.authorizations.hr')
+            config('officelife.permission_level.hr')
         );
 
         $flow = Flow::where('company_id', $data['company_id'])

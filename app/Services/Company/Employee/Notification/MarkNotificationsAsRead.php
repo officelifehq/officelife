@@ -29,12 +29,12 @@ class MarkNotificationsAsRead extends BaseService
      */
     public function execute(array $data): bool
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $this->validatePermissions(
             $data['author_id'],
             $data['company_id'],
-            config('officelife.authorizations.administrator'),
+            config('officelife.permission_level.administrator'),
             $data['employee_id']
         );
 
