@@ -63,4 +63,18 @@ abstract class TestCase extends BaseTestCase
             'permission_level' => config('officelife.permission_level.user'),
         ]);
     }
+
+    /**
+     * Create another employee with User privileges in the same account as the
+     * given employee.
+     *
+     * @return Employee
+     */
+    public function createAnotherEmployee(Employee $employee): Employee
+    {
+        return factory(Employee::class)->create([
+            'permission_level' => config('officelife.permission_level.user'),
+            'company_id' => $employee->company_id,
+        ]);
+    }
 }

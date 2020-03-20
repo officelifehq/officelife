@@ -83,11 +83,12 @@ abstract class BaseService
     /**
      * Sets the permission to bypass the minimum level requirement.
      *
+     * @param integer $employeeId
      * @return self
      */
-    public function bypassPermissionLevel(): self
+    public function canBypassPermissionLevelIfEmployee(int $employeeId): self
     {
-        $this->bypassRequiredPermissionLevel = true;
+        $this->bypassRequiredPermissionLevel = ($this->authorId == $employeeId);
         return $this;
     }
 
