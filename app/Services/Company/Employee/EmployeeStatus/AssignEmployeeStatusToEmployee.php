@@ -37,11 +37,10 @@ class AssignEmployeeStatusToEmployee extends BaseService
     {
         $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.permission_level.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->canExecuteService();
 
         $employee = $this->validateEmployeeBelongsToCompany($data);
 
@@ -51,11 +50,18 @@ class AssignEmployeeStatusToEmployee extends BaseService
         $employee->employee_status_id = $status->id;
         $employee->save();
 
+        $this->log($employee, $data, $status);
+
+        return $employee;
+    }
+
+    private function log(Employee $employee, array $data, EmployeeStatus $status): void
+    {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_status_assigned',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_id' => $employee->id,
@@ -69,8 +75,8 @@ class AssignEmployeeStatusToEmployee extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'employee_status_assigned',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_status_id' => $status->id,
@@ -78,7 +84,5 @@ class AssignEmployeeStatusToEmployee extends BaseService
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
-
-        return $employee;
     }
 }
