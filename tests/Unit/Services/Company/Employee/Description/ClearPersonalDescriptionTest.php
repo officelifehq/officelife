@@ -71,35 +71,35 @@ class ClearPersonalDescriptionTest extends TestCase
         $this->executeService($michael, $dwight);
     }
 
-    private function executeService(Employee $michael, Employee $employeeToUpdate): void
+    private function executeService(Employee $michael, Employee $dwight): void
     {
         Queue::fake();
 
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
-            'employee_id' => $employeeToUpdate->id,
+            'employee_id' => $dwight->id,
         ];
 
-        $employeeToUpdate = (new ClearPersonalDescription)->execute($request);
+        $dwight = (new ClearPersonalDescription)->execute($request);
 
         $this->assertDatabaseHas('employees', [
-            'company_id' => $employeeToUpdate->company_id,
-            'id' => $employeeToUpdate->id,
+            'company_id' => $dwight->company_id,
+            'id' => $dwight->id,
             'description' => null,
         ]);
 
         $this->assertInstanceOf(
             Employee::class,
-            $employeeToUpdate
+            $dwight
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $employeeToUpdate) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'employee_description_cleared' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'employee_id' => $employeeToUpdate->id,
-                    'employee_name' => $employeeToUpdate->name,
+                    'employee_id' => $dwight->id,
+                    'employee_name' => $dwight->name,
                 ]);
         });
 
