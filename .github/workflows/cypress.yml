@@ -66,13 +66,13 @@ jobs:
     - name: Prepare .env file
       run: php -r "file_exists('.env') || copy('.env.cypress.io', '.env');"
 
-    - name: Generate key
-      run: php artisan key:generate
-
     - name: Create SQLite database
       run: |
         mkdir -p database
         touch database/database.sqlite
+
+    - name: Generate key
+      run: php artisan key:generate
 
     - uses: cypress-io/github-action@v1
       with:
