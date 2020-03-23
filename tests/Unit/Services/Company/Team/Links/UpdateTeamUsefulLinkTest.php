@@ -19,7 +19,86 @@ class UpdateTeamUsefulLinkTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_a_team_useful_link(): void
+    public function it_updates_a_team_useful_link_as_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $link = factory(TeamUsefulLink::class)->create([
+            'team_id' => $team->id,
+        ]);
+
+        $this->executeService($michael, $team, $link);
+    }
+
+    /** @test */
+    public function it_updates_a_team_useful_link_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $link = factory(TeamUsefulLink::class)->create([
+            'team_id' => $team->id,
+        ]);
+
+        $this->executeService($michael, $team, $link);
+    }
+
+    /** @test */
+    public function it_updates_a_team_useful_link_as_normal_user(): void
+    {
+        $michael = $this->createEmployee();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $link = factory(TeamUsefulLink::class)->create([
+            'team_id' => $team->id,
+        ]);
+
+        $this->executeService($michael, $team, $link);
+    }
+
+    /** @test */
+    public function it_cant_update_a_link_with_the_wrong_team(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+        $dwight = factory(Employee::class)->create([]);
+        $team = factory(Team::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+        $link = factory(TeamUsefulLink::class)->create([
+            'team_id' => $team->id,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'team_useful_link_id' => $link->id,
+            'type' => 'email',
+            'label' => '@email',
+            'url' => 'https://email.com',
+        ];
+
+        $this->expectException(ModelNotFoundException::class);
+        $link = (new UpdateTeamUsefulLink)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new UpdateTeamUsefulLink)->execute($request);
+    }
+
+    private function executeService(Employee $michael, Team $team, TeamUsefulLink $link): void
     {
         Queue::fake();
 
@@ -70,43 +149,5 @@ class UpdateTeamUsefulLinkTest extends TestCase
             return $job->auditLog['action'] === 'useful_link_updated' &&
                 $job->auditLog['author_id'] === $michael->id;
         });
-    }
-
-    /** @test */
-    public function it_cant_update_a_link_with_the_wrong_team(): void
-    {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
-            'company_id' => $dwight->company_id,
-        ]);
-        $link = factory(TeamUsefulLink::class)->create([
-            'team_id' => $team->id,
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'team_useful_link_id' => $link->id,
-            'type' => 'email',
-            'label' => '@email',
-            'url' => 'https://email.com',
-        ];
-
-        $this->expectException(ModelNotFoundException::class);
-        $link = (new UpdateTeamUsefulLink)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $michael = factory(Employee::class)->create([]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new UpdateTeamUsefulLink)->execute($request);
     }
 }

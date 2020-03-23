@@ -39,11 +39,10 @@ class SetTeamDescription extends BaseService
     {
         $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.permission_level.user')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->withPermissionLevel(config('officelife.permission_level.user'))
+            ->canExecuteService();
 
         $team = $this->validateTeamBelongsToCompany($data);
 
@@ -53,8 +52,8 @@ class SetTeamDescription extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_description_set',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_id' => $team->id,
@@ -66,8 +65,8 @@ class SetTeamDescription extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'description_set',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_id' => $team->id,

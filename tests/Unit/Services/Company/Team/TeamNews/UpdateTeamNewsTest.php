@@ -19,11 +19,9 @@ class UpdateTeamNewsTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_a_team_news(): void
+    public function it_updates_a_company_news_as_administrator(): void
     {
-        Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
         $team = factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
@@ -31,6 +29,76 @@ class UpdateTeamNewsTest extends TestCase
             'author_id' => $michael->id,
             'team_id' => $team->id,
         ]);
+
+        $this->executeService($michael, $team, $news);
+    }
+
+    /** @test */
+    public function it_updates_a_company_news_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $news = factory(TeamNews::class)->create([
+            'author_id' => $michael->id,
+            'team_id' => $team->id,
+        ]);
+
+        $this->executeService($michael, $team, $news);
+    }
+
+    /** @test */
+    public function it_updates_a_company_news_as_employee(): void
+    {
+        $michael = $this->createEmployee();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $news = factory(TeamNews::class)->create([
+            'author_id' => $michael->id,
+            'team_id' => $team->id,
+        ]);
+
+        $this->executeService($michael, $team, $news);
+    }
+
+    /** @test */
+    public function it_cant_update_the_team_news_if_the_team_is_not_linked_to_the_company(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+        $team = factory(Team::class)->create([]);
+        $news = factory(TeamNews::class)->create([
+            'author_id' => $michael->id,
+            'team_id' => $team->id,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'team_news_id' => $news->id,
+            'title' => 'Assistant to the regional manager',
+            'content' => 'Wonderful article',
+        ];
+
+        $this->expectException(Exception::class);
+        $news = (new UpdateTeamNews)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'title' => 'Assistant to the regional manager',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new UpdateTeamNews)->execute($request);
+    }
+
+    private function executeService(Employee $michael, Team $team, TeamNews $news): void
+    {
+        Queue::fake();
 
         $oldNews = $news->title;
 
@@ -78,38 +146,5 @@ class UpdateTeamNewsTest extends TestCase
                     'team_news_old_title' => $oldNews,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_cant_update_the_team_news_if_the_team_is_not_linked_to_the_company(): void
-    {
-        $michael = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([]);
-        $news = factory(TeamNews::class)->create([
-            'author_id' => $michael->id,
-            'team_id' => $team->id,
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'team_news_id' => $news->id,
-            'title' => 'Assistant to the regional manager',
-            'content' => 'Wonderful article',
-        ];
-
-        $this->expectException(Exception::class);
-        $news = (new UpdateTeamNews)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'title' => 'Assistant to the regional manager',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new UpdateTeamNews)->execute($request);
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Queue;
 use App\Models\Company\TeamUsefulLink;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Team\Links\CreateTeamUsefulLink;
 
 class CreateTeamUsefulLinkTest extends TestCase
@@ -18,14 +19,61 @@ class CreateTeamUsefulLinkTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_team_useful_link(): void
+    public function it_creates_a_team_useful_link_as_administrator(): void
     {
-        Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
         $team = factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
+        $this->executeService($michael, $team);
+    }
+
+    /** @test */
+    public function it_creates_a_team_useful_link_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $this->executeService($michael, $team);
+    }
+
+    /** @test */
+    public function it_creates_a_team_useful_link_as_normal_user(): void
+    {
+        $michael = $this->createEmployee();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $this->executeService($michael, $team);
+    }
+
+    /** @test */
+    public function it_fails_if_the_team_is_not_part_of_the_company(): void
+    {
+        $michael = $this->createEmployee();
+        $team = factory(Team::class)->create([]);
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->executeService($michael, $team);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateTeamUsefulLink)->execute($request);
+    }
+
+    private function executeService(Employee $michael, Team $team): void
+    {
+        Queue::fake();
 
         $request = [
             'company_id' => $michael->company_id,
@@ -66,18 +114,5 @@ class CreateTeamUsefulLinkTest extends TestCase
             return $job->auditLog['action'] === 'useful_link_created' &&
                 $job->auditLog['author_id'] === $michael->id;
         });
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $michael = factory(Employee::class)->create([]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new CreateTeamUsefulLink)->execute($request);
     }
 }

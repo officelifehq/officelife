@@ -20,6 +20,22 @@ class CreatePlaceTest extends TestCase
     /** @test */
     public function it_creates_a_place_as_administrator(): void
     {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_creates_a_place_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_creates_a_place_as_normal_user(): void
+    {
+        $michael = $this->createEmployee();
+        $this->executeService($michael);
     }
 
     /** @test */
@@ -121,11 +137,10 @@ class CreatePlaceTest extends TestCase
         (new CreatePlace)->execute($request);
     }
 
-    private function executeService(Employee $michael): void
+    private function executeService(Employee $michael, bool $setActive = false): void
     {
         Queue::fake();
 
-        $michael = factory(Employee::class)->create([]);
         $country = factory(Country::class)->create([]);
 
         $request = [
@@ -138,6 +153,7 @@ class CreatePlaceTest extends TestCase
             'country_id' => $country->id,
             'placable_id' => $michael->id,
             'placable_type' => 'App\Models\Company\Employee',
+            'is_active' => $setActive ? true : null,
         ];
 
         $place = (new CreatePlace)->execute($request);
@@ -164,10 +180,17 @@ class CreatePlaceTest extends TestCase
             ->where('is_active', true)
             ->count();
 
-        $this->assertEquals(
-            0,
-            $numberOfActivePlaces
-        );
+        if ($setActive) {
+            $this->assertEquals(
+                1,
+                $numberOfActivePlaces
+            );
+        } else {
+            $this->assertEquals(
+                0,
+                $numberOfActivePlaces
+            );
+        }
 
         Queue::assertPushed(FetchAddressGeocoding::class, function ($job) use ($place) {
             return $job->place->id === $place->id;

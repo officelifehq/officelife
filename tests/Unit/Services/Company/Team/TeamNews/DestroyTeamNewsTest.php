@@ -19,11 +19,9 @@ class DestroyTeamNewsTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_destroys_a_company_news(): void
+    public function it_destroys_a_company_news_as_administrator(): void
     {
-        Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
         $team = factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
@@ -32,35 +30,37 @@ class DestroyTeamNewsTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $request = [
+        $this->executeService($michael, $team, $news);
+    }
+
+    /** @test */
+    public function it_destroys_a_company_news_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $team = factory(Team::class)->create([
             'company_id' => $michael->company_id,
+        ]);
+        $news = factory(TeamNews::class)->create([
             'author_id' => $michael->id,
-            'team_news_id' => $news->id,
-        ];
-
-        (new DestroyTeamNews)->execute($request);
-
-        $this->assertDatabaseMissing('team_news', [
-            'id' => $news->id,
+            'team_id' => $team->id,
         ]);
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $news, $team) {
-            return $job->auditLog['action'] === 'team_news_destroyed' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'team_id' => $team->id,
-                    'team_name' => $team->name,
-                    'team_news_title' => $news->title,
-                ]);
-        });
+        $this->executeService($michael, $team, $news);
+    }
 
-        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $news) {
-            return $job->auditLog['action'] === 'team_news_destroyed' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'team_news_title' => $news->title,
-                ]);
-        });
+    /** @test */
+    public function it_destroys_a_company_news_as_employee(): void
+    {
+        $michael = $this->createEmployee();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $news = factory(TeamNews::class)->create([
+            'author_id' => $michael->id,
+            'team_id' => $team->id,
+        ]);
+
+        $this->executeService($michael, $team, $news);
     }
 
     /** @test */
@@ -92,5 +92,40 @@ class DestroyTeamNewsTest extends TestCase
 
         $this->expectException(ValidationException::class);
         (new DestroyTeamNews)->execute($request);
+    }
+
+    private function executeService(Employee $michael, Team $team, TeamNews $news): void
+    {
+        Queue::fake();
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'team_news_id' => $news->id,
+        ];
+
+        (new DestroyTeamNews)->execute($request);
+
+        $this->assertDatabaseMissing('team_news', [
+            'id' => $news->id,
+        ]);
+
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $news, $team) {
+            return $job->auditLog['action'] === 'team_news_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'team_id' => $team->id,
+                    'team_name' => $team->name,
+                    'team_news_title' => $news->title,
+                ]);
+        });
+
+        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $news) {
+            return $job->auditLog['action'] === 'team_news_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'team_news_title' => $news->title,
+                ]);
+        });
     }
 }

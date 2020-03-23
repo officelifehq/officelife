@@ -140,7 +140,7 @@ abstract class BaseService
             $team = Team::where('company_id', $data['company_id'])
                 ->findOrFail($data['team_id']);
         } catch (ModelNotFoundException $e) {
-            throw new ModelNotFoundException(trans('app.error_wrong_employee_id'));
+            throw new ModelNotFoundException(trans('app.error_wrong_team_id'));
         }
 
         return $team;
