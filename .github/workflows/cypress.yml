@@ -51,7 +51,7 @@ jobs:
     - name: Create SQLite database
       run: |
         mkdir -p database
-        touch d5atabase/database.sqlite
+        touch database/database.sqlite
     - name: Run migrations
       env:
         DB_CONNECTION: sqlite
