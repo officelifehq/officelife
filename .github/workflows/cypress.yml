@@ -21,17 +21,23 @@ jobs:
       with:
         php-version: ${{ matrix.php-version }}
         coverage: none
+
     - name: Check PHP Version
       run: php -v
+
     - name: Check Composer Version
       run: composer -V
+
     - name: Check PHP Extensions
       run: php -m
+
     - name: Validate composer.json and composer.lock
       run: composer validate
+
     - name: Get Composer Cache Directory
       id: composer-cache-dir-path
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
     - name: Cache composer files
       uses: actions/cache@v1
       with:
@@ -40,24 +46,24 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           ${{ runner.os }}-composer-
+
     - name: Install dependencies
       run: composer install --no-interaction --no-suggest --ignore-platform-reqs
 
-    # step-prepare-db
-    # step-prepare-environment
     - name: Prepare .env file
       run: cp .env.cypress.io .env
+
     - name: Create SQLite database
       run: |
         mkdir -p database
         touch database/database.sqlite
+
     - name: Run migrations
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: php artisan migrate
 
-    # step-prepare-front
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
       run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -67,8 +73,10 @@ jobs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
+
     - name: yarn install
       run: yarn install-frozen
+
     - name: Cypress verify
       run: npm run cy:verify
 
@@ -82,3 +90,5 @@ jobs:
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
