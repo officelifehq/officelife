@@ -80,8 +80,8 @@ jobs:
         headless: true
         record: true
         parallel: true
-        config: baseUrl=http://localhost:8000
         ci-build-id: '${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}'
+        config: baseUrl=http://localhost:8000
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
