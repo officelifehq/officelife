@@ -4,7 +4,7 @@ APP_NAME=Laravel
 APP_ENV=local
 APP_KEY=base64:dLfTJCF1l3UWtwEW6HKEF90qT9/tT4qQDdDXFoxl4GI=
 APP_DEBUG=false
-APP_URL=https://officelife.test
+APP_URL=http://localhost:8000
 
 LOG_CHANNEL=stack
 
