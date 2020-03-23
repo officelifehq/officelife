@@ -53,16 +53,10 @@ jobs:
     - name: Prepare .env file
       run: cp .env.cypress.io .env
 
-    - name: Create SQLite database
-      run: |
-        mkdir -p database
-        touch database/database.sqlite
-
-    - name: Run migrations
-      env:
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan migrate
+    - name: Start Mysql
+      run: sudo service mysql start
+    - name: Create db
+      run: mysql --protocol=tcp -u root -proot -e "CREATE DATABASE IF NOT EXISTS officelife CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
     - name: Get yarn cache directory path
       id: yarn-cache-dir-path
@@ -90,5 +84,3 @@ jobs:
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite

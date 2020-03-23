@@ -8,10 +8,12 @@ APP_URL=http://localhost:8000
 
 LOG_CHANNEL=stack
 
-DB_CONNECTION=testing
+DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=database/database.sqlite
+DB_DATABASE=officelife
+DB_USERNAME=root
+DB_PASSWORD=password
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
