@@ -51,7 +51,7 @@ jobs:
     - name: Create SQLite database
       run: |
         mkdir -p database
-        touch database/database.sqlite
+        touch d5atabase/database.sqlite
     - name: Run migrations
       env:
         DB_CONNECTION: sqlite
@@ -69,7 +69,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
     - name: yarn install
-      run: yarn inst
+      run: yarn
     - name: Cypress verify
       run: npm run cy:verify
 
