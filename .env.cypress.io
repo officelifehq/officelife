@@ -8,19 +8,12 @@ APP_URL=https://officelife.test
 
 LOG_CHANNEL=stack
 
-DB_CONNECTION=mysql
+DB_CONNECTION=sqlite
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=officelife
+DB_DATABASE=database/database.sqlite
 DB_USERNAME=root
-DB_PASSWORD=
-
-# Used for SQLite testing
-DB_TEST_DRIVER=sqlite
-DB_TEST_DATABASE=database/database.sqlite
-DB_TEST_HOST=127.0.0.1
-DB_TEST_USERNAME=root
-DB_TEST_PASSWORD=root
+DB_PASSWORD=root
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file

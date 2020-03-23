@@ -26,13 +26,8 @@ jobs:
       run: composer -V
     - name: Check PHP Extensions
       run: php -m
-
-    # step-prepare-environment
-    - run: cp .env.cypress.io .env
-
     - name: Validate composer.json and composer.lock
       run: composer validate
-
     - name: Get Composer Cache Directory
       id: composer-cache-dir-path
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
@@ -48,6 +43,9 @@ jobs:
       run: composer install --no-interaction --no-suggest --ignore-platform-reqs
 
     # step-prepare-db
+    # step-prepare-environment
+    - name: Prepare .env file
+      run: cp .env.cypress.io .env
     - name: Create SQLite database
       run: |
         mkdir -p database
