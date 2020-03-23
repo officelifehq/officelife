@@ -13,7 +13,9 @@
         "lint": "eslint --ext .js,.vue resources/js/",
         "cy:verify": "cypress verify",
         "cy:version": "cypress version",
-        "install-frozen": "yarn install --ignore-engines --frozen-lockfile"
+        "install-frozen": "yarn install --ignore-engines --frozen-lockfile",
+        "cypress": "mv .env .env2 && mv .env.cypress.local .env && yarn run e2e-gui",
+        "normal": "mv .env .env.cypress.local && mv .env2 .env"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
