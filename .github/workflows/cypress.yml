@@ -28,7 +28,7 @@ jobs:
       run: php -m
 
     # step-prepare-environment
-    - run: echo "REQUIRES_SUBSCRIPTION=true" >> .env
+    - run: cp .env.cypress.io .env
 
     - name: Validate composer.json and composer.lock
       run: composer validate
