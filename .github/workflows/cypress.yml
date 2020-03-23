@@ -90,5 +90,5 @@ jobs:
       env:
         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
