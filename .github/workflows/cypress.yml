@@ -49,14 +49,14 @@ jobs:
 
     # step-prepare-db
     - name: Create SQLite database
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
+      run: |
+        mkdir -p database
+        touch database/database.sqlite
     - name: Run migrations
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
-        run: php artisan migrate
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: database/database.sqlite
+      run: php artisan migrate
 
     # step-prepare-front
     - name: Get yarn cache directory path
