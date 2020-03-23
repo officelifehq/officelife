@@ -12,8 +12,6 @@ DB_CONNECTION=sqlite
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=database/database.sqlite
-DB_USERNAME=root
-DB_PASSWORD=root
 
 BROADCAST_DRIVER=log
 CACHE_DRIVER=file
@@ -45,4 +43,11 @@ MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 # latitude/longitude coordinates. We could use Google instead but we don't
 # want to give anything to Google, ever.
 # LocationIQ offers 10,000 free requests per day.
-LOCATION_IQ_API_KEY= fc57c059f28a63
+LOCATION_IQ_API_KEY=
+
+# API key for maps displays
+# We use Mapbox (https://mapbox.com/) to display static maps.
+# Mapbox has a generous 50 000 free requests per month.
+# A username is also required, this is the one used upon account creation.
+MAPBOX_API_KEY=
+MAPBOX_USERNAME=

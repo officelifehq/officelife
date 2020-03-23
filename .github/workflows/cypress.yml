@@ -10,6 +10,7 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest]
         php-version: ['7.4']
+        containers: [1, 2, 3, 4]
       max-parallel: 10
 
     steps:
