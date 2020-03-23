@@ -10,7 +10,10 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "e2e": "$(yarn bin)/cypress run",
         "e2e-gui": "$(yarn bin)/cypress open",
-        "lint": "eslint --ext .js,.vue resources/js/"
+        "lint": "eslint --ext .js,.vue resources/js/",
+        "cy:verify": "cypress verify",
+        "cy:version": "cypress version",
+        "install-frozen": "yarn install --ignore-engines --frozen-lockfile"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",

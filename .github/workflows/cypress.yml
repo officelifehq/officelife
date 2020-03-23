@@ -1,9 +1,9 @@
-name: E2E Tests with Cypress
+name: E2E Tests
 
 on: [push]
 
 jobs:
-  cypress-run:
+  cypress:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -69,7 +69,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-yarn-
     - name: yarn install
-      run: yarn
+      run: yarn install-frozen
     - name: Cypress verify
       run: npm run cy:verify
 
