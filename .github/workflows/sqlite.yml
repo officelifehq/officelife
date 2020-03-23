@@ -19,7 +19,7 @@ jobs:
           extensions: mbstring, dom, fileinfo
           coverage: none
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: php -r "file_exists('.env') || copy('.env.ci.sqlite', '.env');"
       - name: Cache composer dependencies
         uses: actions/cache@v1
         with:
