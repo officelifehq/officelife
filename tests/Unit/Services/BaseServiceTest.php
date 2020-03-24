@@ -120,21 +120,21 @@ class BaseServiceTest extends TestCase
         $this->assertTrue(
             $stub->author($michael->id)
                 ->inCompany($michael->company_id)
-                ->withPermissionLevel(config('officelife.permission_level.administrator'))
+                ->asAtLeastAdministrator()
                 ->canExecuteService()
         );
 
         $this->assertTrue(
             $stub->author($michael->id)
                 ->inCompany($michael->company_id)
-                ->withPermissionLevel(config('officelife.permission_level.hr'))
+                ->asAtLeastHR()
                 ->canExecuteService()
         );
 
         $this->assertTrue(
             $stub->author($michael->id)
                 ->inCompany($michael->company_id)
-                ->withPermissionLevel(config('officelife.permission_level.user'))
+                ->asNormalUser()
                 ->canExecuteService()
         );
 
@@ -146,7 +146,7 @@ class BaseServiceTest extends TestCase
         $this->expectException(NotEnoughPermissionException::class);
         $stub->author($michael->id)
             ->inCompany($michael->company_id)
-            ->withPermissionLevel(config('officelife.permission_level.administrator'))
+            ->asAtLeastAdministrator()
             ->canExecuteService();
 
         // test that an user can't do an action reserved for an administrator
@@ -157,7 +157,7 @@ class BaseServiceTest extends TestCase
         $this->expectException(NotEnoughPermissionException::class);
         $stub->author($michael->id)
             ->inCompany($michael->company_id)
-            ->withPermissionLevel(config('officelife.permission_level.administrator'))
+            ->asAtLeastAdministrator()
             ->canExecuteService();
 
         // test that an user can't do an action reserved for an HR
@@ -168,7 +168,7 @@ class BaseServiceTest extends TestCase
         $this->expectException(NotEnoughPermissionException::class);
         $stub->author($michael->id)
             ->inCompany($michael->company_id)
-            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->asAtLeastHR()
             ->canExecuteService();
 
         // test that a user can modify his own data regardless of his permission

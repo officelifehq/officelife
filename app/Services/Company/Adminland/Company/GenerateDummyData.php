@@ -48,7 +48,7 @@ class GenerateDummyData extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->withPermissionLevel(config('officelife.permission_level.administrator'))
+            ->asAtLeastAdministrator()
             ->canExecuteService();
 
         $company = Company::find($data['company_id']);

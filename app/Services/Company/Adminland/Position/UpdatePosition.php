@@ -37,7 +37,7 @@ class UpdatePosition extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->asAtLeastHR()
             ->canExecuteService();
 
         $position = Position::where('company_id', $data['company_id'])

@@ -40,7 +40,7 @@ class LogAccountAction extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->withPermissionLevel(config('officelife.permission_level.user'))
+            ->asNormalUser()
             ->canExecuteService();
 
         return AuditLog::create([

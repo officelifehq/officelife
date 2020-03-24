@@ -38,7 +38,7 @@ class RemovePronounFromEmployee extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->asAtLeastHR()
             ->canBypassPermissionLevelIfEmployee($data['employee_id'])
             ->canExecuteService();
 

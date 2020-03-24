@@ -46,7 +46,7 @@ class CreateTask extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->asAtLeastHR()
             ->canExecuteService();
 
         if (! empty($data['team_id'])) {

@@ -38,7 +38,7 @@ class AddActionToStep extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->asAtLeastHR()
             ->canExecuteService();
 
         Step::where('flow_id', $data['flow_id'])

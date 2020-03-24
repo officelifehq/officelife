@@ -42,7 +42,7 @@ class CreateCompanyPTOPolicy extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->asAtLeastHR()
             ->canExecuteService();
 
         // check if there is a policy for the given year already

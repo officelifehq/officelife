@@ -36,7 +36,7 @@ class DestroyEmployeeStatus extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->withPermissionLevel(config('officelife.permission_level.hr'))
+            ->asAtLeastHR()
             ->canExecuteService();
 
         $employeeStatus = EmployeeStatus::where('company_id', $data['company_id'])

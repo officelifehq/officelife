@@ -74,9 +74,33 @@ abstract class BaseService
      * @param integer $permission
      * @return self
      */
-    public function withPermissionLevel(int $permission): self
+    public function asAtLeastAdministrator(): self
     {
-        $this->requiredPermissionLevel = $permission;
+        $this->requiredPermissionLevel = config('officelife.permission_level.administrator');
+        return $this;
+    }
+
+    /**
+     * Sets the permission level required for this service.
+     *
+     * @param integer $permission
+     * @return self
+     */
+    public function asAtLeastHR(): self
+    {
+        $this->requiredPermissionLevel = config('officelife.permission_level.hr');
+        return $this;
+    }
+
+    /**
+     * Sets the permission level required for this service.
+     *
+     * @param integer $permission
+     * @return self
+     */
+    public function asNormalUser(): self
+    {
+        $this->requiredPermissionLevel = config('officelife.permission_level.user');
         return $this;
     }
 

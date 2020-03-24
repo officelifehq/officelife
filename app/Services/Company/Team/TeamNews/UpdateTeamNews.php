@@ -41,7 +41,7 @@ class UpdateTeamNews extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->withPermissionLevel(config('officelife.permission_level.user'))
+            ->asNormalUser()
             ->canExecuteService();
 
         $news = TeamNews::findOrFail($data['team_news_id']);
