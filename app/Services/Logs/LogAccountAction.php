@@ -38,6 +38,11 @@ class LogAccountAction extends BaseService
     {
         $this->validateRules($data);
 
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->withPermissionLevel(config('officelife.permission_level.user'))
+            ->canExecuteService();
+
         return AuditLog::create([
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],

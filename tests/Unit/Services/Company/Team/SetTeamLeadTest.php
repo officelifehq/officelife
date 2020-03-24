@@ -59,9 +59,7 @@ class SetTeamLeadTest extends TestCase
     public function it_fails_if_the_team_is_not_part_of_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $team = factory(Team::class)->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $team, false);

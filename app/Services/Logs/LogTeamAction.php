@@ -5,6 +5,8 @@ namespace App\Services\Logs;
 use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\TeamLog;
+use App\Models\Company\Employee;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogTeamAction extends BaseService
 {
@@ -36,6 +38,13 @@ class LogTeamAction extends BaseService
     public function execute(array $data): TeamLog
     {
         $this->validateRules($data);
+
+        $author = Employee::findOrFail($data['author_id']);
+        $team = Team::findOrFail($data['team_id']);
+
+        if ($author->company_id != $team->company_id) {
+            throw new ModelNotFoundException();
+        }
 
         return TeamLog::create([
             'team_id' => $data['team_id'],
