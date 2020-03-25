@@ -51,5 +51,9 @@
         "hooks": {
             "pre-commit": "lint-staged"
         }
+    },
+    "dependencies": {
+        "tailwindcss": "^1.2.0",
+        "turbolinks": "^5.2.0"
     }
 }
