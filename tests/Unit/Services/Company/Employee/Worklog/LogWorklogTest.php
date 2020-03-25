@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Services\Company\Employee\Worklog;
 
-use Carbon\Carbon;
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
@@ -13,75 +12,41 @@ use Illuminate\Validation\ValidationException;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Exceptions\WorklogAlreadyLoggedTodayException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogWorklogTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_logs_a_worklog(): void
+    public function it_logs_a_worklog_as_administrator(): void
     {
-        Queue::fake();
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
 
-        $dwight = factory(Employee::class)->create([]);
+    /** @test */
+    public function it_logs_a_worklog_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
 
-        $request = [
-            'author_id' => $dwight->id,
-            'employee_id' => $dwight->id,
-            'content' => 'I have sold paper',
-        ];
-
-        $worklog = (new LogWorklog)->execute($request);
-
-        $this->assertDatabaseHas('worklogs', [
-            'id' => $worklog->id,
-            'employee_id' => $dwight->id,
-            'content' => 'I have sold paper',
-        ]);
-
-        $this->assertInstanceOf(
-            Worklog::class,
-            $worklog
-        );
-
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight, $worklog) {
-            return $job->auditLog['action'] === 'employee_worklog_logged' &&
-                $job->auditLog['author_id'] === $dwight->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'employee_id' => $dwight->id,
-                    'employee_name' => $dwight->name,
-                    'worklog_id' => $worklog->id,
-                ]);
-        });
-
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight, $worklog) {
-            return $job->auditLog['action'] === 'employee_worklog_logged' &&
-                $job->auditLog['author_id'] === $dwight->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'employee_id' => $dwight->id,
-                    'employee_name' => $dwight->name,
-                    'worklog_id' => $worklog->id,
-                ]);
-        });
+    /** @test */
+    public function it_logs_a_worklog_as_normal_user(): void
+    {
+        $michael = $this->createEmployee();
+        $this->executeService($michael);
     }
 
     /** @test */
     public function it_logs_a_worklog_and_resets_the_counter_of_missed_worklog(): void
     {
-        $dwight = factory(Employee::class)->create([
-            'consecutive_worklog_missed' => 4,
-        ]);
-
-        $request = [
-            'author_id' => $dwight->id,
-            'employee_id' => $dwight->id,
-            'content' => 'I have sold paper',
-        ];
-
-        (new LogWorklog)->execute($request);
+        $michael = $this->createEmployee();
+        $this->executeService($michael);
 
         $this->assertDatabaseHas('employees', [
-            'id' => $dwight->id,
+            'id' => $michael->id,
             'consecutive_worklog_missed' => 0,
         ]);
     }
@@ -89,21 +54,27 @@ class LogWorklogTest extends TestCase
     /** @test */
     public function it_doesnt_let_record_a_worklog_if_one_has_already_been_submitted_today(): void
     {
-        Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
+        $michael = $this->createEmployee();
+        $this->executeService($michael);
 
-        $dwight = factory(Employee::class)->create([]);
-        factory(Worklog::class)->create([
-            'employee_id' => $dwight->id,
-            'created_at' => now(),
-        ]);
+        $this->expectException(WorklogAlreadyLoggedTodayException::class);
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_employee_doesnot_belong_to_the_company(): void
+    {
+        $michael = $this->createEmployee();
+        $dwight = $this->createEmployee();
 
         $request = [
-            'author_id' => $dwight->id,
-            'employee_id' => $dwight->id,
+            'company_id' => $dwight->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
             'content' => 'I have sold paper',
         ];
 
-        $this->expectException(WorklogAlreadyLoggedTodayException::class);
+        $this->expectException(ModelNotFoundException::class);
         (new LogWorklog)->execute($request);
     }
 
@@ -116,5 +87,50 @@ class LogWorklogTest extends TestCase
 
         $this->expectException(ValidationException::class);
         (new LogWorklog)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
+    {
+        Queue::fake();
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+            'content' => 'I have sold paper',
+        ];
+
+        $worklog = (new LogWorklog)->execute($request);
+
+        $this->assertDatabaseHas('worklogs', [
+            'id' => $worklog->id,
+            'employee_id' => $michael->id,
+            'content' => 'I have sold paper',
+        ]);
+
+        $this->assertInstanceOf(
+            Worklog::class,
+            $worklog
+        );
+
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $worklog) {
+            return $job->auditLog['action'] === 'employee_worklog_logged' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'employee_id' => $michael->id,
+                    'employee_name' => $michael->name,
+                    'worklog_id' => $worklog->id,
+                ]);
+        });
+
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $worklog) {
+            return $job->auditLog['action'] === 'employee_worklog_logged' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'employee_id' => $michael->id,
+                    'employee_name' => $michael->name,
+                    'worklog_id' => $worklog->id,
+                ]);
+        });
     }
 }

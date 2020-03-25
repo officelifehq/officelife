@@ -14,13 +14,13 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Authorization levels
+    | Permission levels
     |--------------------------------------------------------------------------
     |
-    | This value defines the different user authorization levels.
+    | This value defines the different user permission levels.
     |
     */
-    'authorizations' => [
+    'permission_level' => [
         'administrator' => 100,
         'hr' => 200,
         'user' => 300,

@@ -37,21 +37,19 @@ class CreateTeamNews extends BaseService
      */
     public function execute(array $data): TeamNews
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.user')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asNormalUser()
+            ->canExecuteService();
 
-        $team = Team::where('company_id', $data['company_id'])
-            ->findOrFail($data['team_id']);
+        $team = $this->validateTeamBelongsToCompany($data);
 
         $news = TeamNews::create([
             'team_id' => $team->id,
             'author_id' => $data['author_id'],
-            'author_name' => $author->name,
+            'author_name' => $this->author->name,
             'title' => $data['title'],
             'content' => $data['content'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
@@ -65,8 +63,8 @@ class CreateTeamNews extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_news_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_id' => $team->id,
@@ -80,8 +78,8 @@ class CreateTeamNews extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'team_news_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_news_id' => $news->id,

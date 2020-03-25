@@ -8,6 +8,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Position\CreatePosition;
 
@@ -16,11 +17,42 @@ class CreatePositionTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_position(): void
+    public function it_creates_a_position_as_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_creates_a_position_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $this->expectException(NotEnoughPermissionException::class);
+
+        $michael = $this->createEmployee();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'title' => 'Assistant to the regional manager',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreatePosition)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
     {
         Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -49,16 +81,5 @@ class CreatePositionTest extends TestCase
                     'position_title' => $position->title,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'title' => 'Assistant to the regional manager',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new CreatePosition)->execute($request);
     }
 }

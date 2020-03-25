@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Queue;
 use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Exceptions\CompanyPTOPolicyAlreadyExistException;
 use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
@@ -19,12 +20,66 @@ class CreateCompanyPTOPolicyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_company_pto_policy(): void
+    public function it_creates_a_company_pto_policy_as_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_creates_a_company_pto_policy_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $michael = $this->createEmployee();
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_throws_an_exception_if_the_policy_is_already_set_for_the_year(): void
+    {
+        Queue::fake();
+
+        $michael = factory(Employee::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'year' => 2020,
+            'default_amount_of_allowed_holidays' => 1,
+            'default_amount_of_sick_days' => 1,
+            'default_amount_of_pto_days' => 1,
+        ];
+
+        (new CreateCompanyPTOPolicy)->execute($request);
+
+        // creating a new one with the exact same year
+        $this->expectException(CompanyPTOPolicyAlreadyExistException::class);
+        (new CreateCompanyPTOPolicy)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'title' => 'Assistant to the regional manager',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateCompanyPTOPolicy)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
     {
         Queue::fake();
         Carbon::setTestNow(Carbon::create(2020, 1, 1));
-
-        $michael = factory(Employee::class)->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -65,39 +120,5 @@ class CreateCompanyPTOPolicyTest extends TestCase
                     'company_pto_policy_year' => $ptoPolicy->year,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_throws_an_exception_if_the_policy_is_already_set_for_the_year(): void
-    {
-        Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'year' => 2020,
-            'default_amount_of_allowed_holidays' => 1,
-            'default_amount_of_sick_days' => 1,
-            'default_amount_of_pto_days' => 1,
-        ];
-
-        (new CreateCompanyPTOPolicy)->execute($request);
-
-        // creating a new one with the exact same year
-        $this->expectException(CompanyPTOPolicyAlreadyExistException::class);
-        (new CreateCompanyPTOPolicy)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'title' => 'Assistant to the regional manager',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new CreateCompanyPTOPolicy)->execute($request);
     }
 }

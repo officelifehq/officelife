@@ -11,6 +11,8 @@ use App\Exceptions\NotEnoughPermissionException;
 
 class SetPersonalDetails extends BaseService
 {
+    private Employee $employee;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -38,46 +40,43 @@ class SetPersonalDetails extends BaseService
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr'),
-            $data['employee_id']
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
+            ->canExecuteService();
 
-        $employee = $this->validateEmployeeBelongsToCompany($data);
+        $this->employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $employee = $this->save($data, $employee);
+        $this->save($data);
 
-        $this->log($data, $author, $employee);
+        $this->log($data);
 
-        return $employee->refresh();
+        return $this->employee->refresh();
     }
 
-    private function save(array $data, Employee $employee): Employee
+    private function save(array $data): void
     {
-        $employee->first_name = $data['first_name'];
-        $employee->last_name = $data['last_name'];
-        $employee->email = $data['email'];
-        $employee->save();
-
-        return $employee;
+        $this->employee->first_name = $data['first_name'];
+        $this->employee->last_name = $data['last_name'];
+        $this->employee->email = $data['email'];
+        $this->employee->save();
     }
 
-    private function log(array $data, Employee $author, Employee $employee): void
+    private function log(array $data): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_personal_details_set',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
-                'employee_email' => $employee->email,
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
+                'employee_email' => $this->employee->email,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
@@ -85,12 +84,12 @@ class SetPersonalDetails extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'personal_details_set',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'name' => $employee->name,
-                'email' => $employee->email,
+                'name' => $this->employee->name,
+                'email' => $this->employee->email,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');

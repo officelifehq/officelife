@@ -44,13 +44,12 @@ class GenerateDummyData extends BaseService
      */
     public function execute(array $data): void
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.administrator')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastAdministrator()
+            ->canExecuteService();
 
         $company = Company::find($data['company_id']);
 
@@ -109,7 +108,7 @@ class GenerateDummyData extends BaseService
             'email' => $faker->safeEmail,
             'first_name' => $faker->firstName,
             'last_name' => $faker->lastName,
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
             'send_invitation' => false,
             'is_dummy' => true,
         ];

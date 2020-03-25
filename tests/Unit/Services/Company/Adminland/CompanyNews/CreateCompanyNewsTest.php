@@ -8,6 +8,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 
@@ -16,12 +17,45 @@ class CreateCompanyNewsTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_company_news(): void
+    public function it_creates_a_company_news_as_administrator(): void
     {
         Queue::fake();
 
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
 
+    /** @test */
+    public function it_creates_a_company_news_as_hr(): void
+    {
+        Queue::fake();
+
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $michael = $this->createEmployee();
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'title' => 'Assistant to the regional manager',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateCompanyNews)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
+    {
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
@@ -53,16 +87,5 @@ class CreateCompanyNewsTest extends TestCase
                     'company_news_title' => $news->title,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'title' => 'Assistant to the regional manager',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new CreateCompanyNews)->execute($request);
     }
 }

@@ -24,3 +24,5 @@ parameters:
         - */*/*/*/*/AdminAuditController.php
         - */*/*/*/*/TeamController.php
         - */*/*/*/*/TeamLeadController.php
+        - */*/*/*/*/TeamLeadController.php
+        - */*/*/BaseService.php

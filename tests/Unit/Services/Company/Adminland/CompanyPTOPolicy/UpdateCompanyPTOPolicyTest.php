@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Queue;
 use App\Models\Company\CompanyCalendar;
 use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\CompanyPTOPolicy\UpdateCompanyPTOPolicy;
 
 class UpdateCompanyPTOPolicyTest extends TestCase
@@ -18,12 +20,80 @@ class UpdateCompanyPTOPolicyTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_a_company_pto_policy(): void
+    public function it_updates_a_company_pto_policy_as_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_updates_a_company_pto_policy_as_hr(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $michael = $this->createEmployee();
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new UpdateCompanyPTOPolicy)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_the_company_pto_policy_does_not_match_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        $ptoPolicy = factory(CompanyPTOPolicy::class)->create([]);
+        $calendarA = factory(CompanyCalendar::class)->create([
+            'company_pto_policy_id' => $ptoPolicy->id,
+            'day' => '2010-01-01',
+        ]);
+        $calendarB = factory(CompanyCalendar::class)->create([
+            'company_pto_policy_id' => $ptoPolicy->id,
+            'day' => '2010-01-02',
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'company_pto_policy_id' => $ptoPolicy->id,
+            'days_to_toggle' => [[
+                'id' => $calendarA->id,
+                'is_worked' => false,
+            ], [
+                'id' => $calendarB->id,
+                'is_worked' => false,
+            ]],
+            'default_amount_of_allowed_holidays' => 100,
+            'default_amount_of_sick_days' => 100,
+            'default_amount_of_pto_days' => 100,
+        ];
+
+        $this->expectException(ModelNotFoundException::class);
+        (new UpdateCompanyPTOPolicy)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
     {
         Queue::fake();
         Carbon::setTestNow(Carbon::create(2019, 1, 1));
 
-        $michael = factory(Employee::class)->create([]);
         $ptoPolicy = factory(CompanyPTOPolicy::class)->create([
             'company_id' => $michael->company_id,
         ]);
@@ -41,11 +111,11 @@ class UpdateCompanyPTOPolicyTest extends TestCase
             'author_id' => $michael->id,
             'company_pto_policy_id' => $ptoPolicy->id,
             'days_to_toggle' => [[
-                    'id' => $calendarA->id,
-                    'is_worked' => false,
-                ], [
-                    'id' => $calendarB->id,
-                    'is_worked' => false,
+                'id' => $calendarA->id,
+                'is_worked' => false,
+            ], [
+                'id' => $calendarB->id,
+                'is_worked' => false,
             ]],
             'default_amount_of_allowed_holidays' => 100,
             'default_amount_of_sick_days' => 100,
@@ -86,18 +156,5 @@ class UpdateCompanyPTOPolicyTest extends TestCase
                     'company_pto_policy_year' => $ptoPolicy->year,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $michael = factory(Employee::class)->create([]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new UpdateCompanyPTOPolicy)->execute($request);
     }
 }

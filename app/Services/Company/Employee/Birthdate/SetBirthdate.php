@@ -11,6 +11,8 @@ use Carbon\Exceptions\InvalidDateException;
 
 class SetBirthdate extends BaseService
 {
+    protected Employee $employee;
+
     /**
      * Get the validation rules that apply to the service.
      */
@@ -31,24 +33,23 @@ class SetBirthdate extends BaseService
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr'),
-            $data['employee_id']
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
+            ->canExecuteService();
 
-        $employee = $this->validateEmployeeBelongsToCompany($data);
+        $this->employee = $this->validateEmployeeBelongsToCompany($data);
 
         $carbonObject = $this->checkDateValidity($data);
 
-        $employee = $this->save($employee, $carbonObject);
+        $this->save($carbonObject);
 
-        $this->log($data, $author, $employee, $carbonObject);
+        $this->log($data, $carbonObject);
 
-        return $employee;
+        return $this->employee;
     }
 
     private function checkDateValidity(array $data): Carbon
@@ -62,25 +63,23 @@ class SetBirthdate extends BaseService
         return $carbonObject;
     }
 
-    private function save(Employee $employee, Carbon $date): Employee
+    private function save(Carbon $date): void
     {
-        $employee->birthdate = $date;
-        $employee->save();
-
-        return $employee;
+        $this->employee->birthdate = $date;
+        $this->employee->save();
     }
 
-    private function log(array $data, Employee $author, Employee $employee, Carbon $date): void
+    private function log(array $data, Carbon $date): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_birthday_set',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
                 'birthday' => $date->format('Y-m-d'),
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
@@ -89,8 +88,8 @@ class SetBirthdate extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'birthday_set',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'birthday' => $date->format('Y-m-d'),

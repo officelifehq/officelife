@@ -14,6 +14,8 @@ use App\Services\User\Avatar\GenerateAvatar;
 
 class AddEmployeeToCompany extends BaseService
 {
+    private Employee $employee;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -41,41 +43,38 @@ class AddEmployeeToCompany extends BaseService
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
-        $employee = $this->createEmployee($data, $author);
+        $this->createEmployee($data);
 
-        $employee = $this->addHolidays($data, $employee);
+        $this->addHolidays($data);
 
-        $this->addNotification($data, $employee);
+        $this->notifyEmployee($data);
 
-        $this->logAccountAudit($data, $author, $employee);
+        $this->logAccountAudit($data);
 
         if ($data['send_invitation']) {
-            (new InviteUser)->execute([
+            (new InviteEmployeeToBecomeUser)->execute([
                 'company_id' => $data['company_id'],
-                'author_id' => $author->id,
-                'employee_id' => $employee->id,
+                'author_id' => $this->author->id,
+                'employee_id' => $this->employee->id,
             ]);
         }
 
-        return $employee;
+        return $this->employee;
     }
 
     /**
      * Create the employee.
      *
      * @param array $data
-     * @param Employee $author
-     * @return Employee
      */
-    private function createEmployee(array $data, Employee $author): Employee
+    private function createEmployee(array $data): void
     {
         $uuid = Str::uuid()->toString();
 
@@ -98,8 +97,8 @@ class AddEmployeeToCompany extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'employee_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_id' => $employee->id,
@@ -108,39 +107,35 @@ class AddEmployeeToCompany extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
-        return $employee;
+        $this->employee = $employee;
     }
 
     /**
      * Add the default amount of holidays to this new employee.
      *
      * @param array $data
-     * @param Employee $employee
-     * @return Employee
+     * @return void
      */
-    private function addHolidays(array $data, Employee $employee): Employee
+    private function addHolidays(array $data): void
     {
         $company = Company::find($data['company_id']);
 
-        $employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
-        $employee->save();
-
-        return $employee;
+        $this->employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
+        $this->employee->save();
     }
 
     /**
      * Add a welcome message for the employee.
      *
      * @param array $data
-     * @param Employee $employee
      * @return void
      */
-    private function addNotification(array $data, Employee $employee): void
+    private function notifyEmployee(array $data): void
     {
         $company = Company::findOrFail($data['company_id']);
 
         NotifyEmployee::dispatch([
-            'employee_id' => $employee->id,
+            'employee_id' => $this->employee->id,
             'action' => 'employee_added_to_company',
             'objects' => json_encode([
                 'company_name' => $company->name,
@@ -152,24 +147,22 @@ class AddEmployeeToCompany extends BaseService
      * Add an audit log entry for this action.
      *
      * @param array $data
-     * @param Employee $author
-     * @param Employee $employee
      * @return void
      */
-    private function logAccountAudit(array $data, Employee $author, Employee $employee): void
+    private function logAccountAudit(array $data): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_added_to_company',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'employee_id' => $employee->id,
+                'employee_id' => $this->employee->id,
                 'employee_email' => $data['email'],
                 'employee_first_name' => $data['first_name'],
                 'employee_last_name' => $data['last_name'],
-                'employee_name' => $employee->name,
+                'employee_name' => $this->employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');

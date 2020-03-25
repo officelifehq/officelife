@@ -10,6 +10,7 @@ use App\Models\Company\Employee;
 use App\Services\Logs\LogAccountAction;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogAccountActionTest extends TestCase
 {
@@ -23,6 +24,32 @@ class LogAccountActionTest extends TestCase
             'company_id' => $company->id,
         ]);
 
+        $this->executeService($michael, $company);
+    }
+
+    /** @test */
+    public function it_fails_if_the_author_is_not_in_the_company(): void
+    {
+        $company = factory(Company::class)->create([]);
+        $michael = factory(Employee::class)->create([]);
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->executeService($michael, $company);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'action' => 'account_created',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new LogAccountAction)->execute($request);
+    }
+
+    private function executeService(Employee $michael, Company $company): void
+    {
         $date = Carbon::now();
 
         $request = [
@@ -50,16 +77,5 @@ class LogAccountActionTest extends TestCase
             AuditLog::class,
             $auditLog
         );
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'action' => 'account_created',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new LogAccountAction)->execute($request);
     }
 }

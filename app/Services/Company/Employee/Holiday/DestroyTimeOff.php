@@ -20,6 +20,7 @@ class DestroyTimeOff extends BaseService
         return [
             'author_id' => 'required|integer|exists:employees,id',
             'company_id' => 'required|integer|exists:companies,id',
+            'employee_id' => 'required|integer|exists:employees,id',
             'employee_planned_holiday_id' => 'required|integer|exists:employee_planned_holidays,id',
         ];
     }
@@ -32,14 +33,13 @@ class DestroyTimeOff extends BaseService
      */
     public function execute(array $data): bool
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr'),
-            $data['author_id']
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
+            ->canExecuteService();
 
         $holiday = EmployeePlannedHoliday::findOrFail($data['employee_planned_holiday_id']);
         $holiday->delete();
@@ -47,8 +47,8 @@ class DestroyTimeOff extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'time_off_destroyed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'planned_holiday_date' => $holiday->planned_date,
@@ -59,8 +59,8 @@ class DestroyTimeOff extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $holiday->employee_id,
             'action' => 'time_off_destroyed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'planned_holiday_date' => $holiday->planned_date,

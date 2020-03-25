@@ -36,7 +36,7 @@ class CreateAccount extends BaseService
      */
     public function execute(array $data): User
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $user = $this->createUser($data);
 

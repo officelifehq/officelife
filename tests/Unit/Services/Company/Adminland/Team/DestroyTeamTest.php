@@ -8,21 +8,71 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Services\Company\Adminland\Team\DestroyTeam;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DestroyTeamTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_destroys_a_team(): void
+    public function it_destroys_a_team_as_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_destroys_a_team_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $this->expectException(NotEnoughPermissionException::class);
+
+        $michael = $this->createEmployee();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'name' => 'Selling team',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new DestroyTeam)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_team_doesnt_belong_to_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        $sales = factory(Team::class)->create([]);
+
+        $request = [
+            'company_id' => $sales->company_id,
+            'author_id' => $michael->id,
+            'team_id' => $sales->id,
+        ];
+
+        $this->expectException(ModelNotFoundException::class);
+        (new DestroyTeam)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
     {
         Queue::fake();
 
-        $team = factory(Team::class)->create([]);
-        $michael = factory(Employee::class)->create([
-            'company_id' => $team->company_id,
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
         ]);
 
         $request = [
@@ -44,16 +94,5 @@ class DestroyTeamTest extends TestCase
                     'team_name' => $team->name,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'name' => 'Selling team',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new DestroyTeam)->execute($request);
     }
 }

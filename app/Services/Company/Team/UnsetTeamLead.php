@@ -35,13 +35,12 @@ class UnSetTeamLead extends BaseService
      */
     public function execute(array $data): Team
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         $team = $this->validateTeamBelongsToCompany($data);
 
@@ -52,7 +51,7 @@ class UnSetTeamLead extends BaseService
 
         $this->addNotification($oldTeamLeader, $team);
 
-        $this->log($data, $author, $oldTeamLeader, $team);
+        $this->log($data, $oldTeamLeader, $team);
 
         return $team;
     }
@@ -79,18 +78,17 @@ class UnSetTeamLead extends BaseService
      * Log the information in the audit logs.
      *
      * @param array $data
-     * @param Employee $author
      * @param Employee $oldTeamLeader
      * @param Team $team
      * @return void
      */
-    private function log(array $data, Employee $author, Employee $oldTeamLeader, Team $team): void
+    private function log(array $data, Employee $oldTeamLeader, Team $team): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_leader_removed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_leader_name' => $oldTeamLeader->name,
@@ -102,8 +100,8 @@ class UnSetTeamLead extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'team_leader_removed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_leader_name' => $oldTeamLeader->name,

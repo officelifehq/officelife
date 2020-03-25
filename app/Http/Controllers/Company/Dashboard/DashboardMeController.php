@@ -40,7 +40,7 @@ class DashboardMeController extends Controller
             'employee' => $employeeInformation,
             'worklogCount' => $worklogCount,
             'notifications' => NotificationHelper::getNotifications($employee),
-            'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
+            'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
         ]);
     }
 }

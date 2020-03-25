@@ -22,6 +22,7 @@ class LogMorale extends BaseService
     {
         return [
             'author_id' => 'required|integer|exists:employees,id',
+            'company_id' => 'required|integer|exists:companies,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'emotion' => 'required',
                 Rule::in([
@@ -35,7 +36,7 @@ class LogMorale extends BaseService
     }
 
     /**
-     * Log how an employee feels at a specific day.
+     * Log how an employee feels on a specific day.
      * This can only happen once per day.
      * Logging can only be done by the employee.
      *
@@ -44,16 +45,15 @@ class LogMorale extends BaseService
      */
     public function execute(array $data): Morale
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $employee = Employee::findOrFail($data['employee_id']);
+        $employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $employee->company_id,
-            config('officelife.authorizations.user'),
-            $data['employee_id']
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
+            ->canExecuteService();
 
         if ($employee->hasAlreadyLoggedMoraleToday()) {
             throw new MoraleAlreadyLoggedTodayException();
@@ -69,8 +69,8 @@ class LogMorale extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,
             'action' => 'employee_morale_logged',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_id' => $employee->id,
@@ -84,8 +84,8 @@ class LogMorale extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'morale_logged',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_id' => $employee->id,

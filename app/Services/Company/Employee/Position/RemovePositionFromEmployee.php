@@ -34,17 +34,16 @@ class RemovePositionFromEmployee extends BaseService
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         $employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $position = $employee->position;
+        $formerPosition = $employee->position;
 
         $employee->position_id = null;
         $employee->save();
@@ -52,14 +51,14 @@ class RemovePositionFromEmployee extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'position_removed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
-                'position_id' => $position->id,
-                'position_title' => $position->title,
+                'position_id' => $formerPosition->id,
+                'position_title' => $formerPosition->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
@@ -67,12 +66,12 @@ class RemovePositionFromEmployee extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'position_removed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'position_id' => $position->id,
-                'position_title' => $position->title,
+                'position_id' => $formerPosition->id,
+                'position_title' => $formerPosition->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
