@@ -93,7 +93,6 @@ class CreateTeam extends BaseService
      * Add audit logs.
      *
      * @param array $data
-     * @param Team $team
      * @return void
      */
     private function log(array $data): void

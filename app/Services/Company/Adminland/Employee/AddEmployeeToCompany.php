@@ -114,7 +114,6 @@ class AddEmployeeToCompany extends BaseService
      * Add the default amount of holidays to this new employee.
      *
      * @param array $data
-     * @param Employee $employee
      * @return void
      */
     private function addHolidays(array $data): void

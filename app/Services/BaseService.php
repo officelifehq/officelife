@@ -71,7 +71,6 @@ abstract class BaseService
     /**
      * Sets the permission level required for this service.
      *
-     * @param integer $permission
      * @return self
      */
     public function asAtLeastAdministrator(): self
@@ -83,7 +82,6 @@ abstract class BaseService
     /**
      * Sets the permission level required for this service.
      *
-     * @param integer $permission
      * @return self
      */
     public function asAtLeastHR(): self
@@ -95,7 +93,6 @@ abstract class BaseService
     /**
      * Sets the permission level required for this service.
      *
-     * @param integer $permission
      * @return self
      */
     public function asNormalUser(): self
