@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +23,7 @@ class LoginController extends Controller
             return redirect('/home');
         }
 
-        return Inertia::render('Auth/Login');
+        return view('auth.login');
     }
 
     /**

@@ -9,12 +9,12 @@
   <script src="{{ mix('/js/app.js') }}" defer></script>
   <title>@yield('title', config('app.name'))</title>
 
-  @routes
+  @livewireStyles
 </head>
 
 <body data-account-id={{ Auth::check() ? auth()->user()->account_id : 0 }}>
 
-  @inertia
+  @livewireScripts
 
 </body>
 

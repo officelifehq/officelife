@@ -12,15 +12,13 @@
         "facade/ignition": "^1.12",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
-        "inertiajs/inertia-laravel": "dev-master",
         "laravel/framework": "^6.0",
         "laravel/helpers": "^1.1",
         "laravel/passport": "^7.1",
         "laravel/tinker": "^1.0",
-        "mariuzzo/laravel-js-localization": "^1.4",
+        "livewire/livewire": "^1.0",
         "parsedown/laravel": "^1.2",
-        "spatie/laravel-activitylog": "^3.1",
-        "tightenco/ziggy": "^0.8.0"
+        "spatie/laravel-activitylog": "^3.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
