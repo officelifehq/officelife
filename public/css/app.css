@@ -13965,6 +13965,25 @@ video {
   transition-duration: 1000ms;
 }
 
+.section-btn {
+  display: block;
+}
+
+.section-btn:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: -1;
+}
+
+.section-btn a {
+  right: 0;
+  top: -8px;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;

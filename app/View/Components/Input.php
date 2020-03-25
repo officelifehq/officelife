@@ -32,17 +32,23 @@ class Input extends Component
     public string $model;
 
     /**
+     * The class of the encapsulating div.
+     */
+    public string $wrapperClass;
+
+    /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct(bool $required = false, string $type, string $name, string $model, string $label)
+    public function __construct(bool $required = false, string $type, string $name, string $model, string $label, string $wrapperClass)
     {
         $this->required = $required;
         $this->type = $type;
         $this->name = $name;
         $this->model = $model;
         $this->label = $label;
+        $this->wrapperClass = $wrapperClass;
     }
 
     /**

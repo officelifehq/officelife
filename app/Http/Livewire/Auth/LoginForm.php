@@ -14,7 +14,7 @@ class LoginForm extends Component
     public function submit()
     {
         if (Auth::check()) {
-            //return Redirect::route('home');
+            return Redirect::route('home');
         }
 
         if (Auth::attempt([
@@ -24,8 +24,7 @@ class LoginForm extends Component
             return Redirect::route('home');
         }
 
-        return Redirect::route('login')
-            ->withErrors(trans('auth.login_invalid_credentials'));
+        $this->addError('wrongCredentials', trans('auth.login_invalid_credentials'));
     }
 
     public function render()
