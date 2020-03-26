@@ -18,7 +18,7 @@ class CheckHRRole
     {
         $employee = InstanceHelper::getLoggedEmployee();
 
-        if ($employee->permission_level <= config('officelife.authorizations.hr')) {
+        if ($employee->permission_level <= config('officelife.permission_level.hr')) {
             return $next($request);
         }
 

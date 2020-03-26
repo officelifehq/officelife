@@ -31,13 +31,12 @@ class RemoveDummyData extends BaseService
      */
     public function execute(array $data): void
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.administrator')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastAdministrator()
+            ->canExecuteService();
 
         $company = Company::find($data['company_id']);
 

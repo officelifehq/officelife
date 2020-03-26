@@ -13,6 +13,8 @@ use App\Models\Company\Employee;
 
 class RemoveEmployeeFromTeam extends BaseService
 {
+    private Employee $employee;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -37,15 +39,14 @@ class RemoveEmployeeFromTeam extends BaseService
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
-        $employee = $this->validateEmployeeBelongsToCompany($data);
+        $this->employee = $this->validateEmployeeBelongsToCompany($data);
 
         $team = $this->validateTeamBelongsToCompany($data);
 
@@ -54,26 +55,25 @@ class RemoveEmployeeFromTeam extends BaseService
             ['company_id' => $data['company_id']]
         );
 
-        $this->addNotification($employee, $team);
+        $this->addNotification($team);
 
-        $this->log($data, $employee, $author, $team);
+        $this->log($data, $team);
 
-        $employee->refresh();
+        $this->employee->refresh();
 
-        return $employee;
+        return $this->employee;
     }
 
     /**
      * Add a notification in the UI for the employee that is added to the team.
      *
-     * @param Employee $employee
      * @param Team $team
      * @return void
      */
-    private function addNotification(Employee $employee, Team $team): void
+    private function addNotification(Team $team): void
     {
         NotifyEmployee::dispatch([
-            'employee_id' => $employee->id,
+            'employee_id' => $this->employee->id,
             'action' => 'employee_removed_from_team',
             'objects' => json_encode([
                 'team_name' => $team->name,
@@ -85,16 +85,14 @@ class RemoveEmployeeFromTeam extends BaseService
      * Add the logs in the different audit logs.
      *
      * @param array $data
-     * @param Employee $employee
-     * @param Employee $author
      * @param Team $team
      * @return void
      */
-    private function log(array $data, Employee $employee, Employee $author, Team $team): void
+    private function log(array $data, Team $team): void
     {
         $dataToLog = [
-            'employee_id' => $employee->id,
-            'employee_name' => $employee->name,
+            'employee_id' => $this->employee->id,
+            'employee_name' => $this->employee->name,
             'team_id' => $team->id,
             'team_name' => $team->name,
         ];
@@ -102,8 +100,8 @@ class RemoveEmployeeFromTeam extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_removed_from_team',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
@@ -112,18 +110,18 @@ class RemoveEmployeeFromTeam extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'employee_removed_from_team',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'employee_id' => $employee->id,
+            'employee_id' => $this->employee->id,
             'action' => 'employee_removed_from_team',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

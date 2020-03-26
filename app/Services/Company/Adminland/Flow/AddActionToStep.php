@@ -34,15 +34,14 @@ class AddActionToStep extends BaseService
      */
     public function execute(array $data): Action
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
-        $step = Step::where('flow_id', $data['flow_id'])
+        Step::where('flow_id', $data['flow_id'])
             ->findOrFail($data['step_id']);
 
         $action = Action::create([

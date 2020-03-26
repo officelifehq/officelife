@@ -35,18 +35,18 @@ class UnassignManager extends BaseService
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         $employee = $this->validateEmployeeBelongsToCompany($data);
 
         $manager = Employee::where('company_id', $data['company_id'])
             ->findOrFail($data['manager_id']);
+
         $directReport = DirectReport::where('company_id', $data['company_id'])
             ->where('employee_id', $data['employee_id'])
             ->where('manager_id', $data['manager_id'])
@@ -54,11 +54,18 @@ class UnassignManager extends BaseService
 
         $directReport->delete();
 
+        $this->log($data, $manager, $employee);
+
+        return $manager;
+    }
+
+    private function log(array $data, Employee $manager, Employee $employee): void
+    {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'manager_unassigned',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'manager_id' => $manager->id,
@@ -69,30 +76,12 @@ class UnassignManager extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
-        $this->logInEmployeeLogs($data, $author, $manager, $employee);
-
-        return $manager;
-    }
-
-    /**
-     * Log the information in the Employee log table.
-     * Unassigning a manager affects two people: the manager and the employee.
-     * Therefore we need two logs.
-     *
-     * @param array $data
-     * @param Employee $author
-     * @param Employee $manager
-     * @param Employee $employee
-     * @return void
-     */
-    private function logInEmployeeLogs(array $data, Employee $author, Employee $manager, Employee $employee): void
-    {
         // Log information about the employee having a manager assigned
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'manager_unassigned',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'manager_id' => $manager->id,
@@ -105,8 +94,8 @@ class UnassignManager extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $manager->id,
             'action' => 'direct_report_unassigned',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'direct_report_id' => $employee->id,

@@ -8,6 +8,7 @@ use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Position\RemovePositionFromEmployee;
 use App\Services\Company\Employee\EmployeeStatus\RemoveEmployeeStatusFromEmployee;
@@ -17,11 +18,43 @@ class RemoveEmployeeStatusFromEmployeeTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_resets_an_employees_status(): void
+    public function it_resets_an_employees_status_as_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_resets_an_employees_status_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $this->expectException(NotEnoughPermissionException::class);
+
+        $michael = $this->createEmployee();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'first_name' => 'Dwight',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new RemovePositionFromEmployee)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
     {
         Queue::fake();
 
-        $michael = factory(Employee::class)->create([]);
         $status = $michael->status;
 
         $request = [
@@ -62,16 +95,5 @@ class RemoveEmployeeStatusFromEmployeeTest extends TestCase
                     'employee_status_name' => $status->name,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'first_name' => 'Dwight',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new RemovePositionFromEmployee)->execute($request);
     }
 }

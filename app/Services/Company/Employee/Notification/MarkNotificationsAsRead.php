@@ -4,6 +4,7 @@ namespace App\Services\User\Notification;
 
 use App\Services\BaseService;
 use App\Models\Company\Notification;
+use App\Exceptions\NotEnoughPermissionException;
 
 class MarkNotificationsAsRead extends BaseService
 {
@@ -22,21 +23,21 @@ class MarkNotificationsAsRead extends BaseService
     }
 
     /**
-     * Mark all notifications as read.
+     * Mark all notifications as read for the given employee.
+     * Only the employee can mark the notifications as read.
      *
      * @param array $data
      * @return bool
      */
     public function execute(array $data): bool
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.administrator'),
-            $data['employee_id']
-        );
+        if ($data['author_id'] != $data['employee_id']) {
+            throw new NotEnoughPermissionException();
+        }
+
+        $this->validateEmployeeBelongsToCompany($data);
 
         Notification::where('employee_id', $data['employee_id'])
             ->update(['read' => true]);

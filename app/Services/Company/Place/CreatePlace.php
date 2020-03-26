@@ -7,7 +7,6 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Place;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
-use App\Models\Company\Employee;
 use Illuminate\Support\Facades\DB;
 use App\Jobs\FetchAddressGeocoding;
 
@@ -43,13 +42,12 @@ class CreatePlace extends BaseService
      */
     public function execute(array $data): Place
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.user')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asNormalUser()
+            ->canExecuteService();
 
         $place = $this->addPlace($data);
 
@@ -60,7 +58,7 @@ class CreatePlace extends BaseService
         $this->geocodePlace($place);
 
         if ($data['placable_type'] == 'App\Models\Company\Employee') {
-            $this->addLog($data, $place, $author);
+            $this->addLog($data, $place);
         }
 
         return $place;
@@ -120,16 +118,15 @@ class CreatePlace extends BaseService
      *
      * @param array $data
      * @param Place $place
-     * @param Employee $author
      * @return void
      */
-    private function addLog(array $data, Place $place, Employee $author): void
+    private function addLog(array $data, Place $place): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'address_added_to_employee',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'place_id' => $place->id,
@@ -141,8 +138,8 @@ class CreatePlace extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['placable_id'],
             'action' => 'address_added',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'place_id' => $place->id,

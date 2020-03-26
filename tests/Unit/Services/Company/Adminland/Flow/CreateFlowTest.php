@@ -8,6 +8,7 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Services\Company\Adminland\Flow\CreateFlow;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -16,11 +17,42 @@ class CreateFlowTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_flow(): void
+    public function it_creates_a_flow_as_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_creates_a_flow_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $this->expectException(NotEnoughPermissionException::class);
+
+        $michael = $this->createEmployee();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'name' => 'Selling team',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateFlow)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
     {
         Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -51,16 +83,5 @@ class CreateFlowTest extends TestCase
                     'flow_name' => $flow->name,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'name' => 'Selling team',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new CreateFlow)->execute($request);
     }
 }

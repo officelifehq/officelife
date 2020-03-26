@@ -34,7 +34,7 @@ class CreateCompany extends BaseService
      */
     public function execute(array $data): Company
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $company = Company::create([
             'name' => $data['name'],
@@ -73,7 +73,7 @@ class CreateCompany extends BaseService
             'user_id' => $user->id,
             'company_id' => $company->id,
             'uuid' => Str::uuid()->toString(),
-            'permission_level' => config('officelife.authorizations.administrator'),
+            'permission_level' => config('officelife.permission_level.administrator'),
             'email' => $user->email,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,

@@ -34,18 +34,17 @@ class CreateCompanyNews extends BaseService
      */
     public function execute(array $data): CompanyNews
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         $news = CompanyNews::create([
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
-            'author_name' => $author->name,
+            'author_name' => $this->author->name,
             'title' => $data['title'],
             'content' => $data['content'],
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
@@ -59,8 +58,8 @@ class CreateCompanyNews extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'company_news_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'company_news_id' => $news->id,

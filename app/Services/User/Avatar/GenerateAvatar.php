@@ -28,7 +28,7 @@ class GenerateAvatar extends BaseService
      */
     public function execute(array $data)
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $size = $this->size($data);
 

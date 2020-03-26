@@ -8,15 +8,15 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\Company\InviteEmployeeToBecomeUser;
-use App\Exceptions\InvitationAlreadyUsedException;
+use App\Exceptions\UserAlreadyInvitedException;
+use App\Mail\Company\InviteEmployeeToBecomeUserMail;
 
 /**
  * This service invites an employee by email.
  * This email will be used to create a User account for this employee - or
  * will let the user link an existing account if it already exists.
  */
-class InviteUser extends BaseService
+class InviteEmployeeToBecomeUser extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -41,21 +41,22 @@ class InviteUser extends BaseService
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
-        $employee = $this->inviteEmployee($data);
+        $employee = $this->validateEmployeeBelongsToCompany($data);
+
+        $this->inviteEmployee($employee);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_invited_to_become_user',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_id' => $employee->id,
@@ -72,23 +73,19 @@ class InviteUser extends BaseService
     /**
      * Send the email.
      *
-     * @param array $data
-     * @return Employee
+     * @param Employee $employee
+     * @return void
      */
-    private function inviteEmployee($data): Employee
+    private function inviteEmployee(Employee $employee): void
     {
-        $employee = Employee::find($data['employee_id']);
-
         if ($employee->invitation_used_at) {
-            throw new InvitationAlreadyUsedException();
+            throw new UserAlreadyInvitedException();
         }
 
         $employee->invitation_link = Str::uuid()->toString();
         $employee->save();
 
         Mail::to($employee->email)
-            ->queue(new InviteEmployeeToBecomeUser($employee));
-
-        return $employee;
+            ->queue(new InviteEmployeeToBecomeUserMail($employee));
     }
 }

@@ -19,72 +19,73 @@ class ControllerTest extends TestCase
         // administrator has all rights
         $stub = $this->getMockForAbstractClass(Controller::class);
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.administrator'),
+            'permission_level' => config('officelife.permission_level.administrator'),
         ]);
 
         $this->assertInstanceOf(
             User::class,
-            $stub->validateAccess(
-                $employee->user_id,
-                $employee->company_id,
-                $employee->id,
-                config('officelife.authorizations.hr')
-            )
+            $stub->asUser($employee->user)
+                ->forEmployee($employee)
+                ->forCompanyId($employee->company_id)
+                ->asPermissionLevel(config('officelife.permission_level.administrator'))
+                ->canAccessCurrentPage()
         );
 
         // now testing the HR access level
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.hr'),
+            'permission_level' => config('officelife.permission_level.hr'),
         ]);
-        $stub->validateAccess(
-            $employee->user_id,
-            $employee->company_id,
-            $employee->id,
-            config('officelife.authorizations.hr')
+        $this->assertInstanceOf(
+            User::class,
+            $stub->asUser($employee->user)
+                ->forEmployee($employee)
+                ->forCompanyId($employee->company_id)
+                ->asPermissionLevel(config('officelife.permission_level.hr'))
+                ->canAccessCurrentPage()
         );
 
         // now testing the normal access level
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
         ]);
-        $stub->validateAccess(
-            $employee->user_id,
-            $employee->company_id,
-            $employee->id,
-            config('officelife.authorizations.hr')
+        $this->assertInstanceOf(
+            User::class,
+            $stub->asUser($employee->user)
+                ->forEmployee($employee)
+                ->forCompanyId($employee->company_id)
+                ->asPermissionLevel(config('officelife.permission_level.user'))
+                ->canAccessCurrentPage()
         );
 
         // test that a normal user can't see another employee's forbidden content
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
         ]);
         $employeeB = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
             'company_id' => $employee->company_id,
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validateAccess(
-            $employee->user_id,
-            $employee->company_id,
-            $employeeB->id,
-            config('officelife.authorizations.hr')
-        );
+        $stub->asUser($employee->user)
+            ->forEmployee($employeeB)
+            ->forCompanyId($employee->company_id)
+            ->asPermissionLevel(config('officelife.permission_level.hr'))
+            ->canAccessCurrentPage();
 
-        // same, but with different companies
+        // // same, but with different companies
         $employee = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
         ]);
         $employeeB = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validateAccess(
-            $employee->user_id,
-            $employee->company_id,
-            $employeeB->id,
-            config('officelife.authorizations.hr')
-        );
+        $stub->asUser($employee->user)
+            ->forEmployee($employeeB)
+            ->forCompanyId($employeeB->company_id)
+            ->asPermissionLevel(config('officelife.permission_level.hr'))
+            ->canAccessCurrentPage();
     }
 }

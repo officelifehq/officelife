@@ -34,13 +34,12 @@ class DestroyTeamNews extends BaseService
      */
     public function execute(array $data): bool
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.user')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asNormalUser()
+            ->canExecuteService();
 
         $news = TeamNews::findOrFail($data['team_news_id']);
         $team = $news->team;
@@ -54,8 +53,8 @@ class DestroyTeamNews extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_news_destroyed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_id' => $team->id,
@@ -68,8 +67,8 @@ class DestroyTeamNews extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'team_news_destroyed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_news_title' => $news->title,

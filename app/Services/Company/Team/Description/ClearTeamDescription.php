@@ -33,13 +33,12 @@ class ClearTeamDescription extends BaseService
      */
     public function execute(array $data): Team
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.user')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asNormalUser()
+            ->canExecuteService();
 
         $team = $this->validateTeamBelongsToCompany($data);
 
@@ -49,8 +48,8 @@ class ClearTeamDescription extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_description_cleared',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_id' => $team->id,
@@ -62,8 +61,8 @@ class ClearTeamDescription extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'description_cleared',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_id' => $team->id,

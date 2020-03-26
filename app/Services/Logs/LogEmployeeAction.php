@@ -5,6 +5,7 @@ namespace App\Services\Logs;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogEmployeeAction extends BaseService
 {
@@ -36,7 +37,14 @@ class LogEmployeeAction extends BaseService
      */
     public function execute(array $data): EmployeeLog
     {
-        $this->validate($data);
+        $this->validateRules($data);
+
+        $author = Employee::findOrFail($data['author_id']);
+        $employee = Employee::findOrFail($data['employee_id']);
+
+        if ($author->company_id != $employee->company_id) {
+            throw new ModelNotFoundException();
+        }
 
         return EmployeeLog::create([
             'employee_id' => $data['employee_id'],

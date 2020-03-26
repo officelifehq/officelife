@@ -36,7 +36,45 @@ abstract class TestCase extends BaseTestCase
     public function createAdministrator(): Employee
     {
         return factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.administrator'),
+            'permission_level' => config('officelife.permission_level.administrator'),
+        ]);
+    }
+
+    /**
+     * Create an employee with HR privileges in an account.
+     *
+     * @return Employee
+     */
+    public function createHR(): Employee
+    {
+        return factory(Employee::class)->create([
+            'permission_level' => config('officelife.permission_level.hr'),
+        ]);
+    }
+
+    /**
+     * Create an employee with User privileges in an account.
+     *
+     * @return Employee
+     */
+    public function createEmployee(): Employee
+    {
+        return factory(Employee::class)->create([
+            'permission_level' => config('officelife.permission_level.user'),
+        ]);
+    }
+
+    /**
+     * Create another employee with User privileges in the same account as the
+     * given employee.
+     *
+     * @return Employee
+     */
+    public function createAnotherEmployee(Employee $employee): Employee
+    {
+        return factory(Employee::class)->create([
+            'permission_level' => config('officelife.permission_level.user'),
+            'company_id' => $employee->company_id,
         ]);
     }
 }

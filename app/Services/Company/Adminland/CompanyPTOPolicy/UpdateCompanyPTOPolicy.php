@@ -39,13 +39,12 @@ class UpdateCompanyPTOPolicy extends BaseService
      */
     public function execute(array $data): CompanyPTOPolicy
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         $ptoPolicy = CompanyPTOPolicy::where('company_id', $data['company_id'])
             ->findOrFail($data['company_pto_policy_id']);
@@ -61,8 +60,8 @@ class UpdateCompanyPTOPolicy extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'company_pto_policy_updated',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'company_pto_policy_id' => $ptoPolicy->id,

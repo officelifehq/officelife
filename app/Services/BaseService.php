@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Carbon\Carbon;
-use App\Models\User\User;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +11,108 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 abstract class BaseService
 {
+    /**
+     * The author (who is an Employee) who calls the service.
+     */
+    protected Employee $author;
+
+    /**
+     * The author ID of the employee who calls the service.
+     * Used to populate the author object above.
+     */
+    protected int $authorId;
+
+    /**
+     * The id of the company the service is supposed to be executed into.
+     */
+    protected int $companyId;
+
+    /**
+     * The id of the team that the service is about.
+     */
+    protected int $teamId;
+
+    /**
+     * The minimum permission level required to process the service for the
+     * employee who triggers it.
+     */
+    protected int $requiredPermissionLevel;
+
+    /**
+     * Indicates whether the employee can bypass the minimum required permission
+     * level to execute the service.
+     */
+    protected bool $bypassRequiredPermissionLevel = false;
+
+    /**
+     * Sets the author id for the service.
+     *
+     * @param integer $givenAuthor
+     * @return self
+     */
+    public function author(int $givenAuthor): self
+    {
+        $this->authorId = $givenAuthor;
+        return $this;
+    }
+
+    /**
+     * Sets the company id for the service.
+     *
+     * @param integer $company
+     * @return self
+     */
+    public function inCompany(int $company): self
+    {
+        $this->companyId = $company;
+        return $this;
+    }
+
+    /**
+     * Sets the permission level required for this service.
+     *
+     * @return self
+     */
+    public function asAtLeastAdministrator(): self
+    {
+        $this->requiredPermissionLevel = config('officelife.permission_level.administrator');
+        return $this;
+    }
+
+    /**
+     * Sets the permission level required for this service.
+     *
+     * @return self
+     */
+    public function asAtLeastHR(): self
+    {
+        $this->requiredPermissionLevel = config('officelife.permission_level.hr');
+        return $this;
+    }
+
+    /**
+     * Sets the permission level required for this service.
+     *
+     * @return self
+     */
+    public function asNormalUser(): self
+    {
+        $this->requiredPermissionLevel = config('officelife.permission_level.user');
+        return $this;
+    }
+
+    /**
+     * Sets the permission to bypass the minimum level requirement.
+     *
+     * @param integer $employeeId
+     * @return self
+     */
+    public function canBypassPermissionLevelIfEmployee(int $employeeId): self
+    {
+        $this->bypassRequiredPermissionLevel = ($this->authorId == $employeeId);
+        return $this;
+    }
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -28,7 +129,7 @@ abstract class BaseService
      * @param array $data
      * @return bool
      */
-    public function validate(array $data): bool
+    public function validateRules(array $data): bool
     {
         Validator::make($data, $this->rules())
                 ->validate();
@@ -60,43 +161,37 @@ abstract class BaseService
             $team = Team::where('company_id', $data['company_id'])
                 ->findOrFail($data['team_id']);
         } catch (ModelNotFoundException $e) {
-            throw new ModelNotFoundException(trans('app.error_wrong_employee_id'));
+            throw new ModelNotFoundException(trans('app.error_wrong_team_id'));
         }
 
         return $team;
     }
 
     /**
-     * Checks if the user has the permission to do the action.
-     * If, however, we pass the employee ID as parameter, and if the user is
-     * the actual employee who does the action, we grant the right to do the
-     * action without checking for the permission.
+     * Checks if the employee executing the service has the permission
+     * to do the action.
      *
-     * @param int $employeeId
-     * @param int $companyId
-     * @param int $requiredPermissionLevel
-     * @param int $otherEmployeeId
-     * @return Employee
+     * @return bool
      */
-    public function validatePermissions(int $employeeId, int $companyId, int $requiredPermissionLevel, int $otherEmployeeId = null): Employee
+    public function canExecuteService(): bool
     {
         try {
-            $employee = Employee::where('company_id', $companyId)
-                ->where('id', $employeeId)
+            $this->author = Employee::where('company_id', $this->companyId)
+                ->where('id', $this->authorId)
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             throw new ModelNotFoundException(trans('app.error_wrong_employee_id'));
         }
 
-        if ($employee->id == $otherEmployeeId) {
-            return $employee;
+        if ($this->bypassRequiredPermissionLevel) {
+            return true;
         }
 
-        if ($requiredPermissionLevel < $employee->permission_level) {
+        if ($this->requiredPermissionLevel < $this->author->permission_level) {
             throw new NotEnoughPermissionException;
         }
 
-        return $employee;
+        return true;
     }
 
     /**
