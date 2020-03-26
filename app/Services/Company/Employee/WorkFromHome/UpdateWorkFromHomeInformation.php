@@ -36,16 +36,15 @@ class UpdateWorkFromHomeInformation extends BaseService
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $employee->company_id,
-            config('officelife.authorizations.hr'),
-            $data['employee_id']
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
+            ->canExecuteService();
 
         // check to see if there is already an entry for this date
         $date = Carbon::createFromFormat('Y-m-d', $data['date'])->format('Y-m-d 00:00:00');
@@ -57,7 +56,7 @@ class UpdateWorkFromHomeInformation extends BaseService
         // working from home, we need to delete the entry.
         if ($entry && $data['work_from_home'] == false) {
             $entry->delete();
-            $this->logEntryDestroyed($data, $employee, $author);
+            $this->logEntryDestroyed($data, $employee);
         }
 
         // if entry doesn't exist and the boolean is true, we need to create the
@@ -69,19 +68,19 @@ class UpdateWorkFromHomeInformation extends BaseService
                 'work_from_home' => true,
             ]);
 
-            $this->logEntryCreated($data, $employee, $author);
+            $this->logEntryCreated($data, $employee);
         }
 
         return $employee;
     }
 
-    private function logEntryCreated(array $data, Employee $employee, Employee $author): void
+    private function logEntryCreated(array $data, Employee $employee): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,
             'action' => 'employee_work_from_home_logged',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_id' => $employee->id,
@@ -94,8 +93,8 @@ class UpdateWorkFromHomeInformation extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'work_from_home_logged',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'date' => $data['date'],
@@ -104,13 +103,13 @@ class UpdateWorkFromHomeInformation extends BaseService
         ])->onQueue('low');
     }
 
-    private function logEntryDestroyed(array $data, Employee $employee, Employee $author): void
+    private function logEntryDestroyed(array $data, Employee $employee): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,
             'action' => 'employee_work_from_home_destroyed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_id' => $employee->id,
@@ -123,8 +122,8 @@ class UpdateWorkFromHomeInformation extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'work_from_home_destroyed',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'date' => $data['date'],
