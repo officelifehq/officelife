@@ -38,5 +38,3 @@ jobs:
         run: php artisan config:clear
       - name: Fix PHP code to follow standards
         run: vendor/bin/php-cs-fixer fix
-      - name: Static analysis tool
-        run: php artisan code:analyse
