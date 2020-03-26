@@ -27,12 +27,12 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
       - name: Install Composer dependencies
         run: composer install -n -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-      - name: Generate key
-        run: php artisan key:generate
       - name: Create SQLite database
         run: |
           mkdir -p database
           touch database/database.sqlite
+      - name: Generate key
+        run: php artisan key:generate
       - name: Run migrations
         env:
           DB_CONNECTION: sqlite
