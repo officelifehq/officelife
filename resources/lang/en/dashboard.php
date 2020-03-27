@@ -24,11 +24,20 @@ return [
     'team_birthdate_blank' => 'No one has a birthday in the next 30 days.',
     'team_birthdate_date' => 'Birthday on {date}',
 
-    'morale_title' => 'How do you feel today?',
+    'morale_title' => 'How do you feel?',
     'morale_success_message' => 'Thanks for telling us how you feel.',
     'morale_already_logged' => 'You have already indicated how you felt today. Come back tomorrow!',
     'morale_emotion_bad' => 'I’ve had a bad day',
     'morale_emotion_normal' => 'It’s a normal day',
     'morale_emotion_good' => 'Best day ever',
     'morale_rules' => 'You can vote once per day, and you can’t edit your vote. Your vote will be completely anonymous.',
+
+    'work_from_home_title' => 'Work from home',
+    'work_from_home_cta' => 'I will or I have worked from home today.',
+    'work_from_home_help' => 'You can change this status anytime. This is reset every night at midnight.',
+    'work_from_home_success' => 'Thanks for letting us know.',
+    'work_from_home_' => '',
+    'work_from_home_' => '',
+    'work_from_home_' => '',
+    'work_from_home_' => '',
 ];

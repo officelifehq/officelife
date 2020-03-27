@@ -29,6 +29,7 @@
               :data-cy="datacy"
               :rows="rows"
               @input="$emit('input', $event.target.value)"
+              @keydown.esc="sendEscKey"
     ></textarea>
 
     <div v-if="errors.length" class="error-explanation pa3 ba br3 mt1">
@@ -90,12 +91,18 @@ export default {
     focus() {
       this.$refs.input.focus();
     },
+
     select() {
       this.$refs.input.select();
     },
+
     setSelectionRange(start, end) {
       this.$refs.input.setSelectionRange(start, end);
     },
+
+    sendEscKey() {
+      this.$emit('esc-key-pressed');
+    }
   },
 };
 </script>

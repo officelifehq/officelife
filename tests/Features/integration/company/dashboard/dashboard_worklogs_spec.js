@@ -25,5 +25,8 @@ describe('Dashboard - employee', function () {
 
     cy.get('body').should('contain', 'What your team has done this week')
     cy.contains('I did two things today')
+
+    cy.hasAuditLog('Added a worklog', '/1/employees/1')
+    cy.hasEmployeeLog('Added a worklog', '/1/employees/1')
   })
 })
