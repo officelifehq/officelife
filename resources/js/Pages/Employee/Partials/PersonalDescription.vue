@@ -7,7 +7,8 @@
       💬 {{ $t('employee.description_title') }}
     </span>
     <img v-show="employeeOrAtLeastHR()" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button" width="22"
-         height="22" @click.prevent="displayEditBox()"
+         height="22" alt="add a description"
+         @click.prevent="displayEditBox()"
     />
 
     <div v-if="updatedEmployee.raw_description && !showEdit" class="br3 bg-white box z-1 pa3">

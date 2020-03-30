@@ -173,10 +173,10 @@ td, th {
                     {{ $t('account.pto_policies_edit_calendar_help') }}
                   </p>
                   <div class="tc db mt3">
-                    <table class="center">
+                    <table class="center" aria-describedby="company pto policies">
                       <thead>
                         <tr class="f6 tc">
-                          <th>{{ $t('account.pto_policies_month') }}</th>
+                          <th scope="col">{{ $t('account.pto_policies_month') }}</th>
                           <th scope="col">1</th>
                           <th scope="col">2</th>
                           <th scope="col">3</th>
