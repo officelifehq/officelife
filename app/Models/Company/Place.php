@@ -162,7 +162,7 @@ class Place extends Model
      */
     public function getStaticMapImage(int $zoom, int $width, int $height): ?string
     {
-        return MapHelper::getStaticImage($this, $zoom, $width, $height);
+        return MapHelper::getStaticImage($this, $width, $height, $zoom);
     }
 
     /**
