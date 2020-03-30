@@ -169,7 +169,7 @@
     </div>
 
     <!-- Image to trigger actions -->
-    <img src="/img/common/triple-dots.svg" class="absolute right-0 pointer actions-dots" @click="actionsModal = true" />
+    <img src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer actions-dots" @click="actionsModal = true" />
 
     <!-- Actions available -->
     <div v-if="actionsModal" v-click-outside="toggleModals" class="popupmenu action-menu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">

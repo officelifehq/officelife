@@ -177,37 +177,37 @@ td, th {
                       <thead>
                         <tr class="f6 tc">
                           <th>{{ $t('account.pto_policies_month') }}</th>
-                          <th>1</th>
-                          <th>2</th>
-                          <th>3</th>
-                          <th>4</th>
-                          <th>5</th>
-                          <th>6</th>
-                          <th>7</th>
-                          <th>8</th>
-                          <th>9</th>
-                          <th>10</th>
-                          <th>11</th>
-                          <th>12</th>
-                          <th>13</th>
-                          <th>14</th>
-                          <th>15</th>
-                          <th>16</th>
-                          <th>17</th>
-                          <th>18</th>
-                          <th>19</th>
-                          <th>20</th>
-                          <th>21</th>
-                          <th>22</th>
-                          <th>23</th>
-                          <th>24</th>
-                          <th>25</th>
-                          <th>26</th>
-                          <th>27</th>
-                          <th>28</th>
-                          <th>29</th>
-                          <th>30</th>
-                          <th>31</th>
+                          <th scope="col">1</th>
+                          <th scope="col">2</th>
+                          <th scope="col">3</th>
+                          <th scope="col">4</th>
+                          <th scope="col">5</th>
+                          <th scope="col">6</th>
+                          <th scope="col">7</th>
+                          <th scope="col">8</th>
+                          <th scope="col">9</th>
+                          <th scope="col">10</th>
+                          <th scope="col">11</th>
+                          <th scope="col">12</th>
+                          <th scope="col">13</th>
+                          <th scope="col">14</th>
+                          <th scope="col">15</th>
+                          <th scope="col">16</th>
+                          <th scope="col">17</th>
+                          <th scope="col">18</th>
+                          <th scope="col">19</th>
+                          <th scope="col">20</th>
+                          <th scope="col">21</th>
+                          <th scope="col">22</th>
+                          <th scope="col">23</th>
+                          <th scope="col">24</th>
+                          <th scope="col">25</th>
+                          <th scope="col">26</th>
+                          <th scope="col">27</th>
+                          <th scope="col">28</th>
+                          <th scope="col">29</th>
+                          <th scope="col">30</th>
+                          <th scope="col">31</th>
                         </tr>
                       </thead>
                       <tbody>

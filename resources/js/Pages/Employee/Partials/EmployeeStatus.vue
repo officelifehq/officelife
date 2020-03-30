@@ -71,7 +71,7 @@
             <div v-if="isAssigned(status.id)" class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="reset(status)">
               {{ status.name }}
 
-              <img src="/img/check.svg" class="pr1 absolute right-1" />
+              <img src="/img/check.svg" class="pr1 absolute right-1" alt="check symbol" />
             </div>
 
             <!-- case if the status is not yet selected -->

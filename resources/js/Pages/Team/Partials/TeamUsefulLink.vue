@@ -13,9 +13,9 @@
       <ul class="list pl0 mb0">
         <li v-for="link in updatedLinks" :key="link.id" class="mb2 relative" :data-cy="'team-useful-link-' + link.id">
           <!-- icon types -->
-          <img v-if="link.type == 'slack'" src="/img/slack.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-slack-' + link.id" />
-          <img v-if="link.type == 'email'" src="/img/mail.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-email-' + link.id" />
-          <img v-if="link.type == 'url'" src="/img/url.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-url-' + link.id" />
+          <img v-if="link.type == 'slack'" src="/img/slack.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-slack-' + link.id" alt="link to slack" />
+          <img v-if="link.type == 'email'" src="/img/mail.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-email-' + link.id" alt="link to email" />
+          <img v-if="link.type == 'url'" src="/img/url.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-url-' + link.id" alt="link to url" />
 
           <template v-if="!editMode">
             <!-- case of a url or slack link -->

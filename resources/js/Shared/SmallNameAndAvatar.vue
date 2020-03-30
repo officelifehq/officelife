@@ -11,7 +11,7 @@ span {
 
 <template>
   <div class="relative">
-    <img :src="avatar" class="absolute br-100" />
+    <img :src="avatar" class="absolute br-100" alt="avatar" />
     <span>{{ name }}</span>
   </div>
 </template>
