@@ -31,4 +31,7 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="DEBUGBAR_ENABLED" value="false"/>
     </php>
+    <logging>
+        <log type="coverage-clover" target="./coverage.xml"/>
+    </logging>
 </phpunit>

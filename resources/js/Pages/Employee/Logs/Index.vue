@@ -34,7 +34,7 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="pa3 relative pt5">
           <!-- AVATAR -->
-          <img :src="employee.avatar" class="avatar absolute br-100 db center" />
+          <img :src="employee.avatar" class="avatar absolute br-100 db center" alt="avatar" />
 
           <h2 class="tc normal mb4">
             Everything that ever happened to {{ employee.name }}

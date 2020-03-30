@@ -97,7 +97,7 @@
                     {{ newsItem.title }}
                   </h3>
                   <div class="f6 relative news-information silver">
-                    <img :src="newsItem.author.avatar" class="br-100 relative mr1 dib-ns dn" />
+                    <img :src="newsItem.author.avatar" class="br-100 relative mr1 dib-ns dn" alt="avatar" />
                     {{ $t('team.team_news_written_by_at', { name: newsItem.author.name, created_at: newsItem.localized_created_at }) }}
                   </div>
                 </div>

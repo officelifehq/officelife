@@ -119,7 +119,7 @@
             <p class="tc measure center mb4 lh-copy">
               {{ $t('account.employee_statuses_blank') }}
             </p>
-            <img class="db center mb4" srcset="/img/company/account/blank-position-1x.png,
+            <img class="db center mb4" alt="add a position symbol" srcset="/img/company/account/blank-position-1x.png,
                                           /img/company/account/blank-position-2x.png 2x"
             />
           </div>
