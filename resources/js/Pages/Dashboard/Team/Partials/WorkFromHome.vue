@@ -21,15 +21,15 @@
     </div>
 
     <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
-      <!-- case of no birthday -->
-      <template v-if="birthdays.length == 0">
+      <!-- case of no one working from home -->
+      <template v-if="workFromHomes.length == 0">
         <div class="pa3 tc" data-cy="team-birthdate-blank">
           😢 {{ $t('dashboard.team_birthdate_blank') }}
         </div>
       </template>
 
-      <!-- all birthdays -->
-      <div v-for="employee in birthdays" :key="employee.id" class="pa3 fl w-third-l w-100" data-cy="birthdays-list">
+      <!-- all people working from homes -->
+      <div v-for="employee in workFromHomes" :key="employee.id" class="pa3 fl w-third-l w-100" data-cy="birthdays-list">
         <span class="pl3 db relative team-member">
           <img :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
 
@@ -52,7 +52,7 @@
 
 export default {
   props: {
-    birthdays: {
+    workFromHomes: {
       type: Array,
       default: () => ({}),
     },
