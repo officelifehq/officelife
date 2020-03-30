@@ -36,7 +36,7 @@ class DashboardMeController extends Controller
             'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
             'dashboard_view' => 'me',
-            'has_worked_from_home_today' => WorkFromHomeHelper::getStatusForEmployee($employee, Carbon::now()),
+            'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
         ];
 
         return Inertia::render('Dashboard/Me/Index', [

@@ -45,7 +45,6 @@
         </div>
       </div>
 
-      <!-- Only when there are teams -->
       <worklogs
         :teams="teams"
         :worklog-dates="worklogDates"
@@ -55,10 +54,14 @@
         :company="company"
       />
 
-      <!-- Only when there are teams -->
       <birthdays
         :teams="teams"
         :birthdays="birthdays"
+      />
+
+      <work-from-home
+        :teams="teams"
+        :work-from-homes="workFromHomes"
       />
 
       <div v-show="teams.length != 0" class="cf mt4 mw7 center br3 mb3 bg-white box">
@@ -88,6 +91,7 @@
 <script>
 import Worklogs from '@/Pages/Dashboard/Team/Partials/Worklogs';
 import Birthdays from '@/Pages/Dashboard/Team/Partials/Birthdays';
+import WorkFromHome from '@/Pages/Dashboard/Team/Partials/WorkFromHome';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -97,6 +101,7 @@ export default {
     Worklogs,
     Birthdays,
     DashboardMenu,
+    WorkFromHome,
   },
 
   props: {
@@ -129,6 +134,10 @@ export default {
       default: null,
     },
     birthdays: {
+      type: Array,
+      default: null
+    },
+    workFromHomes: {
       type: Array,
       default: null
     },

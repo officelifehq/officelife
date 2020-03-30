@@ -23,7 +23,7 @@ class WorkFromHomeHelperTest extends TestCase
             'date' => '2010-10-10 00:00:00',
         ]);
 
-        $this->assertTrue(WorkFromHomeHelper::getStatusForEmployee($dwight, $date));
+        $this->assertTrue(WorkFromHomeHelper::hasWorkedFromHomeOnDate($dwight, $date));
     }
 
     /** @test */
@@ -32,6 +32,6 @@ class WorkFromHomeHelperTest extends TestCase
         $date = Carbon::createFromDate(2010, 10, 10);
         $dwight = factory(Employee::class)->create([]);
 
-        $this->assertFalse(WorkFromHomeHelper::getStatusForEmployee($dwight, $date));
+        $this->assertFalse(WorkFromHomeHelper::hasWorkedFromHomeOnDate($dwight, $date));
     }
 }

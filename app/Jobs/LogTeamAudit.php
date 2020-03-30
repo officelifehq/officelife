@@ -18,7 +18,7 @@ class LogTeamAudit implements ShouldQueue
      *
      * @var array
      */
-    public $auditLog;
+    public array $auditLog;
 
     /**
      * Create a new job instance.

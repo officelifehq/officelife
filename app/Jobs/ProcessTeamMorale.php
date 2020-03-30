@@ -20,7 +20,7 @@ class ProcessTeamMorale implements ShouldQueue
      *
      * @var array
      */
-    public $parameters;
+    public array $parameters;
 
     /**
      * Create a new job instance.

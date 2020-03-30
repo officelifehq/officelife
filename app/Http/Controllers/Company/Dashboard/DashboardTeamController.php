@@ -113,6 +113,9 @@ class DashboardTeamController extends Controller
         // upcoming birthdays
         $birthdays = DashboardTeamViewHelper::birthdays($team);
 
+        // who is working from home today
+        $workFromHomes = DashboardTeamViewHelper::workFromHome($team);
+
         return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
             'employee' => $employeeInformation,
@@ -122,6 +125,7 @@ class DashboardTeamController extends Controller
             'currentDate' => $requestedDate->format('Y-m-d'),
             'worklogEntries' => $team->worklogsForDate($requestedDate),
             'birthdays' => $birthdays,
+            'workFromHomes' => $workFromHomes,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

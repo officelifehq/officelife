@@ -19,7 +19,7 @@ class FetchAddressGeocoding implements ShouldQueue
      *
      * @var Place
      */
-    public $place;
+    public Place $place;
 
     /**
      * Create a new job instance.

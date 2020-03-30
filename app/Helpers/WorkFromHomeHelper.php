@@ -16,7 +16,7 @@ class WorkFromHomeHelper
      * @param Carbon $date
      * @return bool
      */
-    public static function getStatusForEmployee(Employee $employee, Carbon $date): bool
+    public static function hasWorkedFromHomeOnDate(Employee $employee, Carbon $date): bool
     {
         $entry = $employee->workFromHomes()->where('date', $date->format('Y-m-d 00:00:00'))->first();
 

@@ -15,7 +15,7 @@ class LogCompaniesMorale implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $date;
+    public Carbon $date;
 
     /**
      * Create a new job instance.
