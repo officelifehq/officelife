@@ -60,6 +60,6 @@ jobs:
       - name: Run seeds
         run: php artisan db:seed --no-interaction -vvv
       - name: Execute tests via PHPUnit
-        run: vvendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
         env:
           DB_PORT: ${{ job.services.mysql.ports['3306'] }}
