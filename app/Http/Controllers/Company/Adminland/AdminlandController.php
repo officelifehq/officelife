@@ -19,8 +19,6 @@ class AdminlandController extends Controller
      */
     public function index(Request $request, $companyId)
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         return Inertia::render('Adminland/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

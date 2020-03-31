@@ -26,7 +26,7 @@ class TeamMembersController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         try {
-            $team = Team::where('company_id', $companyId)
+            $team = Team::where('company_id', $company->id)
                 ->findOrFail($teamId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');

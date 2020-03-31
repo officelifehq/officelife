@@ -35,17 +35,17 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
+        $email = $request->get('email');
+        $password = $request->get('password');
+
         $data = [
-            'email' => $request->get('email'),
-            'password' => $request->get('password'),
+            'email' => $email,
+            'password' => $password,
         ];
 
         (new CreateAccount)->execute($data);
 
-        Auth::attempt([
-            'email' => $request->get('email'),
-            'password' => $request->get('password'),
-        ]);
+        Auth::attempt($data);
 
         return Redirect::route('home');
     }

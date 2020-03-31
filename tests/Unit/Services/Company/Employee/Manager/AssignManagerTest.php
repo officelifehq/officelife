@@ -133,7 +133,7 @@ class AssignManagerTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $dwight) {
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($dwight) {
             return $job->auditLog['action'] === 'direct_report_assigned' &&
                 $job->auditLog['author_id'] === $dwight->id &&
                 $job->auditLog['objects'] === json_encode([

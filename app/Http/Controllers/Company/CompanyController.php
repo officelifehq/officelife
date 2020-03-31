@@ -21,8 +21,6 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         return Inertia::render('Dashboard/MyCompany', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'ownerPermissionLevel' => config('officelife.permission_level.administrator'),

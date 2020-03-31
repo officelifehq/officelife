@@ -81,12 +81,10 @@ class CreateTeam extends BaseService
      */
     private function create(array $data): void
     {
-        $team = Team::create([
+        $this->team = Team::create([
             'company_id' => $data['company_id'],
             'name' => $data['name'],
         ]);
-
-        $this->team = $team;
     }
 
     /**

@@ -43,7 +43,7 @@ class WorklogHelper
             'day' => $date->isoFormat('dddd'),
             'date' => DateHelper::formatMonthAndDay($date),
             'friendlyDate' => $date->format('Y-m-d'),
-            'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
+            'status' => DateHelper::determineDateStatus($date),
             'completionRate' => $indicator,
             'numberOfEmployeesInTeam' => $numberOfEmployeesInTeam,
             'numberOfEmployeesWhoHaveLoggedWorklogs' => $numberOfEmployeesWhoHaveLoggedWorklogs,
@@ -52,18 +52,19 @@ class WorklogHelper
         return $data;
     }
 
+
     /**
      * Prepares an array containing all the information regarding the worklogs
      * logged on a specific day with the morale.
      *
      * This will be used on the Employee page.
      */
-    public static function getDailyInformationForEmployee(Worklog $worklog = null, Morale $morale = null, Carbon $date): array
+    public static function getDailyInformationForEmployee(Carbon $date, Worklog $worklog = null, Morale $morale = null): array
     {
         $data = [
             'date' => DateHelper::formatShortDateWithTime($date),
             'friendly_date' => DateHelper::formatDayAndMonthInParenthesis($date),
-            'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
+            'status' => DateHelper::determineDateStatus($date),
             'worklog_parsed_content' => is_null($worklog) ? null : StringHelper::parse($worklog->content),
             'morale' => is_null($morale) ? null : $morale->emoji,
         ];
@@ -84,7 +85,7 @@ class WorklogHelper
                 'number' => intval($year),
             ]);
         }
-        $yearsCollection = $yearsCollection->unique()->sortBy(function ($product, $key) {
+        $yearsCollection = $yearsCollection->unique()->sortBy(function ($product) {
             return $product['number'];
         });
 
@@ -129,6 +130,8 @@ class WorklogHelper
      */
     public static function getYearlyCalendar(Collection $worklogs, int $year): Collection
     {
+        $format = 'Y-m-d';
+
         $worklogs = $worklogs->filter(function ($log) use ($year) {
             return $log->created_at->year === $year;
         });
@@ -138,15 +141,15 @@ class WorklogHelper
         for ($day = 1; $day <= $currentDate->daysInYear; $day++) {
 
             // for this date, do we have a worklog?
-            $worklog = $worklogs->filter(function ($log) use ($currentDate) {
-                return $log->created_at->format('Y-m-d') === $currentDate->format('Y-m-d');
+            $worklog = $worklogs->filter(function ($log) use ($currentDate, $format) {
+                return $log->created_at->format($format) === $currentDate->format($format);
             });
 
             // adding one day as I don't understand why the plugin is off by one day
             $dayAfter = $currentDate;
 
             $calendar->push([
-                'date' => $dayAfter->addDay()->format('Y-m-d'),
+                'date' => $dayAfter->addDay()->format($format),
                 'count' => ($worklog->count() == 1) ? 1 : 0,
             ]);
             $currentDate = $currentDate->addDay();

@@ -10,12 +10,12 @@ class MapHelper
      * Return the URL for a static image for the given place.
      *
      * @var Place $place
-     * @var int $zoom
      * @var int $width
      * @var int $height
+     * @var int $zoom
      * @return null|string
      */
-    public static function getStaticImage(Place $place, int $zoom = 7, int $width, int $height): ?string
+    public static function getStaticImage(Place $place, int $width, int $height, int $zoom = 7): ?string
     {
         if (!config('officelife.mapbox_api_key')) {
             return null;

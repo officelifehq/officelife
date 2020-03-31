@@ -59,7 +59,7 @@ class TeamUsefulLinkController extends Controller
             'team_useful_link_id' => $linkId,
         ];
 
-        $link = (new DestroyTeamUsefulLink)->execute($data);
+        (new DestroyTeamUsefulLink)->execute($data);
 
         return response()->json([
             'data' => $linkId,

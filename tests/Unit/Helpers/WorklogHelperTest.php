@@ -75,7 +75,7 @@ class WorklogHelperTest extends TestCase
             'emotion' => 1,
         ]);
 
-        $response = WorklogHelper::getDailyInformationForEmployee($worklog, $morale, $date);
+        $response = WorklogHelper::getDailyInformationForEmployee($date, $worklog, $morale);
         $this->assertIsArray($response);
 
         $this->assertArrayHasKey('date', $response);
@@ -100,7 +100,7 @@ class WorklogHelperTest extends TestCase
             'created_at' => $date,
         ]);
 
-        $response = WorklogHelper::getDailyInformationForEmployee($worklog, null, $date);
+        $response = WorklogHelper::getDailyInformationForEmployee($date, $worklog, null);
 
         $this->assertIsArray($response);
 

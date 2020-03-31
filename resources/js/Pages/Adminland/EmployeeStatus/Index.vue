@@ -218,8 +218,8 @@ export default {
           this.idToUpdate = 0;
           this.form.name = null;
 
-          var id = this.statuses.findIndex(x => x.id === id);
-          this.$set(this.statuses, id, response.data.data);
+          var changedId = this.statuses.findIndex(x => x.id === id);
+          this.$set(this.statuses, changedId, response.data.data);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -232,8 +232,8 @@ export default {
           flash(this.$t('account.employee_statuses_success_destroy'), 'success');
 
           this.idToDelete = 0;
-          var id = this.statuses.findIndex(x => x.id === id);
-          this.statuses.splice(id, 1);
+          var changedId = this.statuses.findIndex(x => x.id === id);
+          this.statuses.splice(changedId, 1);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

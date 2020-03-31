@@ -45,8 +45,6 @@ class DashboardController extends Controller
 
     private function updateDashboard(Company $company, string $view): void
     {
-        $employee = InstanceHelper::getLoggedEmployee();
-
         UpdateDashboardPreference::dispatch([
             'employee_id' => Auth::user()->id,
             'company_id' => $company->id,

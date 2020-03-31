@@ -86,8 +86,6 @@ class TeamLogTest extends ApiTestCase
     /** @test */
     public function it_returns_the_content_attribute(): void
     {
-        $adminEmployee = $this->createAdministrator();
-
         $teamLog = factory(TeamLog::class)->create([
             'action' => 'team_updated',
             'objects' => json_encode([

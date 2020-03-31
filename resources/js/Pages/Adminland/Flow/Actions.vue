@@ -104,8 +104,8 @@ export default {
       // json to the backend
       var isCompleteYet = true;
       for (let index = 0; index < this.localActions.length; index++) {
-        const action = this.localActions[index];
-        if (action.complete == false || !action.complete) {
+        const localAction = this.localActions[index];
+        if (localAction.complete == false || !localAction.complete) {
           isCompleteYet = false;
         }
       }

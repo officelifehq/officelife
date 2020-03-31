@@ -103,6 +103,29 @@ class DateHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_checks_if_the_date_is_in_the_past_the_present_or_the_future(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $date = Carbon::createFromFormat('Y-m-d', '2019-10-01');
+        $this->assertEquals(
+            'future',
+            DateHelper::determineDateStatus($date)
+        );
+
+        $date = Carbon::createFromFormat('Y-m-d', '2017-10-01');
+        $this->assertEquals(
+            'past',
+            DateHelper::determineDateStatus($date)
+        );
+
+        $date = Carbon::createFromFormat('Y-m-d', '2018-01-01');
+        $this->assertEquals(
+            'current',
+            DateHelper::determineDateStatus($date)
+        );
+    }
+
+    /** @test */
     public function it_generates_a_calendar(): void
     {
         $michael = factory(Employee::class)->create([]);

@@ -60,42 +60,23 @@ class UserInvitationController extends Controller
      */
     public function join(Request $request, string $invitationLink)
     {
+        $email = $request->get('email');
+        $password = $request->get('password');
+
+        $requestInputs = [
+            'email' => $email,
+            'password' => $password,
+        ];
+
         try {
-            $user = User::where('email', $request->get('email'))
-                ->firstOrFail();
+            User::where('email', $email)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             // email doesn't exist yet, create the account
-            $data = [
-                'email' => $request->get('email'),
-                'password' => $request->get('password'),
-            ];
-
-            $user = (new CreateAccount)->execute($data);
+            (new CreateAccount)->execute($requestInputs);
         }
 
-        Auth::attempt([
-            'email' => $request->get('email'),
-            'password' => $request->get('password'),
-        ]);
+        Auth::attempt($requestInputs);
 
-        // mark the link as used
-        $employee = Employee::where('invitation_link', $invitationLink)
-            ->firstOrFail();
-
-        $employee->invitation_used_at = Carbon::now();
-        $employee->user_id = $user->id;
-        $employee->save();
-    }
-
-    /**
-     * Accept the invitation from a logged user.
-     *
-     * @param Request $request
-     * @param string $invitationLink
-     * @return \Illuminate\Http\Response
-     */
-    public function accept(Request $request, string $invitationLink)
-    {
         // mark the link as used
         $employee = Employee::where('invitation_link', $invitationLink)
             ->firstOrFail();
