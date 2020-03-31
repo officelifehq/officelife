@@ -109,7 +109,7 @@ class AdminCompanyNewsController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $request = [
-            'company_id' => $company->id,
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'company_news_id' => $newsId,
             'title' => $request->get('title'),
