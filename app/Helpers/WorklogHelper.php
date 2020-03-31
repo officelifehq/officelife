@@ -80,7 +80,7 @@ class WorklogHelper
     {
         $yearsCollection = collect([]);
         foreach ($worklogs as $worklog) {
-            $year = Carbon::createFromFormat('Y-m-d H:i:s', $worklog->created_at, )->format('Y');
+            $year = Carbon::createFromFormat('Y-m-d H:i:s', $worklog->created_at)->format('Y');
             $yearsCollection->push([
                 'number' => intval($year),
             ]);

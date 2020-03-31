@@ -6,6 +6,8 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Models\Company\Team;
 use App\Helpers\BirthdayHelper;
+use Illuminate\Support\Collection;
+use App\Helpers\WorkFromHomeHelper;
 
 class DashboardTeamViewHelper
 {
@@ -50,5 +52,35 @@ class DashboardTeamViewHelper
         $birthdaysCollection = $birthdaysCollection->sortBy('sort_key')->values()->all();
 
         return $birthdaysCollection;
+    }
+
+    /**
+     * Array containing all the upcoming birthdays for employees in this team.
+     * @param Team $team
+     * @return Collection
+     */
+    public static function workFromHome(Team $team): Collection
+    {
+        $employees = $team->employees;
+
+        $workFromHomeCollection = collect([]);
+        foreach ($employees as $employee) {
+            if (!WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now())) {
+                continue;
+            }
+
+            $workFromHomeCollection->push([
+                'id' => $employee->id,
+                'url' => route('employees.show', [
+                    'company' => $employee->company,
+                    'employee' => $employee,
+                ]),
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'position' => $employee->position,
+            ]);
+        }
+
+        return $workFromHomeCollection;
     }
 }

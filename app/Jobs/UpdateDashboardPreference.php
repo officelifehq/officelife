@@ -18,7 +18,7 @@ class UpdateDashboardPreference implements ShouldQueue
      *
      * @var array
      */
-    public $preference;
+    public array $preference;
 
     /**
      * Create a new job instance.

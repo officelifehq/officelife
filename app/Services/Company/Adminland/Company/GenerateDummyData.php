@@ -20,6 +20,7 @@ use App\Services\Company\Team\Links\CreateTeamUsefulLink;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 
 class GenerateDummyData extends BaseService
 {
@@ -60,6 +61,8 @@ class GenerateDummyData extends BaseService
         $this->createWorklogEntries();
 
         $this->createMoraleEntries();
+
+        $this->createWorkFromHomeEntries();
 
         $this->createCompanyNewsEntries($data);
 
@@ -267,7 +270,7 @@ class GenerateDummyData extends BaseService
                         'employee_id' => $employee->id,
                         'content' => $faker->realText(50),
                         'is_dummy' => true,
-                        'created_at' => $date,
+                        'created_at' => $date->format('Y-m-d H:i:s'),
                     ]);
 
                     $employee->consecutive_worklog_missed = 0;
@@ -306,9 +309,39 @@ class GenerateDummyData extends BaseService
                         'emotion' => rand(1, 3),
                         'comment' => $faker->realText(50),
                         'is_dummy' => true,
-                        'created_at' => $date,
+                        'created_at' => $date->format('Y-m-d H:i:s'),
                     ]);
                 }
+                $date->addDay();
+            }
+        }
+    }
+
+    /**
+     * Create fake Work from Home entries for all employees.
+     *
+     * @return void
+     */
+    private function createWorkFromHomeEntries()
+    {
+        $employees = Employee::where('is_dummy', true)->get();
+
+        foreach ($employees as $employee) {
+            $date = Carbon::now()->subMonths(3);
+
+            while (!$date->isSameDay(Carbon::now())) {
+                if (rand(1, 10) >= 5) {
+                    $request = [
+                        'author_id' => $employee->id,
+                        'employee_id' => $employee->id,
+                        'company_id' => $employee->company_id,
+                        'date' => $date->copy()->format('Y-m-d'),
+                        'work_from_home' => true,
+                    ];
+
+                    (new UpdateWorkFromHomeInformation)->execute($request);
+                }
+
                 $date->addDay();
             }
         }

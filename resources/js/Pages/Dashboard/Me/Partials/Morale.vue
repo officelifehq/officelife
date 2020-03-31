@@ -33,7 +33,7 @@
           </div>
         </div>
 
-        <p v-if="!updatedEmployee.has_logged_morale_today && !successMessage" class="f7 mb0">
+        <p v-if="!updatedEmployee.has_logged_morale_today && !successMessage" class="f7 mb0 silver">
           {{ $t('dashboard.morale_rules') }}
         </p>
       </div>

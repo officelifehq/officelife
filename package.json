@@ -19,7 +19,7 @@
         "@inertiajs/inertia-vue": "^0.1.0",
         "axios": "^0.18",
         "cross-env": "^5.1",
-        "cypress": "4.0.1",
+        "cypress": "4.2.0",
         "eslint": "^6.1.0",
         "eslint-plugin-vue": "^5.2.2",
         "husky": "^2.7.0",

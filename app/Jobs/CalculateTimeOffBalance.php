@@ -17,12 +17,12 @@ class CalculateTimeOffBalance implements ShouldQueue
     /**
      * The date this event should be registered.
      */
-    public $date;
+    public string$date;
 
     /**
      * The employee to run this calulation against.
      */
-    public $employee;
+    public Employee $employee;
 
     /**
      * Create a new job instance.

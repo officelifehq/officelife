@@ -296,3 +296,13 @@ $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
         'name' => $faker->name,
     ];
 });
+
+$factory->define(App\Models\Company\WorkFromHome::class, function () {
+    return [
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'date' => '2010-01-01',
+        'work_from_home' => true,
+    ];
+});

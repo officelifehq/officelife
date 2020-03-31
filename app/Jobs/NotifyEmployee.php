@@ -18,7 +18,7 @@ class NotifyEmployee implements ShouldQueue
      *
      * @var array
      */
-    public $notification;
+    public array $notification;
 
     /**
      * Create a new job instance.

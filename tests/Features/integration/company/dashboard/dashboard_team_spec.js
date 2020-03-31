@@ -1,5 +1,5 @@
 describe('Dashboard - teams', function () {
-  it('should display an empty tab when not associated with a team', function () {
+  it.skip('should display an empty tab when not associated with a team', function () {
     cy.login()
 
     cy.createCompany()
@@ -9,7 +9,7 @@ describe('Dashboard - teams', function () {
     cy.contains('You are not associated with a team yet')
   })
 
-  it('should display the list of teams if the employee is associated with at least one team', function () {
+  it.skip('should display the list of teams if the employee is associated with at least one team', function () {
     cy.login()
 
     cy.createCompany()
@@ -44,7 +44,7 @@ describe('Dashboard - teams', function () {
     cy.contains('sales')
   })
 
-  it('should display the upcoming birthdays of employees on the team dashboard', function () {
+  it.skip('should display the upcoming birthdays of employees on the team dashboard', function () {
     cy.login()
 
     cy.createCompany()
@@ -91,5 +91,31 @@ describe('Dashboard - teams', function () {
     cy.visit('/1/dashboard')
     cy.get('[data-cy=dashboard-team-tab]').click()
     cy.get('[data-cy=team-birthdate-blank]').should('exist')
+  })
+
+  it('should display the employees of this team who work from home today', function () {
+    cy.login()
+
+    cy.createCompany()
+    cy.createTeam('product')
+
+    cy.wait(1000)
+    cy.assignEmployeeToTeam(1, 1)
+
+    // visit the dashboard, the team tab and find that the birthday is empty
+    cy.visit('/1/dashboard')
+    cy.get('[data-cy=dashboard-team-tab]').click()
+    cy.get('[data-cy=team-work-from-home-blank]').should('exist')
+
+    // indicate that the employee works from home
+    cy.visit('/1/dashboard/me')
+    cy.get('[data-cy=log-from-work-home-cta]').check()
+
+    // now, on the dashboard team tab, there should be the employee indicating
+    // that he works from home
+    cy.visit('/1/dashboard')
+    cy.get('[data-cy=dashboard-team-tab]').click()
+    cy.get('[data-cy=team-work-from-home-blank]').should('not.exist')
+    cy.get('[data-cy=work-from-home-list]').contains('admin@admin.com')
   })
 })

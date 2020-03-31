@@ -36,7 +36,12 @@
         <!-- Shows the editor -->
         <div v-show="editorShown && !successMessage">
           <form @submit.prevent="store()">
-            <text-area ref="editor" v-model="form.content" :datacy="'worklog-content'" />
+            <text-area
+              ref="editor"
+              v-model="form.content"
+              :datacy="'worklog-content'"
+              @esc-key-pressed="idToUpdate = 0"
+            />
             <p class="db lh-copy f6">
               👋 {{ $t('dashboard.worklog_entry_description') }}
             </p>
