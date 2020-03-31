@@ -1,6 +1,3 @@
-<style scoped>
-</style>
-
 <template>
   <div>
     <div class="cf mw7 center mb2 fw5">

@@ -49,8 +49,6 @@ class AdminEmployeeController extends Controller
      */
     public function create()
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         return Inertia::render('Adminland/Employee/Create', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

@@ -25,7 +25,7 @@ class JsonRespondControllerTest extends TestCase
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
 
-        $object = $trait->setHTTPStatusCode(300);
+        $trait->setHTTPStatusCode(300);
 
         $this->assertEquals(
             300,
@@ -46,7 +46,7 @@ class JsonRespondControllerTest extends TestCase
     {
         $trait = $this->getMockForTrait(JsonRespondController::class);
 
-        $object = $trait->setErrorMessage('error');
+        $trait->setErrorMessage('error');
 
         $this->assertEquals(
             'error',

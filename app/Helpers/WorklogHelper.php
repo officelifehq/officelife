@@ -43,7 +43,7 @@ class WorklogHelper
             'day' => $date->isoFormat('dddd'),
             'date' => DateHelper::formatMonthAndDay($date),
             'friendlyDate' => $date->format('Y-m-d'),
-            'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
+            'status' => DateHelper::determineDateStatus($date),
             'completionRate' => $indicator,
             'numberOfEmployeesInTeam' => $numberOfEmployeesInTeam,
             'numberOfEmployeesWhoHaveLoggedWorklogs' => $numberOfEmployeesWhoHaveLoggedWorklogs,
@@ -52,18 +52,19 @@ class WorklogHelper
         return $data;
     }
 
+
     /**
      * Prepares an array containing all the information regarding the worklogs
      * logged on a specific day with the morale.
      *
      * This will be used on the Employee page.
      */
-    public static function getDailyInformationForEmployee(Worklog $worklog = null, Morale $morale = null, Carbon $date): array
+    public static function getDailyInformationForEmployee(Carbon $date, Worklog $worklog = null, Morale $morale = null): array
     {
         $data = [
             'date' => DateHelper::formatShortDateWithTime($date),
             'friendly_date' => DateHelper::formatDayAndMonthInParenthesis($date),
-            'status' => $date->isFuture() == 1 ? 'future' : ($date->isCurrentDay() == 1 ? 'current' : 'past'),
+            'status' => DateHelper::determineDateStatus($date),
             'worklog_parsed_content' => is_null($worklog) ? null : StringHelper::parse($worklog->content),
             'morale' => is_null($morale) ? null : $morale->emoji,
         ];
@@ -84,7 +85,7 @@ class WorklogHelper
                 'number' => intval($year),
             ]);
         }
-        $yearsCollection = $yearsCollection->unique()->sortBy(function ($product, $key) {
+        $yearsCollection = $yearsCollection->unique()->sortBy(function ($product) {
             return $product['number'];
         });
 

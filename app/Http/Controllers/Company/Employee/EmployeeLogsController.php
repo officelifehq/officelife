@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Employee;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\PaginatorHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -49,19 +50,7 @@ class EmployeeLogsController extends Controller
             'employee' => $employee->toObject(),
             'logs' => $logsCollection,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'paginator' => [
-                'count' => $logs->count(),
-                'currentPage' => $logs->currentPage(),
-                'firstItem' => $logs->firstItem(),
-                'hasMorePages' => $logs->hasMorePages(),
-                'lastItem' => $logs->lastItem(),
-                'lastPage' => $logs->lastPage(),
-                'nextPageUrl' => $logs->nextPageUrl(),
-                'onFirstPage' => $logs->onFirstPage(),
-                'perPage' => $logs->perPage(),
-                'previousPageUrl' => $logs->previousPageUrl(),
-                'total' => $logs->total(),
-            ],
+            'paginator' => PaginatorHelper::getData($logs),
         ]);
     }
 }

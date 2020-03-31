@@ -76,6 +76,28 @@ class DateHelper
     }
 
     /**
+     * Determine if the date is in the future, in the present or in the past.
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function determineDateStatus(Carbon $date): string
+    {
+        $status = '';
+        if ($date->isFuture() == 1) {
+            $status = 'future';
+        } else {
+            if ($date->isCurrentDay() == 1) {
+                $status = 'current';
+            } else {
+                $status = 'past';
+            }
+        }
+
+        return $status;
+    }
+
+    /**
      * Return an array containing a yearly calendar.
      * This array contains a row for each month. The first entry in this array
      * is the current month.

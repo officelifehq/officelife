@@ -132,7 +132,7 @@ class EmployeeController extends Controller
             });
 
             $worklogsCollection->push(
-                WorklogHelper::getDailyInformationForEmployee($worklog, $morale, $day)
+                WorklogHelper::getDailyInformationForEmployee($day, $worklog, $morale)
             );
         }
 

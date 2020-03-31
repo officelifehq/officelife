@@ -324,7 +324,6 @@ export default {
     },
 
     removeStep(step) {
-      var idToRemove = step.id;
       this.form.steps.splice(this.form.steps.findIndex(i => i.id === step.id), 1);
 
       if (step.type == 'before') {

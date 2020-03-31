@@ -83,7 +83,7 @@ class AddEmployeeToCompany extends BaseService
             'size' => 200,
         ]);
 
-        $employee = Employee::create([
+        $this->employee = Employee::create([
             'company_id' => $data['company_id'],
             'uuid' => $uuid,
             'email' => $data['email'],
@@ -95,19 +95,17 @@ class AddEmployeeToCompany extends BaseService
         ]);
 
         LogEmployeeAudit::dispatch([
-            'employee_id' => $employee->id,
+            'employee_id' => $this->employee->id,
             'action' => 'employee_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
-
-        $this->employee = $employee;
     }
 
     /**

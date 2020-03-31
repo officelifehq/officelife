@@ -47,7 +47,7 @@ class UpdateTeamTest extends TestCase
         $this->expectException(TeamNameNotUniqueException::class);
         $michael = $this->createAdministrator();
 
-        $sales = factory(Team::class)->create([
+        factory(Team::class)->create([
             'company_id' => $michael->company_id,
             'name' => 'commerce',
         ]);
