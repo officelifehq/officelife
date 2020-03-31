@@ -297,7 +297,7 @@ $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\WorkFromHome::class, function (Faker $faker) {
+$factory->define(App\Models\Company\WorkFromHome::class, function () {
     return [
         'employee_id' => function () {
             return factory(App\Models\Company\Employee::class)->create()->id;

@@ -57,14 +57,6 @@ class UpdateWorkFromHomeInformationTest extends TestCase
 
         $michael = factory(Employee::class)->create([]);
 
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $michael->id,
-            'date' => '2018-01-01',
-            'work_from_home' => true,
-        ];
-
         // we need to call the service twice.
         // once to create entry, the other one to trigger its deletion
         $michael = (new UpdateWorkFromHomeInformation)->execute([

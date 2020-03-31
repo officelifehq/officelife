@@ -324,8 +324,6 @@ class GenerateDummyData extends BaseService
      */
     private function createWorkFromHomeEntries()
     {
-        $faker = Faker::create();
-
         $employees = Employee::where('is_dummy', true)->get();
 
         foreach ($employees as $employee) {
