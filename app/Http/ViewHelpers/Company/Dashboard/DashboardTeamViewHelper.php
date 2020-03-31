@@ -77,6 +77,7 @@ class DashboardTeamViewHelper
                 ]),
                 'name' => $employee->name,
                 'avatar' => $employee->avatar,
+                'position' => $employee->position,
             ]);
         }
 

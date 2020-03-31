@@ -17,19 +17,19 @@
 <template>
   <div>
     <div class="cf mw7 center mb2 fw5">
-      🥳 {{ $t('dashboard.team_birthdate_title') }}
+      🏡 {{ $t('dashboard.team_work_from_home_title') }}
     </div>
 
     <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
       <!-- case of no one working from home -->
       <template v-if="workFromHomes.length == 0">
-        <div class="pa3 tc" data-cy="team-birthdate-blank">
-          😢 {{ $t('dashboard.team_birthdate_blank') }}
+        <div class="pa3 tc" data-cy="team-work-from-home-blank">
+          {{ $t('dashboard.team_work_from_home_blank') }}
         </div>
       </template>
 
       <!-- all people working from homes -->
-      <div v-for="employee in workFromHomes" :key="employee.id" class="pa3 fl w-third-l w-100" data-cy="birthdays-list">
+      <div v-for="employee in workFromHomes" :key="employee.id" class="pa3 fl w-third-l w-100" data-cy="work-from-home-list">
         <span class="pl3 db relative team-member">
           <img :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
 
@@ -39,8 +39,11 @@
           </inertia-link>
 
           <!-- position -->
-          <span class="title db f7 mt1">
-            {{ $t('dashboard.team_birthdate_date', { date: employee.birthdate}) }}
+          <span v-if="employee.position" class="title db f7 mt1">
+            {{ employee.position.title }}
+          </span>
+          <span v-else class="title db f7 mt1">
+            {{ $t('app.no_position_defined') }}
           </span>
         </span>
       </div>

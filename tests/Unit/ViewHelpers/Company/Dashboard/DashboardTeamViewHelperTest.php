@@ -117,6 +117,7 @@ class DashboardTeamViewHelperTest extends ApiTestCase
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
                     'avatar' => $dwight->avatar,
+                    'position' => $dwight->position,
                     'url' => env('APP_URL').'/'. $dwight->company_id.'/employees/'. $dwight->id,
                 ],
             ],
