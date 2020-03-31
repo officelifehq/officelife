@@ -32,6 +32,6 @@
         <env name="DEBUGBAR_ENABLED" value="false"/>
     </php>
     <logging>
-        <log type="coverage-clover" target="./coverage.xml"/>
+        <log type="coverage-clover" target="./test-report.xml"/>
     </logging>
 </phpunit>
