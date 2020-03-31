@@ -132,7 +132,7 @@ class SetBirthdateTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $employeeToUpdate) {
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'birthday_set' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([

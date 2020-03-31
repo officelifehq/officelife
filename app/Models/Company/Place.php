@@ -77,9 +77,9 @@ class Place extends Model
     /**
      * Get the address as a sentence.
      *
-     * @return string|null
+     * @return string
      */
-    public function getCompleteAddress()
+    public function getCompleteAddress(): string
     {
         $address = '';
 
@@ -103,15 +103,9 @@ class Place extends Model
             $address .= ' '.$this->getCountryName();
         }
 
-        if (empty($address)) {
-            return;
-        }
-
         // trim extra whitespaces inside the address
         $address = preg_replace('/\s+/', ' ', $address);
-        if (is_string($address)) {
-            return $address;
-        }
+        return $address;
     }
 
     /**
@@ -141,15 +135,9 @@ class Place extends Model
             $address .= ' ('.$this->getCountryName().')';
         }
 
-        if (empty($address)) {
-            return;
-        }
-
         // trim extra whitespaces inside the address
         $address = preg_replace('/\s+/', ' ', $address);
-        if (is_string($address)) {
-            return $address;
-        }
+        return $address;
     }
 
     /**

@@ -443,12 +443,12 @@ class Employee extends Model
      *
      * @return Place|null
      */
-    public function getCurrentAddress()
+    public function getCurrentAddress(): ?Place
     {
         try {
             $place = $this->places()->where('is_active', true)->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            return;
+            $place = null;
         }
 
         return $place;

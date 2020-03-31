@@ -73,8 +73,6 @@ class AdminPTOPoliciesController extends Controller
     {
         $ptoPolicy = CompanyPTOPolicy::find($companyPTOPolicyId);
 
-        $calendar = DateHelper::prepareCalendar($ptoPolicy);
-
-        return $calendar;
+        return DateHelper::prepareCalendar($ptoPolicy);
     }
 }

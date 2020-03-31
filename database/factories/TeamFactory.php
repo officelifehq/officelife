@@ -18,11 +18,11 @@ $factory->define(App\Models\Company\Team::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
     return [
-        'team_id' => function (array $data) {
+        'team_id' => function () {
             return factory(App\Models\Company\Team::class)->create([])->id;
         },
         'action' => 'account_created',
-        'author_id' => function (array $data) {
+        'author_id' => function () {
             return factory(App\Models\Company\Employee::class)->create([]);
         },
         'author_name' => 'Dwight Schrute',
@@ -31,7 +31,7 @@ $factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\MoraleTeamHistory::class, function (Faker $faker) {
+$factory->define(App\Models\Company\MoraleTeamHistory::class, function () {
     return [
         'team_id' => function () {
             return factory(App\Models\Company\Team::class)->create()->id;
@@ -41,7 +41,7 @@ $factory->define(App\Models\Company\MoraleTeamHistory::class, function (Faker $f
     ];
 });
 
-$factory->define(App\Models\Company\TeamUsefulLink::class, function (Faker $faker) {
+$factory->define(App\Models\Company\TeamUsefulLink::class, function () {
     return [
         'team_id' => function () {
             return factory(App\Models\Company\Team::class)->create()->id;
@@ -52,12 +52,12 @@ $factory->define(App\Models\Company\TeamUsefulLink::class, function (Faker $fake
     ];
 });
 
-$factory->define(App\Models\Company\TeamNews::class, function (Faker $faker) {
+$factory->define(App\Models\Company\TeamNews::class, function () {
     return [
         'team_id' => function () {
             return factory(App\Models\Company\Team::class)->create()->id;
         },
-        'author_id' => function (array $data) {
+        'author_id' => function () {
             return factory(App\Models\Company\Employee::class)->create([])->id;
         },
         'author_name' => 'Dwight Schrute',

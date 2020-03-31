@@ -45,7 +45,7 @@ $factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'action' => 'account_created',
-        'author_id' => function (array $data) {
+        'author_id' => function () {
             return factory(App\Models\Company\Employee::class)->create([]);
         },
         'author_name' => 'Dwight Schrute',
@@ -56,11 +56,11 @@ $factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
 
 $factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) {
     return [
-        'employee_id' => function (array $data) {
+        'employee_id' => function () {
             return factory(App\Models\Company\Employee::class)->create()->id;
         },
         'action' => 'account_created',
-        'author_id' => function (array $data) {
+        'author_id' => function () {
             return factory(App\Models\Company\Employee::class)->create([]);
         },
         'author_name' => 'Dwight Schrute',
@@ -69,7 +69,7 @@ $factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) 
     ];
 });
 
-$factory->define(App\Models\Company\DirectReport::class, function (Faker $faker) {
+$factory->define(App\Models\Company\DirectReport::class, function () {
     return [
         'company_id' => function () {
             return factory(App\Models\Company\Company::class)->create()->id;
@@ -87,7 +87,7 @@ $factory->define(App\Models\Company\DirectReport::class, function (Faker $faker)
     ];
 });
 
-$factory->define(App\Models\Company\Position::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Position::class, function () {
     return [
         'company_id' => function () {
             return factory(App\Models\Company\Company::class)->create()->id;
@@ -96,7 +96,7 @@ $factory->define(App\Models\Company\Position::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\Flow::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Flow::class, function () {
     return [
         'company_id' => function () {
             return factory(App\Models\Company\Company::class)->create()->id;
@@ -106,7 +106,7 @@ $factory->define(App\Models\Company\Flow::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\Step::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Step::class, function () {
     return [
         'flow_id' => function () {
             return factory(App\Models\Company\Flow::class)->create()->id;
@@ -118,7 +118,7 @@ $factory->define(App\Models\Company\Step::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\Action::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Action::class, function () {
     return [
         'step_id' => function () {
             return factory(App\Models\Company\Step::class)->create()->id;
@@ -129,7 +129,7 @@ $factory->define(App\Models\Company\Action::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\Task::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Task::class, function () {
     return [
         'company_id' => function () {
             return factory(App\Models\Company\Company::class)->create()->id;
@@ -138,7 +138,7 @@ $factory->define(App\Models\Company\Task::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\Notification::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Notification::class, function () {
     return [
         'employee_id' => function () {
             return factory(App\Models\Company\Employee::class)->create()->id;
@@ -149,7 +149,7 @@ $factory->define(App\Models\Company\Notification::class, function (Faker $faker)
     ];
 });
 
-$factory->define(App\Models\Company\Worklog::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Worklog::class, function () {
     return [
         'employee_id' => function () {
             return factory(App\Models\Company\Employee::class)->create()->id;
@@ -158,7 +158,7 @@ $factory->define(App\Models\Company\Worklog::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\EmployeeStatus::class, function (Faker $faker) {
+$factory->define(App\Models\Company\EmployeeStatus::class, function () {
     return [
         'company_id' => function () {
             return factory(App\Models\Company\Company::class)->create()->id;
@@ -167,7 +167,7 @@ $factory->define(App\Models\Company\EmployeeStatus::class, function (Faker $fake
     ];
 });
 
-$factory->define(App\Models\Company\EmployeeImportantDate::class, function (Faker $faker) {
+$factory->define(App\Models\Company\EmployeeImportantDate::class, function () {
     return [
         'employee_id' => function () {
             return factory(App\Models\Company\Employee::class)->create()->id;
@@ -177,7 +177,7 @@ $factory->define(App\Models\Company\EmployeeImportantDate::class, function (Fake
     ];
 });
 
-$factory->define(App\Models\Company\Morale::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Morale::class, function () {
     return [
         'employee_id' => function () {
             return factory(App\Models\Company\Employee::class)->create()->id;
@@ -187,7 +187,7 @@ $factory->define(App\Models\Company\Morale::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Company\MoraleCompanyHistory::class, function (Faker $faker) {
+$factory->define(App\Models\Company\MoraleCompanyHistory::class, function () {
     return [
         'company_id' => function () {
             return factory(App\Models\Company\Company::class)->create()->id;
@@ -197,7 +197,7 @@ $factory->define(App\Models\Company\MoraleCompanyHistory::class, function (Faker
     ];
 });
 
-$factory->define(App\Models\Company\CompanyNews::class, function (Faker $faker) {
+$factory->define(App\Models\Company\CompanyNews::class, function () {
     return [
         'company_id' => function () {
             return factory(App\Models\Company\Company::class)->create()->id;
@@ -213,7 +213,7 @@ $factory->define(App\Models\Company\CompanyNews::class, function (Faker $faker) 
     ];
 });
 
-$factory->define(App\Models\Company\Country::class, function (Faker $faker) {
+$factory->define(App\Models\Company\Country::class, function () {
     return [
         'name' => 'France',
     ];
@@ -230,14 +230,14 @@ $factory->define(App\Models\Company\Place::class, function (Faker $faker) {
         },
         'latitude' => $faker->latitude,
         'longitude' => $faker->longitude,
-        'placable_id' => function (array $data) {
+        'placable_id' => function () {
             return factory(App\Models\Company\Employee::class)->create([])->id;
         },
         'placable_type' => 'App\Models\Company\Employee',
     ];
 });
 
-$factory->define(App\Models\Company\CompanyPTOPolicy::class, function (Faker $faker) {
+$factory->define(App\Models\Company\CompanyPTOPolicy::class, function () {
     return [
         'company_id' => function () {
             return factory(App\Models\Company\Company::class)->create()->id;
@@ -250,7 +250,7 @@ $factory->define(App\Models\Company\CompanyPTOPolicy::class, function (Faker $fa
     ];
 });
 
-$factory->define(App\Models\Company\EmployeeDailyCalendarEntry::class, function (Faker $faker) {
+$factory->define(App\Models\Company\EmployeeDailyCalendarEntry::class, function () {
     return [
         'employee_id' => function () {
             return factory(App\Models\Company\Employee::class)->create()->id;
@@ -267,7 +267,7 @@ $factory->define(App\Models\Company\EmployeeDailyCalendarEntry::class, function 
     ];
 });
 
-$factory->define(App\Models\Company\EmployeePlannedHoliday::class, function (Faker $faker) {
+$factory->define(App\Models\Company\EmployeePlannedHoliday::class, function () {
     return [
         'employee_id' => function () {
             return factory(App\Models\Company\Employee::class)->create()->id;
@@ -279,7 +279,7 @@ $factory->define(App\Models\Company\EmployeePlannedHoliday::class, function (Fak
     ];
 });
 
-$factory->define(App\Models\Company\CompanyCalendar::class, function (Faker $faker) {
+$factory->define(App\Models\Company\CompanyCalendar::class, function () {
     return [
         'company_pto_policy_id' => function () {
             return factory(App\Models\Company\CompanyPTOPolicy::class)->create()->id;

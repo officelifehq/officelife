@@ -52,7 +52,7 @@ class UnsetTeamLeadTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($sales, $teamLeader) {
+        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($teamLeader) {
             return $job->auditLog['action'] === 'team_leader_removed' &&
                 $job->auditLog['author_id'] === $teamLeader->id &&
                 $job->auditLog['objects'] === json_encode([

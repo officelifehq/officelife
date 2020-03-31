@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\PaginatorHelper;
 use App\Models\Company\TeamNews;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamNewsCollection;
@@ -28,7 +29,7 @@ class TeamNewsController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         try {
-            $team = Team::where('company_id', $companyId)
+            $team = Team::where('company_id', $company->id)
                 ->findOrFail($teamId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -41,19 +42,7 @@ class TeamNewsController extends Controller
         return Inertia::render('Team/TeamNews/Index', [
             'team' => $team->toObject(),
             'news' => $newsCollection,
-            'paginator' => [
-                'count' => $news->count(),
-                'currentPage' => $news->currentPage(),
-                'firstItem' => $news->firstItem(),
-                'hasMorePages' => $news->hasMorePages(),
-                'lastItem' => $news->lastItem(),
-                'lastPage' => $news->lastPage(),
-                'nextPageUrl' => $news->nextPageUrl(),
-                'onFirstPage' => $news->onFirstPage(),
-                'perPage' => $news->perPage(),
-                'previousPageUrl' => $news->previousPageUrl(),
-                'total' => $news->total(),
-            ],
+            'paginator' => PaginatorHelper::getData($news),
         ]);
     }
 
@@ -114,7 +103,6 @@ class TeamNewsController extends Controller
      */
     public function edit(Request $request, $companyId, $teamId, $newsId)
     {
-        $company = InstanceHelper::getLoggedCompany();
         $team = Team::findOrFail($teamId);
         $news = TeamNews::where('team_id', $teamId)->findOrFail($newsId);
 
