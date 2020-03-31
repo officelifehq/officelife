@@ -28,9 +28,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new LogMissedWorklogEntry(Carbon::today()))->dailyAt('23:00');
-        $schedule->job(new LogCompaniesMorale(Carbon::today()))->dailyAt('23:00');
-        $schedule->job(new LogTeamsMorale(Carbon::today()))->dailyAt('23:00');
+        $midnight = '23:00';
+
+        $schedule->job(new LogMissedWorklogEntry(Carbon::today()))->dailyAt($midnight);
+        $schedule->job(new LogCompaniesMorale(Carbon::today()))->dailyAt($midnight);
+        $schedule->job(new LogTeamsMorale(Carbon::today()))->dailyAt($midnight);
+
         $schedule->command('timeoff:calculate '.Carbon::today()->format('Y-m-d'))->daily();
     }
 
