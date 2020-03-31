@@ -69,7 +69,7 @@ class UserInvitationController extends Controller
         ];
 
         try {
-            $user = User::where('email', $email)->firstOrFail();
+            User::where('email', $email)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             // email doesn't exist yet, create the account
             (new CreateAccount)->execute($requestInputs);
