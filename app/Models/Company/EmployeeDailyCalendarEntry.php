@@ -31,10 +31,6 @@ class EmployeeDailyCalendarEntry extends Model
         'daily_accrued_amount',
         'current_holidays_per_year',
         'default_amount_of_allowed_holidays_in_company',
-        'on_holiday',
-        'sick_day',
-        'pto_day',
-        'remote',
         'is_dummy',
     ];
 

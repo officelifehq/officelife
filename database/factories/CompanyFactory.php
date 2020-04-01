@@ -259,10 +259,6 @@ $factory->define(App\Models\Company\EmployeeDailyCalendarEntry::class, function 
         'daily_accrued_amount' => 1,
         'current_holidays_per_year' => 100,
         'default_amount_of_allowed_holidays_in_company' => 100,
-        'on_holiday' => false,
-        'sick_day' => false,
-        'pto_day' => false,
-        'remote' => false,
         'log_date' => '2010-01-01',
     ];
 });
