@@ -115,9 +115,14 @@
         </div>
       </div>
 
+      <!-- CENTRAL CONTENT -->
       <div class="cf mw9 center">
         <!-- LEFT COLUMN -->
         <div class="fl w-40-l w-100">
+          <work-from-home
+            :employee="employee"
+          />
+
           <personal-description
             :employee="employee"
           />
@@ -162,6 +167,7 @@ import EmployeeBirthdate from '@/Pages/Employee/Partials/EmployeeBirthdate';
 import Worklogs from '@/Pages/Employee/Partials/Worklogs';
 import Holidays from '@/Pages/Employee/Partials/Holidays';
 import Location from '@/Pages/Employee/Partials/Location';
+import WorkFromHome from '@/Pages/Employee/Partials/WorkFromHome';
 
 export default {
   components: {
@@ -176,6 +182,7 @@ export default {
     Worklogs,
     Holidays,
     Location,
+    WorkFromHome,
   },
 
   directives: {
