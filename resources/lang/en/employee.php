@@ -81,6 +81,11 @@ return [
     'status_modal_unassign_success' => 'The status has been removed',
     'status_modal_reset' => 'Remove current status',
 
+    'work_from_home_title' => 'Work from home',
+    'work_from_home_today' => 'Works from home today.',
+    'work_from_home_not_today' => 'Doesn’t work from home today.',
+    'work_from_home_statistics' => 'Has been working {count}x from home so far this year.',
+
     'edit_information_title' => 'Edit information',
     'edit_information_menu' => 'Edit personal information',
     'edit_information_menu_address' => 'Change home address',

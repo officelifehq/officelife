@@ -121,6 +121,7 @@
         <div class="fl w-40-l w-100">
           <work-from-home
             :employee="employee"
+            :statistics="workFromHomes"
           />
 
           <personal-description
@@ -228,6 +229,10 @@ export default {
     },
     pronouns: {
       type: Array,
+      default: null,
+    },
+    workFromHomes: {
+      type: Object,
       default: null,
     },
   },

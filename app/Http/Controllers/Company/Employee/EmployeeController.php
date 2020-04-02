@@ -18,6 +18,7 @@ use App\Http\Collections\EmployeeStatusCollection;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Manager\UnassignManager;
+use App\Http\ViewHelpers\Company\Employee\EmployeeShowViewHelper;
 
 class EmployeeController extends Controller
 {
@@ -75,44 +76,19 @@ class EmployeeController extends Controller
                 ->with('user')
                 ->with('status')
                 ->with('places')
+                ->with('managers')
+                ->with('workFromHomes')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
 
         // managers
-        $managers = $employee->managers;
-        $managersOfEmployee = collect([]);
-        foreach ($managers as $manager) {
-            $manager = $manager->manager;
-
-            $managersOfEmployee->push([
-                'id' => $manager->id,
-                'name' => $manager->name,
-                'avatar' => $manager->avatar,
-                'position' => (!$manager->position) ? null : [
-                    'id' => $manager->position->id,
-                    'title' => $manager->position->title,
-                ],
-            ]);
-        }
+        $managersOfEmployee = EmployeeShowViewHelper::managers($employee);
 
         // direct reports
-        $directReports = $employee->directReports;
         $directReportsOfEmployee = collect([]);
-        foreach ($directReports as $directReport) {
-            $directReport = $directReport->directReport;
-
-            $directReportsOfEmployee->push([
-                'id' => $directReport->id,
-                'name' => $directReport->name,
-                'avatar' => $directReport->avatar,
-                'position' => (!$directReport->position) ? null : [
-                    'id' => $directReport->position->id,
-                    'title' => $directReport->position->title,
-                ],
-            ]);
-        }
+        $directReportsOfEmployee = EmployeeShowViewHelper::directReports($employee);
 
         // building the collection containing the days of the week with the
         // worklogs
@@ -136,12 +112,15 @@ class EmployeeController extends Controller
             );
         }
 
+        $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
+
         return Inertia::render('Employee/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employee' => $employee->toObject(),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
             'worklogs' => $worklogsCollection,
+            'workFromHomes' => $workFromHomeStats,
             'employeeTeams' => TeamCollection::prepare($employee->teams),
             'positions' => PositionCollection::prepare($company->positions()->get()),
             'teams' => TeamCollection::prepare($company->teams()->get()),
