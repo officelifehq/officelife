@@ -32,7 +32,7 @@
 
     <!-- case of no address set in profile -->
     <div v-else class="br3 bg-white box z-1 pa3">
-      <p class="mb0 mt0 lh-copy mb0 f6">
+      <p class="mb0 mt0 lh-copy f6">
         {{ $t('employee.location_no_info') }}
       </p>
     </div>

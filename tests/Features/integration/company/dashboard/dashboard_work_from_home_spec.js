@@ -4,7 +4,7 @@ describe('Dashboard - employee', function () {
 
     cy.createCompany()
 
-    // find the worklog tab, enter the text and press save
+    // on the dashboard, click on I work from home checkbox
     cy.get('[data-cy=log-from-work-home-cta]').check()
 
     // reload the page to see the checkbox checked
