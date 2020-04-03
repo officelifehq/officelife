@@ -33,7 +33,7 @@ class LogMoraleTest extends TestCase
     /** @test */
     public function it_logs_a_morale_as_hr(): void
     {
-        $michael = $this->createAdministrator();
+        $michael = $this->createHR();
         $dwight = factory(Employee::class)->create([
             'company_id' => $michael->company_id,
         ]);

@@ -172,7 +172,7 @@ class CreateTimeOffTest extends TestCase
         ];
 
         $this->expectException(Exception::class);
-        $holiday = (new CreateTimeOff)->execute($request);
+        (new CreateTimeOff)->execute($request);
     }
 
     /** @test */

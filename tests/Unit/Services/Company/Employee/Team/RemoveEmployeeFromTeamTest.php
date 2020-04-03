@@ -32,7 +32,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
     /** @test */
     public function it_removes_an_employee_from_a_team_as_hr(): void
     {
-        $michael = $this->createAdministrator();
+        $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
         $this->executeService($michael, $dwight);
     }

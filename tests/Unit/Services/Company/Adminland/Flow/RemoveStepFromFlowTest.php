@@ -70,7 +70,7 @@ class RemoveStepFromFlowTest extends TestCase
         ];
 
         $this->expectException(ModelNotFoundException::class);
-        $flow = (new RemoveStepFromFlow)->execute($request);
+        (new RemoveStepFromFlow)->execute($request);
     }
 
     /** @test */
@@ -91,7 +91,7 @@ class RemoveStepFromFlowTest extends TestCase
         ];
 
         $this->expectException(ModelNotFoundException::class);
-        $flow = (new RemoveStepFromFlow)->execute($request);
+        (new RemoveStepFromFlow)->execute($request);
     }
 
     private function executeService(Employee $michael): void
