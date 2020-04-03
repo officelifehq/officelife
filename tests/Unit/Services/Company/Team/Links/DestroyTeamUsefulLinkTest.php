@@ -75,7 +75,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
     public function it_fails_if_the_team_is_not_part_of_the_company(): void
     {
         $michael = $this->createEmployee();
-        $team = factory(Team::class)->create([
+        factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
         $link = factory(TeamUsefulLink::class)->create([]);
