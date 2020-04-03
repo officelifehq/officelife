@@ -79,11 +79,15 @@ Route::middleware(['auth'])->group(function () {
                 'store', 'destroy',
             ]);
 
-            Route::resource('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController')->only([
-                'index',
-            ]);
+            // worklogs
+            Route::get('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('employees.worklogs');
             Route::get('{employee}/worklogs/{year}', 'Company\\Employee\\EmployeeWorklogController@year');
             Route::get('{employee}/worklogs/{year}/{month}', 'Company\\Employee\\EmployeeWorklogController@month');
+
+            // work from home
+            Route::get('{employee}/workfromhome', 'Company\\Employee\\EmployeeWorkFromHomeController@index')->name('employees.workfromhome');
+            Route::get('{employee}/workfromhome/{year}', 'Company\\Employee\\EmployeeWorkFromHomeController@year');
+            Route::get('{employee}/workfromhome/{year}/{month}', 'Company\\Employee\\EmployeeWorkFromHomeController@month');
         });
 
         Route::prefix('teams')->group(function () {

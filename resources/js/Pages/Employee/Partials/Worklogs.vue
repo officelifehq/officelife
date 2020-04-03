@@ -32,7 +32,7 @@
       <template v-show="worklogs.length != 0">
         <div data-cy="list-worklogs">
           <ul class="list mv0 pa3 bb bb-gray">
-            <li v-for="worklog in worklogs" :key="worklog.id" class="mb3 relative worklog-item">
+            <li v-for="worklog in worklogs.worklogs_collection" :key="worklog.id" class="mb3 relative worklog-item">
               <template v-if="worklog.worklog_parsed_content">
                 <div class="parsed-content mb1" v-html="worklog.worklog_parsed_content"></div>
               </template>
@@ -53,8 +53,8 @@
               </ul>
             </li>
           </ul>
-          <div v-if="employeeOrAtLeastHR()" class="pa3 tc">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs'" data-cy="view-all-worklogs">{{ $t('employee.worklog_view_all') }}</inertia-link>
+          <div v-if="employeeOrAtLeastHR()" class="ph3 pv2 tc f6">
+            <inertia-link :href="worklogs.url" data-cy="view-all-worklogs">{{ $t('employee.worklog_view_all') }}</inertia-link>
           </div>
         </div>
       </template>

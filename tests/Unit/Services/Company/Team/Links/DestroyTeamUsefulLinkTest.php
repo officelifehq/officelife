@@ -29,7 +29,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $this->executeService($michael, $team, $link);
+        $this->executeService($michael, $link);
     }
 
     /** @test */
@@ -43,7 +43,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $this->executeService($michael, $team, $link);
+        $this->executeService($michael, $link);
     }
 
     /** @test */
@@ -57,7 +57,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $this->executeService($michael, $team, $link);
+        $this->executeService($michael, $link);
     }
 
     /** @test */
@@ -81,10 +81,10 @@ class DestroyTeamUsefulLinkTest extends TestCase
         $link = factory(TeamUsefulLink::class)->create([]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $team, $link);
+        $this->executeService($michael, $link);
     }
 
-    private function executeService(Employee $michael, Team $team, TeamUsefulLink $link): void
+    private function executeService(Employee $michael, TeamUsefulLink $link): void
     {
         Queue::fake();
 

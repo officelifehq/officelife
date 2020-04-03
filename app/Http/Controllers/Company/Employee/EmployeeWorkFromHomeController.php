@@ -10,14 +10,14 @@ use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Collections\WorklogCollection;
+use App\Http\Collections\WorkFromHomeCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Employee\EmployeeWorklogViewHelper;
+use App\Http\ViewHelpers\Company\Employee\EmployeeWorkFromHomeViewHelper;
 
-class EmployeeWorklogController extends Controller
+class EmployeeWorkFromHomeController extends Controller
 {
     /**
-     * Show the employee's worklogs page, for the current year.
+     * Show the employee's work from home page, for the current year.
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {
@@ -97,43 +97,41 @@ class EmployeeWorklogController extends Controller
     }
 
     /**
-     * Common page builder for the worklog page.
+     * Common page builder for the work from home page.
      */
     private function buildPage(Employee $employee, int $year, int $month = null)
     {
-        $worklogs = $employee
-            ->worklogs()
+        $entries = $employee
+            ->workFromHomes()
             ->with('employee')
-            ->orderBy('worklogs.created_at')
+            ->orderBy('employee_work_from_home.date')
             ->get();
 
-        $yearsCollection = EmployeeWorklogViewHelper::yearsWithEntries($worklogs);
-        $monthsCollection = EmployeeWorklogViewHelper::monthsWithEntries($worklogs, $year);
-        $graphDataCollection = EmployeeWorklogViewHelper::dataForYearlyCalendar($worklogs, $year);
+        $yearsCollection = EmployeeWorkFromHomeViewHelper::yearsWithEntries($entries);
+        $monthsCollection = EmployeeWorkFromHomeViewHelper::monthsWithEntries($entries, $year);
 
-        // only select worklogs for the current year
-        $worklogs = $worklogs->filter(function ($log) use ($year) {
-            return $log->created_at->year === $year;
+        // only select work from home for the current year
+        $entries = $entries->filter(function ($log) use ($year) {
+            return $log->date->year === $year;
         });
 
         // filter by month, if necessary
         if ($month) {
-            $worklogs = $worklogs->filter(function ($log) use ($year, $month) {
-                return $log->created_at->year === $year &&
-                    $log->created_at->month === $month;
+            $entries = $entries->filter(function ($log) use ($year, $month) {
+                return $log->date->year === $year &&
+                    $log->date->month === $month;
             });
         }
 
-        return Inertia::render('Employee/Worklogs/Index', [
+        return Inertia::render('Employee/WorkFromHome/Index', [
             'employee' => $employee->toObject(),
-            'worklogs' => WorklogCollection::prepare($worklogs),
+            'entries' => WorkFromHomeCollection::prepare($entries),
             'years' => $yearsCollection,
             'year' => $year,
             'months' => $monthsCollection,
             'currentYear' => $year,
             'currentMonth' => ($month) ? $month : null,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'graphData' => $graphDataCollection,
         ]);
     }
 }

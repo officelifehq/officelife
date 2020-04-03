@@ -12,6 +12,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Team\SetTeamLead;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -46,13 +47,16 @@ class SetTeamLeadTest extends TestCase
     /** @test */
     public function normal_user_cant_execute_service(): void
     {
-        $michael = $this->createHR();
+        $michael = $this->createEmployee();
         $team = factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
 
-        $this->executeService($michael, $team, false);
+        $this->expectException(NotEnoughPermissionException::class);
         $this->executeService($michael, $team, true);
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael, $team, false);
     }
 
     /** @test */

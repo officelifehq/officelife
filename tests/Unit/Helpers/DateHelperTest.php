@@ -58,6 +58,17 @@ class DateHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_gets_the_complete_date(): void
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
+
+        $this->assertEquals(
+            'Sunday, Oct 1st 1978',
+            DateHelper::formatFullDate($date)
+        );
+    }
+
+    /** @test */
     public function it_gets_the_month_as_a_string_and_translated(): void
     {
         $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');

@@ -42,6 +42,14 @@ class DateHelper
     }
 
     /**
+     * Returns the complete date like "Monday, July 29th 2020".
+     */
+    public static function formatFullDate(Carbon $date): string
+    {
+        return $date->isoFormat(trans('format.full_date'));
+    }
+
+    /**
      * Translate the given month to a string using the locale of the app.
      */
     public static function translateMonth(Carbon $date): string

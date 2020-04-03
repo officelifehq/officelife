@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Company\Dashboard;
 
 use Carbon\Carbon;
 use Tests\ApiTestCase;
+use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\WorkFromHome;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -134,6 +135,33 @@ class EmployeeShowViewHelperTest extends ApiTestCase
         );
     }
 
+    /** @test */
+    public function it_gets_a_collection_of_work_logs(): void
+    {
+        $date = Carbon::create(2018, 10, 10);
+        Carbon::setTestNow($date);
+        $michael = factory(Employee::class)->create([]);
+
+        for ($i = 0; $i < 5; $i++) {
+            factory(Worklog::class)->create([
+                'employee_id' => $michael->id,
+                'created_at' => $date->copy()->addDay(),
+            ]);
+        }
+
+        $array = EmployeeShowViewHelper::worklogs($michael);
+        $this->assertEquals(2, count($array));
+        $this->assertArrayHasKey(
+            'worklogs_collection',
+            $array
+        );
+        $this->assertArrayHasKey(
+            'url',
+            $array
+        );
+    }
+
+    /** @test */
     public function it_gets_the_work_from_home_statistics(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 10, 10));
@@ -162,12 +190,14 @@ class EmployeeShowViewHelperTest extends ApiTestCase
 
         $array = EmployeeShowViewHelper::workFromHomeStats($michael);
 
-        $this->assertEquals(3, $array->count());
+        $this->assertEquals(3, count($array));
 
         $this->assertEquals(
             [
                 'work_from_home_today' => true,
                 'number_times_this_year' => 3,
+                'url' => 'dfsd',
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/workfromhome',
             ],
             $array
         );

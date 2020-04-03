@@ -82,7 +82,7 @@ class UpdateTeamUsefulLinkTest extends TestCase
         ];
 
         $this->expectException(ModelNotFoundException::class);
-        $link = (new UpdateTeamUsefulLink)->execute($request);
+        (new UpdateTeamUsefulLink)->execute($request);
     }
 
     /** @test */

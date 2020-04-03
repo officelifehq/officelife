@@ -82,7 +82,7 @@ class UpdateTeamNewsTest extends TestCase
         ];
 
         $this->expectException(Exception::class);
-        $news = (new UpdateTeamNews)->execute($request);
+        (new UpdateTeamNews)->execute($request);
     }
 
     /** @test */

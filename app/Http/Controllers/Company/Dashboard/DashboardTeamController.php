@@ -7,7 +7,6 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
@@ -104,10 +103,10 @@ class DashboardTeamController extends Controller
         // Last Fri/M/T/W/T/F
         $dates = collect([]);
         $lastFriday = $requestedDate->copy()->startOfWeek()->subDays(3);
-        $dates->push(WorklogHelper::getInformationAboutTeam($team, $lastFriday));
+        $dates->push(DashboardTeamViewHelper::worklogs($team, $lastFriday));
         for ($i = 0; $i < 5; $i++) {
             $day = $requestedDate->copy()->startOfWeek()->addDays($i);
-            $dates->push(WorklogHelper::getInformationAboutTeam($team, $day));
+            $dates->push(DashboardTeamViewHelper::worklogs($team, $day));
         }
 
         // upcoming birthdays

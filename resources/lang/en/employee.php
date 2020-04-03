@@ -82,9 +82,11 @@ return [
     'status_modal_reset' => 'Remove current status',
 
     'work_from_home_title' => 'Work from home',
+    'work_from_home_link' => 'View history',
     'work_from_home_today' => 'Works from home today.',
     'work_from_home_not_today' => 'Doesn’t work from home today.',
     'work_from_home_statistics' => 'Has been working {count}x from home so far this year.',
+    'work_from_home_title_details' => 'Work from home history',
 
     'edit_information_title' => 'Edit information',
     'edit_information_menu' => 'Edit personal information',

@@ -80,7 +80,7 @@ class DestroyTeamNewsTest extends TestCase
         ];
 
         $this->expectException(Exception::class);
-        $news = (new DestroyTeamNews)->execute($request);
+        (new DestroyTeamNews)->execute($request);
     }
 
     /** @test */
