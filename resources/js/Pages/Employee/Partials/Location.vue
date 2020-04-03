@@ -1,6 +1,3 @@
-<style lang="scss" scoped>
-</style>
-
 <template>
   <div class="mb4 relative">
     <span class="db fw5 mb2">

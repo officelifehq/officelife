@@ -35,7 +35,7 @@
             <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_employee_worklogs') }}
+            {{ $t('app.breadcrumb_employee_workfromhome') }}
           </li>
         </ul>
       </div>
@@ -43,20 +43,18 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <h2 class="pa3 mt2 center tc normal mb2">
-          {{ $t('employee.worklog_title') }}
+          {{ $t('employee.work_from_home_title_details') }}
         </h2>
 
-        <!-- case when there are worklogs -->
-        <template v-if="worklogs.length > 0">
+        <!-- case when there are work from home entries -->
+        <template v-if="entries.length > 0">
           <!-- list of years -->
-          <ul v-show="years.length > 1" class="list years tc" data-cy="worklog-year-selector">
+          <ul class="list years tc" data-cy="worklog-year-selector">
             <li class="di">{{ $t('employee.worklog_year_selector') }}</li>
             <li v-for="singleYear in years" :key="singleYear.number" class="di mh2">
-              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + singleYear.number" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</inertia-link>
+              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/workfromhome/' + singleYear.number" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</inertia-link>
             </li>
           </ul>
-
-          <calendar-heatmap :end-date="year + '-12-31'" :values="graphData" class="pa3" />
 
           <div class="cf w-100">
             <!-- left column -->
@@ -64,16 +62,16 @@
               <!-- list of months -->
               <p class="f6 mt0 silver">{{ $t('employee.worklog_filter_month') }}</p>
               <ul class="pl0 list months f6">
-                <li class="mb2"><inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year">All</inertia-link></li>
+                <li class="mb2"><inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/workfromhome/' + year">All</inertia-link></li>
                 <li v-for="month in months" :key="month.month" class="mb2" :data-cy="'worklog-month-selector-' + month.month">
                   <!-- we are viewing a specific month, so we need to highlight the proper month in the UI -->
                   <template v-if="currentMonth">
-                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/workfromhome/' + year + '/' + month.month" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</inertia-link>
                     <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
                   </template>
 
                   <template v-else>
-                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/workfromhome/' + year + '/' + month.month">{{ month.translation }} ({{ month.occurences }})</inertia-link>
                     <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
                   </template>
                 </li>
@@ -83,16 +81,15 @@
             <!-- right columns -->
             <div class="fl-ns w-two-thirds-ns pa3">
               <!-- list of worklogs -->
-              <div v-for="worklog in worklogs" :key="worklog.id">
-                <p class="mt0 f6 mb1 silver">{{ worklog.localized_created_at }}</p>
-                <div class="parsed-content" v-html="worklog.parsed_content"></div>
+              <div v-for="entry in entries" :key="entry.id">
+                <p class="mt0 f6 mb1 silver">{{ entry.localized_date }}</p>
                 <div class="tc mb3 green">
                   ~
                 </div>
               </div>
 
               <!-- blank state -->
-              <p v-if="worklogs.length == 0" class="tc mt5">{{ $t('employee.worklog_blank_state_for_month') }}</p>
+              <p v-if="entries.length == 0" class="tc mt5">{{ $t('employee.worklog_blank_state_for_month') }}</p>
             </div>
           </div>
         </template>
@@ -108,12 +105,10 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import { CalendarHeatmap } from 'vue-calendar-heatmap';
 
 export default {
   components: {
     Layout,
-    CalendarHeatmap,
   },
 
   props: {
@@ -125,7 +120,7 @@ export default {
       type: Object,
       default: null,
     },
-    worklogs: {
+    entries: {
       type: Array,
       default: null,
     },
@@ -147,10 +142,6 @@ export default {
     },
     currentMonth: {
       type: Number,
-      default: null,
-    },
-    graphData: {
-      type: Array,
       default: null,
     }
   },

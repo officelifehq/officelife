@@ -1,6 +1,3 @@
-<style lang="scss" scoped>
-</style>
-
 <template>
   <div>
     <div v-show="updatedTeam.parsed_description && !editMode" class="bb bb-gray">

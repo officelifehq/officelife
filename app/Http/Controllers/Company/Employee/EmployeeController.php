@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
-use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
@@ -90,28 +88,10 @@ class EmployeeController extends Controller
         $directReportsOfEmployee = collect([]);
         $directReportsOfEmployee = EmployeeShowViewHelper::directReports($employee);
 
-        // building the collection containing the days of the week with the
         // worklogs
-        $worklogs = $employee->worklogs()->latest()->take(7)->get();
-        $morales = $employee->morales()->latest()->take(7)->get();
-        $worklogsCollection = collect([]);
-        $currentDate = Carbon::now();
-        for ($i = 0; $i < 5; $i++) {
-            $day = $currentDate->copy()->startOfWeek()->addDays($i);
+        $worklogsCollection = EmployeeShowViewHelper::worklogs($employee);
 
-            $worklog = $worklogs->first(function ($worklog) use ($day) {
-                return $worklog->created_at->format('Y-m-d') == $day->format('Y-m-d');
-            });
-
-            $morale = $morales->first(function ($morale) use ($day) {
-                return $morale->created_at->format('Y-m-d') == $day->format('Y-m-d');
-            });
-
-            $worklogsCollection->push(
-                WorklogHelper::getDailyInformationForEmployee($day, $worklog, $morale)
-            );
-        }
-
+        // work from home
         $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
 
         return Inertia::render('Employee/Show', [

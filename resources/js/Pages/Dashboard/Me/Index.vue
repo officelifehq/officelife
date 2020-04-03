@@ -46,6 +46,7 @@
             <li>quizz hebdo pour apprendre à connaitre</li>
             <li>donner des statistics sur le nombre de femmes/hommes avec un poste à responsabilité</li>
             <li>donner le ratio homme/femme par poste dans l'onglet Positions</li>
+            <li>rechercher par "position"</li>
           </ul>
         </div>
       </div>

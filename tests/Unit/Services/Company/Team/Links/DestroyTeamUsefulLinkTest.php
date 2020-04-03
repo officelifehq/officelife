@@ -29,7 +29,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $this->executeService($michael, $team, $link);
+        $this->executeService($michael, $link);
     }
 
     /** @test */
@@ -43,7 +43,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $this->executeService($michael, $team, $link);
+        $this->executeService($michael, $link);
     }
 
     /** @test */
@@ -57,7 +57,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $this->executeService($michael, $team, $link);
+        $this->executeService($michael, $link);
     }
 
     /** @test */
@@ -75,16 +75,16 @@ class DestroyTeamUsefulLinkTest extends TestCase
     public function it_fails_if_the_team_is_not_part_of_the_company(): void
     {
         $michael = $this->createEmployee();
-        $team = factory(Team::class)->create([
+        factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
         $link = factory(TeamUsefulLink::class)->create([]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $team, $link);
+        $this->executeService($michael, $link);
     }
 
-    private function executeService(Employee $michael, Team $team, TeamUsefulLink $link): void
+    private function executeService(Employee $michael, TeamUsefulLink $link): void
     {
         Queue::fake();
 
