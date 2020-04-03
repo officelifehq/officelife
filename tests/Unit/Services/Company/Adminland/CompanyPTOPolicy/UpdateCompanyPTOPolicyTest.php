@@ -29,7 +29,7 @@ class UpdateCompanyPTOPolicyTest extends TestCase
     /** @test */
     public function it_updates_a_company_pto_policy_as_hr(): void
     {
-        $michael = $this->createAdministrator();
+        $michael = $this->createHR();
         $this->executeService($michael);
     }
 

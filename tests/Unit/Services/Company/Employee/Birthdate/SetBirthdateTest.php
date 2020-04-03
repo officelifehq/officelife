@@ -30,7 +30,7 @@ class SetBirthdateTest extends TestCase
     /** @test */
     public function it_sets_the_birthdate_of_the_employee_as_hr(): void
     {
-        $michael = $this->createAdministrator();
+        $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
         $this->executeService($michael, $dwight);
     }

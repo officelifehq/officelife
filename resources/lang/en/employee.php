@@ -87,6 +87,7 @@ return [
     'work_from_home_not_today' => 'Doesn’t work from home today.',
     'work_from_home_statistics' => 'Has been working {count}x from home so far this year.',
     'work_from_home_title_details' => 'Work from home history',
+    'work_from_home_blank_state_for_month' => 'There are no work from home entries for this date 😭',
 
     'edit_information_title' => 'Edit information',
     'edit_information_menu' => 'Edit personal information',

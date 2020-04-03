@@ -80,7 +80,7 @@
 
             <!-- right columns -->
             <div class="fl-ns w-two-thirds-ns pa3">
-              <!-- list of worklogs -->
+              <!-- list of work from home entries -->
               <div v-for="entry in entries" :key="entry.id">
                 <p class="mt0 f6 mb1 silver">{{ entry.localized_date }}</p>
                 <div class="tc mb3 green">
@@ -94,9 +94,9 @@
           </div>
         </template>
 
-        <!-- case of worklogs -->
+        <!-- case of no work from home entries -->
         <template v-else>
-          <p class="tc pa3" data-cy="blank-worklog-message">{{ $t('employee.worklog_blank') }}</p>
+          <p class="tc pa3" data-cy="blank-worklog-message">{{ $t('employee.work_from_home_blank_state_for_month') }}</p>
         </template>
       </div>
     </div>
