@@ -302,3 +302,13 @@ $factory->define(App\Models\Company\WorkFromHome::class, function () {
         'work_from_home' => true,
     ];
 });
+
+$factory->define(App\Models\Company\Question::class, function () {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'title' => 'What is your favorite movie?',
+        'active' => true,
+    ];
+});
