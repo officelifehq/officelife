@@ -24,12 +24,13 @@ class CreateQuestionsTable extends Migration
         });
 
         Schema::create('answers', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('employee_id');
             $table->text('body');
             $table->timestamps();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
 use App\Models\Company\Place;
+use App\Models\Company\Answer;
 use App\Models\Company\Morale;
 use App\Models\Company\Company;
 use App\Models\Company\Worklog;
@@ -226,6 +227,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->workFromHomes()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_answers(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Answer::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->answers()->exists());
     }
 
     /** @test */

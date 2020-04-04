@@ -164,6 +164,9 @@ return [
     'log_team_leader_removed' => 'Removed :name as the team lead of the team called :team_name.',
     'log_employee_work_from_home_logged' => 'Indicated that :name has worked from home on :date.',
     'log_employee_work_from_home_destroyed' => 'Removed the entry that :name has worked from home on :date.',
+    'log_question_created' => 'Added a question called :title.',
+    'log_question_updated' => 'Updated the question from :old_title to :title.',
+    'log_question_destroyed' => 'Deleted the question called :title.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',

@@ -312,3 +312,16 @@ $factory->define(App\Models\Company\Question::class, function () {
         'active' => true,
     ];
 });
+
+$factory->define(App\Models\Company\Answer::class, function () {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+    return [
+        'question_id' => $companyId,
+        'employee_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'body' => 'This is my answer',
+    ];
+});

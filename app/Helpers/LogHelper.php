@@ -345,6 +345,27 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'question_created') {
+            $sentence = trans('account.log_question_created', [
+                'title' => $log->object->{'question_title'},
+                'status' => $log->object->{'question_status'},
+            ]);
+        }
+
+        if ($log->action == 'question_updated') {
+            $sentence = trans('account.log_question_updated', [
+                'title' => $log->object->{'question_title'},
+                'old_title' => $log->object->{'question_old_title'},
+                'status' => $log->object->{'question_status'},
+            ]);
+        }
+
+        if ($log->action == 'question_destroyed') {
+            $sentence = trans('account.log_question_destroyed', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
         return $sentence;
     }
 

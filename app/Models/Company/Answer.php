@@ -2,17 +2,13 @@
 
 namespace App\Models\Company;
 
-use App\Helpers\DateHelper;
-use App\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Worklog extends Model
+class Answer extends Model
 {
     use LogsActivity;
-
-    protected $table = 'worklogs';
 
     /**
      * The attributes that are mass assignable.
@@ -20,9 +16,9 @@ class Worklog extends Model
      * @var array
      */
     protected $fillable = [
+        'question_id',
         'employee_id',
-        'content',
-        'is_dummy',
+        'body',
     ];
 
     /**
@@ -31,29 +27,21 @@ class Worklog extends Model
      * @var array
      */
     protected static $logAttributes = [
-        'content',
+        'body',
     ];
 
     /**
-     * The attributes that should be cast to native types.
+     * Get the question record associated with the answer.
      *
-     * @var array
+     * @return BelongsTo
      */
-    protected $casts = [
-        'is_dummy' => 'boolean',
-    ];
+    public function question()
+    {
+        return $this->belongsTo(Company::class);
+    }
 
     /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'created_at',
-    ];
-
-    /**
-     * Get the employee records associated with the worklog.
+     * Get the employee record associated with the answer.
      *
      * @return BelongsTo
      */
@@ -71,13 +59,10 @@ class Worklog extends Model
     {
         return [
             'id' => $this->id,
-            'employee' => [
-                'id' => $this->employee->id,
-                'name' => $this->employee->name,
+            'company' => [
+                'id' => $this->company_id,
             ],
-            'content' => $this->content,
-            'parsed_content' => StringHelper::parse($this->content),
-            'localized_created_at' => DateHelper::formatDate($this->created_at),
+            'title' => $this->title,
             'created_at' => $this->created_at,
         ];
     }

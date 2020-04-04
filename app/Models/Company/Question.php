@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Question extends Model
@@ -18,6 +19,7 @@ class Question extends Model
     protected $fillable = [
         'company_id',
         'title',
+        'active',
         'is_dummy',
     ];
 
@@ -41,13 +43,23 @@ class Question extends Model
     ];
 
     /**
-     * Get the company record associated with the position.
+     * Get the company record associated with the question.
      *
      * @return BelongsTo
      */
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get the answer records associated with the question.
+     *
+     * @return HasMany
+     */
+    public function answers()
+    {
+        return $this->hasMany(Answer::class)->orderBy('created_at', 'desc');
     }
 
     /**
