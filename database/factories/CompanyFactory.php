@@ -315,8 +315,13 @@ $factory->define(App\Models\Company\Question::class, function () {
 
 $factory->define(App\Models\Company\Answer::class, function () {
     $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
     return [
-        'question_id' => $companyId,
+        'question_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Question::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
         'employee_id' => function () use ($companyId) {
             return factory(App\Models\Company\Employee::class)->create([
                 'company_id' => $companyId,
