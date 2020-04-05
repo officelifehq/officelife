@@ -37,7 +37,7 @@ class Answer extends Model
      */
     public function question()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Question::class);
     }
 
     /**
