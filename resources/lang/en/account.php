@@ -14,6 +14,7 @@ return [
     'home_generate_fake_data' => 'Populate account with fake data',
     'home_remove_fake_data' => 'Remove fake data',
     'home_manage_pto' => 'Manage paid time off policies',
+    'home_manage_questions' => 'Manage questions',
 
     'employees_title' => 'All the employees in {company}',
     'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
@@ -167,6 +168,8 @@ return [
     'log_question_created' => 'Added a question called :title.',
     'log_question_updated' => 'Updated the question from :old_title to :title.',
     'log_question_destroyed' => 'Deleted the question called :title.',
+    'log_question_activated' => 'Enabled the question called :title.',
+    'log_question_deactivated' => 'Disabled the question called :title.',
 
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',

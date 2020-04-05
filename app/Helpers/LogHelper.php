@@ -366,6 +366,18 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'question_activated') {
+            $sentence = trans('account.log_question_activated', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'question_activated') {
+            $sentence = trans('account.log_question_deactivated', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
         return $sentence;
     }
 

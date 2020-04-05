@@ -19,6 +19,8 @@ class Question extends Model
     protected $fillable = [
         'company_id',
         'title',
+        'activated_at',
+        'deactivated_at',
         'active',
         'is_dummy',
     ];
@@ -30,6 +32,16 @@ class Question extends Model
      */
     protected static $logAttributes = [
         'title',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'activated_at',
+        'deactivated_at',
     ];
 
     /**
