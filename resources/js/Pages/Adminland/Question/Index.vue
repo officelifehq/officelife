@@ -44,7 +44,7 @@
               {{ $tc('account.questions_number_questions', questions.length, { company: $page.auth.company.name, count: questions.length}) }}
             </span>
             <span v-if="questions.length > 0" class="dib mb3 f6 gray">{{ $t('account.questions_description') }}</span>
-            <a data-cy="add-team-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="showAddModal">
+            <a data-cy="add-question-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="showAddModal">
               {{ $t('account.questions_cta') }}
             </a>
           </p>
@@ -88,10 +88,10 @@
                 <!-- list of actions -->
                 <ul class="f6 list pl0">
                   <!-- status -->
-                  <li v-if="question.active" class="dib mr2">
+                  <li v-if="question.active" class="dib mr2" :data-cy="'question-status-active-' + question.id">
                     <div class="br3 question-badge-active f7 ph2 di">{{ $t('account.question_status_active') }}</div>
                   </li>
-                  <li v-else class="dib mr2">
+                  <li v-else class="dib mr2" :data-cy="'question-status-inactive-' + question.id">
                     <div class="br3 question-badge-inactive f7 ph2 di">{{ $t('account.question_status_inactive') }}</div>
                   </li>
 
@@ -194,7 +194,7 @@
 
         <!-- NO questions -->
         <div v-show="questions.length == 0" class="pa3">
-          <p class="tc measure center mb4 lh-copy">
+          <p class="tc measure center mb4 lh-copy" data-cy="questions-blank-message">
             {{ $t('account.questions_blank') }}
           </p>
           <img class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
