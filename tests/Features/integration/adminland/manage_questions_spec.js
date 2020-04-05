@@ -1,106 +1,100 @@
 describe('Adminland - Questions', function () {
-    it('should let you manage company questions as an administrator', function () {
-        cy.login()
+  it('should let you manage company questions as an administrator', function () {
+    cy.login()
 
-        cy.createCompany()
+    cy.createCompany()
 
-        cy.visit('/1/account')
-        cy.get('[data-cy=questions-admin-link]').click()
+    cy.visit('/1/account')
+    cy.get('[data-cy=questions-admin-link]').click()
 
-        // blank state should exist
-        cy.get('[data-cy=questions-blank-message]').should('exist')
+    // blank state should exist
+    cy.get('[data-cy=questions-blank-message]').should('exist')
 
-        //add two questions
-        cy.get('[data-cy=add-question-button]').click()
-        cy.get('[data-cy=add-title-input]').type('this is my question 1')
-        cy.get('[data-cy=modal-add-cta]').click()
-        cy.get('[data-cy=add-question-button]').click()
-        cy.get('[data-cy=add-title-input]').type('this is my question 2')
-        cy.get('[data-cy=modal-add-cta]').click()
+    //add two questions
+    cy.get('[data-cy=add-question-button]').click()
+    cy.get('[data-cy=add-title-input]').type('this is my question 1')
+    cy.get('[data-cy=modal-add-cta]').click()
 
-        cy.hasAuditLog('Added a question called', '/1/account/questions')
+    cy.wait(1000)
 
-        //renaming the first question
-        cy.get('[data-cy=question-rename-link-1]').click()
-        cy.get('[data-cy=list-rename-input-name-1]').clear()
-        cy.get('[data-cy=list-rename-input-name-1]').type('updated text')
-        cy.get('[data-cy=list-rename-cta-button-1]').click()
+    cy.get('[data-cy=add-question-button]').click()
+    cy.get('[data-cy=add-title-input]').type('this is my question 2')
+    cy.get('[data-cy=modal-add-cta]').click()
 
-        cy.hasAuditLog('Updated the question called', '/1/account/questions')
+    cy.hasAuditLog('Added a question called', '/1/account/questions')
 
-        // deleting the first question
-        cy.get('[data-cy=question-destroy-link-1]').click()
-        cy.get('[data-cy=list-destroy-cta-button-1]').click()
+    //renaming the first question
+    cy.get('[data-cy=question-rename-link-1]').click()
+    cy.get('[data-cy=list-rename-input-name-1]').clear()
+    cy.get('[data-cy=list-rename-input-name-1]').type('updated text')
+    cy.get('[data-cy=list-rename-cta-button-1]').click()
 
-        cy.hasAuditLog('Deleted the question called', '/1/account/questions')
+    cy.hasAuditLog('Updated the question', '/1/account/questions')
 
-        // mark the status of the second question as active
-        cy.get('[data-cy=question-activate-link-2]').click()
-        cy.get('[data-cy=question-activate-link-confirm-2]').click()
-        cy.get('[data-cy=question-status-active-2]').should('exist')
-        cy.get('[data-cy=question-status-inactive-2]').should('not.exist')
+    // deleting the first question
+    cy.get('[data-cy=question-destroy-link-1]').click()
+    cy.get('[data-cy=list-destroy-cta-button-1]').click()
 
-        cy.hasAuditLog('Enabled the question', '/1/account/questions')
+    cy.hasAuditLog('Deleted the question called', '/1/account/questions')
 
-        // disable the question now
-        cy.get('[data-cy=question-deactivate-link-2]').click()
-        cy.get('[data-cy=question-deactivate-link-confirm-2]').click()
-        cy.get('[data-cy=question-status-active-2]').should('not.exist')
-        cy.get('[data-cy=question-status-inactive-2]').should('exist')
+    // mark the status of the second question as active
+    cy.get('[data-cy=question-activate-link-2]').click()
+    cy.get('[data-cy=question-activate-link-confirm-2]').click()
+    cy.get('[data-cy=question-status-active-2]').should('exist')
+    cy.get('[data-cy=question-status-inactive-2]').should('not.exist')
 
-        cy.hasAuditLog('Disabled the question called', '/1/account/questions')
-    })
+    cy.hasAuditLog('Enabled the question', '/1/account/questions')
 
-    it.skip('should let you manage company questions as an HR', function () {
-        cy.login()
+    // disable the question now
+    cy.get('[data-cy=question-deactivate-link-2]').click()
+    cy.get('[data-cy=question-deactivate-link-confirm-2]').click()
+    cy.get('[data-cy=question-status-active-2]').should('not.exist')
+    cy.get('[data-cy=question-status-inactive-2]').should('exist')
 
-        cy.createCompany()
+    cy.hasAuditLog('Disabled the question called', '/1/account/questions')
+  })
 
-        cy.changePermission(1, 200)
-        cy.visit('/1/account')
-        cy.get('[data-cy=questions-admin-link]').click()
+  it('should let you manage company questions as an HR', function () {
+    cy.login()
 
-        // blank state should exist
-        cy.get('[data-cy=questions-blank-message]').should('exist')
+    cy.createCompany()
 
-        //add two questions
-        cy.get('[data-cy=add-question-button]').click()
-        cy.get('[data-cy=add-title-input]').type('this is my question 1')
-        cy.get('[data-cy=modal-add-cta]').click()
-        cy.get('[data-cy=add-question-button]').click()
-        cy.get('[data-cy=add-title-input]').type('this is my question 2')
-        cy.get('[data-cy=modal-add-cta]').click()
+    cy.changePermission(1, 200)
+    cy.visit('/1/account')
+    cy.get('[data-cy=questions-admin-link]').click()
 
-        cy.hasAuditLog('Added a question called', '/1/account/questions')
+    // blank state should exist
+    cy.get('[data-cy=questions-blank-message]').should('exist')
 
-        //renaming the first question
-        cy.get('[data-cy=question-rename-link-1]').click()
-        cy.get('[data-cy=list-rename-input-name-1]').clear()
-        cy.get('[data-cy=list-rename-input-name-1]').type('updated text')
-        cy.get('[data-cy=list-rename-cta-button-1]').click()
+    //add two questions
+    cy.get('[data-cy=add-question-button]').click()
+    cy.get('[data-cy=add-title-input]').type('this is my question 1')
+    cy.get('[data-cy=modal-add-cta]').click()
+    cy.wait(1000)
+    cy.get('[data-cy=add-question-button]').click()
+    cy.get('[data-cy=add-title-input]').type('this is my question 2')
+    cy.get('[data-cy=modal-add-cta]').click()
 
-        cy.hasAuditLog('Updated the question called', '/1/account/questions')
+    //renaming the first question
+    cy.get('[data-cy=question-rename-link-1]').click()
+    cy.get('[data-cy=list-rename-input-name-1]').clear()
+    cy.get('[data-cy=list-rename-input-name-1]').type('updated text')
+    cy.get('[data-cy=list-rename-cta-button-1]').click()
 
-        // deleting the first question
-        cy.get('[data-cy=question-destroy-link-1]').click()
-        cy.get('[data-cy=list-destroy-cta-button-1]').click()
+    // deleting the first question
+    cy.get('[data-cy=question-destroy-link-1]').click()
+    cy.get('[data-cy=list-destroy-cta-button-1]').click()
 
-        cy.hasAuditLog('Deleted the question called', '/1/account/questions')
+    // mark the status of the second question as active
+    cy.get('[data-cy=question-activate-link-2]').click()
+    cy.get('[data-cy=question-activate-link-confirm-2]').click()
+    cy.get('[data-cy=question-status-active-2]').should('exist')
+    cy.get('[data-cy=question-status-inactive-2]').should('not.exist')
 
-        // mark the status of the second question as active
-        cy.get('[data-cy=question-activate-link-2]').click()
-        cy.get('[data-cy=question-activate-link-confirm-2]').click()
-        cy.get('[data-cy=question-status-active-2]').should('exist')
-        cy.get('[data-cy=question-status-inactive-2]').should('not.exist')
-
-        cy.hasAuditLog('Enabled the question', '/1/account/questions')
-
-        // disable the question now
-        cy.get('[data-cy=question-deactivate-link-2]').click()
-        cy.get('[data-cy=question-deactivate-link-confirm-2]').click()
-        cy.get('[data-cy=question-status-active-2]').should('not.exist')
-        cy.get('[data-cy=question-status-inactive-2]').should('exist')
-
-        cy.hasAuditLog('Disabled the question called', '/1/account/questions')
-    })
+    // disable the question now
+    cy.get('[data-cy=question-deactivate-link-2]').click()
+    cy.get('[data-cy=question-deactivate-link-confirm-2]').click()
+    cy.get('[data-cy=question-status-active-2]').should('not.exist')
+    cy.get('[data-cy=question-status-inactive-2]').should('exist')
+  })
 })
