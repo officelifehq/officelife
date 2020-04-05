@@ -121,7 +121,7 @@
                     </a>
                   </li>
                   <li v-if="questionToDeactivate.id != question.id && question.active" class="di pr2">
-                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-activate-link-' + question.id" @click.prevent="questionToDeactivate = question">
+                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-deactivate-link-' + question.id" @click.prevent="questionToDeactivate = question">
                       {{ $t('account.question_deactivate') }}
                     </a>
                   </li>

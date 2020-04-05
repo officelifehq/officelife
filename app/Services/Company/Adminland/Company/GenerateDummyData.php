@@ -17,6 +17,7 @@ use App\Services\Company\Team\TeamNews\CreateTeamNews;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Team\Links\CreateTeamUsefulLink;
+use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -65,6 +66,8 @@ class GenerateDummyData extends BaseService
         $this->createWorkFromHomeEntries();
 
         $this->createCompanyNewsEntries($data);
+
+        $this->createQuestions($data);
 
         $company->has_dummy_data = true;
         $company->save();
@@ -370,6 +373,25 @@ class GenerateDummyData extends BaseService
 
             (new CreateCompanyNews)->execute($request);
         }
+    }
+
+    /**
+     * Create fake questions for all employees.
+     *
+     * @param array $data
+     * @return void
+     */
+    private function createQuestions(array $data)
+    {
+        $request = [
+            'company_id' => $data['company_id'],
+            'author_id' => $data['author_id'],
+            'title' => 'Which movies do you like the most?',
+            'active' => true,
+            'is_dummy' => true,
+        ];
+
+        (new CreateQuestion)->execute($request);
     }
 
     /**
