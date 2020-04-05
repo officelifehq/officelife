@@ -140,7 +140,6 @@ class Company extends Model
     public function questions()
     {
         return $this->hasMany(Question::class)->orderBy('created_at', 'desc');
-        ;
     }
 
     /**
