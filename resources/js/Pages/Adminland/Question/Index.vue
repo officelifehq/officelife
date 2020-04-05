@@ -3,6 +3,13 @@
     border-bottom: 0;
     padding-bottom: 0;
   }
+  .question-badge-inactive {
+    background-color: #E2E4E8;
+  }
+  .question-badge-active {
+    background-color: #52CF6E;
+    color: #fff;
+  }
 </style>
 
 <template>
@@ -32,14 +39,15 @@
           </h2>
 
           <!-- add a question -->
-          <div class="relative mb4">
-            <span v-show="questions.length != 0" class="dib mb3 di-l">
+          <p class="relative adminland-headline mb0">
+            <span class="db mb3" :class="questions.length == 0 ? 'white' : ''">
               {{ $tc('account.questions_number_questions', questions.length, { company: $page.auth.company.name, count: questions.length}) }}
             </span>
-            <a data-cy="add-team-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="displayAddModal">
+            <span v-if="questions.length > 0" class="dib mb3 f6 gray">{{ $t('account.questions_description') }}</span>
+            <a data-cy="add-team-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="showAddModal">
               {{ $t('account.questions_cta') }}
             </a>
-          </div>
+          </p>
 
           <!-- MODAL TO ADD A QUESTION -->
           <form v-show="modal" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="submit">
@@ -47,9 +55,9 @@
 
             <div class="cf">
               <div class="fl w-100 w-70-ns mb3 mb0-ns">
-                <text-input :ref="'newPositionModal'"
+                <text-input :ref="'newQuestionModal'"
                             v-model="form.title"
-                            :placeholder="'Marketing coordinator'"
+                            :placeholder="$t('account.questions_form_title_placeholder')"
                             :datacy="'add-title-input'"
                             :errors="$page.errors.first_name"
                             :extra-class-upper-div="'mb0'"
@@ -79,14 +87,53 @@
 
                 <!-- list of actions -->
                 <ul class="f6 list pl0">
-                  <li class="di pr2">
-                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-activate-link-' + question.id" @click.prevent="showActivateModal(team)">{{ $t('app.rename') }}</a>
+                  <!-- status -->
+                  <li v-if="question.active" class="dib mr2">
+                    <div class="br3 question-badge-active f7 ph2 di">{{ $t('account.question_status_active') }}</div>
                   </li>
-                  <li class="di pr2">
-                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-rename-link-' + question.id" @click.prevent="showRenameModal(team)">{{ $t('app.rename') }}</a>
+                  <li v-else class="dib mr2">
+                    <div class="br3 question-badge-inactive f7 ph2 di">{{ $t('account.question_status_inactive') }}</div>
                   </li>
+
+                  <!-- confirm activation -->
+                  <li v-if="questionToActivate.id == question.id" class="di pr2">
+                    {{ $t('app.sure') }}
+                    <a class="mr1 pointer" :data-cy="'question-activate-link-confirm-' + question.id" @click.prevent="activate(question)">
+                      {{ $t('app.yes') }}
+                    </a>
+                    <a class="pointer" :data-cy="'question-activate-link-cancel-' + question.id" @click.prevent="questionToActivate = 0">
+                      {{ $t('app.no') }}
+                    </a>
+                  </li>
+                  <!-- confirm deactivation -->
+                  <li v-if="questionToDeactivate.id == question.id" class="di pr2">
+                    {{ $t('app.sure') }}
+                    <a class="mr1 pointer" :data-cy="'question-deactivate-link-confirm-' + question.id" @click.prevent="deactivate(question)">
+                      {{ $t('app.yes') }}
+                    </a>
+                    <a class="pointer" :data-cy="'question-deactivate-link-cancel-' + question.id" @click.prevent="questionToDeactivate = 0">
+                      {{ $t('app.no') }}
+                    </a>
+                  </li>
+                  <li v-if="questionToActivate.id != question.id && !question.active" class="di pr2">
+                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-activate-link-' + question.id" @click.prevent="questionToActivate = question">
+                      {{ $t('account.question_activate') }}
+                    </a>
+                  </li>
+                  <li v-if="questionToDeactivate.id != question.id && question.active" class="di pr2">
+                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-activate-link-' + question.id" @click.prevent="questionToDeactivate = question">
+                      {{ $t('account.question_deactivate') }}
+                    </a>
+                  </li>
+
+                  <!-- rename -->
+                  <li class="di pr2">
+                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-rename-link-' + question.id" @click.prevent="showRenameModal(question)">{{ $t('app.rename') }}</a>
+                  </li>
+
+                  <!-- delete -->
                   <li class="di">
-                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'question-destroy-link-' + question.id" @click.prevent="showDeletionModal(team)">{{ $t('app.delete') }}</a>
+                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'question-destroy-link-' + question.id" @click.prevent="showDeletionModal(question)">{{ $t('app.delete') }}</a>
                   </li>
                 </ul>
               </template>
@@ -100,12 +147,11 @@
                 </template>
 
                 <!-- form -->
-                <form class="flex" @submit.prevent="update(team)">
-                  <div class="w-100 w-70-ns mb3 mb0-ns mt3">
+                <form class="flex" @submit.prevent="update(question)">
+                  <div class="w-100 w-70-ns mb3 mb0-ns">
                     <text-input :id="'name-' + question.id"
                                 :ref="'name' + question.id"
-                                v-model="form.name"
-                                :placeholder="'Product team'"
+                                v-model="form.title"
                                 :custom-ref="'name' + question.id"
                                 :datacy="'list-rename-input-name-' + question.id"
                                 :errors="$page.errors.name"
@@ -134,8 +180,8 @@
                 </template>
 
                 <!-- form -->
-                <form @submit.prevent="destroy(team)">
-                  <p class="lh-copy">{{ $t('account.team_confirm_deletion', {name: question.title}) }}</p>
+                <form @submit.prevent="destroy(question)">
+                  <p class="lh-copy">{{ $t('account.question_confirm_deletion') }}</p>
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3 mr3" :data-cy="'list-destroy-cancel-button-' + question.id" @click.prevent="questionToDelete = 0">
                     {{ $t('app.cancel') }}
                   </a>
@@ -192,8 +238,11 @@ export default {
       deletionMode: false,
       questionToRename: Object,
       questionToDelete: Object,
+      questionToActivate: Object,
+      questionToDeactivate: Object,
       form: {
         title: null,
+        active: false,
         errors: [],
       },
       loadingState: '',
@@ -202,11 +251,12 @@ export default {
   },
 
   methods: {
-    showRenameModal(team) {
+    showRenameModal(question) {
       this.form.errors = [];
       this.renameMode = true;
-      this.questionToRename = team;
-      this.form.name = question.title;
+      this.questionToRename = question;
+      this.form.title = question.title;
+      this.form.active = question.active;
 
       this.$nextTick(() => {
         // this is really barbaric, but I need to do this to
@@ -217,18 +267,18 @@ export default {
       });
     },
 
-    showDeletionModal(team) {
+    showDeletionModal(question) {
       this.form.errors = [];
       this.deletionMode = true;
-      this.questionToDelete = team;
+      this.questionToDelete = question;
     },
 
-    displayAddModal() {
+    showAddModal() {
       this.modal = !this.modal;
       this.form.errors = [];
 
       this.$nextTick(() => {
-        this.$refs['newTeam'].$refs['input'].focus();
+        this.$refs['newQuestionModal'].$refs['input'].focus();
       });
     },
 
@@ -237,12 +287,12 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/account/questions', this.form)
         .then(response => {
-          flash(this.$t('account.team_creation_success'), 'success');
+          flash(this.$t('account.question_creation_success'), 'success');
 
           this.loadingState = null;
-          this.form.name = null;
+          this.form.title = null;
           this.modal = false;
-          this.questions.push(response.data.data);
+          this.questions.unshift(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
@@ -250,26 +300,31 @@ export default {
         });
     },
 
-    update(team) {
+    update(question) {
+      this.loadingState = 'loading';
+
       axios.put('/' + this.$page.auth.company.id + '/account/questions/' + question.id, this.form)
         .then(response => {
-          flash(this.$t('account.team_update_success'), 'success');
+          flash(this.$t('account.question_update_success'), 'success');
 
           this.questionToRename = 0;
-          this.form.name = null;
+          this.form.title = null;
+          this.form.active = false;
+          this.loadingState = null;
 
           var id = this.questions.findIndex(x => x.id == question.id);
           this.$set(this.questions, id, response.data.data);
         })
         .catch(error => {
+          this.loadingState = null;
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
 
-    destroy(team) {
+    destroy(question) {
       axios.delete('/' + this.$page.auth.company.id + '/account/questions/' + question.id)
         .then(response => {
-          flash(this.$t('account.team_destroy_success'), 'success');
+          flash(this.$t('account.question_destroy_success'), 'success');
 
           this.questionToDelete = 0;
           var id = this.questions.findIndex(x => x.id == question.id);
@@ -279,6 +334,32 @@ export default {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
+
+    activate(question) {
+      axios.post('/' + this.$page.auth.company.id + '/account/questions/' + question.id + '/activate')
+        .then(response => {
+          flash(this.$t('account.question_activate_success'), 'success');
+
+          this.questions = response.data.data;
+          this.questionToActivate = 0;
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    deactivate(question) {
+      axios.post('/' + this.$page.auth.company.id + '/account/questions/' + question.id + '/deactivate')
+        .then(response => {
+          flash(this.$t('account.question_deactivate_success'), 'success');
+
+          this.questions = response.data.data;
+          this.questionToDeactivate = 0;
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    }
   }
 };
 

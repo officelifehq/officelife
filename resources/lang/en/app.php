@@ -26,6 +26,7 @@ return [
     'error_wrong_team_id' => 'We can’t find the requested team.',
     'error_invalid_date' => 'The date is invalid.',
     'error_team_name_not_unique' => 'There is already a team with this name.',
+    'error_not_enough_permission' => 'You do not have the right to do this action.',
 
     'previous' => 'Previous',
     'next' => 'Next',
@@ -56,6 +57,7 @@ return [
     'breadcrumb_notification_list' => 'Notifications',
     'breadcrumb_employee_worklogs' => 'Worklogs history',
     'breadcrumb_employee_workfromhome' => 'Work from home history',
+    'breadcrumb_account_manage_questions' => 'Questions',
 
     'header_home' => 'Home',
     'header_find' => 'Find',

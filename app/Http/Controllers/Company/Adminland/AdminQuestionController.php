@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
-use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\CompanyPTOPolicy;
-use App\Http\Collections\CompanyPTOPolicyCollection;
-use App\Services\Company\Adminland\CompanyPTOPolicy\UpdateCompanyPTOPolicy;
+use App\Http\Collections\QuestionCollection;
+use App\Services\Company\Adminland\Question\CreateQuestion;
+use App\Services\Company\Adminland\Question\UpdateQuestion;
+use App\Services\Company\Adminland\Question\DestroyQuestion;
+use App\Services\Company\Adminland\Question\ActivateQuestion;
+use App\Services\Company\Adminland\Question\DeactivateQuestion;
 
 class AdminQuestionController extends Controller
 {
@@ -24,7 +26,7 @@ class AdminQuestionController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $questions = $company->questions()->get();
 
-        $questionsCollection = CompanyPTOPolicyCollection::prepare($questions);
+        $questionsCollection = QuestionCollection::prepare($questions);
 
         return Inertia::render('Adminland/Question/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -33,46 +35,138 @@ class AdminQuestionController extends Controller
     }
 
     /**
-     * Update the pto policy.
+     * Create the question.
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $ptoPolicyId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $companyId, $ptoPolicyId)
+    public function store(Request $request, $companyId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'title' => $request->input('title'),
+            'active' => false,
+        ];
+
+        $question = (new CreateQuestion)->execute($request);
+
+        return response()->json([
+            'data' => $question->toObject(),
+        ], 201);
+    }
+
+    /**
+     * Update the question.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $questionId
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $companyId, $questionId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         $request = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
-            'company_pto_policy_id' => $ptoPolicyId,
-            'total_worked_days' => $request->get('total_worked_days'),
-            'days_to_toggle' => $request->get('days_to_toggle'),
-            'default_amount_of_allowed_holidays' => $request->get('default_amount_of_allowed_holidays'),
-            'default_amount_of_sick_days' => $request->get('default_amount_of_sick_days'),
-            'default_amount_of_pto_days' => $request->get('default_amount_of_pto_days'),
+            'question_id' => $questionId,
+            'title' => $request->input('title'),
+            'active' => $request->input('active'),
         ];
 
-        $policy = (new UpdateCompanyPTOPolicy)->execute($request);
+        $question = (new UpdateQuestion)->execute($request);
 
         return response()->json([
-            'data' => $policy->toObject(),
+            'data' => $question->toObject(),
         ], 200);
     }
 
     /**
-     * Get the holidays for a given PTO policy.
+     * Delete the question.
      *
+     * @param Request $request
      * @param int $companyId
-     * @param int $companyPTOPolicyId
-     * @return array
+     * @param int $questionId
+     * @return \Illuminate\Http\Response
      */
-    public function getHolidays(int $companyId, int $companyPTOPolicyId)
+    public function destroy(Request $request, $companyId, $questionId)
     {
-        $ptoPolicy = CompanyPTOPolicy::find($companyPTOPolicyId);
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        return DateHelper::prepareCalendar($ptoPolicy);
+        $request = [
+            'company_id' => $companyId,
+            'question_id' => $questionId,
+            'author_id' => $loggedEmployee->id,
+        ];
+
+        (new DestroyQuestion)->execute($request);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
+    }
+
+    /**
+     * Activate the question.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $questionId
+     * @return \Illuminate\Http\Response
+     */
+    public function activate(Request $request, $companyId, $questionId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'question_id' => $questionId,
+        ];
+
+        (new ActivateQuestion)->execute($request);
+
+        $company = InstanceHelper::getLoggedCompany();
+        $questions = $company->questions()->get();
+        $questionsCollection = QuestionCollection::prepare($questions);
+
+        return response()->json([
+            'data' => $questionsCollection,
+        ], 200);
+    }
+
+    /**
+     * Deactivate the question.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $questionId
+     * @return \Illuminate\Http\Response
+     */
+    public function deactivate(Request $request, $companyId, $questionId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'question_id' => $questionId,
+        ];
+
+        (new DeactivateQuestion)->execute($request);
+
+        $company = InstanceHelper::getLoggedCompany();
+        $questions = $company->questions()->get();
+        $questionsCollection = QuestionCollection::prepare($questions);
+
+        return response()->json([
+            'data' => $questionsCollection,
+        ], 200);
     }
 }

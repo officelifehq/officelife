@@ -87,6 +87,7 @@ class Question extends Model
                 'id' => $this->company_id,
             ],
             'title' => $this->title,
+            'active' => $this->active,
             'created_at' => $this->created_at,
         ];
     }

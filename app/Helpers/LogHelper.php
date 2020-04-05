@@ -356,7 +356,6 @@ class LogHelper
             $sentence = trans('account.log_question_updated', [
                 'title' => $log->object->{'question_title'},
                 'old_title' => $log->object->{'question_old_title'},
-                'status' => $log->object->{'question_status'},
             ]);
         }
 
@@ -372,7 +371,7 @@ class LogHelper
             ]);
         }
 
-        if ($log->action == 'question_activated') {
+        if ($log->action == 'question_deactivated') {
             $sentence = trans('account.log_question_deactivated', [
                 'title' => $log->object->{'question_title'},
             ]);
