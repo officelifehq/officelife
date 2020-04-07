@@ -14,7 +14,7 @@ class ApiUserController extends ApiController
     /**
      * Get the detail of the logged in user.
      *
-     * @param  Request $request
+     * @param Request $request
      *
      * @return \Illuminate\Http\Response
      */

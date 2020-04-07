@@ -19,8 +19,8 @@ class EmployeeLogsController extends Controller
      * Show the employee log.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
+     * @param int     $companyId
+     * @param int     $employeeId
      *
      * @return \Illuminate\Http\Response
      */

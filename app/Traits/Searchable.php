@@ -11,12 +11,12 @@ trait Searchable
     /**
      * Search for needle in the columns defined by $searchable_columns.
      *
-     * @param  Builder $builder query builder
-     * @param  string $needle
-     * @param  int $companyId
-     * @param  int $limitPerPage
-     * @param  string $sortOrder
-     * @param  string $whereCondition
+     * @param Builder $builder        query builder
+     * @param string  $needle
+     * @param int     $companyId
+     * @param int     $limitPerPage
+     * @param string  $sortOrder
+     * @param string  $whereCondition
      *
      * @return LengthAwarePaginator|null
      */

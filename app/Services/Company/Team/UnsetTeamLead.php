@@ -61,9 +61,8 @@ class UnSetTeamLead extends BaseService
      * Add a notification in the UI for the employee who has been demoted.
      *
      * @param Employee $employee
-     * @param Team $team
+     * @param Team     $team
      *
-     * @return void
      */
     private function addNotification(Employee $employee, Team $team): void
     {
@@ -79,11 +78,10 @@ class UnSetTeamLead extends BaseService
     /**
      * Log the information in the audit logs.
      *
-     * @param array $data
+     * @param array    $data
      * @param Employee $oldTeamLeader
-     * @param Team $team
+     * @param Team     $team
      *
-     * @return void
      */
     private function log(array $data, Employee $oldTeamLeader, Team $team): void
     {

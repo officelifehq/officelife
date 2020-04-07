@@ -18,8 +18,8 @@ class TeamLeadController extends Controller
      * Search all possible team leads for this team.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
+     * @param int     $companyId
+     * @param int     $teamId
      *
      * @return JsonResponse
      */
@@ -49,8 +49,8 @@ class TeamLeadController extends Controller
      * Update the information about the team's lead.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
+     * @param int     $companyId
+     * @param int     $teamId
      *
      * @return JsonResponse
      *
@@ -78,9 +78,9 @@ class TeamLeadController extends Controller
      * Remove the current team lead.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $teamLeadId
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param int     $teamLeadId
      *
      * @return JsonResponse
      *

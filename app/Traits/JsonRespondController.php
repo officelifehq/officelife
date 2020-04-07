@@ -169,7 +169,7 @@ trait JsonRespondController
      * Sends a response that the object has been deleted, and also indicates
      * the id of the object that has been deleted.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return JsonResponse
      */

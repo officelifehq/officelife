@@ -50,7 +50,7 @@ class AdminCompanyNewsController extends Controller
      * Create the company news.
      *
      * @param Request $request
-     * @param int $companyId
+     * @param int     $companyId
      *
      * @return \Illuminate\Http\Response
      */
@@ -77,8 +77,8 @@ class AdminCompanyNewsController extends Controller
      * Show the company news edit page.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $newsId
      *
      * @return \Illuminate\Http\Response
      */
@@ -101,8 +101,8 @@ class AdminCompanyNewsController extends Controller
      * Update the company news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $newsId
      *
      * @return \Illuminate\Http\Response
      */
@@ -130,8 +130,8 @@ class AdminCompanyNewsController extends Controller
      * Delete the company news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $companyNewsId
+     * @param int     $companyId
+     * @param int     $companyNewsId
      *
      * @return \Illuminate\Http\Response
      */

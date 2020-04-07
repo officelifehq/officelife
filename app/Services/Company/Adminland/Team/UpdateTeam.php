@@ -63,7 +63,6 @@ class UpdateTeam extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function verifyTeamNameUniqueness(array $data): void
     {
@@ -83,10 +82,9 @@ class UpdateTeam extends BaseService
     /**
      * Add audit logs.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $oldName
      *
-     * @return void
      */
     private function log(array $data, string $oldName): void
     {

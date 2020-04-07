@@ -14,8 +14,8 @@ class CheckCompany
     /**
      * Check that the user can access this company.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
      *
      * @return mixed
      */

@@ -40,7 +40,7 @@ class GenerateAvatar extends BaseService
      * Get the size for the avatar, based on a given parameter. Provides a
      * default otherwise.
      *
-     * @param  array  $data
+     * @param array $data
      *
      * @return int
      */

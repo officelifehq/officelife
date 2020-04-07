@@ -39,8 +39,8 @@ class AdminFlowController extends Controller
      * Display the detail of a flow.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $flowId
+     * @param int     $companyId
+     * @param int     $flowId
      *
      * @return \Illuminate\Http\Response
      */
@@ -77,7 +77,7 @@ class AdminFlowController extends Controller
      * Save the flow.
      *
      * @param Request $request
-     * @param int $companyId
+     * @param int     $companyId
      *
      * @return \Illuminate\Http\Response
      */

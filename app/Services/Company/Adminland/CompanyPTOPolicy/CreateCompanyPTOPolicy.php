@@ -94,7 +94,7 @@ class CreateCompanyPTOPolicy extends BaseService
      * Right after, employers will be able to identify which days are holidays
      * and therefore considered as being off.
      *
-     * @param array $data
+     * @param array            $data
      * @param CompanyPTOPolicy $ptoPolicy
      *
      * @return int

@@ -58,7 +58,7 @@ class CreateCompany extends BaseService
      * Add the first employee to the company.
      *
      * @param Company $company
-     * @param User $user
+     * @param User    $user
      *
      * @return Employee
      */
@@ -86,10 +86,9 @@ class CreateCompany extends BaseService
     /**
      * Provision the newly created account with default data.
      *
-     * @param Company $company
+     * @param Company  $company
      * @param Employee $employee
      *
-     * @return void
      */
     private function provisionDefaultAccountData(Company $company, Employee $employee): void
     {
@@ -102,10 +101,9 @@ class CreateCompany extends BaseService
     /**
      * Add an audit log entry for this action.
      *
-     * @param Company $company
+     * @param Company  $company
      * @param Employee $employee
      *
-     * @return void
      */
     private function logAccountAudit(Company $company, Employee $employee): void
     {

@@ -25,5 +25,7 @@ return PhpCsFixer\Config::create()
         'trailing_comma_in_multiline_array' => true,
         'function_typehint_space' => true,
         'phpdoc_separation' => true,
+        'phpdoc_align' => true,
+        'phpdoc_no_empty_return' => true,
     ])
     ->setFinder($finder);

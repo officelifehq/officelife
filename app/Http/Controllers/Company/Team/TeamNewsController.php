@@ -120,9 +120,9 @@ class TeamNewsController extends Controller
      * Update the company news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param int     $newsId
      *
      * @return \Illuminate\Http\Response
      */
@@ -149,9 +149,9 @@ class TeamNewsController extends Controller
      * Delete the team news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param int     $newsId
      *
      * @return \Illuminate\Http\Response
      */

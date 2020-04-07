@@ -36,8 +36,8 @@ class AdminPTOPoliciesController extends Controller
      * Update the pto policy.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $ptoPolicyId
+     * @param int     $companyId
+     * @param int     $ptoPolicyId
      *
      * @return \Illuminate\Http\Response
      */

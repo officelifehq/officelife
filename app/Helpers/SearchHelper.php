@@ -9,7 +9,7 @@ class SearchHelper
     /**
      * Build a query based on the array that contains column names.
      *
-     * @param  array  $array
+     * @param array $array
      *
      * @return string
      */

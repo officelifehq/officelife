@@ -85,11 +85,10 @@ class CreateTeamUsefulLink extends BaseService
     /**
      * Add logs.
      *
-     * @param array $data
+     * @param array          $data
      * @param TeamUsefulLink $link
-     * @param Team $team
+     * @param Team           $team
      *
-     * @return void
      */
     private function log(array $data, TeamUsefulLink $link, Team $team)
     {

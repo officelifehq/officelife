@@ -94,7 +94,7 @@ class CreateTimeOff extends BaseService
      * Get the planned holiday object for this date, if it already exists.
      *
      * @param Employee $employee
-     * @param Carbon $date
+     * @param Carbon   $date
      *
      * @return EmployeePlannedHoliday
      */
@@ -119,7 +119,7 @@ class CreateTimeOff extends BaseService
      * Validate wether we can create a new holiday.
      *
      * @param EmployeePlannedHoliday $holiday
-     * @param array $data
+     * @param array                  $data
      *
      * @return bool
      */
@@ -142,7 +142,7 @@ class CreateTimeOff extends BaseService
     /**
      * Create a new planned holiday.
      *
-     * @param array $data
+     * @param array  $data
      * @param Carbon $date
      *
      * @return EmployeePlannedHoliday
@@ -160,11 +160,10 @@ class CreateTimeOff extends BaseService
     /**
      * Create the audit logs.
      *
-     * @param Employee $employee
+     * @param Employee               $employee
      * @param EmployeePlannedHoliday $plannedHoliday
-     * @param array $data
+     * @param array                  $data
      *
-     * @return void
      */
     private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday, array $data)
     {

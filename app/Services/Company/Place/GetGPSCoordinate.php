@@ -35,7 +35,7 @@ class GetGPSCoordinate extends BaseService
      * Should always be done through a job, and not be called directly.
      * You should use the FetchAddressGeocoding job for this.
      *
-     * @param array $data
+     * @param array        $data
      * @param GuzzleClient $client the Guzzle client, only needed when unit testing
      *
      * @return Place|null

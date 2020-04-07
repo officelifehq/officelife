@@ -58,7 +58,7 @@ class AdminEmployeeController extends Controller
      * Create the employee.
      *
      * @param Request $request
-     * @param int $companyId
+     * @param int     $companyId
      *
      * @return \Illuminate\Http\Response
      */
@@ -87,8 +87,8 @@ class AdminEmployeeController extends Controller
      * Delete the employee.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
+     * @param int     $companyId
+     * @param int     $employeeId
      *
      * @return \Illuminate\Http\Response
      */

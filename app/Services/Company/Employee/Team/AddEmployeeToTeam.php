@@ -72,7 +72,6 @@ class AddEmployeeToTeam extends BaseService
      *
      * @param Team $team
      *
-     * @return void
      */
     private function addNotification(Team $team): void
     {
@@ -89,9 +88,8 @@ class AddEmployeeToTeam extends BaseService
      * Add the logs in the different audit logs.
      *
      * @param array $data
-     * @param Team $team
+     * @param Team  $team
      *
-     * @return void
      */
     private function log(array $data, Team $team): void
     {

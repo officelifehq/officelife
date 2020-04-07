@@ -14,8 +14,8 @@ class PermissionController extends Controller
      * Show the list of employees.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
+     * @param int     $companyId
+     * @param int     $employeeId
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,8 +31,8 @@ class PermissionController extends Controller
      * Change permission.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
+     * @param int     $companyId
+     * @param int     $employeeId
      *
      * @return \Illuminate\Http\Response
      */
