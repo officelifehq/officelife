@@ -10,6 +10,7 @@ class TeamNewsCollection
      * Prepare a collection of team news.
      *
      * @param mixed $teamNews
+     *
      * @return Collection
      */
     public static function prepare($teamNews): Collection

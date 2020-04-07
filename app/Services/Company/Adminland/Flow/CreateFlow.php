@@ -44,6 +44,7 @@ class CreateFlow extends BaseService
      * Create a flow.
      *
      * @param array $data
+     *
      * @return Flow
      */
     public function execute(array $data): Flow

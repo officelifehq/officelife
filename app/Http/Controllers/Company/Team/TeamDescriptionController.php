@@ -17,6 +17,7 @@ class TeamDescriptionController extends Controller
     * @param Request $request
     * @param int $companyId
     * @param int $teamId
+    *
     * @return JsonResponse
     */
     public function store(Request $request, $companyId, $teamId)

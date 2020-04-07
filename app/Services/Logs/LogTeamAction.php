@@ -33,6 +33,7 @@ class LogTeamAction extends BaseService
      * Log an action that happened to the team.
      *
      * @param array $data
+     *
      * @return TeamLog
      */
     public function execute(array $data): TeamLog

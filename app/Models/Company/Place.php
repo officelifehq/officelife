@@ -146,6 +146,7 @@ class Place extends Model
      * @param integer $zoom
      * @param integer $width
      * @param integer $height
+     *
      * @return string|null
      */
     public function getStaticMapImage(int $zoom, int $width, int $height): ?string

@@ -33,6 +33,7 @@ class SetPersonalDescription extends BaseService
      * displaying the proper content.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee

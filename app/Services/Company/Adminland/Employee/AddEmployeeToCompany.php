@@ -39,6 +39,7 @@ class AddEmployeeToCompany extends BaseService
      * Add someone to the company.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee
@@ -112,7 +113,7 @@ class AddEmployeeToCompany extends BaseService
      * Add the default amount of holidays to this new employee.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function addHolidays(array $data): void
     {
@@ -126,7 +127,7 @@ class AddEmployeeToCompany extends BaseService
      * Add a welcome message for the employee.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function notifyEmployee(array $data): void
     {
@@ -145,7 +146,7 @@ class AddEmployeeToCompany extends BaseService
      * Add an audit log entry for this action.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function logAccountAudit(array $data): void
     {

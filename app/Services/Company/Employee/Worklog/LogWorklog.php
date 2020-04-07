@@ -37,6 +37,7 @@ class LogWorklog extends BaseService
      * Logging can only be done by the employee.
      *
      * @param array $data
+     *
      * @return Worklog
      */
     public function execute(array $data): Worklog
@@ -70,7 +71,6 @@ class LogWorklog extends BaseService
      * Reset the counter indicating the number of missed daily worklog for the
      * given employee.
      *
-     * @return void
      */
     private function resetWorklogMissed()
     {

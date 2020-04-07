@@ -28,6 +28,7 @@ class DestroyEmployeeStatus extends BaseService
      * Destroy an employee status.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool

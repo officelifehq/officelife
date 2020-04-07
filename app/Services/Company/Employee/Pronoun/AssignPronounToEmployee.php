@@ -31,6 +31,7 @@ class AssignPronounToEmployee extends BaseService
      * Set an employee's gender pronoun.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee

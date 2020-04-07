@@ -33,6 +33,7 @@ class CreateTeamNews extends BaseService
      * Create a team news.
      *
      * @param array $data
+     *
      * @return TeamNews
      */
     public function execute(array $data): TeamNews

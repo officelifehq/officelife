@@ -19,6 +19,7 @@ class TeamMembersController extends Controller
      *
      * @param int $companyId
      * @param int $teamId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $companyId, $teamId)
@@ -53,6 +54,7 @@ class TeamMembersController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function attach(Request $request, $companyId, $teamId, $employeeId)
@@ -77,6 +79,7 @@ class TeamMembersController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function detach(Request $request, $companyId, $teamId, $employeeId)

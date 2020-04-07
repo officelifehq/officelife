@@ -35,6 +35,7 @@ class UpdateCompanyPTOPolicy extends BaseService
      * Update a company PTO policy.
      *
      * @param array $data
+     *
      * @return CompanyPTOPolicy
      */
     public function execute(array $data): CompanyPTOPolicy
@@ -79,6 +80,7 @@ class UpdateCompanyPTOPolicy extends BaseService
      * Mark all the days as off for the given pto policy.
      *
      * @param array $data
+     *
      * @return int
      */
     private function markDaysOff(array $data): int

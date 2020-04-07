@@ -18,7 +18,8 @@ class UserInvitationController extends Controller
      * Validates the invitation page.
      *
      * @param Request $request
-     * @param string $invitationLink
+     * @param string  $invitationLink
+     *
      * @return \Illuminate\Http\Response
      */
     public function check(Request $request, string $invitationLink)
@@ -55,7 +56,8 @@ class UserInvitationController extends Controller
      * We use the same route to check both actions.
      *
      * @param Request $request
-     * @param string $invitationLink
+     * @param string  $invitationLink
+     *
      * @return \Illuminate\Http\Response
      */
     public function join(Request $request, string $invitationLink)

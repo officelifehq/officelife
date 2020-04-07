@@ -38,6 +38,7 @@ class CreatePlace extends BaseService
      * Create a place.
      *
      * @param array $data
+     *
      * @return Place
      */
     public function execute(array $data): Place
@@ -68,6 +69,7 @@ class CreatePlace extends BaseService
      * Actually create the place.
      *
      * @param array $data
+     *
      * @return Place
      */
     private function addPlace(array $data): Place
@@ -90,7 +92,7 @@ class CreatePlace extends BaseService
      * Check all the previous places for this entity and set them to inactive.
      *
      * @param Place $place
-     * @return void
+     *
      */
     private function setActive(Place $place): void
     {
@@ -106,7 +108,7 @@ class CreatePlace extends BaseService
      * This is placed on a queue so it doesn't slow down the app.
      *
      * @param Place $place
-     * @return void
+     *
      */
     private function geocodePlace(Place $place): void
     {
@@ -118,7 +120,7 @@ class CreatePlace extends BaseService
      *
      * @param array $data
      * @param Place $place
-     * @return void
+     *
      */
     private function addLog(array $data, Place $place): void
     {

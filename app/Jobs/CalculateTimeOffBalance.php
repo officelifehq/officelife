@@ -28,8 +28,8 @@ class CalculateTimeOffBalance implements ShouldQueue
      * Create a new job instance.
      *
      * @param Employee $employee
-     * @param string $date
-     * @return void
+     * @param string   $date
+     *
      */
     public function __construct(Employee $employee, string $date)
     {
@@ -40,7 +40,6 @@ class CalculateTimeOffBalance implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      */
     public function handle()
     {

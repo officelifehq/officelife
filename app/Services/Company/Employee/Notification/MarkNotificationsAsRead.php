@@ -27,6 +27,7 @@ class MarkNotificationsAsRead extends BaseService
      * Only the employee can mark the notifications as read.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool

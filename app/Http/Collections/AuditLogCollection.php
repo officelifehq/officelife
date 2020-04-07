@@ -10,6 +10,7 @@ class AuditLogCollection
      * Prepare a collection of audit logs.
      *
      * @param mixed $logs
+     *
      * @return Collection
      */
     public static function prepare($logs): Collection

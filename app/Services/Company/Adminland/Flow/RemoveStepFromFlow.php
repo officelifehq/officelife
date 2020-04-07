@@ -28,6 +28,7 @@ class RemoveStepFromFlow extends BaseService
      * Remove a step from a given flow.
      *
      * @param array $data
+     *
      * @return Flow
      */
     public function execute(array $data): Flow

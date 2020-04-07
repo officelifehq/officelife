@@ -34,6 +34,7 @@ class CreateCompanyPTOPolicy extends BaseService
      * Create a company PTO policy.
      *
      * @param array $data
+     *
      * @return CompanyPTOPolicy
      */
     public function execute(array $data): CompanyPTOPolicy
@@ -93,8 +94,9 @@ class CreateCompanyPTOPolicy extends BaseService
      * Right after, employers will be able to identify which days are holidays
      * and therefore considered as being off.
      *
-     * @param array $data
+     * @param array            $data
      * @param CompanyPTOPolicy $ptoPolicy
+     *
      * @return int
      */
     private function populateCalendar(array $data, CompanyPTOPolicy $ptoPolicy): int

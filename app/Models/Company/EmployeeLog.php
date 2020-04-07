@@ -92,8 +92,10 @@ class EmployeeLog extends Model
     /**
      * Get the JSON object.
      *
-     * @return array
+     *
      * @param mixed $value
+     *
+     * @return array
      */
     public function getObjectAttribute($value)
     {
@@ -103,8 +105,10 @@ class EmployeeLog extends Model
     /**
      * Get the date of the employee log.
      *
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getDateAttribute($value): string
     {
@@ -114,8 +118,10 @@ class EmployeeLog extends Model
     /**
      * Get the content of the employee log, if defined.
      *
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getContentAttribute($value): string
     {

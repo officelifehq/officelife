@@ -62,8 +62,10 @@ class TeamUsefulLink extends Model
      * URL instead.
      *
      * @var mixed $value
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getLabelAttribute($value): string
     {

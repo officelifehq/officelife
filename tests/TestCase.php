@@ -14,9 +14,9 @@ abstract class TestCase extends BaseTestCase
      * permission.
      *
      * @param Employee $employee
-     * @param string $permissionLevel
-     * @param string $route
-     * @param int $statusCode
+     * @param string   $permissionLevel
+     * @param string   $route
+     * @param int      $statusCode
      */
     public function accessibleBy($employee, $permissionLevel, $route, $statusCode): void
     {

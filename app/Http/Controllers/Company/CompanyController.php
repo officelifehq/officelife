@@ -41,6 +41,7 @@ class CompanyController extends Controller
      * Create the company.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)

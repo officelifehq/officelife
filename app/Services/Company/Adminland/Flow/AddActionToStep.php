@@ -30,6 +30,7 @@ class AddActionToStep extends BaseService
      * Add an action to a step.
      *
      * @param array $data
+     *
      * @return Action
      */
     public function execute(array $data): Action

@@ -29,6 +29,7 @@ class ClearPersonalDescription extends BaseService
      * Clear an employee's description.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee

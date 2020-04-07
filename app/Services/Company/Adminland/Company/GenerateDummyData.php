@@ -41,7 +41,7 @@ class GenerateDummyData extends BaseService
      * Generate dummy data for the given company.
      *
      * @param array $data
-     * @return void
+     *
      */
     public function execute(array $data): void
     {
@@ -86,7 +86,7 @@ class GenerateDummyData extends BaseService
      * Create five users without a team.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function createFiveUsersWithoutTeam(array $data)
     {
@@ -99,6 +99,7 @@ class GenerateDummyData extends BaseService
      * Create a user and add it to the company as an employee.
      *
      * @param array $data
+     *
      * @return Employee
      */
     private function addEmployee(array $data): Employee
@@ -127,8 +128,8 @@ class GenerateDummyData extends BaseService
      * Set birthdate.
      *
      * @param Employee $employee
-     * @param array $data
-     * @return void
+     * @param array    $data
+     *
      */
     private function addBirthdate(Employee $employee, array $data): void
     {
@@ -152,7 +153,7 @@ class GenerateDummyData extends BaseService
      * Create 3 teams with a bunch of employees inside.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function createThreeTeamsWithEmployees(array $data)
     {
@@ -179,9 +180,10 @@ class GenerateDummyData extends BaseService
     /**
      * Create employees in a given team.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $teamName
-     * @param int $numberOfEmployees
+     * @param int    $numberOfEmployees
+     *
      * @return Team
      */
     private function createTeamWithEmployees(array $data, string $teamName, int $numberOfEmployees): Team
@@ -251,7 +253,6 @@ class GenerateDummyData extends BaseService
      * date (on purpose). Hence the only option is to record worklogs in the
      * database directly.
      *
-     * @return void
      */
     private function createWorklogEntries()
     {
@@ -291,7 +292,6 @@ class GenerateDummyData extends BaseService
      * date (on purpose). Hence the only option is to record morales in the
      * database directly.
      *
-     * @return void
      */
     private function createMoraleEntries()
     {
@@ -320,7 +320,6 @@ class GenerateDummyData extends BaseService
     /**
      * Create fake Work from Home entries for all employees.
      *
-     * @return void
      */
     private function createWorkFromHomeEntries()
     {
@@ -351,7 +350,7 @@ class GenerateDummyData extends BaseService
      * Create fake company entries for all employees.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function createCompanyNewsEntries(array $data)
     {
@@ -376,8 +375,8 @@ class GenerateDummyData extends BaseService
      * Create a bunch of team news for the given team.
      *
      * @param array $data
-     * @param Team $team
-     * @return void
+     * @param Team  $team
+     *
      */
     private function createTeamNewsEntry(array $data, Team $team)
     {

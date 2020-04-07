@@ -31,6 +31,7 @@ class UnassignManager extends BaseService
      * Remove a manager for the given employee.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee

@@ -13,7 +13,8 @@ class WorkFromHomeHelper
      * given date.
      *
      * @param Employee $employee
-     * @param Carbon $date
+     * @param Carbon   $date
+     *
      * @return bool
      */
     public static function hasWorkedFromHomeOnDate(Employee $employee, Carbon $date): bool

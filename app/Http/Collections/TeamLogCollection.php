@@ -10,6 +10,7 @@ class TeamLogCollection
      * Prepare a collection of team logs.
      *
      * @param mixed $teamLogs
+     *
      * @return Collection
      */
     public static function prepare($teamLogs): Collection

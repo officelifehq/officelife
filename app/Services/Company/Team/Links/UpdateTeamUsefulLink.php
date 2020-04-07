@@ -41,6 +41,7 @@ class UpdateTeamUsefulLink extends BaseService
      * the team page.
      *
      * @param array $data
+     *
      * @return TeamUsefulLink
      */
     public function execute(array $data): TeamUsefulLink
@@ -71,10 +72,10 @@ class UpdateTeamUsefulLink extends BaseService
     /**
      * Add logs.
      *
-     * @param array $data
+     * @param array          $data
      * @param TeamUsefulLink $link
-     * @param Team $team
-     * @return void
+     * @param Team           $team
+     *
      */
     private function log(array $data, TeamUsefulLink $link, Team $team): void
     {

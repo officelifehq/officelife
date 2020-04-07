@@ -25,6 +25,7 @@ class Pronoun extends Model
      * Get the complete label of the pronoun.
      *
      * @param string $value
+     *
      * @return string
      */
     public function getLabelAttribute($value): string
