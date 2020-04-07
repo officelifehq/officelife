@@ -34,10 +34,11 @@ class AssignManager extends BaseService
      *
      * @param array $data
      *
-     * @return Employee
-     *
      * @throws SameIdsException
      * @throws NotEnoughPermissionException
+     *
+     * @return Employee
+     *
      */
     public function execute(array $data): Employee
     {

@@ -26,6 +26,12 @@ return PhpCsFixer\Config::create()
         'function_typehint_space' => true,
         'phpdoc_separation' => true,
         'phpdoc_align' => true,
+        'phpdoc_order' => true,
         'phpdoc_no_empty_return' => true,
+        'phpdoc_types_order' => [
+            'null_adjustment' => 'always_last',
+            'sort_algorithm' => 'alpha',
+        ],
+        'phpdoc_to_comment' => true,
     ])
     ->setFinder($finder);

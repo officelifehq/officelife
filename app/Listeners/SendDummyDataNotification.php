@@ -9,7 +9,6 @@ class SendDummyDataNotification
     /**
      * Create the event listener.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -21,7 +20,6 @@ class SendDummyDataNotification
      *
      * @param DummyDataGenerated $event
      *
-     * @return void
      */
     public function handle(DummyDataGenerated $event)
     {

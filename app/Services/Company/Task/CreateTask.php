@@ -115,7 +115,6 @@ class CreateTask extends BaseService
      * @param array $data
      * @param array $dataToLog
      *
-     * @return void
      */
     private function addLogTeamAction(array $data, array $dataToLog): void
     {
@@ -136,7 +135,6 @@ class CreateTask extends BaseService
      * @param array $data
      * @param array $dataToLog
      *
-     * @return void
      */
     private function addLogEmployeeAction(array $data, array $dataToLog): void
     {

@@ -71,7 +71,6 @@ class LogWorklog extends BaseService
      * Reset the counter indicating the number of missed daily worklog for the
      * given employee.
      *
-     * @return void
      */
     private function resetWorklogMissed()
     {

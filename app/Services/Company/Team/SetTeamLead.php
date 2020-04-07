@@ -38,9 +38,10 @@ class SetTeamLead extends BaseService
      *
      * @param array $data
      *
+     * @throws NotEnoughPermissionException
+     *
      * @return Employee
      *
-     * @throws NotEnoughPermissionException
      */
     public function execute(array $data): Employee
     {
@@ -70,7 +71,6 @@ class SetTeamLead extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function save(array $data): void
     {
@@ -102,7 +102,6 @@ class SetTeamLead extends BaseService
     /**
      * Add a notification in the UI for the employee who is the new leader.
      *
-     * @return void
      */
     private function addNotification(): void
     {
@@ -120,7 +119,6 @@ class SetTeamLead extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function log(array $data): void
     {

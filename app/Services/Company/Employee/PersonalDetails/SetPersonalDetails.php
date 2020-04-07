@@ -36,9 +36,10 @@ class SetPersonalDetails extends BaseService
      *
      * @param array $data
      *
+     * @throws NotEnoughPermissionException
+     *
      * @return Employee
      *
-     * @throws NotEnoughPermissionException
      */
     public function execute(array $data): Employee
     {

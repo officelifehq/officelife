@@ -114,7 +114,6 @@ class AddEmployeeToCompany extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function addHolidays(array $data): void
     {
@@ -129,7 +128,6 @@ class AddEmployeeToCompany extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function notifyEmployee(array $data): void
     {
@@ -149,7 +147,6 @@ class AddEmployeeToCompany extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function logAccountAudit(array $data): void
     {

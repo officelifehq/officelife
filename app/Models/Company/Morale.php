@@ -66,9 +66,10 @@ class Morale extends Model
     /**
      * Returns the emotion in a readable format.
      *
-     * @return string
      *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getTranslatedEmotionAttribute($value)
     {
@@ -78,9 +79,10 @@ class Morale extends Model
     /**
      * Returns the emotion in a readable format.
      *
-     * @return string
      *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getEmojiAttribute($value)
     {

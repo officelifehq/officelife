@@ -351,9 +351,10 @@ class Employee extends Model
     /**
      * Returns the email attribute of the employee.
      *
-     * @return string
      *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getEmailAttribute($value)
     {
@@ -363,9 +364,10 @@ class Employee extends Model
     /**
      * Returns the name attribute of the employee.
      *
-     * @return string
      *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getNameAttribute($value): string
     {

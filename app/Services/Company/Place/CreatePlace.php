@@ -93,7 +93,6 @@ class CreatePlace extends BaseService
      *
      * @param Place $place
      *
-     * @return void
      */
     private function setActive(Place $place): void
     {
@@ -110,7 +109,6 @@ class CreatePlace extends BaseService
      *
      * @param Place $place
      *
-     * @return void
      */
     private function geocodePlace(Place $place): void
     {
@@ -123,7 +121,6 @@ class CreatePlace extends BaseService
      * @param array $data
      * @param Place $place
      *
-     * @return void
      */
     private function addLog(array $data, Place $place): void
     {

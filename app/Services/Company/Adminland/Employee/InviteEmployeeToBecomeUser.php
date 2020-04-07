@@ -76,7 +76,6 @@ class InviteEmployeeToBecomeUser extends BaseService
      *
      * @param Employee $employee
      *
-     * @return void
      */
     private function inviteEmployee(Employee $employee): void
     {

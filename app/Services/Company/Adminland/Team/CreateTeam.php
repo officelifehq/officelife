@@ -58,7 +58,6 @@ class CreateTeam extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function verifyTeamNameUniqueness(array $data): void
     {
@@ -80,7 +79,6 @@ class CreateTeam extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function create(array $data): void
     {
@@ -95,7 +93,6 @@ class CreateTeam extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function log(array $data): void
     {

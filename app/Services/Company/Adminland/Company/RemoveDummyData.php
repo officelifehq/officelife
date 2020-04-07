@@ -28,7 +28,6 @@ class RemoveDummyData extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     public function execute(array $data): void
     {
@@ -59,7 +58,6 @@ class RemoveDummyData extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function removeTeams(array $data): void
     {
@@ -74,7 +72,6 @@ class RemoveDummyData extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function removeEmployees(array $data): void
     {
@@ -92,7 +89,6 @@ class RemoveDummyData extends BaseService
      *
      * @param array $data
      *
-     * @return void
      */
     private function removeAuditLogs(array $data): void
     {

@@ -14,7 +14,7 @@ class MapHelper
      * @var int   $height
      * @var int   $zoom
      *
-     * @return null|string
+     * @return string|null
      */
     public static function getStaticImage(Place $place, int $width, int $height, int $zoom = 7): ?string
     {

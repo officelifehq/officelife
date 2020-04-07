@@ -22,7 +22,6 @@ class LogCompaniesMorale implements ShouldQueue
      *
      * @param Carbon $date
      *
-     * @return void
      */
     public function __construct(Carbon $date)
     {
@@ -34,7 +33,6 @@ class LogCompaniesMorale implements ShouldQueue
      * employee's feeling on the given date.
      * This job is meant to be executed every day at 11pm (UTC).
      *
-     * @return void
      */
     public function handle()
     {
