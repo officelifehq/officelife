@@ -30,8 +30,10 @@ class UpdateQuestion extends BaseService
      * Update a question.
      *
      * @param array $data
-     * @return Question
+     *
      * @throws NotEnoughPermissionException
+     *
+     * @return Question
      */
     public function execute(array $data): Question
     {

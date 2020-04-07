@@ -28,8 +28,10 @@ class DeactivateQuestion extends BaseService
      * Deactivate a question.
      *
      * @param array $data
-     * @return Question
+     *
      * @throws NotEnoughPermissionException
+     *
+     * @return Question
      */
     public function execute(array $data): Question
     {
@@ -57,9 +59,8 @@ class DeactivateQuestion extends BaseService
     /**
      * Create an audit log.
      *
-     * @param array $data
+     * @param array    $data
      * @param Question $question
-     * @return void
      */
     private function log(array $data, Question $question): void
     {

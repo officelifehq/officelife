@@ -108,7 +108,7 @@ class DestroyAnswerTest extends TestCase
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $question) {
-            return $job->auditLog['action'] === 'answer_updated' &&
+            return $job->auditLog['action'] === 'answer_destroyed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'question_id' => $question->id,

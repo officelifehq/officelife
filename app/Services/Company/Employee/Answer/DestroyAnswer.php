@@ -30,6 +30,7 @@ class DestroyAnswer extends BaseService
      * Destroy an answer.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool
@@ -57,6 +58,7 @@ class DestroyAnswer extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
+                'question_id' => $question->id,
                 'question_title' => $question->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),

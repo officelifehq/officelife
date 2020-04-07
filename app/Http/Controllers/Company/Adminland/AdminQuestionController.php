@@ -38,7 +38,8 @@ class AdminQuestionController extends Controller
      * Create the question.
      *
      * @param Request $request
-     * @param int $companyId
+     * @param int     $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId)
@@ -64,8 +65,9 @@ class AdminQuestionController extends Controller
      * Update the question.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
+     * @param int     $companyId
+     * @param int     $questionId
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $companyId, $questionId)
@@ -91,8 +93,9 @@ class AdminQuestionController extends Controller
      * Delete the question.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
+     * @param int     $companyId
+     * @param int     $questionId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $questionId)
@@ -116,8 +119,9 @@ class AdminQuestionController extends Controller
      * Activate the question.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
+     * @param int     $companyId
+     * @param int     $questionId
+     *
      * @return \Illuminate\Http\Response
      */
     public function activate(Request $request, $companyId, $questionId)
@@ -145,8 +149,9 @@ class AdminQuestionController extends Controller
      * Deactivate the question.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
+     * @param int     $companyId
+     * @param int     $questionId
+     *
      * @return \Illuminate\Http\Response
      */
     public function deactivate(Request $request, $companyId, $questionId)

@@ -378,7 +378,6 @@ class GenerateDummyData extends BaseService
      * Create fake questions for all employees.
      *
      * @param array $data
-     * @return void
      */
     private function createQuestions(array $data)
     {

@@ -31,8 +31,10 @@ class CreateQuestion extends BaseService
      * Only one question can be active at a time.
      *
      * @param array $data
-     * @return Question
+     *
      * @throws NotEnoughPermissionException
+     *
+     * @return Question
      */
     public function execute(array $data): Question
     {

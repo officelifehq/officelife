@@ -61,7 +61,6 @@ class CreateAnswerTest extends TestCase
         (new CreateAnswer)->execute($request);
     }
 
-
     /** @test */
     public function it_fails_if_question_doesnt_belong_to_company(): void
     {

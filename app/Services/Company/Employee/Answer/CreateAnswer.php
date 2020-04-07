@@ -5,6 +5,7 @@ namespace App\Services\Company\Employee\Answer;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
 use App\Exceptions\NotEnoughPermissionException;
@@ -33,8 +34,10 @@ class CreateAnswer extends BaseService
      * There should be only one answer per question.
      *
      * @param array $data
-     * @return Answer
+     *
      * @throws NotEnoughPermissionException
+     *
+     * @return Answer
      */
     public function execute(array $data): Answer
     {
@@ -46,7 +49,7 @@ class CreateAnswer extends BaseService
             ->canBypassPermissionLevelIfEmployee($data['employee_id'])
             ->canExecuteService();
 
-        $this->validateEmployeeBelongsToCompany($data);
+        $employee = $this->validateEmployeeBelongsToCompany($data);
 
         $question = Question::where('company_id', $data['company_id'])
             ->findOrFail($data['question_id']);
@@ -60,6 +63,20 @@ class CreateAnswer extends BaseService
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
+            'action' => 'answer_created',
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'answer_id' => $answer->id,
+                'question_id' => $question->id,
+                'question_title' => $question->title,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $employee->id,
             'action' => 'answer_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,

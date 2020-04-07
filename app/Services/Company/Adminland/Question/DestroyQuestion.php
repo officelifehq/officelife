@@ -28,6 +28,7 @@ class DestroyQuestion extends BaseService
      * Destroy a question.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool

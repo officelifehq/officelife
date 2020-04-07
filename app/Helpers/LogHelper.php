@@ -378,6 +378,13 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'answer_created') {
+            $sentence = trans('account.log_answer_created', [
+                'title' => $log->object->{'question_title'},
+                'status' => $log->object->{'question_status'},
+            ]);
+        }
+
         return $sentence;
     }
 

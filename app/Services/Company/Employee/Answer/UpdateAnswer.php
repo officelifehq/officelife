@@ -31,8 +31,10 @@ class UpdateAnswer extends BaseService
      * Update an answer.
      *
      * @param array $data
-     * @return Answer
+     *
      * @throws NotEnoughPermissionException
+     *
+     * @return Answer
      */
     public function execute(array $data): Answer
     {
