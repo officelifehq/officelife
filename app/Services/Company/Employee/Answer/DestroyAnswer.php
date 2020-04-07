@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Services\Company\Adminland\Question;
+namespace App\Services\Company\Adminland\Answer;
 
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Models\Company\Answer;
 use App\Models\Company\Question;
-use App\Exceptions\NotEnoughPermissionException;
 
-class CreateQuestion extends BaseService
+class DestroyAnswer extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -20,50 +20,48 @@ class CreateQuestion extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'title' => 'required|string|max:255',
-            'active' => 'required|boolean',
+            'employee_id' => 'required|integer|exists:employees,id',
+            'answer_id' => 'required|integer|exists:answers,id',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Create a question.
-     * Only one question can be active at a time.
+     * Destroy an answer.
      *
      * @param array $data
-     * @return Question
-     * @throws NotEnoughPermissionException
+     * @return bool
      */
-    public function execute(array $data): Question
+    public function execute(array $data): bool
     {
         $this->validateRules($data);
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
             ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
             ->canExecuteService();
 
-        $question = Question::create([
-            'company_id' => $data['company_id'],
-            'title' => $data['title'],
-            'active' => $this->valueOrFalse($data, 'active'),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ]);
+        $this->validateEmployeeBelongsToCompany($data);
+
+        $answer = Answer::findOrFail($data['answer_id']);
+        $question = Question::where('company_id', $data['company_id'])
+            ->findOrFail($answer->question->id);
+
+        $answer->delete();
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
-            'action' => 'question_created',
+            'action' => 'answer_destroyed',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'question_id' => $question->id,
                 'question_title' => $question->title,
-                'question_status' => $question->active,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
-        return $question;
+        return true;
     }
 }
