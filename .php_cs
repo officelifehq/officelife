@@ -18,6 +18,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_summary' => true,
         'phpdoc_add_missing_param_annotation' => true,
         'no_unused_imports' => true,
+        'no_extra_blank_lines' => true,
         'no_trailing_comma_in_list_call' => false,
         'no_whitespace_in_blank_line' => true,
         'no_whitespace_before_comma_in_array' => true,

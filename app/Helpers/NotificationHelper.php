@@ -34,7 +34,6 @@ class NotificationHelper
         return $notificationCollection;
     }
 
-
     /**
      * Return an sentence explaining what the notification contains.
      *
