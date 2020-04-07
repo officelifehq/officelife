@@ -31,6 +31,7 @@ class AssignPositionToEmployee extends BaseService
      * Set an employee's position.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee

@@ -41,6 +41,7 @@ class GenerateDummyData extends BaseService
      * Generate dummy data for the given company.
      *
      * @param array $data
+     *
      * @return void
      */
     public function execute(array $data): void
@@ -86,6 +87,7 @@ class GenerateDummyData extends BaseService
      * Create five users without a team.
      *
      * @param array $data
+     *
      * @return void
      */
     private function createFiveUsersWithoutTeam(array $data)
@@ -99,6 +101,7 @@ class GenerateDummyData extends BaseService
      * Create a user and add it to the company as an employee.
      *
      * @param array $data
+     *
      * @return Employee
      */
     private function addEmployee(array $data): Employee
@@ -128,6 +131,7 @@ class GenerateDummyData extends BaseService
      *
      * @param Employee $employee
      * @param array $data
+     *
      * @return void
      */
     private function addBirthdate(Employee $employee, array $data): void
@@ -152,6 +156,7 @@ class GenerateDummyData extends BaseService
      * Create 3 teams with a bunch of employees inside.
      *
      * @param array $data
+     *
      * @return void
      */
     private function createThreeTeamsWithEmployees(array $data)
@@ -182,6 +187,7 @@ class GenerateDummyData extends BaseService
      * @param array $data
      * @param string $teamName
      * @param int $numberOfEmployees
+     *
      * @return Team
      */
     private function createTeamWithEmployees(array $data, string $teamName, int $numberOfEmployees): Team
@@ -351,6 +357,7 @@ class GenerateDummyData extends BaseService
      * Create fake company entries for all employees.
      *
      * @param array $data
+     *
      * @return void
      */
     private function createCompanyNewsEntries(array $data)
@@ -377,6 +384,7 @@ class GenerateDummyData extends BaseService
      *
      * @param array $data
      * @param Team $team
+     *
      * @return void
      */
     private function createTeamNewsEntry(array $data, Team $team)

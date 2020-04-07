@@ -35,6 +35,7 @@ class RemoveEmployeeFromTeam extends BaseService
      * Remove an employee from a team.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee
@@ -68,6 +69,7 @@ class RemoveEmployeeFromTeam extends BaseService
      * Add a notification in the UI for the employee that is added to the team.
      *
      * @param Team $team
+     *
      * @return void
      */
     private function addNotification(Team $team): void
@@ -86,6 +88,7 @@ class RemoveEmployeeFromTeam extends BaseService
      *
      * @param array $data
      * @param Team $team
+     *
      * @return void
      */
     private function log(array $data, Team $team): void

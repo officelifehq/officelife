@@ -33,6 +33,7 @@ class SetTeamDescription extends BaseService
      * displaying the proper content.
      *
      * @param array $data
+     *
      * @return Team
      */
     public function execute(array $data): Team

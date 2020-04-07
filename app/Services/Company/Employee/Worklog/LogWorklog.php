@@ -37,6 +37,7 @@ class LogWorklog extends BaseService
      * Logging can only be done by the employee.
      *
      * @param array $data
+     *
      * @return Worklog
      */
     public function execute(array $data): Worklog

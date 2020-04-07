@@ -33,7 +33,9 @@ class AssignManager extends BaseService
      * Set an employee as being the manager of the given employee.
      *
      * @param array $data
+     *
      * @return Employee
+     *
      * @throws SameIdsException
      * @throws NotEnoughPermissionException
      */

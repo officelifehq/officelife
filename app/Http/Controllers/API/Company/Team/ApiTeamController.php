@@ -19,6 +19,7 @@ class ApiTeamController extends ApiController
      * Get the list of teams.
      *
      * @param int $companyId
+     *
      * @return \Illuminate\Http\Resources\Json\JsonResource
      */
     public function index(Request $request, int $companyId)
@@ -35,6 +36,7 @@ class ApiTeamController extends ApiController
      * @param  Request $request
      * @param int $companyId
      * @param int $teamId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Request $request, $companyId, $teamId)
@@ -57,6 +59,7 @@ class ApiTeamController extends ApiController
      *
      * @param  Request $request
      * @param int $companyId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, int $companyId)

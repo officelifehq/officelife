@@ -46,6 +46,7 @@ class CreateTimeOff extends BaseService
      * other half day as holiday, for instance.
      *
      * @param array $data
+     *
      * @return EmployeePlannedHoliday
      */
     public function execute(array $data): EmployeePlannedHoliday
@@ -94,6 +95,7 @@ class CreateTimeOff extends BaseService
      *
      * @param Employee $employee
      * @param Carbon $date
+     *
      * @return EmployeePlannedHoliday
      */
     private function getExistingPlannedHoliday(Employee $employee, Carbon $date)
@@ -118,6 +120,7 @@ class CreateTimeOff extends BaseService
      *
      * @param EmployeePlannedHoliday $holiday
      * @param array $data
+     *
      * @return bool
      */
     private function validateCreationHoliday(EmployeePlannedHoliday $holiday, array $data): bool
@@ -141,6 +144,7 @@ class CreateTimeOff extends BaseService
      *
      * @param array $data
      * @param Carbon $date
+     *
      * @return EmployeePlannedHoliday
      */
     private function createPlannedHoliday(array $data, Carbon $date): EmployeePlannedHoliday
@@ -159,6 +163,7 @@ class CreateTimeOff extends BaseService
      * @param Employee $employee
      * @param EmployeePlannedHoliday $plannedHoliday
      * @param array $data
+     *
      * @return void
      */
     private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday, array $data)

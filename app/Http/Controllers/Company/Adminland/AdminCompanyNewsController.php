@@ -51,6 +51,7 @@ class AdminCompanyNewsController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId)
@@ -78,6 +79,7 @@ class AdminCompanyNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, int $companyId, int $newsId)
@@ -101,6 +103,7 @@ class AdminCompanyNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $companyId, $newsId)
@@ -129,6 +132,7 @@ class AdminCompanyNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $companyNewsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $companyNewsId)

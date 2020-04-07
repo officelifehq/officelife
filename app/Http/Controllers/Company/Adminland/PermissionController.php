@@ -16,6 +16,7 @@ class PermissionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, int $companyId, int $employeeId)
@@ -32,6 +33,7 @@ class PermissionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, int $companyId, int $employeeId)

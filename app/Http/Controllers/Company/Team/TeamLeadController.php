@@ -20,6 +20,7 @@ class TeamLeadController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
+     *
      * @return JsonResponse
      */
     public function search(Request $request, int $companyId, int $teamId)
@@ -50,7 +51,9 @@ class TeamLeadController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
+     *
      * @return JsonResponse
+     *
      * @throws NotEnoughPermissionException
      */
     public function store(Request $request, $companyId, $teamId)
@@ -78,7 +81,9 @@ class TeamLeadController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $teamLeadId
+     *
      * @return JsonResponse
+     *
      * @throws NotEnoughPermissionException
      */
     public function destroy(Request $request, $companyId, $teamId, $teamLeadId)

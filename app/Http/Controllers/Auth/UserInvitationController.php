@@ -19,6 +19,7 @@ class UserInvitationController extends Controller
      *
      * @param Request $request
      * @param string $invitationLink
+     *
      * @return \Illuminate\Http\Response
      */
     public function check(Request $request, string $invitationLink)
@@ -56,6 +57,7 @@ class UserInvitationController extends Controller
      *
      * @param Request $request
      * @param string $invitationLink
+     *
      * @return \Illuminate\Http\Response
      */
     public function join(Request $request, string $invitationLink)

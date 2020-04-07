@@ -15,6 +15,7 @@ class DummyController extends Controller
      * Generate or remove fake data for the Company.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)

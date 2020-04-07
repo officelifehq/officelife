@@ -36,6 +36,7 @@ class AdminPositionController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId)
@@ -62,6 +63,7 @@ class AdminPositionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $positionId
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $companyId, $positionId)
@@ -88,6 +90,7 @@ class AdminPositionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $positionId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $positionId)

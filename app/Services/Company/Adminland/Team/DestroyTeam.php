@@ -28,6 +28,7 @@ class DestroyTeam extends BaseService
      * Destroy a team.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool

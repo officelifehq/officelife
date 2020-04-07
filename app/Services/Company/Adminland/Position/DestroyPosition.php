@@ -28,6 +28,7 @@ class DestroyPosition extends BaseService
      * Destroy a position.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool

@@ -20,6 +20,7 @@ class LogTeamsMorale implements ShouldQueue
      * Create a new job instance.
      *
      * @param Carbon $date
+     *
      * @return void
      */
     public function __construct(Carbon $date)

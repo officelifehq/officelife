@@ -38,6 +38,7 @@ class AdminPTOPoliciesController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $ptoPolicyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $companyId, $ptoPolicyId)
@@ -67,6 +68,7 @@ class AdminPTOPoliciesController extends Controller
      *
      * @param int $companyId
      * @param int $companyPTOPolicyId
+     *
      * @return array
      */
     public function getHolidays(int $companyId, int $companyPTOPolicyId)

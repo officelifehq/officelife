@@ -12,6 +12,7 @@ class NotificationHelper
      * Returns the notifications for this employee.
      *
      * @param Employee $employee
+     *
      * @return Collection
      */
     public static function getNotifications(Employee $employee): Collection
@@ -34,11 +35,11 @@ class NotificationHelper
         return $notificationCollection;
     }
 
-
     /**
      * Return an sentence explaining what the notification contains.
      *
      * @param Notification $notification
+     *
      * @return string
      */
     public static function process(Notification $notification): string

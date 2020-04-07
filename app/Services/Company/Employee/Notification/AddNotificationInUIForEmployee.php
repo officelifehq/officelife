@@ -42,6 +42,7 @@ class AddNotificationInUIForEmployee extends BaseService
      * he logs in.
      *
      * @param array $data
+     *
      * @return Notification
      */
     public function execute(array $data): Notification

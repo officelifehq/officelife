@@ -30,6 +30,7 @@ class RemovePositionFromEmployee extends BaseService
      * Remove an employee's position.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee

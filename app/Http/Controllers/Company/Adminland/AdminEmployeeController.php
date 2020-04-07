@@ -59,6 +59,7 @@ class AdminEmployeeController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId)
@@ -88,6 +89,7 @@ class AdminEmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $employeeId)

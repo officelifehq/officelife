@@ -18,6 +18,7 @@ class TeamController extends Controller
      * Display the list of teams.
      *
      * @param int $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, int $companyId)
@@ -49,6 +50,7 @@ class TeamController extends Controller
      *
      * @param int $companyId
      * @param int $teamId
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, int $companyId, int $teamId)

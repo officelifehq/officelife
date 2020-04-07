@@ -33,6 +33,7 @@ class LogEmployeeAction extends BaseService
      * This also creates an audit log.
      *
      * @param array $data
+     *
      * @return EmployeeLog
      */
     public function execute(array $data): EmployeeLog

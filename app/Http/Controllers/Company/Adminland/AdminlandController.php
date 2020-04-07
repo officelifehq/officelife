@@ -15,6 +15,7 @@ class AdminlandController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $companyId)

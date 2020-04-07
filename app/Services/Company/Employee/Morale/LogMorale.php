@@ -41,6 +41,7 @@ class LogMorale extends BaseService
      * Logging can only be done by the employee.
      *
      * @param array $data
+     *
      * @return Morale
      */
     public function execute(array $data): Morale

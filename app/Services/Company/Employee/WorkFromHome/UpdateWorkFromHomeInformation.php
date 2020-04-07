@@ -32,6 +32,7 @@ class UpdateWorkFromHomeInformation extends BaseService
      * Update the information about working from home for the given employee.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee

@@ -25,6 +25,7 @@ class DashboardTeamController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param mixed $requestedDate
+     *
      * @return Response
      */
     public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null): Response
@@ -136,6 +137,7 @@ class DashboardTeamController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param mixed $requestedDate
+     *
      * @return \Illuminate\Http\Response
      */
     public function worklogDetails(Request $request, int $companyId, int $teamId, $requestedDate)

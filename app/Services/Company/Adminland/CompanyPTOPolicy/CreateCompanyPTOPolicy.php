@@ -34,6 +34,7 @@ class CreateCompanyPTOPolicy extends BaseService
      * Create a company PTO policy.
      *
      * @param array $data
+     *
      * @return CompanyPTOPolicy
      */
     public function execute(array $data): CompanyPTOPolicy
@@ -95,6 +96,7 @@ class CreateCompanyPTOPolicy extends BaseService
      *
      * @param array $data
      * @param CompanyPTOPolicy $ptoPolicy
+     *
      * @return int
      */
     private function populateCalendar(array $data, CompanyPTOPolicy $ptoPolicy): int

@@ -26,6 +26,7 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return Response
      */
     public function show(Request $request, int $companyId, int $employeeId)
@@ -59,6 +60,7 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return JsonResponse
      */
     public function update(Request $request, $companyId, $employeeId)
@@ -101,6 +103,7 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return Response
      */
     public function address(Request $request, int $companyId, int $employeeId): Response
@@ -144,6 +147,7 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return JsonResponse
      */
     public function updateAddress(Request $request, $companyId, $employeeId)

@@ -33,6 +33,7 @@ class UpdateTeamNews extends BaseService
      * Update a team news.
      *
      * @param array $data
+     *
      * @return TeamNews
      */
     public function execute(array $data): TeamNews

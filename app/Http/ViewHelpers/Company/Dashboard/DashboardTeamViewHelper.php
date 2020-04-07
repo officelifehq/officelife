@@ -13,7 +13,9 @@ class DashboardTeamViewHelper
 {
     /**
      * Array containing all the upcoming birthdays for employees in this team.
+     *
      * @param Team $team
+     *
      * @return array
      */
     public static function birthdays(Team $team): array
@@ -56,7 +58,9 @@ class DashboardTeamViewHelper
 
     /**
      * Array containing all the upcoming birthdays for employees in this team.
+     *
      * @param Team $team
+     *
      * @return Collection
      */
     public static function workFromHome(Team $team): Collection

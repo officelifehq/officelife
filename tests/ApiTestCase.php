@@ -12,6 +12,7 @@ class ApiTestCase extends TestCase
      * Create a user and sign in as that user.
      *
      * @param null $user
+     *
      * @return mixed
      */
     public function signIn()

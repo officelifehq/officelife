@@ -31,6 +31,7 @@ class AssignEmployeeStatusToEmployee extends BaseService
      * Set an employee's status.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee

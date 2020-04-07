@@ -13,7 +13,9 @@ class EmployeeShowViewHelper
 {
     /**
      * Collection containing all the managers of this employee.
+     *
      * @param Team $team
+     *
      * @return Collection
      */
     public static function managers(Employee $employee): Collection
@@ -43,7 +45,9 @@ class EmployeeShowViewHelper
 
     /**
      * Collection containing all the direct reports of this employee.
+     *
      * @param Team $team
+     *
      * @return Collection
      */
     public static function directReports(Employee $employee): Collection
@@ -76,6 +80,7 @@ class EmployeeShowViewHelper
      * link to the detailled page of the worklogs.
      *
      * @param Employee $employee
+     *
      * @return array
      */
     public static function worklogs(Employee $employee): array
@@ -118,6 +123,7 @@ class EmployeeShowViewHelper
      * been working from home this year.
      *
      * @param Employee $employee
+     *
      * @return array
      */
     public static function workFromHomeStats(Employee $employee): array

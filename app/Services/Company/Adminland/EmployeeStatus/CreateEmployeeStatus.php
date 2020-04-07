@@ -28,6 +28,7 @@ class CreateEmployeeStatus extends BaseService
      * Create an employee status.
      *
      * @param array $data
+     *
      * @return EmployeeStatus
      */
     public function execute(array $data): EmployeeStatus

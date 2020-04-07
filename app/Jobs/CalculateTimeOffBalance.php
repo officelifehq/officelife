@@ -29,6 +29,7 @@ class CalculateTimeOffBalance implements ShouldQueue
      *
      * @param Employee $employee
      * @param string $date
+     *
      * @return void
      */
     public function __construct(Employee $employee, string $date)

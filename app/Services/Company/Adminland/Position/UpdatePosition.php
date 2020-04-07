@@ -29,6 +29,7 @@ class UpdatePosition extends BaseService
      * Update a position.
      *
      * @param array $data
+     *
      * @return Position
      */
     public function execute(array $data): Position

@@ -10,6 +10,7 @@ class TeamCollection
      * Prepare a collection of teams.
      *
      * @param mixed $teams
+     *
      * @return Collection
      */
     public static function prepare($teams): Collection

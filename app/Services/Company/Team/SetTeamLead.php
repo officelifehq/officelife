@@ -37,7 +37,9 @@ class SetTeamLead extends BaseService
      * Set the employee as the team leader.
      *
      * @param array $data
+     *
      * @return Employee
+     *
      * @throws NotEnoughPermissionException
      */
     public function execute(array $data): Employee
@@ -67,6 +69,7 @@ class SetTeamLead extends BaseService
      * Save the team with the new information.
      *
      * @param array $data
+     *
      * @return void
      */
     private function save(array $data): void
@@ -79,6 +82,7 @@ class SetTeamLead extends BaseService
      * Add the employee to the team - if he’s not in the team already.
      *
      * @param array $data
+     *
      * @return void|null
      */
     private function addEmployeeToTeam(array $data)
@@ -115,6 +119,7 @@ class SetTeamLead extends BaseService
      * Log the information in the audit logs.
      *
      * @param array $data
+     *
      * @return void
      */
     private function log(array $data): void

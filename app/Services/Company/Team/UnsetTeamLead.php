@@ -31,6 +31,7 @@ class UnSetTeamLead extends BaseService
      * Remove the team's leader.
      *
      * @param array $data
+     *
      * @return Team
      */
     public function execute(array $data): Team
@@ -61,6 +62,7 @@ class UnSetTeamLead extends BaseService
      *
      * @param Employee $employee
      * @param Team $team
+     *
      * @return void
      */
     private function addNotification(Employee $employee, Team $team): void
@@ -80,6 +82,7 @@ class UnSetTeamLead extends BaseService
      * @param array $data
      * @param Employee $oldTeamLeader
      * @param Team $team
+     *
      * @return void
      */
     private function log(array $data, Employee $oldTeamLeader, Team $team): void

@@ -10,6 +10,7 @@ class CompanyNewsCollection
      * Prepare a collection of company news.
      *
      * @param mixed $companyNews
+     *
      * @return Collection
      */
     public static function prepare($companyNews): Collection

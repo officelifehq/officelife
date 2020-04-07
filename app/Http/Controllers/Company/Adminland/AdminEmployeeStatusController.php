@@ -37,6 +37,7 @@ class AdminEmployeeStatusController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId)
@@ -62,6 +63,7 @@ class AdminEmployeeStatusController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeStatusId
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $companyId, $employeeStatusId)
@@ -88,6 +90,7 @@ class AdminEmployeeStatusController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeStatusId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $employeeStatusId)

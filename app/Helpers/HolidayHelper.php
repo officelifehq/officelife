@@ -14,6 +14,7 @@ class HolidayHelper
      * Return the number of holidays an employee earns each month.
      *
      * @param Employee $employee
+     *
      * @return float
      */
     public static function getHolidaysEarnedEachMonth(Employee $employee): float
@@ -27,6 +28,7 @@ class HolidayHelper
      *
      * @param CompanyPTOPolicy $ptoPolicy
      * @param Employee $employee
+     *
      * @return float
      */
     public static function getNumberOfDaysLeftToEarn(CompanyPTOPolicy $ptoPolicy, Employee $employee): float
@@ -50,6 +52,7 @@ class HolidayHelper
      *
      * @param CompanyPTOPolicy $ptoPolicy
      * @param Employee $employee
+     *
      * @return float
      */
     public static function getHolidaysEarnedEachDay(CompanyPTOPolicy $ptoPolicy, Employee $employee): float
@@ -64,6 +67,7 @@ class HolidayHelper
      *
      * @param CompanyPTOPolicy $ptoPolicy
      * @param Carbon $date
+     *
      * @return bool
      */
     public static function isDayWorkedForCompany(CompanyPTOPolicy $ptoPolicy, Carbon $date): ?bool

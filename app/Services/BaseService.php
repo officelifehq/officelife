@@ -48,6 +48,7 @@ abstract class BaseService
      * Sets the author id for the service.
      *
      * @param integer $givenAuthor
+     *
      * @return self
      */
     public function author(int $givenAuthor): self
@@ -60,6 +61,7 @@ abstract class BaseService
      * Sets the company id for the service.
      *
      * @param integer $company
+     *
      * @return self
      */
     public function inCompany(int $company): self
@@ -105,6 +107,7 @@ abstract class BaseService
      * Sets the permission to bypass the minimum level requirement.
      *
      * @param integer $employeeId
+     *
      * @return self
      */
     public function canBypassPermissionLevelIfEmployee(int $employeeId): self
@@ -127,6 +130,7 @@ abstract class BaseService
      * Validate an array against a set of rules.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function validateRules(array $data): bool
@@ -199,6 +203,7 @@ abstract class BaseService
      *
      * @param mixed $data
      * @param mixed $index
+     *
      * @return mixed
      */
     public function valueOrNull($data, $index)
@@ -215,6 +220,7 @@ abstract class BaseService
      *
      * @param mixed $data
      * @param mixed $index
+     *
      * @return mixed
      */
     public function nullOrDate($data, $index)
@@ -231,6 +237,7 @@ abstract class BaseService
      *
      * @param mixed $data
      * @param mixed $index
+     *
      * @return mixed
      */
     public function valueOrFalse($data, $index)

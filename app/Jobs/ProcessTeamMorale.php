@@ -26,6 +26,7 @@ class ProcessTeamMorale implements ShouldQueue
      * Create a new job instance.
      *
      * @param array $parameters
+     *
      * @return void
      */
     public function __construct(array $parameters)

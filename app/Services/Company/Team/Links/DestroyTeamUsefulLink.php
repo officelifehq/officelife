@@ -29,6 +29,7 @@ class DestroyTeamUsefulLink extends BaseService
      * Destroy a team useful link.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool

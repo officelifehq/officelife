@@ -31,6 +31,7 @@ class AddUserToCompany extends BaseService
      * Add a user to the company.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee

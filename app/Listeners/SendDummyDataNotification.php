@@ -20,6 +20,7 @@ class SendDummyDataNotification
      * Handle the event.
      *
      * @param DummyDataGenerated $event
+     *
      * @return void
      */
     public function handle(DummyDataGenerated $event)

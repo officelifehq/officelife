@@ -38,6 +38,7 @@ class CreateTask extends BaseService
      * Create a task.
      *
      * @param array $data
+     *
      * @return Task
      */
     public function execute(array $data): Task
@@ -91,6 +92,7 @@ class CreateTask extends BaseService
      * Actually create the task.
      *
      * @param array $data
+     *
      * @return Task
      */
     private function addTask(array $data): Task
@@ -112,6 +114,7 @@ class CreateTask extends BaseService
      *
      * @param array $data
      * @param array $dataToLog
+     *
      * @return void
      */
     private function addLogTeamAction(array $data, array $dataToLog): void
@@ -132,6 +135,7 @@ class CreateTask extends BaseService
      *
      * @param array $data
      * @param array $dataToLog
+     *
      * @return void
      */
     private function addLogEmployeeAction(array $data, array $dataToLog): void

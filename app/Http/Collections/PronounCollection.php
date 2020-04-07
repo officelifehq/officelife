@@ -10,6 +10,7 @@ class PronounCollection
      * Prepare a collection of pronouns.
      *
      * @param mixed $pronouns
+     *
      * @return Collection
      */
     public static function prepare($pronouns): Collection

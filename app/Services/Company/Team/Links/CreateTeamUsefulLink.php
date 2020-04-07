@@ -43,6 +43,7 @@ class CreateTeamUsefulLink extends BaseService
      * the team page.
      *
      * @param array $data
+     *
      * @return TeamUsefulLink
      */
     public function execute(array $data): TeamUsefulLink
@@ -67,6 +68,7 @@ class CreateTeamUsefulLink extends BaseService
      * Actually create the link.
      *
      * @param array $data
+     *
      * @return TeamUsefulLink
      */
     private function createLink(array $data): TeamUsefulLink
@@ -86,6 +88,7 @@ class CreateTeamUsefulLink extends BaseService
      * @param array $data
      * @param TeamUsefulLink $link
      * @param Team $team
+     *
      * @return void
      */
     private function log(array $data, TeamUsefulLink $link, Team $team)

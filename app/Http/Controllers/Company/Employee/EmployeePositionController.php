@@ -16,6 +16,7 @@ class EmployeePositionController extends Controller
      *
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, int $companyId, int $employeeId)
@@ -46,6 +47,7 @@ class EmployeePositionController extends Controller
      *
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, int $companyId, int $employeeId)
