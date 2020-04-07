@@ -14,6 +14,7 @@ class DashboardWorkFromHomeController extends Controller
      * Change the status of Work from home.
      *
      * @var Request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)

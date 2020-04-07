@@ -172,6 +172,7 @@ class Team extends Model
      * of queries with Eloquent. It’s not elegant, but it’s performant.
      *
      * @param Carbon $date
+     *
      * @return array
      */
     public function worklogsForDate($date): array

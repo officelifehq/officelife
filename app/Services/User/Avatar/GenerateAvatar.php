@@ -24,6 +24,7 @@ class GenerateAvatar extends BaseService
      * - http://avatars.adorable.io/ gives avatars based on a random string.
      *
      * @param array $data
+     *
      * @return string|null
      */
     public function execute(array $data)
@@ -39,7 +40,8 @@ class GenerateAvatar extends BaseService
      * Get the size for the avatar, based on a given parameter. Provides a
      * default otherwise.
      *
-     * @param  array  $data
+     * @param array $data
+     *
      * @return int
      */
     private function size(array $data): int

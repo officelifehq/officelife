@@ -22,6 +22,7 @@ class TeamNewsController extends Controller
      *
      * @param int $companyId
      * @param int $teamId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $companyId, $teamId)
@@ -51,6 +52,7 @@ class TeamNewsController extends Controller
      *
      * @param int $companyId
      * @param int $teamId
+     *
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request, $companyId, $teamId)
@@ -72,6 +74,7 @@ class TeamNewsController extends Controller
      *
      * @param int $companyId
      * @param int $teamId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId, $teamId)
@@ -99,6 +102,7 @@ class TeamNewsController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, $companyId, $teamId, $newsId)
@@ -116,9 +120,10 @@ class TeamNewsController extends Controller
      * Update the company news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param int     $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $companyId, $teamId, $newsId)
@@ -144,9 +149,10 @@ class TeamNewsController extends Controller
      * Delete the team news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param int     $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $teamId, $newsId)

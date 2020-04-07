@@ -32,6 +32,7 @@ trait JsonRespondController
      * Set HTTP status code of the response.
      *
      * @param int $statusCode
+     *
      * @return $this
      */
     public function setHTTPStatusCode($statusCode)
@@ -55,6 +56,7 @@ trait JsonRespondController
      * Set error code of the response.
      *
      * @param string $errorMessage
+     *
      * @return $this
      */
     public function setErrorMessage($errorMessage)
@@ -68,6 +70,7 @@ trait JsonRespondController
      * Sends a JSON to the consumer.
      *
      * @param array $data
+     *
      * @return JsonResponse
      */
     public function respond($data)
@@ -92,6 +95,7 @@ trait JsonRespondController
      * Sends an error when the validator failed.
      *
      * @param Validator $validator
+     *
      * @return JsonResponse
      */
     public function respondValidatorFailed(Validator $validator)
@@ -106,6 +110,7 @@ trait JsonRespondController
      * creating an object.
      *
      * @param string $message
+     *
      * @return JsonResponse
      */
     public function respondNotTheRightParameters($message = null)
@@ -119,6 +124,7 @@ trait JsonRespondController
      * Sends a response invalid query (http 500) to the request.
      *
      * @param string $message
+     *
      * @return JsonResponse
      */
     public function respondInvalidQuery($message = null)
@@ -132,6 +138,7 @@ trait JsonRespondController
      * Sends a response unauthorized (401) to the request.
      *
      * @param string $message
+     *
      * @return JsonResponse
      */
     public function respondUnauthorized($message = null)
@@ -145,6 +152,7 @@ trait JsonRespondController
      * Sends a response with error.
      *
      * @param array|string|null $message
+     *
      * @return JsonResponse
      */
     public function respondWithError($message = null)
@@ -161,7 +169,8 @@ trait JsonRespondController
      * Sends a response that the object has been deleted, and also indicates
      * the id of the object that has been deleted.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return JsonResponse
      */
     public function respondObjectDeleted($id)

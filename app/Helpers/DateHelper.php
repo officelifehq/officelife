@@ -87,6 +87,7 @@ class DateHelper
      * Determine if the date is in the future, in the present or in the past.
      *
      * @param Carbon $date
+     *
      * @return string
      */
     public static function determineDateStatus(Carbon $date): string

@@ -37,6 +37,7 @@ class InviteEmployeeToBecomeUser extends BaseService
      * Send an invitation email to the employee so he can become a user.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee
@@ -74,7 +75,7 @@ class InviteEmployeeToBecomeUser extends BaseService
      * Send the email.
      *
      * @param Employee $employee
-     * @return void
+     *
      */
     private function inviteEmployee(Employee $employee): void
     {

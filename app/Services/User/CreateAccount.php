@@ -32,6 +32,7 @@ class CreateAccount extends BaseService
      * Create a user and send a confirmation email.
      *
      * @param array $data
+     *
      * @return User
      */
     public function execute(array $data): User
@@ -47,6 +48,7 @@ class CreateAccount extends BaseService
      * Create the user.
      *
      * @param array $data
+     *
      * @return User
      */
     private function createUser(array $data): User
@@ -74,6 +76,7 @@ class CreateAccount extends BaseService
      * Generate a confirmation link for the user.
      *
      * @param User $user
+     *
      * @return User
      */
     private function generateConfirmationLink($user): User
@@ -88,7 +91,7 @@ class CreateAccount extends BaseService
      * Schedule a confirmation email to be sent.
      *
      * @param User $user
-     * @return void
+     *
      */
     private function scheduleConfirmationEmail(User $user): void
     {

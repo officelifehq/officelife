@@ -32,6 +32,7 @@ class LogAccountAction extends BaseService
      * therefore should only be used to log important actions.
      *
      * @param array $data
+     *
      * @return AuditLog
      */
     public function execute(array $data): AuditLog

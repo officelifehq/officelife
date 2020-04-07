@@ -31,6 +31,7 @@ class UpdateCompanyNews extends BaseService
      * Update a company news.
      *
      * @param array $data
+     *
      * @return CompanyNews
      */
     public function execute(array $data): CompanyNews

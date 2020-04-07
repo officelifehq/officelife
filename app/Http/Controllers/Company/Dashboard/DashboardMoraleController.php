@@ -13,6 +13,7 @@ class DashboardMoraleController extends Controller
      * Create a morale log.
      *
      * @var Request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)

@@ -31,6 +31,7 @@ class ProcessDailyTimeOffBalance extends BaseService
      * need to validate the service before processing it.
      *
      * @param array $data
+     *
      * @return EmployeeDailyCalendarEntry
      */
     public function execute(array $data): EmployeeDailyCalendarEntry

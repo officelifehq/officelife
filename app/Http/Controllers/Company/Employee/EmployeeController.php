@@ -24,6 +24,7 @@ class EmployeeController extends Controller
      * Display the list of employees.
      *
      * @param int $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, int $companyId)
@@ -60,6 +61,7 @@ class EmployeeController extends Controller
      *
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, int $companyId, int $employeeId)
@@ -114,6 +116,7 @@ class EmployeeController extends Controller
      *
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function assignManager(Request $request, int $companyId, int $employeeId)
@@ -139,6 +142,7 @@ class EmployeeController extends Controller
      *
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function assignDirectReport(Request $request, int $companyId, int $employeeId)
@@ -166,6 +170,7 @@ class EmployeeController extends Controller
      *
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function unassignManager(Request $request, int $companyId, int $employeeId)
@@ -191,6 +196,7 @@ class EmployeeController extends Controller
      *
      * @param int $companyId
      * @param int $managerId
+     *
      * @return \Illuminate\Http\Response
      */
     public function unassignDirectReport(Request $request, int $companyId, int $managerId)

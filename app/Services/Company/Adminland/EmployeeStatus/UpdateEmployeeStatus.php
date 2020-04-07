@@ -29,6 +29,7 @@ class UpdateEmployeeStatus extends BaseService
      * Update an employee status.
      *
      * @param array $data
+     *
      * @return EmployeeStatus
      */
     public function execute(array $data): EmployeeStatus

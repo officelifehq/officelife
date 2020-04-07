@@ -28,6 +28,7 @@ class DestroyCompanyNews extends BaseService
      * Destroy a company news.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool

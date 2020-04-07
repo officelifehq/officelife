@@ -32,6 +32,7 @@ class CreateTeam extends BaseService
      * Create a team.
      *
      * @param array $data
+     *
      * @return Team
      */
     public function execute(array $data): Team
@@ -56,7 +57,7 @@ class CreateTeam extends BaseService
      * Make sure the team's name is unique in the company.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function verifyTeamNameUniqueness(array $data): void
     {
@@ -77,7 +78,7 @@ class CreateTeam extends BaseService
      * Create the team.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function create(array $data): void
     {
@@ -91,7 +92,7 @@ class CreateTeam extends BaseService
      * Add audit logs.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function log(array $data): void
     {

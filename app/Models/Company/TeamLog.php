@@ -89,8 +89,10 @@ class TeamLog extends Model
     /**
      * Get the JSON object.
      *
-     * @return array
+     *
      * @param mixed $value
+     *
+     * @return array
      */
     public function getObjectAttribute($value)
     {
@@ -100,8 +102,10 @@ class TeamLog extends Model
     /**
      * Get the date of the team log.
      *
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getDateAttribute($value): string
     {
@@ -111,8 +115,10 @@ class TeamLog extends Model
     /**
      * Get the content of the team log, if defined.
      *
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getContentAttribute($value): string
     {

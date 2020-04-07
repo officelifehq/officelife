@@ -10,6 +10,7 @@ class TeamUsefulLinkCollection
      * Prepare a collection of team news.
      *
      * @param mixed $teamUsefulLinks
+     *
      * @return Collection
      */
     public static function prepare($teamUsefulLinks): Collection

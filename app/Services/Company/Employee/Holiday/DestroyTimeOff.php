@@ -29,6 +29,7 @@ class DestroyTimeOff extends BaseService
      * Destroy a planned holiday.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool

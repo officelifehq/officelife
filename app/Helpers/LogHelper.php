@@ -14,6 +14,7 @@ class LogHelper
      * it understandable by a human.
      *
      * @param AuditLog $log
+     *
      * @return string
      */
     public static function processAuditLog(AuditLog $log): string
@@ -384,6 +385,7 @@ class LogHelper
      * Transform an action into an understandable sentence.
      *
      * @param EmployeeLog $log
+     *
      * @return string
      */
     public static function processEmployeeLog(EmployeeLog $log): string
@@ -530,6 +532,7 @@ class LogHelper
      * Transform an action into an understandable sentence.
      *
      * @param TeamLog $log
+     *
      * @return string
      */
     public static function processTeamLog(TeamLog $log): string

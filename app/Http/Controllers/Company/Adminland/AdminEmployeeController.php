@@ -58,7 +58,8 @@ class AdminEmployeeController extends Controller
      * Create the employee.
      *
      * @param Request $request
-     * @param int $companyId
+     * @param int     $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId)
@@ -86,8 +87,9 @@ class AdminEmployeeController extends Controller
      * Delete the employee.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
+     * @param int     $companyId
+     * @param int     $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $employeeId)

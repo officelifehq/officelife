@@ -74,6 +74,7 @@ class User extends Authenticatable
      * Get the name of the user.
      *
      * @param string $value
+     *
      * @return string
      */
     public function getNameAttribute($value): string
@@ -105,6 +106,7 @@ class User extends Authenticatable
      * Check if the user is part of the given company.
      *
      * @param Company $company
+     *
      * @return Employee|null
      */
     public function getEmployeeObjectForCompany(Company $company)
@@ -123,7 +125,8 @@ class User extends Authenticatable
      * company.
      *
      * @param Company $company
-     * @param int $numberOfNotificationsToFetch
+     * @param int     $numberOfNotificationsToFetch
+     *
      * @return mixed
      */
     public function getLatestNotifications(Company $company, int $numberOfNotificationsToFetch = 5)

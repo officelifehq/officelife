@@ -10,6 +10,7 @@ class WorklogCollection
      * Prepare a collection of worklogs.
      *
      * @param mixed $worklogs
+     *
      * @return Collection
      */
     public static function prepare($worklogs): Collection

@@ -29,6 +29,7 @@ class RemoveActionFromStep extends BaseService
      * Remove an action from a given step.
      *
      * @param array $data
+     *
      * @return Step
      */
     public function execute(array $data): Step

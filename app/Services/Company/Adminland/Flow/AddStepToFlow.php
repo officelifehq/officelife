@@ -44,6 +44,7 @@ class AddStepToFlow extends BaseService
      * Add a step to a flow.
      *
      * @param array $data
+     *
      * @return Step
      */
     public function execute(array $data): Step

@@ -44,8 +44,10 @@ class Notification extends Model
     /**
      * Get the JSON object.
      *
-     * @return array
+     *
      * @param mixed $value
+     *
+     * @return array
      */
     public function getObjectAttribute($value)
     {
@@ -55,8 +57,10 @@ class Notification extends Model
     /**
      * Get the content of the notification, if defined.
      *
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getContentAttribute($value): string
     {

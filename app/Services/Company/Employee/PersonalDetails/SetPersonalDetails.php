@@ -35,8 +35,11 @@ class SetPersonalDetails extends BaseService
      * Set the name and email address of an employee.
      *
      * @param array $data
-     * @return Employee
+     *
      * @throws NotEnoughPermissionException
+     *
+     * @return Employee
+     *
      */
     public function execute(array $data): Employee
     {

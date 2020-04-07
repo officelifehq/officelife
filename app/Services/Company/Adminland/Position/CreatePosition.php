@@ -28,6 +28,7 @@ class CreatePosition extends BaseService
      * Create a position.
      *
      * @param array $data
+     *
      * @return Position
      */
     public function execute(array $data): Position

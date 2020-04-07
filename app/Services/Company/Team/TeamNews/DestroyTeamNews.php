@@ -30,6 +30,7 @@ class DestroyTeamNews extends BaseService
      * Destroy a team news.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool

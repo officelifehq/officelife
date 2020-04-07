@@ -29,6 +29,7 @@ class ClearTeamDescription extends BaseService
      * Clear a team's description.
      *
      * @param array $data
+     *
      * @return Team
      */
     public function execute(array $data): Team

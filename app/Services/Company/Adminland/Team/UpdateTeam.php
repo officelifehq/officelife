@@ -31,6 +31,7 @@ class UpdateTeam extends BaseService
      * Update a team.
      *
      * @param array $data
+     *
      * @return Team
      */
     public function execute(array $data): Team
@@ -61,7 +62,7 @@ class UpdateTeam extends BaseService
      * Make sure the team's name is unique in the company.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function verifyTeamNameUniqueness(array $data): void
     {
@@ -81,9 +82,9 @@ class UpdateTeam extends BaseService
     /**
      * Add audit logs.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $oldName
-     * @return void
+     *
      */
     private function log(array $data, string $oldName): void
     {

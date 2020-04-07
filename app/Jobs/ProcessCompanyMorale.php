@@ -26,7 +26,7 @@ class ProcessCompanyMorale implements ShouldQueue
      * Create a new job instance.
      *
      * @param array $parameters
-     * @return void
+     *
      */
     public function __construct(array $parameters)
     {
@@ -36,7 +36,6 @@ class ProcessCompanyMorale implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      */
     public function handle()
     {

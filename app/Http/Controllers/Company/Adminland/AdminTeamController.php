@@ -42,6 +42,7 @@ class AdminTeamController extends Controller
      * Create the team.
      *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
@@ -65,8 +66,9 @@ class AdminTeamController extends Controller
      * Update the name of the team.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
+     * @param int     $companyId
+     * @param int     $teamId
+     *
      * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $teamId): JsonResponse
@@ -91,8 +93,9 @@ class AdminTeamController extends Controller
      * Delete the team.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
+     * @param int     $companyId
+     * @param int     $teamId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $teamId): JsonResponse
@@ -118,6 +121,7 @@ class AdminTeamController extends Controller
      * @param Request $request
      * @param integer $companyId
      * @param integer $teamId
+     *
      * @return InertiaResponse
      */
     public function logs(Request $request, int $companyId, int $teamId): InertiaResponse

@@ -17,7 +17,6 @@ class DummyDataGenerated
     /**
      * Create a new event instance.
      *
-     * @return void
      */
     public function __construct(Company $company)
     {
@@ -27,7 +26,7 @@ class DummyDataGenerated
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return \Illuminate\Broadcasting\Channel|array
+     * @return array|\Illuminate\Broadcasting\Channel
      */
     public function broadcastOn()
     {

@@ -29,6 +29,7 @@ class RemoveEmployeeStatusFromEmployee extends BaseService
      * Remove an employee's status.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data):Employee

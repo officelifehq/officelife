@@ -16,8 +16,9 @@ class TeamUsefulLinkController extends Controller
      * Add a new useful link to the team.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
+     * @param int     $companyId
+     * @param int     $teamId
+     *
      * @return JsonResponse
      */
     public function store(Request $request, $companyId, $teamId)
@@ -44,9 +45,10 @@ class TeamUsefulLinkController extends Controller
      * Remove the new useful link from the team.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $linkId
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param int     $linkId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, $companyId, $teamId, $linkId)

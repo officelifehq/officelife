@@ -27,7 +27,7 @@ class RemoveDummyData extends BaseService
      * Generate dummy data for the given account.
      *
      * @param array $data
-     * @return void
+     *
      */
     public function execute(array $data): void
     {
@@ -57,7 +57,7 @@ class RemoveDummyData extends BaseService
      * Remove dummy team.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function removeTeams(array $data): void
     {
@@ -71,7 +71,7 @@ class RemoveDummyData extends BaseService
      * Remove dummy users.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function removeEmployees(array $data): void
     {
@@ -88,7 +88,7 @@ class RemoveDummyData extends BaseService
      * Remove dummy audit logs.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function removeAuditLogs(array $data): void
     {
