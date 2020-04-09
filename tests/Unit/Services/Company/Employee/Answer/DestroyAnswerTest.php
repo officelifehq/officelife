@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Employee\Answer;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Answer;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
@@ -108,6 +109,15 @@ class DestroyAnswerTest extends TestCase
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $question) {
+            return $job->auditLog['action'] === 'answer_destroyed' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'question_id' => $question->id,
+                    'question_title' => $question->title,
+                ]);
+        });
+
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $question) {
             return $job->auditLog['action'] === 'answer_destroyed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([

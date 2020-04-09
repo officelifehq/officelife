@@ -381,7 +381,6 @@ class LogHelper
         if ($log->action == 'answer_created') {
             $sentence = trans('account.log_answer_created', [
                 'title' => $log->object->{'question_title'},
-                'status' => $log->object->{'question_status'},
             ]);
         }
 
@@ -529,6 +528,18 @@ class LogHelper
         if ($log->action == 'work_from_home_destroyed') {
             $sentence = trans('account.employee_log_work_from_home_destroyed', [
                 'date' => $log->object->{'date'},
+            ]);
+        }
+
+        if ($log->action == 'answer_created') {
+            $sentence = trans('account.employee_log_answer_created', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'answer_updated') {
+            $sentence = trans('account.employee_log_answer_updated', [
+                'title' => $log->object->{'question_title'},
             ]);
         }
 

@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Employee\Answer;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use Illuminate\Support\Facades\Queue;
@@ -101,6 +102,16 @@ class CreateAnswerTest extends TestCase
         );
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $question, $answer) {
+            return $job->auditLog['action'] === 'answer_created' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([
+                    'answer_id' => $answer->id,
+                    'question_id' => $question->id,
+                    'question_title' => $question->title,
+                ]);
+        });
+
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $question, $answer) {
             return $job->auditLog['action'] === 'answer_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([

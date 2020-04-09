@@ -114,6 +114,7 @@ return [
     'flow_new_action_label_employee' => 'an employee',
     'flow_new_action_label_unknown_message' => 'an unknown message',
 
+    // account logs
     'log_account_created' => 'Created the account.',
     'log_employee_added_to_company' => 'Added :employee as an employee.',
     'log_team_created' => 'Created the team called :name.',
@@ -170,7 +171,11 @@ return [
     'log_question_destroyed' => 'Deleted the question called :title.',
     'log_question_activated' => 'Enabled the question called :title.',
     'log_question_deactivated' => 'Disabled the question called :title.',
+    'log_answer_created' => 'Answered the question called :title.',
+    'log_answer_udpdated' => 'Updated the answer to the question called :title.',
+    'log_answer_destroyed' => 'Deleted the answer to the question called :title.',
 
+    // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
     'employee_log_direct_report_assigned' => 'Assigned :name as a direct report.',
@@ -195,7 +200,11 @@ return [
     'employee_personal_details_set' => 'Set the name and email to :name and :email.',
     'employee_log_work_from_home_logged' => 'Worked from home on :date.',
     'employee_log_work_from_home_destroyed' => 'Removed the entry about working from home on :date.',
+    'employee_log_answer_created' => 'Answered the question called :title.',
+    'employee_log_answer_updated' => 'Updated the answer of the question called :title.',
+    'employee_log_answer_destroyed' => 'Deleted the answer of the question called :title.',
 
+    // team logs
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',
     'team_log_employee_added_to_team' => 'Added :employee_name to the team.',

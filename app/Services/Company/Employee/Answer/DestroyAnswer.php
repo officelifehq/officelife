@@ -5,6 +5,7 @@ namespace App\Services\Company\Adminland\Answer;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
 
@@ -60,6 +61,19 @@ class DestroyAnswer extends BaseService
             'objects' => json_encode([
                 'question_id' => $question->id,
                 'question_title' => $question->title,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $data['employee_id'],
+            'action' => 'answer_destroyed',
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'question_id' => $answer->question->id,
+                'question_title' => $answer->question->title,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');

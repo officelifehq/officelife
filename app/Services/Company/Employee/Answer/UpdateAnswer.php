@@ -5,6 +5,7 @@ namespace App\Services\Company\Employee\Answer;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
 use App\Exceptions\NotEnoughPermissionException;
@@ -63,6 +64,21 @@ class UpdateAnswer extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
+                'answer_id' => $answer->id,
+                'question_id' => $answer->question->id,
+                'question_title' => $answer->question->title,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $data['employee_id'],
+            'action' => 'answer_updated',
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'answer_id' => $answer->id,
                 'question_id' => $answer->question->id,
                 'question_title' => $answer->question->title,
             ]),
