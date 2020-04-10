@@ -46,6 +46,8 @@ class RemoveDummyData extends BaseService
 
         $this->removeAuditLogs($data);
 
+        $this->removeQuestions($data);
+
         $company->has_dummy_data = false;
         $company->save();
 
@@ -93,6 +95,20 @@ class RemoveDummyData extends BaseService
     private function removeAuditLogs(array $data): void
     {
         DB::table('audit_logs')
+            ->where('company_id', $data['company_id'])
+            ->where('is_dummy', true)
+            ->delete();
+    }
+
+    /**
+     * Remove dummy questions.
+     *
+     * @param array $data
+     *
+     */
+    private function removeQuestions(array $data): void
+    {
+        DB::table('questions')
             ->where('company_id', $data['company_id'])
             ->where('is_dummy', true)
             ->delete();

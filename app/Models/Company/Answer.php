@@ -59,10 +59,15 @@ class Answer extends Model
     {
         return [
             'id' => $this->id,
-            'company' => [
-                'id' => $this->company_id,
+            'question' => [
+                'id' => $this->question_id,
             ],
-            'title' => $this->title,
+            'employee' => [
+                'id' => $this->employee->id,
+                'name' => $this->employee->name,
+                'avatar' => $this->employee->avatar,
+            ],
+            'body' => $this->body,
             'created_at' => $this->created_at,
         ];
     }

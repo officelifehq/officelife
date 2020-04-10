@@ -41,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
             Route::post('morale', 'Company\\Dashboard\\DashboardMoraleController@store');
             Route::post('workFromHome', 'Company\\Dashboard\\DashboardWorkFromHomeController@store');
+            Route::post('question', 'Company\\Dashboard\\DashboardQuestionController@store');
         });
 
         Route::prefix('employees')->group(function () {

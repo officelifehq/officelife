@@ -47,6 +47,7 @@ class ActivateQuestion extends BaseService
 
         $question->active = true;
         $question->activated_at = Carbon::now();
+        $question->deactivated_at = null;
         $question->save();
 
         $question->refresh();

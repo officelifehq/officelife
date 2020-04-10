@@ -91,6 +91,7 @@ class ActivateQuestionTest extends TestCase
             'id' => $question->id,
             'company_id' => $question->company_id,
             'active' => true,
+            'deactivated_at' => null,
         ]);
 
         $this->assertEquals(

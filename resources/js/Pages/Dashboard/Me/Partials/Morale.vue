@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
       🙃 {{ $t('dashboard.morale_title') }}
     </div>

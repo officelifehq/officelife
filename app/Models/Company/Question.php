@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -72,6 +73,17 @@ class Question extends Model
     public function answers()
     {
         return $this->hasMany(Answer::class)->orderBy('created_at', 'desc');
+    }
+
+    /**
+     * Limit results to active questions.
+     *
+     * @param  Builder $query
+     * @return Builder
+     */
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('active', true);
     }
 
     /**

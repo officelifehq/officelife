@@ -12,7 +12,9 @@ span {
 <template>
   <div class="relative">
     <img :src="avatar" class="absolute br-100" alt="avatar" />
-    <span>{{ name }}</span>
+    <span class="f6">
+      {{ name }}
+    </span>
   </div>
 </template>
 

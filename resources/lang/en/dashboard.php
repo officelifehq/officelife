@@ -39,4 +39,10 @@ return [
 
     'team_work_from_home_title' => 'Who is working from home today',
     'team_work_from_home_blank' => 'No one is working from home today.',
+
+    'question_title' => 'Know your colleagues',
+    'question_cta' => 'Answer this question',
+    'question_number_of_answers' => '{number} colleague has already answered.|{number} colleagues have already answered.',
+    'question_answer_help' => 'Everyone in the company will be able to read your answer.',
+    'question_answer_submitted' => 'Thanks for answering the question.',
 ];

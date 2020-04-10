@@ -10,9 +10,11 @@ use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\Company\Question;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Team\CreateTeam;
+use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Team\TeamNews\CreateTeamNews;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
@@ -375,7 +377,7 @@ class GenerateDummyData extends BaseService
     }
 
     /**
-     * Create fake questions for all employees.
+     * Create fake questions.
      *
      * @param array $data
      */
@@ -385,11 +387,50 @@ class GenerateDummyData extends BaseService
             'company_id' => $data['company_id'],
             'author_id' => $data['author_id'],
             'title' => 'Which movies do you like the most?',
+            'active' => false,
+            'is_dummy' => true,
+        ];
+
+        $question = (new CreateQuestion)->execute($request);
+        $this->createAnswers($data, $question);
+
+        $request = [
+            'company_id' => $data['company_id'],
+            'author_id' => $data['author_id'],
+            'title' => 'What do you like in life?',
             'active' => true,
             'is_dummy' => true,
         ];
 
-        (new CreateQuestion)->execute($request);
+        $question = (new CreateQuestion)->execute($request);
+        $this->createAnswers($data, $question);
+    }
+
+    /**
+     * Create fake answers for all employees.
+     *
+     * @param array    $data
+     * @param Question $question
+     */
+    private function createAnswers(array $data, Question $question)
+    {
+        $faker = Faker::create();
+        $employees = Employee::where('is_dummy', true)->get();
+
+        foreach ($employees as $employee) {
+            if (rand(1, 3) >= 2) {
+                $request = [
+                    'company_id' => $data['company_id'],
+                    'author_id' => $data['author_id'],
+                    'employee_id' => $employee->id,
+                    'question_id' => $question->id,
+                    'body' => $faker->realText(1500),
+                    'is_dummy' => true,
+                ];
+
+                (new CreateAnswer)->execute($request);
+            }
+        }
     }
 
     /**
