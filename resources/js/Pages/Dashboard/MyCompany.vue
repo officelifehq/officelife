@@ -39,7 +39,7 @@
           <p class="measure">
             This will let you play with an account with a lot of data. You will be able to remove them at any time to start fresh.
           </p>
-          <img src="/img/company/account/fake-data.png" class="dummy w-25 absolute" alt="fake data" />
+          <img src="/img/company/account/fake-data.png" class="dummy w-25 absolute" alt="fake data" loading="lazy" />
           <ul class="list pa0 ma0">
             <li class="di pr2">
               <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'generate'" />
