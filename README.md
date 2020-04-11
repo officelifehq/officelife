@@ -6,7 +6,7 @@
 # OfficeLife
 
 <div align="center">
-  <img src="docs/img/logo.png" />
+  <img src="docs/img/logo.png" loading="lazy" />
 </div>
 
 ## Requirements

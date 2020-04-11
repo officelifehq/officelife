@@ -38,6 +38,7 @@
         <div class="pa3 relative pt5">
           <!-- EDIT BUTTON -->
           <img v-if="employeeOrAtLeastHR()" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" alt="edit button"
+               loading="lazy"
                @click="profileMenu = true"
           />
 
@@ -63,7 +64,9 @@
           </div>
 
           <!-- AVATAR -->
-          <img :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80" alt="avatar" />
+          <img :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80" alt="avatar"
+               loading="lazy"
+          />
           <h2 class="tc normal mb1">
             {{ employee.name }}
 

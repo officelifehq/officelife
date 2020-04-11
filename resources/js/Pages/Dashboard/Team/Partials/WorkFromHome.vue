@@ -31,7 +31,7 @@
       <!-- all people working from homes -->
       <div v-for="employee in workFromHomes" :key="employee.id" class="pa3 fl w-third-l w-100" data-cy="work-from-home-list">
         <span class="pl3 db relative team-member">
-          <img :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+          <img :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" loading="lazy" />
 
           <!-- normal mode -->
           <inertia-link :href="employee.url" class="mb2">
