@@ -56,7 +56,7 @@ class DashboardMeViewHelperTest extends ApiTestCase
             DashboardMeViewHelper::question($michael)
         );
 
-        $answer = factory(Answer::class)->create([
+        factory(Answer::class)->create([
             'employee_id' => $michael->id,
             'question_id' => $question->id,
         ]);
