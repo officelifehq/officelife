@@ -24,7 +24,7 @@
 
       <!-- employee hasnt already answered -->
       <template v-if="!hasAlreadyAnswered">
-        <div class="cf mw7 center br3 mb3 bg-white box relative">
+        <div class="cf mw7 center br3 mb3 bg-white box relative" data-cy="answer-employee-hasnt-answered">
           <img src="/img/dashboard/question_dashboard.png" alt="a group taking a selfie" class="absolute top-1" />
 
           <div class="pa3">
@@ -71,7 +71,7 @@
             <p class="f5 fw6 mt0 mb1 lh-copy">{{ question.title }}</p>
             <p class="f6 silver mb3 mt0">{{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</p>
 
-            <div v-for="answer in answers" :key="answer.id" class="bb-gray relative answer-entry">
+            <div v-for="answer in answers" :key="answer.id" class="bb-gray relative answer-entry" :data-cy="'answer-content-' + answer.id">
               <!-- avatar -->
               <small-name-and-avatar
                 :name="answer.employee.name"
@@ -88,14 +88,14 @@
 
                   <!-- delete -->
                   <li v-if="idToDelete != answer.id" class="di">
-                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'answer-destroy-link-' + answer.id" @click.prevent="showDeletionModal(answer)">{{ $t('app.delete') }}</a>
+                    <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'answer-destroy-' + answer.id" @click.prevent="showDeletionModal(answer)">{{ $t('app.delete') }}</a>
                   </li>
                   <li v-if="idToDelete == answer.id" class="di pr2">
                     {{ $t('app.sure') }}
-                    <a class="mr1 pointer c-delete" :data-cy="'answer-activate-link-confirm-' + answer.id" @click.prevent="destroy(answer)">
+                    <a class="mr1 pointer c-delete" :data-cy="'answer-destroy-confirm-' + answer.id" @click.prevent="destroy(answer)">
                       {{ $t('app.yes') }}
                     </a>
-                    <a class="pointer" :data-cy="'answer-activate-link-cancel-' + answer.id" @click.prevent="hideDeletionModal()">
+                    <a class="pointer" :data-cy="'answer-destroy-cancel-' + answer.id" @click.prevent="hideDeletionModal()">
                       {{ $t('app.no') }}
                     </a>
                   </li>
@@ -114,14 +114,14 @@
                   <text-area
                     :ref="'name' + answer.id"
                     v-model="form.body"
-                    :datacy="'answer-content'"
+                    :datacy="'answer-edit-content'"
                     @esc-key-pressed="hideEditModal()"
                   />
                   <p class="db lh-copy f6">
                     👋 {{ $t('dashboard.question_answer_help') }}
                   </p>
                   <p class="ma0">
-                    <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.update')" :cypress-selector="'submit-answer'" />
+                    <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.update')" :cypress-selector="'submit-edit-answer'" />
                     <a class="pointer" @click.prevent="hideEditModal()">
                       {{ $t('app.cancel') }}
                     </a>

@@ -172,7 +172,7 @@ return [
     'log_question_activated' => 'Enabled the question called :title.',
     'log_question_deactivated' => 'Disabled the question called :title.',
     'log_answer_created' => 'Answered the question called :title.',
-    'log_answer_udpdated' => 'Updated the answer to the question called :title.',
+    'log_answer_updated' => 'Updated the answer to the question called :title.',
     'log_answer_destroyed' => 'Deleted the answer to the question called :title.',
 
     // employee logs
