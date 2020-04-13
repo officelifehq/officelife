@@ -384,6 +384,18 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'answer_updated') {
+            $sentence = trans('account.log_answer_updated', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'answer_destroyed') {
+            $sentence = trans('account.log_answer_destroyed', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -539,6 +551,12 @@ class LogHelper
 
         if ($log->action == 'answer_updated') {
             $sentence = trans('account.employee_log_answer_updated', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'answer_destroyed') {
+            $sentence = trans('account.employee_log_answer_destroyed', [
                 'title' => $log->object->{'question_title'},
             ]);
         }

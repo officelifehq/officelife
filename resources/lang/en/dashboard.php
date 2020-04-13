@@ -45,4 +45,6 @@ return [
     'question_number_of_answers' => '{number} colleague has already answered.|{number} colleagues have already answered.',
     'question_answer_help' => 'Everyone in the company will be able to read your answer.',
     'question_answer_submitted' => 'Thanks for answering the question.',
+    'question_answer_updated' => 'The answer has been updated.',
+    'question_answer_destroyed' => 'The answer has been deleted.',
 ];
