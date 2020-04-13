@@ -23,7 +23,7 @@
         <div class="cf mw7 center br3 mb3 bg-white box relative">
           <img src="/img/dashboard/question_dashboard.png" alt="a group taking a selfie" class="absolute top-1" />
 
-          <div clas s="pa3">
+          <div class="pa3">
             <h2 class="f4 fw4 mt0 mb3 ml6 lh-copy">
               {{ question.title }}
             </h2>
@@ -31,7 +31,7 @@
             <!-- CTA to add an answer -->
             <p v-if="!editMode">
               <a class="btn dib ml6 mr2" data-cy="log-answer-cta" @click.prevent="showEditor()">{{ $t('dashboard.question_cta') }}</a>
-              <span class="f6 silver">{{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</span>
+              <span class="f6 silver di-l db mt4 mt0-l">{{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</span>
             </p>
 
             <!-- Add the answer form -->
@@ -64,8 +64,8 @@
       <template v-else>
         <div class="cf mw7 center br3 mb3 bg-white box relative">
           <div class="pa3">
-            <p class="f5 fw6 mt0 mb2 lh-copy">{{ question.title }}</p>
-            <p class="f6 silver mb3">{{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</p>
+            <p class="f5 fw6 mt0 mb1 lh-copy">{{ question.title }}</p>
+            <p class="f6 silver mb3 mt0">{{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</p>
 
             <div v-for="answer in answers" :key="answer.id" class="bb-gray relative answer-entry">
               <!-- avatar -->
@@ -86,12 +86,12 @@
                   <li class="di">
                     <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'answer-destroy-link-' + answer.id" @click.prevent="showDeletionModal(answer)">{{ $t('app.delete') }}</a>
                   </li>
-                  <li v-if="questionToActivate.id == question.id" class="di pr2">
+                  <li class="di pr2">
                     {{ $t('app.sure') }}
-                    <a class="mr1 pointer" :data-cy="'question-activate-link-confirm-' + question.id" @click.prevent="activate(question)">
+                    <a class="mr1 pointer" :data-cy="'answer-activate-link-confirm-' + answer.id" @click.prevent="activate(answer)">
                       {{ $t('app.yes') }}
                     </a>
-                    <a class="pointer" :data-cy="'question-activate-link-cancel-' + question.id" @click.prevent="questionToActivate = 0">
+                    <a class="pointer" :data-cy="'answer-activate-link-cancel-' + answer.id" @click.prevent="answerToActivate = 0">
                       {{ $t('app.no') }}
                     </a>
                   </li>
