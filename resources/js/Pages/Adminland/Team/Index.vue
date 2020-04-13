@@ -194,7 +194,7 @@
             {{ $t('account.teams_blank') }}
           </p>
           <img class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
-                                        /img/company/account/blank-team-2x.png 2x"
+                                        /img/company/account/blank-team-2x.png 2x" loading="lazy"
           />
         </div>
       </div>
