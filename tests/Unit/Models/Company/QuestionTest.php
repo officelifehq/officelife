@@ -48,6 +48,7 @@ class QuestionTest extends TestCase
                 ],
                 'title' => 'dunder',
                 'active' => true,
+                'number_of_answers' => 0,
                 'created_at' => '2020-01-12 00:00:00',
             ],
             $question->toObject()

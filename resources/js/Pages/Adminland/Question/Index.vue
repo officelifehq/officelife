@@ -95,6 +95,11 @@
                     <div class="br3 question-badge-inactive f7 ph2 di">{{ $t('account.question_status_inactive') }}</div>
                   </li>
 
+                  <!-- number of answers -->
+                  <li :data-cy="'question-number-of-answers-' + question.id" class="di pr2">
+                    {{ $tc('account.question_number_of_answers', question_number_of_answers, { count: question.number_of_answers}) }}
+                  </li>
+
                   <!-- confirm activation -->
                   <li v-if="questionToActivate.id == question.id" class="di pr2">
                     {{ $t('app.sure') }}

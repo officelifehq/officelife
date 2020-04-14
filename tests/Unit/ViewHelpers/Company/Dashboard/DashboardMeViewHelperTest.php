@@ -14,6 +14,7 @@ class DashboardMeViewHelperTest extends ApiTestCase
     use DatabaseTransactions,
         HelperTrait;
 
+    /** @test */
     public function it_gets_an_empty_array_if_there_is_no_active_question_in_the_company(): void
     {
         $michael = $this->createAdministrator();
@@ -71,12 +72,14 @@ class DashboardMeViewHelperTest extends ApiTestCase
         $this->assertArrayHasKey('number_of_answers', $response);
         $this->assertArrayHasKey('answers', $response);
         $this->assertArrayHasKey('answer_by_employee', $response);
+        $this->assertArrayHasKey('url', $response);
 
         $this->assertArraySubset(
             [
                 'title' => 'Do you like Dwight',
                 'number_of_answers' => 3,
                 'employee_has_answered' => true,
+                'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
             ],
             DashboardMeViewHelper::question($michael)
         );

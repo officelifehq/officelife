@@ -296,4 +296,5 @@ return [
     'question_deactivate_success' => 'The question is now deactivated',
     'question_status_active' => 'active',
     'question_status_inactive' => 'inactive',
+    'question_number_of_answers' => '{count} answer | {count} answers | {count} answers',
 ];

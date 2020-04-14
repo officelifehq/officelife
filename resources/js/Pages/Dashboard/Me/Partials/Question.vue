@@ -130,6 +130,9 @@
               </div>
             </div>
           </div>
+          <div v-if="question.number_of_answers > 3" class="ph3 pv2 tc f6 bt bb-gray">
+            <a data-cy="view-all-work-from-home" :href="question.url">{{ $t('dashboard.question_answer_link') }}</a>
+          </div>
         </div>
       </template>
     </template>

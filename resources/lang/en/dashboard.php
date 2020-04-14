@@ -47,4 +47,5 @@ return [
     'question_answer_submitted' => 'Thanks for answering the question.',
     'question_answer_updated' => 'The answer has been updated.',
     'question_answer_destroyed' => 'The answer has been deleted.',
+    'question_answer_link' => 'View all answers of this question',
 ];

@@ -32,9 +32,13 @@ class DashboardMeViewHelper
             'id' => $question->id,
             'title' => $question->title,
             'number_of_answers' => $allEmployeeAnswers->count(),
-            'answers' => AnswerCollection::prepare($allEmployeeAnswers),
+            'answers' => AnswerCollection::prepare($allEmployeeAnswers->take(3)),
             'employee_has_answered' => $detailOfAnswer ? true : false,
             'answer_by_employee' => $detailOfAnswer,
+            'url' => route('company.questions.show', [
+                'company' => $employee->company,
+                'question' => $question,
+            ]),
         ];
 
         return $array;

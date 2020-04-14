@@ -100,6 +100,7 @@ class Question extends Model
             ],
             'title' => $this->title,
             'active' => $this->active,
+            'number_of_answers' => $this->answers->count(),
             'created_at' => $this->created_at,
         ];
     }

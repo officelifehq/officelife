@@ -117,6 +117,12 @@ Route::middleware(['auth'])->group(function () {
             ]);
         });
 
+        Route::prefix('company')->group(function () {
+            Route::resource('questions', 'Company\\Company\\QuestionController', ['as' => 'company'])->only([
+                'index', 'show',
+            ]);
+        });
+
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
             Route::get('account/audit', 'Company\\Adminland\\AdminAuditController@index');

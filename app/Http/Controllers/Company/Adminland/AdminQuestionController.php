@@ -24,7 +24,7 @@ class AdminQuestionController extends Controller
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $questions = $company->questions()->get();
+        $questions = $company->questions()->with('answers')->get();
 
         $questionsCollection = QuestionCollection::prepare($questions);
 
