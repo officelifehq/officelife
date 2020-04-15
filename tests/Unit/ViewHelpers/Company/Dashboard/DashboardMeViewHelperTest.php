@@ -38,13 +38,15 @@ class DashboardMeViewHelperTest extends ApiTestCase
             'question_id' => $question->id,
         ]);
 
+        $response = DashboardMeViewHelper::question($michael);
+
         $this->assertArraySubset(
             [
                 'title' => 'Do you like Dwight',
                 'number_of_answers' => 2,
                 'answer_by_employee' => null,
             ],
-            DashboardMeViewHelper::question($michael)
+            $response
         );
 
         $this->assertArraySubset(
@@ -54,7 +56,7 @@ class DashboardMeViewHelperTest extends ApiTestCase
                 'employee_has_answered' => false,
                 'answer_by_employee' => null,
             ],
-            DashboardMeViewHelper::question($michael)
+            $response
         );
 
         factory(Answer::class)->create([

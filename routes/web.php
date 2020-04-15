@@ -118,9 +118,11 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('company')->group(function () {
+            // Questions and answers
             Route::resource('questions', 'Company\\Company\\QuestionController', ['as' => 'company'])->only([
                 'index', 'show',
             ]);
+            Route::get('questions/{question}/teams/{team}', 'Company\\Company\\QuestionController@team');
         });
 
         // only available to administrator role

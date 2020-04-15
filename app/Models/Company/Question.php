@@ -93,6 +93,8 @@ class Question extends Model
      */
     public function toObject(): array
     {
+        $numberOfAnswers = Answer::where('question_id', $this->id)->count();
+
         return [
             'id' => $this->id,
             'company' => [
@@ -100,7 +102,7 @@ class Question extends Model
             ],
             'title' => $this->title,
             'active' => $this->active,
-            'number_of_answers' => $this->answers->count(),
+            'number_of_answers' => $numberOfAnswers,
             'created_at' => $this->created_at,
         ];
     }

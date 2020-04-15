@@ -283,7 +283,7 @@ return [
     'questions_number_questions' => '{company} has {count} questions.',
     'questions_blank' => 'Ask questions about your colleagues so they can know each other better.',
     'questions_title' => 'Questions to get to know your colleagues',
-    'questions_description' => 'Only one question can be active at any given time.',
+    'questions_description' => 'Only one question can be active at any given time. The current active question will be displayed on the homepage, and only when a question is active can your employees add answer to this question.',
     'questions_cta' => 'Create a new question',
     'questions_form_title_placeholder' => 'What is the movie you enjoy the most?',
     'question_creation_success' => 'The question has been created',
