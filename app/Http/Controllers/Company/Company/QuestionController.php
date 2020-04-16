@@ -95,7 +95,7 @@ class QuestionController extends Controller
 
         // make sure the team belongs to the company
         try {
-            $team = Team::where('company_id', $companyId)
+            Team::where('company_id', $companyId)
                 ->findOrFail($teamId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
