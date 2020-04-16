@@ -51,6 +51,9 @@ describe('Adminland - Questions', function () {
     cy.get('[data-cy=question-status-active-2]').should('not.exist')
     cy.get('[data-cy=question-status-inactive-2]').should('exist')
 
+    // check that the number of answers is 0
+    cy.get('[data-cy=question-number-of-answers-2]').contains('0 answer')
+
     cy.hasAuditLog('Disabled the question called', '/1/account/questions')
   })
 
@@ -96,5 +99,8 @@ describe('Adminland - Questions', function () {
     cy.get('[data-cy=question-deactivate-link-confirm-2]').click()
     cy.get('[data-cy=question-status-active-2]').should('not.exist')
     cy.get('[data-cy=question-status-inactive-2]').should('exist')
+
+    // check that the number of answers is 0
+    cy.get('[data-cy=question-number-of-answers-2]').contains('0 answer')
   })
 })

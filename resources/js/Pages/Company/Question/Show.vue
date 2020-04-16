@@ -33,7 +33,7 @@
       <!-- BODY -->
       <div class="cf mw7 center br3 mb3 bg-white box relative">
         <div class="pa3">
-          <p class="f3 fw4 mt0 mb1 lh-copy tc">{{ question.title }}</p>
+          <p class="f3 fw4 mt0 mb1 lh-copy tc" data-cy="company-question-title">{{ question.title }}</p>
           <p class="f6 silver mb4 mt0 tc lh-copy">{{ question.date }} {{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</p>
 
           <div v-if="teams.length > 0" class="tr">
@@ -73,7 +73,7 @@
           </div>
 
           <!-- Blank state -->
-          <p v-if="answers.length == 0" class="mt5 tc">{{ $t('company.question_blank') }}</p>
+          <p v-if="answers.length == 0" class="mt5 tc" data-cy="company-question-blank-state">{{ $t('company.question_blank') }}</p>
         </div>
       </div>
     </div>
