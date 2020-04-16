@@ -41,6 +41,9 @@ Route::middleware(['auth'])->group(function () {
             Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
             Route::post('morale', 'Company\\Dashboard\\DashboardMoraleController@store');
             Route::post('workFromHome', 'Company\\Dashboard\\DashboardWorkFromHomeController@store');
+            Route::resource('question', 'Company\\Dashboard\\DashboardQuestionController')->only([
+                'store', 'update', 'destroy',
+            ]);
         });
 
         Route::prefix('employees')->group(function () {
@@ -114,6 +117,16 @@ Route::middleware(['auth'])->group(function () {
             ]);
         });
 
+        Route::prefix('company')->group(function () {
+            Route::get('', 'Company\\Company\\CompanyController@index');
+
+            // Questions and answers
+            Route::resource('questions', 'Company\\Company\\QuestionController', ['as' => 'company'])->only([
+                'index', 'show',
+            ]);
+            Route::get('questions/{question}/teams/{team}', 'Company\\Company\\QuestionController@team');
+        });
+
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
             Route::get('account/audit', 'Company\\Adminland\\AdminAuditController@index');
@@ -149,6 +162,11 @@ Route::middleware(['auth'])->group(function () {
             // pto policies
             Route::resource('account/ptopolicies', 'Company\\Adminland\\AdminPTOPoliciesController');
             Route::get('account/ptopolicies/{ptopolicy}/getHolidays', 'Company\\Adminland\\AdminPTOPoliciesController@getHolidays');
+
+            // questions
+            Route::resource('account/questions', 'Company\\Adminland\\AdminQuestionController');
+            Route::post('account/questions/{question}/activate', 'Company\\Adminland\\AdminQuestionController@activate');
+            Route::post('account/questions/{question}/deactivate', 'Company\\Adminland\\AdminQuestionController@deactivate');
         });
     });
 });

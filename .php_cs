@@ -24,7 +24,6 @@ return PhpCsFixer\Config::create()
         'no_whitespace_before_comma_in_array' => true,
         'trailing_comma_in_multiline_array' => true,
         'function_typehint_space' => true,
-        'phpdoc_separation' => true,
         'phpdoc_align' => true,
         'phpdoc_order' => true,
         'phpdoc_no_empty_return' => true,

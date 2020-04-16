@@ -14,6 +14,7 @@ return [
     'home_generate_fake_data' => 'Populate account with fake data',
     'home_remove_fake_data' => 'Remove fake data',
     'home_manage_pto' => 'Manage paid time off policies',
+    'home_manage_questions' => 'Manage questions',
 
     'employees_title' => 'All the employees in {company}',
     'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
@@ -113,6 +114,7 @@ return [
     'flow_new_action_label_employee' => 'an employee',
     'flow_new_action_label_unknown_message' => 'an unknown message',
 
+    // account logs
     'log_account_created' => 'Created the account.',
     'log_employee_added_to_company' => 'Added :employee as an employee.',
     'log_team_created' => 'Created the team called :name.',
@@ -164,7 +166,16 @@ return [
     'log_team_leader_removed' => 'Removed :name as the team lead of the team called :team_name.',
     'log_employee_work_from_home_logged' => 'Indicated that :name has worked from home on :date.',
     'log_employee_work_from_home_destroyed' => 'Removed the entry that :name has worked from home on :date.',
+    'log_question_created' => 'Added a question called :title.',
+    'log_question_updated' => 'Updated the question from :old_title to :title.',
+    'log_question_destroyed' => 'Deleted the question called :title.',
+    'log_question_activated' => 'Enabled the question called :title.',
+    'log_question_deactivated' => 'Disabled the question called :title.',
+    'log_answer_created' => 'Answered the question called :title.',
+    'log_answer_updated' => 'Updated the answer to the question called :title.',
+    'log_answer_destroyed' => 'Deleted the answer to the question called :title.',
 
+    // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
     'employee_log_direct_report_assigned' => 'Assigned :name as a direct report.',
@@ -189,7 +200,11 @@ return [
     'employee_personal_details_set' => 'Set the name and email to :name and :email.',
     'employee_log_work_from_home_logged' => 'Worked from home on :date.',
     'employee_log_work_from_home_destroyed' => 'Removed the entry about working from home on :date.',
+    'employee_log_answer_created' => 'Answered the question called :title.',
+    'employee_log_answer_updated' => 'Updated the answer of the question called :title.',
+    'employee_log_answer_destroyed' => 'Deleted the answer of the question called :title.',
 
+    // team logs
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',
     'team_log_employee_added_to_team' => 'Added :employee_name to the team.',
@@ -264,4 +279,22 @@ return [
     'pronoun_ve_ver' => 've/ver',
     'pronoun_xe_xem' => 'xe/xem',
     'pronoun_ze_hir' => 'ze/hir',
+
+    'questions_number_questions' => '{company} has {count} questions.',
+    'questions_blank' => 'Ask questions about your colleagues so they can know each other better.',
+    'questions_title' => 'Questions to get to know your colleagues',
+    'questions_description' => 'Only one question can be active at any given time. The current active question will be displayed on the homepage, and only when a question is active can your employees add answer to this question.',
+    'questions_cta' => 'Create a new question',
+    'questions_form_title_placeholder' => 'What is the movie you enjoy the most?',
+    'question_creation_success' => 'The question has been created',
+    'question_activate' => 'Set active',
+    'question_deactivate' => 'Deactivate the question',
+    'question_update_success' => 'The question has been updated',
+    'question_confirm_deletion' => 'Are you sure? All answers written by employees will also be permanently deleted.',
+    'question_destroy_success' => 'The question has been deleted',
+    'question_activate_success' => 'The question is now active',
+    'question_deactivate_success' => 'The question is now deactivated',
+    'question_status_active' => 'active',
+    'question_status_inactive' => 'inactive',
+    'question_number_of_answers' => '{count} answer | {count} answer | {count} answers',
 ];

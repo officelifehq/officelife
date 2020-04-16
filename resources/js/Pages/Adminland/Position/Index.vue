@@ -11,7 +11,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
@@ -37,8 +37,6 @@
               {{ $t('account.positions_cta') }}
             </a>
           </p>
-
-          <p>The job position is what you would probably put on a resume to show what work you actually did.</p>
 
           <!-- MODAL TO ADD A POSITION -->
           <form v-show="modal" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="submit">
@@ -95,10 +93,10 @@
               </div>
 
               <!-- LIST OF ACTIONS FOR EACH POSITION -->
-              <ul v-show="idToUpdate != position.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns">
+              <ul v-show="idToUpdate != position.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns f6">
                 <!-- RENAME A POSITION -->
                 <li class="di mr2">
-                  <a class="pointer" :data-cy="'list-rename-button-' + position.id" @click.prevent="displayUpdateModal(position) ; form.title = position.title">{{ $t('app.rename') }}</a>
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + position.id" @click.prevent="displayUpdateModal(position) ; form.title = position.title">{{ $t('app.rename') }}</a>
                 </li>
 
                 <!-- DELETE A POSITION -->
@@ -112,7 +110,7 @@
                   </a>
                 </li>
                 <li v-else class="di">
-                  <a class="pointer" :data-cy="'list-delete-button-' + position.id" @click.prevent="idToDelete = position.id">
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + position.id" @click.prevent="idToDelete = position.id">
                     {{ $t('app.delete') }}
                   </a>
                 </li>

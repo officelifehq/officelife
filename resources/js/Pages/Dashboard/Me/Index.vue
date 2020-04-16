@@ -32,6 +32,10 @@
         :employee="employee"
       />
 
+      <question
+        :employee="employee"
+      />
+
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3">
           <h2>Me</h2>
@@ -47,6 +51,7 @@
             <li>donner des statistics sur le nombre de femmes/hommes avec un poste à responsabilité</li>
             <li>donner le ratio homme/femme par poste dans l'onglet Positions</li>
             <li>rechercher par "position"</li>
+            <li>gestion du materiel informatique</li>
           </ul>
         </div>
       </div>
@@ -58,6 +63,7 @@
 import Worklogs from '@/Pages/Dashboard/Me/Partials/Worklogs';
 import Morale from '@/Pages/Dashboard/Me/Partials/Morale';
 import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome';
+import Question from '@/Pages/Dashboard/Me/Partials/Question';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -66,6 +72,7 @@ export default {
     Layout,
     Worklogs,
     Morale,
+    Question,
     WorkFromHome,
     DashboardMenu,
   },

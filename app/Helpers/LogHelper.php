@@ -346,6 +346,56 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'question_created') {
+            $sentence = trans('account.log_question_created', [
+                'title' => $log->object->{'question_title'},
+                'status' => $log->object->{'question_status'},
+            ]);
+        }
+
+        if ($log->action == 'question_updated') {
+            $sentence = trans('account.log_question_updated', [
+                'title' => $log->object->{'question_title'},
+                'old_title' => $log->object->{'question_old_title'},
+            ]);
+        }
+
+        if ($log->action == 'question_destroyed') {
+            $sentence = trans('account.log_question_destroyed', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'question_activated') {
+            $sentence = trans('account.log_question_activated', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'question_deactivated') {
+            $sentence = trans('account.log_question_deactivated', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'answer_created') {
+            $sentence = trans('account.log_answer_created', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'answer_updated') {
+            $sentence = trans('account.log_answer_updated', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'answer_destroyed') {
+            $sentence = trans('account.log_answer_destroyed', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -490,6 +540,24 @@ class LogHelper
         if ($log->action == 'work_from_home_destroyed') {
             $sentence = trans('account.employee_log_work_from_home_destroyed', [
                 'date' => $log->object->{'date'},
+            ]);
+        }
+
+        if ($log->action == 'answer_created') {
+            $sentence = trans('account.employee_log_answer_created', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'answer_updated') {
+            $sentence = trans('account.employee_log_answer_updated', [
+                'title' => $log->object->{'question_title'},
+            ]);
+        }
+
+        if ($log->action == 'answer_destroyed') {
+            $sentence = trans('account.employee_log_answer_destroyed', [
+                'title' => $log->object->{'question_title'},
             ]);
         }
 

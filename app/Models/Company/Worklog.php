@@ -53,7 +53,7 @@ class Worklog extends Model
     ];
 
     /**
-     * Get the employee records associated with the position.
+     * Get the employee records associated with the worklog.
      *
      * @return BelongsTo
      */

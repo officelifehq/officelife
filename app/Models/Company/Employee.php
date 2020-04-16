@@ -269,9 +269,9 @@ class Employee extends Model
     }
 
     /**
-     * Get the team news record associated with the employee.
+     * Get the team news records associated with the employee.
      *
-     * @return belongsTo
+     * @return HasMany
      */
     public function teamNews()
     {
@@ -279,13 +279,23 @@ class Employee extends Model
     }
 
     /**
-     * Get the work from home record associated with the employee.
+     * Get the work from home records associated with the employee.
      *
-     * @return belongsTo
+     * @return HasMany
      */
     public function workFromHomes()
     {
         return $this->hasMany(WorkFromHome::class);
+    }
+
+    /**
+     * Get the answer records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
     }
 
     /**

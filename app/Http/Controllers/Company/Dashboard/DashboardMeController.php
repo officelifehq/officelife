@@ -10,6 +10,7 @@ use App\Helpers\NotificationHelper;
 use App\Helpers\WorkFromHomeHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
+use App\Http\ViewHelpers\Company\Dashboard\DashboardMeViewHelper;
 
 class DashboardMeController extends Controller
 {
@@ -37,6 +38,7 @@ class DashboardMeController extends Controller
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
             'dashboard_view' => 'me',
             'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
+            'question' => DashboardMeViewHelper::question($employee),
         ];
 
         return Inertia::render('Dashboard/Me/Index', [

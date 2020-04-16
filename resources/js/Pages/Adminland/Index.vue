@@ -25,7 +25,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_home') }}
@@ -76,6 +76,11 @@
             <li class="pa2 pl0 relative">
               🌴 <inertia-link :href="'/' + $page.auth.company.id + '/account/ptopolicies'" data-cy="pto-policies-admin-link">
                 {{ $t('account.home_manage_pto') }}
+              </inertia-link>
+            </li>
+            <li class="pa2 pl0 relative">
+              🌈 <inertia-link :href="'/' + $page.auth.company.id + '/account/questions'" data-cy="questions-admin-link">
+                {{ $t('account.home_manage_questions') }}
               </inertia-link>
             </li>
           </ul>

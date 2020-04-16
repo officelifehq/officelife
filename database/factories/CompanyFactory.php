@@ -302,3 +302,31 @@ $factory->define(App\Models\Company\WorkFromHome::class, function () {
         'work_from_home' => true,
     ];
 });
+
+$factory->define(App\Models\Company\Question::class, function () {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'title' => 'What is your favorite movie?',
+        'active' => true,
+    ];
+});
+
+$factory->define(App\Models\Company\Answer::class, function () {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
+    return [
+        'question_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Question::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'employee_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'body' => 'This is my answer',
+    ];
+});

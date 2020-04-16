@@ -192,7 +192,7 @@ abstract class BaseService
         }
 
         if ($this->requiredPermissionLevel < $this->author->permission_level) {
-            throw new NotEnoughPermissionException;
+            throw new NotEnoughPermissionException('app.error_not_enough_permission');
         }
 
         return true;
