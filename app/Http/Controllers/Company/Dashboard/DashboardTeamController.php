@@ -53,7 +53,7 @@ class DashboardTeamController extends Controller
                 'company' => $company,
                 'employee' => $employeeInformation,
                 'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                'message' => trans('dashboard.not_allowed'),
+                'message' => trans('dashboard.blank_state'),
             ]);
         }
 
@@ -71,7 +71,7 @@ class DashboardTeamController extends Controller
                     'company' => $company,
                     'employee' => $employeeInformation,
                     'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                    'message' => trans('dashboard.not_allowed'),
+                    'message' => trans('dashboard.team_not_allowed'),
                 ]);
             }
 
@@ -81,7 +81,7 @@ class DashboardTeamController extends Controller
                     'company' => $company,
                     'employee' => $employeeInformation,
                     'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                    'message' => trans('dashboard.not_allowed'),
+                    'message' => trans('dashboard.team_not_allowed'),
                 ]);
             }
         }

@@ -134,7 +134,7 @@ export default {
       default: null,
     },
     years: {
-      type: Object,
+      type: Array,
       default: null,
     },
     months: {

@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'blank_state' => 'You are not associated with a team at the moment.',
+
     'morale_title' => 'How do you feel?',
     'morale_success_message' => 'Thanks for telling us how you feel.',
     'morale_already_logged' => 'You have already indicated how you felt today. Come back tomorrow!',

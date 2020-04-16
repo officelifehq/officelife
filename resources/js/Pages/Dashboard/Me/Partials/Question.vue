@@ -180,10 +180,12 @@ export default {
   },
 
   created: function() {
-    this.hasAlreadyAnswered = this.employee.question.employee_has_answered;
-    this.question = this.employee.question;
-    this.answers = this.employee.question.answers;
-    this.form.id = this.question.id;
+    if (this.employee.question) {
+      this.hasAlreadyAnswered = this.employee.question.employee_has_answered;
+      this.question = this.employee.question;
+      this.answers = this.employee.question.answers;
+      this.form.id = this.question.id;
+    }
   },
 
   methods: {

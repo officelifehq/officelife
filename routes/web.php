@@ -118,6 +118,8 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('company')->group(function () {
+            Route::get('', 'Company\\Company\\CompanyController@index');
+
             // Questions and answers
             Route::resource('questions', 'Company\\Company\\QuestionController', ['as' => 'company'])->only([
                 'index', 'show',

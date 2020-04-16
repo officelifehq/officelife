@@ -6,7 +6,7 @@ describe('Dashboard - teams', function () {
 
     cy.get('[data-cy=dashboard-team-tab]').click()
 
-    cy.contains('You are not associated with a team yet')
+    cy.contains('You are not associated with a team at the moment')
   })
 
   it('should display the list of teams if the employee is associated with at least one team', function () {

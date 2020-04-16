@@ -119,6 +119,7 @@ class QuestionController extends Controller
 
         return Inertia::render('Company/Question/Show', [
             'teams' => TeamCollection::prepare($teams),
+            'currentTeam' => $teamId,
             'question' => $answersCollection,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'paginator' => PaginatorHelper::getData($answers),

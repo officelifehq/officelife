@@ -38,11 +38,11 @@
 
           <div v-if="teams.length > 0" class="tr">
             <span class="dib mr2">
-              Filter by team
+              {{ $t('company.question_filter_team') }}
             </span>
             <select id="teams" v-model="form.id" @change="navigateTo()">
               <option value="0" selected="selected">
-                All teams
+                {{ $t('company.question_filter_no_specific_team') }}
               </option>
               <option v-for="team in teams" :key="team.id" :value="team.id">
                 {{ team.name }}
@@ -71,6 +71,9 @@
               {{ $t('app.next') }} &rarr;
             </inertia-link>
           </div>
+
+          <!-- Blank state -->
+          <p v-if="answers.length == 0" class="mt5 tc">{{ $t('company.question_blank') }}</p>
         </div>
       </div>
     </div>
@@ -104,6 +107,10 @@ export default {
       type: Object,
       default: null,
     },
+    currentTeam: {
+      type: Number,
+      default: 0,
+    }
   },
 
   data() {
@@ -118,12 +125,17 @@ export default {
 
   created: function() {
     this.answers = this.question.answers;
+    this.form.id = this.currentTeam;
   },
 
   methods: {
     navigateTo() {
-      console.log('/' + this.$page.auth.company.id + '/company/question/' + this.question.id + '/teams/' + this.form.id);
-      this.$inertia.visit('/' + this.$page.auth.company.id + '/company/questions/' + this.question.id + '/teams/' + this.form.id);
+      console.log(this.form.id);
+      if (this.form.id == 0) {
+        this.$inertia.visit('/' + this.$page.auth.company.id + '/company/questions/' + this.question.id);
+      } else {
+        this.$inertia.visit('/' + this.$page.auth.company.id + '/company/questions/' + this.question.id + '/teams/' + this.form.id);
+      }
     },
   },
 };

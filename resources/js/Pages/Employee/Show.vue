@@ -223,7 +223,7 @@ export default {
       default: null,
     },
     worklogs: {
-      type: Array,
+      type: Object,
       default: null,
     },
     statuses: {

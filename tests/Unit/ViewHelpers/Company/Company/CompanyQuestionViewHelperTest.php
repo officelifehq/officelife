@@ -33,13 +33,27 @@ class CompanyQuestionViewHelperTest extends ApiTestCase
             'title' => 'Do you like Dwight',
         ]);
 
+        // the response should be an empty array as the question doesn't have
+        // any answer
+        $response = CompanyQuestionViewHelper::questions($michael->company);
+
+        $this->assertEquals(
+            0,
+            count($response->toArray())
+        );
+
+        // now we'll call the helper again with a question that we've added answers to
+        factory(Answer::class)->create([
+            'question_id' => $question->id,
+        ]);
+
         $response = CompanyQuestionViewHelper::questions($michael->company);
 
         $this->assertArraySubset(
             [
                 'title' => 'Do you like Dwight',
-                'number_of_answers' => 0,
-                'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
+                'number_of_answers' => 1,
+                'url' => env('APP_URL') . '/' . $michael->company_id . '/company/questions/' . $question->id,
             ],
             $response->toArray()[0]
         );

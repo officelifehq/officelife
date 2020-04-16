@@ -34,6 +34,7 @@ return [
     'no_results' => 'No results',
     'no_position_defined' => 'No position defined',
 
+    'breadcrumb_dashboard' => 'Home',
     'breadcrumb_account_home' => 'Account administration',
     'breadcrumb_account_manage_employees' => 'Manage employees',
     'breadcrumb_account_add_employee' => 'Add an employee',
@@ -66,6 +67,7 @@ return [
     'header_find' => 'Find',
     'header_employees' => 'Employees',
     'header_teams' => 'Teams',
+    'header_company' => 'Company',
     'header_switch_company' => 'Switch company',
     'header_logout' => 'Logout',
     'header_search_placeholder' => 'Find an employee or a team by name',

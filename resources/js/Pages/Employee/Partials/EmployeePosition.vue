@@ -123,7 +123,7 @@ export default {
         .then(response => {
           flash(this.$t('employee.position_modal_assign_success'), 'success');
 
-          this.title = response.data.data.position.title;
+          this.title = response.data.data.position;
           this.updatedEmployee = response.data.data;
           this.modal = false;
         })

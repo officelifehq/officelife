@@ -42,7 +42,7 @@ class AdminQuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $companyId)
+    public function store(Request $request, int $companyId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -70,7 +70,7 @@ class AdminQuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $companyId, $questionId)
+    public function update(Request $request, int $companyId, int $questionId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -98,7 +98,7 @@ class AdminQuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $companyId, $questionId)
+    public function destroy(Request $request, int $companyId, int $questionId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -124,7 +124,7 @@ class AdminQuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function activate(Request $request, $companyId, $questionId)
+    public function activate(Request $request, int $companyId, int $questionId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -154,7 +154,7 @@ class AdminQuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function deactivate(Request $request, $companyId, $questionId)
+    public function deactivate(Request $request, int $companyId, int $questionId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

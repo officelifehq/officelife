@@ -86,22 +86,17 @@
                 </span>
 
                 <!-- list of actions -->
-                <ul class="f6 list pl0">
+                <ul class="f6 list pl0 mb2 mb0-ns">
                   <!-- status -->
-                  <li v-if="question.active" class="dib mr2" :data-cy="'question-status-active-' + question.id">
+                  <li v-if="question.active" class="dib mr2 pb2 pb0-ns" :data-cy="'question-status-active-' + question.id">
                     <div class="br3 question-badge-active f7 ph2 di">{{ $t('account.question_status_active') }}</div>
                   </li>
-                  <li v-else class="dib mr2" :data-cy="'question-status-inactive-' + question.id">
+                  <li v-else class="dib mr2 pb2 pb0-ns" :data-cy="'question-status-inactive-' + question.id">
                     <div class="br3 question-badge-inactive f7 ph2 di">{{ $t('account.question_status_inactive') }}</div>
                   </li>
 
-                  <!-- number of answers -->
-                  <li :data-cy="'question-number-of-answers-' + question.id" class="di pr2">
-                    {{ $tc('account.question_number_of_answers', question_number_of_answers, { count: question.number_of_answers}) }}
-                  </li>
-
                   <!-- confirm activation -->
-                  <li v-if="questionToActivate.id == question.id" class="di pr2">
+                  <li v-if="questionToActivate.id == question.id" class="di pr2 pb2 pb0-ns">
                     {{ $t('app.sure') }}
                     <a class="mr1 pointer" :data-cy="'question-activate-link-confirm-' + question.id" @click.prevent="activate(question)">
                       {{ $t('app.yes') }}
@@ -111,7 +106,7 @@
                     </a>
                   </li>
                   <!-- confirm deactivation -->
-                  <li v-if="questionToDeactivate.id == question.id" class="di pr2">
+                  <li v-if="questionToDeactivate.id == question.id" class="di pr2 pb2 pb0-ns">
                     {{ $t('app.sure') }}
                     <a class="mr1 pointer" :data-cy="'question-deactivate-link-confirm-' + question.id" @click.prevent="deactivate(question)">
                       {{ $t('app.yes') }}
@@ -120,24 +115,25 @@
                       {{ $t('app.no') }}
                     </a>
                   </li>
-                  <li v-if="questionToActivate.id != question.id && !question.active" class="di pr2">
-                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-activate-link-' + question.id" @click.prevent="questionToActivate = question">
-                      {{ $t('account.question_activate') }}
-                    </a>
+                  <li v-if="questionToActivate.id != question.id && !question.active" class="di pr2 pb2 pb0-ns">
+                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-activate-link-' + question.id" @click.prevent="questionToActivate = question">{{ $t('account.question_activate') }}</a>
                   </li>
-                  <li v-if="questionToDeactivate.id != question.id && question.active" class="di pr2">
-                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-deactivate-link-' + question.id" @click.prevent="questionToDeactivate = question">
-                      {{ $t('account.question_deactivate') }}
-                    </a>
+                  <li v-if="questionToDeactivate.id != question.id && question.active" class="di pr2 pb2 pb0-ns">
+                    <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-deactivate-link-' + question.id" @click.prevent="questionToDeactivate = question">{{ $t('account.question_deactivate') }}</a>
+                  </li>
+
+                  <!-- number of answers -->
+                  <li :data-cy="'question-number-of-answers-' + question.id" class="di pr2 pb2 pb0-ns">
+                    <inertia-link :href="question.url">{{ $tc('account.question_number_of_answers', question_number_of_answers, { count: question.number_of_answers}) }}</inertia-link>
                   </li>
 
                   <!-- rename -->
-                  <li class="di pr2">
+                  <li class="di pr2 pb2 pb0-ns">
                     <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'question-rename-link-' + question.id" @click.prevent="showRenameModal(question)">{{ $t('app.rename') }}</a>
                   </li>
 
                   <!-- delete -->
-                  <li class="di">
+                  <li class="di pb2 pb0-ns">
                     <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'question-destroy-link-' + question.id" @click.prevent="showDeletionModal(question)">{{ $t('app.delete') }}</a>
                   </li>
                 </ul>
