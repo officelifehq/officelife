@@ -771,23 +771,24 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.5.2",
+            "version": "6.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "43ece0e75098b7ecd8d13918293029e555a50f82"
+                "reference": "aab4ebd862aa7d04f01a4b51849d657db56d882e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/43ece0e75098b7ecd8d13918293029e555a50f82",
-                "reference": "43ece0e75098b7ecd8d13918293029e555a50f82",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/aab4ebd862aa7d04f01a4b51849d657db56d882e",
+                "reference": "aab4ebd862aa7d04f01a4b51849d657db56d882e",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "guzzlehttp/promises": "^1.0",
                 "guzzlehttp/psr7": "^1.6.1",
-                "php": ">=5.5"
+                "php": ">=5.5",
+                "symfony/polyfill-intl-idn": "^1.11"
             },
             "require-dev": {
                 "ext-curl": "*",
@@ -795,7 +796,6 @@
                 "psr/log": "^1.1"
             },
             "suggest": {
-                "ext-intl": "Required for Internationalized Domain Name (IDN) support",
                 "psr/log": "Required for using the Log middleware"
             },
             "type": "library",
@@ -834,7 +834,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2019-12-23T11:57:10+00:00"
+            "time": "2020-04-18T10:38:46+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -4877,16 +4877,16 @@
         },
         {
             "name": "barryvdh/laravel-debugbar",
-            "version": "v3.3.1",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-debugbar.git",
-                "reference": "67ced7c6a7451b8bb079d92a57d75f1111f3342d"
+                "reference": "95c31aab33689cd4572d27038186886f4bfa63ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/67ced7c6a7451b8bb079d92a57d75f1111f3342d",
-                "reference": "67ced7c6a7451b8bb079d92a57d75f1111f3342d",
+                "url": "https://api.github.com/repos/barryvdh/laravel-debugbar/zipball/95c31aab33689cd4572d27038186886f4bfa63ae",
+                "reference": "95c31aab33689cd4572d27038186886f4bfa63ae",
                 "shasum": ""
             },
             "require": {
@@ -4941,7 +4941,7 @@
                 "profiler",
                 "webprofiler"
             ],
-            "time": "2020-04-16T09:09:05+00:00"
+            "time": "2020-04-16T20:19:40+00:00"
         },
         {
             "name": "beyondcode/laravel-dump-server",
@@ -6150,16 +6150,16 @@
         },
         {
             "name": "netresearch/jsonmapper",
-            "version": "v2.0.0",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cweiske/jsonmapper.git",
-                "reference": "e245890383c3ed38b6d202ee373c23ccfebc0f54"
+                "reference": "e0f1e33a71587aca81be5cffbb9746510e1fe04e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cweiske/jsonmapper/zipball/e245890383c3ed38b6d202ee373c23ccfebc0f54",
-                "reference": "e245890383c3ed38b6d202ee373c23ccfebc0f54",
+                "url": "https://api.github.com/repos/cweiske/jsonmapper/zipball/e0f1e33a71587aca81be5cffbb9746510e1fe04e",
+                "reference": "e0f1e33a71587aca81be5cffbb9746510e1fe04e",
                 "shasum": ""
             },
             "require": {
@@ -6192,7 +6192,7 @@
                 }
             ],
             "description": "Map nested JSON structures onto PHP classes",
-            "time": "2020-03-04T17:23:33+00:00"
+            "time": "2020-04-16T18:48:43+00:00"
         },
         {
             "name": "nunomaduro/collision",
@@ -8546,16 +8546,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.7.0",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "aed98a490f9a8f78468232db345ab9cf606cf598"
+                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/aed98a490f9a8f78468232db345ab9cf606cf598",
-                "reference": "aed98a490f9a8f78468232db345ab9cf606cf598",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
+                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
                 "shasum": ""
             },
             "require": {
@@ -8563,7 +8563,7 @@
                 "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
-                "vimeo/psalm": "<3.6.0"
+                "vimeo/psalm": "<3.9.1"
             },
             "require-dev": {
                 "phpunit/phpunit": "^4.8.36 || ^7.5.13"
@@ -8590,7 +8590,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2020-02-14T12:15:55+00:00"
+            "time": "2020-04-18T12:12:48+00:00"
         },
         {
             "name": "webmozart/glob",
