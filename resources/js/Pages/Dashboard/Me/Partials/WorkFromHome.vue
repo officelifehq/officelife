@@ -5,7 +5,7 @@
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">
-      <div class="pa3">
+      <div class="pa3 relative">
         <errors :errors="form.errors" :classes="'mb2'" />
 
         <checkbox
@@ -13,7 +13,7 @@
           v-model="form.content"
           :datacy="'log-from-work-home-cta'"
           :label="$t('dashboard.work_from_home_cta')"
-          :extra-class-upper-div="'mb0'"
+          :extra-class-upper-div="'mb0 relative'"
           :required="true"
           @change="updateStatus($event)"
         />
