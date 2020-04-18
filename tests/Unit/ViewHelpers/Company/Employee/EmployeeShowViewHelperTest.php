@@ -4,8 +4,10 @@ namespace Tests\Unit\ViewHelpers\Company\Dashboard;
 
 use Carbon\Carbon;
 use Tests\ApiTestCase;
+use App\Models\Company\Answer;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\Question;
 use App\Models\Company\WorkFromHome;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
@@ -118,7 +120,7 @@ class EmployeeShowViewHelperTest extends ApiTestCase
                         'id' => $dwight->position->id,
                         'title' => $dwight->position->title,
                     ],
-                    'url' => env('APP_URL') . '/' . $dwight->company_id . '/employees/' . $dwight->id,
+                    'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                 ],
                 1 => [
                     'id' => $jim->id,
@@ -128,7 +130,7 @@ class EmployeeShowViewHelperTest extends ApiTestCase
                         'id' => $jim->position->id,
                         'title' => $jim->position->title,
                     ],
-                    'url' => env('APP_URL') . '/' . $jim->company_id . '/employees/' . $jim->id,
+                    'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                 ],
             ],
             $collection->toArray()
@@ -200,6 +202,37 @@ class EmployeeShowViewHelperTest extends ApiTestCase
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/workfromhome',
             ],
             $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_questions_and_answers(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+        $question = factory(Question::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        factory(Answer::class)->create([
+            'question_id' => $question->id,
+            'employee_id' => $michael->id,
+            'body' => 'this is my answer',
+        ]);
+
+        $collection = EmployeeShowViewHelper::questions($michael);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $question->id,
+                    'title' => 'What is your favorite movie?',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
+                    'answer' => [
+                        'body' => 'this is my answer',
+                    ],
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }
