@@ -9,6 +9,7 @@ input[type=checkbox] {
   height: 20px;
   padding: 0;
   width: 20px;
+  top: 2px;
 }
 
 </style>
@@ -19,6 +20,8 @@ input[type=checkbox] {
       :id="id"
       v-model="updatedValue"
       type="checkbox"
+      class="relative"
+      :class="classes"
       :name="name"
       :data-cy="datacy"
       @change="$emit('change', updatedValue)"
@@ -73,6 +76,10 @@ export default {
     required: {
       type: Boolean,
       default: false,
+    },
+    classes: {
+      type: String,
+      default: 'mb3',
     },
     extraClassUpperDiv: {
       type: String,
