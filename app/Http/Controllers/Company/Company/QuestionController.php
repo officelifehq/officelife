@@ -103,6 +103,10 @@ class QuestionController extends Controller
 
         $teams = $company->teams;
 
+        // This is a raw query. Not pretty, but its goal is to grab all employees
+        // of the given team who have answered this question. The only way
+        // I've found to run this query efficiently is to build this raw query
+        // to prevent hydrating a lot of models. This query is really fast.
         $answers = DB::table(DB::raw('answers, teams, employees, employee_team'))
             ->select(DB::raw('distinct employees.id as employee_id, concat(employees.first_name, " ", employees.last_name) as name, teams.id as team_id, answers.body as body, answers.id as answer_id, employees.avatar as avatar, answers.created_at'))
             ->whereRaw('answers.question_id = '.$questionId)

@@ -10,7 +10,6 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use Illuminate\Support\Collection;
-use App\Http\Collections\AnswerCollection;
 
 class CompanyQuestionViewHelper
 {
@@ -67,11 +66,24 @@ class CompanyQuestionViewHelper
         // building the sentence `This question was asked from Jan 20, 2020 to Mar 21, 2020`
         $date = CompanyQuestionViewHelper::getInformationAboutActivationDate($question);
 
+        // preparing the array of answers
+        $answerCollection = collect([]);
+        foreach ($answers as $answer) {
+            $answerCollection->push([
+                'id' => $answer->answer_id,
+                'body' => $answer->body,
+                'employee' => [
+                    'name' => $answer->employee->name,
+                    'avatar' => $answer->employee->avatar,
+                ],
+            ]);
+        }
+
         $array = [
             'id' => $question->id,
             'title' => $question->title,
             'number_of_answers' => $answers->count(),
-            'answers' => AnswerCollection::prepare($answers),
+            'answers' => $answerCollection,
             'employee_has_answered' => $detailOfAnswer ? true : false,
             'answer_by_employee' => $detailOfAnswer,
             'date' => $date,
@@ -93,7 +105,7 @@ class CompanyQuestionViewHelper
      */
     public static function teams(Question $question, $answers, Employee $employee): ?array
     {
-        $detailOfAnswer = QuestionHelper::getAnswer($question, $employee);
+        $answerByEmployee = QuestionHelper::getAnswer($question, $employee);
 
         $date = CompanyQuestionViewHelper::getInformationAboutActivationDate($question);
 
@@ -115,8 +127,8 @@ class CompanyQuestionViewHelper
             'title' => $question->title,
             'number_of_answers' => $answers->count(),
             'answers' => $answerCollection,
-            'employee_has_answered' => $detailOfAnswer ? true : false,
-            'answer_by_employee' => $detailOfAnswer,
+            'employee_has_answered' => $answerByEmployee ? true : false,
+            'answer_by_employee' => $answerByEmployee,
             'date' => $date,
             'url' => route('company.questions.show', [
                 'company' => $employee->company,

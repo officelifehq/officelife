@@ -4,7 +4,6 @@ namespace App\Http\ViewHelpers\Company\Dashboard;
 
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Employee;
-use App\Http\Collections\AnswerCollection;
 
 class DashboardMeViewHelper
 {
@@ -24,23 +23,38 @@ class DashboardMeViewHelper
             return null;
         }
 
-        $allEmployeeAnswers = $question->answers;
+        $answerByEmployee = QuestionHelper::getAnswer($question, $employee);
 
-        $detailOfAnswer = QuestionHelper::getAnswer($question, $employee);
+        // collection of all employee answers
+        $allAnswers = $question->answers;
+        $answersCollection = collect([]);
+        foreach ($allAnswers->take(3) as $answer) {
+            $answersCollection->push([
+                'id' => $answer->id,
+                'body' => $answer->body,
+                'employee' => [
+                    'id' => $answer->employee->id,
+                    'name' => $answer->employee->name,
+                    'avatar' => $answer->employee->avatar,
+                ],
+            ]);
+        }
 
-        $array = [
+        $response = [
             'id' => $question->id,
             'title' => $question->title,
-            'number_of_answers' => $allEmployeeAnswers->count(),
-            'answers' => AnswerCollection::prepare($allEmployeeAnswers->take(3)),
-            'employee_has_answered' => $detailOfAnswer ? true : false,
-            'answer_by_employee' => $detailOfAnswer,
+            'number_of_answers' => $allAnswers->count(),
+            'answers' => $answersCollection,
+            'employee_has_answered' => $answerByEmployee ? true : false,
+            'answer_by_employee' => $answerByEmployee ? [
+                'body' => $answerByEmployee->body,
+            ] : null,
             'url' => route('company.questions.show', [
                 'company' => $employee->company,
                 'question' => $question,
             ]),
         ];
 
-        return $array;
+        return $response;
     }
 }

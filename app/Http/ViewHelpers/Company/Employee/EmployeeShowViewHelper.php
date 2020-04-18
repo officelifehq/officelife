@@ -144,4 +144,35 @@ class EmployeeShowViewHelper
             ]),
         ];
     }
+
+    /**
+     * Array containing information about the questions answered by the
+     * employee.
+     *
+     * @param  Employee   $employee
+     * @return Collection
+     */
+    public static function questions(Employee $employee): Collection
+    {
+        $answers = $employee->answers()->with('question')->get();
+
+        $questionsCollection = collect([]);
+        foreach ($answers as $answer) {
+            $question = $answer->question;
+
+            $questionsCollection->push([
+                'id' => $question->id,
+                'title' => $question->title,
+                'url' => route('company.questions.show', [
+                    'company' => $question->company,
+                    'question' => $question,
+                ]),
+                'answer' => [
+                    'body' => $answer->body,
+                ],
+            ]);
+        }
+
+        return $questionsCollection;
+    }
 }

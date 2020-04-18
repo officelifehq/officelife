@@ -20,21 +20,16 @@ class QuestionHelperTest extends TestCase
             'employee_id' => $michael->id,
         ]);
 
+        $response = QuestionHelper::getAnswer($answer->question, $michael);
+
+        $this->assertInstanceOf(
+            Answer::class,
+            $response
+        );
+
         $this->assertEquals(
-            [
-                'id' => $answer->id,
-                'question' => [
-                    'id' => $answer->question_id,
-                ],
-                'employee' => [
-                    'id' => $answer->employee->id,
-                    'name' => $answer->employee->name,
-                    'avatar' => $answer->employee->avatar,
-                ],
-                'body' => $answer->body,
-                'created_at' => $answer->created_at,
-            ],
-            QuestionHelper::getAnswer($answer->question, $michael)
+            $response->id,
+            $answer->id
         );
     }
 

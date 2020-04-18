@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Employee;
 use Inertia\Inertia;
 use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
@@ -25,7 +26,7 @@ class EmployeeController extends Controller
      *
      * @param int $companyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request, int $companyId)
     {
@@ -59,10 +60,11 @@ class EmployeeController extends Controller
     /**
      * Display the detail of an employee.
      *
-     * @param int $companyId
-     * @param int $employeeId
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {
@@ -96,6 +98,9 @@ class EmployeeController extends Controller
         // work from home
         $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
 
+        // questions
+        $questions = EmployeeShowViewHelper::questions($employee);
+
         return Inertia::render('Employee/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employee' => $employee->toObject(),
@@ -103,6 +108,7 @@ class EmployeeController extends Controller
             'directReports' => $directReportsOfEmployee,
             'worklogs' => $worklogsCollection,
             'workFromHomes' => $workFromHomeStats,
+            'questions' => $questions,
             'employeeTeams' => TeamCollection::prepare($employee->teams),
             'positions' => PositionCollection::prepare($company->positions()->get()),
             'teams' => TeamCollection::prepare($company->teams()->get()),
@@ -114,10 +120,11 @@ class EmployeeController extends Controller
     /**
      * Assign a manager to the employee.
      *
-     * @param int $companyId
-     * @param int $employeeId
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function assignManager(Request $request, int $companyId, int $employeeId)
     {
@@ -140,10 +147,11 @@ class EmployeeController extends Controller
     /**
      * Assign a direct report to the employee.
      *
-     * @param int $companyId
-     * @param int $employeeId
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function assignDirectReport(Request $request, int $companyId, int $employeeId)
     {
@@ -168,10 +176,11 @@ class EmployeeController extends Controller
     /**
      * Unassign a manager.
      *
-     * @param int $companyId
-     * @param int $employeeId
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function unassignManager(Request $request, int $companyId, int $employeeId)
     {
@@ -194,10 +203,11 @@ class EmployeeController extends Controller
     /**
      * Unassign a direct report.
      *
-     * @param int $companyId
-     * @param int $managerId
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $managerId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function unassignDirectReport(Request $request, int $companyId, int $managerId)
     {
