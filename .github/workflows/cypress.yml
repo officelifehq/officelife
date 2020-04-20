@@ -63,6 +63,9 @@ jobs:
     - name: yarn install
       run: yarn install-frozen
 
+    - name: Build assets
+      run: yarn run production
+
     - name: Prepare .env file
       run: php -r "file_exists('.env') || copy('.env.cypress.io', '.env');"
 
@@ -74,15 +77,21 @@ jobs:
     - name: Generate key
       run: php artisan key:generate
 
-    - uses: cypress-io/github-action@v1
-      with:
-        start: php artisan serve
-        browser: chrome
-        headless: true
-        ci-build-id: '${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}'
-        config: baseUrl=http://localhost:8000
-      env:
-        CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
+    - name: Run Laravel Server
+      run: php artisan serve > /dev/null 2>&1 &
+
+    - name: Execute tests
+      run: npm run cy:run
+
+    # - uses: cypress-io/github-action@v1
+    #   with:
+    #     start: php artisan serve
+    #     browser: chrome
+    #     headless: true
+    #     ci-build-id: '${{ github.sha }}-${{ github.workflow }}-${{ github.event_name }}'
+    #     config: baseUrl=http://localhost:8000
+    #   env:
+    #     CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     DB_CONNECTION: sqlite
+    #     DB_DATABASE: database/database.sqlite
