@@ -63,6 +63,9 @@ jobs:
     - name: yarn install
       run: yarn install-frozen
 
+    -name: langs
+      run: php artisan lang:generate
+
     - name: Build assets
       run: yarn run production
 
