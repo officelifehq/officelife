@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
-use App\Helpers\WorklogHelper;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
@@ -18,6 +17,7 @@ use App\Http\Collections\EmployeeStatusCollection;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Manager\UnassignManager;
+use App\Http\ViewHelpers\Company\Employee\EmployeeShowViewHelper;
 
 class EmployeeController extends Controller
 {
@@ -25,7 +25,8 @@ class EmployeeController extends Controller
      * Display the list of employees.
      *
      * @param int $companyId
-     * @return \Illuminate\Http\Response
+     *
+     * @return Response
      */
     public function index(Request $request, int $companyId)
     {
@@ -59,9 +60,11 @@ class EmployeeController extends Controller
     /**
      * Display the detail of an employee.
      *
-     * @param int $companyId
-     * @param int $employeeId
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $employeeId
+     *
+     * @return Response
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {
@@ -75,66 +78,28 @@ class EmployeeController extends Controller
                 ->with('user')
                 ->with('status')
                 ->with('places')
+                ->with('managers')
+                ->with('workFromHomes')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
 
         // managers
-        $managers = $employee->managers;
-        $managersOfEmployee = collect([]);
-        foreach ($managers as $manager) {
-            $manager = $manager->manager;
-
-            $managersOfEmployee->push([
-                'id' => $manager->id,
-                'name' => $manager->name,
-                'avatar' => $manager->avatar,
-                'position' => (!$manager->position) ? null : [
-                    'id' => $manager->position->id,
-                    'title' => $manager->position->title,
-                ],
-            ]);
-        }
+        $managersOfEmployee = EmployeeShowViewHelper::managers($employee);
 
         // direct reports
-        $directReports = $employee->directReports;
         $directReportsOfEmployee = collect([]);
-        foreach ($directReports as $directReport) {
-            $directReport = $directReport->directReport;
+        $directReportsOfEmployee = EmployeeShowViewHelper::directReports($employee);
 
-            $directReportsOfEmployee->push([
-                'id' => $directReport->id,
-                'name' => $directReport->name,
-                'avatar' => $directReport->avatar,
-                'position' => (!$directReport->position) ? null : [
-                    'id' => $directReport->position->id,
-                    'title' => $directReport->position->title,
-                ],
-            ]);
-        }
-
-        // building the collection containing the days of the week with the
         // worklogs
-        $worklogs = $employee->worklogs()->latest()->take(7)->get();
-        $morales = $employee->morales()->latest()->take(7)->get();
-        $worklogsCollection = collect([]);
-        $currentDate = Carbon::now();
-        for ($i = 0; $i < 5; $i++) {
-            $day = $currentDate->copy()->startOfWeek()->addDays($i);
+        $worklogsCollection = EmployeeShowViewHelper::worklogs($employee);
 
-            $worklog = $worklogs->first(function ($worklog) use ($day) {
-                return $worklog->created_at->format('Y-m-d') == $day->format('Y-m-d');
-            });
+        // work from home
+        $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
 
-            $morale = $morales->first(function ($morale) use ($day) {
-                return $morale->created_at->format('Y-m-d') == $day->format('Y-m-d');
-            });
-
-            $worklogsCollection->push(
-                WorklogHelper::getDailyInformationForEmployee($worklog, $morale, $day)
-            );
-        }
+        // questions
+        $questions = EmployeeShowViewHelper::questions($employee);
 
         return Inertia::render('Employee/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -142,6 +107,8 @@ class EmployeeController extends Controller
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
             'worklogs' => $worklogsCollection,
+            'workFromHomes' => $workFromHomeStats,
+            'questions' => $questions,
             'employeeTeams' => TeamCollection::prepare($employee->teams),
             'positions' => PositionCollection::prepare($company->positions()->get()),
             'teams' => TeamCollection::prepare($company->teams()->get()),
@@ -153,9 +120,11 @@ class EmployeeController extends Controller
     /**
      * Assign a manager to the employee.
      *
-     * @param int $companyId
-     * @param int $employeeId
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $employeeId
+     *
+     * @return Response
      */
     public function assignManager(Request $request, int $companyId, int $employeeId)
     {
@@ -178,9 +147,11 @@ class EmployeeController extends Controller
     /**
      * Assign a direct report to the employee.
      *
-     * @param int $companyId
-     * @param int $employeeId
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $employeeId
+     *
+     * @return Response
      */
     public function assignDirectReport(Request $request, int $companyId, int $employeeId)
     {
@@ -205,9 +176,11 @@ class EmployeeController extends Controller
     /**
      * Unassign a manager.
      *
-     * @param int $companyId
-     * @param int $employeeId
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $employeeId
+     *
+     * @return Response
      */
     public function unassignManager(Request $request, int $companyId, int $employeeId)
     {
@@ -230,9 +203,11 @@ class EmployeeController extends Controller
     /**
      * Unassign a direct report.
      *
-     * @param int $companyId
-     * @param int $managerId
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $managerId
+     *
+     * @return Response
      */
     public function unassignDirectReport(Request $request, int $companyId, int $managerId)
     {

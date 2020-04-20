@@ -133,6 +133,16 @@ class Company extends Model
     }
 
     /**
+     * Get the question records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function questions()
+    {
+        return $this->hasMany(Question::class)->orderBy('created_at', 'desc');
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return CompanyPTOPolicy

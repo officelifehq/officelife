@@ -49,7 +49,7 @@ nav {
       <nav class="flex justify-between bb b--white-10">
         <div class="flex-grow pa2 flex items-center">
           <inertia-link href="/home" class="mr3 no-underline pa2 bb-0">
-            <img src="/img/logo.svg" height="30" width="30" />
+            <img src="/img/logo.svg" height="30" width="30" alt="logo" />
           </inertia-link>
           <div v-if="!noMenu">
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr2 no-underline pa2 bb-0 special">
@@ -60,6 +60,9 @@ nav {
             </inertia-link>
             <inertia-link :href="'/' + $page.auth.company.id + '/teams'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               👫 {{ $t('app.header_teams') }}
+            </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/company'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
+              ⛺️ {{ $t('app.header_company') }}
             </inertia-link>
             <a data-cy="header-find-link" class="mr2 no-underline pa2 bb-0 special pointer" @click="showFindModal">
               🔍 {{ $t('app.header_find') }}
@@ -175,7 +178,7 @@ nav {
         </div>
         <div class="absolute pa2 header-logo">
           <a href="">
-            <img src="/img/logo.svg" width="30" height="27" />
+            <img src="/img/logo.svg" width="30" height="27" alt="logo" />
           </a>
         </div>
       </div>

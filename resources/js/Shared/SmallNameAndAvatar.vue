@@ -11,8 +11,10 @@ span {
 
 <template>
   <div class="relative">
-    <img :src="avatar" class="absolute br-100" />
-    <span>{{ name }}</span>
+    <img :src="avatar" class="absolute br-100" alt="avatar" />
+    <span class="f6">
+      {{ name }}
+    </span>
   </div>
 </template>
 

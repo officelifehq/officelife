@@ -45,6 +45,15 @@ class Morale extends Model
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'created_at',
+    ];
+
+    /**
      * Get the employee record associated with the morale.
      *
      * @return BelongsTo
@@ -57,8 +66,10 @@ class Morale extends Model
     /**
      * Returns the emotion in a readable format.
      *
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getTranslatedEmotionAttribute($value)
     {
@@ -68,8 +79,10 @@ class Morale extends Model
     /**
      * Returns the emotion in a readable format.
      *
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getEmojiAttribute($value)
     {

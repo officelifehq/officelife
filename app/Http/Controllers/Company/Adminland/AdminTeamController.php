@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\PaginatorHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -41,6 +42,7 @@ class AdminTeamController extends Controller
      * Create the team.
      *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
@@ -64,8 +66,9 @@ class AdminTeamController extends Controller
      * Update the name of the team.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
+     * @param int     $companyId
+     * @param int     $teamId
+     *
      * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $teamId): JsonResponse
@@ -90,8 +93,9 @@ class AdminTeamController extends Controller
      * Delete the team.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
+     * @param int     $companyId
+     * @param int     $teamId
+     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $teamId): JsonResponse
@@ -117,6 +121,7 @@ class AdminTeamController extends Controller
      * @param Request $request
      * @param integer $companyId
      * @param integer $teamId
+     *
      * @return InertiaResponse
      */
     public function logs(Request $request, int $companyId, int $teamId): InertiaResponse
@@ -134,19 +139,7 @@ class AdminTeamController extends Controller
         return Inertia::render('Adminland/Team/Logs', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'logs' => $logsCollection,
-            'paginator' => [
-                'count' => $logs->count(),
-                'currentPage' => $logs->currentPage(),
-                'firstItem' => $logs->firstItem(),
-                'hasMorePages' => $logs->hasMorePages(),
-                'lastItem' => $logs->lastItem(),
-                'lastPage' => $logs->lastPage(),
-                'nextPageUrl' => $logs->nextPageUrl(),
-                'onFirstPage' => $logs->onFirstPage(),
-                'perPage' => $logs->perPage(),
-                'previousPageUrl' => $logs->previousPageUrl(),
-                'total' => $logs->total(),
-            ],
+            'paginator' => PaginatorHelper::getData($logs),
         ]);
     }
 }

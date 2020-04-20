@@ -28,11 +28,11 @@ class ProvisionDefaultAccountData extends BaseService
      * Populate the account with default data.
      *
      * @param array $data
-     * @return void
+     *
      */
     public function execute(array $data): void
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         // positions
         $positions = [

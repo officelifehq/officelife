@@ -7,7 +7,6 @@ use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Models\Company\Employee;
 use App\Exceptions\TeamNameNotUniqueException;
 
 class UpdateTeam extends BaseService
@@ -32,17 +31,17 @@ class UpdateTeam extends BaseService
      * Update a team.
      *
      * @param array $data
+     *
      * @return Team
      */
     public function execute(array $data): Team
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         $team = $this->validateTeamBelongsToCompany($data);
 
@@ -54,7 +53,7 @@ class UpdateTeam extends BaseService
             'name' => $data['name'],
         ]);
 
-        $this->log($data, $author, $oldName);
+        $this->log($data, $oldName);
 
         return $team;
     }
@@ -63,7 +62,7 @@ class UpdateTeam extends BaseService
      * Make sure the team's name is unique in the company.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function verifyTeamNameUniqueness(array $data): void
     {
@@ -83,18 +82,17 @@ class UpdateTeam extends BaseService
     /**
      * Add audit logs.
      *
-     * @param array $data
-     * @param Employee $author
+     * @param array  $data
      * @param string $oldName
-     * @return void
+     *
      */
-    private function log(array $data, Employee $author, string $oldName): void
+    private function log(array $data, string $oldName): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_updated',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_id' => $data['team_id'],
@@ -107,8 +105,8 @@ class UpdateTeam extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $data['team_id'],
             'action' => 'team_updated',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_old_name' => $oldName,

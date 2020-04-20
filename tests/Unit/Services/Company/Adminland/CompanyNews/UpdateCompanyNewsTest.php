@@ -8,7 +8,9 @@ use App\Models\Company\Employee;
 use App\Models\Company\CompanyNews;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\CompanyNews\UpdateCompanyNews;
 
 class UpdateCompanyNewsTest extends TestCase
@@ -16,11 +18,61 @@ class UpdateCompanyNewsTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_a_company_news(): void
+    public function it_updates_a_company_news_as_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_updates_a_company_news_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $michael = $this->createEmployee();
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'title' => 'Assistant to the regional manager',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new UpdateCompanyNews)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_the_company_news_does_not_match_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        $news = factory(CompanyNews::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'company_news_id' => $news->id,
+            'title' => 'Assistant to the regional manager',
+            'content' => 'Wonderful article',
+        ];
+
+        $this->expectException(ModelNotFoundException::class);
+        (new UpdateCompanyNews)->execute($request);
+    }
+
+    private function executeService(Employee $michael): void
     {
         Queue::fake();
 
-        $michael = factory(Employee::class)->create([]);
         $news = factory(CompanyNews::class)->create([
             'author_id' => $michael->id,
             'company_id' => $michael->company_id,
@@ -60,16 +112,5 @@ class UpdateCompanyNewsTest extends TestCase
                     'company_news_old_title' => $oldNews,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'title' => 'Assistant to the regional manager',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new UpdateCompanyNews)->execute($request);
     }
 }

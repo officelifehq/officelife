@@ -10,6 +10,7 @@ class PositionCollection
      * Prepare a collection of positions.
      *
      * @param mixed $positions
+     *
      * @return Collection
      */
     public static function prepare($positions): Collection

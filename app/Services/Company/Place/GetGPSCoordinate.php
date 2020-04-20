@@ -35,13 +35,14 @@ class GetGPSCoordinate extends BaseService
      * Should always be done through a job, and not be called directly.
      * You should use the FetchAddressGeocoding job for this.
      *
-     * @param array $data
+     * @param array        $data
      * @param GuzzleClient $client the Guzzle client, only needed when unit testing
+     *
      * @return Place|null
      */
     public function execute(array $data, GuzzleClient $client = null)
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         if (! is_null($client)) {
             $this->client = $client;
@@ -58,6 +59,7 @@ class GetGPSCoordinate extends BaseService
      * Build the query to send with the API call.
      *
      * @param Place $place
+     *
      * @return string|null
      */
     private function buildQuery(Place $place)
@@ -79,6 +81,7 @@ class GetGPSCoordinate extends BaseService
      * Actually make the call to the reverse geocoding API.
      *
      * @param Place $place
+     *
      * @return Place|null
      */
     private function query(Place $place)

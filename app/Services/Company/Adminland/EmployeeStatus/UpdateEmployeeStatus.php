@@ -29,17 +29,17 @@ class UpdateEmployeeStatus extends BaseService
      * Update an employee status.
      *
      * @param array $data
+     *
      * @return EmployeeStatus
      */
     public function execute(array $data): EmployeeStatus
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         $employeeStatus = EmployeeStatus::where('company_id', $data['company_id'])
             ->findOrFail($data['employee_status_id']);
@@ -53,8 +53,8 @@ class UpdateEmployeeStatus extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_status_updated',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_status_id' => $employeeStatus->id,

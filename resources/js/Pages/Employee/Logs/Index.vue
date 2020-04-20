@@ -16,7 +16,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
@@ -34,7 +34,7 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="pa3 relative pt5">
           <!-- AVATAR -->
-          <img :src="employee.avatar" class="avatar absolute br-100 db center" />
+          <img :src="employee.avatar" class="avatar absolute br-100 db center" alt="avatar" loading="lazy" />
 
           <h2 class="tc normal mb4">
             Everything that ever happened to {{ employee.name }}

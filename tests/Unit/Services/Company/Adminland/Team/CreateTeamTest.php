@@ -10,6 +10,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use App\Exceptions\TeamNameNotUniqueException;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -17,17 +18,75 @@ class CreateTeamTest extends TestCase
 {
     use DatabaseTransactions;
 
+    /** @test */
+    public function it_creates_a_team_as_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael, 'product');
+    }
 
-    public function it_creates_a_team_with_a_unique_name(): void
+    /** @test */
+    public function it_creates_a_team_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael, 'product');
+    }
+
+    /** @test */
+    public function normal_user_cant_execute_the_service(): void
+    {
+        $this->expectException(NotEnoughPermissionException::class);
+
+        $michael = $this->createEmployee();
+        $this->executeService($michael, 'product');
+    }
+
+    /** @test */
+    public function it_cant_create_a_team_with_a_not_unique_name_in_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+            'name' => 'Product',
+        ]);
+
+        $this->expectException(TeamNameNotUniqueException::class);
+        $this->executeService($michael, 'Product');
+
+        $this->expectException(TeamNameNotUniqueException::class);
+        $this->executeService($michael, 'product    ');
+    }
+
+    /** @test */
+    public function it_can_create_a_team_with_a_name_already_taken_by_a_team_in_another_company(): void
+    {
+        $michael = $this->createAdministrator();
+        factory(Team::class)->create([
+            'name' => 'Product',
+        ]);
+
+        $this->executeService($michael, 'Product');
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'name' => 'Selling team',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateTeam)->execute($request);
+    }
+
+    private function executeService(Employee $michael, string $name): void
     {
         Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
-            'name' => 'Selling team',
+            'name' => $name,
         ];
 
         $sales = (new CreateTeam)->execute($request);
@@ -35,7 +94,7 @@ class CreateTeamTest extends TestCase
         $this->assertDatabaseHas('teams', [
             'id' => $sales->id,
             'company_id' => $michael->company_id,
-            'name' => 'Selling team',
+            'name' => $name,
         ]);
 
         $this->assertInstanceOf(
@@ -60,76 +119,5 @@ class CreateTeamTest extends TestCase
                     'team_name' => $sales->name,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_cant_create_a_team_with_a_not_unique_name(): void
-    {
-        Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
-        factory(Team::class)->create([
-            'company_id' => $michael->company_id,
-            'name' => 'Product',
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'name' => 'Product',
-        ];
-
-        $this->expectException(TeamNameNotUniqueException::class);
-        (new CreateTeam)->execute($request);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'name' => 'product    ',
-        ];
-
-        $this->expectException(TeamNameNotUniqueException::class);
-        (new CreateTeam)->execute($request);
-    }
-
-    /** @test */
-    public function it_can_create_a_team_with_a_name_already_taken_by_a_team_in_another_company(): void
-    {
-        Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
-        factory(Team::class)->create([
-            'name' => 'Product',
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'name' => 'Product',
-        ];
-
-        $sales = (new CreateTeam)->execute($request);
-
-        $this->assertDatabaseHas('teams', [
-            'id' => $sales->id,
-            'company_id' => $michael->company_id,
-            'name' => 'Product',
-        ]);
-
-        $this->assertInstanceOf(
-            Team::class,
-            $sales
-        );
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'name' => 'Selling team',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new CreateTeam)->execute($request);
     }
 }

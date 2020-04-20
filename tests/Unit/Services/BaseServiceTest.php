@@ -38,7 +38,7 @@ class BaseServiceTest extends TestCase
         $stub->rules([$rules]);
 
         $this->assertTrue(
-            $stub->validate([
+            $stub->validateRules([
                 'street' => 'la rue du bonheur',
             ])
         );
@@ -109,57 +109,90 @@ class BaseServiceTest extends TestCase
     }
 
     /** @test */
-    public function it_validates_permission_level(): void
+    public function it_validates_the_right_to_execute_the_service(): void
     {
         // administrator has all rights
         $stub = $this->getMockForAbstractClass(BaseService::class);
         $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.administrator'),
+            'permission_level' => config('officelife.permission_level.administrator'),
         ]);
 
-        $this->assertInstanceOf(
-            Employee::class,
-            $stub->validatePermissions($michael->id, $michael->company_id, config('officelife.authorizations.administrator'))
+        $this->assertTrue(
+            $stub->author($michael->id)
+                ->inCompany($michael->company_id)
+                ->asAtLeastAdministrator()
+                ->canExecuteService()
+        );
+
+        $this->assertTrue(
+            $stub->author($michael->id)
+                ->inCompany($michael->company_id)
+                ->asAtLeastHR()
+                ->canExecuteService()
+        );
+
+        $this->assertTrue(
+            $stub->author($michael->id)
+                ->inCompany($michael->company_id)
+                ->asNormalUser()
+                ->canExecuteService()
         );
 
         // test that an HR can't do an action reserved for an administrator
         $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.hr'),
+            'permission_level' => config('officelife.permission_level.hr'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($michael->id, $michael->company_id, config('officelife.authorizations.administrator'));
+        $stub->author($michael->id)
+            ->inCompany($michael->company_id)
+            ->asAtLeastAdministrator()
+            ->canExecuteService();
 
         // test that an user can't do an action reserved for an administrator
         $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $stub->validatePermissions($michael->id, $michael->company_id, config('officelife.authorizations.administrator'));
+        $stub->author($michael->id)
+            ->inCompany($michael->company_id)
+            ->asAtLeastAdministrator()
+            ->canExecuteService();
+
+        // test that an user can't do an action reserved for an HR
+        $michael = factory(Employee::class)->create([
+            'permission_level' => config('officelife.permission_level.user'),
+        ]);
+
+        $this->expectException(NotEnoughPermissionException::class);
+        $stub->author($michael->id)
+            ->inCompany($michael->company_id)
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         // test that a user can modify his own data regardless of his permission
         // level
         $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
         ]);
 
-        $this->assertInstanceOf(
-            User::class,
-            $stub->validatePermissions($michael->id, $michael->company_id, config('officelife.authorizations.administrator'), $michael->id)
+        $this->assertTrue(
+            $stub->author($michael->id)
+                ->inCompany($michael->company_id)
+                ->bypassPermissionLevel()
+                ->canExecuteService()
         );
 
         // test that it returns an exception if the company and the employee
         // doesn't match
-        $michael = factory(Employee::class)->create([
-            'permission_level' => config('officelife.authorizations.user'),
-        ]);
+        $michael = factory(Employee::class)->create([]);
         $dunder = factory(Company::class)->create([]);
 
-        $this->assertInstanceOf(
-            User::class,
-            $stub->validatePermissions($michael->id, $dunder->id, config('officelife.authorizations.user'))
-        );
+        $this->expectException(ModelNotFoundException::class);
+        $stub->author($michael->id)
+            ->inCompany($dunder->id)
+            ->canExecuteService();
     }
 
     /** @test */

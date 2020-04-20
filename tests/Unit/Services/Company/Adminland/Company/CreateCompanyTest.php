@@ -42,7 +42,7 @@ class CreateCompanyTest extends TestCase
             'name' => 'Dunder Mifflin',
         ]);
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($dwight, $michael) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'account_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([

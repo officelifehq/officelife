@@ -18,12 +18,11 @@ class LogTeamAudit implements ShouldQueue
      *
      * @var array
      */
-    public $auditLog;
+    public array $auditLog;
 
     /**
      * Create a new job instance.
      *
-     * @return void
      */
     public function __construct(array $auditLog)
     {
@@ -33,7 +32,6 @@ class LogTeamAudit implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      */
     public function handle()
     {

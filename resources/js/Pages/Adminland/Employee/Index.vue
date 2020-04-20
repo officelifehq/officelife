@@ -13,7 +13,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
@@ -47,7 +47,9 @@
               v-for="currentEmployee in employees" :key="currentEmployee.id"
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
             >
-              <img class="w2 h2 w3-ns h3-ns br-100" :src="currentEmployee.avatar" width="64" height="64" />
+              <img class="w2 h2 w3-ns h3-ns br-100" :src="currentEmployee.avatar" width="64" height="64" alt="avatar"
+                   loading="lazy"
+              />
               <div class="pl3 flex-auto">
                 <span class="db black-70" :name="currentEmployee.name" :data-invitation-link="currentEmployee.invitation_link">
                   {{ currentEmployee.name }}

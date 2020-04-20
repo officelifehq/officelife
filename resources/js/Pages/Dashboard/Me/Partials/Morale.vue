@@ -1,8 +1,5 @@
-<style scoped>
-</style>
-
 <template>
-  <div>
+  <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
       🙃 {{ $t('dashboard.morale_title') }}
     </div>
@@ -36,7 +33,7 @@
           </div>
         </div>
 
-        <p v-if="!updatedEmployee.has_logged_morale_today && !successMessage" class="f7 mb0">
+        <p v-if="!updatedEmployee.has_logged_morale_today && !successMessage" class="f7 mb0 silver">
           {{ $t('dashboard.morale_rules') }}
         </p>
       </div>

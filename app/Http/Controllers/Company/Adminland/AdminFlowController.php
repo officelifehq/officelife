@@ -39,8 +39,9 @@ class AdminFlowController extends Controller
      * Display the detail of a flow.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $flowId
+     * @param int     $companyId
+     * @param int     $flowId
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, int $companyId, int $flowId)
@@ -48,7 +49,7 @@ class AdminFlowController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         try {
-            $flow = Flow::where('company_id', $companyId)
+            $flow = Flow::where('company_id', $company->id)
                 ->findOrFail($flowId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -67,8 +68,6 @@ class AdminFlowController extends Controller
      */
     public function create()
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         return Inertia::render('Adminland/Flow/Create', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -78,7 +77,8 @@ class AdminFlowController extends Controller
      * Save the flow.
      *
      * @param Request $request
-     * @param int $companyId
+     * @param int     $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId)

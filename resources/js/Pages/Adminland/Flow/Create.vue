@@ -25,7 +25,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
@@ -69,12 +69,12 @@
               <div v-for="step in orderedSteps" :key="step.id">
                 <!-- PLUS BUTTON -->
                 <div v-show="oldestStep == step.id" class="tc lh0">
-                  <img src="/img/company/account/flow_plus_top.svg" class="center pointer" @click="addStepBefore()" />
+                  <img src="/img/company/account/flow_plus_top.svg" class="center pointer" alt="add flow at the top" @click="addStepBefore()" />
                 </div>
 
                 <div class="step tc measure center bg-white br3 ma3 mt0 mb0 relative" :class="{'green-box':(numberOfSteps > 1 && step.type == 'same_day')}">
                   <!-- DELETE BUTTON -->
-                  <img v-show="step.type != 'same_day'" src="/img/trash_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" @click.prevent="removeStep(step)" />
+                  <img v-show="step.type != 'same_day'" src="/img/trash_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" alt="remove flow" @click.prevent="removeStep(step)" />
 
                   <!-- CASE OF "BEFORE" STEP -->
                   <div v-show="step.type == 'before'" class="condition pa3 bb bb-gray">
@@ -199,12 +199,12 @@
 
                 <!-- DIVIDER -->
                 <div v-if="notFirstAndLastStep(step.id)" class="tc lh0">
-                  <img src="/img/company/account/flow_line.svg" class="center pointer" />
+                  <img src="/img/company/account/flow_line.svg" class="center pointer" alt="divider between steps" />
                 </div>
 
                 <!-- PLUS BUTTON -->
                 <div v-show="newestStep == step.id" class="tc">
-                  <img src="/img/company/account/flow_plus_bottom.svg" class="center pointer" @click="addStepAfter()" />
+                  <img src="/img/company/account/flow_plus_bottom.svg" class="center pointer" alt="plus button to add a new step" @click="addStepAfter()" />
                 </div>
               </div>
             </div>
@@ -324,7 +324,6 @@ export default {
     },
 
     removeStep(step) {
-      var idToRemove = step.id;
       this.form.steps.splice(this.form.steps.findIndex(i => i.id === step.id), 1);
 
       if (step.type == 'before') {

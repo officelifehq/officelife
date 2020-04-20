@@ -50,15 +50,17 @@ class AdminCompanyNewsController extends Controller
      * Create the company news.
      *
      * @param Request $request
-     * @param int $companyId
+     * @param int     $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
 
         $request = [
-            'company_id' => $companyId,
+            'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'title' => $request->get('title'),
             'content' => $request->get('content'),
@@ -75,8 +77,9 @@ class AdminCompanyNewsController extends Controller
      * Show the company news edit page.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, int $companyId, int $newsId)
@@ -98,16 +101,18 @@ class AdminCompanyNewsController extends Controller
      * Update the company news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $companyId, $newsId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $request = [
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'company_news_id' => $newsId,
             'title' => $request->get('title'),
@@ -125,16 +130,18 @@ class AdminCompanyNewsController extends Controller
      * Delete the company news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $companyNewsId
+     * @param int     $companyId
+     * @param int     $companyNewsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $companyNewsId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $request = [
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'company_news_id' => $companyNewsId,
             'author_id' => $loggedEmployee->id,
         ];

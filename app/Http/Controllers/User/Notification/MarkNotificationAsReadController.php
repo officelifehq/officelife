@@ -13,7 +13,8 @@ class MarkNotificationAsReadController extends Controller
      * Mark the notifications as read.
      *
      * @param Request $request
-     * @param int $companyId
+     * @param int     $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, int $companyId)

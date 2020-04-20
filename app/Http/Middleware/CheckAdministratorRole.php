@@ -10,15 +10,16 @@ class CheckAdministratorRole
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         $employee = InstanceHelper::getLoggedEmployee();
 
-        if (config('officelife.authorizations.administrator') >= $employee->permission_level) {
+        if (config('officelife.permission_level.administrator') >= $employee->permission_level) {
             return $next($request);
         }
 

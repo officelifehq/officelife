@@ -12,6 +12,7 @@ class ApiTestCase extends TestCase
      * Create a user and sign in as that user.
      *
      * @param null $user
+     *
      * @return mixed
      */
     public function signIn()
@@ -43,7 +44,7 @@ class ApiTestCase extends TestCase
      * Test that the response contains a data error notification.
      *
      * @param TestResponse $response
-     * @param string|array $message
+     * @param array|string $message
      */
     public function expectDataError(TestResponse $response, $message = ''): void
     {
@@ -61,7 +62,7 @@ class ApiTestCase extends TestCase
      * Test that the response contains a non authorized response.
      *
      * @param TestResponse $response
-     * @param string|array $message
+     * @param array|string $message
      */
     public function expectNotAuthorized(TestResponse $response, $message = ''): void
     {

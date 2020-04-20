@@ -19,11 +19,9 @@ class DestroyTeamNewsTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_destroys_a_company_news(): void
+    public function it_destroys_a_company_news_as_administrator(): void
     {
-        Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
         $team = factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
@@ -31,6 +29,74 @@ class DestroyTeamNewsTest extends TestCase
             'author_id' => $michael->id,
             'team_id' => $team->id,
         ]);
+
+        $this->executeService($michael, $team, $news);
+    }
+
+    /** @test */
+    public function it_destroys_a_company_news_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $news = factory(TeamNews::class)->create([
+            'author_id' => $michael->id,
+            'team_id' => $team->id,
+        ]);
+
+        $this->executeService($michael, $team, $news);
+    }
+
+    /** @test */
+    public function it_destroys_a_company_news_as_employee(): void
+    {
+        $michael = $this->createEmployee();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $news = factory(TeamNews::class)->create([
+            'author_id' => $michael->id,
+            'team_id' => $team->id,
+        ]);
+
+        $this->executeService($michael, $team, $news);
+    }
+
+    /** @test */
+    public function it_cant_destroy_the_team_news_if_the_team_is_not_linked_to_the_company(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+        $team = factory(Team::class)->create([]);
+        $news = factory(TeamNews::class)->create([
+            'author_id' => $michael->id,
+            'team_id' => $team->id,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'team_news_id' => $news->id,
+        ];
+
+        $this->expectException(Exception::class);
+        (new DestroyTeamNews)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'name' => 'Selling team',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new DestroyTeamNews)->execute($request);
+    }
+
+    private function executeService(Employee $michael, Team $team, TeamNews $news): void
+    {
+        Queue::fake();
 
         $request = [
             'company_id' => $michael->company_id,
@@ -61,36 +127,5 @@ class DestroyTeamNewsTest extends TestCase
                     'team_news_title' => $news->title,
                 ]);
         });
-    }
-
-    /** @test */
-    public function it_cant_destroy_the_team_news_if_the_team_is_not_linked_to_the_company(): void
-    {
-        $michael = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([]);
-        $news = factory(TeamNews::class)->create([
-            'author_id' => $michael->id,
-            'team_id' => $team->id,
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'team_news_id' => $news->id,
-        ];
-
-        $this->expectException(Exception::class);
-        $news = (new DestroyTeamNews)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'name' => 'Selling team',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new DestroyTeamNews)->execute($request);
     }
 }

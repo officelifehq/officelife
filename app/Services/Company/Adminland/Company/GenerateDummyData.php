@@ -10,16 +10,20 @@ use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\Company\Question;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Team\CreateTeam;
+use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Team\TeamNews\CreateTeamNews;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Team\Links\CreateTeamUsefulLink;
+use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 
 class GenerateDummyData extends BaseService
 {
@@ -40,17 +44,16 @@ class GenerateDummyData extends BaseService
      * Generate dummy data for the given company.
      *
      * @param array $data
-     * @return void
+     *
      */
     public function execute(array $data): void
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.administrator')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastAdministrator()
+            ->canExecuteService();
 
         $company = Company::find($data['company_id']);
 
@@ -62,7 +65,11 @@ class GenerateDummyData extends BaseService
 
         $this->createMoraleEntries();
 
+        $this->createWorkFromHomeEntries();
+
         $this->createCompanyNewsEntries($data);
+
+        $this->createQuestions($data);
 
         $company->has_dummy_data = true;
         $company->save();
@@ -84,7 +91,7 @@ class GenerateDummyData extends BaseService
      * Create five users without a team.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function createFiveUsersWithoutTeam(array $data)
     {
@@ -97,6 +104,7 @@ class GenerateDummyData extends BaseService
      * Create a user and add it to the company as an employee.
      *
      * @param array $data
+     *
      * @return Employee
      */
     private function addEmployee(array $data): Employee
@@ -109,7 +117,7 @@ class GenerateDummyData extends BaseService
             'email' => $faker->safeEmail,
             'first_name' => $faker->firstName,
             'last_name' => $faker->lastName,
-            'permission_level' => config('officelife.authorizations.user'),
+            'permission_level' => config('officelife.permission_level.user'),
             'send_invitation' => false,
             'is_dummy' => true,
         ];
@@ -125,8 +133,8 @@ class GenerateDummyData extends BaseService
      * Set birthdate.
      *
      * @param Employee $employee
-     * @param array $data
-     * @return void
+     * @param array    $data
+     *
      */
     private function addBirthdate(Employee $employee, array $data): void
     {
@@ -150,7 +158,7 @@ class GenerateDummyData extends BaseService
      * Create 3 teams with a bunch of employees inside.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function createThreeTeamsWithEmployees(array $data)
     {
@@ -177,9 +185,10 @@ class GenerateDummyData extends BaseService
     /**
      * Create employees in a given team.
      *
-     * @param array $data
+     * @param array  $data
      * @param string $teamName
-     * @param int $numberOfEmployees
+     * @param int    $numberOfEmployees
+     *
      * @return Team
      */
     private function createTeamWithEmployees(array $data, string $teamName, int $numberOfEmployees): Team
@@ -249,7 +258,6 @@ class GenerateDummyData extends BaseService
      * date (on purpose). Hence the only option is to record worklogs in the
      * database directly.
      *
-     * @return void
      */
     private function createWorklogEntries()
     {
@@ -268,7 +276,7 @@ class GenerateDummyData extends BaseService
                         'employee_id' => $employee->id,
                         'content' => $faker->realText(50),
                         'is_dummy' => true,
-                        'created_at' => $date,
+                        'created_at' => $date->format('Y-m-d H:i:s'),
                     ]);
 
                     $employee->consecutive_worklog_missed = 0;
@@ -289,7 +297,6 @@ class GenerateDummyData extends BaseService
      * date (on purpose). Hence the only option is to record morales in the
      * database directly.
      *
-     * @return void
      */
     private function createMoraleEntries()
     {
@@ -307,9 +314,38 @@ class GenerateDummyData extends BaseService
                         'emotion' => rand(1, 3),
                         'comment' => $faker->realText(50),
                         'is_dummy' => true,
-                        'created_at' => $date,
+                        'created_at' => $date->format('Y-m-d H:i:s'),
                     ]);
                 }
+                $date->addDay();
+            }
+        }
+    }
+
+    /**
+     * Create fake Work from Home entries for all employees.
+     *
+     */
+    private function createWorkFromHomeEntries()
+    {
+        $employees = Employee::where('is_dummy', true)->get();
+
+        foreach ($employees as $employee) {
+            $date = Carbon::now()->subMonths(3);
+
+            while (!$date->isSameDay(Carbon::now())) {
+                if (rand(1, 10) >= 5) {
+                    $request = [
+                        'author_id' => $employee->id,
+                        'employee_id' => $employee->id,
+                        'company_id' => $employee->company_id,
+                        'date' => $date->copy()->format('Y-m-d'),
+                        'work_from_home' => true,
+                    ];
+
+                    (new UpdateWorkFromHomeInformation)->execute($request);
+                }
+
                 $date->addDay();
             }
         }
@@ -319,7 +355,7 @@ class GenerateDummyData extends BaseService
      * Create fake company entries for all employees.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function createCompanyNewsEntries(array $data)
     {
@@ -341,11 +377,68 @@ class GenerateDummyData extends BaseService
     }
 
     /**
+     * Create fake questions.
+     *
+     * @param array $data
+     */
+    private function createQuestions(array $data)
+    {
+        $request = [
+            'company_id' => $data['company_id'],
+            'author_id' => $data['author_id'],
+            'title' => 'Which movies do you like the most?',
+            'active' => false,
+            'is_dummy' => true,
+        ];
+
+        $question = (new CreateQuestion)->execute($request);
+        $this->createAnswers($data, $question);
+
+        $request = [
+            'company_id' => $data['company_id'],
+            'author_id' => $data['author_id'],
+            'title' => 'What do you like in life?',
+            'active' => true,
+            'is_dummy' => true,
+        ];
+
+        $question = (new CreateQuestion)->execute($request);
+        $this->createAnswers($data, $question);
+    }
+
+    /**
+     * Create fake answers for all employees.
+     *
+     * @param array    $data
+     * @param Question $question
+     */
+    private function createAnswers(array $data, Question $question)
+    {
+        $faker = Faker::create();
+        $employees = Employee::where('is_dummy', true)->get();
+
+        foreach ($employees as $employee) {
+            if (rand(1, 3) >= 2) {
+                $request = [
+                    'company_id' => $data['company_id'],
+                    'author_id' => $data['author_id'],
+                    'employee_id' => $employee->id,
+                    'question_id' => $question->id,
+                    'body' => $faker->realText(1500),
+                    'is_dummy' => true,
+                ];
+
+                (new CreateAnswer)->execute($request);
+            }
+        }
+    }
+
+    /**
      * Create a bunch of team news for the given team.
      *
      * @param array $data
-     * @param Team $team
-     * @return void
+     * @param Team  $team
+     *
      */
     private function createTeamNewsEntry(array $data, Team $team)
     {

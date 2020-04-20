@@ -34,17 +34,17 @@ class CreateCompanyPTOPolicy extends BaseService
      * Create a company PTO policy.
      *
      * @param array $data
+     *
      * @return CompanyPTOPolicy
      */
     public function execute(array $data): CompanyPTOPolicy
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         // check if there is a policy for the given year already
         $existingPolicy = CompanyPTOPolicy::where('company_id', $data['company_id'])
@@ -75,8 +75,8 @@ class CreateCompanyPTOPolicy extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'company_pto_policy_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'company_pto_policy_id' => $ptoPolicy->id,
@@ -94,8 +94,9 @@ class CreateCompanyPTOPolicy extends BaseService
      * Right after, employers will be able to identify which days are holidays
      * and therefore considered as being off.
      *
-     * @param array $data
+     * @param array            $data
      * @param CompanyPTOPolicy $ptoPolicy
+     *
      * @return int
      */
     private function populateCalendar(array $data, CompanyPTOPolicy $ptoPolicy): int

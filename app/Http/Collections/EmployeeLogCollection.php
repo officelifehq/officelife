@@ -10,6 +10,7 @@ class EmployeeLogCollection
      * Prepare a collection of employee logs.
      *
      * @param mixed $employeeLogs
+     *
      * @return Collection
      */
     public static function prepare($employeeLogs): Collection

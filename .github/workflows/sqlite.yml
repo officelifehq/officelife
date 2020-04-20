@@ -18,21 +18,25 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, dom, fileinfo
           coverage: none
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.ci.sqlite', '.env');"
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer dependencies
         uses: actions/cache@v1
         with:
-          path: vendor
-          key: composer-${{ hashFiles('composer.lock') }}
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
       - name: Install Composer dependencies
         run: composer install -n -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
-      - name: Generate key
-        run: php artisan key:generate
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.ci.sqlite', '.env');"
       - name: Create SQLite database
         run: |
           mkdir -p database
           touch database/database.sqlite
+      - name: Generate key
+        run: php artisan key:generate
       - name: Run migrations
         env:
           DB_CONNECTION: sqlite

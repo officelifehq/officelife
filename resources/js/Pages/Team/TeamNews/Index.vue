@@ -14,7 +14,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
@@ -43,7 +43,7 @@
             <div class="lh-copy mt2 br3 parsed-content" v-html="newsItem.parsed_content">
             </div>
             <div class="f6 relative news-information silver mb3">
-              <img :src="newsItem.author.avatar" class="br-100 relative mr1" />
+              <img :src="newsItem.author.avatar" class="br-100 relative mr1" alt="avatar" />
               {{ $t('team.team_news_written_by_at', { name: newsItem.author.name, created_at: newsItem.localized_created_at }) }}
 
               <!-- edit -->

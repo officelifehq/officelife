@@ -11,7 +11,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
@@ -119,8 +119,8 @@
             <p class="tc measure center mb4 lh-copy">
               {{ $t('account.employee_statuses_blank') }}
             </p>
-            <img class="db center mb4" srcset="/img/company/account/blank-position-1x.png,
-                                          /img/company/account/blank-position-2x.png 2x"
+            <img class="db center mb4" alt="add a position symbol" srcset="/img/company/account/blank-position-1x.png,
+                                          /img/company/account/blank-position-2x.png 2x" loading="lazy"
             />
           </div>
         </div>
@@ -218,8 +218,8 @@ export default {
           this.idToUpdate = 0;
           this.form.name = null;
 
-          var id = this.statuses.findIndex(x => x.id === id);
-          this.$set(this.statuses, id, response.data.data);
+          var changedId = this.statuses.findIndex(x => x.id === id);
+          this.$set(this.statuses, changedId, response.data.data);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -232,8 +232,8 @@ export default {
           flash(this.$t('account.employee_statuses_success_destroy'), 'success');
 
           this.idToDelete = 0;
-          var id = this.statuses.findIndex(x => x.id === id);
-          this.statuses.splice(id, 1);
+          var changedId = this.statuses.findIndex(x => x.id === id);
+          this.statuses.splice(changedId, 1);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

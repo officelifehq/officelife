@@ -9,7 +9,6 @@ class CreateEmployeePtoTable extends Migration
     /**
      * Run the migrations.
      *
-     * @return void
      */
     public function up()
     {
@@ -36,10 +35,6 @@ class CreateEmployeePtoTable extends Migration
             $table->double('daily_accrued_amount');
             $table->double('current_holidays_per_year');
             $table->double('default_amount_of_allowed_holidays_in_company');
-            $table->boolean('on_holiday')->default(false);
-            $table->boolean('sick_day')->default(false);
-            $table->boolean('pto_day')->default(false);
-            $table->boolean('remote')->default(false);
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');

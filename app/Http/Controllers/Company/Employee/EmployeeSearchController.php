@@ -19,6 +19,7 @@ class EmployeeSearchController extends Controller
      *
      * @param int $companyId
      * @param int $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function hierarchy(Request $request, int $companyId, int $employeeId)

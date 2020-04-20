@@ -269,13 +269,33 @@ class Employee extends Model
     }
 
     /**
-     * Get the team news record associated with the employee.
+     * Get the team news records associated with the employee.
      *
-     * @return belongsTo
+     * @return HasMany
      */
     public function teamNews()
     {
         return $this->hasMany(TeamNews::class, 'author_id', 'id');
+    }
+
+    /**
+     * Get the work from home records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function workFromHomes()
+    {
+        return $this->hasMany(WorkFromHome::class);
+    }
+
+    /**
+     * Get the answer records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function answers()
+    {
+        return $this->hasMany(Answer::class);
     }
 
     /**
@@ -341,8 +361,10 @@ class Employee extends Model
     /**
      * Returns the email attribute of the employee.
      *
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getEmailAttribute($value)
     {
@@ -352,8 +374,10 @@ class Employee extends Model
     /**
      * Returns the name attribute of the employee.
      *
-     * @return string
+     *
      * @param mixed $value
+     *
+     * @return string
      */
     public function getNameAttribute($value): string
     {
@@ -443,12 +467,12 @@ class Employee extends Model
      *
      * @return Place|null
      */
-    public function getCurrentAddress()
+    public function getCurrentAddress(): ?Place
     {
         try {
             $place = $this->places()->where('is_active', true)->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            return;
+            $place = null;
         }
 
         return $place;
@@ -485,6 +509,7 @@ class Employee extends Model
      * Check wether the employee is part of the given team.
      *
      * @param int $teamId
+     *
      * @return boolean
      */
     public function isInTeam(int $teamId): bool

@@ -30,7 +30,6 @@ class CalculateTimeOffBalanceForAllEmployees extends Command
     /**
      * Create a new job instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -40,7 +39,6 @@ class CalculateTimeOffBalanceForAllEmployees extends Command
     /**
      * Execute the job.
      *
-     * @return void
      */
     public function handle()
     {

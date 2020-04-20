@@ -22,7 +22,7 @@ class MapHelperTest extends TestCase
             'latitude' => '40.712784',
         ]);
 
-        $url = MapHelper::getStaticImage($place, 7, 300, 300);
+        $url = MapHelper::getStaticImage($place, 300, 300, 7);
 
         $this->assertEquals(
             'https://api.mapbox.com/styles/v1/test/ck335w8te1vzj1cn7aszafhm2/static/-74.005941,40.712784,7/300x300@2x?access_token=api_key',
@@ -41,7 +41,7 @@ class MapHelperTest extends TestCase
             'latitude' => '40.712784',
         ]);
 
-        $url = MapHelper::getStaticImage($place, 7, 300, 300);
+        $url = MapHelper::getStaticImage($place, 300, 300, 7);
 
         $this->assertNull($url);
     }
@@ -57,7 +57,7 @@ class MapHelperTest extends TestCase
             'latitude' => '40.712784',
         ]);
 
-        $url = MapHelper::getStaticImage($place, 7, 300, 300);
+        $url = MapHelper::getStaticImage($place, 300, 300, 7);
 
         $this->assertNull($url);
     }

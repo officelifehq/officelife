@@ -26,7 +26,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
@@ -49,7 +49,7 @@
         <!-- case when there are worklogs -->
         <template v-if="worklogs.length > 0">
           <!-- list of years -->
-          <ul class="list years tc" data-cy="worklog-year-selector">
+          <ul v-show="years.length > 1" class="list years tc" data-cy="worklog-year-selector">
             <li class="di">{{ $t('employee.worklog_year_selector') }}</li>
             <li v-for="singleYear in years" :key="singleYear.number" class="di mh2">
               <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + singleYear.number" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</inertia-link>
@@ -134,7 +134,7 @@ export default {
       default: null,
     },
     years: {
-      type: Object,
+      type: Array,
       default: null,
     },
     months: {

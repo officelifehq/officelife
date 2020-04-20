@@ -21,11 +21,9 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         return Inertia::render('Dashboard/MyCompany', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'ownerPermissionLevel' => config('officelife.authorizations.administrator'),
+            'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
         ]);
     }
 
@@ -43,6 +41,7 @@ class CompanyController extends Controller
      * Create the company.
      *
      * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)

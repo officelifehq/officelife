@@ -42,6 +42,14 @@ class DateHelper
     }
 
     /**
+     * Returns the complete date like "Monday, July 29th 2020".
+     */
+    public static function formatFullDate(Carbon $date): string
+    {
+        return $date->isoFormat(trans('format.full_date'));
+    }
+
+    /**
      * Translate the given month to a string using the locale of the app.
      */
     public static function translateMonth(Carbon $date): string
@@ -73,6 +81,29 @@ class DateHelper
     public static function getNumberOfDaysInYear(Carbon $date): int
     {
         return $date->isLeapYear() ? 366 : 365;
+    }
+
+    /**
+     * Determine if the date is in the future, in the present or in the past.
+     *
+     * @param Carbon $date
+     *
+     * @return string
+     */
+    public static function determineDateStatus(Carbon $date): string
+    {
+        $status = '';
+        if ($date->isFuture() == 1) {
+            $status = 'future';
+        } else {
+            if ($date->isCurrentDay() == 1) {
+                $status = 'current';
+            } else {
+                $status = 'past';
+            }
+        }
+
+        return $status;
     }
 
     /**

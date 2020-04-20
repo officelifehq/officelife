@@ -16,6 +16,11 @@
 
       <dashboard-menu :employee="employee" />
 
+      <work-from-home
+        :employee="employee"
+        class="mb5"
+      />
+
       <worklogs
         :worklog-count="worklogCount"
         :employee="employee"
@@ -24,6 +29,10 @@
 
       <morale
         :morale-count="moraleCount"
+        :employee="employee"
+      />
+
+      <question
         :employee="employee"
       />
 
@@ -41,6 +50,8 @@
             <li>quizz hebdo pour apprendre à connaitre</li>
             <li>donner des statistics sur le nombre de femmes/hommes avec un poste à responsabilité</li>
             <li>donner le ratio homme/femme par poste dans l'onglet Positions</li>
+            <li>rechercher par "position"</li>
+            <li>gestion du materiel informatique</li>
           </ul>
         </div>
       </div>
@@ -51,6 +62,8 @@
 <script>
 import Worklogs from '@/Pages/Dashboard/Me/Partials/Worklogs';
 import Morale from '@/Pages/Dashboard/Me/Partials/Morale';
+import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome';
+import Question from '@/Pages/Dashboard/Me/Partials/Question';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -59,6 +72,8 @@ export default {
     Layout,
     Worklogs,
     Morale,
+    Question,
+    WorkFromHome,
     DashboardMenu,
   },
 

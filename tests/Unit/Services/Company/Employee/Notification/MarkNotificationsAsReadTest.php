@@ -3,10 +3,10 @@
 namespace Tests\Unit\Services\Company\Adminland\Company;
 
 use Tests\TestCase;
-use App\Models\User\User;
 use App\Models\Company\Employee;
 use App\Models\Company\Notification;
 use Illuminate\Validation\ValidationException;
+use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\User\Notification\MarkNotificationsAsRead;
@@ -16,54 +16,26 @@ class MarkNotificationsAsReadTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_marks_all_notifications_in_the_account_as_read(): void
+    public function it_marks_all_notifications_in_the_account_as_read_regardless_of_permission_level(): void
     {
-        $user = factory(User::class)->create([]);
-        $michael = factory(Employee::class)->create([
-            'user_id' => $user->id,
-        ]);
+        $michael = $this->createAdministrator();
+        $this->executeService($michael, $michael);
 
-        factory(Notification::class, 2)->create([
-            'employee_id' => $michael->id,
-            'read' => false,
-        ]);
+        $michael = $this->createHR();
+        $this->executeService($michael, $michael);
 
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $michael->id,
-        ];
-
-        $result = (new MarkNotificationsAsRead)->execute($request);
-
-        $this->assertDatabaseHas('notifications', [
-            'employee_id' => $michael->id,
-            'read' => true,
-        ]);
-
-        $this->assertTrue(
-            $result
-        );
+        $michael = $this->createEmployee();
+        $this->executeService($michael, $michael);
     }
 
     /** @test */
-    public function it_fails_if_the_employee_is_not_an_administrator(): void
+    public function it_fails_if_the_employee_is_not_the_author(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([]);
+        $michael = $this->createEmployee();
+        $dwight = $this->createEmployee();
 
-        factory(Notification::class, 2)->create([
-            'employee_id' => $michael->id,
-        ]);
-
-        $request = [
-            'author_id' => $dwight->id,
-            'company_id' => $michael->company_id,
-            'employee_id' => $michael->id,
-        ];
-
-        $this->expectException(ModelNotFoundException::class);
-        (new MarkNotificationsAsRead)->execute($request);
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael, $dwight);
     }
 
     /** @test */
@@ -75,5 +47,45 @@ class MarkNotificationsAsReadTest extends TestCase
 
         $this->expectException(ValidationException::class);
         (new MarkNotificationsAsRead)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_the_employee_is_not_in_the_company(): void
+    {
+        $michael = $this->createEmployee();
+        $dwight = $this->createEmployee();
+        $request = [
+            'company_id' => $dwight->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+        ];
+
+        $this->expectException(ModelNotFoundException::class);
+        (new MarkNotificationsAsRead)->execute($request);
+    }
+
+    private function executeService(Employee $michael, Employee $dwight): void
+    {
+        factory(Notification::class, 2)->create([
+            'employee_id' => $dwight->id,
+            'read' => false,
+        ]);
+
+        $request = [
+            'company_id' => $dwight->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+        ];
+
+        $result = (new MarkNotificationsAsRead)->execute($request);
+
+        $this->assertDatabaseHas('notifications', [
+            'employee_id' => $dwight->id,
+            'read' => true,
+        ]);
+
+        $this->assertTrue(
+            $result
+        );
     }
 }

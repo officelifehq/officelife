@@ -35,11 +35,12 @@ class UpdateDashboardView extends BaseService
      * Saves the tab the user was in when viewing the dashboard.
      *
      * @param array $data
+     *
      * @return bool
      */
     public function execute(array $data): bool
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $employee = Employee::where('id', $data['employee_id'])
             ->where('company_id', $data['company_id'])

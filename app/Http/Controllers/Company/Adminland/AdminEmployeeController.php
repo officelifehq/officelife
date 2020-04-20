@@ -49,8 +49,6 @@ class AdminEmployeeController extends Controller
      */
     public function create()
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         return Inertia::render('Adminland/Employee/Create', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -60,7 +58,8 @@ class AdminEmployeeController extends Controller
      * Create the employee.
      *
      * @param Request $request
-     * @param int $companyId
+     * @param int     $companyId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId)
@@ -88,8 +87,9 @@ class AdminEmployeeController extends Controller
      * Delete the employee.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $employeeId
+     * @param int     $companyId
+     * @param int     $employeeId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $employeeId)

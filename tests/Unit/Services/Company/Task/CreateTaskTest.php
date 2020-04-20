@@ -79,7 +79,7 @@ class CreateTaskTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($michael, $task) {
+        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($task) {
             return $job->notification['action'] === 'task_assigned' &&
                 $job->notification['objects'] === json_encode([
                     'task_id' => $task->id,
@@ -136,7 +136,7 @@ class CreateTaskTest extends TestCase
         Queue::fake();
 
         $michael = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
+        factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -167,7 +167,7 @@ class CreateTaskTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($michael, $task) {
+        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($task) {
             return $job->notification['action'] === 'task_assigned' &&
                 $job->notification['objects'] === json_encode([
                     'task_id' => $task->id,
@@ -182,7 +182,7 @@ class CreateTaskTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
+        factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
 

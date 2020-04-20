@@ -20,13 +20,13 @@ class ProcessTeamMorale implements ShouldQueue
      *
      * @var array
      */
-    public $parameters;
+    public array $parameters;
 
     /**
      * Create a new job instance.
      *
      * @param array $parameters
-     * @return void
+     *
      */
     public function __construct(array $parameters)
     {
@@ -36,7 +36,6 @@ class ProcessTeamMorale implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @return void
      */
     public function handle()
     {

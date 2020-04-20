@@ -27,17 +27,16 @@ class RemoveDummyData extends BaseService
      * Generate dummy data for the given account.
      *
      * @param array $data
-     * @return void
+     *
      */
     public function execute(array $data): void
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.administrator')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastAdministrator()
+            ->canExecuteService();
 
         $company = Company::find($data['company_id']);
 
@@ -46,6 +45,8 @@ class RemoveDummyData extends BaseService
         $this->removeEmployees($data);
 
         $this->removeAuditLogs($data);
+
+        $this->removeQuestions($data);
 
         $company->has_dummy_data = false;
         $company->save();
@@ -58,7 +59,7 @@ class RemoveDummyData extends BaseService
      * Remove dummy team.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function removeTeams(array $data): void
     {
@@ -72,7 +73,7 @@ class RemoveDummyData extends BaseService
      * Remove dummy users.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function removeEmployees(array $data): void
     {
@@ -89,11 +90,25 @@ class RemoveDummyData extends BaseService
      * Remove dummy audit logs.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function removeAuditLogs(array $data): void
     {
         DB::table('audit_logs')
+            ->where('company_id', $data['company_id'])
+            ->where('is_dummy', true)
+            ->delete();
+    }
+
+    /**
+     * Remove dummy questions.
+     *
+     * @param array $data
+     *
+     */
+    private function removeQuestions(array $data): void
+    {
+        DB::table('questions')
             ->where('company_id', $data['company_id'])
             ->where('is_dummy', true)
             ->delete();

@@ -58,6 +58,17 @@ class DateHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_gets_the_complete_date(): void
+    {
+        $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
+
+        $this->assertEquals(
+            'Sunday, Oct 1st 1978',
+            DateHelper::formatFullDate($date)
+        );
+    }
+
+    /** @test */
     public function it_gets_the_month_as_a_string_and_translated(): void
     {
         $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
@@ -99,6 +110,29 @@ class DateHelperTest extends TestCase
         $this->assertEquals(
             366,
             DateHelper::getNumberOfDaysInYear($date)
+        );
+    }
+
+    /** @test */
+    public function it_checks_if_the_date_is_in_the_past_the_present_or_the_future(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $date = Carbon::createFromFormat('Y-m-d', '2019-10-01');
+        $this->assertEquals(
+            'future',
+            DateHelper::determineDateStatus($date)
+        );
+
+        $date = Carbon::createFromFormat('Y-m-d', '2017-10-01');
+        $this->assertEquals(
+            'past',
+            DateHelper::determineDateStatus($date)
+        );
+
+        $date = Carbon::createFromFormat('Y-m-d', '2018-01-01');
+        $this->assertEquals(
+            'current',
+            DateHelper::determineDateStatus($date)
         );
     }
 

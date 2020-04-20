@@ -14,7 +14,7 @@ $factory->define(App\Models\User\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\User\Pronoun::class, function (Faker $faker) {
+$factory->define(App\Models\User\Pronoun::class, function () {
     return [
         'label' => 'he/him',
         'translation_key' => 'account.pronoun_he_him',

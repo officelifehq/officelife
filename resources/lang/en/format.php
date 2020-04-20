@@ -20,4 +20,5 @@ return [
     'day_month_parenthesis' => 'dddd (MMM Do)',
     'date' => 'M d, Y',
     'full_month' => 'F',
+    'full_date' => 'dddd, MMM Do Y',
 ];

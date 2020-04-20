@@ -7,7 +7,6 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
@@ -23,9 +22,10 @@ class DashboardTeamController extends Controller
      * Displays the Team page on the dashboard.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param mixed $requestedDate
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param mixed   $requestedDate
+     *
      * @return Response
      */
     public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null): Response
@@ -53,7 +53,7 @@ class DashboardTeamController extends Controller
                 'company' => $company,
                 'employee' => $employeeInformation,
                 'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                'message' => trans('dashboard.not_allowed'),
+                'message' => trans('dashboard.blank_state'),
             ]);
         }
 
@@ -71,7 +71,7 @@ class DashboardTeamController extends Controller
                     'company' => $company,
                     'employee' => $employeeInformation,
                     'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                    'message' => trans('dashboard.not_allowed'),
+                    'message' => trans('dashboard.team_not_allowed'),
                 ]);
             }
 
@@ -81,7 +81,7 @@ class DashboardTeamController extends Controller
                     'company' => $company,
                     'employee' => $employeeInformation,
                     'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                    'message' => trans('dashboard.not_allowed'),
+                    'message' => trans('dashboard.team_not_allowed'),
                 ]);
             }
         }
@@ -104,14 +104,17 @@ class DashboardTeamController extends Controller
         // Last Fri/M/T/W/T/F
         $dates = collect([]);
         $lastFriday = $requestedDate->copy()->startOfWeek()->subDays(3);
-        $dates->push(WorklogHelper::getInformationAboutTeam($team, $lastFriday));
+        $dates->push(DashboardTeamViewHelper::worklogs($team, $lastFriday));
         for ($i = 0; $i < 5; $i++) {
             $day = $requestedDate->copy()->startOfWeek()->addDays($i);
-            $dates->push(WorklogHelper::getInformationAboutTeam($team, $day));
+            $dates->push(DashboardTeamViewHelper::worklogs($team, $day));
         }
 
         // upcoming birthdays
         $birthdays = DashboardTeamViewHelper::birthdays($team);
+
+        // who is working from home today
+        $workFromHomes = DashboardTeamViewHelper::workFromHome($team);
 
         return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
@@ -122,6 +125,7 @@ class DashboardTeamController extends Controller
             'currentDate' => $requestedDate->format('Y-m-d'),
             'worklogEntries' => $team->worklogsForDate($requestedDate),
             'birthdays' => $birthdays,
+            'workFromHomes' => $workFromHomes,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -130,9 +134,10 @@ class DashboardTeamController extends Controller
      * Displays the details of the worklogs for a given date.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param mixed $requestedDate
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param mixed   $requestedDate
+     *
      * @return \Illuminate\Http\Response
      */
     public function worklogDetails(Request $request, int $companyId, int $teamId, $requestedDate)

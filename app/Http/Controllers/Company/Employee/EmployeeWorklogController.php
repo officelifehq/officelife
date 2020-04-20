@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Company\Employee;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use App\Helpers\WorklogHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
@@ -13,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Collections\WorklogCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Company\Employee\EmployeeWorklogViewHelper;
 
 class EmployeeWorklogController extends Controller
 {
@@ -33,7 +33,7 @@ class EmployeeWorklogController extends Controller
             $this->asUser(Auth::user())
                 ->forEmployee($employee)
                 ->forCompanyId($companyId)
-                ->asPermissionLevel(config('officelife.authorizations.hr'))
+                ->asPermissionLevel(config('officelife.permission_level.hr'))
                 ->canAccessCurrentPage();
         } catch (\Exception $e) {
             return redirect('/home');
@@ -61,7 +61,7 @@ class EmployeeWorklogController extends Controller
             $this->asUser(Auth::user())
                 ->forEmployee($employee)
                 ->forCompanyId($companyId)
-                ->asPermissionLevel(config('officelife.authorizations.hr'))
+                ->asPermissionLevel(config('officelife.permission_level.hr'))
                 ->canAccessCurrentPage();
         } catch (\Exception $e) {
             return redirect('/home');
@@ -87,7 +87,7 @@ class EmployeeWorklogController extends Controller
             $this->asUser(Auth::user())
                 ->forEmployee($employee)
                 ->forCompanyId($companyId)
-                ->asPermissionLevel(config('officelife.authorizations.hr'))
+                ->asPermissionLevel(config('officelife.permission_level.hr'))
                 ->canAccessCurrentPage();
         } catch (\Exception $e) {
             return redirect('/home');
@@ -107,9 +107,9 @@ class EmployeeWorklogController extends Controller
             ->orderBy('worklogs.created_at')
             ->get();
 
-        $yearsCollection = WorklogHelper::getYears($worklogs);
-        $monthsCollection = WorklogHelper::getMonths($worklogs, $year);
-        $graphDataCollection = WorklogHelper::getYearlyCalendar($worklogs, $year);
+        $yearsCollection = EmployeeWorklogViewHelper::yearsWithEntries($worklogs);
+        $monthsCollection = EmployeeWorklogViewHelper::monthsWithEntries($worklogs, $year);
+        $graphDataCollection = EmployeeWorklogViewHelper::dataForYearlyCalendar($worklogs, $year);
 
         // only select worklogs for the current year
         $worklogs = $worklogs->filter(function ($log) use ($year) {

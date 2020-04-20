@@ -8,7 +8,6 @@ use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use Illuminate\Validation\Rule;
-use App\Models\Company\Employee;
 use App\Models\Company\TeamUsefulLink;
 
 class UpdateTeamUsefulLink extends BaseService
@@ -42,17 +41,17 @@ class UpdateTeamUsefulLink extends BaseService
      * the team page.
      *
      * @param array $data
+     *
      * @return TeamUsefulLink
      */
     public function execute(array $data): TeamUsefulLink
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.user')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asNormalUser()
+            ->canExecuteService();
 
         $link = TeamUsefulLink::findOrFail($data['team_useful_link_id']);
 
@@ -65,7 +64,7 @@ class UpdateTeamUsefulLink extends BaseService
             'url' => $data['url'],
         ]);
 
-        $this->addLog($data, $link, $author, $team);
+        $this->log($data, $link, $team);
 
         return $link;
     }
@@ -73,19 +72,18 @@ class UpdateTeamUsefulLink extends BaseService
     /**
      * Add logs.
      *
-     * @param array $data
+     * @param array          $data
      * @param TeamUsefulLink $link
-     * @param Employee $author
-     * @param Team $team
-     * @return void
+     * @param Team           $team
+     *
      */
-    private function addLog(array $data, TeamUsefulLink $link, Employee $author, Team $team): void
+    private function log(array $data, TeamUsefulLink $link, Team $team): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_useful_link_updated',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'link_id' => $link->id,
@@ -99,8 +97,8 @@ class UpdateTeamUsefulLink extends BaseService
         LogTeamAudit::dispatch([
             'team_id' => $team->id,
             'action' => 'useful_link_updated',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'link_id' => $link->id,

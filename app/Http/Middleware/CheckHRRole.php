@@ -10,15 +10,16 @@ class CheckHRRole
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
     {
         $employee = InstanceHelper::getLoggedEmployee();
 
-        if ($employee->permission_level <= config('officelife.authorizations.hr')) {
+        if ($employee->permission_level <= config('officelife.permission_level.hr')) {
             return $next($request);
         }
 

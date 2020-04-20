@@ -13,7 +13,7 @@
       <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2" :class="{'bg-white box': teams.length == 0}">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_team_list') }}
@@ -31,7 +31,7 @@
           <div v-html="team.parsed_description"></div>
           <ul v-show="team.employees.length > 0" class="list relative pl0 mb0">
             <li v-for="employee in team.employees" :key="employee.id" class="di relative">
-              <img :src="employee.avatar" class="br-100 avatar pointer" @click.prevent="load(employee)" />
+              <img :src="employee.avatar" class="br-100 avatar pointer" alt="avatar" @click.prevent="load(employee)" />
             </li>
           </ul>
         </div>
@@ -41,7 +41,7 @@
           <p class="tc measure center mb4 lh-copy">
             {{ $t('team.team_list_blank') }}
           </p>
-          <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
+          <img class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
                                         /img/company/account/blank-team-2x.png 2x"
           />
         </div>

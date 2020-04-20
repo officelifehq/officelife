@@ -1,13 +1,11 @@
-<style lang="scss" scoped>
-</style>
-
 <template>
   <div class="mb4 relative">
     <span class="db fw5 mb2">
       💬 {{ $t('employee.description_title') }}
     </span>
     <img v-show="employeeOrAtLeastHR()" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button" width="22"
-         height="22" @click.prevent="displayEditBox()"
+         height="22" alt="add a description"
+         @click.prevent="displayEditBox()"
     />
 
     <div v-if="updatedEmployee.raw_description && !showEdit" class="br3 bg-white box z-1 pa3">
@@ -16,7 +14,7 @@
 
     <!-- No description set -->
     <div v-if="!updatedEmployee.raw_description && !showEdit" class="br3 bg-white box z-1 pa3">
-      <p class="mb0 mt0 lh-copy mb0 f6">
+      <p class="mb0 mt0 lh-copy f6">
         {{ $t('employee.description_no_description') }}
       </p>
     </div>

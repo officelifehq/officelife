@@ -29,15 +29,15 @@
 
       <div v-show="showActionMenu" class="tc">
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer" @click="addAction('notification')">
-          <img src="/img/company/account/action-notification.svg" class="relative mr1" height="18" width="20" />
+          <img src="/img/company/account/action-notification.svg" alt="add notification symbol" class="relative mr1" height="18" width="20" />
           {{ $t('account.flow_new_action_notification') }}
         </div>
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer">
-          <img src="/img/company/account/action-task.svg" class="relative mr1" height="20" width="20" />
+          <img src="/img/company/account/action-task.svg" alt="add task symbol" class="relative mr1" height="20" width="20" />
           {{ $t('account.flow_new_action_task') }}
         </div>
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer">
-          <img src="/img/company/account/action-email.svg" class="relative mr1" height="20" width="20" />
+          <img src="/img/company/account/action-email.svg" alt="add email symbol" class="relative mr1" height="20" width="20" />
           {{ $t('account.flow_new_action_email') }}
         </div>
       </div>
@@ -104,8 +104,8 @@ export default {
       // json to the backend
       var isCompleteYet = true;
       for (let index = 0; index < this.localActions.length; index++) {
-        const action = this.localActions[index];
-        if (action.complete == false || !action.complete) {
+        const localAction = this.localActions[index];
+        if (localAction.complete == false || !localAction.complete) {
           isCompleteYet = false;
         }
       }

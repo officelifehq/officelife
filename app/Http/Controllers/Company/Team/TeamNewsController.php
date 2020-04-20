@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Helpers\PaginatorHelper;
 use App\Models\Company\TeamNews;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamNewsCollection;
@@ -21,6 +22,7 @@ class TeamNewsController extends Controller
      *
      * @param int $companyId
      * @param int $teamId
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request, $companyId, $teamId)
@@ -28,7 +30,7 @@ class TeamNewsController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         try {
-            $team = Team::where('company_id', $companyId)
+            $team = Team::where('company_id', $company->id)
                 ->findOrFail($teamId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -41,19 +43,7 @@ class TeamNewsController extends Controller
         return Inertia::render('Team/TeamNews/Index', [
             'team' => $team->toObject(),
             'news' => $newsCollection,
-            'paginator' => [
-                'count' => $news->count(),
-                'currentPage' => $news->currentPage(),
-                'firstItem' => $news->firstItem(),
-                'hasMorePages' => $news->hasMorePages(),
-                'lastItem' => $news->lastItem(),
-                'lastPage' => $news->lastPage(),
-                'nextPageUrl' => $news->nextPageUrl(),
-                'onFirstPage' => $news->onFirstPage(),
-                'perPage' => $news->perPage(),
-                'previousPageUrl' => $news->previousPageUrl(),
-                'total' => $news->total(),
-            ],
+            'paginator' => PaginatorHelper::getData($news),
         ]);
     }
 
@@ -62,6 +52,7 @@ class TeamNewsController extends Controller
      *
      * @param int $companyId
      * @param int $teamId
+     *
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request, $companyId, $teamId)
@@ -83,6 +74,7 @@ class TeamNewsController extends Controller
      *
      * @param int $companyId
      * @param int $teamId
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, $companyId, $teamId)
@@ -110,11 +102,11 @@ class TeamNewsController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, $companyId, $teamId, $newsId)
     {
-        $company = InstanceHelper::getLoggedCompany();
         $team = Team::findOrFail($teamId);
         $news = TeamNews::where('team_id', $teamId)->findOrFail($newsId);
 
@@ -128,9 +120,10 @@ class TeamNewsController extends Controller
      * Update the company news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param int     $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $companyId, $teamId, $newsId)
@@ -156,9 +149,10 @@ class TeamNewsController extends Controller
      * Delete the team news.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $teamId
-     * @param int $newsId
+     * @param int     $companyId
+     * @param int     $teamId
+     * @param int     $newsId
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $companyId, $teamId, $newsId)

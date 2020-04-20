@@ -13,15 +13,18 @@ class DashboardMoraleController extends Controller
      * Create a morale log.
      *
      * @var Request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
+        $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
         $request = [
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
+            'company_id' => $company->id,
             'emotion' => $request->get('emotion'),
             'comment' => $request->get('comment'),
         ];

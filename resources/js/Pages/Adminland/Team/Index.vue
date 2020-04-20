@@ -42,7 +42,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
@@ -193,8 +193,8 @@
           <p class="tc measure center mb4 lh-copy">
             {{ $t('account.teams_blank') }}
           </p>
-          <img class="db center mb4" srcset="/img/company/account/blank-team-1x.png,
-                                        /img/company/account/blank-team-2x.png 2x"
+          <img class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
+                                        /img/company/account/blank-team-2x.png 2x" loading="lazy"
           />
         </div>
       </div>

@@ -31,17 +31,17 @@ class AddUserToCompany extends BaseService
      * Add a user to the company.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         $employee = Employee::create([
             'user_id' => $data['user_id'],
@@ -53,8 +53,8 @@ class AddUserToCompany extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'user_added_to_company',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'user_id' => $employee->user->id,

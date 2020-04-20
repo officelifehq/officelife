@@ -7,11 +7,12 @@ use App\Jobs\LogTeamAudit;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Models\Company\Employee;
 use App\Exceptions\TeamNameNotUniqueException;
 
 class CreateTeam extends BaseService
 {
+    private Team $team;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -31,32 +32,32 @@ class CreateTeam extends BaseService
      * Create a team.
      *
      * @param array $data
+     *
      * @return Team
      */
     public function execute(array $data): Team
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr')
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canExecuteService();
 
         $this->verifyTeamNameUniqueness($data);
 
-        $team = $this->save($data);
+        $this->create($data);
 
-        $this->log($data, $author, $team);
+        $this->log($data);
 
-        return $team;
+        return $this->team;
     }
 
     /**
      * Make sure the team's name is unique in the company.
      *
      * @param array $data
-     * @return void
+     *
      */
     private function verifyTeamNameUniqueness(array $data): void
     {
@@ -77,50 +78,46 @@ class CreateTeam extends BaseService
      * Create the team.
      *
      * @param array $data
-     * @return Team
+     *
      */
-    private function save(array $data): Team
+    private function create(array $data): void
     {
-        $team = Team::create([
+        $this->team = Team::create([
             'company_id' => $data['company_id'],
             'name' => $data['name'],
         ]);
-
-        return $team;
     }
 
     /**
      * Add audit logs.
      *
      * @param array $data
-     * @param Employee $author
-     * @param Team $team
-     * @return void
+     *
      */
-    private function log(array $data, Employee $author, Team $team): void
+    private function log(array $data): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'team_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'team_id' => $team->id,
-                'team_name' => $team->name,
+                'team_id' => $this->team->id,
+                'team_name' => $this->team->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
-            'team_id' => $team->id,
+            'team_id' => $this->team->id,
             'action' => 'team_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'team_id' => $team->id,
-                'team_name' => $team->name,
+                'team_id' => $this->team->id,
+                'team_name' => $this->team->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');

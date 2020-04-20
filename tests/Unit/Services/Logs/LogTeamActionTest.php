@@ -10,6 +10,7 @@ use App\Models\Company\Employee;
 use App\Services\Logs\LogTeamAction;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogTeamActionTest extends TestCase
 {
@@ -18,10 +19,37 @@ class LogTeamActionTest extends TestCase
     /** @test */
     public function it_logs_an_action(): void
     {
-        $team = factory(Team::class)->create([]);
-        $michael = factory(Employee::class)->create([
-            'company_id' => $team->company_id,
+        $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
         ]);
+
+        $this->executeService($michael, $team);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'action' => 'team_created',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new LogTeamAction)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_the_author_is_not_in_the_same_company_as_the_team(): void
+    {
+        $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([]);
+
+        $this->expectException(ModelNotFoundException::class);
+        $this->executeService($michael, $team);
+    }
+
+    private function executeService(Employee $michael, Team $team): void
+    {
         $date = Carbon::now();
 
         $request = [
@@ -49,16 +77,5 @@ class LogTeamActionTest extends TestCase
             TeamLog::class,
             $teamLog
         );
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $request = [
-            'action' => 'team_created',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new LogTeamAction)->execute($request);
     }
 }

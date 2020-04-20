@@ -31,18 +31,18 @@ class AssignPronounToEmployee extends BaseService
      * Set an employee's gender pronoun.
      *
      * @param array $data
+     *
      * @return Employee
      */
     public function execute(array $data): Employee
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $data['company_id'],
-            config('officelife.authorizations.hr'),
-            $data['author_id']
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
+            ->canExecuteService();
 
         $employee = $this->validateEmployeeBelongsToCompany($data);
 
@@ -54,8 +54,8 @@ class AssignPronounToEmployee extends BaseService
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'pronoun_assigned_to_employee',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'employee_id' => $employee->id,
@@ -69,8 +69,8 @@ class AssignPronounToEmployee extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $data['employee_id'],
             'action' => 'pronoun_assigned',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'pronoun_id' => $pronoun->id,

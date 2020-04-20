@@ -6,12 +6,16 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Models\Company\Team;
 use App\Helpers\BirthdayHelper;
+use Illuminate\Support\Collection;
+use App\Helpers\WorkFromHomeHelper;
 
 class DashboardTeamViewHelper
 {
     /**
      * Array containing all the upcoming birthdays for employees in this team.
+     *
      * @param Team $team
+     *
      * @return array
      */
     public static function birthdays(Team $team): array
@@ -50,5 +54,76 @@ class DashboardTeamViewHelper
         $birthdaysCollection = $birthdaysCollection->sortBy('sort_key')->values()->all();
 
         return $birthdaysCollection;
+    }
+
+    /**
+     * Array containing all the upcoming birthdays for employees in this team.
+     *
+     * @param Team $team
+     *
+     * @return Collection
+     */
+    public static function workFromHome(Team $team): Collection
+    {
+        $employees = $team->employees;
+
+        $workFromHomeCollection = collect([]);
+        foreach ($employees as $employee) {
+            if (!WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now())) {
+                continue;
+            }
+
+            $workFromHomeCollection->push([
+                'id' => $employee->id,
+                'url' => route('employees.show', [
+                    'company' => $employee->company,
+                    'employee' => $employee,
+                ]),
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'position' => $employee->position,
+            ]);
+        }
+
+        return $workFromHomeCollection;
+    }
+
+    /**
+     * Creates an array containing all the information regarding the worklogs
+     * logged on the given day for a specific team.
+     *
+     * This array also contains an indicator telling how many team members have
+     * filled the worklogs for the day. The rules are as follow:
+     * - less than 20% of team members have filled the worklogs: red
+     * - 20% -> 80%: yellow
+     * - > 80%: green
+     */
+    public static function worklogs(Team $team, Carbon $date): array
+    {
+        $numberOfEmployeesInTeam = $team->employees()->count();
+        $numberOfEmployeesWhoHaveLoggedWorklogs = count($team->worklogsForDate($date));
+        $percent = $numberOfEmployeesWhoHaveLoggedWorklogs * 100 / $numberOfEmployeesInTeam;
+
+        $indicator = 'red';
+
+        if ($percent >= 20 && $percent <= 80) {
+            $indicator = 'yellow';
+        }
+
+        if ($percent > 80) {
+            $indicator = 'green';
+        }
+
+        $data = [
+            'day' => $date->isoFormat('dddd'),
+            'date' => DateHelper::formatMonthAndDay($date),
+            'friendlyDate' => $date->format('Y-m-d'),
+            'status' => DateHelper::determineDateStatus($date),
+            'completionRate' => $indicator,
+            'numberOfEmployeesInTeam' => $numberOfEmployeesInTeam,
+            'numberOfEmployeesWhoHaveLoggedWorklogs' => $numberOfEmployeesWhoHaveLoggedWorklogs,
+        ];
+
+        return $data;
     }
 }

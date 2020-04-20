@@ -42,11 +42,12 @@ class AddNotificationInUIForEmployee extends BaseService
      * he logs in.
      *
      * @param array $data
+     *
      * @return Notification
      */
     public function execute(array $data): Notification
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $notification = Notification::create([
             'employee_id' => $data['employee_id'],

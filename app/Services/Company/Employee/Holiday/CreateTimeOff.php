@@ -22,6 +22,7 @@ class CreateTimeOff extends BaseService
     public function rules(): array
     {
         return [
+            'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'date' => 'required|date_format:Y-m-d',
@@ -45,20 +46,20 @@ class CreateTimeOff extends BaseService
      * other half day as holiday, for instance.
      *
      * @param array $data
+     *
      * @return EmployeePlannedHoliday
      */
     public function execute(array $data): EmployeePlannedHoliday
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
         $employee = Employee::findOrFail($data['employee_id']);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $employee->company_id,
-            config('officelife.authorizations.hr'),
-            $data['employee_id']
-        );
+        $this->author($data['author_id'])
+            ->inCompany($data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
+            ->canExecuteService();
 
         $suggestedDate = Carbon::parse($data['date']);
 
@@ -84,7 +85,7 @@ class CreateTimeOff extends BaseService
             $plannedHoliday = $this->createPlannedHoliday($data, $suggestedDate);
         }
 
-        $this->createLogs($employee, $author, $plannedHoliday, $data);
+        $this->createLogs($employee, $plannedHoliday, $data);
 
         return $plannedHoliday;
     }
@@ -93,7 +94,8 @@ class CreateTimeOff extends BaseService
      * Get the planned holiday object for this date, if it already exists.
      *
      * @param Employee $employee
-     * @param Carbon $date
+     * @param Carbon   $date
+     *
      * @return EmployeePlannedHoliday
      */
     private function getExistingPlannedHoliday(Employee $employee, Carbon $date)
@@ -117,7 +119,8 @@ class CreateTimeOff extends BaseService
      * Validate wether we can create a new holiday.
      *
      * @param EmployeePlannedHoliday $holiday
-     * @param array $data
+     * @param array                  $data
+     *
      * @return bool
      */
     private function validateCreationHoliday(EmployeePlannedHoliday $holiday, array $data): bool
@@ -139,8 +142,9 @@ class CreateTimeOff extends BaseService
     /**
      * Create a new planned holiday.
      *
-     * @param array $data
+     * @param array  $data
      * @param Carbon $date
+     *
      * @return EmployeePlannedHoliday
      */
     private function createPlannedHoliday(array $data, Carbon $date): EmployeePlannedHoliday
@@ -156,19 +160,18 @@ class CreateTimeOff extends BaseService
     /**
      * Create the audit logs.
      *
-     * @param Employee $employee
-     * @param Employee $author
+     * @param Employee               $employee
      * @param EmployeePlannedHoliday $plannedHoliday
-     * @param array $data
-     * @return void
+     * @param array                  $data
+     *
      */
-    private function createLogs(Employee $employee, Employee $author, EmployeePlannedHoliday $plannedHoliday, array $data)
+    private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday, array $data)
     {
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,
             'action' => 'time_off_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'planned_holiday_id' => $plannedHoliday->id,
@@ -180,8 +183,8 @@ class CreateTimeOff extends BaseService
         LogEmployeeAudit::dispatch([
             'employee_id' => $employee->id,
             'action' => 'time_off_created',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'planned_holiday_id' => $plannedHoliday->id,

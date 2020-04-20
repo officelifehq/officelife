@@ -22,7 +22,7 @@
       <div class="mt4-l mt1 mw7 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $page.auth.company.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.auth.company.id + '/employees'">{{ $t('app.breadcrumb_employee_list') }}</inertia-link>
@@ -37,7 +37,10 @@
       <div class="mw9 center br3 mb4 bg-white box relative z-1">
         <div class="pa3 relative pt5">
           <!-- EDIT BUTTON -->
-          <img v-if="employeeOrAtLeastHR()" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" @click="profileMenu = true" />
+          <img v-if="employeeOrAtLeastHR()" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" alt="edit button"
+               loading="lazy"
+               @click="profileMenu = true"
+          />
 
           <!-- EDIT MENU -->
           <div v-if="profileMenu" v-click-outside="toggleProfileMenu" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
@@ -61,7 +64,9 @@
           </div>
 
           <!-- AVATAR -->
-          <img :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80" />
+          <img :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80" alt="avatar"
+               loading="lazy"
+          />
           <h2 class="tc normal mb1">
             {{ employee.name }}
 
@@ -113,9 +118,15 @@
         </div>
       </div>
 
+      <!-- CENTRAL CONTENT -->
       <div class="cf mw9 center">
         <!-- LEFT COLUMN -->
         <div class="fl w-40-l w-100">
+          <work-from-home
+            :employee="employee"
+            :statistics="workFromHomes"
+          />
+
           <personal-description
             :employee="employee"
           />
@@ -141,6 +152,11 @@
             :employee="employee"
             :worklogs="worklogs"
           />
+
+          <question
+            :employee="employee"
+            :questions="questions"
+          />
         </div>
       </div>
     </div>
@@ -160,6 +176,8 @@ import EmployeeBirthdate from '@/Pages/Employee/Partials/EmployeeBirthdate';
 import Worklogs from '@/Pages/Employee/Partials/Worklogs';
 import Holidays from '@/Pages/Employee/Partials/Holidays';
 import Location from '@/Pages/Employee/Partials/Location';
+import WorkFromHome from '@/Pages/Employee/Partials/WorkFromHome';
+import Question from '@/Pages/Employee/Partials/Question';
 
 export default {
   components: {
@@ -174,6 +192,8 @@ export default {
     Worklogs,
     Holidays,
     Location,
+    WorkFromHome,
+    Question,
   },
 
   directives: {
@@ -210,7 +230,7 @@ export default {
       default: null,
     },
     worklogs: {
-      type: Array,
+      type: Object,
       default: null,
     },
     statuses: {
@@ -218,6 +238,14 @@ export default {
       default: null,
     },
     pronouns: {
+      type: Array,
+      default: null,
+    },
+    workFromHomes: {
+      type: Object,
+      default: null,
+    },
+    questions: {
       type: Array,
       default: null,
     },

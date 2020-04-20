@@ -15,7 +15,7 @@
 </style>
 
 <template>
-  <div>
+  <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
       🥳 {{ $t('dashboard.team_birthdate_title') }}
     </div>
@@ -31,7 +31,7 @@
       <!-- all birthdays -->
       <div v-for="employee in birthdays" :key="employee.id" class="pa3 fl w-third-l w-100" data-cy="birthdays-list">
         <span class="pl3 db relative team-member">
-          <img :src="employee.avatar" class="br-100 absolute avatar" />
+          <img :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" loading="lazy" />
 
           <!-- normal mode -->
           <inertia-link :href="employee.url" class="mb2">

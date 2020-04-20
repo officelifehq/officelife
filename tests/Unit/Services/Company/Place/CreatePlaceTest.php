@@ -18,57 +18,24 @@ class CreatePlaceTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_place(): void
+    public function it_creates_a_place_as_administrator(): void
     {
-        Queue::fake();
+        $michael = $this->createAdministrator();
+        $this->executeService($michael);
+    }
 
-        $michael = factory(Employee::class)->create([]);
-        $country = factory(Country::class)->create([]);
+    /** @test */
+    public function it_creates_a_place_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $this->executeService($michael);
+    }
 
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'street' => '13 rue des champs',
-            'city' => 'Montreal',
-            'province' => 'QC',
-            'postal_code' => 'H2L2X3',
-            'country_id' => $country->id,
-            'placable_id' => $michael->id,
-            'placable_type' => 'App\Models\Company\Employee',
-        ];
-
-        $place = (new CreatePlace)->execute($request);
-
-        $this->assertDatabaseHas('places', [
-            'id' => $place->id,
-            'street' => '13 rue des champs',
-            'city' => 'Montreal',
-            'province' => 'QC',
-            'postal_code' => 'H2L2X3',
-            'country_id' => $country->id,
-            'placable_id' => $michael->id,
-            'placable_type' => 'App\Models\Company\Employee',
-            'is_active' => false,
-        ]);
-
-        $this->assertInstanceOf(
-            Place::class,
-            $place
-        );
-
-        $numberOfActivePlaces = DB::table('places')->where('placable_id', $place->placable_id)
-            ->where('placable_type', $place->placable_type)
-            ->where('is_active', true)
-            ->count();
-
-        $this->assertEquals(
-            0,
-            $numberOfActivePlaces
-        );
-
-        Queue::assertPushed(FetchAddressGeocoding::class, function ($job) use ($place) {
-            return $job->place->id === $place->id;
-        });
+    /** @test */
+    public function it_creates_a_place_as_normal_user(): void
+    {
+        $michael = $this->createEmployee();
+        $this->executeService($michael);
     }
 
     /** @test */
@@ -168,5 +135,65 @@ class CreatePlaceTest extends TestCase
 
         $this->expectException(ValidationException::class);
         (new CreatePlace)->execute($request);
+    }
+
+    private function executeService(Employee $michael, bool $setActive = false): void
+    {
+        Queue::fake();
+
+        $country = factory(Country::class)->create([]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'street' => '13 rue des champs',
+            'city' => 'Montreal',
+            'province' => 'QC',
+            'postal_code' => 'H2L2X3',
+            'country_id' => $country->id,
+            'placable_id' => $michael->id,
+            'placable_type' => 'App\Models\Company\Employee',
+            'is_active' => $setActive ? true : null,
+        ];
+
+        $place = (new CreatePlace)->execute($request);
+
+        $this->assertDatabaseHas('places', [
+            'id' => $place->id,
+            'street' => '13 rue des champs',
+            'city' => 'Montreal',
+            'province' => 'QC',
+            'postal_code' => 'H2L2X3',
+            'country_id' => $country->id,
+            'placable_id' => $michael->id,
+            'placable_type' => 'App\Models\Company\Employee',
+            'is_active' => false,
+        ]);
+
+        $this->assertInstanceOf(
+            Place::class,
+            $place
+        );
+
+        $numberOfActivePlaces = DB::table('places')->where('placable_id', $place->placable_id)
+            ->where('placable_type', $place->placable_type)
+            ->where('is_active', true)
+            ->count();
+
+        if ($setActive) {
+            $this->assertEquals(
+                1,
+                $numberOfActivePlaces
+            );
+        } else {
+            $this->assertEquals(
+                0,
+                $numberOfActivePlaces
+            );
+        }
+
+        Queue::assertPushed(FetchAddressGeocoding::class, function ($job) use ($place) {
+            return $job->place->id === $place->id;
+        });
     }
 }

@@ -8,10 +8,13 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Exceptions\NotEnoughPermissionException;
 use App\Exceptions\WorklogAlreadyLoggedTodayException;
 
 class LogWorklog extends BaseService
 {
+    private Employee $employee;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -21,6 +24,7 @@ class LogWorklog extends BaseService
     {
         return [
             'author_id' => 'required|integer|exists:employees,id',
+            'company_id' => 'required|integer|exists:companies,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'content' => 'required|string|max:65535',
             'is_dummy' => 'nullable|boolean',
@@ -33,26 +37,24 @@ class LogWorklog extends BaseService
      * Logging can only be done by the employee.
      *
      * @param array $data
+     *
      * @return Worklog
      */
     public function execute(array $data): Worklog
     {
-        $this->validate($data);
+        $this->validateRules($data);
 
-        $employee = Employee::findOrFail($data['employee_id']);
+        $this->employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $author = $this->validatePermissions(
-            $data['author_id'],
-            $employee->company_id,
-            config('officelife.authorizations.user'),
-            $data['employee_id']
-        );
+        if ($data['author_id'] != $data['employee_id']) {
+            throw new NotEnoughPermissionException();
+        }
 
-        if ($employee->hasAlreadyLoggedWorklogToday()) {
+        if ($this->employee->hasAlreadyLoggedWorklogToday()) {
             throw new WorklogAlreadyLoggedTodayException();
         }
 
-        $this->resetWorklogMissed($employee);
+        $this->resetWorklogMissed();
 
         $worklog = Worklog::create([
             'employee_id' => $data['employee_id'],
@@ -60,33 +62,7 @@ class LogWorklog extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        LogAccountAudit::dispatch([
-            'company_id' => $employee->company_id,
-            'action' => 'employee_worklog_logged',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
-                'worklog_id' => $worklog->id,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ])->onQueue('low');
-
-        LogEmployeeAudit::dispatch([
-            'employee_id' => $employee->id,
-            'action' => 'employee_worklog_logged',
-            'author_id' => $author->id,
-            'author_name' => $author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'employee_id' => $employee->id,
-                'employee_name' => $employee->name,
-                'worklog_id' => $worklog->id,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ])->onQueue('low');
+        $this->log($worklog, $data);
 
         return $worklog;
     }
@@ -95,12 +71,43 @@ class LogWorklog extends BaseService
      * Reset the counter indicating the number of missed daily worklog for the
      * given employee.
      *
-     * @param Employee $employee
-     * @return void
      */
-    private function resetWorklogMissed(Employee $employee)
+    private function resetWorklogMissed()
     {
-        $employee->consecutive_worklog_missed = 0;
-        $employee->save();
+        $this->employee->consecutive_worklog_missed = 0;
+        $this->employee->save();
+    }
+
+    private function log(Worklog $worklog, array $data): void
+    {
+        $author = Employee::findOrFail($data['author_id']);
+
+        LogAccountAudit::dispatch([
+            'company_id' => $this->employee->company_id,
+            'action' => 'employee_worklog_logged',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
+                'worklog_id' => $worklog->id,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $this->employee->id,
+            'action' => 'employee_worklog_logged',
+            'author_id' => $author->id,
+            'author_name' => $author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
+                'worklog_id' => $worklog->id,
+            ]),
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        ])->onQueue('low');
     }
 }
