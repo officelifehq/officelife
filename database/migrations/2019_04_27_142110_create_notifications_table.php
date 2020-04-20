@@ -16,7 +16,7 @@ class CreateNotificationsTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('notifications', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->string('action');
             $table->text('objects');

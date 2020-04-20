@@ -16,7 +16,7 @@ class CreateCompanyPtoPolicies extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('company_pto_policies', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->integer('year');
             $table->integer('total_worked_days');

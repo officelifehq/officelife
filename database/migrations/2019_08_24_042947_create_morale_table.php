@@ -16,7 +16,7 @@ class CreateMoraleTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('morale', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->integer('emotion');
             $table->string('comment')->nullable();
@@ -26,7 +26,7 @@ class CreateMoraleTable extends Migration
         });
 
         Schema::create('morale_company_history', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->double('average');
             $table->integer('number_of_employees');
@@ -36,7 +36,7 @@ class CreateMoraleTable extends Migration
         });
 
         Schema::create('morale_team_history', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('team_id');
             $table->double('average');
             $table->integer('number_of_team_members');

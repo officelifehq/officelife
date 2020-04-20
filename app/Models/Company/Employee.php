@@ -299,6 +299,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the hardware records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function hardware()
+    {
+        return $this->hasMany(Hardware::class);
+    }
+
+    /**
      * Transform the object to an array representing this object.
      *
      * @return array

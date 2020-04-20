@@ -16,7 +16,7 @@ class CreateEmployeePtoTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('employee_planned_holidays', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->datetime('planned_date');
             $table->string('type');
@@ -28,7 +28,7 @@ class CreateEmployeePtoTable extends Migration
         });
 
         Schema::create('employee_daily_calendar_entries', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->datetime('log_date');
             $table->double('new_balance');

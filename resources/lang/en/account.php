@@ -174,6 +174,8 @@ return [
     'log_answer_created' => 'Answered the question called :title.',
     'log_answer_updated' => 'Updated the answer to the question called :title.',
     'log_answer_destroyed' => 'Deleted the answer to the question called :title.',
+    'log_hardware_created' => 'Added a hardware called :name.',
+    'log_hardware_updated' => 'Updated the hardware name from :old_name to :name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',

@@ -13,7 +13,7 @@ class CreateQuestionsTable extends Migration
     public function up()
     {
         Schema::create('questions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('title');
             $table->boolean('active')->default(false);
@@ -25,7 +25,7 @@ class CreateQuestionsTable extends Migration
         });
 
         Schema::create('answers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('question_id');
             $table->unsignedBigInteger('employee_id');
             $table->text('body');

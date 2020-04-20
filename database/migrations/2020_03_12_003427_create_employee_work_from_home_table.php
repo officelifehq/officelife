@@ -13,7 +13,7 @@ class CreateEmployeeWorkFromHomeTable extends Migration
     public function up()
     {
         Schema::create('employee_work_from_home', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->datetime('date');
             $table->boolean('work_from_home');

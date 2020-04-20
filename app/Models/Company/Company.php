@@ -143,6 +143,16 @@ class Company extends Model
     }
 
     /**
+     * Get the hardware records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function hardware()
+    {
+        return $this->hasMany(Hardware::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return CompanyPTOPolicy
