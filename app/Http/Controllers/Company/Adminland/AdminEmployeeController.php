@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -16,7 +17,7 @@ class AdminEmployeeController extends Controller
     /**
      * Show the list of employees.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -45,7 +46,7 @@ class AdminEmployeeController extends Controller
     /**
      * Show the Create employee view.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -58,11 +59,11 @@ class AdminEmployeeController extends Controller
      * Create the employee.
      *
      * @param Request $request
-     * @param int     $companyId
+     * @param int $companyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function store(Request $request, $companyId)
+    public function store(Request $request, int $companyId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -87,12 +88,12 @@ class AdminEmployeeController extends Controller
      * Delete the employee.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function destroy(Request $request, $companyId, $employeeId)
+    public function destroy(Request $request, int $companyId, int $employeeId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

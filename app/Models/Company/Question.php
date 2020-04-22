@@ -79,6 +79,7 @@ class Question extends Model
      * Limit results to active questions.
      *
      * @param  Builder $query
+     *
      * @return Builder
      */
     public function scopeActive(Builder $query)

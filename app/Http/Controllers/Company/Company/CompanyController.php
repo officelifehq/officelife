@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Company\Company;
 
 use Inertia\Inertia;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
@@ -14,7 +13,7 @@ class CompanyController extends Controller
     /**
      * All the questions in the company, for public use.
      *
-     * @return Response
+     * @return \Inertia\Response
      */
     public function index()
     {

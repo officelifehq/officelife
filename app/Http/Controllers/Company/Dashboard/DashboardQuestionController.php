@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Company\Dashboard;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\AnswerCollection;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Employee\Answer\UpdateAnswer;
 use App\Services\Company\Adminland\Answer\DestroyAnswer;
@@ -15,9 +16,9 @@ class DashboardQuestionController extends Controller
     /**
      * Answer the question.
      *
-     * @var Request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -34,21 +35,34 @@ class DashboardQuestionController extends Controller
 
         $answer = (new CreateAnswer)->execute($request);
 
-        $allEmployeeAnswers = $answer->question->answers()->with('employee')->get();
+        $allEmployeeAnswers = $answer->question->answers()->with('employee')->take(3)->get();
+
+        $answersCollection = collect([]);
+        foreach ($allEmployeeAnswers as $answer) {
+            $answersCollection->push([
+                'id' => $answer->id,
+                'body' => $answer->body,
+                'employee' => [
+                    'id' => $answer->employee->id,
+                    'name' => $answer->employee->name,
+                    'avatar' => $answer->employee->avatar,
+                ],
+            ]);
+        }
 
         return response()->json([
-            'data' => AnswerCollection::prepare($allEmployeeAnswers),
+            'data' => $answersCollection,
         ], 200);
     }
 
     /**
-     * Update the company news.
+     * Update the question.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $answerId
+     * @param int $companyId
+     * @param int $answerId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, int $companyId, int $answerId)
     {
@@ -66,7 +80,15 @@ class DashboardQuestionController extends Controller
         $answer = (new UpdateAnswer)->execute($request);
 
         return response()->json([
-            'data' => $answer->toObject(),
+            'data' => [
+                'id' => $answer->id,
+                'body' => $answer->body,
+                'employee' => [
+                    'id' => $answer->employee->id,
+                    'name' => $answer->employee->name,
+                    'avatar' => $answer->employee->avatar,
+                ],
+            ],
         ], 200);
     }
 
@@ -74,10 +96,10 @@ class DashboardQuestionController extends Controller
      * Delete the question.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $companyNewsId
+     * @param int $companyId
+     * @param int $answerId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Request $request, int $companyId, int $answerId)
     {

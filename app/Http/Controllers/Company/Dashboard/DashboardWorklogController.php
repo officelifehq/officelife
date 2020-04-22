@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 
@@ -12,9 +13,9 @@ class DashboardWorklogController extends Controller
     /**
      * Create a worklog.
      *
-     * @var Request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -25,7 +26,7 @@ class DashboardWorklogController extends Controller
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
-            'content' => $request->content,
+            'content' => $request->input('content'),
         ];
 
         (new LogWorklog)->execute($request);

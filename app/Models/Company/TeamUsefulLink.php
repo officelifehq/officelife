@@ -61,8 +61,6 @@ class TeamUsefulLink extends Model
      * The label attribute can be null, so if that's the case, we'll return the
      * URL instead.
      *
-     * @var mixed $value
-     *
      * @param mixed $value
      *
      * @return string

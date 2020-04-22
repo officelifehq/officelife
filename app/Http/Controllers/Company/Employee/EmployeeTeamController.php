@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Employee;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Team;
 use App\Http\Collections\TeamCollection;
@@ -16,10 +17,11 @@ class EmployeeTeamController extends Controller
     /**
      * Assign a team to the given employee.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Collection
      */
     public function store(Request $request, int $companyId, int $employeeId)
     {
@@ -40,11 +42,12 @@ class EmployeeTeamController extends Controller
     /**
      * Remove the team for the given employee.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $employeeId
      * @param int $teamId
      *
-     * @return \Illuminate\Http\Response
+     * @return Collection
      */
     public function destroy(Request $request, int $companyId, int $employeeId, int $teamId)
     {

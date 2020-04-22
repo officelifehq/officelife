@@ -22,7 +22,6 @@ class LogEmployeeAudit implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
      */
     public function __construct(array $auditLog)
     {
@@ -31,7 +30,6 @@ class LogEmployeeAudit implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      */
     public function handle()
     {

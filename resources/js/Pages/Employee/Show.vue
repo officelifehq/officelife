@@ -152,6 +152,11 @@
             :employee="employee"
             :worklogs="worklogs"
           />
+
+          <question
+            :employee="employee"
+            :questions="questions"
+          />
         </div>
       </div>
     </div>
@@ -172,6 +177,7 @@ import Worklogs from '@/Pages/Employee/Partials/Worklogs';
 import Holidays from '@/Pages/Employee/Partials/Holidays';
 import Location from '@/Pages/Employee/Partials/Location';
 import WorkFromHome from '@/Pages/Employee/Partials/WorkFromHome';
+import Question from '@/Pages/Employee/Partials/Question';
 
 export default {
   components: {
@@ -187,6 +193,7 @@ export default {
     Holidays,
     Location,
     WorkFromHome,
+    Question,
   },
 
   directives: {
@@ -236,6 +243,10 @@ export default {
     },
     workFromHomes: {
       type: Object,
+      default: null,
+    },
+    questions: {
+      type: Array,
       default: null,
     },
   },

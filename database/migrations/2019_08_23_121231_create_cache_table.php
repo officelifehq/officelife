@@ -8,7 +8,6 @@ class CreateCacheTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {
@@ -21,7 +20,6 @@ class CreateCacheTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
      */
     public function down()
     {

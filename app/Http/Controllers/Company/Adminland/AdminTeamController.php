@@ -66,8 +66,8 @@ class AdminTeamController extends Controller
      * Update the name of the team.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
+     * @param int $companyId
+     * @param int $teamId
      *
      * @return JsonResponse
      */
@@ -93,8 +93,8 @@ class AdminTeamController extends Controller
      * Delete the team.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
+     * @param int $companyId
+     * @param int $teamId
      *
      * @return JsonResponse
      */
@@ -119,8 +119,8 @@ class AdminTeamController extends Controller
      * Display the logs page for the given team.
      *
      * @param Request $request
-     * @param integer $companyId
-     * @param integer $teamId
+     * @param int $companyId
+     * @param int $teamId
      *
      * @return InertiaResponse
      */

@@ -20,12 +20,13 @@ class TeamNewsController extends Controller
     /**
      * Show the Team News page.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $teamId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $companyId, $teamId)
+    public function index(Request $request, int $companyId, int $teamId)
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -50,12 +51,13 @@ class TeamNewsController extends Controller
     /**
      * Show the Post team news form.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $teamId
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $companyId, $teamId)
+    public function create(Request $request, int $companyId, int $teamId)
     {
         try {
             $team = Team::where('company_id', $companyId)
@@ -72,12 +74,13 @@ class TeamNewsController extends Controller
     /**
      * Show the Post team news form.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $teamId
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $companyId, $teamId)
+    public function store(Request $request, int $companyId, int $teamId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -99,13 +102,14 @@ class TeamNewsController extends Controller
     /**
      * Show the Edit team news form.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $teamId
      * @param int $newsId
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $companyId, $teamId, $newsId)
+    public function edit(Request $request, int $companyId, int $teamId, int $newsId)
     {
         $team = Team::findOrFail($teamId);
         $news = TeamNews::where('team_id', $teamId)->findOrFail($newsId);
@@ -120,13 +124,13 @@ class TeamNewsController extends Controller
      * Update the company news.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
-     * @param int     $newsId
+     * @param int $companyId
+     * @param int $teamId
+     * @param int $newsId
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $companyId, $teamId, $newsId)
+    public function update(Request $request, int $companyId, int $teamId, int $newsId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -149,13 +153,13 @@ class TeamNewsController extends Controller
      * Delete the team news.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
-     * @param int     $newsId
+     * @param int $companyId
+     * @param int $teamId
+     * @param int $newsId
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $companyId, $teamId, $newsId)
+    public function destroy(Request $request, int $companyId, int $teamId, int $newsId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

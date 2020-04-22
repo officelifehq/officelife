@@ -6,6 +6,7 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use App\Jobs\UpdateDashboardPreference;
 use Illuminate\Support\Facades\Redirect;
 
@@ -14,7 +15,7 @@ class DashboardController extends Controller
     /**
      * Redirect the user to the right tab.
      *
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function index()
     {
@@ -43,6 +44,12 @@ class DashboardController extends Controller
         }
     }
 
+    /**
+     * Update the dashboard default view for the given employee.
+     *
+     * @param Company $company
+     * @param string $view
+     */
     private function updateDashboard(Company $company, string $view): void
     {
         UpdateDashboardPreference::dispatch([

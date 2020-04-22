@@ -92,7 +92,6 @@ class CreatePlace extends BaseService
      * Check all the previous places for this entity and set them to inactive.
      *
      * @param Place $place
-     *
      */
     private function setActive(Place $place): void
     {
@@ -108,7 +107,6 @@ class CreatePlace extends BaseService
      * This is placed on a queue so it doesn't slow down the app.
      *
      * @param Place $place
-     *
      */
     private function geocodePlace(Place $place): void
     {
@@ -120,7 +118,6 @@ class CreatePlace extends BaseService
      *
      * @param array $data
      * @param Place $place
-     *
      */
     private function addLog(array $data, Place $place): void
     {

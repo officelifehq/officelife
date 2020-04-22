@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Http\Controllers\Controller;
@@ -16,7 +17,7 @@ class DummyController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request)
     {

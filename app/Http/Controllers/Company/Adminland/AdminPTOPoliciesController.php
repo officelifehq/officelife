@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class AdminPTOPoliciesController extends Controller
     /**
      * Show the list of company news.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -36,12 +37,12 @@ class AdminPTOPoliciesController extends Controller
      * Update the pto policy.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $ptoPolicyId
+     * @param int $companyId
+     * @param int $ptoPolicyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function update(Request $request, $companyId, $ptoPolicyId)
+    public function update(Request $request, int $companyId, int $ptoPolicyId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

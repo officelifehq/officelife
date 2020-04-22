@@ -8,7 +8,6 @@ class CreateEmployeePtoTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {

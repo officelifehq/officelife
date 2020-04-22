@@ -3,7 +3,6 @@
 namespace App\Http\ViewHelpers\Company\Employee;
 
 use Carbon\Carbon;
-use App\Models\Company\Team;
 use App\Helpers\WorklogHelper;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
@@ -14,7 +13,7 @@ class EmployeeShowViewHelper
     /**
      * Collection containing all the managers of this employee.
      *
-     * @param Team $team
+     * @param Employee $employee
      *
      * @return Collection
      */
@@ -46,7 +45,7 @@ class EmployeeShowViewHelper
     /**
      * Collection containing all the direct reports of this employee.
      *
-     * @param Team $team
+     * @param Employee $employee
      *
      * @return Collection
      */
@@ -143,5 +142,37 @@ class EmployeeShowViewHelper
                 'employee' => $employee,
             ]),
         ];
+    }
+
+    /**
+     * Array containing information about the questions answered by the
+     * employee.
+     *
+     * @param Employee $employee
+     *
+     * @return Collection
+     */
+    public static function questions(Employee $employee): Collection
+    {
+        $answers = $employee->answers()->with('question')->get();
+
+        $questionsCollection = collect([]);
+        foreach ($answers as $answer) {
+            $question = $answer->question;
+
+            $questionsCollection->push([
+                'id' => $question->id,
+                'title' => $question->title,
+                'url' => route('company.questions.show', [
+                    'company' => $question->company,
+                    'question' => $question,
+                ]),
+                'answer' => [
+                    'body' => $answer->body,
+                ],
+            ]);
+        }
+
+        return $questionsCollection;
     }
 }

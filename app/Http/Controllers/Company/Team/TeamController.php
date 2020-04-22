@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Team;
 use Inertia\Inertia;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -17,9 +18,10 @@ class TeamController extends Controller
     /**
      * Display the list of teams.
      *
+     * @param Request $request
      * @param int $companyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request, int $companyId)
     {
@@ -48,10 +50,11 @@ class TeamController extends Controller
     /**
      * Display the detail of a team.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $teamId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Request $request, int $companyId, int $teamId)
     {

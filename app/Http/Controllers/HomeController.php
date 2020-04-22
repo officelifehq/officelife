@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -11,7 +12,7 @@ class HomeController extends Controller
     /**
      * Display the user home page.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {

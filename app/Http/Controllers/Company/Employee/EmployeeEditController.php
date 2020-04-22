@@ -24,8 +24,8 @@ class EmployeeEditController extends Controller
      * Show the employee edit page.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
      * @return Response
      */
@@ -58,8 +58,8 @@ class EmployeeEditController extends Controller
      * Update the information about the employee's address.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
      * @return JsonResponse
      */
@@ -101,8 +101,8 @@ class EmployeeEditController extends Controller
      * Show the employee edit address page.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
      * @return Response
      */
@@ -145,8 +145,8 @@ class EmployeeEditController extends Controller
      * Update the information about the employee's address.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
      * @return JsonResponse
      */

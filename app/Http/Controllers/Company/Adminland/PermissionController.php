@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
@@ -14,10 +15,10 @@ class PermissionController extends Controller
      * Show the list of employees.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {
@@ -31,10 +32,10 @@ class PermissionController extends Controller
      * Change permission.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request, int $companyId, int $employeeId)
     {

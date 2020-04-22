@@ -55,7 +55,6 @@ class Step extends Model
 
     /**
      * Calculate the real number of days represented by the step.
-     *
      */
     public function calculateDays()
     {

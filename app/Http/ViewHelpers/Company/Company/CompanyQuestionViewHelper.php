@@ -10,14 +10,14 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use Illuminate\Support\Collection;
-use App\Http\Collections\AnswerCollection;
 
 class CompanyQuestionViewHelper
 {
     /**
      * Array containing all the information about the questions.
      *
-     * @param  Company         $company
+     * @param Company $company
+     *
      * @return Collection|null
      */
     public static function questions(Company $company): ?Collection
@@ -57,7 +57,10 @@ class CompanyQuestionViewHelper
      * Detail of a question, along with all the answers and the answer of the
      * employee passed in parameter.
      *
-     * @param  mixed      $answers
+     * @param Question $question
+     * @param mixed $answers
+     * @param Employee $employee
+     *
      * @return array|null
      */
     public static function question(Question $question, $answers, Employee $employee): ?array
@@ -67,36 +70,6 @@ class CompanyQuestionViewHelper
         // building the sentence `This question was asked from Jan 20, 2020 to Mar 21, 2020`
         $date = CompanyQuestionViewHelper::getInformationAboutActivationDate($question);
 
-        $array = [
-            'id' => $question->id,
-            'title' => $question->title,
-            'number_of_answers' => $answers->count(),
-            'answers' => AnswerCollection::prepare($answers),
-            'employee_has_answered' => $detailOfAnswer ? true : false,
-            'answer_by_employee' => $detailOfAnswer,
-            'date' => $date,
-            'url' => route('company.questions.show', [
-                'company' => $employee->company,
-                'question' => $question,
-            ]),
-        ];
-
-        return $array;
-    }
-
-    /**
-     * Detail of a question, along with all the answers only written by
-     * employees in a team.
-     *
-     * @param  mixed      $answers
-     * @return array|null
-     */
-    public static function teams(Question $question, $answers, Employee $employee): ?array
-    {
-        $detailOfAnswer = QuestionHelper::getAnswer($question, $employee);
-
-        $date = CompanyQuestionViewHelper::getInformationAboutActivationDate($question);
-
         // preparing the array of answers
         $answerCollection = collect([]);
         foreach ($answers as $answer) {
@@ -104,8 +77,8 @@ class CompanyQuestionViewHelper
                 'id' => $answer->answer_id,
                 'body' => $answer->body,
                 'employee' => [
-                    'name' => $answer->name,
-                    'avatar' => $answer->avatar,
+                    'name' => $answer->employee->name,
+                    'avatar' => $answer->employee->avatar,
                 ],
             ]);
         }
@@ -127,6 +100,56 @@ class CompanyQuestionViewHelper
         return $array;
     }
 
+    /**
+     * Detail of a question, along with all the answers only written by
+     * employees in a team.
+     *
+     * @param Question $question
+     * @param mixed $answers
+     * @param Employee $employee
+     *
+     * @return array|null
+     */
+    public static function teams(Question $question, $answers, Employee $employee): ?array
+    {
+        $answerByEmployee = QuestionHelper::getAnswer($question, $employee);
+
+        $date = CompanyQuestionViewHelper::getInformationAboutActivationDate($question);
+
+        // preparing the array of answers
+        $answerCollection = collect([]);
+        foreach ($answers as $answer) {
+            $answerCollection->push([
+                'id' => $answer->answer_id,
+                'body' => $answer->body,
+                'employee' => [
+                    'name' => $answer->name,
+                    'avatar' => $answer->avatar,
+                ],
+            ]);
+        }
+
+        $array = [
+            'id' => $question->id,
+            'title' => $question->title,
+            'number_of_answers' => $answers->count(),
+            'answers' => $answerCollection,
+            'employee_has_answered' => $answerByEmployee ? true : false,
+            'answer_by_employee' => $answerByEmployee,
+            'date' => $date,
+            'url' => route('company.questions.show', [
+                'company' => $employee->company,
+                'question' => $question,
+            ]),
+        ];
+
+        return $array;
+    }
+
+    /**
+     * @param Question $question
+     * @return string|null
+     */
     private static function getInformationAboutActivationDate(Question $question): ?string
     {
         // building the sentence `This question was asked from Jan 20, 2020 to Mar 21, 2020`

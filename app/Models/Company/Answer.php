@@ -49,26 +49,4 @@ class Answer extends Model
     {
         return $this->belongsTo(Employee::class);
     }
-
-    /**
-     * Transform the object to an array representing this object.
-     *
-     * @return array
-     */
-    public function toObject(): array
-    {
-        return [
-            'id' => $this->id,
-            'question' => [
-                'id' => $this->question_id,
-            ],
-            'employee' => [
-                'id' => $this->employee->id,
-                'name' => $this->employee->name,
-                'avatar' => $this->employee->avatar,
-            ],
-            'body' => $this->body,
-            'created_at' => $this->created_at,
-        ];
-    }
 }

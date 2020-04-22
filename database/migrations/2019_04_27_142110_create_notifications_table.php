@@ -8,7 +8,6 @@ class CreateNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {
