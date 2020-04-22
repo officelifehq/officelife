@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -19,7 +20,7 @@ class AdminQuestionController extends Controller
     /**
      * Show the list of company news.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -38,9 +39,9 @@ class AdminQuestionController extends Controller
      * Create the question.
      *
      * @param Request $request
-     * @param int     $companyId
+     * @param int $companyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request, int $companyId)
     {
@@ -65,10 +66,10 @@ class AdminQuestionController extends Controller
      * Update the question.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $questionId
+     * @param int $companyId
+     * @param int $questionId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, int $companyId, int $questionId)
     {
@@ -93,10 +94,10 @@ class AdminQuestionController extends Controller
      * Delete the question.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $questionId
+     * @param int $companyId
+     * @param int $questionId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Request $request, int $companyId, int $questionId)
     {
@@ -119,10 +120,10 @@ class AdminQuestionController extends Controller
      * Activate the question.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $questionId
+     * @param int $companyId
+     * @param int $questionId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function activate(Request $request, int $companyId, int $questionId)
     {
@@ -149,10 +150,10 @@ class AdminQuestionController extends Controller
      * Deactivate the question.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $questionId
+     * @param int $companyId
+     * @param int $questionId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function deactivate(Request $request, int $companyId, int $questionId)
     {

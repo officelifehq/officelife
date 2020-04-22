@@ -163,7 +163,6 @@ class CreateTimeOff extends BaseService
      * @param Employee               $employee
      * @param EmployeePlannedHoliday $plannedHoliday
      * @param array                  $data
-     *
      */
     private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday, array $data)
     {

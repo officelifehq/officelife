@@ -23,7 +23,6 @@ class ChangePermission extends Command
 
     /**
      * Create a new command instance.
-     *
      */
     public function __construct()
     {
@@ -32,8 +31,6 @@ class ChangePermission extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
     public function handle()
     {

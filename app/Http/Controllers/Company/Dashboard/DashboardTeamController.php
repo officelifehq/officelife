@@ -22,9 +22,9 @@ class DashboardTeamController extends Controller
      * Displays the Team page on the dashboard.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
-     * @param mixed   $requestedDate
+     * @param int $companyId
+     * @param int $teamId
+     * @param mixed $requestedDate
      *
      * @return Response
      */
@@ -134,9 +134,9 @@ class DashboardTeamController extends Controller
      * Displays the details of the worklogs for a given date.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
-     * @param mixed   $requestedDate
+     * @param int $companyId
+     * @param int $teamId
+     * @param mixed $requestedDate
      *
      * @return \Illuminate\Http\Response
      */

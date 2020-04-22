@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class AdminPositionController extends Controller
     /**
      * Show the list of positions.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -35,11 +36,11 @@ class AdminPositionController extends Controller
      * Create the position.
      *
      * @param Request $request
-     * @param int     $companyId
+     * @param int $companyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function store(Request $request, $companyId)
+    public function store(Request $request, int $companyId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -61,12 +62,12 @@ class AdminPositionController extends Controller
      * Update the position.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $positionId
+     * @param int $companyId
+     * @param int $positionId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function update(Request $request, $companyId, $positionId)
+    public function update(Request $request, int $companyId, int $positionId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -88,12 +89,12 @@ class AdminPositionController extends Controller
      * Delete the position.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $positionId
+     * @param int $companyId
+     * @param int $positionId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function destroy(Request $request, $companyId, $positionId)
+    public function destroy(Request $request, int $companyId, int $positionId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

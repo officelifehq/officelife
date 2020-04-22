@@ -109,7 +109,7 @@ class User extends Authenticatable
      *
      * @return Employee|null
      */
-    public function getEmployeeObjectForCompany(Company $company)
+    public function getEmployeeObjectForCompany(Company $company): ?Employee
     {
         $employee = Employee::where('user_id', $this->id)
             ->where('company_id', $company->id)
@@ -125,7 +125,7 @@ class User extends Authenticatable
      * company.
      *
      * @param Company $company
-     * @param int     $numberOfNotificationsToFetch
+     * @param int $numberOfNotificationsToFetch
      *
      * @return mixed
      */

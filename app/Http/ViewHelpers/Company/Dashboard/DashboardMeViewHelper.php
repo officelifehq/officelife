@@ -10,7 +10,7 @@ class DashboardMeViewHelper
     /**
      * Array containing all the information about the current active question.
      *
-     * @param  Employee   $employee
+     * @param Employee $employee
      * @return array|null
      */
     public static function question(Employee $employee): ?array

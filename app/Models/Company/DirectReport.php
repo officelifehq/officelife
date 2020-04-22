@@ -21,6 +21,8 @@ class DirectReport extends Model
 
     /**
      * The manager that belong to the direct report.
+     *
+     * @return HasOne
      */
     public function manager()
     {
@@ -29,6 +31,8 @@ class DirectReport extends Model
 
     /**
      * The direct reports that belong to the direct report.
+     *
+     * @return HasOne
      */
     public function directReport()
     {

@@ -75,7 +75,6 @@ class InviteEmployeeToBecomeUser extends BaseService
      * Send the email.
      *
      * @param Employee $employee
-     *
      */
     private function inviteEmployee(Employee $employee): void
     {

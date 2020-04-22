@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Models\Company\CompanyNews;
@@ -19,7 +20,7 @@ class AdminCompanyNewsController extends Controller
     /**
      * Show the list of company news.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -37,7 +38,7 @@ class AdminCompanyNewsController extends Controller
     /**
      * Show the Create news view.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -50,9 +51,9 @@ class AdminCompanyNewsController extends Controller
      * Create the company news.
      *
      * @param Request $request
-     * @param int     $companyId
+     * @param int $companyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request, $companyId)
     {
@@ -77,10 +78,10 @@ class AdminCompanyNewsController extends Controller
      * Show the company news edit page.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $newsId
+     * @param int $companyId
+     * @param int $newsId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Request $request, int $companyId, int $newsId)
     {
@@ -101,10 +102,10 @@ class AdminCompanyNewsController extends Controller
      * Update the company news.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $newsId
+     * @param int $companyId
+     * @param int $newsId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $companyId, $newsId)
     {
@@ -130,10 +131,10 @@ class AdminCompanyNewsController extends Controller
      * Delete the company news.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $companyNewsId
+     * @param int $companyId
+     * @param int $companyNewsId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Request $request, $companyId, $companyNewsId)
     {

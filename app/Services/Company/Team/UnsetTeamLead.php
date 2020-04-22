@@ -62,7 +62,6 @@ class UnSetTeamLead extends BaseService
      *
      * @param Employee $employee
      * @param Team     $team
-     *
      */
     private function addNotification(Employee $employee, Team $team): void
     {
@@ -81,7 +80,6 @@ class UnSetTeamLead extends BaseService
      * @param array    $data
      * @param Employee $oldTeamLeader
      * @param Team     $team
-     *
      */
     private function log(array $data, Employee $oldTeamLeader, Team $team): void
     {

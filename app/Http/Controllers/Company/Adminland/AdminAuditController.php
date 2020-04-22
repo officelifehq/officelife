@@ -15,7 +15,8 @@ class AdminAuditController extends Controller
     /**
      * Show the audit log.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {

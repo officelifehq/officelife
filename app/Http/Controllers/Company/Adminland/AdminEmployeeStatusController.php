@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class AdminEmployeeStatusController extends Controller
     /**
      * Show the list of employee statuses.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -36,9 +37,9 @@ class AdminEmployeeStatusController extends Controller
      * Create the employee status.
      *
      * @param Request $request
-     * @param int     $companyId
+     * @param int $companyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request, $companyId)
     {
@@ -61,10 +62,10 @@ class AdminEmployeeStatusController extends Controller
      * Update the employee status.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeStatusId
+     * @param int $companyId
+     * @param int $employeeStatusId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $companyId, $employeeStatusId)
     {
@@ -88,10 +89,10 @@ class AdminEmployeeStatusController extends Controller
      * Delete the employee status.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeStatusId
+     * @param int $companyId
+     * @param int $employeeStatusId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Request $request, $companyId, $employeeStatusId)
     {

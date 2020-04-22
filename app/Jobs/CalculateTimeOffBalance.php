@@ -16,11 +16,15 @@ class CalculateTimeOffBalance implements ShouldQueue
 
     /**
      * The date this event should be registered.
+     *
+     * @var string
      */
-    public string$date;
+    public string $date;
 
     /**
      * The employee to run this calulation against.
+     *
+     * @var Employee
      */
     public Employee $employee;
 
@@ -29,7 +33,6 @@ class CalculateTimeOffBalance implements ShouldQueue
      *
      * @param Employee $employee
      * @param string   $date
-     *
      */
     public function __construct(Employee $employee, string $date)
     {
@@ -39,7 +42,6 @@ class CalculateTimeOffBalance implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      */
     public function handle()
     {

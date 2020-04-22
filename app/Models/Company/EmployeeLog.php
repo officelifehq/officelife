@@ -92,7 +92,6 @@ class EmployeeLog extends Model
     /**
      * Get the JSON object.
      *
-     *
      * @param mixed $value
      *
      * @return array
@@ -105,7 +104,6 @@ class EmployeeLog extends Model
     /**
      * Get the date of the employee log.
      *
-     *
      * @param mixed $value
      *
      * @return string
@@ -117,7 +115,6 @@ class EmployeeLog extends Model
 
     /**
      * Get the content of the employee log, if defined.
-     *
      *
      * @param mixed $value
      *

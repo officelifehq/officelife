@@ -44,7 +44,6 @@ class GenerateDummyData extends BaseService
      * Generate dummy data for the given company.
      *
      * @param array $data
-     *
      */
     public function execute(array $data): void
     {
@@ -91,7 +90,6 @@ class GenerateDummyData extends BaseService
      * Create five users without a team.
      *
      * @param array $data
-     *
      */
     private function createFiveUsersWithoutTeam(array $data)
     {
@@ -133,8 +131,7 @@ class GenerateDummyData extends BaseService
      * Set birthdate.
      *
      * @param Employee $employee
-     * @param array    $data
-     *
+     * @param array $data
      */
     private function addBirthdate(Employee $employee, array $data): void
     {
@@ -158,7 +155,6 @@ class GenerateDummyData extends BaseService
      * Create 3 teams with a bunch of employees inside.
      *
      * @param array $data
-     *
      */
     private function createThreeTeamsWithEmployees(array $data)
     {
@@ -187,7 +183,7 @@ class GenerateDummyData extends BaseService
      *
      * @param array  $data
      * @param string $teamName
-     * @param int    $numberOfEmployees
+     * @param int $numberOfEmployees
      *
      * @return Team
      */
@@ -257,7 +253,6 @@ class GenerateDummyData extends BaseService
      * employee because the service doesn't let people change the created_at
      * date (on purpose). Hence the only option is to record worklogs in the
      * database directly.
-     *
      */
     private function createWorklogEntries()
     {
@@ -296,7 +291,6 @@ class GenerateDummyData extends BaseService
      * employee because the service doesn't let people change the created_at
      * date (on purpose). Hence the only option is to record morales in the
      * database directly.
-     *
      */
     private function createMoraleEntries()
     {
@@ -324,7 +318,6 @@ class GenerateDummyData extends BaseService
 
     /**
      * Create fake Work from Home entries for all employees.
-     *
      */
     private function createWorkFromHomeEntries()
     {
@@ -355,7 +348,6 @@ class GenerateDummyData extends BaseService
      * Create fake company entries for all employees.
      *
      * @param array $data
-     *
      */
     private function createCompanyNewsEntries(array $data)
     {
@@ -409,7 +401,7 @@ class GenerateDummyData extends BaseService
     /**
      * Create fake answers for all employees.
      *
-     * @param array    $data
+     * @param array $data
      * @param Question $question
      */
     private function createAnswers(array $data, Question $question)
@@ -437,8 +429,7 @@ class GenerateDummyData extends BaseService
      * Create a bunch of team news for the given team.
      *
      * @param array $data
-     * @param Team  $team
-     *
+     * @param Team $team
      */
     private function createTeamNewsEntry(array $data, Team $team)
     {

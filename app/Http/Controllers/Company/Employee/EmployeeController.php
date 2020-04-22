@@ -24,6 +24,7 @@ class EmployeeController extends Controller
     /**
      * Display the list of employees.
      *
+     * @param Request $request
      * @param int $companyId
      *
      * @return Response
@@ -61,8 +62,8 @@ class EmployeeController extends Controller
      * Display the detail of an employee.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
      * @return Response
      */
@@ -121,8 +122,8 @@ class EmployeeController extends Controller
      * Assign a manager to the employee.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
      * @return Response
      */
@@ -148,8 +149,8 @@ class EmployeeController extends Controller
      * Assign a direct report to the employee.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
      * @return Response
      */
@@ -177,8 +178,8 @@ class EmployeeController extends Controller
      * Unassign a manager.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $employeeId
+     * @param int $companyId
+     * @param int $employeeId
      *
      * @return Response
      */
@@ -204,8 +205,8 @@ class EmployeeController extends Controller
      * Unassign a direct report.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $managerId
+     * @param int $companyId
+     * @param int $managerId
      *
      * @return Response
      */

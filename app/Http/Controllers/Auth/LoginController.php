@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 
@@ -16,7 +18,7 @@ class LoginController extends Controller
     /**
      * Shows the login page.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -30,7 +32,7 @@ class LoginController extends Controller
     /**
      * Authenticate the user.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -51,7 +53,7 @@ class LoginController extends Controller
     /**
      * Logs out the user.
      *
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function logout()
     {

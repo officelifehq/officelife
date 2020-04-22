@@ -9,7 +9,6 @@ class CreatePlacesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {
