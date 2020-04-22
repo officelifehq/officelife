@@ -125,7 +125,7 @@ class User extends Authenticatable
      * company.
      *
      * @param Company $company
-     * @param int     $numberOfNotificationsToFetch
+     * @param int $numberOfNotificationsToFetch
      *
      * @return mixed
      */

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
@@ -14,10 +15,11 @@ class EmployeePositionController extends Controller
     /**
      * Assign a position to the given employee.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request, int $companyId, int $employeeId)
     {
@@ -45,10 +47,11 @@ class EmployeePositionController extends Controller
     /**
      * Remove the position for the given employee.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Request $request, int $companyId, int $employeeId)
     {

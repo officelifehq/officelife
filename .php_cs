@@ -24,7 +24,6 @@ return PhpCsFixer\Config::create()
         'no_whitespace_before_comma_in_array' => true,
         'trailing_comma_in_multiline_array' => true,
         'function_typehint_space' => true,
-        'phpdoc_align' => true,
         'phpdoc_order' => true,
         'phpdoc_no_empty_return' => true,
         'phpdoc_types_order' => [
@@ -32,5 +31,9 @@ return PhpCsFixer\Config::create()
             'sort_algorithm' => 'alpha',
         ],
         'phpdoc_to_comment' => true,
+        'phpdoc_annotation_without_dot' => true,
+        'phpdoc_summary' => true,
+        'phpdoc_trim' => true,
+        'phpdoc_single_line_var_spacing' => true,
     ])
     ->setFinder($finder);

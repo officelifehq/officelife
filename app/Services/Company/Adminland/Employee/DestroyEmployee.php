@@ -28,7 +28,6 @@ class DestroyEmployee extends BaseService
      * Delete an employee.
      *
      * @param array $data
-     *
      */
     public function execute(array $data): void
     {

@@ -89,7 +89,6 @@ class TeamLog extends Model
     /**
      * Get the JSON object.
      *
-     *
      * @param mixed $value
      *
      * @return array
@@ -102,7 +101,6 @@ class TeamLog extends Model
     /**
      * Get the date of the team log.
      *
-     *
      * @param mixed $value
      *
      * @return string
@@ -114,7 +112,6 @@ class TeamLog extends Model
 
     /**
      * Get the content of the team log, if defined.
-     *
      *
      * @param mixed $value
      *

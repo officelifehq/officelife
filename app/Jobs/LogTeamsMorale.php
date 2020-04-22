@@ -20,7 +20,6 @@ class LogTeamsMorale implements ShouldQueue
      * Create a new job instance.
      *
      * @param Carbon $date
-     *
      */
     public function __construct(Carbon $date)
     {
@@ -31,7 +30,6 @@ class LogTeamsMorale implements ShouldQueue
      * Log the morale of all teams by looking at the current day and all the
      * employees of those teams.
      * This job is meant to be executed every day at 11pm (UTC).
-     *
      */
     public function handle()
     {

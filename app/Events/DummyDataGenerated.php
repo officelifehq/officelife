@@ -16,7 +16,6 @@ class DummyDataGenerated
 
     /**
      * Create a new event instance.
-     *
      */
     public function __construct(Company $company)
     {

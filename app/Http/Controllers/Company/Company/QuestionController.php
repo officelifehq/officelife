@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Company\Company;
 use Inertia\Inertia;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\PaginatorHelper;
@@ -23,7 +22,7 @@ class QuestionController extends Controller
     /**
      * All the questions in the company, for public use.
      *
-     * @return Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -41,8 +40,8 @@ class QuestionController extends Controller
      * Get the detail of a given question.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $questionId
+     * @param int $companyId
+     * @param int $questionId
      *
      * @return JsonResponse
      */
@@ -74,10 +73,11 @@ class QuestionController extends Controller
     /**
      * Get the detail of a given question.
      *
-     * @param  Request      $request
-     * @param  int          $companyId
-     * @param  int          $questionId
-     * @param  int          $teamId
+     * @param  Request $request
+     * @param  int $companyId
+     * @param  int $questionId
+     * @param  int $teamId
+     *
      * @return JsonResponse
      */
     public function team(Request $request, int $companyId, int $questionId, int $teamId)

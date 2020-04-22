@@ -66,7 +66,6 @@ class Morale extends Model
     /**
      * Returns the emotion in a readable format.
      *
-     *
      * @param mixed $value
      *
      * @return string
@@ -78,7 +77,6 @@ class Morale extends Model
 
     /**
      * Returns the emotion in a readable format.
-     *
      *
      * @param mixed $value
      *

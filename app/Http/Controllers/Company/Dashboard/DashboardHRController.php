@@ -11,7 +11,7 @@ class DashboardHRController extends Controller
     /**
      * Company details.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
      */
     public function index(Request $request)
     {

@@ -47,7 +47,6 @@ class Handler extends ExceptionHandler
      * @throws \Throwable
      *
      * @return \Symfony\Component\HttpFoundation\Response
-     *
      */
     public function render($request, Throwable $exception)
     {

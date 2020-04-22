@@ -17,12 +17,13 @@ class TeamMembersController extends Controller
     /**
      * Search members that can be added to the team.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $teamId
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $companyId, $teamId)
+    public function index(Request $request, int $companyId, int $teamId)
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -51,13 +52,14 @@ class TeamMembersController extends Controller
     /**
      * Add the employee to the team.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $teamId
      * @param int $employeeId
      *
      * @return \Illuminate\Http\Response
      */
-    public function attach(Request $request, $companyId, $teamId, $employeeId)
+    public function attach(Request $request, int $companyId, int $teamId, int $employeeId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -76,13 +78,14 @@ class TeamMembersController extends Controller
     /**
      * Remove the employee from the team.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $teamId
      * @param int $employeeId
      *
      * @return \Illuminate\Http\Response
      */
-    public function detach(Request $request, $companyId, $teamId, $employeeId)
+    public function detach(Request $request, int $companyId, int $teamId, int $employeeId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

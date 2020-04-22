@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Adminland;
 use Inertia\Inertia;
 use App\Models\Company\Flow;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,7 @@ class AdminFlowController extends Controller
     /**
      * Show the list of positions.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -39,10 +40,10 @@ class AdminFlowController extends Controller
      * Display the detail of a flow.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $flowId
+     * @param int $companyId
+     * @param int $flowId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Request $request, int $companyId, int $flowId)
     {
@@ -64,7 +65,7 @@ class AdminFlowController extends Controller
     /**
      * Show the Create flow view.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
@@ -77,11 +78,11 @@ class AdminFlowController extends Controller
      * Save the flow.
      *
      * @param Request $request
-     * @param int     $companyId
+     * @param int $companyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function store(Request $request, $companyId)
+    public function store(Request $request, int $companyId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

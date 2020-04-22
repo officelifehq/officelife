@@ -28,7 +28,6 @@ class ProvisionDefaultAccountData extends BaseService
      * Populate the account with default data.
      *
      * @param array $data
-     *
      */
     public function execute(array $data): void
     {

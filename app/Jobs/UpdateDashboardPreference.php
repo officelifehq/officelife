@@ -23,6 +23,7 @@ class UpdateDashboardPreference implements ShouldQueue
     /**
      * Create a new job instance.
      *
+     * @var array $preference
      */
     public function __construct(array $preference)
     {
@@ -31,7 +32,6 @@ class UpdateDashboardPreference implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      */
     public function handle()
     {

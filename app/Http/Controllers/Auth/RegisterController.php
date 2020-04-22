@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 
@@ -17,7 +19,7 @@ class RegisterController extends Controller
     /**
      * Show the register page.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -31,7 +33,9 @@ class RegisterController extends Controller
     /**
      * Store the user.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     *
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {

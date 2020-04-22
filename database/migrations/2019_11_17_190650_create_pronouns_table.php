@@ -9,7 +9,6 @@ class CreatePronounsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {

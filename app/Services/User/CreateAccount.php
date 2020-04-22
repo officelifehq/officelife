@@ -91,7 +91,6 @@ class CreateAccount extends BaseService
      * Schedule a confirmation email to be sent.
      *
      * @param User $user
-     *
      */
     private function scheduleConfirmationEmail(User $user): void
     {

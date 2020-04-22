@@ -10,9 +10,9 @@ class MapHelper
      * Return the URL for a static image for the given place.
      *
      * @var Place $place
-     * @var int   $width
-     * @var int   $height
-     * @var int   $zoom
+     * @var int $width
+     * @var int $height
+     * @var int $zoom
      *
      * @return string|null
      */
