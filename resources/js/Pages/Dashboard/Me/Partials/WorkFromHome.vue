@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div class="cf mw7 center mb2 fw5">
+    <div class="cf mw7 center mb2 fw5 relative">
       🏡 {{ $t('dashboard.work_from_home_title') }}
+      <help :class="''" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">
@@ -29,11 +30,13 @@
 <script>
 import Checkbox from '@/Shared/Checkbox';
 import Errors from '@/Shared/Errors';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Checkbox,
-    Errors
+    Errors,
+    Help,
   },
 
   props: {
