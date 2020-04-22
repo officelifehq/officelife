@@ -14,32 +14,31 @@ use App\Services\Company\Adminland\Question\UpdateQuestion;
 use App\Services\Company\Adminland\Question\DestroyQuestion;
 use App\Services\Company\Adminland\Question\ActivateQuestion;
 use App\Services\Company\Adminland\Question\DeactivateQuestion;
+use App\Http\ViewHelpers\Company\Adminland\AdminHardwareViewHelper;
 
-class AdminQuestionController extends Controller
+class AdminHardwareController extends Controller
 {
     /**
-     * Show the list of questions.
+     * Show the list of hardware.
      *
-     * @return Response
+     * @return \Inertia\Response
      */
     public function index()
     {
         $company = InstanceHelper::getLoggedCompany();
-        $questions = $company->questions()->get();
+        $hardwareInformation = AdminHardwareViewHelper::hardware($company);
 
-        $questionsCollection = QuestionCollection::prepare($questions);
-
-        return Inertia::render('Adminland/Question/Index', [
+        return Inertia::render('Adminland/Hardware/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'questions' => $questionsCollection,
+            'hardware' => $hardwareInformation,
         ]);
     }
 
     /**
      * Create the question.
      *
-     * @param  Request $request
-     * @param  int $companyId
+     * @param Request $request
+     * @param int $companyId
      * @return Response
      */
     public function store(Request $request, int $companyId)
@@ -64,9 +63,9 @@ class AdminQuestionController extends Controller
     /**
      * Update the question.
      *
-     * @param  Request $request
-     * @param  int $companyId
-     * @param  int $questionId
+     * @param Request $request
+     * @param int     $companyId
+     * @param int     $questionId
      * @return Response
      */
     public function update(Request $request, int $companyId, int $questionId)
@@ -91,9 +90,9 @@ class AdminQuestionController extends Controller
     /**
      * Delete the question.
      *
-     * @param  Request $request
-     * @param  int $companyId
-     * @param  int $questionId
+     * @param Request $request
+     * @param int $companyId
+     * @param int $questionId
      * @return Response
      */
     public function destroy(Request $request, int $companyId, int $questionId)
@@ -117,8 +116,9 @@ class AdminQuestionController extends Controller
      * Activate the question.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
+     * @param int     $companyId
+     * @param int     $questionId
+     *
      * @return Response
      */
     public function activate(Request $request, int $companyId, int $questionId)
@@ -146,8 +146,9 @@ class AdminQuestionController extends Controller
      * Deactivate the question.
      *
      * @param Request $request
-     * @param int $companyId
-     * @param int $questionId
+     * @param int     $companyId
+     * @param int     $questionId
+     *
      * @return Response
      */
     public function deactivate(Request $request, int $companyId, int $questionId)

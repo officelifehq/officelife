@@ -415,6 +415,20 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'hardware_lent') {
+            $sentence = trans('account.log_hardware_lent', [
+                'hardware_name' => $log->object->{'hardware_name'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'hardware_regained') {
+            $sentence = trans('account.log_hardware_regained', [
+                'hardware_name' => $log->object->{'hardware_name'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 

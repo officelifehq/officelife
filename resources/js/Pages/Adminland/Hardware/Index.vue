@@ -222,7 +222,7 @@ export default {
   },
 
   props: {
-    questions: {
+    hardware: {
       type: Array,
       default: null,
     },
@@ -252,115 +252,6 @@ export default {
   },
 
   methods: {
-    showRenameModal(question) {
-      this.form.errors = [];
-      this.renameMode = true;
-      this.questionToRename = question;
-      this.form.title = question.title;
-      this.form.active = question.active;
-
-      this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`name${question.id}`][0].$refs[`name${question.id}`].focus();
-      });
-    },
-
-    showDeletionModal(question) {
-      this.form.errors = [];
-      this.deletionMode = true;
-      this.questionToDelete = question;
-    },
-
-    showAddModal() {
-      this.modal = !this.modal;
-      this.form.errors = [];
-
-      this.$nextTick(() => {
-        this.$refs['newQuestionModal'].$refs['input'].focus();
-      });
-    },
-
-    submit() {
-      this.loadingState = 'loading';
-
-      axios.post('/' + this.$page.auth.company.id + '/account/questions', this.form)
-        .then(response => {
-          flash(this.$t('account.question_creation_success'), 'success');
-
-          this.loadingState = null;
-          this.form.title = null;
-          this.modal = false;
-          this.questions.unshift(response.data.data);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
-
-    update(question) {
-      this.loadingState = 'loading';
-
-      axios.put('/' + this.$page.auth.company.id + '/account/questions/' + question.id, this.form)
-        .then(response => {
-          flash(this.$t('account.question_update_success'), 'success');
-
-          this.questionToRename = 0;
-          this.form.title = null;
-          this.form.active = false;
-          this.loadingState = null;
-
-          var id = this.questions.findIndex(x => x.id == question.id);
-          this.$set(this.questions, id, response.data.data);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
-
-    destroy(question) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/questions/' + question.id)
-        .then(response => {
-          flash(this.$t('account.question_destroy_success'), 'success');
-
-          this.questionToDelete = 0;
-          var id = this.questions.findIndex(x => x.id == question.id);
-          this.questions.splice(id, 1);
-        })
-        .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
-
-    activate(question) {
-      axios.post('/' + this.$page.auth.company.id + '/account/questions/' + question.id + '/activate')
-        .then(response => {
-          flash(this.$t('account.question_activate_success'), 'success');
-
-          this.questions = response.data.data;
-          this.questionToActivate = 0;
-        })
-        .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
-
-    deactivate(question) {
-      axios.post('/' + this.$page.auth.company.id + '/account/questions/' + question.id + '/deactivate')
-        .then(response => {
-          flash(this.$t('account.question_deactivate_success'), 'success');
-
-          this.questions = response.data.data;
-          this.questionToDeactivate = 0;
-        })
-        .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    }
   }
 };
 

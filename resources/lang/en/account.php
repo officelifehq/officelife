@@ -15,6 +15,7 @@ return [
     'home_remove_fake_data' => 'Remove fake data',
     'home_manage_pto' => 'Manage paid time off policies',
     'home_manage_questions' => 'Manage questions',
+    'home_manage_hardware' => 'Manage hardware',
 
     'employees_title' => 'All the employees in {company}',
     'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
@@ -176,6 +177,8 @@ return [
     'log_answer_destroyed' => 'Deleted the answer to the question called :title.',
     'log_hardware_created' => 'Added a hardware called :name.',
     'log_hardware_updated' => 'Updated the hardware name from :old_name to :name.',
+    'log_hardware_lent' => 'Lent the hardware named :hardware_name to :employee_name.',
+    'log_hardware_regained' => 'Took back the hardware named :hardware_name from :employee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
