@@ -188,6 +188,17 @@ nav {
 
     <slot></slot>
 
+    <div v-if="$page.auth.user.show_help" class="tc mv3">
+      <span class="pointer" data-cy="layout-hide-help" @click="toggleHelp()">
+        {{ $t('app.hide_help') }}
+      </span>
+    </div>
+    <div v-else class="tc mv3">
+      <span class="pointer" data-cy="layout-show-help" @click="toggleHelp()">
+        {{ $t('app.show_help') }}
+      </span>
+    </div>
+
     <toaster />
   </div>
 </template>
@@ -287,6 +298,17 @@ export default {
         .then(response => {
           this.dataReturnedFromSearch = true;
           this.teams = response.data.data;
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    toggleHelp() {
+      axios.post('/help')
+        .then(response => {
+          this.$page.auth.user.show_help = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;

@@ -61,11 +61,14 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Mapbox username
+    | Mapping of the Help sections
     |--------------------------------------------------------------------------
     |
-    | Necessary for the Mapbox API to work.
+    | These are the links that are used in the UI to point to the right help
+    | section.
     |
     */
-    'mapbox_username' => env('MAPBOX_USERNAME', null),
+    'help_links' => [
+        'work_from_home' => 'employees#work-from-home',
+    ],
 ];

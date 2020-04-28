@@ -2,7 +2,8 @@
   <div>
     <div class="cf mw7 center mb2 fw5 relative">
       🏡 {{ $t('dashboard.work_from_home_title') }}
-      <help :class="''" />
+
+      <help :url="$page.help_links.work_from_home" :datacy="'help-icon-work-from-home'" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">
@@ -60,6 +61,7 @@ export default {
   created: function() {
     this.updatedEmployee = this.employee;
     this.form.content = this.updatedEmployee.has_worked_from_home_today;
+    console.log(this.$page.help);
   },
 
   methods: {

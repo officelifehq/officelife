@@ -21,6 +21,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('search/employees', 'HeaderSearchController@employees');
     Route::post('search/teams', 'HeaderSearchController@teams');
 
+    Route::post('help', 'HelpController@toggle');
+
     Route::resource('company', 'Company\\CompanyController')->only(['create', 'store']);
 
     // only available if user is in the right account
