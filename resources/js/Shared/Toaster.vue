@@ -5,6 +5,7 @@
     right: 30px;
     transform: translate(100%);
     transition: all 0.8s ease-in-out;
+
     &.is-visible {
         transform: translate(0);
         opacity: 1;
@@ -41,7 +42,7 @@ export default {
     return {
       isOpen: false,
       isVisibleClass: 'is-visible',
-      closeAfter: 10000,// 10 seconds, you can change that
+      closeAfter: 10000, // 10 seconds, you can change that
       levelClass: null,
       messageText: null
     };

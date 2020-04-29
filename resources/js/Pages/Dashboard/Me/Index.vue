@@ -52,6 +52,7 @@
             <li>donner le ratio homme/femme par poste dans l'onglet Positions</li>
             <li>rechercher par "position"</li>
             <li>gestion du materiel informatique</li>
+            <li>Onboarding questionaire</li>
           </ul>
         </div>
       </div>

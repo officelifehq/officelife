@@ -28,6 +28,8 @@ class User extends Authenticatable
         'middle_name',
         'nickname',
         'uuid',
+        'show_help',
+        'verification_link',
     ];
 
     /**
@@ -58,6 +60,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
+        'show_help' => 'boolean',
     ];
 
     /**

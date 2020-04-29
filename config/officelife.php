@@ -61,11 +61,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Mapbox username
+    | URL of the documentation center
     |--------------------------------------------------------------------------
     |
-    | Necessary for the Mapbox API to work.
+    | This platform hosts the help documentation.
     |
     */
-    'mapbox_username' => env('MAPBOX_USERNAME', null),
+    'help_center_url' => 'https://docs.officelife.io/',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Mapping of the Help sections
+    |--------------------------------------------------------------------------
+    |
+    | These are the links that are used in the UI to point to the right help
+    | section.
+    |
+    */
+    'help_links' => [
+        'work_from_home' => 'employees#work-from-home',
+    ],
 ];

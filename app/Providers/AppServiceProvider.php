@@ -42,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
                         'last_name' => Auth::user()->last_name,
                         'email' => Auth::user()->email,
                         'name' => Auth::user()->name,
+                        'show_help' => Auth::user()->show_help,
                     ] : null,
                     'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? InstanceHelper::getLoggedCompany(): null,
                     'employee' => Auth::user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? [
@@ -55,6 +56,9 @@ class AppServiceProvider extends ServiceProvider
                         ],
                     ]: null,
                 ];
+            },
+            'help_links' => function () {
+                return config('officelife.help_links');
             },
             'flash' => function () {
                 return [

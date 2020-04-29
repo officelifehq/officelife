@@ -5,7 +5,6 @@ namespace App\Http\ViewHelpers\Company\Employee;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use Carbon\CarbonImmutable;
-use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
 class EmployeeWorklogViewHelper

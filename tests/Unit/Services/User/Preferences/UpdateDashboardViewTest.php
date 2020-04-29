@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\Company;
+namespace Tests\Unit\Services\User\Preferences;
 
 use Tests\TestCase;
 use App\Models\Company\Company;
