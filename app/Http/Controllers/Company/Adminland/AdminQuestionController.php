@@ -38,8 +38,9 @@ class AdminQuestionController extends Controller
     /**
      * Create the question.
      *
-     * @param  Request $request
-     * @param  int $companyId
+     * @param Request $request
+     * @param int $companyId
+     *
      * @return Response
      */
     public function store(Request $request, int $companyId)
@@ -64,9 +65,10 @@ class AdminQuestionController extends Controller
     /**
      * Update the question.
      *
-     * @param  Request $request
-     * @param  int $companyId
-     * @param  int $questionId
+     * @param Request $request
+     * @param int $companyId
+     * @param int $questionId
+     *
      * @return Response
      */
     public function update(Request $request, int $companyId, int $questionId)
@@ -91,9 +93,10 @@ class AdminQuestionController extends Controller
     /**
      * Delete the question.
      *
-     * @param  Request $request
-     * @param  int $companyId
-     * @param  int $questionId
+     * @param Request $request
+     * @param int $companyId
+     * @param int $questionId
+     *
      * @return Response
      */
     public function destroy(Request $request, int $companyId, int $questionId)
@@ -119,6 +122,7 @@ class AdminQuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $questionId
+     *
      * @return Response
      */
     public function activate(Request $request, int $companyId, int $questionId)
@@ -148,6 +152,7 @@ class AdminQuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $questionId
+     *
      * @return Response
      */
     public function deactivate(Request $request, int $companyId, int $questionId)

@@ -20,7 +20,6 @@ class LogMissedWorklogEntry implements ShouldQueue
      * Create a new job instance.
      *
      * @param Carbon $date
-     *
      */
     public function __construct(Carbon $date)
     {
@@ -31,7 +30,6 @@ class LogMissedWorklogEntry implements ShouldQueue
      * Find all the employees that haven't logged a worklog at the end of the
      * day, and increase the counter of missed worklog days.
      * This job is meant to be executed every day at 11pm (UTC).
-     *
      */
     public function handle()
     {

@@ -8,7 +8,6 @@ class CreateTasksTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {

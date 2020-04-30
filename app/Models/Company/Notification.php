@@ -44,7 +44,6 @@ class Notification extends Model
     /**
      * Get the JSON object.
      *
-     *
      * @param mixed $value
      *
      * @return array
@@ -56,7 +55,6 @@ class Notification extends Model
 
     /**
      * Get the content of the notification, if defined.
-     *
      *
      * @param mixed $value
      *

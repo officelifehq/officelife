@@ -27,7 +27,7 @@ class HolidayHelper
      * today til the end of the year.
      *
      * @param CompanyPTOPolicy $ptoPolicy
-     * @param Employee         $employee
+     * @param Employee $employee
      *
      * @return float
      */
@@ -51,7 +51,7 @@ class HolidayHelper
      * Return the number of holidays an employee earns each day.
      *
      * @param CompanyPTOPolicy $ptoPolicy
-     * @param Employee         $employee
+     * @param Employee $employee
      *
      * @return float
      */
@@ -66,7 +66,7 @@ class HolidayHelper
      * Check if the date is considered off in the company.
      *
      * @param CompanyPTOPolicy $ptoPolicy
-     * @param Carbon           $date
+     * @param Carbon $date
      *
      * @return bool
      */

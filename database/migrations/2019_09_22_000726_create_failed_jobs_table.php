@@ -8,7 +8,6 @@ class CreateFailedJobsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {
@@ -24,7 +23,6 @@ class CreateFailedJobsTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
      */
     public function down()
     {

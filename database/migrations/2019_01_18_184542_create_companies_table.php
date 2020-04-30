@@ -8,7 +8,6 @@ class CreateCompaniesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {

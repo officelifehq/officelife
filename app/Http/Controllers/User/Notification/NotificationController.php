@@ -14,6 +14,7 @@ class NotificationController extends Controller
     /**
      * Display the list of notifications.
      *
+     * @param Request $request
      * @param int $companyId
      *
      * @return \Illuminate\Http\Response

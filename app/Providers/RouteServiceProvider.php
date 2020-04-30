@@ -18,7 +18,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define your route model bindings, pattern filters, etc.
-     *
      */
     public function boot()
     {
@@ -29,7 +28,6 @@ class RouteServiceProvider extends ServiceProvider
 
     /**
      * Define the routes for the application.
-     *
      */
     public function map()
     {
@@ -44,7 +42,6 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "web" routes for the application.
      *
      * These routes all receive session state, CSRF protection, etc.
-     *
      */
     protected function mapWebRoutes()
     {
@@ -57,7 +54,6 @@ class RouteServiceProvider extends ServiceProvider
      * Define the "api" routes for the application.
      *
      * These routes are typically stateless.
-     *
      */
     protected function mapApiRoutes()
     {

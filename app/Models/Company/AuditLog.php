@@ -68,10 +68,9 @@ class AuditLog extends Model
     /**
      * Get the JSON object.
      *
-     *
      * @param mixed $value
      *
-     * @return array
+     * @return mixed
      */
     public function getObjectAttribute($value)
     {
@@ -80,7 +79,6 @@ class AuditLog extends Model
 
     /**
      * Get the date of the audit log.
-     *
      *
      * @param mixed $value
      *
@@ -93,7 +91,6 @@ class AuditLog extends Model
 
     /**
      * Get the content of the audit log, if defined.
-     *
      *
      * @param mixed $value
      *

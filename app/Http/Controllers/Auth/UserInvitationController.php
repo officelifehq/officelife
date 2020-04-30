@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\User\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
@@ -20,7 +21,7 @@ class UserInvitationController extends Controller
      * @param Request $request
      * @param string  $invitationLink
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function check(Request $request, string $invitationLink)
     {
@@ -56,9 +57,7 @@ class UserInvitationController extends Controller
      * We use the same route to check both actions.
      *
      * @param Request $request
-     * @param string  $invitationLink
-     *
-     * @return \Illuminate\Http\Response
+     * @param string $invitationLink
      */
     public function join(Request $request, string $invitationLink)
     {

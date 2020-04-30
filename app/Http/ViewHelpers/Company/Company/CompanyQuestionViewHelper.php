@@ -16,7 +16,8 @@ class CompanyQuestionViewHelper
     /**
      * Array containing all the information about the questions.
      *
-     * @param  Company         $company
+     * @param Company $company
+     *
      * @return Collection|null
      */
     public static function questions(Company $company): ?Collection
@@ -56,7 +57,10 @@ class CompanyQuestionViewHelper
      * Detail of a question, along with all the answers and the answer of the
      * employee passed in parameter.
      *
-     * @param  mixed      $answers
+     * @param Question $question
+     * @param mixed $answers
+     * @param Employee $employee
+     *
      * @return array|null
      */
     public static function question(Question $question, $answers, Employee $employee): ?array
@@ -100,7 +104,10 @@ class CompanyQuestionViewHelper
      * Detail of a question, along with all the answers only written by
      * employees in a team.
      *
-     * @param  mixed      $answers
+     * @param Question $question
+     * @param mixed $answers
+     * @param Employee $employee
+     *
      * @return array|null
      */
     public static function teams(Question $question, $answers, Employee $employee): ?array
@@ -139,6 +146,10 @@ class CompanyQuestionViewHelper
         return $array;
     }
 
+    /**
+     * @param Question $question
+     * @return string|null
+     */
     private static function getInformationAboutActivationDate(Question $question): ?string
     {
         // building the sentence `This question was asked from Jan 20, 2020 to Mar 21, 2020`

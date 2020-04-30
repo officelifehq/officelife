@@ -97,6 +97,11 @@ class DashboardTeamViewHelper
      * - less than 20% of team members have filled the worklogs: red
      * - 20% -> 80%: yellow
      * - > 80%: green
+     *
+     * @param Team $team
+     * @param Carbon $date
+     *
+     * @return array
      */
     public static function worklogs(Team $team, Carbon $date): array
     {

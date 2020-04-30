@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Resources\Company\Team\Team as TeamResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
 
 class HeaderSearchController extends Controller
@@ -14,7 +15,8 @@ class HeaderSearchController extends Controller
     /**
      * Perform search of an employee from the header.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return AnonymousResourceCollection
      */
     public function employees(Request $request)
     {
@@ -27,7 +29,8 @@ class HeaderSearchController extends Controller
     /**
      * Perform search of an team from the header.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return AnonymousResourceCollection
      */
     public function teams(Request $request)
     {

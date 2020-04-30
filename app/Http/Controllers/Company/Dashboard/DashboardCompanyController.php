@@ -15,7 +15,7 @@ class DashboardCompanyController extends Controller
     /**
      * Company details.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {

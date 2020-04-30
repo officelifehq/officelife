@@ -10,7 +10,6 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Team\SetTeamLead;
 use App\Services\Company\Team\UnSetTeamLead;
-use App\Exceptions\NotEnoughPermissionException;
 
 class TeamLeadController extends Controller
 {
@@ -18,8 +17,8 @@ class TeamLeadController extends Controller
      * Search all possible team leads for this team.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
+     * @param int $companyId
+     * @param int $teamId
      *
      * @return JsonResponse
      */
@@ -49,15 +48,12 @@ class TeamLeadController extends Controller
      * Update the information about the team's lead.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
-     *
-     * @throws NotEnoughPermissionException
+     * @param int $companyId
+     * @param int $teamId
      *
      * @return JsonResponse
-     *
      */
-    public function store(Request $request, $companyId, $teamId)
+    public function store(Request $request, int $companyId, int $teamId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -79,16 +75,13 @@ class TeamLeadController extends Controller
      * Remove the current team lead.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
-     * @param int     $teamLeadId
-     *
-     * @throws NotEnoughPermissionException
+     * @param int $companyId
+     * @param int $teamId
+     * @param int $teamLeadId
      *
      * @return JsonResponse
-     *
      */
-    public function destroy(Request $request, $companyId, $teamId, $teamLeadId)
+    public function destroy(Request $request, int $companyId, int $teamId, int $teamLeadId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

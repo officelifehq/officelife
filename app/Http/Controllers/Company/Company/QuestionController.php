@@ -40,8 +40,8 @@ class QuestionController extends Controller
      * Get the detail of a given question.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $questionId
+     * @param int $companyId
+     * @param int $questionId
      *
      * @return JsonResponse
      */
@@ -73,10 +73,11 @@ class QuestionController extends Controller
     /**
      * Get the detail of a given question.
      *
-     * @param  Request      $request
-     * @param  int          $companyId
-     * @param  int          $questionId
-     * @param  int          $teamId
+     * @param  Request $request
+     * @param  int $companyId
+     * @param  int $questionId
+     * @param  int $teamId
+     *
      * @return JsonResponse
      */
     public function team(Request $request, int $companyId, int $questionId, int $teamId)

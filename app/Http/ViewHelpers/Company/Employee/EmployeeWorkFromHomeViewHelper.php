@@ -12,6 +12,10 @@ class EmployeeWorkFromHomeViewHelper
     /**
      * Get a collection representing all the years the employee has been
      * working from home.
+     *
+     * @param Collection $workFromHomes
+     *
+     * @return Collection
      */
     public static function yearsWithEntries(Collection $workFromHomes): Collection
     {
@@ -32,6 +36,11 @@ class EmployeeWorkFromHomeViewHelper
     /**
      * Get a collection representing all the months the employee has worked from
      * home, for a given year.
+     *
+     * @param Collection $entries
+     * @param int $year
+     *
+     * @return Collection
      */
     public static function monthsWithEntries(Collection $entries, int $year): Collection
     {

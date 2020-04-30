@@ -31,5 +31,9 @@ return PhpCsFixer\Config::create()
             'sort_algorithm' => 'alpha',
         ],
         'phpdoc_to_comment' => true,
+        'phpdoc_annotation_without_dot' => true,
+        'phpdoc_summary' => true,
+        'phpdoc_trim' => true,
+        'phpdoc_single_line_var_spacing' => true,
     ])
     ->setFinder($finder);

@@ -62,7 +62,6 @@ class UpdateTeam extends BaseService
      * Make sure the team's name is unique in the company.
      *
      * @param array $data
-     *
      */
     private function verifyTeamNameUniqueness(array $data): void
     {
@@ -84,7 +83,6 @@ class UpdateTeam extends BaseService
      *
      * @param array  $data
      * @param string $oldName
-     *
      */
     private function log(array $data, string $oldName): void
     {

@@ -24,8 +24,7 @@ class FetchAddressGeocoding implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @var Place
-     *
+     * @param Place $place
      */
     public function __construct(Place $place)
     {
@@ -34,7 +33,6 @@ class FetchAddressGeocoding implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      */
     public function handle()
     {

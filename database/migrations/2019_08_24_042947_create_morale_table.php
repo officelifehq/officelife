@@ -8,7 +8,6 @@ class CreateMoraleTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {

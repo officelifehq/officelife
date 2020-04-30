@@ -75,7 +75,6 @@ class UpdateTeamUsefulLink extends BaseService
      * @param array          $data
      * @param TeamUsefulLink $link
      * @param Team           $team
-     *
      */
     private function log(array $data, TeamUsefulLink $link, Team $team): void
     {

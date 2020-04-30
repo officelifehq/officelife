@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Employee;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use App\Http\Resources\Company\Employee\EmployeeListWithoutTeams as EmployeeResource;
 
 class EmployeeSearchController extends Controller
@@ -17,10 +18,11 @@ class EmployeeSearchController extends Controller
      * - the list should not contain the current managers of this employee
      * - the list should not contain the current direct reports of this employee.
      *
+     * @param Request $request
      * @param int $companyId
      * @param int $employeeId
      *
-     * @return \Illuminate\Http\Response
+     * @return AnonymousResourceCollection
      */
     public function hierarchy(Request $request, int $companyId, int $employeeId)
     {

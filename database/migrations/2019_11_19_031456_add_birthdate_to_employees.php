@@ -8,7 +8,6 @@ class AddBirthdateToEmployees extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {

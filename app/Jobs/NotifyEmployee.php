@@ -22,7 +22,6 @@ class NotifyEmployee implements ShouldQueue
 
     /**
      * Create a new job instance.
-     *
      */
     public function __construct(array $notification)
     {
@@ -31,7 +30,6 @@ class NotifyEmployee implements ShouldQueue
 
     /**
      * Execute the job.
-     *
      */
     public function handle()
     {

@@ -13,7 +13,7 @@ class WorkFromHomeHelper
      * given date.
      *
      * @param Employee $employee
-     * @param Carbon   $date
+     * @param Carbon $date
      *
      * @return bool
      */

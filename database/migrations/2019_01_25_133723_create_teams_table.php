@@ -8,7 +8,6 @@ class CreateTeamsTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {
