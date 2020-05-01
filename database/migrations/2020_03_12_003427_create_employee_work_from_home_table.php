@@ -11,6 +11,9 @@ class CreateEmployeeWorkFromHomeTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('employee_work_from_home', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employee_id');

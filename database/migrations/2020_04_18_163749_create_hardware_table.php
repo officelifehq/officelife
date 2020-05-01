@@ -8,10 +8,12 @@ class CreateHardwareTable extends Migration
 {
     /**
      * Run the migrations.
-     *
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('hardware', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');

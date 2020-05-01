@@ -2,7 +2,7 @@
 
 return [
     'home_title' => 'Administration of your OfficeLife account',
-    'home_role_administrator' => 'As an <span class="fw5 brush-blue">administrator</span>, you can…',
+    'home_role_administrator' => 'As an <span class="fw5 brush-blue">human resource representative</span>, you can…',
     'home_role_owner' => 'As an <span class="fw5 brush-orange">owner</span>, you can…',
     'home_manage_employees' => 'Add/remove existing employees',
     'home_manage_positions' => 'Add/remove job positions',
