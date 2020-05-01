@@ -326,7 +326,7 @@ class GenerateDummyData extends BaseService
         foreach ($employees as $employee) {
             $date = Carbon::now()->subMonths(3);
 
-            while (!$date->isSameDay(Carbon::now())) {
+            while (! $date->isSameDay(Carbon::now())) {
                 if (rand(1, 10) >= 5) {
                     $request = [
                         'author_id' => $employee->id,

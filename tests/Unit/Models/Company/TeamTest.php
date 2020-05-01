@@ -106,7 +106,7 @@ class TeamTest extends TestCase
                     'id' => $sales->leader->id,
                     'name' => $sales->leader->name,
                     'avatar' => $sales->leader->avatar,
-                    'position' => (!$sales->leader->position) ? null : [
+                    'position' => (! $sales->leader->position) ? null : [
                         'title' => $sales->leader->position->title,
                     ],
                 ],

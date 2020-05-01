@@ -76,7 +76,7 @@ class TeamController extends Controller
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'avatar' => $employee->avatar,
-                'position' => (!$employee->position) ? null : [
+                'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
                     'title' => $employee->position->title,
                 ],

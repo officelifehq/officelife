@@ -19,7 +19,7 @@ class DashboardMeViewHelper
         $question = $employee->company->questions()->with('answers')->with('answers.employee')->active()->first();
 
         // if no active question
-        if (!$question) {
+        if (! $question) {
             return null;
         }
 

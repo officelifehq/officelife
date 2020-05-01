@@ -45,7 +45,7 @@ class EmployeeController extends Controller
                 'name' => $employee->name,
                 'avatar' => $employee->avatar,
                 'teams' => $employee->teams,
-                'position' => (!$employee->position) ? null : [
+                'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
                     'title' => $employee->position->title,
                 ],

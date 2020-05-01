@@ -24,13 +24,13 @@ class DashboardTeamViewHelper
 
         // remove employees without birthdates
         $employees = $employees->filter(function ($employee) {
-            return !is_null($employee->birthdate);
+            return ! is_null($employee->birthdate);
         });
 
         // build the collection of data
         $birthdaysCollection = collect([]);
         foreach ($employees as $employee) {
-            if (!$employee->birthdate) {
+            if (! $employee->birthdate) {
                 continue;
             }
 
@@ -69,7 +69,7 @@ class DashboardTeamViewHelper
 
         $workFromHomeCollection = collect([]);
         foreach ($employees as $employee) {
-            if (!WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now())) {
+            if (! WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now())) {
                 continue;
             }
 

@@ -164,7 +164,7 @@ class CompanyQuestionViewHelper
             ]);
         }
 
-        if ($question->activated_at && !$question->deactivated_at) {
+        if ($question->activated_at && ! $question->deactivated_at) {
             $start = DateHelper::formatFullDate($question->activated_at);
 
             $date = trans('company.question_date_range_no_deactivated', [

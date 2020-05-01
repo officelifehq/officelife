@@ -20,13 +20,13 @@ class HelpController extends Controller
     {
         $request = [
             'user_id' => Auth::user()->id,
-            'visibility' => !Auth::user()->show_help,
+            'visibility' => ! Auth::user()->show_help,
         ];
 
         (new ChangeHelpPreferences)->execute($request);
 
         return response()->json([
-            'data' => !Auth::user()->show_help,
+            'data' => ! Auth::user()->show_help,
         ], 200);
     }
 }

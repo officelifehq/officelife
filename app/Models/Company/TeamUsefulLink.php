@@ -67,7 +67,7 @@ class TeamUsefulLink extends Model
      */
     public function getLabelAttribute($value): string
     {
-        if (!$value) {
+        if (! $value) {
             return $this->url;
         }
 
