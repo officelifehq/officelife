@@ -52,6 +52,7 @@ return [
     'breadcrumb_account_add_company_news' => 'Add a company news',
     'breadcrumb_account_edit_company_news' => 'Edit a company news',
     'breadcrumb_account_manage_team_logs' => 'Team logs',
+    'breadcrumb_account_manage_hardware' => 'Hardware management',
     'breadcrumb_employee_list' => 'All employees',
     'breadcrumb_employee_logs' => 'Logs',
     'breadcrumb_employee_edit' => 'Edit information',

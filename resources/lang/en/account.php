@@ -238,7 +238,7 @@ return [
     'morale_3' => 'Negative',
 
     'company_news_title' => 'Company news',
-    'company_news_blank' => 'Do you need to broadcast an announcement or a news to every employee of Behaviour? You can do so here!',
+    'company_news_blank' => 'Do you need to broadcast an announcement or a news to every employee of your company? You can do so here!',
     'company_news_number_news' => '{company} has {count} company news.',
     'company_news_cta' => 'Add a company news',
     'company_news_written_by' => 'Written by {name} on {date}',
