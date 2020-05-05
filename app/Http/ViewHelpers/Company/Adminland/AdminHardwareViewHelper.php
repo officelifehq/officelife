@@ -50,4 +50,25 @@ class AdminHardwareViewHelper
             'number_hardware_lent' => $hardware->count() - $numberOfHardwareNotLent,
         ];
     }
+
+    /**
+     * Collection containing all the employees.
+     *
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function employeesList(Company $company): ?Collection
+    {
+        $employees = $company->employees;
+
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'value' => $employee->id,
+                'label' => $employee->name,
+            ]);
+        }
+
+        return $employeesCollection;
+    }
 }

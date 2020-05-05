@@ -20,7 +20,7 @@ class CreateHardware extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'name' => 'required|string|max:255',
-            'serial_number' => 'required|string|max:255',
+            'serial_number' => 'nullable|string|max:255',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -44,7 +44,7 @@ class CreateHardware extends BaseService
         $hardware = Hardware::create([
             'company_id' => $data['company_id'],
             'name' => $data['name'],
-            'serial_number' => $data['serial_number'],
+            'serial_number' => $this->valueOrNull($data, 'serial_number'),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 

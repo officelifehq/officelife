@@ -19,7 +19,7 @@ class CreateHardwareTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->string('name');
-            $table->string('serial_number');
+            $table->string('serial_number')->nullable();
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

@@ -302,4 +302,12 @@ return [
     'question_status_active' => 'active',
     'question_status_inactive' => 'inactive',
     'question_number_of_answers' => '{count} answer | {count} answer | {count} answers',
+
+    'hardware_create_title' => 'Add a new piece of hardware to your inventory',
+    'hardware_create_name_input' => 'Name of the hardware',
+    'hardware_create_serial_input' => 'Serial number (or any other relevant information)',
+    'hardware_create_serial_input_help' => 'This will let you identify this hardware in an unique manner.',
+    'hardware_create_lend_hardware' => 'Would you like to lend this item to an employee?',
+    'hardware_create_lend_name' => 'Choose an employee',
+    'hardware_create_success' => 'Hardware has been added to your company',
 ];

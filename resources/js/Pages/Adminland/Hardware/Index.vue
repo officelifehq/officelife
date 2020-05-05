@@ -41,7 +41,7 @@
             <span class="dib mb3 di-l">
               This is the place to
             </span>
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
               {{ $t('account.company_news_cta') }}
             </inertia-link>
           </p>
@@ -101,7 +101,7 @@ export default {
   },
 
   created() {
-    if (this.hardwareCollection) {
+    if (this.hardware) {
       this.hardwareCollection = this.hardware.hardware_collection;
     }
   },

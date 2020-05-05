@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Company\Company;
 
 use Tests\ApiTestCase;
+use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -69,5 +70,29 @@ class AdminHardwareViewHelperTest extends ApiTestCase
         $this->assertArrayHasKey('hardware_collection', $response);
         $this->assertArrayHasKey('number_hardware_not_lent', $response);
         $this->assertArrayHasKey('number_hardware_lent', $response);
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_all_employees_in_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        factory(Employee::class, 3)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $response = AdminHardwareViewHelper::employeesList($michael->company);
+
+        $this->assertCount(
+            4,
+            $response
+        );
+
+        $this->assertArraySubset(
+            [
+                'value' => $michael->id,
+                'label' => $michael->name,
+            ],
+            $response->toArray()[0]
+        );
     }
 }

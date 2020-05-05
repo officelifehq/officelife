@@ -9,7 +9,7 @@ use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\QuestionCollection;
-use App\Services\Company\Adminland\Question\CreateQuestion;
+use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Question\UpdateQuestion;
 use App\Services\Company\Adminland\Question\DestroyQuestion;
 use App\Services\Company\Adminland\Question\ActivateQuestion;
@@ -35,6 +35,22 @@ class AdminHardwareController extends Controller
     }
 
     /**
+     * Show the Create hardware view.
+     *
+     * @return \Inertia\Response
+     */
+    public function create()
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employees = AdminHardwareViewHelper::employeesList($company);
+
+        return Inertia::render('Adminland/Hardware/Create', [
+            'employees' => $employees,
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
      * Create the question.
      *
      * @param Request $request
@@ -49,14 +65,23 @@ class AdminHardwareController extends Controller
         $request = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
-            'title' => $request->input('title'),
-            'active' => false,
+            'name' => $request->input('name'),
+            'serial' => $request->input('serial'),
         ];
 
-        $question = (new CreateQuestion)->execute($request);
+        $hardware = (new CreateHardware)->execute($request);
+
+        // if ($request->input('lend_hardware')) {
+        //     $hardware = (new CreateHardware)->execute([
+        //         'company_id' => $company->id,
+        //         'author_id' => $loggedEmployee->id,
+        //         'employee_id' => $request->input('name'),
+        //         'serial' => $request->input('serial'),
+        //     ]);
+        // }
 
         return response()->json([
-            'data' => $question->toObject(),
+            'data' => $company->id,
         ], 201);
     }
 
