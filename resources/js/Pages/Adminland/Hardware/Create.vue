@@ -38,7 +38,7 @@ input[type=radio] {
           <form @submit.prevent="submit">
             <errors :errors="form.errors" />
 
-            <div class="cf pa3 bb bb-gray pb4">
+            <div class="cf pa3 bb-gray pb1">
               <!-- Name -->
               <text-input :id="'name'"
                           v-model="form.name"
@@ -47,6 +47,7 @@ input[type=radio] {
                           :errors="$page.errors.title"
                           :label="$t('account.hardware_create_name_input')"
                           :required="true"
+                          :autofocus="true"
               />
 
               <!-- Serial number -->
@@ -61,7 +62,7 @@ input[type=radio] {
               />
             </div>
 
-            <div class="cf pa3 bb bb-gray pb4">
+            <div class="cf pa3 bb-gray">
               <!--  -->
               <checkbox
                 :id="'home'"
@@ -154,6 +155,7 @@ export default {
 
     submit() {
       this.loadingState = 'loading';
+      this.form.employee_id = this.form.employee_id.value;
 
       axios.post('/' + this.$page.auth.company.id + '/account/hardware', this.form)
         .then(response => {

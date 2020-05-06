@@ -34,6 +34,7 @@
            :required="required"
            :type="type"
            :name="name"
+           :autofocus="autofocus"
            :value="value"
            :max="max"
            :min="min"
@@ -114,6 +115,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    autofocus: {
+      type: Boolean,
+      default: false,
+    }
   },
 
   computed: {

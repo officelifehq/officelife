@@ -9,6 +9,7 @@ use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\QuestionCollection;
+use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Question\UpdateQuestion;
 use App\Services\Company\Adminland\Question\DestroyQuestion;
@@ -62,23 +63,23 @@ class AdminHardwareController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
-            'serial' => $request->input('serial'),
+            'serial_number' => $request->input('serial'),
         ];
 
-        $hardware = (new CreateHardware)->execute($request);
+        $hardware = (new CreateHardware)->execute($data);
 
-        // if ($request->input('lend_hardware')) {
-        //     $hardware = (new CreateHardware)->execute([
-        //         'company_id' => $company->id,
-        //         'author_id' => $loggedEmployee->id,
-        //         'employee_id' => $request->input('name'),
-        //         'serial' => $request->input('serial'),
-        //     ]);
-        // }
+        if ($request->input('lend_hardware')) {
+            (new LendHardware)->execute([
+                'company_id' => $company->id,
+                'author_id' => $loggedEmployee->id,
+                'employee_id' => $request->input('employee_id'),
+                'hardware_id' => $hardware->id,
+            ]);
+        }
 
         return response()->json([
             'data' => $company->id,

@@ -16,7 +16,7 @@ class AdminHardwareViewHelper
     public static function hardware(Company $company): ?array
     {
         // get all hardware
-        $hardware = $company->hardware()->with('employee')->get();
+        $hardware = $company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
 
         // if no hardware
         if ($hardware->count() == 0) {
@@ -31,6 +31,7 @@ class AdminHardwareViewHelper
             $hardwareCollection->push([
                 'id' => $piece->id,
                 'name' => $piece->name,
+                'serial_number' => $piece->serial_number,
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
