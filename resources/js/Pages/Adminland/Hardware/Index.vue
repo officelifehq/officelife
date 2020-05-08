@@ -55,7 +55,7 @@
             <span v-if="hardwareCollection" class="dib mb3 di-l">
               {{ $t('account.hardware_description') }}
             </span>
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
+            <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-hardware-button">
               {{ $t('account.hardware_cta') }}
             </inertia-link>
           </p>
@@ -63,7 +63,7 @@
 
         <!-- blank state -->
         <div v-if="!hardwareCollection" class="pa3 mt3">
-          <p class="tc measure center mb4 lh-copy">
+          <p class="tc measure center mb4 lh-copy" data-cy="hardware-blank-message">
             <span class="f3 tc db">👨‍💻</span>
             {{ $t('account.hardware_blank') }}
           </p>
@@ -75,27 +75,27 @@
           <div class="fl w-third-ns w-100 ph2">
             <ul class="list ma0 pa0">
               <li class="pa2 mr2 filter-active br2">
-                {{ $t('account.hardware_all_hardware') }} <span>({{ countHardwareTotal }})</span>
+                {{ $t('account.hardware_all_hardware') }} <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
               </li>
               <li class="pa2 mr2">
-                <inertia-link>{{ $t('account.hardware_available_hardware') }}</inertia-link> <span>({{ countHardwareNotLent }})</span>
+                <inertia-link>{{ $t('account.hardware_available_hardware') }}</inertia-link> <span data-cy="hardware-count-not-lent">({{ countHardwareNotLent }})</span>
               </li>
               <li class="pa2 mr2">
-                <inertia-link>{{ $t('account.hardware_lent_hardware') }}</inertia-link> <span>({{ countHardwareLent }})</span>
+                <inertia-link>{{ $t('account.hardware_lent_hardware') }}</inertia-link> <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
               </li>
             </ul>
           </div>
 
           <!-- right part -->
           <div class="fl w-two-thirds-ns w-100">
-            <ul class="list pl0 ma0 hardware-list">
-              <li v-for="item in hardwareCollection" :key="item.id" class="pa3 bb bl br bb-gray relative pointer">
+            <ul class="list pl0 ma0 hardware-list" data-cy="hardware-list">
+              <li v-for="item in hardwareCollection" :key="item.id" class="pa3 bb bl br bb-gray relative pointer" :data-cy="'hardware-item-' + item.id">
                 <span class="db">{{ item.name }}</span>
 
                 <!-- additional information -->
                 <ul class="db list pl0 f6 mt2">
                   <!-- avatar -->
-                  <li class="mr3 di">
+                  <li class="mr3 di" :data-cy="'hardware-item-lend-' + item.id">
                     <small-name-and-avatar
                       v-if="item.employee"
                       :name="item.employee.name"

@@ -80,5 +80,6 @@ return [
     */
     'help_links' => [
         'work_from_home' => 'employees#work-from-home',
+        'account_hardware_create' => 'hardware',
     ],
 ];

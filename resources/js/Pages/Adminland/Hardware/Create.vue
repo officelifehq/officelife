@@ -33,6 +33,8 @@ input[type=radio] {
         <div class="pa3 mt5 measure center">
           <h2 class="tc normal mb4">
             {{ $t('account.hardware_create_title') }}
+
+            <help :url="$page.help_links.work_from_home" :datacy="'help-icon-hardware'" />
           </h2>
 
           <form @submit.prevent="submit">
@@ -83,7 +85,7 @@ input[type=radio] {
                           :placeholder="$t('account.hardware_create_lend_name')"
                           :required="false"
                           :value="form.employee_id"
-                          :datacy="'country_selector'"
+                          :datacy="'employee-selector'"
               />
             </div>
 
@@ -112,6 +114,7 @@ import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import SelectBox from '@/Shared/Select';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -120,7 +123,8 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
-    SelectBox
+    SelectBox,
+    Help
   },
 
   props: {
@@ -155,7 +159,9 @@ export default {
 
     submit() {
       this.loadingState = 'loading';
-      this.form.employee_id = this.form.employee_id.value;
+      if (this.form.employee_id) {
+        this.form.employee_id = this.form.employee_id.value;
+      }
 
       axios.post('/' + this.$page.auth.company.id + '/account/hardware', this.form)
         .then(response => {
