@@ -95,4 +95,80 @@ class AdminHardwareViewHelperTest extends ApiTestCase
             $response->toArray()[0]
         );
     }
+
+    /** @test */
+    public function it_gets_the_information_about_available_hardware_in_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        $androidPhone = factory(Hardware::class)->create([
+            'company_id' => $michael->company_id,
+            'name' => 'Android phone',
+        ]);
+        $iosPhone = factory(Hardware::class)->create([
+            'company_id' => $michael->company_id,
+            'name' => 'iOS phone',
+            'employee_id' => $michael->id,
+        ]);
+
+        $response = AdminHardwareViewHelper::availableHardware($michael->company);
+
+        $this->assertCount(
+            1,
+            $response['hardware_collection']
+        );
+
+        $this->assertArraySubset(
+            [
+                'id' => $androidPhone->id,
+                'name' => 'Android phone',
+                'employee' => null,
+            ],
+            $response['hardware_collection'][0]
+        );
+
+        $this->assertArrayHasKey('hardware_collection', $response);
+        $this->assertArrayHasKey('number_hardware_not_lent', $response);
+        $this->assertArrayHasKey('number_hardware_lent', $response);
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_lent_hardware_in_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        $androidPhone = factory(Hardware::class)->create([
+            'company_id' => $michael->company_id,
+            'name' => 'Android phone',
+        ]);
+        $iosPhone = factory(Hardware::class)->create([
+            'company_id' => $michael->company_id,
+            'name' => 'iOS phone',
+            'employee_id' => $michael->id,
+        ]);
+
+        $response = AdminHardwareViewHelper::lentHardware($michael->company);
+
+        $this->assertCount(
+            1,
+            $response['hardware_collection']
+        );
+
+        $this->assertArraySubset(
+            [
+                'id' => $androidPhone->id,
+                'name' => 'iOS phone',
+                'id' => $iosPhone->id,
+                'name' => 'iOS phone',
+                'employee' => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                    'avatar' => $michael->avatar,
+                ],
+            ],
+            $response['hardware_collection'][0]
+        );
+
+        $this->assertArrayHasKey('hardware_collection', $response);
+        $this->assertArrayHasKey('number_hardware_not_lent', $response);
+        $this->assertArrayHasKey('number_hardware_lent', $response);
+    }
 }

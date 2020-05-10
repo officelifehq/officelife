@@ -13,8 +13,8 @@ trait Searchable
      *
      * @param Builder $builder        query builder
      * @param string  $needle
-     * @param int     $companyId
-     * @param int     $limitPerPage
+     * @param int $companyId
+     * @param int $limitPerPage
      * @param string  $sortOrder
      * @param string  $whereCondition
      *

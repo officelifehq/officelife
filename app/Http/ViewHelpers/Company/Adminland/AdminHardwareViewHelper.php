@@ -72,4 +72,105 @@ class AdminHardwareViewHelper
 
         return $employeesCollection;
     }
+
+    /**
+     * Collection containing all the information about available hardware.
+     *
+     * @param Company $company
+     * @return array|null
+     */
+    public static function availableHardware(Company $company): ?array
+    {
+        // get all hardware
+        $allHardware = $company->hardware()->with('employee')
+            ->orderBy('created_at', 'desc')->get();
+
+        // if no hardware
+        if ($allHardware->count() == 0) {
+            return null;
+        }
+
+        $availableHardware = $allHardware->filter(function ($piece) {
+            return is_null($piece->employee);
+        });
+
+        // building a collection of hardware
+        $hardwareCollection = collect([]);
+        foreach ($availableHardware as $piece) {
+            $employee = $piece->employee;
+
+            $hardwareCollection->push([
+                'id' => $piece->id,
+                'name' => $piece->name,
+                'serial_number' => $piece->serial_number,
+                'employee' => ($employee) ? [
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                    'avatar' => $employee->avatar,
+                ] : null,
+            ]);
+        }
+
+        // statistics
+        $numberOfHardwareNotLent = $allHardware->filter(function ($piece) {
+            return is_null($piece->employee);
+        })->count();
+
+        return [
+            'hardware_collection' => $hardwareCollection,
+            'number_hardware_not_lent' => $numberOfHardwareNotLent,
+            'number_hardware_lent' => $allHardware->count() - $numberOfHardwareNotLent,
+        ];
+    }
+
+    /**
+     * Collection containing all the information about hardware already given to
+     * employees.
+     *
+     * @param Company $company
+     * @return array|null
+     */
+    public static function lentHardware(Company $company): ?array
+    {
+        // get all hardware
+        $allHardware = $company->hardware()->with('employee')
+            ->orderBy('created_at', 'desc')->get();
+
+        // if no hardware
+        if ($allHardware->count() == 0) {
+            return null;
+        }
+
+        $lentHardware = $allHardware->filter(function ($piece) {
+            return ! is_null($piece->employee);
+        });
+
+        // building a collection of hardware
+        $hardwareCollection = collect([]);
+        foreach ($lentHardware as $piece) {
+            $employee = $piece->employee;
+
+            $hardwareCollection->push([
+                'id' => $piece->id,
+                'name' => $piece->name,
+                'serial_number' => $piece->serial_number,
+                'employee' => ($employee) ? [
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                    'avatar' => $employee->avatar,
+                ] : null,
+            ]);
+        }
+
+        // statistics
+        $numberOfHardwareNotLent = $allHardware->filter(function ($piece) {
+            return is_null($piece->employee);
+        })->count();
+
+        return [
+            'hardware_collection' => $hardwareCollection,
+            'number_hardware_not_lent' => $numberOfHardwareNotLent,
+            'number_hardware_lent' => $allHardware->count() - $numberOfHardwareNotLent,
+        ];
+    }
 }

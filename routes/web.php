@@ -171,6 +171,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('account/questions/{question}/deactivate', 'Company\\Adminland\\AdminQuestionController@deactivate');
 
             // hardware
+            Route::get('account/hardware/available', 'Company\\Adminland\\AdminHardwareController@available');
+            Route::get('account/hardware/lent', 'Company\\Adminland\\AdminHardwareController@lent');
             Route::resource('account/hardware', 'Company\\Adminland\\AdminHardwareController');
         });
     });

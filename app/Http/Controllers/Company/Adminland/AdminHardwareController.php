@@ -8,13 +8,10 @@ use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\QuestionCollection;
 use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Question\UpdateQuestion;
 use App\Services\Company\Adminland\Question\DestroyQuestion;
-use App\Services\Company\Adminland\Question\ActivateQuestion;
-use App\Services\Company\Adminland\Question\DeactivateQuestion;
 use App\Http\ViewHelpers\Company\Adminland\AdminHardwareViewHelper;
 
 class AdminHardwareController extends Controller
@@ -32,6 +29,7 @@ class AdminHardwareController extends Controller
         return Inertia::render('Adminland/Hardware/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'hardware' => $hardwareInformation,
+            'state' => 'all',
         ]);
     }
 
@@ -90,8 +88,8 @@ class AdminHardwareController extends Controller
      * Update the question.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $questionId
+     * @param int $companyId
+     * @param int $questionId
      * @return Response
      */
     public function update(Request $request, int $companyId, int $questionId)
@@ -139,62 +137,42 @@ class AdminHardwareController extends Controller
     }
 
     /**
-     * Activate the question.
+     * Display the list of available hardware.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $questionId
+     * @param int $companyId
      *
      * @return Response
      */
-    public function activate(Request $request, int $companyId, int $questionId)
+    public function available(Request $request, int $companyId)
     {
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
-
-        $request = [
-            'company_id' => $companyId,
-            'author_id' => $loggedEmployee->id,
-            'question_id' => $questionId,
-        ];
-
-        (new ActivateQuestion)->execute($request);
-
         $company = InstanceHelper::getLoggedCompany();
-        $questions = $company->questions()->get();
-        $questionsCollection = QuestionCollection::prepare($questions);
+        $hardwareInformation = AdminHardwareViewHelper::availableHardware($company);
 
-        return response()->json([
-            'data' => $questionsCollection,
-        ], 200);
+        return Inertia::render('Adminland/Hardware/Index', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'hardware' => $hardwareInformation,
+            'state' => 'available',
+        ]);
     }
 
     /**
-     * Deactivate the question.
+     * Display the list of lent hardware.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $questionId
+     * @param int $companyId
      *
      * @return Response
      */
-    public function deactivate(Request $request, int $companyId, int $questionId)
+    public function lent(Request $request, int $companyId)
     {
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
-
-        $request = [
-            'company_id' => $companyId,
-            'author_id' => $loggedEmployee->id,
-            'question_id' => $questionId,
-        ];
-
-        (new DeactivateQuestion)->execute($request);
-
         $company = InstanceHelper::getLoggedCompany();
-        $questions = $company->questions()->get();
-        $questionsCollection = QuestionCollection::prepare($questions);
+        $hardwareInformation = AdminHardwareViewHelper::lentHardware($company);
 
-        return response()->json([
-            'data' => $questionsCollection,
-        ], 200);
+        return Inertia::render('Adminland/Hardware/Index', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'hardware' => $hardwareInformation,
+            'state' => 'lent',
+        ]);
     }
 }

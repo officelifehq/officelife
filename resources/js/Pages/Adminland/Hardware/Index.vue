@@ -74,14 +74,28 @@
           <!-- sidebar -->
           <div class="fl w-third-ns w-100 ph2">
             <ul class="list ma0 pa0">
-              <li class="pa2 mr2 filter-active br2">
+              <!-- viewing all hardware -->
+              <li v-if="state == 'all'" class="pa2 mr2 filter-active br2">
                 {{ $t('account.hardware_all_hardware') }} <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
               </li>
-              <li class="pa2 mr2">
-                <inertia-link>{{ $t('account.hardware_available_hardware') }}</inertia-link> <span data-cy="hardware-count-not-lent">({{ countHardwareNotLent }})</span>
+              <li v-else class="pa2 mr2">
+                <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware'">{{ $t('account.hardware_all_hardware') }}</inertia-link> <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
               </li>
-              <li class="pa2 mr2">
-                <inertia-link>{{ $t('account.hardware_lent_hardware') }}</inertia-link> <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
+
+              <!-- viewing only hardware not lent -->
+              <li v-if="state == 'available'" class="pa2 mr2 filter-active br2">
+                {{ $t('account.hardware_available_hardware') }} <span data-cy="hardware-total">({{ countHardwareNotLent }})</span>
+              </li>
+              <li v-else class="pa2 mr2">
+                <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/available'">{{ $t('account.hardware_available_hardware') }}</inertia-link> <span data-cy="hardware-count-not-lent">({{ countHardwareNotLent }})</span>
+              </li>
+
+              <!-- viewing only hardware lent -->
+              <li v-if="state == 'lent'" class="pa2 mr2 filter-active br2">
+                {{ $t('account.hardware_lent_hardware') }} <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
+              </li>
+              <li v-else class="pa2 mr2">
+                <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/lent'">{{ $t('account.hardware_lent_hardware') }}</inertia-link> <span data-cy="hardware-count-not-lent">({{ countHardwareLent }})</span>
               </li>
             </ul>
           </div>
@@ -147,6 +161,10 @@ export default {
   props: {
     hardware: {
       type: Object,
+      default: null,
+    },
+    state: {
+      type: String,
       default: null,
     },
     notifications: {
