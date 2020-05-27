@@ -2,22 +2,23 @@
 
 namespace App\Http\ViewHelpers\Company\Adminland;
 
+use App\Helpers\DateHelper;
 use App\Models\Company\Company;
+use App\Models\Company\AuditLog;
+use App\Models\Company\Hardware;
 use Illuminate\Support\Collection;
 
 class AdminHardwareViewHelper
 {
     /**
-     * Collection containing all the information about the hardware used in the company.
+     * Collection containing all the information about the hardware used in the
+     * company.
      *
-     * @param Company $company
+     * @param mixed $hardware
      * @return array|null
      */
-    public static function hardware(Company $company): ?array
+    public static function hardware($hardware): ?array
     {
-        // get all hardware
-        $hardware = $company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
-
         // if no hardware
         if ($hardware->count() == 0) {
             return null;
@@ -25,13 +26,13 @@ class AdminHardwareViewHelper
 
         // building a collection of hardware
         $hardwareCollection = collect([]);
-        foreach ($hardware as $piece) {
-            $employee = $piece->employee;
+        foreach ($hardware as $item) {
+            $employee = $item->employee;
 
             $hardwareCollection->push([
-                'id' => $piece->id,
-                'name' => $piece->name,
-                'serial_number' => $piece->serial_number,
+                'id' => $item->id,
+                'name' => $item->name,
+                'serial_number' => $item->serial_number,
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
@@ -41,8 +42,8 @@ class AdminHardwareViewHelper
         }
 
         // statistics
-        $numberOfHardwareNotLent = $hardware->filter(function ($piece) {
-            return is_null($piece->employee);
+        $numberOfHardwareNotLent = $hardware->filter(function ($item) {
+            return is_null($item->employee);
         })->count();
 
         return [
@@ -76,33 +77,29 @@ class AdminHardwareViewHelper
     /**
      * Collection containing all the information about available hardware.
      *
-     * @param Company $company
+     * @param mixed $hardware
      * @return array|null
      */
-    public static function availableHardware(Company $company): ?array
+    public static function availableHardware($hardware): ?array
     {
-        // get all hardware
-        $allHardware = $company->hardware()->with('employee')
-            ->orderBy('created_at', 'desc')->get();
-
         // if no hardware
-        if ($allHardware->count() == 0) {
+        if ($hardware->count() == 0) {
             return null;
         }
 
-        $availableHardware = $allHardware->filter(function ($piece) {
-            return is_null($piece->employee);
+        $availableHardware = $hardware->filter(function ($item) {
+            return is_null($item->employee);
         });
 
         // building a collection of hardware
         $hardwareCollection = collect([]);
-        foreach ($availableHardware as $piece) {
-            $employee = $piece->employee;
+        foreach ($availableHardware as $item) {
+            $employee = $item->employee;
 
             $hardwareCollection->push([
-                'id' => $piece->id,
-                'name' => $piece->name,
-                'serial_number' => $piece->serial_number,
+                'id' => $item->id,
+                'name' => $item->name,
+                'serial_number' => $item->serial_number,
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
@@ -112,14 +109,14 @@ class AdminHardwareViewHelper
         }
 
         // statistics
-        $numberOfHardwareNotLent = $allHardware->filter(function ($piece) {
-            return is_null($piece->employee);
+        $numberOfHardwareNotLent = $hardware->filter(function ($item) {
+            return is_null($item->employee);
         })->count();
 
         return [
             'hardware_collection' => $hardwareCollection,
             'number_hardware_not_lent' => $numberOfHardwareNotLent,
-            'number_hardware_lent' => $allHardware->count() - $numberOfHardwareNotLent,
+            'number_hardware_lent' => $hardware->count() - $numberOfHardwareNotLent,
         ];
     }
 
@@ -127,33 +124,29 @@ class AdminHardwareViewHelper
      * Collection containing all the information about hardware already given to
      * employees.
      *
-     * @param Company $company
+     * @param mixed $hardware
      * @return array|null
      */
-    public static function lentHardware(Company $company): ?array
+    public static function lentHardware($hardware): ?array
     {
-        // get all hardware
-        $allHardware = $company->hardware()->with('employee')
-            ->orderBy('created_at', 'desc')->get();
-
         // if no hardware
-        if ($allHardware->count() == 0) {
+        if ($hardware->count() == 0) {
             return null;
         }
 
-        $lentHardware = $allHardware->filter(function ($piece) {
-            return ! is_null($piece->employee);
+        $lentHardware = $hardware->filter(function ($item) {
+            return ! is_null($item->employee);
         });
 
         // building a collection of hardware
         $hardwareCollection = collect([]);
-        foreach ($lentHardware as $piece) {
-            $employee = $piece->employee;
+        foreach ($lentHardware as $item) {
+            $employee = $item->employee;
 
             $hardwareCollection->push([
-                'id' => $piece->id,
-                'name' => $piece->name,
-                'serial_number' => $piece->serial_number,
+                'id' => $item->id,
+                'name' => $item->name,
+                'serial_number' => $item->serial_number,
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
@@ -163,14 +156,59 @@ class AdminHardwareViewHelper
         }
 
         // statistics
-        $numberOfHardwareNotLent = $allHardware->filter(function ($piece) {
-            return is_null($piece->employee);
+        $numberOfHardwareNotLent = $hardware->filter(function ($item) {
+            return is_null($item->employee);
         })->count();
 
         return [
             'hardware_collection' => $hardwareCollection,
             'number_hardware_not_lent' => $numberOfHardwareNotLent,
-            'number_hardware_lent' => $allHardware->count() - $numberOfHardwareNotLent,
+            'number_hardware_lent' => $hardware->count() - $numberOfHardwareNotLent,
         ];
+    }
+
+    /**
+     * Get the complete history of what happened to the item.
+     * This is an expensive request, I don't really like it but I don't know
+     * how to do it differently.
+     *
+     * @param Hardware $hardware
+     * @return Collection|null
+     */
+    public static function history(Hardware $hardware): ?Collection
+    {
+        $logs = AuditLog::where('company_id', $hardware->company_id)
+            ->where('action', 'hardware_created')
+            ->orWhere('action', 'hardware_updated')
+            ->orWhere('action', 'hardware_destroyed')
+            ->orWhere('action', 'hardware_lent')
+            ->orWhere('action', 'hardware_regained')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // now filter by hardware id
+        $logs = $logs->filter(function ($log) use ($hardware) {
+            return strpos($log->objects, '"hardware_id":'.$hardware->id) != false;
+        });
+
+        // now preparing the sentences
+        $logsCollection = collect([]);
+        foreach ($logs as $log) {
+            if ($log->action == 'hardware_created' || $log->action == 'hardware_updated') {
+                $sentence = trans('account.hardware_log_'.$log->action, ['name' => $log->object->{'hardware_name'}]);
+            }
+
+            if ($log->action == 'hardware_lent' || $log->action == 'hardware_regained') {
+                $sentence = trans('account.hardware_log_' . $log->action, ['name' => $log->object->{'employee_name'}]);
+            }
+
+            $logsCollection->push([
+                'id' => $log->id,
+                'date' => DateHelper::formatDate($log->audited_at),
+                'sentence' => $sentence,
+            ]);
+        }
+
+        return $logsCollection;
     }
 }

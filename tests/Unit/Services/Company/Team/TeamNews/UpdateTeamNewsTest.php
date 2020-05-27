@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\CompanyPTOPolicy;
+namespace Tests\Unit\Services\Company\Team\TeamNews;
 
 use Exception;
 use Tests\TestCase;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\Team;
+namespace Tests\Unit\Services\Company\Employee\Holiday;
 
 use Carbon\Carbon;
 use Tests\TestCase;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Dashboard;
+namespace Tests\Unit\ViewHelpers\Company\Employee;
 
 use Tests\ApiTestCase;
 use App\Models\Company\Employee;

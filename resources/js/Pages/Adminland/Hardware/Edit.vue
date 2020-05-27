@@ -23,7 +23,7 @@ input[type=radio] {
             <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware'">{{ $t('app.breadcrumb_account_manage_hardware') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_add_hardware') }}
+            {{ $t('app.breadcrumb_account_edit_hardware') }}
           </li>
         </ul>
       </div>
@@ -32,7 +32,7 @@ input[type=radio] {
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5 measure center">
           <h2 class="tc normal mb4">
-            {{ $t('account.hardware_create_title') }}
+            {{ $t('account.hardware_edit_title') }}
 
             <help :url="$page.help_links.account_hardware_create" :datacy="'help-icon-hardware'" />
           </h2>
@@ -93,11 +93,11 @@ input[type=radio] {
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/' + hardware.id" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-hardware-button'" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-hardware-button'" />
               </div>
             </div>
           </form>
@@ -132,6 +132,10 @@ export default {
       type: Array,
       default: null,
     },
+    hardware: {
+      type: Object,
+      default: null,
+    },
     notifications: {
       type: Array,
       default: null,
@@ -152,6 +156,15 @@ export default {
     };
   },
 
+  created() {
+    this.form.name = this.hardware.name;
+    this.form.serial = this.hardware.serial_number;
+    if (this.hardware.employee) {
+      this.form.lend_hardware = true;
+      this.form.employee_id = this.hardware.employee;
+    }
+  },
+
   methods: {
     updateStatus(payload) {
       this.form.lend_hardware = payload;
@@ -163,10 +176,10 @@ export default {
         this.form.employee_id = this.form.employee_id.value;
       }
 
-      axios.post('/' + this.$page.auth.company.id + '/account/hardware', this.form)
+      axios.put('/' + this.$page.auth.company.id + '/account/hardware/' + this.hardware.id, this.form)
         .then(response => {
-          localStorage.success = this.$t('account.hardware_create_success');
-          this.$inertia.visit('/' + response.data.data + '/account/hardware');
+          localStorage.success = this.$t('account.hardware_update_success');
+          this.$inertia.visit('/' + this.$page.auth.company.id + '/account/hardware/' + this.hardware.id);
         })
         .catch(error => {
           this.loadingState = null;

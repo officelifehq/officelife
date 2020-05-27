@@ -9,7 +9,7 @@ use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
-use App\Services\Company\Team\UnSetTeamLead;
+use App\Services\Company\Team\UnsetTeamLead;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -31,7 +31,7 @@ class UnsetTeamLeadTest extends TestCase
             'team_id' => $sales->id,
         ];
 
-        $sales = (new UnSetTeamLead)->execute($request);
+        $sales = (new UnsetTeamLead)->execute($request);
 
         $this->assertDatabaseHas('teams', [
             'id' => $sales->id,
@@ -80,6 +80,6 @@ class UnsetTeamLeadTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new UnSetTeamLead)->execute($request);
+        (new UnsetTeamLead)->execute($request);
     }
 }

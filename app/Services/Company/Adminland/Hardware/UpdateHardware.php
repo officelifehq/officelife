@@ -21,6 +21,7 @@ class UpdateHardware extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'hardware_id' => 'required|integer|exists:hardware,id',
             'name' => 'required|string|max:255',
+            'serial_number' => 'nullable|string|max:255',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -47,6 +48,7 @@ class UpdateHardware extends BaseService
         $oldName = $hardware->name;
 
         $hardware->name = $data['name'];
+        $hardware->serial_number = $this->valueOrNull($data, 'serial_number');
         $hardware->save();
 
         LogAccountAudit::dispatch([

@@ -177,6 +177,7 @@ return [
     'log_answer_destroyed' => 'Deleted the answer to the question called :title.',
     'log_hardware_created' => 'Added a hardware called :name.',
     'log_hardware_updated' => 'Updated the hardware name from :old_name to :name.',
+    'log_hardware_destroyed' => 'Deleted the hardware called :name.',
     'log_hardware_lent' => 'Lent the hardware named :hardware_name to :employee_name.',
     'log_hardware_regained' => 'Took back the hardware named :hardware_name from :employee_name.',
 
@@ -319,4 +320,11 @@ return [
     'hardware_create_lend_hardware' => 'Would you like to lend this item to an employee?',
     'hardware_create_lend_name' => 'Choose an employee',
     'hardware_create_success' => 'Hardware has been added to your company',
+    'hardware_update_success' => 'Hardware has been updated with success.',
+    'hardware_log_hardware_created' => 'Created this item called :name',
+    'hardware_log_hardware_updated' => 'Updated the name to :name',
+    'hardware_log_hardware_lent' => 'Lent this item to :name',
+    'hardware_log_hardware_regained' => 'Took back the item from :name',
+    'hardware_show_history' => 'History',
+    'hardware_search_placeholder' => 'Find by item name or serial number',
 ];

@@ -173,6 +173,7 @@ Route::middleware(['auth'])->group(function () {
             // hardware
             Route::get('account/hardware/available', 'Company\\Adminland\\AdminHardwareController@available');
             Route::get('account/hardware/lent', 'Company\\Adminland\\AdminHardwareController@lent');
+            Route::post('account/hardware/search', 'Company\\Adminland\\AdminHardwareController@search');
             Route::resource('account/hardware', 'Company\\Adminland\\AdminHardwareController');
         });
     });

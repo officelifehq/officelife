@@ -11,8 +11,8 @@ use App\Models\Company\Question;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
+use App\Services\Company\Employee\Answer\DestroyAnswer;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Answer\DestroyAnswer;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DestroyAnswerTest extends TestCase

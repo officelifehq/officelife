@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models\User;
+namespace Tests\Unit\Models\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;

@@ -54,6 +54,7 @@ return [
     'breadcrumb_account_manage_team_logs' => 'Team logs',
     'breadcrumb_account_manage_hardware' => 'Hardware management',
     'breadcrumb_account_add_hardware' => 'Add item',
+    'breadcrumb_account_show_hardware' => 'Show item',
     'breadcrumb_employee_list' => 'All employees',
     'breadcrumb_employee_logs' => 'Logs',
     'breadcrumb_employee_edit' => 'Edit information',

@@ -24,6 +24,12 @@
     border-bottom-left-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
   }
+
+  .ball-pulse {
+    right: 8px;
+    top: 10px;
+    position: absolute;
+  }
 </style>
 
 <template>
@@ -47,8 +53,10 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
-          <h2 class="tc normal mb4">
+          <h2 class="tc normal mb4 relative">
             {{ $t('account.hardware_title') }}
+
+            <help :url="$page.help_links.account_hardware_create" :datacy="'help-icon-hardware'" :top="'1px'" />
           </h2>
 
           <p class="relative adminland-headline">
@@ -72,8 +80,8 @@
         <!-- WHEN THERE ARE HARDWARE -->
         <div v-if="hardwareCollection" class="cf pa3">
           <!-- sidebar -->
-          <div class="fl w-third-ns w-100 ph2">
-            <ul class="list ma0 pa0">
+          <div class="fl w-third-ns w-100 ph2-ns ph0">
+            <ul class="list ma0-ns pa0 mb3">
               <!-- viewing all hardware -->
               <li v-if="state == 'all'" class="pa2 mr2 filter-active br2">
                 {{ $t('account.hardware_all_hardware') }} <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
@@ -102,14 +110,24 @@
 
           <!-- right part -->
           <div class="fl w-two-thirds-ns w-100">
+            <form @submit.prevent="search">
+              <div class="relative">
+                <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
+                       :placeholder="$t('account.hardware_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0 mb2"
+                       @keydown.esc="modalFind = false" @keyup="search"
+                />
+                <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
+              </div>
+            </form>
+
             <ul class="list pl0 ma0 hardware-list" data-cy="hardware-list">
-              <li v-for="item in hardwareCollection" :key="item.id" class="pa3 bb bl br bb-gray relative pointer" :data-cy="'hardware-item-' + item.id">
+              <li v-for="item in hardwareCollection" :key="item.id" class="pa3 bb bl br bb-gray relative pointer" :data-cy="'hardware-item-' + item.id" @click.prevent="load(item)">
                 <span class="db">{{ item.name }}</span>
 
                 <!-- additional information -->
                 <ul class="db list pl0 f6 mt2">
                   <!-- avatar -->
-                  <li class="mr3 di" :data-cy="'hardware-item-lend-' + item.id">
+                  <li class="mr3 di-ns db mb0-ns mb2" :data-cy="'hardware-item-lend-' + item.id">
                     <small-name-and-avatar
                       v-if="item.employee"
                       :name="item.employee.name"
@@ -124,7 +142,7 @@
                   </li>
 
                   <!-- serial number -->
-                  <li class="di relative">
+                  <li class="di-ns db relative">
                     <svg class="relative mr1" style="top: 3px;" width="15" height="15" viewBox="0 0 15 15"
                          fill="none" xmlns="http://www.w3.org/2000/svg"
                     >
@@ -151,11 +169,15 @@
 <script>
 import Layout from '@/Shared/Layout';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
+    BallPulseLoader,
     SmallNameAndAvatar,
+    Help,
   },
 
   props: {
@@ -182,9 +204,9 @@ export default {
       countHardwareLent: 0,
       countHardwareNotLent: 0,
       countHardwareTotal: 0,
+      processingSearch: false,
       form: {
-        title: null,
-        active: false,
+        searchTerm: null,
         errors: [],
       },
       loadingState: '',
@@ -194,14 +216,41 @@ export default {
 
   created() {
     if (this.hardware) {
-      this.hardwareCollection = this.hardware.hardware_collection;
-      this.countHardwareLent = this.hardware.number_hardware_lent;
-      this.countHardwareNotLent = this.hardware.number_hardware_not_lent;
-      this.countHardwareTotal = this.countHardwareLent + this.countHardwareNotLent;
+      this.populateData(this.hardware);
     }
   },
 
   methods: {
+    load(item) {
+      this.$inertia.visit('/' + this.$page.auth.company.id + '/account/hardware/' + item.id);
+    },
+
+    populateData(hardware) {
+      this.hardwareCollection = hardware.hardware_collection;
+      this.countHardwareLent = hardware.number_hardware_lent;
+      this.countHardwareNotLent = hardware.number_hardware_not_lent;
+      this.countHardwareTotal = this.countHardwareLent + this.countHardwareNotLent;
+    },
+
+    search: _.debounce(
+      function() {
+
+        if (this.form.searchTerm != '') {
+          this.processingSearch = true;
+
+          axios.post('/' + this.$page.auth.company.id + '/account/hardware/search', this.form)
+            .then(response => {
+              this.populateData(response.data.data);
+              this.processingSearch = false;
+            })
+            .catch(error => {
+              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.processingSearch = false;
+            });
+        } else {
+          this.populateData(this.hardware);
+        }
+      }, 500),
   }
 };
 

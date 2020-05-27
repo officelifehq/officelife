@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\CompanyPTOPolicy;
+namespace Tests\Unit\Services\Company\Adminland\CompanyNews;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;

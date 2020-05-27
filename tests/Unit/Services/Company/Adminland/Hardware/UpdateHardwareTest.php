@@ -80,6 +80,7 @@ class UpdateHardwareTest extends TestCase
             'author_id' => $michael->id,
             'hardware_id' => $hardware->id,
             'name' => 'Android phone',
+            'serial_number' => '1234',
         ];
 
         $newHardware = (new UpdateHardware)->execute($request);
@@ -88,6 +89,7 @@ class UpdateHardwareTest extends TestCase
             'id' => $hardware->id,
             'company_id' => $hardware->company_id,
             'name' => 'Android phone',
+            'serial_number' => '1234',
         ]);
 
         $this->assertInstanceOf(

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\User\Notification;
+namespace App\Services\Company\Employee\Notification;
 
 use App\Services\BaseService;
 use App\Models\Company\Notification;

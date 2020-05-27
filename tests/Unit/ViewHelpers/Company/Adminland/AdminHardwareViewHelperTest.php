@@ -1,12 +1,15 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Company;
+namespace Tests\Unit\ViewHelpers\Company\Adminland;
 
 use Tests\ApiTestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Adminland\Hardware\LendHardware;
+use App\Services\Company\Adminland\Hardware\CreateHardware;
+use App\Services\Company\Adminland\Hardware\UpdateHardware;
 use App\Http\ViewHelpers\Company\Adminland\AdminHardwareViewHelper;
 
 class AdminHardwareViewHelperTest extends ApiTestCase
@@ -18,9 +21,10 @@ class AdminHardwareViewHelperTest extends ApiTestCase
     public function it_gets_a_null_if_there_are_no_hardware_in_the_company(): void
     {
         $michael = $this->createAdministrator();
+        $hardware = $michael->hardware;
 
         $this->assertNull(
-            AdminHardwareViewHelper::hardware($michael->company)
+            AdminHardwareViewHelper::hardware($hardware)
         );
     }
 
@@ -38,7 +42,8 @@ class AdminHardwareViewHelperTest extends ApiTestCase
             'employee_id' => $michael->id,
         ]);
 
-        $response = AdminHardwareViewHelper::hardware($michael->company);
+        $hardware = $michael->company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
+        $response = AdminHardwareViewHelper::hardware($hardware);
 
         $this->assertCount(
             2,
@@ -110,7 +115,8 @@ class AdminHardwareViewHelperTest extends ApiTestCase
             'employee_id' => $michael->id,
         ]);
 
-        $response = AdminHardwareViewHelper::availableHardware($michael->company);
+        $hardware = $michael->company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
+        $response = AdminHardwareViewHelper::availableHardware($hardware);
 
         $this->assertCount(
             1,
@@ -145,7 +151,8 @@ class AdminHardwareViewHelperTest extends ApiTestCase
             'employee_id' => $michael->id,
         ]);
 
-        $response = AdminHardwareViewHelper::lentHardware($michael->company);
+        $hardware = $michael->company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
+        $response = AdminHardwareViewHelper::lentHardware($hardware);
 
         $this->assertCount(
             1,
@@ -170,5 +177,39 @@ class AdminHardwareViewHelperTest extends ApiTestCase
         $this->assertArrayHasKey('hardware_collection', $response);
         $this->assertArrayHasKey('number_hardware_not_lent', $response);
         $this->assertArrayHasKey('number_hardware_lent', $response);
+    }
+
+    /** @test */
+    public function it_gets_the_complete_history_of_the_hardware(): void
+    {
+        $michael = $this->createAdministrator();
+        $hardware = (new CreateHardware)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'name' => 'iphone',
+            'serial_number' => '1234',
+        ]);
+
+        (new UpdateHardware)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'hardware_id' => $hardware->id,
+            'name' => 'iphone',
+            'serial_number' => '1234',
+        ]);
+
+        (new LendHardware)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'hardware_id' => $hardware->id,
+            'employee_id' => $michael->id,
+        ]);
+
+        $response = AdminHardwareViewHelper::history($hardware);
+
+        $this->assertCount(
+            3,
+            $response
+        );
     }
 }

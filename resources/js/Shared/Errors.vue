@@ -20,7 +20,10 @@ export default {
       type: Array,
       default: () => [],
     },
-    classes: String,
+    classes: {
+      type: String,
+      default: '',
+    }
   },
 };
 </script>

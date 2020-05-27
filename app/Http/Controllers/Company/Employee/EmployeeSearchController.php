@@ -28,7 +28,7 @@ class EmployeeSearchController extends Controller
     {
         $employee = Employee::findOrFail($employeeId);
 
-        $search = $request->get('searchTerm');
+        $search = $request->input('searchTerm');
         $potentialEmployees = Employee::search(
             $search,
             $companyId,
