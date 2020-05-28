@@ -133,12 +133,18 @@
 
           <location
             :employee="employee"
+            :hardware="hardware"
           />
 
           <employee-hierarchy
             :employee="employee"
             :managers-of-employee="managersOfEmployee"
             :direct-reports="directReports"
+          />
+
+          <hardware
+            :employee="employee"
+            :hardware="hardware"
           />
 
           <holidays
@@ -178,6 +184,7 @@ import Holidays from '@/Pages/Employee/Partials/Holidays';
 import Location from '@/Pages/Employee/Partials/Location';
 import WorkFromHome from '@/Pages/Employee/Partials/WorkFromHome';
 import Question from '@/Pages/Employee/Partials/Question';
+import Hardware from '@/Pages/Employee/Partials/Hardware';
 
 export default {
   components: {
@@ -194,6 +201,7 @@ export default {
     Location,
     WorkFromHome,
     Question,
+    Hardware,
   },
 
   directives: {
@@ -246,6 +254,10 @@ export default {
       default: null,
     },
     questions: {
+      type: Array,
+      default: null,
+    },
+    hardware: {
       type: Array,
       default: null,
     },

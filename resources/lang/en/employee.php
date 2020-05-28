@@ -117,4 +117,7 @@ return [
     'edit_information_year_help' => 'Possible values: 1900-?',
     'edit_information_month_help' => 'Possible values: 1-12',
     'edit_information_day_help' => 'Possible values: 1-31',
+
+    'hardware_title' => 'Hardware',
+    'hardware_no_info' => 'No items have been lent yet.',
 ];
