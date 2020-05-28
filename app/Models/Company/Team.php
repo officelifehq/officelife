@@ -158,7 +158,7 @@ class Team extends Model
                 'id' => $this->leader->id,
                 'name' => $this->leader->name,
                 'avatar' => $this->leader->avatar,
-                'position' => (!$this->leader->position) ? null : [
+                'position' => (! $this->leader->position) ? null : [
                     'title' => $this->leader->position->title,
                 ],
             ],

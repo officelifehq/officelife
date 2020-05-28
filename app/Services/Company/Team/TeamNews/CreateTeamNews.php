@@ -56,7 +56,7 @@ class CreateTeamNews extends BaseService
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
-        if (!empty($data['created_at'])) {
+        if (! empty($data['created_at'])) {
             $news->created_at = $data['created_at'];
             $news->save();
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models\User;
+namespace Tests\Unit\Models\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -10,6 +10,7 @@ use App\Models\Company\Team;
 use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
+use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Models\Company\CompanyNews;
@@ -129,6 +130,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->questions()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_hardware(): void
+    {
+        $company = factory(Company::class)->create();
+        factory(Hardware::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->hardware()->exists());
     }
 
     /** @test */

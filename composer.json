@@ -24,7 +24,6 @@
         "laravel/passport": "^7.1",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
-        "livewire/livewire": "^1.0",
         "parsedown/laravel": "^1.2",
         "spatie/laravel-activitylog": "^3.1",
         "tightenco/ziggy": "^0.8.0"

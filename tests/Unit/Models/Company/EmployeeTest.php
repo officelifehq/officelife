@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models\User;
+namespace Tests\Unit\Models\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -14,6 +14,7 @@ use App\Models\Company\Morale;
 use App\Models\Company\Company;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\TeamNews;
 use App\Models\Company\CompanyNews;
@@ -238,6 +239,18 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->answers()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_hardware(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Hardware::class, 2)->create([
+            'company_id' => $dwight->company_id,
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->hardware()->exists());
     }
 
     /** @test */

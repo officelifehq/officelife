@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Team\TeamNews\CreateTeamNews;
+use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Team\Links\CreateTeamUsefulLink;
+use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
@@ -69,6 +71,8 @@ class GenerateDummyData extends BaseService
         $this->createCompanyNewsEntries($data);
 
         $this->createQuestions($data);
+
+        $this->createHardware($data);
 
         $company->has_dummy_data = true;
         $company->save();
@@ -326,7 +330,7 @@ class GenerateDummyData extends BaseService
         foreach ($employees as $employee) {
             $date = Carbon::now()->subMonths(3);
 
-            while (!$date->isSameDay(Carbon::now())) {
+            while (! $date->isSameDay(Carbon::now())) {
                 if (rand(1, 10) >= 5) {
                     $request = [
                         'author_id' => $employee->id,
@@ -448,6 +452,40 @@ class GenerateDummyData extends BaseService
             ];
 
             (new CreateTeamNews)->execute($request);
+        }
+    }
+
+    /**
+     * Create a bunch of hardware and lend them to random employees.
+     *
+     * @param array $data
+     */
+    private function createHardware(array $data): void
+    {
+        $employees = Employee::where('is_dummy', true)->get();
+
+        foreach ($employees as $employee) {
+            if (rand(1, 3) >= 2) {
+                $request = [
+                    'company_id' => $data['company_id'],
+                    'author_id' => $data['author_id'],
+                    'name' => 'iPad',
+                    'serial_number' => '32KLEo3310dF1102',
+                    'is_dummy' => true,
+                ];
+
+                $hardware = (new CreateHardware)->execute($request);
+
+                $request = [
+                    'company_id' => $data['company_id'],
+                    'author_id' => $data['author_id'],
+                    'employee_id' => $employee->id,
+                    'hardware_id' => $hardware->id,
+                    'is_dummy' => true,
+                ];
+
+                (new LendHardware)->execute($request);
+            }
         }
     }
 }

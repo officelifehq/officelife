@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\Logs;
+namespace Tests\Unit\Services\Logs;
 
 use Carbon\Carbon;
 use Tests\TestCase;

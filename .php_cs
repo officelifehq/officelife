@@ -35,5 +35,6 @@ return PhpCsFixer\Config::create()
         'phpdoc_summary' => true,
         'phpdoc_trim' => true,
         'phpdoc_single_line_var_spacing' => true,
+        'not_operator_with_successor_space' => true,
     ])
     ->setFinder($finder);

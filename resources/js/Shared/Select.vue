@@ -27,6 +27,7 @@
               class="style-chooser"
               :data-cy="datacy"
               :close-on-select="true"
+              :required="required"
               @input="broadcast(selected)"
     >
       <!-- all this complex code below just to make sure the select box is required -->

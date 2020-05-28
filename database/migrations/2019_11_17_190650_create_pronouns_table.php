@@ -16,7 +16,7 @@ class CreatePronounsTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('pronouns', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('label');
             $table->string('translation_key');
             $table->timestamps();

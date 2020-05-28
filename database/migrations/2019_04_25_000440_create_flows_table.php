@@ -15,7 +15,7 @@ class CreateFlowsTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('flows', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('name');
             $table->string('type');
@@ -25,7 +25,7 @@ class CreateFlowsTable extends Migration
         });
 
         Schema::create('steps', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('flow_id');
             $table->integer('number')->nullable();
             $table->string('unit_of_time')->nullable();
@@ -36,7 +36,7 @@ class CreateFlowsTable extends Migration
         });
 
         Schema::create('actions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('step_id');
             $table->string('type');
             $table->string('recipient');

@@ -139,6 +139,12 @@ abstract class BaseService
                 ->validate();
 
         return true;
+
+        // $validator = Validator::make($data, $this->rules())->validate();
+
+        // if ($validator->fails()) {
+        //     dd($validator->errors());
+        // }
     }
 
     /**

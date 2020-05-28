@@ -62,7 +62,7 @@ class UpdateWorkFromHomeInformation extends BaseService
 
         // if entry doesn't exist and the boolean is true, we need to create the
         // entry in the database
-        if (!$entry && $data['work_from_home'] == true) {
+        if (! $entry && $data['work_from_home'] == true) {
             WorkFromHome::create([
                 'employee_id' => $data['employee_id'],
                 'date' => $data['date'],

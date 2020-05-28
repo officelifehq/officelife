@@ -15,7 +15,7 @@ class CreateAuditLogTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('audit_logs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->string('author_name');

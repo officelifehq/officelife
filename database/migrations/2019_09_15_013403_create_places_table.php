@@ -16,7 +16,7 @@ class CreatePlacesTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('countries', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->timestamps();
         });
@@ -265,7 +265,7 @@ class CreatePlacesTable extends Migration
         DB::table('countries')->insert(['name' => 'United Arab Emirates']);
 
         Schema::create('places', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->integer('placable_id')->nullable();
             $table->string('placable_type')->nullable();
             $table->string('street')->nullable();

@@ -51,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
                         'last_name' => InstanceHelper::getLoggedEmployee()->last_name,
                         'name' => InstanceHelper::getLoggedEmployee()->name,
                         'permission_level' => InstanceHelper::getLoggedEmployee()->permission_level,
-                        'user' => (!InstanceHelper::getLoggedEmployee()->user) ? null : [
+                        'user' => (! InstanceHelper::getLoggedEmployee()->user) ? null : [
                             'id' => InstanceHelper::getLoggedEmployee()->user_id,
                         ],
                     ]: null,

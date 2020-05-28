@@ -15,7 +15,7 @@ class CreateCompanyCalendarTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('company_calendars', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_pto_policy_id');
             $table->datetime('day');
             $table->integer('day_of_week');

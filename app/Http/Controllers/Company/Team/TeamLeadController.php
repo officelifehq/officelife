@@ -9,7 +9,7 @@ use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Team\SetTeamLead;
-use App\Services\Company\Team\UnSetTeamLead;
+use App\Services\Company\Team\UnsetTeamLead;
 
 class TeamLeadController extends Controller
 {
@@ -92,7 +92,7 @@ class TeamLeadController extends Controller
             'employee_id' => $request->input('employeeId'),
         ];
 
-        $team = (new UnSetTeamLead)->execute($data);
+        $team = (new UnsetTeamLead)->execute($data);
 
         return response()->json([
             'data' => $team->toObject(),

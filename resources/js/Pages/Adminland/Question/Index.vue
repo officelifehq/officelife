@@ -44,7 +44,7 @@
               {{ $tc('account.questions_number_questions', questions.length, { company: $page.auth.company.name, count: questions.length}) }}
             </span>
             <span v-if="questions.length > 0" class="dib mb3 f6 gray lh-copy">{{ $t('account.questions_description') }}</span>
-            <a data-cy="add-question-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="showAddModal">
+            <a v-if="!modal" data-cy="add-question-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="showAddModal">
               {{ $t('account.questions_cta') }}
             </a>
           </p>

@@ -34,8 +34,8 @@ class ApiTeamController extends ApiController
      * Get the detail of a given team.
      *
      * @param Request $request
-     * @param int     $companyId
-     * @param int     $teamId
+     * @param int $companyId
+     * @param int $teamId
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -58,7 +58,7 @@ class ApiTeamController extends ApiController
      * Create a team.
      *
      * @param Request $request
-     * @param int     $companyId
+     * @param int $companyId
      *
      * @return \Illuminate\Http\JsonResponse
      */

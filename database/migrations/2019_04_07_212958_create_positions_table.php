@@ -15,7 +15,7 @@ class CreatePositionsTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('positions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('title');
             $table->boolean('is_dummy')->default(false);

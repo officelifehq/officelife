@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\Company;
+namespace Tests\Unit\Services\Company\Employee\Notification;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\User\Notification\MarkNotificationsAsRead;
+use App\Services\Company\Employee\Notification\MarkNotificationsAsRead;
 
 class MarkNotificationsAsReadTest extends TestCase
 {

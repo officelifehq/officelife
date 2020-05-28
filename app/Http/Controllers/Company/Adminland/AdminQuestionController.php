@@ -18,7 +18,7 @@ use App\Services\Company\Adminland\Question\DeactivateQuestion;
 class AdminQuestionController extends Controller
 {
     /**
-     * Show the list of company news.
+     * Show the list of questions.
      *
      * @return Response
      */

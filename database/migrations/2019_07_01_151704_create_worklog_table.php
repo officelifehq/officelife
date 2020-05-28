@@ -15,7 +15,7 @@ class CreateWorklogTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('worklogs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->text('content');
             $table->boolean('is_dummy')->default(false);

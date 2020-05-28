@@ -299,6 +299,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the hardware records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function hardware()
+    {
+        return $this->hasMany(Hardware::class);
+    }
+
+    /**
      * Transform the object to an array representing this object.
      *
      * @return array
@@ -317,7 +327,7 @@ class Employee extends Model
             'last_name' => $this->last_name,
             'avatar' => $this->avatar,
             'email' => $this->email,
-            'birthdate' => (!$this->birthdate) ? null : [
+            'birthdate' => (! $this->birthdate) ? null : [
                 'full' => DateHelper::formatDate($this->birthdate),
                 'partial' => DateHelper::formatMonthAndDay($this->birthdate),
                 'year' => $this->birthdate->year,
@@ -329,18 +339,18 @@ class Employee extends Model
             'parsed_description' => is_null($this->description) ? null : StringHelper::parse($this->description),
             'permission_level' => $this->getPermissionLevel(),
             'address' => is_null($address) ? null : $address->toObject(),
-            'position' => (!$this->position) ? null : [
+            'position' => (! $this->position) ? null : [
                 'id' => $this->position->id,
                 'title' => $this->position->title,
             ],
-            'pronoun' => (!$this->pronoun) ? null : [
+            'pronoun' => (! $this->pronoun) ? null : [
                 'id' => $this->pronoun->id,
                 'label' => $this->pronoun->label,
             ],
-            'user' => (!$this->user) ? null : [
+            'user' => (! $this->user) ? null : [
                 'id' => $this->user->id,
             ],
-            'status' => (!$this->status) ? null : [
+            'status' => (! $this->status) ? null : [
                 'id' => $this->status->id,
                 'name' => $this->status->name,
             ],

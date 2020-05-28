@@ -396,6 +396,39 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'hardware_created') {
+            $sentence = trans('account.log_hardware_created', [
+                'name' => $log->object->{'hardware_name'},
+            ]);
+        }
+
+        if ($log->action == 'hardware_updated') {
+            $sentence = trans('account.log_hardware_updated', [
+                'name' => $log->object->{'hardware_name'},
+                'old_name' => $log->object->{'hardware_old_name'},
+            ]);
+        }
+
+        if ($log->action == 'hardware_destroyed') {
+            $sentence = trans('account.log_hardware_destroyed', [
+                'name' => $log->object->{'hardware_name'},
+            ]);
+        }
+
+        if ($log->action == 'hardware_lent') {
+            $sentence = trans('account.log_hardware_lent', [
+                'hardware_name' => $log->object->{'hardware_name'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'hardware_regained') {
+            $sentence = trans('account.log_hardware_regained', [
+                'hardware_name' => $log->object->{'hardware_name'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 

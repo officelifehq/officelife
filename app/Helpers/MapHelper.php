@@ -18,11 +18,11 @@ class MapHelper
      */
     public static function getStaticImage(Place $place, int $width, int $height, int $zoom = 7): ?string
     {
-        if (!config('officelife.mapbox_api_key')) {
+        if (! config('officelife.mapbox_api_key')) {
             return null;
         }
 
-        if (!config('officelife.mapbox_username')) {
+        if (! config('officelife.mapbox_username')) {
             return null;
         }
 

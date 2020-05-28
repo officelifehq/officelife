@@ -15,7 +15,7 @@ class CreateTeamUsefulLinksTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('team_useful_links', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('team_id');
             $table->string('type');
             $table->string('label')->nullable();

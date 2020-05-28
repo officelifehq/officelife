@@ -26,7 +26,7 @@ input[type=checkbox] {
       :data-cy="datacy"
       @change="$emit('change', updatedValue)"
     />
-    <label v-if="label" class="fw4 lh-copy f5 pointer" :for="id">
+    <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="id">
       {{ label }}
       <span v-if="!required" class="optional-badge f7">
         {{ $t('app.optional') }}

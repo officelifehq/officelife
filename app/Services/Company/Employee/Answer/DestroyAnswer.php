@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Company\Adminland\Answer;
+namespace App\Services\Company\Employee\Answer;
 
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;

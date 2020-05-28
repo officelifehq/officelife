@@ -22,5 +22,13 @@ describe('Help - Show and validate help for all features', function () {
     // work from home
     cy.get('[data-cy=help-icon-work-from-home]').should('exist')
     cy.get('[data-cy=help-icon-work-from-home]').click()
+
+
+    /*–----------------------
+    * ADMINLAND
+    */
+    // hardware
+    cy.visit('/1/account/hardware/create')
+    cy.get('[data-cy=help-icon-hardware]').click()
   })
 })

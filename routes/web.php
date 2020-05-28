@@ -169,6 +169,12 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('account/questions', 'Company\\Adminland\\AdminQuestionController');
             Route::post('account/questions/{question}/activate', 'Company\\Adminland\\AdminQuestionController@activate');
             Route::post('account/questions/{question}/deactivate', 'Company\\Adminland\\AdminQuestionController@deactivate');
+
+            // hardware
+            Route::get('account/hardware/available', 'Company\\Adminland\\AdminHardwareController@available');
+            Route::get('account/hardware/lent', 'Company\\Adminland\\AdminHardwareController@lent');
+            Route::post('account/hardware/search', 'Company\\Adminland\\AdminHardwareController@search');
+            Route::resource('account/hardware', 'Company\\Adminland\\AdminHardwareController');
         });
     });
 });

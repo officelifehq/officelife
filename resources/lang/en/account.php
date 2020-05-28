@@ -2,7 +2,7 @@
 
 return [
     'home_title' => 'Administration of your OfficeLife account',
-    'home_role_administrator' => 'As an <span class="fw5 brush-blue">administrator</span>, you can…',
+    'home_role_administrator' => 'As an <span class="fw5 brush-blue">human resource representative</span>, you can…',
     'home_role_owner' => 'As an <span class="fw5 brush-orange">owner</span>, you can…',
     'home_manage_employees' => 'Add/remove existing employees',
     'home_manage_positions' => 'Add/remove job positions',
@@ -15,6 +15,7 @@ return [
     'home_remove_fake_data' => 'Remove fake data',
     'home_manage_pto' => 'Manage paid time off policies',
     'home_manage_questions' => 'Manage questions',
+    'home_manage_hardware' => 'Manage hardware',
 
     'employees_title' => 'All the employees in {company}',
     'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
@@ -174,6 +175,11 @@ return [
     'log_answer_created' => 'Answered the question called :title.',
     'log_answer_updated' => 'Updated the answer to the question called :title.',
     'log_answer_destroyed' => 'Deleted the answer to the question called :title.',
+    'log_hardware_created' => 'Added a hardware called :name.',
+    'log_hardware_updated' => 'Updated the hardware name from :old_name to :name.',
+    'log_hardware_destroyed' => 'Deleted the hardware called :name.',
+    'log_hardware_lent' => 'Lent the hardware named :hardware_name to :employee_name.',
+    'log_hardware_regained' => 'Took back the hardware named :hardware_name from :employee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -233,7 +239,7 @@ return [
     'morale_3' => 'Negative',
 
     'company_news_title' => 'Company news',
-    'company_news_blank' => 'Do you need to broadcast an announcement or a news to every employee of Behaviour? You can do so here!',
+    'company_news_blank' => 'Do you need to broadcast an announcement or a news to every employee of your company? You can do so here!',
     'company_news_number_news' => '{company} has {count} company news.',
     'company_news_cta' => 'Add a company news',
     'company_news_written_by' => 'Written by {name} on {date}',
@@ -297,4 +303,29 @@ return [
     'question_status_active' => 'active',
     'question_status_inactive' => 'inactive',
     'question_number_of_answers' => '{count} answer | {count} answer | {count} answers',
+
+    'hardware_title' => 'Manage company hardware',
+    'hardware_blank' => 'Here you can keep track of all the hardware your company buys, and whose employee has what.',
+    'hardware_description' => 'This is all the hardware that you have in your company.',
+    'hardware_create_title' => 'Add a new piece of hardware to your inventory',
+    'hardware_all_hardware' => 'All hardware',
+    'hardware_available_hardware' => 'Available hardware',
+    'hardware_lent_hardware' => 'Lent hardware',
+    'hardware_no_serial' => 'No serial number',
+    'hardware_not_lent' => 'Item not lent yet',
+    'hardware_cta' => 'Add item',
+    'hardware_create_name_input' => 'Name of the hardware',
+    'hardware_create_serial_input' => 'Serial number (or any other relevant information)',
+    'hardware_create_serial_input_help' => 'This will let you identify this hardware in an unique manner.',
+    'hardware_create_lend_hardware' => 'Would you like to lend this item to an employee?',
+    'hardware_create_lend_name' => 'Choose an employee',
+    'hardware_create_success' => 'Hardware has been added to your company',
+    'hardware_update_success' => 'Hardware has been updated with success.',
+    'hardware_log_hardware_created' => 'Created this item called :name',
+    'hardware_log_hardware_updated' => 'Updated the name to :name',
+    'hardware_log_hardware_lent' => 'Lent this item to :name',
+    'hardware_log_hardware_regained' => 'Took back the item from :name',
+    'hardware_show_history' => 'History',
+    'hardware_search_placeholder' => 'Find by item name or serial number',
+    'hardware_edit_title' => 'Edit an item',
 ];

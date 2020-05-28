@@ -15,7 +15,7 @@ class CreateTeamsTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('teams', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('name');
             $table->boolean('is_dummy')->default(false);

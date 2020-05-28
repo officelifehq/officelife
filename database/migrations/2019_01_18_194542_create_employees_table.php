@@ -15,7 +15,7 @@ class CreateEmployeesTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('employees', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('company_id');
             $table->string('email')->nullable();

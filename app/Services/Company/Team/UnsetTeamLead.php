@@ -10,7 +10,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
 
-class UnSetTeamLead extends BaseService
+class UnsetTeamLead extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.

@@ -330,3 +330,13 @@ $factory->define(App\Models\Company\Answer::class, function () {
         'body' => 'This is my answer',
     ];
 });
+
+$factory->define(App\Models\Company\Hardware::class, function () {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'name' => 'iPhone',
+        'serial_number' => '123',
+    ];
+});

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Adminland\CompanyNews;
+namespace Tests\Unit\Services\Company\Team\TeamNews;
 
 use Tests\TestCase;
 use App\Jobs\LogTeamAudit;

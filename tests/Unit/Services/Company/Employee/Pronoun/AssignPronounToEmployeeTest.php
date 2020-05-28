@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\Position;
+namespace Tests\Unit\Services\Company\Employee\Pronoun;
 
 use Tests\TestCase;
 use App\Models\User\Pronoun;

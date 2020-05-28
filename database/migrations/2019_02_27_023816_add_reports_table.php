@@ -15,7 +15,7 @@ class AddReportsTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('direct_reports', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('manager_id');
             $table->unsignedBigInteger('employee_id');

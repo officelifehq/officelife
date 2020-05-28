@@ -28,7 +28,7 @@ class EmployeeShowViewHelper
                 'id' => $manager->id,
                 'name' => $manager->name,
                 'avatar' => $manager->avatar,
-                'position' => (!$manager->position) ? null : [
+                'position' => (! $manager->position) ? null : [
                     'id' => $manager->position->id,
                     'title' => $manager->position->title,
                 ],
@@ -60,7 +60,7 @@ class EmployeeShowViewHelper
                 'id' => $directReport->id,
                 'name' => $directReport->name,
                 'avatar' => $directReport->avatar,
-                'position' => (!$directReport->position) ? null : [
+                'position' => (! $directReport->position) ? null : [
                     'id' => $directReport->position->id,
                     'title' => $directReport->position->title,
                 ],

@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Company\Morale;
 use App\Models\Company\Worklog;
+use App\Models\Company\Hardware;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\CompanyPTOPolicy;
@@ -73,6 +74,9 @@ class GenerateDummyDataTest extends TestCase
 
         $teamNewsNumber = CompanyTeamNews::count();
         $this->assertEquals(20, $teamNewsNumber);
+
+        $hardwareNumber = Hardware::count();
+        $this->assertGreaterThan(1, $hardwareNumber);
 
         (new RemoveDummyData)->execute($request);
 

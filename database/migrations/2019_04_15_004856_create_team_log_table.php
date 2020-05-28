@@ -15,7 +15,7 @@ class CreateTeamLogTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('team_logs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('team_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->string('author_name');

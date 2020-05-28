@@ -1,11 +1,6 @@
-<style lang="scss" scoped>
-  div {
-    top: 3px;
-  }
-</style>
-
 <template>
   <div v-if="$page.auth.user.show_help" :class="classes" class="di relative pointer" :data-cy="datacy" :data-url="finalURL"
+       :style="'top:' + top"
        @click="goTo()"
   >
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,6 +23,10 @@ export default {
     datacy: {
       type: String,
       default: '',
+    },
+    top: {
+      type: String,
+      default: '3px',
     },
   },
 

@@ -15,7 +15,7 @@ class CreateCompanyNewsTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('company_news', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->string('author_name');

@@ -15,7 +15,7 @@ class CreateEmployeeLogTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('employee_logs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->string('author_name');

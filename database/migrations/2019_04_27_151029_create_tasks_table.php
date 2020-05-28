@@ -15,7 +15,7 @@ class CreateTasksTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('tasks', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('team_id')->nullable();
             $table->unsignedBigInteger('assignee_id')->nullable();

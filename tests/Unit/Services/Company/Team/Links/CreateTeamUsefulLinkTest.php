@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\Team\Links;
+namespace Tests\Unit\Services\Company\Team\Links;
 
 use Tests\TestCase;
 use App\Jobs\LogTeamAudit;

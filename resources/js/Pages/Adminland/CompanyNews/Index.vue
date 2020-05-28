@@ -54,9 +54,7 @@
 
                 <!-- RENAME A NEWS -->
                 <li class="di mr1 f7">
-                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">
-                    {{ $t('app.edit') }}
-                  </inertia-link>
+                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">{{ $t('app.edit') }}</inertia-link>
                 </li>
 
                 <!-- DELETE A NEWS -->
@@ -70,9 +68,7 @@
                   </a>
                 </li>
                 <li v-else class="di f7">
-                  <a class="pointer" :data-cy="'list-delete-button-' + singleNews.id" @click.prevent="idToDelete = singleNews.id">
-                    {{ $t('app.delete') }}
-                  </a>
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + singleNews.id" @click.prevent="idToDelete = singleNews.id">{{ $t('app.delete') }}</a>
                 </li>
               </ul>
             </li>

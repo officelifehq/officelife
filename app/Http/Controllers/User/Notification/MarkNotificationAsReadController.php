@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User\Notification;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
-use App\Services\User\Notification\MarkNotificationsAsRead;
+use App\Services\Company\Employee\Notification\MarkNotificationsAsRead;
 
 class MarkNotificationAsReadController extends Controller
 {
