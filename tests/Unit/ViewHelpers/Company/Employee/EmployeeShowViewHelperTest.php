@@ -7,6 +7,7 @@ use Tests\ApiTestCase;
 use App\Models\Company\Answer;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
+use App\Models\Company\Hardware;
 use App\Models\Company\Question;
 use App\Models\Company\WorkFromHome;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -230,6 +231,32 @@ class EmployeeShowViewHelperTest extends ApiTestCase
                     'answer' => [
                         'body' => 'this is my answer',
                     ],
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_hardware(): void
+    {
+        $michael = factory(Employee::class)->create([]);
+        $hardware = factory(Hardware::class)->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'name' => 'iphone',
+            'serial_number' => '123',
+        ]);
+
+        $collection = EmployeeShowViewHelper::hardware($michael);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $hardware->id,
+                    'name' => 'iphone',
+                    'serial_number' => '123',
                 ],
             ],
             $collection->toArray()

@@ -175,4 +175,28 @@ class EmployeeShowViewHelper
 
         return $questionsCollection;
     }
+
+    /**
+     * Array containing information about the hardware associated with the
+     * employee.
+     *
+     * @param Employee $employee
+     *
+     * @return Collection
+     */
+    public static function hardware(Employee $employee): Collection
+    {
+        $hardware = $employee->hardware;
+
+        $hardwareCollection = collect([]);
+        foreach ($hardware as $item) {
+            $hardwareCollection->push([
+                'id' => $item->id,
+                'name' => $item->name,
+                'serial_number' => $item->serial_number,
+            ]);
+        }
+
+        return $hardwareCollection;
+    }
 }

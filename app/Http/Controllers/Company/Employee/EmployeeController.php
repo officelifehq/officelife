@@ -81,6 +81,7 @@ class EmployeeController extends Controller
                 ->with('places')
                 ->with('managers')
                 ->with('workFromHomes')
+                ->with('hardware')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -102,6 +103,9 @@ class EmployeeController extends Controller
         // questions
         $questions = EmployeeShowViewHelper::questions($employee);
 
+        // hardware
+        $hardware = EmployeeShowViewHelper::hardware($employee);
+
         return Inertia::render('Employee/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employee' => $employee->toObject(),
@@ -110,6 +114,7 @@ class EmployeeController extends Controller
             'worklogs' => $worklogsCollection,
             'workFromHomes' => $workFromHomeStats,
             'questions' => $questions,
+            'hardware' => $hardware,
             'employeeTeams' => TeamCollection::prepare($employee->teams),
             'positions' => PositionCollection::prepare($company->positions()->get()),
             'teams' => TeamCollection::prepare($company->teams()->get()),
