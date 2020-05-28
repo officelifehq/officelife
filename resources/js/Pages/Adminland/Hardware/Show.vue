@@ -39,11 +39,11 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
-          <h2 class="normal mb3">
+          <h2 class="normal mb3" data-cy="item-name">
             {{ hardware.name }}
           </h2>
 
-          <p v-if="hardware.serial_number" class="relative mb3">
+          <p v-if="hardware.serial_number" class="relative mb3" data-cy="item-serial-number">
             <svg class="relative mr1" style="top: 3px;" width="15" height="15" viewBox="0 0 15 15"
                  fill="none" xmlns="http://www.w3.org/2000/svg"
             >
@@ -67,20 +67,20 @@
           </div>
 
           <ul class="list pl0 mb5">
-            <li class="di mr2"><inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/' + hardware.id + '/edit'">{{ $t('app.edit') }}</inertia-link></li>
+            <li class="di mr2"><inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/' + hardware.id + '/edit'" :data-cy="'hardware-edit-link-' + hardware.id">{{ $t('app.edit') }}</inertia-link></li>
 
             <!-- DELETE AN ITEM -->
             <li v-if="idToDelete == hardware.id" class="di">
               {{ $t('app.sure') }}
-              <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + hardware.id" @click.prevent="destroy(hardware.id)">
+              <a class="c-delete mr1 pointer" :data-cy="'delete-confirm-button'" @click.prevent="destroy(hardware.id)">
                 {{ $t('app.yes') }}
               </a>
-              <a class="pointer" :data-cy="'list-delete-cancel-button-' + hardware.id" @click.prevent="idToDelete = 0">
+              <a class="pointer" :data-cy="'delete-cancel-button'" @click.prevent="idToDelete = 0">
                 {{ $t('app.no') }}
               </a>
             </li>
             <li v-else class="di">
-              <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + hardware.id" @click.prevent="idToDelete = hardware.id">
+              <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'delete-button'" @click.prevent="idToDelete = hardware.id">
                 {{ $t('app.delete') }}
               </a>
             </li>

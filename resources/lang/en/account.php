@@ -327,4 +327,5 @@ return [
     'hardware_log_hardware_regained' => 'Took back the item from :name',
     'hardware_show_history' => 'History',
     'hardware_search_placeholder' => 'Find by item name or serial number',
+    'hardware_edit_title' => 'Edit an item',
 ];

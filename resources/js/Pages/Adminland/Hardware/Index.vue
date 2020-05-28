@@ -103,7 +103,7 @@
                 {{ $t('account.hardware_lent_hardware') }} <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
               </li>
               <li v-else class="pa2 mr2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/lent'">{{ $t('account.hardware_lent_hardware') }}</inertia-link> <span data-cy="hardware-count-not-lent">({{ countHardwareLent }})</span>
+                <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/lent'">{{ $t('account.hardware_lent_hardware') }}</inertia-link> <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
               </li>
             </ul>
           </div>

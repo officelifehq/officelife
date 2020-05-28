@@ -54,6 +54,29 @@ describe('Adminland - Hardware', function () {
     cy.get('[data-cy=hardware-item-lend-3]').contains('admin@admin.com')
 
     cy.hasAuditLog('Added a hardware called', '/1/account/hardware')
+
+    // see the details of a hardware
+    cy.get('[data-cy=hardware-item-3]').click();
+    cy.url().should('include', '/1/account/hardware/3')
+
+    // edit the hardware
+    cy.get('[data-cy=hardware-edit-link-3]').click()
+    cy.get('[data-cy=hardware-name-input]').type('Cable 4 inches')
+    cy.get('[data-cy=hardware-serial-input]').type('1234')
+    cy.get('[data-cy=submit-edit-hardware-button]').click()
+
+    cy.get('[data-cy=item-name').contains('Cable 4 inches')
+    cy.get('[data-cy=item-serial-number]').contains('1234')
+
+    cy.hasAuditLog('Updated the hardware', '/1/account/hardware/3')
+
+    // delete the hardware
+    cy.get('[data-cy=delete-button]').click()
+    cy.get('[data-cy=delete-cancel-button]').click()
+    cy.get('[data-cy=delete-button]').click()
+    cy.get('[data-cy=delete-confirm-button]').click()
+
+    cy.hasAuditLog('Deleted the hardware called', '/1/account/hardware/3')
   })
 
   it('should let you manage hardware as an HR', function () {
@@ -107,5 +130,24 @@ describe('Adminland - Hardware', function () {
     cy.get('[data-cy=hardware-item-3]').contains('Blackberry 18')
     cy.get('[data-cy=hardware-item-3]').contains('4565')
     cy.get('[data-cy=hardware-item-lend-3]').contains('admin@admin.com')
+
+    // see the details of a hardware
+    cy.get('[data-cy=hardware-item-3]').click();
+    cy.url().should('include', '/1/account/hardware/3')
+
+    // edit the hardware
+    cy.get('[data-cy=hardware-edit-link-3]').click()
+    cy.get('[data-cy=hardware-name-input]').type('Cable 4 inches')
+    cy.get('[data-cy=hardware-serial-input]').type('1234')
+    cy.get('[data-cy=submit-edit-hardware-button]').click()
+
+    cy.get('[data-cy=item-name').contains('Cable 4 inches')
+    cy.get('[data-cy=item-serial-number]').contains('1234')
+
+    // delete the hardware
+    cy.get('[data-cy=delete-button]').click()
+    cy.get('[data-cy=delete-cancel-button]').click()
+    cy.get('[data-cy=delete-button]').click()
+    cy.get('[data-cy=delete-confirm-button]').click()
   })
 })
