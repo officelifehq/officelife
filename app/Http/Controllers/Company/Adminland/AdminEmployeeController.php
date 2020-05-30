@@ -94,8 +94,13 @@ class AdminEmployeeController extends Controller
     public function delete(Request $request, int $companyId, int $employeeId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         if ($loggedCompany->id != $companyId) {
+            return redirect('/home');
+        }
+
+        if ($employeeId == $loggedEmployee->id) {
             return redirect('/home');
         }
 

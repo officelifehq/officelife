@@ -51,9 +51,9 @@
                 </inertia-link>
               </li>
               <li v-show="$page.auth.employee.permission_level <= 200" class="pv2">
-                <a class="pointer" data-cy="add-direct-report-button">
-                  Delete
-                </a>
+                <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + employee.id + '/delete'" class="pointer c-delete" data-cy="show-delete-view">
+                  {{ $t('app.delete') }}
+                </inertia-link>
               </li>
               <li v-if="employeeOrAtLeastHR()" class="pv2">
                 <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">

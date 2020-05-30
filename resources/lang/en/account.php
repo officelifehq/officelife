@@ -122,7 +122,9 @@ return [
     // account logs
     'log_account_created' => 'Created the account.',
     'log_employee_added_to_company' => 'Added :employee as an employee.',
-    'log_employee_destroyed' => 'Deleted the employee called :employee.',
+    'log_employee_destroyed' => 'Deleted the employee named :employee.',
+    'log_employee_locked' => 'Locked the account of the employee named :employee.',
+    'log_employee_unlocked' => 'Unlocked the account of the employee named :employee.',
     'log_team_created' => 'Created the team called :name.',
     'log_team_updated' => 'Changed the name of the team from :old_name to :new_name.',
     'log_team_destroyed' => 'Deleted the team called :name.',

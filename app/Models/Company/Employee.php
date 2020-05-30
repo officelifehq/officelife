@@ -44,6 +44,7 @@ class Employee extends Model
         'consecutive_worklog_missed',
         'employee_status_id',
         'uuid',
+        'locked',
         'is_dummy',
         'avatar',
         'holiday_balance',
@@ -92,6 +93,7 @@ class Employee extends Model
      */
     protected $casts = [
         'permission_level' => 'integer',
+        'locked' => 'boolean',
     ];
 
     /**
