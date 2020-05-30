@@ -60,4 +60,46 @@ describe('Adminland - Employee management', function () {
       cy.get('body').should('contain', 'Dunder Mifflin')
     })
   })
+
+  it('should let an administrator delete an employee', function () {
+    cy.login()
+    cy.createCompany()
+    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
+
+    cy.visit('/1/account/employees/2/delete')
+
+    // make sure the cancel button works
+    cy.get('[data-cy=cancel-button').click()
+    cy.url().should('include', '/1/account/employees')
+    cy.visit('/1/account/employees/2/delete')
+
+    // delete the employee for real
+    cy.get('[data-cy=submit-delete-employee-button').click()
+    cy.url().should('include', '/1/account/employees')
+    cy.get('[data-cy=employee-list]').should('not.contain', 'Michael Scott')
+
+    cy.wait(1000)
+
+    cy.hasAuditLog('Deleted the employee called Michael Scott', '/1/account/employees')
+  })
+
+  it('should let an HR delete an employee', function () {
+    cy.login()
+    cy.createCompany()
+    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
+
+    cy.changePermission(1, 200)
+
+    cy.visit('/1/account/employees/2/delete')
+
+    // make sure the cancel button works
+    cy.get('[data-cy=cancel-button').click()
+    cy.url().should('include', '/1/account/employees')
+    cy.visit('/1/account/employees/2/delete')
+
+    // delete the employee for real
+    cy.get('[data-cy=submit-delete-employee-button').click()
+    cy.url().should('include', '/1/account/employees')
+    cy.get('[data-cy=employee-list]').should('not.contain', 'Michael Scott')
+  })
 })

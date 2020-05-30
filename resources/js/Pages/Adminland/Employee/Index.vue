@@ -46,6 +46,7 @@
             <li
               v-for="currentEmployee in employees" :key="currentEmployee.id"
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
+              data-cy="employee-list"
             >
               <img class="w2 h2 w3-ns h3-ns br-100" :src="currentEmployee.avatar" width="64" height="64" alt="avatar"
                    loading="lazy"
@@ -75,10 +76,8 @@
                       {{ $t('account.employees_lock_account') }}
                     </inertia-link>
                   </li>
-                  <li class="di">
-                    <inertia-link :href="'/account/employees/' + currentEmployee.id + '/destroy'">
-                      {{ $t('app.delete') }}
-                    </inertia-link>
+                  <li v-if="currentEmployee.id != $page.auth.employee.id" class="di">
+                    <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + currentEmployee.id + '/delete'" class="c-delete">{{ $t('app.delete') }}</inertia-link>
                   </li>
                 </ul>
               </div>

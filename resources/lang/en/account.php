@@ -23,6 +23,10 @@ return [
     'employees_lock_account' => 'Lock account',
     'employees_change_permission' => 'Change permission',
 
+    'employee_delete_title' => 'Delete all information about {name}',
+    'employee_delete_description' => 'You are about to remove {name} from OfficeLife. This will effectively delete all information we know about this person. We will revoke all possible access to OfficeLife immediately.',
+    'employee_delete_success' => 'The employee has been deleted with success.',
+
     'employee_new_basic_information' => 'Basic information',
     'employee_new_title' => 'Add an employee to {name}',
     'employee_new_firstname' => 'First name',
@@ -118,6 +122,7 @@ return [
     // account logs
     'log_account_created' => 'Created the account.',
     'log_employee_added_to_company' => 'Added :employee as an employee.',
+    'log_employee_destroyed' => 'Deleted the employee called :employee.',
     'log_team_created' => 'Created the team called :name.',
     'log_team_updated' => 'Changed the name of the team from :old_name to :new_name.',
     'log_team_destroyed' => 'Deleted the team called :name.',

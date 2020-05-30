@@ -142,6 +142,7 @@ Route::middleware(['auth'])->group(function () {
 
             // employee management
             Route::resource('account/employees', 'Company\\Adminland\\AdminEmployeeController', ['as' => 'account']);
+            Route::get('account/employees/{employee}/delete', 'Company\\Adminland\\AdminEmployeeController@delete');
             Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@index');
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
 
