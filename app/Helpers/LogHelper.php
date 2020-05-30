@@ -31,6 +31,12 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_destroyed') {
+            $sentence = trans('account.log_employee_destroyed', [
+                'employee' => $log->object->{'employee_name'},
+            ]);
+        }
+
         if ($log->action == 'team_created') {
             $sentence = trans('account.log_team_created', [
                 'name' => $log->object->{'team_name'},

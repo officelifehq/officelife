@@ -6,9 +6,11 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 
@@ -85,6 +87,35 @@ class AdminEmployeeController extends Controller
     }
 
     /**
+     * Show the Delete employee view.
+     *
+     * @return \Inertia\Response
+     */
+    public function delete(Request $request, int $companyId, int $employeeId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        if ($loggedCompany->id != $companyId) {
+            return redirect('/home');
+        }
+
+        try {
+            $employee = Employee::where('company_id', $loggedCompany->id)
+                ->findOrFail($employeeId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('/home');
+        }
+
+        return Inertia::render('Adminland/Employee/Delete', [
+            'employee' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ],
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
      * Delete the employee.
      *
      * @param Request $request
@@ -95,16 +126,19 @@ class AdminEmployeeController extends Controller
      */
     public function destroy(Request $request, int $companyId, int $employeeId)
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         $request = [
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'employee_id' => $employeeId,
             'author_id' => $loggedEmployee->id,
         ];
 
         (new DestroyEmployee)->execute($request);
 
-        return redirect(tenant('/account/employees'));
+        return response()->json([
+            'company_id' => $companyId,
+        ]);
     }
 }
