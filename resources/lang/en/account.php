@@ -27,6 +27,10 @@ return [
     'employee_delete_description' => 'You are about to remove {name} from OfficeLife. This will effectively delete all information we know about this person. We will revoke all possible access to OfficeLife immediately.',
     'employee_delete_success' => 'The employee has been deleted with success.',
 
+    'employee_lock_title' => 'Lock {name}’s account',
+    'employee_lock_description' => 'Are you sure you want to lock {name}’s account? This will prevent {name} from logging into OfficeLife. You can unlock the account anytime.',
+    'employee_lock_success' => 'The employee has been locked with success.',
+
     'employee_new_basic_information' => 'Basic information',
     'employee_new_title' => 'Add an employee to {name}',
     'employee_new_firstname' => 'First name',

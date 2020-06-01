@@ -33,6 +33,9 @@ class ProvisionDefaultAccountData extends BaseService
     {
         $this->validateRules($data);
 
+        $employee = Employee::find($data['author_id']);
+        $company = $employee->company;
+
         // positions
         $positions = [
             trans('app.default_position_ceo'),
@@ -43,8 +46,8 @@ class ProvisionDefaultAccountData extends BaseService
 
         foreach ($positions as $position) {
             (new CreatePosition)->execute([
-                'company_id' => $data['company_id'],
-                'author_id' => $data['author_id'],
+                'company_id' => $company->id,
+                'author_id' => $employee->id,
                 'title' => $position,
             ]);
         }
@@ -57,8 +60,8 @@ class ProvisionDefaultAccountData extends BaseService
 
         foreach ($statuses as $status) {
             (new CreateEmployeeStatus)->execute([
-                'company_id' => $data['company_id'],
-                'author_id' => $data['author_id'],
+                'company_id' => $company->id,
+                'author_id' => $employee->id,
                 'name' => $status,
             ]);
         }
@@ -67,8 +70,8 @@ class ProvisionDefaultAccountData extends BaseService
         $currentYear = Carbon::now();
         for ($i = 1; $i <= 5; $i++) {
             (new CreateCompanyPTOPolicy)->execute([
-                'company_id' => $data['company_id'],
-                'author_id' => $data['author_id'],
+                'company_id' => $company->id,
+                'author_id' => $employee->id,
                 'year' => $currentYear->format('Y'),
                 'default_amount_of_allowed_holidays' => 30,
                 'default_amount_of_sick_days' => 5,
@@ -76,5 +79,9 @@ class ProvisionDefaultAccountData extends BaseService
             ]);
             $currentYear->addYear();
         }
+
+        // add holidays for the newly created employee
+        $employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
+        $employee->save();
     }
 }

@@ -71,10 +71,8 @@
                       {{ $t('account.employees_change_permission') }}
                     </inertia-link>
                   </li>
-                  <li class="di pr2">
-                    <inertia-link :href="'/employees/' + currentEmployee.id + '/lock'">
-                      {{ $t('account.employees_lock_account') }}
-                    </inertia-link>
+                  <li v-if="currentEmployee.id != $page.auth.employee.id" class="di pr2">
+                    <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + currentEmployee.id + '/lock'">{{ $t('account.employees_lock_account') }}</inertia-link>
                   </li>
                   <li v-if="currentEmployee.id != $page.auth.employee.id" class="di">
                     <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + currentEmployee.id + '/delete'" class="c-delete">{{ $t('app.delete') }}</inertia-link>
