@@ -9,7 +9,9 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Jobs\Dummy\CreateDummyTeam;
 use Illuminate\Support\Facades\Cache;
+use App\Jobs\Dummy\CreateDummyWorklog;
 use App\Jobs\Dummy\CreateDummyPosition;
+use App\Jobs\Dummy\CreateDummyQuestion;
 use App\Jobs\Dummy\AddDummyEmployeeToCompany;
 
 class GenerateDummyData extends BaseService
@@ -59,14 +61,8 @@ class GenerateDummyData extends BaseService
         $this->createPositions();
         $this->createTeams();
         $this->createEmployees();
-
-        // $this->createWorklogEntries();
-
-        // $this->createFiveUsersWithoutTeam($data);
-
-        // $this->createThreeTeamsWithEmployees($data);
-
-        // $this->createWorklogEntries();
+        $this->createWorklogEntries();
+        $this->createQuestions();
 
         // $this->createMoraleEntries();
 
@@ -74,7 +70,7 @@ class GenerateDummyData extends BaseService
 
         // $this->createCompanyNewsEntries($data);
 
-        // $this->createQuestions($data);
+        //
 
         // $this->createHardware($data);
 
@@ -128,7 +124,7 @@ class GenerateDummyData extends BaseService
     private function createTeams(): void
     {
         $listOfTeams = [
-            'Management' => ' ',
+            'Management',
             'Sales',
             'Accounting',
             'Human Resources',
@@ -187,5 +183,68 @@ class GenerateDummyData extends BaseService
         ];
 
         AddDummyEmployeeToCompany::dispatch($request);
+    }
+
+    private function createWorklogEntries(): void
+    {
+        $worklogs = [
+            'Planning party comity day. It was great, we tried to create a birthday theme for Angela. I think she loved it',
+            'Tried to make our biggest sale of the year, but it did not work unfortunately.',
+            'The supercomputer tried to destroy our sales for the year, but we did not let it win. Dwight is super happy.',
+            '5 letters sent today. New contracts coming. Also I tried to finalize our integration with Excel.',
+            'Called 3 potential clients today. One of them is super interested. Will try again tomorrow.',
+            'Everybody is dressed up for Halloween, but unfortunately Michael has to fire somebody.',
+            'The Dunder-Mifflin crew goes on a "motivational" cruise to Lake Wallenpaupack. A drunken Roy is inspired to announce a date for his wedding with Pam. Jim is crushed and confesses to Michael his feelings for Pam.',
+            'Michael is aggravated that his birthday isn’t getting more attention than Kevin’s skin cancer test.',
+            'Michael converts the warehouse into a casino for a charity casino night, but ends up with two dates - Jan and his realtor, Carol. Jim has something to tell Pam.',
+            'The Dunder Mifflin Infinity website is launching and Michael is excited about going to the big launch party in New York while Angela plans a satellite party for the Scranton branch. Meanwhile, Dwight competes against the website to see who can sell the most paper in one day.',
+        ];
+
+        $employees = Employee::where('company_id', $this->company->id)->get();
+
+        foreach ($employees as $employee) {
+            shuffle($worklogs);
+            foreach ($worklogs as $worklog) {
+                $faker = Faker::create();
+
+                $request = [
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->author->id,
+                    'employee_id' => $employee->id,
+                    'content' => $worklog,
+                    'date' => $faker->dateTimeThisYear('now')->format('Y-m-d'),
+                ];
+
+                CreateDummyWorklog::dispatch($request);
+            }
+        }
+    }
+
+    private function createQuestions(): void
+    {
+        $questions = [
+            'What is your favorite animal?',
+            'What is the best movie you have seen this year?',
+            'Care to share your best restaurant in town?',
+            'Do you have any personal goals that you would like to share with us this week?',
+        ];
+
+        foreach ($questions as $question) {
+            $request = [
+                'company_id' => $this->company->id,
+                'author_id' => $this->author->id,
+                'title' => $question,
+                'active' => false,
+            ];
+
+            CreateDummyQuestion::dispatch($request);
+        }
+
+        CreateDummyQuestion::dispatch([
+            'company_id' => $this->company->id,
+            'author_id' => $this->author->id,
+            'title' => 'What is the best TV show of this year so far?',
+            'active' => true,
+        ]);
     }
 }

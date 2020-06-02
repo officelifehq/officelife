@@ -43,6 +43,7 @@ class CreatePosition extends BaseService
         $position = Position::create([
             'company_id' => $data['company_id'],
             'title' => $data['title'],
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         LogAccountAudit::dispatch([

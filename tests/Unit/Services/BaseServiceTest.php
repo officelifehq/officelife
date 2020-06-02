@@ -224,6 +224,36 @@ class BaseServiceTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_the_given_date_or_the_current_date(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $stub = $this->getMockForAbstractClass(BaseService::class);
+        $array = [
+            'value' => '1990-01-01',
+        ];
+
+        $this->assertInstanceOf(
+            Carbon::class,
+            $stub->valueOrNow($array, 'value')
+        );
+
+        $this->assertEquals(
+            '1990-01-01',
+            $stub->valueOrNow($array, 'value')->format('Y-m-d')
+        );
+
+        $array = [
+            'otherValue' => '',
+        ];
+
+        $this->assertEquals(
+            '2018-01-01',
+            $stub->valueOrNow($array, 'otherValue')->format('Y-m-d')
+        );
+    }
+
+    /** @test */
     public function it_returns_null_or_the_actual_date(): void
     {
         $stub = $this->getMockForAbstractClass(BaseService::class);

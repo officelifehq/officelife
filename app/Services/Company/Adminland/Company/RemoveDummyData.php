@@ -2,11 +2,14 @@
 
 namespace App\Services\Company\Adminland\Company;
 
+use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
+use App\Models\Company\TeamLog;
+use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
+use App\Models\Company\Position;
+use App\Models\Company\EmployeeLog;
 
 class RemoveDummyData extends BaseService
 {
@@ -39,73 +42,34 @@ class RemoveDummyData extends BaseService
 
         $company = Company::find($data['company_id']);
 
-        $this->removeTeams($data);
-
-        $this->removeEmployees($data);
-
-        $this->removeAuditLogs($data);
-
-        $this->removeQuestions($data);
+        $this->removePositions();
+        $this->removeTeams();
+        $this->removeEmployees();
+        $this->removeAuditLogs();
 
         $company->has_dummy_data = false;
         $company->save();
-
-        $cachedCompanyObject = 'cachedCompanyObject_'.$data['author_id'];
-        Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
     }
 
-    /**
-     * Remove dummy team.
-     *
-     * @param array $data
-     */
-    private function removeTeams(array $data): void
+    private function removePositions(): void
     {
-        DB::table('teams')
-            ->where('company_id', $data['company_id'])
-            ->where('is_dummy', true)
-            ->delete();
+        Position::where('is_dummy', true)->delete();
     }
 
-    /**
-     * Remove dummy users.
-     *
-     * @param array $data
-     */
-    private function removeEmployees(array $data): void
+    private function removeTeams(): void
     {
-        $employees = Employee::where('company_id', $data['company_id'])->get();
-
-        foreach ($employees as $employee) {
-            if ($employee->is_dummy) {
-                $employee->delete();
-            }
-        }
+        Team::where('is_dummy', true)->delete();
     }
 
-    /**
-     * Remove dummy audit logs.
-     *
-     * @param array $data
-     */
-    private function removeAuditLogs(array $data): void
+    private function removeEmployees(): void
     {
-        DB::table('audit_logs')
-            ->where('company_id', $data['company_id'])
-            ->where('is_dummy', true)
-            ->delete();
+        Employee::where('is_dummy', true)->delete();
     }
 
-    /**
-     * Remove dummy questions.
-     *
-     * @param array $data
-     */
-    private function removeQuestions(array $data): void
+    private function removeAuditLogs(): void
     {
-        DB::table('questions')
-            ->where('company_id', $data['company_id'])
-            ->where('is_dummy', true)
-            ->delete();
+        AuditLog::where('is_dummy', true)->delete();
+        EmployeeLog::where('is_dummy', true)->delete();
+        TeamLog::where('is_dummy', true)->delete();
     }
 }

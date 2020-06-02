@@ -7,9 +7,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\Company\Adminland\Team\CreateTeam;
+use App\Services\Company\Employee\Worklog\LogWorklog;
 
-class CreateDummyTeam implements ShouldQueue
+class CreateDummyWorklog implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -33,10 +33,12 @@ class CreateDummyTeam implements ShouldQueue
      */
     public function handle()
     {
-        (new CreateTeam)->execute([
+        (new LogWorklog)->execute([
             'company_id' => $this->data['company_id'],
             'author_id' => $this->data['author_id'],
-            'name' => $this->data['name'],
+            'employee_id' => $this->data['employee_id'],
+            'content' => $this->data['content'],
+            'date' => $this->data['date'],
             'is_dummy' => true,
         ]);
     }

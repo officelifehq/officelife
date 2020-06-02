@@ -74,8 +74,10 @@ class AddEmployeeToCompany extends BaseService
      * Create the employee.
      *
      * @param array $data
+     *
+     * @return Employee
      */
-    private function createEmployee(array $data): void
+    private function createEmployee(array $data): Employee
     {
         $uuid = Str::uuid()->toString();
 
@@ -107,6 +109,8 @@ class AddEmployeeToCompany extends BaseService
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
+
+        return $this->employee;
     }
 
     /**

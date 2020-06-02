@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\User\User;
 use App\Jobs\Dummy\CreateDummyTeam;
 use Illuminate\Support\Facades\Queue;
+use App\Jobs\Dummy\CreateDummyWorklog;
 use App\Jobs\Dummy\CreateDummyPosition;
 use App\Models\Company\CompanyPTOPolicy;
 use App\Jobs\Dummy\AddDummyEmployeeToCompany;
@@ -42,6 +43,7 @@ class GenerateDummyDataTest extends TestCase
         Queue::assertPushed(CreateDummyPosition::class, 15);
         Queue::assertPushed(CreateDummyTeam::class, 7);
         Queue::assertPushed(AddDummyEmployeeToCompany::class, 17);
+        Queue::assertPushed(CreateDummyWorklog::class);
 
         $this->assertDatabaseHas('companies', [
             'has_dummy_data' => true,
