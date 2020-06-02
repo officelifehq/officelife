@@ -24,7 +24,7 @@ class CreateDummyTeamTest extends TestCase
             'name' => 'Sales',
         ]);
 
-        $this->assertDatabaseHas('Teams', [
+        $this->assertDatabaseHas('teams', [
             'company_id' => $michael->company_id,
             'name' => 'Sales',
             'is_dummy' => true,
