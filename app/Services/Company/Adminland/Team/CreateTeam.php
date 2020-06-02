@@ -83,6 +83,7 @@ class CreateTeam extends BaseService
         $this->team = Team::create([
             'company_id' => $data['company_id'],
             'name' => $data['name'],
+            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
     }
 

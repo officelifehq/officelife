@@ -5,16 +5,14 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
-use App\Models\Company\Morale;
-use App\Models\Company\Worklog;
-use App\Models\Company\Hardware;
-use Illuminate\Support\Facades\DB;
-use App\Models\Company\CompanyNews;
+use App\Jobs\Dummy\CreateDummyTeam;
+use Illuminate\Support\Facades\Queue;
+use App\Jobs\Dummy\CreateDummyWorklog;
+use App\Jobs\Dummy\CreateDummyPosition;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Jobs\Dummy\AddDummyEmployeeToCompany;
 use Illuminate\Validation\ValidationException;
-use App\Models\Company\TeamNews as CompanyTeamNews;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Adminland\Company\RemoveDummyData;
 use App\Services\Company\Adminland\Company\GenerateDummyData;
 
 class GenerateDummyDataTest extends TestCase
@@ -25,6 +23,8 @@ class GenerateDummyDataTest extends TestCase
     public function it_creates_and_removes_dummy_data(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        Queue::fake();
 
         $michael = $this->createAdministrator();
 
@@ -40,64 +40,14 @@ class GenerateDummyDataTest extends TestCase
 
         (new GenerateDummyData)->execute($request);
 
-        $count = DB::table('employees')
-            ->where('is_dummy', true)
-            ->count();
-
-        $this->assertEquals(
-            32,
-            $count
-        );
-
-        $count = DB::table('teams')
-            ->where('company_id', $michael->company_id)
-            ->where('is_dummy', true)
-            ->count();
-
-        $this->assertEquals(
-            3,
-            $count
-        );
+        Queue::assertPushed(CreateDummyPosition::class, 15);
+        Queue::assertPushed(CreateDummyTeam::class, 7);
+        Queue::assertPushed(AddDummyEmployeeToCompany::class, 17);
+        Queue::assertPushed(CreateDummyWorklog::class);
 
         $this->assertDatabaseHas('companies', [
             'has_dummy_data' => true,
         ]);
-
-        $worklogsNumber = Worklog::count();
-        $this->assertGreaterThan(1, $worklogsNumber);
-
-        $moraleNumber = Morale::count();
-        $this->assertGreaterThan(1, $moraleNumber);
-
-        $companyNewsNumber = CompanyNews::count();
-        $this->assertEquals(20, $companyNewsNumber);
-
-        $teamNewsNumber = CompanyTeamNews::count();
-        $this->assertEquals(20, $teamNewsNumber);
-
-        $hardwareNumber = Hardware::count();
-        $this->assertGreaterThan(1, $hardwareNumber);
-
-        (new RemoveDummyData)->execute($request);
-
-        $count = DB::table('employees')
-            ->where('is_dummy', true)
-            ->count();
-
-        $this->assertEquals(
-            0,
-            $count
-        );
-
-        $count = DB::table('teams')
-            ->where('company_id', $michael->company_id)
-            ->where('is_dummy', true)
-            ->count();
-
-        $this->assertEquals(
-            0,
-            $count
-        );
     }
 
     /** @test */

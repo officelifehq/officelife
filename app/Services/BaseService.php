@@ -222,6 +222,23 @@ abstract class BaseService
     }
 
     /**
+     * Gets the value if it’s set, or the current Now() date otherwise.
+     *
+     * @param mixed $data
+     * @param mixed $index
+     *
+     * @return Carbon
+     */
+    public function valueOrNow($data, $index): Carbon
+    {
+        if (empty($data[$index])) {
+            return Carbon::now();
+        }
+
+        return Carbon::parse($data[$index]);
+    }
+
+    /**
      * Checks if the value is empty or null and returns a date from a string.
      *
      * @param mixed $data

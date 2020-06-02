@@ -87,13 +87,6 @@ return [
     'permission_200' => 'Human Resource Representative',
     'permission_300' => 'Employee',
 
-    'default_position_ceo' => 'CEO',
-    'default_position_sales_representative' => 'Sales representative',
-    'default_position_marketing_specialist' => 'Marketing specialist',
-    'default_position_front_end_developer' => 'Front end developer',
-    'default_employee_status_full_time' => 'Full-time',
-    'default_employee_status_part_time' => 'Part-time',
-
     'notification_blank_state' => 'There are no new notifications',
     'notification_view_all' => 'View all notifications',
 ];

@@ -25,6 +25,7 @@ class SetBirthdate extends BaseService
             'year' => 'required|integer',
             'month' => 'required|integer',
             'day' => 'required|integer',
+            'is_dummy' => 'nullable|boolean',
         ];
     }
 

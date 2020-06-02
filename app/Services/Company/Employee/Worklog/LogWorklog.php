@@ -8,7 +8,6 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
-use App\Exceptions\NotEnoughPermissionException;
 use App\Exceptions\WorklogAlreadyLoggedTodayException;
 
 class LogWorklog extends BaseService
@@ -27,6 +26,7 @@ class LogWorklog extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'content' => 'required|string|max:65535',
+            'date' => 'nullable|date_format:Y-m-d',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -46,10 +46,6 @@ class LogWorklog extends BaseService
 
         $this->employee = $this->validateEmployeeBelongsToCompany($data);
 
-        if ($data['author_id'] != $data['employee_id']) {
-            throw new NotEnoughPermissionException();
-        }
-
         if ($this->employee->hasAlreadyLoggedWorklogToday()) {
             throw new WorklogAlreadyLoggedTodayException();
         }
@@ -59,6 +55,7 @@ class LogWorklog extends BaseService
         $worklog = Worklog::create([
             'employee_id' => $data['employee_id'],
             'content' => $data['content'],
+            'created_at' => $this->valueOrNow($data, 'date'),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 

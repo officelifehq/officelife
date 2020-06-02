@@ -23,6 +23,7 @@ class Worklog extends Model
         'employee_id',
         'content',
         'is_dummy',
+        'created_at',
     ];
 
     /**

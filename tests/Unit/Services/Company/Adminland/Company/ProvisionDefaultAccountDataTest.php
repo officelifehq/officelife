@@ -27,32 +27,6 @@ class ProvisionDefaultAccountDataTest extends TestCase
 
         (new ProvisionDefaultAccountData)->execute($request);
 
-        $positions = [
-            trans('app.default_position_ceo'),
-            trans('app.default_position_sales_representative'),
-            trans('app.default_position_marketing_specialist'),
-            trans('app.default_position_front_end_developer'),
-        ];
-
-        foreach ($positions as $position) {
-            $this->assertDatabaseHas('positions', [
-                'company_id' => $michael->company_id,
-                'title' => $position,
-            ]);
-        }
-
-        $statuses = [
-            trans('app.default_employee_status_full_time'),
-            trans('app.default_employee_status_part_time'),
-        ];
-
-        foreach ($statuses as $status) {
-            $this->assertDatabaseHas('employee_statuses', [
-                'company_id' => $michael->company_id,
-                'name' => $status,
-            ]);
-        }
-
         Carbon::now();
         $this->assertEquals(
             5,

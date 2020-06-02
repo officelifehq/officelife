@@ -2,33 +2,28 @@
 
 namespace App\Services\Company\Adminland\Company;
 
-use Carbon\Carbon;
-use App\Models\User\User;
 use Faker\Factory as Faker;
 use App\Jobs\NotifyEmployee;
-use App\Models\Company\Team;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\Question;
-use Illuminate\Support\Facades\DB;
+use App\Jobs\Dummy\CreateDummyTeam;
 use Illuminate\Support\Facades\Cache;
-use App\Services\Company\Adminland\Team\CreateTeam;
-use App\Services\Company\Employee\Answer\CreateAnswer;
-use App\Services\Company\Team\TeamNews\CreateTeamNews;
-use App\Services\Company\Adminland\Hardware\LendHardware;
-use App\Services\Company\Employee\Birthdate\SetBirthdate;
-use App\Services\Company\Employee\Team\AddEmployeeToTeam;
-use App\Services\Company\Team\Links\CreateTeamUsefulLink;
-use App\Services\Company\Adminland\Hardware\CreateHardware;
-use App\Services\Company\Adminland\Question\CreateQuestion;
-use App\Services\Company\Team\Description\SetTeamDescription;
-use App\Services\Company\Adminland\CompanyNews\CreateCompanyNews;
-use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
-use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
+use App\Jobs\Dummy\CreateDummyWorklog;
+use App\Jobs\Dummy\CreateDummyPosition;
+use App\Jobs\Dummy\CreateDummyQuestion;
+use App\Jobs\Dummy\AddDummyEmployeeToCompany;
 
 class GenerateDummyData extends BaseService
 {
+    protected array $data;
+
+    protected Company $company;
+
+    protected Employee $author;
+
+    protected $faker;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -56,436 +51,200 @@ class GenerateDummyData extends BaseService
             ->asAtLeastAdministrator()
             ->canExecuteService();
 
-        $company = Company::find($data['company_id']);
+        $this->data = $data;
 
-        $this->createFiveUsersWithoutTeam($data);
+        $this->faker = Faker::create();
 
-        $this->createThreeTeamsWithEmployees($data);
+        $this->company = Company::find($data['company_id']);
+        $this->author = Employee::find($data['author_id']);
 
+        $this->createPositions();
+        $this->createTeams();
+        $this->createEmployees();
         $this->createWorklogEntries();
+        $this->createQuestions();
 
-        $this->createMoraleEntries();
+        // $this->createMoraleEntries();
 
-        $this->createWorkFromHomeEntries();
+        // $this->createWorkFromHomeEntries();
 
-        $this->createCompanyNewsEntries($data);
+        // $this->createCompanyNewsEntries($data);
 
-        $this->createQuestions($data);
+        //
 
-        $this->createHardware($data);
+        // $this->createHardware($data);
 
-        $company->has_dummy_data = true;
-        $company->save();
+        $this->company->has_dummy_data = true;
+        $this->company->save();
 
-        NotifyEmployee::dispatch([
-            'employee_id' => $data['author_id'],
-            'action' => 'dummy_data_generated',
-            'objects' => json_encode([
-                'company_name' => $company->name,
-            ]),
-        ])->onQueue('low');
+        // NotifyEmployee::dispatch([
+        //     'employee_id' => $data['author_id'],
+        //     'action' => 'dummy_data_generated',
+        //     'objects' => json_encode([
+        //         'company_name' => $company->name,
+        //     ]),
+        // ])->onQueue('low');
 
-        // reset the cached object as it has changed
-        $cachedCompanyObject = 'cachedCompanyObject_'.$data['author_id'];
-        Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
+        // // reset the cached object as it has changed
+        // $cachedCompanyObject = 'cachedCompanyObject_'.$data['author_id'];
+        // Cache::put($cachedCompanyObject, $company, now()->addMinutes(60));
     }
 
-    /**
-     * Create five users without a team.
-     *
-     * @param array $data
-     */
-    private function createFiveUsersWithoutTeam(array $data)
+    private function createPositions(): void
     {
-        for ($i = 1; $i <= 5; $i++) {
-            $this->addEmployee($data);
+        $listOfPositions = [
+            'Regional Manager',
+            'Assistant to the Regional Manager',
+            'Regional Director of Sales',
+            'Sales Rep.',
+            'Traveling Sales Representative',
+            'Senior Accountant',
+            'Head of Accounting',
+            'Accountant',
+            'H.R Rep',
+            'Receptionist',
+            'Customer Service Representative',
+            'Supplier Relations Rep.',
+            'Quality Assurance',
+            'Warehouse Foreman',
+            'Warehouse Staff',
+        ];
+
+        foreach ($listOfPositions as $position) {
+            $request = [
+                'company_id' => $this->company->id,
+                'author_id' => $this->author->id,
+                'title' => $position,
+            ];
+
+            CreateDummyPosition::dispatch($request);
         }
     }
 
-    /**
-     * Create a user and add it to the company as an employee.
-     *
-     * @param array $data
-     *
-     * @return Employee
-     */
-    private function addEmployee(array $data): Employee
+    private function createTeams(): void
     {
-        $faker = Faker::create();
+        $listOfTeams = [
+            'Management',
+            'Sales',
+            'Accounting',
+            'Human Resources',
+            'Reception',
+            'Product Oversight',
+            'Warehouse',
+        ];
 
+        foreach ($listOfTeams as $team) {
+            $request = [
+                'company_id' => $this->company->id,
+                'author_id' => $this->author->id,
+                'name' => $team,
+            ];
+
+            CreateDummyTeam::dispatch($request);
+        }
+    }
+
+    private function createEmployees(): void
+    {
+        $this->addEmployee('Michael', 'Scott', 'Regional Manager', 'Management', '1965-03-15', null, 'Management');
+        $this->addEmployee('Dwight', 'Schrute', 'Assistant to the Regional Manager', 'Management', '1970-01-20', 'Scott', null);
+        $this->addEmployee('Phyllis', 'Vance', 'Regional Director of Sales', 'Sales', '1965-07-10', 'Scott', 'Sales');
+        $this->addEmployee('Jim', 'Halpert', 'Sales Rep.', 'Sales', '1978-10-01', 'Vance', null);
+        $this->addEmployee('Kelly', 'Kapoor', 'Customer Service Representative', 'Product Oversight', '1980-02-05', 'Scott', 'Product Oversight');
+        $this->addEmployee('Angela', 'Martin', 'Head of Accounting', 'Accounting', '1974-11-11', 'Scott', 'Accounting');
+        $this->addEmployee('Oscar', 'Martinez', 'Senior Accountant', 'Accounting', '1972-03-08', 'Martin', null);
+        $this->addEmployee('Dakota', 'Blank', 'Accountant', 'Accounting', null, 'Martin', null);
+        $this->addEmployee('Toby', 'Flenderson', 'H.R Rep', 'Human Resources', '1963-02-22', 'Scott', 'Human Resources');
+        $this->addEmployee('Kevin', 'Malone', 'Accountant', 'Accounting', '1968-06-01', 'Martin', null);
+        $this->addEmployee('Erin', 'Hannon', 'Receptionist', 'Reception', '1986-05-01', 'Scott', null);
+        $this->addEmployee('Pete', 'Miller', 'Customer Service Representative', 'Product Oversight', null, 'Kapoor', null);
+        $this->addEmployee('Meredith', 'Palmer', 'Supplier Relations Rep.', 'Product Oversight', '1959-11-12', 'Kapoor', null);
+        $this->addEmployee('Val', 'Johnson', 'Warehouse Foreman', 'Warehouse', null, 'Scott', 'Warehouse');
+        $this->addEmployee('Nate', 'Blank', 'Warehouse Staff ', 'Warehouse', null, 'Johnson', null);
+        $this->addEmployee('Glenn', 'Blank', 'Warehouse Staff ', 'Warehouse', null, 'Johnson', null);
+        $this->addEmployee('Philip', 'Blank', 'Warehouse Staff ', 'Warehouse', null, 'Johnson', null);
+    }
+
+    private function addEmployee(string $firstname, string $lastname, string $position, string $team, string $date = null, string $managerName = null, string $teamLeadOf = null): void
+    {
         $request = [
-            'company_id' => $data['company_id'],
-            'author_id' => $data['author_id'],
-            'email' => $faker->safeEmail,
-            'first_name' => $faker->firstName,
-            'last_name' => $faker->lastName,
+            'company_id' => $this->company->id,
+            'author_id' => $this->author->id,
+            'email' => $this->faker->safeEmail,
+            'first_name' => $firstname,
+            'last_name' => $lastname,
             'permission_level' => config('officelife.permission_level.user'),
             'send_invitation' => false,
-            'is_dummy' => true,
+            'position_name' => $position,
+            'team_name' => $team,
+            'birthdate' => $date,
+            'manager_name' => $managerName,
+            'leader_of_team_name' => $teamLeadOf,
         ];
 
-        $employee = (new AddEmployeeToCompany)->execute($request);
-
-        $this->addBirthdate($employee, $data);
-
-        return $employee;
+        AddDummyEmployeeToCompany::dispatch($request);
     }
 
-    /**
-     * Set birthdate.
-     *
-     * @param Employee $employee
-     * @param array $data
-     */
-    private function addBirthdate(Employee $employee, array $data): void
+    private function createWorklogEntries(): void
     {
-        $faker = Faker::create();
-        $date = Carbon::createFromFormat('Y-m-d', $faker->dateTimeThisCentury()->format('Y-m-d'));
-
-        $request = [
-            'company_id' => $data['company_id'],
-            'author_id' => $data['author_id'],
-            'employee_id' => $employee->id,
-            'year' => $date->year,
-            'month' => $date->month,
-            'day' => $date->day,
-            'is_dummy' => true,
+        $worklogs = [
+            'Planning party comity day. It was great, we tried to create a birthday theme for Angela. I think she loved it',
+            'Tried to make our biggest sale of the year, but it did not work unfortunately.',
+            'The supercomputer tried to destroy our sales for the year, but we did not let it win. Dwight is super happy.',
+            '5 letters sent today. New contracts coming. Also I tried to finalize our integration with Excel.',
+            'Called 3 potential clients today. One of them is super interested. Will try again tomorrow.',
+            'Everybody is dressed up for Halloween, but unfortunately Michael has to fire somebody.',
+            'The Dunder-Mifflin crew goes on a "motivational" cruise to Lake Wallenpaupack. A drunken Roy is inspired to announce a date for his wedding with Pam. Jim is crushed and confesses to Michael his feelings for Pam.',
+            'Michael is aggravated that his birthday isn’t getting more attention than Kevin’s skin cancer test.',
+            'Michael converts the warehouse into a casino for a charity casino night, but ends up with two dates - Jan and his realtor, Carol. Jim has something to tell Pam.',
+            'The Dunder Mifflin Infinity website is launching and Michael is excited about going to the big launch party in New York while Angela plans a satellite party for the Scranton branch. Meanwhile, Dwight competes against the website to see who can sell the most paper in one day.',
         ];
 
-        (new SetBirthdate)->execute($request);
-    }
+        $employees = Employee::where('company_id', $this->company->id)->get();
 
-    /**
-     * Create 3 teams with a bunch of employees inside.
-     *
-     * @param array $data
-     */
-    private function createThreeTeamsWithEmployees(array $data)
-    {
-        $this->createTeamWithEmployees($data, 'Legal department', 3);
-        $this->createTeamWithEmployees($data, 'Design Team', 6);
-        $team = $this->createTeamWithEmployees($data, 'Sales', 18);
+        foreach ($employees as $employee) {
+            shuffle($worklogs);
+            foreach ($worklogs as $worklog) {
+                $faker = Faker::create();
 
-        // add team news
-        $this->createTeamNewsEntry($data, $team);
-
-        // add current user to the team
-        $currentEmployee = Employee::find($data['author_id']);
-        $request = [
-            'company_id' => $data['company_id'],
-            'author_id' => $data['author_id'],
-            'employee_id' => $currentEmployee->id,
-            'team_id' => $team->id,
-            'is_dummy' => true,
-        ];
-
-        (new AddEmployeeToTeam)->execute($request);
-    }
-
-    /**
-     * Create employees in a given team.
-     *
-     * @param array  $data
-     * @param string $teamName
-     * @param int $numberOfEmployees
-     *
-     * @return Team
-     */
-    private function createTeamWithEmployees(array $data, string $teamName, int $numberOfEmployees): Team
-    {
-        $request = [
-            'company_id' => $data['company_id'],
-            'author_id' => $data['author_id'],
-            'name' => $teamName,
-            'is_dummy' => true,
-        ];
-
-        $team = (new CreateTeam)->execute($request);
-        $team->is_dummy = true;
-        $team->save();
-
-        // add description
-        if (rand(1, 3) == 1) {
-            $request = [
-                'company_id' => $data['company_id'],
-                'author_id' => $data['author_id'],
-                'team_id' => $team->id,
-                'description' => 'This is probably the best team you have ever known. Welcome, passenger!',
-            ];
-
-            (new SetTeamDescription)->execute($request);
-        }
-
-        // add useful links
-        if (rand(1, 3) == 1) {
-            for ($i = 1; $i <= 3; $i++) {
                 $request = [
-                    'company_id' => $data['company_id'],
-                    'author_id' => $data['author_id'],
-                    'team_id' => $team->id,
-                    'type' => 'slack',
-                    'label' => '#dunder-mifflin',
-                    'url' => 'https://slack.com',
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->author->id,
+                    'employee_id' => $employee->id,
+                    'content' => $worklog,
+                    'date' => $faker->dateTimeThisYear('now')->format('Y-m-d'),
                 ];
 
-                (new CreateTeamUsefulLink)->execute($request);
-            }
-        }
-
-        // add employees
-        for ($i = 1; $i <= $numberOfEmployees; $i++) {
-            $employee = $this->addEmployee($data);
-
-            $request = [
-                'company_id' => $data['company_id'],
-                'author_id' => $data['author_id'],
-                'employee_id' => $employee->id,
-                'team_id' => $team->id,
-                'is_dummy' => true,
-            ];
-
-            (new AddEmployeeToTeam)->execute($request);
-        }
-
-        return $team;
-    }
-
-    /**
-     * Create fake worklog entries for all employees of the first team in the
-     * account.
-     * This method does not use the dedicated service to add a worklog to an
-     * employee because the service doesn't let people change the created_at
-     * date (on purpose). Hence the only option is to record worklogs in the
-     * database directly.
-     */
-    private function createWorklogEntries()
-    {
-        $faker = Faker::create();
-
-        $employees = Employee::whereHas('teams', function ($query) {
-            $query->where('name', 'Sales');
-        })->where('is_dummy', true)->get();
-
-        foreach ($employees as $employee) {
-            $date = Carbon::now()->subMonths(3);
-
-            while (! $date->isSameDay(Carbon::now())) {
-                if (rand(1, 10) >= 8) {
-                    DB::table('worklogs')->insert([
-                        'employee_id' => $employee->id,
-                        'content' => $faker->realText(50),
-                        'is_dummy' => true,
-                        'created_at' => $date->format('Y-m-d H:i:s'),
-                    ]);
-
-                    $employee->consecutive_worklog_missed = 0;
-                } else {
-                    $employee->consecutive_worklog_missed = $employee->consecutive_worklog_missed + 1;
-                }
-
-                $employee->save();
-                $date->addDay();
+                CreateDummyWorklog::dispatch($request);
             }
         }
     }
 
-    /**
-     * Create fake morale entries for all employees.
-     * This method does not use the dedicated service to log a morale to an
-     * employee because the service doesn't let people change the created_at
-     * date (on purpose). Hence the only option is to record morales in the
-     * database directly.
-     */
-    private function createMoraleEntries()
+    private function createQuestions(): void
     {
-        $faker = Faker::create();
-
-        $employees = Employee::where('is_dummy', true)->get();
-
-        foreach ($employees as $employee) {
-            $date = Carbon::now()->subMonths(3);
-
-            while (! $date->isSameDay(Carbon::now())) {
-                if (rand(1, 10) >= 8) {
-                    DB::table('morale')->insert([
-                        'employee_id' => $employee->id,
-                        'emotion' => rand(1, 3),
-                        'comment' => $faker->realText(50),
-                        'is_dummy' => true,
-                        'created_at' => $date->format('Y-m-d H:i:s'),
-                    ]);
-                }
-                $date->addDay();
-            }
-        }
-    }
-
-    /**
-     * Create fake Work from Home entries for all employees.
-     */
-    private function createWorkFromHomeEntries()
-    {
-        $employees = Employee::where('is_dummy', true)->get();
-
-        foreach ($employees as $employee) {
-            $date = Carbon::now()->subMonths(3);
-
-            while (! $date->isSameDay(Carbon::now())) {
-                if (rand(1, 10) >= 5) {
-                    $request = [
-                        'author_id' => $employee->id,
-                        'employee_id' => $employee->id,
-                        'company_id' => $employee->company_id,
-                        'date' => $date->copy()->format('Y-m-d'),
-                        'work_from_home' => true,
-                    ];
-
-                    (new UpdateWorkFromHomeInformation)->execute($request);
-                }
-
-                $date->addDay();
-            }
-        }
-    }
-
-    /**
-     * Create fake company entries for all employees.
-     *
-     * @param array $data
-     */
-    private function createCompanyNewsEntries(array $data)
-    {
-        $faker = Faker::create();
-        $numberOfCompanyNews = 20;
-
-        for ($i = 1; $i <= $numberOfCompanyNews; $i++) {
-            $request = [
-                'company_id' => $data['company_id'],
-                'author_id' => $data['author_id'],
-                'title' => $faker->realText(75),
-                'content' => $faker->realText(1500),
-                'created_at' => $faker->dateTimeThisYear()->format('Y-m-d H:i:s'),
-                'is_dummy' => true,
-            ];
-
-            (new CreateCompanyNews)->execute($request);
-        }
-    }
-
-    /**
-     * Create fake questions.
-     *
-     * @param array $data
-     */
-    private function createQuestions(array $data)
-    {
-        $request = [
-            'company_id' => $data['company_id'],
-            'author_id' => $data['author_id'],
-            'title' => 'Which movies do you like the most?',
-            'active' => false,
-            'is_dummy' => true,
+        $questions = [
+            'What is your favorite animal?',
+            'What is the best movie you have seen this year?',
+            'Care to share your best restaurant in town?',
+            'Do you have any personal goals that you would like to share with us this week?',
         ];
 
-        $question = (new CreateQuestion)->execute($request);
-        $this->createAnswers($data, $question);
+        foreach ($questions as $question) {
+            $request = [
+                'company_id' => $this->company->id,
+                'author_id' => $this->author->id,
+                'title' => $question,
+                'active' => false,
+            ];
 
-        $request = [
-            'company_id' => $data['company_id'],
-            'author_id' => $data['author_id'],
-            'title' => 'What do you like in life?',
+            CreateDummyQuestion::dispatch($request);
+        }
+
+        CreateDummyQuestion::dispatch([
+            'company_id' => $this->company->id,
+            'author_id' => $this->author->id,
+            'title' => 'What is the best TV show of this year so far?',
             'active' => true,
-            'is_dummy' => true,
-        ];
-
-        $question = (new CreateQuestion)->execute($request);
-        $this->createAnswers($data, $question);
-    }
-
-    /**
-     * Create fake answers for all employees.
-     *
-     * @param array $data
-     * @param Question $question
-     */
-    private function createAnswers(array $data, Question $question)
-    {
-        $faker = Faker::create();
-        $employees = Employee::where('is_dummy', true)->get();
-
-        foreach ($employees as $employee) {
-            if (rand(1, 3) >= 2) {
-                $request = [
-                    'company_id' => $data['company_id'],
-                    'author_id' => $data['author_id'],
-                    'employee_id' => $employee->id,
-                    'question_id' => $question->id,
-                    'body' => $faker->realText(1500),
-                    'is_dummy' => true,
-                ];
-
-                (new CreateAnswer)->execute($request);
-            }
-        }
-    }
-
-    /**
-     * Create a bunch of team news for the given team.
-     *
-     * @param array $data
-     * @param Team $team
-     */
-    private function createTeamNewsEntry(array $data, Team $team)
-    {
-        $faker = Faker::create();
-        $numberOfNews = 20;
-
-        for ($i = 1; $i <= $numberOfNews; $i++) {
-            $request = [
-                'company_id' => $data['company_id'],
-                'author_id' => $data['author_id'],
-                'team_id' => $team->id,
-                'title' => $faker->realText(75),
-                'content' => $faker->realText(1500),
-                'created_at' => $faker->dateTimeThisYear()->format('Y-m-d H:i:s'),
-                'is_dummy' => true,
-            ];
-
-            (new CreateTeamNews)->execute($request);
-        }
-    }
-
-    /**
-     * Create a bunch of hardware and lend them to random employees.
-     *
-     * @param array $data
-     */
-    private function createHardware(array $data): void
-    {
-        $employees = Employee::where('is_dummy', true)->get();
-
-        foreach ($employees as $employee) {
-            if (rand(1, 3) >= 2) {
-                $request = [
-                    'company_id' => $data['company_id'],
-                    'author_id' => $data['author_id'],
-                    'name' => 'iPad',
-                    'serial_number' => '32KLEo3310dF1102',
-                    'is_dummy' => true,
-                ];
-
-                $hardware = (new CreateHardware)->execute($request);
-
-                $request = [
-                    'company_id' => $data['company_id'],
-                    'author_id' => $data['author_id'],
-                    'employee_id' => $employee->id,
-                    'hardware_id' => $hardware->id,
-                    'is_dummy' => true,
-                ];
-
-                (new LendHardware)->execute($request);
-            }
-        }
+        ]);
     }
 }
