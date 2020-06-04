@@ -5,11 +5,8 @@ describe('Teams - Manage teams', function () {
     cy.createCompany()
 
     // access the team link in the header
-    cy.get('[data-cy=header-teams-link').click()
-
-    // it should see the teams page
-    cy.url().should('include', '/1/teams')
-    cy.contains('Teams are a great way')
+    cy.get('[data-cy=dashboard-team-tab]').click()
+    cy.contains('You are not associated with a team at the moment.')
   })
 
   it('should display the team in a list', function () {
@@ -18,13 +15,12 @@ describe('Teams - Manage teams', function () {
     cy.createCompany()
 
     cy.createTeam('product')
+    cy.wait(1000)
+
     cy.assignEmployeeToTeam(1, 1)
 
+    cy.visit('/1/dashboard/me')
     // access the team link in the header
-    cy.get('[data-cy=header-teams-link').click()
-
-    // it should see the teams page
-    cy.url().should('include', '/1/teams')
-    cy.contains('product')
+    cy.get('[data-cy=dashboard-team-tab]').click()
   })
 })

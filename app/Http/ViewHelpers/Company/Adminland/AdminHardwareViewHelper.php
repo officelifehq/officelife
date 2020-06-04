@@ -61,7 +61,7 @@ class AdminHardwareViewHelper
      */
     public static function employeesList(Company $company): ?Collection
     {
-        $employees = $company->employees;
+        $employees = $company->employees()->notLocked()->get();
 
         $employeesCollection = collect([]);
         foreach ($employees as $employee) {

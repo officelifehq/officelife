@@ -30,5 +30,14 @@ describe('Help - Show and validate help for all features', function () {
     // hardware
     cy.visit('/1/account/hardware/create')
     cy.get('[data-cy=help-icon-hardware]').click()
+
+    // locking
+    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
+    cy.visit('/1/account/employees/2/lock')
+    cy.get('[data-cy=help-icon-employee-lock]').click()
+
+    // deleting employee
+    cy.visit('/1/account/employees/2/delete')
+    cy.get('[data-cy=help-icon-employee-delete]').click()
   })
 })

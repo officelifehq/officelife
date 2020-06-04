@@ -51,7 +51,7 @@ describe('Adminland - Hardware', function () {
     cy.get('[data-cy=hardware-count-lent]').contains('1')
     cy.get('[data-cy=hardware-item-3]').contains('Blackberry 18')
     cy.get('[data-cy=hardware-item-3]').contains('4565')
-    cy.get('[data-cy=hardware-item-lend-3]').contains('admin@admin.com')
+    cy.get('[data-cy=hardware-item-user-3]').contains('admin@admin.com')
 
     cy.hasAuditLog('Added a hardware called', '/1/account/hardware')
 
@@ -129,7 +129,7 @@ describe('Adminland - Hardware', function () {
     cy.get('[data-cy=hardware-count-lent]').contains('1')
     cy.get('[data-cy=hardware-item-3]').contains('Blackberry 18')
     cy.get('[data-cy=hardware-item-3]').contains('4565')
-    cy.get('[data-cy=hardware-item-lend-3]').contains('admin@admin.com')
+    cy.get('[data-cy=hardware-item-user-3]').contains('admin@admin.com')
 
     // see the details of a hardware
     cy.get('[data-cy=hardware-item-3]').click();

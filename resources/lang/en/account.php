@@ -18,7 +18,7 @@ return [
     'home_manage_hardware' => 'Manage hardware',
 
     'employees_title' => 'All the employees in {company}',
-    'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
+    'employees_number_employees' => '{company} has {total} employees in total ({active} active employees and {locked} locked employees).',
     'employees_cta' => 'Add an employee',
     'employees_lock_account' => 'Lock account',
     'employees_unlock_account' => 'Unlock account',

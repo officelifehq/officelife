@@ -42,12 +42,12 @@
     >
       <div class="menu pa3 f5 br3">
         <ul class="list ma0 pa0">
-          <li class="pb2">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + $page.auth.employee.id" class="no-color no-underline" data-cy="switch-company-button">
+          <li v-if="$page.auth.company" class="pb2">
+            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + $page.auth.employee.id" class="no-color no-underline" data-cy="go-to-employee-button">
               {{ $t('app.header_go_to_employee_profile') }}
             </inertia-link>
           </li>
-          <li class="pb2">
+          <li v-if="$page.auth.company" class="pb2">
             <inertia-link :href="'/home'" class="no-color no-underline" data-cy="switch-company-button">
               {{ $t('app.header_switch_company') }}
             </inertia-link>

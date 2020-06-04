@@ -127,7 +127,7 @@
                 <!-- additional information -->
                 <ul class="db list pl0 f6 mt2">
                   <!-- avatar -->
-                  <li class="mr3 di-ns db mb0-ns mb2">
+                  <li class="mr3 di-ns db mb0-ns mb2" :data-cy="'hardware-item-user-' + item.id">
                     <small-name-and-avatar
                       v-if="item.employee"
                       :name="item.employee.name"

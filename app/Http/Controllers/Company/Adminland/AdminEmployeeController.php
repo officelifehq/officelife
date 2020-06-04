@@ -39,12 +39,34 @@ class AdminEmployeeController extends Controller
                 'avatar' => $employee->avatar,
                 'invitation_link' => $employee->invitation_link,
                 'lock_status' => $employee->locked,
+                'url_view' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'url_delete' => route('account.delete', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'url_lock' => route('account.lock', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'url_unlock' => route('account.unlock', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
             ]);
         }
+
+        $numberOfLockedAccounts = $employees->filter(function ($employee) {
+            return $employee->locked;
+        });
 
         return Inertia::render('Adminland/Employee/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employees' => $employeesCollection,
+            'number_of_locked_accounts' => $numberOfLockedAccounts->count(),
+            'number_of_active_accounts' => $employees->count() - $numberOfLockedAccounts->count(),
         ]);
     }
 
