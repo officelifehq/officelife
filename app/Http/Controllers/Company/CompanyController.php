@@ -53,6 +53,6 @@ class CompanyController extends Controller
             'name' => $request->get('name'),
         ]);
 
-        return Redirect::route('dashboard', $company->id);
+        return redirect($company->id.'/dashboard');
     }
 }

@@ -8,6 +8,7 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
+use App\Jobs\ProvisionDefaultAccountData;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\CreateCompany;
@@ -49,6 +50,8 @@ class CreateCompanyTest extends TestCase
                     'company_name' => 'Dunder Mifflin',
                 ]);
         });
+
+        Queue::assertPushed(ProvisionDefaultAccountData::class);
 
         // it has one employee
         $this->assertDatabaseHas('employees', [

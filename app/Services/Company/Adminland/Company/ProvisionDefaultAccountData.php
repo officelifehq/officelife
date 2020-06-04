@@ -4,6 +4,7 @@ namespace App\Services\Company\Adminland\Company;
 
 use Carbon\Carbon;
 use App\Services\BaseService;
+use App\Models\Company\Employee;
 use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
 
 class ProvisionDefaultAccountData extends BaseService
@@ -30,12 +31,15 @@ class ProvisionDefaultAccountData extends BaseService
     {
         $this->validateRules($data);
 
+        $employee = Employee::find($data['author_id']);
+        $company = $employee->company;
+
         // PTO policies
         $currentYear = Carbon::now();
         for ($i = 1; $i <= 5; $i++) {
             (new CreateCompanyPTOPolicy)->execute([
-                'company_id' => $data['company_id'],
-                'author_id' => $data['author_id'],
+                'company_id' => $company->id,
+                'author_id' => $employee->id,
                 'year' => $currentYear->format('Y'),
                 'default_amount_of_allowed_holidays' => 30,
                 'default_amount_of_sick_days' => 5,
@@ -43,5 +47,9 @@ class ProvisionDefaultAccountData extends BaseService
             ]);
             $currentYear->addYear();
         }
+
+        // add holidays for the newly created employee
+        $employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
+        $employee->save();
     }
 }

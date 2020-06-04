@@ -37,6 +37,18 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_locked') {
+            $sentence = trans('account.log_employee_locked', [
+                'employee' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_unlocked') {
+            $sentence = trans('account.log_employee_unlocked', [
+                'employee' => $log->object->{'employee_name'},
+            ]);
+        }
+
         if ($log->action == 'team_created') {
             $sentence = trans('account.log_team_created', [
                 'name' => $log->object->{'team_name'},
@@ -451,6 +463,14 @@ class LogHelper
 
         if ($log->action == 'employee_created') {
             $sentence = trans('account.employee_log_employee_created');
+        }
+
+        if ($log->action == 'employee_locked') {
+            $sentence = trans('account.employee_log_employee_locked');
+        }
+
+        if ($log->action == 'employee_unlocked') {
+            $sentence = trans('account.employee_log_employee_unlocked');
         }
 
         if ($log->action == 'manager_assigned') {

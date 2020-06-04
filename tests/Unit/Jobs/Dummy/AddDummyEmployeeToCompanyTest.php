@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Jobs;
+namespace Tests\Unit\Jobs\Dummy;
 
 use Carbon\Carbon;
 use Tests\TestCase;

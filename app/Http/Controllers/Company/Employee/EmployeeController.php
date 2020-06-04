@@ -35,6 +35,8 @@ class EmployeeController extends Controller
 
         $employees = $company->employees()
             ->with('teams')
+            ->with('position')
+            ->notLocked()
             ->orderBy('last_name', 'asc')
             ->get();
 

@@ -19,7 +19,7 @@ class HomeController extends Controller
         Cache::forget('cachedCompanyObject_'.Auth::user()->id);
         Cache::forget('cachedEmployeeObject_'.Auth::user()->id);
 
-        $employees = Auth::user()->employees()->with('company')->get();
+        $employees = Auth::user()->employees()->with('company')->notLocked()->get();
         $companiesCollection = collect([]);
 
         foreach ($employees as $employee) {

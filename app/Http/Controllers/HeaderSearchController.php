@@ -21,7 +21,7 @@ class HeaderSearchController extends Controller
     public function employees(Request $request)
     {
         $search = $request->get('searchTerm');
-        $employees = Employee::search($search, InstanceHelper::getLoggedCompany()->id, 10, 'created_at desc');
+        $employees = Employee::search($search, InstanceHelper::getLoggedCompany()->id, 10, 'created_at desc', 'and locked = false');
 
         return EmployeeResource::collection($employees);
     }

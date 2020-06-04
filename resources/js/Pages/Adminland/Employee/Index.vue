@@ -28,13 +28,13 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.employees_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.employees_title', {company: $page.auth.company.name}) }}
           </h2>
 
           <!-- HEADER: number of employees and button -->
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l">
-              {{ $tc('account.employees_number_employees', employees.length, { company: $page.auth.company.name, count: employees.length}) }}
+            <span class="db mb3 di-l lh-copy pb0-l pb3">
+              {{ $t('account.employees_number_employees', { company: $page.auth.company.name, total: employees.length, active: number_of_active_accounts, locked: number_of_locked_accounts}) }}
             </span>
             <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
               {{ $t('account.employees_cta') }}
@@ -53,7 +53,7 @@
               />
               <div class="pl3 flex-auto">
                 <span class="db black-70" :name="currentEmployee.name" :data-invitation-link="currentEmployee.invitation_link">
-                  {{ currentEmployee.name }}
+                  {{ currentEmployee.name }} <span v-if="currentEmployee.lock_status" data-cy="lock-status">🔐</span>
                 </span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
@@ -62,7 +62,7 @@
                     </span>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + currentEmployee.id" data-cy="employee-view">
+                    <inertia-link :href="currentEmployee.url_view" data-cy="employee-view">
                       {{ $t('app.view') }}
                     </inertia-link>
                   </li>
@@ -71,13 +71,14 @@
                       {{ $t('account.employees_change_permission') }}
                     </inertia-link>
                   </li>
-                  <li class="di pr2">
-                    <inertia-link :href="'/employees/' + currentEmployee.id + '/lock'">
-                      {{ $t('account.employees_lock_account') }}
-                    </inertia-link>
+                  <li v-if="currentEmployee.id != $page.auth.employee.id && !currentEmployee.lock_status" class="di pr2">
+                    <inertia-link :href="currentEmployee.url_lock" data-cy="lock-account">{{ $t('account.employees_lock_account') }}</inertia-link>
+                  </li>
+                  <li v-if="currentEmployee.id != $page.auth.employee.id && currentEmployee.lock_status" class="di pr2">
+                    <inertia-link :href="currentEmployee.url_unlock" data-cy="unlock-account">{{ $t('account.employees_unlock_account') }}</inertia-link>
                   </li>
                   <li v-if="currentEmployee.id != $page.auth.employee.id" class="di">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + currentEmployee.id + '/delete'" class="c-delete">{{ $t('app.delete') }}</inertia-link>
+                    <inertia-link :href="currentEmployee.url_delete" class="c-delete" data-cy="delete-account">{{ $t('app.delete') }}</inertia-link>
                   </li>
                 </ul>
               </div>
@@ -105,6 +106,14 @@ export default {
     employees: {
       type: Array,
       default: null,
+    },
+    numberOfLockedAccounts: {
+      type: Number,
+      default: 0,
+    },
+    numberOfActiveAccounts: {
+      type: Number,
+      default: 0,
     },
   },
 

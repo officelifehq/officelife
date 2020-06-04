@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Employee\Answer\UpdateAnswer;
-use App\Services\Company\Adminland\Answer\DestroyAnswer;
+use App\Services\Company\Employee\Answer\DestroyAnswer;
 
 class DashboardQuestionController extends Controller
 {

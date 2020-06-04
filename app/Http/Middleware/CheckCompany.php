@@ -31,6 +31,10 @@ class CheckCompany
             abort(401);
         }
 
+        if ($employee->locked) {
+            abort(401);
+        }
+
         $cachedCompanyObject = 'cachedCompanyObject_' . Auth::user()->id;
         $cachedEmployeeObject = 'cachedEmployeeObject_' . Auth::user()->id;
 

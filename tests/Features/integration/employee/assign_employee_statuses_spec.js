@@ -10,7 +10,7 @@ describe('Employee - Assign employee statuses', function () {
 
     // Open the modal
     cy.get('[data-cy=open-status-modal-blank]').click()
-    cy.get('[data-cy=list-status-3]').click()
+    cy.get('[data-cy=list-status-1]').click()
     cy.get('[data-cy=status-name-right-permission]').contains('Dunder Mifflin')
     cy.hasAuditLog('Assigned the employee status called Dunder Mifflin', '/1/employees/1')
     cy.hasEmployeeLog('Assigned the employee status called Dunder Mifflin.', '/1/employees/1')
@@ -35,7 +35,7 @@ describe('Employee - Assign employee statuses', function () {
 
     // Open the modal
     cy.get('[data-cy=open-status-modal-blank]').click()
-    cy.get('[data-cy=list-status-3]').click()
+    cy.get('[data-cy=list-status-1]').click()
     cy.get('[data-cy=status-name-right-permission]').contains('Dunder Mifflin')
     cy.hasEmployeeLog('Assigned the employee status called Dunder Mifflin.', '/1/employees/1')
 

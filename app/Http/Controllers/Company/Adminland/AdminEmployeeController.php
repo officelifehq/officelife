@@ -11,6 +11,8 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Adminland\Employee\LockEmployee;
+use App\Services\Company\Adminland\Employee\UnlockEmployee;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 
@@ -36,12 +38,35 @@ class AdminEmployeeController extends Controller
                 'permission_level' => $employee->permission_level,
                 'avatar' => $employee->avatar,
                 'invitation_link' => $employee->invitation_link,
+                'lock_status' => $employee->locked,
+                'url_view' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'url_delete' => route('account.delete', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'url_lock' => route('account.lock', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'url_unlock' => route('account.unlock', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
             ]);
         }
+
+        $numberOfLockedAccounts = $employees->filter(function ($employee) {
+            return $employee->locked;
+        });
 
         return Inertia::render('Adminland/Employee/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employees' => $employeesCollection,
+            'number_of_locked_accounts' => $numberOfLockedAccounts->count(),
+            'number_of_active_accounts' => $employees->count() - $numberOfLockedAccounts->count(),
         ]);
     }
 
@@ -87,6 +112,128 @@ class AdminEmployeeController extends Controller
     }
 
     /**
+     * Show the Lock employee view.
+     *
+     * @return \Inertia\Response
+     */
+    public function lock(Request $request, int $companyId, int $employeeId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        if ($loggedCompany->id != $companyId) {
+            return redirect('/home');
+        }
+
+        if ($employeeId == $loggedEmployee->id) {
+            return redirect('/home');
+        }
+
+        try {
+            $employee = Employee::where('company_id', $loggedCompany->id)
+                ->findOrFail($employeeId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('/home');
+        }
+
+        return Inertia::render('Adminland/Employee/Lock', [
+            'employee' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ],
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Lock the employee.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     *
+     * @return Response
+     */
+    public function lockAccount(Request $request, int $companyId, int $employeeId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $loggedCompany->id,
+            'employee_id' => $employeeId,
+            'author_id' => $loggedEmployee->id,
+        ];
+
+        (new LockEmployee)->execute($request);
+
+        return response()->json([
+            'company_id' => $companyId,
+        ]);
+    }
+
+    /**
+     * Show the Unlock employee view.
+     *
+     * @return \Inertia\Response
+     */
+    public function unlock(Request $request, int $companyId, int $employeeId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        if ($loggedCompany->id != $companyId) {
+            return redirect('/home');
+        }
+
+        if ($employeeId == $loggedEmployee->id) {
+            return redirect('/home');
+        }
+
+        try {
+            $employee = Employee::where('company_id', $loggedCompany->id)
+                ->findOrFail($employeeId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('/home');
+        }
+
+        return Inertia::render('Adminland/Employee/Unlock', [
+            'employee' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ],
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Unlock the employee.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     *
+     * @return Response
+     */
+    public function unlockAccount(Request $request, int $companyId, int $employeeId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $loggedCompany->id,
+            'employee_id' => $employeeId,
+            'author_id' => $loggedEmployee->id,
+        ];
+
+        (new UnlockEmployee)->execute($request);
+
+        return response()->json([
+            'company_id' => $companyId,
+        ]);
+    }
+
+    /**
      * Show the Delete employee view.
      *
      * @return \Inertia\Response
@@ -94,8 +241,13 @@ class AdminEmployeeController extends Controller
     public function delete(Request $request, int $companyId, int $employeeId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         if ($loggedCompany->id != $companyId) {
+            return redirect('/home');
+        }
+
+        if ($employeeId == $loggedEmployee->id) {
             return redirect('/home');
         }
 

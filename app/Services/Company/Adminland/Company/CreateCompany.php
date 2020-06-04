@@ -9,6 +9,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Jobs\ProvisionDefaultAccountData;
 use App\Services\User\Avatar\GenerateAvatar;
 
 class CreateCompany extends BaseService
@@ -43,11 +44,8 @@ class CreateCompany extends BaseService
 
         $user = User::find($data['author_id']);
         $employee = $this->addFirstEmployee($company, $user);
-        $this->provisionDefaultAccountData($company, $employee);
 
-        // add holidays for the newly created employee
-        $employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
-        $employee->save();
+        $this->provisionDefaultAccountData($employee);
 
         $this->logAccountAudit($company, $employee);
 
@@ -86,15 +84,11 @@ class CreateCompany extends BaseService
     /**
      * Provision the newly created account with default data.
      *
-     * @param Company  $company
      * @param Employee $employee
      */
-    private function provisionDefaultAccountData(Company $company, Employee $employee): void
+    private function provisionDefaultAccountData(Employee $employee): void
     {
-        (new ProvisionDefaultAccountData)->execute([
-            'company_id' => $company->id,
-            'author_id' => $employee->id,
-        ]);
+        ProvisionDefaultAccountData::dispatch($employee);
     }
 
     /**

@@ -1,0 +1,6 @@
+/* TEAM */
+	Developer: Regis Freyd
+	Contact: regis [at] officelife.io
+	Twitter: @djaiss
+	GitHub: @djaiss
+	From: Montréal, QC, Canada

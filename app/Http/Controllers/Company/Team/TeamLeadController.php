@@ -28,7 +28,8 @@ class TeamLeadController extends Controller
             $request->input('searchTerm'),
             $companyId,
             10,
-            'created_at desc'
+            'created_at desc',
+            'and locked = false',
         );
 
         $leads = collect([]);

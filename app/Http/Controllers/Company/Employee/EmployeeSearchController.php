@@ -33,7 +33,8 @@ class EmployeeSearchController extends Controller
             $search,
             $companyId,
             10,
-            'created_at desc'
+            'created_at desc',
+            'and locked = false',
         );
 
         // remove the existing managers of this employee from the list
