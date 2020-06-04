@@ -465,6 +465,14 @@ class LogHelper
             $sentence = trans('account.employee_log_employee_created');
         }
 
+        if ($log->action == 'employee_locked') {
+            $sentence = trans('account.employee_log_employee_locked');
+        }
+
+        if ($log->action == 'employee_unlocked') {
+            $sentence = trans('account.employee_log_employee_unlocked');
+        }
+
         if ($log->action == 'manager_assigned') {
             $sentence = trans('account.employee_log_manager_assigned', [
                 'name' => $log->object->{'manager_name'},

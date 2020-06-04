@@ -57,6 +57,7 @@ return [
     'breadcrumb_account_manage_hardware' => 'Hardware management',
     'breadcrumb_account_employee_delete' => 'Delete an employee',
     'breadcrumb_account_employee_lock' => 'Lock an employee',
+    'breadcrumb_account_employee_unlock' => 'Unlock an employee',
     'breadcrumb_account_add_hardware' => 'Add item',
     'breadcrumb_account_show_hardware' => 'Show item',
     'breadcrumb_employee_list' => 'All employees',

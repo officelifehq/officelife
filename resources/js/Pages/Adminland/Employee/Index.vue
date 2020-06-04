@@ -53,7 +53,7 @@
               />
               <div class="pl3 flex-auto">
                 <span class="db black-70" :name="currentEmployee.name" :data-invitation-link="currentEmployee.invitation_link">
-                  {{ currentEmployee.name }}
+                  {{ currentEmployee.name }} <span v-if="currentEmployee.lock_status">🔐</span>
                 </span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
@@ -71,8 +71,11 @@
                       {{ $t('account.employees_change_permission') }}
                     </inertia-link>
                   </li>
-                  <li v-if="currentEmployee.id != $page.auth.employee.id" class="di pr2">
+                  <li v-if="currentEmployee.id != $page.auth.employee.id && !currentEmployee.lock_status" class="di pr2">
                     <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + currentEmployee.id + '/lock'">{{ $t('account.employees_lock_account') }}</inertia-link>
+                  </li>
+                  <li v-if="currentEmployee.id != $page.auth.employee.id && currentEmployee.lock_status" class="di pr2">
+                    <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + currentEmployee.id + '/unlock'">{{ $t('account.employees_unlock_account') }}</inertia-link>
                   </li>
                   <li v-if="currentEmployee.id != $page.auth.employee.id" class="di">
                     <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + currentEmployee.id + '/delete'" class="c-delete">{{ $t('app.delete') }}</inertia-link>

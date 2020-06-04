@@ -120,6 +120,12 @@
 
       <!-- CENTRAL CONTENT -->
       <div class="cf mw9 center">
+        <template v-if="employee.locked">
+          <div class="w-30 center tc ba bb-gray ph3 pv2 mb4 br3 bg-white">
+            🔐 {{ $t('employee.account_locked') }}
+          </div>
+        </template>
+
         <!-- LEFT COLUMN -->
         <div class="fl w-40-l w-100">
           <work-from-home

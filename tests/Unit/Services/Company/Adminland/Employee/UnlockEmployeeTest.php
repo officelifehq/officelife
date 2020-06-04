@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Adminland\Employee;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
@@ -91,6 +92,12 @@ class UnlockEmployeeTest extends TestCase
                 $job->auditLog['objects'] === json_encode([
                     'employee_name' => $dwight->name,
                 ]);
+        });
+
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael) {
+            return $job->auditLog['action'] === 'employee_unlocked' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                $job->auditLog['objects'] === json_encode([]);
         });
     }
 }

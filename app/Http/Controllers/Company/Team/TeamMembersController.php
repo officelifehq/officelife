@@ -39,7 +39,8 @@ class TeamMembersController extends Controller
             $search,
             $companyId,
             10,
-            'created_at desc'
+            'created_at desc',
+            'and locked = false'
         );
 
         // remove the existing team members from the list

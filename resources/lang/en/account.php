@@ -21,6 +21,7 @@ return [
     'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
     'employees_cta' => 'Add an employee',
     'employees_lock_account' => 'Lock account',
+    'employees_unlock_account' => 'Unlock account',
     'employees_change_permission' => 'Change permission',
 
     'employee_delete_title' => 'Delete all information about {name}',
@@ -28,8 +29,12 @@ return [
     'employee_delete_success' => 'The employee has been deleted with success.',
 
     'employee_lock_title' => 'Lock {name}’s account',
-    'employee_lock_description' => 'Are you sure you want to lock {name}’s account? This will prevent {name} from logging into OfficeLife. You can unlock the account anytime.',
+    'employee_lock_description' => 'Are you sure you want to lock {name}’s account? Locking an account has a lot of implications. You can unlock the account anytime.',
     'employee_lock_success' => 'The employee has been locked with success.',
+
+    'employee_unlock_title' => 'Unlock {name}’s account',
+    'employee_unlock_description' => 'Are you sure you want to unlock {name}’s account? Unlocking an account is immediate.',
+    'employee_unlock_success' => 'The employee has been unlocked with success.',
 
     'employee_new_basic_information' => 'Basic information',
     'employee_new_title' => 'Add an employee to {name}',
@@ -194,6 +199,8 @@ return [
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
+    'employee_log_employee_locked' => 'Locked this employee entry.',
+    'employee_log_employee_unlocked' => 'Unlocked this employee entry.',
     'employee_log_manager_assigned' => 'Assigned :name as a manager.',
     'employee_log_direct_report_assigned' => 'Assigned :name as a direct report.',
     'employee_log_manager_unassigned' => 'Removed :name as a manager.',

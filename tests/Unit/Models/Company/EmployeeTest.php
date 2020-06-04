@@ -254,6 +254,24 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_scopes_the_employees_by_the_locked_status(): void
+    {
+        $dwight = factory(Employee::class)->create([
+            'locked' => true,
+        ]);
+        $company = $dwight->company;
+        factory(Employee::class, 3)->create([
+            'company_id' => $company->id,
+            'locked' => false,
+        ]);
+
+        $this->assertEquals(
+            3,
+            $company->employees()->notLocked()->get()->count()
+        );
+    }
+
+    /** @test */
     public function it_returns_the_email_attribute(): void
     {
         $dwight = factory(Employee::class)->create([]);
@@ -310,6 +328,7 @@ class EmployeeTest extends TestCase
                 'last_name' => 'scott',
                 'avatar' => 'avatar',
                 'email' => 'dwigth@dundermifflin.com',
+                'locked' => false,
                 'birthdate' => [
                     'full' => 'Jan 01, 2010',
                     'partial' => 'January 1st',
