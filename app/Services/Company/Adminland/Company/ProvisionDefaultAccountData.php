@@ -5,8 +5,6 @@ namespace App\Services\Company\Adminland\Company;
 use Carbon\Carbon;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
-use App\Services\Company\Adminland\Position\CreatePosition;
-use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
 
 class ProvisionDefaultAccountData extends BaseService
@@ -35,36 +33,6 @@ class ProvisionDefaultAccountData extends BaseService
 
         $employee = Employee::find($data['author_id']);
         $company = $employee->company;
-
-        // positions
-        $positions = [
-            trans('app.default_position_ceo'),
-            trans('app.default_position_sales_representative'),
-            trans('app.default_position_marketing_specialist'),
-            trans('app.default_position_front_end_developer'),
-        ];
-
-        foreach ($positions as $position) {
-            (new CreatePosition)->execute([
-                'company_id' => $company->id,
-                'author_id' => $employee->id,
-                'title' => $position,
-            ]);
-        }
-
-        // employee status
-        $statuses = [
-            trans('app.default_employee_status_full_time'),
-            trans('app.default_employee_status_part_time'),
-        ];
-
-        foreach ($statuses as $status) {
-            (new CreateEmployeeStatus)->execute([
-                'company_id' => $company->id,
-                'author_id' => $employee->id,
-                'name' => $status,
-            ]);
-        }
 
         // PTO policies
         $currentYear = Carbon::now();

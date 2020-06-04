@@ -12,7 +12,6 @@ use Illuminate\Validation\ValidationException;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Exceptions\WorklogAlreadyLoggedTodayException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class LogWorklogTest extends TestCase
 {
@@ -59,23 +58,6 @@ class LogWorklogTest extends TestCase
 
         $this->expectException(WorklogAlreadyLoggedTodayException::class);
         $this->executeService($michael);
-    }
-
-    /** @test */
-    public function it_fails_if_employee_doesnot_belong_to_the_company(): void
-    {
-        $michael = $this->createEmployee();
-        $dwight = $this->createEmployee();
-
-        $request = [
-            'company_id' => $dwight->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $michael->id,
-            'content' => 'I have sold paper',
-        ];
-
-        $this->expectException(ModelNotFoundException::class);
-        (new LogWorklog)->execute($request);
     }
 
     /** @test */

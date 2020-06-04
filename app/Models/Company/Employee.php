@@ -11,6 +11,7 @@ use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,10 +46,10 @@ class Employee extends Model
         'employee_status_id',
         'uuid',
         'locked',
-        'is_dummy',
         'avatar',
         'holiday_balance',
         'default_dashboard_view',
+        'is_dummy',
     ];
 
     /**
@@ -94,6 +95,7 @@ class Employee extends Model
     protected $casts = [
         'permission_level' => 'integer',
         'locked' => 'boolean',
+        'is_dummy' => 'boolean',
     ];
 
     /**
@@ -311,6 +313,17 @@ class Employee extends Model
     }
 
     /**
+     * Scope a query to only include unlocked users.
+     *
+     * @param  Builder $query
+     * @return Builder
+     */
+    public function scopeNotLocked(Builder $query): Builder
+    {
+        return $query->where('locked', false);
+    }
+
+    /**
      * Transform the object to an array representing this object.
      *
      * @return array
@@ -329,6 +342,7 @@ class Employee extends Model
             'last_name' => $this->last_name,
             'avatar' => $this->avatar,
             'email' => $this->email,
+            'locked' => $this->locked,
             'birthdate' => (! $this->birthdate) ? null : [
                 'full' => DateHelper::formatDate($this->birthdate),
                 'partial' => DateHelper::formatMonthAndDay($this->birthdate),
