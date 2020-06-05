@@ -38,6 +38,7 @@ class AdminEmployeeController extends Controller
                 'permission_level' => $employee->permission_level,
                 'avatar' => $employee->avatar,
                 'invitation_link' => $employee->invitation_link,
+                'invited' => ! $employee->invitation_used_at && $employee->invitation_link ? true : false,
                 'lock_status' => $employee->locked,
                 'url_view' => route('employees.show', [
                     'company' => $company,
@@ -65,8 +66,8 @@ class AdminEmployeeController extends Controller
         return Inertia::render('Adminland/Employee/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employees' => $employeesCollection,
-            'number_of_locked_accounts' => $numberOfLockedAccounts->count(),
-            'number_of_active_accounts' => $employees->count() - $numberOfLockedAccounts->count(),
+            'numberOfLockedAccounts' => $numberOfLockedAccounts->count(),
+            'numberOfActiveAccounts' => $employees->count() - $numberOfLockedAccounts->count(),
         ]);
     }
 

@@ -34,7 +34,7 @@
           <!-- HEADER: number of employees and button -->
           <p class="relative adminland-headline">
             <span class="db mb3 di-l lh-copy pb0-l pb3">
-              {{ $t('account.employees_number_employees', { company: $page.auth.company.name, total: employees.length, active: number_of_active_accounts, locked: number_of_locked_accounts}) }}
+              {{ $t('account.employees_number_employees', { company: $page.auth.company.name, total: employees.length, active: numberOfActiveAccounts, locked: numberOfLockedAccounts}) }}
             </span>
             <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
               {{ $t('account.employees_cta') }}
@@ -52,9 +52,10 @@
                    loading="lazy"
               />
               <div class="pl3 flex-auto">
-                <span class="db black-70" :name="currentEmployee.name" :data-invitation-link="currentEmployee.invitation_link">
+                <span class="db black-70 f4 mb1" :name="currentEmployee.name" :data-invitation-link="currentEmployee.invitation_link">
                   {{ currentEmployee.name }} <span v-if="currentEmployee.lock_status" data-cy="lock-status">🔐</span>
                 </span>
+                <span v-if="currentEmployee.invited" class="db f6 ">{{ 'Invited by email' }}</span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
                     <span class="badge f7">
@@ -62,16 +63,12 @@
                     </span>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="currentEmployee.url_view" data-cy="employee-view">
-                      {{ $t('app.view') }}
-                    </inertia-link>
+                    <inertia-link :href="currentEmployee.url_view" data-cy="employee-view">{{ $t('app.view') }}</inertia-link>
                   </li>
-                  <li class="di pr2">
-                    <inertia-link :href="'/account/employees/' + currentEmployee.id + '/permissions'">
-                      {{ $t('account.employees_change_permission') }}
-                    </inertia-link>
+                  <li v-if="!currentEmployee.invited" class="di pr2">
+                    <inertia-link :href="'/account/employees/' + currentEmployee.id + '/permissions'">{{ $t('account.employees_change_permission') }}</inertia-link>
                   </li>
-                  <li v-if="currentEmployee.id != $page.auth.employee.id && !currentEmployee.lock_status" class="di pr2">
+                  <li v-if="currentEmployee.id != $page.auth.employee.id && !currentEmployee.lock_status && !currentEmployee.invited" class="di pr2">
                     <inertia-link :href="currentEmployee.url_lock" data-cy="lock-account">{{ $t('account.employees_lock_account') }}</inertia-link>
                   </li>
                   <li v-if="currentEmployee.id != $page.auth.employee.id && currentEmployee.lock_status" class="di pr2">
