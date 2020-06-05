@@ -47,7 +47,7 @@ export default {
     return {
       isOpen: false,
       isVisibleClass: 'is-visible',
-      closeAfter: 10000, // 10 seconds, you can change that
+      closeAfter: 5000, // 10 seconds, you can change that
       levelClass: null,
       messageText: null
     };
