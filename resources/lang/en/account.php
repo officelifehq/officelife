@@ -251,6 +251,7 @@ return [
     'notification_employee_removed_from_team' => 'You have been removed from the team called :name.',
     'notification_team_lead_set' => 'You have been assigned as the team lead for the team called :name.',
     'notification_team_lead_removed' => 'You are not longer the team lead of the team called :name.',
+    'notification_employee_attached_to_recent_ship' => 'You have been associated with the recent ship called :title.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',

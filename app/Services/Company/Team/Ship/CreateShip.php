@@ -8,9 +8,7 @@ use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Jobs\AttachEmployeeToShip;
 
 class CreateShip extends BaseService
 {
@@ -19,8 +17,6 @@ class CreateShip extends BaseService
     private Team $team;
 
     private Ship $ship;
-
-    private Collection $employees;
 
     /**
      * Get the validation rules that apply to the service.
@@ -49,6 +45,7 @@ class CreateShip extends BaseService
      */
     public function execute(array $data): Ship
     {
+        $this->data = $data;
         $this->validateRules($data);
 
         $this->author($data['author_id'])
@@ -58,10 +55,6 @@ class CreateShip extends BaseService
 
         $this->team = $this->validateTeamBelongsToCompany($data);
 
-        $this->validateEmployees();
-
-        $this->data = $data;
-
         $this->createShip();
 
         $this->attachEmployees();
@@ -69,28 +62,6 @@ class CreateShip extends BaseService
         $this->log();
 
         return $this->ship;
-    }
-
-    /**
-     * Make sure employees that are given in parameter of the service exist
-     * in the company.
-     */
-    private function validateEmployees(): void
-    {
-        if (! $this->data['employees']) {
-            return;
-        }
-
-        foreach ($this->data['employees'] as $employeeId) {
-            try {
-                $employee = Employee::where('company_id', $this->data['company_id'])
-                    ->find($employeeId);
-            } catch (ModelNotFoundException $e) {
-                continue;
-            }
-
-            $this->employees->push($employee);
-        }
     }
 
     /**
@@ -112,12 +83,18 @@ class CreateShip extends BaseService
      */
     private function attachEmployees(): void
     {
-        if ($this->employees->count() == 0) {
+        if (! $this->data['employees']) {
             return;
         }
 
-        foreach ($this->employees as $employee) {
-            $this->ship->employees()->syncWithoutDetaching([$employee->id]);
+        foreach ($this->data['employees'] as $key => $employeeId) {
+            AttachEmployeeToShip::dispatch([
+                'company_id' => $this->data['company_id'],
+                'author_id' => $this->data['author_id'],
+                'employee_id' => $employeeId,
+                'ship_id' => $this->ship->id,
+                'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
+            ])->onQueue('low');
         }
     }
 
@@ -127,31 +104,31 @@ class CreateShip extends BaseService
     private function log(): void
     {
         LogAccountAudit::dispatch([
-            'company_id' => $data['company_id'],
-            'action' => 'team_useful_link_created',
+            'company_id' => $this->data['company_id'],
+            'action' => 'recent_ship_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'link_id' => $link->id,
-                'link_name' => $link->label,
-                'team_id' => $team->id,
-                'team_name' => $team->name,
+                'team_id' => $this->team->id,
+                'team_name' => $this->team->label,
+                'ship_id' => $this->ship->id,
+                'ship_title' => $this->ship->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
-            'team_id' => $data['team_id'],
-            'action' => 'useful_link_created',
+            'team_id' => $this->data['team_id'],
+            'action' => 'recent_ship_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'link_id' => $link->id,
-                'link_name' => $link->label,
+                'ship_id' => $this->ship->id,
+                'ship_title' => $this->ship->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

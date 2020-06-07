@@ -26,6 +26,7 @@ return [
     'error_title' => '👇 Oops. An error occured.',
     'error_wrong_employee_id' => 'We can’t find the requested employee.',
     'error_wrong_team_id' => 'We can’t find the requested team.',
+    'error_wrong_team_employee_association' => 'The employee is not part of this team.',
     'error_invalid_date' => 'The date is invalid.',
     'error_team_name_not_unique' => 'There is already a team with this name.',
     'error_not_enough_permission' => 'You do not have the right to do this action.',
