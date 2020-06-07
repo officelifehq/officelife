@@ -313,6 +313,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the ship records associated with the employee.
+     *
+     * @return belongsToMany
+     */
+    public function ships()
+    {
+        return $this->belongsToMany(Ship::class);
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\Company;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
+use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
@@ -251,6 +252,22 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->hardware()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_ships(): void
+    {
+        $dwight = factory(Employee::class)->create([]);
+        $sales = factory(Team::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+        $featureA = factory(Ship::class)->create([
+            'team_id' => $sales->id,
+        ]);
+
+        $dwight->ships()->sync([$featureA->id]);
+
+        $this->assertTrue($dwight->ships()->exists());
     }
 
     /** @test */
