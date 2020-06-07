@@ -1,25 +1,30 @@
 <style lang="scss" scoped>
 .flash.notification {
-    z-index: 99999999999;
-    bottom: 30px;
-    right: 30px;
-    transform: translate(100%);
-    transition: all 0.8s ease-in-out;
+  z-index: 99999999999;
+  bottom: 30px;
+  right: 0px;
+  transform: translate(100%);
+  transition: all 0.8s ease-in-out;
+  background-color: #fff;
+  border: 1px solid #e7e7e7;
+  border-radius: 6px;
+  box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.17);
+  padding: 10px 20px;
 
-    &.is-visible {
-        transform: translate(0);
-        opacity: 1;
-    }
+  &.is-visible {
+    transform: translate(0);
+    opacity: 1;
+    right: 30px;
+  }
 }
 </style>
 
 <template>
-  <div class="flash notification fixed o-0 ba pa2 bg-black" :class="[
+  <div class="flash notification fixed" :class="[
     levelClass, isOpen ? isVisibleClass : ''
   ]"
   >
-    <button class="delete" @click="isOpen = false"></button>
-    {{ messageText }}
+    👋 {{ messageText }}
   </div>
 </template>
 
@@ -42,7 +47,7 @@ export default {
     return {
       isOpen: false,
       isVisibleClass: 'is-visible',
-      closeAfter: 10000, // 10 seconds, you can change that
+      closeAfter: 5000, // 10 seconds, you can change that
       levelClass: null,
       messageText: null
     };
