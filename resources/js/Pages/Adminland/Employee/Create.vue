@@ -175,7 +175,7 @@ export default {
         first_name: null,
         last_name: null,
         email: null,
-        permission_level: null,
+        permission_level: 300,
         send_invitation: false,
         errors: [],
       },
