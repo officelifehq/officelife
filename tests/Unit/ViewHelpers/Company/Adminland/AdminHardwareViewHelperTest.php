@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Adminland;
 
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -12,7 +12,7 @@ use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Hardware\UpdateHardware;
 use App\Http\ViewHelpers\Company\Adminland\AdminHardwareViewHelper;
 
-class AdminHardwareViewHelperTest extends ApiTestCase
+class AdminHardwareViewHelperTest extends TestCase
 {
     use DatabaseTransactions,
         HelperTrait;

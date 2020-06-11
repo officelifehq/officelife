@@ -3,7 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Company\Employee;
 
 use Carbon\Carbon;
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Answer;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
@@ -14,7 +14,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Company\Employee\EmployeeShowViewHelper;
 
-class EmployeeShowViewHelperTest extends ApiTestCase
+class EmployeeShowViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
 

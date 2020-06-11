@@ -10,12 +10,22 @@
   }
 }
 
+.optional-badge {
+  border-radius: 4px;
+  color: #283e59;
+  background-color: #edf2f9;
+  padding: 3px 4px;
+}
+
 </style>
 
 <template>
   <div class="mb3">
     <label v-if="label" class="db fw4 lh-copy f6" :for="id">
       {{ label }}
+      <span v-if="!required" class="optional-badge f7">
+        {{ $t('app.optional') }}
+      </span>
     </label>
 
     <textarea :id="id"

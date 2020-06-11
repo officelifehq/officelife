@@ -103,7 +103,7 @@
                 </div>
 
                 <!-- link to go to the news page -->
-                <div class="pa3 tc">
+                <div class="ph3 pv2 tc f6 bb-gray">
                   <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/news'" data-cy="view-all-news">{{ $t('team.news_view_all') }}</inertia-link>
                 </div>
               </div>
@@ -114,6 +114,13 @@
               {{ $t('team.news_blank') }}
             </div>
           </div>
+
+          <!-- Recent ships -->
+          <recent-ships
+            :recent-ships="recentShips"
+            :team="team"
+            :user-belongs-to-the-team="userBelongsToTheTeam"
+          />
         </div>
       </div>
     </div>
@@ -127,6 +134,7 @@ import Members from '@/Pages/Team/Partials/Members';
 import TeamDescription from '@/Pages/Team/Partials/TeamDescription';
 import TeamLead from '@/Pages/Team/Partials/TeamLead';
 import TeamUsefulLink from '@/Pages/Team/Partials/TeamUsefulLink';
+import RecentShips from '@/Pages/Team/Partials/RecentShips';
 
 export default {
   components: {
@@ -135,6 +143,7 @@ export default {
     TeamDescription,
     TeamLead,
     TeamUsefulLink,
+    RecentShips,
   },
 
   directives: {
@@ -175,6 +184,10 @@ export default {
       default: false,
     },
     links: {
+      type: Array,
+      default: null,
+    },
+    recentShips: {
       type: Array,
       default: null,
     },

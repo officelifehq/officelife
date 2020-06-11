@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamNewsCollection;
 use App\Http\Collections\TeamUsefulLinkCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Company\Team\TeamShowViewHelper;
 
 class TeamController extends Controller
 {
@@ -69,19 +70,10 @@ class TeamController extends Controller
         }
 
         // employees
-        $employees = $team->employees()->orderBy('employee_team.created_at', 'desc')->get();
-        $employeesCollection = collect([]);
-        foreach ($employees as $employee) {
-            $employeesCollection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'avatar' => $employee->avatar,
-                'position' => (! $employee->position) ? null : [
-                    'id' => $employee->position->id,
-                    'title' => $employee->position->title,
-                ],
-            ]);
-        }
+        $employeesCollection = TeamShowViewHelper::employees($team);
+
+        // recent ships
+        $recentShipsCollection = TeamShowViewHelper::recentShips($team);
 
         // news
         $news = $team->news()->with('author')->orderBy('created_at', 'desc')->get();
@@ -89,14 +81,14 @@ class TeamController extends Controller
 
         // does the current logged user belongs to the team?
         // this is useful to know whether the user can do actions because he's part of the team
-        $result = $employeesCollection->filter(function ($employee) use ($loggedEmployee) {
+        $belongsToTheTeam = $employeesCollection->filter(function ($employee) use ($loggedEmployee) {
             return $employee['id'] === $loggedEmployee->id;
         });
 
         // most recent member
         $mostRecentMember = trans('team.most_recent_team_member', [
-            'count' => $employees->count(),
-            'link' => ($employees->count() > 0) ? $employees->take(1)->first()->name : '',
+            'count' => $employeesCollection->count(),
+            'link' => ($employeesCollection->count() > 0) ? $employeesCollection->take(1)->first()['name'] : '',
         ]);
 
         return Inertia::render('Team/Show', [
@@ -105,10 +97,11 @@ class TeamController extends Controller
             'news' => $newsCollection,
             'newsCount' => $news->count(),
             'mostRecentEmployee' => $mostRecentMember,
-            'employeeCount' => $employees->count(),
+            'employeeCount' => $employeesCollection->count(),
             'employees' => $employeesCollection,
-            'userBelongsToTheTeam' => $result->count() > 0,
+            'userBelongsToTheTeam' => $belongsToTheTeam->count() > 0,
             'links' => TeamUsefulLinkCollection::prepare($team->links),
+            'recentShips' => $recentShipsCollection,
         ]);
     }
 }

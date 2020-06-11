@@ -2,14 +2,14 @@
 
 namespace Tests\Unit\ViewHelpers\Company\Dashboard;
 
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\Dashboard\DashboardMeViewHelper;
 
-class DashboardMeViewHelperTest extends ApiTestCase
+class DashboardMeViewHelperTest extends TestCase
 {
     use DatabaseTransactions,
         HelperTrait;

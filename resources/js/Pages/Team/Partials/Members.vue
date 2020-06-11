@@ -71,7 +71,7 @@
             <img :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" loading="lazy" />
 
             <!-- normal mode -->
-            <inertia-link v-show="!editMode" :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="mb2">
+            <inertia-link v-show="!editMode" :href="employee.url" class="mb2">
               {{ employee.name }}
             </inertia-link>
 
