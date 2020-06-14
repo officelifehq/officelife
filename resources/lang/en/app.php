@@ -70,6 +70,7 @@ return [
     'breadcrumb_team_show_team_news' => 'Team news',
     'breadcrumb_team_add_team_news' => 'Add a team news',
     'breadcrumb_team_update_team_news' => 'Update a team news',
+    'breadcrumb_team_add_recent_ship' => 'Add recent ship',
     'breadcrumb_notification_list' => 'Notifications',
     'breadcrumb_company' => 'Company',
     'breadcrumb_company_questions' => 'Questions',

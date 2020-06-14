@@ -18,6 +18,13 @@
   top: 37px;
   position: absolute;
 }
+
+.plus-button {
+  padding: 2px 7px 4px;
+  margin-right: 4px;
+  border-color: #60995c;
+  color: #60995c;
+}
 </style>
 
 <template>
@@ -44,8 +51,10 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="pa3 measure center">
-          <h2 class="tc normal mb4">
-            {{ $t('team.team_news_create', { name: team.name}) }}
+          <h2 class="tc normal mb4 lh-copy">
+            {{ $t('team.recent_ship_create', { name: team.name}) }}
+
+            <help :url="$page.help_links.team_recent_ship_create" :top="'1px'" />
           </h2>
 
           <form @submit.prevent="submit">
@@ -55,7 +64,7 @@
             <text-input :id="'title'"
                         v-model="form.title"
                         :name="'title'"
-                        :datacy="'news-title-input'"
+                        :datacy="'recent-ship-title-input'"
                         :errors="$page.errors.title"
                         :label="$t('team.recent_ship_new_title')"
                         :help="$t('team.team_news_new_title_help')"
@@ -63,32 +72,35 @@
             />
 
             <!-- Description -->
-            <p v-if="!showDescription" @click.prevent="showDescription = true">+ Add description</p>
+            <p v-if="!showDescription" class="bt bb-gray pt3 pointer" data-cy="ship-add-description" @click.prevent="showDescription = true"><span class="ba br-100 plus-button">+</span> Add description</p>
             <div v-if="showDescription" class="">
-              <text-area v-model="form.content"
+              <text-area v-model="form.description"
                          :label="$t('team.recent_ship_new_description')"
-                         :datacy="'news-content-textarea'"
+                         :datacy="'ship-description'"
                          :required="false"
                          :rows="10"
                          :help="$t('team.team_news_new_content_help')"
               />
             </div>
 
-            <!-- Attach team members -->
-            <p @click.prevent="showTeamMembers = true">+ Give credit to specific team members (from this team or from another)</p>
             <template>
-              <div class="bb bb-gray">
+              <!-- list of people who worked on this ship -->
+              <p v-if="!showTeamMembers && form.employees.length == 0" class="bt bb-gray pt3 pointer" data-cy="ship-add-employees" @click.prevent="showTeamMembers = true"><span class="ba br-100 plus-button">+</span> Give credit to specific people</p>
+              <p v-if="!showTeamMembers && form.employees.length > 0" class="bt bb-gray pt3 pointer" data-cy="ship-add-employees" @click.prevent="showTeamMembers = true"><span class="ba br-100 plus-button">+</span> Add additional credits</p>
+
+              <div v-if="showTeamMembers == true" class="bb bb-gray bt pt3">
                 <form class="relative" @submit.prevent="search">
-                  <text-input :id="'title'"
+                  <text-input :id="'name'"
                               v-model="form.searchTerm"
-                              :name="'title'"
-                              :datacy="'member-input'"
-                              :errors="$page.errors.title"
-                              :label="$t('team.members_add_input')"
-                              :placeholder="$t('team.members_add_input_help')"
+                              :name="'name'"
+                              :datacy="'ship-employees'"
+                              :errors="$page.errors.name"
+                              :label="$t('team.recent_ship_new_credit')"
+                              :placeholder="$t('team.recent_ship_new_credit_help')"
                               :required="false"
                               @keyup="search"
                               @input="search"
+                              @esc-key-pressed="showTeamMembers = false"
                   />
                   <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
                 </form>
@@ -109,11 +121,7 @@
                 </ul>
               </div>
 
-              <!-- list of employees -->
-              <h3 v-show="form.employees.length > 0">
-                Collaborators associated with this recent ship
-              </h3>
-              <div v-show="form.employees.length > 0" class="ba bb-gray">
+              <div v-show="form.employees.length > 0" class="ba bb-gray mb3 mt4">
                 <div v-for="employee in form.employees" :key="employee.id" class="pa2 db bb-gray bb" data-cy="members-list">
                   <span class="pl3 db relative team-member">
                     <img :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" loading="lazy" />
@@ -122,7 +130,7 @@
 
                     <!-- remove -->
                     <a href="#" class="db f7 mt1 c-delete dib fr" :data-cy="'remove-employee-' + employee.id" @click.prevent="detach(employee)">
-                      {{ $t('team.members_remove') }}
+                      {{ $t('app.remove') }}
                     </a>
                   </span>
                 </div>
@@ -130,14 +138,14 @@
             </template>
 
             <!-- Actions -->
-            <div class="mv4">
+            <div class="mb4 mt5">
               <div class="flex-ns justify-between">
                 <div>
                   <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-news-button'" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-ship-button'" />
               </div>
             </div>
           </form>
@@ -155,6 +163,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -164,6 +173,7 @@ export default {
     Errors,
     LoadingButton,
     BallPulseLoader,
+    Help
   },
 
   props: {
@@ -203,9 +213,9 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/news', this.form)
+      axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/ships', this.form)
         .then(response => {
-          localStorage.success = this.$t('team.team_news_create_success');
+          localStorage.success = this.$t('team.recent_ship_create_success');
           this.$inertia.visit('/' + this.$page.auth.company.id + '/teams/' + this.team.id);
         })
         .catch(error => {
@@ -223,30 +233,30 @@ export default {
           axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/ships/search', this.form)
             .then(response => {
 
-              const searchResults = response.data.data;
+              let searchResults = response.data.data;
 
               // filter out the employees that are already in the list of employees
               for (let index = 0; index < this.form.employees.length; index++) {
                 const employee = this.form.employees[index];
-                var found = false;
+                const found = false;
+                let otherIndex = 0;
 
-                for (let otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
+                for (otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
                   if (employee.id == searchResults[otherIndex].id) {
-                    console.log('id: ' + searchResults[otherIndex].id);
                     found = true;
                     break;
                   }
                 }
 
                 if (found == true) {
-                  //wsearchResults.splice(otherIndex, 1);
-                  this.$delete(searchResults, otherIndex);
+                  searchResults.splice(otherIndex, 1);
                 }
               }
               this.potentialMembers = searchResults;
               this.processingSearch = false;
             })
             .catch(error => {
+              console.log(error);
               this.form.errors = _.flatten(_.toArray(error.response.data));
               this.processingSearch = false;
             });
@@ -262,6 +272,7 @@ export default {
         this.form.employees.push(employee);
         this.potentialMembers = [];
         this.showTeamMembers = false;
+        this.form.searchTerm = null;
       }
     },
 

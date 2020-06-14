@@ -37,7 +37,7 @@ class AttachEmployeeToShip implements ShouldQueue
         }
 
         (new ShipAttachEmployeeToShip)->execute([
-            'employee_id' => $this->data['employee_id'],
+            'company_id' => $this->data['company_id'],
             'author_id' => $this->data['author_id'],
             'employee_id' => $this->data['employee_id'],
             'ship_id' => $this->data['ship_id'],

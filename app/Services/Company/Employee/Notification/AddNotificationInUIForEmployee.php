@@ -28,6 +28,7 @@ class AddNotificationInUIForEmployee extends BaseService
                     'employee_removed_from_team',
                     'team_lead_set',
                     'team_lead_removed',
+                    'employee_attached_to_recent_ship',
                 ]),
                 'max:255',
             ],

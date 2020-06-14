@@ -59,4 +59,14 @@ return [
     'useful_link_form_url' => 'External URL',
     'useful_link_form_email' => 'Email address',
     'useful_link_form_slack' => 'Slack channel',
+
+    'recent_ship_title' => 'Recent ships',
+    'recent_ship_list_blank' => 'This team hasn’t written any recent ship entries for now.',
+    'recent_ship_list_cta' => 'What have you shipped?',
+    'recent_ship_create' => 'What has {name} shipped lately?',
+    'recent_ship_new_title' => 'Name of the feature',
+    'recent_ship_new_description' => 'Description',
+    'recent_ship_new_credit' => 'Who has worked on this?',
+    'recent_ship_new_credit_help' => 'Find someone in the company',
+    'recent_ship_create_success' => 'The entry has been created.',
 ];

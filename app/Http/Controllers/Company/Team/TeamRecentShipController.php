@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Team\TeamNews\CreateTeamNews;
+use App\Services\Company\Team\Ship\CreateShip;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TeamRecentShipController extends Controller
@@ -40,7 +40,7 @@ class TeamRecentShipController extends Controller
     }
 
     /**
-     * Show the Post team news form.
+     * Show the Post recent ship form.
      *
      * @param Request $request
      * @param int $companyId
@@ -50,20 +50,31 @@ class TeamRecentShipController extends Controller
      */
     public function store(Request $request, int $companyId, int $teamId)
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $employees = null;
+
+        // create an array of ids of employees
+        if ($request->input('employees')) {
+            $employees = [];
+            foreach ($request->input('employees') as $employee) {
+                array_push($employees, $employee['id']);
+            }
+        }
 
         $request = [
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'team_id' => $teamId,
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'employees' => $employees,
         ];
 
-        $news = (new CreateTeamNews)->execute($request);
+        (new CreateShip)->execute($request);
 
         return response()->json([
-            'data' => $news->toObject(),
+            'data' => true,
         ]);
     }
 
