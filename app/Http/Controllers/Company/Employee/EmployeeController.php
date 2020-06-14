@@ -84,6 +84,8 @@ class EmployeeController extends Controller
                 ->with('managers')
                 ->with('workFromHomes')
                 ->with('hardware')
+                ->with('ships')
+                ->with('ships.employees')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');

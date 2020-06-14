@@ -199,4 +199,48 @@ class EmployeeShowViewHelper
 
         return $hardwareCollection;
     }
+
+    /**
+     * Array containing information about the recent ships associated with the
+     * employee.
+     *
+     * @param Employee $employee
+     *
+     * @return Collection
+     */
+    public static function recentShips(Employee $employee): Collection
+    {
+        $ships = $employee->ships;
+
+        $shipsCollection = collect([]);
+        foreach ($ships as $ship) {
+            $employees = $ship->employees;
+            $employeeCollection = collect([]);
+            foreach ($employees as $employee) {
+                $employeeCollection->push([
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                    'avatar' => $employee->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $employee->company,
+                        'employee' => $employee,
+                    ]),
+                ]);
+            }
+
+            $shipsCollection->push([
+                'id' => $ship->id,
+                'title' => $ship->title,
+                'description' => $ship->description,
+                'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all() : null,
+                'url' => route('ships.show', [
+                    'company' => $ship->team->company,
+                    'team' => $ship->team,
+                    'ship' => $ship->id,
+                ]),
+            ]);
+        }
+
+        return $shipsCollection;
+    }
 }
