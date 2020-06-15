@@ -15,8 +15,8 @@ use App\Http\Collections\TeamLogCollection;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Adminland\Team\UpdateTeam;
 use App\Services\Company\Adminland\Team\DestroyTeam;
+use App\Http\ViewHelpers\Adminland\AdminTeamViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Adminland\AdminTeamViewHelper;
 
 class AdminTeamController extends Controller
 {

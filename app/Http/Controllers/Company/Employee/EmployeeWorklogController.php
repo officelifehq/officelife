@@ -12,7 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Collections\WorklogCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Employee\EmployeeWorklogViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeWorklogViewHelper;
 
 class EmployeeWorklogController extends Controller
 {

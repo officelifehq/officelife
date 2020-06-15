@@ -1,17 +1,17 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Dashboard;
+namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Dashboard\DashboardTeamViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardTeamViewHelper;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 
-class DashboardTeamViewHelperTest extends ApiTestCase
+class DashboardTeamViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
 

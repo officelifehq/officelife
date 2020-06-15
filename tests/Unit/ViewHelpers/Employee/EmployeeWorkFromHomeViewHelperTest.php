@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Employee;
+namespace Tests\Unit\ViewHelpers\Employee;
 
 use Tests\ApiTestCase;
 use App\Models\Company\Employee;
@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
 use App\Models\Company\WorkFromHome;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Employee\EmployeeWorkFromHomeViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeWorkFromHomeViewHelper;
 
 class EmployeeWorkFromHomeViewHelperTest extends ApiTestCase
 {

@@ -69,7 +69,7 @@ class TeamController extends Controller
         }
 
         // employees
-        $employees = $team->employees()->orderBy('employee_team.created_at', 'desc')->get();
+        $employees = $team->employees()->with('position')->orderBy('employee_team.created_at', 'desc')->get();
         $employeesCollection = collect([]);
         foreach ($employees as $employee) {
             $employeesCollection->push([

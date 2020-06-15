@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewHelpers\Company\Dashboard;
+namespace App\Http\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
@@ -12,7 +12,8 @@ use App\Helpers\WorkFromHomeHelper;
 class DashboardTeamViewHelper
 {
     /**
-     * Array containing all the upcoming birthdays for employees in this team.
+     * Array containing all the upcoming birthdays for employees in the given
+     * team.
      *
      * @param Team $team
      *
@@ -57,7 +58,7 @@ class DashboardTeamViewHelper
     }
 
     /**
-     * Array containing all the upcoming birthdays for employees in this team.
+     * Array containing all employees who work from home in the given team.
      *
      * @param Team $team
      *

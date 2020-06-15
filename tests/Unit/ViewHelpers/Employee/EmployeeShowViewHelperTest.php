@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Employee;
+namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use Tests\ApiTestCase;
@@ -13,7 +13,7 @@ use App\Models\Company\Question;
 use App\Models\Company\WorkFromHome;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
-use App\Http\ViewHelpers\Company\Employee\EmployeeShowViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 
 class EmployeeShowViewHelperTest extends ApiTestCase
 {

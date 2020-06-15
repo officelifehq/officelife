@@ -1,15 +1,15 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Dashboard;
+namespace Tests\Unit\ViewHelpers\Dashboard;
 
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Dashboard\DashboardMeViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 
-class DashboardMeViewHelperTest extends ApiTestCase
+class DashboardMeViewHelperTest extends TestCase
 {
     use DatabaseTransactions,
         HelperTrait;

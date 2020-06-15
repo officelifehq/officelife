@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Adminland;
+namespace Tests\Unit\ViewHelpers\Adminland;
 
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Hardware\LendHardware;
+use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Hardware\UpdateHardware;
-use App\Http\ViewHelpers\Company\Adminland\AdminHardwareViewHelper;
 
-class AdminHardwareViewHelperTest extends ApiTestCase
+class AdminHardwareViewHelperTest extends TestCase
 {
     use DatabaseTransactions,
         HelperTrait;

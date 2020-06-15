@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Company;
+namespace Tests\Unit\ViewHelpers\Company;
 
 use Tests\TestCase;
 use App\Models\Company\Team;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Company\HeaderSearchViewHelper;
+use App\Http\ViewHelpers\Company\HeaderSearchViewHelper;
 
 class HeaderSearchViewHelperTest extends TestCase
 {

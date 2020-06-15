@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Adminland;
+namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Tests\ApiTestCase;
 use App\Models\Company\Team;
-use App\Http\ViewHelpers\Company\Adminland\AdminTeamViewHelper;
+use App\Http\ViewHelpers\Adminland\AdminTeamViewHelper;
 
 class AdminTeamViewHelperTest extends ApiTestCase
 {
