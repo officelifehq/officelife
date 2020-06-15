@@ -8,9 +8,9 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Team;
-use App\Http\Collections\TeamCollection;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
+use App\Http\ViewHelpers\Company\Employee\EmployeeShowViewHelper;
 
 class EmployeeTeamController extends Controller
 {
@@ -36,7 +36,7 @@ class EmployeeTeamController extends Controller
 
         $employee = (new AddEmployeeToTeam)->execute($request);
 
-        return TeamCollection::prepare($employee->teams);
+        return EmployeeShowViewHelper::teams($employee->teams);
     }
 
     /**
@@ -62,6 +62,6 @@ class EmployeeTeamController extends Controller
 
         $employee = (new RemoveEmployeeFromTeam)->execute($request);
 
-        return TeamCollection::prepare($employee->teams);
+        return EmployeeShowViewHelper::teams($employee->teams);
     }
 }

@@ -10,13 +10,13 @@ use App\Helpers\PaginatorHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\TeamCollection;
 use Inertia\Response as InertiaResponse;
 use App\Http\Collections\TeamLogCollection;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Adminland\Team\UpdateTeam;
 use App\Services\Company\Adminland\Team\DestroyTeam;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Company\Adminland\AdminTeamViewHelper;
 
 class AdminTeamController extends Controller
 {
@@ -29,8 +29,8 @@ class AdminTeamController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        $teams = $company->teams()->with('leader')->orderBy('name', 'asc')->get();
-        $teamCollection = TeamCollection::prepare($teams);
+        $teams = $company->teams()->with('company')->with('leader')->orderBy('name', 'asc')->get();
+        $teamCollection = AdminTeamViewHelper::teams($teams);
 
         return Inertia::render('Adminland/Team/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),

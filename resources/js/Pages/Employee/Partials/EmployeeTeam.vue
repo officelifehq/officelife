@@ -26,7 +26,7 @@
         {{ $t('employee.team_title') }}
       </li>
       <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
-        <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">{{ team.name }}</inertia-link>
+        <inertia-link :href="team.url">{{ team.name }}</inertia-link>
         <template v-if="team.team_leader">
           <span v-if="team.team_leader.id == employee.id">
             (leader)
@@ -39,7 +39,7 @@
         {{ $t('employee.team_title') }}
       </li>
       <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
-        <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">{{ team.name }}</inertia-link>
+        <inertia-link :href="team.url">{{ team.name }}</inertia-link>
       </li>
     </ul>
 

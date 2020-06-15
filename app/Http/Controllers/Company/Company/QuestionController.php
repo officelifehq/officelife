@@ -13,7 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\TeamCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Company\CompanyQuestionViewHelper;
 
@@ -58,12 +57,12 @@ class QuestionController extends Controller
             return redirect('home');
         }
 
-        $teams = $company->teams;
+        $teams = CompanyQuestionViewHelper::teams($company->teams);
         $answers = $question->answers()->orderBy('created_at', 'desc')->paginate(10);
         $answersCollection = CompanyQuestionViewHelper::question($question, $answers, $employee);
 
         return Inertia::render('Company/Question/Show', [
-            'teams' => TeamCollection::prepare($teams),
+            'teams' =>$teams,
             'question' => $answersCollection,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'paginator' => PaginatorHelper::getData($answers),
@@ -101,7 +100,7 @@ class QuestionController extends Controller
             return redirect('home');
         }
 
-        $teams = $company->teams;
+        $teams = CompanyQuestionViewHelper::teams($company->teams);
 
         // This is a raw query. Not pretty, but its goal is to grab all employees
         // of the given team who have answered this question. The only way
@@ -119,10 +118,10 @@ class QuestionController extends Controller
             ->orderBy('answers.created_at', 'desc')
             ->paginate(10);
 
-        $answersCollection = CompanyQuestionViewHelper::teams($question, $answers, $employee);
+        $answersCollection = CompanyQuestionViewHelper::allAnswers($question, $answers, $employee);
 
         return Inertia::render('Company/Question/Show', [
-            'teams' => TeamCollection::prepare($teams),
+            'teams' => $teams,
             'currentTeam' => $teamId,
             'question' => $answersCollection,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),

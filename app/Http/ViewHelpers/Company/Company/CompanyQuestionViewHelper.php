@@ -101,6 +101,27 @@ class CompanyQuestionViewHelper
     }
 
     /**
+     * Array containing information about the teams.
+     *
+     * @param Employee $employee
+     * @param Collection $teams
+     *
+     * @return Collection
+     */
+    public static function teams(Collection $teams): Collection
+    {
+        $teamsCollection = collect([]);
+        foreach ($teams as $team) {
+            $teamsCollection->push([
+                'id' => $team->id,
+                'name' => $team->name,
+            ]);
+        }
+
+        return $teamsCollection;
+    }
+
+    /**
      * Detail of a question, along with all the answers only written by
      * employees in a team.
      *
@@ -110,11 +131,11 @@ class CompanyQuestionViewHelper
      *
      * @return array|null
      */
-    public static function teams(Question $question, $answers, Employee $employee): ?array
+    public static function allAnswers(Question $question, $answers, Employee $employee): ?array
     {
         $answerByEmployee = QuestionHelper::getAnswer($question, $employee);
 
-        $date = CompanyQuestionViewHelper::getInformationAboutActivationDate($question);
+        $date = self::getInformationAboutActivationDate($question);
 
         // preparing the array of answers
         $answerCollection = collect([]);

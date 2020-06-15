@@ -89,6 +89,30 @@ class DashboardTeamViewHelper
     }
 
     /**
+     * Array containing all the teams.
+     *
+     * @param Collection $teams
+     *
+     * @return Collection
+     */
+    public static function teams(Collection $teams): Collection
+    {
+        $teamsCollection = collect([]);
+        foreach ($teams as $team) {
+            $teamsCollection->push([
+                'id' => $team->id,
+                'name' => $team->name,
+                'url' => route('team.show', [
+                    'company' => $team->company,
+                    'team' => $team,
+                ]),
+            ]);
+        }
+
+        return $teamsCollection;
+    }
+
+    /**
      * Creates an array containing all the information regarding the worklogs
      * logged on the given day for a specific team.
      *
