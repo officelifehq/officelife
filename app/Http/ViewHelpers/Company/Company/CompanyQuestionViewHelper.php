@@ -103,7 +103,6 @@ class CompanyQuestionViewHelper
     /**
      * Array containing information about the teams.
      *
-     * @param Employee $employee
      * @param Collection $teams
      *
      * @return Collection
