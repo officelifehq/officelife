@@ -10,7 +10,6 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\TeamCollection;
 use App\Http\Collections\PronounCollection;
 use App\Http\Collections\PositionCollection;
 use App\Http\Collections\EmployeeStatusCollection;
@@ -108,6 +107,12 @@ class EmployeeController extends Controller
         // hardware
         $hardware = EmployeeShowViewHelper::hardware($employee);
 
+        // all the teams of the employee
+        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams);
+
+        // all teams in company
+        $teams = EmployeeShowViewHelper::teams($company->teams()->get());
+
         return Inertia::render('Employee/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employee' => $employee->toObject(),
@@ -117,9 +122,9 @@ class EmployeeController extends Controller
             'workFromHomes' => $workFromHomeStats,
             'questions' => $questions,
             'hardware' => $hardware,
-            'employeeTeams' => TeamCollection::prepare($employee->teams),
+            'employeeTeams' => $employeeTeams,
             'positions' => PositionCollection::prepare($company->positions()->get()),
-            'teams' => TeamCollection::prepare($company->teams()->get()),
+            'teams' => $teams,
             'statuses' => EmployeeStatusCollection::prepare($company->employeeStatuses()->get()),
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
         ]);

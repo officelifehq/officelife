@@ -6,9 +6,8 @@ use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
-use App\Http\Resources\Company\Team\Team as TeamResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use App\Http\Resources\Company\Employee\Employee as EmployeeResource;
+use App\Http\ViewHelpers\Company\Company\HeaderSearchViewHelper;
 
 class HeaderSearchController extends Controller
 {
@@ -23,7 +22,9 @@ class HeaderSearchController extends Controller
         $search = $request->get('searchTerm');
         $employees = Employee::search($search, InstanceHelper::getLoggedCompany()->id, 10, 'created_at desc', 'and locked = false');
 
-        return EmployeeResource::collection($employees);
+        return response()->json([
+            'data' => HeaderSearchViewHelper::employees($employees),
+        ], 200);
     }
 
     /**
@@ -37,6 +38,8 @@ class HeaderSearchController extends Controller
         $search = $request->get('searchTerm');
         $teams = Team::search($search, InstanceHelper::getLoggedCompany()->id, 10, 'created_at desc');
 
-        return TeamResource::collection($teams);
+        return response()->json([
+            'data' => HeaderSearchViewHelper::teams($teams),
+        ], 200);
     }
 }

@@ -97,7 +97,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('teams')->group(function () {
             Route::get('', 'Company\\Team\\TeamController@index');
-            Route::get('{team}', 'Company\\Team\\TeamController@show');
+            Route::get('{team}', 'Company\\Team\\TeamController@show')->name('team.show');
 
             Route::post('{team}/members/search', 'Company\\Team\\TeamMembersController@index');
             Route::post('{team}/members/attach/{employee}', 'Company\\Team\\TeamMembersController@attach');
@@ -151,7 +151,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
 
             // team management
-            Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController');
+            Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController', ['as' => 'account']);
             Route::get('account/teams/{team}/logs', 'Company\\Adminland\\AdminTeamController@logs');
 
             // position management

@@ -12,7 +12,6 @@ use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
-use App\Http\Collections\TeamCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Dashboard\DashboardTeamViewHelper;
 
@@ -116,10 +115,13 @@ class DashboardTeamController extends Controller
         // who is working from home today
         $workFromHomes = DashboardTeamViewHelper::workFromHome($team);
 
+        // teams
+        $teams = DashboardTeamViewHelper::teams($teams);
+
         return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
             'employee' => $employeeInformation,
-            'teams' => TeamCollection::prepare($teams),
+            'teams' => $teams,
             'currentTeam' => $team->id,
             'worklogDates' => $dates,
             'currentDate' => $requestedDate->format('Y-m-d'),

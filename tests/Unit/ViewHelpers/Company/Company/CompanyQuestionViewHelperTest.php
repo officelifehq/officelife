@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Company\Company;
 
 use Tests\ApiTestCase;
+use App\Models\Company\Team;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -98,5 +99,27 @@ class CompanyQuestionViewHelperTest extends ApiTestCase
         $this->assertArrayHasKey('answer_by_employee', $response);
         $this->assertArrayHasKey('url', $response);
         $this->assertArrayHasKey('date', $response);
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_teams(): void
+    {
+        $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = CompanyQuestionViewHelper::teams($michael->company->teams);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $team->id,
+                    'name' => $team->name,
+                ],
+            ],
+            $collection->toArray()
+        );
     }
 }

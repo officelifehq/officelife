@@ -100,7 +100,7 @@ nav {
             </span>
             <ul v-if="employees.length > 0" class="list ma0 pl0">
               <li v-for="localEmployee in employees" :key="localEmployee.id">
-                <inertia-link :href="'/' + localEmployee.company.id + '/employees/' + localEmployee.id">
+                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + localEmployee.id">
                   {{ localEmployee.name }}
                 </inertia-link>
               </li>
@@ -117,7 +117,7 @@ nav {
             </span>
             <ul v-if="teams.length > 0" class="list ma0 pl0">
               <li v-for="team in teams" :key="team.id">
-                <inertia-link :href="'/' + team.company.id + '/teams/' + team.id">
+                <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">
                   {{ team.name }}
                 </inertia-link>
               </li>
