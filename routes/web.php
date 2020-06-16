@@ -97,7 +97,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('teams')->group(function () {
             Route::get('', 'Company\\Team\\TeamController@index');
-            Route::get('{team}', 'Company\\Team\\TeamController@show');
+            Route::get('{team}', 'Company\\Team\\TeamController@show')->name('team.show');
 
             Route::post('{team}/members/search', 'Company\\Team\\TeamMembersController@index');
             Route::post('{team}/members/attach/{employee}', 'Company\\Team\\TeamMembersController@attach');

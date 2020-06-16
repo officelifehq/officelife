@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Dashboard;
+namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -8,7 +8,7 @@ use App\Models\Company\Team;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Dashboard\DashboardTeamViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardTeamViewHelper;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 
 class DashboardTeamViewHelperTest extends TestCase
@@ -120,6 +120,29 @@ class DashboardTeamViewHelperTest extends TestCase
                     'avatar' => $dwight->avatar,
                     'position' => $dwight->position,
                     'url' => env('APP_URL').'/'. $dwight->company_id.'/employees/'. $dwight->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_teams(): void
+    {
+        $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = DashboardTeamViewHelper::teams($michael->company->teams);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $team->id,
+                    'name' => $team->name,
+                    'url' => env('APP_URL') . '/' . $michael->company_id . '/teams/' . $team->id,
                 ],
             ],
             $collection->toArray()

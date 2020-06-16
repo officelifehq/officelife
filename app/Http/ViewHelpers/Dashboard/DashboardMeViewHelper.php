@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewHelpers\Company\Dashboard;
+namespace App\Http\ViewHelpers\Dashboard;
 
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Employee;

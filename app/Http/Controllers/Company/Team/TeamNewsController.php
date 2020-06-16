@@ -42,7 +42,10 @@ class TeamNewsController extends Controller
         $newsCollection = TeamNewsCollection::prepare($news);
 
         return Inertia::render('Team/TeamNews/Index', [
-            'team' => $team->toObject(),
+            'team' => [
+                'id' => $team->id,
+                'name' => $team->name,
+            ],
             'news' => $newsCollection,
             'paginator' => PaginatorHelper::getData($news),
         ]);
@@ -67,7 +70,10 @@ class TeamNewsController extends Controller
         }
 
         return Inertia::render('Team/TeamNews/Create', [
-            'team' => $team->toObject(),
+            'team' => [
+                'id' => $team->id,
+                'name' => $team->name,
+            ],
         ]);
     }
 
@@ -115,7 +121,10 @@ class TeamNewsController extends Controller
         $news = TeamNews::where('team_id', $teamId)->findOrFail($newsId);
 
         return Inertia::render('Team/TeamNews/Edit', [
-            'team' => $team->toObject(),
+            'team' => [
+                'id' => $team->id,
+                'name' => $team->name,
+            ],
             'news' => $news->toObject(),
         ]);
     }

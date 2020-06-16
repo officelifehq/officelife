@@ -1,9 +1,10 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Employee;
+namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Company\Team;
 use App\Models\Company\Answer;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
@@ -12,7 +13,7 @@ use App\Models\Company\Question;
 use App\Models\Company\WorkFromHome;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
-use App\Http\ViewHelpers\Company\Employee\EmployeeShowViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 
 class EmployeeShowViewHelperTest extends TestCase
 {
@@ -231,6 +232,32 @@ class EmployeeShowViewHelperTest extends TestCase
                     'answer' => [
                         'body' => 'this is my answer',
                     ],
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_teams(): void
+    {
+        $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = EmployeeShowViewHelper::teams($michael->company->teams);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $team->id,
+                    'name' => $team->name,
+                    'team_leader' => [
+                        'id' => $team->leader->id,
+                    ],
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/teams/'.$team->id,
                 ],
             ],
             $collection->toArray()

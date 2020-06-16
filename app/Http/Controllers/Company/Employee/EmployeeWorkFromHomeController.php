@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Collections\WorkFromHomeCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Employee\EmployeeWorkFromHomeViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeWorkFromHomeViewHelper;
 
 class EmployeeWorkFromHomeController extends Controller
 {

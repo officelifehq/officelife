@@ -10,6 +10,7 @@ use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamNewsCollection;
+use App\Http\ViewHelpers\Team\TeamViewHelper;
 use App\Http\Collections\TeamUsefulLinkCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Team\TeamShowViewHelper;
@@ -93,7 +94,7 @@ class TeamController extends Controller
 
         return Inertia::render('Team/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'team' => $team->toObject(),
+            'team' => TeamViewHelper::team($team),
             'news' => $newsCollection,
             'newsCount' => $news->count(),
             'mostRecentEmployee' => $mostRecentMember,

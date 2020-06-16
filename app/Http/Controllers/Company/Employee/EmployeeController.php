@@ -10,14 +10,13 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\TeamCollection;
 use App\Http\Collections\PronounCollection;
 use App\Http\Collections\PositionCollection;
 use App\Http\Collections\EmployeeStatusCollection;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\Manager\UnassignManager;
-use App\Http\ViewHelpers\Company\Employee\EmployeeShowViewHelper;
 
 class EmployeeController extends Controller
 {
@@ -95,7 +94,6 @@ class EmployeeController extends Controller
         $managersOfEmployee = EmployeeShowViewHelper::managers($employee);
 
         // direct reports
-        $directReportsOfEmployee = collect([]);
         $directReportsOfEmployee = EmployeeShowViewHelper::directReports($employee);
 
         // worklogs
@@ -110,6 +108,12 @@ class EmployeeController extends Controller
         // hardware
         $hardware = EmployeeShowViewHelper::hardware($employee);
 
+        // all the teams of the employee
+        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams);
+
+        // all teams in company
+        $teams = EmployeeShowViewHelper::teams($company->teams()->get());
+
         return Inertia::render('Employee/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employee' => $employee->toObject(),
@@ -119,9 +123,9 @@ class EmployeeController extends Controller
             'workFromHomes' => $workFromHomeStats,
             'questions' => $questions,
             'hardware' => $hardware,
-            'employeeTeams' => TeamCollection::prepare($employee->teams),
+            'employeeTeams' => $employeeTeams,
             'positions' => PositionCollection::prepare($company->positions()->get()),
-            'teams' => TeamCollection::prepare($company->teams()->get()),
+            'teams' => $teams,
             'statuses' => EmployeeStatusCollection::prepare($company->employeeStatuses()->get()),
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
         ]);
@@ -150,7 +154,19 @@ class EmployeeController extends Controller
         $manager = (new AssignManager)->execute($request);
 
         return response()->json([
-            'data' => $manager->toObject(),
+            'data' => [
+                'id' => $manager->id,
+                'name' => $manager->name,
+                'avatar' => $manager->avatar,
+                'position' => (! $manager->position) ? null : [
+                    'id' => $manager->position->id,
+                    'title' => $manager->position->title,
+                ],
+                'url' => route('employees.show', [
+                    'company' => $manager->company,
+                    'employee' => $manager,
+                ]),
+            ],
         ], 200);
     }
 
@@ -179,7 +195,19 @@ class EmployeeController extends Controller
         $directReport = Employee::findOrFail($request->get('id'));
 
         return response()->json([
-            'data' => $directReport->toObject(),
+            'data' =>[
+                'id' => $directReport->id,
+                'name' => $directReport->name,
+                'avatar' => $directReport->avatar,
+                'position' => (! $directReport->position) ? null : [
+                    'id' => $directReport->position->id,
+                    'title' => $directReport->position->title,
+                ],
+                'url' => route('employees.show', [
+                    'company' => $directReport->company,
+                    'employee' => $directReport,
+                ]),
+            ],
         ], 200);
     }
 
@@ -206,7 +234,9 @@ class EmployeeController extends Controller
         $manager = (new UnassignManager)->execute($request);
 
         return response()->json([
-            'data' => $manager->toObject(),
+            'data' => [
+                'id' => $manager->id,
+            ],
         ], 200);
     }
 
@@ -233,7 +263,9 @@ class EmployeeController extends Controller
         $manager = (new UnassignManager)->execute($request);
 
         return response()->json([
-            'data' => $manager->toObject(),
+            'data' => [
+                'id' => $manager->id,
+            ],
         ], 200);
     }
 }

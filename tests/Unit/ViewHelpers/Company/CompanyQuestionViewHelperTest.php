@@ -1,13 +1,14 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Company;
+namespace Tests\Unit\ViewHelpers\Company;
 
 use Tests\TestCase;
+use App\Models\Company\Team;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Company\CompanyQuestionViewHelper;
+use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
 
 class CompanyQuestionViewHelperTest extends TestCase
 {
@@ -98,5 +99,27 @@ class CompanyQuestionViewHelperTest extends TestCase
         $this->assertArrayHasKey('answer_by_employee', $response);
         $this->assertArrayHasKey('url', $response);
         $this->assertArrayHasKey('date', $response);
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_teams(): void
+    {
+        $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $collection = CompanyQuestionViewHelper::teams($michael->company->teams);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $team->id,
+                    'name' => $team->name,
+                ],
+            ],
+            $collection->toArray()
+        );
     }
 }
