@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\ViewHelpers\Company\Adminland;
+namespace App\Http\ViewHelpers\Adminland;
 
+use App\Models\Company\Team;
 use Illuminate\Support\Collection;
 
 class AdminTeamViewHelper
@@ -28,5 +29,24 @@ class AdminTeamViewHelper
         }
 
         return $teamsCollection;
+    }
+
+    /**
+     * Array containing information about a specific team.
+     *
+     * @param Team $teams
+     *
+     * @return array
+     */
+    public static function team(Team $team): array
+    {
+        return [
+            'id' => $team->id,
+            'name' => $team->name,
+            'url' => route('team.show', [
+                'company' => $team->company,
+                'team' => $team,
+            ]),
+        ];
     }
 }

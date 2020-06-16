@@ -4,7 +4,6 @@ namespace App\Models\Company;
 
 use Carbon\Carbon;
 use App\Traits\Searchable;
-use App\Helpers\StringHelper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -136,34 +135,6 @@ class Team extends Model
     public function logs()
     {
         return $this->hasMany(TeamLog::class)->orderBy('audited_at', 'desc');
-    }
-
-    /**
-     * Transform the object to an array representing this object.
-     *
-     * @return array
-     */
-    public function toObject(): array
-    {
-        return [
-            'id' => $this->id,
-            'url' => url('/'.$this->company_id.'/teams/'.$this->id),
-            'company' => [
-                'id' => $this->company_id,
-            ],
-            'name' => $this->name,
-            'raw_description' => is_null($this->description) ? null : $this->description,
-            'parsed_description' => is_null($this->description) ? null : StringHelper::parse($this->description),
-            'team_leader' => is_null($this->leader) ? null : [
-                'id' => $this->leader->id,
-                'name' => $this->leader->name,
-                'avatar' => $this->leader->avatar,
-                'position' => (! $this->leader->position) ? null : [
-                    'title' => $this->leader->position->title,
-                ],
-            ],
-            'created_at' => $this->created_at,
-        ];
     }
 
     /**

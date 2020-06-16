@@ -6,8 +6,8 @@ use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use App\Http\ViewHelpers\Company\HeaderSearchViewHelper;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use App\Http\ViewHelpers\Company\Company\HeaderSearchViewHelper;
 
 class HeaderSearchController extends Controller
 {

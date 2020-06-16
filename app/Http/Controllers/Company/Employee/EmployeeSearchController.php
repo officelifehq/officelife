@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use App\Http\Resources\Company\Employee\EmployeeListWithoutTeams as EmployeeResource;
 
 class EmployeeSearchController extends Controller
 {
@@ -48,6 +47,20 @@ class EmployeeSearchController extends Controller
         // remove the current employee from the list
         $potentialEmployees = $potentialEmployees->whereNotIn('id', $employee->id);
 
-        return EmployeeResource::collection($potentialEmployees);
+        $collection = collect([]);
+        foreach ($potentialEmployees as $employee) {
+            $collection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'url' => route('employees.show', [
+                    'company' => $employee->company,
+                    'employee' => $employee,
+                ]),
+            ]);
+        }
+
+        return response()->json([
+            'data' => $collection,
+        ], 200);
     }
 }

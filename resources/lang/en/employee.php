@@ -63,6 +63,7 @@ return [
     'team_modal_assign_success' => 'The team has been assigned',
     'team_modal_unassign_success' => 'The team has been removed',
     'team_title' => 'Teams:',
+    'team_leader' => 'Leader',
 
     'worklog_blank' => 'There are no work logs yet 🤨',
     'worklog_title' => 'Work logs',

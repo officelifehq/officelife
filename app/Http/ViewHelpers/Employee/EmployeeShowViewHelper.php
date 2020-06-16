@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewHelpers\Company\Employee;
+namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\WorklogHelper;
@@ -191,6 +191,9 @@ class EmployeeShowViewHelper
             $teamsCollection->push([
                 'id' => $team->id,
                 'name' => $team->name,
+                'team_leader' => is_null($team->leader) ? null : [
+                    'id' => $team->leader->id,
+                ],
                 'url' => route('team.show', [
                     'company' => $team->company,
                     'team' => $team,

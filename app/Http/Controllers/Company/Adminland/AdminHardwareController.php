@@ -11,11 +11,11 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Hardware\LendHardware;
+use App\Http\ViewHelpers\Adminland\AdminHardwareViewHelper;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Hardware\RegainHardware;
 use App\Services\Company\Adminland\Hardware\UpdateHardware;
 use App\Services\Company\Adminland\Hardware\DestroyHardware;
-use App\Http\ViewHelpers\Company\Adminland\AdminHardwareViewHelper;
 
 class AdminHardwareController extends Controller
 {

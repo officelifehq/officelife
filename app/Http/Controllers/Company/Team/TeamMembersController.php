@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Team\TeamMembersViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
-use App\Http\Resources\Company\Employee\EmployeeListWithoutTeams as EmployeeResource;
 
 class TeamMembersController extends Controller
 {
@@ -40,14 +40,17 @@ class TeamMembersController extends Controller
             $companyId,
             10,
             'created_at desc',
-            'and locked = false'
+            'and locked = false',
+            'position'
         );
 
         // remove the existing team members from the list
         $existingMembers = $team->employees;
         $potentialEmployees = $potentialEmployees->diff($existingMembers);
 
-        return EmployeeResource::collection($potentialEmployees);
+        return response()->json([
+            'data' => TeamMembersViewHelper::searchedEmployees($potentialEmployees),
+        ], 200);
     }
 
     /**
@@ -73,7 +76,9 @@ class TeamMembersController extends Controller
 
         $employee = (new AddEmployeeToTeam)->execute($request);
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => TeamMembersViewHelper::employee($employee),
+        ], 200);
     }
 
     /**
@@ -99,6 +104,8 @@ class TeamMembersController extends Controller
 
         $employee = (new RemoveEmployeeFromTeam)->execute($request);
 
-        return new EmployeeResource($employee);
+        return response()->json([
+            'data' => TeamMembersViewHelper::employee($employee),
+        ], 200);
     }
 }

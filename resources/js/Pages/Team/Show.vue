@@ -12,8 +12,8 @@
 
 .news-information {
   img {
-    top: 7px;
-    width: 23px;
+    top: 4px;
+    width: 18px;
   }
 }
 
@@ -93,11 +93,11 @@
             <div v-if="news.length > 0">
               <div class="bg-white box cf mb4 relative" data-cy="news-list">
                 <div v-for="newsItem in news" :key="newsItem.id" class="pa3 bb bb-gray">
-                  <h3 class="mt0 mb0-ns mb2 normal pointer" @click.prevent="goToNews()">
+                  <h3 class="mt0 mb1-ns mb2 normal pointer" @click.prevent="goToNews()">
                     {{ newsItem.title }}
                   </h3>
                   <div class="f6 relative news-information silver">
-                    <img :src="newsItem.author.avatar" class="br-100 relative mr1 dib-ns dn" alt="avatar" />
+                    <img :src="newsItem.author.avatar" class="br-100 relative dib-ns dn" alt="avatar" />
                     {{ $t('team.team_news_written_by_at', { name: newsItem.author.name, created_at: newsItem.localized_created_at }) }}
                   </div>
                 </div>

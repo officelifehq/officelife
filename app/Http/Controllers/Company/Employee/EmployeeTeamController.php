@@ -8,9 +8,9 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Team;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Employee\Team\RemoveEmployeeFromTeam;
-use App\Http\ViewHelpers\Company\Employee\EmployeeShowViewHelper;
 
 class EmployeeTeamController extends Controller
 {

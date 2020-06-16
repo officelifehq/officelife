@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewHelpers\Company\Company;
+namespace App\Http\ViewHelpers\Company;
 
 use Illuminate\Support\Collection;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewHelpers\Company\Employee;
+namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;

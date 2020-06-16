@@ -13,7 +13,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Dashboard\DashboardTeamViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardTeamViewHelper;
 
 class DashboardTeamController extends Controller
 {

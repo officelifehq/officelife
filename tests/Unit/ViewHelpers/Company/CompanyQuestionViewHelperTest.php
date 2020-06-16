@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Company;
+namespace Tests\Unit\ViewHelpers\Company;
 
 use Tests\ApiTestCase;
 use App\Models\Company\Team;
@@ -8,7 +8,7 @@ use App\Models\Company\Answer;
 use App\Models\Company\Question;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Company\Company\CompanyQuestionViewHelper;
+use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
 
 class CompanyQuestionViewHelperTest extends ApiTestCase
 {

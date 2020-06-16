@@ -15,8 +15,8 @@ use App\Http\Collections\PositionCollection;
 use App\Http\Collections\EmployeeStatusCollection;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\Manager\UnassignManager;
-use App\Http\ViewHelpers\Company\Employee\EmployeeShowViewHelper;
 
 class EmployeeController extends Controller
 {
@@ -92,7 +92,6 @@ class EmployeeController extends Controller
         $managersOfEmployee = EmployeeShowViewHelper::managers($employee);
 
         // direct reports
-        $directReportsOfEmployee = collect([]);
         $directReportsOfEmployee = EmployeeShowViewHelper::directReports($employee);
 
         // worklogs
@@ -153,7 +152,19 @@ class EmployeeController extends Controller
         $manager = (new AssignManager)->execute($request);
 
         return response()->json([
-            'data' => $manager->toObject(),
+            'data' => [
+                'id' => $manager->id,
+                'name' => $manager->name,
+                'avatar' => $manager->avatar,
+                'position' => (! $manager->position) ? null : [
+                    'id' => $manager->position->id,
+                    'title' => $manager->position->title,
+                ],
+                'url' => route('employees.show', [
+                    'company' => $manager->company,
+                    'employee' => $manager,
+                ]),
+            ],
         ], 200);
     }
 
@@ -182,7 +193,19 @@ class EmployeeController extends Controller
         $directReport = Employee::findOrFail($request->get('id'));
 
         return response()->json([
-            'data' => $directReport->toObject(),
+            'data' =>[
+                'id' => $directReport->id,
+                'name' => $directReport->name,
+                'avatar' => $directReport->avatar,
+                'position' => (! $directReport->position) ? null : [
+                    'id' => $directReport->position->id,
+                    'title' => $directReport->position->title,
+                ],
+                'url' => route('employees.show', [
+                    'company' => $directReport->company,
+                    'employee' => $directReport,
+                ]),
+            ],
         ], 200);
     }
 
@@ -209,7 +232,9 @@ class EmployeeController extends Controller
         $manager = (new UnassignManager)->execute($request);
 
         return response()->json([
-            'data' => $manager->toObject(),
+            'data' => [
+                'id' => $manager->id,
+            ],
         ], 200);
     }
 
@@ -236,7 +261,9 @@ class EmployeeController extends Controller
         $manager = (new UnassignManager)->execute($request);
 
         return response()->json([
-            'data' => $manager->toObject(),
+            'data' => [
+                'id' => $manager->id,
+            ],
         ], 200);
     }
 }

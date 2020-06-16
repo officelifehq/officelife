@@ -10,7 +10,7 @@ use App\Helpers\NotificationHelper;
 use App\Helpers\WorkFromHomeHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
-use App\Http\ViewHelpers\Company\Dashboard\DashboardMeViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 
 class DashboardMeController extends Controller
 {

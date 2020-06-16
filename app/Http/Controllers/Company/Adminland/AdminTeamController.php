@@ -15,8 +15,8 @@ use App\Http\Collections\TeamLogCollection;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Adminland\Team\UpdateTeam;
 use App\Services\Company\Adminland\Team\DestroyTeam;
+use App\Http\ViewHelpers\Adminland\AdminTeamViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Adminland\AdminTeamViewHelper;
 
 class AdminTeamController extends Controller
 {
@@ -58,7 +58,7 @@ class AdminTeamController extends Controller
         $team = (new CreateTeam)->execute($request);
 
         return response()->json([
-            'data' => $team->toObject(),
+            'data' => AdminTeamViewHelper::team($team),
         ], 201);
     }
 
@@ -85,7 +85,7 @@ class AdminTeamController extends Controller
         $team = (new UpdateTeam)->execute($data);
 
         return response()->json([
-            'data' => $team->toObject(),
+            'data' => AdminTeamViewHelper::team($team),
         ], 200);
     }
 

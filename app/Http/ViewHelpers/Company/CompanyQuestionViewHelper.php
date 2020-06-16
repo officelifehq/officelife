@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\ViewHelpers\Company\Company;
+namespace App\Http\ViewHelpers\Company;
 
 use App\Helpers\DateHelper;
 use App\Models\Company\Team;

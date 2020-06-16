@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Company\CompanyQuestionViewHelper;
+use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
 
 class QuestionController extends Controller
 {

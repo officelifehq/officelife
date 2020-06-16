@@ -80,6 +80,7 @@ return [
     'header_teams' => 'Teams',
     'header_company' => 'Company',
     'header_switch_company' => 'Switch company',
+    'header_go_to_employee_profile ' => 'Your profile',
     'header_logout' => 'Logout',
     'header_search_placeholder' => 'Find an employee or a team by name',
     'header_search_employees' => 'Employees',

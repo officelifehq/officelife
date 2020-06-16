@@ -29,7 +29,7 @@
         <inertia-link :href="team.url">{{ team.name }}</inertia-link>
         <template v-if="team.team_leader">
           <span v-if="team.team_leader.id == employee.id">
-            (leader)
+            ({{ $t('employee.team_leader') }})
           </span>
         </template>
       </li>
