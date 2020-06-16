@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Team\SetTeamLead;
 use App\Services\Company\Team\UnsetTeamLead;
+use App\Http\ViewHelpers\Team\TeamViewHelper;
 
 class TeamLeadController extends Controller
 {
@@ -56,10 +57,11 @@ class TeamLeadController extends Controller
      */
     public function store(Request $request, int $companyId, int $teamId)
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         $data = [
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'team_id' => $teamId,
             'employee_id' => $request->input('employeeId'),
@@ -68,7 +70,14 @@ class TeamLeadController extends Controller
         $lead = (new SetTeamLead)->execute($data);
 
         return response()->json([
-            'data' => $lead->toObject(),
+            'data' => [
+                'id' => $lead->id,
+                'name' => $lead->name,
+                'avatar' => $lead->avatar,
+                'position' => (! $lead->position) ? null : [
+                    'title' => $lead->position->title,
+                ],
+            ],
         ], 200);
     }
 
@@ -84,10 +93,11 @@ class TeamLeadController extends Controller
      */
     public function destroy(Request $request, int $companyId, int $teamId, int $teamLeadId)
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         $data = [
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'team_id' => $teamId,
             'employee_id' => $request->input('employeeId'),
@@ -96,7 +106,7 @@ class TeamLeadController extends Controller
         $team = (new UnsetTeamLead)->execute($data);
 
         return response()->json([
-            'data' => $team->toObject(),
+            'data' => TeamViewHelper::team($team),
         ], 200);
     }
 }

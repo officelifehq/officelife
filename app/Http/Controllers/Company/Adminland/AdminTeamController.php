@@ -58,7 +58,7 @@ class AdminTeamController extends Controller
         $team = (new CreateTeam)->execute($request);
 
         return response()->json([
-            'data' => $team->toObject(),
+            'data' => AdminTeamViewHelper::team($team),
         ], 201);
     }
 
@@ -85,7 +85,7 @@ class AdminTeamController extends Controller
         $team = (new UpdateTeam)->execute($data);
 
         return response()->json([
-            'data' => $team->toObject(),
+            'data' => AdminTeamViewHelper::team($team),
         ], 200);
     }
 

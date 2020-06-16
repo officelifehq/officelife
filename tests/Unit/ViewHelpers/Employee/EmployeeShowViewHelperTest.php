@@ -254,6 +254,9 @@ class EmployeeShowViewHelperTest extends ApiTestCase
                 0 => [
                     'id' => $team->id,
                     'name' => $team->name,
+                    'team_leader' => [
+                        'id' => $team->leader->id,
+                    ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/teams/'.$team->id,
                 ],
             ],

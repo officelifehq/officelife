@@ -191,6 +191,9 @@ class EmployeeShowViewHelper
             $teamsCollection->push([
                 'id' => $team->id,
                 'name' => $team->name,
+                'team_leader' => is_null($team->leader) ? null : [
+                    'id' => $team->leader->id,
+                ],
                 'url' => route('team.show', [
                     'company' => $team->company,
                     'team' => $team,
