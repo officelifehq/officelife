@@ -75,7 +75,7 @@
             <div v-if="isAssigned(team.id)" class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="reset(team)">
               {{ team.name }}
 
-              <img src="/img/check.svg" class="pr1 absolute right-1" alt="check symbol" />
+              <img loading="lazy" src="/img/check.svg" class="pr1 absolute right-1" alt="check symbol" />
             </div>
 
             <!-- case if the team is not yet selected -->
@@ -93,7 +93,7 @@
             {{ $t('employee.team_modal_blank_cta') }}
           </inertia-link>
         </p>
-        <img class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
+        <img loading="lazy" class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
                                         /img/company/account/blank-team-2x.png 2x"
         />
       </div>

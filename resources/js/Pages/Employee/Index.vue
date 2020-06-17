@@ -34,8 +34,8 @@
               v-for="employee in employees" :key="employee.id"
               class="flex lh-copy pa3-l pa1 ph0-l pv0-ns pv2 bb b--black-10 employee-item"
             >
-              <img class="w2 h2 w3-ns h3-ns br-100" :src="employee.avatar" width="64" height="64" alt="avatar"
-                   loading="lazy"
+              <img loading="lazy" class="w2 h2 w3-ns h3-ns br-100" :src="employee.avatar" width="64" height="64"
+                   alt="avatar"
               />
               <div class="pl3">
                 <!-- name -->

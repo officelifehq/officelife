@@ -6,7 +6,7 @@ span {
 
 <template>
   <div class="relative di">
-    <img :src="avatar" class="absolute br-100" alt="avatar" :style="style" />
+    <img loading="lazy" :src="avatar" class="absolute br-100" alt="avatar" :style="style" />
     <span :class="classes" class="f6" :style="avatarMarginLeft">
       {{ name }}
     </span>

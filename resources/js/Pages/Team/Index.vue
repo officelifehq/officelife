@@ -31,7 +31,7 @@
           <div v-html="team.parsed_description"></div>
           <ul v-show="team.employees.length > 0" class="list relative pl0 mb0">
             <li v-for="employee in team.employees" :key="employee.id" class="di relative">
-              <img :src="employee.avatar" class="br-100 avatar pointer" alt="avatar" @click.prevent="load(employee)" />
+              <img loading="lazy" :src="employee.avatar" class="br-100 avatar pointer" alt="avatar" @click.prevent="load(employee)" />
             </li>
           </ul>
         </div>
@@ -41,7 +41,7 @@
           <p class="tc measure center mb4 lh-copy">
             {{ $t('team.team_list_blank') }}
           </p>
-          <img class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
+          <img loading="lazy" class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
                                         /img/company/account/blank-team-2x.png 2x"
           />
         </div>

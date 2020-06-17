@@ -33,7 +33,7 @@ class EmployeeShowViewHelper
                     'title' => $manager->position->title,
                 ],
                 'url' => route('employees.show', [
-                    'company' => $manager->company,
+                    'company' => $employee->company,
                     'employee' => $manager,
                 ]),
             ]);
@@ -65,7 +65,7 @@ class EmployeeShowViewHelper
                     'title' => $directReport->position->title,
                 ],
                 'url' => route('employees.show', [
-                    'company' => $directReport->company,
+                    'company' => $employee->company,
                     'employee' => $directReport,
                 ]),
             ]);
@@ -164,7 +164,7 @@ class EmployeeShowViewHelper
                 'id' => $question->id,
                 'title' => $question->title,
                 'url' => route('company.questions.show', [
-                    'company' => $question->company,
+                    'company' => $employee->company,
                     'question' => $question,
                 ]),
                 'answer' => [
@@ -186,6 +186,11 @@ class EmployeeShowViewHelper
      */
     public static function teams(Collection $teams): Collection
     {
+        // reduce the number of queries that the foreach loop generates
+        // we don't need to iterate over this over and over as it'll be the same
+        //for all those companies
+        $company = $teams->first()->company;
+
         $teamsCollection = collect([]);
         foreach ($teams as $team) {
             $teamsCollection->push([
@@ -195,7 +200,7 @@ class EmployeeShowViewHelper
                     'id' => $team->leader->id,
                 ],
                 'url' => route('team.show', [
-                    'company' => $team->company,
+                    'company' => $company,
                     'team' => $team,
                 ]),
             ]);
@@ -244,14 +249,18 @@ class EmployeeShowViewHelper
         foreach ($ships as $ship) {
             $employees = $ship->employees;
             $employeeCollection = collect([]);
-            foreach ($employees as $employee) {
+            foreach ($employees as $employeeImpacted) {
+                if ($employee->id == $employeeImpacted->id) {
+                    continue;
+                }
+
                 $employeeCollection->push([
-                    'id' => $employee->id,
-                    'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'id' => $employeeImpacted->id,
+                    'name' => $employeeImpacted->name,
+                    'avatar' => $employeeImpacted->avatar,
                     'url' => route('employees.show', [
                         'company' => $employee->company,
-                        'employee' => $employee,
+                        'employee' => $employeeImpacted,
                     ]),
                 ]);
             }
@@ -262,7 +271,7 @@ class EmployeeShowViewHelper
                 'description' => $ship->description,
                 'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all() : null,
                 'url' => route('ships.show', [
-                    'company' => $ship->team->company,
+                    'company' => $employee->company,
                     'team' => $ship->team,
                     'ship' => $ship->id,
                 ]),

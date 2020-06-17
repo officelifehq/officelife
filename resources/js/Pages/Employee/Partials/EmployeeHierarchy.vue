@@ -38,7 +38,8 @@
     <span class="db fw5 mb2">
       👨‍✈️ {{ $t('employee.hierarchy_title') }}
     </span>
-    <img v-show="$page.auth.employee.permission_level <= 200" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button" width="22"
+    <img v-show="$page.auth.employee.permission_level <= 200" loading="lazy" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button"
+         width="22"
          height="22" alt="add button"
          @click.prevent="toggleModals()"
     />
@@ -148,7 +149,7 @@
           </p>
           <ul class="list mv0">
             <li v-for="manager in managersOfEmployee" :key="manager.id" class="mb3 relative">
-              <img :src="manager.avatar" class="br-100 absolute avatar" alt="avatar" />
+              <img loading="lazy" :src="manager.avatar" class="br-100 absolute avatar" alt="avatar" />
               <inertia-link :href="manager.url" class="mb2">
                 {{ manager.name }}
               </inertia-link>
@@ -161,7 +162,9 @@
                 {{ $t('app.no_position_defined') }}
               </span>
 
-              <img src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal" @click="managerModalId = manager.id" />
+              <img loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-manager-modal"
+                   @click="managerModalId = manager.id"
+              />
 
               <!-- DELETE MANAGER MENU -->
               <template v-if="managerModalId == manager.id">
@@ -198,7 +201,7 @@
           </p>
           <ul class="list mv0">
             <li v-for="directReport in directReports" :key="directReport.id" class="mb3 relative">
-              <img :src="directReport.avatar" class="br-100 absolute avatar" alt="avatar" />
+              <img loading="lazy" :src="directReport.avatar" class="br-100 absolute avatar" alt="avatar" />
               <inertia-link :href="directReport.url" class="mb2">
                 {{ directReport.name }}
               </inertia-link>
@@ -211,7 +214,9 @@
                 {{ $t('app.no_position_defined') }}
               </span>
 
-              <img src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal" @click="directReportModalId = directReport.id" />
+              <img loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action" data-cy="display-remove-directreport-modal"
+                   @click="directReportModalId = directReport.id"
+              />
 
               <!-- DELETE DIRECT REPORT MENU -->
               <template v-if="directReportModalId == directReport.id">

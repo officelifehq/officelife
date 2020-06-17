@@ -57,7 +57,7 @@ class TeamShowViewHelper
                     'name' => $employee->name,
                     'avatar' => $employee->avatar,
                     'url' => route('employees.show', [
-                        'company' => $employee->company,
+                        'company' => $team->company,
                         'employee' => $employee,
                     ]),
                 ]);
@@ -69,8 +69,8 @@ class TeamShowViewHelper
                 'description' => $ship->description,
                 'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all(): null,
                 'url' => route('ships.show', [
-                    'company' => $ship->team->company,
-                    'team' => $ship->team,
+                    'company' => $team->company,
+                    'team' => $team,
                     'ship' => $ship->id,
                 ]),
             ]);

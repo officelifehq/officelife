@@ -6,7 +6,7 @@
 # OfficeLife
 
 <div align="center">
-  <img src="docs/img/logo.png" loading="lazy" />
+  <img loading="lazy" src="docs/img/logo.png" loading="lazy" />
 </div>
 
 ## Requirements for hosting the software
