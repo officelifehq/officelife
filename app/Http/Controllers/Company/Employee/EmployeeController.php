@@ -76,7 +76,6 @@ class EmployeeController extends Controller
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
                 ->with('teams')
-                ->with('teams.leader')
                 ->with('company')
                 ->with('pronoun')
                 ->with('user')
@@ -109,11 +108,11 @@ class EmployeeController extends Controller
         // hardware
         $hardware = EmployeeShowViewHelper::hardware($employee);
 
-        // all the teams of the employee
-        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams);
+        // all the teams the employee belongs to
+        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee);
 
         // all teams in company
-        $teams = EmployeeShowViewHelper::teams($company->teams()->get());
+        $teams = EmployeeShowViewHelper::teams($company->teams()->get(), $employee);
 
         // all recent ships of this employee
         $ships = EmployeeShowViewHelper::recentShips($employee);

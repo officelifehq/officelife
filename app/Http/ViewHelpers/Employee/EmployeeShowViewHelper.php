@@ -51,7 +51,7 @@ class EmployeeShowViewHelper
      */
     public static function directReports(Employee $employee): Collection
     {
-        $directReports = $employee->directReports;
+        $directReports = $employee->directReports()->with('directReport.position')->get();
         $directReportsOfEmployee = collect([]);
         foreach ($directReports as $directReport) {
             $directReport = $directReport->directReport;
@@ -184,12 +184,12 @@ class EmployeeShowViewHelper
      *
      * @return Collection
      */
-    public static function teams(Collection $teams): Collection
+    public static function teams(Collection $teams, Employee $employee): Collection
     {
         // reduce the number of queries that the foreach loop generates
         // we don't need to iterate over this over and over as it'll be the same
         //for all those companies
-        $company = $teams->first()->company;
+        $company = $employee->company;
 
         $teamsCollection = collect([]);
         foreach ($teams as $team) {

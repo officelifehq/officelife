@@ -17,7 +17,7 @@
   <div>
     <h3 class="db fw5 mb3 flex justify-between items-center">
       <span>
-        🚀 {{ $t('team.recent_ship_title') }}
+        🚀 {{ $t('employee.recent_ship_title') }}
 
         <help :url="$page.help_links.team_recent_ship" :top="'2px'" />
       </span>
@@ -38,7 +38,7 @@
 
       <!-- blank state -->
       <div v-show="ships.length == 0" class="pa3 tc" data-cy="recent-ships-list-blank-state">
-        <p class="mv0">{{ $t('team.recent_ship_list_blank') }}</p>
+        <p class="mv0">{{ $t('employee.recent_ship_list_blank') }}</p>
       </div>
     </div>
   </div>
