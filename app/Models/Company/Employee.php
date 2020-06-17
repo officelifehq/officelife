@@ -320,7 +320,7 @@ class Employee extends Model
      */
     public function ships()
     {
-        return $this->belongsToMany(Ship::class)->orderBy('created_at', 'desc');
+        return $this->belongsToMany(Ship::class)->orderBy('ships.created_at', 'desc');
     }
 
     /**
