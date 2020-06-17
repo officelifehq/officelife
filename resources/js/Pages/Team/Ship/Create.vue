@@ -239,9 +239,8 @@ export default {
               for (let index = 0; index < this.form.employees.length; index++) {
                 const employee = this.form.employees[index];
                 const found = false;
-                let otherIndex = 0;
 
-                for (otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
+                for (let otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
                   if (employee.id == searchResults[otherIndex].id) {
                     found = true;
                     break;

@@ -43,7 +43,7 @@ class DestroyShip extends BaseService
 
         $ship = Ship::findOrFail($data['ship_id']);
 
-        $team = Team::where('company_id', $data['company_id'])
+        Team::where('company_id', $data['company_id'])
             ->findOrFail($ship->team->id);
 
         $ship->delete();
