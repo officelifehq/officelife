@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Company\Team;
+namespace Tests\Unit\ViewHelpers\Team;
 
 use Tests\TestCase;
 use App\Models\Company\Ship;
