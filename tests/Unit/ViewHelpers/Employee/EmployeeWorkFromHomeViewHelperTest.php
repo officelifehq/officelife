@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use App\Models\Company\WorkFromHome;
@@ -10,7 +10,7 @@ use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Employee\EmployeeWorkFromHomeViewHelper;
 
-class EmployeeWorkFromHomeViewHelperTest extends ApiTestCase
+class EmployeeWorkFromHomeViewHelperTest extends TestCase
 {
     use DatabaseTransactions,
         HelperTrait;

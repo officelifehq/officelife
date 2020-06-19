@@ -68,10 +68,10 @@
       <div v-show="listOfEmployees.length > 0" class="pa3">
         <div v-for="employee in listOfEmployees" :key="employee.id" class="fl w-third-l w-100 mb4" data-cy="members-list">
           <span class="pl3 db relative team-member">
-            <img :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" loading="lazy" />
+            <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
 
             <!-- normal mode -->
-            <inertia-link v-show="!editMode" :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="mb2">
+            <inertia-link v-show="!editMode" :href="employee.url" class="mb2">
               {{ employee.name }}
             </inertia-link>
 

@@ -103,7 +103,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{team}/members/attach/{employee}', 'Company\\Team\\TeamMembersController@attach');
             Route::post('{team}/members/detach/{employee}', 'Company\\Team\\TeamMembersController@detach');
 
-            Route::resource('{team}/description', 'Company\\Team\\TeamDescriptionController')->only([
+            Route::resource('{team}/description', 'Company\\Team\\TeamDescriptionController', ['as' => 'description'])->only([
                 'store', 'destroy',
             ]);
 
@@ -117,6 +117,9 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('{team}/links', 'Company\\Team\\TeamUsefulLinkController')->only([
                 'store', 'destroy',
             ]);
+
+            Route::resource('{team}/ships', 'Company\\Team\\TeamRecentShipController');
+            Route::post('{team}/ships/search', 'Company\\Team\\TeamRecentShipController@search');
         });
 
         Route::prefix('company')->group(function () {
@@ -151,7 +154,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
 
             // team management
-            Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController', ['as' => 'account']);
+            Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController', ['as' => 'account_teams']);
             Route::get('account/teams/{team}/logs', 'Company\\Adminland\\AdminTeamController@logs');
 
             // position management
@@ -161,10 +164,10 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('account/flows', 'Company\\Adminland\\AdminFlowController');
 
             // employee statuses
-            Route::resource('account/employeestatuses', 'Company\\Adminland\\AdminEmployeeStatusController');
+            Route::resource('account/employeestatuses', 'Company\\Adminland\\AdminEmployeeStatusController', ['as' => 'account_employeestatuses']);
 
             // company news
-            Route::resource('account/news', 'Company\\Adminland\\AdminCompanyNewsController');
+            Route::resource('account/news', 'Company\\Adminland\\AdminCompanyNewsController', ['as' => 'account_news']);
 
             // pto policies
             Route::resource('account/ptopolicies', 'Company\\Adminland\\AdminPTOPoliciesController');

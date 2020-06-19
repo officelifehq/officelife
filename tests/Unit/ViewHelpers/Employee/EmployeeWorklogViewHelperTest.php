@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\ViewHelpers\Employee;
 
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
@@ -10,7 +10,7 @@ use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Employee\EmployeeWorklogViewHelper;
 
-class EmployeeWorklogViewHelperTest extends ApiTestCase
+class EmployeeWorklogViewHelperTest extends TestCase
 {
     use DatabaseTransactions,
         HelperTrait;

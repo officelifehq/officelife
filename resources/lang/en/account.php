@@ -196,6 +196,9 @@ return [
     'log_hardware_destroyed' => 'Deleted the hardware called :name.',
     'log_hardware_lent' => 'Lent the hardware named :hardware_name to :employee_name.',
     'log_hardware_regained' => 'Took back the hardware named :hardware_name from :employee_name.',
+    'log_recent_ship_created' => 'Created a recent ship entry called :ship_title associated to the team called :team_name.',
+    'log_recent_ship_destroyed' => 'Deleted the recent ship entry called :ship_title associated in the team called :team_name.',
+    'log_employee_attached_to_recent_ship' => 'Associated the employee called :employee_name with the recent ship entry called :ship_title in the team called :team_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -227,6 +230,7 @@ return [
     'employee_log_answer_created' => 'Answered the question called :title.',
     'employee_log_answer_updated' => 'Updated the answer of the question called :title.',
     'employee_log_answer_destroyed' => 'Deleted the answer of the question called :title.',
+    'employee_log_employee_attached_to_recent_ship' => 'Associated with the recent ship entry called :ship_title in the team called :team_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',
@@ -244,6 +248,8 @@ return [
     'team_log_team_news_created' => 'Wrote a news called :name.',
     'team_log_team_news_updated' => 'Updated the news called :title.',
     'team_log_team_news_destroyed' => 'Deleted the news called :title.',
+    'team_log_recent_ship_created' => 'Created a new recent ship called :title.',
+    'team_log_ship_destroyed' => 'Deleted the recent ship called :title.',
 
     'notification_dummy_data_generated' => 'Dummy data have been generated for :name.',
     'notification_employee_added_to_company' => 'You have been added to :name.',
@@ -251,6 +257,7 @@ return [
     'notification_employee_removed_from_team' => 'You have been removed from the team called :name.',
     'notification_team_lead_set' => 'You have been assigned as the team lead for the team called :name.',
     'notification_team_lead_removed' => 'You are not longer the team lead of the team called :name.',
+    'notification_employee_attached_to_recent_ship' => 'You have been associated with the recent ship called :title.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',

@@ -25,7 +25,7 @@
       <!-- employee hasnt already answered -->
       <template v-if="!hasAlreadyAnswered">
         <div class="cf mw7 center br3 mb3 bg-white box relative" data-cy="answer-employee-hasnt-answered">
-          <img src="/img/dashboard/question_dashboard.png" alt="a group taking a selfie" class="absolute top-1" />
+          <img loading="lazy" src="/img/dashboard/question_dashboard.png" alt="a group taking a selfie" class="absolute top-1" />
 
           <div class="pa3">
             <h2 class="f4 fw4 mt0 mb3 ml6 lh-copy">

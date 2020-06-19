@@ -340,3 +340,12 @@ $factory->define(App\Models\Company\Hardware::class, function () {
         'serial_number' => '123',
     ];
 });
+
+$factory->define(App\Models\Company\Ship::class, function () {
+    return [
+        'team_id' => function () {
+            return factory(App\Models\Company\Team::class)->create()->id;
+        },
+        'title' => 'New API',
+    ];
+});

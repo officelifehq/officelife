@@ -114,6 +114,48 @@ class DashboardTeamViewHelper
     }
 
     /**
+     * Collection containing all the recent ships entry for the given team.
+     *
+     * @param Team $team
+     *
+     * @return Collection
+     */
+    public static function ships(Team $team): Collection
+    {
+        $ships = $team->ships()->get()->take(3);
+        $shipsCollection = collect([]);
+        foreach ($ships as $ship) {
+            $employees = $ship->employees;
+            $employeeCollection = collect([]);
+            foreach ($employees as $employee) {
+                $employeeCollection->push([
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                    'avatar' => $employee->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $team->company,
+                        'employee' => $employee,
+                    ]),
+                ]);
+            }
+
+            $shipsCollection->push([
+                'id' => $ship->id,
+                'title' => $ship->title,
+                'description' => $ship->description,
+                'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all() : null,
+                'url' => route('ships.show', [
+                    'company' => $team->company,
+                    'team' => $team,
+                    'ship' => $ship->id,
+                ]),
+            ]);
+        }
+
+        return $shipsCollection;
+    }
+
+    /**
      * Creates an array containing all the information regarding the worklogs
      * logged on the given day for a specific team.
      *

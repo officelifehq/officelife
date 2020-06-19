@@ -48,8 +48,8 @@
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
               data-cy="employee-list"
             >
-              <img class="w2 h2 w3-ns h3-ns br-100" :src="currentEmployee.avatar" width="64" height="64" alt="avatar"
-                   loading="lazy"
+              <img loading="lazy" class="w2 h2 w3-ns h3-ns br-100" :src="currentEmployee.avatar" width="64" height="64"
+                   alt="avatar"
               />
               <div class="pl3 flex-auto">
                 <span class="db black-70 f4 mb1" :name="currentEmployee.name" :data-invitation-link="currentEmployee.invitation_link">

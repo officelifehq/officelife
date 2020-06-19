@@ -3,7 +3,8 @@
 namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
-use Tests\ApiTestCase;
+use Tests\TestCase;
+use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Answer;
 use App\Models\Company\Worklog;
@@ -15,7 +16,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 
-class EmployeeShowViewHelperTest extends ApiTestCase
+class EmployeeShowViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -246,7 +247,7 @@ class EmployeeShowViewHelperTest extends ApiTestCase
             'company_id' => $michael->company_id,
         ]);
 
-        $collection = EmployeeShowViewHelper::teams($michael->company->teams);
+        $collection = EmployeeShowViewHelper::teams($michael->company->teams, $michael);
 
         $this->assertEquals(1, $collection->count());
         $this->assertEquals(
@@ -286,6 +287,49 @@ class EmployeeShowViewHelperTest extends ApiTestCase
                     'serial_number' => '123',
                 ],
             ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_recent_ships(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $featureA = factory(Ship::class)->create([
+            'team_id' => $team->id,
+        ]);
+        $featureA->employees()->attach([$michael->id]);
+
+        $collection = EmployeeShowViewHelper::recentShips($michael);
+
+        $this->assertEquals(1, $collection->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $featureA->id,
+                    'title' => $featureA->title,
+                    'description' => $featureA->description,
+                    'employees' => null,
+                    'url' => route('ships.show', [
+                        'company' => $featureA->team->company,
+                        'team' => $featureA->team,
+                        'ship' => $featureA->id,
+                    ]),
+                ],
+            ],
+            $collection->toArray()
+        );
+
+        $collection = EmployeeShowViewHelper::recentShips($dwight);
+        $this->assertEquals(0, $collection->count());
+        $this->assertEquals(
+            [],
             $collection->toArray()
         );
     }

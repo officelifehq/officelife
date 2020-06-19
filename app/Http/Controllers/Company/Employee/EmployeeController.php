@@ -76,6 +76,7 @@ class EmployeeController extends Controller
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
                 ->with('teams')
+                ->with('company')
                 ->with('pronoun')
                 ->with('user')
                 ->with('status')
@@ -83,6 +84,7 @@ class EmployeeController extends Controller
                 ->with('managers')
                 ->with('workFromHomes')
                 ->with('hardware')
+                ->with('ships')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -106,11 +108,14 @@ class EmployeeController extends Controller
         // hardware
         $hardware = EmployeeShowViewHelper::hardware($employee);
 
-        // all the teams of the employee
-        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams);
+        // all the teams the employee belongs to
+        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee);
 
         // all teams in company
-        $teams = EmployeeShowViewHelper::teams($company->teams()->get());
+        $teams = EmployeeShowViewHelper::teams($company->teams()->get(), $employee);
+
+        // all recent ships of this employee
+        $ships = EmployeeShowViewHelper::recentShips($employee);
 
         return Inertia::render('Employee/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -126,6 +131,7 @@ class EmployeeController extends Controller
             'teams' => $teams,
             'statuses' => EmployeeStatusCollection::prepare($company->employeeStatuses()->get()),
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
+            'ships' => $ships,
         ]);
     }
 

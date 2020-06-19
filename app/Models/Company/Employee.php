@@ -73,6 +73,7 @@ class Employee extends Model
         'first_name',
         'last_name',
         'email',
+        'avatar',
         'company_id',
     ];
 
@@ -310,6 +311,16 @@ class Employee extends Model
     public function hardware()
     {
         return $this->hasMany(Hardware::class);
+    }
+
+    /**
+     * Get the ship records associated with the employee.
+     *
+     * @return belongsToMany
+     */
+    public function ships()
+    {
+        return $this->belongsToMany(Ship::class)->orderBy('ships.created_at', 'desc');
     }
 
     /**

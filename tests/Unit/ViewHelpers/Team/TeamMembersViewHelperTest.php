@@ -14,15 +14,21 @@ class TeamMembersViewHelperTest extends TestCase
     public function it_gets_a_collection_of_employees(): void
     {
         $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
 
         $collection = TeamMembersViewHelper::searchedEmployees($michael->company->employees);
 
-        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(2, $collection->count());
+
         $this->assertEquals(
             [
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
+                ],
+                1 => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
                 ],
             ],
             $collection->toArray()
@@ -30,13 +36,14 @@ class TeamMembersViewHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_detail_of_an_employee(): void
+    public function it_gets_an_array_containing_information_about_the_employee(): void
     {
         $michael = $this->createAdministrator();
 
-        $details = TeamMembersViewHelper::employee($michael);
+        $array = TeamMembersViewHelper::employee($michael);
 
-        $this->assertEquals(4, count($details));
+        $this->assertEquals(4, count($array));
+
         $this->assertEquals(
             [
                 'id' => $michael->id,
@@ -44,7 +51,7 @@ class TeamMembersViewHelperTest extends TestCase
                 'avatar' => $michael->avatar,
                 'position' => $michael->position,
             ],
-            $details
+            $array
         );
     }
 }

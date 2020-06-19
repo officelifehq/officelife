@@ -36,7 +36,7 @@ class EmployeeTeamController extends Controller
 
         $employee = (new AddEmployeeToTeam)->execute($request);
 
-        return EmployeeShowViewHelper::teams($employee->teams);
+        return EmployeeShowViewHelper::teams($employee->teams, $employee);
     }
 
     /**
@@ -62,6 +62,6 @@ class EmployeeTeamController extends Controller
 
         $employee = (new RemoveEmployeeFromTeam)->execute($request);
 
-        return EmployeeShowViewHelper::teams($employee->teams);
+        return EmployeeShowViewHelper::teams($employee->teams, $employee);
     }
 }

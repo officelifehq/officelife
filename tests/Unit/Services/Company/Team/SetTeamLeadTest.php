@@ -87,7 +87,7 @@ class SetTeamLeadTest extends TestCase
         (new SetTeamLead)->execute($request);
     }
 
-    private function executeService(Employee $michael, Team $team, $isInternal): void
+    private function executeService(Employee $michael, Team $team, bool $isInternal): void
     {
         Queue::fake();
 

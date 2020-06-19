@@ -82,6 +82,12 @@ class NotificationHelper
             ]);
         }
 
+        if ($notification->action == 'employee_attached_to_recent_ship') {
+            $sentence = trans('account.notification_employee_attached_to_recent_ship', [
+                'title' => $notification->object->{'ship_title'},
+            ]);
+        }
+
         return $sentence;
     }
 }

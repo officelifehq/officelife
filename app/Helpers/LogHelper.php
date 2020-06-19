@@ -447,6 +447,28 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'recent_ship_created') {
+            $sentence = trans('account.log_recent_ship_created', [
+                'team_name' => $log->object->{'team_name'},
+                'ship_title' => $log->object->{'ship_title'},
+            ]);
+        }
+
+        if ($log->action == 'employee_attached_to_recent_ship') {
+            $sentence = trans('account.log_employee_attached_to_recent_ship', [
+                'employee_name' => $log->object->{'employee_name'},
+                'ship_title' => $log->object->{'ship_title'},
+                'team_name' => $log->object->{'team_name'},
+            ]);
+        }
+
+        if ($log->action == 'ship_destroyed') {
+            $sentence = trans('account.log_recent_ship_destroyed', [
+                'ship_title' => $log->object->{'ship_title'},
+                'team_name' => $log->object->{'team_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -620,6 +642,13 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_attached_to_recent_ship') {
+            $sentence = trans('account.employee_log_employee_attached_to_recent_ship', [
+                'ship_title' => $log->object->{'ship_title'},
+                'team_name' => $log->object->{'team_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -725,6 +754,18 @@ class LogHelper
         if ($log->action == 'team_news_destroyed') {
             $sentence = trans('account.team_log_team_news_destroyed', [
                 'title' => $log->object->{'team_news_title'},
+            ]);
+        }
+
+        if ($log->action == 'recent_ship_created') {
+            $sentence = trans('account.team_log_recent_ship_created', [
+                'title' => $log->object->{'ship_title'},
+            ]);
+        }
+
+        if ($log->action == 'ship_destroyed') {
+            $sentence = trans('account.team_log_ship_destroyed', [
+                'title' => $log->object->{'ship_title'},
             ]);
         }
 

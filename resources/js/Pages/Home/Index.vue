@@ -45,7 +45,7 @@
               <div class="br3 mb3 bg-white box pa3 tc relative home-box" data-cy="create-company-blank-state">
                 <h3>{{ $t('home.create_company') }}</h3>
                 <p>{{ $t('home.create_company_desc') }}</p>
-                <img src="/img/home/create-company.png" class="home-company absolute" alt="create company button" />
+                <img loading="lazy" src="/img/home/create-company.png" class="home-company absolute" alt="create company button" />
               </div>
             </div>
           </inertia-link>
@@ -56,7 +56,7 @@
               <div class="br3 mb3 bg-white box pa3 tc relative home-box">
                 <h3>{{ $t('home.join_company') }}</h3>
                 <p>{{ $t('home.join_company_desc') }}</p>
-                <img src="/img/home/join-company.png" class="home-join absolute" alt="join company button" />
+                <img loading="lazy" src="/img/home/join-company.png" class="home-join absolute" alt="join company button" />
               </div>
             </div>
           </inertia-link>

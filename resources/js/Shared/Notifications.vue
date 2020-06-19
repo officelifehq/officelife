@@ -19,7 +19,7 @@
 <template>
   <div class="relative">
     <div class="di" @click.prevent="markRead()">
-      <span v-if="notifications" class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(numberOfNotifications > 0)}">
+      <span v-if="notifications" class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(numberOfNotifications > 0)}" data-cy="notification-counter">
         🔥 {{ numberOfNotifications }}
       </span>
       <span v-else class="mr2 f6 notifications pv1 ph2 br3 pointer">
@@ -29,7 +29,7 @@
 
     <!-- content modal -->
     <ul v-if="showMenu" v-click-outside="toggleModal" class="popupmenu absolute right-0 content-menu list z-999 bg-white ba bb-gray br3 pa0">
-      <li v-for="notification in notifications" :key="notification.id" class="pv2 ph3 bb bb-gray lh-copy">
+      <li v-for="notification in notifications" :key="notification.id" class="pv2 ph3 bb bb-gray lh-copy" data-cy="notification-modal-content">
         {{ notification.localized_content }}
       </li>
       <li v-show="notifications == 0" class="pv2 ph3 bb bb-gray lh-copy">{{ $t('app.notification_blank_state') }} 🎉</li>

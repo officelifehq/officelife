@@ -29,15 +29,21 @@
 
       <div v-show="showActionMenu" class="tc">
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer" @click="addAction('notification')">
-          <img src="/img/company/account/action-notification.svg" alt="add notification symbol" class="relative mr1" height="18" width="20" />
+          <img loading="lazy" src="/img/company/account/action-notification.svg" alt="add notification symbol" class="relative mr1" height="18"
+               width="20"
+          />
           {{ $t('account.flow_new_action_notification') }}
         </div>
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer">
-          <img src="/img/company/account/action-task.svg" alt="add task symbol" class="relative mr1" height="20" width="20" />
+          <img loading="lazy" src="/img/company/account/action-task.svg" alt="add task symbol" class="relative mr1" height="20"
+               width="20"
+          />
           {{ $t('account.flow_new_action_task') }}
         </div>
         <div class="tl pv2 ph2 mb3 blank-state-actions dib mr3 br2 pointer">
-          <img src="/img/company/account/action-email.svg" alt="add email symbol" class="relative mr1" height="20" width="20" />
+          <img loading="lazy" src="/img/company/account/action-email.svg" alt="add email symbol" class="relative mr1" height="20"
+               width="20"
+          />
           {{ $t('account.flow_new_action_email') }}
         </div>
       </div>

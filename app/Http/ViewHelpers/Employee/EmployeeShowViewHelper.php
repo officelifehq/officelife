@@ -33,7 +33,7 @@ class EmployeeShowViewHelper
                     'title' => $manager->position->title,
                 ],
                 'url' => route('employees.show', [
-                    'company' => $manager->company,
+                    'company' => $employee->company,
                     'employee' => $manager,
                 ]),
             ]);
@@ -51,7 +51,7 @@ class EmployeeShowViewHelper
      */
     public static function directReports(Employee $employee): Collection
     {
-        $directReports = $employee->directReports;
+        $directReports = $employee->directReports()->with('directReport.position')->get();
         $directReportsOfEmployee = collect([]);
         foreach ($directReports as $directReport) {
             $directReport = $directReport->directReport;
@@ -65,7 +65,7 @@ class EmployeeShowViewHelper
                     'title' => $directReport->position->title,
                 ],
                 'url' => route('employees.show', [
-                    'company' => $directReport->company,
+                    'company' => $employee->company,
                     'employee' => $directReport,
                 ]),
             ]);
@@ -164,7 +164,7 @@ class EmployeeShowViewHelper
                 'id' => $question->id,
                 'title' => $question->title,
                 'url' => route('company.questions.show', [
-                    'company' => $question->company,
+                    'company' => $employee->company,
                     'question' => $question,
                 ]),
                 'answer' => [
@@ -184,8 +184,13 @@ class EmployeeShowViewHelper
      *
      * @return Collection
      */
-    public static function teams(Collection $teams): Collection
+    public static function teams(Collection $teams, Employee $employee): Collection
     {
+        // reduce the number of queries that the foreach loop generates
+        // we don't need to iterate over this over and over as it'll be the same
+        //for all those companies
+        $company = $employee->company;
+
         $teamsCollection = collect([]);
         foreach ($teams as $team) {
             $teamsCollection->push([
@@ -195,7 +200,7 @@ class EmployeeShowViewHelper
                     'id' => $team->leader->id,
                 ],
                 'url' => route('team.show', [
-                    'company' => $team->company,
+                    'company' => $company,
                     'team' => $team,
                 ]),
             ]);
@@ -226,5 +231,53 @@ class EmployeeShowViewHelper
         }
 
         return $hardwareCollection;
+    }
+
+    /**
+     * Array containing information about the recent ships associated with the
+     * employee.
+     *
+     * @param Employee $employee
+     *
+     * @return Collection
+     */
+    public static function recentShips(Employee $employee): Collection
+    {
+        $ships = $employee->ships;
+
+        $shipsCollection = collect([]);
+        foreach ($ships as $ship) {
+            $employees = $ship->employees;
+            $employeeCollection = collect([]);
+            foreach ($employees as $employeeImpacted) {
+                if ($employee->id == $employeeImpacted->id) {
+                    continue;
+                }
+
+                $employeeCollection->push([
+                    'id' => $employeeImpacted->id,
+                    'name' => $employeeImpacted->name,
+                    'avatar' => $employeeImpacted->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $employee->company,
+                        'employee' => $employeeImpacted,
+                    ]),
+                ]);
+            }
+
+            $shipsCollection->push([
+                'id' => $ship->id,
+                'title' => $ship->title,
+                'description' => $ship->description,
+                'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all() : null,
+                'url' => route('ships.show', [
+                    'company' => $employee->company,
+                    'team' => $ship->team,
+                    'ship' => $ship->id,
+                ]),
+            ]);
+        }
+
+        return $shipsCollection;
     }
 }

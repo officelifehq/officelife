@@ -71,7 +71,7 @@
           <p class="tc measure center mb4 lh-copy">
             {{ $t('account.flows_blank') }}
           </p>
-          <img class="db center mb4" alt="blank flow" srcset="/img/company/account/blank-flow-1x.png,
+          <img loading="lazy" class="db center mb4" alt="blank flow" srcset="/img/company/account/blank-flow-1x.png,
                                         /img/company/account/blank-flow-2x.png 2x"
           />
         </div>

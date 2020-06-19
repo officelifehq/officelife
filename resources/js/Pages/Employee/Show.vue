@@ -37,8 +37,8 @@
       <div class="mw9 center br3 mb4 bg-white box relative z-1">
         <div class="pa3 relative pt5">
           <!-- EDIT BUTTON -->
-          <img v-if="employeeOrAtLeastHR()" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button" alt="edit button"
-               loading="lazy"
+          <img v-if="employeeOrAtLeastHR()" loading="lazy" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button"
+               alt="edit button"
                @click="profileMenu = true"
           />
 
@@ -64,8 +64,8 @@
           </div>
 
           <!-- AVATAR -->
-          <img :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80" alt="avatar"
-               loading="lazy"
+          <img loading="lazy" :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80"
+               alt="avatar"
           />
           <h2 class="tc normal mb1">
             {{ employee.name }}
@@ -156,6 +156,10 @@
           <holidays
             :employee="employee"
           />
+
+          <recent-ships
+            :ships="ships"
+          />
         </div>
 
         <!-- RIGHT COLUMN -->
@@ -191,6 +195,7 @@ import Location from '@/Pages/Employee/Partials/Location';
 import WorkFromHome from '@/Pages/Employee/Partials/WorkFromHome';
 import Question from '@/Pages/Employee/Partials/Question';
 import Hardware from '@/Pages/Employee/Partials/Hardware';
+import RecentShips from '@/Pages/Employee/Partials/RecentShips';
 
 export default {
   components: {
@@ -208,6 +213,7 @@ export default {
     WorkFromHome,
     Question,
     Hardware,
+    RecentShips,
   },
 
   directives: {
@@ -264,6 +270,10 @@ export default {
       default: null,
     },
     hardware: {
+      type: Array,
+      default: null,
+    },
+    ships: {
       type: Array,
       default: null,
     },

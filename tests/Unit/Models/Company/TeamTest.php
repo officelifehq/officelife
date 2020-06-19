@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\Company\Worklog;
@@ -38,6 +39,17 @@ class TeamTest extends TestCase
         $sales->employees()->syncWithoutDetaching([$michael->id]);
 
         $this->assertTrue($sales->employees()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_ships()
+    {
+        $sales = factory(Team::class)->create([]);
+        factory(Ship::class, 2)->create([
+            'team_id' => $sales->id,
+        ]);
+
+        $this->assertTrue($sales->ships()->exists());
     }
 
     /** @test */

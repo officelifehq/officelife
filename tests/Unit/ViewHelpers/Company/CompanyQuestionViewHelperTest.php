@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\ViewHelpers\Company;
 
-use Tests\ApiTestCase;
+use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
@@ -10,7 +10,7 @@ use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
 
-class CompanyQuestionViewHelperTest extends ApiTestCase
+class CompanyQuestionViewHelperTest extends TestCase
 {
     use DatabaseTransactions,
         HelperTrait;

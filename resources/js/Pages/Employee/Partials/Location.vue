@@ -6,7 +6,7 @@
 
     <div v-if="employee.address" class="br3 bg-white box z-1 pa3">
       <!-- Mapbox image, if env variables are set -->
-      <img v-if="employee.address.employee_cover_image_url"
+      <img v-if="employee.address.employee_cover_image_url" loading="lazy"
            :src="employee.address.employee_cover_image_url"
            :alt="$t('employee.location_alt_employee')"
            class="mb3 pointer"

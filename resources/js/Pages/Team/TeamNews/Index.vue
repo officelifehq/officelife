@@ -43,7 +43,7 @@
             <div class="lh-copy mt2 br3 parsed-content" v-html="newsItem.parsed_content">
             </div>
             <div class="f6 relative news-information silver mb3">
-              <img :src="newsItem.author.avatar" class="br-100 relative mr1" alt="avatar" />
+              <img loading="lazy" :src="newsItem.author.avatar" class="br-100 relative mr1" alt="avatar" />
               {{ $t('team.team_news_written_by_at', { name: newsItem.author.name, created_at: newsItem.localized_created_at }) }}
 
               <!-- edit -->
