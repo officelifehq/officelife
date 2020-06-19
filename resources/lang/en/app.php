@@ -75,6 +75,8 @@ return [
     'breadcrumb_company' => 'Company',
     'breadcrumb_company_questions' => 'Questions',
     'breadcrumb_company_questions_detail' => 'Detail of a question',
+    'breadcrumb_team_show_recent_ships' => 'Recent ships',
+    'breadcrumb_team_show_recent_ship_detail' => 'Detail of a recent ship',
 
     'header_home' => 'Home',
     'header_find' => 'Find',

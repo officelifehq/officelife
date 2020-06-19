@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
@@ -120,6 +121,61 @@ class DashboardTeamViewHelperTest extends TestCase
                     'avatar' => $dwight->avatar,
                     'position' => $dwight->position,
                     'url' => env('APP_URL').'/'. $dwight->company_id.'/employees/'. $dwight->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_recent_ships(): void
+    {
+        $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $featureA = factory(Ship::class)->create([
+            'team_id' => $team->id,
+        ]);
+        $featureB = factory(Ship::class)->create([
+            'team_id' => $team->id,
+        ]);
+        $featureA->employees()->attach([$michael->id]);
+
+        $collection = DashboardTeamViewHelper::ships($team);
+
+        $this->assertEquals(2, $collection->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $featureA->id,
+                    'title' => $featureA->title,
+                    'description' => $featureA->description,
+                    'employees' => [
+                        0 => [
+                            'id' => $michael->id,
+                            'name' => $michael->name,
+                            'avatar' => $michael->avatar,
+                            'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                        ],
+                    ],
+                    'url' => route('ships.show', [
+                        'company' => $featureA->team->company,
+                        'team' => $featureA->team,
+                        'ship' => $featureA->id,
+                    ]),
+                ],
+                1 => [
+                    'id' => $featureB->id,
+                    'title' => $featureB->title,
+                    'description' => $featureB->description,
+                    'employees' => null,
+                    'url' => route('ships.show', [
+                        'company' => $featureB->team->company,
+                        'team' => $featureB->team,
+                        'ship' => $featureB->id,
+                    ]),
                 ],
             ],
             $collection->toArray()

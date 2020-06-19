@@ -31,7 +31,7 @@ class DashboardTeamController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
-        $teams = $employee->teams()->with('employees')->get();
+        $teams = $employee->teams()->with('employees')->with('ships')->get();
 
         $employeeInformation = [
             'id' => $employee->id,
@@ -118,6 +118,9 @@ class DashboardTeamController extends Controller
         // teams
         $teams = DashboardTeamViewHelper::teams($teams);
 
+        // ships
+        $ships = DashboardTeamViewHelper::ships($team);
+
         return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
             'employee' => $employeeInformation,
@@ -128,6 +131,7 @@ class DashboardTeamController extends Controller
             'worklogEntries' => $team->worklogsForDate($requestedDate),
             'birthdays' => $birthdays,
             'workFromHomes' => $workFromHomes,
+            'recentShips' => $ships,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

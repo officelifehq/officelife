@@ -2,64 +2,16 @@
 
 namespace Tests\Unit\ViewHelpers\Team;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Models\Company\Employee;
-use App\Http\ViewHelpers\Team\TeamShowViewHelper;
+use App\Http\ViewHelpers\Team\TeamRecentShipViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class TeamShowViewHelperTest extends TestCase
+class TeamRecentShipViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
-
-    /** @test */
-    public function it_gets_a_collection_of_employees(): void
-    {
-        $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $michael = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $team = factory(Team::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $team->employees()->attach([$michael->id]);
-        $team->employees()->attach([$dwight->id]);
-
-        $collection = TeamShowViewHelper::employees($team);
-
-        $this->assertEquals(2, $collection->count());
-
-        $this->assertEquals(
-            [
-                0 => [
-                    'id' => $michael->id,
-                    'name' => $michael->name,
-                    'avatar' => $michael->avatar,
-                    'position' => [
-                        'id' => $michael->position->id,
-                        'title' => $michael->position->title,
-                    ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
-                ],
-                1 => [
-                    'id' => $dwight->id,
-                    'name' => $dwight->name,
-                    'avatar' => $dwight->avatar,
-                    'position' => [
-                        'id' => $dwight->position->id,
-                        'title' => $dwight->position->title,
-                    ],
-                    'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'. $dwight->id,
-                ],
-            ],
-            $collection->toArray()
-        );
-    }
 
     /** @test */
     public function it_gets_a_collection_of_recent_ships(): void
@@ -76,7 +28,7 @@ class TeamShowViewHelperTest extends TestCase
         ]);
         $featureA->employees()->attach([$michael->id]);
 
-        $collection = TeamShowViewHelper::recentShips($team);
+        $collection = TeamRecentShipViewHelper::recentShips($team);
 
         $this->assertEquals(2, $collection->count());
 
@@ -91,7 +43,7 @@ class TeamShowViewHelperTest extends TestCase
                             'id' => $michael->id,
                             'name' => $michael->name,
                             'avatar' => $michael->avatar,
-                            'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                            'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
                     'url' => route('ships.show', [
@@ -113,6 +65,47 @@ class TeamShowViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_details_of_a_recent_ship(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+        $team = factory(Team::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $featureA = factory(Ship::class)->create([
+            'team_id' => $team->id,
+            'description' => '**cool**',
+        ]);
+        $featureA->employees()->attach([$michael->id]);
+
+        $array = TeamRecentShipViewHelper::ship($featureA);
+
+        $this->assertEquals(6, count($array));
+
+        $this->assertEquals(
+            [
+                'id' => $featureA->id,
+                'title' => $featureA->title,
+                'description' => '<p><strong>cool</strong></p>',
+                'created_at' => 'Monday, Jan 1st 2018',
+                'employees' => [
+                    0 => [
+                        'id' => $michael->id,
+                        'name' => $michael->name,
+                        'avatar' => $michael->avatar,
+                        'position' => [
+                            'title' => $michael->position->title,
+                        ],
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                    ],
+                ],
+                'url' => env('APP_URL').'/'.$michael->company_id.'/teams/'.$team->id.'/ships/'.$featureA->id,
+            ],
+            $array
         );
     }
 }

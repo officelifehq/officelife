@@ -463,7 +463,7 @@ class LogHelper
         }
 
         if ($log->action == 'ship_destroyed') {
-            $sentence = trans('account.log_ship_destroyed', [
+            $sentence = trans('account.log_recent_ship_destroyed', [
                 'ship_title' => $log->object->{'ship_title'},
                 'team_name' => $log->object->{'team_name'},
             ]);

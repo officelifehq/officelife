@@ -10,10 +10,9 @@ use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamNewsCollection;
-use App\Http\ViewHelpers\Team\TeamViewHelper;
+use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use App\Http\Collections\TeamUsefulLinkCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\Team\TeamShowViewHelper;
 
 class TeamController extends Controller
 {
@@ -77,8 +76,8 @@ class TeamController extends Controller
         $recentShipsCollection = TeamShowViewHelper::recentShips($team);
 
         // news
-        $news = $team->news()->with('author')->orderBy('created_at', 'desc')->get();
-        $newsCollection = TeamNewsCollection::prepare($news->take(3));
+        $news = $team->news()->with('author')->orderBy('created_at', 'desc')->get()->take(3);
+        $newsCollection = TeamNewsCollection::prepare($news);
 
         // does the current logged user belongs to the team?
         // this is useful to know whether the user can do actions because he's part of the team
@@ -94,7 +93,7 @@ class TeamController extends Controller
 
         return Inertia::render('Team/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'team' => TeamViewHelper::team($team),
+            'team' => TeamShowViewHelper::team($team),
             'news' => $newsCollection,
             'newsCount' => $news->count(),
             'mostRecentEmployee' => $mostRecentMember,

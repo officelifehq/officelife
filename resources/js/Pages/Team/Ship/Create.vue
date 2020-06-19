@@ -238,9 +238,10 @@ export default {
               // filter out the employees that are already in the list of employees
               for (let index = 0; index < this.form.employees.length; index++) {
                 const employee = this.form.employees[index];
-                const found = false;
+                let found = false;
+                let otherIndex = 0;
 
-                for (let otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
+                for (otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
                   if (employee.id == searchResults[otherIndex].id) {
                     found = true;
                     break;

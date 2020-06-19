@@ -150,3 +150,31 @@ Cypress.Commands.add('assignEmployeeToTeam', (employeeId, teamId) => {
   cy.get('[data-cy=list-team-' + teamId + ']').click()
   cy.get('.existing-teams').contains('product')
 })
+
+// Create a recent ship entry
+Cypress.Commands.add('createRecentShip', (featureName, description = '', name = '', employeePosition = 0) => {
+  // create an entry with title+description+employees
+  cy.get('[data-cy=add-recent-ship-entry]').click()
+  cy.get('[data-cy=recent-ship-title-input').type(featureName)
+
+  if (description != '') {
+    cy.get('[data-cy=ship-add-description]').click()
+    cy.get('[data-cy=ship-description]').type(description)
+  }
+
+  if (name != '') {
+    cy.get('[data-cy=ship-add-employees]').click()
+    cy.get('[data-cy=ship-employees]').type(name)
+    cy.wait(600)
+    cy.get('[data-cy=employee-id-' + employeePosition + ']').click()
+  }
+
+  cy.get('[data-cy=submit-add-ship-button]').click()
+})
+
+// Check that the recent ship entry exists
+Cypress.Commands.add('readRecentShipEntry', (title, description, employeeName, employeeId) => {
+  cy.get('[data-cy=recent-ship-title]').contains(title)
+  cy.get('[data-cy=recent-ship-description]').contains(description)
+  cy.get('[data-cy=ship-list-employee-' + employeeId + ']').contains(employeeName)
+})

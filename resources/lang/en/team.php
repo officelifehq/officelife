@@ -69,4 +69,9 @@ return [
     'recent_ship_new_credit' => 'Who has worked on this?',
     'recent_ship_new_credit_help' => 'Find someone in the company',
     'recent_ship_create_success' => 'The entry has been created.',
+    'recent_ship_view_all' => 'View all features',
+    'recent_ships_index' => 'All the recent ships made by {name}',
+    'recent_ship_show_date' => 'Written on {date} in {team}',
+    'recent_ship_show_members' => 'Made possible by',
+    'recent_ship_deletion_success' => 'The entry has been deleted.',
 ];

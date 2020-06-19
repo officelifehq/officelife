@@ -38,7 +38,7 @@ class DestroyShip extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->asAtLeastHR()
+            ->asNormalUser()
             ->canExecuteService();
 
         $ship = Ship::findOrFail($data['ship_id']);

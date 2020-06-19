@@ -11,7 +11,6 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Team\Ship\DestroyShip;
-use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -58,7 +57,6 @@ class DestroyShipTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $this->expectException(NotEnoughPermissionException::class);
         $this->executeService($michael, $ship);
     }
 

@@ -64,6 +64,11 @@
         :work-from-homes="workFromHomes"
       />
 
+      <recent-ships
+        :team="currentTeam"
+        :recent-ships="recentShips"
+      />
+
       <div v-show="teams.length != 0" class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3">
           <h2>Team</h2>
@@ -92,6 +97,7 @@
 import Worklogs from '@/Pages/Dashboard/Team/Partials/Worklogs';
 import Birthdays from '@/Pages/Dashboard/Team/Partials/Birthdays';
 import WorkFromHome from '@/Pages/Dashboard/Team/Partials/WorkFromHome';
+import RecentShips from '@/Pages/Dashboard/Team/Partials/RecentShips';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -102,6 +108,7 @@ export default {
     Birthdays,
     DashboardMenu,
     WorkFromHome,
+    RecentShips,
   },
 
   props: {
@@ -138,6 +145,10 @@ export default {
       default: null
     },
     workFromHomes: {
+      type: Array,
+      default: null
+    },
+    recentShips: {
       type: Array,
       default: null
     },
