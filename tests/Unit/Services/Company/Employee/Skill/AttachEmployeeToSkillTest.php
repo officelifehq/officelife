@@ -144,7 +144,10 @@ class AttachEmployeeToSkillTest extends TestCase
                 ]);
             });
         } else {
-            $skill->id == $skillAlreadyExisting->id;
+            $this->assertEquals(
+                $skill->id,
+                $skillAlreadyExisting->id
+            );
         }
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $skill, $dwight) {
