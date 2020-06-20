@@ -13,7 +13,6 @@ use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
-use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
 
 class AttachEmployeeToSkillTest extends TestCase
 {
@@ -72,7 +71,7 @@ class AttachEmployeeToSkillTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AssignPronounToEmployee)->execute($request);
+        (new AttachEmployeeToSkill)->execute($request);
     }
 
     /** @test */
@@ -83,23 +82,6 @@ class AttachEmployeeToSkillTest extends TestCase
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $dwight, 'php');
-    }
-
-    /** @test */
-    public function it_fails_if_the_skill_does_not_exist_in_the_instance(): void
-    {
-        $michael = $this->createAdministrator();
-        $dwight = $this->createEmployee();
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'employee_id' => $dwight->id,
-            'name' => '13233',
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new AssignPronounToEmployee)->execute($request);
     }
 
     private function executeService(Employee $michael, Employee $dwight, string $skillName, Skill $skillAlreadyExisting = null): void
