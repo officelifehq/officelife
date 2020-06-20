@@ -41,6 +41,12 @@ nav {
     }
   }
 }
+
+.ball-pulse {
+  right: 8px;
+  top: 10px;
+  position: absolute;
+}
 </style>
 
 <template>
@@ -85,8 +91,9 @@ nav {
         <form @submit.prevent="submit">
           <div class="relative">
             <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
-                   :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false"
+                   :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false" @keyup="submit()"
             />
+            <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
             <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'" />
           </div>
         </form>
@@ -99,7 +106,7 @@ nav {
               {{ $t('app.header_search_employees') }}
             </span>
             <ul v-if="employees.length > 0" class="list ma0 pl0">
-              <li v-for="localEmployee in employees" :key="localEmployee.id">
+              <li v-for="localEmployee in employees" :key="localEmployee.id" class="mb2">
                 <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + localEmployee.id">
                   {{ localEmployee.name }}
                 </inertia-link>
@@ -116,7 +123,7 @@ nav {
               {{ $t('app.header_search_teams') }}
             </span>
             <ul v-if="teams.length > 0" class="list ma0 pl0">
-              <li v-for="team in teams" :key="team.id">
+              <li v-for="team in teams" :key="team.id" class="mb2">
                 <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">
                   {{ team.name }}
                 </inertia-link>
@@ -209,6 +216,8 @@ import UserMenu from '@/Shared/UserMenu';
 import LoadingButton from '@/Shared/LoadingButton';
 import NotificationsComponent from '@/Shared/Notifications';
 import Toaster from '@/Shared/Toaster';
+import 'vue-loaders/dist/vue-loaders.css';
+import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
 
 export default {
   components: {
@@ -216,6 +225,7 @@ export default {
     LoadingButton,
     NotificationsComponent,
     Toaster,
+    BallPulseLoader,
   },
 
   directives: {
@@ -243,6 +253,7 @@ export default {
       modalFind: false,
       showModalNotifications: true,
       dataReturnedFromSearch: false,
+      processingSearch: false,
       form: {
         searchTerm: null,
         errors: {
@@ -283,27 +294,34 @@ export default {
       });
     },
 
-    submit() {
-      axios.post('/search/employees', this.form)
-        .then(response => {
-          this.dataReturnedFromSearch = true;
-          this.employees = response.data.data;
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
+    submit: _.debounce(
+      function() {
+        this.processingSearch = true;
 
-      axios.post('/search/teams', this.form)
-        .then(response => {
-          this.dataReturnedFromSearch = true;
-          this.teams = response.data.data;
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
+        axios.post('/search/employees', this.form)
+          .then(response => {
+            this.dataReturnedFromSearch = true;
+            this.processingSearch = false;
+            this.employees = response.data.data;
+          })
+          .catch(error => {
+            this.loadingState = null;
+            this.processingSearch = false;
+            this.form.errors = _.flatten(_.toArray(error.response.data));
+          });
+
+        axios.post('/search/teams', this.form)
+          .then(response => {
+            this.dataReturnedFromSearch = true;
+            this.processingSearch = false;
+            this.teams = response.data.data;
+          })
+          .catch(error => {
+            this.loadingState = null;
+            this.processingSearch = false;
+            this.form.errors = _.flatten(_.toArray(error.response.data));
+          });
+      }, 500),
 
     toggleHelp() {
       axios.post('/help')
