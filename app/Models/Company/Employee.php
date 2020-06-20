@@ -324,6 +324,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the skill records associated with the employee.
+     *
+     * @return belongsToMany
+     */
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class)->orderBy('skills.name', 'asc');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

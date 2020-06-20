@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\Company\Flow;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
+use App\Models\Company\Skill;
 use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
@@ -141,6 +142,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->hardware()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_skills(): void
+    {
+        $company = factory(Company::class)->create();
+        factory(Skill::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->skills()->exists());
     }
 
     /** @test */

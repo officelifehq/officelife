@@ -349,3 +349,12 @@ $factory->define(App\Models\Company\Ship::class, function () {
         'title' => 'New API',
     ];
 });
+
+$factory->define(App\Models\Company\Skill::class, function () {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'name' => 'PHP',
+    ];
+});
