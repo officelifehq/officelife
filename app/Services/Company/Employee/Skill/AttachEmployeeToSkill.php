@@ -3,6 +3,7 @@
 namespace App\Services\Company\Employee\Skill;
 
 use Carbon\Carbon;
+use App\Helpers\StringHelper;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Skill;
 use App\Services\BaseService;
@@ -67,8 +68,10 @@ class AttachEmployeeToSkill extends BaseService
      */
     private function lookupExistingSkill(): void
     {
+        $name = $this->formatName($this->data['name']);
+
         $this->skill = Skill::where('company_id', $this->data['company_id'])
-            ->where('name', $this->data['name'])
+            ->where('name', $name)
             ->first();
 
         if (! $this->skill) {
@@ -83,9 +86,11 @@ class AttachEmployeeToSkill extends BaseService
      */
     private function createSkill(): void
     {
+        $name = $this->formatName($this->data['name']);
+
         $this->skill = Skill::create([
             'company_id' => $this->data['company_id'],
-            'name' => $this->data['name'],
+            'name' => $name,
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ]);
     }
@@ -153,5 +158,17 @@ class AttachEmployeeToSkill extends BaseService
             ]),
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
+    }
+
+    /**
+     * Remove accents and convert to lowercase.
+     *
+     * @param string $name
+     * @return string
+     */
+    private function formatName(string $name): string
+    {
+        $name = StringHelper::removeLettersWithAccent($name);
+        return strtolower($name);
     }
 }
