@@ -45,7 +45,7 @@ class PermissionController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'permission_level' => $request->get('permission_level'),
+            'permission_level' => $request->input('permission_level'),
         ];
 
         (new ChangePermission)->execute($request);

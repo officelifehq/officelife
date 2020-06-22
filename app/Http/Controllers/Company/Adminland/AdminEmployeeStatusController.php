@@ -48,7 +48,7 @@ class AdminEmployeeStatusController extends Controller
         $request = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
-            'name' => $request->get('name'),
+            'name' => $request->input('name'),
         ];
 
         $employeeStatus = (new CreateEmployeeStatus)->execute($request);
@@ -75,7 +75,7 @@ class AdminEmployeeStatusController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_status_id' => $employeeStatusId,
-            'name' => $request->get('name'),
+            'name' => $request->input('name'),
         ];
 
         $employeeStatus = (new UpdateEmployeeStatus)->execute($request);

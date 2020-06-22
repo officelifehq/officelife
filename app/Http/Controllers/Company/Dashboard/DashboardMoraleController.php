@@ -24,8 +24,8 @@ class DashboardMoraleController extends Controller
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'company_id' => $company->id,
-            'emotion' => $request->get('emotion'),
-            'comment' => $request->get('comment'),
+            'emotion' => $request->input('emotion'),
+            'comment' => $request->input('comment'),
         ];
 
         (new LogMorale)->execute($request);

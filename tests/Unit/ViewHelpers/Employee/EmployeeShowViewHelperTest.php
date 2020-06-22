@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
+use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
@@ -330,6 +331,32 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertEquals(0, $collection->count());
         $this->assertEquals(
             [],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_recent_skills(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $skill = factory(Skill::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $skill->employees()->attach([$michael->id]);
+
+        $collection = EmployeeShowViewHelper::skills($michael);
+
+        $this->assertEquals(1, $collection->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $skill->id,
+                    'name' => $skill->name,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/skills/'.$skill->id,
+                ],
+            ],
             $collection->toArray()
         );
     }

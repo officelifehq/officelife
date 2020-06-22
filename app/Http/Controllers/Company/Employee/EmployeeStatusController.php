@@ -29,7 +29,7 @@ class EmployeeStatusController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'employee_status_id' => $request->get('id'),
+            'employee_status_id' => $request->input('id'),
         ];
 
         $employee = (new AssignEmployeeStatusToEmployee)->execute($request);

@@ -19,7 +19,7 @@ class HeaderSearchController extends Controller
      */
     public function employees(Request $request)
     {
-        $search = $request->get('searchTerm');
+        $search = $request->input('searchTerm');
         $employees = Employee::search($search, InstanceHelper::getLoggedCompany()->id, 10, 'created_at desc', 'and locked = false');
 
         return response()->json([
@@ -35,7 +35,7 @@ class HeaderSearchController extends Controller
      */
     public function teams(Request $request)
     {
-        $search = $request->get('searchTerm');
+        $search = $request->input('searchTerm');
         $teams = Team::search($search, InstanceHelper::getLoggedCompany()->id, 10, 'created_at desc');
 
         return response()->json([

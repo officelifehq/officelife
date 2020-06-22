@@ -50,11 +50,11 @@ class AdminPTOPoliciesController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'company_pto_policy_id' => $ptoPolicyId,
-            'total_worked_days' => $request->get('total_worked_days'),
-            'days_to_toggle' => $request->get('days_to_toggle'),
-            'default_amount_of_allowed_holidays' => $request->get('default_amount_of_allowed_holidays'),
-            'default_amount_of_sick_days' => $request->get('default_amount_of_sick_days'),
-            'default_amount_of_pto_days' => $request->get('default_amount_of_pto_days'),
+            'total_worked_days' => $request->input('total_worked_days'),
+            'days_to_toggle' => $request->input('days_to_toggle'),
+            'default_amount_of_allowed_holidays' => $request->input('default_amount_of_allowed_holidays'),
+            'default_amount_of_sick_days' => $request->input('default_amount_of_sick_days'),
+            'default_amount_of_pto_days' => $request->input('default_amount_of_pto_days'),
         ];
 
         $policy = (new UpdateCompanyPTOPolicy)->execute($request);

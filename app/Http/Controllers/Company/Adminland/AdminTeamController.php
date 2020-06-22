@@ -52,7 +52,7 @@ class AdminTeamController extends Controller
         $request = [
             'company_id' => InstanceHelper::getLoggedCompany()->id,
             'author_id' => $loggedEmployee->id,
-            'name' => $request->get('name'),
+            'name' => $request->input('name'),
         ];
 
         $team = (new CreateTeam)->execute($request);

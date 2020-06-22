@@ -85,6 +85,7 @@ class EmployeeController extends Controller
                 ->with('workFromHomes')
                 ->with('hardware')
                 ->with('ships')
+                ->with('skills')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -152,7 +153,7 @@ class EmployeeController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'manager_id' => $request->get('id'),
+            'manager_id' => $request->input('id'),
         ];
 
         $manager = (new AssignManager)->execute($request);
@@ -190,13 +191,13 @@ class EmployeeController extends Controller
         $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
-            'employee_id' => $request->get('id'),
+            'employee_id' => $request->input('id'),
             'manager_id' => $employeeId,
         ];
 
         (new AssignManager)->execute($data);
 
-        $directReport = Employee::findOrFail($request->get('id'));
+        $directReport = Employee::findOrFail($request->input('id'));
 
         return response()->json([
             'data' =>[
@@ -232,7 +233,7 @@ class EmployeeController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'manager_id' => $request->get('id'),
+            'manager_id' => $request->input('id'),
         ];
 
         $manager = (new UnassignManager)->execute($request);
@@ -260,7 +261,7 @@ class EmployeeController extends Controller
         $request = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
-            'employee_id' => $request->get('id'),
+            'employee_id' => $request->input('id'),
             'manager_id' => $managerId,
         ];
 

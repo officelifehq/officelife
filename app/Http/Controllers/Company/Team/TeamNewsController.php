@@ -94,8 +94,8 @@ class TeamNewsController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'team_id' => $teamId,
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
         ];
 
         $news = (new CreateTeamNews)->execute($request);
@@ -147,8 +147,8 @@ class TeamNewsController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'team_news_id' => $newsId,
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
         ];
 
         $news = (new UpdateTeamNews)->execute($request);

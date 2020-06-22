@@ -48,7 +48,7 @@ class AdminPositionController extends Controller
         $request = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
-            'title' => $request->get('title'),
+            'title' => $request->input('title'),
         ];
 
         $position = (new CreatePosition)->execute($request);
@@ -75,7 +75,7 @@ class AdminPositionController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'position_id' => $positionId,
-            'title' => $request->get('title'),
+            'title' => $request->input('title'),
         ];
 
         $position = (new UpdatePosition)->execute($request);

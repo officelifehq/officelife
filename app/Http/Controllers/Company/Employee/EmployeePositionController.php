@@ -29,7 +29,7 @@ class EmployeePositionController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'position_id' => $request->get('id'),
+            'position_id' => $request->input('id'),
         ];
 
         $employee = (new AssignPositionToEmployee)->execute($request);
