@@ -61,7 +61,6 @@ export default {
   created: function() {
     this.updatedEmployee = this.employee;
     this.form.content = this.updatedEmployee.has_worked_from_home_today;
-    console.log(this.$page.help);
   },
 
   methods: {

@@ -27,7 +27,9 @@ class RegisterController extends Controller
             return redirect('/home');
         }
 
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Auth/Register', [
+            'signInUrl' => route('login'),
+        ]);
     }
 
     /**

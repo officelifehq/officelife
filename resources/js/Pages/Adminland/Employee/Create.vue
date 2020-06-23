@@ -36,7 +36,9 @@ input[type=radio] {
           </h2>
 
           <form @submit.prevent="submit">
-            <errors :errors="form.errors" />
+            <div v-if="form.errors" class="pa3">
+              <errors :errors="form.errors" />
+            </div>
 
             <!-- Basic information -->
             <div class="cf pa3 bb bb-gray pb4">
