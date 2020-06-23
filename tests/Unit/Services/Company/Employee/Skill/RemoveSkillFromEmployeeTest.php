@@ -26,6 +26,8 @@ class RemoveSkillFromEmployeeTest extends TestCase
         $skill = factory(Skill::class)->create([
             'company_id' => $michael->company_id,
         ]);
+        $skill->employees()->attach([$dwight->id]);
+
         $this->executeService($michael, $dwight, $skill);
     }
 
@@ -37,6 +39,8 @@ class RemoveSkillFromEmployeeTest extends TestCase
         $skill = factory(Skill::class)->create([
             'company_id' => $michael->company_id,
         ]);
+        $skill->employees()->attach([$dwight->id]);
+
         $this->executeService($michael, $dwight, $skill);
     }
 
@@ -47,6 +51,8 @@ class RemoveSkillFromEmployeeTest extends TestCase
         $skill = factory(Skill::class)->create([
             'company_id' => $michael->company_id,
         ]);
+        $skill->employees()->attach([$michael->id]);
+
         $this->executeService($michael, $michael, $skill);
     }
 
@@ -58,6 +64,7 @@ class RemoveSkillFromEmployeeTest extends TestCase
         $skill = factory(Skill::class)->create([
             'company_id' => $michael->company_id,
         ]);
+        $skill->employees()->attach([$dwight->id]);
 
         $this->expectException(NotEnoughPermissionException::class);
         $this->executeService($michael, $dwight, $skill);
@@ -79,6 +86,9 @@ class RemoveSkillFromEmployeeTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
+        $skill = factory(Skill::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $dwight, $skill);
@@ -97,35 +107,14 @@ class RemoveSkillFromEmployeeTest extends TestCase
 
         (new RemoveSkillFromEmployee)->execute($request);
 
-        $this->assertDatabaseHas('skills', [
+        $this->assertDatabaseMissing('skills', [
             'id' => $skill->id,
-            'company_id' => $dwight->company_id,
-            'name' => 'peo',
         ]);
 
         $this->assertDatabaseMissing('employee_skill', [
             'skill_id' => $skill->id,
             'employee_id' => $dwight->id,
         ]);
-
-        // if the skill doesn't alreaady exist, it will create it.
-        if (! $skillAlreadyExisting) {
-            Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $skill, $dwight) {
-                return $job->auditLog['action'] === 'skill_created' &&
-                    $job->auditLog['author_id'] === $michael->id &&
-                    $job->auditLog['objects'] === json_encode([
-                        'skill_id' => $skill->id,
-                        'skill_name' => $skill->name,
-                        'employee_id' => $dwight->id,
-                        'employee_name' => $dwight->name,
-                    ]);
-            });
-        } else {
-            $this->assertEquals(
-                $skill->id,
-                $skillAlreadyExisting->id
-            );
-        }
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $skill, $dwight) {
             return $job->auditLog['action'] === 'skill_removed_from_an_employee' &&
