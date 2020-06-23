@@ -282,7 +282,8 @@ class EmployeeShowViewHelper
     }
 
     /**
-     * Array containing all the skills associated with the employee.
+     * Array containing information about the skills associated with the
+     * employee.
      *
      * @param Employee $employee
      *
@@ -298,7 +299,7 @@ class EmployeeShowViewHelper
                 'id' => $skill->id,
                 'name' => $skill->name,
                 'url' => route('company.skills.show', [
-                    'company' => $employee->company,
+                    'company' => $skill->company_id,
                     'skill' => $skill->id,
                 ]),
             ]);

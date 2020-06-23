@@ -118,6 +118,9 @@ class EmployeeController extends Controller
         // all recent ships of this employee
         $ships = EmployeeShowViewHelper::recentShips($employee);
 
+        // all skills of this employee
+        $skills = EmployeeShowViewHelper::skills($employee);
+
         return Inertia::render('Employee/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employee' => $employee->toObject(),
@@ -133,6 +136,7 @@ class EmployeeController extends Controller
             'statuses' => EmployeeStatusCollection::prepare($company->employeeStatuses()->get()),
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'ships' => $ships,
+            'skills' => $skills,
         ]);
     }
 
