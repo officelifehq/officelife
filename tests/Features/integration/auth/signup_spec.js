@@ -8,6 +8,7 @@ describe('Signup', function () {
 
     cy.get('input[name=email]').type('test@test.com')
     cy.get('input[name=password]').type('testtest')
+    cy.get('[data-cy=accept-terms]').check()
 
     cy.get('button[type=submit]').click()
 
@@ -26,6 +27,7 @@ describe('Signup', function () {
 
     cy.get('input[name=email]').type('test@test.com')
     cy.get('input[name=password]').type('testtest')
+    cy.get('[data-cy=accept-terms]').check()
 
     cy.get('button[type=submit]').click()
 
