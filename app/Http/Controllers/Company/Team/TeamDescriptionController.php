@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use App\Http\ViewHelpers\Team\TeamViewHelper;
+use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use App\Services\Company\Team\Description\SetTeamDescription;
 
 class TeamDescriptionController extends Controller
@@ -35,7 +35,7 @@ class TeamDescriptionController extends Controller
         $team = (new SetTeamDescription)->execute($data);
 
         return response()->json([
-            'data' => TeamViewHelper::team($team),
+            'data' => TeamShowViewHelper::team($team),
         ], 200);
     }
 }

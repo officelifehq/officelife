@@ -36,6 +36,8 @@
         <!-- Shows the editor -->
         <div v-show="editorShown && !successMessage">
           <form @submit.prevent="store()">
+            <errors :errors="form.errors" :classes="'mb2'" />
+
             <text-area
               ref="editor"
               v-model="form.content"
@@ -66,10 +68,12 @@
 <script>
 import LoadingButton from '@/Shared/LoadingButton';
 import TextArea from '@/Shared/TextArea';
+import Errors from '@/Shared/Errors';
 
 export default {
   components: {
     LoadingButton,
+    Errors,
     TextArea,
   },
 
@@ -133,7 +137,7 @@ export default {
           this.successMessage = false;
           this.editorShown = true;
           this.updatedEmployee.has_logged_worklog_today = false;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

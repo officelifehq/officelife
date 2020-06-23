@@ -55,7 +55,7 @@ nav {
       <nav class="flex justify-between bb b--white-10">
         <div class="flex-grow pa2 flex items-center">
           <inertia-link href="/home" class="mr3 no-underline pa2 bb-0">
-            <img loading="lazy" src="/img/logo.svg" height="30" width="30" alt="logo" />
+            <img loading="lazy" src="/img/logo.png" height="30" width="30" alt="logo" />
           </inertia-link>
           <div v-if="!noMenu">
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr2 no-underline pa2 bb-0 special">

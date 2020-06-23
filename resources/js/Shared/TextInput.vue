@@ -46,7 +46,7 @@
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
-    <p v-if="help" class="f7 mb3 lh-title">
+    <p v-if="help" class="f7 mb3 lh-copy">
       {{ help }}
     </p>
   </div>

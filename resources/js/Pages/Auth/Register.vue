@@ -1,10 +1,24 @@
+<style lang="scss" scoped>
+.logo {
+  width: 152px;
+  top: -70px;
+}
+</style>
+
 <template>
   <div class="ph2 ph0-ns">
-    <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-      <div class="fn fl-ns w-50-ns pa3">
-        {{ $t('auth.register_title') }}
+    <div class="cf mt6 mw6 center br3 mb4 bg-white box pa3">
+      <div class="w-100 relative">
+        <img loading="lazy" class="logo absolute left-0 right-0 mr-auto ml-auto" alt="officelife logo" srcset="/img/logo.png,
+                                          /img/logo-2x.png 2x"
+        />
+
+        <h2 class="fw5 tc pt5">
+          👋 {{ $t('auth.register_salute') }}
+        </h2>
+        <p class="tc mb4">{{ $t('auth.register_title') }}</p>
       </div>
-      <div class="fn fl-ns w-50-ns pa3">
+      <div class="">
         <!-- Form Errors -->
         <errors :errors="$page.errors" />
 
@@ -16,6 +30,7 @@
                       :help="$t('auth.register_email_help')"
                       :required="true"
           />
+
           <text-input v-model="form.password"
                       :name="'password'"
                       :errors="$page.errors.password"
@@ -23,6 +38,16 @@
                       type="password"
                       :label="$t('auth.register_password')"
                       :required="true"
+                      :extra-class-upper-div="'mb4'"
+          />
+
+          <checkbox
+            :id="'home'"
+            v-model="form.terms"
+            :datacy="'accept-terms'"
+            :label="$t('auth.register_terms')"
+            :extra-class-upper-div="'mb3 relative'"
+            :required="true"
           />
 
           <!-- Actions -->
@@ -32,11 +57,15 @@
         </form>
       </div>
     </div>
+    <div class="tc">
+      <p class="f6">{{ $t('auth.register_already_an_account') }} <inertia-link :href="signInUrl">{{ $t('auth.register_sign_in') }}</inertia-link></p>
+    </div>
   </div>
 </template>
 
 <script>
 import TextInput from '@/Shared/TextInput';
+import Checkbox from '@/Shared/Checkbox';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 
@@ -45,6 +74,14 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
+    Checkbox,
+  },
+
+  props: {
+    signInUrl: {
+      type: String,
+      default: null,
+    },
   },
 
   data() {
