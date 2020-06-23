@@ -1,25 +1,40 @@
+<style lang="scss" scoped>
+.logo {
+  width: 152px;
+  top: -70px;
+}
+</style>
+
 <template>
   <div class="ph2 ph0-ns">
-    <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-      <div class="fn fl-ns w-50-ns pa3">
-        Login
+    <div class="cf mt6 mw6 center br3 mb4 bg-white box pa3">
+      <div class="w-100 relative">
+        <img loading="lazy" class="logo absolute left-0 right-0 mr-auto ml-auto" alt="officelife logo" srcset="/img/logo.png,
+                                          /img/logo-2x.png 2x"
+        />
+
+        <h2 class="fw5 tc pt5">
+          🥳 {{ $t('auth.login_salute') }}
+        </h2>
+        <p class="tc mb4">{{ $t('auth.login_title') }}</p>
       </div>
-      <div class="fn fl-ns w-50-ns pa3">
+      <div class="">
         <!-- Form Errors -->
-        <errors :errors="$page.errors" />
+        <errors :errors="form.errors" :classes="'mb3'" />
 
         <form @submit.prevent="submit">
           <text-input v-model="form.email"
                       :name="'email'"
                       :errors="$page.errors.email"
-                      :label="$t('auth.register_email')"
+                      :label="$t('auth.login_email')"
                       :required="true"
+                      :type="'email'"
           />
           <text-input v-model="form.password"
                       :name="'password'"
                       :errors="$page.errors.password"
                       type="password"
-                      :label="$t('auth.register_password')"
+                      :label="$t('auth.login_password')"
                       :required="true"
           />
 
@@ -29,6 +44,9 @@
           </div>
         </form>
       </div>
+    </div>
+    <div class="tc">
+      <p class="f6">{{ $t('auth.login_no_account') }} <inertia-link :href="registerUrl">{{ $t('auth.login_register') }}</inertia-link></p>
     </div>
   </div>
 </template>
@@ -43,6 +61,13 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
+  },
+
+  props: {
+    registerUrl: {
+      type: String,
+      default: null,
+    },
   },
 
   data() {
@@ -65,10 +90,15 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      this.$inertia.post(this.route('login.attempt'), this.form)
-        .then(() =>
-          this.loadingState = null
-        );
+      axios.post('/login', this.form)
+        .then(response => {
+          this.loadingState = null;
+          this.$inertia.visit('/home');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data.data;
+        });
     },
   }
 };

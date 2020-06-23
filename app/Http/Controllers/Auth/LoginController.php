@@ -26,7 +26,9 @@ class LoginController extends Controller
             return redirect('/home');
         }
 
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Auth/Login', [
+            'registerUrl' => route('signup'),
+        ]);
     }
 
     /**
@@ -46,8 +48,11 @@ class LoginController extends Controller
             return Redirect::route('home');
         }
 
-        return Redirect::route('login')
-                        ->withErrors(trans('auth.login_invalid_credentials'));
+        return response()->json([
+            'data' => [
+                trans('auth.login_invalid_credentials'),
+            ],
+        ], 500);
     }
 
     /**

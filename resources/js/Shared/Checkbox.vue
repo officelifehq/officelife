@@ -22,12 +22,13 @@ input[type=checkbox] {
       type="checkbox"
       class="relative"
       :class="classes"
+      :required="required"
       :name="name"
       :data-cy="datacy"
       @change="$emit('change', updatedValue)"
     />
     <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="id">
-      {{ label }}
+      <span v-html="label"></span>
       <span v-if="!required" class="optional-badge f7">
         {{ $t('app.optional') }}
       </span>
