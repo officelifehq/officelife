@@ -232,10 +232,10 @@ export default {
 
           axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/ships/search', this.form)
             .then(response => {
-
               let searchResults = response.data.data;
 
               // filter out the employees that are already in the list of employees
+              // there is probably a much better way to do this, but i don't know how
               for (let index = 0; index < this.form.employees.length; index++) {
                 const employee = this.form.employees[index];
                 let found = false;

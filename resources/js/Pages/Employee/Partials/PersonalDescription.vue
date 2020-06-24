@@ -3,7 +3,7 @@
     <span class="db fw5 mb2">
       💬 {{ $t('employee.description_title') }}
     </span>
-    <img v-show="employeeOrAtLeastHR()" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button"
+    <img v-show="employeeOrAtLeastHR() && !showEdit" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button"
          width="22"
          height="22" alt="add a description"
          @click.prevent="displayEditBox()"

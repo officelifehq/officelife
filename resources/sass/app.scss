@@ -30,6 +30,11 @@ a {
   }
 }
 
+// removes the red border on required inputs in firefox
+input:invalid {
+  box-shadow: none;
+}
+
 hr {
   margin-top: 1rem;
   border: 0;

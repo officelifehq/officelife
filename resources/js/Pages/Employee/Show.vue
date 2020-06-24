@@ -115,12 +115,6 @@
               />
             </li>
           </ul>
-
-          <!-- skills -->
-          <skills
-            :employee="employee"
-            :skills="skills"
-          />
         </div>
       </div>
 
@@ -141,6 +135,12 @@
 
           <personal-description
             :employee="employee"
+          />
+
+          <!-- skills -->
+          <skills
+            :employee="employee"
+            :skills="skills"
           />
 
           <location

@@ -80,6 +80,7 @@ return [
     */
     'help_links' => [
         'work_from_home' => 'employees#work-from-home',
+        'skills' => 'skills',
         'account_hardware_create' => 'hardware',
         'account_employee_delete' => 'employee-management#deleting-an-employee',
         'account_employee_lock' => 'employee-management#locking-an-employee',

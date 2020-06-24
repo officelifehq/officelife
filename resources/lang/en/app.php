@@ -9,6 +9,7 @@ return [
     'delete' => 'Delete',
     'edit' => 'Edit',
     'view' => 'View',
+    'exit_edit_mode' => 'Exit edit mode',
     'rename' => 'Rename',
     'search' => 'Search',
     'choose' => 'Choose',

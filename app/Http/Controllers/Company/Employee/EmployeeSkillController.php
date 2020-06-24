@@ -3,16 +3,55 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Illuminate\Http\Request;
+use App\Helpers\StringHelper;
+use App\Models\Company\Skill;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Employee\Position\AssignPositionToEmployee;
-use App\Services\Company\Employee\Position\RemovePositionFromEmployee;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
+use App\Services\Company\Employee\Skill\RemoveSkillFromEmployee;
 
 class EmployeeSkillController extends Controller
 {
+    /**
+     * Search an existing skill based on the name.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function search(Request $request)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $name = $request->input('searchTerm');
+        $name = StringHelper::removeLettersWithAccent($name);
+        $name = strtolower($name);
+
+        $potentialSkills = Skill::search(
+            $name,
+            $loggedCompany->id,
+            10,
+            'name desc',
+        );
+
+        $collection = collect([]);
+        foreach ($potentialSkills as $skill) {
+            $collection->push([
+                'id' => $skill->id,
+                'name' => $skill->name,
+                'url' => route('company.skills.show', [
+                    'company' => $loggedCompany->id,
+                    'skill' => $skill->id,
+                ]),
+            ]);
+        }
+
+        return response()->json([
+            'data' => $collection,
+        ], 200);
+    }
+
     /**
      * Assign a skill to the given employee.
      *
@@ -28,10 +67,10 @@ class EmployeeSkillController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $request = [
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'skill_id' => $request->input('id'),
+            'name' => $request->input('searchTerm'),
         ];
 
         $skill = (new AttachEmployeeToSkill)->execute($request);
@@ -57,19 +96,19 @@ class EmployeeSkillController extends Controller
      *
      * @return Response
      */
-    public function destroy(Request $request, int $companyId, int $employeeId)
+    public function destroy(Request $request, int $companyId, int $employeeId, int $skillId)
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $request = [
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'skill_id' => $request->input('id'),
+            'skill_id' => $skillId,
         ];
 
-        $employee = (new )->execute($request);
+        (new RemoveSkillFromEmployee)->execute($request);
 
         return response()->json([
             'data' => true,

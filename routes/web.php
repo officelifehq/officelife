@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('{employee}/skills', 'Company\\Employee\\EmployeeSkillController')->only([
                 'store', 'destroy',
             ]);
+            Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search');
 
             // worklogs
             Route::get('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('employees.worklogs');
