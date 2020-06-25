@@ -199,6 +199,11 @@ return [
     'log_recent_ship_created' => 'Created a recent ship entry called :ship_title associated to the team called :team_name.',
     'log_recent_ship_destroyed' => 'Deleted the recent ship entry called :ship_title associated in the team called :team_name.',
     'log_employee_attached_to_recent_ship' => 'Associated the employee called :employee_name with the recent ship entry called :ship_title in the team called :team_name.',
+    'log_skill_created' => 'Created the skill called :skill_name.',
+    'log_skill_associated_with_employee' => 'Associated the skill called :skill_name to :name.',
+    'log_skill_removed_from_an_employee' => 'Removed the skill called :skill_name from :name.',
+    'log_skill_destroyed' => 'Deleted the skill called :name.',
+    'log_skill_updated' => 'Updated the skill’s name from :skill_old_name to :skill_new_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -231,6 +236,8 @@ return [
     'employee_log_answer_updated' => 'Updated the answer of the question called :title.',
     'employee_log_answer_destroyed' => 'Deleted the answer of the question called :title.',
     'employee_log_employee_attached_to_recent_ship' => 'Associated with the recent ship entry called :ship_title in the team called :team_name.',
+    'employee_log_skill_associated_with_employee' => 'Has been associated with the skill called :name.',
+    'employee_log_skill_removed_from_an_employee' => 'Has had the skill called :name removed.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

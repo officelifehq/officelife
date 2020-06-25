@@ -37,8 +37,8 @@
       </div>
 
       <!-- blank state -->
-      <div v-show="ships.length == 0" class="pa3 tc" data-cy="recent-ships-list-blank-state">
-        <p class="mv0">{{ $t('employee.recent_ship_list_blank') }}</p>
+      <div v-show="ships.length == 0" class="pa3" data-cy="recent-ships-list-blank-state">
+        <p class="mb0 mt0 lh-copy f6">{{ $t('employee.recent_ship_list_blank') }}</p>
       </div>
     </div>
   </div>

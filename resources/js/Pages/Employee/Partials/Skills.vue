@@ -53,14 +53,14 @@
 
       <help :url="$page.help_links.skills" :datacy="'help-icon-skills'" />
     </span>
-    <img v-show="employeeOrAtLeastHR() && !editMode" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button"
+    <img v-if="employeeOrAtLeastHR() && !editMode" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="manage-skill-button"
          width="22"
-         height="22" alt="add a description"
+         height="22" alt="manage skills"
          @click.prevent="toggleEditMode()"
     />
 
     <!-- Blank state -->
-    <div v-if="updatedSkills.length == 0 && employeeOrAtLeastHR() && !editMode" class="br3 bg-white box z-1 pa3">
+    <div v-if="updatedSkills.length == 0 && !editMode" data-cy="skill-list-blank" class="br3 bg-white box z-1 pa3">
       <p class="mb0 mt0 lh-copy f6">
         {{ $t('employee.skills_no_skill_yet') }}
       </p>
@@ -69,7 +69,7 @@
     <!-- List of existing skills -->
     <div v-if="updatedSkills.length > 0 && !editMode" class="br3 bg-white box z-1 pa3" data-cy="list-skills">
       <ul class="list mv0 pl0">
-        <li v-for="skill in updatedSkills" :key="skill.id" class="relative dib fw5 mr2 mb2 existing-skill">
+        <li v-for="skill in updatedSkills" :key="skill.id" class="relative dib fw5 mr2 mb2 existing-skill" :data-cy="'non-edit-skill-list-item-' + skill.id">
           <inertia-link :href="skill.url" class="skill no-underline">{{ skill.name }}</inertia-link>
         </li>
       </ul>
@@ -79,12 +79,11 @@
     <div v-if="editMode" class="br3 bg-white box z-1 pa3">
       <form @submit.prevent="search">
         <div class="relative">
-          <text-input :id="'lastname'"
-                      v-model="form.searchTerm"
-                      :name="'lastname'"
+          <text-input v-model="form.searchTerm"
                       :errors="$page.errors.lastname"
                       :label="$t('employee.skills_search_term')"
                       :required="true"
+                      :datacy="'search-skill'"
                       :extra-class-upper-div="'mb0'"
                       @keyup="search"
                       @input="search"
@@ -95,27 +94,31 @@
       </form>
 
       <!-- search results -->
-      <p v-if="!allPossibleEntriesAlreadyChosen && searchProcessed && searchResults.length == 0" class="mt0 bb br bl bb-gray pa2 bb-gray-hover pointer relative" @click.prevent="create(form.searchTerm)"><span class="ba br-100 plus-button">+</span> {{ $t('employee.skills_create', { name: form.searchTerm }) }}</p>
-      <p v-if="allPossibleEntriesAlreadyChosen && searchProcessed && searchResults.length == 0" class="list bb br bl bb-gray pa2 ma0">You already have {{ form.searchTerm }}</p>
+      <p v-if="!allPossibleEntriesAlreadyChosen && searchProcessed && searchResults.length == 0" data-cy="submit-create-skill" class="mt0 bb br bl bb-gray pa2 bb-gray-hover pointer relative" @click.prevent="create(form.searchTerm)">
+        <span class="ba br-100 plus-button">+</span> {{ $t('employee.skills_create', { name: form.searchTerm }) }}
+      </p>
+      <p v-if="allPossibleEntriesAlreadyChosen && searchProcessed && searchResults.length == 0" data-cy="skill-already-in-list" class="list bb br bl bb-gray pa2 ma0">
+        {{ $t('employee.skills_already_have_skill', { name: form.searchTerm }) }}
+      </p>
       <ul v-if="searchResults.length > 0" class="list pl0 mt0 mb2">
-        <li v-for="skill in searchResults" :key="skill.id" class="bb br bl bb-gray pa2 bb-gray-hover pointer relative" @click.prevent="create(skill.name)"><span class="ba br-100 plus-button">+</span> {{ skill.name }}</li>
-        <li v-if="!foundExactTerm" class="bb br bl bb-gray pa2 bb-gray-hover pointer relative" @click.prevent="create(form.searchTerm)"><span class="ba br-100 plus-button">+</span> {{ $t('employee.skills_create', { name: form.searchTerm }) }}</li>
+        <li v-for="skill in searchResults" :key="skill.id" class="bb br bl bb-gray pa2 bb-gray-hover pointer relative" :data-cy="'skill-name-' + skill.id" @click.prevent="create(skill.name)"><span class="ba br-100 plus-button">+</span> {{ skill.name }}</li>
+        <li v-if="!foundExactTerm" class="bb br bl bb-gray pa2 bb-gray-hover pointer relative" data-cy="submit-create-skill-list-of-skills" @click.prevent="create(form.searchTerm)"><span class="ba br-100 plus-button">+</span> {{ $t('employee.skills_create', { name: form.searchTerm }) }}</li>
       </ul>
 
       <!-- existing skills -->
       <p v-if="updatedSkills.length > 0" class="mb2 f6 fw5">⭐️ {{ $t('employee.skills_list') }}</p>
       <ul class="pl0 list mt0">
-        <li v-for="skill in updatedSkills" :key="skill.id" class="bb br bl bb-gray pa2 edit-skill-item bb-gray-hover">
+        <li v-for="skill in updatedSkills" :key="skill.id" class="bb br bl bb-gray pa2 edit-skill-item bb-gray-hover" :data-cy="'existing-skills-list-item-' + skill.id">
           {{ skill.name }}
           <span class="fr">
-            <a href="#" class="f6 bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="remove(skill)">{{ $t('app.remove') }}</a>
+            <a href="#" :data-cy="'existing-skills-list-item-remove-' + skill.id" class="f6 bb b--dotted bt-0 bl-0 br-0 pointer c-delete" @click.prevent="remove(skill)">{{ $t('app.remove') }}</a>
           </span>
         </li>
       </ul>
 
       <!-- exit edit mode -->
       <div class="tr">
-        <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-description" @click="editMode = false">
+        <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-skill" @click="editMode = false">
           {{ $t('app.exit_edit_mode') }}
         </a>
       </div>
