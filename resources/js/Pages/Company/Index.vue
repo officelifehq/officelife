@@ -7,7 +7,8 @@
         </h2>
       </div>
 
-      {{ questions }}
+      <p><inertia-link :href="questions_url">{{ questions }} questions</inertia-link></p>
+      <p><inertia-link :href="skills_url">{{ skills }} skills</inertia-link></p>
     </div>
   </layout>
 </template>
@@ -23,6 +24,18 @@ export default {
   props: {
     questions: {
       type: Number,
+      default: null,
+    },
+    skills: {
+      type: Number,
+      default: null,
+    },
+    questionsUrl: {
+      type: String,
+      default: null,
+    },
+    skillsUrl: {
+      type: String,
       default: null,
     },
     notifications: {

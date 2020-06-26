@@ -77,6 +77,7 @@ return [
     'breadcrumb_company' => 'Company',
     'breadcrumb_company_questions' => 'Questions',
     'breadcrumb_company_questions_detail' => 'Detail of a question',
+    'breadcrumb_company_skills' => 'Skills',
     'breadcrumb_team_show_recent_ships' => 'Recent ships',
     'breadcrumb_team_show_recent_ship_detail' => 'Detail of a recent ship',
 

@@ -20,9 +20,17 @@ class CompanyController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         $questions = $company->questions()->count();
+        $skills = $company->skills()->count();
 
         return Inertia::render('Company/Index', [
             'questions' => $questions,
+            'questions_url' => route('company.questions.index', [
+                'company' => $company->id,
+            ]),
+            'skills' => $skills,
+            'skills_url' => route('company.skills.index', [
+                'company' => $company->id,
+            ]),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

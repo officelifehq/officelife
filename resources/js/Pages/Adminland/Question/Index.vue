@@ -1,4 +1,4 @@
-<style style="scss" scoped>
+<style lang="scss" scoped>
   .question-item:last-child {
     border-bottom: 0;
     padding-bottom: 0;

@@ -10,4 +10,9 @@ return [
     'question_blank' => '😭 No one has posted answers yet.',
     'question_filter_team' => 'Filter by team',
     'question_filter_no_specific_team' => 'No specific team',
+
+    'skills_index_title' => 'All the skills in {name}',
+    'skills_index_description' => 'The power of your company lies in the skills of every employee. Search someone in the company who can help you with a specific topic.',
+    'skills_index_search_placeholder' => 'Filter by a skill name',
+    'skills_index_search_no_results' => 'There is no skills with this name in the company.',
 ];
