@@ -62,7 +62,7 @@
         />
 
         <ul class="list pl0">
-          <li v-for="skill in filteredList" :key="skill.id" :data-cy="'skill-item-' + skill.id" class="di skill pointer mr2">
+          <li v-for="skill in filteredList" :key="skill.id" :data-cy="'skill-item-' + skill.id" class="dib skill pointer mr2 mb2">
             <inertia-link :href="skill.url" class="no-underline bb-0">{{ skill.name }} <span>{{ skill.number_of_employees }}</span></inertia-link>
           </li>
         </ul>

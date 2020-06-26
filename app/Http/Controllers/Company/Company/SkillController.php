@@ -4,16 +4,14 @@ namespace App\Http\Controllers\Company\Company;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Models\Company\Skill;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
-use App\Helpers\PaginatorHelper;
-use App\Models\Company\Question;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Company\CompanySkillViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Company\CompanyQuestionViewHelper;
 
 class SkillController extends Controller
 {
@@ -35,36 +33,32 @@ class SkillController extends Controller
     }
 
     /**
-     * Get the detail of a given question.
+     * Get the detail of a given skill.
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $questionId
+     * @param int $skillId
      *
      * @return JsonResponse
      */
-    public function show(Request $request, int $companyId, int $questionId)
+    public function show(Request $request, int $companyId, int $skillId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
 
-        // make sure the question belongs to the company
+        // make sure the skill belongs to the company
         try {
-            $question = Question::where('company_id', $companyId)
-                ->findOrFail($questionId);
+            $skill = Skill::where('company_id', $company->id)
+                ->findOrFail($skillId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
 
-        $teams = CompanyQuestionViewHelper::teams($company->teams);
-        $answers = $question->answers()->orderBy('created_at', 'desc')->paginate(10);
-        $answersCollection = CompanyQuestionViewHelper::question($question, $answers, $employee);
+        $employees = CompanySkillViewHelper::employeesWithSkill($skill);
 
-        return Inertia::render('Company/Question/Show', [
-            'teams' =>$teams,
-            'question' => $answersCollection,
+        return Inertia::render('Company/Skill/Show', [
+            'skill' => $skill,
+            'employees' => $employees,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'paginator' => PaginatorHelper::getData($answers),
         ]);
     }
 }

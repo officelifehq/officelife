@@ -17,44 +17,83 @@ class CompanySkillViewHelper
      */
     public static function skills(Company $company): ?Collection
     {
-        // get all skills
-        $skills = $company->skills()->with('employees')->orderBy('skills.name', 'asc')->get();
+        $skills = $company->skills()
+            ->with('employees')
+            ->orderBy('skills.name', 'asc')
+            ->get();
 
-        // building a collection of questions
         $skillCollection = collect([]);
         foreach ($skills as $skill) {
-            $numberOfEmployees = $skill->employees->count();
+            // remove employees who are locked
+            $employees = $skill->employees->filter(function ($employee) {
+                return ! $employee->locked;
+            });
 
-            $skillCollection->push([
-                'id' => $skill->id,
-                'name' => $skill->name,
-                'number_of_employees' => $numberOfEmployees,
-                'url' => route('company.skills.show', [
-                    'company' => $company,
-                    'skill' => $skill,
-                ]),
-            ]);
+            $numberOfEmployees = $employees->count();
+
+            // if this equals 0, that means we have removed all locked employees
+            // and we shouldn't display this skill
+            if ($numberOfEmployees != 0) {
+                $skillCollection->push([
+                    'id' => $skill->id,
+                    'name' => $skill->name,
+                    'number_of_employees' => $numberOfEmployees,
+                    'url' => route('company.skills.show', [
+                        'company' => $company,
+                        'skill' => $skill,
+                    ]),
+                ]);
+            }
         }
 
         return $skillCollection;
     }
 
     /**
-     * Array containing all the information about a given skill.
+     * Array containing all the information about the employees who have a given
+     * skill.
      *
-     * @param Skill $company
-     *
+     * @param Skill $skill
      * @return Collection|null
      */
-    public static function skill(Skill $skill): ?Collection
+    public static function employeesWithSkill(Skill $skill): ?Collection
     {
-        $employees = $skill->employees
+        $employees = $skill->employees()
             ->with('position')
-            ->with('team')
-            ->orderBy('name', 'asc')->get();
+            ->with('teams')
+            ->with('skills')
+            ->get();
+
+        $company = $skill->company;
 
         $employeesCollection = collect([]);
         foreach ($employees as $employee) {
+            $teamsCollection = collect([]);
+            foreach ($employee->teams as $team) {
+                $teamsCollection->push([
+                    'id' => $team->id,
+                    'name' => $team->name,
+                    'url' => route('team.show', [
+                        'company' => $company,
+                        'team' => $team,
+                    ]),
+                ]);
+            }
+
+            $skillsCollection = collect([]);
+            foreach ($employee->skills as $uniqueSkill) {
+                if ($skill->id != $uniqueSkill->id) {
+                    $skillsCollection->push([
+                        'id' => $uniqueSkill->id,
+                        'name' => $uniqueSkill->name,
+                        'url' => route('company.skills.show', [
+                            'company' => $company,
+                            'skill' => $uniqueSkill,
+                        ]),
+                    ]);
+                }
+            }
+
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
@@ -62,20 +101,15 @@ class CompanySkillViewHelper
                 'position' => (! $employee->position) ? null : [
                     'title' => $employee->position->title,
                 ],
-                'team' => (! $employee->team) ? null : [
-                    'name' => $employee->team->name,
-                ],
+                'skills' => $skillsCollection,
+                'teams' => $teamsCollection,
                 'url' => route('employees.show', [
-                    'company' => $employee->company,
+                    'company' => $company,
                     'employee' => $employee,
-                ]),
-                'url_team' => route('team.show', [
-                    'company' => $employee->company,
-                    'team' => $employee->team,
                 ]),
             ]);
         }
 
-        return $employeesCollection;
+        return $employeesCollection->sortBy('name');
     }
 }

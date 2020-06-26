@@ -15,4 +15,6 @@ return [
     'skills_index_description' => 'The power of your company lies in the skills of every employee. Search someone in the company who can help you with a specific topic.',
     'skills_index_search_placeholder' => 'Filter by a skill name',
     'skills_index_search_no_results' => 'There is no skills with this name in the company.',
+    'skills_show_title' => 'All the employees with the skill',
+    'skills_show_in_team' => 'In',
 ];

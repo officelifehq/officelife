@@ -7,8 +7,8 @@
         </h2>
       </div>
 
-      <p><inertia-link :href="questions_url">{{ questions }} questions</inertia-link></p>
-      <p><inertia-link :href="skills_url">{{ skills }} skills</inertia-link></p>
+      <p><inertia-link :href="questionsUrl">{{ questions }} questions</inertia-link></p>
+      <p><inertia-link :href="skillsUrl">{{ skills }} skills</inertia-link></p>
     </div>
   </layout>
 </template>
