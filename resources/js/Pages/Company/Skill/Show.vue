@@ -63,14 +63,15 @@
         <h2 class="tc relative fw5 mb4">
           <span class="db lh-copy mb3">
             {{ $t('company.skills_show_title') }}
-          </span> <span class="skill f3">
+          </span>
+          <span class="skill f3 mr2" data-cy="skill-name">
             {{ skill.name }}
           </span>
 
           <help :url="$page.help_links.skills" :datacy="'help-icon-skills'" :top="'1px'" />
         </h2>
 
-        <ul class="list pl0 mb0">
+        <ul class="list pl0 mb0" data-cy="list-of-employees">
           <li v-for="employee in employees" :key="employee.id" :data-cy="'employee-' + employee.id" class="relative ba bb-gray bb-gray-hover pa3 br3 flex items-center employee">
             <img loading="lazy" :src="employee.avatar" class="br-100 avatar" alt="avatar" />
 

@@ -8,7 +8,7 @@
       </div>
 
       <p><inertia-link :href="questionsUrl">{{ questions }} questions</inertia-link></p>
-      <p><inertia-link :href="skillsUrl">{{ skills }} skills</inertia-link></p>
+      <p><inertia-link :href="skillsUrl" data-cy="company-skills">{{ skills }} skills</inertia-link></p>
     </div>
   </layout>
 </template>

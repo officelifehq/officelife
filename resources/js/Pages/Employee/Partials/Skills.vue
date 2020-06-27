@@ -79,7 +79,8 @@
     <div v-if="editMode" class="br3 bg-white box z-1 pa3">
       <form @submit.prevent="search">
         <div class="relative">
-          <text-input v-model="form.searchTerm"
+          <text-input :ref="'search-skill-input'"
+                      v-model="form.searchTerm"
                       :errors="$page.errors.lastname"
                       :label="$t('employee.skills_search_term')"
                       :required="true"
@@ -176,6 +177,10 @@ export default {
     toggleEditMode() {
       this.editMode = !this.editMode;
       this.searchTerm = null;
+
+      this.$nextTick(() => {
+        this.$refs['search-skill-input'].$refs['input'].focus();
+      });
     },
 
     employeeOrAtLeastHR() {

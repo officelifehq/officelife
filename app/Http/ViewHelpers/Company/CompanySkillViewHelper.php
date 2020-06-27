@@ -64,6 +64,11 @@ class CompanySkillViewHelper
             ->with('skills')
             ->get();
 
+        // remove employees who are locked
+        $employees = $skill->employees->filter(function ($employee) {
+            return ! $employee->locked;
+        });
+
         $company = $skill->company;
 
         $employeesCollection = collect([]);
