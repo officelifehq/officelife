@@ -494,7 +494,7 @@ class LogHelper
 
         if ($log->action == 'skill_destroyed') {
             $sentence = trans('account.log_skill_destroyed', [
-                'skill_name' => $log->object->{'skill_name'},
+                'name' => $log->object->{'skill_name'},
             ]);
         }
 

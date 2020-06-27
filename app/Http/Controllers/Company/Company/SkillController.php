@@ -10,6 +10,8 @@ use App\Models\Company\Company;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Services\Company\Employee\Skill\UpdateSkill;
+use App\Services\Company\Employee\Skill\DestroySkill;
 use App\Http\ViewHelpers\Company\CompanySkillViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -60,5 +62,58 @@ class SkillController extends Controller
             'employees' => $employees,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
+    }
+
+    /**
+     * Update the skill.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $skillId
+     *
+     * @return Response
+     */
+    public function update(Request $request, int $companyId, int $skillId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'skill_id' => $skillId,
+            'name' => $request->input('name'),
+        ];
+
+        (new UpdateSkill)->execute($request);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
+    }
+
+    /**
+     * Delete the skill.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $skillId
+     *
+     * @return Response
+     */
+    public function destroy(Request $request, int $companyId, int $skillId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'skill_id' => $skillId,
+        ];
+
+        (new DestroySkill)->execute($request);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 }

@@ -139,6 +139,8 @@ Route::middleware(['auth'])->group(function () {
             // Skills
             Route::get('skills', 'Company\\Company\\SkillController@index')->name('company.skills.index');
             Route::get('skills/{skill}', 'Company\\Company\\SkillController@show')->name('company.skills.show');
+            Route::put('skills/{skill}', 'Company\\Company\\SkillController@update');
+            Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
         });
 
         // only available to administrator role

@@ -58,6 +58,25 @@ describe('Company - Skills', function () {
     cy.get('[data-cy=skill-item-1]').contains('1')
     cy.get('[data-cy=skill-item-1]').click()
     cy.get('[data-cy=list-of-employees]').should('not.contain', 'Michael Scott')
+
+    // rename a skill
+    cy.visit('/1/company/skills/1')
+    cy.get('[data-cy=edit-skill]').click()
+    cy.get('[data-cy=rename-cancel-button]').click()
+    cy.get('[data-cy=edit-skill]').click()
+    cy.get('[data-cy=edit-name-input]').clear()
+    cy.get('[data-cy=edit-name-input]').type('java')
+    cy.get('[data-cy=rename-cta-button]').click()
+    cy.get('[data-cy=skill-name]').contains('java')
+    cy.hasAuditLog('Updated the skill’s name from php to java', '/1/company/skills/1')
+
+    // delete a skill
+    cy.get('[data-cy=delete-skill]').click()
+    cy.get('[data-cy=delete-cancel-button]').click()
+    cy.get('[data-cy=delete-skill]').click()
+    cy.get('[data-cy=delete-confirm-button]').click()
+    cy.url().should('include', '/company/skills')
+    cy.hasAuditLog('Deleted the skill called java', '/1/company/skills/1')
   })
 
   it('should let you see all the skills in the company on the company page as an HR', function () {

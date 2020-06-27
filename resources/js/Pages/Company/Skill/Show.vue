@@ -58,19 +58,61 @@
         </ul>
       </div>
 
-      <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1 pa3">
+        <!-- title of the page -->
         <h2 class="tc relative fw5 mb4">
           <span class="db lh-copy mb3">
             {{ $t('company.skills_show_title') }}
           </span>
-          <span class="skill f3 mr2" data-cy="skill-name">
-            {{ skill.name }}
+
+          <!-- skill name -->
+          <span v-if="!editMode" class="skill f3 mr2" data-cy="skill-name">
+            {{ updatedName }}
+          </span>
+          <span v-if="editMode" class="f5">
+            <form @submit.prevent="update">
+              <errors :errors="form.errors" :classes="'tl mb2'" />
+
+              <text-input :ref="'editModal'"
+                          v-model="form.name"
+                          :placeholder="'Enter a new name'"
+                          :datacy="'edit-name-input'"
+                          :extra-class-upper-div="'mb2'"
+                          @esc-key-pressed="editMode = false"
+              />
+
+              <div class="w-100 tr">
+                <a class="btn dib-l db mb2 mb0-ns" data-cy="rename-cancel-button" @click.prevent="editMode = false">
+                  {{ $t('app.cancel') }}
+                </a>
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="rename-cta-button" :state="loadingState" :text="$t('app.update')" />
+              </div>
+            </form>
           </span>
 
           <help :url="$page.help_links.skills" :datacy="'help-icon-skills'" :top="'1px'" />
         </h2>
 
+        <!-- actions available for HR and administrators -->
+        <ul v-if="atLeastHR() && !editMode" class="tc pl0 ma0 f6 mb4">
+          <li class="mr2 di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="edit-skill" href="#" @click.prevent="showEditMode()">{{ $t('app.edit') }}</a></li>
+          <li v-if="deleteMode" class="di">
+            {{ $t('app.sure') }}
+            <a class="c-delete mr1 pointer" data-cy="delete-confirm-button" @click.prevent="destroy(skill)">
+              {{ $t('app.yes') }}
+            </a>
+            <a class="pointer" data-cy="delete-cancel-button" @click.prevent="deleteMode = false">
+              {{ $t('app.no') }}
+            </a>
+          </li>
+          <li v-else class="di">
+            <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" data-cy="delete-skill" @click.prevent="deleteMode = true">
+              {{ $t('app.delete') }}
+            </a>
+          </li>
+        </ul>
+
+        <!-- list of employees with this skill -->
         <ul class="list pl0 mb0" data-cy="list-of-employees">
           <li v-for="employee in employees" :key="employee.id" :data-cy="'employee-' + employee.id" class="relative ba bb-gray bb-gray-hover pa3 br3 flex items-center employee">
             <img loading="lazy" :src="employee.avatar" class="br-100 avatar" alt="avatar" />
@@ -109,11 +151,17 @@
 <script>
 import Layout from '@/Shared/Layout';
 import Help from '@/Shared/Help';
+import TextInput from '@/Shared/TextInput';
+import LoadingButton from '@/Shared/LoadingButton';
+import Errors from '@/Shared/Errors';
 
 export default {
   components: {
     Layout,
     Help,
+    TextInput,
+    Errors,
+    LoadingButton,
   },
 
   props: {
@@ -133,10 +181,65 @@ export default {
 
   data() {
     return {
+      updatedName: '',
+      loadingState: '',
+      editMode: false,
+      deleteMode: false,
+      form: {
+        name: null,
+        errors: [],
+      },
     };
   },
 
+  created() {
+    this.form.name = this.skill.name;
+    this.updatedName = this.skill.name;
+  },
+
   methods: {
+    showEditMode() {
+      this.editMode = true;
+
+      this.$nextTick(() => {
+        this.$refs['editModal'].$refs['input'].focus();
+      });
+    },
+
+    atLeastHR() {
+      if (this.$page.auth.employee.permission_level <= 200) {
+        return true;
+      }
+
+      return false;
+    },
+
+    update() {
+      this.loadingState = 'loading';
+
+      axios.put('/' + this.$page.auth.company.id + '/company/skills/' + this.skill.id, this.form)
+        .then(response => {
+          flash(this.$t('company.skill_update_success'), 'success');
+          this.updatedName = this.form.name;
+          this.editMode = false;
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+
+      this.loadingState = null;
+    },
+
+    destroy(skill) {
+      axios.delete('/' + this.$page.auth.company.id + '/company/skills/' + skill.id)
+        .then(response => {
+          localStorage.success = this.$t('company.skill_delete_success');
+          this.$inertia.visit('/' + this.$page.auth.company.id + '/company/skills');
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
   }
 };
 
