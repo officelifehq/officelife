@@ -136,8 +136,8 @@
               </ul>
 
               <ul class="list pl0">
-                <li v-for="skill in employee.skills" :key="skill.id" :data-cy="'employee-' + employee.id" class="skill small-skill di pointer mr2">
-                  <inertia-link :href="skill.url" class="no-underline bb-0">{{ skill.name }}</inertia-link>
+                <li v-for="employeeSkill in employee.skills" :key="employeeSkill.id" :data-cy="'employee-' + employee.id" class="skill small-skill di pointer mr2">
+                  <inertia-link :href="employeeSkill.url" class="dib no-underline bb-0">{{ employeeSkill.name }}</inertia-link>
                 </li>
               </ul>
             </div>

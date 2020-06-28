@@ -63,7 +63,7 @@
 
         <ul class="list pl0">
           <li v-for="skill in filteredList" :key="skill.id" class="dib skill pointer mr2 mb2">
-            <inertia-link :href="skill.url" class="no-underline bb-0" :data-cy="'skill-item-' + skill.id">{{ skill.name }} <span>{{ skill.number_of_employees }}</span></inertia-link>
+            <inertia-link :href="skill.url" class="dib no-underline bb-0" :data-cy="'skill-item-' + skill.id">{{ skill.name }} <span>{{ skill.number_of_employees }}</span></inertia-link>
           </li>
         </ul>
 
@@ -108,6 +108,13 @@ export default {
       return this.skills.filter(item => {
         return item.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
       });
+    }
+  },
+
+  mounted() {
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
     }
   },
 

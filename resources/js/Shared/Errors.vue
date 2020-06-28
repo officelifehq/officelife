@@ -26,7 +26,9 @@
 <script>
 export default {
   props: {
-    errors: null,
+    errors: {
+      default: null,
+    },
     classes: {
       type: String,
       default: '',
