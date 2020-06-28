@@ -65,11 +65,11 @@ class UpdateSkill extends BaseService
     {
         $name = $this->formatName($this->data['name']);
 
-        $skill = Skill::where('company_id', $this->data['company_id'])
+        $uniqueSkill = Skill::where('company_id', $this->data['company_id'])
             ->where('name', $name)
             ->first();
 
-        if ($skill) {
+        if ($uniqueSkill) {
             throw new SkillNameNotUniqueException(trans('app.error_skill_name_not_unique'));
         }
     }

@@ -33,7 +33,6 @@ class CompanyQuestionViewHelper
         // building a collection of questions
         $questionCollection = collect([]);
         foreach ($questions as $question) {
-            //$numberOfAnswers = Answer::where('question_id', $question->id)->count();
             $numberOfAnswers = $question->answers->count();
 
             if ($numberOfAnswers == 0) {
