@@ -167,16 +167,6 @@ $factory->define(App\Models\Company\EmployeeStatus::class, function () {
     ];
 });
 
-$factory->define(App\Models\Company\EmployeeImportantDate::class, function () {
-    return [
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
-        },
-        'occasion' => 'birthdate',
-        'date' => '1981-10-29',
-    ];
-});
-
 $factory->define(App\Models\Company\Morale::class, function () {
     return [
         'employee_id' => function () {
@@ -356,5 +346,14 @@ $factory->define(App\Models\Company\Skill::class, function () {
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'name' => 'PHP',
+    ];
+});
+
+$factory->define(App\Models\Company\ExpenseCategory::class, function () {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'name' => 'travel',
     ];
 });

@@ -16,6 +16,7 @@ use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\ExpenseCategory;
 use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -153,6 +154,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->skills()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_expense_categories(): void
+    {
+        $company = factory(Company::class)->create();
+        factory(ExpenseCategory::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->expenseCategories()->exists());
     }
 
     /** @test */

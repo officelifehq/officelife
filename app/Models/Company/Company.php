@@ -163,6 +163,16 @@ class Company extends Model
     }
 
     /**
+     * Get the expense categories records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function expenseCategories()
+    {
+        return $this->hasMany(ExpenseCategory::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return CompanyPTOPolicy
