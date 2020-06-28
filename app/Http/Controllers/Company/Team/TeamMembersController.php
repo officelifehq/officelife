@@ -34,7 +34,7 @@ class TeamMembersController extends Controller
             return redirect('home');
         }
 
-        $search = $request->get('searchTerm');
+        $search = $request->input('searchTerm');
         $potentialEmployees = Employee::search(
             $search,
             $companyId,

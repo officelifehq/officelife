@@ -14,9 +14,9 @@
         />
 
         <h2 class="fw5 tc pt5">
-          🥳 {{ $t('auth.login_salute') }}
+          {{ $t('auth.login_salute') }}
         </h2>
-        <p class="tc mb4">{{ $t('auth.login_title') }}</p>
+        <p class="tc mb4">🥳 {{ $t('auth.login_title') }}</p>
       </div>
       <div class="">
         <!-- Form Errors -->

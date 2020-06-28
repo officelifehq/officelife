@@ -31,7 +31,7 @@ class EmployeeTeamController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'team_id' => $request->get('id'),
+            'team_id' => $request->input('id'),
         ];
 
         $employee = (new AddEmployeeToTeam)->execute($request);

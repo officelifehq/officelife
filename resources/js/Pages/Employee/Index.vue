@@ -1,4 +1,4 @@
-<style style="scss" scoped>
+<style lang="scss" scoped>
 .employee-item:last-child {
   border-bottom: 0;
 }

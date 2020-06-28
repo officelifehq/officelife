@@ -63,8 +63,8 @@ class AdminCompanyNewsController extends Controller
         $request = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
         ];
 
         $news = (new CreateCompanyNews)->execute($request);
@@ -116,8 +116,8 @@ class AdminCompanyNewsController extends Controller
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'company_news_id' => $newsId,
-            'title' => $request->get('title'),
-            'content' => $request->get('content'),
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
         ];
 
         $news = (new UpdateCompanyNews)->execute($request);

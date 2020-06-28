@@ -10,6 +10,7 @@ use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
 use App\Models\Company\Place;
+use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Morale;
 use App\Models\Company\Company;
@@ -268,6 +269,19 @@ class EmployeeTest extends TestCase
         $dwight->ships()->sync([$featureA->id]);
 
         $this->assertTrue($dwight->ships()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_skills(): void
+    {
+        $dwight = factory(Employee::class)->create([]);
+        $skill = factory(Skill::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $dwight->skills()->sync([$skill->id]);
+
+        $this->assertTrue($dwight->skills()->exists());
     }
 
     /** @test */

@@ -29,7 +29,7 @@ class EmployeePronounController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'pronoun_id' => $request->get('id'),
+            'pronoun_id' => $request->input('id'),
         ];
 
         $employee = (new AssignPronounToEmployee)->execute($request);

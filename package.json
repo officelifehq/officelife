@@ -12,14 +12,16 @@
         "e2e-gui": "$(yarn bin)/cypress open",
         "lint": "eslint --ext .js,.vue resources/js/",
         "cypress": "mv .env .env2 && mv .env.cypress.local .env && yarn run e2e-gui",
-        "normal": "mv .env .env.cypress.local && mv .env2 .env"
+        "normal": "mv .env .env.cypress.local && mv .env2 .env",
+        "test": "php artisan migrate:fresh --database testing && php artisan db:seed --database testing",
+        "local": "php artisan migrate:fresh && php artisan db:seed"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@inertiajs/inertia-vue": "^0.1.0",
         "axios": "^0.18",
         "cross-env": "^5.1",
-        "cypress": "4.8.0",
+        "cypress": "4.9.0",
         "eslint": "^6.1.0",
         "eslint-plugin-vue": "^5.2.2",
         "husky": "^2.7.0",

@@ -126,4 +126,11 @@ return [
 
     'recent_ship_title' => 'Recent ships',
     'recent_ship_list_blank' =>'This person is not associated with a recent ship yet.',
+
+    'skills_title' => 'Skills',
+    'skills_no_skill_yet' => 'No skills have been defined yet.',
+    'skills_search_term' => 'Look for an existing skill or create a new one',
+    'skills_already_have_skill' => 'You already have {em} in your list of skills.',
+    'skills_create' => 'Create a new skill called {name}',
+    'skills_list' => 'Current skills',
 ];

@@ -1,4 +1,4 @@
-<style style="scss" scoped>
+<style lang="scss" scoped>
 .notification-item:last-child {
   border-bottom: 0;
 }

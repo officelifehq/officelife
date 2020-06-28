@@ -23,7 +23,7 @@ class CompanyQuestionViewHelper
     public static function questions(Company $company): ?Collection
     {
         // get all questions
-        $questions = $company->questions()->get();
+        $questions = $company->questions()->with('answers')->get();
 
         // if no active question
         if ($questions->count() == 0) {
@@ -33,7 +33,7 @@ class CompanyQuestionViewHelper
         // building a collection of questions
         $questionCollection = collect([]);
         foreach ($questions as $question) {
-            $numberOfAnswers = Answer::where('question_id', $question->id)->count();
+            $numberOfAnswers = $question->answers->count();
 
             if ($numberOfAnswers == 0) {
                 continue;

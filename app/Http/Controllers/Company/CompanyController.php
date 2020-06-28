@@ -50,7 +50,7 @@ class CompanyController extends Controller
     {
         $company = (new CreateCompany)->execute([
             'author_id' => Auth::user()->id,
-            'name' => $request->get('name'),
+            'name' => $request->input('name'),
         ]);
 
         return redirect($company->id.'/dashboard');

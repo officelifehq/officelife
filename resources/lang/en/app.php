@@ -9,6 +9,7 @@ return [
     'delete' => 'Delete',
     'edit' => 'Edit',
     'view' => 'View',
+    'exit_edit_mode' => 'Exit edit mode',
     'rename' => 'Rename',
     'search' => 'Search',
     'choose' => 'Choose',
@@ -29,6 +30,7 @@ return [
     'error_wrong_team_employee_association' => 'The employee is not part of this team.',
     'error_invalid_date' => 'The date is invalid.',
     'error_team_name_not_unique' => 'There is already a team with this name.',
+    'error_skill_name_not_unique' => 'There is already a skill with this name.',
     'error_not_enough_permission' => 'You do not have the right to do this action.',
 
     'previous' => 'Previous',
@@ -75,6 +77,8 @@ return [
     'breadcrumb_company' => 'Company',
     'breadcrumb_company_questions' => 'Questions',
     'breadcrumb_company_questions_detail' => 'Detail of a question',
+    'breadcrumb_company_skills' => 'Skills',
+    'breadcrumb_company_skills_detail' => 'Detail of a skill',
     'breadcrumb_team_show_recent_ships' => 'Recent ships',
     'breadcrumb_team_show_recent_ship_detail' => 'Detail of a recent ship',
 

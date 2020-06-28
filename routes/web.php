@@ -84,6 +84,11 @@ Route::middleware(['auth'])->group(function () {
                 'store', 'destroy',
             ]);
 
+            Route::resource('{employee}/skills', 'Company\\Employee\\EmployeeSkillController')->only([
+                'store', 'destroy',
+            ]);
+            Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search');
+
             // worklogs
             Route::get('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('employees.worklogs');
             Route::get('{employee}/worklogs/{year}', 'Company\\Employee\\EmployeeWorklogController@year');
@@ -130,6 +135,12 @@ Route::middleware(['auth'])->group(function () {
                 'index', 'show',
             ]);
             Route::get('questions/{question}/teams/{team}', 'Company\\Company\\QuestionController@team');
+
+            // Skills
+            Route::get('skills', 'Company\\Company\\SkillController@index')->name('company.skills.index');
+            Route::get('skills/{skill}', 'Company\\Company\\SkillController@show')->name('company.skills.show');
+            Route::put('skills/{skill}', 'Company\\Company\\SkillController@update');
+            Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
         });
 
         // only available to administrator role

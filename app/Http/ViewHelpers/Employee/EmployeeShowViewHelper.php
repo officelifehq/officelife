@@ -280,4 +280,31 @@ class EmployeeShowViewHelper
 
         return $shipsCollection;
     }
+
+    /**
+     * Array containing information about the skills associated with the
+     * employee.
+     *
+     * @param Employee $employee
+     *
+     * @return Collection
+     */
+    public static function skills(Employee $employee): Collection
+    {
+        $skills = $employee->skills;
+
+        $skillsCollection = collect([]);
+        foreach ($skills as $skill) {
+            $skillsCollection->push([
+                'id' => $skill->id,
+                'name' => $skill->name,
+                'url' => route('company.skills.show', [
+                    'company' => $skill->company_id,
+                    'skill' => $skill->id,
+                ]),
+            ]);
+        }
+
+        return $skillsCollection;
+    }
 }

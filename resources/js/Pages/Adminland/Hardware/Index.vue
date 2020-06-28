@@ -1,4 +1,4 @@
-<style style="scss" scoped>
+<style lang="scss" scoped>
   .chevron {
     top: 50%;
     transform: translateY(-50%);

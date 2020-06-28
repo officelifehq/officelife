@@ -1,4 +1,4 @@
-<style style="scss" scoped>
+<style lang="scss" scoped>
   .add-modal {
     border: 1px solid rgba(27,31,35,.15);
     box-shadow: 0 3px 12px rgba(27,31,35,.15);

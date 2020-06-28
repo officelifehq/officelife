@@ -89,14 +89,14 @@ class AdminFlowController extends Controller
         $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
-            'name' => $request->get('name'),
-            'type' => $request->get('type'),
+            'name' => $request->input('name'),
+            'type' => $request->input('type'),
         ];
 
         $flow = (new CreateFlow)->execute($data);
 
         // add steps for the flow
-        foreach ($request->get('steps') as $step) {
+        foreach ($request->input('steps') as $step) {
             $newStep = (new AddStepToFlow)->execute([
                 'company_id' => $companyId,
                 'author_id' => $loggedEmployee->id,

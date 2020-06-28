@@ -153,6 +153,16 @@ class Company extends Model
     }
 
     /**
+     * Get the skill records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function skills()
+    {
+        return $this->hasMany(Skill::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return CompanyPTOPolicy

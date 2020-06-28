@@ -29,7 +29,7 @@ class EmployeeDescriptionController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'description' => $request->get('description'),
+            'description' => $request->input('description'),
         ];
 
         $employee = (new SetPersonalDescription)->execute($request);

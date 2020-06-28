@@ -125,13 +125,13 @@ describe('Adminland - Employee management', function () {
     cy.get('button[type=submit]').click()
     cy.wait(1000)
     cy.visit('/1/account/employees')
-    cy.get('[data-cy=unlock-account').should('not.exist')
-    cy.get('[data-cy=lock-account').click()
+    cy.get('[data-cy=unlock-account-2').should('not.exist')
+    cy.get('[data-cy=lock-account-2').click()
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
     cy.url().should('include', '/1/account/employees')
-    cy.get('[data-cy=lock-account').click()
+    cy.get('[data-cy=lock-account-2').click()
 
     // lock the employee for real
     cy.get('[data-cy=submit-lock-employee-button').click()
@@ -181,13 +181,13 @@ describe('Adminland - Employee management', function () {
 
     // now unlocking the account
     cy.visit('/1/account/employees')
-    cy.get('[data-cy=lock-account').should('not.exist')
-    cy.get('[data-cy=unlock-account').click()
+    cy.get('[data-cy=lock-account-2').should('not.exist')
+    cy.get('[data-cy=unlock-account-2').click()
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
     cy.url().should('include', '/1/account/employees')
-    cy.get('[data-cy=unlock-account').click()
+    cy.get('[data-cy=unlock-account-2').click()
 
     // unlock the employee
     cy.get('[data-cy=submit-unlock-employee-button').click()
@@ -220,13 +220,13 @@ describe('Adminland - Employee management', function () {
     cy.get('button[type=submit]').click()
     cy.wait(1000)
     cy.visit('/1/account/employees')
-    cy.get('[data-cy=unlock-account').should('not.exist')
-    cy.get('[data-cy=lock-account').click()
+    cy.get('[data-cy=unlock-account-2').should('not.exist')
+    cy.get('[data-cy=lock-account-2').click()
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
     cy.url().should('include', '/1/account/employees')
-    cy.get('[data-cy=lock-account').click()
+    cy.get('[data-cy=lock-account-2').click()
 
     // lock the employee for real
     cy.get('[data-cy=submit-lock-employee-button').click()
@@ -275,13 +275,13 @@ describe('Adminland - Employee management', function () {
 
     // now unlocking the account
     cy.visit('/1/account/employees')
-    cy.get('[data-cy=lock-account').should('not.exist')
-    cy.get('[data-cy=unlock-account').click()
+    cy.get('[data-cy=lock-account-2').should('not.exist')
+    cy.get('[data-cy=unlock-account-2').click()
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
     cy.url().should('include', '/1/account/employees')
-    cy.get('[data-cy=unlock-account').click()
+    cy.get('[data-cy=unlock-account-2').click()
 
     // unlock the employee
     cy.get('[data-cy=submit-unlock-employee-button').click()

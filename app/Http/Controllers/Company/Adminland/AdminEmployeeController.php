@@ -98,11 +98,11 @@ class AdminEmployeeController extends Controller
         $request = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
-            'email' => $request->get('email'),
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-            'permission_level' => $request->get('permission_level'),
-            'send_invitation' => $request->get('send_invitation'),
+            'email' => $request->input('email'),
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'permission_level' => $request->input('permission_level'),
+            'send_invitation' => $request->input('send_invitation'),
         ];
 
         (new AddEmployeeToCompany)->execute($request);

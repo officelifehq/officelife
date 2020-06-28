@@ -469,6 +469,43 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'skill_created') {
+            $sentence = trans('account.log_skill_created', [
+                'skill_id' => $log->object->{'skill_id'},
+                'skill_name' => $log->object->{'skill_name'},
+            ]);
+        }
+
+        if ($log->action == 'skill_associated_with_employee') {
+            $sentence = trans('account.log_skill_associated_with_employee', [
+                'skill_id' => $log->object->{'skill_id'},
+                'skill_name' => $log->object->{'skill_name'},
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'skill_removed_from_an_employee') {
+            $sentence = trans('account.log_skill_removed_from_an_employee', [
+                'skill_id' => $log->object->{'skill_id'},
+                'skill_name' => $log->object->{'skill_name'},
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'skill_destroyed') {
+            $sentence = trans('account.log_skill_destroyed', [
+                'name' => $log->object->{'skill_name'},
+            ]);
+        }
+
+        if ($log->action == 'skill_updated') {
+            $sentence = trans('account.log_skill_updated', [
+                'skill_id' => $log->object->{'skill_id'},
+                'skill_old_name' => $log->object->{'skill_old_name'},
+                'skill_new_name' => $log->object->{'skill_new_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -646,6 +683,18 @@ class LogHelper
             $sentence = trans('account.employee_log_employee_attached_to_recent_ship', [
                 'ship_title' => $log->object->{'ship_title'},
                 'team_name' => $log->object->{'team_name'},
+            ]);
+        }
+
+        if ($log->action == 'skill_associated_with_employee') {
+            $sentence = trans('account.employee_log_skill_associated_with_employee', [
+                'name' => $log->object->{'skill_name'},
+            ]);
+        }
+
+        if ($log->action == 'skill_removed_from_an_employee') {
+            $sentence = trans('account.employee_log_skill_removed_from_an_employee', [
+                'name' => $log->object->{'skill_name'},
             ]);
         }
 

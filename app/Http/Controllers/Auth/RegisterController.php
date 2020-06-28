@@ -41,8 +41,8 @@ class RegisterController extends Controller
      */
     public function store(Request $request)
     {
-        $email = $request->get('email');
-        $password = $request->get('password');
+        $email = $request->input('email');
+        $password = $request->input('password');
 
         $data = [
             'email' => $email,

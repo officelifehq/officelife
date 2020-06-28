@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 class CompanyController extends Controller
 {
     /**
-     * All the questions in the company, for public use.
+     * All the information about the company, for public use.
      *
      * @return \Inertia\Response
      */
@@ -20,9 +20,17 @@ class CompanyController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         $questions = $company->questions()->count();
+        $skills = $company->skills()->count();
 
         return Inertia::render('Company/Index', [
             'questions' => $questions,
+            'questionsUrl' => route('company.questions.index', [
+                'company' => $company->id,
+            ]),
+            'skills' => $skills,
+            'skillsUrl' => route('company.skills.index', [
+                'company' => $company->id,
+            ]),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

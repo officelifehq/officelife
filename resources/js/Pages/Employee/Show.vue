@@ -137,6 +137,12 @@
             :employee="employee"
           />
 
+          <!-- skills -->
+          <skills
+            :employee="employee"
+            :skills="skills"
+          />
+
           <location
             :employee="employee"
             :hardware="hardware"
@@ -196,6 +202,7 @@ import WorkFromHome from '@/Pages/Employee/Partials/WorkFromHome';
 import Question from '@/Pages/Employee/Partials/Question';
 import Hardware from '@/Pages/Employee/Partials/Hardware';
 import RecentShips from '@/Pages/Employee/Partials/RecentShips';
+import Skills from '@/Pages/Employee/Partials/Skills';
 
 export default {
   components: {
@@ -214,6 +221,7 @@ export default {
     Question,
     Hardware,
     RecentShips,
+    Skills,
   },
 
   directives: {
@@ -274,6 +282,10 @@ export default {
       default: null,
     },
     ships: {
+      type: Array,
+      default: null,
+    },
+    skills: {
       type: Array,
       default: null,
     },
