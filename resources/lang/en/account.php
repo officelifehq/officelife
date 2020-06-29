@@ -16,9 +16,10 @@ return [
     'home_manage_pto' => 'Manage paid time off policies',
     'home_manage_questions' => 'Manage questions',
     'home_manage_hardware' => 'Manage hardware',
+    'home_manage_expenses' => 'Manage expenses',
 
     'employees_title' => 'All the employees in {company}',
-    'employees_number_employees' => '{company} has {total} employees in total ({active} active employees and {locked} locked employees).',
+    'employees_number_employees' => '{company} has {count} employees.',
     'employees_cta' => 'Add an employee',
     'employees_lock_account' => 'Lock account',
     'employees_unlock_account' => 'Unlock account',
@@ -204,6 +205,9 @@ return [
     'log_skill_removed_from_an_employee' => 'Removed the skill called :skill_name from :name.',
     'log_skill_destroyed' => 'Deleted the skill called :name.',
     'log_skill_updated' => 'Updated the skill’s name from :skill_old_name to :skill_new_name.',
+    'log_expense_category_created' => 'Created the expense category called :name.',
+    'log_expense_category_updated' => 'Updated the expense category’s name from :old_name to :new_name.',
+    'log_expense_category_destroyed' => 'Deleted the expense category called :name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -360,4 +364,15 @@ return [
     'hardware_show_history' => 'History',
     'hardware_search_placeholder' => 'Find by item name or serial number',
     'hardware_edit_title' => 'Edit an item',
+
+    'expense_categories_title' => 'Expenses management',
+    'expense_category_blank' => 'You haven’t configured any expense category yet.',
+    'expense_category_total' => '{company} has one expense category. | {company} has {count} expense categories.',
+    'expense_category_create_cta' => 'Create a new expense category',
+    'expense_category_create_placeholder' => 'Give the expense category a name',
+    'expense_category_default_maintenance_and_repairs' => 'Maintenance and repairs',
+    'expense_category_default_meals_and_entertainment' => 'Meals and entertainment',
+    'expense_category_default_office_expense' => 'Office expense',
+    'expense_category_default_travel' => 'Travel',
+    'expense_category_default_motor_vehicle_expenses' => 'Motor vehicle expenses',
 ];

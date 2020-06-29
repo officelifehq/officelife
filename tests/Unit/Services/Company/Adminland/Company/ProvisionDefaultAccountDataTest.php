@@ -5,6 +5,7 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\CompanyCalendar;
+use App\Models\Company\ExpenseCategory;
 use App\Models\Company\CompanyPTOPolicy;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Adminland\Company\ProvisionDefaultAccountData;
@@ -35,6 +36,10 @@ class ProvisionDefaultAccountDataTest extends TestCase
         $this->assertEquals(
             1828,
             CompanyCalendar::count()
+        );
+        $this->assertEquals(
+            5,
+            ExpenseCategory::count()
         );
     }
 }

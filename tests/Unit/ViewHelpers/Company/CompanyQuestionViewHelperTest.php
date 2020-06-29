@@ -54,7 +54,7 @@ class CompanyQuestionViewHelperTest extends TestCase
             [
                 'title' => 'Do you like Dwight',
                 'number_of_answers' => 1,
-                'url' => env('APP_URL') . '/' . $michael->company_id . '/company/questions/' . $question->id,
+                'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
             ],
             $response->toArray()[0]
         );

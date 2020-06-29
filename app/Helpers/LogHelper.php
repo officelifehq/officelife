@@ -506,6 +506,27 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'expense_category_created') {
+            $sentence = trans('account.log_expense_category_created', [
+                'id' => $log->object->{'expense_category_id'},
+                'name' => $log->object->{'expense_category_name'},
+            ]);
+        }
+
+        if ($log->action == 'expense_category_updated') {
+            $sentence = trans('account.log_expense_category_updated', [
+                'id' => $log->object->{'expense_category_id'},
+                'old_name' => $log->object->{'expense_category_old_name'},
+                'new_name' => $log->object->{'expense_category_new_name'},
+            ]);
+        }
+
+        if ($log->action == 'expense_category_destroyed') {
+            $sentence = trans('account.log_expense_category_destroyed', [
+                'name' => $log->object->{'expense_category_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
