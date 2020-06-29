@@ -88,6 +88,11 @@
                 {{ $t('account.home_manage_hardware') }}
               </inertia-link>
             </li>
+            <li class="pa2 pl0 relative">
+              💵 <inertia-link :href="'/' + $page.auth.company.id + '/account/expenses'" data-cy="expenses-admin-link">
+                {{ $t('account.home_manage_expenses') }}
+              </inertia-link>
+            </li>
           </ul>
 
           <!-- ACCOUNT OWNER -->

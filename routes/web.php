@@ -194,6 +194,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('account/hardware/lent', 'Company\\Adminland\\AdminHardwareController@lent');
             Route::post('account/hardware/search', 'Company\\Adminland\\AdminHardwareController@search');
             Route::resource('account/hardware', 'Company\\Adminland\\AdminHardwareController');
+
+            // expenses
+            Route::resource('account/expenses', 'Company\\Adminland\\AdminExpenseController', ['as' => 'account']);
         });
     });
 });
