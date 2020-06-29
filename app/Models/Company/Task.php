@@ -19,11 +19,9 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id',
-        'team_id',
-        'assignee_id',
-        'completed',
+        'employee_id',
         'title',
+        'completed',
         'due_at',
         'completed_at',
         'is_dummy',
@@ -60,31 +58,11 @@ class Task extends Model
     ];
 
     /**
-     * Get the company record associated with the task.
-     *
-     * @return BelongsTo
-     */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
-
-    /**
-     * Get the team record associated with the task.
-     *
-     * @return BelongsTo
-     */
-    public function team()
-    {
-        return $this->belongsTo(Team::class);
-    }
-
-    /**
      * Get the employee record associated with the task.
      *
      * @return BelongsTo
      */
-    public function assignee()
+    public function employee()
     {
         return $this->belongsTo(Employee::class);
     }

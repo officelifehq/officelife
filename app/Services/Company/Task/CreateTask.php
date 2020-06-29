@@ -3,10 +3,8 @@
 namespace App\Services\Company\Task;
 
 use Carbon\Carbon;
-use App\Jobs\LogTeamAudit;
 use App\Jobs\NotifyEmployee;
 use App\Models\Company\Task;
-use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
@@ -14,6 +12,10 @@ use App\Models\Company\Employee;
 
 class CreateTask extends BaseService
 {
+    protected array $data;
+
+    protected Employee $employee;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -24,10 +26,9 @@ class CreateTask extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'team_id' => 'nullable|integer|exists:teams,id',
-            'assignee_id' => 'nullable|integer|exists:employees,id',
-            'completed' => 'nullable|boolean',
+            'employee_id' => 'required|integer|exists:employees,id',
             'title' => 'required|string|max:255',
+            'completed' => 'nullable|boolean',
             'due_at' => 'nullable|date_format:Y-m-d',
             'completed_at' => 'nullable|date_format:Y-m-d',
             'is_dummy' => 'nullable|boolean',
@@ -47,110 +48,87 @@ class CreateTask extends BaseService
 
         $this->author($data['author_id'])
             ->inCompany($data['company_id'])
-            ->asAtLeastHR()
+            ->asNormalUser()
             ->canExecuteService();
 
-        if (! empty($data['team_id'])) {
-            Team::where('company_id', $data['company_id'])
-                ->findOrFail($data['team_id']);
+        $this->employee = $this->validateEmployeeBelongsToCompany($data);
+        $this->data = $data;
+
+        $this->createTask();
+        $this->log();
+
+        if ($this->data['employee_id'] != $this->data['author_id']) {
+            // This means the author has actually assigned the task to the
+            // employee and not for himself, so we need to warn the employee.
+            $this->warnAboutTaskAssignment();
         }
 
-        if (! empty($data['assignee_id'])) {
-            Employee::where('company_id', $data['company_id'])
-                ->findOrFail($data['assignee_id']);
-        }
-
-        $task = $this->addTask($data);
-
-        $dataToLog = [
-            'task_id' => $task->id,
-            'task_name' => $task->name,
-        ];
-
-        LogAccountAudit::dispatch([
-            'company_id' => $data['company_id'],
-            'action' => 'task_created',
-            'objects' => json_encode($dataToLog),
-            'author_id' => $this->author->id,
-            'author_name' => $this->author->name,
-            'audited_at' => Carbon::now(),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ])->onQueue('low');
-
-        if (! empty($data['team_id'])) {
-            $this->addLogTeamAction($data, $dataToLog);
-        }
-
-        if (! empty($data['assignee_id'])) {
-            $this->addLogEmployeeAction($data, $dataToLog);
-        }
-
-        return $task;
+        return $this->task;
     }
 
     /**
      * Actually create the task.
-     *
-     * @param array $data
-     *
-     * @return Task
      */
-    private function addTask(array $data): Task
+    private function createTask(): void
     {
-        return Task::create([
-            'company_id' => $data['company_id'],
-            'team_id' => $this->valueOrNull($data, 'team_id'),
-            'assignee_id' => $this->valueOrNull($data, 'assignee_id'),
-            'completed' => $this->valueOrFalse($data, 'completed'),
-            'title' => $data['title'],
-            'due_at' => $this->nullOrDate($data, 'due_at'),
-            'completed_at' => $this->nullOrDate($data, 'completed_at'),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+        $this->task = Task::create([
+            'employee_id' => $this->data['employee_id'],
+            'completed' => $this->valueOrFalse($this->data, 'completed'),
+            'title' => $this->data['title'],
+            'due_at' => $this->nullOrDate($this->data, 'due_at'),
+            'completed_at' => $this->nullOrDate($this->data, 'completed_at'),
+            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ]);
     }
 
     /**
-     * Create the team log.
-     *
-     * @param array $data
-     * @param array $dataToLog
+     * Create the audit log.
      */
-    private function addLogTeamAction(array $data, array $dataToLog): void
+    private function log(): void
     {
-        LogTeamAudit::dispatch([
-            'team_id' => $data['team_id'],
-            'action' => 'task_associated_to_team',
-            'objects' => json_encode($dataToLog),
+        LogAccountAudit::dispatch([
+            'company_id' => $this->data['company_id'],
+            'action' => 'task_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+            'objects' => json_encode([
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
+                'title' => $this->data['title'],
+            ]),
+            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $this->data['employee_id'],
+            'action' => 'task_created',
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'title' => $this->data['title'],
+            ]),
+            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 
     /**
-     * Create the employee log.
-     *
-     * @param array $data
-     * @param array $dataToLog
+     * Warn the employeee by
+     * * logging the fact to the Employee logs,
+     * * creating a notification in the UI for the employee.
      */
-    private function addLogEmployeeAction(array $data, array $dataToLog): void
+    private function warnAboutTaskAssignment(): void
     {
-        LogEmployeeAudit::dispatch([
-            'employee_id' => $data['assignee_id'],
-            'action' => 'task_assigned_to_employee',
-            'objects' => json_encode($dataToLog),
-            'author_id' => $this->author->id,
-            'author_name' => $this->author->name,
-            'audited_at' => Carbon::now(),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ])->onQueue('low');
-
         NotifyEmployee::dispatch([
-            'employee_id' => $data['assignee_id'],
+            'employee_id' => $this->data['employee_id'],
             'action' => 'task_assigned',
-            'objects' => json_encode($dataToLog),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+            'objects' => json_encode([
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
+                'title' => $this->data['title'],
+            ]),
+            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

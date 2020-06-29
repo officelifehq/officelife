@@ -110,7 +110,7 @@ class EmployeeTest extends TestCase
     {
         $dwight = factory(Employee::class)->create();
         factory(Task::class, 2)->create([
-            'assignee_id' => $dwight->id,
+            'employee_id' => $dwight->id,
         ]);
 
         $this->assertTrue($dwight->tasks()->exists());

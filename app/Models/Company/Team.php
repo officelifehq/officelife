@@ -98,16 +98,6 @@ class Team extends Model
     }
 
     /**
-     * Get the task records associated with the team.
-     *
-     * @return hasMany
-     */
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
-
-    /**
      * Get the team useful link records associated with the team.
      *
      * @return hasMany

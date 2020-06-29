@@ -208,6 +208,7 @@ return [
     'log_expense_category_created' => 'Created the expense category called :name.',
     'log_expense_category_updated' => 'Updated the expense category’s name from :old_name to :new_name.',
     'log_expense_category_destroyed' => 'Deleted the expense category called :name.',
+    'log_task_created' => 'Created the task called :title for :name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -242,13 +243,13 @@ return [
     'employee_log_employee_attached_to_recent_ship' => 'Associated with the recent ship entry called :ship_title in the team called :team_name.',
     'employee_log_skill_associated_with_employee' => 'Has been associated with the skill called :name.',
     'employee_log_skill_removed_from_an_employee' => 'Has had the skill called :name removed.',
+    'employee_log_task_created' => 'Created the task called :title.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',
     'team_log_team_updated' => 'Changed the name from :old_name to :new_name.',
     'team_log_employee_added_to_team' => 'Added :employee_name to the team.',
     'team_log_employee_removed_from_team' => 'Removed :employee_name from the team.',
-    'team_log_task_associated_to_team' => 'Associated :name to the team.',
     'team_log_team_leader_assigned' => 'Assigned :name as the team leader.',
     'team_log_team_leader_removed' => 'Removed :name as the team leader.',
     'team_log_description_set' => 'Set the team’s description',
@@ -269,6 +270,7 @@ return [
     'notification_team_lead_set' => 'You have been assigned as the team lead for the team called :name.',
     'notification_team_lead_removed' => 'You are not longer the team lead of the team called :name.',
     'notification_employee_attached_to_recent_ship' => 'You have been associated with the recent ship called :title.',
+    'notification_task_assigned' => 'You have been assigned the task called :title by :name.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',
