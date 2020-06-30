@@ -53,4 +53,6 @@ return [
 
     'team_recent_ships' => 'The 3 latest recent ships in this team',
     'team_recent_ship_list_blank' => 'The team hasn’t ship anything recently.',
+
+    'task_title' => 'Tasks',
 ];

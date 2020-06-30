@@ -36,6 +36,11 @@
         :employee="employee"
       />
 
+      <task
+        :employee="employee"
+        :tasks="tasks"
+      />
+
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3">
           <h2>Me</h2>
@@ -65,6 +70,7 @@ import Worklogs from '@/Pages/Dashboard/Me/Partials/Worklogs';
 import Morale from '@/Pages/Dashboard/Me/Partials/Morale';
 import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome';
 import Question from '@/Pages/Dashboard/Me/Partials/Question';
+import Task from '@/Pages/Dashboard/Me/Partials/Task';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -74,6 +80,7 @@ export default {
     Worklogs,
     Morale,
     Question,
+    Task,
     WorkFromHome,
     DashboardMenu,
   },
@@ -98,6 +105,10 @@ export default {
     ownerPermissionLevel: {
       type: Number,
       default: 0,
+    },
+    tasks: {
+      type: Array,
+      default: null,
     },
   },
 };

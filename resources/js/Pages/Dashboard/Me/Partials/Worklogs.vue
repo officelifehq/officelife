@@ -11,9 +11,9 @@
           <span class="dib-ns db mb0-ns mb2">
             {{ $t('dashboard.worklog_placeholder') }}
           </span>
-          <a v-show="updatedWorklogCount != 0" class="ml2-ns pointer">
+          <inertia-link v-show="updatedWorklogCount != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs'" class="ml2-ns pointer">
             {{ $t('dashboard.worklog_read_previous_entries') }}
-          </a>
+          </inertia-link>
         </p>
 
         <!-- employee has already logged -->

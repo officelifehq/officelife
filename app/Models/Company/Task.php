@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -65,5 +66,16 @@ class Task extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class);
+    }
+
+    /**
+     * Scope a query to only include popular users.
+     *
+     * @param  Builder  $query
+     * @return Builder
+     */
+    public function scopeInProgress($query): Builder
+    {
+        return $query->where('completed', false);
     }
 }

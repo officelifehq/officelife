@@ -20,4 +20,16 @@ class TaskTest extends ApiTestCase
         ]);
         $this->assertTrue($task->employee()->exists());
     }
+
+    /** @test */
+    public function it_only_gets_in_progress_tasks(): void
+    {
+        factory(Task::class)->create([
+            'completed' => true,
+        ]);
+        factory(Task::class, 2)->create([
+            'completed' => false,
+        ]);
+        $this->assertCount(2, Task::inProgress()->get());
+    }
 }
