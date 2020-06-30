@@ -186,7 +186,7 @@ class Employee extends Model
      */
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'assignee_id');
+        return $this->hasMany(Task::class);
     }
 
     /**

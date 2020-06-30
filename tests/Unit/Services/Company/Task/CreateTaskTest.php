@@ -3,10 +3,8 @@
 namespace Tests\Unit\Services\Company\Task;
 
 use Tests\TestCase;
-use App\Jobs\LogTeamAudit;
 use App\Jobs\NotifyEmployee;
 use App\Models\Company\Task;
-use App\Models\Company\Team;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
@@ -20,31 +18,65 @@ class CreateTaskTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_creates_a_task(): void
+    public function it_creates_a_task_as_an_administrator(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $this->executeService($michael, $dwight);
+    }
+
+    /** @test */
+    public function it_logs_a_new_time_off_as_hr(): void
+    {
+        $michael = $this->createHR();
+        $dwight = $this->createAnotherEmployee($michael);
+        $this->executeService($michael, $dwight);
+    }
+
+    /** @test */
+    public function normal_user_can_execute_the_service(): void
+    {
+        $michael = $this->createEmployee();
+        $dwight = $this->createAnotherEmployee($michael);
+
+        $this->executeService($michael, $dwight);
+    }
+
+    /** @test */
+    public function same_user_doesnt_generate_notification_if_he_creates_a_task_with_himself(): void
+    {
+        $michael = $this->createEmployee();
+        $this->executeService($michael, $michael);
+    }
+
+    /** @test */
+    public function it_fails_if_wrong_parameters_are_given(): void
+    {
+        $request = [
+            'first_name' => 'michael',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateTask)->execute($request);
+    }
+
+    private function executeService(Employee $michael, Employee $dwight): void
     {
         Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
 
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
-            'assignee_id' => $michael->id,
-            'team_id' => $team->id,
-            'title' => 'Fire Jim',
+            'employee_id' => $dwight->id,
+            'title' => 'brutal',
         ];
 
         $task = (new CreateTask)->execute($request);
 
         $this->assertDatabaseHas('tasks', [
             'id' => $task->id,
-            'company_id' => $michael->company_id,
-            'assignee_id' => $michael->id,
-            'team_id' => $team->id,
-            'title' => 'Fire Jim',
+            'employee_id' => $dwight->id,
+            'title' => 'brutal',
         ]);
 
         $this->assertInstanceOf(
@@ -52,146 +84,35 @@ class CreateTaskTest extends TestCase
             $task
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $task) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'task_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'task_id' => $task->id,
-                    'task_name' => $task->name,
+                    'employee_id' => $dwight->id,
+                    'employee_name' => $dwight->name,
+                    'title' => 'brutal',
                 ]);
         });
 
-        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $task) {
-            return $job->auditLog['action'] === 'task_associated_to_team' &&
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael) {
+            return $job->auditLog['action'] === 'task_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'task_id' => $task->id,
-                    'task_name' => $task->name,
+                    'title' => 'brutal',
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $task) {
-            return $job->auditLog['action'] === 'task_assigned_to_employee' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'task_id' => $task->id,
-                    'task_name' => $task->name,
-                ]);
-        });
-
-        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($task) {
-            return $job->notification['action'] === 'task_assigned' &&
+        if ($michael->id != $dwight->id) {
+            Queue::assertPushed(NotifyEmployee::class, function ($job) use ($task, $dwight) {
+                return $job->notification['action'] === 'task_assigned' &&
                 $job->notification['objects'] === json_encode([
-                    'task_id' => $task->id,
-                    'task_name' => $task->name,
+                    'employee_id' => $dwight->id,
+                    'employee_name' => $dwight->name,
+                    'title' => 'brutal',
                 ]);
-        });
-    }
-
-    /** @test */
-    public function it_logs_a_task_with_a_team(): void
-    {
-        Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
-        $team = factory(Team::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'team_id' => $team->id,
-            'title' => 'Fire Jim',
-        ];
-
-        $task = (new CreateTask)->execute($request);
-
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $task) {
-            return $job->auditLog['action'] === 'task_created' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'task_id' => $task->id,
-                    'task_name' => $task->name,
-                ]);
-        });
-
-        Queue::assertPushed(LogTeamAudit::class, function ($job) use ($michael, $task) {
-            return $job->auditLog['action'] === 'task_associated_to_team' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'task_id' => $task->id,
-                    'task_name' => $task->name,
-                ]);
-        });
-
-        Queue::assertNotPushed(LogEmployeeAudit::class);
-
-        Queue::assertNotPushed(NotifyEmployee::class);
-    }
-
-    /** @test */
-    public function it_logs_a_task_with_an_assignee(): void
-    {
-        Queue::fake();
-
-        $michael = factory(Employee::class)->create([]);
-        factory(Team::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-            'assignee_id' => $michael->id,
-            'title' => 'Fire Jim',
-        ];
-
-        $task = (new CreateTask)->execute($request);
-
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $task) {
-            return $job->auditLog['action'] === 'task_created' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'task_id' => $task->id,
-                    'task_name' => $task->name,
-                ]);
-        });
-
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $task) {
-            return $job->auditLog['action'] === 'task_assigned_to_employee' &&
-                $job->auditLog['author_id'] === $michael->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'task_id' => $task->id,
-                    'task_name' => $task->name,
-                ]);
-        });
-
-        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($task) {
-            return $job->notification['action'] === 'task_assigned' &&
-                $job->notification['objects'] === json_encode([
-                    'task_id' => $task->id,
-                    'task_name' => $task->name,
-                ]);
-        });
-
-        Queue::assertNotPushed(LogTeamAudit::class);
-    }
-
-    /** @test */
-    public function it_fails_if_wrong_parameters_are_given(): void
-    {
-        $michael = factory(Employee::class)->create([]);
-        factory(Team::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $request = [
-            'company_id' => $michael->company_id,
-            'author_id' => $michael->id,
-        ];
-
-        $this->expectException(ValidationException::class);
-        (new CreateTask)->execute($request);
+            });
+        } else {
+            Queue::assertNotPushed(NotifyEmployee::class);
+        }
     }
 }

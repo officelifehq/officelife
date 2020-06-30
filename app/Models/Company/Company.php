@@ -93,16 +93,6 @@ class Company extends Model
     }
 
     /**
-     * Get the task records associated with the company.
-     *
-     * @return HasMany
-     */
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
-
-    /**
      * Get the employee statuses records associated with the company.
      *
      * @return HasMany

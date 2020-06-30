@@ -527,6 +527,13 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'task_created') {
+            $sentence = trans('account.log_task_created', [
+                'title' => $log->object->{'title'},
+                'name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -719,6 +726,12 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'task_created') {
+            $sentence = trans('account.employee_log_task_created', [
+                'title' => $log->object->{'title'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -757,12 +770,6 @@ class LogHelper
             $sentence = trans('account.team_log_employee_removed_from_team', [
                 'employee_name' => $log->object->{'employee_name'},
                 'team_name' => $log->object->{'team_name'},
-            ]);
-        }
-
-        if ($log->action == 'task_associated_to_team') {
-            $sentence = trans('account.team_log_task_associated_to_team', [
-                'name' => $log->object->{'task_name'},
             ]);
         }
 

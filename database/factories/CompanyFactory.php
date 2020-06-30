@@ -131,8 +131,8 @@ $factory->define(App\Models\Company\Action::class, function () {
 
 $factory->define(App\Models\Company\Task::class, function () {
     return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
         },
         'title' => 'Welcome the new employee',
     ];

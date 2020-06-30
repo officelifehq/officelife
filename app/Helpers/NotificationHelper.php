@@ -88,6 +88,13 @@ class NotificationHelper
             ]);
         }
 
+        if ($notification->action == 'task_assigned') {
+            $sentence = trans('account.notification_task_assigned', [
+                'title' => $notification->object->{'title'},
+                'name' => $notification->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 }

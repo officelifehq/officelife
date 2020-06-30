@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Tests\TestCase;
+use App\Models\Company\Task;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -84,6 +85,36 @@ class DashboardMeViewHelperTest extends TestCase
                 'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
             ],
             DashboardMeViewHelper::question($michael)
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_the_inprogress_tasks_of_the_employee(): void
+    {
+        $michael = $this->createAdministrator();
+        $taskA = factory(Task::class)->create([
+            'employee_id' => $michael->id,
+            'completed' => false,
+        ]);
+        $taskB = factory(Task::class)->create([
+            'employee_id' => $michael->id,
+            'completed' => false,
+        ]);
+
+        $response = DashboardMeViewHelper::tasks($michael);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $taskA->id,
+                    'title' => $taskA->title,
+                ],
+                1 => [
+                    'id' => $taskB->id,
+                    'title' => $taskB->title,
+                ],
+            ],
+            $response->toArray()
         );
     }
 }

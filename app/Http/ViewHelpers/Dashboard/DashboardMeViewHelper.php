@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Dashboard;
 
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Employee;
+use Illuminate\Support\Collection;
 
 class DashboardMeViewHelper
 {
@@ -56,5 +57,26 @@ class DashboardMeViewHelper
         ];
 
         return $response;
+    }
+
+    /**
+     * All the tasks of this employee.
+     *
+     * @param Employee $employee
+     * @return Collection|null
+     */
+    public static function tasks(Employee $employee): ?Collection
+    {
+        $tasks = $employee->tasks()->inProgress()->get();
+
+        $tasksCollection = collect([]);
+        foreach ($tasks as $task) {
+            $tasksCollection->push([
+                'id' => $task->id,
+                'title' => $task->title,
+            ]);
+        }
+
+        return $tasksCollection;
     }
 }

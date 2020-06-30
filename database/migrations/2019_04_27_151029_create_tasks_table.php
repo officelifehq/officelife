@@ -16,18 +16,14 @@ class CreateTasksTable extends Migration
 
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('team_id')->nullable();
-            $table->unsignedBigInteger('assignee_id')->nullable();
-            $table->boolean('completed')->default(false);
+            $table->unsignedBigInteger('employee_id')->nullable();
             $table->string('title');
+            $table->boolean('completed')->default(false);
             $table->datetime('due_at')->nullable();
             $table->datetime('completed_at')->nullable();
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->foreign('team_id')->references('id')->on('teams')->onDelete('set null');
-            $table->foreign('assignee_id')->references('id')->on('employees')->onDelete('set null');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 }

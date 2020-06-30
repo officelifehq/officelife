@@ -46,6 +46,7 @@ class DashboardMeController extends Controller
             'worklogCount' => $worklogCount,
             'notifications' => NotificationHelper::getNotifications($employee),
             'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
+            'tasks' => DashboardMeViewHelper::tasks($employee),
         ]);
     }
 }

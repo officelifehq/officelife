@@ -5,7 +5,6 @@ namespace Tests\Unit\Models\Company;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Ship;
-use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
@@ -57,17 +56,6 @@ class TeamTest extends TestCase
     {
         $sales = factory(Team::class)->create([]);
         $this->assertTrue($sales->leader()->exists());
-    }
-
-    /** @test */
-    public function it_has_many_tasks()
-    {
-        $sales = factory(Team::class)->create([]);
-        factory(Task::class, 2)->create([
-            'team_id' => $sales->id,
-        ]);
-
-        $this->assertTrue($sales->tasks()->exists());
     }
 
     /** @test */
