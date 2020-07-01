@@ -22,7 +22,7 @@ class RenameCompany extends BaseService
     {
         return [
             'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:users,id',
+            'author_id' => 'required|integer|exists:employees,id',
             'name' => 'required|unique:companies,name|string|max:255',
         ];
     }
