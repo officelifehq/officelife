@@ -17,6 +17,7 @@ return [
     'home_manage_questions' => 'Manage questions',
     'home_manage_hardware' => 'Manage hardware',
     'home_manage_expenses' => 'Manage expenses',
+    'home_general_settings' => 'General settings',
 
     'employees_title' => 'All the employees in {company}',
     'employees_number_employees' => '{company} has {count} employees.',
@@ -209,6 +210,8 @@ return [
     'log_expense_category_updated' => 'Updated the expense category’s name from :old_name to :new_name.',
     'log_expense_category_destroyed' => 'Deleted the expense category called :name.',
     'log_task_created' => 'Created the task called :title for :name.',
+    'log_company_renamed' => 'Renamed the company from :old_name to :new_name.',
+    'log_company_currency_updated' => 'Changed the company’s currency from :old_currency to :new_currency.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -377,4 +380,19 @@ return [
     'expense_category_default_office_expense' => 'Office expense',
     'expense_category_default_travel' => 'Travel',
     'expense_category_default_motor_vehicle_expenses' => 'Motor vehicle expenses',
+
+    'general_title' => 'General settings',
+    'general_information' => 'Account information',
+    'general_name' => 'Company name',
+    'general_administrators' => 'Current administrators',
+    'general_creation_date' => 'Created',
+    'general_rename_company' => 'Change company name',
+    'general_rename_input' => 'Give the company a new name',
+    'general_rename_success' => 'The company has been renamed.',
+    'general_currency_information' => 'Currency',
+    'general_currency_information_table' => 'Currency used in the app',
+    'general_currency_update' => 'Update currency',
+    'general_currency_change_label' => 'Choose a new currency',
+    'general_currency_rename_success' => 'The currency has been updated.',
+
 ];

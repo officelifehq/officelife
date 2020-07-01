@@ -86,5 +86,7 @@ return [
         'account_employee_lock' => 'employee-management#locking-an-employee',
         'team_recent_ship' => 'recent-ships',
         'team_recent_ship_create' => 'recent-ships#creating-an-entry',
+        'account_general_company_name' => 'company#update-company-name',
+        'account_general_currency' => 'currency',
     ],
 ];

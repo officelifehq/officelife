@@ -534,6 +534,20 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'company_renamed') {
+            $sentence = trans('account.log_company_renamed', [
+                'old_name' => $log->object->{'old_name'},
+                'new_name' => $log->object->{'new_name'},
+            ]);
+        }
+
+        if ($log->action == 'company_currency_updated') {
+            $sentence = trans('account.log_company_currency_updated', [
+                'old_currency' => $log->object->{'old_currency'},
+                'new_currency' => $log->object->{'new_currency'},
+            ]);
+        }
+
         return $sentence;
     }
 

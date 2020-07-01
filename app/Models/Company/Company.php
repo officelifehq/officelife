@@ -20,7 +20,7 @@ class Company extends Model
      */
     protected $fillable = [
         'name',
-        'uuid',
+        'currency',
         'has_dummy_data',
     ];
 
@@ -31,6 +31,7 @@ class Company extends Model
      */
     protected static $logAttributes = [
         'name',
+        'currency',
     ];
 
     /**
