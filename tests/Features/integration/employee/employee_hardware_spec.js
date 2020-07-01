@@ -88,7 +88,7 @@ describe('Employee - hardware', function () {
     cy.get('[data-cy=hardware-item-1]').should('contain', 'Blackberry 18')
   })
 
-  it.skip('should not let a normal user view someone elses hardware', function () {
+  it('should not let a normal user view someone elses hardware', function () {
     cy.login()
 
     cy.createCompany()
@@ -110,6 +110,6 @@ describe('Employee - hardware', function () {
     cy.changePermission(1, 300)
 
     cy.visit('/1/employees/2')
-    cy.get('[data-cy=hardware-blank]').should('exist')
+    cy.get('[data-cy=hardware-blank]').should('not.exist')
   })
 })
