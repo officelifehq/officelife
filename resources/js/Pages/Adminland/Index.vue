@@ -100,6 +100,11 @@
             <p v-html="$t('account.home_role_owner')"></p>
             <ul class="options list pl0 mb0">
               <li class="pa2 pl0 relative">
+                ⚙️ <inertia-link :href="'/' + $page.auth.company.id + '/account/general'" data-cy="general-admin-link">
+                  {{ $t('account.home_general_settings') }}
+                </inertia-link>
+              </li>
+              <li class="pa2 pl0 relative">
                 📡 <inertia-link :href="'/' + $page.auth.company.id + '/account/audit'">
                   {{ $t('account.home_audit_log') }}
                 </inertia-link>

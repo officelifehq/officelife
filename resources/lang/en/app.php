@@ -82,6 +82,7 @@ return [
     'breadcrumb_team_show_recent_ships' => 'Recent ships',
     'breadcrumb_team_show_recent_ship_detail' => 'Detail of a recent ship',
     'breadcrumb_account_manage_expense_categories' => 'Expense management',
+    'breadcrumb_account_manage_general_settings' => 'General settings',
 
     'header_home' => 'Home',
     'header_find' => 'Find',
