@@ -47,21 +47,8 @@ class AssignExpenseToManager extends BaseService
     public function execute(array $data): Expense
     {
         $this->data = $data;
-        $this->validateRules($data);
 
-        $this->author($data['author_id'])
-            ->inCompany($data['company_id'])
-            ->asAtLeastHR()
-            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
-            ->canExecuteService();
-
-        $this->employee = $this->validateEmployeeBelongsToCompany($data);
-
-        $this->manager = Employee::where('company_id', $data['company_id'])
-            ->findOrFail($data['manager_id']);
-
-        $this->expense = Expense::where('employee_id', $data['employee_id'])
-            ->findOrFail($data['expense_id']);
+        $this->validate();
 
         $this->assign();
 
@@ -72,6 +59,28 @@ class AssignExpenseToManager extends BaseService
         $this->log();
 
         return $this->expense;
+    }
+
+    /**
+     * Make preliminary checks.
+     */
+    private function validate(): void
+    {
+        $this->validateRules($this->data);
+
+        $this->author($this->data['author_id'])
+            ->inCompany($this->data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($this->data['employee_id'])
+            ->canExecuteService();
+
+        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
+
+        $this->manager = Employee::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['manager_id']);
+
+        $this->expense = Expense::where('employee_id', $this->data['employee_id'])
+            ->findOrFail($this->data['expense_id']);
     }
 
     /**

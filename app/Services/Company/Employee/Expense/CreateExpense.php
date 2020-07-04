@@ -9,6 +9,7 @@ use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use App\Models\Company\ExpenseCategory;
 
 class CreateExpense extends BaseService
@@ -51,20 +52,8 @@ class CreateExpense extends BaseService
     public function execute(array $data): Expense
     {
         $this->data = $data;
-        $this->validateRules($data);
 
-        $this->author($data['author_id'])
-            ->inCompany($data['company_id'])
-            ->asAtLeastHR()
-            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
-            ->canExecuteService();
-
-        $this->employee = $this->validateEmployeeBelongsToCompany($data);
-
-        if ($this->valueOrNull($data, 'expense_category_id')) {
-            ExpenseCategory::where('company_id', $data['company_id'])
-                ->findOrFail($data['expense_category_id']);
-        }
+        $this->validate();
 
         $this->managers = $this->employee->managers;
 
@@ -75,6 +64,26 @@ class CreateExpense extends BaseService
         $this->log();
 
         return $this->expense;
+    }
+
+    /**
+     * Make preliminary checks.
+     */
+    private function validate(): void
+    {
+        $this->validateRules($this->data);
+        $this->author($this->data['author_id'])
+            ->inCompany($this->data['company_id'])
+            ->asAtLeastHR()
+            ->canBypassPermissionLevelIfEmployee($this->data['employee_id'])
+            ->canExecuteService();
+
+        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
+
+        if ($this->valueOrNull($this->data, 'expense_category_id')) {
+            ExpenseCategory::where('company_id', $this->data['company_id'])
+                ->findOrFail($this->data['expense_category_id']);
+        }
     }
 
     /**
@@ -109,7 +118,7 @@ class CreateExpense extends BaseService
                 'author_id' => $this->data['author_id'],
                 'employee_id' => $this->data['employee_id'],
                 'expense_id' => $this->expense->id,
-                'manager_id' => $manager->id,
+                'manager_id' => $manager->manager->id,
                 'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
             ]);
         }

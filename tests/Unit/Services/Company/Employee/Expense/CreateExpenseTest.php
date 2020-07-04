@@ -62,9 +62,11 @@ class CreateExpenseTest extends TestCase
         $dwight = $this->createAnotherEmployee($michael);
         $managerA = factory(Employee::class)->create([
             'company_id' => $michael->company_id,
+            'first_name' => 'toto',
         ]);
         $managerB = factory(Employee::class)->create([
             'company_id' => $michael->company_id,
+            'first_name' => 'titi',
         ]);
         (new AssignManager)->execute([
             'company_id' => $michael->company_id,
@@ -78,10 +80,10 @@ class CreateExpenseTest extends TestCase
             'employee_id' => $dwight->id,
             'manager_id' => $managerB->id,
         ]);
-
         $this->executeService($michael, $dwight);
 
         $this->assertDatabaseHas('tasks', [
+            'employee_id' => $managerA->id,
             'title' => 'Approve the expense for '.$dwight->name,
         ]);
 
