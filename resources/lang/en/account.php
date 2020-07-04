@@ -212,6 +212,8 @@ return [
     'log_task_created' => 'Created the task called :title for :name.',
     'log_company_renamed' => 'Renamed the company from :old_name to :new_name.',
     'log_company_currency_updated' => 'Changed the company’s currency from :old_currency to :new_currency.',
+    'log_expense_created' => 'Created an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
+    'log_expense_assigned_to_manager' => 'Has assigned :manager_name to approve an expense called :expense_title for an amount of :expense_currency :expense_amount for :employee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -247,6 +249,8 @@ return [
     'employee_log_skill_associated_with_employee' => 'Has been associated with the skill called :name.',
     'employee_log_skill_removed_from_an_employee' => 'Has had the skill called :name removed.',
     'employee_log_task_created' => 'Created the task called :title.',
+    'employee_log_expense_created' => 'Created an expense about :expense_title for an amount of :expense_currency :expense_amount.',
+    'employee_log_expense_assigned' => 'Has been assigned to approve an expense called :name for an amount of :expense_currency :expense_amount for :employee_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',
@@ -274,6 +278,7 @@ return [
     'notification_team_lead_removed' => 'You are not longer the team lead of the team called :name.',
     'notification_employee_attached_to_recent_ship' => 'You have been associated with the recent ship called :title.',
     'notification_task_assigned' => 'You have been assigned the task called :title by :name.',
+    'notification_expense_assigned_for_validation' => 'You have been assigned an expense to validate for :name.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',
@@ -394,5 +399,4 @@ return [
     'general_currency_update' => 'Update currency',
     'general_currency_change_label' => 'Choose a new currency',
     'general_currency_rename_success' => 'The currency has been updated.',
-
 ];

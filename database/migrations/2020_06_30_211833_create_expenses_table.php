@@ -15,7 +15,7 @@ class CreateExpensesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('expense_category_id')->nullable();
-            $table->string('status');
+            $table->string('status')->default('created');
             $table->string('title');
             $table->integer('amount');
             $table->string('currency');

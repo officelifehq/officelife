@@ -3,23 +3,23 @@
 namespace App\Services\Company\Employee\Expense;
 
 use Carbon\Carbon;
+use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
-use Illuminate\Support\Collection;
-use App\Models\Company\ExpenseCategory;
+use App\Services\Company\Task\CreateTask;
 
-class CreateExpense extends BaseService
+class AssignExpenseToManager extends BaseService
 {
     private Expense $expense;
+
+    private Employee $manager;
 
     private Employee $employee;
 
     private array $data;
-
-    private Collection $managers;
 
     /**
      * Get the validation rules that apply to the service.
@@ -32,18 +32,14 @@ class CreateExpense extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'expense_category_id' => 'nullable|integer|exists:expense_categories,id',
-            'title' => 'required|string|max:255',
-            'amount' => 'required|integer',
-            'currency' => 'required|string|max:255',
-            'description' => 'nullable|string|max:65535',
-            'expensed_at' => 'required|date',
+            'expense_id' => 'required|integer|exists:expenses,id',
+            'manager_id' => 'required|integer|exists:employees,id',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Create an expense.
+     * Assign an expense to the employee's manager.
      *
      * @param array $data
      * @return Expense
@@ -61,16 +57,17 @@ class CreateExpense extends BaseService
 
         $this->employee = $this->validateEmployeeBelongsToCompany($data);
 
-        if ($this->valueOrNull($data, 'expense_category_id')) {
-            ExpenseCategory::where('company_id', $data['company_id'])
-                ->findOrFail($data['expense_category_id']);
-        }
+        $this->manager = Employee::where('company_id', $data['company_id'])
+            ->findOrFail($data['manager_id']);
 
-        $this->managers = $this->employee->managers;
+        $this->expense = Expense::where('employee_id', $data['employee_id'])
+            ->findOrFail($data['expense_id']);
 
-        $this->addExpense();
+        $this->assign();
 
-        $this->nextStep();
+        $this->createTask();
+
+        $this->createNotification();
 
         $this->log();
 
@@ -78,41 +75,45 @@ class CreateExpense extends BaseService
     }
 
     /**
-     * Actually create the expense.
+     * Assign the expense to the manager.
      */
-    private function addExpense(): void
+    private function assign(): void
     {
-        $this->expense = Expense::create([
-            'employee_id' => $this->data['employee_id'],
-            'expense_category_id' => $this->valueOrNull($this->data, 'expense_category_id'),
-            'title' => $this->data['title'],
-            'amount' => $this->data['amount'],
-            'currency' => $this->data['currency'],
-            'description' => $this->valueOrNull($this->data, 'description'),
-            'expensed_at' => $this->data['expensed_at'],
-            'status' => $this->managers->count() > 0 ? 'manager_approval' : 'accounting_approval',
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
-        ]);
+        $this->expense->manager_approver_id = $this->manager->id;
+        $this->expense->manager_approver_name = $this->manager->name;
+        $this->expense->save();
     }
 
     /**
-     * Check what the next validation should be for this expense.
-     * If the employee has managers, assign the expense to all the managers.
-     * If the employee doesn't have a manager, assign the expense to the
-     * accounting department.
+     * Create a task for the manager.
      */
-    private function nextStep(): void
+    private function createTask(): void
     {
-        foreach ($this->managers as $manager) {
-            (new AssignExpenseToManager)->execute([
-                'company_id' => $this->data['company_id'],
-                'author_id' => $this->data['author_id'],
-                'employee_id' => $this->data['employee_id'],
-                'expense_id' => $this->expense->id,
-                'manager_id' => $manager->id,
-                'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
-            ]);
-        }
+        $request = [
+            'company_id' => $this->author->company_id,
+            'author_id' => $this->author->id,
+            'employee_id' => $this->manager->id,
+            'title' => trans('employee.expense_task_associated', [
+                'name' => $this->employee->name,
+            ]),
+            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
+        ];
+
+        (new CreateTask)->execute($request);
+    }
+
+    /**
+     * Create a task for the manager.
+     */
+    private function createNotification(): void
+    {
+        NotifyEmployee::dispatch([
+            'employee_id' => $this->manager->id,
+            'action' => 'expense_assigned_for_validation',
+            'objects' => json_encode([
+                'name' => $this->employee->name,
+            ]),
+        ])->onQueue('low');
     }
 
     /**
@@ -122,11 +123,13 @@ class CreateExpense extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'expense_created',
+            'action' => 'expense_assigned_to_manager',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
+                'manager_id' => $this->manager->id,
+                'manager_name' => $this->manager->name,
                 'employee_id' => $this->employee->id,
                 'employee_name' => $this->employee->name,
                 'expense_id' => $this->expense->id,
@@ -139,12 +142,14 @@ class CreateExpense extends BaseService
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'employee_id' => $this->employee->id,
-            'action' => 'expense_created',
+            'employee_id' => $this->manager->id,
+            'action' => 'expense_assigned',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
                 'expense_id' => $this->expense->id,
                 'expense_title' => $this->expense->title,
                 'expense_amount' => $this->expense->amount,

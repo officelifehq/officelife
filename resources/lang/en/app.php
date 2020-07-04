@@ -25,6 +25,7 @@ return [
     'choose_value' => 'Choose a value',
 
     'error_title' => '👇 Oops. An error occured.',
+    'error_not_same_company' => 'This item does not belong to this company.',
     'error_wrong_employee_id' => 'We can’t find the requested employee.',
     'error_wrong_team_id' => 'We can’t find the requested team.',
     'error_wrong_team_employee_association' => 'The employee is not part of this team.',

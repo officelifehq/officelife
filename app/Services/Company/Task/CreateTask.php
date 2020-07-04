@@ -72,7 +72,7 @@ class CreateTask extends BaseService
     private function createTask(): void
     {
         $this->task = Task::create([
-            'employee_id' => $this->data['employee_id'],
+            'employee_id' => $this->employee->id,
             'completed' => $this->valueOrFalse($this->data, 'completed'),
             'title' => $this->data['title'],
             'due_at' => $this->nullOrDate($this->data, 'due_at'),

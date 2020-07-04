@@ -130,7 +130,6 @@ abstract class BaseService
      * Validate an array against a set of rules.
      *
      * @param array $data
-     *
      * @return bool
      */
     public function validateRules(array $data): bool

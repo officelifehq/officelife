@@ -133,4 +133,6 @@ return [
     'skills_already_have_skill' => 'You already have {em} in your list of skills.',
     'skills_create' => 'Create a new skill called {name}',
     'skills_list' => 'Current skills',
+
+    'expense_task_associated' => 'Approve the expense for :name',
 ];

@@ -548,6 +548,32 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'expense_created') {
+            $sentence = trans('account.log_expense_created', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expense_currency' => $log->object->{'expense_currency'},
+                'expensed_at' => $log->object->{'expensed_at'},
+            ]);
+        }
+
+        if ($log->action == 'expense_assigned_to_manager') {
+            $sentence = trans('account.log_expense_assigned_to_manager', [
+                'manager_id' => $log->object->{'manager_id'},
+                'manager_name' => $log->object->{'manager_name'},
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expense_currency' => $log->object->{'expense_currency'},
+                'expensed_at' => $log->object->{'expensed_at'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -743,6 +769,28 @@ class LogHelper
         if ($log->action == 'task_created') {
             $sentence = trans('account.employee_log_task_created', [
                 'title' => $log->object->{'title'},
+            ]);
+        }
+
+        if ($log->action == 'expense_created') {
+            $sentence = trans('account.employee_log_expense_created', [
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expense_currency' => $log->object->{'expense_currency'},
+                'expensed_at' => $log->object->{'expensed_at'},
+            ]);
+        }
+
+        if ($log->action == 'expense_assigned') {
+            $sentence = trans('account.employee_log_expense_assigned', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expense_currency' => $log->object->{'expense_currency'},
+                'expensed_at' => $log->object->{'expensed_at'},
             ]);
         }
 
