@@ -357,3 +357,16 @@ $factory->define(App\Models\Company\ExpenseCategory::class, function () {
         'name' => 'travel',
     ];
 });
+
+$factory->define(App\Models\Company\Expense::class, function () {
+    return [
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'status' => 'created',
+        'title' => 'Restaurant',
+        'amount' => '100',
+        'currency' => 'USD',
+        'expensed_at' => '1999-01-01',
+    ];
+});

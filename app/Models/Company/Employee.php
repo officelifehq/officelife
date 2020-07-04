@@ -334,6 +334,38 @@ class Employee extends Model
     }
 
     /**
+     * Get the expense records associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
+    /**
+     * Get the expense records approved by this employee as a manager
+     * associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function approvedExpenses()
+    {
+        return $this->hasMany(Expense::class, 'manager_approver_id', 'id');
+    }
+
+    /**
+     * Get the expense records approved by this employee as someone in the
+     * accounting department associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function approvedAccountingExpenses()
+    {
+        return $this->hasMany(Expense::class, 'accounting_approver_id', 'id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

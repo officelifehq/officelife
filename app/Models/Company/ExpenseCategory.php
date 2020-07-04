@@ -45,4 +45,14 @@ class ExpenseCategory extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    /**
+     * Get the expense records associated with the expense category.
+     *
+     * @return hasMany
+     */
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
 }

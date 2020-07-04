@@ -14,6 +14,7 @@ use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Morale;
 use App\Models\Company\Company;
+use App\Models\Company\Expense;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
@@ -282,6 +283,39 @@ class EmployeeTest extends TestCase
         $dwight->skills()->sync([$skill->id]);
 
         $this->assertTrue($dwight->skills()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_expenses(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Expense::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->expenses()->exists());
+    }
+
+    /** @test */
+    public function it_has_approved_many_expenses(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Expense::class, 2)->create([
+            'manager_approver_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->approvedExpenses()->exists());
+    }
+
+    /** @test */
+    public function it_has_approved_many_expenses_as_the_accounting_department(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Expense::class, 2)->create([
+            'accounting_approver_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->approvedAccountingExpenses()->exists());
     }
 
     /** @test */
