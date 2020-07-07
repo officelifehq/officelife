@@ -11,6 +11,16 @@ class Expense extends Model
     use LogsActivity;
 
     /**
+     * Possible status of an expense.
+     */
+    const CREATED = 'created';
+    const AWAITING_MANAGER_APPROVAL = 'manager_approval';
+    const AWAITING_ACCOUTING_APPROVAL = 'accounting_approval';
+    const REJECTED_BY_MANAGER = 'rejected_by_manager';
+    const REJECTED_BY_ACCOUNTING = 'rejected_by_accounting';
+    const ACCEPTED = 'accepted';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -27,9 +37,11 @@ class Expense extends Model
         'manager_approver_id',
         'manager_approver_name',
         'manager_approver_approved_at',
+        'manager_rejection_explanation',
         'accounting_approver_id',
         'accounting_approver_name',
         'accounting_approver_approved_at',
+        'accounting_rejection_explanation',
     ];
 
     /**

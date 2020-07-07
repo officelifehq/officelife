@@ -223,8 +223,11 @@ export default {
     },
 
     submit() {
+      this.loadingState = 'loading';
+
       axios.post('/' + this.$page.auth.company.id + '/dashboard/question', this.form)
         .then(response => {
+          this.loadingState = null;
           this.answers = response.data.data;
           this.question.number_of_answers++;
           this.hasAlreadyAnswered = true;
@@ -232,14 +235,18 @@ export default {
           flash(this.$t('dashboard.question_answer_submitted'), 'success');
         })
         .catch(error => {
+          this.loadingState = null;
           this.editMode = true;
           this.form.errors = error.response.data.errors;
         });
     },
 
     update(answer) {
+      this.loadingState = 'loading';
+
       axios.put('/' + this.$page.auth.company.id + '/dashboard/question/' + answer.id, this.form)
         .then(response => {
+          this.loadingState = null;
           flash(this.$t('dashboard.question_answer_updated'), 'success');
 
           var id = this.answers.findIndex(x => x.id === answer.id);
@@ -249,6 +256,7 @@ export default {
           this.editMode = false;
         })
         .catch(error => {
+          this.loadingState = null;
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },

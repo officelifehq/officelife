@@ -55,4 +55,18 @@ return [
     'team_recent_ship_list_blank' => 'The team hasn’t ship anything recently.',
 
     'task_title' => 'Tasks',
+
+    'expense_title' => 'Expenses',
+    'expense_cta' => 'Log an expense',
+    'expense_create_help' => 'No one in the company, except your manager and HR, will be able to see this expense.',
+    'expense_create_title' => 'Summarize the expense',
+    'expense_create_amount' => 'Amount',
+    'expense_create_currency' => 'Currency',
+    'expense_create_category' => 'Category',
+    'expense_create_help_title' => 'Help',
+    'expense_create_help_description' => 'The expense’s amount should be without spaces or commas, like `102.23`.',
+    'expense_submitted' => 'The expense has been submitted.',
+    'expense_show_description' => 'Have you made an expense on behalf of your company? Log it to be reimbursed promptly on the next paycheck.',
+    'expense_show_status_accounting_approval' => 'Waiting for approval',
+    'expense_show_status_manager_approval' => 'Waiting for manager',
 ];

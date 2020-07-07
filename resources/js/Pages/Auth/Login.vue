@@ -29,6 +29,7 @@
                       :label="$t('auth.login_email')"
                       :required="true"
                       :type="'email'"
+                      :autofocus="true"
           />
           <text-input v-model="form.password"
                       :name="'password'"

@@ -36,6 +36,7 @@
            :name="name"
            :autofocus="autofocus"
            :value="value"
+           :step="step"
            :max="max"
            :min="min"
            :placeholder="placeholder"
@@ -66,6 +67,10 @@ export default {
     type: {
       type: String,
       default: 'text',
+    },
+    step: {
+      type: String,
+      default: null,
     },
     value: {
       type: String,

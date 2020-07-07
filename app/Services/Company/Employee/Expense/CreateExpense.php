@@ -99,7 +99,7 @@ class CreateExpense extends BaseService
             'currency' => $this->data['currency'],
             'description' => $this->valueOrNull($this->data, 'description'),
             'expensed_at' => $this->data['expensed_at'],
-            'status' => $this->managers->count() > 0 ? 'manager_approval' : 'accounting_approval',
+            'status' => $this->managers->count() > 0 ? Expense::AWAITING_MANAGER_APPROVAL : Expense::AWAITING_ACCOUTING_APPROVAL,
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ]);
     }

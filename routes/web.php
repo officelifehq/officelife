@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('question', 'Company\\Dashboard\\DashboardQuestionController')->only([
                 'store', 'update', 'destroy',
             ]);
+            Route::post('expense', 'Company\\Dashboard\\DashboardExpenseController@store');
         });
 
         Route::prefix('employees')->group(function () {
@@ -98,6 +99,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('{employee}/workfromhome', 'Company\\Employee\\EmployeeWorkFromHomeController@index')->name('employees.workfromhome');
             Route::get('{employee}/workfromhome/{year}', 'Company\\Employee\\EmployeeWorkFromHomeController@year');
             Route::get('{employee}/workfromhome/{year}/{month}', 'Company\\Employee\\EmployeeWorkFromHomeController@month');
+
+            // expenses
+            Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee'])->only([
+                'index', 'show', 'store', 'destroy',
+            ]);
         });
 
         Route::prefix('teams')->group(function () {

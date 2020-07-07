@@ -3,9 +3,11 @@
     border-bottom: 0;
     padding-bottom: 0;
   }
+
   .question-badge-inactive {
     background-color: #E2E4E8;
   }
+
   .question-badge-active {
     background-color: #52CF6E;
     color: #fff;

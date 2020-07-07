@@ -2,9 +2,14 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
+use App\Helpers\DateHelper;
+use App\Helpers\MoneyHelper;
 use App\Helpers\QuestionHelper;
+use App\Models\Company\Company;
+use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Money\Currencies\ISOCurrencies;
 
 class DashboardMeViewHelper
 {
@@ -78,5 +83,77 @@ class DashboardMeViewHelper
         }
 
         return $tasksCollection;
+    }
+
+    /**
+     * All the expense categories available in this company.
+     *
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function categories(Company $company): ?Collection
+    {
+        $categories = $company->expenseCategories;
+
+        $categoriesCollection = collect([]);
+        foreach ($categories as $category) {
+            $categoriesCollection->push([
+                'id' => $category->id,
+                'name' => $category->name,
+            ]);
+        }
+
+        return $categoriesCollection;
+    }
+
+    /**
+     * Get all the currencies used in the instance.
+     *
+     * @var Company $company
+     * @return Collection|null
+     */
+    public static function currencies(Company $company): ?Collection
+    {
+        $currencyCollection = collect([]);
+        $currencies = new ISOCurrencies();
+        foreach ($currencies as $currency) {
+            $currencyCollection->push([
+                'id' =>$currency->getCode(),
+                'code' => $currency->getCode(),
+            ]);
+        }
+        return $currencyCollection;
+    }
+
+    /**
+     * Get all the in progress expenses for this employee.
+     *
+     * @var Employee $employee
+     * @return Collection|null
+     */
+    public static function expenses(Employee $employee): ?Collection
+    {
+        $expenses = $employee->expenses()
+            ->where('expenses.status', '!=', Expense::ACCEPTED)
+            ->where('expenses.status', '!=', Expense::CREATED)
+            ->latest()
+            ->get();
+
+        $expensesCollection = collect([]);
+        foreach ($expenses as $expense) {
+            $expensesCollection->push([
+                'id' => $expense->id,
+                'title' => $expense->title,
+                'amount' => MoneyHelper::format($expense->amount, $expense->currency),
+                'status' => $expense->status,
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'url' => route('employee.expenses.show', [
+                    'company' => $employee->company,
+                    'employee' => $employee,
+                    'expense' => $expense,
+                ]),
+            ]);
+        }
+        return $expensesCollection;
     }
 }

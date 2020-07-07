@@ -75,7 +75,7 @@
                 />
 
                 <div class="dt-ns dt--fixed di">
-                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- city -->
                     <text-input :id="'city'"
                                 v-model="form.city"
@@ -85,7 +85,7 @@
                                 :required="true"
                     />
                   </div>
-                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- state -->
                     <text-input :id="'state'"
                                 v-model="form.state"
@@ -94,7 +94,7 @@
                                 :label="$t('employee.edit_information_state')"
                     />
                   </div>
-                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- postal code -->
                     <text-input :id="'postal_code'"
                                 v-model="form.postal_code"

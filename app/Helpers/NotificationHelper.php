@@ -97,7 +97,7 @@ class NotificationHelper
 
         if ($notification->action == 'expense_assigned_for_validation') {
             $sentence = trans('account.notification_expense_assigned_for_validation', [
-                'name' => $notification->object->{'employee_name'},
+                'name' => $notification->object->{'name'},
             ]);
         }
 

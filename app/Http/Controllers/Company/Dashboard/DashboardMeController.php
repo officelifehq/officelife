@@ -41,12 +41,21 @@ class DashboardMeController extends Controller
             'question' => DashboardMeViewHelper::question($employee),
         ];
 
+        $defaultCompanyCurrency = [
+            'id' => $company->currency,
+            'code' => $company->currency,
+        ];
+
         return Inertia::render('Dashboard/Me/Index', [
             'employee' => $employeeInformation,
             'worklogCount' => $worklogCount,
             'notifications' => NotificationHelper::getNotifications($employee),
             'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
             'tasks' => DashboardMeViewHelper::tasks($employee),
+            'categories' => DashboardMeViewHelper::categories($company),
+            'currencies' => DashboardMeViewHelper::currencies($company),
+            'expenses' => DashboardMeViewHelper::expenses($employee),
+            'defaultCurrency' => $defaultCompanyCurrency,
         ]);
     }
 }

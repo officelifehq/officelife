@@ -25,16 +25,16 @@
               :options="options"
               :placeholder="placeholder"
               class="style-chooser"
+              :label="customLabelKey"
               :data-cy="datacy"
               :close-on-select="true"
-              :required="required"
               @input="broadcast(selected)"
     >
       <!-- all this complex code below just to make sure the select box is required -->
       <template #search="{attributes, events}">
         <input
           class="vs__search"
-          :required="!selected"
+          :required="required && !selected"
           v-bind="attributes"
           v-on="events"
         />
@@ -104,6 +104,10 @@ export default {
     errors: {
       type: Array,
       default: () => [],
+    },
+    customLabelKey: {
+      type: String,
+      default: 'label',
     },
   },
 
