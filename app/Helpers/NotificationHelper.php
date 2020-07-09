@@ -91,13 +91,19 @@ class NotificationHelper
         if ($notification->action == 'task_assigned') {
             $sentence = trans('account.notification_task_assigned', [
                 'title' => $notification->object->{'title'},
-                'name' => $notification->object->{'employee_name'},
+                'name' => $notification->object->{'author_name'},
             ]);
         }
 
         if ($notification->action == 'expense_assigned_for_validation') {
             $sentence = trans('account.notification_expense_assigned_for_validation', [
                 'name' => $notification->object->{'name'},
+            ]);
+        }
+
+        if ($notification->action == 'expense_accepted_by_manager') {
+            $sentence = trans('account.notification_expense_accepted_by_manager', [
+                'title' => $notification->object->{'title'},
             ]);
         }
 

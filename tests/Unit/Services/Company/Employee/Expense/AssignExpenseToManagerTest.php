@@ -3,7 +3,6 @@
 namespace Tests\Unit\Services\Company\Employee\Expense;
 
 use Tests\TestCase;
-use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Expense;
@@ -134,14 +133,6 @@ class AssignExpenseToManagerTest extends TestCase
             Expense::class,
             $expense
         );
-
-        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($dwight, $manager) {
-            return $job->notification['action'] === 'expense_assigned_for_validation' &&
-                $job->notification['employee_id'] === $manager->id &&
-                $job->notification['objects'] === json_encode([
-                    'name' => $dwight->name,
-                ]);
-        });
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight, $expense, $manager) {
             return $job->auditLog['action'] === 'expense_assigned_to_manager' &&

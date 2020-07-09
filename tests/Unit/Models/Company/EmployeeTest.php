@@ -608,4 +608,23 @@ class EmployeeTest extends TestCase
 
         $this->assertFalse($dwight->isInTeam($sales->id));
     }
+
+    /** @test */
+    public function it_checks_if_the_employee_is_the_manager_of_the_other_employee(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        factory(DirectReport::class)->create([
+            'company_id' => $michael->company_id,
+            'manager_id' => $michael->id,
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($michael->isManagerOf($dwight->id));
+
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+
+        $this->assertFalse($michael->isManagerOf($dwight->id));
+    }
 }

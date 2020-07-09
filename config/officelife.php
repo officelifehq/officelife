@@ -80,6 +80,8 @@ return [
     */
     'help_links' => [
         'work_from_home' => 'employees#work-from-home',
+        'employee_expenses' => 'expenses#employees-expenses',
+        'adminland_expense_categories' => 'expenses#expense-categories',
         'skills' => 'skills',
         'account_hardware_create' => 'hardware',
         'account_employee_delete' => 'employee-management#deleting-an-employee',

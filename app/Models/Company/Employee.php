@@ -601,4 +601,20 @@ class Employee extends Model
 
         return $result->count() == 1;
     }
+
+    /**
+     * Check wether the current employee is the manager of the given employee.
+     *
+     * @param int $employeeId
+     * @return boolean
+     */
+    public function isManagerOf(int $employeeId): bool
+    {
+        $directReports = $this->getListOfDirectReports();
+        $result = $directReports->filter(function ($directReport) use ($employeeId) {
+            return $directReport->id === $employeeId;
+        });
+
+        return $result->count() == 1;
+    }
 }

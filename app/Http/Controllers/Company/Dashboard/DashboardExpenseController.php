@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Company\Dashboard;
 
 use Carbon\Carbon;
+use App\Helpers\DateHelper;
+use App\Helpers\MoneyHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
@@ -44,6 +46,14 @@ class DashboardExpenseController extends Controller
             'data' => [
                 'id' => $expense->id,
                 'title' => $expense->title,
+                'amount' => MoneyHelper::format($expense->amount, $expense->currency),
+                'status' => $expense->status,
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'url' => route('employee.expenses.show', [
+                    'company' => $employee->company,
+                    'employee' => $employee,
+                    'expense' => $expense,
+                ]),
             ],
         ], 200);
     }

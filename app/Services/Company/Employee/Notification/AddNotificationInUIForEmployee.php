@@ -30,6 +30,7 @@ class AddNotificationInUIForEmployee extends BaseService
                     'team_lead_removed',
                     'employee_attached_to_recent_ship',
                     'expense_assigned_for_validation',
+                    'expense_accepted_by_manager',
                 ]),
                 'max:255',
             ],

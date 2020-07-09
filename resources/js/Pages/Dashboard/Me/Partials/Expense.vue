@@ -34,11 +34,11 @@
     <div class="cf mw7 center mb2 fw5">
       💵 {{ $t('dashboard.expense_title') }}
 
-      <help :url="$page.help_links.work_from_home" :datacy="'help-icon-work-from-home'" />
+      <help :url="$page.help_links.employee_expenses" :datacy="'help-icon-expense'" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">
-      <img loading="lazy" src="/img/dashboard/question_expense.png" alt="a group taking a selfie" class="absolute right-1 dn di-ns" :class="addMode ? 'dn' : ''" />
+      <img loading="lazy" src="/img/dashboard/question_expense.png" alt="a group taking a selfie" class="absolute right-1" :class="addMode ? 'dn' : 'di-ns'" />
 
       <p class="lh-copy measure">{{ $t('dashboard.expense_show_description') }}</p>
 
@@ -58,6 +58,7 @@
               <text-input :id="'title'"
                           :ref="'expenseTitle'"
                           v-model="form.title"
+                          :datacy="'expense-title'"
                           :name="'title'"
                           :errors="$page.errors.title"
                           :label="$t('dashboard.expense_create_title')"
@@ -71,6 +72,7 @@
                   <text-input :id="'amount'"
                               v-model="form.amount"
                               :name="'amount'"
+                              :datacy="'expense-amount'"
                               :errors="$page.errors.amount"
                               :label="$t('dashboard.expense_create_amount')"
                               :required="true"
@@ -94,7 +96,7 @@
                     :placeholder="$t('dashboard.expense_create_currency')"
                     :required="true"
                     :value="form.currency"
-                    :datacy="'employee-selector'"
+                    :datacy="'expense-currency'"
                   />
                 </div>
               </div>
@@ -110,7 +112,7 @@
                           :placeholder="$t('dashboard.expense_create_category')"
                           :required="false"
                           :value="form.category"
-                          :datacy="'employee-selector'"
+                          :datacy="'expense-category'"
               />
             </div>
             <div class="fl-ns w-third-ns w-100 mb3 mb0-ns pl3-ns">
@@ -126,8 +128,8 @@
             👋 {{ $t('dashboard.expense_create_help') }}
           </p>
           <p class="ma0">
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2-ns'" :state="loadingState" :text="$t('app.update')" :cypress-selector="'submit-edit-answer'" />
-            <a class="pointer mb0-ns mt2 mt0-ns mb3 dib" @click.prevent="hideAddMode()">
+            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2 mb0-ns mb2-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-expense'" />
+            <a data-cy="expense-create-cancel" class="pointer mb0-ns mt2 mt0-ns mb3 dib" @click.prevent="hideAddMode()">
               {{ $t('app.cancel') }}
             </a>
           </p>
@@ -136,7 +138,7 @@
 
       <!-- LIST OF IN PROGRESS EXPENSES -->
       <div v-if="expenses.length > 0">
-        <ul class="list pl0">
+        <ul class="list pl0 mb0">
           <li v-for="expense in expenses" :key="expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
             <div class="dt-row-ns">
               <div class="dtc-ns db mb3 mb0-ns">
@@ -244,7 +246,7 @@ export default {
       axios.post('/' + this.$page.auth.company.id + '/dashboard/expense', this.form)
         .then(response => {
           this.loadingState = null;
-          this.expenses.push(response.data.data);
+          this.expenses.unshift(response.data.data);
           this.hideAddMode();
           flash(this.$t('dashboard.expense_submitted'), 'success');
         })

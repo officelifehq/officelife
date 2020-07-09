@@ -3,18 +3,16 @@
 namespace App\Services\Company\Employee\Expense;
 
 use Carbon\Carbon;
+use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
-use App\Services\Company\Task\CreateTask;
 
-class AssignExpenseToManager extends BaseService
+class AcceptExpense extends BaseService
 {
     private Expense $expense;
-
-    private Employee $manager;
 
     private Employee $employee;
 
@@ -32,13 +30,14 @@ class AssignExpenseToManager extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'expense_id' => 'required|integer|exists:expenses,id',
-            'manager_id' => 'required|integer|exists:employees,id',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Assign an expense to the employee's manager.
+     * Accept the expense if the employee has the right to do so.
+     * An expense can be accepted either by the manager of the employee who has
+     * created the expense, or by someone with HR or admin role.
      *
      * @param array $data
      * @return Expense
@@ -49,9 +48,11 @@ class AssignExpenseToManager extends BaseService
 
         $this->validate();
 
-        $this->assign();
+        $this->accept();
 
-        $this->createTask();
+        $this->notifyEmployee();
+
+        $this->notifyAccountingDepartment();
 
         $this->log();
 
@@ -68,44 +69,38 @@ class AssignExpenseToManager extends BaseService
         $this->author($this->data['author_id'])
             ->inCompany($this->data['company_id'])
             ->asAtLeastHR()
-            ->canBypassPermissionLevelIfEmployee($this->data['employee_id'])
+            ->canBypassPermissionLevelIfManager($this->data['employee_id'])
             ->canExecuteService();
 
         $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
-
-        $this->manager = Employee::where('company_id', $this->data['company_id'])
-            ->findOrFail($this->data['manager_id']);
 
         $this->expense = Expense::where('employee_id', $this->data['employee_id'])
             ->findOrFail($this->data['expense_id']);
     }
 
     /**
-     * Assign the expense to the manager.
+     * Accept the expense.
      */
-    private function assign(): void
+    private function accept(): void
     {
-        $this->expense->manager_approver_id = $this->manager->id;
-        $this->expense->manager_approver_name = $this->manager->name;
+        $this->expense->status = Expense::AWAITING_ACCOUTING_APPROVAL;
+        $this->expense->manager_approver_approved_at = Carbon::now();
         $this->expense->save();
     }
 
     /**
-     * Create a task for the manager.
+     * Notify the employee that the expense has been accepted.
      */
-    private function createTask(): void
+    private function notifyEmployee(): void
     {
-        $request = [
-            'company_id' => $this->author->company_id,
-            'author_id' => $this->author->id,
-            'employee_id' => $this->manager->id,
-            'title' => trans('employee.expense_task_associated', [
-                'name' => $this->employee->name,
+        NotifyEmployee::dispatch([
+            'employee_id' => $this->data['employee_id'],
+            'action' => 'task_assigned',
+            'objects' => json_encode([
+                'title' => $this->expense->title,
             ]),
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
-        ];
-
-        (new CreateTask)->execute($request);
+        ])->onQueue('low');
     }
 
     /**

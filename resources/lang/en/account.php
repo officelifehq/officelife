@@ -279,6 +279,7 @@ return [
     'notification_employee_attached_to_recent_ship' => 'You have been associated with the recent ship called :title.',
     'notification_task_assigned' => 'You have been assigned the task called :title by :name.',
     'notification_expense_assigned_for_validation' => 'You have been assigned an expense to validate for :name.',
+    'notification_expense_accepted_by_manager' => 'Your expense called :title have been accepted by your manager and is now in the hand of the accounting department.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',

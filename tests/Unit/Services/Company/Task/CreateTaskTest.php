@@ -103,11 +103,11 @@ class CreateTaskTest extends TestCase
         });
 
         if ($michael->id != $dwight->id) {
-            Queue::assertPushed(NotifyEmployee::class, function ($job) use ($task, $dwight) {
+            Queue::assertPushed(NotifyEmployee::class, function ($job) use ($michael) {
                 return $job->notification['action'] === 'task_assigned' &&
                 $job->notification['objects'] === json_encode([
-                    'employee_id' => $dwight->id,
-                    'employee_name' => $dwight->name,
+                    'author_id' => $michael->id,
+                    'author_name' => $michael->name,
                     'title' => 'brutal',
                 ]);
             });
