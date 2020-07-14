@@ -31,6 +31,7 @@ class CreateEmployeesTable extends Migration
             $table->double('amount_of_allowed_holidays')->nullable();
             $table->double('holiday_balance')->nullable();
             $table->string('default_dashboard_view')->default('me');
+            $table->boolean('can_manage_expenses')->default(false);
             $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');

@@ -201,6 +201,9 @@ Route::middleware(['auth'])->group(function () {
 
             // expenses
             Route::resource('account/expenses', 'Company\\Adminland\\AdminExpenseController', ['as' => 'account']);
+            Route::post('account/expenses/search', 'Company\\Adminland\\AdminExpenseController@search');
+            Route::post('account/expenses/employee', 'Company\\Adminland\\AdminExpenseController@addEmployee');
+            Route::post('account/expenses/removeEmployee', 'Company\\Adminland\\AdminExpenseController@removeEmployee');
         });
     });
 });
