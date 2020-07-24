@@ -7,9 +7,13 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
+use App\Services\Company\Adminland\Expense\DisallowEmployeeToManageExpenses;
 
 class LockEmployee extends BaseService
 {
+    private array $data;
+    private Employee $employee;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -39,10 +43,14 @@ class LockEmployee extends BaseService
             ->asAtLeastHR()
             ->canExecuteService();
 
-        $employee = $this->validateEmployeeBelongsToCompany($data);
+        $this->data = $data;
 
-        $employee->locked = true;
-        $employee->save();
+        $this->employee = $this->validateEmployeeBelongsToCompany($data);
+
+        $this->employee->locked = true;
+        $this->employee->save();
+
+        $this->removeAccountantRole();
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -51,7 +59,7 @@ class LockEmployee extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'employee_name' => $employee->name,
+                'employee_name' => $this->employee->name,
             ]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
@@ -65,5 +73,21 @@ class LockEmployee extends BaseService
             'objects' => json_encode([]),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
+    }
+
+    /**
+     * Remove the accountant role, if it was set.
+     */
+    private function removeAccountantRole(): void
+    {
+        $request = [
+            'company_id' => $this->data['company_id'],
+            'author_id' => $this->author->id,
+            'employee_id' => $this->employee->id,
+        ];
+
+        if ($this->employee->can_manage_expenses) {
+            (new DisallowEmployeeToManageExpenses)->execute($request);
+        }
     }
 }
