@@ -548,6 +548,20 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_allowed_to_manage_expenses') {
+            $sentence = trans('account.log_employee_allowed_to_manage_expenses', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_disallowed_to_manage_expenses') {
+            $sentence = trans('account.log_employee_disallowed_to_manage_expenses', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -744,6 +758,14 @@ class LogHelper
             $sentence = trans('account.employee_log_task_created', [
                 'title' => $log->object->{'title'},
             ]);
+        }
+
+        if ($log->action == 'employee_allowed_to_manage_expenses') {
+            $sentence = trans('account.employee_log_employee_allowed_to_manage_expenses');
+        }
+
+        if ($log->action == 'employee_disallowed_to_manage_expenses') {
+            $sentence = trans('account.employee_log_employee_disallowed_to_manage_expenses');
         }
 
         return $sentence;

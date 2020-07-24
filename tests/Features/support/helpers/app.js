@@ -136,6 +136,18 @@ Cypress.Commands.add('hasTeamLog', (content, redirectUrl) => {
   cy.visit(redirectUrl)
 })
 
+// Assert that the employee has a notification
+Cypress.Commands.add('hasNotification', (content) => {
+  const counter = cy.get('[data-cy=notification-counter]')
+  cy.wrap(counter).should('be.gt', 0)
+
+  cy.get('[data-cy=notification-modal-content]').contains(content)
+
+  cy.visit('/1/notifications')
+
+  cy.contains(content)
+})
+
 // Change persmission of the user
 Cypress.Commands.add('changePermission', (userId, permission) => {
   cy.exec('php artisan test:changepermission ' + userId + ' ' + permission)

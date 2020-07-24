@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Services\Company\Adminland\Employee;
+namespace App\Services\Company\Adminland\Expense;
 
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
-use App\Services\Company\Adminland\Expense\DisallowEmployeeToManageExpenses;
 
-class LockEmployee extends BaseService
+class DisallowEmployeeToManageExpenses extends BaseService
 {
-    private array $data;
     private Employee $employee;
+
+    private array $data;
 
     /**
      * Get the validation rules that apply to the service.
@@ -22,20 +22,25 @@ class LockEmployee extends BaseService
     public function rules(): array
     {
         return [
+            'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'employee_id' => 'required|exists:employees,id|integer',
-            'company_id' => 'required|exists:companies,id|integer',
-            'is_dummy' => 'nullable|boolean',
+            'employee_id' => 'required|integer|exists:employees,id',
         ];
     }
 
     /**
-     * Lock an employee's account.
+     * Forbids an employee to manage all the the expenses in the company.
+     * That means the employee won’t have access anymore to the accounting tab
+     * on the dashboard to manage all other employee's expenses.
      *
      * @param array $data
+     *
+     * @return Employee
      */
-    public function execute(array $data): void
+    public function execute(array $data): Employee
     {
+        $this->data = $data;
+
         $this->validateRules($data);
 
         $this->author($data['author_id'])
@@ -43,51 +48,38 @@ class LockEmployee extends BaseService
             ->asAtLeastHR()
             ->canExecuteService();
 
-        $this->data = $data;
-
         $this->employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $this->employee->locked = true;
+        $this->employee->can_manage_expenses = false;
         $this->employee->save();
 
-        $this->removeAccountantRole();
+        $this->log();
 
+        return $this->employee;
+    }
+
+    private function log(): void
+    {
         LogAccountAudit::dispatch([
-            'company_id' => $data['company_id'],
-            'action' => 'employee_locked',
+            'company_id' => $this->data['company_id'],
+            'action' => 'employee_disallowed_to_manage_expenses',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
+                'employee_id' => $this->employee->id,
                 'employee_name' => $this->employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'employee_id' => $data['employee_id'],
-            'action' => 'employee_locked',
+            'employee_id' => $this->employee->id,
+            'action' => 'employee_disallowed_to_manage_expenses',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
-    }
-
-    /**
-     * Remove the accountant role, if it was set.
-     */
-    private function removeAccountantRole(): void
-    {
-        $request = [
-            'company_id' => $this->data['company_id'],
-            'author_id' => $this->author->id,
-            'employee_id' => $this->employee->id,
-        ];
-
-        if ($this->employee->can_manage_expenses) {
-            (new DisallowEmployeeToManageExpenses)->execute($request);
-        }
     }
 }

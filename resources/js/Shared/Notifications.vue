@@ -18,8 +18,8 @@
 
 <template>
   <div class="relative">
-    <div class="di" @click.prevent="markRead()">
-      <span v-if="notifications" class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(numberOfNotifications > 0)}" data-cy="notification-counter">
+    <div class="di" data-cy="notification-counter" @click.prevent="markRead()">
+      <span v-if="notifications" class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(numberOfNotifications > 0)}">
         🔥 {{ numberOfNotifications }}
       </span>
       <span v-else class="mr2 f6 notifications pv1 ph2 br3 pointer">

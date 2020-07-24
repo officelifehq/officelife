@@ -21,22 +21,37 @@ class LockEmployeeTest extends TestCase
     public function it_locks_an_employee_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $this->executeService($michael);
+        $dwight = $this->createAnotherEmployee($michael);
+        $this->executeService($michael, $dwight);
     }
+
     /** @test */
     public function it_locks_an_employee_as_hr(): void
     {
         $michael = $this->createHR();
-        $this->executeService($michael);
+        $dwight = $this->createAnotherEmployee($michael);
+        $this->executeService($michael, $dwight);
     }
 
     /** @test */
     public function normal_user_cant_execute_the_service(): void
     {
         $michael = $this->createEmployee();
+        $dwight = $this->createAnotherEmployee($michael);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $this->executeService($michael);
+        $this->executeService($michael, $dwight);
+    }
+
+    /** @test */
+    public function it_locks_an_employee_and_remove_accountant_role(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $dwight->can_manage_expenses = true;
+        $dwight->save();
+
+        $this->executeService($michael, $dwight);
     }
 
     /** @test */
@@ -66,12 +81,9 @@ class LockEmployeeTest extends TestCase
         (new LockEmployee)->execute($request);
     }
 
-    private function executeService(Employee $michael): void
+    private function executeService(Employee $michael, Employee $dwight): void
     {
         Queue::fake();
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
 
         $request = [
             'company_id' => $dwight->company_id,
@@ -85,6 +97,17 @@ class LockEmployeeTest extends TestCase
             'id' => $dwight->id,
             'locked' => true,
         ]);
+
+        if ($dwight->can_manage_expenses) {
+            Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
+                return $job->auditLog['action'] === 'employee_disallowed_to_manage_expenses' &&
+                $job->auditLog['author_id'] === $michael->id &&
+                    $job->auditLog['objects'] === json_encode([
+                        'employee_id' => $dwight->id,
+                        'employee_name' => $dwight->name,
+                    ]);
+            });
+        }
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'employee_locked' &&

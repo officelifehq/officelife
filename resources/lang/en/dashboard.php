@@ -1,6 +1,11 @@
 <?php
 
 return [
+    'tab_me' => 'Me',
+    'tab_my_team' => 'My team',
+    'tab_my_company' => 'My company',
+    'tab_expenses' => 'Expenses',
+
     'blank_state' => 'You are not associated with a team at the moment.',
 
     'morale_title' => 'How do you feel?',

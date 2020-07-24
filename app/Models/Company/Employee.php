@@ -49,6 +49,7 @@ class Employee extends Model
         'avatar',
         'holiday_balance',
         'default_dashboard_view',
+        'can_manage_expenses',
         'is_dummy',
     ];
 
@@ -96,6 +97,7 @@ class Employee extends Model
     protected $casts = [
         'permission_level' => 'integer',
         'locked' => 'boolean',
+        'can_manage_expenses' => 'boolean',
         'is_dummy' => 'boolean',
     ];
 

@@ -95,6 +95,10 @@ class NotificationHelper
             ]);
         }
 
+        if ($notification->action == 'employee_allowed_to_manage_expenses') {
+            $sentence = trans('account.notification_employee_allowed_to_manage_expenses', []);
+        }
+
         return $sentence;
     }
 }

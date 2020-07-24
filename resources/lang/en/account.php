@@ -212,6 +212,8 @@ return [
     'log_task_created' => 'Created the task called :title for :name.',
     'log_company_renamed' => 'Renamed the company from :old_name to :new_name.',
     'log_company_currency_updated' => 'Changed the company’s currency from :old_currency to :new_currency.',
+    'log_employee_allowed_to_manage_expenses' => 'Allowed :employee_name to manage company’s expenses.',
+    'log_employee_disallowed_to_manage_expenses' => 'Disallowed :employee_name to manage company’s expenses.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -247,6 +249,8 @@ return [
     'employee_log_skill_associated_with_employee' => 'Has been associated with the skill called :name.',
     'employee_log_skill_removed_from_an_employee' => 'Has had the skill called :name removed.',
     'employee_log_task_created' => 'Created the task called :title.',
+    'employee_log_employee_allowed_to_manage_expenses' => 'Has been allowed to manage company’s expenses.',
+    'employee_log_employee_disallowed_to_manage_expenses' => 'Has been disallowed to manage company’s expenses.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',
@@ -274,6 +278,7 @@ return [
     'notification_team_lead_removed' => 'You are not longer the team lead of the team called :name.',
     'notification_employee_attached_to_recent_ship' => 'You have been associated with the recent ship called :title.',
     'notification_task_assigned' => 'You have been assigned the task called :title by :name.',
+    'notification_employee_allowed_to_manage_expenses' => 'You are now allowed to manage company’s expenses.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',
@@ -372,7 +377,7 @@ return [
 
     'expense_categories_title' => 'Expenses management',
     'expense_category_blank' => 'You haven’t configured any expense category yet.',
-    'expense_category_total' => '{company} has one expense category. | {company} has {count} expense categories.',
+    'expense_category_headline' => 'Expense categories',
     'expense_category_create_cta' => 'Create a new expense category',
     'expense_category_create_placeholder' => 'Give the expense category a name',
     'expense_category_default_maintenance_and_repairs' => 'Maintenance and repairs',
@@ -380,6 +385,14 @@ return [
     'expense_category_default_office_expense' => 'Office expense',
     'expense_category_default_travel' => 'Travel',
     'expense_category_default_motor_vehicle_expenses' => 'Motor vehicle expenses',
+    'expense_category_success' => 'The expense category has been created.',
+    'expense_employees_headline' => 'Employees who can manage expenses',
+    'expense_employees_blank' => 'No employees have the right to manage expenses right now.',
+    'expense_employees_create_cta' => 'Add/remove employees',
+    'expense_employees_hide_cta' => 'Exit mode',
+    'expense_employees_create_label' => 'Add an employee by typing a name below',
+    'expense_employees_assign_success' => 'The employee has been added to the list of authorized employees.',
+    'expense_employees_unassign_success' => 'The employee has been removed from the list of authorized employees.',
 
     'general_title' => 'General settings',
     'general_information' => 'Account information',
@@ -394,5 +407,4 @@ return [
     'general_currency_update' => 'Update currency',
     'general_currency_change_label' => 'Choose a new currency',
     'general_currency_rename_success' => 'The currency has been updated.',
-
 ];

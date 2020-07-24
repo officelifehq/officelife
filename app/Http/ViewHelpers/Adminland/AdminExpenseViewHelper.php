@@ -31,4 +31,33 @@ class AdminExpenseViewHelper
 
         return $categoriesCollection;
     }
+
+    /**
+     * Collection containing all the employees who have the right to manage
+     * expenses in the company.
+     *
+     * @param mixed $company
+     * @return Collection|null
+     */
+    public static function employees($company): ?Collection
+    {
+        $employees = $company->employees()
+            ->where('employees.can_manage_expenses', true)
+            ->get();
+
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+            ]);
+        }
+
+        return $employeesCollection;
+    }
 }

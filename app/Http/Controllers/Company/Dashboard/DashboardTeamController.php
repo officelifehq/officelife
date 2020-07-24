@@ -24,7 +24,6 @@ class DashboardTeamController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param mixed $requestedDate
-     *
      * @return Response
      */
     public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null): Response
@@ -38,6 +37,7 @@ class DashboardTeamController extends Controller
             'has_logged_worklog_today' => $employee->hasAlreadyLoggedWorklogToday(),
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
             'dashboard_view' => 'team',
+            'can_manage_expenses' => $employee->can_manage_expenses,
         ];
 
         UpdateDashboardPreference::dispatch([
@@ -143,7 +143,6 @@ class DashboardTeamController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param mixed $requestedDate
-     *
      * @return \Illuminate\Http\Response
      */
     public function worklogDetails(Request $request, int $companyId, int $teamId, $requestedDate)
