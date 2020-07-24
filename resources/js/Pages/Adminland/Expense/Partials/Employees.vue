@@ -53,7 +53,7 @@
       <ul v-show="potentialEmployees.length > 0" class="list pl0 ba bb-gray bb-gray-hover">
         <li v-for="employee in potentialEmployees" :key="employee.id" class="relative pa2 bb bb-gray">
           {{ employee.name }}
-          <a href="" class="fr f6" :data-cy="'employee-id-' + employee.id" @click.prevent="add(employee)">{{ $t('app.add') }}</a>
+          <a href="" class="fr f6" :data-cy="'employee-id-' + employee.id + '-add'" @click.prevent="add(employee)">{{ $t('app.add') }}</a>
         </li>
       </ul>
 
