@@ -31,6 +31,7 @@ class AddNotificationInUIForEmployee extends BaseService
                     'employee_attached_to_recent_ship',
                     'expense_assigned_for_validation',
                     'expense_accepted_by_manager',
+                    'employee_allowed_to_manage_expenses',
                 ]),
                 'max:255',
             ],

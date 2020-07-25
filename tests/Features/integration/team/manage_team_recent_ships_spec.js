@@ -216,7 +216,8 @@ describe('Team - Recent ships management', function () {
     // check to see if the data is there in the table
     cy.get('[data-cy=notification-counter]').contains('2')
     cy.get('[data-cy=notification-counter]').click()
-    cy.get('[data-cy=notification-modal-content]').contains('You have been associated with the recent ship called Feature 3 shipped.')
+
+    cy.hasNotification('You have been associated with the recent ship called Feature 3 shipped.')
 
   })
 })
