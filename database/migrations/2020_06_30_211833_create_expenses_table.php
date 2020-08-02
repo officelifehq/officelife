@@ -20,7 +20,7 @@ class CreateExpensesTable extends Migration
             $table->integer('amount');
             $table->string('currency');
             $table->integer('converted_amount')->nullable();
-            $table->integer('converted_to_currency')->nullable();
+            $table->string('converted_to_currency')->nullable();
             $table->datetime('converted_at')->nullable();
             $table->double('exchange_rate')->nullable();
             $table->text('description')->nullable();
