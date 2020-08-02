@@ -57,7 +57,7 @@ class CreateExpense extends BaseService
 
         $this->managers = $this->employee->managers;
 
-        $this->addExpense();
+        $this->saveExpense();
 
         $this->nextStep();
 
@@ -89,7 +89,7 @@ class CreateExpense extends BaseService
     /**
      * Actually create the expense.
      */
-    private function addExpense(): void
+    private function saveExpense(): void
     {
         $this->expense = Expense::create([
             'employee_id' => $this->data['employee_id'],

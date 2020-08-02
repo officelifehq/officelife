@@ -61,6 +61,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Currency Layer API key
+    |--------------------------------------------------------------------------
+    |
+    | Used to convert one currency to another.
+    |
+    */
+    'currency_layer_api_key' => env('CURRENCY_LAYER_API_KEY', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Currency Layer URL
+    |--------------------------------------------------------------------------
+    |
+    | The endpoint to use to convert a currency.
+    |
+    */
+    'currency_layer_url' => env('CURRENCY_LAYER_URL', 'https://api.currencylayer.com/historical'),
+
+    /*
+    |--------------------------------------------------------------------------
     | URL of the documentation center
     |--------------------------------------------------------------------------
     |

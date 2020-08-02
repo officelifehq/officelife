@@ -5,6 +5,7 @@ return [
     'tab_my_team' => 'My team',
     'tab_my_company' => 'My company',
     'tab_expenses' => 'Expenses',
+    'tab_manager' => 'Manager area',
 
     'blank_state' => 'You are not associated with a team at the moment.',
 
@@ -69,7 +70,7 @@ return [
     'expense_create_currency' => 'Currency',
     'expense_create_category' => 'Category',
     'expense_create_help_title' => 'Help',
-    'expense_create_help_description' => 'The expense’s amount should be without spaces or commas, like `102.23`.',
+    'expense_create_help_description' => 'The expense’s amount should be without spaces or commas, like `102.23`. Also, please use the currency that appears on the receipt.',
     'expense_submitted' => 'The expense has been submitted.',
     'expense_show_description' => 'Have you made an expense on behalf of your company? Log it to be reimbursed promptly on the next paycheck.',
     'expense_show_status_accounting_approval' => 'Waiting for approval',

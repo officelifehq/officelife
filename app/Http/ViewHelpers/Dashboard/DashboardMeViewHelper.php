@@ -136,6 +136,7 @@ class DashboardMeViewHelper
         $expenses = $employee->expenses()
             ->where('expenses.status', '!=', Expense::ACCEPTED)
             ->where('expenses.status', '!=', Expense::CREATED)
+            ->with('category')
             ->latest()
             ->get();
 
@@ -146,6 +147,7 @@ class DashboardMeViewHelper
                 'title' => $expense->title,
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
+                'category' => ($expense->category) ? $expense->category->name : null,
                 'expensed_at' => DateHelper::formatDate($expense->expensed_at),
                 'url' => route('employee.expenses.show', [
                     'company' => $employee->company,

@@ -173,6 +173,7 @@ class DashboardMeViewHelperTest extends TestCase
                     'title' => 'Restaurant',
                     'amount' => '$1.00',
                     'status' => 'accounting_approval',
+                    'category' => 'travel',
                     'expensed_at' => 'Jan 01, 1999',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'.$expense->id,
                 ],

@@ -3,7 +3,6 @@
 namespace Tests\Unit\Services\Company\Employee\Expense;
 
 use Tests\TestCase;
-use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Expense;
@@ -86,10 +85,6 @@ class CreateExpenseTest extends TestCase
             'employee_id' => $managerA->id,
             'title' => 'Approve the expense for '.$dwight->name,
         ]);
-
-        Queue::assertPushed(NotifyEmployee::class, function ($job) {
-            return $job->notification['action'] === 'expense_assigned_for_validation';
-        });
     }
 
     /** @test */

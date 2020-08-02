@@ -138,9 +138,7 @@ Cypress.Commands.add('hasTeamLog', (content, redirectUrl) => {
 
 // Assert that the employee has a notification
 Cypress.Commands.add('hasNotification', (content) => {
-  const counter = cy.get('[data-cy=notification-counter]')
-  cy.wrap(counter).should('be.gt', 0)
-
+  cy.get('[data-cy=notification-counter]').click()
   cy.get('[data-cy=notification-modal-content]').contains(content)
 
   cy.visit('/1/notifications')

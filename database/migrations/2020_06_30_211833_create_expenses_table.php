@@ -19,6 +19,10 @@ class CreateExpensesTable extends Migration
             $table->string('title');
             $table->integer('amount');
             $table->string('currency');
+            $table->integer('converted_amount')->nullable();
+            $table->integer('converted_to_currency')->nullable();
+            $table->datetime('converted_at')->nullable();
+            $table->double('exchange_rate')->nullable();
             $table->text('description')->nullable();
             $table->date('expensed_at');
             $table->unsignedBigInteger('manager_approver_id')->nullable();

@@ -359,9 +359,18 @@ $factory->define(App\Models\Company\ExpenseCategory::class, function () {
 });
 
 $factory->define(App\Models\Company\Expense::class, function () {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
     return [
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
+        'employee_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'expense_category_id' => function () use ($companyId) {
+            return factory(App\Models\Company\ExpenseCategory::class)->create([
+                'company_id' => $companyId,
+            ])->id;
         },
         'status' => 'created',
         'title' => 'Restaurant',

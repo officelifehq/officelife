@@ -40,7 +40,7 @@
     <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">
       <img loading="lazy" src="/img/dashboard/question_expense.png" alt="a group taking a selfie" class="absolute right-1" :class="addMode ? 'dn' : 'di-ns'" />
 
-      <p class="lh-copy measure">{{ $t('dashboard.expense_show_description') }}</p>
+      <p v-if="!addMode" class="lh-copy measure">{{ $t('dashboard.expense_show_description') }}</p>
 
       <!-- CTA to add an expense -->
       <p v-if="!addMode">
@@ -114,6 +114,18 @@
                           :value="form.category"
                           :datacy="'expense-category'"
               />
+
+              <!-- receipt -->
+              <file-input :id="'title'"
+                          :ref="'expenseReceipt'"
+                          :datacy="'expense-receipt'"
+                          :name="'title'"
+                          :type="'file'"
+                          :errors="$page.errors.title"
+                          :label="$t('dashboard.expense_create_title')"
+                          :required="true"
+                          @change="selectFile()"
+              />
             </div>
             <div class="fl-ns w-third-ns w-100 mb3 mb0-ns pl3-ns">
               <strong>{{ $t('dashboard.expense_create_help_title') }}</strong>
@@ -143,7 +155,10 @@
             <div class="dt-row-ns">
               <div class="dtc-ns db mb3 mb0-ns">
                 <div class="mb2">{{ expense.title }}</div>
-                <div class="f7 fw3 grey ">{{ expense.expensed_at }}</div>
+                <ul class="f7 fw3 grey list pl0">
+                  <li class="mr2 di">{{ expense.expensed_at }}</li>
+                  <li v-if="expense.category" class="di">{{ expense.category }}</li>
+                </ul>
               </div>
               <div class="expense-amount tc-ns dtc-ns v-mid fw5 db mb3 mb0-ns">
                 {{ expense.amount }}
@@ -151,7 +166,7 @@
               <div class="expense-status tc-ns dtc-ns v-mid db mb3 mb0-ns">
                 <span class="br3 expense-badge-waiting f7 fw5 ph3 pv2 di">{{ $t('dashboard.expense_show_status_' + expense.status) }}</span>
               </div>
-              <div class="expense-action tc-ns dtc-ns v-mid f6 db">
+              <div class="expense-action tr-ns dtc-ns v-mid f6 db">
                 <inertia-link :href="expense.url">{{ $t('app.view') }}</inertia-link>
               </div>
             </div>
@@ -166,6 +181,7 @@
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
+import FileInput from '@/Shared/FileInput';
 import SelectBox from '@/Shared/Select';
 import Help from '@/Shared/Help';
 
@@ -174,6 +190,7 @@ export default {
     Errors,
     LoadingButton,
     TextInput,
+    FileInput,
     SelectBox,
     Help,
   },
@@ -210,6 +227,7 @@ export default {
         currency: null,
         description: null,
         category: null,
+        receipt: null,
         errors: [],
       },
       loadingState: '',
@@ -238,6 +256,11 @@ export default {
       this.$nextTick(() => {
         this.$refs['expenseTitle'].$refs['input'].focus();
       });
+    },
+
+    selectFile(event) {
+      // `files` is always an array because the file input may be in multiple mode
+      this.form.receipt = event;
     },
 
     submit() {
