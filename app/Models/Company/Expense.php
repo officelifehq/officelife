@@ -26,7 +26,9 @@ class Expense extends Model
      * @var array
      */
     protected $fillable = [
+        'company_id',
         'employee_id',
+        'employee_name',
         'expense_category_id',
         'status',
         'title',
@@ -63,6 +65,15 @@ class Expense extends Model
     ];
 
     /**
+     * The attributes that should be changed.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'employee_id' => 'integer',
+    ];
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
@@ -70,6 +81,16 @@ class Expense extends Model
     protected $dates = [
         'expensed_at',
     ];
+
+    /**
+     * Get the company record associated with the expense.
+     *
+     * @return BelongsTo
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 
     /**
      * Get the employee record associated with the expense.

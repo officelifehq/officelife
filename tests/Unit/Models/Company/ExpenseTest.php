@@ -12,6 +12,13 @@ class ExpenseTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
+    public function it_belongs_to_a_company(): void
+    {
+        $expense = factory(Expense::class)->create([]);
+        $this->assertTrue($expense->company()->exists());
+    }
+
+    /** @test */
     public function it_belongs_to_an_employee(): void
     {
         $expense = factory(Expense::class)->create([]);

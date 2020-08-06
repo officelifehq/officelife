@@ -8,6 +8,7 @@ use App\Models\Company\Flow;
 use App\Models\Company\Team;
 use App\Models\Company\Skill;
 use App\Models\Company\Company;
+use App\Models\Company\Expense;
 use App\Models\Company\AuditLog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
@@ -142,6 +143,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->skills()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_expenses(): void
+    {
+        $company = factory(Company::class)->create();
+        factory(Expense::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->expenses()->exists());
     }
 
     /** @test */

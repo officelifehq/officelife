@@ -3,18 +3,17 @@
 namespace App\Services\Company\Employee\Expense;
 
 use Carbon\Carbon;
+use ErrorException;
 use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Expense;
-use App\Models\Company\Employee;
+use App\Exceptions\NotEnoughPermissionException;
 
-class AcceptExpense extends BaseService
+class RejectExpenseAsManager extends BaseService
 {
     private Expense $expense;
-
-    private Employee $employee;
 
     private array $data;
 
@@ -28,16 +27,14 @@ class AcceptExpense extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'employee_id' => 'required|integer|exists:employees,id',
             'expense_id' => 'required|integer|exists:expenses,id',
+            'reason' => 'required|string|max:65535',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Accept the expense if the employee has the right to do so.
-     * An expense can be accepted either by the manager of the employee who has
-     * created the expense, or by someone with HR or admin role.
+     * Reject the expense as the manager associated with the expense.
      *
      * @param array $data
      * @return Expense
@@ -48,11 +45,9 @@ class AcceptExpense extends BaseService
 
         $this->validate();
 
-        $this->accept();
+        $this->reject();
 
         $this->notifyEmployee();
-
-        $this->notifyAccountingDepartment();
 
         $this->log();
 
@@ -68,34 +63,50 @@ class AcceptExpense extends BaseService
 
         $this->author($this->data['author_id'])
             ->inCompany($this->data['company_id'])
-            ->asAtLeastHR()
-            ->canBypassPermissionLevelIfManager($this->data['employee_id'])
+            ->asNormalUser()
             ->canExecuteService();
 
-        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
-
-        $this->expense = Expense::where('employee_id', $this->data['employee_id'])
+        $this->expense = Expense::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['expense_id']);
+
+        if ($this->expense->status != Expense::AWAITING_MANAGER_APPROVAL) {
+            throw new ErrorException();
+        }
+
+        // ugly but necessary as an employee can be deleted before the expense
+        // is processed
+        if ($this->expense->employee) {
+            if (! $this->author->isManagerOf($this->expense->employee->id)) {
+                throw new NotEnoughPermissionException();
+            }
+        }
     }
 
     /**
-     * Accept the expense.
+     * Reject the expense.
      */
-    private function accept(): void
+    private function reject(): void
     {
-        $this->expense->status = Expense::AWAITING_ACCOUTING_APPROVAL;
+        $this->expense->status = Expense::REJECTED_BY_MANAGER;
+        $this->expense->manager_approver_id = $this->author->id;
+        $this->expense->manager_approver_name = $this->author->name;
         $this->expense->manager_approver_approved_at = Carbon::now();
+        $this->expense->manager_rejection_explanation = $this->data['reason'];
         $this->expense->save();
     }
 
     /**
-     * Notify the employee that the expense has been accepted.
+     * Notify the employee that the expense has been rejected.
      */
-    private function notifyEmployee(): void
+    private function notifyEmployee()
     {
+        if (! $this->expense->employee) {
+            return;
+        }
+
         NotifyEmployee::dispatch([
-            'employee_id' => $this->data['employee_id'],
-            'action' => 'task_assigned',
+            'employee_id' => $this->expense->employee_id,
+            'action' => 'expense_rejected_by_manager',
             'objects' => json_encode([
                 'title' => $this->expense->title,
             ]),
@@ -110,15 +121,13 @@ class AcceptExpense extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'expense_assigned_to_manager',
+            'action' => 'expense_rejected_by_manager',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'manager_id' => $this->manager->id,
-                'manager_name' => $this->manager->name,
-                'employee_id' => $this->employee->id,
-                'employee_name' => $this->employee->name,
+                'employee_id' => $this->expense->employee_id,
+                'employee_name' => $this->expense->employee_name,
                 'expense_id' => $this->expense->id,
                 'expense_title' => $this->expense->title,
                 'expense_amount' => $this->expense->amount,
@@ -129,14 +138,14 @@ class AcceptExpense extends BaseService
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'employee_id' => $this->manager->id,
-            'action' => 'expense_assigned',
+            'employee_id' => $this->author->id,
+            'action' => 'expense_rejected_for_employee',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'employee_id' => $this->employee->id,
-                'employee_name' => $this->employee->name,
+                'employee_id' => $this->expense->employee_id,
+                'employee_name' => $this->expense->employee_name,
                 'expense_id' => $this->expense->id,
                 'expense_title' => $this->expense->title,
                 'expense_amount' => $this->expense->amount,
@@ -145,5 +154,24 @@ class AcceptExpense extends BaseService
             ]),
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
+
+        if ($this->expense->employee) {
+            LogEmployeeAudit::dispatch([
+                'employee_id' => $this->expense->employee_id,
+                'action' => 'expense_rejected_by_manager',
+                'author_id' => $this->author->id,
+                'author_name' => $this->author->name,
+                'audited_at' => Carbon::now(),
+                'objects' => json_encode([
+                    'expense_id' => $this->expense->id,
+                    'expense_title' => $this->expense->title,
+                    'expense_amount' => $this->expense->amount,
+                    'expense_currency' => $this->expense->currency,
+                    'expensed_at' => $this->expense->expensed_at,
+                    'manager_name' => $this->author->name,
+                ]),
+                'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
+            ])->onQueue('low');
+        }
     }
 }

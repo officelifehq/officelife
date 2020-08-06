@@ -75,4 +75,9 @@ return [
     'expense_show_description' => 'Have you made an expense on behalf of your company? Log it to be reimbursed promptly on the next paycheck.',
     'expense_show_status_accounting_approval' => 'Waiting for approval',
     'expense_show_status_manager_approval' => 'Waiting for manager',
+
+    'accountant_awaiting_accounting_title' => 'Expenses that need accounting approval',
+    'accountant_awaiting_manager_title' => 'Expenses that need manager approval',
+    'accountant_employee' => 'Employee:',
+    'accountant_manager' => 'Manager:',
 ];

@@ -67,6 +67,35 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
     }
 
     /** @test */
+    public function it_does_nothing_if_company_currency_is_the_same_as_expense_currency(): void
+    {
+        $company = factory(Company::class)->create([
+            'currency' => 'USD',
+        ]);
+        $employee = factory(Employee::class)->create([
+            'company_id' => $company->id,
+        ]);
+        $expense = factory(Expense::class)->create([
+            'employee_id' => $employee->id,
+            'currency' => 'USD',
+            'amount' => '10000',
+            'expensed_at' => '2020-07-20',
+        ]);
+
+        $expense = (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute($expense);
+
+        $this->assertNull(
+            $expense
+        );
+
+        $this->assertDatabaseHas('expenses', [
+            'exchange_rate' => null,
+            'converted_amount' => null,
+            'converted_to_currency' => null,
+        ]);
+    }
+
+    /** @test */
     public function it_raises_an_exception_if_it_cant_access_currency_layer(): void
     {
         config(['officelife.currency_layer_api_key' => 'test']);

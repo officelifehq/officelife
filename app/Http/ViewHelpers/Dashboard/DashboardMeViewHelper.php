@@ -149,6 +149,9 @@ class DashboardMeViewHelper
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
                 'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'converted_amount' => $expense->converted_amount ?
+                    MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
+                    null,
                 'url' => route('employee.expenses.show', [
                     'company' => $employee->company,
                     'employee' => $employee,

@@ -359,17 +359,18 @@ $factory->define(App\Models\Company\ExpenseCategory::class, function () {
 });
 
 $factory->define(App\Models\Company\Expense::class, function () {
-    $companyId = factory(App\Models\Company\Company::class)->create()->id;
-
     return [
-        'employee_id' => function () use ($companyId) {
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'employee_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $companyId,
+                'company_id' => $data['company_id'],
             ])->id;
         },
-        'expense_category_id' => function () use ($companyId) {
+        'expense_category_id' => function (array $data) {
             return factory(App\Models\Company\ExpenseCategory::class)->create([
-                'company_id' => $companyId,
+                'company_id' => $data['company_id'],
             ])->id;
         },
         'status' => 'created',

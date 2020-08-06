@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services\Company\Employee\Expense;
 
 use Tests\TestCase;
+use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Expense;
@@ -15,6 +16,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Jobs\ConvertAmountFromOneCurrencyToCompanyCurrency;
 
 class CreateExpenseTest extends TestCase
 {
@@ -81,10 +83,12 @@ class CreateExpenseTest extends TestCase
         ]);
         $this->executeService($michael, $dwight);
 
-        $this->assertDatabaseHas('tasks', [
-            'employee_id' => $managerA->id,
-            'title' => 'Approve the expense for '.$dwight->name,
-        ]);
+        Queue::assertPushed(NotifyEmployee::class, function ($job) use ($dwight) {
+            return $job->notification['action'] === 'expense_assigned_for_validation' &&
+                $job->notification['objects'] === json_encode([
+                    'name' => $dwight->name,
+                ]);
+        });
     }
 
     /** @test */
@@ -138,7 +142,9 @@ class CreateExpenseTest extends TestCase
 
         $this->assertDatabaseHas('expenses', [
             'id' => $expense->id,
+            'company_id' => $dwight->company->id,
             'employee_id' => $dwight->id,
+            'employee_name' => $dwight->name,
             'title' => 'Restaurant',
             'amount' => '100',
             'currency' => 'USD',
@@ -175,5 +181,7 @@ class CreateExpenseTest extends TestCase
                     'expensed_at' => $expense->expensed_at,
                 ]);
         });
+
+        Queue::assertPushed(ConvertAmountFromOneCurrencyToCompanyCurrency::class);
     }
 }

@@ -155,6 +155,8 @@ class DashboardMeViewHelperTest extends TestCase
         $expense = factory(Expense::class)->create([
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
+            'converted_amount' => 123,
+            'converted_to_currency' => 'EUR',
         ]);
 
         factory(Expense::class)->create([
@@ -172,6 +174,7 @@ class DashboardMeViewHelperTest extends TestCase
                     'id' => $expense->id,
                     'title' => 'Restaurant',
                     'amount' => '$1.00',
+                    'converted_amount' => '€1.23',
                     'status' => 'accounting_approval',
                     'category' => 'travel',
                     'expensed_at' => 'Jan 01, 1999',

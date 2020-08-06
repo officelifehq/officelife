@@ -13,7 +13,9 @@ class CreateExpensesTable extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('company_id');
+            $table->unsignedBigInteger('employee_id')->nullable();
+            $table->string('employee_name')->nullable();
             $table->unsignedBigInteger('expense_category_id')->nullable();
             $table->string('status')->default('created');
             $table->string('title');
@@ -34,7 +36,8 @@ class CreateExpensesTable extends Migration
             $table->date('accounting_approver_approved_at')->nullable();
             $table->string('accounting_rejection_explanation')->nullable();
             $table->timestamps();
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
             $table->foreign('expense_category_id')->references('id')->on('expense_categories')->onDelete('set null');
             $table->foreign('manager_approver_id')->references('id')->on('employees')->onDelete('set null');
             $table->foreign('accounting_approver_id')->references('id')->on('employees')->onDelete('set null');

@@ -3,6 +3,7 @@
 namespace App\Services\Company\Employee\Expense;
 
 use Carbon\Carbon;
+use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
@@ -11,6 +12,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use App\Models\Company\ExpenseCategory;
+use App\Jobs\ConvertAmountFromOneCurrencyToCompanyCurrency;
 
 class CreateExpense extends BaseService
 {
@@ -92,7 +94,9 @@ class CreateExpense extends BaseService
     private function saveExpense(): void
     {
         $this->expense = Expense::create([
+            'company_id' => $this->data['company_id'],
             'employee_id' => $this->data['employee_id'],
+            'employee_name' => $this->employee->name,
             'expense_category_id' => $this->valueOrNull($this->data, 'expense_category_id'),
             'title' => $this->data['title'],
             'amount' => $this->data['amount'],
@@ -105,23 +109,23 @@ class CreateExpense extends BaseService
     }
 
     /**
-     * Check what the next validation should be for this expense.
-     * If the employee has managers, assign the expense to all the managers.
-     * If the employee doesn't have a manager, assign the expense to the
-     * accounting department.
+     * If the employee has managers, notify managers.
+     * In the meantime, it also converts the currency to the company's currency.
      */
     private function nextStep(): void
     {
         foreach ($this->managers as $manager) {
-            (new AssignExpenseToManager)->execute([
-                'company_id' => $this->data['company_id'],
-                'author_id' => $this->data['author_id'],
-                'employee_id' => $this->data['employee_id'],
-                'expense_id' => $this->expense->id,
-                'manager_id' => $manager->manager->id,
-                'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
-            ]);
+            NotifyEmployee::dispatch([
+                'employee_id' => $manager->id,
+                'action' => 'expense_assigned_for_validation',
+                'objects' => json_encode([
+                    'name' => $this->expense->employee->name,
+                ]),
+            ])->onQueue('low');
         }
+
+        ConvertAmountFromOneCurrencyToCompanyCurrency::dispatch($this->expense)
+            ->onQueue('low');
     }
 
     /**

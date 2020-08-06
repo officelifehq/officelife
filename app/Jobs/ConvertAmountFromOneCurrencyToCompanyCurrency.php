@@ -8,7 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use App\Services\Company\Place\GetGPSCoordinate;
+use App\Services\Company\Adminland\Expense\ConvertAmountFromOneCurrencyToCompanyCurrency as ExpenseConvertAmountFromOneCurrencyToCompanyCurrency;
 
 class ConvertAmountFromOneCurrencyToCompanyCurrency implements ShouldQueue
 {
@@ -36,8 +36,6 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency implements ShouldQueue
      */
     public function handle()
     {
-        (new GetGPSCoordinate)->execute([
-            'place_id' => $this->place->id,
-        ]);
+        (new ExpenseConvertAmountFromOneCurrencyToCompanyCurrency)->execute($this->expense);
     }
 }

@@ -35,18 +35,31 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
      * This allows us to reduce the number of queries if multiple conversions
      * have to be made.
      */
-    public function execute(Expense $expense, GuzzleClient $client = null): Expense
+    public function execute(Expense $expense, GuzzleClient $client = null): ?Expense
     {
         $this->expense = $expense;
         $this->client = $client;
 
         $this->setVariables();
 
+        if (! $this->checkIfExpenseCurrencyAndCompanyCurrencyAreDifferent()) {
+            return null;
+        }
+
         $this->getConversionRate();
 
         $this->convert();
 
         return $this->expense;
+    }
+
+    private function checkIfExpenseCurrencyAndCompanyCurrencyAreDifferent(): bool
+    {
+        if ($this->companyCurrency == $this->expenseCurrency) {
+            return false;
+        }
+
+        return true;
     }
 
     private function setVariables(): void

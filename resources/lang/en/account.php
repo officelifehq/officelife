@@ -213,7 +213,8 @@ return [
     'log_company_renamed' => 'Renamed the company from :old_name to :new_name.',
     'log_company_currency_updated' => 'Changed the company’s currency from :old_currency to :new_currency.',
     'log_expense_created' => 'Created an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
-    'log_expense_assigned_to_manager' => 'Has assigned :manager_name to approve an expense called :expense_title for an amount of :expense_currency :expense_amount for :employee_name.',
+    'log_expense_accepted_by_manager' => 'Accepted an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
+    'log_expense_rejected_by_manager' => 'Rejected an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
     'log_employee_allowed_to_manage_expenses' => 'Allowed :employee_name to manage company’s expenses.',
     'log_employee_disallowed_to_manage_expenses' => 'Disallowed :employee_name to manage company’s expenses.',
 
@@ -252,7 +253,10 @@ return [
     'employee_log_skill_removed_from_an_employee' => 'Has had the skill called :name removed.',
     'employee_log_task_created' => 'Created the task called :title.',
     'employee_log_expense_created' => 'Created an expense about :expense_title for an amount of :expense_currency :expense_amount.',
-    'employee_log_expense_assigned' => 'Has been assigned to approve an expense called :name for an amount of :expense_currency :expense_amount for :employee_name.',
+    'employee_log_expense_accepted_by_manager' => 'Accepted an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
+    'employee_log_expense_accepted_for_employee' => 'Has been accepted an expense about :expense_title for an amount of :expense_currency :expense_amount by :manager_name.',
+    'employee_log_expense_rejected_for_employee' => 'Has been rejected an expense about :expense_title for an amount of :expense_currency :expense_amount by :manager_name.',
+    'employee_log_expense_rejected_by_manager' => 'Rejected an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
     'employee_log_employee_allowed_to_manage_expenses' => 'Has been allowed to manage company’s expenses.',
     'employee_log_employee_disallowed_to_manage_expenses' => 'Has been disallowed to manage company’s expenses.',
 
@@ -282,8 +286,9 @@ return [
     'notification_team_lead_removed' => 'You are not longer the team lead of the team called :name.',
     'notification_employee_attached_to_recent_ship' => 'You have been associated with the recent ship called :title.',
     'notification_task_assigned' => 'You have been assigned the task called :title by :name.',
-    'notification_expense_assigned_for_validation' => 'You have been assigned an expense to validate for :name.',
+    'notification_expense_assigned_for_validation' => 'You have a new expense to validate for :name.',
     'notification_expense_accepted_by_manager' => 'Your expense called :title have been accepted by your manager and is now in the hand of the accounting department.',
+    'notification_expense_rejected_by_manager' => 'Your expense called :title have been rejected by your manager.',
     'notification_employee_allowed_to_manage_expenses' => 'You are now allowed to manage company’s expenses.',
 
     'morale_1' => 'Positive',

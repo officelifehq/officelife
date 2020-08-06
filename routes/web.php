@@ -149,6 +149,14 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
         });
 
+        // only available to accountant role
+        Route::middleware(['accountant'])->group(function () {
+            Route::get('dashboard/expenses', 'Company\\Dashboard\\DashboardExpensesController@index');
+            Route::get('dashboard/expenses/{expense}', 'Company\\Dashboard\\DashboardExpensesController@show')->name('dashboard.expense.show');
+            Route::get('dashboard/expenses/{expense}/approve/manager', 'Company\\Dashboard\\DashboardExpensesController@approveManager');
+            Route::get('dashboard/expenses/{expense}/approve/accounting', 'Company\\Dashboard\\DashboardExpensesController@approveAccounting');
+        });
+
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
             Route::get('account/audit', 'Company\\Adminland\\AdminAuditController@index');

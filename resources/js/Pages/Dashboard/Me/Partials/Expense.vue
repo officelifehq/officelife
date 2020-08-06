@@ -116,7 +116,7 @@
               />
 
               <!-- receipt -->
-              <file-input :id="'title'"
+              <!-- <file-input :id="'title'"
                           :ref="'expenseReceipt'"
                           :datacy="'expense-receipt'"
                           :name="'title'"
@@ -125,7 +125,7 @@
                           :label="$t('dashboard.expense_create_title')"
                           :required="true"
                           @change="selectFile()"
-              />
+              /> -->
             </div>
             <div class="fl-ns w-third-ns w-100 mb3 mb0-ns pl3-ns">
               <strong>{{ $t('dashboard.expense_create_help_title') }}</strong>
@@ -162,6 +162,9 @@
               </div>
               <div class="expense-amount tc-ns dtc-ns v-mid fw5 db mb3 mb0-ns">
                 {{ expense.amount }}
+
+                <!-- converted amount -->
+                <div v-if="expense.converted_amount" class="db">{{ expense.converted_amount }}</div>
               </div>
               <div class="expense-status tc-ns dtc-ns v-mid db mb3 mb0-ns">
                 <span class="br3 expense-badge-waiting f7 fw5 ph3 pv2 di">{{ $t('dashboard.expense_show_status_' + expense.status) }}</span>
@@ -181,7 +184,6 @@
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextInput from '@/Shared/TextInput';
-import FileInput from '@/Shared/FileInput';
 import SelectBox from '@/Shared/Select';
 import Help from '@/Shared/Help';
 
@@ -190,7 +192,6 @@ export default {
     Errors,
     LoadingButton,
     TextInput,
-    FileInput,
     SelectBox,
     Help,
   },
