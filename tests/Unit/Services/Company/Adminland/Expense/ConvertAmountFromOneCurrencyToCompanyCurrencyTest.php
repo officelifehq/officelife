@@ -61,7 +61,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $this->assertDatabaseHas('expenses', [
             'id' => $expense->id,
             'exchange_rate' => 0.847968,
-            'converted_amount' => 8480,
+            'converted_amount' => 8479.68,
             'converted_to_currency' => 'USD',
         ]);
     }
