@@ -33,7 +33,7 @@ class CreateExpenseTest extends TestCase
     /** @test */
     public function it_creates_an_expense_as_hr(): void
     {
-        $michael = $this->createAdministrator();
+        $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
         $this->executeService($michael, $dwight);
     }

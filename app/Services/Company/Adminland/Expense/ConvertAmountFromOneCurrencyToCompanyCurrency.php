@@ -78,9 +78,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
         }
 
         // this is merely for the unit test.
-        if (! is_null($this->client)) {
-            $this->client = $this->client;
-        } else {
+        if (is_null($this->client)) {
             $this->client = new GuzzleClient();
         }
 

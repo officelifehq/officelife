@@ -109,10 +109,9 @@ class DashboardMeViewHelper
     /**
      * Get all the currencies used in the instance.
      *
-     * @var Company $company
      * @return Collection|null
      */
-    public static function currencies(Company $company): ?Collection
+    public static function currencies(): ?Collection
     {
         $currencyCollection = collect([]);
         $currencies = new ISOCurrencies();

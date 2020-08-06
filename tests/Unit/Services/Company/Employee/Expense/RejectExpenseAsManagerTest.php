@@ -150,7 +150,7 @@ class RejectExpenseAsManagerTest extends TestCase
             $expense
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($manager, $employee, $expense) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($manager, $expense) {
             return $job->auditLog['action'] === 'expense_rejected_by_manager' &&
                 $job->auditLog['author_id'] === $manager->id &&
                 $job->auditLog['objects'] === json_encode([
@@ -164,7 +164,7 @@ class RejectExpenseAsManagerTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($manager, $employee, $expense) {
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($manager, $expense) {
             return $job->auditLog['action'] === 'expense_rejected_for_employee' &&
                 $job->auditLog['author_id'] === $manager->id &&
                 $job->auditLog['employee_id'] === $manager->id &&
