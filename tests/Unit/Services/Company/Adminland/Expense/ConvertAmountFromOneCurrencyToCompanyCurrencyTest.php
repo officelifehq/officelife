@@ -69,6 +69,11 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
     /** @test */
     public function it_does_nothing_if_company_currency_is_the_same_as_expense_currency(): void
     {
+        $body = file_get_contents(base_path('tests/Fixtures/Services/Adminland/Expense/ConvertAmountFromOneCurrencyToCompanyCurrencyResponse.json'));
+        $mock = new MockHandler([new Response(200, [], $body)]);
+        $handler = HandlerStack::create($mock);
+        $client = new Client(['handler' => $handler]);
+
         $company = factory(Company::class)->create([
             'currency' => 'USD',
         ]);
@@ -82,7 +87,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
             'expensed_at' => '2020-07-20',
         ]);
 
-        $expense = (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute($expense);
+        $expense = (new ConvertAmountFromOneCurrencyToCompanyCurrency)->execute($expense, $client);
 
         $this->assertNull(
             $expense
