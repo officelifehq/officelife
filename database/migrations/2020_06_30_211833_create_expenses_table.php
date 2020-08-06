@@ -36,7 +36,7 @@ class CreateExpensesTable extends Migration
             $table->date('accounting_approver_approved_at')->nullable();
             $table->string('accounting_rejection_explanation')->nullable();
             $table->timestamps();
-            $table->foreign('company_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
             $table->foreign('expense_category_id')->references('id')->on('expense_categories')->onDelete('set null');
             $table->foreign('manager_approver_id')->references('id')->on('employees')->onDelete('set null');
