@@ -164,7 +164,7 @@
                 {{ expense.amount }}
 
                 <!-- converted amount -->
-                <div v-if="expense.converted_amount" class="db">{{ expense.converted_amount }}</div>
+                <div v-if="expense.converted_amount" class="db f6 fw4 mt2 gray">{{ expense.converted_amount }}</div>
               </div>
               <div class="expense-status tc-ns dtc-ns v-mid db mb3 mb0-ns">
                 <span class="br3 expense-badge-waiting f7 fw5 ph3 pv2 di">{{ $t('dashboard.expense_show_status_' + expense.status) }}</span>

@@ -71,13 +71,33 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Currency Layer plan
+    |--------------------------------------------------------------------------
+    |
+    | The endpoint to use to convert a currency, for the paid plan.
+    |
+    */
+    'currency_layer_plan' => env('CURRENCY_LAYER_PLAN', 'free'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Currency Layer URL
     |--------------------------------------------------------------------------
     |
-    | The endpoint to use to convert a currency.
+    | The endpoint to use to convert a currency, for the paid plan.
     |
     */
-    'currency_layer_url' => env('CURRENCY_LAYER_URL', 'https://api.currencylayer.com/historical'),
+    'currency_layer_url_paid_plan' => env('CURRENCY_LAYER_URL', 'https://api.currencylayer.com/historical'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Currency Layer URL
+    |--------------------------------------------------------------------------
+    |
+    | The endpoint to use to convert a currency, for the free plan.
+    |
+    */
+    'currency_layer_url_free_plan' => env('CURRENCY_LAYER_URL_FREE_PLAN', 'http://api.currencylayer.com/historical'),
 
     /*
     |--------------------------------------------------------------------------

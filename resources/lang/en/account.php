@@ -414,7 +414,7 @@ return [
     'general_rename_input' => 'Give the company a new name',
     'general_rename_success' => 'The company has been renamed.',
     'general_currency_information' => 'Currency',
-    'general_currency_information_table' => 'Currency used in the app',
+    'general_currency_information_table' => 'Main currency of the company',
     'general_currency_update' => 'Update currency',
     'general_currency_change_label' => 'Choose a new currency',
     'general_currency_rename_success' => 'The currency has been updated.',

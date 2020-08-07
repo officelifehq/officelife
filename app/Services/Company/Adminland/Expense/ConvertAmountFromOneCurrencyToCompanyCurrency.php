@@ -74,7 +74,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
     {
         if (Cache::has($this->cachedKey())) {
             $this->rate = Cache::get($this->cachedKey());
-            exit();
+            return;
         }
 
         // this is merely for the unit test.
@@ -111,17 +111,16 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
         $this->expense->save();
     }
 
-    /**
-     * Build the query to send with the API call.
-     */
     private function buildQuery()
     {
         if (is_null(config('officelife.currency_layer_api_key'))) {
             throw new WrongCurrencyLayerApiKeyException();
         }
 
-        if (is_null(config('officelife.currency_layer_url'))) {
-            throw new WrongCurrencyLayerApiKeyException();
+        if (config('officelife.currency_layer_plan') == 'free') {
+            $uri = config('officelife.currency_layer_url_free_plan');
+        } else {
+            $uri = config('officelife.currency_layer_url_paid_plan');
         }
 
         $query = http_build_query([
@@ -131,7 +130,8 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
             'date' => $this->expense->expensed_at->format('Y-m-d'),
         ]);
 
-        $this->query = Str::finish(config('officelife.currency_layer_url'), '?').$query;
+        $this->query = Str::finish($uri, '?').$query;
+        \Log::info($this->query);
     }
 
     /**

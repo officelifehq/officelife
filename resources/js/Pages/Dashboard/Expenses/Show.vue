@@ -23,8 +23,11 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="">
           <h2 class="pa3 mt2 center tc normal mb2">
-            Expense details
+            {{ expense.title }}
           </h2>
+          <p class="f5 tc">{{ expense.amount }}</p>
+
+
 
           <ul>
             <li>Submitted by {{ expense.employee.name }} on {{ expense.created_at }}</li>
