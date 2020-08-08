@@ -42,7 +42,7 @@
               ref="editor"
               v-model="form.content"
               :datacy="'worklog-content'"
-              @esc-key-pressed="idToUpdate = 0"
+              @esc-key-pressed="editorShown = false"
             />
             <p class="db lh-copy f6">
               👋 {{ $t('dashboard.worklog_entry_description') }}

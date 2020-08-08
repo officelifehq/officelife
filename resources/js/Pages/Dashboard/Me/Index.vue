@@ -41,6 +41,14 @@
         :tasks="tasks"
       />
 
+      <expense
+        :employee="employee"
+        :categories="categories"
+        :expenses="expenses"
+        :currencies="currencies"
+        :default-currency="defaultCurrency"
+      />
+
       <div class="cf mt4 mw7 center br3 mb3 bg-white box">
         <div class="pa3">
           <h2>Me</h2>
@@ -71,6 +79,7 @@ import Morale from '@/Pages/Dashboard/Me/Partials/Morale';
 import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome';
 import Question from '@/Pages/Dashboard/Me/Partials/Question';
 import Task from '@/Pages/Dashboard/Me/Partials/Task';
+import Expense from '@/Pages/Dashboard/Me/Partials/Expense';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -81,6 +90,7 @@ export default {
     Morale,
     Question,
     Task,
+    Expense,
     WorkFromHome,
     DashboardMenu,
   },
@@ -108,6 +118,22 @@ export default {
     },
     tasks: {
       type: Array,
+      default: null,
+    },
+    categories: {
+      type: Array,
+      default: null,
+    },
+    currencies: {
+      type: Array,
+      default: null,
+    },
+    expenses: {
+      type: Array,
+      default: null,
+    },
+    defaultCurrency: {
+      type: Object,
       default: null,
     },
   },

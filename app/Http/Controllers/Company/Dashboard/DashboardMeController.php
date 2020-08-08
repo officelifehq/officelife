@@ -38,8 +38,14 @@ class DashboardMeController extends Controller
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
             'dashboard_view' => 'me',
             'can_manage_expenses' => $employee->can_manage_expenses,
+            'is_manager' => $employee->directReports->count() > 0 ? true : false,
             'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
             'question' => DashboardMeViewHelper::question($employee),
+        ];
+
+        $defaultCompanyCurrency = [
+            'id' => $company->currency,
+            'code' => $company->currency,
         ];
 
         return Inertia::render('Dashboard/Me/Index', [
@@ -48,6 +54,10 @@ class DashboardMeController extends Controller
             'notifications' => NotificationHelper::getNotifications($employee),
             'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
             'tasks' => DashboardMeViewHelper::tasks($employee),
+            'categories' => DashboardMeViewHelper::categories($company),
+            'currencies' => DashboardMeViewHelper::currencies($company),
+            'expenses' => DashboardMeViewHelper::expenses($employee),
+            'defaultCurrency' => $defaultCompanyCurrency,
         ]);
     }
 }

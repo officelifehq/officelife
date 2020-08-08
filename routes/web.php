@@ -32,13 +32,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('dashboard')->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
-            Route::get('me', 'Company\\Dashboard\\DashboardMeController@index')->name('dashboard.me');
-            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
-            Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
 
-            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
-            Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');
-            Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
+            // me
+            Route::get('me', 'Company\\Dashboard\\DashboardMeController@index')->name('dashboard.me');
 
             Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
             Route::post('morale', 'Company\\Dashboard\\DashboardMoraleController@store');
@@ -46,6 +42,24 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('question', 'Company\\Dashboard\\DashboardQuestionController')->only([
                 'store', 'update', 'destroy',
             ]);
+            Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store');
+
+            // company
+            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
+
+            // hr
+            Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
+
+            // team
+            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
+            Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');
+            Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
+
+            // manager
+            Route::get('manager', 'Company\\Dashboard\\DashboardManagerController@index')->name('dashboard.manager');
+            Route::get('manager/expenses/{expense}', 'Company\\Dashboard\\DashboardManagerController@showExpense')->name('dashboard.manager.expense.show');
+            Route::post('manager/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardManagerController@accept');
+            Route::post('manager/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
         });
 
         Route::prefix('employees')->group(function () {
@@ -98,6 +112,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('{employee}/workfromhome', 'Company\\Employee\\EmployeeWorkFromHomeController@index')->name('employees.workfromhome');
             Route::get('{employee}/workfromhome/{year}', 'Company\\Employee\\EmployeeWorkFromHomeController@year');
             Route::get('{employee}/workfromhome/{year}/{month}', 'Company\\Employee\\EmployeeWorkFromHomeController@month');
+
+            // expenses
+            Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee'])->only([
+                'index', 'show', 'store', 'destroy',
+            ]);
         });
 
         Route::prefix('teams')->group(function () {
@@ -141,6 +160,14 @@ Route::middleware(['auth'])->group(function () {
             Route::get('skills/{skill}', 'Company\\Company\\SkillController@show')->name('company.skills.show');
             Route::put('skills/{skill}', 'Company\\Company\\SkillController@update');
             Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
+        });
+
+        // only available to accountant role
+        Route::middleware(['accountant'])->group(function () {
+            Route::get('dashboard/expenses', 'Company\\Dashboard\\DashboardExpensesController@index');
+            Route::get('dashboard/expenses/{expense}', 'Company\\Dashboard\\DashboardExpensesController@show')->name('dashboard.expense.show');
+            Route::get('dashboard/expenses/{expense}/approve/manager', 'Company\\Dashboard\\DashboardExpensesController@approveManager');
+            Route::get('dashboard/expenses/{expense}/approve/accounting', 'Company\\Dashboard\\DashboardExpensesController@approveAccounting');
         });
 
         // only available to administrator role

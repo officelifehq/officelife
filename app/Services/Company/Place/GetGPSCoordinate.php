@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\ClientException;
 class GetGPSCoordinate extends BaseService
 {
     /**
-     * The place instance.
+     * The Guzzle instance.
      *
      * @var GuzzleClient
      */

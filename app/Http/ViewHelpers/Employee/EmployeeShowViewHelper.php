@@ -3,6 +3,8 @@
 namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
+use App\Helpers\DateHelper;
+use App\Helpers\MoneyHelper;
 use App\Helpers\WorklogHelper;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
@@ -14,7 +16,6 @@ class EmployeeShowViewHelper
      * Collection containing all the managers of this employee.
      *
      * @param Employee $employee
-     *
      * @return Collection
      */
     public static function managers(Employee $employee): Collection
@@ -46,7 +47,6 @@ class EmployeeShowViewHelper
      * Collection containing all the direct reports of this employee.
      *
      * @param Employee $employee
-     *
      * @return Collection
      */
     public static function directReports(Employee $employee): Collection
@@ -79,7 +79,6 @@ class EmployeeShowViewHelper
      * link to the detailled page of the worklogs.
      *
      * @param Employee $employee
-     *
      * @return array
      */
     public static function worklogs(Employee $employee): array
@@ -122,7 +121,6 @@ class EmployeeShowViewHelper
      * been working from home this year.
      *
      * @param Employee $employee
-     *
      * @return array
      */
     public static function workFromHomeStats(Employee $employee): array
@@ -149,7 +147,6 @@ class EmployeeShowViewHelper
      * employee.
      *
      * @param Employee $employee
-     *
      * @return Collection
      */
     public static function questions(Employee $employee): Collection
@@ -181,7 +178,6 @@ class EmployeeShowViewHelper
      *
      * @param Employee $employee
      * @param Collection $teams
-     *
      * @return Collection
      */
     public static function teams(Collection $teams, Employee $employee): Collection
@@ -214,7 +210,6 @@ class EmployeeShowViewHelper
      * employee.
      *
      * @param Employee $employee
-     *
      * @return Collection
      */
     public static function hardware(Employee $employee): Collection
@@ -238,7 +233,6 @@ class EmployeeShowViewHelper
      * employee.
      *
      * @param Employee $employee
-     *
      * @return Collection
      */
     public static function recentShips(Employee $employee): Collection
@@ -286,7 +280,6 @@ class EmployeeShowViewHelper
      * employee.
      *
      * @param Employee $employee
-     *
      * @return Collection
      */
     public static function skills(Employee $employee): Collection
@@ -306,5 +299,35 @@ class EmployeeShowViewHelper
         }
 
         return $skillsCollection;
+    }
+
+    /**
+     * Array containing information about the expenses associated with the
+     * employee.
+     *
+     * @param Employee $employee
+     * @return Collection
+     */
+    public static function expenses(Employee $employee): Collection
+    {
+        $expenses = $employee->expenses;
+
+        $expensesCollection = collect([]);
+        foreach ($expenses as $expense) {
+            $expensesCollection->push([
+                'id' => $expense->id,
+                'title' => $expense->title,
+                'amount' => MoneyHelper::format($expense->amount, $expense->currency),
+                'status' => $expense->status,
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'url' => route('employee.expenses.show', [
+                    'company' => $employee->company,
+                    'employee' => $employee,
+                    'expense' => $expense,
+                ]),
+            ]);
+        }
+
+        return $expensesCollection;
     }
 }

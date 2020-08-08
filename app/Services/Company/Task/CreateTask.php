@@ -72,7 +72,7 @@ class CreateTask extends BaseService
     private function createTask(): void
     {
         $this->task = Task::create([
-            'employee_id' => $this->data['employee_id'],
+            'employee_id' => $this->employee->id,
             'completed' => $this->valueOrFalse($this->data, 'completed'),
             'title' => $this->data['title'],
             'due_at' => $this->nullOrDate($this->data, 'due_at'),
@@ -124,8 +124,8 @@ class CreateTask extends BaseService
             'employee_id' => $this->data['employee_id'],
             'action' => 'task_assigned',
             'objects' => json_encode([
-                'employee_id' => $this->employee->id,
-                'employee_name' => $this->employee->name,
+                'author_id' => $this->author->id,
+                'author_name' => $this->author->name,
                 'title' => $this->data['title'],
             ]),
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),

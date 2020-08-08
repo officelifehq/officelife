@@ -87,6 +87,16 @@ Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, 
   cy.get('[data-cy=submit-add-employee-button]').click()
 })
 
+// Finalize account creation and go to the dashboard
+Cypress.Commands.add('acceptInvitationLinkAndGoToDashboard', (password, link) => {
+  cy.logout()
+  cy.visit('/invite/employee/' + link)
+  cy.get('[data-cy=accept-create-account]').click()
+  cy.get('input[name=password]').type(password)
+  cy.get('[data-cy=create-cta]').click()
+  cy.get('[data-cy=company-1]').click()
+})
+
 // Assert that the page can be visited by a user with the right permission level
 Cypress.Commands.add('canAccess', (url, permission, textToSee) => {
   cy.changePermission(1, permission)
@@ -138,14 +148,28 @@ Cypress.Commands.add('hasTeamLog', (content, redirectUrl) => {
 
 // Assert that the employee has a notification
 Cypress.Commands.add('hasNotification', (content) => {
-  const counter = cy.get('[data-cy=notification-counter]')
-  cy.wrap(counter).should('be.gt', 0)
-
-  cy.get('[data-cy=notification-modal-content]').contains(content)
-
   cy.visit('/1/notifications')
-
   cy.contains(content)
+})
+
+// Assign the employee as the manager
+Cypress.Commands.add('assignManager', (name) => {
+  cy.get('[data-cy=add-hierarchy-button]').click()
+  cy.get('[data-cy=add-manager-button]').click()
+  cy.get('[data-cy=search-manager]').type(name)
+  cy.get('[data-cy=potential-manager-button').click()
+})
+
+// Give the accountant right to the employee
+Cypress.Commands.add('grantAccountantRight', (name, employeeNumber) => {
+  cy.visit('/1/account')
+  cy.get('[data-cy=expenses-admin-link]').click()
+  cy.get('[data-cy=show-edit-mode]').click()
+  cy.get('[data-cy=hide-edit-mode]').click()
+  cy.get('[data-cy=show-edit-mode]').click()
+  cy.get('[data-cy=potential-employees]').type(name)
+  cy.get('[data-cy=employee-id-' + employeeNumber + '-add]').click()
+  cy.get('[data-cy=hide-edit-mode]').click()
 })
 
 // Change persmission of the user
@@ -189,4 +213,18 @@ Cypress.Commands.add('readRecentShipEntry', (title, description, employeeName, e
   cy.get('[data-cy=recent-ship-title]').contains(title)
   cy.get('[data-cy=recent-ship-description]').contains(description)
   cy.get('[data-cy=ship-list-employee-' + employeeId + ']').contains(employeeName)
+})
+
+// Create an expense
+Cypress.Commands.add('createExpense', (title, amount) => {
+  cy.visit('/1/dashboard')
+  cy.get('[data-cy=create-expense-cta]').click()
+  cy.get('[data-cy=expense-create-cancel]').click()
+  cy.get('[data-cy=create-expense-cta]').click()
+  cy.get('[data-cy=expense-amount]').type(amount)
+  cy.get('[data-cy=expense-currency]').click()
+  cy.get('ul.vs__dropdown-menu>li').eq(4).click()
+  cy.get('[data-cy=expense-currency]').click()
+  cy.get('[data-cy=expense-title]').type(title)
+  cy.get('[data-cy=submit-expense]').click()
 })

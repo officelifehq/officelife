@@ -10,6 +10,9 @@
       <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/company'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'company')}" data-cy="dashboard-company-tab">
         {{ $t('dashboard.tab_my_company') }}
       </inertia-link>
+      <inertia-link v-if="employee.is_manager" :href="'/' + $page.auth.company.id + '/dashboard/manager'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'manager')}" data-cy="dashboard-manager-tab">
+        {{ $t('dashboard.tab_manager') }}
+      </inertia-link>
       <inertia-link v-if="employee.can_manage_expenses" :href="'/' + $page.auth.company.id + '/dashboard/expenses'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'expenses')}" data-cy="dashboard-expenses-tab">
         {{ $t('dashboard.tab_expenses') }}
       </inertia-link>

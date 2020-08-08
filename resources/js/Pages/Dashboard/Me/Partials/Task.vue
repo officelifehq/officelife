@@ -5,13 +5,13 @@
 </style>
 
 <template>
-  <div>
+  <div :class="'mb5'">
     <div class="cf mw7 center mb2 fw5">
       🧯 {{ $t('dashboard.task_title') }}
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3">
-      <ul class="list pl0 ma0" data-cy="tasks-list">
+      <ul v-if="tasks.length > 0" class="list pl0 ma0" data-cy="tasks-list">
         <li v-for="task in tasks" :key="task.id" :data-cy="'task-item-' + task.id" class="task-item">
           <checkbox
             :id="'home'"
@@ -25,6 +25,9 @@
           />
         </li>
       </ul>
+
+      <!-- blank state -->
+      <p>You have no active task.</p>
     </div>
   </div>
 </template>

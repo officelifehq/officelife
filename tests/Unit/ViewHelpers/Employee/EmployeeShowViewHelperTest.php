@@ -8,6 +8,7 @@ use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
+use App\Models\Company\Expense;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
@@ -355,6 +356,34 @@ class EmployeeShowViewHelperTest extends TestCase
                     'id' => $skill->id,
                     'name' => $skill->name,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/skills/'.$skill->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_recent_expenses(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $expense = factory(Expense::class)->create([
+            'employee_id' => $michael->id,
+        ]);
+
+        $collection = EmployeeShowViewHelper::expenses($michael);
+
+        $this->assertEquals(1, $collection->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $expense->id,
+                    'title' => 'Restaurant',
+                    'amount' => '$1.00',
+                    'status' => 'created',
+                    'expensed_at' => 'Jan 01, 1999',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'. $expense->id,
                 ],
             ],
             $collection->toArray()

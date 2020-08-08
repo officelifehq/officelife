@@ -26,6 +26,8 @@ class UpdateDashboardView extends BaseService
                     'company',
                     'hr',
                     'team',
+                    'manager',
+                    'expenses',
                 ]),
             ],
         ];

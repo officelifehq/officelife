@@ -154,6 +154,16 @@ class Company extends Model
     }
 
     /**
+     * Get the expense records associated with the company.
+     *
+     * @return HasMany
+     */
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
+    /**
      * Get the expense categories records associated with the company.
      *
      * @return HasMany

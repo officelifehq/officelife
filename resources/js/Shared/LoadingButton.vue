@@ -1,6 +1,6 @@
 <template>
   <div class="di">
-    <button :class="classes" name="save" type="submit" :data-cy="cypressSelector">
+    <button :class="classes" name="save" type="submit" :data-cy="cypressSelector" @click="$emit('click')">
       <ball-pulse-loader v-if="state == 'loading'" color="#fff" size="7px" />
       <span v-if="state != 'loading'">
         {{ text }}

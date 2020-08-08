@@ -336,6 +336,38 @@ class Employee extends Model
     }
 
     /**
+     * Get the expense records associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
+    /**
+     * Get the expense records approved by this employee as a manager
+     * associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function approvedExpenses()
+    {
+        return $this->hasMany(Expense::class, 'manager_approver_id', 'id');
+    }
+
+    /**
+     * Get the expense records approved by this employee as someone in the
+     * accounting department associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function approvedAccountingExpenses()
+    {
+        return $this->hasMany(Expense::class, 'accounting_approver_id', 'id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query
@@ -567,6 +599,22 @@ class Employee extends Model
 
         $result = $teams->filter(function ($singleTeam) use ($teamId) {
             return $singleTeam->id === $teamId;
+        });
+
+        return $result->count() == 1;
+    }
+
+    /**
+     * Check wether the current employee is the manager of the given employee.
+     *
+     * @param int $employeeId
+     * @return boolean
+     */
+    public function isManagerOf(int $employeeId): bool
+    {
+        $directReports = $this->getListOfDirectReports();
+        $result = $directReports->filter(function ($directReport) use ($employeeId) {
+            return $directReport->id === $employeeId;
         });
 
         return $result->count() == 1;

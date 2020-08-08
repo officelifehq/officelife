@@ -12,6 +12,7 @@
 ## Requirements for hosting the software
 
 - PHP 7.4 or higher,
+- the PHP's intl extension,
 - mySQL or SQLite,
 - Nginx,
 - We recommend [Forge](https://forge.laravel.com/) or [Ploi](https://ploi.io) to provision the servers needed to run OfficeLife.

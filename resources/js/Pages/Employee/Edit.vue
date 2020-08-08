@@ -72,7 +72,7 @@
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- name -->
                 <div class="dt-ns dt--fixed di">
-                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- first name -->
                     <text-input :id="'firstname'"
                                 v-model="form.first_name"
@@ -82,7 +82,7 @@
                                 :required="true"
                     />
                   </div>
-                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- last name -->
                     <text-input :id="'lastname'"
                                 v-model="form.last_name"
@@ -118,7 +118,7 @@
               <div class="fl-ns w-two-thirds-ns w-100">
                 <!-- birthdate -->
                 <div class="dt-ns dt--fixed di">
-                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- year -->
                     <text-input :id="'year'"
                                 v-model="form.year"
@@ -132,7 +132,7 @@
                                 :help="$t('employee.edit_information_year_help')"
                     />
                   </div>
-                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- month -->
                     <text-input :id="'month'"
                                 v-model="form.month"
@@ -146,7 +146,7 @@
                                 :help="$t('employee.edit_information_month_help')"
                     />
                   </div>
-                  <div class="dtc-ns pr2-ns pb0-ns w-100 pb3">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
                     <!-- day -->
                     <text-input :id="'day'"
                                 v-model="form.day"

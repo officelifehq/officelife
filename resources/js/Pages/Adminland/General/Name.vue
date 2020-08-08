@@ -25,11 +25,11 @@
       <li class="mb3 flex-ns items-start">
         <span class="dib-ns db mb0-ns mb2 title">{{ $t('account.general_administrators') }}</span>
         <ul class="dib list pl0">
-          <li v-for="admin in information.administrators" :key="admin.id" class="db mb2 admin">
+          <li v-for="admin in information.administrators" :key="admin.id" class="db pb2 admin">
             <small-name-and-avatar
               :name="admin.name"
               :avatar="admin.avatar"
-              :classes="'f4 fw6'"
+              :classes="'f4 fw4'"
               :top="'0px'"
               :margin-between-name-avatar="'29px'"
             />

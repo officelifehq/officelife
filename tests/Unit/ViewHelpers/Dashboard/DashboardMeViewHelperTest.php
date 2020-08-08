@@ -5,7 +5,9 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Answer;
+use App\Models\Company\Expense;
 use App\Models\Company\Question;
+use App\Models\Company\ExpenseCategory;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
@@ -115,6 +117,71 @@ class DashboardMeViewHelperTest extends TestCase
                 ],
             ],
             $response->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_all_the_expense_categories_in_the_given_company(): void
+    {
+        $michael = $this->createAdministrator();
+        factory(ExpenseCategory::class, 2)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $response = DashboardMeViewHelper::categories($michael->company);
+
+        $this->assertCount(2, $response);
+        $this->assertArrayHasKey('id', $response->toArray()[0]);
+        $this->assertArrayHasKey('name', $response->toArray()[0]);
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_currencies(): void
+    {
+        $michael = $this->createAdministrator();
+        $response = DashboardMeViewHelper::currencies($michael->company);
+
+        $this->assertEquals(
+            179,
+            $response->count()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_recent_expenses(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $expense = factory(Expense::class)->create([
+            'employee_id' => $michael->id,
+            'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
+            'converted_amount' => 123,
+            'converted_to_currency' => 'EUR',
+        ]);
+
+        factory(Expense::class)->create([
+            'employee_id' => $michael->id,
+            'status' => Expense::CREATED,
+        ]);
+
+        $collection = DashboardMeViewHelper::expenses($michael);
+
+        $this->assertEquals(1, $collection->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $expense->id,
+                    'title' => 'Restaurant',
+                    'amount' => '$1.00',
+                    'converted_amount' => '€1.23',
+                    'status' => 'accounting_approval',
+                    'category' => 'travel',
+                    'expensed_at' => 'Jan 01, 1999',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'.$expense->id,
+                ],
+            ],
+            $collection->toArray()
         );
     }
 }

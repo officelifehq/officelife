@@ -7,7 +7,7 @@ span {
 <template>
   <div class="relative di">
     <img loading="lazy" :src="avatar" class="absolute br-100" alt="avatar" :style="style" />
-    <span :class="classes" class="f6" :style="avatarMarginLeft">
+    <span :class="classes + ' ' + fontSize" :style="avatarMarginLeft">
       {{ name }}
     </span>
   </div>
@@ -35,6 +35,10 @@ export default {
     size: {
       type: String,
       default: '22px',
+    },
+    fontSize: {
+      type: String,
+      default: 'f6',
     },
     marginBetweenNameAvatar: {
       type: String,

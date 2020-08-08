@@ -61,6 +61,46 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Currency Layer API key
+    |--------------------------------------------------------------------------
+    |
+    | Used to convert one currency to another.
+    |
+    */
+    'currency_layer_api_key' => env('CURRENCY_LAYER_API_KEY', null),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Currency Layer plan
+    |--------------------------------------------------------------------------
+    |
+    | The endpoint to use to convert a currency, for the paid plan.
+    |
+    */
+    'currency_layer_plan' => env('CURRENCY_LAYER_PLAN', 'free'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Currency Layer URL
+    |--------------------------------------------------------------------------
+    |
+    | The endpoint to use to convert a currency, for the paid plan.
+    |
+    */
+    'currency_layer_url_paid_plan' => env('CURRENCY_LAYER_URL', 'https://api.currencylayer.com/historical'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Currency Layer URL
+    |--------------------------------------------------------------------------
+    |
+    | The endpoint to use to convert a currency, for the free plan.
+    |
+    */
+    'currency_layer_url_free_plan' => env('CURRENCY_LAYER_URL_FREE_PLAN', 'http://api.currencylayer.com/historical'),
+
+    /*
+    |--------------------------------------------------------------------------
     | URL of the documentation center
     |--------------------------------------------------------------------------
     |
@@ -80,6 +120,8 @@ return [
     */
     'help_links' => [
         'work_from_home' => 'employees#work-from-home',
+        'employee_expenses' => 'expenses#employees-expenses',
+        'adminland_expense_categories' => 'expenses#expense-categories',
         'skills' => 'skills',
         'account_hardware_create' => 'hardware',
         'account_employee_delete' => 'employee-management#deleting-an-employee',

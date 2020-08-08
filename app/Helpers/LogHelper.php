@@ -548,6 +548,26 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'expense_created') {
+            $sentence = trans('account.log_expense_created', [
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expensed_at' => $log->object->{'expensed_at'},
+            ]);
+        }
+
+        if ($log->action == 'expense_accepted_by_manager') {
+            $sentence = trans('account.log_expense_accepted_by_manager', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expensed_at' => $log->object->{'expensed_at'},
+            ]);
+        }
+
         if ($log->action == 'employee_allowed_to_manage_expenses') {
             $sentence = trans('account.log_employee_allowed_to_manage_expenses', [
                 'employee_id' => $log->object->{'employee_id'},
@@ -757,6 +777,57 @@ class LogHelper
         if ($log->action == 'task_created') {
             $sentence = trans('account.employee_log_task_created', [
                 'title' => $log->object->{'title'},
+            ]);
+        }
+
+        if ($log->action == 'expense_created') {
+            $sentence = trans('account.employee_log_expense_created', [
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expensed_at' => $log->object->{'expensed_at'},
+            ]);
+        }
+
+        if ($log->action == 'expense_accepted_for_employee') {
+            $sentence = trans('account.employee_log_expense_accepted_for_employee', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expensed_at' => $log->object->{'expensed_at'},
+            ]);
+        }
+
+        if ($log->action == 'expense_accepted_by_manager') {
+            $sentence = trans('account.employee_log_expense_accepted_by_manager', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expensed_at' => $log->object->{'expensed_at'},
+            ]);
+        }
+
+        if ($log->action == 'expense_rejected_by_manager') {
+            $sentence = trans('account.employee_log_expense_rejected_by_manager', [
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expensed_at' => $log->object->{'expensed_at'},
+            ]);
+        }
+
+        if ($log->action == 'expense_rejected_for_employee') {
+            $sentence = trans('account.employee_log_expense_rejected_for_employee', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'expense_id' => $log->object->{'expense_id'},
+                'expense_title' => $log->object->{'expense_title'},
+                'expense_amount' => $log->object->{'expense_amount'},
+                'expensed_at' => $log->object->{'expensed_at'},
             ]);
         }
 

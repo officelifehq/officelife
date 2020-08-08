@@ -17,6 +17,8 @@ return [
     'publish' => 'Publish',
     'lock' => 'Lock',
     'unlock' => 'Unlock',
+    'reject' => 'Reject',
+    'approve' => 'Approve',
     'yes' => 'Yes',
     'no' => 'No',
     'sure' => 'Are you sure?',
@@ -25,6 +27,7 @@ return [
     'choose_value' => 'Choose a value',
 
     'error_title' => '👇 Oops. An error occured.',
+    'error_not_same_company' => 'This item does not belong to this company.',
     'error_wrong_employee_id' => 'We can’t find the requested employee.',
     'error_wrong_team_id' => 'We can’t find the requested team.',
     'error_wrong_team_employee_association' => 'The employee is not part of this team.',
@@ -43,6 +46,8 @@ return [
     'hide_help' => 'Hide help',
 
     'breadcrumb_dashboard' => 'Home',
+    'breadcrumb_dashboard_manager' => 'Manager',
+    'breadcrumb_dashboard_manager_expense_details' => 'Expense details',
     'breadcrumb_account_home' => 'Account administration',
     'breadcrumb_account_manage_employees' => 'Manage employees',
     'breadcrumb_account_add_employee' => 'Add an employee',

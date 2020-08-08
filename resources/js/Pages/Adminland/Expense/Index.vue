@@ -28,7 +28,7 @@
           <h2 class="tc normal mb4">
             {{ $t('account.expense_categories_title', { company: $page.auth.company.name}) }}
 
-            <help :url="$page.help_links.expenses" :datacy="'help-icon-expenses'" :top="'1px'" />
+            <help :url="$page.help_links.adminland_expense_categories" :datacy="'help-icon-expenses-categories'" :top="'1px'" />
           </h2>
 
           <!-- EXPENSES CATEGORIES -->

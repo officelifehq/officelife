@@ -51,16 +51,7 @@ describe('Adminland - Expenses', function () {
     cy.get('[data-cy=dashboard-expenses-tab]').should('not.exist')
 
     // go to the adminland and manage accountants
-    cy.visit('/1/account')
-    cy.get('[data-cy=expenses-admin-link]').click()
-
-    // activate edit mode
-    cy.get('[data-cy=show-edit-mode]').click()
-    cy.get('[data-cy=hide-edit-mode]').click()
-    cy.get('[data-cy=show-edit-mode]').click()
-    cy.get('[data-cy=potential-employees]').type('admin')
-    cy.get('[data-cy=employee-id-1-add]').click()
-    cy.get('[data-cy=hide-edit-mode]').click()
+    cy.grantAccountantRight('admin', 1)
 
     // check to see if the list of accountants contains the newly added employee
     cy.get('[data-cy=employees-list]').contains('admin@admin.com')
@@ -71,7 +62,7 @@ describe('Adminland - Expenses', function () {
 
     // check that the dashboard contains the expenses tab
     cy.visit('/1/dashboard')
-    cy.get('[data-cy=dashboard-expenses-tab]').should('not.exist')
+    cy.get('[data-cy=dashboard-expenses-tab]').should('exist')
 
     // go to the adminland to remove the accountant
     cy.visit('/1/account')
@@ -95,16 +86,7 @@ describe('Adminland - Expenses', function () {
     cy.get('[data-cy=dashboard-expenses-tab]').should('not.exist')
 
     // go to the adminland and manage accountants
-    cy.visit('/1/account')
-    cy.get('[data-cy=expenses-admin-link]').click()
-
-    // activate edit mode
-    cy.get('[data-cy=show-edit-mode]').click()
-    cy.get('[data-cy=hide-edit-mode]').click()
-    cy.get('[data-cy=show-edit-mode]').click()
-    cy.get('[data-cy=potential-employees]').type('admin')
-    cy.get('[data-cy=employee-id-1-add]').click()
-    cy.get('[data-cy=hide-edit-mode]').click()
+    cy.grantAccountantRight('admin', 1)
 
     // check to see if the list of accountants contains the newly added employee
     cy.get('[data-cy=employees-list]').contains('admin@admin.com')
@@ -114,7 +96,7 @@ describe('Adminland - Expenses', function () {
 
     // check that the dashboard contains the expenses tab
     cy.visit('/1/dashboard')
-    cy.get('[data-cy=dashboard-expenses-tab]').should('not.exist')
+    cy.get('[data-cy=dashboard-expenses-tab]').should('exist')
 
     // go to the adminland to remove the accountant
     cy.visit('/1/account')
