@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
+use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\DirectReport;
@@ -63,15 +64,10 @@ class DashboardManagerController extends Controller
     }
 
     /**
-     * Display the expense.
-     *
-     * @return \Inertia\Response
+     * Check that the current employee has access to this method.
      */
-    public function showExpense(Request $request, int $companyId, int $expenseId)
+    private function canAccess(Company $company, int $expenseId, Employee $employee): Expense
     {
-        $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
-
         // can this expense been seen by someone in this company?
         try {
             $expense = Expense::where('company_id', $company->id)
@@ -99,6 +95,21 @@ class DashboardManagerController extends Controller
         if (! $employee->isManagerOf($expense->employee->id)) {
             return redirect('home');
         }
+
+        return $expense;
+    }
+
+    /**
+     * Display the expense.
+     *
+     * @return \Inertia\Response
+     */
+    public function showExpense(Request $request, int $companyId, int $expenseId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $expense = $this->canAccess($company, $expenseId, $employee);
 
         $expense = DashboardManagerViewHelper::expense($expense);
 
@@ -119,33 +130,7 @@ class DashboardManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        // can this expense been seen by someone in this company?
-        try {
-            $expense = Expense::where('company_id', $company->id)
-                ->findOrFail($expenseId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
-
-        if ($expense->status !== Expense::AWAITING_MANAGER_APPROVAL) {
-            return redirect('home');
-        }
-
-        // is the user a manager?
-        $directReports = DirectReport::where('company_id', $company->id)
-            ->where('manager_id', $employee->id)
-            ->with('directReport')
-            ->with('directReport.expenses')
-            ->get();
-
-        if ($directReports->count() == 0) {
-            return redirect('home');
-        }
-
-        // can the manager see this expense?
-        if (! $employee->isManagerOf($expense->employee->id)) {
-            return redirect('home');
-        }
+        $expense = $this->canAccess($company, $expenseId, $employee);
 
         $request = [
             'company_id' => $company->id,
@@ -170,33 +155,7 @@ class DashboardManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        // can this expense been seen by someone in this company?
-        try {
-            $expense = Expense::where('company_id', $company->id)
-                ->findOrFail($expenseId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
-
-        if ($expense->status !== Expense::AWAITING_MANAGER_APPROVAL) {
-            return redirect('home');
-        }
-
-        // is the user a manager?
-        $directReports = DirectReport::where('company_id', $company->id)
-            ->where('manager_id', $employee->id)
-            ->with('directReport')
-            ->with('directReport.expenses')
-            ->get();
-
-        if ($directReports->count() == 0) {
-            return redirect('home');
-        }
-
-        // can the manager see this expense?
-        if (! $employee->isManagerOf($expense->employee->id)) {
-            return redirect('home');
-        }
+        $expense = $this->canAccess($company, $expenseId, $employee);
 
         $request = [
             'company_id' => $company->id,
