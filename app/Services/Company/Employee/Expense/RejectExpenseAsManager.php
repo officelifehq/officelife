@@ -4,6 +4,7 @@ namespace App\Services\Company\Employee\Expense;
 
 use Carbon\Carbon;
 use ErrorException;
+use App\Helpers\MoneyHelper;
 use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
@@ -130,8 +131,7 @@ class RejectExpenseAsManager extends BaseService
                 'employee_name' => $this->expense->employee_name,
                 'expense_id' => $this->expense->id,
                 'expense_title' => $this->expense->title,
-                'expense_amount' => $this->expense->amount,
-                'expense_currency' => $this->expense->currency,
+                'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                 'expensed_at' => $this->expense->expensed_at,
             ]),
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
@@ -148,8 +148,7 @@ class RejectExpenseAsManager extends BaseService
                 'employee_name' => $this->expense->employee_name,
                 'expense_id' => $this->expense->id,
                 'expense_title' => $this->expense->title,
-                'expense_amount' => $this->expense->amount,
-                'expense_currency' => $this->expense->currency,
+                'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                 'expensed_at' => $this->expense->expensed_at,
             ]),
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
@@ -165,8 +164,7 @@ class RejectExpenseAsManager extends BaseService
                 'objects' => json_encode([
                     'expense_id' => $this->expense->id,
                     'expense_title' => $this->expense->title,
-                    'expense_amount' => $this->expense->amount,
-                    'expense_currency' => $this->expense->currency,
+                    'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                     'expensed_at' => $this->expense->expensed_at,
                     'manager_name' => $this->author->name,
                 ]),

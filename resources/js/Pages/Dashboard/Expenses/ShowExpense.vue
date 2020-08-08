@@ -11,7 +11,7 @@
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/expenses'" data-cy="breadcrumb-employee">Expenses</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/expenses'">Expenses</inertia-link>
           </li>
           <li class="di">
             Expense details
@@ -26,8 +26,6 @@
             {{ expense.title }}
           </h2>
           <p class="f5 tc">{{ expense.amount }}</p>
-
-
 
           <ul>
             <li>Submitted by {{ expense.employee.name }} on {{ expense.created_at }}</li>
@@ -88,24 +86,6 @@ export default {
 
   data() {
     return {
-      form: {
-        street: null,
-        city: null,
-        state: null,
-        postal_code: null,
-        country_id: null,
-        errors: {
-          type: Array,
-          default: null,
-        },
-      },
-      existing_address: {
-        street: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country_id: 0,
-      },
       loadingState: '',
       rejectLoadingState: '',
       errorTemplate: Error,

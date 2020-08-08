@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Employee\Expense;
 
 use ErrorException;
 use Tests\TestCase;
+use App\Helpers\MoneyHelper;
 use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
@@ -158,8 +159,7 @@ class RejectExpenseAsManagerTest extends TestCase
                     'employee_name' => $expense->employee_name,
                     'expense_id' => $expense->id,
                     'expense_title' => $expense->title,
-                    'expense_amount' => $expense->amount,
-                    'expense_currency' => $expense->currency,
+                    'expense_amount' => MoneyHelper::format($expense->amount, $expense->currency),
                     'expensed_at' => $expense->expensed_at,
                 ]);
         });
@@ -173,8 +173,7 @@ class RejectExpenseAsManagerTest extends TestCase
                     'employee_name' => $expense->employee_name,
                     'expense_id' => $expense->id,
                     'expense_title' => $expense->title,
-                    'expense_amount' => $expense->amount,
-                    'expense_currency' => $expense->currency,
+                    'expense_amount' => MoneyHelper::format($expense->amount, $expense->currency),
                     'expensed_at' => $expense->expensed_at,
                 ]);
         });
@@ -191,8 +190,7 @@ class RejectExpenseAsManagerTest extends TestCase
                     $job->auditLog['objects'] === json_encode([
                         'expense_id' => $expense->id,
                         'expense_title' => $expense->title,
-                        'expense_amount' => $expense->amount,
-                        'expense_currency' => $expense->currency,
+                        'expense_amount' => MoneyHelper::format($expense->amount, $expense->currency),
                         'expensed_at' => $expense->expensed_at,
                         'manager_name' => $manager->name,
                     ]);

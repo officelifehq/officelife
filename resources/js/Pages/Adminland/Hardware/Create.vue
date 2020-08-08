@@ -72,7 +72,7 @@ input[type=radio] {
                 :datacy="'lend-hardware-checkbox'"
                 :label="$t('account.hardware_create_lend_hardware')"
                 :extra-class-upper-div="'mb0 relative'"
-                :required="true"
+                :required="false"
                 @change="updateStatus($event)"
               />
 

@@ -11,6 +11,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Dashboard\DashboardExpenseViewHelper;
 
+/**
+ * This is the controller showing the Expenses tab for the Accountant role.
+ */
 class DashboardExpensesController extends Controller
 {
     /**

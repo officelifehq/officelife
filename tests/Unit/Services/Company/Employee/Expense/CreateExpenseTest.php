@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services\Company\Employee\Expense;
 
 use Tests\TestCase;
+use App\Helpers\MoneyHelper;
 use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
@@ -160,12 +161,9 @@ class CreateExpenseTest extends TestCase
             return $job->auditLog['action'] === 'expense_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
-                    'employee_id' => $dwight->id,
-                    'employee_name' => $dwight->name,
                     'expense_id' => $expense->id,
                     'expense_title' => $expense->title,
-                    'expense_amount' => $expense->amount,
-                    'expense_currency' => $expense->currency,
+                    'expense_amount' => MoneyHelper::format($expense->amount, $expense->currency),
                     'expensed_at' => $expense->expensed_at,
                 ]);
         });
@@ -176,8 +174,7 @@ class CreateExpenseTest extends TestCase
                 $job->auditLog['objects'] === json_encode([
                     'expense_id' => $expense->id,
                     'expense_title' => $expense->title,
-                    'expense_amount' => $expense->amount,
-                    'expense_currency' => $expense->currency,
+                    'expense_amount' => MoneyHelper::format($expense->amount, $expense->currency),
                     'expensed_at' => $expense->expensed_at,
                 ]);
         });

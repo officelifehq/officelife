@@ -1,5 +1,5 @@
 describe('Adminland - Expenses', function () {
-  it.skip('should let you manage expense categories as an administrator', function () {
+  it('should let you manage expense categories as an administrator', function () {
     cy.login()
 
     cy.createCompany()
@@ -19,7 +19,7 @@ describe('Adminland - Expenses', function () {
     cy.hasAuditLog('Created the expense category called travel', '/1/account/expenses')
   })
 
-  it.skip('should let you manage expense categories as an HR', function () {
+  it('should let you manage expense categories as an HR', function () {
     cy.login()
 
     cy.createCompany()
@@ -51,16 +51,7 @@ describe('Adminland - Expenses', function () {
     cy.get('[data-cy=dashboard-expenses-tab]').should('not.exist')
 
     // go to the adminland and manage accountants
-    cy.visit('/1/account')
-    cy.get('[data-cy=expenses-admin-link]').click()
-
-    // activate edit mode
-    cy.get('[data-cy=show-edit-mode]').click()
-    cy.get('[data-cy=hide-edit-mode]').click()
-    cy.get('[data-cy=show-edit-mode]').click()
-    cy.get('[data-cy=potential-employees]').type('admin')
-    cy.get('[data-cy=employee-id-1-add]').click()
-    cy.get('[data-cy=hide-edit-mode]').click()
+    cy.grantAccountantRight('admin', 1)
 
     // check to see if the list of accountants contains the newly added employee
     cy.get('[data-cy=employees-list]').contains('admin@admin.com')
@@ -95,16 +86,7 @@ describe('Adminland - Expenses', function () {
     cy.get('[data-cy=dashboard-expenses-tab]').should('not.exist')
 
     // go to the adminland and manage accountants
-    cy.visit('/1/account')
-    cy.get('[data-cy=expenses-admin-link]').click()
-
-    // activate edit mode
-    cy.get('[data-cy=show-edit-mode]').click()
-    cy.get('[data-cy=hide-edit-mode]').click()
-    cy.get('[data-cy=show-edit-mode]').click()
-    cy.get('[data-cy=potential-employees]').type('admin')
-    cy.get('[data-cy=employee-id-1-add]').click()
-    cy.get('[data-cy=hide-edit-mode]').click()
+    cy.grantAccountantRight('admin', 1)
 
     // check to see if the list of accountants contains the newly added employee
     cy.get('[data-cy=employees-list]').contains('admin@admin.com')

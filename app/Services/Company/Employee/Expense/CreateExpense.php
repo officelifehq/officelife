@@ -3,6 +3,7 @@
 namespace App\Services\Company\Employee\Expense;
 
 use Carbon\Carbon;
+use App\Helpers\MoneyHelper;
 use App\Jobs\NotifyEmployee;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
@@ -74,6 +75,7 @@ class CreateExpense extends BaseService
     private function validate(): void
     {
         $this->validateRules($this->data);
+
         $this->author($this->data['author_id'])
             ->inCompany($this->data['company_id'])
             ->asAtLeastHR()
@@ -116,7 +118,7 @@ class CreateExpense extends BaseService
     {
         foreach ($this->managers as $manager) {
             NotifyEmployee::dispatch([
-                'employee_id' => $manager->id,
+                'employee_id' => $manager->manager->id,
                 'action' => 'expense_assigned_for_validation',
                 'objects' => json_encode([
                     'name' => $this->expense->employee->name,
@@ -140,12 +142,9 @@ class CreateExpense extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'employee_id' => $this->employee->id,
-                'employee_name' => $this->employee->name,
                 'expense_id' => $this->expense->id,
                 'expense_title' => $this->expense->title,
-                'expense_amount' => $this->expense->amount,
-                'expense_currency' => $this->expense->currency,
+                'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                 'expensed_at' => $this->expense->expensed_at,
             ]),
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
@@ -160,8 +159,7 @@ class CreateExpense extends BaseService
             'objects' => json_encode([
                 'expense_id' => $this->expense->id,
                 'expense_title' => $this->expense->title,
-                'expense_amount' => $this->expense->amount,
-                'expense_currency' => $this->expense->currency,
+                'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                 'expensed_at' => $this->expense->expensed_at,
             ]),
             'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),

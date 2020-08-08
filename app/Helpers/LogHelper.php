@@ -550,12 +550,9 @@ class LogHelper
 
         if ($log->action == 'expense_created') {
             $sentence = trans('account.log_expense_created', [
-                'employee_id' => $log->object->{'employee_id'},
-                'employee_name' => $log->object->{'employee_name'},
                 'expense_id' => $log->object->{'expense_id'},
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
-                'expense_currency' => $log->object->{'expense_currency'},
                 'expensed_at' => $log->object->{'expensed_at'},
             ]);
         }
@@ -567,7 +564,6 @@ class LogHelper
                 'expense_id' => $log->object->{'expense_id'},
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
-                'expense_currency' => $log->object->{'expense_currency'},
                 'expensed_at' => $log->object->{'expensed_at'},
             ]);
         }
@@ -789,19 +785,18 @@ class LogHelper
                 'expense_id' => $log->object->{'expense_id'},
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
-                'expense_currency' => $log->object->{'expense_currency'},
                 'expensed_at' => $log->object->{'expensed_at'},
             ]);
         }
 
         if ($log->action == 'expense_accepted_for_employee') {
             $sentence = trans('account.employee_log_expense_accepted_for_employee', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
                 'expense_id' => $log->object->{'expense_id'},
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
-                'expense_currency' => $log->object->{'expense_currency'},
                 'expensed_at' => $log->object->{'expensed_at'},
-                'manager_name' => $log->object->{'manager_name'},
             ]);
         }
 
@@ -812,19 +807,15 @@ class LogHelper
                 'expense_id' => $log->object->{'expense_id'},
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
-                'expense_currency' => $log->object->{'expense_currency'},
                 'expensed_at' => $log->object->{'expensed_at'},
             ]);
         }
 
         if ($log->action == 'expense_rejected_by_manager') {
             $sentence = trans('account.employee_log_expense_rejected_by_manager', [
-                'employee_id' => $log->object->{'employee_id'},
-                'employee_name' => $log->object->{'employee_name'},
                 'expense_id' => $log->object->{'expense_id'},
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
-                'expense_currency' => $log->object->{'expense_currency'},
                 'expensed_at' => $log->object->{'expensed_at'},
             ]);
         }
@@ -836,9 +827,7 @@ class LogHelper
                 'expense_id' => $log->object->{'expense_id'},
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
-                'expense_currency' => $log->object->{'expense_currency'},
                 'expensed_at' => $log->object->{'expensed_at'},
-                'manager_name' => $log->object->{'manager_name'},
             ]);
         }
 

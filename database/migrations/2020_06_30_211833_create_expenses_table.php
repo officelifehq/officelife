@@ -30,11 +30,11 @@ class CreateExpensesTable extends Migration
             $table->unsignedBigInteger('manager_approver_id')->nullable();
             $table->string('manager_approver_name')->nullable();
             $table->date('manager_approver_approved_at')->nullable();
-            $table->string('manager_rejection_explanation')->nullable();
+            $table->text('manager_rejection_explanation')->nullable();
             $table->unsignedBigInteger('accounting_approver_id')->nullable();
             $table->string('accounting_approver_name')->nullable();
             $table->date('accounting_approver_approved_at')->nullable();
-            $table->string('accounting_rejection_explanation')->nullable();
+            $table->text('accounting_rejection_explanation')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');

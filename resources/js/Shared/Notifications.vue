@@ -18,7 +18,7 @@
 
 <template>
   <div class="relative">
-    <div class="di" data-cy="notification-counter" @click.prevent="markRead()">
+    <div class="di" data-cy="notification-counter" @click="markRead()">
       <span v-if="notifications" class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(numberOfNotifications > 0)}">
         🔥 <span data-cy="number-notifications">
           {{ numberOfNotifications }}

@@ -49,7 +49,7 @@ class DashboardExpenseViewHelper
                     'avatar' => $expense->employee->avatar,
                 ] : null,
                 'url' => route('dashboard.expense.show', [
-                    'company' => $expense->company,
+                    'company' => $company,
                     'expense' => $expense->id,
                 ]),
             ]);
@@ -98,7 +98,7 @@ class DashboardExpenseViewHelper
                     'avatar' => $expense->employee->avatar,
                 ] : null,
                 'url' => route('dashboard.expense.show', [
-                    'company' => $expense->company,
+                    'company' => $company,
                     'expense' => $expense->id,
                 ]),
             ]);

@@ -150,8 +150,8 @@
 
       <!-- LIST OF IN PROGRESS EXPENSES -->
       <div v-if="expenses.length > 0">
-        <ul class="list pl0 mb0">
-          <li v-for="expense in expenses" :key="expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
+        <ul class="list pl0 mb0" data-cy="expenses-list">
+          <li v-for="expense in expenses" :key="expense.id" :data-cy="'expense-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
             <div class="dt-row-ns">
               <div class="dtc-ns db mb3 mb0-ns">
                 <div class="mb2">{{ expense.title }}</div>
@@ -167,7 +167,7 @@
                 <div v-if="expense.converted_amount" class="db f6 fw4 mt2 gray">{{ expense.converted_amount }}</div>
               </div>
               <div class="expense-status tc-ns dtc-ns v-mid db mb3 mb0-ns">
-                <span class="br3 expense-badge-waiting f7 fw5 ph3 pv2 di">{{ $t('dashboard.expense_show_status_' + expense.status) }}</span>
+                <span class="br3 expense-badge-waiting f7 fw5 ph3 pv2 di" :data-cy="'expense-' + expense.id + '-status-' + expense.status">{{ $t('dashboard.expense_show_status_' + expense.status) }}</span>
               </div>
               <div class="expense-action tr-ns dtc-ns v-mid f6 db">
                 <inertia-link :href="expense.url">{{ $t('app.view') }}</inertia-link>

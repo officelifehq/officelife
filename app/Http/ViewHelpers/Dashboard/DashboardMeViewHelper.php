@@ -135,6 +135,8 @@ class DashboardMeViewHelper
         $expenses = $employee->expenses()
             ->where('expenses.status', '!=', Expense::ACCEPTED)
             ->where('expenses.status', '!=', Expense::CREATED)
+            ->where('expenses.status', '!=', Expense::REJECTED_BY_MANAGER)
+            ->where('expenses.status', '!=', Expense::REJECTED_BY_ACCOUNTING)
             ->with('category')
             ->latest()
             ->get();

@@ -78,7 +78,7 @@
         <div class="cf mt4 mw7 center">
           <div v-for="employee in employees" :key="employee.id" class="fl w-100 w-25-m w-third-l pr2">
             <inertia-link :href="'/' + employee.company_id + '/dashboard'">
-              <div class="br3 mb3 bg-white box pa3 home-index-company fw5 relative">
+              <div class="br3 mb3 bg-white box pa3 home-index-company fw5 relative" :data-cy="'company-' + employee.company_id">
                 {{ employee.company_name }}
                 <span class="absolute normal f6">
                   {{ $tc('home.number_of_employees', employee.number_of_employees, { count: employee.number_of_employees }) }}

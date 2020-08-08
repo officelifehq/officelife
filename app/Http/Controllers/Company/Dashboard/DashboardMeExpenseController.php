@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Expense\CreateExpense;
 
-class DashboardExpenseController extends Controller
+class DashboardMeExpenseController extends Controller
 {
     /**
      * Log an expense.

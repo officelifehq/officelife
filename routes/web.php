@@ -32,13 +32,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('dashboard')->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
-            Route::get('me', 'Company\\Dashboard\\DashboardMeController@index')->name('dashboard.me');
-            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
-            Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
 
-            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
-            Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');
-            Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
+            // me
+            Route::get('me', 'Company\\Dashboard\\DashboardMeController@index')->name('dashboard.me');
 
             Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
             Route::post('morale', 'Company\\Dashboard\\DashboardMoraleController@store');
@@ -46,7 +42,24 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('question', 'Company\\Dashboard\\DashboardQuestionController')->only([
                 'store', 'update', 'destroy',
             ]);
-            Route::post('expense', 'Company\\Dashboard\\DashboardExpenseController@store');
+            Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store');
+
+            // company
+            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
+
+            // hr
+            Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
+
+            // team
+            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
+            Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');
+            Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
+
+            // manager
+            Route::get('manager', 'Company\\Dashboard\\DashboardManagerController@index')->name('dashboard.manager');
+            Route::get('manager/expenses/{expense}', 'Company\\Dashboard\\DashboardManagerController@showExpense')->name('dashboard.manager.expense.show');
+            Route::post('manager/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardManagerController@accept');
+            Route::post('manager/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
         });
 
         Route::prefix('employees')->group(function () {

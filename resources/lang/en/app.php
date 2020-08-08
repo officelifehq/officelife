@@ -17,6 +17,8 @@ return [
     'publish' => 'Publish',
     'lock' => 'Lock',
     'unlock' => 'Unlock',
+    'reject' => 'Reject',
+    'approve' => 'Approve',
     'yes' => 'Yes',
     'no' => 'No',
     'sure' => 'Are you sure?',
@@ -44,6 +46,8 @@ return [
     'hide_help' => 'Hide help',
 
     'breadcrumb_dashboard' => 'Home',
+    'breadcrumb_dashboard_manager' => 'Manager',
+    'breadcrumb_dashboard_manager_expense_details' => 'Expense details',
     'breadcrumb_account_home' => 'Account administration',
     'breadcrumb_account_manage_employees' => 'Manage employees',
     'breadcrumb_account_add_employee' => 'Add an employee',

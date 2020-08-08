@@ -80,6 +80,7 @@ class Expense extends Model
      */
     protected $dates = [
         'expensed_at',
+        'converted_at',
     ];
 
     /**
