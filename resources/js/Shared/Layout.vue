@@ -59,22 +59,22 @@ nav {
           </inertia-link>
           <div v-if="!noMenu">
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr2 no-underline pa2 bb-0 special">
-              🏡 {{ $t('app.header_home') }}
+              <span class="mr1">🏡</span> {{ $t('app.header_home') }}
             </inertia-link>
             <inertia-link :href="'/' + $page.auth.company.id + '/employees'" class="mr2 no-underline pa2 bb-0 special">
-              🧑 {{ $t('app.header_employees') }}
+              <span class="mr1">🧑</span> {{ $t('app.header_employees') }}
             </inertia-link>
             <inertia-link :href="'/' + $page.auth.company.id + '/teams'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
-              👫 {{ $t('app.header_teams') }}
+              <span class="mr1">👫</span> {{ $t('app.header_teams') }}
             </inertia-link>
             <inertia-link :href="'/' + $page.auth.company.id + '/company'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
-              ⛺️ {{ $t('app.header_company') }}
+              <span class="mr1">⛺️</span> {{ $t('app.header_company') }}
             </inertia-link>
             <a data-cy="header-find-link" class="mr2 no-underline pa2 bb-0 special pointer" @click="showFindModal">
-              🔍 {{ $t('app.header_find') }}
+              <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
             <inertia-link v-if="$page.auth.company && $page.auth.employee.permission_level <= 200" :href="'/' + $page.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
-              👮‍♂️ Adminland
+              <span class="mr1">👮‍♂️</span> Adminland
             </inertia-link>
           </div>
         </div>

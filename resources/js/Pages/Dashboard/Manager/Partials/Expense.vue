@@ -49,7 +49,7 @@
 
       <!-- LIST OF IN PROGRESS EXPENSES -->
       <div v-if="expenses.length > 0">
-        <p class="mt0 mb2">{{ $t('dashboard.manager_expense_description') }}</p>
+        <p class="mt0 mb2 lh-copy f6">{{ $t('dashboard.manager_expense_description') }}</p>
         <ul class="list pl0 mb0">
           <li v-for="expense in expenses" :key="expense.id" :data-cy="'expense-list-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
             <div class="mb3">
@@ -62,6 +62,8 @@
                 :top="'0px'"
                 :margin-between-name-avatar="'25px'"
               />
+
+              <span v-else>{{ expense.employee_name }}</span>
             </div>
 
             <div class="dt-row-ns">

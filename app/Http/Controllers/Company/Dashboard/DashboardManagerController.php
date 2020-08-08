@@ -66,7 +66,7 @@ class DashboardManagerController extends Controller
     /**
      * Check that the current employee has access to this method.
      */
-    private function canAccess(Company $company, int $expenseId, Employee $employee): Expense
+    private function canAccess(Company $company, int $expenseId, Employee $employee)
     {
         // can this expense been seen by someone in this company?
         try {

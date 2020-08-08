@@ -103,7 +103,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'status' => 'manager_approval',
                     'category' => 'travel',
                     'expensed_at' => 'Jan 01, 1999',
-                    'manager' => null,
+                    'managers' => null,
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -119,11 +119,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'status' => 'manager_approval',
                     'category' => 'travel',
                     'expensed_at' => 'Jan 01, 1999',
-                    'manager' => [
-                        'id' => $dwight->id,
-                        'name' => $dwight->name,
-                        'avatar' => $dwight->avatar,
-                    ],
+                    'managers' => null,
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -166,6 +162,7 @@ class DashboardExpenseViewHelperTest extends TestCase
         $this->assertArrayHasKey('converted_amount', $expense);
         $this->assertArrayHasKey('converted_at', $expense);
         $this->assertArrayHasKey('exchange_rate', $expense);
+        $this->assertArrayHasKey('exchange_rate_explanation', $expense);
         $this->assertArrayHasKey('manager', $expense);
         $this->assertArrayHasKey('manager_approver_approved_at', $expense);
         $this->assertArrayHasKey('manager_rejection_explanation', $expense);

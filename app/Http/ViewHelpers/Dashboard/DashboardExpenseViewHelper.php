@@ -42,13 +42,13 @@ class DashboardExpenseViewHelper
                     'id' => $expense->managerApprover->id,
                     'name' => $expense->managerApprover->name,
                     'avatar' => $expense->managerApprover->avatar,
-                ] : $expense->manager_approver_name,
+                ] : ($expense->manager_approver_name == '' ? null : $expense->manager_approver_name),
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
                     'avatar' => $expense->employee->avatar,
-                ] : null,
-                'url' => route('dashboard.expense.show', [
+                ] : $expense->employee_name,
+                'url' => route('dashboard.expenses.show', [
                     'company' => $company,
                     'expense' => $expense->id,
                 ]),
@@ -70,13 +70,22 @@ class DashboardExpenseViewHelper
         $expenses = $company->expenses()
             ->with('category')
             ->with('employee')
-            ->with('managerApprover')
+            ->with('employee.managers')
             ->where('status', Expense::AWAITING_MANAGER_APPROVAL)
             ->latest()
             ->get();
 
         $expensesCollection = collect([]);
         foreach ($expenses as $expense) {
+            $managerCollection = collect([]);
+            foreach ($expense->employee->managers as $manager) {
+                $managerCollection->push([
+                    'id' => $manager->manager->id,
+                    'name' => $manager->manager->name,
+                    'avatar' => $manager->manager->avatar,
+                ]);
+            }
+
             $expensesCollection->push([
                 'id' => $expense->id,
                 'title' => $expense->title,
@@ -87,17 +96,13 @@ class DashboardExpenseViewHelper
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
-                'manager' => ($expense->managerApprover) ? [
-                    'id' => $expense->managerApprover->id,
-                    'name' => $expense->managerApprover->name,
-                    'avatar' => $expense->managerApprover->avatar,
-                ] : $expense->manager_approver_name,
+                'managers' => $managerCollection->count() == 0 ? null : $managerCollection,
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
                     'avatar' => $expense->employee->avatar,
                 ] : null,
-                'url' => route('dashboard.expense.show', [
+                'url' => route('dashboard.expenses.show', [
                     'company' => $company,
                     'expense' => $expense->id,
                 ]),
@@ -130,6 +135,7 @@ class DashboardExpenseViewHelper
                 DateHelper::formatShortDateWithTime($expense->converted_at) :
                 null,
             'exchange_rate' => $expense->exchange_rate,
+            'exchange_rate_explanation' => '1 '.$expense->converted_to_currency.' = '.$expense->exchange_rate.' '.$expense->currency,
             'manager' => ($expense->managerApprover) ? [
                 'id' => $expense->managerApprover->id,
                 'name' => $expense->managerApprover->name,
@@ -143,7 +149,7 @@ class DashboardExpenseViewHelper
                 'id' => $expense->employee->id,
                 'name' => $expense->employee->name,
                 'avatar' => $expense->employee->avatar,
-            ] : null,
+            ] : $expense->employee_name,
         ];
 
         return $expense;

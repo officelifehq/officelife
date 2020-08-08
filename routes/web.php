@@ -165,9 +165,9 @@ Route::middleware(['auth'])->group(function () {
         // only available to accountant role
         Route::middleware(['accountant'])->group(function () {
             Route::get('dashboard/expenses', 'Company\\Dashboard\\DashboardExpensesController@index');
-            Route::get('dashboard/expenses/{expense}', 'Company\\Dashboard\\DashboardExpensesController@show')->name('dashboard.expense.show');
-            Route::get('dashboard/expenses/{expense}/approve/manager', 'Company\\Dashboard\\DashboardExpensesController@approveManager');
-            Route::get('dashboard/expenses/{expense}/approve/accounting', 'Company\\Dashboard\\DashboardExpensesController@approveAccounting');
+            Route::get('dashboard/expenses/{expense}', 'Company\\Dashboard\\DashboardExpensesController@show')->name('dashboard.expenses.show');
+            Route::post('dashboard/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardExpensesController@accept');
+            Route::post('dashboard/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardExpensesController@reject');
         });
 
         // only available to administrator role
