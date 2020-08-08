@@ -150,7 +150,7 @@
               <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.accounting_expense_detail_employee_section') }}</span>
               <span>
                 <small-name-and-avatar
-                  v-if="expense.employee"
+                  v-if="expense.employee.id"
                   :name="expense.employee.name"
                   :avatar="expense.employee.avatar"
                   :font-size="'f5'"
@@ -158,7 +158,7 @@
                   :top="'0px'"
                   :margin-between-name-avatar="'25px'"
                 />
-                <span v-else>{{ expense.employee_name }}</span>
+                <span v-else>{{ expense.employee.employee_name }}</span>
               </span>
             </li>
             <li class="flex-ns justify-between mb1 bb-gray-hover pv2 ph1 br2">

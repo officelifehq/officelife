@@ -47,7 +47,9 @@ class DashboardExpenseViewHelper
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
                     'avatar' => $expense->employee->avatar,
-                ] : $expense->employee_name,
+                ] : [
+                    'employee_name' => $expense->employee_name,
+                ],
                 'url' => route('dashboard.expenses.show', [
                     'company' => $company,
                     'expense' => $expense->id,
@@ -78,12 +80,15 @@ class DashboardExpenseViewHelper
         $expensesCollection = collect([]);
         foreach ($expenses as $expense) {
             $managerCollection = collect([]);
-            foreach ($expense->employee->managers as $manager) {
-                $managerCollection->push([
-                    'id' => $manager->manager->id,
-                    'name' => $manager->manager->name,
-                    'avatar' => $manager->manager->avatar,
-                ]);
+
+            if ($expense->employee) {
+                foreach ($expense->employee->managers as $manager) {
+                    $managerCollection->push([
+                        'id' => $manager->manager->id,
+                        'name' => $manager->manager->name,
+                        'avatar' => $manager->manager->avatar,
+                    ]);
+                }
             }
 
             $expensesCollection->push([
@@ -101,7 +106,9 @@ class DashboardExpenseViewHelper
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
                     'avatar' => $expense->employee->avatar,
-                ] : null,
+                ] : [
+                    'employee_name' => $expense->employee_name,
+                ],
                 'url' => route('dashboard.expenses.show', [
                     'company' => $company,
                     'expense' => $expense->id,
@@ -149,7 +156,9 @@ class DashboardExpenseViewHelper
                 'id' => $expense->employee->id,
                 'name' => $expense->employee->name,
                 'avatar' => $expense->employee->avatar,
-            ] : $expense->employee_name,
+            ] : [
+                'employee_name' => $expense->employee_name,
+            ],
         ];
 
         return $expense;

@@ -54,7 +54,7 @@
           <li v-for="expense in expenses" :key="expense.id" :data-cy="'expense-list-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
             <div class="mb3">
               <small-name-and-avatar
-                v-if="expense.employee"
+                v-if="expense.employee.id"
                 :name="expense.employee.name"
                 :avatar="expense.employee.avatar"
                 :classes="'gray'"
@@ -63,7 +63,7 @@
                 :margin-between-name-avatar="'25px'"
               />
 
-              <span v-else>{{ expense.employee_name }}</span>
+              <span v-else>{{ expense.employee.employee_name }}</span>
             </div>
 
             <div class="dt-row-ns">

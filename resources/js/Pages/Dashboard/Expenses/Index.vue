@@ -56,7 +56,7 @@
             <li v-for="expense in awaitingAccountingExpenses" :key="expense.id" :data-cy="'expense-list-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
               <div class="mb3">
                 <small-name-and-avatar
-                  v-if="expense.employee"
+                  v-if="expense.employee.id"
                   :name="expense.employee.name"
                   :avatar="expense.employee.avatar"
                   :classes="'gray'"
@@ -65,7 +65,7 @@
                   :margin-between-name-avatar="'25px'"
                 />
 
-                <span v-else>{{ expense.employee_name }}</span>
+                <span v-else>{{ expense.employee.employee_name }}</span>
               </div>
 
               <div class="dt-row-ns">
@@ -118,7 +118,7 @@
               <div class="mb3">
                 <p class="ma0 mb2 f6 gray">{{ $t('dashboard.accounting_expense_managers_submitted_by') }}</p>
                 <small-name-and-avatar
-                  v-if="expense.employee"
+                  v-if="expense.employee.id"
                   :name="expense.employee.name"
                   :avatar="expense.employee.avatar"
                   :size="'18px'"
@@ -126,7 +126,7 @@
                   :margin-between-name-avatar="'25px'"
                 />
 
-                <span v-else>{{ expense.employee_name }}</span>
+                <span v-else>{{ expense.employee.employee_name }}</span>
               </div>
 
               <div v-if="expense.managers" class="mb3">
@@ -205,6 +205,14 @@ export default {
       type: Array,
       default: null,
     },
+  },
+
+  mounted() {
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+
+      localStorage.removeItem('success');
+    }
   },
 };
 </script>

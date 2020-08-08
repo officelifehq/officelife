@@ -55,5 +55,13 @@ export default {
       default: null,
     },
   },
+
+  mounted() {
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+
+      localStorage.removeItem('success');
+    }
+  },
 };
 </script>

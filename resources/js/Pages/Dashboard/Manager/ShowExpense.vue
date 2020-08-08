@@ -121,7 +121,7 @@
               <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_employee_section') }}</span>
               <span>
                 <small-name-and-avatar
-                  v-if="expense.employee"
+                  v-if="expense.employee.id"
                   :name="expense.employee.name"
                   :avatar="expense.employee.avatar"
                   :font-size="'f5'"
