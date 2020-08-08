@@ -120,6 +120,54 @@ class DashboardExpenseViewHelper
     }
 
     /**
+     * Array containing all the expenses that have been either accepted or
+     * rejected.
+     *
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function acceptedAndRejected(Company $company): ?Collection
+    {
+        $expenses = $company->expenses()
+            ->with('category')
+            ->with('employee')
+            ->with('employee.managers')
+            ->where('status', Expense::ACCEPTED)
+            ->orWhere('status', Expense::REJECTED_BY_ACCOUNTING)
+            ->orWhere('status', Expense::REJECTED_BY_MANAGER)
+            ->latest()
+            ->get();
+
+        $expensesCollection = collect([]);
+        foreach ($expenses as $expense) {
+            $expensesCollection->push([
+                'id' => $expense->id,
+                'title' => $expense->title,
+                'amount' => MoneyHelper::format($expense->amount, $expense->currency),
+                'status' => $expense->status,
+                'category' => ($expense->category) ? $expense->category->name : null,
+                'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'converted_amount' => $expense->converted_amount ?
+                    MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
+                    null,
+                'employee' => ($expense->employee) ? [
+                    'id' => $expense->employee->id,
+                    'name' => $expense->employee->name,
+                    'avatar' => $expense->employee->avatar,
+                ] : [
+                    'employee_name' => $expense->employee_name,
+                ],
+                'url' => route('dashboard.expenses.show', [
+                    'company' => $company,
+                    'expense' => $expense->id,
+                ]),
+            ]);
+        }
+
+        return $expensesCollection;
+    }
+
+    /**
      * Array containing information about the given expense.
      *
      * @param Expense $expense
@@ -147,11 +195,24 @@ class DashboardExpenseViewHelper
                 'id' => $expense->managerApprover->id,
                 'name' => $expense->managerApprover->name,
                 'avatar' => $expense->managerApprover->avatar,
-            ] : $expense->manager_approver_name,
+            ] : [
+                'manager_approver_name' => $expense->manager_approver_name,
+            ],
             'manager_approver_approved_at' => ($expense->manager_approver_approved_at) ?
                 DateHelper::formatShortDateWithTime($expense->manager_approver_approved_at) :
                 null,
             'manager_rejection_explanation' => $expense->manager_rejection_explanation,
+            'accountant' => ($expense->accountingApprover) ? [
+                'id' => $expense->accountingApprover->id,
+                'name' => $expense->accountingApprover->name,
+                'avatar' => $expense->accountingApprover->avatar,
+            ] : [
+                'accounting_approver_name' => $expense->accounting_approver_name,
+            ],
+            'accounting_approver_approved_at' => ($expense->accounting_approver_approved_at) ?
+                DateHelper::formatShortDateWithTime($expense->accounting_approver_approved_at) :
+                null,
+            'accounting_rejection_explanation' => $expense->accounting_rejection_explanation,
             'employee' => ($expense->employee) ? [
                 'id' => $expense->employee->id,
                 'name' => $expense->employee->name,

@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="cf mw7 center mb2 fw5 relative">
-      🏡 {{ $t('dashboard.work_from_home_title') }}
+      <span class="mr2">
+        🏡
+      </span> {{ $t('dashboard.work_from_home_title') }}
 
       <help :url="$page.help_links.work_from_home" :datacy="'help-icon-work-from-home'" />
     </div>

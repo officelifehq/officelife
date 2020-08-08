@@ -7,7 +7,9 @@
 <template>
   <div :class="'mb5'">
     <div class="cf mw7 center mb2 fw5">
-      🧯 {{ $t('dashboard.task_title') }}
+      <span class="mr2">
+        🧯
+      </span> {{ $t('dashboard.task_title') }}
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3">

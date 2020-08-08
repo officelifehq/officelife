@@ -75,6 +75,9 @@ return [
     'expense_show_description' => 'Have you made an expense on behalf of your company? Log it to be reimbursed promptly on the next paycheck.',
     'expense_show_status_accounting_approval' => 'Waiting for approval',
     'expense_show_status_manager_approval' => 'Waiting for manager',
+    'expense_show_status_rejected_by_manager' => 'Rejected by manager',
+    'expense_show_status_rejected_by_accounting' => 'Rejected by accounting',
+    'expense_show_status_accepted' => 'Accepted',
 
     'accountant_awaiting_accounting_title' => 'Expenses that need accounting approval',
     'accountant_awaiting_manager_title' => 'Expenses that need manager approval',
@@ -126,4 +129,5 @@ return [
     'accounting_expense_managers_approvers' => 'Managers who can approve this expense',
     'accounting_expense_detail_rejection_reason' => 'Please provide a reason for this rejection',
     'accounting_expense_detail_visibility' => 'Only the employee and his/her manager(s) will be able to read this text',
+    'accounting_accepted_rejected_expenses' => 'All expenses',
 ];

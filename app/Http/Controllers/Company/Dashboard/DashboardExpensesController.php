@@ -31,6 +31,7 @@ class DashboardExpensesController extends Controller
 
         $awaitingAccountingExpenses = DashboardExpenseViewHelper::waitingForAccountingApproval($company);
         $awaitingManagerExpenses = DashboardExpenseViewHelper::waitingForManagerApproval($company);
+        $acceptedOrRejected = DashboardExpenseViewHelper::acceptedAndRejected($company);
 
         $employeeInformation = [
             'id' => $employee->id,
@@ -43,6 +44,7 @@ class DashboardExpensesController extends Controller
             'employee' => $employeeInformation,
             'awaitingAccountingExpenses' => $awaitingAccountingExpenses,
             'awaitingManagerExpenses' => $awaitingManagerExpenses,
+            'acceptedOrRejected' => $acceptedOrRejected,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

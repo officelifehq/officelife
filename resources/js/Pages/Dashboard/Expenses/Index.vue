@@ -23,9 +23,19 @@
   width: 150px;
 }
 
-.expense-badge-waiting {
-  background-color: #FFF6E4;
-  color: #083255;
+.expense-badge-rejected_by_manager,
+.expense-badge-rejected_by_accounting {
+  background-color: #E35763;
+  color: #fff;
+}
+
+.expense-badge-accepted {
+  background-color: #11A054;
+  color: #fff;
+}
+
+.status-badge {
+  width: 300px;
 }
 </style>
 
@@ -70,7 +80,7 @@
 
               <div class="dt-row-ns">
                 <div class="dtc-ns db mb3 mb0-ns">
-                  <div class="mb2">{{ expense.title }}</div>
+                  <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
                   <ul class="f7 fw3 grey list pl0">
                     <li class="mr2 di">{{ expense.expensed_at }}</li>
                     <li v-if="expense.category" class="di">{{ expense.category }}</li>
@@ -82,9 +92,6 @@
 
                   <!-- converted amount -->
                   <div v-if="expense.converted_amount" class="db f6 fw4 mt2 gray">{{ expense.converted_amount }}</div>
-                </div>
-                <div class="expense-action tr-ns dtc-ns v-mid f6 db">
-                  <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id">{{ $t('app.view') }}</inertia-link>
                 </div>
               </div>
             </li>
@@ -108,7 +115,7 @@
         <help :url="$page.help_links.employee_expenses" :datacy="'help-icon-expense'" />
       </div>
 
-      <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">
+      <div class="cf mw7 center br3 mb5 bg-white box pa3 relative">
         <p class="mb2 mt0 lh-copy f6">{{ $t('dashboard.accounting_expense_managers_description') }}</p>
 
         <!-- list -->
@@ -122,7 +129,7 @@
                   :name="expense.employee.name"
                   :avatar="expense.employee.avatar"
                   :size="'18px'"
-                  :top="'0px'"
+                  :top="'1px'"
                   :margin-between-name-avatar="'25px'"
                 />
 
@@ -138,7 +145,7 @@
                   :avatar="manager.avatar"
                   :classes="'mr2'"
                   :size="'18px'"
-                  :top="'0px'"
+                  :top="'1px'"
                   :margin-between-name-avatar="'25px'"
                 />
               </div>
@@ -157,6 +164,69 @@
 
                   <!-- converted amount -->
                   <div v-if="expense.converted_amount" class="db f6 fw4 mt2 gray">{{ expense.converted_amount }}</div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- blank state -->
+        <div v-else>
+          <img loading="lazy" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-cheer-party-4@140x140.png" />
+
+          <p class="fw5 mt3 tc">{{ $t('dashboard.accounting_expense_blank_state') }}</p>
+        </div>
+      </div>
+
+      <!-- LIST OF EXPENSES THAT HAVE BEEN ACCEPTED OR REJECTED -->
+      <div class="cf mw7 center mb2 fw5">
+        <span class="mr2">
+          💵
+        </span> {{ $t('dashboard.accounting_accepted_rejected_expenses') }}
+
+        <help :url="$page.help_links.employee_expenses" :datacy="'help-icon-expense'" />
+      </div>
+
+      <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">
+        <!-- list -->
+        <div v-if="acceptedOrRejected.length > 0">
+          <ul class="list pl0 mt0 mb0">
+            <li v-for="expense in acceptedOrRejected" :key="expense.id" :data-cy="'expense-list-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
+              <div class="dt-row-ns">
+                <div class="dtc-ns db mb3 mb0-ns">
+                  <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
+                  <ul class="f7 fw3 grey list pl0 mb2">
+                    <li class="mr2 di">{{ expense.expensed_at }}</li>
+                    <li v-if="expense.category" class="di">{{ expense.category }}</li>
+                  </ul>
+                </div>
+
+                <div class="expense-amount tr-ns dtc-ns v-mid fw5 db mb3 mb0-ns">
+                  {{ expense.amount }}
+
+                  <!-- converted amount -->
+                  <div v-if="expense.converted_amount" class="db f6 fw4 mt2 gray">{{ expense.converted_amount }}</div>
+                </div>
+              </div>
+
+              <!-- status + employee name -->
+              <div class="dt-row-ns">
+                <div class="dtc-ns db mb3 mb0-ns">
+                  <small-name-and-avatar
+                    v-if="expense.employee.id"
+                    :name="expense.employee.name"
+                    :avatar="expense.employee.avatar"
+                    :classes="'gray'"
+                    :size="'18px'"
+                    :top="'1px'"
+                    :margin-between-name-avatar="'25px'"
+                  />
+
+                  <span v-else>{{ expense.employee.employee_name }}</span>
+                </div>
+
+                <div class="dtc-ns db mb3 mb0-ns tr-ns tl status-badge">
+                  <span class="br3 f7 fw3 ph2 pv1 di" :class="'expense-badge-' + expense.status" :data-cy="'expense-' + expense.id + '-status-' + expense.status">{{ $t('dashboard.expense_show_status_' + expense.status) }}</span>
                 </div>
               </div>
             </li>
@@ -202,6 +272,10 @@ export default {
       default: null,
     },
     awaitingManagerExpenses: {
+      type: Array,
+      default: null,
+    },
+    acceptedOrRejected: {
       type: Array,
       default: null,
     },

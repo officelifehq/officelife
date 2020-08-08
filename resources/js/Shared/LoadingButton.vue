@@ -5,6 +5,9 @@
     >
       <ball-pulse-loader v-if="state == 'loading'" color="#fff" size="7px" />
       <span v-if="state != 'loading'">
+        <span v-if="emoji" class="mr2">
+          {{ emoji }}
+        </span>
         {{ text }}
       </span>
     </button>
@@ -32,6 +35,10 @@ export default {
     classes: {
       type: String,
       default: '',
+    },
+    emoji: {
+      type: String,
+      default: null,
     },
     cypressSelector: {
       type: String,

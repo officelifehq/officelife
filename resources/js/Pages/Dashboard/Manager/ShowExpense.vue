@@ -1,4 +1,7 @@
 <style lang="scss" scoped>
+.expense-actions {
+  background-color: #E9EDF2;
+}
 </style>
 
 <template>
@@ -21,16 +24,15 @@
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
-        <div class="cf pa3 bb bb-gray">
+        <div class="cf pa3 pv4-ns bb bb-gray expense-actions">
           <!-- Actions about the expense -->
-          <h3 class="fw5 f5 tc">
-            <span class="mr2">
-              👮‍♀️
-            </span> {{ $t('dashboard.manager_expense_detail_cta') }}
-          </h3>
-          <div v-if="!rejectMode" class="flex-ns justify-between">
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 destroy mb0-ns mb3'" :state="rejectLoadingState" :text="$t('app.reject')" :cypress-selector="'expense-reject-button'" @click="showRejectedModal()" />
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.approve')" :cypress-selector="'expense-accept-button'" @click="accept()" />
+          <div v-if="!rejectMode" class="flex-ns justify-around">
+            <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb3'" :state="rejectLoadingState" :emoji="'👎'" :text="$t('app.reject')" :cypress-selector="'expense-reject-button'"
+                            @click="showRejectedModal()"
+            />
+            <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'👍'" :text="$t('app.approve')" :cypress-selector="'expense-accept-button'"
+                            @click="accept()"
+            />
           </div>
 
           <!-- inline modal to reject the expense -->
