@@ -113,6 +113,18 @@ class NotificationHelper
             ]);
         }
 
+        if ($notification->action == 'expense_accepted_by_accounting') {
+            $sentence = trans('account.notification_expense_accepted_by_accounting', [
+                'title' => $notification->object->{'title'},
+            ]);
+        }
+
+        if ($notification->action == 'expense_rejected_by_accounting') {
+            $sentence = trans('account.notification_expense_rejected_by_accounting', [
+                'title' => $notification->object->{'title'},
+            ]);
+        }
+
         if ($notification->action == 'employee_allowed_to_manage_expenses') {
             $sentence = trans('account.notification_employee_allowed_to_manage_expenses', []);
         }

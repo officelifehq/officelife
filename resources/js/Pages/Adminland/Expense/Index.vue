@@ -27,8 +27,6 @@
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
             {{ $t('account.expense_categories_title', { company: $page.auth.company.name}) }}
-
-            <help :url="$page.help_links.adminland_expense_categories" :datacy="'help-icon-expenses-categories'" :top="'1px'" />
           </h2>
 
           <!-- EXPENSES CATEGORIES -->
@@ -47,7 +45,6 @@
 </template>
 
 <script>
-import Help from '@/Shared/Help';
 import Layout from '@/Shared/Layout';
 import Categories from '@/Pages/Adminland/Expense/Partials/Categories';
 import Employees from '@/Pages/Adminland/Expense/Partials/Employees';
@@ -55,7 +52,6 @@ import Employees from '@/Pages/Adminland/Expense/Partials/Employees';
 export default {
   components: {
     Layout,
-    Help,
     Categories,
     Employees,
   },

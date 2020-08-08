@@ -10,6 +10,8 @@
     <h3 class="relative adminland-headline fw4">
       <span class="dib mb3 di-l" :class="categories.length == 0 ? 'white' : ''">
         📦 {{ $tc('account.expense_category_headline') }}
+
+        <help :url="$page.help_links.adminland_expense_categories" :datacy="'help-icon-expenses-categories'" :top="'1px'" />
       </span>
       <a class="btn absolute-l relative dib-l db right-0 f5" data-cy="add-category-button" @click.prevent="displayAddModal">
         {{ $t('account.expense_category_create_cta') }}
@@ -59,12 +61,14 @@
 </template>
 
 <script>
+import Help from '@/Shared/Help';
 import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 
 export default {
   components: {
+    Help,
     TextInput,
     Errors,
     LoadingButton

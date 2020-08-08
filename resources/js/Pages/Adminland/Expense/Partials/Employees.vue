@@ -25,6 +25,8 @@
     <h3 class="relative adminland-headline fw4">
       <span class="dib mb3 di-l">
         🤾‍♂️ {{ $tc('account.expense_employees_headline') }}
+
+        <help :url="$page.help_links.accountants" :datacy="'help-icon-accounts'" :top="'1px'" />
       </span>
 
       <!-- main cta -->
@@ -91,11 +93,13 @@
 </template>
 
 <script>
+import Help from '@/Shared/Help';
 import TextInput from '@/Shared/TextInput';
 import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
 
 export default {
   components: {
+    Help,
     TextInput,
     BallPulseLoader
   },
