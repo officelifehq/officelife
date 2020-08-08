@@ -48,6 +48,7 @@ class Expense extends Model
         'accounting_approver_name',
         'accounting_approver_approved_at',
         'accounting_rejection_explanation',
+        'should_appear_on_pay_at',
     ];
 
     /**
@@ -81,6 +82,7 @@ class Expense extends Model
     protected $dates = [
         'expensed_at',
         'converted_at',
+        'should_appear_on_pay_at',
     ];
 
     /**

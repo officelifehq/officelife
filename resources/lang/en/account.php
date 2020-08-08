@@ -215,6 +215,8 @@ return [
     'log_expense_created' => 'Created an expense about :expense_title for an amount of :expense_amount.',
     'log_expense_accepted_by_manager' => 'Accepted an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
     'log_expense_rejected_by_manager' => 'Rejected an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
+    'log_expense_accepted_by_accounting' => 'As accountant, accepted an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
+    'log_expense_rejected_by_accounting' => 'As accountant, rejected an expense for :employee_name about :expense_title for an amount of :expense_currency :expense_amount.',
     'log_employee_allowed_to_manage_expenses' => 'Allowed :employee_name to manage company’s expenses.',
     'log_employee_disallowed_to_manage_expenses' => 'Disallowed :employee_name to manage company’s expenses.',
 
@@ -257,6 +259,10 @@ return [
     'employee_log_expense_accepted_for_employee' => 'Accepted an expense for :employee_name about :expense_title for an amount of :expense_amount.',
     'employee_log_expense_rejected_for_employee' => 'Rejected an expense for :employee_name about :expense_title for an amount of :expense_amount.',
     'employee_log_expense_rejected_by_manager' => 'Rejected an expense about :expense_title for an amount of :expense_amount.',
+    'employee_log_expense_accepted_by_accounting_for_employee' => 'As accountant, accepted an expense for :employee_name about :expense_title for an amount of :expense_amount.',
+    'employee_log_expense_accepted_by_accounting' => 'Has been accepted an expense by the accounting department about :expense_title for an amount of :expense_amount.',
+    'employee_log_expense_rejected_by_accounting_for_employee' => 'As accountant, has rejected an expense for :employee_name about :expense_title for an amount of :expense_amount.',
+    'employee_log_expense_rejected_by_accounting' => 'Has been rejected by the accounting department an expense about :expense_title for an amount of :expense_amount.',
     'employee_log_employee_allowed_to_manage_expenses' => 'Has been allowed to manage company’s expenses.',
     'employee_log_employee_disallowed_to_manage_expenses' => 'Has been disallowed to manage company’s expenses.',
 
@@ -287,9 +293,11 @@ return [
     'notification_employee_attached_to_recent_ship' => 'You have been associated with the recent ship called :title.',
     'notification_task_assigned' => 'You have been assigned the task called :title by :name.',
     'notification_expense_assigned_for_validation' => 'You have a new expense to validate for :name.',
-    'notification_expense_accepted_by_manager' => 'Your expense called :title have been accepted by your manager and is now in the hand of the accounting department.',
-    'notification_expense_rejected_by_manager' => 'Your expense called :title have been rejected by your manager.',
+    'notification_expense_accepted_by_manager' => 'Your expense called :title has been accepted by your manager and is now in the hand of the accounting department.',
+    'notification_expense_rejected_by_manager' => 'Your expense called :title has been rejected by your manager.',
     'notification_employee_allowed_to_manage_expenses' => 'You are now allowed to manage company’s expenses.',
+    'notification_expense_accepted_by_accounting' => 'Your expense called :title has been approved by the accounting department.',
+    'notification_expense_rejected_by_accounting' => 'Your expense called :title has been rejected by the accounting department.',
 
     'morale_1' => 'Positive',
     'morale_2' => 'Neutral',
