@@ -166,7 +166,6 @@ class RejectExpenseAsManager extends BaseService
                     'expense_title' => $this->expense->title,
                     'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                     'expensed_at' => $this->expense->expensed_at,
-                    'manager_name' => $this->author->name,
                 ]),
                 'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
             ])->onQueue('low');
