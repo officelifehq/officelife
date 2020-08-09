@@ -56,17 +56,16 @@
               <img loading="lazy" :src="log.author.avatar" class="author-avatar br-100" alt="avatar" />
 
               <div>
-                <div class="mb1">
+                <div class="db f7 mb2">
                   <!-- log author -->
-                  <inertia-link v-if="log.author.id" :href="log.author.url" class="">{{ log.author.name }}</inertia-link>
-                  <span v-else class="black-70">
+                  <inertia-link v-if="log.author.id" :href="log.author.url">{{ log.author.name }}</inertia-link>
+                  <span v-else>
                     {{ log.author.name }}
                   </span>
-
-                  <!-- log content -->
-                  <span class="">
-                    {{ log.localized_content }}
-                  </span>
+                </div>
+                <!-- log content -->
+                <div class="mb1">
+                  {{ log.localized_content }}
                 </div>
 
                 <!-- log date -->
