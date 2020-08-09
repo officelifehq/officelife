@@ -7,6 +7,16 @@
   margin-top: -40px; /* Half the height */
   margin-left: -40px; /* Half the width */
 }
+
+.author-avatar {
+  width: 34px;
+  min-width: 34px;
+  margin-right: 16px;
+}
+
+.log-item:last-child {
+  border-bottom: 0;
+}
 </style>
 
 <template>
@@ -32,41 +42,43 @@
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
-        <div class="pa3 relative pt5">
+        <div class="relative pt5">
           <!-- AVATAR -->
           <img loading="lazy" :src="employee.avatar" class="avatar absolute br-100 db center" alt="avatar" />
 
-          <h2 class="tc normal mb4">
-            Everything that ever happened to {{ employee.name }}
+          <h2 class="pa3 tc normal mb4">
+            {{ $t('employee.audit_log_title') }}
           </h2>
-          <ul class="list pl0 mt0 center" data-cy="logs-list">
-            <li v-for="log in logs" :key="log.id"
-                class="flex items-center lh-copy pa2-l pa1 ph0-l bb b--black-10"
-            >
-              <div class="flex-auto">
-                <!-- log author -->
-                <inertia-link v-if="log.author.id" :href="'/' + $page.auth.company.id + '/employees/' + log.author.id" class="">
-                  {{ log.author.name }}
-                </inertia-link>
-                <span v-else class="black-70">
-                  {{ log.author.name }}
-                </span>
 
-                <!-- log content -->
-                <span class="">
-                  {{ log.localized_content }}
-                </span>
+          <ul class="list pl0 mt0 mb0 center" data-cy="logs-list">
+            <li v-for="log in logs" :key="log.id" class="flex items-center lh-copy pa3 bb b--black-10 log-item">
+              <!-- avatar -->
+              <img loading="lazy" :src="log.author.avatar" class="author-avatar br-100" alt="avatar" />
+
+              <div>
+                <div class="mb1">
+                  <!-- log author -->
+                  <inertia-link v-if="log.author.id" :href="log.author.url" class="">{{ log.author.name }}</inertia-link>
+                  <span v-else class="black-70">
+                    {{ log.author.name }}
+                  </span>
+
+                  <!-- log content -->
+                  <span class="">
+                    {{ log.localized_content }}
+                  </span>
+                </div>
 
                 <!-- log date -->
-                <span class="db f6 log_date">
+                <p class="ma0 f7 gray">
                   {{ log.localized_audited_at }}
-                </span>
+                </p>
               </div>
             </li>
           </ul>
 
           <!-- Pagination -->
-          <div class="center cf">
+          <div class="center cf pa3">
             <inertia-link v-show="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
               &larr; {{ $t('app.previous') }}
             </inertia-link>
