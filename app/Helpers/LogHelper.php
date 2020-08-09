@@ -868,7 +868,6 @@ class LogHelper
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
                 'expensed_at' => $log->object->{'expensed_at'},
-                'manager_name' => $log->object->{'manager_name'},
             ]);
         }
 
@@ -889,7 +888,6 @@ class LogHelper
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
                 'expensed_at' => $log->object->{'expensed_at'},
-                'manager_name' => $log->object->{'manager_name'},
             ]);
         }
 

@@ -255,7 +255,7 @@ return [
     'employee_log_skill_removed_from_an_employee' => 'Has had the skill called :name removed.',
     'employee_log_task_created' => 'Created the task called :title.',
     'employee_log_expense_created' => 'Created an expense about :expense_title for an amount of :expense_amount.',
-    'employee_log_expense_accepted_by_manager' => 'Has been accepted an expense about :expense_title for an amount of :expense_amount by :manager_name.',
+    'employee_log_expense_accepted_by_manager' => 'Has been accepted an expense about :expense_title for an amount of :expense_amount.',
     'employee_log_expense_accepted_for_employee' => 'Accepted an expense for :employee_name about :expense_title for an amount of :expense_amount.',
     'employee_log_expense_rejected_for_employee' => 'Rejected an expense for :employee_name about :expense_title for an amount of :expense_amount.',
     'employee_log_expense_rejected_by_manager' => 'Rejected an expense about :expense_title for an amount of :expense_amount.',

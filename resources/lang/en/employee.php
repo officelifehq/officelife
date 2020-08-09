@@ -135,4 +135,6 @@ return [
     'skills_list' => 'Current skills',
 
     'expense_task_associated' => 'Approve the expense for :name',
+
+    'audit_log_title' => 'Audit log',
 ];

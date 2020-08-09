@@ -183,7 +183,6 @@ class RejectExpenseAsAccountantTest extends TestCase
                         'expense_title' => $expense->title,
                         'expense_amount' => MoneyHelper::format($expense->amount, $expense->currency),
                         'expensed_at' => $expense->expensed_at,
-                        'manager_name' => $manager->name,
                     ]);
             });
         }
