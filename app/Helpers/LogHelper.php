@@ -824,12 +824,11 @@ class LogHelper
 
         if ($log->action == 'expense_accepted_by_manager') {
             $sentence = trans('account.employee_log_expense_accepted_by_manager', [
-                'employee_id' => $log->object->{'employee_id'},
-                'employee_name' => $log->object->{'employee_name'},
                 'expense_id' => $log->object->{'expense_id'},
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
                 'expensed_at' => $log->object->{'expensed_at'},
+                'manager_name' => $log->object->{'manager_name'},
             ]);
         }
 
@@ -839,6 +838,7 @@ class LogHelper
                 'expense_title' => $log->object->{'expense_title'},
                 'expense_amount' => $log->object->{'expense_amount'},
                 'expensed_at' => $log->object->{'expensed_at'},
+                'manager_name' => $log->object->{'manager_name'},
             ]);
         }
 

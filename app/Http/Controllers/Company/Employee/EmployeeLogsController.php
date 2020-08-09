@@ -11,7 +11,7 @@ use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Collections\EmployeeLogCollection;
+use App\Http\ViewHelpers\Employee\EmployeeLogViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EmployeeLogsController extends Controller
@@ -46,7 +46,7 @@ class EmployeeLogsController extends Controller
 
         // logs
         $logs = $employee->employeeLogs()->with('author')->paginate(15);
-        $logsCollection = EmployeeLogCollection::prepare($logs);
+        $logsCollection = EmployeeLogViewHelper::list($logs, $employee->company);
 
         return Inertia::render('Employee/Logs/Index', [
             'employee' => $employee->toObject(),
