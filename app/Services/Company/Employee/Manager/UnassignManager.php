@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\DirectReport;
+use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
 
 class UnassignManager extends BaseService
 {
@@ -56,6 +57,9 @@ class UnassignManager extends BaseService
         $directReport->delete();
 
         $this->log($data, $manager, $employee);
+
+        CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges::dispatch($employee->company)
+            ->onQueue('low');
 
         return $manager;
     }

@@ -8,6 +8,7 @@ use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Services\Company\Adminland\Expense\DisallowEmployeeToManageExpenses;
+use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
 
 class LockEmployee extends BaseService
 {
@@ -52,6 +53,8 @@ class LockEmployee extends BaseService
 
         $this->removeAccountantRole();
 
+        $this->changePotentialExpensesStatuses();
+
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
             'action' => 'employee_locked',
@@ -89,5 +92,11 @@ class LockEmployee extends BaseService
         if ($this->employee->can_manage_expenses) {
             (new DisallowEmployeeToManageExpenses)->execute($request);
         }
+    }
+
+    private function changePotentialExpensesStatuses(): void
+    {
+        CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges::dispatch($this->employee->company)
+            ->onQueue('low');
     }
 }

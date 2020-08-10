@@ -11,6 +11,7 @@ use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
+use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
 
 class DestroyEmployeeTest extends TestCase
 {
@@ -91,5 +92,7 @@ class DestroyEmployeeTest extends TestCase
                     'employee_name' => $dwight->name,
                 ]);
         });
+
+        Queue::assertPushed(CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges::class);
     }
 }

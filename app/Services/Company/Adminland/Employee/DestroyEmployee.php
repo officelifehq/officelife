@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Employee;
+use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
 
 class DestroyEmployee extends BaseService
 {
@@ -41,6 +42,9 @@ class DestroyEmployee extends BaseService
         $employee = $this->validateEmployeeBelongsToCompany($data);
 
         $employee->delete();
+
+        CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges::dispatch($employee->company)
+            ->onQueue('low');
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
