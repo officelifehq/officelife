@@ -54,7 +54,7 @@
 
       <!-- LIST OF EXPENSES THAT ARE AWAITING FOR ACCOUNTING VALIDATION -->
       <div class="cf mw7 center mb2 fw5">
-        <span class="mr2">
+        <span class="mr1">
           💵
         </span> {{ $t('dashboard.accountant_awaiting_accounting_title') }}
 
@@ -110,7 +110,7 @@
 
       <!-- LIST OF EXPENSES THAT ARE AWAITING FOR MANAGER VALIDATION -->
       <div class="cf mw7 center mb2 fw5">
-        <span class="mr2">
+        <span class="mr1">
           💵
         </span> {{ $t('dashboard.accountant_awaiting_manager_title') }}
 
@@ -180,7 +180,7 @@
 
       <!-- LIST OF EXPENSES THAT HAVE BEEN ACCEPTED OR REJECTED -->
       <div class="cf mw7 center mb2 fw5">
-        <span class="mr2">
+        <span class="mr1">
           💵
         </span> {{ $t('dashboard.accounting_accepted_rejected_expenses') }}
 

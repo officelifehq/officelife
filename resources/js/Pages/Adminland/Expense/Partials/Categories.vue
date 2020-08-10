@@ -9,7 +9,9 @@
   <div class="mb5">
     <h3 class="relative adminland-headline fw4">
       <span class="dib mb3 di-l" :class="categories.length == 0 ? 'white' : ''">
-        📦 {{ $tc('account.expense_category_headline') }}
+        <span class="mr1">
+          📦
+        </span> {{ $tc('account.expense_category_headline') }}
 
         <help :url="$page.help_links.adminland_expense_categories" :datacy="'help-icon-expenses-categories'" :top="'1px'" />
       </span>
@@ -47,7 +49,56 @@
     <!-- LIST OF EXISTING EXPENSE CATEGORIES -->
     <ul v-show="categories.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="categories-list">
       <li v-for="category in categories" :key="category.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
-        <inertia-link :href="category.url">{{ category.name }}</inertia-link>
+        {{ category.name }}
+
+        <!-- RENAME POSITION FORM -->
+        <div v-show="idToUpdate == category.id" class="cf mt3">
+          <form @submit.prevent="update(category.id)">
+            <div class="fl w-100 w-70-ns mb3 mb0-ns">
+              <text-input :id="'title-' + category.id"
+                          :ref="'title' + category.id"
+                          v-model="form.name"
+                          :placeholder="form.name"
+                          :custom-ref="'title' + category.id"
+                          :datacy="'list-rename-input-name-' + category.id"
+                          :errors="$page.errors.first_name"
+                          required
+                          :extra-class-upper-div="'mb0'"
+                          @esc-key-pressed="idToUpdate = 0"
+              />
+            </div>
+            <div class="fl w-30-ns w-100 tr">
+              <a class="btn dib-l db mb2 mb0-ns" :data-cy="'list-rename-cancel-button-' + category.id" @click.prevent="idToUpdate = 0">
+                {{ $t('app.cancel') }}
+              </a>
+              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'list-rename-cta-button-' + category.id" :state="loadingState" :text="$t('app.update')" />
+            </div>
+          </form>
+        </div>
+
+        <!-- LIST OF ACTIONS FOR EACH CATEGORY -->
+        <ul v-show="idToUpdate != category.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns f6">
+          <!-- RENAME A CATEGORY -->
+          <li class="di mr2">
+            <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + category.id" @click.prevent="displayUpdateModal(category) ; form.name = category.name">{{ $t('app.rename') }}</a>
+          </li>
+
+          <!-- DELETE A CATEGORY -->
+          <li v-if="idToDelete == category.id" class="di">
+            {{ $t('app.sure') }}
+            <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + category.id" @click.prevent="destroy(category.id)">
+              {{ $t('app.yes') }}
+            </a>
+            <a class="pointer" :data-cy="'list-delete-cancel-button-' + category.id" @click.prevent="idToDelete = 0">
+              {{ $t('app.no') }}
+            </a>
+          </li>
+          <li v-else class="di">
+            <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + category.id" @click.prevent="idToDelete = category.id">
+              {{ $t('app.delete') }}
+            </a>
+          </li>
+        </ul>
       </li>
     </ul>
 
@@ -89,6 +140,8 @@ export default {
         name: null,
         errors: [],
       },
+      idToUpdate: 0,
+      idToDelete: 0,
     };
   },
 
@@ -99,6 +152,18 @@ export default {
 
       this.$nextTick(() => {
         this.$refs['newCategory'].$refs['input'].focus();
+      });
+    },
+
+    displayUpdateModal(category) {
+      this.idToUpdate = category.id;
+
+      this.$nextTick(() => {
+        // this is really barbaric, but I need to do this to
+        // first: target the TextInput with the right ref attribute
+        // second: target within the component, the refs of the input text
+        // this is because we try here to access $refs from a child component
+        this.$refs[`title${category.id}`][0].$refs[`title${category.id}`].focus();
       });
     },
 
@@ -116,6 +181,36 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    update(id) {
+      axios.put('/' + this.$page.auth.company.id + '/account/expenses/' + id, this.form)
+        .then(response => {
+          flash(this.$t('account.expense_category_update_success'), 'success');
+
+          this.idToUpdate = 0;
+          this.form.name = null;
+
+          id = this.categories.findIndex(x => x.id === id);
+          this.$set(this.categories, id, response.data.data);
+        })
+        .catch(error => {
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    destroy(id) {
+      axios.delete('/' + this.$page.auth.company.id + '/account/expenses/' + id)
+        .then(response => {
+          flash(this.$t('account.expense_category_delete_success'), 'success');
+
+          this.idToDelete = 0;
+          id = this.categories.findIndex(x => x.id === id);
+          this.categories.splice(id, 1);
+        })
+        .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
