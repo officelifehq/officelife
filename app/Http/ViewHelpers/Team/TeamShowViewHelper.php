@@ -42,7 +42,13 @@ class TeamShowViewHelper
      */
     public static function employees(Team $team): Collection
     {
-        $employees = $team->employees()->with('position')->with('company')->orderBy('employee_team.created_at', 'desc')->get();
+        $employees = $team->employees()
+            ->notLocked()
+            ->with('position')
+            ->with('company')
+            ->orderBy('employee_team.created_at', 'desc')
+            ->get();
+
         $employeesCollection = collect([]);
         foreach ($employees as $employee) {
             $employeesCollection->push([

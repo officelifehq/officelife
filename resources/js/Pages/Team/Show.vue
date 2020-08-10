@@ -82,6 +82,13 @@
             :team="team"
           />
 
+          <!-- Recent ships -->
+          <recent-ships
+            :recent-ships="recentShips"
+            :team="team"
+            :user-belongs-to-the-team="userBelongsToTheTeam"
+          />
+
           <!-- News -->
           <h3 class="db fw5 mb3 flex justify-between items-center">
             <span>🗞 {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
@@ -114,13 +121,6 @@
               {{ $t('team.news_blank') }}
             </div>
           </div>
-
-          <!-- Recent ships -->
-          <recent-ships
-            :recent-ships="recentShips"
-            :team="team"
-            :user-belongs-to-the-team="userBelongsToTheTeam"
-          />
         </div>
       </div>
     </div>

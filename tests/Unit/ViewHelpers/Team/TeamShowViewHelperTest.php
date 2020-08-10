@@ -23,6 +23,11 @@ class TeamShowViewHelperTest extends TestCase
         $michael = factory(Employee::class)->create([
             'company_id' => $michael->company_id,
         ]);
+        // create one final employee with a locked status (shouldn't appear in the results)
+        factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+            'locked' => true,
+        ]);
         $team = factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);
