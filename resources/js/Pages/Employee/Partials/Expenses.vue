@@ -102,7 +102,7 @@ export default {
       default: null,
     },
     expenses: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },

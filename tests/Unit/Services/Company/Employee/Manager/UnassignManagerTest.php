@@ -14,6 +14,7 @@ use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Manager\UnassignManager;
+use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
 
 class UnassignManagerTest extends TestCase
 {
@@ -136,5 +137,7 @@ class UnassignManagerTest extends TestCase
                     'direct_report_name' => $dwight->directReport->name,
                 ]);
         });
+
+        Queue::assertPushed(CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges::class);
     }
 }

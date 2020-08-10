@@ -12,6 +12,7 @@ use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\LockEmployee;
+use App\Jobs\CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges;
 
 class LockEmployeeTest extends TestCase
 {
@@ -122,5 +123,7 @@ class LockEmployeeTest extends TestCase
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([]);
         });
+
+        Queue::assertPushed(CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges::class);
     }
 }
