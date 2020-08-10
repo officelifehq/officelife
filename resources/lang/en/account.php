@@ -405,6 +405,8 @@ return [
     'expense_category_default_travel' => 'Travel',
     'expense_category_default_motor_vehicle_expenses' => 'Motor vehicle expenses',
     'expense_category_success' => 'The expense category has been created.',
+    'expense_category_update_success' => 'The expense category has been updated.',
+    'expense_category_delete_success' => 'The expense category has been deleted.',
     'expense_employees_headline' => 'Employees who can manage expenses',
     'expense_employees_blank' => 'No employees have the right to manage expenses right now.',
     'expense_employees_create_cta' => 'Add/remove employees',

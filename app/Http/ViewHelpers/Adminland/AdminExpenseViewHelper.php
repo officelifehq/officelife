@@ -22,10 +22,6 @@ class AdminExpenseViewHelper
             $categoriesCollection->push([
                 'id' => $category->id,
                 'name' => $category->name,
-                'url' => route('account.expenses.show', [
-                    'company' => $company->id,
-                    'expense' => $category->id,
-                ]),
             ]);
         }
 

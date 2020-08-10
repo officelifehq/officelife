@@ -12,6 +12,8 @@ use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Adminland\AdminExpenseViewHelper;
 use App\Services\Company\Adminland\Expense\AllowEmployeeToManageExpenses;
 use App\Services\Company\Adminland\ExpenseCategory\CreateExpenseCategory;
+use App\Services\Company\Adminland\ExpenseCategory\UpdateExpenseCategory;
+use App\Services\Company\Adminland\ExpenseCategory\DestroyExpenseCategory;
 use App\Services\Company\Adminland\Expense\DisallowEmployeeToManageExpenses;
 
 class AdminExpenseController extends Controller
@@ -40,7 +42,6 @@ class AdminExpenseController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
      * @return Response
      */
     public function store(Request $request, $companyId)
@@ -66,6 +67,61 @@ class AdminExpenseController extends Controller
                 ]),
             ],
         ], 201);
+    }
+
+    /**
+     * Update the expense category.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param mixed $expenseCategoryId
+     * @return Response
+     */
+    public function update(Request $request, $companyId, $expenseCategoryId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $request = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'expense_category_id' => $expenseCategoryId,
+            'name' => $request->input('name'),
+        ];
+
+        $category = (new UpdateExpenseCategory)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'id' => $category->id,
+                'name' => $category->name,
+            ],
+        ], 201);
+    }
+
+    /**
+     * Delete the expense category.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $expenseCategoryId
+     * @return Response
+     */
+    public function destroy(Request $request, int $companyId, int $expenseCategoryId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $companyId,
+            'expense_category_id' => $expenseCategoryId,
+            'author_id' => $loggedEmployee->id,
+        ];
+
+        (new DestroyExpenseCategory)->execute($request);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 
     /**

@@ -24,7 +24,9 @@
     <!-- Headline -->
     <h3 class="relative adminland-headline fw4">
       <span class="dib mb3 di-l">
-        🤾‍♂️ {{ $tc('account.expense_employees_headline') }}
+        <span class="mr1">
+          🤾‍♂️
+        </span> {{ $tc('account.expense_employees_headline') }}
 
         <help :url="$page.help_links.accountants" :datacy="'help-icon-accounts'" :top="'1px'" />
       </span>
@@ -68,7 +70,7 @@
     </div>
 
     <!-- list of employees -->
-    <div v-show="localEmployees.length > 0" class="ba bb-gray mt4 employees-list">
+    <div v-show="localEmployees.length > 0" class="ba bb-gray mt2 br2 employees-list">
       <div v-for="employee in localEmployees" :key="employee.id" class="pa2 db bb-gray bb bb-gray-hover" data-cy="employees-list">
         <span class="pl3 db relative team-member">
           <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />

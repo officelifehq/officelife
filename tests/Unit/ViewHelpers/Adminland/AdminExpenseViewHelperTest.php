@@ -32,7 +32,6 @@ class AdminExpenseViewHelperTest extends TestCase
                 0 => [
                     'id' => $category->id,
                     'name' => $category->name,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/account/expenses/'.$category->id,
                 ],
             ],
             $response->toArray()
