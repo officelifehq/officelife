@@ -365,15 +365,24 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_recent_expenses(): void
     {
+        Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
+
         $michael = $this->createAdministrator();
 
         $expense = factory(Expense::class)->create([
             'employee_id' => $michael->id,
+            'created_at' => '2019-01-01 01:00:00',
         ]);
 
-        $collection = EmployeeShowViewHelper::expenses($michael);
+        // this expense is more than 30 days, it shouldn't appear in the collection
+        factory(Expense::class)->create([
+            'employee_id' => $michael->id,
+            'created_at' => '2010-01-01 01:00:00',
+        ]);
 
-        $this->assertEquals(1, $collection->count());
+        $array = EmployeeShowViewHelper::expenses($michael);
+
+        $this->assertEquals(1, $array['expenses']->count());
 
         $this->assertEquals(
             [
@@ -383,10 +392,25 @@ class EmployeeShowViewHelperTest extends TestCase
                     'amount' => '$1.00',
                     'status' => 'created',
                     'expensed_at' => 'Jan 01, 1999',
+                    'converted_amount' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'. $expense->id,
                 ],
             ],
-            $collection->toArray()
+            $array['expenses']->toArray()
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses',
+            $array['url']
+        );
+
+        $this->assertTrue(
+            $array['hasMorePastExpenses']
+        );
+
+        $this->assertEquals(
+            1,
+            $array['totalPastExpenses']
         );
     }
 }

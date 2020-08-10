@@ -134,7 +134,10 @@ return [
     'skills_create' => 'Create a new skill called {name}',
     'skills_list' => 'Current skills',
 
-    'expense_task_associated' => 'Approve the expense for :name',
+    'expense_title' => 'Expenses logged in the last 30 days',
+    'expense_blank' => 'There are no expenses yet.',
+    'expense_view_history' => 'View all expenses',
+    'expense_more_past_expenses' => 'There no recent expenses to display here, but there are {number} older expenses to see using the link below.',
 
     'audit_log_title' => 'Audit log',
 ];

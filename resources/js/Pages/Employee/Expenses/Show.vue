@@ -14,10 +14,13 @@
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/expenses'">Expenses</inertia-link>
+            ...
           </li>
           <li class="di">
-            {{ $t('dashboard.manager_expense_detail_expense_section') }}
+            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/expenses'">{{ $t('app.breadcrumb_employee_expenses') }}</inertia-link>
+          </li>
+          <li class="di">
+            {{ $t('app.breadcrumb_employee_expense') }}
           </li>
         </ul>
       </div>
@@ -41,6 +44,10 @@ export default {
   props: {
     notifications: {
       type: Array,
+      default: null,
+    },
+    employee: {
+      type: Object,
       default: null,
     },
     expense: {

@@ -7,7 +7,9 @@ li:last-child {
 <template>
   <div v-if="employeeOrAtLeastHR()" class="mb4 relative">
     <span class="db fw5 mb2 relative">
-      👨‍💻 {{ $t('employee.hardware_title') }}
+      <span class="mr1">
+        👨‍💻
+      </span> {{ $t('employee.hardware_title') }}
 
       <help :url="$page.help_links.account_hardware_create" :datacy="'help-icon-hardware'" />
     </span>

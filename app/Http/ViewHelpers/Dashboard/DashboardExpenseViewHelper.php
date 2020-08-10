@@ -135,7 +135,7 @@ class DashboardExpenseViewHelper
             ->where('status', Expense::ACCEPTED)
             ->orWhere('status', Expense::REJECTED_BY_ACCOUNTING)
             ->orWhere('status', Expense::REJECTED_BY_MANAGER)
-            ->latest()
+            ->orderBy('expenses.updated_at', 'asc')
             ->get();
 
         $expensesCollection = collect([]);
@@ -157,7 +157,7 @@ class DashboardExpenseViewHelper
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
-                'url' => route('dashboard.expenses.show', [
+                'url' => route('dashboard.expenses.summary', [
                     'company' => $company,
                     'expense' => $expense->id,
                 ]),
@@ -195,28 +195,34 @@ class DashboardExpenseViewHelper
                 'id' => $expense->managerApprover->id,
                 'name' => $expense->managerApprover->name,
                 'avatar' => $expense->managerApprover->avatar,
+                'position' => $expense->managerApprover->position ? $expense->managerApprover->position->title : null,
+                'status' => $expense->managerApprover->status ? $expense->managerApprover->status->name : null,
             ] : [
-                'manager_approver_name' => $expense->manager_approver_name,
+                'name' => $expense->manager_approver_name,
             ],
-            'manager_approver_approved_at' => ($expense->manager_approver_approved_at) ?
-                DateHelper::formatShortDateWithTime($expense->manager_approver_approved_at) :
+            'manager_approver_approved_at' => $expense->manager_approver_approved_at ?
+                DateHelper::formatDate($expense->manager_approver_approved_at) :
                 null,
             'manager_rejection_explanation' => $expense->manager_rejection_explanation,
-            'accountant' => ($expense->accountingApprover) ? [
+            'accountant' => $expense->accountingApprover ? [
                 'id' => $expense->accountingApprover->id,
                 'name' => $expense->accountingApprover->name,
                 'avatar' => $expense->accountingApprover->avatar,
+                'position' => $expense->accountingApprover->position ? $expense->accountingApprover->position->title : null,
+                'status' => $expense->accountingApprover->status ? $expense->accountingApprover->status->name : null,
             ] : [
-                'accounting_approver_name' => $expense->accounting_approver_name,
+                'name' => $expense->accounting_approver_name,
             ],
             'accounting_approver_approved_at' => ($expense->accounting_approver_approved_at) ?
-                DateHelper::formatShortDateWithTime($expense->accounting_approver_approved_at) :
+                DateHelper::formatDate($expense->accounting_approver_approved_at) :
                 null,
             'accounting_rejection_explanation' => $expense->accounting_rejection_explanation,
             'employee' => ($expense->employee) ? [
                 'id' => $expense->employee->id,
                 'name' => $expense->employee->name,
                 'avatar' => $expense->employee->avatar,
+                'position' => $expense->employee->position ? $expense->employee->position->title : null,
+                'status' => $expense->employee->status ? $expense->employee->status->name : null,
             ] : [
                 'employee_name' => $expense->employee_name,
             ],

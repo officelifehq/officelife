@@ -179,6 +179,12 @@
             :employee="employee"
             :questions="questions"
           />
+
+          <expenses
+            v-if="employeeOrAccountant()"
+            :employee="employee"
+            :expenses="expenses"
+          />
         </div>
       </div>
     </div>
@@ -203,6 +209,7 @@ import Question from '@/Pages/Employee/Partials/Question';
 import Hardware from '@/Pages/Employee/Partials/Hardware';
 import RecentShips from '@/Pages/Employee/Partials/RecentShips';
 import Skills from '@/Pages/Employee/Partials/Skills';
+import Expenses from '@/Pages/Employee/Partials/Expenses';
 
 export default {
   components: {
@@ -222,6 +229,7 @@ export default {
     Hardware,
     RecentShips,
     Skills,
+    Expenses,
   },
 
   directives: {
@@ -289,6 +297,14 @@ export default {
       type: Array,
       default: null,
     },
+    expenses: {
+      type: Object,
+      default: null,
+    },
+    isAccountant: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -321,6 +337,20 @@ export default {
       if (this.$page.auth.user.id == this.employee.user.id) {
         return true;
       }
+    },
+
+    employeeOrAccountant() {
+      if (this.isAccountant) {
+        return true;
+      }
+
+      if (this.employee.user) {
+        if (this.$page.auth.user.id == this.employee.user.id) {
+          return true;
+        }
+      }
+
+      return false;
     }
   }
 };

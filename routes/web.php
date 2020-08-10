@@ -115,7 +115,7 @@ Route::middleware(['auth'])->group(function () {
 
             // expenses
             Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee'])->only([
-                'index', 'show', 'store', 'destroy',
+                'index', 'show',
             ]);
         });
 
@@ -165,6 +165,7 @@ Route::middleware(['auth'])->group(function () {
         // only available to accountant role
         Route::middleware(['accountant'])->group(function () {
             Route::get('dashboard/expenses', 'Company\\Dashboard\\DashboardExpensesController@index');
+            Route::get('dashboard/expenses/{expense}/summary', 'Company\\Dashboard\\DashboardExpensesController@summary')->name('dashboard.expenses.summary');
             Route::get('dashboard/expenses/{expense}', 'Company\\Dashboard\\DashboardExpensesController@show')->name('dashboard.expenses.show');
             Route::post('dashboard/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardExpensesController@accept');
             Route::post('dashboard/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardExpensesController@reject');

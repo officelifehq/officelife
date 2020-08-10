@@ -71,6 +71,36 @@ class DashboardExpensesController extends Controller
             return redirect('home');
         }
 
+        return Inertia::render('Dashboard/Expenses/Approve', [
+            'expense' => DashboardExpenseViewHelper::expense($expense),
+            'notifications' => NotificationHelper::getNotifications($employee),
+        ]);
+    }
+
+    /**
+     * Show the summary of the expense.
+     * Only the employees with accountant role, and the employee who submitted
+     * the expense, can see this.
+     *
+     * @return \Inertia\Response
+     */
+    public function summary(Request $request, int $companyId, int $expenseId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        // can this expense been seen by someone in this company?
+        try {
+            $expense = Expense::where('company_id', $company->id)
+                ->with('employee')
+                ->with('managerApprover')
+                ->with('employee.position')
+                ->with('employee.status')
+                ->findOrFail($expenseId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
         return Inertia::render('Dashboard/Expenses/Show', [
             'expense' => DashboardExpenseViewHelper::expense($expense),
             'notifications' => NotificationHelper::getNotifications($employee),

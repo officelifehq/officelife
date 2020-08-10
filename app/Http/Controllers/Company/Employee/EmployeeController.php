@@ -71,6 +71,7 @@ class EmployeeController extends Controller
     public function show(Request $request, int $companyId, int $employeeId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
             $employee = Employee::where('company_id', $companyId)
@@ -114,7 +115,8 @@ class EmployeeController extends Controller
         $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee);
 
         // all teams in company
-        $teams = EmployeeShowViewHelper::teams($company->teams()->get(), $employee);
+        $teams = $company->teams()->with('leader')->get();
+        $teams = EmployeeShowViewHelper::teams($teams, $employee);
 
         // all recent ships of this employee
         $ships = EmployeeShowViewHelper::recentShips($employee);
@@ -122,9 +124,12 @@ class EmployeeController extends Controller
         // all skills of this employee
         $skills = EmployeeShowViewHelper::skills($employee);
 
+        // all expenses of this employee
+        $expenses = EmployeeShowViewHelper::expenses($employee);
+
         return Inertia::render('Employee/Show', [
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employee' => $employee->toObject(),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
             'worklogs' => $worklogsCollection,
@@ -138,6 +143,8 @@ class EmployeeController extends Controller
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'ships' => $ships,
             'skills' => $skills,
+            'expenses' => $expenses,
+            'isAccountant' => $loggedEmployee->can_manage_expenses,
         ]);
     }
 

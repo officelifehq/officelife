@@ -113,7 +113,7 @@ class DashboardManagerController extends Controller
 
         $expense = DashboardManagerViewHelper::expense($expense);
 
-        return Inertia::render('Dashboard/Manager/ShowExpense', [
+        return Inertia::render('Dashboard/Manager/ApproveExpense', [
             'notifications' => NotificationHelper::getNotifications($employee),
             'expense' => $expense,
             'defaultCompanyCurrency' => $company->currency,

@@ -18,7 +18,9 @@
 <template>
   <div class="mb4 relative">
     <span class="db fw5 mb2">
-      🔨 {{ $t('employee.worklog_title') }}
+      <span class="mr1">
+        🔨
+      </span> {{ $t('employee.worklog_title') }}
     </span>
 
     <!-- LIST OF WORKLOGS -->

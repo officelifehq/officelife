@@ -81,6 +81,7 @@ class Expense extends Model
     protected $dates = [
         'expensed_at',
         'manager_approver_approved_at',
+        'accounting_approver_approved_at',
         'converted_at',
     ];
 
