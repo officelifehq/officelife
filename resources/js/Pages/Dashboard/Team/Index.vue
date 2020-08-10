@@ -38,38 +38,33 @@
         </ul>
       </div>
 
-      <!-- When there is no team associated with this person -->
-      <div v-show="teams.length == 0" class="cf mw7 center br3 mb3 bg-white box">
-        <div class="pa3 tc">
-          {{ $t('dashboard.team_no_team_yet') }}
-        </div>
+      <div v-show="teams.length != 0">
+        <worklogs
+          :teams="teams"
+          :worklog-dates="worklogDates"
+          :worklog-entries="worklogEntries"
+          :current-team="currentTeam"
+          :current-date="currentDate"
+          :company="company"
+        />
+
+        <birthdays
+          :teams="teams"
+          :birthdays="birthdays"
+        />
+
+        <work-from-home
+          :teams="teams"
+          :work-from-homes="workFromHomes"
+        />
+
+        <recent-ships
+          :team="currentTeam"
+          :recent-ships="recentShips"
+        />
       </div>
 
-      <worklogs
-        :teams="teams"
-        :worklog-dates="worklogDates"
-        :worklog-entries="worklogEntries"
-        :current-team="currentTeam"
-        :current-date="currentDate"
-        :company="company"
-      />
-
-      <birthdays
-        :teams="teams"
-        :birthdays="birthdays"
-      />
-
-      <work-from-home
-        :teams="teams"
-        :work-from-homes="workFromHomes"
-      />
-
-      <recent-ships
-        :team="currentTeam"
-        :recent-ships="recentShips"
-      />
-
-      <div v-show="teams.length != 0" class="cf mt4 mw7 center br3 mb3 bg-white box">
+      <div>
         <div class="pa3">
           <h2>Team</h2>
           <ul>

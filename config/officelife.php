@@ -123,6 +123,7 @@ return [
         'employee_expenses' => 'expenses#employees-expenses',
         'adminland_expense_categories' => 'expenses#expense-categories',
         'manager_expenses' => 'expenses#approval-by-the-manager',
+        'accoutant_expenses' => 'expenses#approval-by-the-accounting-department',
         'accountants' => 'expenses#who-can-manage-expenses',
         'skills' => 'skills',
         'account_hardware_create' => 'hardware',

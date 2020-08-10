@@ -42,7 +42,9 @@
 <template>
   <div class="mb4 relative">
     <span class="db fw5 mb2">
-      🌴 Holidays
+      <span class="mr1">
+        🌴
+      </span> Holidays
     </span>
     <img v-show="$page.auth.employee.permission_level <= 200" loading="lazy" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-holiday-button"
          width="22"

@@ -20,12 +20,16 @@
   <div class="relative">
     <div class="di" data-cy="notification-counter" @click="markRead()">
       <span v-if="notifications" class="mr2 f6 notifications pv1 ph2 br3 pointer" :class="{'more':(numberOfNotifications > 0)}">
-        🔥 <span data-cy="number-notifications">
+        <span class="mr1">
+          🔥
+        </span> <span data-cy="number-notifications">
           {{ numberOfNotifications }}
         </span>
       </span>
       <span v-else class="mr2 f6 notifications pv1 ph2 br3 pointer">
-        🔥 <span data-cy="number-notifications">
+        <span class="mr1">
+          🔥
+        </span> <span data-cy="number-notifications">
           0
         </span>
       </span>

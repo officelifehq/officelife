@@ -125,7 +125,6 @@ class AcceptExpenseAsAccountantTest extends TestCase
             'company_id' => $manager->company_id,
             'author_id' => $manager->id,
             'expense_id' => $expense->id,
-            'should_appear_on_pay_at' => '2020-01-01',
         ];
 
         $expense = (new AcceptExpenseAsAccountant)->execute($request);
@@ -134,7 +133,6 @@ class AcceptExpenseAsAccountantTest extends TestCase
             'id' => $expense->id,
             'status' => Expense::ACCEPTED,
             'company_id' => $manager->company_id,
-            'should_appear_on_pay_at' => '2020-01-01 00:00:00',
         ]);
 
         $this->assertInstanceOf(

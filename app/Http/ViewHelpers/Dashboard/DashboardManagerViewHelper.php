@@ -47,7 +47,9 @@ class DashboardManagerViewHelper
                         'id' => $expense->employee->id,
                         'name' => $expense->employee->name,
                         'avatar' => $expense->employee->avatar,
-                    ] : null,
+                    ] : [
+                        'employee_name' => $expense->employee_name,
+                    ],
                 ]);
             }
         }
@@ -84,7 +86,9 @@ class DashboardManagerViewHelper
                 'avatar' => $expense->employee->avatar,
                 'position' => $expense->employee->position ? $expense->employee->position->title : null,
                 'status' => $expense->employee->status ? $expense->employee->status->name : null,
-            ] : null,
+            ] : [
+                'employee_name' => $expense->employee_name,
+            ],
         ];
 
         return $expense;

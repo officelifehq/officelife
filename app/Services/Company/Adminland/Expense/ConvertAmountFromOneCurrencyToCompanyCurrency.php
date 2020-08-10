@@ -102,7 +102,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
 
     private function convert(): void
     {
-        $convertedAmount = $this->expense->amount * $this->rate;
+        $convertedAmount = $this->expense->amount / $this->rate;
 
         $this->expense->exchange_rate = $this->rate;
         $this->expense->converted_amount = $convertedAmount;

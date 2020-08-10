@@ -134,7 +134,15 @@ return [
     'skills_create' => 'Create a new skill called {name}',
     'skills_list' => 'Current skills',
 
-    'expense_task_associated' => 'Approve the expense for :name',
+    'expense_title' => 'Expenses logged in the last 30 days',
+    'expense_blank' => 'There are no expenses yet.',
+    'expense_view_history' => 'View all expenses',
+    'expense_more_past_expenses' => 'There no recent expenses to display here, but there are {number} older expenses to see using the link below.',
+    'expense_index_title' => 'All the expenses for this employee',
+    'expense_index_stat_total_reimbursed' => 'Total reimbursed',
+    'expense_index_stat_total_accepted' => 'Accepted expenses',
+    'expense_index_stat_total_pending' => 'Pending expenses',
+    'expense_index_stat_total_rejected' => 'Rejected expenses',
 
     'audit_log_title' => 'Audit log',
 ];

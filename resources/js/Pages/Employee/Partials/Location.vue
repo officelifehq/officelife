@@ -1,7 +1,9 @@
 <template>
   <div class="mb4 relative">
     <span class="db fw5 mb2">
-      📍 {{ $t('employee.location_title') }}
+      <span class="mr1">
+        📍
+      </span> {{ $t('employee.location_title') }}
     </span>
 
     <div v-if="employee.address" class="br3 bg-white box z-1 pa3">

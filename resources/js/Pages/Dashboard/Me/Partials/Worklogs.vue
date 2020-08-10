@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="cf mw7 center mb2 fw5">
-      🔨 {{ $t('dashboard.worklog_title') }}
+      <span class="mr2">
+        🔨
+      </span> {{ $t('dashboard.worklog_title') }}
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">

@@ -1,7 +1,9 @@
 <template>
   <div class="mb4 relative">
     <span class="db fw5 mb2">
-      🏡 {{ $t('employee.work_from_home_title') }}
+      <span class="mr1">
+        🏡
+      </span> {{ $t('employee.work_from_home_title') }}
     </span>
 
     <div class="br3 bg-white box z-1">

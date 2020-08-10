@@ -29,7 +29,6 @@ class AcceptExpenseAsAccountant extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'expense_id' => 'required|integer|exists:expenses,id',
-            'should_appear_on_pay_at' => 'required|date_format:Y-m-d',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -88,7 +87,6 @@ class AcceptExpenseAsAccountant extends BaseService
         $this->expense->accounting_approver_id = $this->author->id;
         $this->expense->accounting_approver_name = $this->author->name;
         $this->expense->accounting_approver_approved_at = Carbon::now();
-        $this->expense->should_appear_on_pay_at = $this->data['should_appear_on_pay_at'];
         $this->expense->save();
     }
 

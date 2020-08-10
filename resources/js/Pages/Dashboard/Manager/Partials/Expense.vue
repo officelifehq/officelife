@@ -49,12 +49,12 @@
 
       <!-- LIST OF IN PROGRESS EXPENSES -->
       <div v-if="expenses.length > 0">
-        <p class="mt0 mb2">{{ $t('dashboard.manager_expense_description') }}</p>
+        <p class="mt0 mb2 lh-copy f6">{{ $t('dashboard.manager_expense_description') }}</p>
         <ul class="list pl0 mb0">
           <li v-for="expense in expenses" :key="expense.id" :data-cy="'expense-list-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
             <div class="mb3">
               <small-name-and-avatar
-                v-if="expense.employee"
+                v-if="expense.employee.id"
                 :name="expense.employee.name"
                 :avatar="expense.employee.avatar"
                 :classes="'gray'"
@@ -62,11 +62,13 @@
                 :top="'0px'"
                 :margin-between-name-avatar="'25px'"
               />
+
+              <span v-else>{{ expense.employee.employee_name }}</span>
             </div>
 
             <div class="dt-row-ns">
               <div class="dtc-ns db mb3 mb0-ns">
-                <div class="mb2">{{ expense.title }}</div>
+                <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
                 <ul class="f7 fw3 grey list pl0">
                   <li class="mr2 di">{{ expense.expensed_at }}</li>
                   <li v-if="expense.category" class="di">{{ expense.category }}</li>
@@ -78,9 +80,6 @@
 
                 <!-- converted amount -->
                 <div v-if="expense.converted_amount" class="db f6 fw4 mt2 gray">{{ expense.converted_amount }}</div>
-              </div>
-              <div class="expense-action tr-ns dtc-ns v-mid f6 db">
-                <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id">{{ $t('app.view') }}</inertia-link>
               </div>
             </div>
           </li>

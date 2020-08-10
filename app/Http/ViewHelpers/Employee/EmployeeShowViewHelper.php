@@ -304,22 +304,32 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the expenses associated with the
      * employee.
+     * On the employee profile page, we only see expenses logged in the last
+     * 30 days.
      *
      * @param Employee $employee
-     * @return Collection
+     * @return array
      */
-    public static function expenses(Employee $employee): Collection
+    public static function expenses(Employee $employee): array
     {
         $expenses = $employee->expenses;
 
+        // filter out expenses not in the last 30 days
+        $latestExpenses = $expenses->filter(function ($expense) {
+            return $expense->created_at->greaterThan(Carbon::now()->subDays(30));
+        });
+
         $expensesCollection = collect([]);
-        foreach ($expenses as $expense) {
+        foreach ($latestExpenses as $expense) {
             $expensesCollection->push([
                 'id' => $expense->id,
                 'title' => $expense->title,
                 'amount' => MoneyHelper::format($expense->amount, $expense->currency),
                 'status' => $expense->status,
                 'expensed_at' => DateHelper::formatDate($expense->expensed_at),
+                'converted_amount' => $expense->converted_amount ?
+                    MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
+                    null,
                 'url' => route('employee.expenses.show', [
                     'company' => $employee->company,
                     'employee' => $employee,
@@ -328,6 +338,14 @@ class EmployeeShowViewHelper
             ]);
         }
 
-        return $expensesCollection;
+        return [
+            'url' => route('employee.expenses.index', [
+                'company' => $employee->company,
+                'employee' => $employee,
+            ]),
+            'expenses' => $expensesCollection,
+            'hasMorePastExpenses' => $expenses->count() - $latestExpenses->count() != 0,
+            'totalPastExpenses' => $expenses->count() - $latestExpenses->count(),
+        ];
     }
 }

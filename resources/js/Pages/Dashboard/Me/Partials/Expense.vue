@@ -32,7 +32,9 @@
 <template>
   <div :class="'mb5'">
     <div class="cf mw7 center mb2 fw5">
-      💵 {{ $t('dashboard.expense_title') }}
+      <span class="mr2">
+        💵
+      </span> {{ $t('dashboard.expense_title') }}
 
       <help :url="$page.help_links.employee_expenses" :datacy="'help-icon-expense'" />
     </div>
@@ -154,7 +156,7 @@
           <li v-for="expense in expenses" :key="expense.id" :data-cy="'expense-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
             <div class="dt-row-ns">
               <div class="dtc-ns db mb3 mb0-ns">
-                <div class="mb2">{{ expense.title }}</div>
+                <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
                 <ul class="f7 fw3 grey list pl0">
                   <li class="mr2 di">{{ expense.expensed_at }}</li>
                   <li v-if="expense.category" class="di">{{ expense.category }}</li>
@@ -167,10 +169,7 @@
                 <div v-if="expense.converted_amount" class="db f6 fw4 mt2 gray">{{ expense.converted_amount }}</div>
               </div>
               <div class="expense-status tc-ns dtc-ns v-mid db mb3 mb0-ns">
-                <span class="br3 expense-badge-waiting f7 fw5 ph3 pv2 di" :data-cy="'expense-' + expense.id + '-status-' + expense.status">{{ $t('dashboard.expense_show_status_' + expense.status) }}</span>
-              </div>
-              <div class="expense-action tr-ns dtc-ns v-mid f6 db">
-                <inertia-link :href="expense.url">{{ $t('app.view') }}</inertia-link>
+                <span class="br3 expense-badge-waiting f7 fw5 ph2 pv2 di" :data-cy="'expense-' + expense.id + '-status-' + expense.status">{{ $t('dashboard.expense_show_status_' + expense.status) }}</span>
               </div>
             </div>
           </li>

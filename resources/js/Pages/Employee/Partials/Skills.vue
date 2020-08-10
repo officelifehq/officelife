@@ -49,7 +49,9 @@
 <template>
   <div class="mb4 relative">
     <span class="db fw5 mb2">
-      🧠 {{ $t('employee.skills_title') }}
+      <span class="mr1">
+        🧠
+      </span> {{ $t('employee.skills_title') }}
 
       <help :url="$page.help_links.skills" :datacy="'help-icon-skills'" />
     </span>

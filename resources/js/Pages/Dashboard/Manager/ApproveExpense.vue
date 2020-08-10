@@ -1,4 +1,7 @@
 <style lang="scss" scoped>
+.expense-actions {
+  background-color: #E9EDF2;
+}
 </style>
 
 <template>
@@ -21,16 +24,15 @@
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
-        <div class="cf pa3 bb bb-gray">
+        <div class="cf pa3 pv4-ns bb bb-gray expense-actions">
           <!-- Actions about the expense -->
-          <h3 class="fw5 f5 tc">
-            <span class="mr2">
-              👮‍♀️
-            </span> {{ $t('dashboard.manager_expense_detail_cta') }}
-          </h3>
-          <div v-if="!rejectMode" class="flex-ns justify-between">
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 destroy mb0-ns mb3'" :state="rejectLoadingState" :text="$t('app.reject')" :cypress-selector="'expense-reject-button'" @click="showRejectedModal()" />
-            <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.approve')" :cypress-selector="'expense-accept-button'" @click="accept()" />
+          <div v-if="!rejectMode" class="flex-ns justify-around">
+            <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3 mb0-ns mb3'" :state="rejectLoadingState" :emoji="'👎'" :text="$t('app.reject')" :cypress-selector="'expense-reject-button'"
+                            @click="showRejectedModal()"
+            />
+            <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'👍'" :text="$t('app.approve')" :cypress-selector="'expense-accept-button'"
+                            @click="accept()"
+            />
           </div>
 
           <!-- inline modal to reject the expense -->
@@ -60,11 +62,11 @@
         </div>
 
         <div class="bb bb-gray">
-          <h2 class="pa3 mt2 center tc normal mb2" data-cy="expense-title">
+          <h2 class="ph3 mt4 center tc normal mb2" data-cy="expense-title">
             {{ expense.title }}
           </h2>
-          <p class="f4 tc mb2" data-cy="expense-amount">{{ expense.amount }}</p>
-          <p class="tc gray mb4">({{ expense.converted_amount }})</p>
+          <p class="f5 tc gray fw1" :class="expense.converted_amount ? 'mb2' : 'mb4'" data-cy="expense-amount">{{ expense.amount }}</p>
+          <p v-if="expense.converted_amount" class="f6 tc mb4 gray fw1">({{ expense.converted_amount }})</p>
         </div>
 
         <div class="pa3 bb bb-gray">
@@ -76,15 +78,15 @@
 
           <ul class="list ma0 pl0">
             <li class="flex-ns justify-between mb1 bb-gray-hover pv2 ph1 br2">
-              <span class="di-ns db mb0-ns mb2">{{ $t('dashboard.manager_expense_detail_expense_type') }}</span>
+              <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_expense_type') }}</span>
               <span>{{ expense.category }}</span>
             </li>
             <li class="flex-ns justify-between mb1 bb-gray-hover pv2 ph1 br2">
-              <span class="di-ns db mb0-ns mb2">{{ $t('dashboard.manager_expense_detail_expense_date') }}</span>
+              <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_expense_date') }}</span>
               <span>{{ expense.expensed_at }}</span>
             </li>
             <li class="flex-ns justify-between mb1 bb-gray-hover pv2 ph1 br2">
-              <span class="di-ns db mb0-ns mb2">{{ $t('dashboard.manager_expense_detail_expense_value') }}</span>
+              <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_expense_value') }}</span>
               <span>{{ expense.amount }}</span>
             </li>
           </ul>
@@ -99,11 +101,11 @@
 
           <ul class="list ma0 pl0">
             <li class="flex-ns justify-between mb1 bb-gray-hover pv2 ph1 br2">
-              <span class="di-ns db mb0-ns mb2">{{ $t('dashboard.manager_expense_detail_exchange_value') }}</span>
+              <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_exchange_value') }}</span>
               <span>{{ expense.converted_amount }}</span>
             </li>
             <li class="flex-ns justify-between mb1 bb-gray-hover pv2 ph1 br2">
-              <span class="di-ns db mb0-ns mb2">{{ $t('dashboard.manager_expense_detail_exchange_rate') }}</span>
+              <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_exchange_rate') }}</span>
               <span>{{ expense.exchange_rate }}</span>
             </li>
           </ul>
@@ -118,13 +120,12 @@
 
           <ul class="list ma0 pl0">
             <li class="flex-ns justify-between mb1 bb-gray-hover pv2 ph1 br2">
-              <span class="di-ns db mb0-ns mb2">{{ $t('dashboard.manager_expense_detail_employee_section') }}</span>
+              <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_employee_section') }}</span>
               <span>
                 <small-name-and-avatar
-                  v-if="expense.employee"
+                  v-if="expense.employee.id"
                   :name="expense.employee.name"
                   :avatar="expense.employee.avatar"
-                  :classes="'gray'"
                   :font-size="'f5'"
                   :size="'18px'"
                   :top="'0px'"
@@ -133,12 +134,12 @@
               </span>
             </li>
             <li class="flex-ns justify-between mb1 bb-gray-hover pv2 ph1 br2">
-              <span class="di-ns db mb0-ns mb2">{{ $t('dashboard.manager_expense_detail_employee_position') }}</span>
+              <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_employee_position') }}</span>
               <span v-if="expense.employee.position">{{ expense.employee.position }}</span>
               <span v-else>{{ $t('dashboard.manager_expense_detail_employee_position_blank') }}</span>
             </li>
             <li class="flex-ns justify-between mb1 bb-gray-hover pv2 ph1 br2">
-              <span class="di-ns db mb0-ns mb2">{{ $t('dashboard.manager_expense_detail_employee_status') }}</span>
+              <span class="di-ns db mb0-ns mb2 gray">{{ $t('dashboard.manager_expense_detail_employee_status') }}</span>
               <span v-if="expense.employee.status">{{ expense.employee.status }}</span>
               <span v-else>{{ $t('dashboard.manager_expense_detail_employee_status_blank') }}</span>
             </li>
