@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Team\SetTeamLead;
 use App\Services\Company\Team\UnsetTeamLead;
-use App\Http\ViewHelpers\Team\TeamViewHelper;
+use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 
 class TeamLeadController extends Controller
 {
@@ -106,7 +106,7 @@ class TeamLeadController extends Controller
         $team = (new UnsetTeamLead)->execute($data);
 
         return response()->json([
-            'data' => TeamViewHelper::team($team),
+            'data' => TeamShowViewHelper::team($team),
         ], 200);
     }
 }
