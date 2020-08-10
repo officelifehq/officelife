@@ -138,6 +138,11 @@ return [
     'expense_blank' => 'There are no expenses yet.',
     'expense_view_history' => 'View all expenses',
     'expense_more_past_expenses' => 'There no recent expenses to display here, but there are {number} older expenses to see using the link below.',
+    'expense_index_title' => 'All the expenses for this employee',
+    'expense_index_stat_total_reimbursed' => 'Total reimbursed',
+    'expense_index_stat_total_accepted' => 'Accepted expenses',
+    'expense_index_stat_total_pending' => 'Pending expenses',
+    'expense_index_stat_total_rejected' => 'Rejected expenses',
 
     'audit_log_title' => 'Audit log',
 ];

@@ -59,28 +59,28 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <h2 class="pa3 mt2 mb4 center tc normal">
-          All the expenses for this employee
+          {{ $t('employee.expense_index_title') }}
         </h2>
 
         <div class="flex-ns justify-around dn">
           <div>
             <img loading="lazy" class="db center mb4" alt="total of expenses" src="/img/streamline-icon-startup-benefit@60x60.png" />
           </div>
-          <div class="">
+          <div>
             <p class="mt0 f3 mb2">{{ statistics.reimbursedAmount }}</p>
-            <p class="mt0 f6 gray">Total reimbursed</p>
+            <p class="mt0 f6 gray">{{ $t('employee.expense_index_stat_total_reimbursed') }}</p>
           </div>
-          <div class="">
+          <div>
             <p class="mt0 f3 mb2">{{ statistics.numberOfAcceptedExpenses }}</p>
-            <p class="mt0 f6 gray">Accepted expenses</p>
+            <p class="mt0 f6 gray">{{ $t('employee.expense_index_stat_total_accepted') }}</p>
           </div>
-          <div class="">
+          <div>
             <p class="mt0 f3 mb2">{{ statistics.numberOfInProgressExpenses }}</p>
-            <p class="mt0 f6 gray">Pending expenses</p>
+            <p class="mt0 f6 gray">{{ $t('employee.expense_index_stat_total_pending') }}</p>
           </div>
-          <div class="">
+          <div>
             <p class="mt0 f3 mb2">{{ statistics.numberOfRejectedExpenses }}</p>
-            <p class="mt0 f6 gray">Rejected expenses</p>
+            <p class="mt0 f6 gray">{{ $t('employee.expense_index_stat_total_rejected') }}</p>
           </div>
         </div>
 
