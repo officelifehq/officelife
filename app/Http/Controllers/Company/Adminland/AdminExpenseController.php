@@ -61,10 +61,6 @@ class AdminExpenseController extends Controller
             'data' => [
                 'id' => $category->id,
                 'name' => $category->name,
-                'url' => route('account.expenses.show', [
-                    'company' => $loggedCompany->id,
-                    'expense' => $category->id,
-                ]),
             ],
         ], 201);
     }
