@@ -65,8 +65,8 @@
       </div>
 
       <!-- list of employees -->
-      <div v-show="listOfEmployees.length > 0" class="pa3">
-        <div v-for="employee in listOfEmployees" :key="employee.id" class="fl w-third-l w-100 mb4" data-cy="members-list">
+      <div v-show="listOfEmployees.length > 0" class="pa3 flex flex-wrap employee-list">
+        <div v-for="employee in listOfEmployees" :key="employee.id" class="mb4 mr3" data-cy="members-list">
           <span class="pl3 db relative team-member">
             <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
 
