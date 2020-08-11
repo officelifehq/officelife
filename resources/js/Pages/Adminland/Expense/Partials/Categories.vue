@@ -48,7 +48,7 @@
 
     <!-- LIST OF EXISTING EXPENSE CATEGORIES -->
     <ul v-show="categories.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="categories-list">
-      <li v-for="category in categories" :key="category.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+      <li v-for="category in categories" :key="category.id" :data-cy="'category-' + category.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
         {{ category.name }}
 
         <!-- RENAME POSITION FORM -->
