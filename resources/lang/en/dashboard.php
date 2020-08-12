@@ -15,7 +15,7 @@ return [
     'morale_emotion_bad' => 'I’ve had a bad day',
     'morale_emotion_normal' => 'It’s a normal day',
     'morale_emotion_good' => 'Best day ever',
-    'morale_rules' => 'You can vote once per day, and you can’t edit your vote. Your vote will be completely anonymous.',
+    'morale_rules' => 'You can tell us once per day, and you can’t edit your submission. Also, your opinion will be completely anonymous.',
 
     'work_from_home_title' => 'Work from home',
     'work_from_home_cta' => 'I will or I have worked from home today.',

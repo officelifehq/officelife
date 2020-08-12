@@ -21,6 +21,7 @@ return [
     'approve' => 'Approve',
     'yes' => 'Yes',
     'no' => 'No',
+    'back' => 'Back',
     'sure' => 'Are you sure?',
     'yes_sure' => 'Yes I’m sure',
     'optional' => 'optional',
@@ -91,6 +92,7 @@ return [
     'breadcrumb_account_manage_expense_categories' => 'Expense management',
     'breadcrumb_account_manage_general_settings' => 'General settings',
 
+    'header_welcome' => 'Welcome',
     'header_home' => 'Home',
     'header_find' => 'Find',
     'header_employees' => 'Employees',

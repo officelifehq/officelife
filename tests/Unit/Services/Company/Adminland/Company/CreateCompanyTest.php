@@ -57,6 +57,7 @@ class CreateCompanyTest extends TestCase
         $this->assertDatabaseHas('employees', [
             'company_id' => $company->id,
             'id' => $michael->id,
+            'display_welcome_message' => true,
         ]);
     }
 

@@ -24,10 +24,20 @@ class DashboardTeamController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param mixed $requestedDate
-     * @return Response
      */
-    public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null): Response
+    public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null)
     {
+        if (! is_null($teamId)) {
+            try {
+                $team = Team::where('company_id', $companyId)
+                    ->where('id', $teamId)
+                    ->with('employees')
+                    ->firstOrFail();
+            } catch (ModelNotFoundException $e) {
+                return redirect('home');
+            }
+        }
+
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
         $teams = $employee->teams()->with('employees')->with('ships')->get();
@@ -67,12 +77,7 @@ class DashboardTeamController extends Controller
                     ->with('employees')
                     ->firstOrFail();
             } catch (ModelNotFoundException $e) {
-                return Inertia::render('Dashboard/Team/Partials/MyTeamEmptyState', [
-                    'company' => $company,
-                    'employee' => $employeeInformation,
-                    'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-                    'message' => trans('dashboard.team_not_allowed'),
-                ]);
+                return redirect('home');
             }
 
             $exists = $teams->contains($teamId);

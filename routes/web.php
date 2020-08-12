@@ -27,6 +27,9 @@ Route::middleware(['auth'])->group(function () {
 
     // only available if user is in the right account
     Route::middleware(['company'])->prefix('{company}')->group(function () {
+        Route::get('welcome', 'WelcomeController@index')->name('welcome');
+        Route::post('hide', 'WelcomeController@hide');
+
         Route::get('notifications', 'User\\Notification\\NotificationController@index');
         Route::post('notifications/read', 'User\\Notification\\MarkNotificationAsReadController@store');
 

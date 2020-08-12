@@ -1,32 +1,40 @@
+<style lang="scss" scoped>
+img {
+  width: 90px;
+}
+</style>
 <template>
   <layout title="Home" :no-menu="true" :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <div class="cf mt4 mw7 center br3 mb3 bg-white box">
-        <div class="fn fl-ns w-50-ns pa3">
-          Create a company
+      <div class="mt4 mw6 center mb1">
+        <p class="mt0 mb3 f6">← <inertia-link :href="'/'">{{ $t('app.back') }}</inertia-link></p>
+      </div>
+      <div class="mw6 center br3 mb3 bg-white box pa3">
+        <div class="tc">
+          <img src="/img/streamline-icon-construction-house-5@130x130.png" loading="lazy" class="db center mb1" alt="company" />
+          <h2 class="fw5 f4 lh-copy mt0 mb1">
+            Manage your company with OfficeLife
+          </h2>
+          <p class="mt0 mb4 gray">{{ $t('company.subtitle') }}</p>
         </div>
-        <div class="fn fl-ns w-50-ns pa3">
-          <!-- Form Errors -->
-          <errors :errors="form.errors" />
 
-          <form @submit.prevent="submit">
-            <text-input v-model="form.name"
-                        :name="'name'"
-                        :errors="$page.errors.name"
-                        :label="$t('company.new_name')"
-                        :required="true"
-            />
+        <!-- Form Errors -->
+        <errors :errors="form.errors" />
 
-            <!-- Actions -->
-            <div class="">
-              <div class="flex-ns justify-between">
-                <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="'register'" data-cy="create-company-submit" />
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
+        <form @submit.prevent="submit">
+          <text-input v-model="form.name"
+                      :name="'name'"
+                      :errors="$page.errors.name"
+                      :label="$t('company.new_name')"
+                      :required="true"
+                      :autofocus="true"
+          />
+
+          <!-- Actions -->
+          <div class="flex-ns justify-between">
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('company.next_step_cta')" data-cy="create-company-submit" />
+          </div>
+        </form>
       </div>
     </div>
   </layout>

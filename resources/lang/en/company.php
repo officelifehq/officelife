@@ -1,7 +1,9 @@
 <?php
 
 return [
-    'new_name' => 'What is the name of the company?',
+    'new_name' => 'What is the name of your company?',
+    'subtitle' => 'There is only one step to get started.',
+    'next_step_cta' => 'Ok, let’s go',
 
     'questions_title' => 'Questions to get to know your colleagues',
     'question_number_of_answers' => 'No colleague has answered. | {number} colleague has answered. | {number} colleagues have answered.',
