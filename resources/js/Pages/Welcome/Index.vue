@@ -16,7 +16,7 @@
         <p class="lh-copy">{{ $t('welcome.thanks') }}</p>
         <p class="lh-copy">{{ $t('welcome.admin_line_1') }}</p>
         <p class="lh-copy mb4">{{ $t('welcome.admin_line_2') }}</p>
-        <p class="mb4 tc"><a href="" class="btn">🙉 {{ $t('welcome.admin_guide_cta') }}</a></p>
+        <p class="mb4 tc"><a href="" class="btn"><span class="mr1">🙉</span> {{ $t('welcome.admin_guide_cta') }}</a></p>
         <p class="lh-copy">{{ $t('welcome.admin_line_3') }}</p>
         <p class="lh-copy">{{ $t('welcome.admin_line_4') }}</p>
       </div>
