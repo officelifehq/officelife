@@ -78,6 +78,7 @@ class CreateCompany extends BaseService
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
             'avatar' => $avatar,
+            'display_welcome_message' => true,
         ]);
     }
 

@@ -50,6 +50,7 @@ class Employee extends Model
         'holiday_balance',
         'default_dashboard_view',
         'can_manage_expenses',
+        'display_welcome_message',
         'is_dummy',
     ];
 
@@ -98,6 +99,7 @@ class Employee extends Model
         'permission_level' => 'integer',
         'locked' => 'boolean',
         'can_manage_expenses' => 'boolean',
+        'display_welcome_message' => 'boolean',
         'is_dummy' => 'boolean',
     ];
 

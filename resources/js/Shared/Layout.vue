@@ -58,6 +58,9 @@ nav {
             <img loading="lazy" src="/img/logo.png" height="30" width="30" alt="logo" />
           </inertia-link>
           <div v-if="!noMenu">
+            <inertia-link v-if="$page.auth.employee.display_welcome_message" :href="'/' + $page.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr2 no-underline pa2 bb-0 special">
+              <span class="mr1">👋</span> {{ $t('app.header_welcome') }}
+            </inertia-link>
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr2 no-underline pa2 bb-0 special">
               <span class="mr1">🏡</span> {{ $t('app.header_home') }}
             </inertia-link>
@@ -195,15 +198,18 @@ nav {
 
     <slot></slot>
 
-    <div v-if="$page.auth.user.show_help" class="tc mv3">
-      <span class="pointer" data-cy="layout-hide-help" @click="toggleHelp()">
-        {{ $t('app.hide_help') }}
-      </span>
-    </div>
-    <div v-else class="tc mv3">
-      <span class="pointer" data-cy="layout-show-help" @click="toggleHelp()">
-        {{ $t('app.show_help') }}
-      </span>
+    <!-- toggle help -->
+    <div v-if="showHelpOnPage">
+      <div v-if="$page.auth.user.show_help" class="tc mv3">
+        <span class="pointer" data-cy="layout-hide-help" @click="toggleHelp()">
+          {{ $t('app.hide_help') }}
+        </span>
+      </div>
+      <div v-else class="tc mv3">
+        <span class="pointer" data-cy="layout-show-help" @click="toggleHelp()">
+          {{ $t('app.show_help') }}
+        </span>
+      </div>
     </div>
 
     <toaster />
@@ -244,6 +250,10 @@ export default {
     notifications: {
       type: Array,
       default: null,
+    },
+    showHelpOnPage: {
+      type: Boolean,
+      default: true,
     },
   },
 

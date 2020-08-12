@@ -53,6 +53,6 @@ class CompanyController extends Controller
             'name' => $request->input('name'),
         ]);
 
-        return redirect($company->id.'/dashboard');
+        return redirect($company->id.'/welcome');
     }
 }
