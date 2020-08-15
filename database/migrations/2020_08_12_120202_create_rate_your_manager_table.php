@@ -24,7 +24,7 @@ class CreateRateYourManagerTable extends Migration
             $table->id();
             $table->unsignedBigInteger('rate_your_manager_survey_id');
             $table->unsignedBigInteger('employee_id');
-            $table->integer('rating')->nullable();
+            $table->string('rating')->nullable();
             $table->text('comment')->nullable();
             $table->boolean('reveal_identity_to_manager')->default(false);
             $table->timestamps();
