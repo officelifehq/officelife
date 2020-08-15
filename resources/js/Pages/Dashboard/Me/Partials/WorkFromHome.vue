@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="cf mw7 center mb2 fw5 relative">
-      <span class="mr2">
+      <span class="mr1">
         🏡
       </span> {{ $t('dashboard.work_from_home_title') }}
 

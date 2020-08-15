@@ -162,4 +162,31 @@ class DashboardMeViewHelper
         }
         return $expensesCollection;
     }
+
+    /**
+     * Get all the Rate Your Manager survey answers that need to be answers, if
+     * they exist.
+     *
+     * @var Employee $employee
+     * @return Collection|null
+     */
+    public static function rateYourManagerSurveys(Employee $employee): ?Collection
+    {
+        // is there currently an active RateYourManager survey?
+        $answers = $employee->rateYourManagerAnswers()
+            ->whereNull('rating')
+            ->with('entry')
+            ->with('entry.manager')
+            ->get();
+
+        $answersCollection = collect([]);
+        foreach ($answers as $answer) {
+            $answersCollection->push([
+                'id' => $answer->id,
+                'manager_name' => $answer->entry->manager->name,
+                'deadline' => DateHelper::hoursOrDaysLeft($answer->entry->valid_until_at),
+            ]);
+        }
+        return $answersCollection;
+    }
 }

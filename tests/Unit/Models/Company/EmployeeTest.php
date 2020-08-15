@@ -26,6 +26,7 @@ use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\EmployeePlannedHoliday;
 use App\Models\Company\EmployeeDailyCalendarEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -316,6 +317,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->approvedAccountingExpenses()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_answers_to_rate_your_manager_surveys(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(RateYourManagerAnswer::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->rateYourManagerAnswers()->exists());
     }
 
     /** @test */

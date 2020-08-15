@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use App\Models\Company\RateYourManagerAnswer;
 
 $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
     return [
@@ -378,5 +379,27 @@ $factory->define(App\Models\Company\Expense::class, function () {
         'amount' => '100',
         'currency' => 'USD',
         'expensed_at' => '1999-01-01',
+    ];
+});
+
+$factory->define(App\Models\Company\RateYourManagerSurvey::class, function () {
+    return [
+        'manager_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'active' => false,
+    ];
+});
+
+$factory->define(App\Models\Company\RateYourManagerAnswer::class, function () {
+    return [
+        'rate_your_manager_survey_id' => function () {
+            return factory(App\Models\Company\RateYourManagerSurvey::class)->create()->id;
+        },
+        'employee_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
+        },
+        'rating' => RateYourManagerAnswer::BAD,
+        'comment' => 'A really bad manager',
     ];
 });

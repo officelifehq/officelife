@@ -137,6 +137,29 @@ class DateHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_returns_the_number_of_hours_or_days_left(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1, 10, 50));
+        $date = Carbon::createFromFormat('Y-m-d', '2018-01-03');
+        $this->assertEquals(
+            '2 days left',
+            DateHelper::hoursOrDaysLeft($date)
+        );
+
+        $date = Carbon::create(2018, 1, 2, 8, 50);
+        $this->assertEquals(
+            '22 hours left',
+            DateHelper::hoursOrDaysLeft($date)
+        );
+
+        $date = Carbon::create(2018, 1, 1, 9, 50);
+        $this->assertEquals(
+            '1 hour left',
+            DateHelper::hoursOrDaysLeft($date)
+        );
+    }
+
+    /** @test */
     public function it_generates_a_calendar(): void
     {
         $michael = factory(Employee::class)->create([]);

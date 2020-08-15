@@ -85,7 +85,7 @@ return [
     'accountant_manager' => 'Manager:',
 
     'manager_expense_title' => 'Expenses that needs your approval',
-    'manager_expense_blank_state' => 'There are no expenses to validate.',
+    'manager_expense_blank_state' => 'You don’t have any expenses to validate.',
     'manager_expense_description' => 'As a manager, you need to approve the following expenses before they are reiumbursed.',
     'manager_expense_accepted' => 'The expense has been accepted',
     'manager_expense_rejected' => 'The expense has been rejected',

@@ -113,4 +113,7 @@ return [
 
     'notification_blank_state' => 'There are no new notifications',
     'notification_view_all' => 'View all notifications',
+
+    'days_left' => '1 day left|:count days left',
+    'hours_left' => '1 hour left|:count hours left',
 ];

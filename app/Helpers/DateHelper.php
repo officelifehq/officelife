@@ -139,6 +139,26 @@ class DateHelper
     }
 
     /**
+     * Return a string indicating the number of days or hours left, like
+     * `3 hours left` or `1 day left`, depending on the given date.
+     *
+     * @param Carbon $date
+     * @return string
+     */
+    public static function hoursOrDaysLeft(Carbon $date): string
+    {
+        $hoursLeft = Carbon::now()->diffInHours($date);
+
+        if ($hoursLeft < 24) {
+            $timeLeft = trans_choice('app.hours_left', $hoursLeft);
+        } else {
+            $timeLeft = trans_choice('app.days_left', Carbon::now()->diffInDays($date));
+        }
+
+        return $timeLeft;
+    }
+
+    /**
      * Return an array containing a yearly calendar.
      * This array contains a row for each month. The first entry in this array
      * is the current month.

@@ -125,6 +125,7 @@ return [
         'manager_expenses' => 'expenses#approval-by-the-manager',
         'accoutant_expenses' => 'expenses#approval-by-the-accounting-department',
         'accountants' => 'expenses#who-can-manage-expenses',
+        'manager_rate_manager' => 'expenses#approval-by-the-manager',
         'skills' => 'skills',
         'account_hardware_create' => 'hardware',
         'account_employee_delete' => 'employee-management#deleting-an-employee',

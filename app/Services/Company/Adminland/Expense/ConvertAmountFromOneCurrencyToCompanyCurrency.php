@@ -131,7 +131,6 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
         ]);
 
         $this->query = Str::finish($uri, '?').$query;
-        \Log::info($this->query);
     }
 
     /**

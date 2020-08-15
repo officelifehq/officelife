@@ -2,14 +2,18 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Answer;
 use App\Models\Company\Expense;
+use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use App\Models\Company\ExpenseCategory;
+use App\Jobs\StartRateYourManagerProcess;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 
 class DashboardMeViewHelperTest extends TestCase
@@ -179,6 +183,56 @@ class DashboardMeViewHelperTest extends TestCase
                     'category' => 'travel',
                     'expensed_at' => 'Jan 01, 1999',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'.$expense->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_answers_the_employee_should_reply_to_about_how_they_feel_about_their_manager(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $jim = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $michael->id,
+        ]);
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $jim->id,
+        ]);
+
+        // start two surveys
+        StartRateYourManagerProcess::dispatch();
+
+        $collection = DashboardMeViewHelper::rateYourManagerSurveys($dwight);
+
+        $this->assertEquals(2, $collection->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => 1,
+                    'manager_name' => $michael->name,
+                    'deadline' => '3 days left',
+                ],
+                1 => [
+                    'id' => 2,
+                    'manager_name' => $jim->name,
+                    'deadline' => '3 days left',
                 ],
             ],
             $collection->toArray()
