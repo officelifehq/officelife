@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Company\Employee\Pronoun;
+namespace App\Services\Company\Employee\RateYourManager;
 
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
@@ -24,7 +24,7 @@ class RateYourManager extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'answer_id' => 'required|integer|exists:rate_your_manager_answers,id',
-            'rating' => 'required|integer|exists:pronouns,id',
+            'rating' => 'required|string|max:255',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -44,20 +44,18 @@ class RateYourManager extends BaseService
             ->asNormalUser()
             ->canExecuteService();
 
-        $employee = $this->validateEmployeeBelongsToCompany($data);
-
         $answer = RateYourManagerAnswer::findOrFail($data['answer_id']);
         $survey = $answer->entry;
-
-        if (! $survey->active) {
-            throw new SurveyNotActiveAnymoreException();
-        }
 
         if ($survey->manager->company->id != $data['company_id']) {
             throw new NotEnoughPermissionException();
         }
 
-        if ($survey->manager->id != $this->author->id) {
+        if (! $survey->active) {
+            throw new SurveyNotActiveAnymoreException();
+        }
+
+        if ($answer->employee_id != $this->author->id) {
             throw new NotEnoughPermissionException();
         }
 
