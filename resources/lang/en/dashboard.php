@@ -142,4 +142,8 @@ return [
     'expense_detail_status_rejected_by_manager_title' => 'This expense has been rejected by the manager for the following reason:',
     'expense_detail_status_rejected_by_accounting_title' => 'This expense has been rejected by the accounting department for the following reason:',
     'expense_detail_status_accepted_title' => 'This expense has been approved.',
+
+    'rate_your_manager_title' => 'Rate your manager',
+    'rate_your_manager_subtitle' => 'It’s the end of the month. It’s time to tell us how it goes with your manager, {name}.',
+    'rate_your_manager_anonymous' => 'Your opinion will be completely anonymous and will help Roger be a better manager.',
 ];

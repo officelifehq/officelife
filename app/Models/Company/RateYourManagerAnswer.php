@@ -24,6 +24,7 @@ class RateYourManagerAnswer extends Model
     protected $fillable = [
         'rate_your_manager_survey_id',
         'employee_id',
+        'active',
         'rating',
         'comment',
         'reveal_identity_to_manager',
@@ -35,6 +36,7 @@ class RateYourManagerAnswer extends Model
      * @var array
      */
     protected $casts = [
+        'active' => 'boolean',
         'reveal_identity_to_manager' => 'boolean',
     ];
 

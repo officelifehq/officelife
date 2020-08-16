@@ -22,16 +22,16 @@
 </style>
 
 <template>
-  <div class="mb5">
-    <div v-for="survey in rateYourManagerSurveys" :key="survey.id">
+  <div>
+    <div v-for="survey in rateYourManagerSurveys" :key="survey.id" class="mb5">
       <div class="cf mw7 center mb2 fw5 relative">
         <span class="mr1">
           👨‍⚖️
-        </span> Rate your manager
+        </span> {{ $t('dashboard.rate_your_manager_title') }}
         <span class="absolute right-0 fw3 f6">
           <span class="mr1">
             ⏳
-          </span> 2 days left
+          </span> {{ survey.deadline }}
         </span>
       </div>
 
@@ -40,27 +40,27 @@
 
         <div class="pa3">
           <h2 class="f4 fw4 mt0 mb2 ml6 lh-copy">
-            It’s the end of the month. It’s time to tell us how it goes with your manager.
+            {{ $t('dashboard.rate_your_manager_subtitle', { name: survey.manager_name}) }}
           </h2>
 
-          <p class="mt0 mb3 ml6 lh-copy gray f6">Your opinion will be completely anonymous and will help Roger be a better manager.</p>
+          <p class="mt0 mb3 ml6 lh-copy gray f6">{{ $t('dashboard.rate_your_manager_anonymous') }}</p>
 
           <div v-if="!alreadyAnswered" class="ml6">
             <div class="flex-ns justify-around mt3 mb3">
               <span class="btn mr3-ns mb0-ns mb2 dib-l db rate-bad" data-cy="log-rate-bad" @click.prevent="store(1)">
                 <span class="mr1">
                   😨
-                </span> Not ideal
+                </span> {{ $t('app.rate_manager_bad') }}
               </span>
               <span class="btn mr3-ns mb0-ns mb2 dib-l db" data-cy="log-rate-normal" @click.prevent="store(2)">
                 <span class="mr1">
                   🙂
-                </span> It’s going well
+                </span> {{ $t('app.rate_manager_average') }}
               </span>
               <span class="btn dib-l db mb0-ns rate-good" data-cy="log-rate-good" @click.prevent="store(3)">
                 <span class="mr1">
                   🤩
-                </span> Simply great
+                </span> {{ $t('app.rate_manager_good') }}
               </span>
             </div>
           </div>

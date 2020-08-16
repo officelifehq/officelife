@@ -174,6 +174,7 @@ class DashboardMeViewHelper
     {
         // is there currently an active RateYourManager survey?
         $answers = $employee->rateYourManagerAnswers()
+            ->where('active', true)
             ->whereNull('rating')
             ->with('entry')
             ->with('entry.manager')

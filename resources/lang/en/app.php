@@ -116,4 +116,8 @@ return [
 
     'days_left' => '1 day left|:count days left',
     'hours_left' => '1 hour left|:count hours left',
+
+    'rate_manager_bad' => 'Not ideal',
+    'rate_manager_average' => 'It’s going well',
+    'rate_manager_good' => 'Simply great',
 ];
