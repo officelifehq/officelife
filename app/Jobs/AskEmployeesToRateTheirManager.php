@@ -46,6 +46,7 @@ class AskEmployeesToRateTheirManager implements ShouldQueue
         foreach ($employees as $employee) {
             $employee = $employee->directReport;
             RateYourManagerAnswer::create([
+                'active' => true,
                 'rate_your_manager_survey_id' => $entry->id,
                 'employee_id' => $employee->id,
             ]);

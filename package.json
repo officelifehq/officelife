@@ -14,7 +14,8 @@
         "cypress": "mv .env .env2 && mv .env.cypress.local .env && yarn run e2e-gui",
         "normal": "mv .env .env.cypress.local && mv .env2 .env",
         "test": "php artisan migrate:fresh --database testing && php artisan db:seed --database testing",
-        "local": "php artisan migrate:fresh && php artisan db:seed"
+        "local": "php artisan migrate:fresh && php artisan db:seed",
+        "composer update": "COMPOSER_MEMORY_LIMIT=-1 composer update"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",

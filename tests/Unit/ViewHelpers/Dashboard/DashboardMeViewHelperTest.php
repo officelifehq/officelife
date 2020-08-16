@@ -218,7 +218,7 @@ class DashboardMeViewHelperTest extends TestCase
         // start two surveys
         StartRateYourManagerProcess::dispatch();
 
-        $collection = DashboardMeViewHelper::rateYourManagerSurveys($dwight);
+        $collection = DashboardMeViewHelper::rateYourManagerAnswers($dwight);
 
         $this->assertEquals(2, $collection->count());
 

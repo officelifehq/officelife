@@ -29,7 +29,7 @@
     </label>
 
     <textarea :id="id"
-              ref="input"
+              :ref="customRef"
               v-bind="$attrs"
               class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
               :class="{ error: errors.length }"
@@ -74,6 +74,10 @@ export default {
     datacy: {
       type: String,
       default: '',
+    },
+    customRef: {
+      type: String,
+      default: 'input',
     },
     label: {
       type: String,

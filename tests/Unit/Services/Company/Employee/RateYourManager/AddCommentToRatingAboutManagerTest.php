@@ -3,8 +3,6 @@
 namespace Tests\Unit\Services\Company\Employee\Skill;
 
 use Tests\TestCase;
-use App\Jobs\LogAccountAudit;
-use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use App\Models\Company\RateYourManagerAnswer;
@@ -14,13 +12,14 @@ use App\Exceptions\NotEnoughPermissionException;
 use App\Exceptions\SurveyNotActiveAnymoreException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\RateYourManager\RateYourManager;
+use App\Services\Company\Employee\RateYourManager\AddCommentToRatingAboutManager;
 
-class RateYourManagerTest extends TestCase
+class AddCommentToRatingAboutManagerTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_rates_a_manager(): void
+    public function it_adds_a_comment_about_the_rating_of_the_manager(): void
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
@@ -121,38 +120,21 @@ class RateYourManagerTest extends TestCase
             'company_id' => $manager->company_id,
             'author_id' => $employee->id,
             'answer_id' => $answer->id,
-            'rating' => RateYourManagerAnswer::BAD,
+            'comment' => 'great relationship',
+            'reveal_identity_to_manager' => true,
         ];
 
-        $answer = (new RateYourManager)->execute($request);
+        $answer = (new AddCommentToRatingAboutManager)->execute($request);
 
         $this->assertDatabaseHas('rate_your_manager_answers', [
             'id' => $answer->id,
-            'active' => false,
-            'rating' => RateYourManagerAnswer::BAD,
+            'comment' => 'great relationship',
+            'reveal_identity_to_manager' => true,
         ]);
 
         $this->assertInstanceOf(
             RateYourManagerAnswer::class,
             $answer
         );
-
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($manager, $employee) {
-            return $job->auditLog['action'] === 'rate_your_manager_survey_answered' &&
-                $job->auditLog['author_id'] === $employee->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'manager_id' => $manager->id,
-                    'manager_name' => $manager->name,
-                ]);
-        });
-
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($manager, $employee) {
-            return $job->auditLog['action'] === 'rate_your_manager_survey_answered' &&
-                $job->auditLog['author_id'] === $employee->id &&
-                $job->auditLog['objects'] === json_encode([
-                    'manager_id' => $manager->id,
-                    'manager_name' => $manager->name,
-                ]);
-        });
     }
 }

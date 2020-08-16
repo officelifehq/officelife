@@ -51,6 +51,7 @@ class AskEmployeesToRateTheirManagerTest extends TestCase
         $this->assertDatabaseHas('rate_your_manager_answers', [
             'rate_your_manager_survey_id' => 1,
             'employee_id' => $dwight->id,
+            'active' => true,
             'rating' => null,
             'comment' => null,
             'reveal_identity_to_manager' => false,
@@ -59,6 +60,7 @@ class AskEmployeesToRateTheirManagerTest extends TestCase
         $this->assertDatabaseHas('rate_your_manager_answers', [
             'rate_your_manager_survey_id' => 1,
             'employee_id' => $jim->id,
+            'active' => true,
             'rating' => null,
             'comment' => null,
             'reveal_identity_to_manager' => false,

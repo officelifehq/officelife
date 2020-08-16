@@ -170,7 +170,7 @@ class DashboardMeViewHelper
      * @var Employee $employee
      * @return Collection|null
      */
-    public static function rateYourManagerSurveys(Employee $employee): ?Collection
+    public static function rateYourManagerAnswers(Employee $employee): ?Collection
     {
         // is there currently an active RateYourManager survey?
         $answers = $employee->rateYourManagerAnswers()

@@ -23,7 +23,7 @@
 
 <template>
   <div>
-    <div v-for="survey in rateYourManagerSurveys" :key="survey.id" class="mb5">
+    <div v-for="answer in rateYourManagerAnswers" :key="answer.id" class="mb5">
       <div class="cf mw7 center mb2 fw5 relative">
         <span class="mr1">
           👨‍⚖️
@@ -31,7 +31,7 @@
         <span class="absolute right-0 fw3 f6">
           <span class="mr1">
             ⏳
-          </span> {{ survey.deadline }}
+          </span> {{ answer.deadline }}
         </span>
       </div>
 
@@ -39,25 +39,26 @@
         <img loading="lazy" src="/img/streamline-icon-judge-1-4@140x140.png" alt="judge" class="judge absolute top-1 left-1" />
 
         <div class="pa3">
-          <h2 class="f4 fw4 mt0 mb2 ml6 lh-copy">
-            {{ $t('dashboard.rate_your_manager_subtitle', { name: survey.manager_name}) }}
-          </h2>
-
-          <p class="mt0 mb3 ml6 lh-copy gray f6">{{ $t('dashboard.rate_your_manager_anonymous') }}</p>
-
+          <!-- Emotion panel -->
           <div v-if="!alreadyAnswered" class="ml6">
+            <h2 class="f4 fw4 mt0 mb2 lh-copy">
+              {{ $t('dashboard.rate_your_manager_subtitle', { name: answer.manager_name}) }}
+            </h2>
+
+            <p class="mt0 mb3 lh-copy gray f6">{{ $t('dashboard.rate_your_manager_anonymous') }}</p>
+
             <div class="flex-ns justify-around mt3 mb3">
-              <span class="btn mr3-ns mb0-ns mb2 dib-l db rate-bad" data-cy="log-rate-bad" @click.prevent="store(1)">
+              <span class="btn mr3-ns mb0-ns mb2 dib-l db rate-bad" data-cy="log-rate-bad" @click.prevent="submit(answer, 'bad')">
                 <span class="mr1">
                   😨
                 </span> {{ $t('app.rate_manager_bad') }}
               </span>
-              <span class="btn mr3-ns mb0-ns mb2 dib-l db" data-cy="log-rate-normal" @click.prevent="store(2)">
+              <span class="btn mr3-ns mb0-ns mb2 dib-l db" data-cy="log-rate-normal" @click.prevent="submit(answer, 'average')">
                 <span class="mr1">
                   🙂
                 </span> {{ $t('app.rate_manager_average') }}
               </span>
-              <span class="btn dib-l db mb0-ns rate-good" data-cy="log-rate-good" @click.prevent="store(3)">
+              <span class="btn dib-l db mb0-ns rate-good" data-cy="log-rate-good" @click.prevent="submit(answer, 'good')">
                 <span class="mr1">
                   🤩
                 </span> {{ $t('app.rate_manager_good') }}
@@ -65,24 +66,56 @@
             </div>
           </div>
 
-          <form v-if="answerMode" @submit.prevent="submit()">
+          <!-- care to add a comment modal -->
+          <div v-if="answerMode && !showFinalSucessMessage" class="ml6">
+            <h2 class="f4 fw4 mt0 mb2 lh-copy">
+              {{ $t('dashboard.rate_your_manager_thanks_add_comment') }}
+            </h2>
+
+            <p class="mt0 mb3 lh-copy gray f6">{{ $t('dashboard.rate_your_manager_thanks_add_comment_desc') }}</p>
+
+            <a v-if="!commentMode" href="#" class="btn dib" @click.prevent="showAnswerPanel(answer)">{{ $t('dashboard.rate_your_manager_thanks_add_comment_cta') }}</a>
+          </div>
+
+          <!-- actually add a comment -->
+          <form v-if="commentMode" class="ml6" @submit.prevent="submitComment(answer)">
             <errors :errors="form.errors" />
+
             <text-area
-              ref="editor"
-              v-model="form.body"
+              :ref="'editor-' + answer.id"
+              v-model="form.comment"
+              :required="true"
               :datacy="'answer-content'"
-              @esc-key-pressed="addMode = false"
+              @esc-key-pressed="commentMode = false"
             />
-            <p class="db lh-copy f6">
-              👋 {{ $t('dashboard.question_answer_help') }}
-            </p>
+
+            <checkbox
+              :id="'home'"
+              v-model="form.reveal"
+              :datacy="'log-from-work-home-cta'"
+              :label="$t('dashboard.rate_your_manager_thanks_add_comment_reveal_identity')"
+              :extra-class-upper-div="'mb0 relative'"
+              :required="false"
+              @change="toggleReveal()"
+            />
+
+            <!-- actions -->
             <p class="ma0">
-              <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-answer'" />
-              <a class="pointer" @click.prevent="answerMode = false">
+              <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.submit')" :cypress-selector="'submit-answer'" />
+              <a class="pointer" @click.prevent="commentMode = false">
                 {{ $t('app.cancel') }}
               </a>
             </p>
           </form>
+
+          <!-- final success message -->
+          <div v-if="showFinalSucessMessage" class="ml6 tc">
+            <h2 class="f3 fw4 mt3 mb2 lh-copy">
+              🤝
+            </h2>
+
+            <p class="mt0 mb3 lh-copy f5">{{ $t('dashboard.rate_your_manager_final_sucess_message') }}.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -93,14 +126,14 @@
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextArea from '@/Shared/TextArea';
-//import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Checkbox from '@/Shared/Checkbox';
 
 export default {
   components: {
     Errors,
     LoadingButton,
     TextArea,
-    //SmallNameAndAvatar,
+    Checkbox,
   },
 
   props: {
@@ -108,7 +141,7 @@ export default {
       type: Object,
       default: null,
     },
-    rateYourManagerSurveys: {
+    rateYourManagerAnswers: {
       type: Array,
       default: null,
     },
@@ -117,10 +150,13 @@ export default {
   data() {
     return {
       answerMode: false,
+      commentMode: false,
       alreadyAnswered: false,
+      showFinalSucessMessage: false,
       form: {
-        id: 0,
-        body: null,
+        rating: 0,
+        reveal: false,
+        comment: null,
         errors: [],
       },
       loadingState: '',
@@ -131,26 +167,51 @@ export default {
   },
 
   methods: {
-    showEditor() {
-      this.addMode = true;
+    submit(answer, rating) {
+      this.loadingState = 'loading';
+      this.form.rating = rating;
+
+      axios.post('/' + this.$page.auth.company.id + '/dashboard/manager/rate/' + answer.id, this.form)
+        .then(response => {
+          this.loadingState = null;
+          this.alreadyAnswered = true;
+          this.answerMode = true;
+          flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data.errors;
+        });
+    },
+
+    submitComment(answer) {
+      this.loadingState = 'loading';
+
+      axios.post('/' + this.$page.auth.company.id + '/dashboard/manager/rate/' + answer.id + '/comment', this.form)
+        .then(response => {
+          this.loadingState = null;
+          this.alreadyAnswered = true;
+          this.answerMode = true;
+          this.commentMode = false;
+          this.showFinalSucessMessage = true;
+          flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data.errors;
+        });
+    },
+
+    showAnswerPanel(answer) {
+      this.commentMode = true;
 
       this.$nextTick(() => {
-        this.$refs['editor'].$refs['input'].focus();
+        this.$refs[`editor-${answer.id}`][0].$refs['input'].focus();
       });
     },
 
-    showEditModal(answer) {
-      this.editMode = true;
-      this.form.body = answer.body;
-      this.idToUpdate = answer.id;
-
-      this.$nextTick(() => {
-        this.$refs[`name${answer.id}`][0].$refs['input'].focus();
-      });
-    },
-
-    showAnswerPanel() {
-      this.answerMode = true;
+    toggleReveal() {
+      this.form.reveal = !this.form.reveal;
     }
   }
 };

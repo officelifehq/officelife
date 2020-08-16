@@ -2,16 +2,13 @@
 
 namespace App\Services\Company\Employee\RateYourManager;
 
-use Carbon\Carbon;
-use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Exceptions\NotEnoughPermissionException;
 use App\Exceptions\SurveyNotActiveAnymoreException;
 
-class RateYourManager extends BaseService
+class AddCommentToRatingAboutManager extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -24,13 +21,15 @@ class RateYourManager extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'answer_id' => 'required|integer|exists:rate_your_manager_answers,id',
-            'rating' => 'required|string|max:255',
+            'comment' => 'required|string|max:65535',
+            'reveal_identity_to_manager' => 'boolean',
             'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Save the Rate your manager survey's answer from the employee.
+     * Save the Rate your manager survey's comment about the manager from the
+     * employee.
      *
      * @param array $data
      * @return RateYourManagerAnswer
@@ -59,35 +58,9 @@ class RateYourManager extends BaseService
             throw new NotEnoughPermissionException();
         }
 
-        $answer->rating = $data['rating'];
-        $answer->active = false;
+        $answer->comment = $data['comment'];
+        $answer->reveal_identity_to_manager = $data['reveal_identity_to_manager'];
         $answer->save();
-
-        LogAccountAudit::dispatch([
-            'company_id' => $data['company_id'],
-            'action' => 'rate_your_manager_survey_answered',
-            'author_id' => $this->author->id,
-            'author_name' => $this->author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'manager_id' => $survey->manager->id,
-                'manager_name' => $survey->manager->name,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ])->onQueue('low');
-
-        LogEmployeeAudit::dispatch([
-            'employee_id' => $this->author->id,
-            'action' => 'rate_your_manager_survey_answered',
-            'author_id' => $this->author->id,
-            'author_name' => $this->author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'manager_id' => $survey->manager->id,
-                'manager_name' => $survey->manager->name,
-            ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
-        ])->onQueue('low');
 
         return $answer;
     }

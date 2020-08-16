@@ -145,5 +145,11 @@ return [
 
     'rate_your_manager_title' => 'Rate your manager',
     'rate_your_manager_subtitle' => 'It’s the end of the month. It’s time to tell us how it goes with your manager, {name}.',
-    'rate_your_manager_anonymous' => 'Your opinion will be completely anonymous and will help Roger be a better manager.',
+    'rate_your_manager_anonymous' => 'Your opinion will be completely anonymous.',
+    'rate_your_manager_submitted' => 'Your opinion has been recorded.',
+    'rate_your_manager_thanks_add_comment' => 'Thanks for your opinion. Care to add a comment?',
+    'rate_your_manager_thanks_add_comment_desc' => 'Your comment will also be completely anonymous, but you can reveal your identity if you want.',
+    'rate_your_manager_thanks_add_comment_cta' => 'Add a comment',
+    'rate_your_manager_thanks_add_comment_reveal_identity' => 'Reveal your identity to Roger so he can reply to you',
+    'rate_your_manager_final_sucess_message' => 'Thanks for giving your opinion',
 ];

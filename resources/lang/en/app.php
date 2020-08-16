@@ -3,6 +3,8 @@
 return [
     'update' => 'Update',
     'save' => 'Save',
+    'post' => 'Post',
+    'submit' => 'Submit',
     'add' => 'Add',
     'cancel' => 'Cancel',
     'delete_confirm' => 'Sure?',

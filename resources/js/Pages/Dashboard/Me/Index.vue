@@ -18,7 +18,7 @@
 
       <rate-your-manager
         :employee="employee"
-        :rate-your-manager-surveys="rateYourManagerSurveys"
+        :rate-your-manager-answers="rateYourManagerAnswers"
       />
 
       <work-from-home
@@ -139,7 +139,7 @@ export default {
       type: Array,
       default: null,
     },
-    rateYourManagerSurveys: {
+    rateYourManagerAnswers: {
       type: Array,
       default: null,
     },

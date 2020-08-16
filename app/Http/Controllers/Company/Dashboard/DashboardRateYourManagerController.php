@@ -4,61 +4,54 @@ namespace App\Http\Controllers\Company\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Expense;
 use App\Http\Controllers\Controller;
-use App\Services\Company\Employee\Expense\AcceptExpenseAsManager;
-use App\Services\Company\Employee\Expense\RejectExpenseAsManager;
+use App\Services\Company\Employee\RateYourManager\RateYourManager;
+use App\Services\Company\Employee\RateYourManager\AddCommentToRatingAboutManager;
 
 class DashboardRateYourManagerController extends Controller
 {
     /**
      * Store the answer of the Rate your manager survey.
-     *
-     * @return \Inertia\Response
      */
-    public function store(Request $request, int $surveyId, string $answer)
+    public function store(Request $request, int $companyId, int $answerId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $expense = $this->canAccess($company, $expenseId, $employee);
-
         $request = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
-            'expense_id' => $expenseId,
+            'answer_id' => $answerId,
+            'rating' => $request->input('rating'),
         ];
 
-        $expense = (new AcceptExpenseAsManager)->execute($request);
+        $answer = (new RateYourManager)->execute($request);
 
         return response()->json([
-            'data' => $expense->id,
+            'data' => $answer->id,
         ], 201);
     }
 
     /**
-     * Reject the expense.
-     *
-     * @return \Inertia\Response
+     * Store the comment about the answer of the Rate your manager survey.
      */
-    public function reject(Request $request, int $companyId, int $expenseId)
+    public function storeComment(Request $request, int $companyId, int $answerId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $expense = $this->canAccess($company, $expenseId, $employee);
-
         $request = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
-            'expense_id' => $expenseId,
-            'reason' => $request->input('reason'),
+            'answer_id' => $answerId,
+            'comment' => $request->input('comment'),
+            'reveal_identity_to_manager' => $request->input('reveal'),
         ];
 
-        $expense = (new RejectExpenseAsManager)->execute($request);
+        $answer = (new AddCommentToRatingAboutManager)->execute($request);
 
         return response()->json([
-            'data' => $expense->id,
+            'data' => $answer->id,
         ], 201);
     }
 }

@@ -65,7 +65,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('manager/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
 
             // rate your manager
-            Route::post('manager/rate/{survey}/{option}', 'Company\\Dashboard\\DashboardRateYourManagerController@store');
+            Route::post('manager/rate/{answer}', 'Company\\Dashboard\\DashboardRateYourManagerController@store');
+            Route::post('manager/rate/{answer}/comment', 'Company\\Dashboard\\DashboardRateYourManagerController@storeComment');
         });
 
         Route::prefix('employees')->group(function () {
