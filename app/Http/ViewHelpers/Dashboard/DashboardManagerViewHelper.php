@@ -111,10 +111,14 @@ class DashboardManagerViewHelper
             ->get()
             ->take(2);
 
+        if ($surveys->count() == 0) {
+            return null;
+        }
+
         $surveysCollection = collect([]);
 
-        // if the first survey is not active, that means we need to add a survey
-        // in the future to indicate that the next survey will be in X days
+        // if the first survey is not active, that means we need to indicate to
+        // the manager the date of the next survey
         $survey = $surveys->first();
         if (! $survey->active) {
             $surveysCollection->push([

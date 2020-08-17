@@ -55,7 +55,7 @@
 
           <!-- deadline or results -->
           <div v-if="survey.active" class="gray f6">
-            {{ survey.deadline }}
+            {{ $t('dashboard.manager_rate_manager_current_survey') }} | {{ survey.deadline }}
           </div>
           <div v-if="survey.id == null" class="gray f6">
             {{ survey.deadline }}

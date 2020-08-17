@@ -49,63 +49,10 @@
 
         <!-- LEFT COLUMN -->
         <div class="fl w-40-l w-100">
-          <work-from-home
-            :employee="employee"
-            :statistics="workFromHomes"
-          />
-
-          <personal-description
-            :employee="employee"
-          />
-
-          <!-- skills -->
-          <skills
-            :employee="employee"
-            :skills="skills"
-          />
-
-          <location
-            :employee="employee"
-            :hardware="hardware"
-          />
-
-          <employee-hierarchy
-            :employee="employee"
-            :managers-of-employee="managersOfEmployee"
-            :direct-reports="directReports"
-          />
-
-          <hardware
-            :employee="employee"
-            :hardware="hardware"
-          />
-
-          <holidays
-            :employee="employee"
-          />
-
-          <recent-ships
-            :ships="ships"
-          />
         </div>
 
         <!-- RIGHT COLUMN -->
         <div class="fl w-60-l w-100 pl4-l">
-          <worklogs
-            :employee="employee"
-            :worklogs="worklogs"
-          />
-
-          <question
-            :employee="employee"
-            :questions="questions"
-          />
-
-          <expenses
-            v-if="employeeOrAccountant()"
-            :employee="employee"
-            :expenses="expenses"
-          />
         </div>
       </div>
     </div>
@@ -116,33 +63,11 @@
 import vClickOutside from 'v-click-outside';
 import Layout from '@/Shared/Layout';
 import HeaderEmployee from '@/Pages/Employee/Partials/HeaderEmployee';
-import PersonalDescription from '@/Pages/Employee/Partials/PersonalDescription';
-import EmployeeHierarchy from '@/Pages/Employee/Partials/EmployeeHierarchy';
-import Worklogs from '@/Pages/Employee/Partials/Worklogs';
-import Holidays from '@/Pages/Employee/Partials/Holidays';
-import Location from '@/Pages/Employee/Partials/Location';
-import WorkFromHome from '@/Pages/Employee/Partials/WorkFromHome';
-import Question from '@/Pages/Employee/Partials/Question';
-import Hardware from '@/Pages/Employee/Partials/Hardware';
-import RecentShips from '@/Pages/Employee/Partials/RecentShips';
-import Skills from '@/Pages/Employee/Partials/Skills';
-import Expenses from '@/Pages/Employee/Partials/Expenses';
 
 export default {
   components: {
     Layout,
     HeaderEmployee,
-    PersonalDescription,
-    EmployeeHierarchy,
-    Worklogs,
-    Holidays,
-    Location,
-    WorkFromHome,
-    Question,
-    Hardware,
-    RecentShips,
-    Skills,
-    Expenses,
   },
 
   props: {
@@ -154,19 +79,11 @@ export default {
       type: String,
       default: 'all',
     },
-    employeeTeams: {
-      type: Array,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,
     },
-    managersOfEmployee: {
-      type: Array,
-      default: null,
-    },
-    directReports: {
+    employeeTeams: {
       type: Array,
       default: null,
     },
@@ -178,10 +95,6 @@ export default {
       type: Array,
       default: null,
     },
-    worklogs: {
-      type: Object,
-      default: null,
-    },
     statuses: {
       type: Array,
       default: null,
@@ -189,34 +102,6 @@ export default {
     pronouns: {
       type: Array,
       default: null,
-    },
-    workFromHomes: {
-      type: Object,
-      default: null,
-    },
-    questions: {
-      type: Array,
-      default: null,
-    },
-    hardware: {
-      type: Array,
-      default: null,
-    },
-    ships: {
-      type: Array,
-      default: null,
-    },
-    skills: {
-      type: Array,
-      default: null,
-    },
-    expenses: {
-      type: Object,
-      default: null,
-    },
-    isAccountant: {
-      type: Boolean,
-      default: false,
     },
   },
 

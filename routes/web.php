@@ -72,6 +72,8 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('employees')->group(function () {
             Route::get('', 'Company\\Employee\\EmployeeController@index')->name('employees.index');
             Route::get('{employee}', 'Company\\Employee\\EmployeeController@show')->name('employees.show');
+            Route::get('{employee}/performance', 'Company\\Employee\\EmployeeController@showPerformance')->name('employees.show.performance');
+
             Route::post('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager');
             Route::post('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport');
             Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');

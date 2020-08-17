@@ -12,7 +12,7 @@
       <p class="mt3 tc f6"><span class="mr1">🙈</span><a data-cy="hide-message" href="#" class="mb2" @click.prevent="hide()">{{ $t('welcome.hide_message_forever') }}</a></p>
 
       <div class="cf mt4 mw6 center br3 mb3 bg-white box pa3">
-        <img loading="lazy" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-plane-hi-sign@140x140.png" />
+        <img loading="lazy" class="db center mb4" alt="no expenses to validate" height="140" src="/img/streamline-icon-plane-hi-sign@140x140.png" />
         <p class="lh-copy">{{ $t('welcome.thanks') }}</p>
         <p class="lh-copy">{{ $t('welcome.admin_line_1') }}</p>
         <p class="lh-copy mb4">{{ $t('welcome.admin_line_2') }}</p>

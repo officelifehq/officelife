@@ -105,6 +105,7 @@ return [
     'manager_expense_detail_employee_status' => 'Status',
     'manager_expense_detail_employee_status_blank' => 'No status',
 
+    'manager_rate_manager_current_survey' => 'Current active survey',
     'manager_rate_manager_response_rate' => '{rate}% response rate',
     'manager_rate_manager_respondants' => '{respondants} direct reports',
 
