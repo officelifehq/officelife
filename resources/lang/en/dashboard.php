@@ -105,6 +105,9 @@ return [
     'manager_expense_detail_employee_status' => 'Status',
     'manager_expense_detail_employee_status_blank' => 'No status',
 
+    'manager_rate_manager_response_rate' => '{rate}% response rate',
+    'manager_rate_manager_respondants' => '{respondants} direct reports',
+
     'accounting_expense_detail_cta' => 'Accept or reject this expense',
     'accounting_expense_detail_expense_section' => 'Expense details',
     'accounting_expense_detail_expense_type' => 'Expense type',

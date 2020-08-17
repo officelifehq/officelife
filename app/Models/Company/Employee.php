@@ -374,6 +374,16 @@ class Employee extends Model
      *
      * @return hasMany
      */
+    public function rateYourManagerSurveys()
+    {
+        return $this->hasMany(RateYourManagerSurvey::class, 'manager_id');
+    }
+
+    /**
+     * Get the current active surveys about how his manager is doing.
+     *
+     * @return hasMany
+     */
     public function rateYourManagerAnswers()
     {
         return $this->hasMany(RateYourManagerAnswer::class);

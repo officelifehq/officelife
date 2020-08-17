@@ -4,8 +4,8 @@
 }
 
 .survey-item:first-child {
-  border-top-width: 1px;
-  border-top-style: solid;
+  border-top-left-radius: 11px;
+  border-top-right-radius: 11px;
 }
 
 .survey-item:last-child {
@@ -38,59 +38,35 @@
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">
       <!-- BLANK STATE -->
-      <div data-cy="expense-list-blank-state" class="pa3">
-        <img loading="lazy" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-customer-service-rating-1-4@140x140.png" />
+      <div v-if="surveys.length == 0" data-cy="expense-list-blank-state" class="pa3">
+        <img loading="lazy" class="db center mb4" height="140" alt="no expenses to validate" src="/img/streamline-icon-customer-service-rating-1-4@140x140.png" />
 
         <p class="fw5 mt3 tc">You don’t have any previous surveys about your performance as a manager yet.</p>
       </div>
 
-      <!-- LIST OF surveyS -->
-      <ul class="list pl0 mb0">
-        <li class="flex items-center pa3 bb bb-gray bb-gray-hover survey-item">
+      <!-- LIST OF SURVEYS -->
+      <ul v-if="surveys.length > 0" class="list mt0 pl0 mb0">
+        <li v-for="survey in surveys" :key="survey.id" class="flex items-center pa3 bb bb-gray bb-gray-hover survey-item">
+          <!-- date -->
           <div class="date">
-            <span class="db f3 fw3 mb1">June 2020</span>
-            <span class="gray f6">8 direct reports at the moment</span>
+            <span class="db f3 fw3 mb1">{{ survey.month }}</span>
+            <span v-if="survey.employees" class="gray f6">{{ $t('dashboard.manager_rate_manager_respondants', {respondants: survey.employees}) }}</span>
           </div>
-          <div class="gray f6">
-            Next survey in 3 days
+
+          <!-- deadline or results -->
+          <div v-if="survey.active" class="gray f6">
+            {{ survey.deadline }}
           </div>
-        </li>
-        <li class="flex items-center pa3 bb bb-gray bb-gray-hover survey-item">
-          <div class="date">
-            <span class="db f3 fw3 mb1">June 2020</span>
-            <span class="gray f6">8 direct reports at the moment</span>
+          <div v-if="survey.id == null" class="gray f6">
+            {{ survey.deadline }}
           </div>
-          <div class="gray f6">
-            <p class="mb2">Survey in progress</p>
-            <p class="f7 mt0 gray">Ends in 3 days</p>
-          </div>
-        </li>
-        <li class="flex items-center pa3 bb bb-gray bb-gray-hover survey-item">
-          <div class="date">
-            <span class="db f3 fw3 mb1"><a href="">June 2020</a></span>
-            <span class="gray f6">Survey made on 8 direct reports</span>
-          </div>
-          <div class="">
+          <div v-if="survey.results && !survey.active">
             <ul class="list pl0 mb2">
-              <li class="mr3 di">😨 3</li>
-              <li class="mr3 di">🙂 2</li>
-              <li class="di">🤩 13</li>
+              <li class="mr3 di">😨 {{ survey.results.bad }}</li>
+              <li class="mr3 di">🙂 {{ survey.results.average }}</li>
+              <li class="di">🤩 {{ survey.results.good }}</li>
             </ul>
-            <p class="gray f6 tc ma0">13% response rate</p>
-          </div>
-        </li>
-        <li class="flex items-center pa3 bb bb-gray bb-gray-hover survey-item">
-          <div class="date">
-            <span class="db f3 fw3 mb1"><a href="">June 2020</a></span>
-            <span class="gray f6">Survey made on 8 direct reports</span>
-          </div>
-          <div class="">
-            <ul class="list pl0 mb2">
-              <li class="mr3 di">😨 3</li>
-              <li class="mr3 di">🤔 2</li>
-              <li class="di">🤩 13</li>
-            </ul>
-            <p class="gray f6 tc ma0">13% response rate</p>
+            <p class="gray f6 tc ma0">{{ $t('dashboard.manager_rate_manager_response_rate', {rate: survey.response_rate}) }}</p>
           </div>
         </li>
       </ul>
@@ -162,12 +138,8 @@ export default {
       type: Object,
       default: null,
     },
-    expenses: {
+    surveys: {
       type: Array,
-      default: null,
-    },
-    defaultCurrency: {
-      type: Object,
       default: null,
     },
   },

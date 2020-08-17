@@ -18,8 +18,7 @@
 
       <rate-your-manager
         :employee="employee"
-        :expenses="pendingExpenses"
-        :default-currency="defaultCurrency"
+        :surveys="surveys"
       />
 
       <expense
@@ -55,6 +54,10 @@ export default {
       default: null,
     },
     pendingExpenses: {
+      type: Array,
+      default: null,
+    },
+    surveys: {
       type: Array,
       default: null,
     },
