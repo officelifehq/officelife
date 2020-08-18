@@ -16,11 +16,6 @@
 
       <dashboard-menu :employee="employee" />
 
-      <rate-your-manager
-        :employee="employee"
-        :surveys="surveys"
-      />
-
       <expense
         :employee="employee"
         :expenses="pendingExpenses"
@@ -32,14 +27,12 @@
 
 <script>
 import Expense from '@/Pages/Dashboard/Manager/Partials/Expense';
-import RateYourManager from '@/Pages/Dashboard/Manager/Partials/RateYourManager';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
 export default {
   components: {
     Expense,
-    RateYourManager,
     Layout,
     DashboardMenu,
   },
@@ -54,10 +47,6 @@ export default {
       default: null,
     },
     pendingExpenses: {
-      type: Array,
-      default: null,
-    },
-    surveys: {
       type: Array,
       default: null,
     },

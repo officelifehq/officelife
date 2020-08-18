@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\Skill;
+namespace Tests\Unit\Services\Company\Employee\RateYourManager;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;

@@ -10,6 +10,7 @@ use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Money\Currencies\ISOCurrencies;
+use App\Models\Company\RateYourManagerAnswer;
 
 class DashboardMeViewHelper
 {
@@ -189,5 +190,75 @@ class DashboardMeViewHelper
             ]);
         }
         return $answersCollection;
+    }
+
+    /**
+     * Get the latest Rate your manager surveys about this manager.
+     *
+     * @var Employee $employee
+     * @return Collection|null
+     */
+    public static function latestRateYourManagerSurveys(Employee $employee): ?Collection
+    {
+        $surveys = $employee->rateYourManagerSurveys()
+            ->with('answers')
+            ->latest()
+            ->get()
+            ->take(2);
+
+        if ($surveys->count() == 0) {
+            return null;
+        }
+
+        $surveysCollection = collect([]);
+
+        // if the first survey is not active, that means we need to indicate to
+        // the manager the date of the next survey
+        $survey = $surveys->first();
+        if (! $survey->active) {
+            $surveysCollection->push([
+                'id' => null,
+                'month' => Carbon::now()->format('M Y'),
+                'deadline' => DateHelper::hoursOrDaysLeft(Carbon::now()->endOfMonth()),
+            ]);
+        }
+
+        foreach ($surveys as $survey) {
+            $totalNumberOfPotentialResponders = $survey->answers->count();
+            $numberOfAnswers = 0;
+
+            // counting results about answers, if available
+            $results = [];
+            if ($survey->answers) {
+                $bad = $survey->answers->filter(function ($answer) {
+                    return $answer->rating == RateYourManagerAnswer::BAD;
+                });
+                $average = $survey->answers->filter(function ($answer) {
+                    return $answer->rating == RateYourManagerAnswer::AVERAGE;
+                });
+                $good = $survey->answers->filter(function ($answer) {
+                    return $answer->rating == RateYourManagerAnswer::GOOD;
+                });
+                $results = [
+                    'bad' => $bad->count(),
+                    'average' => $average->count(),
+                    'good' => $good->count(),
+                ];
+
+                $numberOfAnswers = $bad->count() + $average->count() + $good->count();
+            }
+
+            $surveysCollection->push([
+                'id' => $survey->id,
+                'active' => $survey->active,
+                'month' => $survey->created_at->format('M Y'),
+                'deadline' => DateHelper::hoursOrDaysLeft($survey->valid_until_at),
+                'results' => $results,
+                'employees' => $totalNumberOfPotentialResponders,
+                'response_rate' => $numberOfAnswers != 0 ? round($numberOfAnswers * 100 / $totalNumberOfPotentialResponders) : 0,
+            ]);
+        }
+
+        return $surveysCollection;
     }
 }

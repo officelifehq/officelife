@@ -54,13 +54,11 @@ class DashboardManagerController extends Controller
         ];
 
         $pendingExpenses = DashboardManagerViewHelper::pendingExpenses($directReports);
-        $surveys = DashboardManagerViewHelper::latestRateYourManagerSurveys($employee);
 
         return Inertia::render('Dashboard/Manager/Index', [
             'employee' => $employeeInformation,
             'notifications' => NotificationHelper::getNotifications($employee),
             'pendingExpenses' => $pendingExpenses,
-            'surveys' => $surveys,
             'defaultCompanyCurrency' => $company->currency,
         ]);
     }
