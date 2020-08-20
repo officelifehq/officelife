@@ -30,6 +30,7 @@ use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
 use App\Services\Company\Employee\Description\SetPersonalDescription;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
+use App\Services\Company\Adminland\Expense\AllowEmployeeToManageExpenses;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
 
@@ -136,15 +137,16 @@ class SetupDummyAccount extends Command
         $this->start();
         $this->wipeAndMigrateDB();
         $this->createFirstUser();
+        $this->assignAccountantRole();
         $this->createEmployeeStatuses();
         $this->createPositions();
-        $this->createQuestions();
         $this->createTeams();
         $this->createEmployees();
         $this->addSkills();
         $this->addWorkFromHomeEntries();
-        $this->addAnswers();
         $this->addWorklogEntries();
+        $this->createQuestions();
+        $this->addAnswers();
         $this->stop();
     }
 
@@ -153,6 +155,8 @@ class SetupDummyAccount extends Command
         if (! $this->confirm('Are you sure you want to proceed? This will delete ALL data in your environment.')) {
             return;
         }
+
+        $this->line('This process will take a few minutes to complete. Be patient and read a book in the meantime.');
 
         $this->faker = Faker::create();
     }
@@ -176,8 +180,8 @@ class SetupDummyAccount extends Command
 
     private function wipeAndMigrateDB(): void
     {
-        $this->artisan('✓ Performing migrations', 'migrate:fresh');
-        $this->artisan('✓ Symlink the storage folder', 'storage:link');
+        $this->artisan('☐ Migration of the database', 'migrate:fresh');
+        $this->artisan('☐ Symlink the storage folder', 'storage:link');
 
         $this->pronounHeHim = Pronoun::where('label', 'he/him')->first();
         $this->pronounSheHer = Pronoun::where('label', 'she/her')->first();
@@ -186,11 +190,13 @@ class SetupDummyAccount extends Command
 
     private function createFirstUser(): void
     {
+        $this->info('☐ Create first user of the account');
+
         $user = (new CreateAccount)->execute([
             'email' => 'admin@admin.com',
             'password' => 'admin',
-            'first_name' => 'John',
-            'last_name' => 'Rambo',
+            'first_name' => 'Michael',
+            'last_name' => 'Scott',
         ]);
 
         $this->company = (new CreateCompany)->execute([
@@ -199,193 +205,203 @@ class SetupDummyAccount extends Command
         ]);
 
         // grab the employee that was just created
-        $this->author = Employee::first();
+        $this->michael = Employee::first();
+    }
 
-        $this->info('✓ Creating first user in the account');
+    private function assignAccountantRole(): void
+    {
+        $this->info('☐ Assign accountant role');
+
+        (new AllowEmployeeToManageExpenses)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'employee_id' => $this->michael->id,
+        ]);
     }
 
     private function createEmployeeStatuses(): void
     {
+        $this->info('☐ Create employee statuses');
+
         $this->employeeStatusFullTime = (new CreateEmployeeStatus)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Full time',
         ]);
 
         $this->employeeStatusPartTime = (new CreateEmployeeStatus)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Part time',
         ]);
 
         $this->employeeStatusConsultant = (new CreateEmployeeStatus)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Consultant',
         ]);
-
-        $this->info('✓ Creating employee statuses');
     }
 
     private function createPositions(): void
     {
+        $this->info('☐ Create employee positions');
+
         $this->positionRegionalManager = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Regional Manager',
         ]);
 
         $this->positionAssistantToTheRegionalManager = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Assistant to the Regional Manager',
         ]);
 
         $this->positionRegionalDirectorOfSales = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Regional Director of Sales',
         ]);
 
         $this->positionSalesRep = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Sales Rep.',
         ]);
 
         $this->positionTravelingSalesRepresentative = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Traveling Sales Representative',
         ]);
 
         $this->positionSeniorAccountant = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Senior Accountant',
         ]);
 
         $this->positionHeadOfAccounting = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Head of Accounting',
         ]);
 
         $this->positionAccountant = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Accountant',
         ]);
 
         $this->positionHRRep = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'H.R Rep',
         ]);
 
         $this->positionReceptionist = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Receptionist',
         ]);
 
         $this->positionCustomerServiceRepresentative = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Customer Service Representative',
         ]);
 
         $this->positionSupplierRelationsRep = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Supplier Relations Rep.',
         ]);
 
         $this->positionQualityAssurance = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Quality Assurance',
         ]);
 
         $this->positionWarehouseForeman = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Warehouse Foreman',
         ]);
 
         $this->positionWarehouseStaff = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'title' => 'Warehouse Staff',
         ]);
-
-        $this->info('✓ Creating employee positions');
     }
 
     private function createTeams(): void
     {
+        $this->info('☐ Create teams');
+
         $this->teamManagement = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Management',
         ]);
 
         $this->teamSales = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Sales',
         ]);
 
         $this->teamAccounting = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Accounting',
         ]);
 
         $this->teamHumanResources = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Human Resources',
         ]);
 
         $this->teamReception = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Reception',
         ]);
 
         $this->teamProductOversight = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Product Oversight',
         ]);
 
         $this->teamWarehouse = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'name' => 'Warehouse',
         ]);
-
-        $this->info('✓ Creating teams');
     }
 
     private function createEmployees(): void
     {
-        $this->michael = (new AddEmployeeToCompany)->execute([
-            'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
-            'email' => $this->faker->safeEmail,
-            'first_name' => 'Michael',
-            'last_name' => 'Scott',
-            'permission_level' => config('officelife.permission_level.user'),
-            'send_invitation' => false,
-        ]);
+        $this->info('☐ Add employees');
+
         $description = 'World best boss. Or so they say.';
         $this->addSpecificDataToEmployee($this->michael, $description, $this->pronounHeHim, $this->teamManagement, $this->employeeStatusFullTime, $this->positionRegionalManager, '1965-03-15', null, $this->teamManagement);
 
+        // assign Michael to another team right here
+        (new AddEmployeeToTeam)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'employee_id' => $this->michael->id,
+            'team_id' => $this->teamAccounting->id,
+        ]);
+
         $this->dwight = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
@@ -397,7 +413,7 @@ class SetupDummyAccount extends Command
 
         $this->phyllis = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Phyllis',
             'last_name' => 'Vance',
@@ -409,7 +425,7 @@ class SetupDummyAccount extends Command
 
         $this->jim = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Jim',
             'last_name' => 'Halpert',
@@ -421,7 +437,7 @@ class SetupDummyAccount extends Command
 
         $this->kelly = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Kelly',
             'last_name' => 'Kapoor',
@@ -433,7 +449,7 @@ class SetupDummyAccount extends Command
 
         $this->angela = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Angela',
             'last_name' => 'Martin',
@@ -445,7 +461,7 @@ class SetupDummyAccount extends Command
 
         $this->oscar = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Oscar',
             'last_name' => 'Martinez',
@@ -457,7 +473,7 @@ class SetupDummyAccount extends Command
 
         $this->dakota = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Dakota',
             'last_name' => 'Johnson',
@@ -469,7 +485,7 @@ class SetupDummyAccount extends Command
 
         $this->toby = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Toby',
             'last_name' => 'Flenderson',
@@ -481,7 +497,7 @@ class SetupDummyAccount extends Command
 
         $this->kevin = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Kevin',
             'last_name' => 'Malone',
@@ -493,7 +509,7 @@ class SetupDummyAccount extends Command
 
         $this->erin = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Erin',
             'last_name' => 'Hannon',
@@ -505,7 +521,7 @@ class SetupDummyAccount extends Command
 
         $this->pete = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Pete',
             'last_name' => 'Miller',
@@ -517,7 +533,7 @@ class SetupDummyAccount extends Command
 
         $this->meredith = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Meredith',
             'last_name' => 'Palmer',
@@ -529,7 +545,7 @@ class SetupDummyAccount extends Command
 
         $this->val = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Val',
             'last_name' => 'Johnson',
@@ -541,7 +557,7 @@ class SetupDummyAccount extends Command
 
         $this->nate = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Nate',
             'last_name' => 'Troyat',
@@ -553,7 +569,7 @@ class SetupDummyAccount extends Command
 
         $this->glenn = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Glenn',
             'last_name' => 'Scott',
@@ -565,7 +581,7 @@ class SetupDummyAccount extends Command
 
         $this->philip = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'email' => $this->faker->safeEmail,
             'first_name' => 'Philip',
             'last_name' => 'Scott',
@@ -574,22 +590,20 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'I lived in Chicago most of my life and have 2 children.';
         $this->addSpecificDataToEmployee($this->philip, $description, $this->pronounHeHim, $this->teamWarehouse, $this->employeeStatusFullTime, $this->positionWarehouseStaff, null, $this->val);
-
-        $this->info('✓ Adding employees');
     }
 
     private function addSpecificDataToEmployee(Employee $employee, string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
     {
         (new AddEmployeeToTeam)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'employee_id' => $employee->id,
             'team_id' => $team->id,
         ]);
 
         (new AssignPronounToEmployee)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'employee_id' => $employee->id,
             'pronoun_id' => $pronoun->id,
             'team_id' => $team->id,
@@ -597,14 +611,14 @@ class SetupDummyAccount extends Command
 
         (new AssignEmployeeStatusToEmployee)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'employee_id' => $employee->id,
             'employee_status_id' => $status->id,
         ]);
 
         (new AssignPositionToEmployee)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'employee_id' => $employee->id,
             'position_id' => $position->id,
         ]);
@@ -613,7 +627,7 @@ class SetupDummyAccount extends Command
             $date = Carbon::parse($birthdate);
             (new SetBirthdate)->execute([
                 'company_id' => $this->company->id,
-                'author_id' => $this->author->id,
+                'author_id' => $this->michael->id,
                 'employee_id' => $employee->id,
                 'year' => $date->year,
                 'month' => $date->month,
@@ -624,7 +638,7 @@ class SetupDummyAccount extends Command
         if ($manager) {
             (new AssignManager)->execute([
                 'company_id' => $this->company->id,
-                'author_id' => $this->author->id,
+                'author_id' => $this->michael->id,
                 'employee_id' => $employee->id,
                 'manager_id' => $manager->id,
             ]);
@@ -633,7 +647,7 @@ class SetupDummyAccount extends Command
         if ($leaderOfTeam) {
             (new SetTeamLead)->execute([
                 'company_id' => $this->company->id,
-                'author_id' => $this->author->id,
+                'author_id' => $this->michael->id,
                 'employee_id' => $employee->id,
                 'team_id' => $leaderOfTeam->id,
             ]);
@@ -641,7 +655,7 @@ class SetupDummyAccount extends Command
 
         (new SetPersonalDescription)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'employee_id' => $employee->id,
             'description' => $description,
         ]);
@@ -649,6 +663,8 @@ class SetupDummyAccount extends Command
 
     private function addSkills(): void
     {
+        $this->info('☐ Assign skills to employees');
+
         $skills = collect([]);
         $skills->push([
             'employee' => $this->michael->id,
@@ -790,18 +806,18 @@ class SetupDummyAccount extends Command
             foreach ($skill['skills'] as $individualSkill) {
                 (new AttachEmployeeToSkill)->execute([
                     'company_id' => $this->company->id,
-                    'author_id' => $this->author->id,
+                    'author_id' => $this->michael->id,
                     'employee_id' => $skill['employee'],
                     'name' => $individualSkill,
                 ]);
             }
         }
-
-        $this->info('✓ Assigning skills to employees');
     }
 
     private function addWorkFromHomeEntries(): void
     {
+        $this->info('☐ Add work from home information (this might take some time)');
+
         $employees = Employee::all();
         foreach ($employees as $employee) {
             // 50% chances of having work from home entries
@@ -823,7 +839,7 @@ class SetupDummyAccount extends Command
 
                 (new UpdateWorkFromHomeInformation)->execute([
                     'company_id' => $this->company->id,
-                    'author_id' => $this->author->id,
+                    'author_id' => $this->michael->id,
                     'employee_id' => $employee->id,
                     'date' => $twoYearsAgo->format('Y-m-d'),
                     'work_from_home' => true,
@@ -832,67 +848,65 @@ class SetupDummyAccount extends Command
                 $twoYearsAgo->addDay();
             }
         }
-
-        $this->info('✓ Adding work from home information');
     }
 
     private function createQuestions(): void
     {
+        $this->info('☐ Add questions to know employees better');
+
         $this->questionWhatIsYourFavoriteAnimal = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'active' => false,
             'title' => 'What is your favorite animal?',
         ]);
 
         $this->questionWhatIsTheBestMovieYouHaveSeenThisYear = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'active' => false,
             'title' => 'What is the best movie you have seen this year?',
         ]);
 
         $this->questionCareToShareYourBestRestaurantInTown = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'active' => false,
             'title' => 'Care to share your best restaurant in town?',
         ]);
 
         $this->questionWhatIsYourFavoriteBand = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'active' => false,
             'title' => 'What is your favorite band?',
         ]);
 
         $this->questionWhatAreTheCurrentHighlightsOfThisYearForYou = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'active' => false,
             'title' => 'What are the current highlights of this year for you?',
         ]);
 
         $this->questionDoYouHaveAnyPersonalGoalsThatYouWouldLikeToShareWithUsThisWeek = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'active' => false,
             'title' => 'Do you have any personal goals that you would like to share with us this week?',
         ]);
 
         $this->questionWhatIsTheBestTVShowOfThisYearSoFar = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'active' => true,
             'title' => 'What is the best TV show of this year so far?',
         ]);
-
-        $this->info('✓ Adding questions to know employees better');
     }
 
     private function addAnswers(): void
     {
-        $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->author, 'I love cats and dogs equally, but really, I prefer dogs as cats just want to murder us.');
+        $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->michael, 'I love cats and dogs equally, but really, I prefer dogs as cats just want to murder us.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->michael, 'The lion, magnificent and powerful like me.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->dwight, 'The best animal is the one that tastes best on my plate.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->phyllis, 'I love dolphins as they are beautiful, graceful and nice to other animals - except sharks.');
@@ -901,7 +915,7 @@ class SetupDummyAccount extends Command
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->angela, 'Cats. The more, the better.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->oscar, 'I love dogs. They are friendly and nice.');
 
-        $this->writeAnswer($this->questionWhatIsTheBestMovieYouHaveSeenThisYear, $this->author, 'Definitely the Peter Jackson movie, The Hobbit, which was amazing and superbly written.');
+        $this->writeAnswer($this->questionWhatIsTheBestMovieYouHaveSeenThisYear, $this->michael, 'Definitely the Peter Jackson movie, The Hobbit, which was amazing and superbly written.');
         $this->writeAnswer($this->questionWhatIsTheBestMovieYouHaveSeenThisYear, $this->michael, 'Horrible bosses 2');
         $this->writeAnswer($this->questionWhatIsTheBestMovieYouHaveSeenThisYear, $this->dwight, 'Project power');
         $this->writeAnswer($this->questionWhatIsTheBestMovieYouHaveSeenThisYear, $this->phyllis, 'The tax collector');
@@ -975,7 +989,6 @@ class SetupDummyAccount extends Command
         $this->writeAnswer($this->questionDoYouHaveAnyPersonalGoalsThatYouWouldLikeToShareWithUsThisWeek, $this->kevin, 'Going to the gym for the first time in 67 years on Wednesday.');
         $this->writeAnswer($this->questionDoYouHaveAnyPersonalGoalsThatYouWouldLikeToShareWithUsThisWeek, $this->erin, 'Taking the lecture about being a better secretary.');
 
-        $this->writeAnswer($this->questionWhatIsTheBestTVShowOfThisYearSoFar, $this->michael, 'Dawson Creek');
         $this->writeAnswer($this->questionWhatIsTheBestTVShowOfThisYearSoFar, $this->dwight, 'The Office');
         $this->writeAnswer($this->questionWhatIsTheBestTVShowOfThisYearSoFar, $this->jim, 'The Office');
         $this->writeAnswer($this->questionWhatIsTheBestTVShowOfThisYearSoFar, $this->angela, 'Dawson Creek');
@@ -988,14 +1001,14 @@ class SetupDummyAccount extends Command
         $this->writeAnswer($this->questionWhatIsTheBestTVShowOfThisYearSoFar, $this->glenn, 'Beverly Hills');
         $this->writeAnswer($this->questionWhatIsTheBestTVShowOfThisYearSoFar, $this->philip, 'Dirty Harry ');
 
-        $this->info('✓ Writing answers for each question');
+        $this->info('☐ Writing answers for each question');
     }
 
     private function writeAnswer(Question $question, Employee $employee, string $answer): void
     {
         (new CreateAnswer)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->author->id,
+            'author_id' => $this->michael->id,
             'employee_id' => $employee->id,
             'question_id' => $question->id,
             'body' => $answer,
@@ -1004,7 +1017,9 @@ class SetupDummyAccount extends Command
 
     private function addWorklogEntries(): void
     {
-        $worklogs = [
+        $this->info('☐ Write work log entries on behalf of employees (that might take some time)');
+
+        $worklogs = collect([
             'Planning party comity day. It was great, we tried to create a birthday theme for Angela. I think she loved it',
             'Tried to make our biggest sale of the year, but it did not work unfortunately.',
             'The supercomputer tried to destroy our sales for the year, but we did not let it win. Dwight is super happy.',
@@ -1015,26 +1030,33 @@ class SetupDummyAccount extends Command
             'Michael is aggravated that his birthday isn’t getting more attention than Kevin’s skin cancer test.',
             'Michael converts the warehouse into a casino for a charity casino night, but ends up with two dates - Jan and his realtor, Carol. Jim has something to tell Pam.',
             'The Dunder Mifflin Infinity website is launching and Michael is excited about going to the big launch party in New York while Angela plans a satellite party for the Scranton branch. Meanwhile, Dwight competes against the website to see who can sell the most paper in one day.',
-        ];
+        ]);
 
         $employees = Employee::all();
+        $twoYearsAgo = Carbon::now()->subYears(2);
+        while (! $twoYearsAgo->isSameDay(Carbon::now())) {
+            if ($twoYearsAgo->isSaturday() || $twoYearsAgo->isSunday()) {
+                $twoYearsAgo->addDay();
+                continue;
+            }
 
-        foreach ($employees as $employee) {
-            shuffle($worklogs);
-            foreach ($worklogs as $worklog) {
-                $faker = Faker::create();
+            if (rand(1, 3) != 1 && $twoYearsAgo->diffInDays(Carbon::now()) >= 7) {
+                $twoYearsAgo->addDay();
+                continue;
+            }
 
+            foreach ($employees as $employee) {
                 (new LogWorklog)->execute([
                     'company_id' => $this->company->id,
-                    'author_id' => $this->author->id,
+                    'author_id' => $this->michael->id,
                     'employee_id' => $employee->id,
-                    'content' => $worklog,
-                    'date' => $faker->dateTimeThisYear('now')->format('Y-m-d'),
+                    'content' => $worklogs->random(),
+                    'date' => $twoYearsAgo->format('Y-m-d'),
                 ]);
             }
-        }
 
-        $this->info('✓ Writing work log entries on behalf of employees');
+            $twoYearsAgo->addDay();
+        }
     }
 
     private function artisan($message, $command, array $arguments = [])
