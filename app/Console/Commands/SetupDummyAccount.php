@@ -16,7 +16,7 @@ use App\Models\Company\EmployeeStatus;
 use App\Services\Company\Team\SetTeamLead;
 use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
-use Symfony\Component\Console\Output\ConsoleOutput;
+use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Services\Company\Adminland\Company\CreateCompany;
@@ -109,7 +109,7 @@ class SetupDummyAccount extends Command
      *
      * @var string
      */
-    protected $signature = 'setup:dummyaccount {--silent}';
+    protected $signature = 'setup:dummyaccount';
 
     /**
      * The console command description.
@@ -144,6 +144,7 @@ class SetupDummyAccount extends Command
         $this->addSkills();
         $this->addWorkFromHomeEntries();
         $this->addAnswers();
+        $this->addWorklogEntries();
         $this->stop();
     }
 
@@ -205,14 +206,11 @@ class SetupDummyAccount extends Command
 
     private function createEmployeeStatuses(): void
     {
-        $this->setProgressBar('Adding employee statuses', 3);
-
         $this->employeeStatusFullTime = (new CreateEmployeeStatus)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'name' => 'Full time',
         ]);
-        $this->advanceProgress();
 
         $this->employeeStatusPartTime = (new CreateEmployeeStatus)->execute([
             'company_id' => $this->company->id,
@@ -226,177 +224,153 @@ class SetupDummyAccount extends Command
             'name' => 'Consultant',
         ]);
 
-        $this->stopProgressBar();
+        $this->info('✓ Creating employee statuses');
     }
 
     private function createPositions(): void
     {
-        $this->setProgressBar('Adding employee positions', 15);
-
         $this->positionRegionalManager = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Regional Manager',
         ]);
-        $this->advanceProgress();
 
         $this->positionAssistantToTheRegionalManager = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Assistant to the Regional Manager',
         ]);
-        $this->advanceProgress();
 
         $this->positionRegionalDirectorOfSales = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Regional Director of Sales',
         ]);
-        $this->advanceProgress();
 
         $this->positionSalesRep = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Sales Rep.',
         ]);
-        $this->advanceProgress();
 
         $this->positionTravelingSalesRepresentative = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Traveling Sales Representative',
         ]);
-        $this->advanceProgress();
 
         $this->positionSeniorAccountant = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Senior Accountant',
         ]);
-        $this->advanceProgress();
 
         $this->positionHeadOfAccounting = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Head of Accounting',
         ]);
-        $this->advanceProgress();
 
         $this->positionAccountant = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Accountant',
         ]);
-        $this->advanceProgress();
 
         $this->positionHRRep = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'H.R Rep',
         ]);
-        $this->advanceProgress();
 
         $this->positionReceptionist = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Receptionist',
         ]);
-        $this->advanceProgress();
 
         $this->positionCustomerServiceRepresentative = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Customer Service Representative',
         ]);
-        $this->advanceProgress();
 
         $this->positionSupplierRelationsRep = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Supplier Relations Rep.',
         ]);
-        $this->advanceProgress();
 
         $this->positionQualityAssurance = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Quality Assurance',
         ]);
-        $this->advanceProgress();
 
         $this->positionWarehouseForeman = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Warehouse Foreman',
         ]);
-        $this->advanceProgress();
 
         $this->positionWarehouseStaff = (new CreatePosition)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'title' => 'Warehouse Staff',
         ]);
-        $this->stopProgressBar();
+
+        $this->info('✓ Creating employee positions');
     }
 
     private function createTeams(): void
     {
-        $this->setProgressBar('Adding teams', 7);
-
         $this->teamManagement = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'name' => 'Management',
         ]);
-        $this->advanceProgress();
 
         $this->teamSales = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'name' => 'Sales',
         ]);
-        $this->advanceProgress();
 
         $this->teamAccounting = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'name' => 'Accounting',
         ]);
-        $this->advanceProgress();
 
         $this->teamHumanResources = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'name' => 'Human Resources',
         ]);
-        $this->advanceProgress();
 
         $this->teamReception = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'name' => 'Reception',
         ]);
-        $this->advanceProgress();
 
         $this->teamProductOversight = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'name' => 'Product Oversight',
         ]);
-        $this->advanceProgress();
 
         $this->teamWarehouse = (new CreateTeam)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'name' => 'Warehouse',
         ]);
-        $this->stopProgressBar();
+
+        $this->info('✓ Creating teams');
     }
 
     private function createEmployees(): void
     {
-        $this->setProgressBar('Adding employees', 17);
-
         $this->michael = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
@@ -408,7 +382,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'World best boss. Or so they say.';
         $this->addSpecificDataToEmployee($this->michael, $description, $this->pronounHeHim, $this->teamManagement, $this->employeeStatusFullTime, $this->positionRegionalManager, '1965-03-15', null, $this->teamManagement);
-        $this->advanceProgress();
 
         $this->dwight = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -421,7 +394,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'At day I’m the best assistant regional manager there is. At night, I’m a seasoned beet farmer and a host of a wonderful AirBnB.';
         $this->addSpecificDataToEmployee($this->dwight, $description, $this->pronounHeHim, $this->teamManagement, $this->employeeStatusFullTime, $this->positionAssistantToTheRegionalManager, '1970-01-20', $this->michael);
-        $this->advanceProgress();
 
         $this->phyllis = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -434,7 +406,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'Wife of the wonderful Bob Vance, who has a great company about fridges - come visit his stores in Scranton.';
         $this->addSpecificDataToEmployee($this->phyllis, $description, $this->pronounSheHer, $this->teamSales, $this->employeeStatusFullTime, $this->positionRegionalDirectorOfSales, '1965-07-10', $this->michael, $this->teamSales);
-        $this->advanceProgress();
 
         $this->jim = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -447,7 +418,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'I dream to be one day as good as my mentor, friend and eternal nemesys Dwight. Also, I have a wife and 3 beautiful children.';
         $this->addSpecificDataToEmployee($this->jim, $description, $this->pronounHeHim, $this->teamSales, $this->employeeStatusFullTime, $this->positionSalesRep, '1978-10-01', $this->phyllis);
-        $this->advanceProgress();
 
         $this->kelly = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -460,7 +430,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'Did you know that Brad Pitt will be back with Jenifer Aniston in a few years? You’ve read it here first.';
         $this->addSpecificDataToEmployee($this->kelly, $description, $this->pronounSheHer, $this->teamProductOversight, $this->employeeStatusFullTime, $this->positionSalesRep, '1980-02-05', $this->michael, $this->teamProductOversight);
-        $this->advanceProgress();
 
         $this->angela = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -473,7 +442,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'I love cats and I have 24 of them in my house. I also think the workplace should be all about integrity and office romance.';
         $this->addSpecificDataToEmployee($this->angela, $description, $this->pronounSheHer, $this->teamAccounting, $this->employeeStatusFullTime, $this->positionHeadOfAccounting, '1974-11-11', $this->michael, $this->teamAccounting);
-        $this->advanceProgress();
 
         $this->oscar = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -486,7 +454,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'Bike lover, huge Trivial Pursuit enthusiast and avid book reader.';
         $this->addSpecificDataToEmployee($this->oscar, $description, $this->pronounTheyThem, $this->teamAccounting, $this->employeeStatusFullTime, $this->positionSeniorAccountant, '1972-03-08', $this->angela);
-        $this->advanceProgress();
 
         $this->dakota = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -499,7 +466,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'Life is what we do of it --- Ophrah, 2020';
         $this->addSpecificDataToEmployee($this->dakota, $description, $this->pronounSheHer, $this->teamAccounting, $this->employeeStatusFullTime, $this->positionAccountant, null, $this->angela);
-        $this->advanceProgress();
 
         $this->toby = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -512,7 +478,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'I have a daughter, Sasha, and a master’s degree in social work from Temple University.';
         $this->addSpecificDataToEmployee($this->toby, $description, $this->pronounTheyThem, $this->teamHumanResources, $this->employeeStatusFullTime, $this->positionHRRep, '1963-02-22', $this->michael, $this->teamHumanResources);
-        $this->advanceProgress();
 
         $this->kevin = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -525,7 +490,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'Former Poker world champion, 6x times in a row, then I lost everything.';
         $this->addSpecificDataToEmployee($this->kevin, $description, $this->pronounHeHim, $this->teamAccounting, $this->employeeStatusPartTime, $this->positionAccountant, '1968-06-01', $this->angela);
-        $this->advanceProgress();
 
         $this->erin = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -538,7 +502,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'I used to work at a Taco Bell Express, but I really prefer working at Dunder Mifflin.';
         $this->addSpecificDataToEmployee($this->erin, $description, $this->pronounSheHer, $this->teamReception, $this->employeeStatusFullTime, $this->positionReceptionist, '1986-05-01', $this->michael);
-        $this->advanceProgress();
 
         $this->pete = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -551,7 +514,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'Lover of baseball, basketball, football and everything that ends with balls.';
         $this->addSpecificDataToEmployee($this->pete, $description, $this->pronounHeHim, $this->teamProductOversight, $this->employeeStatusPartTime, $this->positionCustomerServiceRepresentative, null, $this->kelly);
-        $this->advanceProgress();
 
         $this->meredith = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -564,7 +526,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'I have an unfortunate habit of suffering various misadventures. I’ve contracted herpes, been hit by Michael’s car, had my pelvis broken, had my hair set on fire, caught head lice, and been bitten by a bat, a rat, and a raccoon, all on separate occasions, and had to get rabies post-exposure treatment';
         $this->addSpecificDataToEmployee($this->meredith, $description, $this->pronounSheHer, $this->teamProductOversight, $this->employeeStatusFullTime, $this->positionSupplierRelationsRep, '1959-11-12', $this->kelly);
-        $this->advanceProgress();
 
         $this->val = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -577,7 +538,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'I don’t have anything interesting to say, as I’m a secondary character of the show.';
         $this->addSpecificDataToEmployee($this->val, $description, $this->pronounSheHer, $this->teamWarehouse, $this->employeeStatusFullTime, $this->positionWarehouseForeman, null, $this->michael, $this->teamWarehouse);
-        $this->advanceProgress();
 
         $this->nate = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -590,7 +550,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'Michael Jordan was the best. Period.';
         $this->addSpecificDataToEmployee($this->nate, $description, $this->pronounHeHim, $this->teamWarehouse, $this->employeeStatusFullTime, $this->positionWarehouseStaff, null, $this->val);
-        $this->advanceProgress();
 
         $this->glenn = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -603,7 +562,6 @@ class SetupDummyAccount extends Command
         ]);
         $description = 'I am Glenn, and I approve this message.';
         $this->addSpecificDataToEmployee($this->glenn, $description, $this->pronounHeHim, $this->teamWarehouse, $this->employeeStatusPartTime, $this->positionWarehouseStaff, null, $this->val);
-        $this->advanceProgress();
 
         $this->philip = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -617,7 +575,7 @@ class SetupDummyAccount extends Command
         $description = 'I lived in Chicago most of my life and have 2 children.';
         $this->addSpecificDataToEmployee($this->philip, $description, $this->pronounHeHim, $this->teamWarehouse, $this->employeeStatusFullTime, $this->positionWarehouseStaff, null, $this->val);
 
-        $this->stopProgressBar();
+        $this->info('✓ Adding employees');
     }
 
     private function addSpecificDataToEmployee(Employee $employee, string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
@@ -691,8 +649,6 @@ class SetupDummyAccount extends Command
 
     private function addSkills(): void
     {
-        $this->setProgressBar('Assigning skills to employees', 50);
-
         $skills = collect([]);
         $skills->push([
             'employee' => $this->michael->id,
@@ -838,21 +794,18 @@ class SetupDummyAccount extends Command
                     'employee_id' => $skill['employee'],
                     'name' => $individualSkill,
                 ]);
-                $this->advanceProgress();
             }
         }
 
-        $this->stopProgressBar();
+        $this->info('✓ Assigning skills to employees');
     }
 
     private function addWorkFromHomeEntries(): void
     {
         $employees = Employee::all();
-        $this->setProgressBar('Adding work from home entries', $employees->count());
         foreach ($employees as $employee) {
             // 50% chances of having work from home entries
             if (rand(1, 2) != 1) {
-                $this->advanceProgress();
                 continue;
             }
 
@@ -878,23 +831,19 @@ class SetupDummyAccount extends Command
 
                 $twoYearsAgo->addDay();
             }
-            $this->advanceProgress();
         }
 
-        $this->stopProgressBar();
+        $this->info('✓ Adding work from home information');
     }
 
     private function createQuestions(): void
     {
-        $this->setProgressBar('Adding questions in the company', 7);
-
         $this->questionWhatIsYourFavoriteAnimal = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->author->id,
             'active' => false,
             'title' => 'What is your favorite animal?',
         ]);
-        $this->advanceProgress();
 
         $this->questionWhatIsTheBestMovieYouHaveSeenThisYear = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
@@ -902,7 +851,6 @@ class SetupDummyAccount extends Command
             'active' => false,
             'title' => 'What is the best movie you have seen this year?',
         ]);
-        $this->advanceProgress();
 
         $this->questionCareToShareYourBestRestaurantInTown = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
@@ -910,7 +858,6 @@ class SetupDummyAccount extends Command
             'active' => false,
             'title' => 'Care to share your best restaurant in town?',
         ]);
-        $this->advanceProgress();
 
         $this->questionWhatIsYourFavoriteBand = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
@@ -918,7 +865,6 @@ class SetupDummyAccount extends Command
             'active' => false,
             'title' => 'What is your favorite band?',
         ]);
-        $this->advanceProgress();
 
         $this->questionWhatAreTheCurrentHighlightsOfThisYearForYou = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
@@ -926,7 +872,6 @@ class SetupDummyAccount extends Command
             'active' => false,
             'title' => 'What are the current highlights of this year for you?',
         ]);
-        $this->advanceProgress();
 
         $this->questionDoYouHaveAnyPersonalGoalsThatYouWouldLikeToShareWithUsThisWeek = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
@@ -934,7 +879,6 @@ class SetupDummyAccount extends Command
             'active' => false,
             'title' => 'Do you have any personal goals that you would like to share with us this week?',
         ]);
-        $this->advanceProgress();
 
         $this->questionWhatIsTheBestTVShowOfThisYearSoFar = (new CreateQuestion)->execute([
             'company_id' => $this->company->id,
@@ -943,12 +887,11 @@ class SetupDummyAccount extends Command
             'title' => 'What is the best TV show of this year so far?',
         ]);
 
-        $this->stopProgressBar();
+        $this->info('✓ Adding questions to know employees better');
     }
 
     private function addAnswers(): void
     {
-        $this->setProgressBar('Adding answers to questions', 89);
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->author, 'I love cats and dogs equally, but really, I prefer dogs as cats just want to murder us.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->michael, 'The lion, magnificent and powerful like me.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->dwight, 'The best animal is the one that tastes best on my plate.');
@@ -1044,7 +987,8 @@ class SetupDummyAccount extends Command
         $this->writeAnswer($this->questionWhatIsTheBestTVShowOfThisYearSoFar, $this->meredith, 'Fort Boyard');
         $this->writeAnswer($this->questionWhatIsTheBestTVShowOfThisYearSoFar, $this->glenn, 'Beverly Hills');
         $this->writeAnswer($this->questionWhatIsTheBestTVShowOfThisYearSoFar, $this->philip, 'Dirty Harry ');
-        $this->stopProgressBar();
+
+        $this->info('✓ Writing answers for each question');
     }
 
     private function writeAnswer(Question $question, Employee $employee, string $answer): void
@@ -1056,45 +1000,46 @@ class SetupDummyAccount extends Command
             'question_id' => $question->id,
             'body' => $answer,
         ]);
-        $this->advanceProgress();
+    }
+
+    private function addWorklogEntries(): void
+    {
+        $worklogs = [
+            'Planning party comity day. It was great, we tried to create a birthday theme for Angela. I think she loved it',
+            'Tried to make our biggest sale of the year, but it did not work unfortunately.',
+            'The supercomputer tried to destroy our sales for the year, but we did not let it win. Dwight is super happy.',
+            '5 letters sent today. New contracts coming. Also I tried to finalize our integration with Excel.',
+            'Called 3 potential clients today. One of them is super interested. Will try again tomorrow.',
+            'Everybody is dressed up for Halloween, but unfortunately Michael has to fire somebody.',
+            'The Dunder-Mifflin crew goes on a "motivational" cruise to Lake Wallenpaupack. A drunken Roy is inspired to announce a date for his wedding with Pam. Jim is crushed and confesses to Michael his feelings for Pam.',
+            'Michael is aggravated that his birthday isn’t getting more attention than Kevin’s skin cancer test.',
+            'Michael converts the warehouse into a casino for a charity casino night, but ends up with two dates - Jan and his realtor, Carol. Jim has something to tell Pam.',
+            'The Dunder Mifflin Infinity website is launching and Michael is excited about going to the big launch party in New York while Angela plans a satellite party for the Scranton branch. Meanwhile, Dwight competes against the website to see who can sell the most paper in one day.',
+        ];
+
+        $employees = Employee::all();
+
+        foreach ($employees as $employee) {
+            shuffle($worklogs);
+            foreach ($worklogs as $worklog) {
+                $faker = Faker::create();
+
+                (new LogWorklog)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->author->id,
+                    'employee_id' => $employee->id,
+                    'content' => $worklog,
+                    'date' => $faker->dateTimeThisYear('now')->format('Y-m-d'),
+                ]);
+            }
+        }
+
+        $this->info('✓ Writing work log entries on behalf of employees');
     }
 
     private function artisan($message, $command, array $arguments = [])
     {
         $this->info($message);
         $this->callSilent($command, $arguments);
-    }
-
-    private function setProgressBar(string $message, int $max): void
-    {
-        if ($this->option('silent') != null) {
-            return;
-        }
-
-        $output = new ConsoleOutput();
-        ProgressBar::setFormatDefinition('custom', '%message% (%current%/%max%) -- <info>%elapsed%</info>');
-        $this->progressBar = new ProgressBar($output, $max);
-        $this->progressBar->setFormat('custom');
-        $this->progressBar->setMessage($message);
-        $this->progressBar->start();
-    }
-
-    private function advanceProgress(): void
-    {
-        if ($this->option('silent') != null) {
-            return;
-        }
-
-        $this->advanceProgress();
-    }
-
-    private function stopProgressBar(): void
-    {
-        if ($this->option('silent') != null) {
-            return;
-        }
-
-        $this->progressBar->finish();
-        $this->line('');
     }
 }
