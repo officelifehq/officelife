@@ -10,7 +10,7 @@ class SetupDummyAccountTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
-    public function it_setups_the_front_end_environnement(): void
+    public function it_populates_the_account_with_dummy_data(): void
     {
         $this->artisan('setup:dummyaccount --silent')
             ->expectsQuestion('Are you sure you want to proceed? This will delete ALL data in your environment.', 'yes')
