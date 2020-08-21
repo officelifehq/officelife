@@ -24,8 +24,10 @@ use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Services\Company\Adminland\Company\CreateCompany;
+use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
@@ -160,6 +162,7 @@ class SetupDummyAccount extends Command
         $this->createQuestions();
         $this->addAnswers();
         $this->addExpenses();
+        $this->createHardware();
         $this->stop();
     }
 
@@ -921,7 +924,6 @@ class SetupDummyAccount extends Command
     private function addAnswers(): void
     {
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->michael, 'I love cats and dogs equally, but really, I prefer dogs as cats just want to murder us.');
-        $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->michael, 'The lion, magnificent and powerful like me.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->dwight, 'The best animal is the one that tastes best on my plate.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->phyllis, 'I love dolphins as they are beautiful, graceful and nice to other animals - except sharks.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->jim, 'Dogs. Friendly, nice, with only one master, like Dwight.');
@@ -929,7 +931,6 @@ class SetupDummyAccount extends Command
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->angela, 'Cats. The more, the better.');
         $this->writeAnswer($this->questionWhatIsYourFavoriteAnimal, $this->oscar, 'I love dogs. They are friendly and nice.');
 
-        $this->writeAnswer($this->questionWhatIsTheBestMovieYouHaveSeenThisYear, $this->michael, 'Definitely the Peter Jackson movie, The Hobbit, which was amazing and superbly written.');
         $this->writeAnswer($this->questionWhatIsTheBestMovieYouHaveSeenThisYear, $this->michael, 'Horrible bosses 2');
         $this->writeAnswer($this->questionWhatIsTheBestMovieYouHaveSeenThisYear, $this->dwight, 'Project power');
         $this->writeAnswer($this->questionWhatIsTheBestMovieYouHaveSeenThisYear, $this->phyllis, 'The tax collector');
@@ -1127,6 +1128,57 @@ class SetupDummyAccount extends Command
                     'expensed_at' => $this->faker->dateTimeThisYear()->format('Y-m-d'),
                 ]);
             }
+        }
+    }
+
+    private function createHardware(): void
+    {
+        $this->info('☐ Add hardware and associate them to employees');
+
+        $hardware = collect([
+            'Macbook Air 2019',
+            'Dell XPS Pro',
+            'Logitech G Pro Gaming',
+            'Corsair Graphite 230T',
+            'Audio-Technica AT2020',
+            'Logitech C920',
+            'BenQ XL2540',
+        ]);
+
+        foreach ($this->employees as $employee) {
+            if (rand(1, 2) == 1 && $employee->id != $this->michael->id) {
+                continue;
+            }
+
+            foreach ($hardware as $item) {
+                if (rand(1, 3) == 1) {
+                    continue;
+                }
+
+                $newlyItem = (new CreateHardware)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'name' => $item,
+                    'serial_number' => $this->faker->swiftBicNumber,
+                ]);
+
+                (new LendHardware)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'employee_id' => $employee->id,
+                    'hardware_id' => $newlyItem->id,
+                ]);
+            }
+        }
+
+        // also create a bunch of unused hardware
+        for ($i = 0; $i < 7; $i++) {
+            (new CreateHardware)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'name' => $hardware->shuffle()->first(),
+                'serial_number' => $this->faker->swiftBicNumber,
+            ]);
         }
     }
 
