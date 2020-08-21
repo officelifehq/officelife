@@ -16,6 +16,7 @@ use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Services\Company\Team\SetTeamLead;
 use Illuminate\Database\Eloquent\Collection;
+use App\Services\Company\Team\Ship\CreateShip;
 use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Morale\LogMorale;
@@ -30,6 +31,7 @@ use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
+use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
@@ -45,6 +47,7 @@ class SetupDummyAccount extends Command
     protected ProgressBar $progress;
     protected Company $company;
     protected Collection $employees;
+    protected Collection $teams;
 
     // All the employees
     protected Employee $michael;
@@ -155,6 +158,7 @@ class SetupDummyAccount extends Command
         $this->createEmployeeStatuses();
         $this->createPositions();
         $this->createTeams();
+        $this->addTeamDescriptions();
         $this->createEmployees();
         $this->addSkills();
         $this->addWorkFromHomeEntries();
@@ -163,6 +167,7 @@ class SetupDummyAccount extends Command
         $this->addAnswers();
         $this->addExpenses();
         $this->createHardware();
+        $this->addRecentShips();
         $this->stop();
     }
 
@@ -403,6 +408,62 @@ class SetupDummyAccount extends Command
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'name' => 'Warehouse',
+        ]);
+
+        $this->teams = Team::get();
+    }
+
+    private function addTeamDescriptions(): void
+    {
+        $this->info('☐ Add team descriptions');
+
+        (new SetTeamDescription)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'team_id' => $this->teamManagement->id,
+            'description' => 'We are here to manage the entire company, set a vision and make sure we all go to the right direction, efficiently.',
+        ]);
+
+        (new SetTeamDescription)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'team_id' => $this->teamSales->id,
+            'description' => 'Sales is responsible to make sure we sell the paper we have. Located in building B2.',
+        ]);
+
+        (new SetTeamDescription)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'team_id' => $this->teamAccounting->id,
+            'description' => 'We deal with everything related to finances and accounting questions. Have a question? don’t hesitate to drop by say hi!',
+        ]);
+
+        (new SetTeamDescription)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'team_id' => $this->teamHumanResources->id,
+            'description' => 'Holidays, timesheets, pay, bonuses. This is what we do.',
+        ]);
+
+        (new SetTeamDescription)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'team_id' => $this->teamReception->id,
+            'description' => 'We are in charge of welcoming visitors, clients and families. Happy to always help!',
+        ]);
+
+        (new SetTeamDescription)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'team_id' => $this->teamProductOversight->id,
+            'description' => 'In charge of all the new products we will release in the future.',
+        ]);
+
+        (new SetTeamDescription)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'team_id' => $this->teamWarehouse->id,
+            'description' => 'We are team in building A, responsible to ship paper to our beloved customers.',
         ]);
     }
 
@@ -1180,6 +1241,22 @@ class SetupDummyAccount extends Command
                 'serial_number' => $this->faker->swiftBicNumber,
             ]);
         }
+    }
+
+    private function addRecentShips(): void
+    {
+        $this->info('☐ Add recent ships entries for teams');
+
+        (new CreateShip)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'team_id' => $this->teamManagement->id,
+            'title' => 'New overall organization',
+            'description' => 'We are proud to have completely updated.',
+            'employees' => [
+                $this->michael->id, $this->dwight->id,
+            ],
+        ]);
     }
 
     private function artisan($message, $command, array $arguments = [])
