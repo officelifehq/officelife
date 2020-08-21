@@ -50,9 +50,7 @@
             <p class="tc measure center mb4 lh-copy" data-cy="questions-blank-message">
               {{ $t('account.questions_blank') }}
             </p>
-            <img loading="lazy" class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
-                                          /img/company/account/blank-team-2x.png 2x"
-            />
+            <img loading="lazy" class="db center mb4" alt="team" src="/img/streamline-icon-work-desk-sofa-3-1@140x140.png" />
           </div>
         </div>
       </template>

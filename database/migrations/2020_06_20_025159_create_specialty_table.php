@@ -11,6 +11,9 @@ class CreateSpecialtyTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('skills', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');

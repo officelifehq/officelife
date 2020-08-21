@@ -126,6 +126,7 @@ return [
     'accounting_expense_accepted' => 'The expense has been accepted',
     'accounting_expense_rejected' => 'The expense has been rejected',
     'accounting_expense_blank_state' => 'There are no expenses to validate.',
+    'accounting_expense_all_blank_state' => 'There are no expenses in this account yet.',
     'accounting_expense_managers_approvers' => 'Managers who can approve this expense',
     'accounting_expense_managers_description' => 'Managers are in charge of approving the following expenses.',
     'accounting_expense_managers_submitted_by' => 'Submitted by',

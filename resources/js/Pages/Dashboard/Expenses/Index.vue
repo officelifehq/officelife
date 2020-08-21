@@ -235,9 +235,9 @@
 
         <!-- blank state -->
         <div v-else class="pa3">
-          <img loading="lazy" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-cheer-party-4@140x140.png" />
+          <img loading="lazy" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-money-safe-open-2@140x140.png" />
 
-          <p class="fw5 mt3 tc">{{ $t('dashboard.accounting_expense_blank_state') }}</p>
+          <p class="fw5 mt3 tc">{{ $t('dashboard.accounting_expense_all_blank_state') }}</p>
         </div>
       </div>
     </div>
