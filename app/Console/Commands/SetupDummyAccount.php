@@ -13,11 +13,15 @@ use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Services\User\CreateAccount;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\ExpenseCategory;
 use App\Services\Company\Team\SetTeamLead;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
+use App\Services\Company\Employee\Morale\LogMorale;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Services\Company\Employee\Answer\CreateAnswer;
+use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Services\Company\Adminland\Company\CreateCompany;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
@@ -38,6 +42,7 @@ class SetupDummyAccount extends Command
 {
     protected ProgressBar $progress;
     protected Company $company;
+    protected Collection $employees;
 
     // All the employees
     protected Employee $michael;
@@ -94,6 +99,13 @@ class SetupDummyAccount extends Command
     protected Pronoun $pronounSheHer;
     protected Pronoun $pronounTheyThem;
 
+    // Expense categories
+    protected ExpenseCategory $expenseCategoryMaintenanceAndRepairs;
+    protected ExpenseCategory $expenseCategoryMealsAndEntertainment;
+    protected ExpenseCategory $expenseCategoryOfficeExpense;
+    protected ExpenseCategory $expenseCategoryTravel;
+    protected ExpenseCategory $expenseCategoryMotorVehicleExpenses;
+
     // Questions
     protected Question $questionWhatIsYourFavoriteAnimal;
     protected Question $questionWhatIsTheBestMovieYouHaveSeenThisYear;
@@ -144,9 +156,10 @@ class SetupDummyAccount extends Command
         $this->createEmployees();
         $this->addSkills();
         $this->addWorkFromHomeEntries();
-        $this->addWorklogEntries();
+        $this->addWorklogEntriesAndMorale();
         $this->createQuestions();
         $this->addAnswers();
+        $this->addExpenses();
         $this->stop();
     }
 
@@ -182,10 +195,6 @@ class SetupDummyAccount extends Command
     {
         $this->artisan('☐ Migration of the database', 'migrate:fresh');
         $this->artisan('☐ Symlink the storage folder', 'storage:link');
-
-        $this->pronounHeHim = Pronoun::where('label', 'he/him')->first();
-        $this->pronounSheHer = Pronoun::where('label', 'she/her')->first();
-        $this->pronounTheyThem = Pronoun::where('label', 'they/them')->first();
     }
 
     private function createFirstUser(): void
@@ -206,6 +215,16 @@ class SetupDummyAccount extends Command
 
         // grab the employee that was just created
         $this->michael = Employee::first();
+
+        $this->pronounHeHim = Pronoun::where('label', 'he/him')->first();
+        $this->pronounSheHer = Pronoun::where('label', 'she/her')->first();
+        $this->pronounTheyThem = Pronoun::where('label', 'they/them')->first();
+
+        $this->expenseCategoryMaintenanceAndRepairs = ExpenseCategory::where('name', 'Maintenance and repairs')->first();
+        $this->expenseCategoryMealsAndEntertainment = ExpenseCategory::where('name', 'Meals and entertainment')->first();
+        $this->expenseCategoryOfficeExpense = ExpenseCategory::where('name', 'Office expense')->first();
+        $this->expenseCategoryTravel = ExpenseCategory::where('name', 'Travel')->first();
+        $this->expenseCategoryMotorVehicleExpenses = ExpenseCategory::where('name', 'Motor vehicle expenses')->first();
     }
 
     private function assignAccountantRole(): void
@@ -818,15 +837,10 @@ class SetupDummyAccount extends Command
     {
         $this->info('☐ Add work from home information (this might take some time)');
 
-        $employees = Employee::all();
-        foreach ($employees as $employee) {
-            // 50% chances of having work from home entries
-            if (rand(1, 2) != 1) {
-                continue;
-            }
-
+        $this->employees = Employee::all();
+        foreach ($this->employees as $employee) {
             $twoYearsAgo = Carbon::now()->subYears(2);
-            while (! $twoYearsAgo->isSameDay(Carbon::now())) {
+            while (! $twoYearsAgo->isTomorrow(Carbon::now())) {
                 if ($twoYearsAgo->isSaturday() || $twoYearsAgo->isSunday()) {
                     $twoYearsAgo->addDay();
                     continue;
@@ -1015,7 +1029,7 @@ class SetupDummyAccount extends Command
         ]);
     }
 
-    private function addWorklogEntries(): void
+    private function addWorklogEntriesAndMorale(): void
     {
         $this->info('☐ Write work log entries on behalf of employees (that might take some time)');
 
@@ -1032,7 +1046,6 @@ class SetupDummyAccount extends Command
             'The Dunder Mifflin Infinity website is launching and Michael is excited about going to the big launch party in New York while Angela plans a satellite party for the Scranton branch. Meanwhile, Dwight competes against the website to see who can sell the most paper in one day.',
         ]);
 
-        $employees = Employee::all();
         $twoYearsAgo = Carbon::now()->subYears(2);
         while (! $twoYearsAgo->isSameDay(Carbon::now())) {
             if ($twoYearsAgo->isSaturday() || $twoYearsAgo->isSunday()) {
@@ -1045,7 +1058,7 @@ class SetupDummyAccount extends Command
                 continue;
             }
 
-            foreach ($employees as $employee) {
+            foreach ($this->employees as $employee) {
                 (new LogWorklog)->execute([
                     'company_id' => $this->company->id,
                     'author_id' => $this->michael->id,
@@ -1053,9 +1066,67 @@ class SetupDummyAccount extends Command
                     'content' => $worklogs->random(),
                     'date' => $twoYearsAgo->format('Y-m-d'),
                 ]);
+
+                (new LogMorale)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'employee_id' => $employee->id,
+                    'emotion' => rand(1, 3),
+                    'comment' => rand(1, 5) == 1 ? 'That was one of these days' : null,
+                    'date' => $twoYearsAgo->format('Y-m-d'),
+                ]);
             }
 
             $twoYearsAgo->addDay();
+        }
+    }
+
+    private function addExpenses(): void
+    {
+        $this->info('☐ Write expenses on behalf of employees');
+
+        $reasons = collect([
+            'Invitation to restaurant',
+            'Laptop upgrade',
+            'Hotel Toronto 2 nights',
+            'Flight LA -> Bangkok',
+            'Metro card',
+            'Sport yearly subscription',
+            'Internet at home',
+            'New screen protector',
+            'Tools',
+            'Book',
+        ]);
+
+        $categories = collect([
+            $this->expenseCategoryMaintenanceAndRepairs,
+            $this->expenseCategoryMealsAndEntertainment,
+            $this->expenseCategoryOfficeExpense,
+            $this->expenseCategoryTravel,
+            $this->expenseCategoryMotorVehicleExpenses,
+        ]);
+
+        foreach ($this->employees as $employee) {
+            if (rand(1, 2) == 1) {
+                continue;
+            }
+
+            foreach ($reasons as $reason) {
+                if (rand(1, 3) == 1) {
+                    continue;
+                }
+
+                (new CreateExpense)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'employee_id' => $employee->id,
+                    'expense_category_id' => $categories->shuffle()->first()->id,
+                    'title' => $reason,
+                    'amount' => rand(891, 45945),
+                    'currency' => 'USD',
+                    'expensed_at' => $this->faker->dateTimeThisYear()->format('Y-m-d'),
+                ]);
+            }
         }
     }
 

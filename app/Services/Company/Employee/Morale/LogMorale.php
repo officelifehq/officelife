@@ -31,6 +31,7 @@ class LogMorale extends BaseService
                     3,
                 ]),
             'comment' => 'nullable|string|max:65535',
+            'date' => 'nullable|date_format:Y-m-d',
             'is_dummy' => 'nullable|boolean',
         ];
     }
@@ -64,6 +65,7 @@ class LogMorale extends BaseService
             'employee_id' => $data['employee_id'],
             'emotion' => $data['emotion'],
             'comment' => $this->valueOrNull($data, 'comment'),
+            'created_at' => $this->valueOrNow($data, 'date'),
             'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
