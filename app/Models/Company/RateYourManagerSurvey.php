@@ -18,6 +18,7 @@ class RateYourManagerSurvey extends Model
         'manager_id',
         'active',
         'valid_until_at',
+        'created_at',
     ];
 
     /**

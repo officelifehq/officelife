@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
+use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
 use App\Helpers\QuestionHelper;
@@ -122,13 +123,14 @@ class DashboardMeViewHelper
                 'code' => $currency->getCode(),
             ]);
         }
+
         return $currencyCollection;
     }
 
     /**
      * Get all the in progress expenses for this employee.
      *
-     * @var Employee $employee
+     * @var Employee
      * @return Collection|null
      */
     public static function expenses(Employee $employee): ?Collection
@@ -161,14 +163,15 @@ class DashboardMeViewHelper
                 ]),
             ]);
         }
+
         return $expensesCollection;
     }
 
     /**
-     * Get all the Rate Your Manager survey answers that need to be answers, if
+     * Get all the Rate Your Manager survey answers that need to be answered, if
      * they exist.
      *
-     * @var Employee $employee
+     * @var Employee
      * @return Collection|null
      */
     public static function rateYourManagerAnswers(Employee $employee): ?Collection
@@ -189,13 +192,14 @@ class DashboardMeViewHelper
                 'deadline' => DateHelper::hoursOrDaysLeft($answer->entry->valid_until_at),
             ]);
         }
+
         return $answersCollection;
     }
 
     /**
      * Get the latest Rate your manager surveys about this manager.
      *
-     * @var Employee $employee
+     * @var Employee
      * @return Collection|null
      */
     public static function latestRateYourManagerSurveys(Employee $employee): ?Collection

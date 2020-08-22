@@ -11,8 +11,6 @@ return [
     'home_manage_employee_statuses' => 'Add/remove employee statuses',
     'home_company_news' => 'Add/remove company news',
     'home_audit_log' => 'View audit log to see who has done what',
-    'home_generate_fake_data' => 'Populate account with fake data',
-    'home_remove_fake_data' => 'Remove fake data',
     'home_manage_pto' => 'Manage paid time off policies',
     'home_manage_questions' => 'Manage questions',
     'home_manage_hardware' => 'Manage hardware',

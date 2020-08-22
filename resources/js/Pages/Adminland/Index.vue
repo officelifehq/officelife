@@ -109,16 +109,6 @@
                   {{ $t('account.home_audit_log') }}
                 </inertia-link>
               </li>
-              <li v-show="!$page.auth.company.has_dummy_data" class="pa2 pl0">
-                <inertia-link :href="'/' + $page.auth.company.id + '/account/dummy'">
-                  {{ $t('account.home_generate_fake_data') }}
-                </inertia-link>
-              </li>
-              <li v-show="$page.auth.company.has_dummy_data" class="pa2 pl0">
-                <inertia-link :href="'/' + $page.auth.company.id + '/account/dummy'">
-                  {{ $t('account.home_remove_fake_data') }}
-                </inertia-link>
-              </li>
             </ul>
           </div>
         </div>

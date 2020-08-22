@@ -23,6 +23,7 @@ class DashboardMeController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
+        dd($company->getListOfManagers());
 
         UpdateDashboardPreference::dispatch([
             'employee_id' => $employee->id,
@@ -58,7 +59,6 @@ class DashboardMeController extends Controller
             'currencies' => DashboardMeViewHelper::currencies($company),
             'expenses' => DashboardMeViewHelper::expenses($employee),
             'rateYourManagerAnswers' => DashboardMeViewHelper::rateYourManagerAnswers($employee),
-            'surveys' => DashboardMeViewHelper::latestRateYourManagerSurveys($employee),
             'defaultCurrency' => $defaultCompanyCurrency,
         ]);
     }

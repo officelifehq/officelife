@@ -48,11 +48,14 @@
         </div>
 
         <!-- LEFT COLUMN -->
-        <div class="fl w-40-l w-100">
+        <div class="fl w-50-l w-100">
+          <rate-your-manager-poll-results
+            :surveys="surveys"
+          />
         </div>
 
         <!-- RIGHT COLUMN -->
-        <div class="fl w-60-l w-100 pl4-l">
+        <div class="fl w-50-l w-100 pl4-l">
         </div>
       </div>
     </div>
@@ -60,14 +63,15 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
 import Layout from '@/Shared/Layout';
 import HeaderEmployee from '@/Pages/Employee/Partials/HeaderEmployee';
+import RateYourManagerPollResults from '@/Pages/Employee/Partials/RateYourManagerPollResults';
 
 export default {
   components: {
     Layout,
     HeaderEmployee,
+    RateYourManagerPollResults,
   },
 
   props: {
@@ -100,6 +104,10 @@ export default {
       default: null,
     },
     pronouns: {
+      type: Array,
+      default: null,
+    },
+    surveys: {
       type: Array,
       default: null,
     },

@@ -6,5 +6,6 @@
     "fixturesFolder": "tests/Features/fixtures",
     "integrationFolder": "tests/Features/integration",
     "pluginsFile": "tests/Features/plugins/index.js",
-    "video": false
+    "video": false,
+    "retries": 2
 }

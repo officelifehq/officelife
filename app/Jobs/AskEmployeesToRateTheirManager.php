@@ -38,7 +38,7 @@ class AskEmployeesToRateTheirManager implements ShouldQueue
         $entry = RateYourManagerSurvey::create([
             'manager_id' => $this->manager->id,
             'active' => true,
-            'valid_until_at' => Carbon::now()->endOfDay()->addDays(3),
+            'valid_until_at' => Carbon::now()->endOfDay()->addWeekdays(3),
         ]);
 
         $employees = $this->manager->directReports()->get();
