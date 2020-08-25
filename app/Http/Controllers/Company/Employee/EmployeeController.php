@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use Inertia\Inertia;
+use App\Helpers\InstanceHelper;
+use App\Helpers\NotificationHelper;
+use App\Http\Collections\EmployeeStatusCollection;
+use App\Http\Collections\PositionCollection;
+use App\Http\Collections\PronounCollection;
+use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Models\Company\Employee;
 use App\Models\User\Pronoun;
+use App\Services\Company\Employee\Manager\AssignManager;
+use App\Services\Company\Employee\Manager\UnassignManager;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Helpers\InstanceHelper;
-use App\Models\Company\Employee;
-use App\Helpers\NotificationHelper;
-use App\Http\Controllers\Controller;
-use App\Http\Collections\PronounCollection;
-use App\Http\Collections\PositionCollection;
-use App\Http\Collections\EmployeeStatusCollection;
-use App\Services\Company\Employee\Manager\AssignManager;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
-use App\Services\Company\Employee\Manager\UnassignManager;
+use Inertia\Inertia;
 
 class EmployeeController extends Controller
 {
@@ -127,6 +128,10 @@ class EmployeeController extends Controller
         // all expenses of this employee
         $expenses = EmployeeShowViewHelper::expenses($employee);
 
+        // surveys, to know if the performance tab should be visible
+        $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
+        $hasTheRightToSeePerformanceTab =
+
         return Inertia::render('Employee/Show', [
             'menu' => 'all',
             'employee' => $employee->toObject(),
@@ -145,6 +150,8 @@ class EmployeeController extends Controller
             'ships' => $ships,
             'skills' => $skills,
             'expenses' => $expenses,
+            'surveys' => $surveys,
+            'isAccountant' => $loggedEmployee->can_manage_expenses,
             'isAccountant' => $loggedEmployee->can_manage_expenses,
         ]);
     }

@@ -4,8 +4,8 @@ return [
     'tab_me' => 'Me',
     'tab_my_team' => 'My team',
     'tab_my_company' => 'My company',
-    'tab_expenses' => 'Expenses',
-    'tab_manager' => 'Manager area',
+    'tab_expenses' => 'Accountant area',
+    'tab_manager' => 'Decisions as manager',
 
     'blank_state' => 'You are not associated with a team at the moment.',
 

@@ -204,8 +204,9 @@ class Company extends Model
     public function getListOfManagers(): Collection
     {
         $managersCollection = collect([]);
-        foreach ($this->managers()->get() as $directReport) {
-            $managersCollection->push($directReport->manager);
+
+        foreach ($this->managers()->get() as $manager) {
+            $managersCollection->push($manager->manager);
         }
 
         return $managersCollection->unique('id');

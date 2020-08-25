@@ -6,6 +6,8 @@ return [
     'its_you' => 'it’s you',
 
     'account_locked' => 'This account is locked.',
+    'menu_all_information' => 'All information',
+    'menu_performance' => 'Performance',
 
     'description_title' => 'Description',
     'description_no_description' => 'There is no description yet.',

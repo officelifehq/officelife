@@ -72,7 +72,12 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('employees')->group(function () {
             Route::get('', 'Company\\Employee\\EmployeeController@index')->name('employees.index');
             Route::get('{employee}', 'Company\\Employee\\EmployeeController@show')->name('employees.show');
-            Route::get('{employee}/performance', 'Company\\Employee\\EmployeePerformanceController@show')->name('employees.show.performance');
+
+            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
+                Route::get('{employee}/performance', 'Company\\Employee\\EmployeePerformanceController@show')->name('employees.show.performance');
+                Route::get('{employee}/performance/surveys', 'Company\\Employee\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
+                Route::get('{employee}/performance/{survey}', 'Company\\Employee\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
+            });
 
             Route::post('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager');
             Route::post('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport');

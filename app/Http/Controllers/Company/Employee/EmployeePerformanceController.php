@@ -14,8 +14,8 @@ use App\Http\Collections\PronounCollection;
 use App\Http\Collections\PositionCollection;
 use App\Http\Collections\EmployeeStatusCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
 
 class EmployeePerformanceController extends Controller
 {
@@ -46,6 +46,17 @@ class EmployeePerformanceController extends Controller
             return redirect('home');
         }
 
+        // surveys
+        $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
+
+        // if there are no surveys, redirect to the employee profile page
+        if (! $surveys) {
+            return redirect()->route('employees.show', [
+                'company' => $company,
+                'employee' => $employee,
+            ]);
+        }
+
         // all the teams the employee belongs to
         $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee);
 
@@ -53,7 +64,7 @@ class EmployeePerformanceController extends Controller
         $teams = $company->teams()->with('leader')->get();
         $teams = EmployeeShowViewHelper::teams($teams, $employee);
 
-        return Inertia::render('Employee/ShowPerformance', [
+        return Inertia::render('Employee/Performance/Index', [
             'menu' => 'performance',
             'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -62,7 +73,7 @@ class EmployeePerformanceController extends Controller
             'teams' => $teams,
             'statuses' => EmployeeStatusCollection::prepare($company->employeeStatuses()->get()),
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
-            'surveys' => DashboardMeViewHelper::latestRateYourManagerSurveys($employee),
+            'surveys' => $surveys,
             'isAccountant' => $loggedEmployee->can_manage_expenses,
         ]);
     }

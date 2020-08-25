@@ -23,7 +23,6 @@ class DashboardMeController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
-        dd($company->getListOfManagers());
 
         UpdateDashboardPreference::dispatch([
             'employee_id' => $employee->id,

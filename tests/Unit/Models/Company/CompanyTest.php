@@ -207,13 +207,20 @@ class CompanyTest extends TestCase
         $dwight = factory(Employee::class)->create([
             'company_id' => $company->id,
         ]);
-        factory(DirectReport::class, 3)->create([
+        $john = factory(Employee::class)->create([
+            'company_id' => $company->id,
+        ]);
+        factory(DirectReport::class)->create([
             'company_id' => $company->id,
             'manager_id' => $dwight->id,
         ]);
+        factory(DirectReport::class, 2)->create([
+            'company_id' => $company->id,
+            'manager_id' => $john->id,
+        ]);
 
         $this->assertEquals(
-            3,
+            2,
             $company->getListOfManagers()->count()
         );
     }

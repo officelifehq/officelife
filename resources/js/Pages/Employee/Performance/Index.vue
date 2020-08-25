@@ -36,13 +36,14 @@
           </div>
         </template>
 
-        <div class="cf mw7 center br3 mt3 mb5 tc">
+        <!-- menu -->
+        <div v-if="surveys" class="cf mw7 center br3 mt3 mb5 tc">
           <div class="cf dib btn-group">
             <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(menu == 'all')}">
-              All information
+              {{ $t('employee.menu_all_information') }}
             </inertia-link>
             <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/performance'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(menu == 'performance')}" data-cy="dashboard-team-tab">
-              Performance
+              {{ $t('employee.menu_performance') }}
             </inertia-link>
           </div>
         </div>
@@ -65,7 +66,7 @@
 <script>
 import Layout from '@/Shared/Layout';
 import HeaderEmployee from '@/Pages/Employee/Partials/HeaderEmployee';
-import RateYourManagerPollResults from '@/Pages/Employee/Partials/RateYourManagerPollResults';
+import RateYourManagerPollResults from '@/Pages/Employee/Performance/Partials/RateYourManagerPollResults';
 
 export default {
   components: {
@@ -108,7 +109,7 @@ export default {
       default: null,
     },
     surveys: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },
