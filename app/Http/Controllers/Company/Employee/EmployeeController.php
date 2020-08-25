@@ -135,11 +135,6 @@ class EmployeeController extends Controller
         // is the logged employee the manager of the person we're viewing?
         $isManager = $loggedEmployee->isManagerOf($employee->id);
 
-        // is the logged employee a HR, or admin?
-        $loggedEmployeeIsNormalUser = $loggedEmployee->permission_level == 200;
-        $loggedEmployeeIsHR = $loggedEmployee->permission_level == 200;
-        $loggedEmployeeIsAdministrator = $loggedEmployee->permission_level == 100;
-
         return Inertia::render('Employee/Show', [
             'menu' => 'all',
             'employee' => $employee->toObject(),
@@ -160,8 +155,6 @@ class EmployeeController extends Controller
             'skills' => $skills,
             'expenses' => $expenses,
             'surveys' => $surveys,
-            'isAccountant' => $loggedEmployee->can_manage_expenses,
-            'isManager' => $isManager,
         ]);
     }
 

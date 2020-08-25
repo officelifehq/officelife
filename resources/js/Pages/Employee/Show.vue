@@ -229,14 +229,6 @@ export default {
       type: Object,
       default: null,
     },
-    isAccountant: {
-      type: Boolean,
-      default: false,
-    },
-    isManager: {
-      type: Boolean,
-      default: false,
-    },
   },
 
   mounted() {
@@ -247,19 +239,6 @@ export default {
   },
 
   methods: {
-    employeeOrAccountant() {
-      if (this.isAccountant) {
-        return true;
-      }
-
-      if (this.employee.user) {
-        if (this.$page.auth.user.id == this.employee.user.id) {
-          return true;
-        }
-      }
-
-      return false;
-    }
   }
 };
 
