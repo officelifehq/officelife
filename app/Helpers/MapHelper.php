@@ -9,10 +9,10 @@ class MapHelper
     /**
      * Return the URL for a static image for the given place.
      *
-     * @var Place $place
-     * @var int $width
-     * @var int $height
-     * @var int $zoom
+     * @var Place
+     * @var int
+     * @var int
+     * @var int
      *
      * @return string|null
      */
@@ -22,12 +22,12 @@ class MapHelper
             return null;
         }
 
-        if (! config('officelife.mapbox_username')) {
+        if (! config('officelife.mapbox_api_username')) {
             return null;
         }
 
         $url = 'https://api.mapbox.com/styles/v1/';
-        $url .= config('officelife.mapbox_username');
+        $url .= config('officelife.mapbox_api_username');
         $url .= '/ck335w8te1vzj1cn7aszafhm2/static/';
         $url .= $place->longitude.',';
         $url .= $place->latitude.',';

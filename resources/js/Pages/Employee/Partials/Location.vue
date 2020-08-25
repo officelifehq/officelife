@@ -16,17 +16,14 @@
       />
 
       <!-- partial address -->
-      <p v-if="employeeOrAtLeastHR()" class="mt0" data-cy="employee-location">
+      <p v-if="loggedEmployee.can_see_complete_address" class="mt0" data-cy="employee-location">
         {{ $t('employee.location_information', { address: employee.address.readable }) }}
       </p>
 
       <!-- complete address if it's the employee or an employee with HR role at least -->
-      <p v-if="!employeeOrAtLeastHR()" class="mt0" data-cy="employee-location">
+      <p v-if="!loggedEmployee.can_see_complete_address" class="mt0" data-cy="employee-location">
         {{ $t('employee.location_information', { address: employee.address.partial }) }}
       </p>
-      <span class="f7 silver">
-        {{ $t('employee.location_privacy_information') }}
-      </span>
     </div>
 
     <!-- case of no address set in profile -->
@@ -45,6 +42,10 @@ export default {
       type: Object,
       default: null,
     },
+    loggedEmployee: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -56,20 +57,6 @@ export default {
     navigateToUrl(params) {
       window.open(params, '_blank');
     },
-
-    employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.auth.user.id == this.employee.user.id) {
-        return true;
-      }
-    }
   }
 };
 </script>

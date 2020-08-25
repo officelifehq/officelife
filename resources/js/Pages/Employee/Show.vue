@@ -71,6 +71,7 @@
 
           <location
             :employee="employee"
+            :logged-employee="loggedEmployee"
             :hardware="hardware"
           />
 

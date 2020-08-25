@@ -121,6 +121,12 @@ class EmployeeShowViewHelper
         // can see audit log?
         $canSeeAuditLog = $loggedEmployee->permission_level <= 200;
 
+        // can see complete address?
+        $canSeeCompleteAddress = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeCompleteAddress = true;
+        }
+
         return [
             'can_manage_hierarchy' => $canManageHierarchy,
             'can_manage_skills' => $canManageSkills,
@@ -131,6 +137,7 @@ class EmployeeShowViewHelper
             'can_edit_profile' => $canEditProfile,
             'can_delete_profile' => $canDeleteProfile,
             'can_see_audit_log' => $canSeeAuditLog,
+            'can_see_complete_address' => $canSeeCompleteAddress,
         ];
     }
 
