@@ -31,8 +31,11 @@ class EmployeeExpenseController extends Controller
 
         // expenses can only be seen by the employee who submitted them
         // or by someone with the accountant role
+        // or by the manager
         if (! $loggedEmployee->can_manage_expenses && $loggedEmployee->id != $employeeId) {
-            return redirect('home');
+            if (! $loggedEmployee->isManagerOf($employeeId)) {
+                return redirect('home');
+            }
         }
 
         try {
@@ -90,7 +93,9 @@ class EmployeeExpenseController extends Controller
         // the expense can only be seen by the employee who submitted it
         // or by someone with the accountant role
         if (! $loggedEmployee->can_manage_expenses && $loggedEmployee->id != $employeeId) {
-            return redirect('home');
+            if (! $loggedEmployee->isManagerOf($employeeId)) {
+                return redirect('home');
+            }
         }
 
         return Inertia::render('Employee/Expenses/Show', [
