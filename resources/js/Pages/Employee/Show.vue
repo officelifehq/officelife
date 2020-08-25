@@ -181,7 +181,7 @@
           />
 
           <expenses
-            v-if="employeeOrAccountant()"
+            v-if="employeeOrAccountant() || isManager"
             :employee="employee"
             :expenses="expenses"
           />
@@ -302,6 +302,10 @@ export default {
       default: null,
     },
     isAccountant: {
+      type: Boolean,
+      default: false,
+    },
+    isManager: {
       type: Boolean,
       default: false,
     },

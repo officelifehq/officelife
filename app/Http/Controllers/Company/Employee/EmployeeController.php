@@ -127,6 +127,9 @@ class EmployeeController extends Controller
         // all expenses of this employee
         $expenses = EmployeeShowViewHelper::expenses($employee);
 
+        // is the logged employee the manager of the person we're viewing?
+        $isManager = $loggedEmployee->isManagerOf($employee->id);
+
         return Inertia::render('Employee/Show', [
             'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -145,6 +148,7 @@ class EmployeeController extends Controller
             'skills' => $skills,
             'expenses' => $expenses,
             'isAccountant' => $loggedEmployee->can_manage_expenses,
+            'isManager' => $isManager,
         ]);
     }
 
