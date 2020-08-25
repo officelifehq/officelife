@@ -36,7 +36,7 @@
     <div class="mw9 center br3 mb4 bg-white box relative z-1">
       <div class="pa3 relative pt5">
         <!-- EDIT BUTTON -->
-        <img v-if="employeeOrAtLeastHR()" loading="lazy" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button"
+        <img v-if="loggedEmployee.can_edit_profile" loading="lazy" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button"
              alt="edit button"
              @click="profileMenu = true"
         />
@@ -44,19 +44,19 @@
         <!-- EDIT MENU -->
         <div v-if="profileMenu" v-click-outside="toggleProfileMenu" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
           <ul class="list ma0 pa0">
-            <li v-show="employeeOrAtLeastHR()" class="pv2">
+            <li v-if="loggedEmployee.can_see_audit_log" class="pv2">
+              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">
+                {{ $t('employee.menu_changelog') }}
+              </inertia-link>
+            </li>
+            <li v-show="loggedEmployee.can_edit_profile" class="pv2">
               <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" class="pointer" data-cy="show-edit-view">
                 {{ $t('app.edit') }}
               </inertia-link>
             </li>
-            <li v-show="$page.auth.employee.permission_level <= 200" class="pv2">
+            <li v-show="loggedEmployee.can_delete_profile" class="pv2">
               <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + employee.id + '/delete'" class="pointer c-delete" data-cy="show-delete-view">
                 {{ $t('app.delete') }}
-              </inertia-link>
-            </li>
-            <li v-if="employeeOrAtLeastHR()" class="pv2">
-              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">
-                {{ $t('employee.menu_changelog') }}
               </inertia-link>
             </li>
           </ul>
@@ -145,6 +145,10 @@ export default {
       type: Object,
       default: null,
     },
+    loggedEmployee: {
+      type: Object,
+      default: null,
+    },
     employeeTeams: {
       type: Array,
       default: null,
@@ -176,20 +180,6 @@ export default {
   methods: {
     toggleProfileMenu() {
       this.profileMenu = false;
-    },
-
-    employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.auth.user.id == this.employee.user.id) {
-        return true;
-      }
     },
   }
 };

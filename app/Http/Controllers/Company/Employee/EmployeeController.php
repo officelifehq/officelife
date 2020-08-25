@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
-use App\Helpers\InstanceHelper;
-use App\Helpers\NotificationHelper;
-use App\Http\Collections\EmployeeStatusCollection;
-use App\Http\Collections\PositionCollection;
-use App\Http\Collections\PronounCollection;
-use App\Http\Controllers\Controller;
-use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
-use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
-use App\Models\Company\Employee;
+use Inertia\Inertia;
 use App\Models\User\Pronoun;
-use App\Services\Company\Employee\Manager\AssignManager;
-use App\Services\Company\Employee\Manager\UnassignManager;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Inertia\Inertia;
+use App\Helpers\InstanceHelper;
+use App\Models\Company\Employee;
+use App\Helpers\NotificationHelper;
+use App\Http\Controllers\Controller;
+use App\Http\Collections\PronounCollection;
+use App\Http\Collections\PositionCollection;
+use App\Http\Collections\EmployeeStatusCollection;
+use App\Services\Company\Employee\Manager\AssignManager;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Services\Company\Employee\Manager\UnassignManager;
+use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
 
 class EmployeeController extends Controller
 {
@@ -130,11 +130,20 @@ class EmployeeController extends Controller
 
         // surveys, to know if the performance tab should be visible
         $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
-        $hasTheRightToSeePerformanceTab =
+        //$hasTheRightToSeePerformanceTab =
+
+        // is the logged employee the manager of the person we're viewing?
+        $isManager = $loggedEmployee->isManagerOf($employee->id);
+
+        // is the logged employee a HR, or admin?
+        $loggedEmployeeIsNormalUser = $loggedEmployee->permission_level == 200;
+        $loggedEmployeeIsHR = $loggedEmployee->permission_level == 200;
+        $loggedEmployeeIsAdministrator = $loggedEmployee->permission_level == 100;
 
         return Inertia::render('Employee/Show', [
             'menu' => 'all',
             'employee' => $employee->toObject(),
+            'loggedEmployee' => EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
@@ -152,7 +161,7 @@ class EmployeeController extends Controller
             'expenses' => $expenses,
             'surveys' => $surveys,
             'isAccountant' => $loggedEmployee->can_manage_expenses,
-            'isAccountant' => $loggedEmployee->can_manage_expenses,
+            'isManager' => $isManager,
         ]);
     }
 

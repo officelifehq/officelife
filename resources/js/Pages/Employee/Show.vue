@@ -21,6 +21,7 @@
       <!-- HEADER -->
       <header-employee
         :employee="employee"
+        :logged-employee="loggedEmployee"
         :employee-teams="employeeTeams"
         :positions="positions"
         :teams="teams"
@@ -52,16 +53,19 @@
         <div class="fl w-40-l w-100">
           <work-from-home
             :employee="employee"
+            :logged-employee="loggedEmployee"
             :statistics="workFromHomes"
           />
 
           <personal-description
             :employee="employee"
+            :logged-employee="loggedEmployee"
           />
 
           <!-- skills -->
           <skills
             :employee="employee"
+            :logged-employee="loggedEmployee"
             :skills="skills"
           />
 
@@ -70,8 +74,9 @@
             :hardware="hardware"
           />
 
-          <employee-hierarchy
+          <hierarchy
             :employee="employee"
+            :logged-employee="loggedEmployee"
             :managers-of-employee="managersOfEmployee"
             :direct-reports="directReports"
           />
@@ -94,6 +99,7 @@
         <div class="fl w-60-l w-100 pl4-l">
           <worklogs
             :employee="employee"
+            :logged-employee="loggedEmployee"
             :worklogs="worklogs"
           />
 
@@ -103,7 +109,7 @@
           />
 
           <expenses
-            v-if="employeeOrAccountant()"
+            v-if="loggedEmployee.can_see_expenses"
             :employee="employee"
             :expenses="expenses"
           />
@@ -118,7 +124,7 @@ import vClickOutside from 'v-click-outside';
 import Layout from '@/Shared/Layout';
 import HeaderEmployee from '@/Pages/Employee/Partials/HeaderEmployee';
 import PersonalDescription from '@/Pages/Employee/Partials/PersonalDescription';
-import EmployeeHierarchy from '@/Pages/Employee/Partials/EmployeeHierarchy';
+import Hierarchy from '@/Pages/Employee/Partials/Hierarchy';
 import Worklogs from '@/Pages/Employee/Partials/Worklogs';
 import Holidays from '@/Pages/Employee/Partials/Holidays';
 import Location from '@/Pages/Employee/Partials/Location';
@@ -134,7 +140,7 @@ export default {
     Layout,
     HeaderEmployee,
     PersonalDescription,
-    EmployeeHierarchy,
+    Hierarchy,
     Worklogs,
     Holidays,
     Location,
@@ -148,6 +154,10 @@ export default {
 
   props: {
     employee: {
+      type: Object,
+      default: null,
+    },
+    loggedEmployee: {
       type: Object,
       default: null,
     },
@@ -223,6 +233,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isManager: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   mounted() {
@@ -233,20 +247,6 @@ export default {
   },
 
   methods: {
-    employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.auth.user.id == this.employee.user.id) {
-        return true;
-      }
-    },
-
     employeeOrAccountant() {
       if (this.isAccountant) {
         return true;
