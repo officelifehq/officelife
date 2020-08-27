@@ -14,6 +14,18 @@
   padding-left: 220px;
 }
 
+@media (max-width: 480px) {
+  .names {
+    padding-left: 0;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    padding: 4px;
+  }
+}
+
 .black-white {
    filter: grayscale(100%);
 }
@@ -67,7 +79,7 @@
         </div>
 
         <!-- AVATAR -->
-        <img :class="{'black-white':(employee.locked)}" loading="lazy" :src="employee.avatar" class="avatar absolute db center" width="80"
+        <img :class="{'black-white':(employee.locked)}" loading="lazy" :src="employee.avatar" class="avatar absolute-ns db center" width="80"
              height="80"
              alt="avatar"
         />
@@ -82,10 +94,10 @@
             </span>
           </h2>
 
-          <div class="flex justify-between">
+          <div class="flex flex-column flex-row-ns justify-between-ns">
             <div class="mr4">
               <p class="mt0 f6">
-                <span class="f7 gray">Position</span>
+                <span class="f7 gray">{{ $t('employee.position_title') }}</span>
                 <employee-position
                   :employee="employee"
                   :positions="positions"
@@ -99,7 +111,7 @@
                   :teams="teams"
                 />
               </p>
-              <p class="f6 mb0">
+              <p class="f6 mb0-ns">
                 <span class="f7 gray">{{ $t('employee.pronoun_title') }}</span>
                 <employee-gender-pronoun
                   :employee="employee"
@@ -115,7 +127,7 @@
                 />
               </p>
               <p class="f6"><span class="f7 gray">Hire date</span> Hire date</p>
-              <p class="mb0 f6">
+              <p class="mb0-ns f6">
                 <span class="f7 gray">{{ $t('employee.status_title') }}</span>
                 <employee-status
                   :employee="employee"
