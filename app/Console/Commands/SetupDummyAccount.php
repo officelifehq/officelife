@@ -172,6 +172,7 @@ class SetupDummyAccount extends Command
         $this->createHardware();
         $this->addRecentShips();
         $this->addRateYourManagerSurveys();
+        $this->addSecondaryBlankAccount();
         $this->stop();
     }
 
@@ -1349,6 +1350,21 @@ class SetupDummyAccount extends Command
                 ]);
             }
         }
+    }
+
+    private function addSecondaryBlankAccount(): void
+    {
+        $user = (new CreateAccount)->execute([
+            'email' => 'blank@blank.com',
+            'password' => 'blank',
+            'first_name' => 'Roger',
+            'last_name' => 'Rabbit',
+        ]);
+
+        $this->company = (new CreateCompany)->execute([
+            'author_id' => $user->id,
+            'name' => 'ACME inc',
+        ]);
     }
 
     private function artisan($message, $command, array $arguments = [])

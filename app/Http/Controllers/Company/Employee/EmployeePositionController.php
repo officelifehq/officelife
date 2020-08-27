@@ -39,7 +39,7 @@ class EmployeePositionController extends Controller
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'avatar' => $employee->avatar,
-                'position' => ($employee->position) ? $employee->position->title : null,
+                'position' => ($employee->position) ? $employee->position : null,
             ],
         ], 200);
     }
@@ -66,7 +66,12 @@ class EmployeePositionController extends Controller
         $employee = (new RemovePositionFromEmployee)->execute($request);
 
         return response()->json([
-            'data' => $employee->toObject(),
+            'data' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'position' => null,
+            ],
         ], 200);
     }
 }

@@ -13,6 +13,10 @@
 .names {
   padding-left: 220px;
 }
+
+.black-white {
+   filter: grayscale(100%);
+}
 </style>
 
 <template>
@@ -33,7 +37,7 @@
     </div>
 
     <!-- profile -->
-    <div class="mw9 center br3 mb4 bg-white box relative z-1">
+    <div class="mw9 center br3 mb5 bg-white box relative z-1">
       <div class="pa3 relative">
         <!-- EDIT BUTTON -->
         <img v-if="loggedEmployee.can_edit_profile" loading="lazy" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button"
@@ -63,7 +67,8 @@
         </div>
 
         <!-- AVATAR -->
-        <img loading="lazy" :src="employee.avatar" class="avatar absolute db center" width="80" height="80"
+        <img :class="{'black-white':(employee.locked)}" loading="lazy" :src="employee.avatar" class="avatar absolute db center" width="80"
+             height="80"
              alt="avatar"
         />
 
@@ -79,17 +84,49 @@
 
           <div class="flex justify-between">
             <div class="mr4">
-              <p class="mt0 f6"><span class="f7 gray">Position</span> Programmer in </p>
-              <p class="f6"><span class="f7 gray">Teams</span> <a>Team 1</a> and <a>Team 2</a></p>
-              <p class="mb0"><span class="f7 gray">Pronouns</span> Her/him</p>
+              <p class="mt0 f6">
+                <span class="f7 gray">Position</span>
+                <employee-position
+                  :employee="employee"
+                  :positions="positions"
+                />
+              </p>
+              <p class="f6">
+                <span class="f7 gray">{{ $t('employee.team_title') }}</span>
+                <employee-team
+                  :employee="employee"
+                  :employee-teams="employeeTeams"
+                  :teams="teams"
+                />
+              </p>
+              <p class="f6 mb0">
+                <span class="f7 gray">{{ $t('employee.pronoun_title') }}</span>
+                <employee-gender-pronoun
+                  :employee="employee"
+                  :pronouns="pronouns"
+                />
+              </p>
             </div>
             <div class="mr4">
-              <p class="mt0 f6"><span class="f7 gray">Birth date</span> birth date</p>
+              <p class="mt0 f6">
+                <span class="f7 gray">Birth date</span>
+                <employee-birthdate
+                  :employee="employee"
+                />
+              </p>
               <p class="f6"><span class="f7 gray">Hire date</span> Hire date</p>
-              <p class="mb0 f6"><span class="f7 gray">Status</span> Her/him</p>
+              <p class="mb0 f6">
+                <span class="f7 gray">{{ $t('employee.status_title') }}</span>
+                <employee-status
+                  :employee="employee"
+                  :statuses="statuses"
+                />
+              </p>
             </div>
             <div class="pr5">
-              <p class="mt0 f6"><span class="f7 gray">Email</span> birth date</p>
+              <p class="mt0 f6">
+                <span class="f7 gray">Email</span>
+              </p>
               <p class="f6"><span class="f7 gray">Twitter</span> Hire date</p>
               <p class="mb0 f6"><span class="f7 gray">Slack</span> Her/him</p>
             </div>
@@ -97,42 +134,6 @@
         </div>
       </div>
     </div>
-
-    <ul class="list tc pa0 f6 mb0">
-      <li class="di-l db mb0-l mb2 mr2">
-        <employee-gender-pronoun
-          :employee="employee"
-          :pronouns="pronouns"
-        />
-      </li>
-      <li class="di-l db mb0-l mb2 mr2">
-        <employee-birthdate
-          :employee="employee"
-        />
-      </li>
-      <li class="di-l db mb0-l mb2 mr2">
-        <employee-position
-          :employee="employee"
-          :positions="positions"
-        />
-      </li>
-      <li class="di-l db mb0-l mb2 mr2">
-        No hire date
-      </li>
-      <li class="di-l db mb0-l mb2 mr2">
-        <employee-status
-          :employee="employee"
-          :statuses="statuses"
-        />
-      </li>
-      <li class="di-l db mb0-l mb2">
-        <employee-team
-          :employee="employee"
-          :employee-teams="employeeTeams"
-          :teams="teams"
-        />
-      </li>
-    </ul>
   </div>
 </template>
 

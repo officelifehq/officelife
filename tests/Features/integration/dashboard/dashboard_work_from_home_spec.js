@@ -1,10 +1,11 @@
-describe('Dashboard - employee', function () {
+describe('Dashboard - employee - work from home', function () {
   it('should let the employee indicates that he works from home', function () {
     cy.login()
 
     cy.createCompany()
 
     // on the dashboard, click on I work from home checkbox
+    cy.visit('/1/dashboard/me')
     cy.get('[data-cy=log-from-work-home-cta]').check()
 
     // reload the page to see the checkbox checked

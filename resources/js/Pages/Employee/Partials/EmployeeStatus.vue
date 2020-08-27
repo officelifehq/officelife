@@ -23,17 +23,14 @@
     <!-- Case when there is a status -->
     <!-- Assigning an employee status is restricted to HR or admin -->
     <ul v-if="$page.auth.employee.permission_level <= 200 && updatedEmployee.status" class="ma0 pa0 di existing-statuses">
-      <li class="bb b--dotted bt-0 bl-0 br-0 pointer di" data-cy="open-status-modal" @click.prevent="modal = true">
-        {{ $t('employee.status_title') }}
-      </li>
       <li class="di" data-cy="status-name-right-permission">
         {{ updatedEmployee.status.name }}
       </li>
+      <li data-cy="open-status-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
+        {{ $t('app.edit') }}
+      </li>
     </ul>
     <ul v-if="$page.auth.employee.permission_level > 200 && updatedEmployee.status" class="ma0 pa0 existing-statuses di">
-      <li class="di">
-        {{ $t('employee.status_title') }}
-      </li>
       <li class="di" data-cy="status-name-wrong-permission">
         {{ updatedEmployee.status.name }}
       </li>

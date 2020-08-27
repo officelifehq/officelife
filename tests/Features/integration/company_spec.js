@@ -4,7 +4,7 @@ describe('Company - Basic company management', function () {
 
     cy.createCompany()
 
-    cy.contains('Dunder Mifflin')
+    cy.contains('Thanks for joining')
 
     // check if the dashboard contains the company the user is part of
     cy.get('[data-cy=header-menu]').click()

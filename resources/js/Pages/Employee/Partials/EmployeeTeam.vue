@@ -22,24 +22,21 @@
   <div class="di relative">
     <!-- Assigning a team is restricted to HR or admin -->
     <ul v-if="$page.auth.employee.permission_level <= 200" class="ma0 pa0 di existing-teams">
-      <li v-show="updatedEmployeeTeams.length != 0" class="bb b--dotted bt-0 bl-0 br-0 pointer di" data-cy="open-team-modal" @click.prevent="modal = true">
-        {{ $t('employee.team_title') }}
-      </li>
       <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
-        <inertia-link :href="team.url">{{ team.name }}</inertia-link>
+        <inertia-link :href="team.url" class="mr1">{{ team.name }}</inertia-link>
         <template v-if="team.team_leader">
           <span v-if="team.team_leader.id == employee.id">
             ({{ $t('employee.team_leader') }})
           </span>
         </template>
       </li>
+      <li v-show="updatedEmployeeTeams.length != 0" data-cy="open-team-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
+        {{ $t('app.edit') }}
+      </li>
     </ul>
     <ul v-else class="ma0 pa0 existing-teams di">
-      <li v-show="updatedEmployeeTeams.length != 0" class="di">
-        {{ $t('employee.team_title') }}
-      </li>
       <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
-        <inertia-link :href="team.url">{{ team.name }}</inertia-link>
+        <inertia-link :href="team.url" class="mr1">{{ team.name }}</inertia-link>
       </li>
     </ul>
 

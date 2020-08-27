@@ -1,10 +1,11 @@
-describe('Dashboard - employee', function () {
+describe('Dashboard - employee - worklogs', function () {
   it('should let the employee logs a worklog', function () {
     cy.login()
 
     cy.createCompany()
 
     // find the worklog tab, enter the text and press save
+    cy.visit('/1/dashboard/me')
     cy.get('[data-cy=log-worklog-cta]').click()
     cy.get('[data-cy=worklog-content]').type('I did two things today')
     cy.get('[data-cy=submit-log-worklog]').click()
