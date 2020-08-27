@@ -14,11 +14,14 @@ class StopRateYourManagerProcess implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected bool $force = false;
+
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct(bool $force = false)
     {
+        $this->force = $force;
     }
 
     /**
@@ -27,9 +30,15 @@ class StopRateYourManagerProcess implements ShouldQueue
      */
     public function handle()
     {
-        DB::table('rate_your_manager_surveys')
-            ->where('active', 1)
-            ->where('valid_until_at', '<', Carbon::now()->format('Y-m-d H:i:s'))
-            ->update(['active' => 0]);
+        if ($this->force) {
+            DB::table('rate_your_manager_surveys')
+                ->where('active', 1)
+                ->update(['active' => 0]);
+        } else {
+            DB::table('rate_your_manager_surveys')
+                ->where('active', 1)
+                ->where('valid_until_at', '<', Carbon::now()->format('Y-m-d H:i:s'))
+                ->update(['active' => 0]);
+        }
     }
 }

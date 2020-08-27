@@ -149,6 +149,11 @@ return [
 
     'audit_log_title' => 'Audit log',
 
+    'survey_index' => 'Surveys about the performance as manager',
+    'survey_index_view_all' => 'View all',
+    'survey_index_surveys' => 'surveys',
+    'survey_index_direct_reports' => 'unique direct reports',
+    'survey_index_completion_rate' => 'avg completion rate',
     'survey_detail_title' => 'Your {month} as manager',
     'survey_detail_comment' => 'Comments',
     'survey_detail_participants' => 'Employees surveyed',

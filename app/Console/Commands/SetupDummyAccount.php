@@ -195,9 +195,15 @@ class SetupDummyAccount extends Command
         $this->line('| Welcome to OfficeLife');
         $this->line('|');
         $this->line('-----------------------------');
-        $this->info('| You can now sign in to your account:');
+        $this->info('| You can now sign in with one of these two accounts:');
+        $this->line('| An account with a lot of data:');
         $this->line('| username: admin@admin.com');
         $this->line('| password: admin');
+        $this->line('|------------------------–––-');
+        $this->line('|A blank account:');
+        $this->line('| username: blank@blank.com');
+        $this->line('| password: blank');
+        $this->line('|------------------------–––-');
         $this->line('| URL:      '.config('app.url'));
         $this->line('-----------------------------');
 
@@ -1354,6 +1360,8 @@ class SetupDummyAccount extends Command
 
     private function addSecondaryBlankAccount(): void
     {
+        $this->info('☐ Create a blank account');
+
         $user = (new CreateAccount)->execute([
             'email' => 'blank@blank.com',
             'password' => 'blank',

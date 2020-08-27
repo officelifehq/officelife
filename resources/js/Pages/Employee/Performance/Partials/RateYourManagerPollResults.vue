@@ -50,7 +50,7 @@
           <!-- date -->
           <div class="date">
             <span v-if="survey.active" class="db mb2 f3 fw3">{{ survey.month }}</span>
-            <span v-else class="db mb2"><inertia-link :href="survey.url" class="f3 fw3">{{ survey.month }}</inertia-link></span>
+            <span v-else class="db mb2"><inertia-link :href="survey.url" :data-cy="'survey-' + survey.id" class="f3 fw3">{{ survey.month }}</inertia-link></span>
             <span v-if="survey.employees" class="gray f6">{{ $t('dashboard.manager_rate_manager_respondants', {respondants: survey.employees}) }}</span>
           </div>
 
@@ -63,9 +63,9 @@
           </div>
           <div v-if="survey.results && !survey.active">
             <ul class="list pl0 mb2">
-              <li class="mr3 di">😨 {{ survey.results.bad }}</li>
-              <li class="mr3 di">🙂 {{ survey.results.average }}</li>
-              <li class="di">🤩 {{ survey.results.good }}</li>
+              <li class="mr3 di"><span class="mr1">😨</span> {{ survey.results.bad }}</li>
+              <li class="mr3 di"><span class="mr1">🙂</span> {{ survey.results.average }}</li>
+              <li class="di"><span class="mr1">🤩</span> {{ survey.results.good }}</li>
             </ul>
             <p class="gray f6 tc ma0">{{ $t('dashboard.manager_rate_manager_response_rate', {rate: survey.response_rate}) }}</p>
           </div>
@@ -73,7 +73,7 @@
 
         <!-- view all survey -->
         <div class="ph3 pv2 tc f6">
-          <inertia-link :href="surveys.url_view_all">View all</inertia-link>
+          <inertia-link :href="surveys.url_view_all">{{ $t('employee.survey_index_view_all') }}</inertia-link>
         </div>
       </ul>
     </div>

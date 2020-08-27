@@ -23,7 +23,7 @@
 
 <template>
   <div>
-    <div v-for="answer in rateYourManagerAnswers" :key="answer.id" class="mb5">
+    <div v-for="answer in rateYourManagerAnswers" :key="answer.id" class="mb5" data-cy="rate-your-manager-survey">
       <div class="cf mw7 center mb2 fw5 relative">
         <span class="mr1">
           👨‍⚖️
@@ -74,7 +74,7 @@
 
             <p class="mt0 mb3 lh-copy gray f6">{{ $t('dashboard.rate_your_manager_thanks_add_comment_desc') }}</p>
 
-            <a v-if="!commentMode" href="#" class="btn dib" @click.prevent="showAnswerPanel(answer)">{{ $t('dashboard.rate_your_manager_thanks_add_comment_cta') }}</a>
+            <a v-if="!commentMode" href="#" class="btn dib" data-cy="add-comment" @click.prevent="showAnswerPanel(answer)">{{ $t('dashboard.rate_your_manager_thanks_add_comment_cta') }}</a>
           </div>
 
           <!-- actually add a comment -->
@@ -92,7 +92,7 @@
             <checkbox
               :id="'home'"
               v-model="form.reveal"
-              :datacy="'log-from-work-home-cta'"
+              :datacy="'answer-not-anonymous'"
               :label="$t('dashboard.rate_your_manager_thanks_add_comment_reveal_identity')"
               :extra-class-upper-div="'mb0 relative'"
               :required="false"

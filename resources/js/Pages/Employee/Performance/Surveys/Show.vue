@@ -38,8 +38,10 @@
         <!-- poll grades -->
         <div class="flex justify-center mb4">
           <div class="mr3 tc ba bb-gray br3 ph3 pv2 rate-bad">
-            <span class="db mb2 fw5">
-              😨 {{ survey.results.bad }}
+            <span class="db mb2 fw5" data-cy="result-bad">
+              <span class="mr1">
+                😨
+              </span> {{ survey.results.bad }}
             </span>
             <span class="gray f6">
               {{ $t('app.rate_manager_bad') }}
@@ -47,7 +49,9 @@
           </div>
           <div class="mr3 tc ba bb-gray br3 ph3 pv2">
             <span class="db mb2 fw5">
-              🙂 {{ survey.results.average }}
+              <span class="mr1">
+                🙂
+              </span> {{ survey.results.average }}
             </span>
             <span class="gray f6">
               {{ $t('app.rate_manager_average') }}
@@ -55,7 +59,9 @@
           </div>
           <div class="tc ba bb-gray br3 ph3 pv2 rate-good">
             <span class="db mb2 fw5">
-              🤩 {{ survey.results.good }}
+              <span class="mr1">
+                🤩
+              </span> {{ survey.results.good }}
             </span>
             <span class="gray f6">
               {{ $t('app.rate_manager_good') }}
@@ -81,8 +87,8 @@
         </div>
 
         <!-- comments, if any -->
-        <p class="fw5">{{ $t('employee.survey_detail_comment') }}</p>
-        <ul class="pl0 list">
+        <p v-if="survey.answers.length > 0" class="fw5">{{ $t('employee.survey_detail_comment') }}</p>
+        <ul v-if="survey.answers.length > 0" class="pl0 list" data-cy="survey-comment">
           <li v-for="answer in survey.answers" :key="answer.id" class="mb4">
             <span v-if="answer.reveal_identity_to_manager" class="db mb2 gray">
               <small-name-and-avatar

@@ -36,8 +36,7 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <h2 class="pa3 mt2 mb4 center tc normal">
-          {{ $t('') }}
-          Surveys about the performance as manager
+          {{ $t('employee.survey_index') }}
         </h2>
 
         <div class="flex-ns justify-around dn">
@@ -46,15 +45,15 @@
           </div>
           <div>
             <p class="mt0 f3 mb2">{{ surveys.number_of_completed_surveys }}</p>
-            <p class="mt0 f6 gray">surveys</p>
+            <p class="mt0 f6 gray">{{ $t('employee.survey_index_surveys') }}</p>
           </div>
           <div>
             <p class="mt0 f3 mb2">{{ surveys.number_of_unique_participants }}</p>
-            <p class="mt0 f6 gray">unique direct reports</p>
+            <p class="mt0 f6 gray">{{ $t('employee.survey_index_direct_reports') }}</p>
           </div>{{ $t('') }}
           <div>
             <p class="mt0 f3 mb2">{{ surveys.average_response_rate }}%</p>
-            <p class="mt0 f6 gray">avg completion rate</p>
+            <p class="mt0 f6 gray">{{ $t('employee.survey_index_completion_rate') }}</p>
           </div>
         </div>
 
@@ -63,7 +62,7 @@
             <!-- date -->
             <div class="date">
               <span v-if="survey.active" class="db mb2 f3 fw3">{{ survey.month }}</span>
-              <span v-else class="db mb2"><inertia-link :href="survey.url" class="f3 fw3">{{ survey.month }}</inertia-link></span>
+              <span v-else class="db mb2"><inertia-link :href="survey.url" :data-cy="'survey-' + survey.id" class="f3 fw3">{{ survey.month }}</inertia-link></span>
               <span v-if="survey.employees" class="gray f6">{{ $t('dashboard.manager_rate_manager_respondants', {respondants: survey.employees}) }}</span>
             </div>
 
@@ -76,9 +75,9 @@
             </div>
             <div v-if="survey.results && !survey.active">
               <ul class="list pl0 mb2">
-                <li class="mr3 di">😨 {{ survey.results.bad }}</li>
-                <li class="mr3 di">🙂 {{ survey.results.average }}</li>
-                <li class="di">🤩 {{ survey.results.good }}</li>
+                <li class="mr3 di"><span class="mr1">😨</span> {{ survey.results.bad }}</li>
+                <li class="mr3 di"><span class="mr1">🙂</span> {{ survey.results.average }}</li>
+                <li class="di"><span class="mr1">🤩</span> {{ survey.results.good }}</li>
               </ul>
               <p class="gray f6 tc ma0">{{ $t('dashboard.manager_rate_manager_response_rate', {rate: survey.response_rate}) }}</p>
             </div>
