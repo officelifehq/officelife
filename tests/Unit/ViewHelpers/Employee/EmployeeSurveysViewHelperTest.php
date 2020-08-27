@@ -252,7 +252,7 @@ class EmployeeSurveysViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
-                'id' => 1,
+                'id' => $activeSurvey->id,
                 'month' => 'Jan 2018',
             ],
             $array['survey']
