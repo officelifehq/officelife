@@ -33,6 +33,8 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1 pa3">
         <h2 class="pa3 mt2 mb4 center tc normal">
           {{ $t('employee.survey_detail_title', { month: survey.survey.month }) }}
+
+          <help :url="$page.help_links.manager_rate_manager" />
         </h2>
 
         <!-- poll grades -->
@@ -113,11 +115,13 @@
 <script>
 import Layout from '@/Shared/Layout';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
     SmallNameAndAvatar,
+    Help,
   },
 
   props: {

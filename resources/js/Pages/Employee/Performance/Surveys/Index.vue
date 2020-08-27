@@ -37,6 +37,8 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <h2 class="pa3 mt2 mb4 center tc normal">
           {{ $t('employee.survey_index') }}
+
+          <help :url="$page.help_links.manager_rate_manager" />
         </h2>
 
         <div class="flex-ns justify-around dn">
@@ -90,10 +92,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
+    Help,
   },
 
   props: {

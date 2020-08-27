@@ -28,6 +28,9 @@
         <span class="mr1">
           👨‍⚖️
         </span> {{ $t('dashboard.rate_your_manager_title') }}
+
+        <help :url="$page.help_links.manager_rate_manager" />
+
         <span class="absolute right-0 fw3 f6">
           <span class="mr1">
             ⏳
@@ -127,6 +130,7 @@ import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextArea from '@/Shared/TextArea';
 import Checkbox from '@/Shared/Checkbox';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -134,6 +138,7 @@ export default {
     LoadingButton,
     TextArea,
     Checkbox,
+    Help,
   },
 
   props: {
