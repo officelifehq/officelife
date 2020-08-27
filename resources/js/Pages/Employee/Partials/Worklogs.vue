@@ -33,7 +33,7 @@
       <!-- worklogs -->
       <template v-show="worklogs.length != 0">
         <div data-cy="list-worklogs">
-          <ul class="list mv0 pa3 bb bb-gray">
+          <ul class="list mv0 pa3">
             <li v-for="worklog in worklogs.worklogs_collection" :key="worklog.id" class="mb3 relative worklog-item">
               <template v-if="worklog.worklog_parsed_content">
                 <div class="parsed-content mb1" v-html="worklog.worklog_parsed_content"></div>
@@ -55,7 +55,7 @@
               </ul>
             </li>
           </ul>
-          <div v-if="employeeOrAtLeastHR()" class="ph3 pv2 tc f6">
+          <div v-if="loggedEmployee.can_see_work_log_history" class="ph3 pv2 tc f6 bt bb-gray">
             <inertia-link :href="worklogs.url" data-cy="view-all-worklogs">{{ $t('employee.worklog_view_all') }}</inertia-link>
           </div>
         </div>
@@ -71,33 +71,14 @@ export default {
       type: Object,
       default: null,
     },
+    loggedEmployee: {
+      type: Object,
+      default: null,
+    },
     worklogs: {
       type: Object,
       default: null,
     },
   },
-
-  data() {
-    return {
-    };
-  },
-
-  methods: {
-    employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.auth.user.id == this.employee.user.id) {
-        return true;
-      }
-
-      return false;
-    }
-  }
 };
 </script>

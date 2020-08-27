@@ -15,6 +15,7 @@ use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Models\Company\CompanyNews;
+use App\Models\Company\DirectReport;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Models\Company\CompanyPTOPolicy;
@@ -168,6 +169,17 @@ class CompanyTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_managers(): void
+    {
+        $company = factory(Company::class)->create();
+        factory(DirectReport::class, 2)->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->managers()->exists());
+    }
+
+    /** @test */
     public function it_returns_the_pto_policy_for_the_current_year(): void
     {
         Carbon::setTestNow(Carbon::create(2020, 1, 1));
@@ -185,6 +197,31 @@ class CompanyTest extends TestCase
         $this->assertEquals(
             $firstPTO->id,
             $company->getCurrentPTOPolicy()->id
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_list_of_the_employees_managers(): void
+    {
+        $company = factory(company::class)->create([]);
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $company->id,
+        ]);
+        $john = factory(Employee::class)->create([
+            'company_id' => $company->id,
+        ]);
+        factory(DirectReport::class)->create([
+            'company_id' => $company->id,
+            'manager_id' => $dwight->id,
+        ]);
+        factory(DirectReport::class, 2)->create([
+            'company_id' => $company->id,
+            'manager_id' => $john->id,
+        ]);
+
+        $this->assertEquals(
+            2,
+            $company->getListOfManagers()->count()
         );
     }
 }

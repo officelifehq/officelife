@@ -13,6 +13,9 @@
       <p v-if="employeeOrAtLeastHR()" class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_full', { date: employee.birthdate.full, age: employee.birthdate.age }) }}</p>
       <p v-else class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_partial', { date: employee.birthdate.partial }) }}</p>
     </template>
+    <template v-else>
+      <p class="di">{{ $t('employee.birthdate_information_blank') }}</p>
+    </template>
   </div>
 </template>
 

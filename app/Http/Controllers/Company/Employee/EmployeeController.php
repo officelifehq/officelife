@@ -17,6 +17,7 @@ use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\Manager\UnassignManager;
+use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
 
 class EmployeeController extends Controller
 {
@@ -127,11 +128,19 @@ class EmployeeController extends Controller
         // all expenses of this employee
         $expenses = EmployeeShowViewHelper::expenses($employee);
 
-        // is the logged employee the manager of the person we're viewing?
-        $isManager = $loggedEmployee->isManagerOf($employee->id);
+        // surveys, to know if the performance tab should be visible
+        $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
+
+        // information about the logged employee
+        $loggedEmployee = EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee);
+
+        // information about the employee, that depends on what the logged Employee can see
+        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $loggedEmployee);
 
         return Inertia::render('Employee/Show', [
-            'employee' => $employee->toObject(),
+            'menu' => 'all',
+            'employee' => $employee,
+            'loggedEmployee' => $loggedEmployee,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
@@ -147,8 +156,7 @@ class EmployeeController extends Controller
             'ships' => $ships,
             'skills' => $skills,
             'expenses' => $expenses,
-            'isAccountant' => $loggedEmployee->can_manage_expenses,
-            'isManager' => $isManager,
+            'surveys' => $surveys,
         ]);
     }
 

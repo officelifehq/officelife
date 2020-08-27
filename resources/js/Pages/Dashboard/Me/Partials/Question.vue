@@ -19,7 +19,7 @@
   <div :class="question ? 'mb5' : ''">
     <template v-if="question">
       <div class="cf mw7 center mb2 fw5">
-        <span class="mr2">
+        <span class="mr1">
           🎓
         </span> {{ $t('dashboard.question_title') }}
       </div>

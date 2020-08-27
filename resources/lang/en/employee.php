@@ -6,6 +6,8 @@ return [
     'its_you' => 'it’s you',
 
     'account_locked' => 'This account is locked.',
+    'menu_all_information' => 'All information',
+    'menu_performance' => 'Performance',
 
     'description_title' => 'Description',
     'description_no_description' => 'There is no description yet.',
@@ -14,14 +16,14 @@ return [
     'description_text_title' => 'How would you describe yourself? What are your passions?',
     'description_success' => 'The description has been updated.',
 
-    'birthdate_information_full' => 'Born on {date} (age: {age})',
-    'birthdate_information_partial' => 'Born on {date}',
+    'birthdate_information_full' => '{date} (age: {age})',
+    'birthdate_information_partial' => '{date}',
+    'birthdate_information_blank' => 'No birthdate set',
 
     'location_title' => 'Location',
     'location_no_info' => 'There is no address defined on this profile.',
     'location_alt_employee' => 'Employee location',
     'location_information' => 'Lives in {address}.',
-    'location_privacy_information' => 'Only you and HR can view your complete address.',
 
     'pronoun_title' => 'Pronouns',
     'pronoun_modal_title' => 'Gender pronoun',
@@ -48,6 +50,7 @@ return [
     'hierarchy_modal_remove_manager' => 'Remove manager',
     'hierarchy_modal_remove_direct_report' => 'Remove direct report',
 
+    'position_title' => 'Position',
     'position_blank' => 'No position set',
     'position_modal_title' => 'Choose a position',
     'position_modal_filter' => 'Filter the list',
@@ -62,7 +65,7 @@ return [
     'team_modal_filter' => 'Filter the list',
     'team_modal_assign_success' => 'The team has been assigned',
     'team_modal_unassign_success' => 'The team has been removed',
-    'team_title' => 'Teams:',
+    'team_title' => 'Teams',
     'team_leader' => 'Leader',
 
     'worklog_blank' => 'There are no work logs yet 🤨',
@@ -73,7 +76,7 @@ return [
     'worklog_filter_month' => 'Filter by month',
     'worklog_blank_state_for_month' => 'There are no worklogs for this date 😭',
 
-    'status_title' => 'Status:',
+    'status_title' => 'Status',
     'status_modal_title' => 'Employee status',
     'status_modal_blank' => 'No status set',
     'status_modal_cta' => 'Choose a status',
@@ -145,4 +148,14 @@ return [
     'expense_index_stat_total_rejected' => 'Rejected expenses',
 
     'audit_log_title' => 'Audit log',
+
+    'survey_index' => 'Surveys about the performance as manager',
+    'survey_index_view_all' => 'View all',
+    'survey_index_surveys' => 'surveys',
+    'survey_index_direct_reports' => 'unique direct reports',
+    'survey_index_completion_rate' => 'avg completion rate',
+    'survey_detail_title' => 'Your {month} as manager',
+    'survey_detail_comment' => 'Comments',
+    'survey_detail_participants' => 'Employees surveyed',
+    'survey_detail_comment_anonymous' => 'Anonymous comment',
 ];

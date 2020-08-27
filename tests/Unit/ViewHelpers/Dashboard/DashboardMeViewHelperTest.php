@@ -2,14 +2,18 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Answer;
 use App\Models\Company\Expense;
+use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use App\Models\Company\ExpenseCategory;
+use App\Jobs\StartRateYourManagerProcess;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Dashboard\DashboardMeViewHelper;
 
 class DashboardMeViewHelperTest extends TestCase
@@ -183,5 +187,43 @@ class DashboardMeViewHelperTest extends TestCase
             ],
             $collection->toArray()
         );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_answers_the_employee_should_reply_to_about_how_they_feel_about_their_manager(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $jim = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $michael->id,
+        ]);
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $jim->id,
+        ]);
+
+        // start two surveys
+        StartRateYourManagerProcess::dispatch();
+
+        $collection = DashboardMeViewHelper::rateYourManagerAnswers($dwight);
+
+        $this->assertEquals(2, $collection->count());
+
+        $this->assertArrayHasKey('id', $collection->toArray()[0]);
+        $this->assertArrayHasKey('manager_name', $collection->toArray()[0]);
+        $this->assertArrayHasKey('deadline', $collection->toArray()[0]);
     }
 }

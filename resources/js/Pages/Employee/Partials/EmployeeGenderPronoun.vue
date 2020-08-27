@@ -23,21 +23,22 @@
     <!-- Case when there is a prenoun -->
     <!-- Assigning an employee gender pronoun is restricted to HR or admin -->
     <ul v-if="employeeOrAtLeastHR() && updatedEmployee.pronoun" class="ma0 pa0 di existing-pronouns">
-      <li class="bb b--dotted bt-0 bl-0 br-0 pointer di" data-cy="open-pronoun-modal" @click.prevent="modal = true">{{ $t('employee.pronoun_title') }}</li>
-      <li class="di" data-cy="pronoun-name-right-permission">
+      <li class="di">
         {{ updatedEmployee.pronoun.label }}
+      </li>
+      <li data-cy="open-pronoun-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f6" @click.prevent="modal = true">
+        {{ $t('app.edit') }}
       </li>
     </ul>
 
     <ul v-if="!employeeOrAtLeastHR() && updatedEmployee.pronoun" class="ma0 pa0 existing-pronouns di">
-      <li class="di">{{ $t('employee.pronoun_title') }}</li>
       <li class="di" data-cy="pronoun-name-wrong-permission">
         {{ updatedEmployee.pronoun.label }}
       </li>
     </ul>
 
     <!-- Action when there is no pronoun defined -->
-    <a v-show="!updatedEmployee.pronoun" v-if="employeeOrAtLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-pronoun-modal-blank" @click.prevent="modal = true">{{ $t('employee.pronoun_modal_cta') }}</a>
+    <a v-show="!updatedEmployee.pronoun" v-if="employeeOrAtLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="open-pronoun-modal-blank" @click.prevent="modal = true">{{ $t('employee.pronoun_modal_cta') }}</a>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
@@ -65,12 +66,12 @@
           </div>
 
           <!-- case if the pronoun is not yet selected -->
-          <div v-else class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative" @click="assign(pronoun)">
+          <div v-else class="pv2 ph3 bb bb-gray-hover bb-gray pointer relative f6" @click="assign(pronoun)">
             {{ pronoun.label }}
           </div>
         </li>
         <li>
-          <a v-if="updatedEmployee.pronoun" class="pointer pv2 ph3 db no-underline c-delete bb-0" data-cy="pronoun-reset-button" @click="reset(updatedEmployee.pronoun)">
+          <a v-if="updatedEmployee.pronoun" class="pointer pv2 ph3 db no-underline c-delete bb-0 f6" data-cy="pronoun-reset-button" @click="reset(updatedEmployee.pronoun)">
             {{ $t('employee.pronoun_modal_reset') }}
           </a>
         </li>

@@ -16,6 +16,11 @@
 
       <dashboard-menu :employee="employee" />
 
+      <rate-your-manager
+        :employee="employee"
+        :rate-your-manager-answers="rateYourManagerAnswers"
+      />
+
       <work-from-home
         :employee="employee"
         class="mb5"
@@ -80,6 +85,7 @@ import WorkFromHome from '@/Pages/Dashboard/Me/Partials/WorkFromHome';
 import Question from '@/Pages/Dashboard/Me/Partials/Question';
 import Task from '@/Pages/Dashboard/Me/Partials/Task';
 import Expense from '@/Pages/Dashboard/Me/Partials/Expense';
+import RateYourManager from '@/Pages/Dashboard/Me/Partials/RateYourManager';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -92,6 +98,7 @@ export default {
     Task,
     Expense,
     WorkFromHome,
+    RateYourManager,
     DashboardMenu,
   },
 
@@ -129,6 +136,10 @@ export default {
       default: null,
     },
     expenses: {
+      type: Array,
+      default: null,
+    },
+    rateYourManagerAnswers: {
       type: Array,
       default: null,
     },

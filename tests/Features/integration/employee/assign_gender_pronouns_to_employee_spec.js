@@ -9,7 +9,7 @@ describe('Employee - assign gender pronoun', function () {
     // Open the modal to assign a pronoun and select the first line
     cy.get('[data-cy=open-pronoun-modal-blank]').click()
     cy.get('[data-cy=list-pronoun-1]').click()
-    cy.get('[data-cy=pronoun-name-right-permission]').contains('he/him')
+    cy.get('[data-cy=open-pronoun-modal]').contains('he/him')
     cy.hasAuditLog('Assigned the pronoun called he/him', '/1/employees/1')
     cy.hasEmployeeLog('Assigned the pronoun called he/him', '/1/employees/1')
 
@@ -30,7 +30,7 @@ describe('Employee - assign gender pronoun', function () {
     // Open the modal to assign a pronoun and select the first line
     cy.get('[data-cy=open-pronoun-modal-blank]').click()
     cy.get('[data-cy=list-pronoun-1]').click()
-    cy.get('[data-cy=pronoun-name-right-permission]').contains('he/him')
+    cy.get('[data-cy=open-pronoun-modal]').contains('he/him')
     cy.hasEmployeeLog('Assigned the pronoun called he/him', '/1/employees/1')
 
     // Open the modal to assign a pronoun and select the first line
@@ -50,12 +50,13 @@ describe('Employee - assign gender pronoun', function () {
     // Open the modal to assign a pronoun and select the first line
     cy.get('[data-cy=open-pronoun-modal-blank]').click()
     cy.get('[data-cy=list-pronoun-1]').click()
-    cy.get('[data-cy=pronoun-name-right-permission]').contains('he/him')
+    cy.get('[data-cy=open-pronoun-modal]').contains('he/him')
     cy.hasEmployeeLog('Assigned the pronoun called he/him', '/1/employees/1')
 
     // Open the modal to assign a pronoun and select the first line
     cy.get('[data-cy=open-pronoun-modal').click()
     cy.get('[data-cy=pronoun-reset-button]').click()
+    cy.wait(400)
     cy.hasEmployeeLog('Removed the gender pronoun', '/1/employees/1')
   })
 

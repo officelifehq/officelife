@@ -3,6 +3,8 @@
 return [
     'update' => 'Update',
     'save' => 'Save',
+    'post' => 'Post',
+    'submit' => 'Submit',
     'add' => 'Add',
     'cancel' => 'Cancel',
     'delete_confirm' => 'Sure?',
@@ -76,6 +78,8 @@ return [
     'breadcrumb_employee_workfromhome' => 'Work from home history',
     'breadcrumb_employee_expenses' => 'All expenses',
     'breadcrumb_employee_expense' => 'Expense detail',
+    'breadcrumb_employee_surveys_manager' => 'All the surveys as manager',
+    'breadcrumb_employee_surveys_detail' => 'Survey of {month}',
     'breadcrumb_team_list' => 'All teams',
     'breadcrumb_team_show_team_news' => 'Team news',
     'breadcrumb_team_add_team_news' => 'Add a team news',
@@ -113,4 +117,11 @@ return [
 
     'notification_blank_state' => 'There are no new notifications',
     'notification_view_all' => 'View all notifications',
+
+    'days_left' => '1 day left|:count days left',
+    'hours_left' => '1 hour left|:count hours left',
+
+    'rate_manager_bad' => 'Not ideal',
+    'rate_manager_average' => 'It’s going well',
+    'rate_manager_good' => 'Simply great',
 ];

@@ -105,6 +105,7 @@ class Place extends Model
 
         // trim extra whitespaces inside the address
         $address = preg_replace('/\s+/', ' ', $address);
+
         return $address;
     }
 
@@ -137,15 +138,16 @@ class Place extends Model
 
         // trim extra whitespaces inside the address
         $address = preg_replace('/\s+/', ' ', $address);
+
         return $address;
     }
 
     /**
      * Get the static image map for this place.
      *
-     * @param integer $zoom
-     * @param integer $width
-     * @param integer $height
+     * @param int $zoom
+     * @param int $width
+     * @param int $height
      *
      * @return string|null
      */
@@ -157,11 +159,17 @@ class Place extends Model
     /**
      * Get the URL on OpenStreetMap for the partial URL.
      *
+     * @param bool $completeAddress
      * @return string
      */
-    public function getMapUrl(): string
+    public function getMapUrl(bool $completeAddress = true): string
     {
-        $place = $this->getPartialAddress();
+        if ($completeAddress) {
+            $place = $this->getCompleteAddress();
+        } else {
+            $place = $this->getPartialAddress();
+        }
+
         $place = urlencode($place);
 
         return "https://www.openstreetmap.org/search?query={$place}";

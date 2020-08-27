@@ -604,6 +604,13 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'rate_your_manager_survey_answered') {
+            $sentence = trans('account.log_rate_your_manager_survey_answered', [
+                'manager_id' => $log->object->{'manager_id'},
+                'manager_name' => $log->object->{'manager_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -897,6 +904,13 @@ class LogHelper
 
         if ($log->action == 'employee_disallowed_to_manage_expenses') {
             $sentence = trans('account.employee_log_employee_disallowed_to_manage_expenses');
+        }
+
+        if ($log->action == 'rate_your_manager_survey_answered') {
+            $sentence = trans('account.log_rate_your_manager_survey_answered', [
+                'manager_id' => $log->object->{'manager_id'},
+                'manager_name' => $log->object->{'manager_name'},
+            ]);
         }
 
         return $sentence;

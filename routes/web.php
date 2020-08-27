@@ -63,11 +63,22 @@ Route::middleware(['auth'])->group(function () {
             Route::get('manager/expenses/{expense}', 'Company\\Dashboard\\DashboardManagerController@showExpense')->name('dashboard.manager.expense.show');
             Route::post('manager/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardManagerController@accept');
             Route::post('manager/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
+
+            // rate your manager
+            Route::post('manager/rate/{answer}', 'Company\\Dashboard\\DashboardRateYourManagerController@store');
+            Route::post('manager/rate/{answer}/comment', 'Company\\Dashboard\\DashboardRateYourManagerController@storeComment');
         });
 
         Route::prefix('employees')->group(function () {
             Route::get('', 'Company\\Employee\\EmployeeController@index')->name('employees.index');
             Route::get('{employee}', 'Company\\Employee\\EmployeeController@show')->name('employees.show');
+
+            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
+                Route::get('{employee}/performance', 'Company\\Employee\\EmployeePerformanceController@show')->name('employees.show.performance');
+                Route::get('{employee}/performance/surveys', 'Company\\Employee\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
+                Route::get('{employee}/performance/{survey}', 'Company\\Employee\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
+            });
+
             Route::post('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager');
             Route::post('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport');
             Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');
@@ -177,7 +188,6 @@ Route::middleware(['auth'])->group(function () {
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
             Route::get('account/audit', 'Company\\Adminland\\AdminAuditController@index');
-            Route::get('account/dummy', 'Company\\Adminland\\DummyController@index');
 
             Route::get('account/general', 'Company\\Adminland\\AdminGeneralController@index');
             Route::post('account/general/rename', 'Company\\Adminland\\AdminGeneralController@rename');

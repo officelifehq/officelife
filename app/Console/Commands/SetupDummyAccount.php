@@ -16,6 +16,8 @@ use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Services\Company\Team\SetTeamLead;
 use Illuminate\Database\Eloquent\Collection;
+use App\Models\Company\RateYourManagerAnswer;
+use App\Models\Company\RateYourManagerSurvey;
 use App\Services\Company\Team\Ship\CreateShip;
 use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
@@ -50,6 +52,7 @@ class SetupDummyAccount extends Command
     protected Collection $teams;
 
     // All the employees
+    protected Employee $jan;
     protected Employee $michael;
     protected Employee $dwight;
     protected Employee $phyllis;
@@ -168,6 +171,8 @@ class SetupDummyAccount extends Command
         $this->addExpenses();
         $this->createHardware();
         $this->addRecentShips();
+        $this->addRateYourManagerSurveys();
+        $this->addSecondaryBlankAccount();
         $this->stop();
     }
 
@@ -190,9 +195,15 @@ class SetupDummyAccount extends Command
         $this->line('| Welcome to OfficeLife');
         $this->line('|');
         $this->line('-----------------------------');
-        $this->info('| You can now sign in to your account:');
+        $this->info('| You can now sign in with one of these two accounts:');
+        $this->line('| An account with a lot of data:');
         $this->line('| username: admin@admin.com');
         $this->line('| password: admin');
+        $this->line('|------------------------–––-');
+        $this->line('|A blank account:');
+        $this->line('| username: blank@blank.com');
+        $this->line('| password: blank');
+        $this->line('|------------------------–––-');
         $this->line('| URL:      '.config('app.url'));
         $this->line('-----------------------------');
 
@@ -471,8 +482,21 @@ class SetupDummyAccount extends Command
     {
         $this->info('☐ Add employees');
 
+        // create Jan Levinson as Michael's boss
+        $this->jan = (new AddEmployeeToCompany)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'email' => $this->faker->safeEmail,
+            'first_name' => 'Jan',
+            'last_name' => 'Levinson',
+            'permission_level' => config('officelife.permission_level.user'),
+            'send_invitation' => false,
+        ]);
+        $description = 'World best boss of the best boss.';
+        $this->addSpecificDataToEmployee($this->jan, $description, $this->pronounSheHer, $this->teamManagement, $this->employeeStatusFullTime, $this->positionRegionalManager, '1970-01-20');
+
         $description = 'World best boss. Or so they say.';
-        $this->addSpecificDataToEmployee($this->michael, $description, $this->pronounHeHim, $this->teamManagement, $this->employeeStatusFullTime, $this->positionRegionalManager, '1965-03-15', null, $this->teamManagement);
+        $this->addSpecificDataToEmployee($this->michael, $description, $this->pronounHeHim, $this->teamManagement, $this->employeeStatusFullTime, $this->positionRegionalManager, '1965-03-15', $this->jan, $this->teamManagement);
 
         // assign Michael to another team right here
         (new AddEmployeeToTeam)->execute([
@@ -1256,6 +1280,98 @@ class SetupDummyAccount extends Command
             'employees' => [
                 $this->michael->id, $this->dwight->id,
             ],
+        ]);
+    }
+
+    private function addRateYourManagerSurveys(): void
+    {
+        $this->info('☐ Add rate your manager current and past surveys');
+
+        $managers = $this->company->getListOfManagers();
+
+        $potentialAnswers = collect([
+            'I think you should be more transparent with your team.',
+            'We have a healthy relationship but you tend to take decisions without consulting your team, and I think it’s not ideal for the general atmosphere of the team.',
+            'Perhaps you could take the 1 on 1 more seriously or at least give your team mates at least 1 hour per week of dedicated time. We like having you around but you need to hear more from us.',
+            'Excellent visionary, excellent interpersonal skills and we think you are the best manager we have ever had, by far and we hope that you will stay for at least forever',
+        ]);
+
+        // create 5 fake previous surveys
+        // as this process relies heavily on crons, it will be tough to call
+        // the service to create surveys, as they have control in place everywhere
+        // to make sure we can’t mess with them and update past surveys.
+        for ($i = 0; $i < 5; $i++) {
+            foreach ($managers as $manager) {
+                $dateOfSurvey = Carbon::now()->subMonths(5 - $i);
+                $survey = RateYourManagerSurvey::create([
+                    'manager_id' => $manager->id,
+                    'active' => false,
+                    'valid_until_at' => $dateOfSurvey->addDays(3)->format('Y-m-d'),
+                    'created_at' => $dateOfSurvey->format('Y-m-d'),
+                ]);
+
+                $employees = $manager->getListOfDirectReports();
+                foreach ($employees as $employee) {
+                    switch (rand(1, 3)) {
+                        case 1:
+                            $rating = RateYourManagerAnswer::BAD;
+                            break;
+                        case 2:
+                            $rating = RateYourManagerAnswer::AVERAGE;
+                            break;
+                        case 3:
+                            $rating = RateYourManagerAnswer::GOOD;
+                            break;
+                    }
+
+                    RateYourManagerAnswer::create([
+                        'rate_your_manager_survey_id' => $survey->id,
+                        'employee_id' => $employee->id,
+                        'active' => false,
+                        'rating' => $rating,
+                        'comment' => rand(1, 2) == 1 ? $potentialAnswers->random() : null,
+                        'reveal_identity_to_manager' => false,
+                    ]);
+                }
+            }
+        }
+
+        // create one active survey
+        foreach ($managers as $manager) {
+            $survey = RateYourManagerSurvey::create([
+                'manager_id' => $manager->id,
+                'active' => true,
+                'valid_until_at' => Carbon::now()->addDays(3),
+            ]);
+
+            $employees = $manager->getListOfDirectReports();
+            foreach ($employees as $employee) {
+                RateYourManagerAnswer::create([
+                    'rate_your_manager_survey_id' => $survey->id,
+                    'employee_id' => $employee->id,
+                    'active' => true,
+                    'rating' => null,
+                    'comment' => null,
+                    'reveal_identity_to_manager' => false,
+                ]);
+            }
+        }
+    }
+
+    private function addSecondaryBlankAccount(): void
+    {
+        $this->info('☐ Create a blank account');
+
+        $user = (new CreateAccount)->execute([
+            'email' => 'blank@blank.com',
+            'password' => 'blank',
+            'first_name' => 'Roger',
+            'last_name' => 'Rabbit',
+        ]);
+
+        $this->company = (new CreateCompany)->execute([
+            'author_id' => $user->id,
+            'name' => 'ACME inc',
         ]);
     }
 

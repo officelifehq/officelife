@@ -5,7 +5,7 @@
         💬
       </span> {{ $t('employee.description_title') }}
     </span>
-    <img v-show="employeeOrAtLeastHR() && !showEdit" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button"
+    <img v-show="loggedEmployee.can_manage_description && !showEdit" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button"
          width="22"
          height="22" alt="add a description"
          @click.prevent="displayEditBox()"
@@ -31,7 +31,8 @@
           </div>
         </template>
 
-        <text-area v-model="form.description"
+        <text-area :ref="'editModal'"
+                   v-model="form.description"
                    :label="$t('employee.description_text_title')"
                    :datacy="'description-textarea'"
                    :required="true"
@@ -77,6 +78,10 @@ export default {
       type: Object,
       default: null,
     },
+    loggedEmployee: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -97,23 +102,12 @@ export default {
   },
 
   methods: {
-    employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.auth.user.id == this.employee.user.id) {
-        return true;
-      }
-    },
-
     displayEditBox() {
       this.showEdit = true;
       this.form.description = this.updatedEmployee.raw_description;
+      this.$nextTick(() => {
+        this.$refs['editModal'].$refs['input'].focus();
+      });
     },
 
     submit() {

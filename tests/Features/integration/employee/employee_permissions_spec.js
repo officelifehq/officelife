@@ -10,7 +10,7 @@ describe('Employee - permissions', function () {
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=view-log-button]').click()
     cy.url().should('include', '/logs')
-    cy.get('body').should('contain', 'Everything that ever happened to')
+    cy.get('body').should('contain', 'Audit log')
 
     cy.changePermission(1, 200)
     cy.logout()
@@ -23,7 +23,7 @@ describe('Employee - permissions', function () {
     cy.get('[data-cy=edit-profile-button]').click()
     cy.get('[data-cy=view-log-button]').click()
     cy.url().should('include', '/logs')
-    cy.get('body').should('contain', 'Everything that ever happened to')
+    cy.get('body').should('contain', 'Audit log')
 
     cy.changePermission(1, 300)
     cy.logout()

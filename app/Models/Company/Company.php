@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -174,6 +175,16 @@ class Company extends Model
     }
 
     /**
+     * Get all the managers in the company.
+     *
+     * @return HasMany
+     */
+    public function managers()
+    {
+        return $this->hasMany(DirectReport::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return CompanyPTOPolicy
@@ -183,5 +194,21 @@ class Company extends Model
         $ptoPolicy = $this->ptoPolicies()->where('year', Carbon::now()->format('Y'))->first();
 
         return $ptoPolicy;
+    }
+
+    /**
+     * Get the list of managers in this company.
+     *
+     * @return Collection
+     */
+    public function getListOfManagers(): Collection
+    {
+        $managersCollection = collect([]);
+
+        foreach ($this->managers()->get() as $manager) {
+            $managersCollection->push($manager->manager);
+        }
+
+        return $managersCollection->unique('id');
     }
 }

@@ -55,7 +55,7 @@
 
       <help :url="$page.help_links.skills" :datacy="'help-icon-skills'" />
     </span>
-    <img v-if="employeeOrAtLeastHR() && !editMode" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="manage-skill-button"
+    <img v-if="loggedEmployee.can_manage_skills && !editMode" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="manage-skill-button"
          width="22"
          height="22" alt="manage skills"
          @click.prevent="toggleEditMode()"
@@ -146,6 +146,10 @@ export default {
       type: Object,
       default: null,
     },
+    loggedEmployee: {
+      type: Object,
+      default: null,
+    },
     skills: {
       type: Array,
       default: null,
@@ -183,22 +187,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['search-skill-input'].$refs['input'].focus();
       });
-    },
-
-    employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.auth.user.id == this.employee.user.id) {
-        return true;
-      }
-
-      return false;
     },
 
     search: _.debounce(

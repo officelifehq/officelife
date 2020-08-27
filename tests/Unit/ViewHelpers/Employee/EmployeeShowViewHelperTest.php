@@ -23,6 +23,33 @@ class EmployeeShowViewHelperTest extends TestCase
     use DatabaseTransactions;
 
     /** @test */
+    public function it_gets_the_information_about_the_employee(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $michael = [
+            'can_see_complete_address' => true,
+        ];
+
+        $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $michael);
+
+        $this->assertArrayHasKey('id', $array);
+        $this->assertArrayHasKey('first_name', $array);
+        $this->assertArrayHasKey('last_name', $array);
+        $this->assertArrayHasKey('avatar', $array);
+        $this->assertArrayHasKey('email', $array);
+        $this->assertArrayHasKey('locked', $array);
+        $this->assertArrayHasKey('birthdate', $array);
+        $this->assertArrayHasKey('raw_description', $array);
+        $this->assertArrayHasKey('parsed_description', $array);
+        $this->assertArrayHasKey('address', $array);
+        $this->assertArrayHasKey('position', $array);
+        $this->assertArrayHasKey('pronoun', $array);
+        $this->assertArrayHasKey('user', $array);
+        $this->assertArrayHasKey('status', $array);
+    }
+
+    /** @test */
     public function it_gets_a_collection_of_managers(): void
     {
         $michael = factory(Employee::class)->create([]);
@@ -393,7 +420,7 @@ class EmployeeShowViewHelperTest extends TestCase
                     'status' => 'created',
                     'expensed_at' => 'Jan 01, 1999',
                     'converted_amount' => null,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'. $expense->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'.$expense->id,
                 ],
             ],
             $array['expenses']->toArray()

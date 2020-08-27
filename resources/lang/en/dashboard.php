@@ -4,8 +4,8 @@ return [
     'tab_me' => 'Me',
     'tab_my_team' => 'My team',
     'tab_my_company' => 'My company',
-    'tab_expenses' => 'Expenses',
-    'tab_manager' => 'Manager area',
+    'tab_expenses' => 'Accountant area',
+    'tab_manager' => 'Decisions as manager',
 
     'blank_state' => 'You are not associated with a team at the moment.',
 
@@ -85,7 +85,7 @@ return [
     'accountant_manager' => 'Manager:',
 
     'manager_expense_title' => 'Expenses that needs your approval',
-    'manager_expense_blank_state' => 'There are no expenses to validate.',
+    'manager_expense_blank_state' => 'You don’t have any expenses to validate.',
     'manager_expense_description' => 'As a manager, you need to approve the following expenses before they are reiumbursed.',
     'manager_expense_accepted' => 'The expense has been accepted',
     'manager_expense_rejected' => 'The expense has been rejected',
@@ -104,6 +104,10 @@ return [
     'manager_expense_detail_employee_position_blank' => 'No position',
     'manager_expense_detail_employee_status' => 'Status',
     'manager_expense_detail_employee_status_blank' => 'No status',
+
+    'manager_rate_manager_current_survey' => 'Current active survey',
+    'manager_rate_manager_response_rate' => '{rate}% response rate',
+    'manager_rate_manager_respondants' => '{respondants} direct reports',
 
     'accounting_expense_detail_cta' => 'Accept or reject this expense',
     'accounting_expense_detail_expense_section' => 'Expense details',
@@ -143,4 +147,14 @@ return [
     'expense_detail_status_rejected_by_manager_title' => 'This expense has been rejected by the manager for the following reason:',
     'expense_detail_status_rejected_by_accounting_title' => 'This expense has been rejected by the accounting department for the following reason:',
     'expense_detail_status_accepted_title' => 'This expense has been approved.',
+
+    'rate_your_manager_title' => 'Rate your manager',
+    'rate_your_manager_subtitle' => 'It’s the end of the month. It’s time to tell us how it goes with your manager, {name}.',
+    'rate_your_manager_anonymous' => 'Your opinion will be completely anonymous.',
+    'rate_your_manager_submitted' => 'Your opinion has been recorded.',
+    'rate_your_manager_thanks_add_comment' => 'Thanks for your opinion. Care to add a comment?',
+    'rate_your_manager_thanks_add_comment_desc' => 'Your comment will also be completely anonymous, but you can reveal your identity if you want.',
+    'rate_your_manager_thanks_add_comment_cta' => 'Add a comment',
+    'rate_your_manager_thanks_add_comment_reveal_identity' => 'Reveal your identity to Roger so he can reply to you',
+    'rate_your_manager_final_sucess_message' => 'Thanks for giving your opinion',
 ];

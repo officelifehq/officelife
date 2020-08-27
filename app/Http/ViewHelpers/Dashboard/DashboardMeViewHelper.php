@@ -121,13 +121,14 @@ class DashboardMeViewHelper
                 'code' => $currency->getCode(),
             ]);
         }
+
         return $currencyCollection;
     }
 
     /**
      * Get all the in progress expenses for this employee.
      *
-     * @var Employee $employee
+     * @var Employee
      * @return Collection|null
      */
     public static function expenses(Employee $employee): ?Collection
@@ -160,6 +161,36 @@ class DashboardMeViewHelper
                 ]),
             ]);
         }
+
         return $expensesCollection;
+    }
+
+    /**
+     * Get all the Rate Your Manager survey answers that need to be answered, if
+     * they exist.
+     *
+     * @var Employee
+     * @return Collection|null
+     */
+    public static function rateYourManagerAnswers(Employee $employee): ?Collection
+    {
+        // is there currently an active RateYourManager survey?
+        $answers = $employee->rateYourManagerAnswers()
+            ->where('active', true)
+            ->whereNull('rating')
+            ->with('entry')
+            ->with('entry.manager')
+            ->get();
+
+        $answersCollection = collect([]);
+        foreach ($answers as $answer) {
+            $answersCollection->push([
+                'id' => $answer->id,
+                'manager_name' => $answer->entry->manager->name,
+                'deadline' => DateHelper::hoursOrDaysLeft($answer->entry->valid_until_at),
+            ]);
+        }
+
+        return $answersCollection;
     }
 }

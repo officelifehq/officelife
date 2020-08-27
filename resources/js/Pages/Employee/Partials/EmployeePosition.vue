@@ -6,7 +6,7 @@
 .popupmenu {
   right: 2px;
   top: 26px;
-  width: 280px;
+  width: 300px;
 }
 
 .c-delete:hover {
@@ -17,15 +17,18 @@
 <template>
   <div class="di relative">
     <!-- Assigning a title is restricted to HR or admin -->
-    <span v-if="$page.auth.employee.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-position-modal" @click.prevent="modal = true">
+    <span v-if="$page.auth.employee.permission_level <= 200 && updatedEmployee.position">
       {{ title }}
+      <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
+        {{ $t('app.edit') }}
+      </span>
     </span>
     <span v-else data-cy="position-title">
       {{ title }}
     </span>
 
     <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="$page.auth.employee.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-position-modal-blank" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
+    <a v-show="title == ''" v-if="$page.auth.employee.permission_level <= 200" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
     <span v-else v-show="title == ''">
       {{ $t('employee.position_blank') }}
     </span>
@@ -44,9 +47,15 @@
         </div>
       </form>
 
+      <!-- list of available positions -->
       <ul class="pl0 list ma0 overflow-auto relative positions-list">
         <li v-for="position in filteredList" :key="position.id" class="pv2 ph3 bb bb-gray-hover bb-gray pointer" :data-cy="'list-position-' + position.id" @click="assign(position)">
           {{ position.title }}
+
+          <!-- current position indicator -->
+          <template v-if="updatedEmployee.position">
+            <img v-if="position.id == updatedEmployee.position.id" loading="lazy" src="/img/check.svg" class="pr1 absolute right-1" alt="check symbol" />
+          </template>
         </li>
       </ul>
       <a v-if="title != ''" class="pointer pv2 ph3 db no-underline c-delete bb-0" data-cy="position-reset-button" @click="reset">
@@ -123,7 +132,7 @@ export default {
         .then(response => {
           flash(this.$t('employee.position_modal_assign_success'), 'success');
 
-          this.title = response.data.data.position;
+          this.title = response.data.data.position.title;
           this.updatedEmployee = response.data.data;
           this.modal = false;
         })

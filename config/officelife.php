@@ -61,6 +61,17 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Mapbox username
+    |--------------------------------------------------------------------------
+    |
+    | Used to display static maps. See https://docs.mapbox.com/help/how-mapbox-works/static-maps/
+    | This should be the username used when creating the account.
+    |
+    */
+    'mapbox_api_username' => env('MAPBOX_USERNAME', null),
+
+    /*
+    |--------------------------------------------------------------------------
     | Currency Layer API key
     |--------------------------------------------------------------------------
     |
@@ -125,6 +136,7 @@ return [
         'manager_expenses' => 'expenses#approval-by-the-manager',
         'accoutant_expenses' => 'expenses#approval-by-the-accounting-department',
         'accountants' => 'expenses#who-can-manage-expenses',
+        'manager_rate_manager' => 'rate-your-manager',
         'skills' => 'skills',
         'account_hardware_create' => 'hardware',
         'account_employee_delete' => 'employee-management#deleting-an-employee',

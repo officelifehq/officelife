@@ -214,6 +214,7 @@ describe('Team - Recent ships management', function () {
     cy.createRecentShip('Feature 3 shipped', 'awesome feature', 'admin', 1)
 
     // check to see if the data is there in the table
+    cy.visit('/1/teams/1')
     cy.get('[data-cy=notification-counter]').contains('2')
     cy.get('[data-cy=notification-counter]').click()
 

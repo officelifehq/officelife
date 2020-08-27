@@ -5,6 +5,7 @@ describe('Teams - Manage teams', function () {
     cy.createCompany()
 
     // access the team link in the header
+    cy.visit('/1/dashboard/me')
     cy.get('[data-cy=dashboard-team-tab]').click()
     cy.contains('You are not associated with a team at the moment.')
   })

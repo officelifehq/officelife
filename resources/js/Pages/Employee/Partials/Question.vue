@@ -15,7 +15,7 @@
     <div class="br3 bg-white box z-1 pa3">
       <ul v-if="questions.length > 0" class="list pl0 ma0">
         <li v-for="question in questions" :key="question.id" class="answer-item mb3" :data-cy="'question-title-' + question.id">
-          <inertia-link :href="question.url" class="fw5 f5 dib mb2">{{ question.title }}</inertia-link>
+          <inertia-link :href="question.url" class="fw5 f5 lh-copy mb2">{{ question.title }}</inertia-link>
           <div class="lh-copy gray" :data-cy="'answer-body-' + question.id">{{ question.answer.body }}</div>
         </li>
       </ul>

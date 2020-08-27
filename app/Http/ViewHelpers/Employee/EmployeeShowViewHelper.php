@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Employee;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
+use App\Helpers\StringHelper;
 use App\Helpers\WorklogHelper;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
@@ -12,6 +13,143 @@ use App\Helpers\WorkFromHomeHelper;
 
 class EmployeeShowViewHelper
 {
+    /**
+     * Information about the employee.
+     *
+     * @param Employee $employee
+     * @param array $loggedEmployee
+     * @return array
+     */
+    public static function informationAboutEmployee(Employee $employee, array $loggedEmployee): array
+    {
+        $address = $employee->getCurrentAddress();
+
+        return [
+            'id' => $employee->id,
+            'name' => $employee->name,
+            'first_name' => $employee->first_name,
+            'last_name' => $employee->last_name,
+            'avatar' => $employee->avatar,
+            'email' => $employee->email,
+            'locked' => $employee->locked,
+            'birthdate' => (! $employee->birthdate) ? null : [
+                'full' => DateHelper::formatDate($employee->birthdate),
+                'partial' => DateHelper::formatMonthAndDay($employee->birthdate),
+                'year' => $employee->birthdate->year,
+                'month' => $employee->birthdate->month,
+                'day' => $employee->birthdate->day,
+                'age' => Carbon::now()->year - $employee->birthdate->year,
+            ],
+            'raw_description' => $employee->description,
+            'parsed_description' => is_null($employee->description) ? null : StringHelper::parse($employee->description),
+            'address' => is_null($address) ? null : [
+                'sentence' => $loggedEmployee['can_see_complete_address'] ? $address->getCompleteAddress() : $address->getPartialAddress(),
+                'openstreetmap_url' => $address->getMapUrl($loggedEmployee['can_see_complete_address']),
+                'image' => $address->getStaticMapImage(7, 600, 130),
+            ],
+            'position' => (! $employee->position) ? null : [
+                'id' => $employee->position->id,
+                'title' => $employee->position->title,
+            ],
+            'pronoun' => (! $employee->pronoun) ? null : [
+                'id' => $employee->pronoun->id,
+                'label' => $employee->pronoun->label,
+            ],
+            'user' => (! $employee->user) ? null : [
+                'id' => $employee->user->id,
+            ],
+            'status' => (! $employee->status) ? null : [
+                'id' => $employee->status->id,
+                'name' => $employee->status->name,
+            ],
+        ];
+    }
+
+    /**
+     * Information about what the logged employee can manage on the page.
+     *
+     * @param Employee $loggedEmployee
+     * @param Employee $employee
+     * @return array
+     */
+    public static function informationAboutLoggedEmployee(Employee $loggedEmployee, Employee $employee): array
+    {
+        // can the logged employee manage expenses
+        $canSeeExpenses = $loggedEmployee->can_manage_expenses;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeExpenses = true;
+        }
+
+        // can the logged employee see the work from home history?
+        $canSeeWorkFromHomeHistory = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeWorkFromHomeHistory = true;
+        }
+
+        // can the logged employee see the work log home history?
+        $canSeeWorkLogHistory = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeWorkLogHistory = true;
+        }
+
+        // can the logged employee manage hierarchy?
+        $canManageHierarchy = $loggedEmployee->permission_level <= 200;
+
+        // can manage skills?
+        $canManageSkills = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canManageSkills = true;
+        }
+
+        // can manage description?
+        $canManageDescription = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canManageDescription = true;
+        }
+
+        // can edit profile?
+        $canEditProfile = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canEditProfile = true;
+        }
+
+        // can delete profile?
+        $canDeleteProfile = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canDeleteProfile = false;
+        }
+
+        // can see audit log?
+        $canSeeAuditLog = $loggedEmployee->permission_level <= 200;
+
+        // can see complete address?
+        $canSeeCompleteAddress = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeCompleteAddress = true;
+        }
+
+        // can see performance tab?
+        $canSeePerformanceTab = $loggedEmployee->isManagerOf($employee->id);
+        $canSeePerformanceTab = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeePerformanceTab = true;
+        }
+
+        return [
+            'can_manage_hierarchy' => $canManageHierarchy,
+            'can_manage_skills' => $canManageSkills,
+            'can_manage_description' => $canManageDescription,
+            'can_see_expenses' => $canSeeExpenses,
+            'can_see_work_from_home_history' => $canSeeWorkFromHomeHistory,
+            'can_see_work_log_history' => $canSeeWorkLogHistory,
+            'can_edit_profile' => $canEditProfile,
+            'can_delete_profile' => $canDeleteProfile,
+            'can_see_audit_log' => $canSeeAuditLog,
+            'can_see_complete_address' => $canSeeCompleteAddress,
+            'can_see_performance_tab' => $canSeePerformanceTab,
+        ];
+    }
+
     /**
      * Collection containing all the managers of this employee.
      *
