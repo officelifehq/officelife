@@ -24,7 +24,7 @@
             <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/performance'">{{ employee.name }}</inertia-link>
           </li>
           <li class="di">
-            Survey for May 2020
+            {{ $t('app.breadcrumb_employee_surveys_detail', { month: survey.survey.month }) }}
           </li>
         </ul>
       </div>
@@ -32,7 +32,7 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1 pa3">
         <h2 class="pa3 mt2 mb4 center tc normal">
-          Your May 2020 as a manager
+          {{ $t('employee.survey_detail_title', { month: survey.survey.month }) }}
         </h2>
 
         <!-- poll grades -->
@@ -42,7 +42,7 @@
               😨 {{ survey.results.bad }}
             </span>
             <span class="gray f6">
-              Not ideal
+              {{ $t('app.rate_manager_bad') }}
             </span>
           </div>
           <div class="mr3 tc ba bb-gray br3 ph3 pv2">
@@ -50,7 +50,7 @@
               🙂 {{ survey.results.average }}
             </span>
             <span class="gray f6">
-              It’s going well
+              {{ $t('app.rate_manager_average') }}
             </span>
           </div>
           <div class="tc ba bb-gray br3 ph3 pv2 rate-good">
@@ -58,29 +58,30 @@
               🤩 {{ survey.results.good }}
             </span>
             <span class="gray f6">
-              Simply great
+              {{ $t('app.rate_manager_good') }}
             </span>
           </div>
         </div>
 
         <!-- lists of employees surveyed -->
-        <p class="fw5">Employees surveyed</p>
+        <p class="fw5">{{ $t('employee.survey_detail_participants') }}</p>
         <div class="flex flex-wrap mb4">
           <div v-for="employee in survey.direct_reports" :key="employee.id" class="mr3 mb3">
             <small-name-and-avatar
               v-if="employee.id"
               :name="employee.name"
               :avatar="employee.avatar"
+              :url="employee.url"
               :classes="''"
               :size="'22px'"
               :top="'0px'"
-              :margin-between-name-avatar="'25px'"
+              :margin-between-name-avatar="'28px'"
             />
           </div>
         </div>
 
         <!-- comments, if any -->
-        <p class="fw5">Comments</p>
+        <p class="fw5">{{ $t('employee.survey_detail_comment') }}</p>
         <ul class="pl0 list">
           <li v-for="answer in survey.answers" :key="answer.id" class="mb4">
             <span v-if="answer.reveal_identity_to_manager" class="db mb2 gray">
@@ -91,10 +92,10 @@
                 :classes="'gray'"
                 :size="'18px'"
                 :top="'0px'"
-                :margin-between-name-avatar="'25px'"
+                :margin-between-name-avatar="'28px'"
               />
             </span>
-            <span v-else class="db mb2 gray">Anonymous comment</span>
+            <span v-else class="db mb2 gray">{{ $t('employee.survey_detail_comment_anonymous') }}</span>
             <p class="mt0 lh-copy">{{ answer.comment }}</p>
           </li>
         </ul>

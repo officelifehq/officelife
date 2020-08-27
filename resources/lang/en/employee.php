@@ -146,4 +146,9 @@ return [
     'expense_index_stat_total_rejected' => 'Rejected expenses',
 
     'audit_log_title' => 'Audit log',
+
+    'survey_detail_title' => 'Your {month} as manager',
+    'survey_detail_comment' => 'Comments',
+    'survey_detail_participants' => 'Employees surveyed',
+    'survey_detail_comment_anonymous' => 'Anonymous comment',
 ];

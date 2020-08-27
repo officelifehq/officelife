@@ -17,17 +17,15 @@ class EmployeeShowViewHelper
      * Information about the employee.
      *
      * @param Employee $employee
+     * @param array $loggedEmployee
      * @return array
      */
-    private function informationAboutEmployee(Employee $employee): array
+    public static function informationAboutEmployee(Employee $employee, array $loggedEmployee): array
     {
         $address = $employee->getCurrentAddress();
 
         return [
             'id' => $employee->id,
-            'company' => [
-                'id' => $employee->company_id,
-            ],
             'name' => $employee->name,
             'first_name' => $employee->first_name,
             'last_name' => $employee->last_name,
@@ -44,8 +42,11 @@ class EmployeeShowViewHelper
             ],
             'raw_description' => $employee->description,
             'parsed_description' => is_null($employee->description) ? null : StringHelper::parse($employee->description),
-            'permission_level' => $employee->getPermissionLevel(),
-            'address' => is_null($address) ? null : $address->toObject(),
+            'address' => is_null($address) ? null : [
+                'sentence' => $loggedEmployee['can_see_complete_address'] ? $address->getCompleteAddress() : $address->getPartialAddress(),
+                'openstreetmap_url' => $address->getMapUrl($loggedEmployee['can_see_complete_address']),
+                'image' => $address->getStaticMapImage(7, 600, 130),
+            ],
             'position' => (! $employee->position) ? null : [
                 'id' => $employee->position->id,
                 'title' => $employee->position->title,
@@ -127,6 +128,12 @@ class EmployeeShowViewHelper
             $canSeeCompleteAddress = true;
         }
 
+        // can see performance tab?
+        $canSeePerformanceTab = $loggedEmployee->isManagerOf($employee->id);
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeePerformanceTab = true;
+        }
+
         return [
             'can_manage_hierarchy' => $canManageHierarchy,
             'can_manage_skills' => $canManageSkills,
@@ -138,6 +145,7 @@ class EmployeeShowViewHelper
             'can_delete_profile' => $canDeleteProfile,
             'can_see_audit_log' => $canSeeAuditLog,
             'can_see_complete_address' => $canSeeCompleteAddress,
+            'can_see_performance_tab' => $canSeePerformanceTab,
         ];
     }
 

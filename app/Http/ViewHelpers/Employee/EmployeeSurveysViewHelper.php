@@ -113,9 +113,6 @@ class EmployeeSurveysViewHelper
             ->with('answers.employee')
             ->findOrFail($surveyId);
 
-        $totalNumberOfPotentialResponders = $survey->answers->count();
-        $numberOfAnswers = 0;
-
         // counting results about answers, if available
         $results = [];
         if ($survey->answers) {
@@ -133,8 +130,6 @@ class EmployeeSurveysViewHelper
                 'average' => $average->count(),
                 'good' => $good->count(),
             ];
-
-            $numberOfAnswers = $bad->count() + $average->count() + $good->count();
         }
 
         // employees
@@ -144,6 +139,10 @@ class EmployeeSurveysViewHelper
                 'id' => $answer->employee->id,
                 'name' => $answer->employee->name,
                 'avatar' => $answer->employee->avatar,
+                'url' => route('employees.show', [
+                    'company' => $answer->employee->company_id,
+                    'employee' => $answer->employee->id,
+                ]),
             ]);
         }
 
@@ -161,6 +160,10 @@ class EmployeeSurveysViewHelper
                     'id' => $answer->employee->id,
                     'name' => $answer->employee->name,
                     'avatar' => $answer->employee->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $answer->employee->company_id,
+                        'employee' => $answer->employee->id,
+                    ]),
                 ] : null,
             ]);
         }
@@ -169,6 +172,10 @@ class EmployeeSurveysViewHelper
             'results' => $results,
             'direct_reports' => $directReportsCollection,
             'answers' => $answersCollection,
+            'survey' => [
+                'id' => $survey->id,
+                'month' => $survey->created_at->format('M Y'),
+            ],
         ];
     }
 }

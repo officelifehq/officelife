@@ -64,9 +64,16 @@ class EmployeePerformanceController extends Controller
         $teams = $company->teams()->with('leader')->get();
         $teams = EmployeeShowViewHelper::teams($teams, $employee);
 
+        // information about the logged employee
+        $loggedEmployee = EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee);
+
+        // information about the employee, that depends on what the logged Employee can see
+        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $loggedEmployee);
+
         return Inertia::render('Employee/Performance/Index', [
             'menu' => 'performance',
-            'employee' => $employee->toObject(),
+            'employee' => $employee,
+            'loggedEmployee' => $loggedEmployee,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employeeTeams' => $employeeTeams,
             'positions' => PositionCollection::prepare($company->positions()->get()),
@@ -74,7 +81,6 @@ class EmployeePerformanceController extends Controller
             'statuses' => EmployeeStatusCollection::prepare($company->employeeStatuses()->get()),
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'surveys' => $surveys,
-            'isAccountant' => $loggedEmployee->can_manage_expenses,
         ]);
     }
 }

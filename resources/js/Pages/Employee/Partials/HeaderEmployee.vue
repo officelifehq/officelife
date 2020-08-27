@@ -1,17 +1,17 @@
 <style lang="scss" scoped>
 .avatar {
-  width: 80px;
-  height: 80px;
-  top: 19%;
-  left: 50%;
-  margin-top: -40px; /* Half the height */
-  margin-left: -40px; /* Half the width */
+  width: 160px;
+  height: 160px;
+  left: 20px;
+  border: 1px solid #e1e4e8 !important;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 7px;
+  rotate: -2deg;
 }
 
-.you {
-  background-color: #e6fffa;
-  border-color: #38b2ac;
-  color: #234e52;
+.names {
+  padding-left: 220px;
 }
 </style>
 
@@ -34,7 +34,7 @@
 
     <!-- profile -->
     <div class="mw9 center br3 mb4 bg-white box relative z-1">
-      <div class="pa3 relative pt5">
+      <div class="pa3 relative">
         <!-- EDIT BUTTON -->
         <img v-if="loggedEmployee.can_edit_profile" loading="lazy" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button"
              alt="edit button"
@@ -63,59 +63,76 @@
         </div>
 
         <!-- AVATAR -->
-        <img loading="lazy" :src="employee.avatar" class="avatar absolute br-100 db center" width="80" height="80"
+        <img loading="lazy" :src="employee.avatar" class="avatar absolute db center" width="80" height="80"
              alt="avatar"
         />
-        <h2 class="tc normal mb1">
-          {{ employee.name }}
 
-          <!-- "its you" badge -->
-          <span v-if="employee.id == $page.auth.employee.id" class="f7 fw4 ba you br3 pa1 ml2 dib">
-            {{ $t('employee.its_you') }}
-          </span>
+        <div class="names">
+          <h2 class="normal mb3 mt3">
+            {{ employee.name }}
 
-          <!-- permission level -->
-          <span class="f7 fw4 ba you br3 pa1 ml2 dib">
-            {{ employee.permission_level }}
-          </span>
-        </h2>
-        <ul class="list tc pa0 f6 mb0">
-          <li class="di-l db mb0-l mb2 mr2">
-            <employee-gender-pronoun
-              :employee="employee"
-              :pronouns="pronouns"
-            />
-          </li>
-          <li class="di-l db mb0-l mb2 mr2">
-            <employee-birthdate
-              :employee="employee"
-            />
-          </li>
-          <li class="di-l db mb0-l mb2 mr2">
-            <employee-position
-              :employee="employee"
-              :positions="positions"
-            />
-          </li>
-          <li class="di-l db mb0-l mb2 mr2">
-            No hire date
-          </li>
-          <li class="di-l db mb0-l mb2 mr2">
-            <employee-status
-              :employee="employee"
-              :statuses="statuses"
-            />
-          </li>
-          <li class="di-l db mb0-l mb2">
-            <employee-team
-              :employee="employee"
-              :employee-teams="employeeTeams"
-              :teams="teams"
-            />
-          </li>
-        </ul>
+            <!-- permission level -->
+            <span class="f7 fw4 ba you br3 pa1 ml2 dib">
+              {{ employee.permission_level }}
+            </span>
+          </h2>
+
+          <div class="flex justify-between">
+            <div class="mr4">
+              <p class="mt0 f6"><span class="f7 gray">Position</span> Programmer in </p>
+              <p class="f6"><span class="f7 gray">Teams</span> <a>Team 1</a> and <a>Team 2</a></p>
+              <p class="mb0"><span class="f7 gray">Pronouns</span> Her/him</p>
+            </div>
+            <div class="mr4">
+              <p class="mt0 f6"><span class="f7 gray">Birth date</span> birth date</p>
+              <p class="f6"><span class="f7 gray">Hire date</span> Hire date</p>
+              <p class="mb0 f6"><span class="f7 gray">Status</span> Her/him</p>
+            </div>
+            <div class="pr5">
+              <p class="mt0 f6"><span class="f7 gray">Email</span> birth date</p>
+              <p class="f6"><span class="f7 gray">Twitter</span> Hire date</p>
+              <p class="mb0 f6"><span class="f7 gray">Slack</span> Her/him</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <ul class="list tc pa0 f6 mb0">
+      <li class="di-l db mb0-l mb2 mr2">
+        <employee-gender-pronoun
+          :employee="employee"
+          :pronouns="pronouns"
+        />
+      </li>
+      <li class="di-l db mb0-l mb2 mr2">
+        <employee-birthdate
+          :employee="employee"
+        />
+      </li>
+      <li class="di-l db mb0-l mb2 mr2">
+        <employee-position
+          :employee="employee"
+          :positions="positions"
+        />
+      </li>
+      <li class="di-l db mb0-l mb2 mr2">
+        No hire date
+      </li>
+      <li class="di-l db mb0-l mb2 mr2">
+        <employee-status
+          :employee="employee"
+          :statuses="statuses"
+        />
+      </li>
+      <li class="di-l db mb0-l mb2">
+        <employee-team
+          :employee="employee"
+          :employee-teams="employeeTeams"
+          :teams="teams"
+        />
+      </li>
+    </ul>
   </div>
 </template>
 

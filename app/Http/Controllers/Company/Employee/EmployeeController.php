@@ -130,15 +130,17 @@ class EmployeeController extends Controller
 
         // surveys, to know if the performance tab should be visible
         $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
-        //$hasTheRightToSeePerformanceTab =
 
-        // is the logged employee the manager of the person we're viewing?
-        $isManager = $loggedEmployee->isManagerOf($employee->id);
+        // information about the logged employee
+        $loggedEmployee = EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee);
+
+        // information about the employee, that depends on what the logged Employee can see
+        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $loggedEmployee);
 
         return Inertia::render('Employee/Show', [
             'menu' => 'all',
-            'employee' => $employee->toObject(),
-            'loggedEmployee' => EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee),
+            'employee' => $employee,
+            'loggedEmployee' => $loggedEmployee,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,

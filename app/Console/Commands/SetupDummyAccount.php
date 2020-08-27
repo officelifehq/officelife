@@ -1282,6 +1282,13 @@ class SetupDummyAccount extends Command
 
         $managers = $this->company->getListOfManagers();
 
+        $potentialAnswers = collect([
+            'I think you should be more transparent with your team.',
+            'We have a healthy relationship but you tend to take decisions without consulting your team, and I think it’s not ideal for the general atmosphere of the team.',
+            'Perhaps you could take the 1 on 1 more seriously or at least give your team mates at least 1 hour per week of dedicated time. We like having you around but you need to hear more from us.',
+            'Excellent visionary, excellent interpersonal skills and we think you are the best manager we have ever had, by far and we hope that you will stay for at least forever',
+        ]);
+
         // create 5 fake previous surveys
         // as this process relies heavily on crons, it will be tough to call
         // the service to create surveys, as they have control in place everywhere
@@ -1315,7 +1322,7 @@ class SetupDummyAccount extends Command
                         'employee_id' => $employee->id,
                         'active' => false,
                         'rating' => $rating,
-                        'comment' => rand(1, 2) == 1 ? 'I think you should be more transparent with your team.' : null,
+                        'comment' => rand(1, 2) == 1 ? $potentialAnswers->random() : null,
                         'reveal_identity_to_manager' => false,
                     ]);
                 }

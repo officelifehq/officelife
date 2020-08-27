@@ -188,7 +188,6 @@ Route::middleware(['auth'])->group(function () {
         // only available to administrator role
         Route::middleware(['administrator'])->group(function () {
             Route::get('account/audit', 'Company\\Adminland\\AdminAuditController@index');
-            Route::get('account/dummy', 'Company\\Adminland\\DummyController@index');
 
             Route::get('account/general', 'Company\\Adminland\\AdminGeneralController@index');
             Route::post('account/general/rename', 'Company\\Adminland\\AdminGeneralController@rename');

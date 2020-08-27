@@ -82,6 +82,7 @@ class EmployeeSurveysController extends Controller
         return Inertia::render('Employee/Performance/Surveys/Show', [
             'employee' => [
                 'id' => $employeeId,
+                'name' => $employee->name,
             ],
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'survey' => EmployeeSurveysViewHelper::informationAboutSurvey($surveyId),

@@ -21,6 +21,7 @@
       <!-- HEADER -->
       <header-employee
         :employee="employee"
+        :logged-employee="loggedEmployee"
         :employee-teams="employeeTeams"
         :positions="positions"
         :teams="teams"
@@ -37,7 +38,7 @@
         </template>
 
         <!-- menu -->
-        <div v-if="surveys" class="cf mw7 center br3 mt3 mb5 tc">
+        <div v-if="loggedEmployee.can_see_performance_tab && surveys" class="cf mw7 center br3 mt3 mb5 tc">
           <div class="cf dib btn-group">
             <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(menu == 'all')}">
               {{ $t('employee.menu_all_information') }}
@@ -77,6 +78,10 @@ export default {
 
   props: {
     employee: {
+      type: Object,
+      default: null,
+    },
+    loggedEmployee: {
       type: Object,
       default: null,
     },

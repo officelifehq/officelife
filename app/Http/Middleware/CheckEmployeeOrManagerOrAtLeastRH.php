@@ -32,7 +32,7 @@ class CheckEmployeeOrManagerOrAtLeastRH
             abort(404);
         }
 
-        if ($requestedEmployee == $employee) {
+        if ($requestedEmployee->id == $employee->id) {
             return $next($request);
         }
 
