@@ -41,9 +41,8 @@
           <p class="tc measure center mb4 lh-copy">
             {{ $t('team.team_list_blank') }}
           </p>
-          <img loading="lazy" class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
-                                        /img/company/account/blank-team-2x.png 2x"
-          />
+
+          <img loading="lazy" height="140" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-designer-team-6@140x140.png" />
         </div>
       </div>
     </div>

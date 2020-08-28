@@ -90,9 +90,6 @@
             {{ $t('employee.team_modal_blank_cta') }}
           </inertia-link>
         </p>
-        <img loading="lazy" class="db center mb4" alt="team" srcset="/img/company/account/blank-team-1x.png,
-                                        /img/company/account/blank-team-2x.png 2x"
-        />
       </div>
     </div>
   </div>
