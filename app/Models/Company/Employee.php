@@ -38,6 +38,8 @@ class Employee extends Model
         'last_name',
         'birthdate',
         'description',
+        'twitter_handle',
+        'slack_handle',
         'position_id',
         'permission_level',
         'invitation_link',
@@ -613,7 +615,7 @@ class Employee extends Model
      *
      * @param int $teamId
      *
-     * @return boolean
+     * @return bool
      */
     public function isInTeam(int $teamId): bool
     {
@@ -630,7 +632,7 @@ class Employee extends Model
      * Check wether the current employee is the manager of the given employee.
      *
      * @param int $employeeId
-     * @return boolean
+     * @return bool
      */
     public function isManagerOf(int $employeeId): bool
     {

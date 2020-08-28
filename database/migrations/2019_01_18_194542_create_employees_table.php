@@ -24,6 +24,8 @@ class CreateEmployeesTable extends Migration
             $table->boolean('locked')->default(false);
             $table->uuid('uuid');
             $table->string('avatar')->nullable();
+            $table->string('twitter_handle')->nullable();
+            $table->string('slack_handle')->nullable();
             $table->integer('permission_level');
             $table->string('invitation_link')->nullable();
             $table->timestamp('invitation_used_at')->nullable();

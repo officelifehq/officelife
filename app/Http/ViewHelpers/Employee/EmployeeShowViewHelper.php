@@ -31,6 +31,8 @@ class EmployeeShowViewHelper
             'last_name' => $employee->last_name,
             'avatar' => $employee->avatar,
             'email' => $employee->email,
+            'twitter_handle' => $employee->twitter_handle,
+            'slack_handle' => $employee->slack_handle,
             'locked' => $employee->locked,
             'birthdate' => (! $employee->birthdate) ? null : [
                 'full' => DateHelper::formatDate($employee->birthdate),

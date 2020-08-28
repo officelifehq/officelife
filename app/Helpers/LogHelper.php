@@ -611,6 +611,36 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_twitter_set') {
+            $sentence = trans('account.log_employee_twitter_set', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'twitter' => $log->object->{'twitter'},
+            ]);
+        }
+
+        if ($log->action == 'employee_twitter_reset') {
+            $sentence = trans('account.log_employee_twitter_reset', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_slack_set') {
+            $sentence = trans('account.log_employee_slack_set', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'slack' => $log->object->{'slack'},
+            ]);
+        }
+
+        if ($log->action == 'employee_slack_reset') {
+            $sentence = trans('account.log_employee_slack_reset', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -911,6 +941,26 @@ class LogHelper
                 'manager_id' => $log->object->{'manager_id'},
                 'manager_name' => $log->object->{'manager_name'},
             ]);
+        }
+
+        if ($log->action == 'twitter_set') {
+            $sentence = trans('account.employee_log_employee_twitter_set', [
+                'twitter' => $log->object->{'twitter'},
+            ]);
+        }
+
+        if ($log->action == 'twitter_reset') {
+            $sentence = trans('account.employee_log_employee_twitter_reset');
+        }
+
+        if ($log->action == 'slack_set') {
+            $sentence = trans('account.employee_log_employee_slack_set', [
+                'slack' => $log->object->{'slack'},
+            ]);
+        }
+
+        if ($log->action == 'slack_reset') {
+            $sentence = trans('account.employee_log_employee_slack_reset');
         }
 
         return $sentence;
