@@ -18,6 +18,8 @@
   <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
       🤟 {{ $t('dashboard.team_hired_at_title') }}
+
+      <help :url="$page.help_links.employee_hiring_date" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">
@@ -44,8 +46,13 @@
 </template>
 
 <script>
+import Help from '@/Shared/Help';
 
 export default {
+  components: {
+    Help,
+  },
+
   props: {
     newHires: {
       type: Array,
