@@ -107,7 +107,8 @@
               </div>
             </div>
 
-            <div class="cf pa3 bb bb-gray pb4">
+            <!-- birthdate -->
+            <div class="cf pa3 pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
                 <strong>{{ $t('employee.edit_information_birthdate') }}</strong>
                 <p class="f7 silver lh-copy pr3-ns">
@@ -158,6 +159,43 @@
                                 :min="1"
                                 :max="31"
                                 :help="$t('employee.edit_information_day_help')"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- social links -->
+            <div class="cf pa3 bb bb-gray pb4">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>{{ $t('employee.edit_information_social') }}</strong>
+                <p class="f7 silver lh-copy pr3-ns">
+                  {{ $t('employee.edit_information_social_help') }}
+                </p>
+              </div>
+
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <div class="dt-ns dt--fixed di">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
+                    <!-- twitter -->
+                    <text-input :id="'twitter'"
+                                v-model="form.twitter"
+                                :name="'twitter'"
+                                :errors="$page.errors.twitter"
+                                :label="$t('employee.edit_information_twitter')"
+                                :help="$t('employee.edit_information_twitter_help')"
+                                :required="false"
+                    />
+                  </div>
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
+                    <!-- slack -->
+                    <text-input :id="'slack'"
+                                v-model="form.slack"
+                                :name="'slack'"
+                                :errors="$page.errors.slack"
+                                :label="$t('employee.edit_information_slack')"
+                                :help="$t('employee.edit_information_slack_help')"
+                                :required="false"
                     />
                   </div>
                 </div>
@@ -216,6 +254,8 @@ export default {
         year: null,
         month: null,
         day: null,
+        twitter: null,
+        slack: null,
         errors: {
           type: Array,
           default: null,
@@ -230,6 +270,8 @@ export default {
     this.form.first_name = this.employee.first_name;
     this.form.last_name = this.employee.last_name;
     this.form.email = this.employee.email;
+    this.form.twitter = this.employee.twitter_handle;
+    this.form.slack = this.employee.slack_handle;
 
     if (this.employee.birthdate != null) {
       this.form.year = this.employee.birthdate.year;

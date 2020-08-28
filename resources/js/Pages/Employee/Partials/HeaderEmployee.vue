@@ -137,10 +137,24 @@
             </div>
             <div class="pr5">
               <p class="mt0 f6">
-                <span class="f7 gray">Email</span>
+                <span class="f7 gray">{{ $t('employee.email') }}</span>
+
+                <employee-email
+                  :employee="employee"
+                />
               </p>
-              <p class="f6"><span class="f7 gray">Twitter</span> Hire date</p>
-              <p class="mb0 f6"><span class="f7 gray">Slack</span> Her/him</p>
+              <p class="f6">
+                <span class="f7 gray">{{ $t('employee.twitter') }}</span>
+                <employee-twitter
+                  :employee="employee"
+                />
+              </p>
+              <p class="mb0 f6">
+                <span class="f7 gray">{{ $t('employee.slack') }}</span>
+                <employee-slack
+                  :employee="employee"
+                />
+              </p>
             </div>
           </div>
         </div>
@@ -156,6 +170,9 @@ import EmployeeGenderPronoun from '@/Pages/Employee/Partials/EmployeeGenderProno
 import EmployeeStatus from '@/Pages/Employee/Partials/EmployeeStatus';
 import EmployeeTeam from '@/Pages/Employee/Partials/EmployeeTeam';
 import EmployeeBirthdate from '@/Pages/Employee/Partials/EmployeeBirthdate';
+import EmployeeEmail from '@/Pages/Employee/Partials/EmployeeEmail';
+import EmployeeTwitter from '@/Pages/Employee/Partials/EmployeeTwitter';
+import EmployeeSlack from '@/Pages/Employee/Partials/EmployeeSlack';
 
 export default {
   components: {
@@ -164,6 +181,9 @@ export default {
     EmployeeStatus,
     EmployeeTeam,
     EmployeeBirthdate,
+    EmployeeEmail,
+    EmployeeTwitter,
+    EmployeeSlack,
   },
 
   directives: {

@@ -128,8 +128,12 @@ Cypress.Commands.add('hasAuditLog', (content, redirectUrl) => {
 
 // Assert that an employee log has been created with the following content
 // and redirect the page to the given url
-Cypress.Commands.add('hasEmployeeLog', (content, redirectUrl) => {
-  cy.visit('/1/employees/1/logs')
+Cypress.Commands.add('hasEmployeeLog', (content, redirectUrl, visitUrl = '') => {
+  if (visitUrl != '') {
+    cy.visit(visitUrl)
+  } else {
+    cy.visit('/1/employees/1/logs')
+  }
 
   cy.contains(content)
 

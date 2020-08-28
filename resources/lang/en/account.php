@@ -218,6 +218,10 @@ return [
     'log_employee_allowed_to_manage_expenses' => 'Allowed :employee_name to manage company’s expenses.',
     'log_employee_disallowed_to_manage_expenses' => 'Disallowed :employee_name to manage company’s expenses.',
     'log_rate_your_manager_survey_answered' => 'Answered the survey about how :manager_name is as a manager.',
+    'log_employee_twitter_set' => 'Set Twitter handle’s of :employee_name to :twitter.',
+    'log_employee_twitter_reset' => 'Reset Twitter handle’s of :employee_name.',
+    'log_employee_slack_set' => 'Set Slack handle’s of :employee_name to :slack.',
+    'log_employee_slack_reset' => 'Reset Slack handle’s of :employee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -264,7 +268,11 @@ return [
     'employee_log_expense_rejected_by_accounting' => 'Has been rejected by the accounting department an expense about :expense_title for an amount of :expense_amount.',
     'employee_log_employee_allowed_to_manage_expenses' => 'Has been allowed to manage company’s expenses.',
     'employee_log_employee_disallowed_to_manage_expenses' => 'Has been disallowed to manage company’s expenses.',
-    'log_rate_your_manager_survey_answered' => 'Answered the survey about how :manager_name is as a manager.',
+    'employee_log_rate_your_manager_survey_answered' => 'Answered the survey about how :manager_name is as a manager.',
+    'employee_log_employee_twitter_set' => 'Set Twitter handle’s to :twitter.',
+    'employee_log_employee_twitter_reset' => 'Reset Twitter handle.',
+    'employee_log_employee_slack_set' => 'Set Slack handle’s to :slack.',
+    'employee_log_employee_slack_reset' => 'Reset Slack handle.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

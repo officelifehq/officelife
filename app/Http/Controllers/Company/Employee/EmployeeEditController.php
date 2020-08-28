@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
+use App\Services\Company\Employee\PersonalDetails\SetSlackHandle;
+use App\Services\Company\Employee\PersonalDetails\SetTwitterHandle;
 use App\Services\Company\Employee\PersonalDetails\SetPersonalDetails;
 
 class EmployeeEditController extends Controller
@@ -49,7 +51,20 @@ class EmployeeEditController extends Controller
         }
 
         return Inertia::render('Employee/Edit', [
-            'employee' => $employee->toObject(),
+            'employee' => [
+                'id' => $employee->id,
+                'first_name' => $employee->first_name,
+                'last_name' => $employee->last_name,
+                'name' => $employee->name,
+                'email' => $employee->email,
+                'birthdate' => (! $employee->birthdate) ? null : [
+                    'year' => $employee->birthdate->year,
+                    'month' => $employee->birthdate->month,
+                    'day' => $employee->birthdate->day,
+                ],
+                'twitter_handle' => $employee->twitter_handle,
+                'slack_handle' => $employee->slack_handle,
+            ],
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -80,7 +95,7 @@ class EmployeeEditController extends Controller
 
         $date = Carbon::createFromDate($request->input('year'), $request->input('month'), $request->input('day'));
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
@@ -90,7 +105,25 @@ class EmployeeEditController extends Controller
             'day' => intval($request->input('day')),
         ];
 
-        (new SetBirthdate)->execute($request);
+        (new SetBirthdate)->execute($data);
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+            'twitter' => $request->input('twitter'),
+        ];
+
+        (new SetTwitterHandle)->execute($data);
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+            'slack' => $request->input('slack'),
+        ];
+
+        (new SetSlackHandle)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,
