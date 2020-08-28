@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
+use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Employee\PersonalDetails\SetSlackHandle;
 use App\Services\Company\Employee\PersonalDetails\SetTwitterHandle;
 use App\Services\Company\Employee\PersonalDetails\SetPersonalDetails;
@@ -33,6 +34,8 @@ class EmployeeEditController extends Controller
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->findOrFail($employeeId);
@@ -62,9 +65,15 @@ class EmployeeEditController extends Controller
                     'month' => $employee->birthdate->month,
                     'day' => $employee->birthdate->day,
                 ],
+                'hired_at' => (! $employee->hired_at) ? null : [
+                    'year' => $employee->hired_at->year,
+                    'month' => $employee->hired_at->month,
+                    'day' => $employee->hired_at->day,
+                ],
                 'twitter_handle' => $employee->twitter_handle,
                 'slack_handle' => $employee->slack_handle,
             ],
+            'canEditHiredAt' => $loggedEmployee->permission_level <= 200,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -106,6 +115,20 @@ class EmployeeEditController extends Controller
         ];
 
         (new SetBirthdate)->execute($data);
+
+        if ($request->input('hired_year')) {
+            $data = [
+                'company_id' => $companyId,
+                'author_id' => $loggedEmployee->id,
+                'employee_id' => $employeeId,
+                'date' => $date->format('Y-m-d'),
+                'year' => intval($request->input('hired_year')),
+                'month' => intval($request->input('hired_month')),
+                'day' => intval($request->input('hired_day')),
+            ];
+
+            (new SetHiringDate)->execute($data);
+        }
 
         $data = [
             'company_id' => $companyId,

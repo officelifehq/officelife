@@ -11,6 +11,9 @@ class CreateRateYourManagerTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('rate_your_manager_surveys', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('manager_id')->nullable();

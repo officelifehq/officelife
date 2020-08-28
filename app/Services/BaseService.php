@@ -47,24 +47,26 @@ abstract class BaseService
     /**
      * Sets the author id for the service.
      *
-     * @param integer $givenAuthor
+     * @param int $givenAuthor
      * @return self
      */
     public function author(int $givenAuthor): self
     {
         $this->authorId = $givenAuthor;
+
         return $this;
     }
 
     /**
      * Sets the company id for the service.
      *
-     * @param integer $company
+     * @param int $company
      * @return self
      */
     public function inCompany(int $company): self
     {
         $this->companyId = $company;
+
         return $this;
     }
 
@@ -76,6 +78,7 @@ abstract class BaseService
     public function asAtLeastAdministrator(): self
     {
         $this->requiredPermissionLevel = config('officelife.permission_level.administrator');
+
         return $this;
     }
 
@@ -87,6 +90,7 @@ abstract class BaseService
     public function asAtLeastHR(): self
     {
         $this->requiredPermissionLevel = config('officelife.permission_level.hr');
+
         return $this;
     }
 
@@ -98,6 +102,7 @@ abstract class BaseService
     public function asNormalUser(): self
     {
         $this->requiredPermissionLevel = config('officelife.permission_level.user');
+
         return $this;
     }
 
@@ -105,13 +110,14 @@ abstract class BaseService
      * Sets the permission to bypass the minimum level requirement necessary to
      * execute the service if the author is the manager of the employee.
      *
-     * @param integer $employeeId
+     * @param int $employeeId
      * @return self
      */
     public function canBypassPermissionLevelIfManager(int $employeeId): self
     {
         $isManager = $this->author->isManagerOf($employeeId);
         $this->bypassRequiredPermissionLevel = $isManager;
+
         return $this;
     }
 
@@ -119,12 +125,13 @@ abstract class BaseService
      * Sets the permission to bypass the minimum level requirement necessary to
      * execute the service if the author who calls it is actually the employee.
      *
-     * @param integer $employeeId
+     * @param int $employeeId
      * @return self
      */
     public function canBypassPermissionLevelIfEmployee(int $employeeId): self
     {
         $this->bypassRequiredPermissionLevel = ($this->authorId == $employeeId);
+
         return $this;
     }
 

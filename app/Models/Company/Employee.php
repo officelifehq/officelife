@@ -37,6 +37,7 @@ class Employee extends Model
         'first_name',
         'last_name',
         'birthdate',
+        'hired_at',
         'description',
         'twitter_handle',
         'slack_handle',
@@ -112,6 +113,7 @@ class Employee extends Model
      */
     protected $dates = [
         'invitation_used_at',
+        'hired_at',
         'birthdate',
     ];
 

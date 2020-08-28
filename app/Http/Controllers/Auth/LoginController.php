@@ -42,7 +42,13 @@ class LoginController extends Controller
             return Redirect::route('home');
         }
 
-        $credentials = $request->only('email', 'password');
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $password = trim(preg_replace('/\t/', '', $password));
+        $credentials = [
+            'email' => $email,
+            'password' => $password,
+        ];
 
         if (Auth::attempt($credentials)) {
             return Redirect::route('home');

@@ -641,6 +641,14 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'employee_hiring_date_set') {
+            $sentence = trans('account.log_employee_hiring_date_set', [
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'hiring_date' => $log->object->{'hiring_date'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -961,6 +969,12 @@ class LogHelper
 
         if ($log->action == 'slack_reset') {
             $sentence = trans('account.employee_log_employee_slack_reset');
+        }
+
+        if ($log->action == 'hiring_date_set') {
+            $sentence = trans('account.employee_log_hiring_date_set', [
+                'hiring_date' => $log->object->{'hiring_date'},
+            ]);
         }
 
         return $sentence;
