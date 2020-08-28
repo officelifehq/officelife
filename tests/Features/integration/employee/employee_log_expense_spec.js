@@ -1,5 +1,5 @@
 describe('Employee - Complete expense management', function () {
-  it.skip('should let an employeee log an expense, let his manager accept it and let the accountant validate it', function () {
+  it('should let an employeee log an expense, let his manager accept it and let the accountant validate it', function () {
     cy.login()
 
     cy.createCompany()

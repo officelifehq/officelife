@@ -233,6 +233,9 @@ class DashboardTeamViewHelper
         });
 
         // filter out to keep only employees who will be hired next week
+        $employees = $employees->filter(function ($employee) {
+            return $employee->hired_at;
+        });
         $nextMonday = Carbon::now()->format('Y-m-d');
         $nextSunday = Carbon::now()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
         $upcomingWeek = CarbonPeriod::create($nextMonday, $nextSunday);
