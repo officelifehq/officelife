@@ -40,7 +40,7 @@
 }
 
 svg {
-  color: #6A7281;
+  color: #8CA3CE;
 }
 </style>
 

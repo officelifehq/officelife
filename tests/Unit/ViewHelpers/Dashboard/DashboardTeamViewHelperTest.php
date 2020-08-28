@@ -120,7 +120,7 @@ class DashboardTeamViewHelperTest extends TestCase
                     'name' => 'Dwight Schrute',
                     'avatar' => $dwight->avatar,
                     'position' => $dwight->position,
-                    'url' => env('APP_URL').'/'. $dwight->company_id.'/employees/'. $dwight->id,
+                    'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                 ],
             ],
             $collection->toArray()
@@ -157,7 +157,7 @@ class DashboardTeamViewHelperTest extends TestCase
                             'id' => $michael->id,
                             'name' => $michael->name,
                             'avatar' => $michael->avatar,
-                            'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                            'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
                     'url' => route('ships.show', [
@@ -198,7 +198,7 @@ class DashboardTeamViewHelperTest extends TestCase
                 0 => [
                     'id' => $team->id,
                     'name' => $team->name,
-                    'url' => env('APP_URL') . '/' . $michael->company_id . '/teams/' . $team->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/teams/'.$team->id,
                 ],
             ],
             $collection->toArray()
@@ -241,5 +241,51 @@ class DashboardTeamViewHelperTest extends TestCase
         $this->assertArrayHasKey('numberOfEmployeesWhoHaveLoggedWorklogs', $response);
 
         $this->assertEquals(7, count($response));
+    }
+
+    /** @test */
+    public function it_gets_a_list_of_upcoming_new_hires(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $team = factory(Team::class)->create([]);
+
+        // making employees
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $team->company_id,
+            'hired_at' => '2018-01-02 00:00:00',
+        ]);
+        $michael = factory(Employee::class)->create([
+            'company_id' => $team->company_id,
+            'hired_at' => '1990-01-01 00:00:00',
+        ]);
+        $jim = factory(Employee::class)->create([
+            'company_id' => $team->company_id,
+            'hired_at' => '2018-01-02 00:00:00',
+            'locked' => true,
+        ]);
+
+        $team->employees()->syncWithoutDetaching([$dwight->id]);
+        $team->employees()->syncWithoutDetaching([$michael->id]);
+        $team->employees()->syncWithoutDetaching([$jim->id]);
+
+        $collection = DashboardTeamViewHelper::upcomingNewHires($team);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                    'avatar' => $dwight->avatar,
+                    'hired_at' => 'Tuesday (Jan 2nd)',
+                    'position' => (! $dwight->position) ? null : [
+                        'id' => $dwight->position->id,
+                        'title' => $dwight->position->title,
+                    ],
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
+                ],
+            ],
+            $collection->toArray()
+        );
     }
 }
