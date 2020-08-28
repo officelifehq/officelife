@@ -222,6 +222,7 @@ return [
     'log_employee_twitter_reset' => 'Reset Twitter handle’s of :employee_name.',
     'log_employee_slack_set' => 'Set Slack handle’s of :employee_name to :slack.',
     'log_employee_slack_reset' => 'Reset Slack handle’s of :employee_name.',
+    'log_employee_hiring_date_set' => 'Set the hiring date of :employee_name to :hiring_date.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -273,6 +274,7 @@ return [
     'employee_log_employee_twitter_reset' => 'Reset Twitter handle.',
     'employee_log_employee_slack_set' => 'Set Slack handle’s to :slack.',
     'employee_log_employee_slack_reset' => 'Reset Slack handle.',
+    'employee_log_hiring_date_set' => 'Set the hiring date to :hiring_date.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

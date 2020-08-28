@@ -42,6 +42,12 @@ class EmployeeShowViewHelper
                 'day' => $employee->birthdate->day,
                 'age' => Carbon::now()->year - $employee->birthdate->year,
             ],
+            'hired_at' => (! $employee->hired_at) ? null : [
+                'full' => DateHelper::formatDate($employee->hired_at),
+                'year' => $employee->hired_at->year,
+                'month' => $employee->hired_at->month,
+                'day' => $employee->hired_at->day,
+            ],
             'raw_description' => $employee->description,
             'parsed_description' => is_null($employee->description) ? null : StringHelper::parse($employee->description),
             'address' => is_null($address) ? null : [

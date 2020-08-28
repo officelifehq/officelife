@@ -22,6 +22,7 @@ class CreateEmployeesTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->boolean('locked')->default(false);
+            $table->datetime('hired_at')->nullable();
             $table->uuid('uuid');
             $table->string('avatar')->nullable();
             $table->string('twitter_handle')->nullable();

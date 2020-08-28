@@ -126,7 +126,12 @@
                   :employee="employee"
                 />
               </p>
-              <p class="f6"><span class="f7 gray">Hire date</span> Hire date</p>
+              <p class="f6">
+                <span class="f7 gray">Hire date</span>
+                <employee-hired-date
+                  :employee="employee"
+                />
+              </p>
               <p class="mb0-ns f6">
                 <span class="f7 gray">{{ $t('employee.status_title') }}</span>
                 <employee-status
@@ -173,6 +178,7 @@ import EmployeeBirthdate from '@/Pages/Employee/Partials/EmployeeBirthdate';
 import EmployeeEmail from '@/Pages/Employee/Partials/EmployeeEmail';
 import EmployeeTwitter from '@/Pages/Employee/Partials/EmployeeTwitter';
 import EmployeeSlack from '@/Pages/Employee/Partials/EmployeeSlack';
+import EmployeeHiredDate from '@/Pages/Employee/Partials/EmployeeHiredDate';
 
 export default {
   components: {
@@ -184,6 +190,7 @@ export default {
     EmployeeEmail,
     EmployeeTwitter,
     EmployeeSlack,
+    EmployeeHiredDate,
   },
 
   directives: {

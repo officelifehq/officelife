@@ -26,6 +26,9 @@ return [
     'birthdate_information_partial' => '{date}',
     'birthdate_information_blank' => 'No birthdate set',
 
+    'hired_at_information' => '{date}',
+    'hired_at_information_blank' => 'No hired date set',
+
     'location_title' => 'Location',
     'location_no_info' => 'There is no address defined on this profile.',
     'location_alt_employee' => 'Employee location',
@@ -132,6 +135,8 @@ return [
     'edit_information_year' => 'Year',
     'edit_information_month' => 'Month',
     'edit_information_day' => 'Day',
+    'edit_information_hired_at' => 'Hiring date information',
+    'edit_information_hired_at_help' => 'Only HR and administrators can update this data.',
     'edit_information_year_help' => 'Possible values: 1900-?',
     'edit_information_month_help' => 'Possible values: 1-12',
     'edit_information_day_help' => 'Possible values: 1-31',

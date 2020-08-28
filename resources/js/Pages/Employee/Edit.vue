@@ -165,6 +165,64 @@
               </div>
             </div>
 
+            <!-- hired at date -->
+            <div v-if="canEditHiredAt" class="cf pa3 pb4" data-cy="hired-at-information">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>{{ $t('employee.edit_information_hired_at') }}</strong>
+                <p class="f7 silver lh-copy pr3-ns">
+                  {{ $t('employee.edit_information_hired_at_help') }}
+                </p>
+              </div>
+
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <!-- hired_at -->
+                <div class="dt-ns dt--fixed di">
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
+                    <!-- year -->
+                    <text-input :id="'hired_at_year'"
+                                v-model="form.hired_year"
+                                :name="'hired_at_year'"
+                                :errors="$page.errors.hired_year"
+                                :label="$t('employee.edit_information_year')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1900"
+                                :max="2020"
+                                :help="$t('employee.edit_information_year_help')"
+                    />
+                  </div>
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
+                    <!-- month -->
+                    <text-input :id="'hired_at_month'"
+                                v-model="form.hired_month"
+                                :name="'hired_at_month'"
+                                :errors="$page.errors.hired_month"
+                                :label="$t('employee.edit_information_month')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1"
+                                :max="12"
+                                :help="$t('employee.edit_information_month_help')"
+                    />
+                  </div>
+                  <div class="dtc-ns pr2-ns pb0-ns w-100">
+                    <!-- day -->
+                    <text-input :id="'hired_at_day'"
+                                v-model="form.hired_day"
+                                :name="'hired_at_day'"
+                                :errors="$page.errors.hired_day"
+                                :label="$t('employee.edit_information_day')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1"
+                                :max="31"
+                                :help="$t('employee.edit_information_day_help')"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- social links -->
             <div class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
@@ -243,6 +301,10 @@ export default {
       type: Object,
       default: null,
     },
+    canEditHiredAt: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -254,6 +316,9 @@ export default {
         year: null,
         month: null,
         day: null,
+        hired_year: null,
+        hired_month: null,
+        hired_day: null,
         twitter: null,
         slack: null,
         errors: {
@@ -277,6 +342,12 @@ export default {
       this.form.year = this.employee.birthdate.year;
       this.form.month = this.employee.birthdate.month;
       this.form.day = this.employee.birthdate.day;
+    }
+
+    if (this.employee.hired_at != null) {
+      this.form.hired_year = this.employee.hired_at.year;
+      this.form.hired_month = this.employee.hired_at.month;
+      this.form.hired_day = this.employee.hired_at.day;
     }
   },
 

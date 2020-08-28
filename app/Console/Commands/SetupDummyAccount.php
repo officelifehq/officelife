@@ -33,6 +33,7 @@ use App\Services\Company\Employee\Team\AddEmployeeToTeam;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
+use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -179,7 +180,7 @@ class SetupDummyAccount extends Command
     private function start(): void
     {
         if (! $this->confirm('Are you sure you want to proceed? This will delete ALL data in your environment.')) {
-            return;
+            exit;
         }
 
         $this->line('This process will take a few minutes to complete. Be patient and read a book in the meantime.');
@@ -765,6 +766,16 @@ class SetupDummyAccount extends Command
             'author_id' => $this->michael->id,
             'employee_id' => $employee->id,
             'description' => $description,
+        ]);
+
+        $date = $this->faker->dateTimeThisDecade();
+        (new SetHiringDate)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'employee_id' => $employee->id,
+            'year' => (int) $this->faker->dateTimeThisDecade()->format('Y'),
+            'month' => (int) $this->faker->dateTimeThisDecade()->format('m'),
+            'day' => (int) $this->faker->dateTimeThisDecade()->format('d'),
         ]);
     }
 
