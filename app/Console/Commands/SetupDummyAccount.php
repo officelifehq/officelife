@@ -71,6 +71,7 @@ class SetupDummyAccount extends Command
     protected Employee $nate;
     protected Employee $glenn;
     protected Employee $philip;
+    protected Employee $Debra;
 
     // The employee statuses
     protected EmployeeStatus $employeeStatusPartTime;
@@ -164,6 +165,7 @@ class SetupDummyAccount extends Command
         $this->createTeams();
         $this->addTeamDescriptions();
         $this->createEmployees();
+        $this->createFutureEmployees();
         $this->addSkills();
         $this->addWorkFromHomeEntries();
         $this->addWorklogEntriesAndMorale();
@@ -700,7 +702,26 @@ class SetupDummyAccount extends Command
         $this->addSpecificDataToEmployee($this->philip, $description, $this->pronounHeHim, $this->teamWarehouse, $this->employeeStatusFullTime, $this->positionWarehouseStaff, null, $this->val);
     }
 
-    private function addSpecificDataToEmployee(Employee $employee, string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
+    private function createFutureEmployees(): void
+    {
+        $this->info('☐ Add employees that will be hired in two days');
+
+        $this->debra = (new AddEmployeeToCompany)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'email' => $this->faker->safeEmail,
+            'first_name' => 'Debra',
+            'last_name' => 'Filzgetard',
+            'permission_level' => config('officelife.permission_level.user'),
+            'send_invitation' => false,
+        ]);
+        $this->addSpecificDataToEmployee($this->debra, null, $this->pronounSheHer, $this->teamManagement, $this->employeeStatusFullTime, $this->positionAssistantToTheRegionalManager, '1970-01-20');
+
+        $this->debra->hired_at = Carbon::now()->addDay();
+        $this->debra->save();
+    }
+
+    private function addSpecificDataToEmployee(Employee $employee, string $description = null, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
     {
         (new AddEmployeeToTeam)->execute([
             'company_id' => $this->company->id,
@@ -761,12 +782,14 @@ class SetupDummyAccount extends Command
             ]);
         }
 
-        (new SetPersonalDescription)->execute([
-            'company_id' => $this->company->id,
-            'author_id' => $this->michael->id,
-            'employee_id' => $employee->id,
-            'description' => $description,
-        ]);
+        if ($description) {
+            (new SetPersonalDescription)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'employee_id' => $employee->id,
+                'description' => $description,
+            ]);
+        }
 
         $date = $this->faker->dateTimeThisDecade();
         (new SetHiringDate)->execute([

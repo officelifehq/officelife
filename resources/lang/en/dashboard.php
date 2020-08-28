@@ -48,6 +48,10 @@ return [
     'team_work_from_home_title' => 'Who is working from home today',
     'team_work_from_home_blank' => 'No one is working from home today.',
 
+    'team_hired_at_title' => 'New hires coming soon',
+    'team_hired_at_date' => 'Starts on {date}',
+    'team_hired_at_date_with_position' => 'Starts on {date} as {position}',
+
     'question_title' => 'Know your colleagues',
     'question_cta' => 'Answer this question',
     'question_number_of_answers' => '{number} colleague has already answered. | {number} colleague has already answered. | {number} colleagues have already answered.',

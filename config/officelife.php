@@ -145,5 +145,6 @@ return [
         'team_recent_ship_create' => 'recent-ships#creating-an-entry',
         'account_general_company_name' => 'company#update-company-name',
         'account_general_currency' => 'currency',
+        'employee_hiring_date' => 'employee-profile#hiring-date',
     ],
 ];

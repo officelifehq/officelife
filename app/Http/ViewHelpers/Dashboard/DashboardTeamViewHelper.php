@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use App\Helpers\DateHelper;
 use App\Models\Company\Team;
 use App\Helpers\BirthdayHelper;
@@ -213,5 +214,54 @@ class DashboardTeamViewHelper
         ];
 
         return $data;
+    }
+
+    /**
+     * Array containing all the upcoming new hires that will come on board in
+     * the next week for this team.
+     *
+     * @param Team $team
+     *
+     * @return Collection
+     */
+    public static function upcomingNewHires(Team $team): Collection
+    {
+        // remove employees that are locked
+        $employees = $team->employees;
+        $employees = $employees->filter(function ($employee) {
+            return ! $employee->locked;
+        });
+
+        // filter out to keep only employees who will be hired next week
+        $employees = $employees->filter(function ($employee) {
+            return $employee->hired_at;
+        });
+        $nextMonday = Carbon::now()->format('Y-m-d');
+        $nextSunday = Carbon::now()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
+        $upcomingWeek = CarbonPeriod::create($nextMonday, $nextSunday);
+
+        $employees = $employees->filter(function ($employee) use ($upcomingWeek) {
+            return $upcomingWeek->contains($employee->hired_at->format('Y-m-d'));
+        });
+
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'hired_at' => DateHelper::formatDayAndMonthInParenthesis($employee->hired_at),
+                'position' => (! $employee->position) ? null : [
+                    'id' => $employee->position->id,
+                    'title' => $employee->position->title,
+                ],
+                'url' => route('employees.show', [
+                    'company' => $employee->company,
+                    'employee' => $employee,
+                ]),
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }

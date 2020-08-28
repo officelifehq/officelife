@@ -48,6 +48,11 @@
           :company="company"
         />
 
+        <upcoming-new-hires
+          v-if="newHires.length > 0"
+          :new-hires="newHires"
+        />
+
         <birthdays
           :teams="teams"
           :birthdays="birthdays"
@@ -93,6 +98,7 @@ import Worklogs from '@/Pages/Dashboard/Team/Partials/Worklogs';
 import Birthdays from '@/Pages/Dashboard/Team/Partials/Birthdays';
 import WorkFromHome from '@/Pages/Dashboard/Team/Partials/WorkFromHome';
 import RecentShips from '@/Pages/Dashboard/Team/Partials/RecentShips';
+import UpcomingNewHires from '@/Pages/Dashboard/Team/Partials/UpcomingNewHires';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -104,6 +110,7 @@ export default {
     DashboardMenu,
     WorkFromHome,
     RecentShips,
+    UpcomingNewHires,
   },
 
   props: {
@@ -144,6 +151,10 @@ export default {
       default: null
     },
     recentShips: {
+      type: Array,
+      default: null
+    },
+    newHires: {
       type: Array,
       default: null
     },
