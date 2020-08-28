@@ -28,6 +28,11 @@ class DashboardTeamViewHelper
             return ! is_null($employee->birthdate);
         });
 
+        // remove employees that are locked
+        $employees = $employees->filter(function ($employee) {
+            return ! $employee->locked;
+        });
+
         // build the collection of data
         $birthdaysCollection = collect([]);
         foreach ($employees as $employee) {
@@ -67,6 +72,11 @@ class DashboardTeamViewHelper
     public static function workFromHome(Team $team): Collection
     {
         $employees = $team->employees;
+
+        // remove employees that are locked
+        $employees = $employees->filter(function ($employee) {
+            return ! $employee->locked;
+        });
 
         $workFromHomeCollection = collect([]);
         foreach ($employees as $employee) {
@@ -172,7 +182,13 @@ class DashboardTeamViewHelper
      */
     public static function worklogs(Team $team, Carbon $date): array
     {
-        $numberOfEmployeesInTeam = $team->employees()->count();
+        // remove employees that are locked
+        $employees = $team->employees;
+        $employees = $employees->filter(function ($employee) {
+            return ! $employee->locked;
+        });
+
+        $numberOfEmployeesInTeam = $employees->count();
         $numberOfEmployeesWhoHaveLoggedWorklogs = count($team->worklogsForDate($date));
         $percent = $numberOfEmployeesWhoHaveLoggedWorklogs * 100 / $numberOfEmployeesInTeam;
 
