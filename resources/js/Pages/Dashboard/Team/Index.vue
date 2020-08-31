@@ -53,6 +53,11 @@
           :new-hires="newHires"
         />
 
+        <upcoming-hiring-date-anniversaries
+          v-if="hiringDateAnniversaries.length > 0"
+          :hiring-date-anniversaries="hiringDateAnniversaries"
+        />
+
         <birthdays
           :teams="teams"
           :birthdays="birthdays"
@@ -99,6 +104,7 @@ import Birthdays from '@/Pages/Dashboard/Team/Partials/Birthdays';
 import WorkFromHome from '@/Pages/Dashboard/Team/Partials/WorkFromHome';
 import RecentShips from '@/Pages/Dashboard/Team/Partials/RecentShips';
 import UpcomingNewHires from '@/Pages/Dashboard/Team/Partials/UpcomingNewHires';
+import UpcomingHiringDateAnniversaries from '@/Pages/Dashboard/Team/Partials/UpcomingHiringDateAnniversaries';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -110,6 +116,7 @@ export default {
     DashboardMenu,
     WorkFromHome,
     RecentShips,
+    UpcomingHiringDateAnniversaries,
     UpcomingNewHires,
   },
 
@@ -155,6 +162,10 @@ export default {
       default: null
     },
     newHires: {
+      type: Array,
+      default: null
+    },
+    hiringDateAnniversaries: {
       type: Array,
       default: null
     },

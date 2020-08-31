@@ -130,6 +130,8 @@ class DashboardTeamController extends Controller
         // upcoming new hires
         $newHires = DashboardTeamViewHelper::upcomingNewHires($team);
 
+        $hiringDateAnniversaries = DashboardTeamViewHelper::upcomingHiredDateAnniversaries($team);
+
         return Inertia::render('Dashboard/Team/Index', [
             'company' => $company,
             'employee' => $employeeInformation,
@@ -142,6 +144,7 @@ class DashboardTeamController extends Controller
             'workFromHomes' => $workFromHomes,
             'recentShips' => $ships,
             'newHires' => $newHires,
+            'hiringDateAnniversaries' => $hiringDateAnniversaries,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
