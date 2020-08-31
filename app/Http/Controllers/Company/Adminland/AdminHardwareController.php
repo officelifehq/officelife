@@ -179,29 +179,48 @@ class AdminHardwareController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $data = [
-            'company_id' => $loggedCompany->id,
-            'author_id' => $loggedEmployee->id,
-            'hardware_id' => $hardwareId,
-            'name' => $request->input('name'),
-            'serial_number' => $request->input('serial'),
-        ];
+        $hardware = Hardware::findOrFail($hardwareId);
 
-        $hardware = (new UpdateHardware)->execute($data);
+        if ($hardware->name != $request->input('name') || $hardware->serial_number != $request->input('serial')) {
+            $data = [
+                'company_id' => $loggedCompany->id,
+                'author_id' => $loggedEmployee->id,
+                'hardware_id' => $hardwareId,
+                'name' => $request->input('name'),
+                'serial_number' => $request->input('serial'),
+            ];
 
-        if ($request->input('lend_hardware') && $request->input('employee_id') != $hardware->employee_id) {
+            (new UpdateHardware)->execute($data);
+        }
+
+        // if the checkbox is checked and the hardware wasn't assigned to an employee
+        if ($request->input('lend_hardware') && ! $hardware->employee) {
             (new LendHardware)->execute([
                 'company_id' => $loggedCompany->id,
                 'author_id' => $loggedEmployee->id,
                 'employee_id' => $request->input('employee_id'),
                 'hardware_id' => $hardware->id,
             ]);
-        } else {
-            (new RegainHardware)->execute([
-                'company_id' => $loggedCompany->id,
-                'author_id' => $loggedEmployee->id,
-                'hardware_id' => $hardware->id,
-            ]);
+        }
+
+        // if the hardware was assigned to an employee
+        if ($hardware->employee) {
+            if ($request->input('lend_hardware')) {
+                (new LendHardware)->execute([
+                    'company_id' => $loggedCompany->id,
+                    'author_id' => $loggedEmployee->id,
+                    'employee_id' => $request->input('employee_id'),
+                    'hardware_id' => $hardware->id,
+                ]);
+            }
+
+            if (! $request->input('lend_hardware')) {
+                (new RegainHardware)->execute([
+                    'company_id' => $loggedCompany->id,
+                    'author_id' => $loggedEmployee->id,
+                    'hardware_id' => $hardware->id,
+                ]);
+            }
         }
 
         return response()->json([
@@ -281,7 +300,7 @@ class AdminHardwareController extends Controller
      * Search a specific item.
      *
      * @param Request $request
-     * @param integer $companyId
+     * @param int $companyId
      */
     public function search(Request $request, int $companyId)
     {
@@ -289,7 +308,7 @@ class AdminHardwareController extends Controller
 
         $search = $request->input('searchTerm');
         $potentialHardware = Hardware::where('serial_number', 'LIKE', '%'.$search.'%')
-            ->orWhere('name', 'LIKE', '%' . $search . '%')
+            ->orWhere('name', 'LIKE', '%'.$search.'%')
             ->with('employee')
             ->get();
 

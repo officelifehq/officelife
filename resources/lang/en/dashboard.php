@@ -52,6 +52,9 @@ return [
     'team_hired_at_date' => 'Starts on {date}',
     'team_hired_at_date_with_position' => 'Starts on {date} as {position}',
 
+    'team_hired_at_anniversaries' => 'Upcoming work anniversaries',
+    'team_hired_at_anniversary_detail' => 'Will celebrate {age} years in {company} on {date}',
+
     'question_title' => 'Know your colleagues',
     'question_cta' => 'Answer this question',
     'question_number_of_answers' => '{number} colleague has already answered. | {number} colleague has already answered. | {number} colleagues have already answered.',

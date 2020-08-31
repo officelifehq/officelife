@@ -12,6 +12,13 @@ input[type=checkbox] {
   top: 2px;
 }
 
+.optional-badge {
+  border-radius: 4px;
+  color: #283e59;
+  background-color: #edf2f9;
+  padding: 3px 4px;
+}
+
 </style>
 
 <template>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\Birthdate;
+namespace Tests\Unit\Services\Company\Employee\HiringDate;
 
 use Exception;
 use Carbon\Carbon;

@@ -288,4 +288,47 @@ class DashboardTeamViewHelperTest extends TestCase
             $collection->toArray()
         );
     }
+
+    /** @test */
+    public function it_gets_a_list_of_upcoming_hiring_date_anniversaries(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $team = factory(Team::class)->create([]);
+
+        // making employees
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $team->company_id,
+            'hired_at' => '1990-01-02 00:00:00',
+        ]);
+        $michael = factory(Employee::class)->create([
+            'company_id' => $team->company_id,
+            'hired_at' => '1990-05-01 00:00:00',
+        ]);
+        $jim = factory(Employee::class)->create([
+            'company_id' => $team->company_id,
+            'hired_at' => '2017-04-02 00:00:00',
+            'locked' => true,
+        ]);
+
+        $team->employees()->syncWithoutDetaching([$dwight->id]);
+        $team->employees()->syncWithoutDetaching([$michael->id]);
+        $team->employees()->syncWithoutDetaching([$jim->id]);
+
+        $collection = DashboardTeamViewHelper::upcomingHiredDateAnniversaries($team);
+
+        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                    'avatar' => $dwight->avatar,
+                    'anniversary_date' => 'Tuesday (Jan 2nd)',
+                    'anniversary_age' => '28',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
 }

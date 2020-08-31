@@ -146,5 +146,6 @@ return [
         'account_general_company_name' => 'company#update-company-name',
         'account_general_currency' => 'currency',
         'employee_hiring_date' => 'employee-profile#hiring-date',
+        'employee_work_anniversaries' => 'employee-profile#work-anniversaries',
     ],
 ];
