@@ -348,10 +348,21 @@ class EmployeeTest extends TestCase
     {
         $dwight = factory(Employee::class)->create();
         factory(OneOnOneEntry::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->oneOnOneEntriesAsEmployee()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_one_on_one_entries_as_manager(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(OneOnOneEntry::class, 2)->create([
             'manager_id' => $dwight->id,
         ]);
 
-        $this->assertTrue($dwight->oneOnOneEntries()->exists());
+        $this->assertTrue($dwight->oneOnOneEntriesAsManager()->exists());
     }
 
     /** @test */
