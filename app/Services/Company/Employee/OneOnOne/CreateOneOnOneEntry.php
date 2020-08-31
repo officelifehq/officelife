@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Company\Employee\Holiday;
+namespace App\Services\Company\Employee\OneOnOne;
 
 use Exception;
 use Carbon\Carbon;
@@ -8,11 +8,11 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Helpers\HolidayHelper;
 use App\Jobs\LogEmployeeAudit;
-use Illuminate\Validation\Rule;
 use App\Models\Company\Employee;
+use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeePlannedHoliday;
 
-class CreateTimeOff extends BaseService
+class CreateOneOnOneEntry extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.
@@ -24,32 +24,19 @@ class CreateTimeOff extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
+            'manager_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'date' => 'required|date_format:Y-m-d',
-            'type' => 'required',
-                Rule::in([
-                    'holiday',
-                    'sick',
-                    'pto',
-                ]),
-            'full' => 'required|boolean',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
     /**
-     * Log a time off for the given employee.
-     * A time off can only be of two types: half day or full day.
-     * For any given day you can therefore either be a full day, or two half
-     * days. We will not put in place rules against the types of PTO someone
-     * wants to take. That means he can take one half day of sick day, and the
-     * other half day as holiday, for instance.
+     * Create a one on one entry.
      *
      * @param array $data
-     *
-     * @return EmployeePlannedHoliday
+     * @return OneOnOneEntry
      */
-    public function execute(array $data): EmployeePlannedHoliday
+    public function execute(array $data): OneOnOneEntry
     {
         $this->validateRules($data);
 

@@ -47,6 +47,15 @@ class OneOnOneEntry extends Model
     ];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'happened' => 'boolean',
+    ];
+
+    /**
      * Get the manager record associated with the entry.
      *
      * @return BelongsTo
@@ -73,7 +82,7 @@ class OneOnOneEntry extends Model
      */
     public function talkingPoints()
     {
-        return $this->hasMany(OneOnOneTalkingPoint::class, 'id');
+        return $this->hasMany(OneOnOneTalkingPoint::class, 'one_on_one_entry_id');
     }
 
     /**
@@ -83,7 +92,7 @@ class OneOnOneEntry extends Model
      */
     public function actionItems()
     {
-        return $this->hasMany(OneOnOneActionItem::class, 'id');
+        return $this->hasMany(OneOnOneActionItem::class, 'one_on_one_entry_id');
     }
 
     /**
@@ -93,6 +102,6 @@ class OneOnOneEntry extends Model
      */
     public function notes()
     {
-        return $this->hasMany(OneOnOneNote::class, 'id');
+        return $this->hasMany(OneOnOneNote::class, 'one_on_one_entry_id');
     }
 }

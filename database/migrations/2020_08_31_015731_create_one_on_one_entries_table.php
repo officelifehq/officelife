@@ -18,6 +18,7 @@ class CreateOneOnOneEntriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('manager_id');
             $table->unsignedBigInteger('employee_id');
+            $table->boolean('happened')->default(false);
             $table->datetime('happened_at')->nullable();
             $table->timestamps();
             $table->foreign('manager_id')->references('id')->on('employees')->onDelete('cascade');
