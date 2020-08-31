@@ -2,18 +2,25 @@
 
 namespace App\Services\Company\Employee\OneOnOne;
 
-use Exception;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Helpers\HolidayHelper;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\EmployeePlannedHoliday;
+use App\Exceptions\NotTheManagerException;
+use App\Exceptions\NotEnoughPermissionException;
 
 class CreateOneOnOneEntry extends BaseService
 {
+    protected array $data;
+
+    protected Employee $employee;
+
+    protected Employee $manager;
+
+    protected OneOnOneEntry $entry;
+
     /**
      * Get the validation rules that apply to the service.
      *
@@ -38,145 +45,97 @@ class CreateOneOnOneEntry extends BaseService
      */
     public function execute(array $data): OneOnOneEntry
     {
-        $this->validateRules($data);
+        $this->data = $data;
+        $this->validate();
+        $this->create();
+        $this->carryOverPreviousUncompletedTasks();
+        $this->log();
 
-        $employee = Employee::findOrFail($data['employee_id']);
+        return $this->entry;
+    }
 
-        $this->author($data['author_id'])
-            ->inCompany($data['company_id'])
-            ->asAtLeastHR()
-            ->canBypassPermissionLevelIfEmployee($data['employee_id'])
+    private function validate(): void
+    {
+        $this->validateRules($this->data);
+
+        $this->author($this->data['author_id'])
+            ->inCompany($this->data['company_id'])
+            ->asNormalUser()
             ->canExecuteService();
 
-        $suggestedDate = Carbon::parse($data['date']);
+        $this->employee = Employee::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['employee_id']);
 
-        // grab the PTO policy and check wether this day is a worked day or not
-        $ptoPolicy = $employee->company->getCurrentPTOPolicy();
-        if (! HolidayHelper::isDayWorkedForCompany($ptoPolicy, $suggestedDate)) {
-            throw new Exception('The day is considered worked for the company');
+        $this->manager = Employee::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['manager_id']);
+
+        if ($this->author->id != $this->manager->id || $this->author->id != $this->employee->id) {
+            throw new NotEnoughPermissionException('app.error_not_enough_permission');
         }
 
-        // check if an holiday already exists for this day
-        // If the date is already taken as a planned holiday in full, we can't take
-        // this day as it’s already taken.
-        // If the date is already taken but as half, it means we can take it but
-        // only as a half day.
-        $existingPlannedHoliday = $this->getExistingPlannedHoliday($employee, $suggestedDate);
-        $plannedHoliday = '';
-
-        if ($existingPlannedHoliday) {
-            if ($this->validateCreationHoliday($existingPlannedHoliday, $data)) {
-                $plannedHoliday = $this->createPlannedHoliday($data, $suggestedDate);
-            }
-        } else {
-            $plannedHoliday = $this->createPlannedHoliday($data, $suggestedDate);
+        if (! $this->manager->isManagerOf($this->employee->id)) {
+            throw new NotTheManagerException();
         }
-
-        $this->createLogs($employee, $plannedHoliday, $data);
-
-        return $plannedHoliday;
     }
 
-    /**
-     * Get the planned holiday object for this date, if it already exists.
-     *
-     * @param Employee $employee
-     * @param Carbon   $date
-     *
-     * @return EmployeePlannedHoliday
-     */
-    private function getExistingPlannedHoliday(Employee $employee, Carbon $date)
+    private function create(): void
     {
-        $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
-            ->where('planned_date', $date->format('Y-m-d 00:00:00'))
-            ->count();
-
-        if ($holiday > 1) {
-            throw new Exception();
-        }
-
-        $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
-            ->where('planned_date', $date->format('Y-m-d 00:00:00'))
-            ->first();
-
-        return $holiday;
-    }
-
-    /**
-     * Validate wether we can create a new holiday.
-     *
-     * @param EmployeePlannedHoliday $holiday
-     * @param array $data
-     *
-     * @return bool
-     */
-    private function validateCreationHoliday(EmployeePlannedHoliday $holiday, array $data): bool
-    {
-        // we can't log any new holiday - the day is already used
-        if ($holiday->full) {
-            throw new Exception();
-        }
-
-        // here, we are in the case of a half day, but the person requested
-        // a full day
-        if ($data['full']) {
-            throw new Exception();
-        }
-
-        return true;
-    }
-
-    /**
-     * Create a new planned holiday.
-     *
-     * @param array  $data
-     * @param Carbon $date
-     *
-     * @return EmployeePlannedHoliday
-     */
-    private function createPlannedHoliday(array $data, Carbon $date): EmployeePlannedHoliday
-    {
-        return EmployeePlannedHoliday::create([
-            'employee_id' => $data['employee_id'],
-            'planned_date' => $date,
-            'type' => $data['type'],
-            'full' => $data['full'],
+        $this->entry = OneOnOneEntry::create([
+            'manager_id' => $this->data['manager_id'],
+            'employee_id' => $this->data['employee_id'],
+            'happened_at' => $this->data['date'],
         ]);
     }
 
     /**
-     * Create the audit logs.
-     *
-     * @param Employee               $employee
-     * @param EmployeePlannedHoliday $plannedHoliday
-     * @param array $data
+     * Migrate previous uncompleted tasks, if there was a previous entry, to
+     * this new entry.
      */
-    private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday, array $data)
+    private function carryOverPreviousUncompletedTasks(): void
+    {
+    }
+
+    private function log(): void
     {
         LogAccountAudit::dispatch([
-            'company_id' => $employee->company_id,
-            'action' => 'time_off_created',
+            'company_id' => $this->data['company_id'],
+            'action' => 'one_on_one_entry_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'planned_holiday_id' => $plannedHoliday->id,
-                'planned_holiday_date' => $plannedHoliday->planned_date,
+                'employee_id' => $this->data['employee_id'],
+                'employee_name' => $this->employee_name,
+                'manager_id' => $this->data['manager_id'],
+                'manager_name' => $this->manager_name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+            'is_dummy' => false,
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
-            'employee_id' => $employee->id,
-            'action' => 'time_off_created',
+            'employee_id' => $this->employee->id,
+            'action' => 'one_on_one_entry_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'planned_holiday_id' => $plannedHoliday->id,
-                'planned_holiday_date' => $plannedHoliday->planned_date,
+                'manager_id' => $this->data['manager_id'],
+                'manager_name' => $this->manager_name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
+            'is_dummy' => false,
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $this->manager->id,
+            'action' => 'one_on_one_entry_created',
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'employee_id' => $this->data['employee_id'],
+                'employee_name' => $this->employee_name,
+            ]),
+            'is_dummy' => false,
         ])->onQueue('low');
     }
 }
