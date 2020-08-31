@@ -29,7 +29,7 @@ class CreateOneOnOneEntriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('one_on_one_entry_id');
             $table->string('description');
-            $table->boolean('checked');
+            $table->boolean('checked')->default(false);
             $table->timestamps();
             $table->foreign('one_on_one_entry_id')->references('id')->on('one_on_one_entries')->onDelete('cascade');
         });
@@ -38,7 +38,7 @@ class CreateOneOnOneEntriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('one_on_one_entry_id');
             $table->string('description');
-            $table->boolean('checked');
+            $table->boolean('checked')->default(false);
             $table->timestamps();
             $table->foreign('one_on_one_entry_id')->references('id')->on('one_on_one_entries')->onDelete('cascade');
         });

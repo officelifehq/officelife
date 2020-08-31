@@ -796,9 +796,9 @@ class SetupDummyAccount extends Command
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'employee_id' => $employee->id,
-            'year' => (int) $this->faker->dateTimeThisDecade()->format('Y'),
-            'month' => (int) $this->faker->dateTimeThisDecade()->format('m'),
-            'day' => (int) $this->faker->dateTimeThisDecade()->format('d'),
+            'year' => (int) $date->format('Y'),
+            'month' => (int) $date->format('m'),
+            'day' => (int) $date->format('d'),
         ]);
     }
 
