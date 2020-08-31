@@ -19,7 +19,7 @@
     <div class="cf mw7 center mb2 fw5">
       🎖 {{ $t('dashboard.team_hired_at_anniversaries') }}
 
-      <help :url="$page.help_links.employee_hiring_date" />
+      <help :url="$page.help_links.employee_work_anniversaries" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">
