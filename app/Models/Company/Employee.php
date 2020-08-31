@@ -394,6 +394,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the one on one entries associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function oneOnOneEntries()
+    {
+        return $this->hasMany(OneOnOneEntry::class, 'id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query
