@@ -225,6 +225,10 @@ return [
     'log_employee_hiring_date_set' => 'Set the hiring date of :employee_name to :hiring_date.',
     'log_one_on_one_entry_created' => 'Created a 1 on 1 entry between :manager_name and :employee_name.',
     'log_one_on_one_entry_destroyed' => 'Deleted the 1 on 1 entry of :happened_at between :manager_name and :employee_name.',
+    'log_one_on_one_talking_point_created' => 'Added a talking point to the 1 on 1 entry of :happened_at between :manager_name and :employee_name.',
+    'log_one_on_one_action_item_created' => 'Added an action item to the 1 on 1 entry of :happened_at between :manager_name and :employee_name.',
+    'log_one_on_one_note_created' => 'Added a note to the 1 on 1 entry of :happened_at between :manager_name and :employee_name.',
+    'one_on_one_action_item_destroyed' => 'Deleted an action item on the 1 on 1 entry of :happened_at between :manager_name and :employee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -279,6 +283,10 @@ return [
     'employee_log_hiring_date_set' => 'Set the hiring date to :hiring_date.',
     'employee_log_one_on_one_entry_created' => 'Set a 1 on 1 meeting with :employee_name.',
     'employee_log_one_on_one_entry_destroyed' => 'Deleted the 1 on 1 entry of :happened_at with :employee_name.',
+    'employee_log_one_on_one_talking_point_created' => 'Added a talking point to the 1 on 1 entry of :happened_at with :employee_name.',
+    'employee_log_one_on_one_action_item_created' => 'Added an action item to the 1 on 1 entry of :happened_at with :employee_name.',
+    'employee_log_one_on_one_note_created' => 'Added a note to the 1 on 1 entry of :happened_at with :employee_name.',
+    'employee_log_one_on_one_action_item_destroyed' => 'Deleted an action item on the 1 on 1 entry of :happened_at with :employee_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

@@ -7,16 +7,16 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\OneOnOneEntry;
-use App\Models\Company\OneOnOneTalkingPoint;
+use App\Models\Company\OneOnOneActionItem;
 use App\Exceptions\NotEnoughPermissionException;
 
-class AddOneOnOneTalkingPoint extends BaseService
+class CreateOneOnOneActionItem extends BaseService
 {
     protected array $data;
 
     protected OneOnOneEntry $entry;
 
-    protected OneOnOneTalkingPoint $talkingPoint;
+    protected OneOnOneActionItem $actionItem;
 
     /**
      * Get the validation rules that apply to the service.
@@ -34,19 +34,19 @@ class AddOneOnOneTalkingPoint extends BaseService
     }
 
     /**
-     * Create a one on one talking point for a one on one meeting.
+     * Create a one on one action item for a one on one meeting.
      *
      * @param array $data
-     * @return OneOnOneTalkingPoint
+     * @return OneOnOneActionItem
      */
-    public function execute(array $data): OneOnOneTalkingPoint
+    public function execute(array $data): OneOnOneActionItem
     {
         $this->data = $data;
         $this->validate();
         $this->create();
         $this->log();
 
-        return $this->talkingPoint;
+        return $this->actionItem;
     }
 
     private function validate(): void
@@ -58,7 +58,9 @@ class AddOneOnOneTalkingPoint extends BaseService
             ->asNormalUser()
             ->canExecuteService();
 
-        $this->entry = OneOnOneEntry::findOrFail($this->data['one_on_one_entry_id']);
+        $this->entry = OneOnOneEntry::with('manager')
+            ->with('employee')
+            ->findOrFail($this->data['one_on_one_entry_id']);
 
         if ($this->author->id != $this->entry->manager->id && $this->author->id != $this->entry->employee->id) {
             throw new NotEnoughPermissionException(trans('app.error_not_enough_permission'));
@@ -67,7 +69,7 @@ class AddOneOnOneTalkingPoint extends BaseService
 
     private function create(): void
     {
-        $this->talkingPoint = OneOnOneTalkingPoint::create([
+        $this->actionItem = OneOnOneActionItem::create([
             'one_on_one_entry_id' => $this->data['one_on_one_entry_id'],
             'description' => $this->data['description'],
         ]);
@@ -77,42 +79,50 @@ class AddOneOnOneTalkingPoint extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'one_on_one_talking_point_created',
+            'action' => 'one_on_one_action_item_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'one_on_one_entry_id' => $this->entry->id,
-                'one_on_one_talking_point_id' => $this->talkingPoint->id,
+                'one_on_one_action_item_id' => $this->actionItem->id,
                 'happened_at' => $this->entry->happened_at->format('Y-m-d'),
+                'employee_id' => $this->entry->employee->id,
+                'employee_name' => $this->entry->employee->id,
+                'manager_id' => $this->entry->manager->id,
+                'manager_name' => $this->entry->manager->id,
             ]),
             'is_dummy' => false,
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
             'employee_id' => $this->entry->employee->id,
-            'action' => 'one_on_one_talking_point_created',
+            'action' => 'one_on_one_action_item_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'one_on_one_entry_id' => $this->entry->id,
-                'one_on_one_talking_point_id' => $this->talkingPoint->id,
+                'one_on_one_action_item_id' => $this->actionItem->id,
                 'happened_at' => $this->entry->happened_at->format('Y-m-d'),
+                'employee_id' => $this->entry->manager->id,
+                'employee_name' => $this->entry->manager->id,
             ]),
             'is_dummy' => false,
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
             'employee_id' => $this->entry->manager->id,
-            'action' => 'one_on_one_talking_point_created',
+            'action' => 'one_on_one_action_item_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'one_on_one_entry_id' => $this->entry->id,
-                'one_on_one_talking_point_id' => $this->talkingPoint->id,
+                'one_on_one_action_item_id' => $this->actionItem->id,
                 'happened_at' => $this->entry->happened_at->format('Y-m-d'),
+                'employee_id' => $this->entry->employee->id,
+                'employee_name' => $this->entry->employee->id,
             ]),
             'is_dummy' => false,
         ])->onQueue('low');

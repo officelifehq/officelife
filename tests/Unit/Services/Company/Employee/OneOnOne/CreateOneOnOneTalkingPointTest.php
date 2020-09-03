@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\Manager;
+namespace Tests\Unit\Services\Company\Employee\OneOnOne;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
@@ -12,9 +12,9 @@ use App\Models\Company\OneOnOneTalkingPoint;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\OneOnOne\AddOneOnOneTalkingPoint;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
 
-class AddOneOnOneTalkingPointTest extends TestCase
+class CreateOneOnOneTalkingPointTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -50,7 +50,7 @@ class AddOneOnOneTalkingPointTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new AddOneOnOneTalkingPoint)->execute($request);
+        (new CreateOneOnOneTalkingPoint)->execute($request);
     }
 
     /** @test */
@@ -79,7 +79,7 @@ class AddOneOnOneTalkingPointTest extends TestCase
             'description' => 'we need to talk about love',
         ];
 
-        $talkingPoint = (new AddOneOnOneTalkingPoint)->execute($request);
+        $talkingPoint = (new CreateOneOnOneTalkingPoint)->execute($request);
 
         $this->assertDatabaseHas('one_on_one_talking_points', [
             'id' => $talkingPoint->id,
@@ -98,6 +98,10 @@ class AddOneOnOneTalkingPointTest extends TestCase
                     'one_on_one_entry_id' => $entry->id,
                     'one_on_one_talking_point_id' => $talkingPoint->id,
                     'happened_at' => $entry->happened_at->format('Y-m-d'),
+                    'employee_id' => $entry->employee->id,
+                    'employee_name' => $entry->employee->id,
+                    'manager_id' => $entry->manager->id,
+                    'manager_name' => $entry->manager->id,
                 ]);
         });
 
@@ -109,6 +113,8 @@ class AddOneOnOneTalkingPointTest extends TestCase
                     'one_on_one_entry_id' => $entry->id,
                     'one_on_one_talking_point_id' => $talkingPoint->id,
                     'happened_at' => $entry->happened_at->format('Y-m-d'),
+                    'employee_id' => $entry->manager->id,
+                    'employee_name' => $entry->manager->id,
                 ]);
         });
 
@@ -120,6 +126,8 @@ class AddOneOnOneTalkingPointTest extends TestCase
                     'one_on_one_entry_id' => $entry->id,
                     'one_on_one_talking_point_id' => $talkingPoint->id,
                     'happened_at' => $entry->happened_at->format('Y-m-d'),
+                    'employee_id' => $entry->employee->id,
+                    'employee_name' => $entry->employee->id,
                 ]);
         });
     }
