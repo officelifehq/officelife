@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -18,7 +17,7 @@ class LoginController extends Controller
     /**
      * Shows the login page.
      *
-     * @return Response
+     * @return mixed
      */
     public function index()
     {
@@ -34,7 +33,8 @@ class LoginController extends Controller
     /**
      * Authenticate the user.
      *
-     * @return Response
+     * @param Request $request
+     * @return mixed
      */
     public function store(Request $request)
     {

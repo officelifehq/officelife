@@ -18,10 +18,9 @@ class TeamUsefulLinkController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
      * @return JsonResponse
      */
-    public function store(Request $request, int $companyId, int $teamId)
+    public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -48,10 +47,9 @@ class TeamUsefulLinkController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $linkId
-     *
      * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $teamId, int $linkId)
+    public function destroy(Request $request, int $companyId, int $teamId, int $linkId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

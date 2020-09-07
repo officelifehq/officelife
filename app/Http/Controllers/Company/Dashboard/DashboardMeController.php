@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Dashboard;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
@@ -17,9 +18,9 @@ class DashboardMeController extends Controller
     /**
      * Company details.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -55,7 +56,7 @@ class DashboardMeController extends Controller
             'ownerPermissionLevel' => config('officelife.permission_level.administrator'),
             'tasks' => DashboardMeViewHelper::tasks($employee),
             'categories' => DashboardMeViewHelper::categories($company),
-            'currencies' => DashboardMeViewHelper::currencies($company),
+            'currencies' => DashboardMeViewHelper::currencies(),
             'expenses' => DashboardMeViewHelper::expenses($employee),
             'rateYourManagerAnswers' => DashboardMeViewHelper::rateYourManagerAnswers($employee),
             'defaultCurrency' => $defaultCompanyCurrency,

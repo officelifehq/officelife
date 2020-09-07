@@ -111,7 +111,7 @@ class CreateShip extends BaseService
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'team_id' => $this->team->id,
-                'team_name' => $this->team->label,
+                'team_name' => $this->team->name,
                 'ship_id' => $this->ship->id,
                 'ship_title' => $this->ship->title,
             ]),

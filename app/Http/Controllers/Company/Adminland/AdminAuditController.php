@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\PaginatorHelper;
@@ -16,9 +17,9 @@ class AdminAuditController extends Controller
      * Show the audit log.
      *
      * @param Request $request
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $logs = $company->logs()->with('author')->paginate(15);

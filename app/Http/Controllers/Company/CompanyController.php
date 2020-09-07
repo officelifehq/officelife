@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Company;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
@@ -21,7 +21,7 @@ class CompanyController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         return Inertia::render('Dashboard/MyCompany', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -34,7 +34,7 @@ class CompanyController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Home/CreateCompany');
     }
@@ -43,7 +43,6 @@ class CompanyController extends Controller
      * Create the company.
      *
      * @param Request $request
-     *
      * @return RedirectResponse
      */
     public function store(Request $request)

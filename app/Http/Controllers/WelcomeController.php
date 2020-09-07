@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 
 class WelcomeController extends Controller
@@ -34,9 +35,9 @@ class WelcomeController extends Controller
     /**
      * Hide the welcome page.
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function hide()
+    public function hide(): JsonResponse
     {
         $employee = InstanceHelper::getLoggedEmployee();
 

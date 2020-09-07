@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Company;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
@@ -13,9 +14,9 @@ class CompanyController extends Controller
     /**
      * All the information about the company, for public use.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 

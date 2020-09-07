@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
@@ -10,7 +11,6 @@ use App\Helpers\PaginatorHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Inertia\Response as InertiaResponse;
 use App\Http\Collections\TeamLogCollection;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Adminland\Team\UpdateTeam;
@@ -23,9 +23,9 @@ class AdminTeamController extends Controller
     /**
      * Show the list of teams.
      *
-     * @return InertiaResponse
+     * @return Response
      */
-    public function index(): InertiaResponse
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -42,7 +42,6 @@ class AdminTeamController extends Controller
      * Create the team.
      *
      * @param Request $request
-     *
      * @return JsonResponse
      */
     public function store(Request $request): JsonResponse
@@ -68,7 +67,6 @@ class AdminTeamController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
      * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $teamId): JsonResponse
@@ -95,7 +93,6 @@ class AdminTeamController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
      * @return JsonResponse
      */
     public function destroy(Request $request, int $companyId, int $teamId): JsonResponse
@@ -121,10 +118,9 @@ class AdminTeamController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
-     * @return InertiaResponse
+     * @return mixed
      */
-    public function logs(Request $request, int $companyId, int $teamId): InertiaResponse
+    public function logs(Request $request, int $companyId, int $teamId)
     {
         try {
             $team = Team::findOrFail($teamId);

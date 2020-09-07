@@ -43,9 +43,6 @@ class TeamNewsTest extends ApiTestCase
         $this->assertEquals(
             [
                 'id' => $news->id,
-                'company' => [
-                    'id' => $news->company_id,
-                ],
                 'title' => 'news',
                 'content' => 'a content',
                 'parsed_content' => '<p>a content</p>',

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Adminland\AdminExpenseViewHelper;
@@ -23,7 +24,7 @@ class AdminExpenseController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -42,9 +43,9 @@ class AdminExpenseController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, $companyId)
+    public function store(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
@@ -71,9 +72,9 @@ class AdminExpenseController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param mixed $expenseCategoryId
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, $companyId, $expenseCategoryId)
+    public function update(Request $request, int $companyId, int $expenseCategoryId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
@@ -101,9 +102,9 @@ class AdminExpenseController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $expenseCategoryId
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $expenseCategoryId)
+    public function destroy(Request $request, int $companyId, int $expenseCategoryId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -126,9 +127,9 @@ class AdminExpenseController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @return Response
+     * @return JsonResponse
      */
-    public function search(Request $request, int $companyId)
+    public function search(Request $request, int $companyId): JsonResponse
     {
         $potentialEmployees = Employee::search(
             $request->input('searchTerm'),
@@ -157,9 +158,9 @@ class AdminExpenseController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @return Response
+     * @return JsonResponse
      */
-    public function addEmployee(Request $request, int $companyId)
+    public function addEmployee(Request $request, int $companyId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -190,9 +191,9 @@ class AdminExpenseController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @return Response
+     * @return JsonResponse
      */
-    public function removeEmployee(Request $request, int $companyId)
+    public function removeEmployee(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

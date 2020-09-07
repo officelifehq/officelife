@@ -13,10 +13,9 @@ class HelpController extends Controller
      * Perform search of an employee from the header.
      *
      * @param Request $request
-     *
      * @return JsonResponse
      */
-    public function toggle(Request $request)
+    public function toggle(Request $request): JsonResponse
     {
         $request = [
             'user_id' => Auth::user()->id,

@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\QuestionCollection;
@@ -22,7 +23,7 @@ class AdminQuestionController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $questions = $company->questions()->get();
@@ -40,10 +41,9 @@ class AdminQuestionController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId)
+    public function store(Request $request, int $companyId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -68,10 +68,9 @@ class AdminQuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $questionId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, int $companyId, int $questionId)
+    public function update(Request $request, int $companyId, int $questionId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -96,10 +95,9 @@ class AdminQuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $questionId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $questionId)
+    public function destroy(Request $request, int $companyId, int $questionId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -122,10 +120,9 @@ class AdminQuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $questionId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function activate(Request $request, int $companyId, int $questionId)
+    public function activate(Request $request, int $companyId, int $questionId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -152,10 +149,9 @@ class AdminQuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $questionId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function deactivate(Request $request, int $companyId, int $questionId)
+    public function deactivate(Request $request, int $companyId, int $questionId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

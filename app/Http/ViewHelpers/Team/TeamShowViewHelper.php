@@ -78,7 +78,7 @@ class TeamShowViewHelper
      */
     public static function recentShips(Team $team): Collection
     {
-        $ships = $team->ships()->with('employees')->get()->take(3);
+        $ships = $team->ships()->with('employees')->take(3)->get();
         $shipsCollection = collect([]);
         foreach ($ships as $ship) {
             $employees = $ship->employees;
@@ -99,7 +99,7 @@ class TeamShowViewHelper
                 'id' => $ship->id,
                 'title' => $ship->title,
                 'description' => $ship->description,
-                'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all(): null,
+                'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all() : null,
                 'url' => route('ships.show', [
                     'company' => $team->company,
                     'team' => $team,
