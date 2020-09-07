@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
 use App\Services\Company\Employee\Position\RemovePositionFromEmployee;
@@ -18,10 +18,9 @@ class EmployeePositionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId, int $employeeId)
+    public function store(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -50,10 +49,9 @@ class EmployeePositionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $employeeId)
+    public function destroy(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

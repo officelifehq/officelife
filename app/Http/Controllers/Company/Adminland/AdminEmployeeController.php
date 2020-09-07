@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -23,7 +24,7 @@ class AdminEmployeeController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $employees = $company->employees()
@@ -74,9 +75,9 @@ class AdminEmployeeController extends Controller
     /**
      * Show the Create employee view.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Adminland/Employee/Create', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -88,10 +89,9 @@ class AdminEmployeeController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId)
+    public function store(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -115,7 +115,10 @@ class AdminEmployeeController extends Controller
     /**
      * Show the Lock employee view.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return mixed
      */
     public function lock(Request $request, int $companyId, int $employeeId)
     {
@@ -152,10 +155,9 @@ class AdminEmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function lockAccount(Request $request, int $companyId, int $employeeId)
+    public function lockAccount(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -176,7 +178,10 @@ class AdminEmployeeController extends Controller
     /**
      * Show the Unlock employee view.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return mixed
      */
     public function unlock(Request $request, int $companyId, int $employeeId)
     {
@@ -213,10 +218,9 @@ class AdminEmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function unlockAccount(Request $request, int $companyId, int $employeeId)
+    public function unlockAccount(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -237,7 +241,10 @@ class AdminEmployeeController extends Controller
     /**
      * Show the Delete employee view.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return mixed
      */
     public function delete(Request $request, int $companyId, int $employeeId)
     {
@@ -274,10 +281,9 @@ class AdminEmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $employeeId)
+    public function destroy(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();

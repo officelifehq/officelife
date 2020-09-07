@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Company\Dashboard;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Jobs\UpdateDashboardPreference;
 use Illuminate\Support\Facades\Redirect;
@@ -22,31 +21,26 @@ class DashboardController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        switch (Auth::user()->default_dashboard_view) {
+        switch ($employee->default_dashboard_view) {
             case 'company':
                 $this->updateDashboard($employee, 'me');
                 return Redirect::route('dashboard.company', ['company' => $company->id]);
-                break;
 
             case 'team':
                 $this->updateDashboard($employee, 'team');
                 return Redirect::route('dashboard.team', ['company' => $company->id]);
-                break;
 
             case 'hr':
                 $this->updateDashboard($employee, 'hr');
                 return Redirect::route('dashboard.hr', ['company' => $company->id]);
-                break;
 
             case 'manager':
                 $this->updateDashboard($employee, 'manager');
                 return Redirect::route('dashboard.manager', ['company' => $company->id]);
-                break;
 
             default:
                 $this->updateDashboard($employee, 'company');
                 return Redirect::route('dashboard.me', ['company' => $company->id]);
-                break;
         }
     }
 

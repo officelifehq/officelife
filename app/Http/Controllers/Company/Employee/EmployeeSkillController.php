@@ -8,6 +8,7 @@ use App\Models\Company\Skill;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
 use App\Services\Company\Employee\Skill\RemoveSkillFromEmployee;
@@ -18,9 +19,9 @@ class EmployeeSkillController extends Controller
      * Search an existing skill based on the name.
      *
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function search(Request $request)
+    public function search(Request $request): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
@@ -58,10 +59,9 @@ class EmployeeSkillController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId, int $employeeId)
+    public function store(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
@@ -93,10 +93,10 @@ class EmployeeSkillController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @param int $skillId
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $employeeId, int $skillId)
+    public function destroy(Request $request, int $companyId, int $employeeId, int $skillId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();

@@ -14,10 +14,9 @@ class DashboardWorklogController extends Controller
      * Create a worklog.
      *
      * @param Request $request
-     *
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();

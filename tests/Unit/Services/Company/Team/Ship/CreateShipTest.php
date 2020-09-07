@@ -124,7 +124,7 @@ class CreateShipTest extends TestCase
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'team_id' => $team->id,
-                    'team_name' => $team->label,
+                    'team_name' => $team->name,
                     'ship_id' => $ship->id,
                     'ship_title' => $ship->title,
                 ]);

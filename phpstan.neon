@@ -2,12 +2,16 @@ includes:
     - ./vendor/nunomaduro/larastan/extension.neon
 parameters:
     level: 5
+    checkMissingIterableValueType: false
+    paths:
+        - app
     ignoreErrors:
-        - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\Response but returns [a-zA-Z0-9\\_]+\.#'
-        - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\JsonResponse but returns [a-zA-Z0-9\\_]+\.#'
+        - '#Unsafe usage of new static#'
+        - '#If condition is always true#'
+        - '#Negated boolean expression is always false.#'
         - '#Access to an undefined property Illuminate\\Contracts\\Auth\\MustVerifyEmail::\$email\.#'
         - '#Access to an undefined property Illuminate\\Support\\Fluent::\$[a-zA-Z0-9_]+\.#'
-        - '#Call to an undefined method Illuminate\\View\\View::with[a-zA-Z0-9\\_]+\(\)\.#'
+        - '#Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator supplied for foreach, only iterables are supported#'
         - '#Call to function is_null(.*?)#'
         - '#Call to an undefined method \(Illuminate\\Database\\Eloquent\\Collection&iterable<[a-zA-Z0-9\\_]+>\)\|Illuminate\\Database\\Eloquent\\Model::[a-zA-Z0-9\\_]+\(\)\.#'
         - '#Method [a-zA-Z0-9\\_:]+\(\) should return [a-zA-Z0-9\\_\|]+ but empty return statement found\.#'
@@ -18,11 +22,4 @@ parameters:
         - '#Call to an undefined method App\\Http\\Resources\\[a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\)\.#'
         - '#Call to an undefined method Illuminate\\Http\\Resources\\[a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\)\.#'
     excludes_analyse:
-        - */*/*/*/*/CreateTimeOff.php
-        - */*/*/*/*/EmployeeController.php
-        - */*/*/*/CheckCompany.php
-        - */*/*/*/*/AdminAuditController.php
-        - */*/*/*/*/TeamController.php
-        - */*/*/*/*/TeamLeadController.php
-        - */*/*/*/*/TeamLeadController.php
-        - */*/*/BaseService.php
+        - */*/*/Authenticate.php

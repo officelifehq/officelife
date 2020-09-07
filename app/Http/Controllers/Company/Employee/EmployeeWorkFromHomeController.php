@@ -25,7 +25,6 @@ class EmployeeWorkFromHomeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
      * @return Redirector|RedirectResponse|Response
      */
     public function index(Request $request, int $companyId, int $employeeId)
@@ -60,7 +59,6 @@ class EmployeeWorkFromHomeController extends Controller
      * @param int $companyId
      * @param int $employeeId
      * @param int $year
-     *
      * @return Redirector|RedirectResponse|Response
      */
     public function year(Request $request, int $companyId, int $employeeId, int $year)
@@ -94,7 +92,6 @@ class EmployeeWorkFromHomeController extends Controller
      * @param int $employeeId
      * @param int $year
      * @param int $month
-     *
      * @return Redirector|RedirectResponse|Response
      */
     public function month(Request $request, int $companyId, int $employeeId, int $year, int $month)
@@ -126,7 +123,6 @@ class EmployeeWorkFromHomeController extends Controller
      * @param Employee $employee
      * @param int $year
      * @param int|null $month
-     *
      * @return Response
      */
     private function buildPage(Employee $employee, int $year, int $month = null)

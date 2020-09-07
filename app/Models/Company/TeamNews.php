@@ -66,9 +66,6 @@ class TeamNews extends Model
     {
         return [
             'id' => $this->id,
-            'company' => [
-                'id' => $this->company_id,
-            ],
             'title' => $this->title,
             'content' => $this->content,
             'parsed_content' => StringHelper::parse($this->content),

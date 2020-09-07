@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Company;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Models\Company\Skill;
 use App\Helpers\InstanceHelper;
@@ -20,9 +21,9 @@ class SkillController extends Controller
     /**
      * All the skills in the company, for public use.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -40,10 +41,9 @@ class SkillController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $skillId
-     *
-     * @return JsonResponse
+     * @return Response
      */
-    public function show(Request $request, int $companyId, int $skillId)
+    public function show(Request $request, int $companyId, int $skillId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -70,10 +70,9 @@ class SkillController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $skillId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, int $companyId, int $skillId)
+    public function update(Request $request, int $companyId, int $skillId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -97,10 +96,9 @@ class SkillController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $skillId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $skillId)
+    public function destroy(Request $request, int $companyId, int $skillId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

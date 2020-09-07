@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\PaginatorHelper;
 use App\Models\Company\TeamNews;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamNewsCollection;
 use App\Services\Company\Team\TeamNews\CreateTeamNews;
@@ -23,8 +25,7 @@ class TeamNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function index(Request $request, int $companyId, int $teamId)
     {
@@ -57,8 +58,7 @@ class TeamNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function create(Request $request, int $companyId, int $teamId)
     {
@@ -83,10 +83,9 @@ class TeamNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId, int $teamId)
+    public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -112,10 +111,9 @@ class TeamNewsController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $newsId
-     *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function edit(Request $request, int $companyId, int $teamId, int $newsId)
+    public function edit(Request $request, int $companyId, int $teamId, int $newsId): Response
     {
         $team = Team::findOrFail($teamId);
         $news = TeamNews::where('team_id', $teamId)->findOrFail($newsId);
@@ -136,10 +134,9 @@ class TeamNewsController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $newsId
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function update(Request $request, int $companyId, int $teamId, int $newsId)
+    public function update(Request $request, int $companyId, int $teamId, int $newsId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -165,10 +162,9 @@ class TeamNewsController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $newsId
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $teamId, int $newsId)
+    public function destroy(Request $request, int $companyId, int $teamId, int $newsId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

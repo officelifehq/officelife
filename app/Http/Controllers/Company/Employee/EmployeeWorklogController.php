@@ -22,7 +22,6 @@ class EmployeeWorklogController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Inertia\Response
      */
     public function index(Request $request, int $companyId, int $employeeId)
@@ -57,7 +56,6 @@ class EmployeeWorklogController extends Controller
      * @param int $companyId
      * @param int $employeeId
      * @param int $year
-     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Inertia\Response
      */
     public function year(Request $request, int $companyId, int $employeeId, int $year)
@@ -91,7 +89,6 @@ class EmployeeWorklogController extends Controller
      * @param int $employeeId
      * @param int $year
      * @param int $month
-     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Inertia\Response
      */
     public function month(Request $request, int $companyId, int $employeeId, int $year, int $month)
@@ -123,7 +120,6 @@ class EmployeeWorklogController extends Controller
      * @param Employee $employee
      * @param int $year
      * @param int|null $month
-     *
      * @return \Inertia\Response
      */
     private function buildPage(Employee $employee, int $year, int $month = null)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
@@ -15,10 +16,9 @@ class AdminlandController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index(Request $request, int $companyId)
+    public function index(Request $request, int $companyId): Response
     {
         return Inertia::render('Adminland/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
