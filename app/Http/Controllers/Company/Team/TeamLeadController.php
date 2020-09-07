@@ -20,10 +20,9 @@ class TeamLeadController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
      * @return JsonResponse
      */
-    public function search(Request $request, int $companyId, int $teamId)
+    public function search(Request $request, int $companyId, int $teamId): JsonResponse
     {
         $potentialTeamLeads = Employee::search(
             $request->input('searchTerm'),
@@ -52,10 +51,9 @@ class TeamLeadController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
      * @return JsonResponse
      */
-    public function store(Request $request, int $companyId, int $teamId)
+    public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -88,10 +86,9 @@ class TeamLeadController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $teamLeadId
-     *
      * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $teamId, int $teamLeadId)
+    public function destroy(Request $request, int $companyId, int $teamId, int $teamLeadId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();

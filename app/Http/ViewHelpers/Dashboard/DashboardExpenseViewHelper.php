@@ -171,7 +171,7 @@ class DashboardExpenseViewHelper
      * Array containing information about the given expense.
      *
      * @param Expense $expense
-     * @return Collection|null
+     * @return array
      */
     public static function expense(Expense $expense): array
     {

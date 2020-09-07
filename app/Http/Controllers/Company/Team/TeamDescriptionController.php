@@ -13,15 +13,14 @@ use App\Services\Company\Team\Description\SetTeamDescription;
 class TeamDescriptionController extends Controller
 {
     /**
-    * Update the information about the team's description.
-    *
-    * @param Request $request
-    * @param int $companyId
-    * @param int $teamId
-    *
-    * @return JsonResponse
-    */
-    public function store(Request $request, $companyId, $teamId)
+     * Update the information about the team's description.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $teamId
+     * @return JsonResponse
+     */
+    public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

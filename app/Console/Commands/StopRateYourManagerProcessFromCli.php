@@ -31,10 +31,8 @@ class StopRateYourManagerProcessFromCli extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->option('force')) {
             StopRateYourManagerProcess::dispatch(true);

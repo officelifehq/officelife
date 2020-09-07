@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Company\Employee;
 
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class EmployeeSearchController extends Controller
 {
@@ -20,10 +20,9 @@ class EmployeeSearchController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return AnonymousResourceCollection
+     * @return JsonResponse
      */
-    public function hierarchy(Request $request, int $companyId, int $employeeId)
+    public function hierarchy(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $employee = Employee::findOrFail($employeeId);
 

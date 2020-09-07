@@ -25,7 +25,6 @@ class EmployeePerformanceController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
      * @return Response
      */
     public function show(Request $request, int $companyId, int $employeeId)

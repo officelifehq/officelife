@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Notification;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
@@ -17,9 +18,9 @@ class NotificationController extends Controller
      * @param Request $request
      * @param int $companyId
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index(Request $request, int $companyId)
+    public function index(Request $request, int $companyId): Response
     {
         $employee = InstanceHelper::getLoggedEmployee();
 

@@ -14,6 +14,8 @@ class CreateTask extends BaseService
 {
     protected array $data;
 
+    protected Task $task;
+
     protected Employee $employee;
 
     /**

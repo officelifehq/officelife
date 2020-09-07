@@ -31,10 +31,8 @@ class StartRateYourManagerProcessFromCli extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): void
     {
         StartRateYourManagerProcess::dispatch();
     }

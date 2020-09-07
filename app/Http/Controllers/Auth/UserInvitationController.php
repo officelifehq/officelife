@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Models\Company\Employee;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
@@ -19,11 +19,11 @@ class UserInvitationController extends Controller
      * Validates the invitation page.
      *
      * @param Request $request
-     * @param string  $invitationLink
+     * @param string $invitationLink
      *
      * @return Response
      */
-    public function check(Request $request, string $invitationLink)
+    public function check(Request $request, string $invitationLink): Response
     {
         try {
             $employee = Employee::where('invitation_link', $invitationLink)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Dashboard;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
@@ -22,9 +23,9 @@ class DashboardExpensesController extends Controller
     /**
      * Display all expenses in the company.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -52,9 +53,12 @@ class DashboardExpensesController extends Controller
     /**
      * Show the expense to validate.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $expenseId
+     * @return Response
      */
-    public function show(Request $request, int $companyId, int $expenseId)
+    public function show(Request $request, int $companyId, int $expenseId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -82,9 +86,12 @@ class DashboardExpensesController extends Controller
      * Only the employees with accountant role, and the employee who submitted
      * the expense, can see this.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $expenseId
+     * @return Response
      */
-    public function summary(Request $request, int $companyId, int $expenseId)
+    public function summary(Request $request, int $companyId, int $expenseId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -110,7 +117,10 @@ class DashboardExpensesController extends Controller
     /**
      * Accept the expense.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $expenseId
+     * @return mixed
      */
     public function accept(Request $request, int $companyId, int $expenseId)
     {
@@ -145,7 +155,10 @@ class DashboardExpensesController extends Controller
     /**
      * Reject the expense.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $expenseId
+     * @return mixed
      */
     public function reject(Request $request, int $companyId, int $expenseId)
     {

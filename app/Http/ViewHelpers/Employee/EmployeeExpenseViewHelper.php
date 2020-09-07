@@ -7,16 +7,18 @@ use App\Helpers\MoneyHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class EmployeeExpenseViewHelper
 {
     /**
      * Array containing the main statistics about the expenses of this employee.
      *
-     * @param $expenses
-     * @return Collection
+     * @param Employee $employee
+     * @param EloquentCollection $expenses
+     * @return array
      */
-    public static function stats(Employee $employee, $expenses): array
+    public static function stats(Employee $employee, EloquentCollection $expenses): array
     {
         $acceptedExpenses = $expenses->filter(function ($expense) {
             return $expense->status === Expense::ACCEPTED;
@@ -26,14 +28,14 @@ class EmployeeExpenseViewHelper
 
         $numberOfRejectedExpenses = $expenses->filter(function ($expense) {
             return $expense->status === Expense::REJECTED_BY_MANAGER ||
-                $expense->status === Expense::REJECTED_BY_ACCOUNTING
-            ;
+                $expense->status === Expense::REJECTED_BY_ACCOUNTING;
         })->count();
 
         $numberOfInProgressExpenses = $expenses->count() - $numberOfRejectedExpenses - $numberOfAcceptedExpenses;
 
         $reimbursedAmount = $acceptedExpenses->sum(function ($expense) {
             $amount = $expense->converted_amount ? $expense->converted_amount : $expense->amount;
+
             return $amount;
         });
 

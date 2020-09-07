@@ -29,8 +29,7 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {
@@ -84,10 +83,9 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
      * @return JsonResponse
      */
-    public function update(Request $request, $companyId, $employeeId)
+    public function update(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -159,7 +157,6 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
      * @return Response
      */
     public function address(Request $request, int $companyId, int $employeeId): Response
@@ -203,10 +200,9 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
      * @return JsonResponse
      */
-    public function updateAddress(Request $request, $companyId, $employeeId)
+    public function updateAddress(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

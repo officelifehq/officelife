@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\Morale\LogMorale;
 
@@ -13,9 +14,9 @@ class DashboardMoraleController extends Controller
      * Create a morale log.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();

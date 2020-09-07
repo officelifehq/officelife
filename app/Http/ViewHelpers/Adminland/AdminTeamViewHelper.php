@@ -11,7 +11,6 @@ class AdminTeamViewHelper
      * Array containing information about the teams.
      *
      * @param Collection $teams
-     *
      * @return Collection
      */
     public static function teams(Collection $teams): Collection
@@ -34,8 +33,7 @@ class AdminTeamViewHelper
     /**
      * Array containing information about a specific team.
      *
-     * @param Team $teams
-     *
+     * @param Team $team
      * @return array
      */
     public static function team(Team $team): array

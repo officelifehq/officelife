@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Hardware;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -22,9 +23,9 @@ class AdminHardwareController extends Controller
     /**
      * Show the list of hardware.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -41,9 +42,9 @@ class AdminHardwareController extends Controller
     /**
      * Show the Create hardware view.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function create()
+    public function create(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $employees = AdminHardwareViewHelper::employeesList($company);
@@ -59,9 +60,9 @@ class AdminHardwareController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId)
+    public function store(Request $request, int $companyId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -95,7 +96,7 @@ class AdminHardwareController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $hardwareId
-     * @return Response
+     * @return mixed
      */
     public function show(Request $request, int $companyId, int $hardwareId)
     {
@@ -135,7 +136,7 @@ class AdminHardwareController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $hardwareId
-     * @return Response
+     * @return mixed
      */
     public function edit(Request $request, int $companyId, int $hardwareId)
     {
@@ -172,9 +173,9 @@ class AdminHardwareController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $hardwareId
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, int $companyId, int $hardwareId)
+    public function update(Request $request, int $companyId, int $hardwareId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
@@ -234,9 +235,9 @@ class AdminHardwareController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $hardwareId
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $hardware)
+    public function destroy(Request $request, int $companyId, int $hardwareId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -244,7 +245,7 @@ class AdminHardwareController extends Controller
         $request = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
-            'hardware_id' => $hardware,
+            'hardware_id' => $hardwareId,
         ];
 
         (new DestroyHardware)->execute($request);
@@ -259,10 +260,9 @@ class AdminHardwareController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
      * @return Response
      */
-    public function available(Request $request, int $companyId)
+    public function available(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $hardware = $company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
@@ -280,10 +280,9 @@ class AdminHardwareController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
      * @return Response
      */
-    public function lent(Request $request, int $companyId)
+    public function lent(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $hardware = $company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
@@ -301,8 +300,9 @@ class AdminHardwareController extends Controller
      *
      * @param Request $request
      * @param int $companyId
+     * @return JsonResponse
      */
-    public function search(Request $request, int $companyId)
+    public function search(Request $request, int $companyId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
 

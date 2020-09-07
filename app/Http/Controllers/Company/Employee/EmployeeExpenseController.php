@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
@@ -22,8 +21,7 @@ class EmployeeExpenseController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return mixed
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {
@@ -69,8 +67,7 @@ class EmployeeExpenseController extends Controller
      * @param int $companyId
      * @param int $employeeId
      * @param int $expenseId
-     *
-     * @return Response
+     * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId, int $expenseId)
     {

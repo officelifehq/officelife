@@ -133,7 +133,7 @@ class DashboardTeamViewHelper
      */
     public static function ships(Team $team): Collection
     {
-        $ships = $team->ships()->get()->take(3);
+        $ships = $team->ships()->take(3)->get();
         $shipsCollection = collect([]);
         foreach ($ships as $ship) {
             $employees = $ship->employees;

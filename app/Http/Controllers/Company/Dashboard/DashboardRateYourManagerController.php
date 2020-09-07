@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Employee\RateYourManager\RateYourManager;
 use App\Services\Company\Employee\RateYourManager\AddCommentToRatingAboutManager;
@@ -12,8 +13,12 @@ class DashboardRateYourManagerController extends Controller
 {
     /**
      * Store the answer of the Rate your manager survey.
+     * @param Request $request
+     * @param int $companyId
+     * @param int $answerId
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId, int $answerId)
+    public function store(Request $request, int $companyId, int $answerId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -34,8 +39,12 @@ class DashboardRateYourManagerController extends Controller
 
     /**
      * Store the comment about the answer of the Rate your manager survey.
+     * @param Request $request
+     * @param int $companyId
+     * @param int $answerId
+     * @return JsonResponse
      */
-    public function storeComment(Request $request, int $companyId, int $answerId)
+    public function storeComment(Request $request, int $companyId, int $answerId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();

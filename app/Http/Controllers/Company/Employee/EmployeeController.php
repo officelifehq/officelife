@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\PronounCollection;
@@ -26,10 +27,9 @@ class EmployeeController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
      * @return Response
      */
-    public function index(Request $request, int $companyId)
+    public function index(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -66,8 +66,7 @@ class EmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return mixed
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {
@@ -166,10 +165,9 @@ class EmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function assignManager(Request $request, int $companyId, int $employeeId)
+    public function assignManager(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -205,10 +203,9 @@ class EmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function assignDirectReport(Request $request, int $companyId, int $employeeId)
+    public function assignDirectReport(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -246,10 +243,9 @@ class EmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function unassignManager(Request $request, int $companyId, int $employeeId)
+    public function unassignManager(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -275,10 +271,9 @@ class EmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $managerId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function unassignDirectReport(Request $request, int $companyId, int $managerId)
+    public function unassignDirectReport(Request $request, int $companyId, int $managerId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Team\Ship\CreateShip;
 use App\Services\Company\Team\Ship\DestroyShip;
@@ -22,10 +24,9 @@ class TeamRecentShipController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index(Request $request, int $companyId, int $teamId)
+    public function index(Request $request, int $companyId, int $teamId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -58,10 +59,9 @@ class TeamRecentShipController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function search(Request $request, int $companyId)
+    public function search(Request $request, int $companyId): JsonResponse
     {
         $potentialEmployees = Employee::search(
             $request->input('searchTerm'),
@@ -91,10 +91,9 @@ class TeamRecentShipController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function create(Request $request, int $companyId, int $teamId)
+    public function create(Request $request, int $companyId, int $teamId): Response
     {
         try {
             $team = Team::where('company_id', $companyId)
@@ -117,10 +116,9 @@ class TeamRecentShipController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId, int $teamId)
+    public function store(Request $request, int $companyId, int $teamId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -156,7 +154,7 @@ class TeamRecentShipController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
+     * @param int $recentShipId
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, int $companyId, int $teamId, int $recentShipId)
@@ -198,10 +196,9 @@ class TeamRecentShipController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $shipId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $teamId, int $shipId)
+    public function destroy(Request $request, int $companyId, int $teamId, int $shipId): JsonResponse
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
