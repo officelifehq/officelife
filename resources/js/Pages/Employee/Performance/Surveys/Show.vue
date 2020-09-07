@@ -74,12 +74,12 @@
         <!-- lists of employees surveyed -->
         <p class="fw5">{{ $t('employee.survey_detail_participants') }}</p>
         <div class="flex flex-wrap mb4">
-          <div v-for="employee in survey.direct_reports" :key="employee.id" class="mr3 mb3">
+          <div v-for="currentEmployee in survey.direct_reports" :key="currentEmployee.id" class="mr3 mb3">
             <small-name-and-avatar
-              v-if="employee.id"
-              :name="employee.name"
-              :avatar="employee.avatar"
-              :url="employee.url"
+              v-if="currentEmployee.id"
+              :name="currentEmployee.name"
+              :avatar="currentEmployee.avatar"
+              :url="currentEmployee.url"
               :classes="''"
               :size="'22px'"
               :top="'0px'"

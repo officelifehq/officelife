@@ -19,6 +19,15 @@ input[type=checkbox] {
   padding: 3px 4px;
 }
 
+.hover-effect:hover {
+  background-color: yellow;
+}
+
+.action-item {
+  top: -6px;
+  right: 0;
+}
+
 </style>
 
 <template>
@@ -32,17 +41,29 @@ input[type=checkbox] {
       :required="required"
       :name="name"
       :data-cy="datacy"
-      @change="$emit('change', updatedValue)"
+      @change="emitValue()"
     />
-    <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="id">
+
+    <!-- content of the checkbox -->
+    <label v-if="label" :class="editable ? 'hover-effect' : ''" :for="id" class="fw4 lh-copy f5 pointer di relative">
+      <div class="absolute action-item">
+        <ul class="list">
+          <li class="dib mr2">Trash</li>
+          <li class="dib mr2">Edit</li>
+        </ul>
+      </div>
       <span v-html="label"></span>
       <span v-if="!required" class="optional-badge f7">
         {{ $t('app.optional') }}
       </span>
     </label>
+
+    <!-- display error message, if any -->
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
+
+    <!-- help text, if any -->
     <p v-if="help" class="f7 mb3 lh-title">
       {{ help }}
     </p>
@@ -93,6 +114,10 @@ export default {
       type: String,
       default: 'mb3',
     },
+    editable: {
+      type: Boolean,
+      default: false,
+    },
     errors: {
       type: Array,
       default: () => [],
@@ -119,6 +144,10 @@ export default {
     focus() {
       this.$refs.input.focus();
     },
+
+    emitValue() {
+      //this.$emit('change', this.updatedValue);
+    }
   },
 };
 </script>
