@@ -18,7 +18,7 @@
 
       <one-on-one-with-manager
         :employee="employee"
-        :rate-your-manager-answers="rateYourManagerAnswers"
+        :one-on-ones="oneOnOnes"
       />
 
       <rate-your-manager
@@ -147,6 +147,10 @@ export default {
       default: null,
     },
     rateYourManagerAnswers: {
+      type: Array,
+      default: null,
+    },
+    oneOnOnes: {
       type: Array,
       default: null,
     },

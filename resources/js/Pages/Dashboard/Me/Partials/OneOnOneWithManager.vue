@@ -24,6 +24,12 @@
     top: 2px;
   }
 }
+
+.add-item-section {
+  margin-left: 24px;
+  top: 5px;
+  background-color: #f5f5f5;
+}
 </style>
 
 <template>
@@ -32,7 +38,7 @@
       <div class="cf mw7 center mb2 fw5 relative">
         <span class="mr1">
           🏔
-        </span> One on One with your manager
+        </span> {{ $t('dashboard.one_on_ones_title') }}
 
         <help :url="$page.help_links.manager_rate_manager" />
       </div>
@@ -41,27 +47,21 @@
         <img loading="lazy" src="/img/streamline-icon-work-desk-sofa-1-3@140x140.png" width="90" alt="meeting" class="judge absolute top-1 left-1" />
 
         <ul class="pl6 pb3 pt3 pr3 ma0">
-          <li class="flex justify-between items-center br bl bb bb-gray bb-gray-hover pa3 entry-item">
+          <li v-for="manager in oneOnOnes" :key="manager.id" class="flex justify-between items-center br bl bb bb-gray bb-gray-hover pa3 entry-item">
             <!-- identity -->
             <div>
               <span class="pl3 db relative team-member">
-                <img loading="lazy" src="https://api.adorable.io/avatars/200/1ba09752-922e-45eb-b1b1-0500fc2a1396.png" alt="avatar" class="br-100 absolute avatar" />
-                <a href="https://officelife.test/1/employees/10" class="mb2">
-                  Toby Flenderson
-                </a>
+                <img loading="lazy" :src="manager.avatar" alt="avatar" class="br-100 absolute avatar" />
+                <inertia-link :href="manager.url" class="mb2">{{ manager.name }}</inertia-link>
                 <span class="title db f7 mt1">
-                  H.R Rep
+                  {{ manager.position }}
                 </span>
               </span>
             </div>
 
             <!-- call to action -->
             <div class="tr">
-              <inertia-link href="#" class="btn dib-l db mb1-ns">See details</inertia-link>
-              <ul class="list pl0 f6 gray">
-                <li class="di mr2">3 talking point</li>
-                <li class="di">3 actions items</li>
-              </ul>
+              <inertia-link href="#" class="btn dib-l db">{{ $t('dashboard.one_on_ones_cta') }}</inertia-link>
             </div>
           </li>
         </ul>
@@ -69,11 +69,11 @@
 
       <div class="cf mw7 center br3 mb3 bg-white box relative pa3">
         <!-- title -->
-        <h2 class="tc">
+        <h2 class="tc fw5 mt0">
           1 on 1 between
         </h2>
-        <ul class="tc list pl0">
-          <li class="di">
+        <ul class="tc list pl0 mb4">
+          <li class="di tl">
             <span class="pl3 dib relative team-member">
               <img loading="lazy" src="https://api.adorable.io/avatars/200/1ba09752-922e-45eb-b1b1-0500fc2a1396.png" alt="avatar" class="br-100 absolute avatar" />
               <a href="https://officelife.test/1/employees/10" class="mb2">
@@ -84,10 +84,10 @@
               </span>
             </span>
           </li>
-          <li class="di">
+          <li class="di f6 mh3">
             and
           </li>
-          <li class="di">
+          <li class="di tl">
             <span class="pl3 dib relative team-member">
               <img loading="lazy" src="https://api.adorable.io/avatars/200/1ba09752-922e-45eb-b1b1-0500fc2a1396.png" alt="avatar" class="br-100 absolute avatar" />
               <a href="https://officelife.test/1/employees/10" class="mb2">
@@ -101,14 +101,14 @@
         </ul>
 
         <!-- navigation -->
-        <div class="flex justify-between">
+        <div class="flex justify-between mb4">
           <div class="">
             <span class="db">
               Previous entry
             </span>
             <span>Aug 23, 2020</span>
           </div>
-          <div class="">
+          <div class="f4">
             Aug 23, 2020
           </div>
           <div class="">
@@ -120,41 +120,14 @@
         </div>
 
         <!-- content -->
-        <h3>Talking points</h3>
-        <p>Things that need to be adressed during the meeting</p>
-        <ul>
+        <h3 class="fw5 mb2">
+          Talking points
+        </h3>
+        <p class="f6 gray mt1">Things that need to be adressed during the meeting</p>
+        <ul class="list pl0 mb2">
           <li>
             <checkbox
-              :id="'home'"
-              v-model="form.content"
-              :datacy="'task-complete-cta'"
-              :label="'sdafs'"
-              :extra-class-upper-div="'mb0 relative'"
-              :classes="'mb0'"
-              :required="true"
-              @change="updateStatus($event)"
-            />
-          </li>
-          <li>
-            <checkbox
-              :id="'home'"
-              v-model="form.content"
-              :datacy="'task-complete-cta'"
-              :label="'sdafs'"
-              :extra-class-upper-div="'mb0 relative'"
-              :classes="'mb0'"
-              :required="true"
-              @change="updateStatus($event)"
-            />
-          </li>
-        </ul>
-
-        <h3>Action items</h3>
-        <p>If you have decided something or need to follow up next time, enter the points here.</p>
-        <ul>
-          <li>
-            <checkbox
-              :id="'home'"
+              :id="'1'"
               v-model="form.content"
               :datacy="'task-complete-cta'"
               :label="'sdafs'"
@@ -167,13 +140,50 @@
           </li>
           <li>
             <checkbox
-              :id="'home'"
+              :id="'1'"
               v-model="form.content"
               :datacy="'task-complete-cta'"
               :label="'sdafs'"
               :extra-class-upper-div="'mb0 relative'"
               :classes="'mb0'"
               :required="true"
+              :editable="true"
+              @change="updateStatus($event)"
+            />
+          </li>
+          <li class="bg-gray add-item-section ph2 mt1 pv1 br1">
+            <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6">Add an item</span>
+          </li>
+        </ul>
+
+        <h3 class="fw5 mb2">
+          Action items
+        </h3>
+        <p class="f6 gray mt1">If you have decided something or need to follow up next time, enter the points here.</p>
+        <ul class="list pl0 mb2">
+          <li>
+            <checkbox
+              :id="'1'"
+              v-model="form.content"
+              :datacy="'task-complete-cta'"
+              :label="'sdafs'"
+              :extra-class-upper-div="'mb0 relative'"
+              :classes="'mb0'"
+              :required="true"
+              :editable="true"
+              @change="updateStatus($event)"
+            />
+          </li>
+          <li>
+            <checkbox
+              :id="'1'"
+              v-model="form.content"
+              :datacy="'task-complete-cta'"
+              :label="'sdafs'"
+              :extra-class-upper-div="'mb0 relative'"
+              :classes="'mb0'"
+              :required="true"
+              :editable="true"
               @change="updateStatus($event)"
             />
           </li>
@@ -184,7 +194,7 @@
 </template>
 
 <script>
-import Checkbox from '@/Shared/Checkbox';
+import Checkbox from '@/Shared/EditableCheckbox';
 import Help from '@/Shared/Help';
 
 export default {
@@ -198,7 +208,7 @@ export default {
       type: Object,
       default: null,
     },
-    rateYourManagerAnswers: {
+    oneOnOnes: {
       type: Array,
       default: null,
     },

@@ -226,4 +226,52 @@ class DashboardMeViewHelperTest extends TestCase
         $this->assertArrayHasKey('manager_name', $collection->toArray()[0]);
         $this->assertArrayHasKey('deadline', $collection->toArray()[0]);
     }
+
+    /** @test */
+    public function it_gets_a_collection_of_managers(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $jim = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $jim->id,
+            'manager_id' => $dwight->id,
+        ]);
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $jim->id,
+            'manager_id' => $michael->id,
+        ]);
+
+        $collection = DashboardMeViewHelper::oneOnOnes($jim);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => 'Dwight Schrute',
+                    'avatar' => $dwight->avatar,
+                    'position' => $dwight->position->title,
+                    'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
+                ],
+                1 => [
+                    'id' => $michael->id,
+                    'name' => 'Dwight Schrute',
+                    'avatar' => $michael->avatar,
+                    'position' => $michael->position->title,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
 }

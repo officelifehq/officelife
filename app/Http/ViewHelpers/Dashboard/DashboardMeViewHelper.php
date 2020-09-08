@@ -193,4 +193,30 @@ class DashboardMeViewHelper
 
         return $answersCollection;
     }
+
+    /**
+     * Get the one on ones with the manager(s) if they exist.
+     *
+     * @return Collection
+     */
+    public static function oneOnOnes(Employee $employee): Collection
+    {
+        $managers = $employee->getListOfManagers();
+        $managersCollection = collect([]);
+
+        foreach ($managers as $manager) {
+            $managersCollection->push([
+                'id' => $manager->id,
+                'name' => $manager->name,
+                'avatar' => $manager->avatar,
+                'position' => (! $manager->position) ? null : $manager->position->title,
+                'url' => route('employees.show', [
+                    'company' => $manager->company,
+                    'employee' => $manager,
+                ]),
+            ]);
+        }
+
+        return $managersCollection;
+    }
 }

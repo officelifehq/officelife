@@ -19,10 +19,19 @@ input[type=checkbox] {
   padding: 3px 4px;
 }
 
+.hover-effect:hover {
+  background-color: yellow;
+}
+
+.action-item {
+  top: -6px;
+  right: 72px;
+}
+
 </style>
 
 <template>
-  <div :class="extraClassUpperDiv">
+  <div :class="extraClassUpperDiv" @mouseover="showHover()" @mouseleave="hover = false">
     <input
       :id="id"
       v-model="updatedValue"
@@ -32,17 +41,31 @@ input[type=checkbox] {
       :required="required"
       :name="name"
       :data-cy="datacy"
-      @change="$emit('change', updatedValue)"
+      @change="emitValue()"
     />
-    <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="id">
+
+    <!-- content of the checkbox -->
+    <label v-if="label" :class="editable ? 'hover-effect' : ''" :for="id" class="fw4 lh-copy f5 pointer di relative">
+      <div class="action-item absolute nowrap f6 bg-white ph1 pv1 br3" :class="hover ? 'di' : 'dn'">
+        <span class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer">
+          Edit
+        </span>
+        <span class="di bb b--dotted bt-0 bl-0 br-0 pointer c-delete">
+          Trash
+        </span>
+      </div>
       <span v-html="label"></span>
       <span v-if="!required" class="optional-badge f7">
         {{ $t('app.optional') }}
       </span>
     </label>
+
+    <!-- display error message, if any -->
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
+
+    <!-- help text, if any -->
     <p v-if="help" class="f7 mb3 lh-title">
       {{ help }}
     </p>
@@ -93,6 +116,10 @@ export default {
       type: String,
       default: 'mb3',
     },
+    editable: {
+      type: Boolean,
+      default: false,
+    },
     errors: {
       type: Array,
       default: () => [],
@@ -102,6 +129,7 @@ export default {
   data() {
     return {
       updatedValue: false,
+      hover: false,
     };
   },
 
@@ -119,6 +147,16 @@ export default {
     focus() {
       this.$refs.input.focus();
     },
+
+    emitValue() {
+      //this.$emit('change', this.updatedValue);
+    },
+
+    showHover() {
+      if (this.editable) {
+        this.hover = true;
+      }
+    }
   },
 };
 </script>

@@ -91,6 +91,9 @@ return [
     'accountant_employee' => 'Employee:',
     'accountant_manager' => 'Manager:',
 
+    'one_on_ones_title' => 'One on One with your manager',
+    'one_on_ones_cta' => 'Participate',
+
     'manager_expense_title' => 'Expenses that needs your approval',
     'manager_expense_blank_state' => 'You don’t have any expenses to validate.',
     'manager_expense_description' => 'As a manager, you need to approve the following expenses before they are reiumbursed.',

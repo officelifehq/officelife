@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company\Dashboard;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
