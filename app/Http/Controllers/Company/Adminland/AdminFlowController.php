@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Company\Flow;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
@@ -18,12 +19,7 @@ use App\Http\Resources\Company\Flow\Flow as FlowResource;
 
 class AdminFlowController extends Controller
 {
-    /**
-     * Show the list of positions.
-     *
-     * @return Response
-     */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $flows = FlowResource::collection(
@@ -42,8 +38,7 @@ class AdminFlowController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $flowId
-     *
-     * @return Response
+     * @return mixed
      */
     public function show(Request $request, int $companyId, int $flowId)
     {
@@ -65,9 +60,9 @@ class AdminFlowController extends Controller
     /**
      * Show the Create flow view.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Adminland/Flow/Create', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -79,10 +74,9 @@ class AdminFlowController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId)
+    public function store(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

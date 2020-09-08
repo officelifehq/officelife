@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +18,7 @@ class RegisterController extends Controller
     /**
      * Show the register page.
      *
-     * @return Response
+     * @return mixed
      */
     public function index()
     {
@@ -36,10 +35,9 @@ class RegisterController extends Controller
      * Store the user.
      *
      * @param Request $request
-     *
      * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $email = $request->input('email');
         $password = $request->input('password');

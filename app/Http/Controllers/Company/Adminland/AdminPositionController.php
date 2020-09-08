@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\PositionCollection;
@@ -18,9 +19,9 @@ class AdminPositionController extends Controller
     /**
      * Show the list of positions.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $positions = $company->positions()->orderBy('title', 'asc')->get();
@@ -37,10 +38,9 @@ class AdminPositionController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, int $companyId)
+    public function store(Request $request, int $companyId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
@@ -64,10 +64,9 @@ class AdminPositionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $positionId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, int $companyId, int $positionId)
+    public function update(Request $request, int $companyId, int $positionId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -91,10 +90,9 @@ class AdminPositionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $positionId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $positionId)
+    public function destroy(Request $request, int $companyId, int $positionId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

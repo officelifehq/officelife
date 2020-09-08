@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Models\Company\CompanyNews;
 use App\Http\Controllers\Controller;
@@ -20,9 +21,9 @@ class AdminCompanyNewsController extends Controller
     /**
      * Show the list of company news.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $news = $company->news()->with('author')->orderBy('created_at', 'desc')->get();
@@ -38,9 +39,9 @@ class AdminCompanyNewsController extends Controller
     /**
      * Show the Create news view.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Adminland/CompanyNews/Create', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -52,10 +53,9 @@ class AdminCompanyNewsController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, $companyId)
+    public function store(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
@@ -80,10 +80,9 @@ class AdminCompanyNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $newsId
-     *
      * @return Response
      */
-    public function edit(Request $request, int $companyId, int $newsId)
+    public function edit(Request $request, int $companyId, int $newsId): Response
     {
         try {
             $news = CompanyNews::where('company_id', $companyId)
@@ -104,10 +103,9 @@ class AdminCompanyNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $newsId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, $companyId, $newsId)
+    public function update(Request $request, int $companyId, int $newsId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
@@ -133,10 +131,9 @@ class AdminCompanyNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $companyNewsId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, $companyId, $companyNewsId)
+    public function destroy(Request $request, int $companyId, int $companyNewsId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();

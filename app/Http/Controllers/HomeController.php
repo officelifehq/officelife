@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
-use Illuminate\Http\Response;
+use Inertia\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 
@@ -14,7 +14,7 @@ class HomeController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         Cache::forget('cachedCompanyObject_'.Auth::user()->id);
         Cache::forget('cachedEmployeeObject_'.Auth::user()->id);

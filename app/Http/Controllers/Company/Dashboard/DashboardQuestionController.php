@@ -17,10 +17,9 @@ class DashboardQuestionController extends Controller
      * Answer the question.
      *
      * @param Request $request
-     *
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -61,10 +60,9 @@ class DashboardQuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $answerId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, int $companyId, int $answerId)
+    public function update(Request $request, int $companyId, int $answerId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
@@ -98,10 +96,9 @@ class DashboardQuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $answerId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $answerId)
+    public function destroy(Request $request, int $companyId, int $answerId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();

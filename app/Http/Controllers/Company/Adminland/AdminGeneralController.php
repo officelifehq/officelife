@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Adminland\Company\RenameCompany;
@@ -19,11 +20,11 @@ class AdminGeneralController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $information = AdminGeneralViewHelper::information($company);
-        $currencies = AdminGeneralViewHelper::currencies($company);
+        $currencies = AdminGeneralViewHelper::currencies();
 
         return Inertia::render('Adminland/General/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -37,10 +38,9 @@ class AdminGeneralController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function rename(Request $request, $companyId)
+    public function rename(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
@@ -63,10 +63,9 @@ class AdminGeneralController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function currency(Request $request, $companyId)
+    public function currency(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();

@@ -194,12 +194,14 @@ class AdminHardwareViewHelper
         // now preparing the sentences
         $logsCollection = collect([]);
         foreach ($logs as $log) {
+            $sentence = '';
+
             if ($log->action == 'hardware_created' || $log->action == 'hardware_updated') {
                 $sentence = trans('account.hardware_log_'.$log->action, ['name' => $log->object->{'hardware_name'}]);
             }
 
             if ($log->action == 'hardware_lent' || $log->action == 'hardware_regained') {
-                $sentence = trans('account.hardware_log_' . $log->action, ['name' => $log->object->{'employee_name'}]);
+                $sentence = trans('account.hardware_log_'.$log->action, ['name' => $log->object->{'employee_name'}]);
             }
 
             $logsCollection->push([

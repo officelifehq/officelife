@@ -8,6 +8,7 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\DirectReport;
@@ -22,7 +23,7 @@ class DashboardManagerController extends Controller
     /**
      * All information that the manager needs to validate.
      *
-     * @return \Inertia\Response
+     * @return mixed
      */
     public function index()
     {
@@ -65,6 +66,10 @@ class DashboardManagerController extends Controller
 
     /**
      * Check that the current employee has access to this method.
+     * @param Company $company
+     * @param int $expenseId
+     * @param Employee $employee
+     * @return mixed
      */
     private function canAccess(Company $company, int $expenseId, Employee $employee)
     {
@@ -102,9 +107,12 @@ class DashboardManagerController extends Controller
     /**
      * Display the expense.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $expenseId
+     * @return Response
      */
-    public function showExpense(Request $request, int $companyId, int $expenseId)
+    public function showExpense(Request $request, int $companyId, int $expenseId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -123,9 +131,12 @@ class DashboardManagerController extends Controller
     /**
      * Accept the expense.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $expenseId
+     * @return JsonResponse
      */
-    public function accept(Request $request, int $companyId, int $expenseId)
+    public function accept(Request $request, int $companyId, int $expenseId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -148,9 +159,12 @@ class DashboardManagerController extends Controller
     /**
      * Reject the expense.
      *
-     * @return \Inertia\Response
+     * @param Request $request
+     * @param int $companyId
+     * @param int $expenseId
+     * @return JsonResponse
      */
-    public function reject(Request $request, int $companyId, int $expenseId)
+    public function reject(Request $request, int $companyId, int $expenseId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();

@@ -20,7 +20,6 @@ class EmployeeSurveysController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
      * @return Response
      */
     public function index(Request $request, int $companyId, int $employeeId)
@@ -62,7 +61,7 @@ class EmployeeSurveysController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
+     * @param int $surveyId
      * @return Response
      */
     public function show(Request $request, int $companyId, int $employeeId, int $surveyId)

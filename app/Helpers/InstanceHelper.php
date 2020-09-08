@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -12,7 +11,7 @@ class InstanceHelper
     /**
      * Return the employee as set in the cache.
      *
-     * @return Company
+     * @return mixed
      */
     public static function getLoggedCompany()
     {
@@ -24,7 +23,7 @@ class InstanceHelper
     /**
      * Return the employee as set in the cache.
      *
-     * @return Employee
+     * @return mixed
      */
     public static function getLoggedEmployee()
     {

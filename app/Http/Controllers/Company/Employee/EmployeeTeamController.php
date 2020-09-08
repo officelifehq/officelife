@@ -20,7 +20,6 @@ class EmployeeTeamController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     *
      * @return Collection
      */
     public function store(Request $request, int $companyId, int $employeeId)
@@ -46,7 +45,6 @@ class EmployeeTeamController extends Controller
      * @param int $companyId
      * @param int $employeeId
      * @param int $teamId
-     *
      * @return Collection
      */
     public function destroy(Request $request, int $companyId, int $employeeId, int $teamId)

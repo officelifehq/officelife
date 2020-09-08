@@ -62,10 +62,10 @@ class GetGPSCoordinate extends BaseService
      *
      * @return string|null
      */
-    private function buildQuery(Place $place)
+    private function buildQuery(Place $place): ?string
     {
         if (is_null(config('officelife.location_iq_api_key'))) {
-            return;
+            return null;
         }
 
         $query = http_build_query([
@@ -84,18 +84,18 @@ class GetGPSCoordinate extends BaseService
      *
      * @return Place|null
      */
-    private function query(Place $place)
+    private function query(Place $place): ?Place
     {
         $query = $this->buildQuery($place);
 
         if (is_null($query)) {
-            return;
+            return null;
         }
 
         try {
             $response = $this->client->request('GET', $query);
         } catch (ClientException $e) {
-            return;
+            return null;
         }
 
         $response = json_decode($response->getBody());

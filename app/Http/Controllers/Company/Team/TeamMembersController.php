@@ -6,6 +6,7 @@ use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Http\ViewHelpers\Team\TeamMembersViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -20,10 +21,9 @@ class TeamMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index(Request $request, int $companyId, int $teamId)
+    public function index(Request $request, int $companyId, int $teamId): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -60,10 +60,9 @@ class TeamMembersController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $employeeId
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function attach(Request $request, int $companyId, int $teamId, int $employeeId)
+    public function attach(Request $request, int $companyId, int $teamId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -88,10 +87,9 @@ class TeamMembersController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $employeeId
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function detach(Request $request, int $companyId, int $teamId, int $employeeId)
+    public function detach(Request $request, int $companyId, int $teamId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

@@ -13,7 +13,7 @@ class DashboardManagerViewHelper
     /**
      * Get all the expenses the manager needs to validate.
      *
-     * @var Collection $directReports
+     * @var Collection
      * @return SupportCollection|null
      */
     public static function pendingExpenses(Collection $directReports): ?SupportCollection
@@ -61,7 +61,7 @@ class DashboardManagerViewHelper
      * Array containing information about the given expense.
      *
      * @param Expense $expense
-     * @return Collection|null
+     * @return array
      */
     public static function expense(Expense $expense): array
     {

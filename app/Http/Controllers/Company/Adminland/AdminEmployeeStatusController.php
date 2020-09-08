@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\EmployeeStatusCollection;
@@ -20,7 +21,7 @@ class AdminEmployeeStatusController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $employeeStatuses = $company->employeeStatuses()->orderBy('name', 'asc')->get();
@@ -38,10 +39,9 @@ class AdminEmployeeStatusController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request, $companyId)
+    public function store(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -64,10 +64,9 @@ class AdminEmployeeStatusController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeStatusId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, $companyId, $employeeStatusId)
+    public function update(Request $request, $companyId, int $employeeStatusId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -91,10 +90,9 @@ class AdminEmployeeStatusController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeStatusId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy(Request $request, $companyId, $employeeStatusId)
+    public function destroy(Request $request, int $companyId, int $employeeStatusId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

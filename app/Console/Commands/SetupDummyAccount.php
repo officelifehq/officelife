@@ -71,7 +71,7 @@ class SetupDummyAccount extends Command
     protected Employee $nate;
     protected Employee $glenn;
     protected Employee $philip;
-    protected Employee $Debra;
+    protected Employee $debra;
 
     // The employee statuses
     protected EmployeeStatus $employeeStatusPartTime;
@@ -151,10 +151,8 @@ class SetupDummyAccount extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): void
     {
         $this->start();
         $this->wipeAndMigrateDB();
@@ -962,7 +960,7 @@ class SetupDummyAccount extends Command
         $this->employees = Employee::all();
         foreach ($this->employees as $employee) {
             $twoYearsAgo = Carbon::now()->subYears(2);
-            while (! $twoYearsAgo->isTomorrow(Carbon::now())) {
+            while (! $twoYearsAgo->isTomorrow()) {
                 if ($twoYearsAgo->isSaturday() || $twoYearsAgo->isSunday()) {
                     $twoYearsAgo->addDay();
                     continue;
@@ -1346,6 +1344,7 @@ class SetupDummyAccount extends Command
 
                 $employees = $manager->getListOfDirectReports();
                 foreach ($employees as $employee) {
+                    $rating = RateYourManagerAnswer::BAD;
                     switch (rand(1, 3)) {
                         case 1:
                             $rating = RateYourManagerAnswer::BAD;

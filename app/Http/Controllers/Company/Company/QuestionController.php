@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Company\Company;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\PaginatorHelper;
 use App\Models\Company\Question;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -21,9 +21,9 @@ class QuestionController extends Controller
     /**
      * All the questions in the company, for public use.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -41,8 +41,7 @@ class QuestionController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $questionId
-     *
-     * @return JsonResponse
+     * @return mixed
      */
     public function show(Request $request, int $companyId, int $questionId)
     {
@@ -76,8 +75,7 @@ class QuestionController extends Controller
      * @param  int $companyId
      * @param  int $questionId
      * @param  int $teamId
-     *
-     * @return JsonResponse
+     * @return mixed
      */
     public function team(Request $request, int $companyId, int $questionId, int $teamId)
     {

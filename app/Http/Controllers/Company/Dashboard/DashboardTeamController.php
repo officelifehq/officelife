@@ -9,6 +9,7 @@ use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
@@ -22,8 +23,9 @@ class DashboardTeamController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $teamId
+     * @param int|null $teamId
      * @param mixed $requestedDate
+     * @return mixed
      */
     public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null)
     {
@@ -156,9 +158,9 @@ class DashboardTeamController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param mixed $requestedDate
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function worklogDetails(Request $request, int $companyId, int $teamId, $requestedDate)
+    public function worklogDetails(Request $request, int $companyId, int $teamId, $requestedDate): JsonResponse
     {
         $company = InstanceHelper::getLoggedCompany();
         $requestedDate = Carbon::parse($requestedDate);

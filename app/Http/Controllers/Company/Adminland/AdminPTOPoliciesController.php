@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\CompanyPTOPolicy;
@@ -18,9 +19,9 @@ class AdminPTOPoliciesController extends Controller
     /**
      * Show the list of company news.
      *
-     * @return \Inertia\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
         $policies = $company->ptoPolicies()->orderBy('year', 'asc')->get();
@@ -39,10 +40,9 @@ class AdminPTOPoliciesController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $ptoPolicyId
-     *
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, int $companyId, int $ptoPolicyId)
+    public function update(Request $request, int $companyId, int $ptoPolicyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
@@ -69,10 +69,9 @@ class AdminPTOPoliciesController extends Controller
      *
      * @param int $companyId
      * @param int $companyPTOPolicyId
-     *
      * @return array
      */
-    public function getHolidays(int $companyId, int $companyPTOPolicyId)
+    public function getHolidays(int $companyId, int $companyPTOPolicyId): array
     {
         $ptoPolicy = CompanyPTOPolicy::find($companyPTOPolicyId);
 

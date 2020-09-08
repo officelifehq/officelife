@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -21,10 +21,9 @@ class TeamController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     *
      * @return Response
      */
-    public function index(Request $request, int $companyId)
+    public function index(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -54,7 +53,6 @@ class TeamController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     *
      * @return Response
      */
     public function show(Request $request, int $companyId, int $teamId)
@@ -76,7 +74,7 @@ class TeamController extends Controller
         $recentShipsCollection = TeamShowViewHelper::recentShips($team);
 
         // news
-        $news = $team->news()->with('author')->orderBy('created_at', 'desc')->get()->take(3);
+        $news = $team->news()->with('author')->orderBy('created_at', 'desc')->take(3)->get();
         $newsCollection = TeamNewsCollection::prepare($news);
 
         // does the current logged user belongs to the team?
