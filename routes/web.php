@@ -67,6 +67,11 @@ Route::middleware(['auth'])->group(function () {
             // rate your manager
             Route::post('manager/rate/{answer}', 'Company\\Dashboard\\DashboardRateYourManagerController@store');
             Route::post('manager/rate/{answer}/comment', 'Company\\Dashboard\\DashboardRateYourManagerController@storeComment');
+
+            // details of one on ones
+            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
+                Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardEmployeeOneOnOneController@show')->name('employees.show.oneonones');
+            });
         });
 
         Route::prefix('employees')->group(function () {
