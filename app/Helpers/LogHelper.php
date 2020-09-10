@@ -716,6 +716,28 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'one_on_one_talking_point_destroyed') {
+            $sentence = trans('account.log_one_on_one_talking_point_destroyed', [
+                'one_on_one_entry_id' => $log->object->{'one_on_one_entry_id'},
+                'happened_at' => $log->object->{'happened_at'},
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'manager_id' => $log->object->{'manager_id'},
+                'manager_name' => $log->object->{'manager_name'},
+            ]);
+        }
+
+        if ($log->action == 'one_on_one_note_destroyed') {
+            $sentence = trans('account.log_one_on_one_note_destroyed', [
+                'one_on_one_entry_id' => $log->object->{'one_on_one_entry_id'},
+                'happened_at' => $log->object->{'happened_at'},
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+                'manager_id' => $log->object->{'manager_id'},
+                'manager_name' => $log->object->{'manager_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -1082,6 +1104,36 @@ class LogHelper
 
         if ($log->action == 'one_on_one_note_created') {
             $sentence = trans('account.employee_log_one_on_one_note_created', [
+                'happened_at' => $log->object->{'happened_at'},
+                'one_on_one_entry_id' => $log->object->{'one_on_one_entry_id'},
+                'one_on_one_note_id' => $log->object->{'one_on_one_note_id'},
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'one_on_one_talking_point_destroyed') {
+            $sentence = trans('account.employee_log_one_on_one_talking_point_destroyed', [
+                'happened_at' => $log->object->{'happened_at'},
+                'one_on_one_entry_id' => $log->object->{'one_on_one_entry_id'},
+                'one_on_one_note_id' => $log->object->{'one_on_one_note_id'},
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'one_on_one_action_item_destroyed') {
+            $sentence = trans('account.employee_log_one_on_one_action_item_destroyed', [
+                'happened_at' => $log->object->{'happened_at'},
+                'one_on_one_entry_id' => $log->object->{'one_on_one_entry_id'},
+                'one_on_one_note_id' => $log->object->{'one_on_one_note_id'},
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'one_on_one_note_destroyed') {
+            $sentence = trans('account.employee_log_one_on_one_note_destroyed', [
                 'happened_at' => $log->object->{'happened_at'},
                 'one_on_one_entry_id' => $log->object->{'one_on_one_entry_id'},
                 'one_on_one_note_id' => $log->object->{'one_on_one_note_id'},

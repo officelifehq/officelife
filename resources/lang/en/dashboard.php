@@ -93,6 +93,10 @@ return [
 
     'one_on_ones_title' => 'One on One with your manager',
     'one_on_ones_cta' => 'Participate',
+    'one_on_ones_talking_point_title' => 'Talking points',
+    'one_on_ones_talking_point_desc' => 'Things that need to be adressed during the meeting.',
+    'one_on_ones_action_item_title' => 'Action items',
+    'one_on_ones_action_item_desc' => 'If you have decided something or need to follow up next time, enter the points here.',
 
     'manager_expense_title' => 'Expenses that needs your approval',
     'manager_expense_blank_state' => 'You don’t have any expenses to validate.',

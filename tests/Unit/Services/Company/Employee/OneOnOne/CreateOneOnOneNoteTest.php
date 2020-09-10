@@ -100,9 +100,9 @@ class CreateOneOnOneNoteTest extends TestCase
                     'one_on_one_note_id' => $note->id,
                     'happened_at' => $entry->happened_at->format('Y-m-d'),
                     'employee_id' => $entry->employee->id,
-                    'employee_name' => $entry->employee->id,
+                    'employee_name' => $entry->employee->name,
                     'manager_id' => $entry->manager->id,
-                    'manager_name' => $entry->manager->id,
+                    'manager_name' => $entry->manager->name,
                 ]);
         });
 
@@ -115,7 +115,7 @@ class CreateOneOnOneNoteTest extends TestCase
                     'one_on_one_note_id' => $note->id,
                     'happened_at' => $entry->happened_at->format('Y-m-d'),
                     'employee_id' => $entry->manager->id,
-                    'employee_name' => $entry->manager->id,
+                    'employee_name' => $entry->manager->name,
                 ]);
         });
 
@@ -128,7 +128,7 @@ class CreateOneOnOneNoteTest extends TestCase
                     'one_on_one_note_id' => $note->id,
                     'happened_at' => $entry->happened_at->format('Y-m-d'),
                     'employee_id' => $entry->employee->id,
-                    'employee_name' => $entry->employee->id,
+                    'employee_name' => $entry->employee->name,
                 ]);
         });
     }

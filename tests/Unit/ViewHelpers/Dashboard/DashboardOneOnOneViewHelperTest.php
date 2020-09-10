@@ -3,11 +3,12 @@
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Tests\TestCase;
-use App\Models\Company\Expense;
-use App\Models\Company\Employee;
+use App\Models\Company\OneOnOneNote;
+use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\OneOnOneActionItem;
+use App\Models\Company\OneOnOneTalkingPoint;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\Manager\AssignManager;
-use App\Http\ViewHelpers\Dashboard\DashboardManagerViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardOneOnOneViewHelper;
 
 class DashboardOneOnOneViewHelperTest extends TestCase
 {
@@ -17,56 +18,76 @@ class DashboardOneOnOneViewHelperTest extends TestCase
     public function it_gets_an_array_containing_all_the_information_about_a_one_on_one_entry(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $dwight = $this->createDirectReport($michael);
 
-        $request = [
-            'company_id' => $dwight->company_id,
-            'author_id' => $dwight->id,
-            'employee_id' => $dwight->id,
+        $entry = factory(OneOnOneEntry::class)->create([
             'manager_id' => $michael->id,
-        ];
-
-        (new AssignManager)->execute($request);
-
-        $expense = factory(Expense::class)->create([
-            'company_id' => $michael->company_id,
             'employee_id' => $dwight->id,
-            'status' => Expense::AWAITING_MANAGER_APPROVAL,
-            'converted_amount' => 123,
-            'converted_to_currency' => 'EUR',
+            'happened_at' => '2020-09-09',
         ]);
 
-        factory(Expense::class)->create([
-            'company_id' => $michael->company_id,
-            'employee_id' => $dwight->id,
-            'status' => Expense::CREATED,
+        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
+            'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $collection = DashboardManagerViewHelper::pendingExpenses($michael->directReports);
+        $actionItem = factory(OneOnOneActionItem::class)->create([
+            'one_on_one_entry_id' => $entry->id,
+        ]);
 
-        $this->assertEquals(1, $collection->count());
+        $note = factory(OneOnOneNote::class)->create([
+            'one_on_one_entry_id' => $entry->id,
+        ]);
 
+        $array = DashboardOneOnOneViewHelper::details($entry);
+
+        $this->assertEquals($entry->id, $array['id']);
+        $this->assertEquals('Sep 09, 2020', $array['happened_at']);
+        $this->assertEquals(
+            [
+                'id' => $entry->employee->id,
+                'name' => $entry->employee->name,
+                'avatar' => $entry->employee->avatar,
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->employee->id,
+            ],
+            $array['employee']
+        );
+        $this->assertEquals(
+            [
+                'id' => $entry->manager->id,
+                'name' => $entry->manager->name,
+                'avatar' => $entry->manager->avatar,
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->manager->id,
+            ],
+            $array['manager']
+        );
         $this->assertEquals(
             [
                 0 => [
-                    'id' => $expense->id,
-                    'title' => 'Restaurant',
-                    'amount' => '$1.00',
-                    'converted_amount' => '€1.23',
-                    'status' => 'manager_approval',
-                    'category' => 'travel',
-                    'expensed_at' => 'Jan 01, 1999',
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/manager/expenses/'.$expense->id,
-                    'employee' => [
-                        'id' => $dwight->id,
-                        'name' => $dwight->name,
-                        'avatar' => $dwight->avatar,
-                    ],
+                    'id' => $talkingPoint->id,
+                    'description' => 'what are you doing right now',
+                    'checked' => false,
                 ],
             ],
-            $collection->toArray()
+            $array['talking_points']->toArray()
+        );
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $actionItem->id,
+                    'description' => 'what are you doing right now',
+                    'checked' => false,
+                ],
+            ],
+            $array['action_items']->toArray()
+        );
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $note->id,
+                    'note' => 'what are you doing right now',
+                ],
+            ],
+            $array['notes']->toArray()
         );
     }
 }

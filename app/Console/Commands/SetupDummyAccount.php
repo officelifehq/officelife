@@ -36,10 +36,13 @@ use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
 use App\Services\Company\Employee\Description\SetPersonalDescription;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Adminland\Expense\AllowEmployeeToManageExpenses;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
@@ -173,6 +176,7 @@ class SetupDummyAccount extends Command
         $this->createHardware();
         $this->addRecentShips();
         $this->addRateYourManagerSurveys();
+        $this->addOneOnOnes();
         $this->addSecondaryBlankAccount();
         $this->stop();
     }
@@ -1387,6 +1391,75 @@ class SetupDummyAccount extends Command
                     'comment' => null,
                     'reveal_identity_to_manager' => false,
                 ]);
+            }
+        }
+    }
+
+    private function addOneOnOnes(): void
+    {
+        $talkingPoints = collect([
+            'What can I do to accelerate my career development?',
+            'What is your vision for our team?',
+            'What have you done with customer 3029?',
+            'Do you enjoy working with Sue Helen?',
+            'Do you think you can achieve your monthly goal?',
+            'Reorganisation of the marketing department',
+            'Christmas Party',
+            'Do you expect to take a time off later this year?',
+            'Do you think Dwight should become a manager?',
+        ]);
+
+        $actionItems = collect([
+            'Follow up with Jan',
+            'Send slides to Michael',
+            'Update goals for Q2',
+            'Clean your agenda and organize all department emails',
+            'Prepare presentation for August Seminar',
+            'Set a meeting with warehouse',
+            'Call Michael daily',
+            'Send Q4 goals to Jan',
+            'Prepare September',
+        ]);
+
+        foreach ($this->employees as $employee) {
+            if (rand(1, 2) == 1 && $employee->id != $this->michael->id) {
+                continue;
+            }
+
+            $manager = $employee->getListOfManagers()->first();
+
+            if ($manager) {
+                for ($i = 0; $i < 10; $i++) {
+                    $entry = (new CreateOneOnOneEntry)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'manager_id' => $manager->id,
+                        'employee_id' => $employee->id,
+                        'date' => Carbon::now()->subDays(rand(10, 150))->format('Y-m-d'),
+                    ]);
+
+                    for ($j = 0; $j < rand(2, 6); $j++) {
+                        $randomItem = $talkingPoints->shuffle()->first();
+
+                        (new CreateOneOnOneTalkingPoint)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'one_on_one_entry_id' => $entry->id,
+                            'description' => $randomItem,
+                        ]);
+                    }
+
+                    for ($j = 0; $j < rand(2, 6); $j++) {
+                        $randomItem = $actionItems->shuffle()->first();
+
+                        (new CreateOneOnOneActionItem)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'one_on_one_entry_id' => $entry->id,
+                            'description' => $randomItem,
+                        ]);
+                    }
+                }
             }
         }
     }

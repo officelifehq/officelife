@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
+use App\Helpers\DateHelper;
 use App\Models\Company\OneOnOneEntry;
 
 class DashboardOneOnOneViewHelper
@@ -9,12 +10,12 @@ class DashboardOneOnOneViewHelper
     /**
      * Get the details of a one on one.
      *
-     * @var Collection
+     * @var OneOnOneEntry
      * @return array
      */
     public static function details(OneOnOneEntry $entry): array
     {
-        $items = $entry->actionsItems;
+        $items = $entry->actionItems;
         $actionItems = collect([]);
         foreach ($items as $actionItem) {
             $actionItems->push([
@@ -45,6 +46,7 @@ class DashboardOneOnOneViewHelper
 
         $array = [
             'id' => $entry->id,
+            'happened_at' => DateHelper::formatDate($entry->happened_at),
             'employee' => [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
@@ -59,12 +61,12 @@ class DashboardOneOnOneViewHelper
                 'name' => $entry->manager->name,
                 'avatar' => $entry->manager->avatar,
                 'url' => route('employees.show', [
-                    'company' => $entry->manager->company,
+                    'company' => $entry->employee->company,
                     'employee' => $entry->manager,
                 ]),
             ],
             'talking_points' => $talkingPoints,
-            'actions_items' => $actionItems,
+            'action_items' => $actionItems,
             'notes' => $notes,
         ];
 

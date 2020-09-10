@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
+use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
 use App\Helpers\QuestionHelper;
@@ -10,6 +11,8 @@ use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Money\Currencies\ISOCurrencies;
+use App\Models\Company\OneOnOneEntry;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 
 class DashboardMeViewHelper
 {
@@ -205,7 +208,29 @@ class DashboardMeViewHelper
         $managersCollection = collect([]);
 
         foreach ($managers as $manager) {
+            // for each manager, we need to check if there is an active one on
+            // one entry, if not, we need to create one
+            $entry = OneOnOneEntry::where('employee_id', $employee->id)
+                ->where('manager_id', $manager->id)
+                ->where('happened', false)
+                ->first();
+
+            if (! $entry) {
+                // there is no active entry, we need to create one
+                $entry = (new CreateOneOnOneEntry)->execute([
+                    'company_id' => $employee->company->id,
+                    'author_id' => $employee->id,
+                    'manager_id' => $manager->id,
+                    'employee_id' => $employee->id,
+                    'date' => Carbon::now()->format('Y-m-d'),
+                ]);
+            }
+
             $managersCollection->push([
+                'entry_url' => route('employees.show.oneonones', [
+                    'company' => $manager->company,
+                    'entry' => $entry,
+                ]),
                 'id' => $manager->id,
                 'name' => $manager->name,
                 'avatar' => $manager->avatar,

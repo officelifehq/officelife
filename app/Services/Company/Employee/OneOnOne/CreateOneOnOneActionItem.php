@@ -62,7 +62,7 @@ class CreateOneOnOneActionItem extends BaseService
             ->with('employee')
             ->findOrFail($this->data['one_on_one_entry_id']);
 
-        if ($this->author->id != $this->entry->manager->id && $this->author->id != $this->entry->employee->id) {
+        if ($this->author->id != $this->entry->manager->id && $this->author->id != $this->entry->employee->id && $this->author->permission_level > 200) {
             throw new NotEnoughPermissionException(trans('app.error_not_enough_permission'));
         }
     }
@@ -72,6 +72,7 @@ class CreateOneOnOneActionItem extends BaseService
         $this->actionItem = OneOnOneActionItem::create([
             'one_on_one_entry_id' => $this->data['one_on_one_entry_id'],
             'description' => $this->data['description'],
+            'checked' => false,
         ]);
     }
 

@@ -34,6 +34,7 @@ class EmployeeShowViewHelper
             'twitter_handle' => $employee->twitter_handle,
             'slack_handle' => $employee->slack_handle,
             'locked' => $employee->locked,
+            'holidays' => $employee->getHolidaysInformation(),
             'birthdate' => (! $employee->birthdate) ? null : [
                 'full' => DateHelper::formatDate($employee->birthdate),
                 'partial' => DateHelper::formatMonthAndDay($employee->birthdate),

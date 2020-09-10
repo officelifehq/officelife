@@ -19,56 +19,74 @@ input[type=checkbox] {
   padding: 3px 4px;
 }
 
+.hover {
+  display: inline-block;
+  position: relative;
+  left: -4px;
+}
+
 .hover-effect:hover {
   background-color: yellow;
 }
 
-.action-item {
-  top: -6px;
-  right: 72px;
+.visibility-hidden {
+  visibility: hidden;
 }
-
 </style>
 
 <template>
-  <div :class="extraClassUpperDiv" @mouseover="showHover()" @mouseleave="hover = false">
-    <input
-      :id="id"
-      v-model="updatedValue"
-      type="checkbox"
-      class="relative"
-      :class="classes"
-      :required="required"
-      :name="name"
-      :data-cy="datacy"
-      @change="emitValue()"
-    />
-
-    <!-- content of the checkbox -->
-    <label v-if="label" :class="editable ? 'hover-effect' : ''" :for="id" class="fw4 lh-copy f5 pointer di relative">
-      <div class="action-item absolute nowrap f6 bg-white ph1 pv1 br3" :class="hover ? 'di' : 'dn'">
-        <span class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer">
-          Edit
-        </span>
-        <span class="di bb b--dotted bt-0 bl-0 br-0 pointer c-delete">
-          Trash
-        </span>
-      </div>
-      <span v-html="label"></span>
-      <span v-if="!required" class="optional-badge f7">
-        {{ $t('app.optional') }}
+  <div :class="extraClassUpperDiv" class="hover" @mouseover="showHover()" @mouseleave="hover = false">
+    <div class="di f6 bg-white ph1 pv1 br3" :class="hover ? 'di' : 'visibility-hidden'">
+      <!-- edit -->
+      <span class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer">
+        Edit
       </span>
-    </label>
 
-    <!-- display error message, if any -->
-    <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
-      {{ errors[0] }}
+      <!-- delete -->
+      <a v-if="idToDelete == 0" class="c-delete mr1 pointer" @click.prevent="idToDelete = itemId">{{ $t('app.delete') }}</a>
+      <span v-if="idToDelete == itemId">
+        {{ $t('app.sure') }}
+        <a class="c-delete mr1 pointer" @click.prevent="$emit('destroy', itemId)">
+          {{ $t('app.yes') }}
+        </a>
+        <a class="pointer" @click.prevent="idToDelete = 0">
+          {{ $t('app.no') }}
+        </a>
+      </span>
     </div>
 
-    <!-- help text, if any -->
-    <p v-if="help" class="f7 mb3 lh-title">
-      {{ help }}
-    </p>
+    <div class="di">
+      <input
+        :id="id"
+        v-model="updatedValue"
+        type="checkbox"
+        class="relative"
+        :class="classes"
+        :required="required"
+        :checked="checked"
+        :name="name"
+        :data-cy="datacy"
+        @change="emitValue()"
+      />
+
+      <!-- content of the checkbox -->
+      <label v-if="label" :for="id" class="fw4 lh-copy f5 pointer di relative hover-effect">
+        <span v-html="label"></span>
+        <span v-if="!required" class="optional-badge f7">
+          {{ $t('app.optional') }}
+        </span>
+      </label>
+
+      <!-- display error message, if any -->
+      <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
+        {{ errors[0] }}
+      </div>
+
+      <!-- help text, if any -->
+      <p v-if="help" class="f7 mb3 lh-title">
+        {{ help }}
+      </p>
+    </div>
   </div>
 </template>
 
@@ -108,6 +126,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    checked: {
+      type: Boolean,
+      default: false,
+    },
     classes: {
       type: String,
       default: 'mb3',
@@ -120,6 +142,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    itemId: {
+      type: Number,
+      default: 0,
+    },
     errors: {
       type: Array,
       default: () => [],
@@ -130,6 +156,7 @@ export default {
     return {
       updatedValue: false,
       hover: false,
+      idToDelete: 0,
     };
   },
 
@@ -149,14 +176,12 @@ export default {
     },
 
     emitValue() {
-      //this.$emit('change', this.updatedValue);
+      this.$emit('change', this.updatedValue);
     },
 
     showHover() {
-      if (this.editable) {
-        this.hover = true;
-      }
-    }
+      this.hover = true;
+    },
   },
 };
 </script>

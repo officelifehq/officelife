@@ -69,9 +69,14 @@ Route::middleware(['auth'])->group(function () {
             Route::post('manager/rate/{answer}/comment', 'Company\\Dashboard\\DashboardRateYourManagerController@storeComment');
 
             // details of one on ones
-            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
-                Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardEmployeeOneOnOneController@show')->name('employees.show.oneonones');
-            });
+            Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardMeOneOnOneController@show')->name('employees.show.oneonones');
+            Route::post('oneonones/{entry}/talkingPoints', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeTalkingPoint');
+            Route::post('oneonones/{entry}/actionItems', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeActionItem');
+            Route::post('oneonones/{entry}/talkingPoints/toggle', 'Company\\Dashboard\\DashboardMeOneOnOneController@toggleTalkingPoint');
+            Route::post('oneonones/{entry}/actionItems/toggle', 'Company\\Dashboard\\DashboardMeOneOnOneController@toggleActionItem');
+            Route::delete('oneonones/{entry}/talkingPoints/{talkingPoint}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyTalkingPoint');
+            Route::post('oneonones/{entry}/actionItems', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeActionItem');
+            Route::post('oneonones/{entry}/notes', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeNote');
         });
 
         Route::prefix('employees')->group(function () {

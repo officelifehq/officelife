@@ -75,7 +75,7 @@ class CreateOneOnOneEntry extends BaseService
         $this->manager = Employee::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['manager_id']);
 
-        if ($this->author->id != $this->manager->id && $this->author->id != $this->employee->id) {
+        if ($this->author->id != $this->manager->id && $this->author->id != $this->employee->id && $this->author->permission_level > 200) {
             throw new NotEnoughPermissionException(trans('app.error_not_enough_permission'));
         }
 

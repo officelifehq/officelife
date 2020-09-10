@@ -40,7 +40,7 @@
             >
               <div class="flex-auto">
                 <span class="db b">
-                  {{ flow.name }} <span class="normal f6">
+                  {{ flow.name }} <span v-if="flow.steps" class="normal f6">
                     ({{ flow.steps.count }} steps)
                   </span>
                 </span>
