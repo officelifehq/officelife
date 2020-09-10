@@ -9,6 +9,7 @@ use App\Models\Company\Answer;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\ExpenseCategory;
 use App\Jobs\StartRateYourManagerProcess;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -262,6 +263,7 @@ class DashboardMeViewHelperTest extends TestCase
                     'avatar' => $dwight->avatar,
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
+                    'entry_url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->first()->id,
                 ],
                 1 => [
                     'id' => $michael->id,
@@ -269,6 +271,7 @@ class DashboardMeViewHelperTest extends TestCase
                     'avatar' => $michael->avatar,
                     'position' => $michael->position->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                    'entry_url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->last()->id,
                 ],
             ],
             $collection->toArray()
