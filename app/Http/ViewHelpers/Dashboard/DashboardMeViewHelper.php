@@ -213,6 +213,7 @@ class DashboardMeViewHelper
             $entry = OneOnOneEntry::where('employee_id', $employee->id)
                 ->where('manager_id', $manager->id)
                 ->where('happened', false)
+                ->latest()
                 ->first();
 
             if (! $entry) {

@@ -28,6 +28,7 @@ return [
     'yes_sure' => 'Yes I’m sure',
     'optional' => 'optional',
     'choose_value' => 'Choose a value',
+    'and' => 'and',
 
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',

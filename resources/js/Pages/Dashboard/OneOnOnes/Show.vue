@@ -19,6 +19,10 @@
   left: -86px;
 }
 
+.list-item-offset {
+  left: 0px;
+}
+
 .title-section {
   background-color: #E9EDF2;
 }
@@ -58,7 +62,7 @@
               />
             </li>
             <li class="di f6 mh3">
-              and
+              {{ $t('app.and') }}
             </li>
             <li class="di tl">
               <small-name-and-avatar
@@ -74,24 +78,41 @@
         </div>
 
         <!-- dates -->
-        <div class="flex justify-between mb4 pa3">
-          <div class="">
-            <span class="db">
-              Previous entry
-            </span>
-            <span>Aug 23, 2020</span>
+        <div class="cf mb4 pa3 db">
+          <div class="fl-ns w-third-ns w-100">
+            <template v-if="entry.previous_entry">
+              <div class="db mb1 f6 mr5">
+                ←
+                <inertia-link :href="entry.previous_entry.url">
+                  {{ $t('dashboard.one_on_ones_previous_entry') }}
+                </inertia-link>
+              </div>
+              <span class="f7 gray">
+                {{ entry.previous_entry.happened_at }}
+              </span>
+            </template>
+            <template v-else>
+&nbsp;
+            </template>
           </div>
-          <div class="f4 tc">
+          <div class="fl-ns w-third-ns w-100 f4 tc">
             <span class="f7 gray db mb1">
-              Created on
+              {{ $t('dashboard.one_on_ones_created_on') }}
             </span>
             {{ entry.happened_at }}
           </div>
-          <div class="">
-            <span class="db">
-              Next entry
-            </span>
-            <span>Aug 23, 2020</span>
+          <div class="fl-ns w-third-ns w-100 tr">
+            <template v-if="entry.next_entry">
+              <div class="db mb1 f6 ml5">
+                <inertia-link :href="entry.next_entry.url">
+                  {{ $t('dashboard.one_on_ones_next_entry') }}
+                </inertia-link>
+                →
+              </div>
+              <span class="f7 gray">
+                {{ entry.next_entry.happened_at }}
+              </span>
+            </template>
           </div>
         </div>
 
@@ -104,7 +125,7 @@
           </h3>
           <p class="f6 gray mt1 pl4">{{ $t('dashboard.one_on_ones_talking_point_desc') }}</p>
           <ul class="list pl4 mb4">
-            <li v-for="talkingPoint in localTalkingPoints" :key="talkingPoint.id" class="list-item relative">
+            <li v-for="talkingPoint in localTalkingPoints" :key="talkingPoint.id" :class="entry.happened ? 'list-item-offset' : ''" class="list-item relative">
               <checkbox
                 :id="'tp-' + talkingPoint.id"
                 v-model="talkingPoint.checked"
@@ -115,7 +136,7 @@
                 :classes="'mb0'"
                 :maxlength="255"
                 :required="true"
-                :editable="true"
+                :editable="!entry.happened"
                 @change="toggleTalkingPoint(talkingPoint.id)"
                 @update="showEditTalkingPoint(talkingPoint.id, talkingPoint.description)"
                 @destroy="destroyTalkingPoint(talkingPoint.id)"
@@ -144,7 +165,7 @@
               </div>
             </li>
             <!-- cta to add a new item -->
-            <li v-if="!addTalkingPointMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
+            <li v-if="!addTalkingPointMode && !entry.happened" class="bg-gray add-item-section ph2 mt1 pv1 br1">
               <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="displayAddTalkingPoint()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
             </li>
             <!-- add a new item -->
@@ -178,7 +199,7 @@
           </h3>
           <p class="f6 gray mt1 pl4">{{ $t('dashboard.one_on_ones_action_item_desc') }}</p>
           <ul class="list pl4 mb4">
-            <li v-for="actionItem in localActionItems" :key="actionItem.id" class="list-item relative">
+            <li v-for="actionItem in localActionItems" :key="actionItem.id" :class="entry.happened ? 'list-item-offset' : ''" class="list-item relative">
               <checkbox
                 :id="'ai-' + actionItem.id"
                 v-model="actionItem.checked"
@@ -189,7 +210,7 @@
                 :classes="'mb0'"
                 :maxlength="255"
                 :required="true"
-                :editable="true"
+                :editable="!entry.happened"
                 @change="toggleActionItem(actionItem.id)"
                 @update="showEditActionItem(actionItem.id, actionItem.description)"
                 @destroy="destroyActionItem(actionItem.id)"
@@ -218,7 +239,7 @@
               </div>
             </li>
             <!-- cta to add a new item -->
-            <li v-if="!addActionItemMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
+            <li v-if="!addActionItemMode && !entry.happened" class="bg-gray add-item-section ph2 mt1 pv1 br1">
               <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="displayAddActionItem()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
             </li>
             <!-- add a new item -->
@@ -256,7 +277,7 @@
               {{ note.note }}
             </li>
             <!-- cta to add a new item -->
-            <li v-if="!addNoteMode" class="list bg-gray add-item-section ph2 mt1 pv1 br1">
+            <li v-if="!addNoteMode && !entry.happened" class="list bg-gray add-item-section ph2 mt1 pv1 br1">
               <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="displayAddNote()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
             </li>
             <!-- add a new item -->
@@ -283,8 +304,8 @@
           </ul>
         </div>
 
-        <!-- title -->
-        <div class="pa3 title-section bb bb-gray tc">
+        <!-- cta -->
+        <div v-if="!entry.happened" class="pa3 title-section bb bb-gray tc">
           <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'✅'" :text="$t('dashboard.one_on_ones_mark_happened')" :cypress-selector="'expense-accept-button'"
                           @click="markAsHappened()"
           />

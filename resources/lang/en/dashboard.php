@@ -107,6 +107,9 @@ return [
     'one_on_ones_mark_happened' => 'Mark as happened',
     'one_on_ones_mark_happened_note_1' => 'This will close this 1 on 1, and create a new entry.',
     'one_on_ones_mark_happened_note_2' => 'Any incomplete action items will become a talking point in the new entry.',
+    'one_on_ones_previous_entry' => 'Previous entry',
+    'one_on_ones_next_entry' => 'Next entry',
+    'one_on_ones_created_on' => 'Created on',
 
     'manager_expense_title' => 'Expenses that needs your approval',
     'manager_expense_blank_state' => 'You don’t have any expenses to validate.',
