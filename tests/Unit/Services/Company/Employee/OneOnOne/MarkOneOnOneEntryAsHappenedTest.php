@@ -6,17 +6,16 @@ use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
 use Illuminate\Support\Facades\Queue;
-use App\Models\Company\OneOnOneTalkingPoint;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
+use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
 
-class ToggleOneOnOneTalkingPointTest extends TestCase
+class MarkOneOnOneEntryAsHappenedTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_toggles_an_one_on_one_talking_point_as_administrator(): void
+    public function it_marks_an_one_on_one_as_completed_as_administrator(): void
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
@@ -24,14 +23,11 @@ class ToggleOneOnOneTalkingPointTest extends TestCase
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
-            'one_on_one_entry_id' => $entry->id,
-        ]);
-        $this->executeService($michael, $entry, $talkingPoint);
+        $this->executeService($michael, $entry);
     }
 
     /** @test */
-    public function it_toggles_an_one_on_one_talking_point_as_hr(): void
+    public function it_marks_an_one_on_one_as_completed_as_hr(): void
     {
         $michael = $this->createHR();
         $michael = $this->createAdministrator();
@@ -40,10 +36,7 @@ class ToggleOneOnOneTalkingPointTest extends TestCase
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
-            'one_on_one_entry_id' => $entry->id,
-        ]);
-        $this->executeService($michael, $entry, $talkingPoint);
+        $this->executeService($michael, $entry);
     }
 
     /** @test */
@@ -55,10 +48,7 @@ class ToggleOneOnOneTalkingPointTest extends TestCase
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
-            'one_on_one_entry_id' => $entry->id,
-        ]);
-        $this->executeService($michael, $entry, $talkingPoint);
+        $this->executeService($michael, $entry);
     }
 
     /** @test */
@@ -69,10 +59,10 @@ class ToggleOneOnOneTalkingPointTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new ToggleOneOnOneTalkingPoint)->execute($request);
+        (new MarkOneOnOneEntryAsHappened)->execute($request);
     }
 
-    private function executeService(Employee $michael, OneOnOneEntry $entry, OneOnOneTalkingPoint $talkingPoint): void
+    private function executeService(Employee $michael, OneOnOneEntry $entry): void
     {
         Queue::fake();
 
@@ -80,19 +70,25 @@ class ToggleOneOnOneTalkingPointTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'one_on_one_entry_id' => $entry->id,
-            'one_on_one_talking_point_id' => $talkingPoint->id,
         ];
 
-        $talkingPoint = (new ToggleOneOnOneTalkingPoint)->execute($request);
+        $oldEntry = $entry;
+
+        $entry = (new MarkOneOnOneEntryAsHappened)->execute($request);
 
         $this->assertInstanceOf(
-            OneOnOneTalkingPoint::class,
-            $talkingPoint
+            OneOnOneEntry::class,
+            $entry
         );
 
-        $this->assertDatabaseHas('one_on_one_talking_points', [
-            'id' => $talkingPoint->id,
-            'checked' => true,
+        $this->assertDatabaseHas('one_on_one_entries', [
+            'id' => $oldEntry->id,
+            'happened' => true,
+        ]);
+
+        $this->assertDatabaseHas('one_on_one_entries', [
+            'id' => $entry->id,
+            'happened' => false,
         ]);
     }
 }

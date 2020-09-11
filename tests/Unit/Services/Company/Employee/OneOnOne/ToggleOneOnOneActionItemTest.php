@@ -83,7 +83,12 @@ class ToggleOneOnOneActionItemTest extends TestCase
             'one_on_one_action_item_id' => $actionItem->id,
         ];
 
-        (new ToggleOneOnOneActionItem)->execute($request);
+        $actionItem = (new ToggleOneOnOneActionItem)->execute($request);
+
+        $this->assertInstanceOf(
+            OneOnOneEntry::class,
+            $entry
+        );
 
         $this->assertDatabaseHas('one_on_one_action_items', [
             'id' => $actionItem->id,

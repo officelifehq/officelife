@@ -21,6 +21,7 @@ use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
 use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneTalkingPoint;
 use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneTalkingPoint;
+use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
 
 class DashboardMeOneOnOneController extends Controller
 {
@@ -58,6 +59,43 @@ class DashboardMeOneOnOneController extends Controller
             'entry' => $details,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
+    }
+
+    /**
+     * Mark an entry as happened.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @return JsonResponse
+     */
+    public function markHappened(Request $request, int $companyId, int $entryId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $entry = OneOnOneEntry::findOrFail($entryId);
+
+        if ($entry->manager_id != $employee->id && $entry->employee_id != $employee->id) {
+            return redirect('home');
+        }
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $employee->id,
+            'one_on_one_entry_id' => $entryId,
+        ];
+
+        $newEntry = (new MarkOneOnOneEntryAsHappened)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'url' => route('employees.show.oneonones', [
+                    'company' => $company,
+                    'entry' => $newEntry,
+                ]),
+            ],
+        ], 200);
     }
 
     /**

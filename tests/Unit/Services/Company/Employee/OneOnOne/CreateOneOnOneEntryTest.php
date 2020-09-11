@@ -148,7 +148,7 @@ class CreateOneOnOneEntryTest extends TestCase
         if ($oldEntry) {
             $this->assertEquals(
                 2,
-                $entry->actionItems->count()
+                $entry->talkingPoints->count()
             );
         }
 

@@ -35,6 +35,7 @@ use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Team\Description\SetTeamDescription;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -1397,6 +1398,8 @@ class SetupDummyAccount extends Command
 
     private function addOneOnOnes(): void
     {
+        $this->info('☐ Add one on one entries');
+
         $talkingPoints = collect([
             'What can I do to accelerate my career development?',
             'What is your vision for our team?',
@@ -1421,6 +1424,14 @@ class SetupDummyAccount extends Command
             'Prepare September',
         ]);
 
+        $notes = collect([
+            'I suggest you to watch Season 3 and 4 of The Office',
+            'Recommended read: optimize sale conversions',
+            'Note for future you: read more',
+            'Awesome and productive one on one.',
+            'We need to do those one on ones more often - ideally twice per month.',
+        ]);
+
         foreach ($this->employees as $employee) {
             if (rand(1, 2) == 1 && $employee->id != $this->michael->id) {
                 continue;
@@ -1429,13 +1440,15 @@ class SetupDummyAccount extends Command
             $manager = $employee->getListOfManagers()->first();
 
             if ($manager) {
+                $date = Carbon::now()->subDays(150);
                 for ($i = 0; $i < 10; $i++) {
+                    $date = $date->addDays(7);
                     $entry = (new CreateOneOnOneEntry)->execute([
                         'company_id' => $this->company->id,
                         'author_id' => $this->michael->id,
                         'manager_id' => $manager->id,
                         'employee_id' => $employee->id,
-                        'date' => Carbon::now()->subDays(rand(10, 150))->format('Y-m-d'),
+                        'date' => $date->format('Y-m-d'),
                     ]);
 
                     for ($j = 0; $j < rand(2, 6); $j++) {
@@ -1457,6 +1470,17 @@ class SetupDummyAccount extends Command
                             'author_id' => $this->michael->id,
                             'one_on_one_entry_id' => $entry->id,
                             'description' => $randomItem,
+                        ]);
+                    }
+
+                    for ($j = 0; $j < rand(1, 3); $j++) {
+                        $randomItem = $notes->shuffle()->first();
+
+                        (new CreateOneOnOneNote)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'one_on_one_entry_id' => $entry->id,
+                            'note' => $randomItem,
                         ]);
                     }
                 }

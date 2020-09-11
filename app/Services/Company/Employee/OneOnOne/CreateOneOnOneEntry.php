@@ -10,7 +10,7 @@ use App\Models\Company\Employee;
 use App\Exceptions\SameIdsException;
 use App\Models\Company\OneOnOneEntry;
 use App\Exceptions\NotTheManagerException;
-use App\Models\Company\OneOnOneActionItem;
+use App\Models\Company\OneOnOneTalkingPoint;
 use App\Exceptions\NotEnoughPermissionException;
 
 class CreateOneOnOneEntry extends BaseService
@@ -124,7 +124,7 @@ class CreateOneOnOneEntry extends BaseService
         // copy past items
         if ($items->count() != 0) {
             foreach ($items as $item) {
-                OneOnOneActionItem::create([
+                OneOnOneTalkingPoint::create([
                     'one_on_one_entry_id' => $this->entry->id,
                     'description' => $item->description,
                     'checked' => $item->checked,

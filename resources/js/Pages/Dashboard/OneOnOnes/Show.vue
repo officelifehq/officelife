@@ -34,7 +34,7 @@
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/me'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            One on one
+            {{ $t('app.breadcrumb_dashboard_one_on_one') }}
           </li>
         </ul>
       </div>
@@ -42,9 +42,9 @@
       <!-- BODY -->
       <div class="cf mw7 center br3 mb3 bg-white box relative">
         <!-- title -->
-        <div class="pa3 title-section bb bb-gray">
+        <div class="pa3 title-section bb bb-gray mb3">
           <h2 class="tc fw5 mt0">
-            1 on 1 between
+            1 on 1
           </h2>
           <ul class="tc list pl0">
             <li class="di tl">
@@ -73,7 +73,7 @@
           </ul>
         </div>
 
-        <!-- navigation -->
+        <!-- dates -->
         <div class="flex justify-between mb4 pa3">
           <div class="">
             <span class="db">
@@ -81,7 +81,10 @@
             </span>
             <span>Aug 23, 2020</span>
           </div>
-          <div class="f4">
+          <div class="f4 tc">
+            <span class="f7 gray db mb1">
+              Created on
+            </span>
             {{ entry.happened_at }}
           </div>
           <div class="">
@@ -248,12 +251,12 @@
             </span> {{ $t('dashboard.one_on_ones_note_title') }}
           </h3>
           <p class="f6 gray mt1 pl4">{{ $t('dashboard.one_on_ones_note_desc') }}</p>
-          <ul class="list pl0 mb2">
-            <li v-for="note in localNotes" :key="note.id" class="relative">
+          <ul class="pl4 mb2">
+            <li v-for="note in localNotes" :key="note.id" class="relative mb2 ml3">
               {{ note.note }}
             </li>
             <!-- cta to add a new item -->
-            <li v-if="!addNoteMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
+            <li v-if="!addNoteMode" class="list bg-gray add-item-section ph2 mt1 pv1 br1">
               <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="displayAddNote()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
             </li>
             <!-- add a new item -->
@@ -278,6 +281,16 @@
               </form>
             </li>
           </ul>
+        </div>
+
+        <!-- title -->
+        <div class="pa3 title-section bb bb-gray tc">
+          <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'✅'" :text="$t('dashboard.one_on_ones_mark_happened')" :cypress-selector="'expense-accept-button'"
+                          @click="markAsHappened()"
+          />
+
+          <p class="mb1 f7 gray">{{ $t('dashboard.one_on_ones_mark_happened_note_1') }}</p>
+          <p class="mv0 f7 gray">{{ $t('dashboard.one_on_ones_mark_happened_note_2') }}</p>
         </div>
       </div>
     </div>
@@ -523,6 +536,20 @@ export default {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
+
+    markAsHappened() {
+      this.loadingState = 'loading';
+
+      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/happened')
+        .then(response => {
+          this.loadingState = null;
+          this.$inertia.visit(response.data.data.url);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    }
   },
 };
 
