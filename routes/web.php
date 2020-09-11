@@ -70,12 +70,15 @@ Route::middleware(['auth'])->group(function () {
 
             // details of one on ones
             Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardMeOneOnOneController@show')->name('employees.show.oneonones');
+
             Route::post('oneonones/{entry}/talkingPoints', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeTalkingPoint');
-            Route::post('oneonones/{entry}/actionItems', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeActionItem');
-            Route::post('oneonones/{entry}/talkingPoints/toggle', 'Company\\Dashboard\\DashboardMeOneOnOneController@toggleTalkingPoint');
-            Route::post('oneonones/{entry}/actionItems/toggle', 'Company\\Dashboard\\DashboardMeOneOnOneController@toggleActionItem');
+            Route::post('oneonones/{entry}/talkingPoints/{talkingPoint}/toggle', 'Company\\Dashboard\\DashboardMeOneOnOneController@toggleTalkingPoint');
             Route::delete('oneonones/{entry}/talkingPoints/{talkingPoint}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyTalkingPoint');
+
             Route::post('oneonones/{entry}/actionItems', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeActionItem');
+            Route::post('oneonones/{entry}/actionItems/{actionItem}/toggle', 'Company\\Dashboard\\DashboardMeOneOnOneController@toggleActionItem');
+            Route::delete('oneonones/{entry}/actionItems/{actionItem}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyActionItem');
+
             Route::post('oneonones/{entry}/notes', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeNote');
         });
 

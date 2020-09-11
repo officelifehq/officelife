@@ -63,9 +63,9 @@ input[type=checkbox] {
         class="relative"
         :class="classes"
         :required="required"
-        :checked="checked"
         :name="name"
         :data-cy="datacy"
+        :disabled="!editable"
         @change="emitValue()"
       />
 
@@ -140,7 +140,7 @@ export default {
     },
     editable: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     itemId: {
       type: Number,

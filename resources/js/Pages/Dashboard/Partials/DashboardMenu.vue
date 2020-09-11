@@ -7,9 +7,6 @@
       <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'team')}" data-cy="dashboard-team-tab">
         {{ $t('dashboard.tab_my_team') }}
       </inertia-link>
-      <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/company'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'company')}" data-cy="dashboard-company-tab">
-        {{ $t('dashboard.tab_my_company') }}
-      </inertia-link>
       <inertia-link v-if="employee.is_manager" :href="'/' + $page.auth.company.id + '/dashboard/manager'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'manager')}" data-cy="dashboard-manager-tab">
         <span class="mr1">🔒</span> {{ $t('dashboard.tab_manager') }}
       </inertia-link>

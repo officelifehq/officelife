@@ -10,10 +10,14 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\OneOnOneEntry;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Http\ViewHelpers\Dashboard\DashboardOneOnOneViewHelper;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
+use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
 use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneTalkingPoint;
 
 class DashboardMeOneOnOneController extends Controller
@@ -21,21 +25,30 @@ class DashboardMeOneOnOneController extends Controller
     /**
      * Show the One on One entry.
      *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
      * @return Response
      */
-    public function show(Request $request, int $companyId, int $entryId): Response
+    public function show(Request $request, int $companyId, int $entryId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $entry = OneOnOneEntry::where('manager_id', $employee->id)
-            ->orWhere('employee_id', $employee->id)
-            ->with('employee')
-            ->with('manager')
-            ->with('actionItems')
-            ->with('talkingPoints')
-            ->with('notes')
-            ->findOrFail($entryId);
+        try {
+            $entry = OneOnOneEntry::with('employee')
+                ->with('manager')
+                ->with('actionItems')
+                ->with('talkingPoints')
+                ->with('notes')
+                ->findOrFail($entryId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        if ($entry->manager_id != $employee->id && $entry->employee_id != $employee->id) {
+            return redirect('home');
+        }
 
         $details = DashboardOneOnOneViewHelper::details($entry);
 
@@ -49,6 +62,8 @@ class DashboardMeOneOnOneController extends Controller
      * Create a talking point.
      *
      * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
      * @return JsonResponse
      */
     public function storeTalkingPoint(Request $request, int $companyId, int $entryId): JsonResponse
@@ -82,6 +97,8 @@ class DashboardMeOneOnOneController extends Controller
      * Create an action item.
      *
      * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
      * @return JsonResponse
      */
     public function storeActionItem(Request $request, int $companyId, int $entryId): JsonResponse
@@ -90,8 +107,8 @@ class DashboardMeOneOnOneController extends Controller
         $employee = InstanceHelper::getLoggedEmployee();
 
         $entry = OneOnOneEntry::where('manager_id', $request->input('manager_id'))
-        ->where('employee_id', $request->input('employee_id'))
-        ->findOrFail($entryId);
+            ->where('employee_id', $request->input('employee_id'))
+            ->findOrFail($entryId);
 
         $request = [
             'company_id' => $company->id,
@@ -112,9 +129,110 @@ class DashboardMeOneOnOneController extends Controller
     }
 
     /**
+     * Create a note.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @return JsonResponse
+     */
+    public function storeNote(Request $request, int $companyId, int $entryId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $entry = OneOnOneEntry::where('manager_id', $request->input('manager_id'))
+            ->where('employee_id', $request->input('employee_id'))
+            ->findOrFail($entryId);
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $employee->id,
+            'one_on_one_entry_id' => $entryId,
+            'note' => $request->input('description'),
+        ];
+
+        $note = (new CreateOneOnOneNote)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'id' => $note->id,
+                'note' => $note->note,
+            ],
+        ], 200);
+    }
+
+    /**
+     * Toggle a talking point.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @param int $talkingPointId
+     * @return JsonResponse
+     */
+    public function toggleTalkingPoint(Request $request, int $companyId, int $entryId, int $talkingPointId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $employee->id,
+            'one_on_one_entry_id' => $entryId,
+            'one_on_one_talking_point_id' => $talkingPointId,
+        ];
+
+        $talkingPoint = (new ToggleOneOnOneTalkingPoint)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'id' => $talkingPoint->id,
+                'description' => $talkingPoint->description,
+                'checked' => $talkingPoint->checked,
+            ],
+        ], 200);
+    }
+
+    /**
+     * Toggle an action item.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @param int $actionItemId
+     * @return JsonResponse
+     */
+    public function toggleActionItem(Request $request, int $companyId, int $entryId, int $actionItemId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $employee->id,
+            'one_on_one_entry_id' => $entryId,
+            'one_on_one_action_item_id' => $actionItemId,
+        ];
+
+        $actionItem = (new ToggleOneOnOneActionItem)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'id' => $actionItem->id,
+                'description' => $actionItem->description,
+                'checked' => $actionItem->checked,
+            ],
+        ], 200);
+    }
+
+    /**
      * Delete a talking point.
      *
      * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @param int $talkingPointId
      * @return JsonResponse
      */
     public function destroyTalkingPoint(Request $request, int $companyId, int $entryId, int $talkingPointId): JsonResponse
@@ -140,6 +258,9 @@ class DashboardMeOneOnOneController extends Controller
      * Delete an action item.
      *
      * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @param int $talkingPointId
      * @return JsonResponse
      */
     public function destroyActionItem(Request $request, int $companyId, int $entryId, int $talkingPointId): JsonResponse
@@ -151,7 +272,7 @@ class DashboardMeOneOnOneController extends Controller
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
-            'one_on_one_talking_point_id' => $talkingPointId,
+            'one_on_one_action_item_id' => $talkingPointId,
         ];
 
         (new DestroyOneOnOneActionItem)->execute($request);

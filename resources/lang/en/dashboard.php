@@ -97,6 +97,13 @@ return [
     'one_on_ones_talking_point_desc' => 'Things that need to be adressed during the meeting.',
     'one_on_ones_action_item_title' => 'Action items',
     'one_on_ones_action_item_desc' => 'If you have decided something or need to follow up next time, enter the points here.',
+    'one_on_ones_note_title' => 'Notes',
+    'one_on_ones_note_desc' => 'Add anything that you need to keep track of here.',
+    'one_on_ones_action_talking_point_desc' => 'Add a talking point ',
+    'one_on_ones_action_item_textarea_desc' => 'Add an action item',
+    'one_on_ones_note_textarea_desc' => 'Add a note',
+    'one_on_ones_note_cta' => 'Add an item',
+    'one_on_ones_note_deletion_success' => 'The entry has been deleted.',
 
     'manager_expense_title' => 'Expenses that needs your approval',
     'manager_expense_blank_state' => 'You don’t have any expenses to validate.',

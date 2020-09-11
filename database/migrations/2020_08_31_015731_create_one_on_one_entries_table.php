@@ -46,7 +46,7 @@ class CreateOneOnOneEntriesTable extends Migration
         Schema::create('one_on_one_notes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('one_on_one_entry_id');
-            $table->string('note');
+            $table->text('note');
             $table->timestamps();
             $table->foreign('one_on_one_entry_id')->references('id')->on('one_on_one_entries')->onDelete('cascade');
         });
