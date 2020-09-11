@@ -36,10 +36,10 @@ input[type=checkbox] {
 
 <template>
   <div :class="extraClassUpperDiv" class="hover" @mouseover="showHover()" @mouseleave="hover = false">
-    <div class="di f6 bg-white ph1 pv1 br3" :class="hover ? 'di' : 'visibility-hidden'">
+    <div :class="hover ? 'di' : 'visibility-hidden'" class="di f6 bg-white ph1 pv1 br3">
       <!-- edit -->
-      <span class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer">
-        Edit
+      <span class="di mr1 bb b--dotted bt-0 bl-0 br-0 pointer" @click="$emit('update', itemId)">
+        {{ $t('app.edit') }}
       </span>
 
       <!-- delete -->

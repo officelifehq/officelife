@@ -11,6 +11,10 @@
   background-color: #f5f5f5;
 }
 
+.edit-item {
+  left: 88px;
+}
+
 .list-item {
   left: -86px;
 }
@@ -110,8 +114,31 @@
                 :required="true"
                 :editable="true"
                 @change="toggleTalkingPoint(talkingPoint.id)"
+                @update="showEditTalkingPoint(talkingPoint.id, talkingPoint.description)"
                 @destroy="destroyTalkingPoint(talkingPoint.id)"
               />
+
+              <!-- edit item -->
+              <div v-if="talkingPointToEdit == talkingPoint.id" class="bg-gray add-item-section edit-item ph2 mt1 mb3 pv1 br1 relative">
+                <form @submit.prevent="updateTalkingPoint(talkingPoint.id)">
+                  <text-area
+                    :ref="'talkingPoint' + talkingPoint.id"
+                    v-model="form.description"
+                    :label="$t('dashboard.one_on_ones_action_talking_point_desc')"
+                    :datacy="'description-textarea'"
+                    :required="true"
+                    :rows="2"
+                    @esc-key-pressed="talkingPointToEdit = 0"
+                  />
+                  <!-- actions -->
+                  <div>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
+                    <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="talkingPointToEdit = 0">
+                      {{ $t('app.cancel') }}
+                    </a>
+                  </div>
+                </form>
+              </div>
             </li>
             <!-- cta to add a new item -->
             <li v-if="!addTalkingPointMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
@@ -161,8 +188,31 @@
                 :required="true"
                 :editable="true"
                 @change="toggleActionItem(actionItem.id)"
+                @update="showEditActionItem(actionItem.id, actionItem.description)"
                 @destroy="destroyActionItem(actionItem.id)"
               />
+
+              <!-- edit item -->
+              <div v-if="actionItemToEdit == actionItem.id" class="bg-gray add-item-section edit-item ph2 mt1 mb3 pv1 br1 relative">
+                <form @submit.prevent="updateActionItem(actionItem.id)">
+                  <text-area
+                    :ref="'actionItem' + actionItem.id"
+                    v-model="form.description"
+                    :label="$t('dashboard.one_on_ones_action_talking_point_desc')"
+                    :datacy="'description-textarea'"
+                    :required="true"
+                    :rows="2"
+                    @esc-key-pressed="actionItemToEdit = 0"
+                  />
+                  <!-- actions -->
+                  <div>
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
+                    <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="actionItemToEdit = 0">
+                      {{ $t('app.cancel') }}
+                    </a>
+                  </div>
+                </form>
+              </div>
             </li>
             <!-- cta to add a new item -->
             <li v-if="!addActionItemMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
@@ -270,6 +320,8 @@ export default {
       localTalkingPoints: null,
       localActionItems: null,
       localNotes: null,
+      talkingPointToEdit: 0,
+      actionItemToEdit: 0,
       form: {
         manager_id: null,
         employee_id: null,
@@ -289,14 +341,42 @@ export default {
   methods: {
     displayAddTalkingPoint() {
       this.addTalkingPointMode = true;
+      this.form.description = null;
 
       this.$nextTick(() => {
         this.$refs['newTalkingPoint'].$refs['input'].focus();
       });
     },
 
+    showEditTalkingPoint(id, description) {
+      this.talkingPointToEdit = id;
+      this.form.description = description;
+
+      // this is really barbaric, but I need to do this to
+      // first: target the TextInput with the right ref attribute
+      // second: target within the component, the refs of the input text
+      // this is because we try here to access $refs from a child component
+      this.$nextTick(() => {
+        this.$refs[`talkingPoint${id}`][0].$refs['input'].focus();
+      });
+    },
+
+    showEditActionItem(id, description) {
+      this.actionItemToEdit = id;
+      this.form.description = description;
+
+      // this is really barbaric, but I need to do this to
+      // first: target the TextInput with the right ref attribute
+      // second: target within the component, the refs of the input text
+      // this is because we try here to access $refs from a child component
+      this.$nextTick(() => {
+        this.$refs[`actionItem${id}`][0].$refs['input'].focus();
+      });
+    },
+
     displayAddActionItem() {
       this.addActionItemMode = true;
+      this.form.description = null;
 
       this.$nextTick(() => {
         this.$refs['newActionItem'].$refs['input'].focus();
@@ -305,6 +385,7 @@ export default {
 
     displayAddNote() {
       this.addNoteMode = true;
+      this.form.description = null;
 
       this.$nextTick(() => {
         this.$refs['newNoteItem'].$refs['input'].focus();
@@ -362,6 +443,42 @@ export default {
         .catch(error => {
           this.loadingState = null;
           this.form.errors = error.response.data;
+        });
+    },
+
+    updateTalkingPoint(itemId) {
+      this.loadingState = 'loading';
+
+      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/talkingPoints/' + itemId, this.form)
+        .then(response => {
+          this.talkingPointToEdit = 0;
+          this.loadingState = null;
+          this.form.description = null;
+
+          var id = this.localTalkingPoints.findIndex(x => x.id === itemId);
+          this.$set(this.localTalkingPoints, id, response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    updateActionItem(itemId) {
+      this.loadingState = 'loading';
+
+      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + itemId, this.form)
+        .then(response => {
+          this.actionItemToEdit = 0;
+          this.loadingState = null;
+          this.form.description = null;
+
+          var id = this.localActionItems.findIndex(x => x.id === itemId);
+          this.$set(this.localActionItems, id, response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
 

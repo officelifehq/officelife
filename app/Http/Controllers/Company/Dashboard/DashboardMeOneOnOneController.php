@@ -15,9 +15,11 @@ use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Http\ViewHelpers\Dashboard\DashboardOneOnOneViewHelper;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
+use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneTalkingPoint;
 use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneTalkingPoint;
 
 class DashboardMeOneOnOneController extends Controller
@@ -158,6 +160,72 @@ class DashboardMeOneOnOneController extends Controller
             'data' => [
                 'id' => $note->id,
                 'note' => $note->note,
+            ],
+        ], 200);
+    }
+
+    /**
+     * Update a talking point.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @param int $talkingPointId
+     * @return JsonResponse
+     */
+    public function updateTalkingPoint(Request $request, int $companyId, int $entryId, int $talkingPointId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $employee->id,
+            'one_on_one_entry_id' => $entryId,
+            'one_on_one_talking_point_id' => $talkingPointId,
+            'description' => $request->input('description'),
+        ];
+
+        $talkingPoint = (new UpdateOneOnOneTalkingPoint)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'id' => $talkingPoint->id,
+                'description' => $talkingPoint->description,
+                'checked' => $talkingPoint->checked,
+            ],
+        ], 200);
+    }
+
+    /**
+     * Update an action item.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @param int $actionItemId
+     * @return JsonResponse
+     */
+    public function updateActionItem(Request $request, int $companyId, int $entryId, int $actionItemId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $employee->id,
+            'one_on_one_entry_id' => $entryId,
+            'one_on_one_action_item_id' => $actionItemId,
+            'description' => $request->input('description'),
+        ];
+
+        $actionItem = (new UpdateOneOnOneActionItem)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'id' => $actionItem->id,
+                'description' => $actionItem->description,
+                'checked' => $actionItem->checked,
             ],
         ], 200);
     }
