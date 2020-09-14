@@ -55,7 +55,7 @@
 
             <!-- call to action -->
             <div class="tr">
-              <inertia-link :href="manager.entry_url" class="btn dib-l db">{{ $t('dashboard.one_on_ones_cta') }}</inertia-link>
+              <inertia-link :href="manager.entry.url" :data-cy="'view-one-on-one-' + manager.entry.id" class="btn dib-l db">{{ $t('dashboard.one_on_ones_cta') }}</inertia-link>
             </div>
           </li>
         </ul>
@@ -85,18 +85,6 @@ export default {
 
   data() {
     return {
-      answerMode: false,
-      commentMode: false,
-      alreadyAnswered: false,
-      showFinalSucessMessage: false,
-      form: {
-        content: null,
-        rating: 0,
-        reveal: false,
-        comment: null,
-        errors: [],
-      },
-      loadingState: '',
     };
   },
 
@@ -104,52 +92,6 @@ export default {
   },
 
   methods: {
-    submit(answer, rating) {
-      this.loadingState = 'loading';
-      this.form.rating = rating;
-
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/manager/rate/' + answer.id, this.form)
-        .then(response => {
-          this.loadingState = null;
-          this.alreadyAnswered = true;
-          this.answerMode = true;
-          flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = error.response.data.errors;
-        });
-    },
-
-    submitComment(answer) {
-      this.loadingState = 'loading';
-
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/manager/rate/' + answer.id + '/comment', this.form)
-        .then(response => {
-          this.loadingState = null;
-          this.alreadyAnswered = true;
-          this.answerMode = true;
-          this.commentMode = false;
-          this.showFinalSucessMessage = true;
-          flash(this.$t('dashboard.rate_your_manager_submitted'), 'success');
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = error.response.data.errors;
-        });
-    },
-
-    showAnswerPanel(answer) {
-      this.commentMode = true;
-
-      this.$nextTick(() => {
-        this.$refs[`editor-${answer.id}`][0].$refs['input'].focus();
-      });
-    },
-
-    toggleReveal() {
-      this.form.reveal = !this.form.reveal;
-    }
   }
 };
 </script>

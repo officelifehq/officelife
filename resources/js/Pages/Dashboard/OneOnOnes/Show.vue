@@ -19,6 +19,16 @@
   left: -86px;
 }
 
+@media (max-width: 480px) {
+  .list-item {
+    left: 0;
+  }
+
+  .edit-item {
+    left: 0;
+  }
+}
+
 .list-item-offset {
   left: 0px;
 }
@@ -51,7 +61,7 @@
             1 on 1
           </h2>
           <ul class="tc list pl0">
-            <li class="di tl">
+            <li data-cy="employee-name" class="di tl">
               <small-name-and-avatar
                 v-if="entry.employee.id"
                 :name="entry.employee.name"
@@ -64,7 +74,7 @@
             <li class="di f6 mh3">
               {{ $t('app.and') }}
             </li>
-            <li class="di tl">
+            <li data-cy="manager-name" class="di tl">
               <small-name-and-avatar
                 v-if="entry.manager.id"
                 :name="entry.manager.name"
@@ -79,7 +89,8 @@
 
         <!-- dates -->
         <div class="cf mb4 pa3 db">
-          <div class="fl-ns w-third-ns w-100">
+          <!-- desktop view -->
+          <div class="fl-ns w-third-ns db-ns dn">
             <template v-if="entry.previous_entry">
               <div class="db mb1 f6 mr5">
                 ←
@@ -95,13 +106,13 @@
 &nbsp;
             </template>
           </div>
-          <div class="fl-ns w-third-ns w-100 f4 tc">
+          <div class="fl-ns w-third-ns db-ns dn f4 tc">
             <span class="f7 gray db mb1">
               {{ $t('dashboard.one_on_ones_created_on') }}
             </span>
             {{ entry.happened_at }}
           </div>
-          <div class="fl-ns w-third-ns w-100 tr">
+          <div class="fl-ns w-third-ns db-ns dn tr">
             <template v-if="entry.next_entry">
               <div class="db mb1 f6 ml5">
                 <inertia-link :href="entry.next_entry.url">
@@ -113,6 +124,43 @@
                 {{ entry.next_entry.happened_at }}
               </span>
             </template>
+          </div>
+
+          <!-- mobile view -->
+          <div class="fl w-50 dn-ns db">
+            <template v-if="entry.previous_entry">
+              <div class="db mb1 f6">
+                ←
+                <inertia-link :href="entry.previous_entry.url">
+                  {{ $t('dashboard.one_on_ones_previous_entry') }}
+                </inertia-link>
+              </div>
+              <span class="f7 gray">
+                {{ entry.previous_entry.happened_at }}
+              </span>
+            </template>
+            <template v-else>
+&nbsp;
+            </template>
+          </div>
+          <div class="fl w-50 dn-ns db tr">
+            <template v-if="entry.next_entry">
+              <div class="db mb1 f6">
+                <inertia-link :href="entry.next_entry.url">
+                  {{ $t('dashboard.one_on_ones_next_entry') }}
+                </inertia-link>
+                →
+              </div>
+              <span class="f7 gray">
+                {{ entry.next_entry.happened_at }}
+              </span>
+            </template>
+          </div>
+          <div class="fl w-100 dn-ns db f4 tc">
+            <span class="f7 gray db mb1">
+              {{ $t('dashboard.one_on_ones_created_on') }}
+            </span>
+            {{ entry.happened_at }}
           </div>
         </div>
 
@@ -130,10 +178,10 @@
                 :id="'tp-' + talkingPoint.id"
                 v-model="talkingPoint.checked"
                 :item-id="talkingPoint.id"
-                :datacy="'task-complete-cta'"
+                :datacy="'talking-point-' + talkingPoint.id"
                 :label="talkingPoint.description"
                 :extra-class-upper-div="'mb0 relative'"
-                :classes="'mb0'"
+                :classes="'mb0 mr1'"
                 :maxlength="255"
                 :required="true"
                 :editable="!entry.happened"
@@ -149,14 +197,14 @@
                     :ref="'talkingPoint' + talkingPoint.id"
                     v-model="form.description"
                     :label="$t('dashboard.one_on_ones_action_talking_point_desc')"
-                    :datacy="'description-textarea'"
+                    :datacy="'edit-talking-point-description-textarea-' + talkingPoint.id"
                     :required="true"
                     :rows="2"
                     @esc-key-pressed="talkingPointToEdit = 0"
                   />
                   <!-- actions -->
                   <div>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-talking-point-cta" :state="loadingState" :text="$t('app.update')" />
                     <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="talkingPointToEdit = 0">
                       {{ $t('app.cancel') }}
                     </a>
@@ -166,7 +214,7 @@
             </li>
             <!-- cta to add a new item -->
             <li v-if="!addTalkingPointMode && !entry.happened" class="bg-gray add-item-section ph2 mt1 pv1 br1">
-              <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="displayAddTalkingPoint()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
+              <span data-cy="add-new-talking-point" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="displayAddTalkingPoint()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
             </li>
             <!-- add a new item -->
             <li v-if="addTalkingPointMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
@@ -175,14 +223,14 @@
                   ref="newTalkingPoint"
                   v-model="form.description"
                   :label="$t('dashboard.one_on_ones_action_talking_point_desc')"
-                  :datacy="'description-textarea'"
+                  :datacy="'talking-point-description-textarea'"
                   :required="true"
                   :rows="2"
                   @esc-key-pressed="addTalkingPointMode = false"
                 />
                 <!-- actions -->
                 <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" />
+                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-talking-point-cta" />
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addTalkingPointMode = false">
                     {{ $t('app.cancel') }}
                   </a>
@@ -204,10 +252,10 @@
                 :id="'ai-' + actionItem.id"
                 v-model="actionItem.checked"
                 :item-id="actionItem.id"
-                :datacy="'task-complete-cta'"
+                :datacy="'action-item-' + actionItem.id"
                 :label="actionItem.description"
                 :extra-class-upper-div="'mb0 relative'"
-                :classes="'mb0'"
+                :classes="'mb0 mr1'"
                 :maxlength="255"
                 :required="true"
                 :editable="!entry.happened"
@@ -223,14 +271,14 @@
                     :ref="'actionItem' + actionItem.id"
                     v-model="form.description"
                     :label="$t('dashboard.one_on_ones_action_talking_point_desc')"
-                    :datacy="'description-textarea'"
+                    :datacy="'edit-action-item-description-textarea-' + actionItem.id"
                     :required="true"
                     :rows="2"
                     @esc-key-pressed="actionItemToEdit = 0"
                   />
                   <!-- actions -->
                   <div>
-                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" />
+                    <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
                     <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="actionItemToEdit = 0">
                       {{ $t('app.cancel') }}
                     </a>
@@ -240,7 +288,7 @@
             </li>
             <!-- cta to add a new item -->
             <li v-if="!addActionItemMode && !entry.happened" class="bg-gray add-item-section ph2 mt1 pv1 br1">
-              <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="displayAddActionItem()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
+              <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-action-item" @click="displayAddActionItem()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
             </li>
             <!-- add a new item -->
             <li v-if="addActionItemMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
@@ -249,14 +297,14 @@
                   ref="newActionItem"
                   v-model="form.description"
                   :label="$t('dashboard.one_on_ones_action_item_textarea_desc')"
-                  :datacy="'description-textarea'"
+                  :datacy="'action-item-description-textarea'"
                   :required="true"
                   :rows="2"
                   @esc-key-pressed="addActionItemMode = false"
                 />
                 <!-- actions -->
                 <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" />
+                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-action-item-cta" />
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addActionItemMode = false">
                     {{ $t('app.cancel') }}
                   </a>
@@ -273,12 +321,12 @@
           </h3>
           <p class="f6 gray mt1 pl4">{{ $t('dashboard.one_on_ones_note_desc') }}</p>
           <ul class="pl4 mb2">
-            <li v-for="note in localNotes" :key="note.id" class="relative mb2 ml3">
+            <li v-for="note in localNotes" :key="note.id" :data-cy="'note-' + note.id" class="relative mb2 ml3">
               {{ note.note }}
             </li>
             <!-- cta to add a new item -->
             <li v-if="!addNoteMode && !entry.happened" class="list bg-gray add-item-section ph2 mt1 pv1 br1">
-              <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" @click="displayAddNote()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
+              <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-note" @click="displayAddNote()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
             </li>
             <!-- add a new item -->
             <li v-if="addNoteMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
@@ -287,14 +335,14 @@
                   ref="newNoteItem"
                   v-model="form.description"
                   :label="$t('dashboard.one_on_ones_note_textarea_desc')"
-                  :datacy="'description-textarea'"
+                  :datacy="'add-note-textarea'"
                   :required="true"
                   :rows="2"
                   @esc-key-pressed="addNoteMode = false"
                 />
                 <!-- actions -->
                 <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" />
+                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="add-new-note-cta" :state="loadingState" :text="$t('app.add')" />
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addNoteMode = false">
                     {{ $t('app.cancel') }}
                   </a>
@@ -306,7 +354,7 @@
 
         <!-- cta -->
         <div v-if="!entry.happened" class="pa3 title-section bb bb-gray tc">
-          <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'✅'" :text="$t('dashboard.one_on_ones_mark_happened')" :cypress-selector="'expense-accept-button'"
+          <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :emoji="'✅'" :text="$t('dashboard.one_on_ones_mark_happened')" :cypress-selector="'entry-mark-as-happened-button'"
                           @click="markAsHappened()"
           />
 

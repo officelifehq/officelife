@@ -228,10 +228,6 @@ class DashboardMeViewHelper
             }
 
             $managersCollection->push([
-                'entry_url' => route('employees.show.oneonones', [
-                    'company' => $manager->company,
-                    'entry' => $entry,
-                ]),
                 'id' => $manager->id,
                 'name' => $manager->name,
                 'avatar' => $manager->avatar,
@@ -240,6 +236,13 @@ class DashboardMeViewHelper
                     'company' => $manager->company,
                     'employee' => $manager,
                 ]),
+                'entry' => [
+                    'id' => $entry->id,
+                    'url' => route('employees.show.oneonones', [
+                        'company' => $manager->company,
+                        'entry' => $entry,
+                    ]),
+                ],
             ]);
         }
 
