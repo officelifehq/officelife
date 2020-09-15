@@ -394,6 +394,26 @@ class Employee extends Model
     }
 
     /**
+     * Get the one on one entries associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function oneOnOneEntriesAsEmployee()
+    {
+        return $this->hasMany(OneOnOneEntry::class, 'employee_id');
+    }
+
+    /**
+     * Get the one on one entries associated with the employee being a manager.
+     *
+     * @return hasMany
+     */
+    public function oneOnOneEntriesAsManager()
+    {
+        return $this->hasMany(OneOnOneEntry::class, 'manager_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

@@ -16,6 +16,11 @@
 
       <dashboard-menu :employee="employee" />
 
+      <one-on-one-with-manager
+        :employee="employee"
+        :one-on-ones="oneOnOnes"
+      />
+
       <rate-your-manager
         :employee="employee"
         :rate-your-manager-answers="rateYourManagerAnswers"
@@ -86,6 +91,7 @@ import Question from '@/Pages/Dashboard/Me/Partials/Question';
 import Task from '@/Pages/Dashboard/Me/Partials/Task';
 import Expense from '@/Pages/Dashboard/Me/Partials/Expense';
 import RateYourManager from '@/Pages/Dashboard/Me/Partials/RateYourManager';
+import OneOnOneWithManager from '@/Pages/Dashboard/Me/Partials/OneOnOneWithManager';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -99,6 +105,7 @@ export default {
     Expense,
     WorkFromHome,
     RateYourManager,
+    OneOnOneWithManager,
     DashboardMenu,
   },
 
@@ -140,6 +147,10 @@ export default {
       default: null,
     },
     rateYourManagerAnswers: {
+      type: Array,
+      default: null,
+    },
+    oneOnOnes: {
       type: Array,
       default: null,
     },

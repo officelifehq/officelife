@@ -15,15 +15,13 @@
 
 <template>
   <div>
-    <h3 class="db fw5 mb3 flex justify-between items-center">
-      <span>
-        <span class="mr1">
-          🚀
-        </span> {{ $t('employee.recent_ship_title') }}
+    <span class="db fw5 mb2">
+      <span class="mr1">
+        🚀
+      </span> {{ $t('employee.recent_ship_title') }}
 
-        <help :url="$page.help_links.team_recent_ship" :top="'2px'" />
-      </span>
-    </h3>
+      <help :url="$page.help_links.team_recent_ship" :top="'2px'" />
+    </span>
 
     <div class="mb4 bg-white box cf">
       <!-- list of employees -->

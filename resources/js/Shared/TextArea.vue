@@ -38,6 +38,7 @@
               :value="value"
               :data-cy="datacy"
               :rows="rows"
+              :maxlength="maxlength"
               @input="$emit('input', $event.target.value)"
               @keydown.esc="sendEscKey"
     ></textarea>
@@ -94,6 +95,10 @@ export default {
     rows: {
       type: Number,
       default: 3,
+    },
+    maxlength: {
+      type: Number,
+      default: 65535,
     },
     errors: {
       type: Array,

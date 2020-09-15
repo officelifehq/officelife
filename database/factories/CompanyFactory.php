@@ -403,3 +403,50 @@ $factory->define(App\Models\Company\RateYourManagerAnswer::class, function () {
         'comment' => 'A really bad manager',
     ];
 });
+
+$factory->define(App\Models\Company\OneOnOneEntry::class, function () {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
+    return [
+        'manager_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'employee_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'happened_at' => '2020-03-02 00:00:00',
+    ];
+});
+
+$factory->define(App\Models\Company\OneOnOneTalkingPoint::class, function () {
+    return [
+        'one_on_one_entry_id' => function () {
+            return factory(App\Models\Company\OneOnOneEntry::class)->create([])->id;
+        },
+        'description' => 'what are you doing right now',
+        'checked' => false,
+    ];
+});
+
+$factory->define(App\Models\Company\OneOnOneActionItem::class, function () {
+    return [
+        'one_on_one_entry_id' => function () {
+            return factory(App\Models\Company\OneOnOneEntry::class)->create([])->id;
+        },
+        'description' => 'what are you doing right now',
+        'checked' => false,
+    ];
+});
+
+$factory->define(App\Models\Company\OneOnOneNote::class, function () {
+    return [
+        'one_on_one_entry_id' => function () {
+            return factory(App\Models\Company\OneOnOneEntry::class)->create([])->id;
+        },
+        'note' => 'what are you doing right now',
+    ];
+});

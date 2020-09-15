@@ -133,13 +133,13 @@ class EmployeeController extends Controller
         // information about the logged employee
         $loggedEmployee = EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee);
 
-        // information about the employee, that depends on what the logged Employee can see
+        // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $loggedEmployee);
 
         return Inertia::render('Employee/Show', [
             'menu' => 'all',
             'employee' => $employee,
-            'loggedEmployee' => $loggedEmployee,
+            'permissions' => $loggedEmployee,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,

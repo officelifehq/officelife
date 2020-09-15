@@ -119,7 +119,7 @@ class CreateTimeOff extends BaseService
      * Validate wether we can create a new holiday.
      *
      * @param EmployeePlannedHoliday $holiday
-     * @param array                  $data
+     * @param array $data
      *
      * @return bool
      */
@@ -162,7 +162,7 @@ class CreateTimeOff extends BaseService
      *
      * @param Employee               $employee
      * @param EmployeePlannedHoliday $plannedHoliday
-     * @param array                  $data
+     * @param array $data
      */
     private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday, array $data)
     {

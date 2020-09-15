@@ -17,6 +17,7 @@ use App\Models\Company\WorkFromHome;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
+use App\Services\Company\Adminland\CompanyPTOPolicy\CreateCompanyPTOPolicy;
 
 class EmployeeShowViewHelperTest extends TestCase
 {
@@ -25,8 +26,22 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_the_information_about_the_employee(): void
     {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
+
+        // create a policy for this year
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'year' => 2018,
+            'default_amount_of_allowed_holidays' => 1,
+            'default_amount_of_sick_days' => 1,
+            'default_amount_of_pto_days' => 1,
+        ];
+
+        (new CreateCompanyPTOPolicy)->execute($request);
+
         $michael = [
             'can_see_complete_address' => true,
         ];

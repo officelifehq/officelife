@@ -25,6 +25,7 @@ use App\Models\Company\EmployeeLog;
 use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
 use App\Models\Company\WorkFromHome;
+use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
@@ -340,6 +341,28 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->rateYourManagerSurveys()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_one_on_one_entries(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(OneOnOneEntry::class, 2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->oneOnOneEntriesAsEmployee()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_one_on_one_entries_as_manager(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(OneOnOneEntry::class, 2)->create([
+            'manager_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->oneOnOneEntriesAsManager()->exists());
     }
 
     /** @test */

@@ -55,7 +55,7 @@
               </ul>
             </li>
           </ul>
-          <div v-if="loggedEmployee.can_see_work_log_history" class="ph3 pv2 tc f6 bt bb-gray">
+          <div v-if="permissions.can_see_work_log_history" class="ph3 pv2 tc f6 bt bb-gray">
             <inertia-link :href="worklogs.url" data-cy="view-all-worklogs">{{ $t('employee.worklog_view_all') }}</inertia-link>
           </div>
         </div>
@@ -71,7 +71,7 @@ export default {
       type: Object,
       default: null,
     },
-    loggedEmployee: {
+    permissions: {
       type: Object,
       default: null,
     },

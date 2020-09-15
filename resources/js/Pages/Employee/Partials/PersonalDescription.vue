@@ -5,7 +5,7 @@
         💬
       </span> {{ $t('employee.description_title') }}
     </span>
-    <img v-show="loggedEmployee.can_manage_description && !showEdit" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button"
+    <img v-show="permissions.can_manage_description && !showEdit" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-description-button"
          width="22"
          height="22" alt="add a description"
          @click.prevent="displayEditBox()"
@@ -78,7 +78,7 @@ export default {
       type: Object,
       default: null,
     },
-    loggedEmployee: {
+    permissions: {
       type: Object,
       default: null,
     },

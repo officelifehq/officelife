@@ -28,6 +28,7 @@ return [
     'yes_sure' => 'Yes I’m sure',
     'optional' => 'optional',
     'choose_value' => 'Choose a value',
+    'and' => 'and',
 
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
@@ -80,6 +81,7 @@ return [
     'breadcrumb_employee_expense' => 'Expense detail',
     'breadcrumb_employee_surveys_manager' => 'All the surveys as manager',
     'breadcrumb_employee_surveys_detail' => 'Survey of {month}',
+    'breadcrumb_dashboard_one_on_one' => 'One on One',
     'breadcrumb_team_list' => 'All teams',
     'breadcrumb_team_show_team_news' => 'Team news',
     'breadcrumb_team_add_team_news' => 'Add a team news',

@@ -35,12 +35,19 @@ use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Team\Description\SetTeamDescription;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
+use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
 use App\Services\Company\Employee\Description\SetPersonalDescription;
+use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
+use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
+use App\Services\Company\Employee\OneOnOne\MarkOneOnOneEntryAsHappened;
 use App\Services\Company\Adminland\Expense\AllowEmployeeToManageExpenses;
 use App\Services\Company\Employee\WorkFromHome\UpdateWorkFromHomeInformation;
 use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
@@ -173,6 +180,7 @@ class SetupDummyAccount extends Command
         $this->createHardware();
         $this->addRecentShips();
         $this->addRateYourManagerSurveys();
+        $this->addOneOnOnes();
         $this->addSecondaryBlankAccount();
         $this->stop();
     }
@@ -1387,6 +1395,179 @@ class SetupDummyAccount extends Command
                     'comment' => null,
                     'reveal_identity_to_manager' => false,
                 ]);
+            }
+        }
+    }
+
+    private function addOneOnOnes(): void
+    {
+        $this->info('☐ Add one on one entries');
+
+        $talkingPoints = collect([
+            'What can I do to accelerate my career development?',
+            'What is your vision for our team?',
+            'What have you done with customer 3029?',
+            'Do you enjoy working with Sue Helen?',
+            'Do you think you can achieve your monthly goal?',
+            'Reorganisation of the marketing department',
+            'Christmas Party',
+            'Do you expect to take a time off later this year?',
+            'Do you think Dwight should become a manager?',
+        ]);
+
+        $actionItems = collect([
+            'Follow up with Jan',
+            'Send slides to Michael',
+            'Update goals for Q2',
+            'Clean your agenda and organize all department emails',
+            'Prepare presentation for August Seminar',
+            'Set a meeting with warehouse',
+            'Call Michael daily',
+            'Send Q4 goals to Jan',
+            'Prepare September',
+        ]);
+
+        $notes = collect([
+            'I suggest you to watch Season 3 and 4 of The Office',
+            'Recommended read: optimize sale conversions',
+            'Note for future you: read more',
+            'Awesome and productive one on one.',
+            'We need to do those one on ones more often - ideally twice per month.',
+        ]);
+
+        foreach ($this->employees as $employee) {
+            if (rand(1, 2) == 1 && $employee->id != $this->michael->id) {
+                continue;
+            }
+
+            $manager = $employee->getListOfManagers()->first();
+
+            if ($manager) {
+                $date = Carbon::now()->subDays(150);
+
+                // create a first entry with a couple of points and items
+                // this entire process is complex because each entry depends on
+                // the previous entry, so we need to simulate this in the
+                // setup process
+                $entry = (new CreateOneOnOneEntry)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'manager_id' => $manager->id,
+                    'employee_id' => $employee->id,
+                    'date' => $date->format('Y-m-d'),
+                ]);
+
+                for ($j = 0; $j < rand(2, 6); $j++) {
+                    $randomItem = $talkingPoints->shuffle()->first();
+
+                    $talkingPoint = (new CreateOneOnOneTalkingPoint)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'one_on_one_entry_id' => $entry->id,
+                        'description' => $randomItem,
+                    ]);
+
+                    if (rand(1, 2) == 1) {
+                        (new ToggleOneOnOneTalkingPoint)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'one_on_one_entry_id' => $entry->id,
+                            'one_on_one_talking_point_id' => $talkingPoint->id,
+                        ]);
+                    }
+                }
+
+                for ($j = 0; $j < rand(2, 6); $j++) {
+                    $randomItem = $actionItems->shuffle()->first();
+
+                    $actionItem = (new CreateOneOnOneActionItem)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'one_on_one_entry_id' => $entry->id,
+                        'description' => $randomItem,
+                    ]);
+
+                    if (rand(1, 2) == 1) {
+                        (new ToggleOneOnOneActionItem)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'one_on_one_entry_id' => $entry->id,
+                            'one_on_one_action_item_id' => $actionItem->id,
+                        ]);
+                    }
+                }
+
+                for ($j = 0; $j < rand(1, 3); $j++) {
+                    $randomItem = $notes->shuffle()->first();
+
+                    (new CreateOneOnOneNote)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'one_on_one_entry_id' => $entry->id,
+                        'note' => $randomItem,
+                    ]);
+                }
+
+                for ($i = 0; $i < 9; $i++) {
+                    $date->addDays(7);
+
+                    $entry = (new MarkOneOnOneEntryAsHappened)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'one_on_one_entry_id' => $entry->id,
+                    ]);
+
+                    for ($j = 0; $j < rand(2, 6); $j++) {
+                        $randomItem = $talkingPoints->shuffle()->first();
+
+                        $talkingPoint = (new CreateOneOnOneTalkingPoint)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'one_on_one_entry_id' => $entry->id,
+                            'description' => $randomItem,
+                        ]);
+
+                        if (rand(1, 2) == 1) {
+                            (new ToggleOneOnOneTalkingPoint)->execute([
+                                'company_id' => $this->company->id,
+                                'author_id' => $this->michael->id,
+                                'one_on_one_entry_id' => $entry->id,
+                                'one_on_one_talking_point_id' => $talkingPoint->id,
+                            ]);
+                        }
+                    }
+
+                    for ($j = 0; $j < rand(2, 6); $j++) {
+                        $randomItem = $actionItems->shuffle()->first();
+
+                        $actionItem = (new CreateOneOnOneActionItem)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'one_on_one_entry_id' => $entry->id,
+                            'description' => $randomItem,
+                        ]);
+
+                        if (rand(1, 2) == 1) {
+                            (new ToggleOneOnOneActionItem)->execute([
+                                'company_id' => $this->company->id,
+                                'author_id' => $this->michael->id,
+                                'one_on_one_entry_id' => $entry->id,
+                                'one_on_one_action_item_id' => $actionItem->id,
+                            ]);
+                        }
+                    }
+
+                    for ($j = 0; $j < rand(1, 3); $j++) {
+                        $randomItem = $notes->shuffle()->first();
+
+                        (new CreateOneOnOneNote)->execute([
+                            'company_id' => $this->company->id,
+                            'author_id' => $this->michael->id,
+                            'one_on_one_entry_id' => $entry->id,
+                            'note' => $randomItem,
+                        ]);
+                    }
+                }
             }
         }
     }

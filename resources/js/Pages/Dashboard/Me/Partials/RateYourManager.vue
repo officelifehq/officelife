@@ -3,15 +3,6 @@
   width: 100px;
 }
 
-.content {
-  background-color: #f3f9fc;
-  padding: 4px 10px;
-}
-
-.edit-content {
-  background-color: #f3f9fc;
-}
-
 .rate-bad {
   background: linear-gradient(0deg, #ec89793d 0%, white 100%);
 }

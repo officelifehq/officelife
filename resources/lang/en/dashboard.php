@@ -1,9 +1,8 @@
 <?php
 
 return [
-    'tab_me' => 'Me',
-    'tab_my_team' => 'My team',
-    'tab_my_company' => 'My company',
+    'tab_me' => 'You',
+    'tab_my_team' => 'Your team',
     'tab_expenses' => 'Accountant area',
     'tab_manager' => 'Decisions as manager',
 
@@ -90,6 +89,26 @@ return [
     'accountant_awaiting_manager_title' => 'Expenses that need manager approval',
     'accountant_employee' => 'Employee:',
     'accountant_manager' => 'Manager:',
+
+    'one_on_ones_title' => 'One on One with your manager',
+    'one_on_ones_cta' => 'Participate',
+    'one_on_ones_talking_point_title' => 'Talking points',
+    'one_on_ones_talking_point_desc' => 'Things that need to be adressed during the meeting.',
+    'one_on_ones_action_item_title' => 'Action items',
+    'one_on_ones_action_item_desc' => 'If you have decided something or need to follow up next time, enter the points here.',
+    'one_on_ones_note_title' => 'Notes',
+    'one_on_ones_note_desc' => 'Add anything that you need to keep track of here.',
+    'one_on_ones_action_talking_point_desc' => 'Add a talking point ',
+    'one_on_ones_action_item_textarea_desc' => 'Add an action item',
+    'one_on_ones_note_textarea_desc' => 'Add a note',
+    'one_on_ones_note_cta' => 'Add an item',
+    'one_on_ones_note_deletion_success' => 'The entry has been deleted.',
+    'one_on_ones_mark_happened' => 'Mark as happened',
+    'one_on_ones_mark_happened_note_1' => 'This will close this 1 on 1, and create a new entry.',
+    'one_on_ones_mark_happened_note_2' => 'Any incomplete action items will become a talking point in the new entry.',
+    'one_on_ones_previous_entry' => 'Previous entry',
+    'one_on_ones_next_entry' => 'Next entry',
+    'one_on_ones_created_on' => 'Created on',
 
     'manager_expense_title' => 'Expenses that needs your approval',
     'manager_expense_blank_state' => 'You don’t have any expenses to validate.',

@@ -37,10 +37,6 @@ export default {
       type: Object,
       default: null,
     },
-    loggedEmployee: {
-      type: Object,
-      default: null,
-    },
   },
 
   data() {

@@ -34,6 +34,7 @@ class EmployeeShowViewHelper
             'twitter_handle' => $employee->twitter_handle,
             'slack_handle' => $employee->slack_handle,
             'locked' => $employee->locked,
+            'holidays' => $employee->getHolidaysInformation(),
             'birthdate' => (! $employee->birthdate) ? null : [
                 'full' => DateHelper::formatDate($employee->birthdate),
                 'partial' => DateHelper::formatMonthAndDay($employee->birthdate),
@@ -74,7 +75,8 @@ class EmployeeShowViewHelper
     }
 
     /**
-     * Information about what the logged employee can manage on the page.
+     * Information about what the logged employee can see on the page of the
+     * given employee.
      *
      * @param Employee $loggedEmployee
      * @param Employee $employee
@@ -82,6 +84,8 @@ class EmployeeShowViewHelper
      */
     public static function informationAboutLoggedEmployee(Employee $loggedEmployee, Employee $employee): array
     {
+        $loggedEmployeeIsManager = $loggedEmployee->isManagerOf($employee->id);
+
         // can the logged employee manage expenses
         $canSeeExpenses = $loggedEmployee->can_manage_expenses;
         if ($loggedEmployee->id == $employee->id) {
@@ -136,9 +140,18 @@ class EmployeeShowViewHelper
             $canSeeCompleteAddress = true;
         }
 
+        // can see one on one with manager
+        $canSeeOneOnOneWithManager = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeOneOnOneWithManager = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canSeeOneOnOneWithManager = true;
+        }
+
         // can see performance tab?
-        $canSeePerformanceTab = $loggedEmployee->isManagerOf($employee->id);
         $canSeePerformanceTab = $loggedEmployee->permission_level <= 200;
+        $canSeePerformanceTab = $loggedEmployeeIsManager;
         if ($loggedEmployee->id == $employee->id) {
             $canSeePerformanceTab = true;
         }
@@ -155,6 +168,7 @@ class EmployeeShowViewHelper
             'can_see_audit_log' => $canSeeAuditLog,
             'can_see_complete_address' => $canSeeCompleteAddress,
             'can_see_performance_tab' => $canSeePerformanceTab,
+            'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
         ];
     }
 

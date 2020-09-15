@@ -59,6 +59,7 @@ class DashboardMeController extends Controller
             'currencies' => DashboardMeViewHelper::currencies(),
             'expenses' => DashboardMeViewHelper::expenses($employee),
             'rateYourManagerAnswers' => DashboardMeViewHelper::rateYourManagerAnswers($employee),
+            'oneOnOnes' => DashboardMeViewHelper::oneOnOnes($employee),
             'defaultCurrency' => $defaultCompanyCurrency,
         ]);
     }

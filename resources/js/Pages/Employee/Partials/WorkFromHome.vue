@@ -18,7 +18,7 @@
           🎯 {{ $tc('employee.work_from_home_statistics', statistics.number_times_this_year, { count: statistics.number_times_this_year}) }}
         </p>
       </div>
-      <div v-if="loggedEmployee.can_see_work_from_home_history" class="ph3 pv2 tc f6 bt bb-gray">
+      <div v-if="permissions.can_see_work_from_home_history" class="ph3 pv2 tc f6 bt bb-gray">
         <inertia-link :href="statistics.url" data-cy="view-all-work-from-home">{{ $t('employee.work_from_home_link') }}</inertia-link>
       </div>
     </div>
@@ -32,7 +32,7 @@ export default {
       type: Object,
       default: null,
     },
-    loggedEmployee: {
+    permissions: {
       type: Object,
       default: null,
     },
