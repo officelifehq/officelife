@@ -38,7 +38,7 @@
     <span class="db fw5 mb2">
       👨‍✈️ {{ $t('employee.hierarchy_title') }}
     </span>
-    <img v-show="loggedEmployee.can_manage_hierarchy" loading="lazy" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button"
+    <img v-show="permissions.can_manage_hierarchy" loading="lazy" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-hierarchy-button"
          width="22"
          height="22" alt="add button"
          @click.prevent="toggleModals()"
@@ -162,14 +162,14 @@
                 {{ $t('app.no_position_defined') }}
               </span>
 
-              <img v-if="loggedEmployee.can_manage_hierarchy" loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action"
+              <img v-if="permissions.can_manage_hierarchy" loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action"
                    data-cy="display-remove-manager-modal"
                    @click="managerModalId = manager.id"
               />
 
               <!-- DELETE MANAGER MENU -->
               <template v-if="managerModalId == manager.id">
-                <div v-show="loggedEmployee.can_manage_hierarchy" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+                <div v-show="permissions.can_manage_hierarchy" v-click-outside="hideManagerModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
                   <ul class="list ma0 pa0">
                     <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                       <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
@@ -215,14 +215,14 @@
                 {{ $t('app.no_position_defined') }}
               </span>
 
-              <img v-if="loggedEmployee.can_manage_hierarchy" loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action"
+              <img v-if="permissions.can_manage_hierarchy" loading="lazy" src="/img/common/triple-dots.svg" alt="triple dot symbol" class="absolute right-0 pointer list-employees-action"
                    data-cy="display-remove-directreport-modal"
                    @click="directReportModalId = directReport.id"
               />
 
               <!-- DELETE DIRECT REPORT MENU -->
               <template v-if="directReportModalId == directReport.id">
-                <div v-show="loggedEmployee.can_manage_hierarchy" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
+                <div v-show="permissions.can_manage_hierarchy" v-click-outside="hideDirectReportModal" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn list-employees-modal">
                   <ul class="list ma0 pa0">
                     <li v-show="!deleteEmployeeConfirmation" class="pv2 relative">
                       <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
@@ -271,7 +271,7 @@ export default {
       type: Object,
       default: null,
     },
-    loggedEmployee: {
+    permissions: {
       type: Object,
       default: null,
     },

@@ -12,7 +12,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Company\OneOnOneEntry;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
+use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneNote;
 use App\Http\ViewHelpers\Dashboard\DashboardOneOnOneViewHelper;
+use App\Services\Company\Employee\OneOnOne\DestroyOneOnOneNote;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\UpdateOneOnOneActionItem;
@@ -35,7 +37,6 @@ class DashboardMeOneOnOneController extends Controller
      */
     public function show(Request $request, int $companyId, int $entryId)
     {
-        $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
         try {
@@ -111,7 +112,7 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $entry = OneOnOneEntry::where('manager_id', $request->input('manager_id'))
+        OneOnOneEntry::where('manager_id', $request->input('manager_id'))
             ->where('employee_id', $request->input('employee_id'))
             ->findOrFail($entryId);
 
@@ -146,7 +147,7 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $entry = OneOnOneEntry::where('manager_id', $request->input('manager_id'))
+        OneOnOneEntry::where('manager_id', $request->input('manager_id'))
             ->where('employee_id', $request->input('employee_id'))
             ->findOrFail($entryId);
 
@@ -181,7 +182,7 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $entry = OneOnOneEntry::where('manager_id', $request->input('manager_id'))
+        OneOnOneEntry::where('manager_id', $request->input('manager_id'))
             ->where('employee_id', $request->input('employee_id'))
             ->findOrFail($entryId);
 
@@ -264,6 +265,38 @@ class DashboardMeOneOnOneController extends Controller
                 'id' => $actionItem->id,
                 'description' => $actionItem->description,
                 'checked' => $actionItem->checked,
+            ],
+        ], 200);
+    }
+
+    /**
+     * Update a note.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @param int $noteId
+     * @return JsonResponse
+     */
+    public function updateNote(Request $request, int $companyId, int $entryId, int $noteId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $employee->id,
+            'one_on_one_entry_id' => $entryId,
+            'one_on_one_note_id' => $noteId,
+            'note' => $request->input('description'),
+        ];
+
+        $note = (new UpdateOneOnOneNote)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'id' => $note->id,
+                'note' => $note->note,
             ],
         ], 200);
     }
@@ -382,6 +415,34 @@ class DashboardMeOneOnOneController extends Controller
         ];
 
         (new DestroyOneOnOneActionItem)->execute($request);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
+    }
+
+    /**
+     * Delete a note.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $entryId
+     * @param int $noteId
+     * @return JsonResponse
+     */
+    public function destroyNote(Request $request, int $companyId, int $entryId, int $noteId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $employee->id,
+            'one_on_one_entry_id' => $entryId,
+            'one_on_one_note_id' => $noteId,
+        ];
+
+        (new DestroyOneOnOneNote)->execute($request);
 
         return response()->json([
             'data' => true,

@@ -52,7 +52,7 @@
     <div class="mw9 center br3 mb5 bg-white box relative z-1">
       <div class="pa3 relative">
         <!-- EDIT BUTTON -->
-        <img v-if="loggedEmployee.can_edit_profile" loading="lazy" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button"
+        <img v-if="permissions.can_edit_profile" loading="lazy" src="/img/menu_button.svg" class="box-edit-button absolute br-100 pa2 bg-white pointer" data-cy="edit-profile-button"
              alt="edit button"
              @click="profileMenu = true"
         />
@@ -60,17 +60,17 @@
         <!-- EDIT MENU -->
         <div v-if="profileMenu" v-click-outside="toggleProfileMenu" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
           <ul class="list ma0 pa0">
-            <li v-if="loggedEmployee.can_see_audit_log" class="pv2">
+            <li v-if="permissions.can_see_audit_log" class="pv2">
               <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">
                 {{ $t('employee.menu_changelog') }}
               </inertia-link>
             </li>
-            <li v-show="loggedEmployee.can_edit_profile" class="pv2">
+            <li v-show="permissions.can_edit_profile" class="pv2">
               <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" class="pointer" data-cy="show-edit-view">
                 {{ $t('app.edit') }}
               </inertia-link>
             </li>
-            <li v-show="loggedEmployee.can_delete_profile" class="pv2">
+            <li v-show="permissions.can_delete_profile" class="pv2">
               <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + employee.id + '/delete'" class="pointer c-delete" data-cy="show-delete-view">
                 {{ $t('app.delete') }}
               </inertia-link>
@@ -202,7 +202,7 @@ export default {
       type: Object,
       default: null,
     },
-    loggedEmployee: {
+    permissions: {
       type: Object,
       default: null,
     },

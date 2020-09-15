@@ -36,7 +36,6 @@ class DestroyOneOnOneActionItemTest extends TestCase
     public function it_deletes_an_action_item_as_hr(): void
     {
         $michael = $this->createHR();
-        $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
         $entry = factory(OneOnOneEntry::class)->create([
             'manager_id' => $michael->id,

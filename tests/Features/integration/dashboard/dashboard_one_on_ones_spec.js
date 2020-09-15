@@ -75,9 +75,21 @@ describe('Dashboard - employee - one on one', function () {
     cy.get('[data-cy=add-note-textarea]').type('new note')
     cy.get('[data-cy=add-new-note-cta]').click()
 
-    // make sure the action item exists
+    // make sure the note exists
     cy.get('[data-cy=note-1]').contains('new note')
     cy.get('[data-cy=note-1]').should('exist')
+
+    // edit a note
+    cy.get('[data-cy=note-1]').trigger('mouseover')
+    cy.get('[data-cy=edit-note-1]').click()
+    cy.get('[data-cy=edit-note-description-textarea-1]').clear()
+    cy.get('[data-cy=edit-note-description-textarea-1]').type('updated note')
+    cy.get('[data-cy=edit-note-cta]').click()
+    cy.get('[data-cy=note-1]').contains('updated note')
+
+    // delete a note
+    cy.get('[data-cy=delete-note-1]').click()
+    cy.get('[data-cy=delete-note-cta-1]').click()
 
     // create 3 additional action items, mark the entry as happened
     // 1 of those action items should be checked before

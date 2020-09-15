@@ -83,6 +83,8 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('oneonones/{entry}/actionItems/{actionItem}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyActionItem');
 
             Route::post('oneonones/{entry}/notes', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeNote');
+            Route::post('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@updateNote');
+            Route::delete('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyNote');
         });
 
         Route::prefix('employees')->group(function () {

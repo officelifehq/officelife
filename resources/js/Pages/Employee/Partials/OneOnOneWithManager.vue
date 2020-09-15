@@ -17,14 +17,13 @@
   <div>
     <span class="db fw5 mb2">
       <span class="mr1">
-        🚀
-      </span> {{ $t('employee.recent_ship_title') }}
+        🏔
+      </span> One on One with your manager
 
       <help :url="$page.help_links.team_recent_ship" :top="'2px'" />
     </span>
 
     <div class="mb4 bg-white box cf">
-      <!-- list of employees -->
       <div v-show="ships.length > 0">
         <div v-for="ship in ships" :key="ship.id" class="pa3 bb bb-gray w-100 flex justify-between ships-list">
           <inertia-link :href="ship.url" class="ma0 pa0" :data-cy="'ship-list-item-' + ship.id">{{ ship.title }}</inertia-link>
@@ -38,7 +37,7 @@
 
       <!-- blank state -->
       <div v-show="ships.length == 0" class="pa3" data-cy="recent-ships-list-blank-state">
-        <p class="mb0 mt0 lh-copy f6">{{ $t('employee.recent_ship_list_blank') }}</p>
+        <p class="mb0 mt0 lh-copy f6">There are no one on ones yet.</p>
       </div>
     </div>
   </div>

@@ -1,9 +1,8 @@
 <?php
 
 return [
-    'tab_me' => 'Me',
-    'tab_my_team' => 'My team',
-    'tab_my_company' => 'My company',
+    'tab_me' => 'You',
+    'tab_my_team' => 'Your team',
     'tab_expenses' => 'Accountant area',
     'tab_manager' => 'Decisions as manager',
 

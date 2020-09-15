@@ -24,6 +24,10 @@
     top: 2px;
   }
 }
+
+.top-1 {
+  top: 0.3rem;
+}
 </style>
 
 <template>

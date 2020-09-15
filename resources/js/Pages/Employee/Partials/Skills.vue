@@ -55,7 +55,7 @@
 
       <help :url="$page.help_links.skills" :datacy="'help-icon-skills'" />
     </span>
-    <img v-if="loggedEmployee.can_manage_skills && !editMode" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="manage-skill-button"
+    <img v-if="permissions.can_manage_skills && !editMode" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="manage-skill-button"
          width="22"
          height="22" alt="manage skills"
          @click.prevent="toggleEditMode()"
@@ -146,7 +146,7 @@ export default {
       type: Object,
       default: null,
     },
-    loggedEmployee: {
+    permissions: {
       type: Object,
       default: null,
     },
