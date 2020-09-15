@@ -150,8 +150,8 @@ class EmployeeShowViewHelper
         }
 
         // can see performance tab?
-        $canSeePerformanceTab = $loggedEmployeeIsManager;
         $canSeePerformanceTab = $loggedEmployee->permission_level <= 200;
+        $canSeePerformanceTab = $loggedEmployeeIsManager;
         if ($loggedEmployee->id == $employee->id) {
             $canSeePerformanceTab = true;
         }
