@@ -34,7 +34,6 @@ class UpdateOneOnOneTalkingPointTest extends TestCase
     public function it_updates_a_talking_point_as_hr(): void
     {
         $michael = $this->createHR();
-        $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
         $entry = factory(OneOnOneEntry::class)->create([
             'manager_id' => $michael->id,

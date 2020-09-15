@@ -34,7 +34,6 @@ class ToggleOneOnOneTalkingPointTest extends TestCase
     public function it_toggles_an_one_on_one_talking_point_as_hr(): void
     {
         $michael = $this->createHR();
-        $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
         $entry = factory(OneOnOneEntry::class)->create([
             'manager_id' => $michael->id,

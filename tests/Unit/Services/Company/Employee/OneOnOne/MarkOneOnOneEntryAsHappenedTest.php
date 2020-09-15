@@ -30,7 +30,6 @@ class MarkOneOnOneEntryAsHappenedTest extends TestCase
     public function it_marks_an_one_on_one_as_completed_as_hr(): void
     {
         $michael = $this->createHR();
-        $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
         $entry = factory(OneOnOneEntry::class)->create([
             'manager_id' => $michael->id,

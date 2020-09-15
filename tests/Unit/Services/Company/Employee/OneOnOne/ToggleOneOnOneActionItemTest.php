@@ -34,7 +34,6 @@ class ToggleOneOnOneActionItemTest extends TestCase
     public function it_toggles_an_one_on_one_action_item_as_hr(): void
     {
         $michael = $this->createHR();
-        $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
         $entry = factory(OneOnOneEntry::class)->create([
             'manager_id' => $michael->id,

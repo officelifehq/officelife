@@ -226,7 +226,7 @@ export default {
           flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
           id = this.localNotes.findIndex(x => x.id === id);
           this.localNotes.splice(id, 1);
-          this.noteToDelete == 0;
+          this.noteToDelete = 0;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
