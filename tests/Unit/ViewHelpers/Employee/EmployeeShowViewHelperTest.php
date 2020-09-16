@@ -65,6 +65,7 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertArrayHasKey('pronoun', $array);
         $this->assertArrayHasKey('user', $array);
         $this->assertArrayHasKey('status', $array);
+        $this->assertArrayHasKey('url', $array);
     }
 
     /** @test */

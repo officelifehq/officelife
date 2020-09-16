@@ -103,9 +103,9 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager');
             Route::post('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport');
 
-            Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index');
+            Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('employee.show.logs');
 
-            Route::get('{employee}/edit', 'Company\\Employee\\EmployeeEditController@show');
+            Route::get('{employee}/edit', 'Company\\Employee\\EmployeeEditController@show')->name('employee.show.edit');
             Route::get('{employee}/address/edit', 'Company\\Employee\\EmployeeEditController@address');
             Route::post('{employee}/update', 'Company\\Employee\\EmployeeEditController@update');
             Route::post('{employee}/address/update', 'Company\\Employee\\EmployeeEditController@updateAddress');

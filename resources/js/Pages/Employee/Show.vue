@@ -21,7 +21,7 @@
       <!-- HEADER -->
       <header-employee
         :employee="employee"
-        :logged-employee="loggedEmployee"
+        :permissions="permissions"
         :employee-teams="employeeTeams"
         :positions="positions"
         :teams="teams"
@@ -38,7 +38,7 @@
         </template>
 
         <!-- menu -->
-        <div v-if="loggedEmployee.can_see_performance_tab && surveys" class="cf mw7 center br3 mt3 mb5 tc" data-cy="employee-tab">
+        <div v-if="permissions.can_see_performance_tab && surveys" class="cf mw7 center br3 mt3 mb5 tc" data-cy="employee-tab">
           <div class="cf dib btn-group">
             <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(menu == 'all')}">
               {{ $t('employee.menu_all_information') }}
@@ -53,31 +53,31 @@
         <div class="fl w-40-l w-100">
           <work-from-home
             :employee="employee"
-            :logged-employee="loggedEmployee"
+            :permissions="permissions"
             :statistics="workFromHomes"
           />
 
           <personal-description
             :employee="employee"
-            :logged-employee="loggedEmployee"
+            :permissions="permissions"
           />
 
           <!-- skills -->
           <skills
             :employee="employee"
-            :logged-employee="loggedEmployee"
+            :permissions="permissions"
             :skills="skills"
           />
 
           <location
             :employee="employee"
-            :logged-employee="loggedEmployee"
+            :permissions="permissions"
             :hardware="hardware"
           />
 
           <hierarchy
             :employee="employee"
-            :logged-employee="loggedEmployee"
+            :permissions="permissions"
             :managers-of-employee="managersOfEmployee"
             :direct-reports="directReports"
           />
@@ -96,7 +96,7 @@
         <div class="fl w-60-l w-100 pl4-l">
           <worklogs
             :employee="employee"
-            :logged-employee="loggedEmployee"
+            :permissions="permissions"
             :worklogs="worklogs"
           />
 
@@ -110,7 +110,7 @@
           />
 
           <expenses
-            v-if="loggedEmployee.can_see_expenses"
+            v-if="permissions.can_see_expenses"
             :employee="employee"
             :expenses="expenses"
           />
@@ -158,7 +158,7 @@ export default {
       type: Object,
       default: null,
     },
-    loggedEmployee: {
+    permissions: {
       type: Object,
       default: null,
     },
