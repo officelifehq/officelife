@@ -44,6 +44,7 @@ class EmployeeShowViewHelperTest extends TestCase
 
         $michael = [
             'can_see_complete_address' => true,
+            'can_see_full_birthdate' => true,
         ];
 
         $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $michael);
