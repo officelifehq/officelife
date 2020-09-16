@@ -149,6 +149,11 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee'])->only([
                 'index', 'show',
             ]);
+
+            // one on ones
+            Route::resource('{employee}/oneonones', 'Company\\Employee\\EmployeeOneOnOneController', ['as' => 'employee'])->only([
+                'index', 'show',
+            ]);
         });
 
         Route::prefix('teams')->group(function () {

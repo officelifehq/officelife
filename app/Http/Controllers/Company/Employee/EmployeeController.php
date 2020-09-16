@@ -88,6 +88,7 @@ class EmployeeController extends Controller
                 ->with('ships')
                 ->with('skills')
                 ->with('expenses')
+                ->with('oneOnOneEntriesAsEmployee')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');

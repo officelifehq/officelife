@@ -550,4 +550,50 @@ class EmployeeShowViewHelper
             'totalPastExpenses' => $expenses->count() - $latestExpenses->count(),
         ];
     }
+
+    /**
+     * Array containing information about the latest one on ones associated with
+     * the employee.
+     *
+     * @param Employee $employee
+     * @return array
+     */
+    public static function oneOnOnes(Employee $employee): array
+    {
+        $oneOnOnes = $employee->oneOnOneEntriesAsEmployee()
+            ->with('manager')
+            ->latest()->take(3)->get();
+
+        $company = $employee->company;
+
+        $collection = collect([]);
+        foreach ($oneOnOnes as $oneOnOne) {
+            $collection->push([
+                'id' => $oneOnOne->id,
+                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at),
+                'manager' => [
+                    'id' => $oneOnOne->manager->id,
+                    'name' => $oneOnOne->manager->name,
+                    'avatar' => $oneOnOne->manager->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $oneOnOne->manager,
+                    ]),
+                ],
+                'url' => route('employee.oneonones.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                    'oneonone' => $oneOnOne,
+                ]),
+            ]);
+        }
+
+        return [
+            'one_on_ones' => $collection,
+            'view_all_url' => route('employee.oneonones.index', [
+                'company' => $company,
+                'employee' => $employee,
+            ]),
+        ];
+    }
 }
