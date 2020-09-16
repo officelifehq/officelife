@@ -22,7 +22,7 @@
   <div class="di relative">
     <!-- Case when there is a status -->
     <!-- Assigning an employee status is restricted to HR or admin -->
-    <ul v-if="$page.auth.employee.permission_level <= 200 && updatedEmployee.status" class="ma0 pa0 di existing-statuses">
+    <ul v-if="permissions.can_manage_status && updatedEmployee.status" class="ma0 pa0 di existing-statuses">
       <li class="di" data-cy="status-name-right-permission">
         {{ updatedEmployee.status.name }}
       </li>
@@ -37,7 +37,7 @@
     </ul>
 
     <!-- Action when there is no status defined -->
-    <a v-show="!updatedEmployee.status" v-if="$page.auth.employee.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">
+    <a v-show="!updatedEmployee.status" v-if="permissions.can_manage_status" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">
       {{ $t('employee.status_modal_cta') }}
     </a>
     <span v-else v-show="!updatedEmployee.status">
@@ -111,6 +111,10 @@ export default {
     },
     statuses: {
       type: Array,
+      default: null,
+    },
+    permissions: {
+      type: Object,
       default: null,
     },
   },

@@ -44,6 +44,7 @@ class EmployeeShowViewHelperTest extends TestCase
 
         $michael = [
             'can_see_complete_address' => true,
+            'can_see_full_birthdate' => true,
         ];
 
         $array = EmployeeShowViewHelper::informationAboutEmployee($dwight, $michael);
@@ -65,6 +66,7 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertArrayHasKey('pronoun', $array);
         $this->assertArrayHasKey('user', $array);
         $this->assertArrayHasKey('status', $array);
+        $this->assertArrayHasKey('url', $array);
     }
 
     /** @test */

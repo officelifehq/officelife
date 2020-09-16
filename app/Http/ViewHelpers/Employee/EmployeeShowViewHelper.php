@@ -15,14 +15,17 @@ class EmployeeShowViewHelper
 {
     /**
      * Information about the employee.
+     * The information that is given depends on the permissions array that
+     * indicates if the logged employee can see info about the employee.
      *
      * @param Employee $employee
-     * @param array $loggedEmployee
+     * @param array $permissions
      * @return array
      */
-    public static function informationAboutEmployee(Employee $employee, array $loggedEmployee): array
+    public static function informationAboutEmployee(Employee $employee, array $permissions): array
     {
         $address = $employee->getCurrentAddress();
+        $company = $employee->company;
 
         return [
             'id' => $employee->id,
@@ -35,14 +38,13 @@ class EmployeeShowViewHelper
             'slack_handle' => $employee->slack_handle,
             'locked' => $employee->locked,
             'holidays' => $employee->getHolidaysInformation(),
-            'birthdate' => (! $employee->birthdate) ? null : [
-                'full' => DateHelper::formatDate($employee->birthdate),
-                'partial' => DateHelper::formatMonthAndDay($employee->birthdate),
-                'year' => $employee->birthdate->year,
-                'month' => $employee->birthdate->month,
-                'day' => $employee->birthdate->day,
-                'age' => Carbon::now()->year - $employee->birthdate->year,
-            ],
+            'birthdate' => (! $employee->birthdate) ? null :
+                ($permissions['can_see_full_birthdate'] ? [
+                    'date' => DateHelper::formatDate($employee->birthdate),
+                    'age' => Carbon::now()->year - $employee->birthdate->year,
+                ] : [
+                    'date' => DateHelper::formatMonthAndDay($employee->birthdate),
+                ]),
             'hired_at' => (! $employee->hired_at) ? null : [
                 'full' => DateHelper::formatDate($employee->hired_at),
                 'year' => $employee->hired_at->year,
@@ -52,8 +54,8 @@ class EmployeeShowViewHelper
             'raw_description' => $employee->description,
             'parsed_description' => is_null($employee->description) ? null : StringHelper::parse($employee->description),
             'address' => is_null($address) ? null : [
-                'sentence' => $loggedEmployee['can_see_complete_address'] ? $address->getCompleteAddress() : $address->getPartialAddress(),
-                'openstreetmap_url' => $address->getMapUrl($loggedEmployee['can_see_complete_address']),
+                'sentence' => $permissions['can_see_complete_address'] ? $address->getCompleteAddress() : $address->getPartialAddress(),
+                'openstreetmap_url' => $address->getMapUrl($permissions['can_see_complete_address']),
                 'image' => $address->getStaticMapImage(7, 600, 130),
             ],
             'position' => (! $employee->position) ? null : [
@@ -71,6 +73,20 @@ class EmployeeShowViewHelper
                 'id' => $employee->status->id,
                 'name' => $employee->status->name,
             ],
+            'url' => [
+                'audit_log' => route('employee.show.logs', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'edit' => route('employee.show.edit', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'delete' => route('account.delete', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+            ],
         ];
     }
 
@@ -85,6 +101,12 @@ class EmployeeShowViewHelper
     public static function informationAboutLoggedEmployee(Employee $loggedEmployee, Employee $employee): array
     {
         $loggedEmployeeIsManager = $loggedEmployee->isManagerOf($employee->id);
+
+        // can the logged employee see the complete birthdate of the employee
+        $canSeeFullBirthdate = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeFullBirthdate = true;
+        }
 
         // can the logged employee manage expenses
         $canSeeExpenses = $loggedEmployee->can_manage_expenses;
@@ -106,6 +128,21 @@ class EmployeeShowViewHelper
 
         // can the logged employee manage hierarchy?
         $canManageHierarchy = $loggedEmployee->permission_level <= 200;
+
+        // can manage position?
+        $canManagePosition = $loggedEmployee->permission_level <= 200;
+
+        // can manage teams?
+        $canManageTeam = $loggedEmployee->permission_level <= 200;
+
+        // can manage pronouns?
+        $canManagePronouns = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canManagePronouns = true;
+        }
+
+        // can manage status?
+        $canManageStatus = $loggedEmployee->permission_level <= 200;
 
         // can manage skills?
         $canManageSkills = $loggedEmployee->permission_level <= 200;
@@ -157,7 +194,12 @@ class EmployeeShowViewHelper
         }
 
         return [
+            'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
+            'can_manage_position' => $canManagePosition,
+            'can_manage_pronouns' => $canManagePronouns,
+            'can_manage_status' => $canManageStatus,
+            'can_manage_teams' => $canManageTeam,
             'can_manage_skills' => $canManageSkills,
             'can_manage_description' => $canManageDescription,
             'can_see_expenses' => $canSeeExpenses,

@@ -22,7 +22,7 @@
   <div class="di relative">
     <!-- Case when there is a prenoun -->
     <!-- Assigning an employee gender pronoun is restricted to HR or admin -->
-    <ul v-if="employeeOrAtLeastHR() && updatedEmployee.pronoun" class="ma0 pa0 di existing-pronouns">
+    <ul v-if="permissions.can_manage_pronouns && updatedEmployee.pronoun" class="ma0 pa0 di existing-pronouns">
       <li class="di">
         {{ updatedEmployee.pronoun.label }}
       </li>
@@ -31,14 +31,14 @@
       </li>
     </ul>
 
-    <ul v-if="!employeeOrAtLeastHR() && updatedEmployee.pronoun" class="ma0 pa0 existing-pronouns di">
+    <ul v-if="!permissions.can_manage_pronouns && updatedEmployee.pronoun" class="ma0 pa0 existing-pronouns di">
       <li class="di" data-cy="pronoun-name-wrong-permission">
         {{ updatedEmployee.pronoun.label }}
       </li>
     </ul>
 
     <!-- Action when there is no pronoun defined -->
-    <a v-show="!updatedEmployee.pronoun" v-if="employeeOrAtLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="open-pronoun-modal-blank" @click.prevent="modal = true">{{ $t('employee.pronoun_modal_cta') }}</a>
+    <a v-show="!updatedEmployee.pronoun" v-if="permissions.can_manage_pronouns" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="open-pronoun-modal-blank" @click.prevent="modal = true">{{ $t('employee.pronoun_modal_cta') }}</a>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
@@ -95,6 +95,10 @@ export default {
     },
     pronouns: {
       type: Array,
+      default: null,
+    },
+    permissions: {
+      type: Object,
       default: null,
     },
   },
@@ -170,20 +174,6 @@ export default {
       }
       return false;
     },
-
-    employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.auth.user.id == this.employee.user.id) {
-        return true;
-      }
-    }
   }
 };
 

@@ -21,7 +21,7 @@
 <template>
   <div class="di relative">
     <!-- Assigning a team is restricted to HR or admin -->
-    <ul v-if="$page.auth.employee.permission_level <= 200" class="ma0 pa0 di existing-teams">
+    <ul v-if="permissions.can_manage_teams" class="ma0 pa0 di existing-teams">
       <li v-for="team in updatedEmployeeTeams" :key="team.id" class="di">
         <inertia-link :href="team.url" class="mr1">{{ team.name }}</inertia-link>
         <template v-if="team.team_leader">
@@ -41,7 +41,7 @@
     </ul>
 
     <!-- Action when there is no team defined -->
-    <a v-show="updatedEmployeeTeams.length == 0" v-if="$page.auth.employee.permission_level <= 200" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">
+    <a v-show="updatedEmployeeTeams.length == 0" v-if="permissions.can_manage_teams" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-team-modal-blank" @click.prevent="modal = true">
       {{ $t('employee.team_modal_title') }}
     </a>
     <span v-else v-show="updatedEmployeeTeams.length == 0">
@@ -114,6 +114,10 @@ export default {
     },
     teams: {
       type: Array,
+      default: null,
+    },
+    permissions: {
+      type: Object,
       default: null,
     },
   },

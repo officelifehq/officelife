@@ -8,10 +8,9 @@
 
 <template>
   <div class="di relative">
-    <!-- Case when the birthdate is set -->
     <template v-if="employee.birthdate">
-      <p v-if="employeeOrAtLeastHR()" class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_full', { date: employee.birthdate.full, age: employee.birthdate.age }) }}</p>
-      <p v-else class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_partial', { date: employee.birthdate.partial }) }}</p>
+      <p v-if="permissions.can_see_full_birthdate" class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_full', { date: employee.birthdate.date, age: employee.birthdate.age }) }}</p>
+      <p v-else class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_partial', { date: employee.birthdate.date }) }}</p>
     </template>
     <template v-else>
       <p class="di">{{ $t('employee.birthdate_information_blank') }}</p>
@@ -27,28 +26,11 @@ export default {
       type: Object,
       default: null,
     },
+    permissions: {
+      type: Object,
+      default: null,
+    },
   },
-
-  data() {
-    return {
-    };
-  },
-
-  methods: {
-    employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.auth.user.id == this.employee.user.id) {
-        return true;
-      }
-    }
-  }
 };
 
 </script>

@@ -61,17 +61,17 @@
         <div v-if="profileMenu" v-click-outside="toggleProfileMenu" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn faster">
           <ul class="list ma0 pa0">
             <li v-if="permissions.can_see_audit_log" class="pv2">
-              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/logs'" class="pointer" data-cy="view-log-button">
+              <inertia-link :href="employee.url.audit_log" class="pointer" data-cy="view-log-button">
                 {{ $t('employee.menu_changelog') }}
               </inertia-link>
             </li>
             <li v-show="permissions.can_edit_profile" class="pv2">
-              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" class="pointer" data-cy="show-edit-view">
+              <inertia-link :href="employee.url.edit" class="pointer" data-cy="show-edit-view">
                 {{ $t('app.edit') }}
               </inertia-link>
             </li>
             <li v-show="permissions.can_delete_profile" class="pv2">
-              <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/' + employee.id + '/delete'" class="pointer c-delete" data-cy="show-delete-view">
+              <inertia-link :href="employee.url.delete" class="pointer c-delete" data-cy="show-delete-view">
                 {{ $t('app.delete') }}
               </inertia-link>
             </li>
@@ -87,11 +87,6 @@
         <div class="names">
           <h2 class="normal mb3 mt3">
             {{ employee.name }}
-
-            <!-- permission level -->
-            <span class="f7 fw4 ba you br3 pa1 ml2 dib">
-              {{ employee.permission_level }}
-            </span>
           </h2>
 
           <div class="flex flex-column flex-row-ns justify-between-ns">
@@ -101,6 +96,7 @@
                 <employee-position
                   :employee="employee"
                   :positions="positions"
+                  :permissions="permissions"
                 />
               </p>
               <p class="f6">
@@ -109,6 +105,7 @@
                   :employee="employee"
                   :employee-teams="employeeTeams"
                   :teams="teams"
+                  :permissions="permissions"
                 />
               </p>
               <p class="f6 mb0-ns">
@@ -116,6 +113,7 @@
                 <employee-gender-pronoun
                   :employee="employee"
                   :pronouns="pronouns"
+                  :permissions="permissions"
                 />
               </p>
             </div>
@@ -124,6 +122,7 @@
                 <span class="f7 gray">Birth date</span>
                 <employee-birthdate
                   :employee="employee"
+                  :permissions="permissions"
                 />
               </p>
               <p class="f6">
@@ -137,6 +136,7 @@
                 <employee-status
                   :employee="employee"
                   :statuses="statuses"
+                  :permissions="permissions"
                 />
               </p>
             </div>

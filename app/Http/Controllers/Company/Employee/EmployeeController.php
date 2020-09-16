@@ -131,15 +131,15 @@ class EmployeeController extends Controller
         $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
 
         // information about the logged employee
-        $loggedEmployee = EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee);
+        $permissions = EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee);
 
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
-        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $loggedEmployee);
+        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
         return Inertia::render('Employee/Show', [
             'menu' => 'all',
             'employee' => $employee,
-            'permissions' => $loggedEmployee,
+            'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
