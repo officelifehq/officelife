@@ -8,7 +8,6 @@
 
 <template>
   <div class="di relative">
-    <!-- Case when the birthdate is set -->
     <template v-if="employee.birthdate">
       <p v-if="permissions.can_see_full_birthdate" class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_full', { date: employee.birthdate.date, age: employee.birthdate.age }) }}</p>
       <p v-else class="di" data-cy="employee-birthdate-information">{{ $t('employee.birthdate_information_partial', { date: employee.birthdate.date }) }}</p>

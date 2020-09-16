@@ -96,6 +96,7 @@
                 <employee-position
                   :employee="employee"
                   :positions="positions"
+                  :permissions="permissions"
                 />
               </p>
               <p class="f6">
@@ -104,6 +105,7 @@
                   :employee="employee"
                   :employee-teams="employeeTeams"
                   :teams="teams"
+                  :permissions="permissions"
                 />
               </p>
               <p class="f6 mb0-ns">
@@ -111,6 +113,7 @@
                 <employee-gender-pronoun
                   :employee="employee"
                   :pronouns="pronouns"
+                  :permissions="permissions"
                 />
               </p>
             </div>
@@ -133,6 +136,7 @@
                 <employee-status
                   :employee="employee"
                   :statuses="statuses"
+                  :permissions="permissions"
                 />
               </p>
             </div>

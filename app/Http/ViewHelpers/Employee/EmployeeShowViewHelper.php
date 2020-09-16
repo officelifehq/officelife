@@ -129,6 +129,21 @@ class EmployeeShowViewHelper
         // can the logged employee manage hierarchy?
         $canManageHierarchy = $loggedEmployee->permission_level <= 200;
 
+        // can manage position?
+        $canManagePosition = $loggedEmployee->permission_level <= 200;
+
+        // can manage teams?
+        $canManageTeam = $loggedEmployee->permission_level <= 200;
+
+        // can manage pronouns?
+        $canManagePronouns = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canManagePronouns = true;
+        }
+
+        // can manage status?
+        $canManageStatus = $loggedEmployee->permission_level <= 200;
+
         // can manage skills?
         $canManageSkills = $loggedEmployee->permission_level <= 200;
         if ($loggedEmployee->id == $employee->id) {
@@ -181,6 +196,10 @@ class EmployeeShowViewHelper
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
+            'can_manage_position' => $canManagePosition,
+            'can_manage_pronouns' => $canManagePronouns,
+            'can_manage_status' => $canManageStatus,
+            'can_manage_teams' => $canManageTeam,
             'can_manage_skills' => $canManageSkills,
             'can_manage_description' => $canManageDescription,
             'can_see_expenses' => $canSeeExpenses,

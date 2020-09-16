@@ -17,7 +17,7 @@
 <template>
   <div class="di relative">
     <!-- Assigning a title is restricted to HR or admin -->
-    <span v-if="$page.auth.employee.permission_level <= 200 && updatedEmployee.position">
+    <span v-if="permissions.can_manage_position && updatedEmployee.position">
       {{ title }}
       <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
         {{ $t('app.edit') }}
@@ -28,7 +28,7 @@
     </span>
 
     <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="$page.auth.employee.permission_level <= 200" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
+    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
     <span v-else v-show="title == ''">
       {{ $t('employee.position_blank') }}
     </span>
@@ -75,6 +75,10 @@ export default {
 
   props: {
     employee: {
+      type: Object,
+      default: null,
+    },
+    permissions: {
       type: Object,
       default: null,
     },
