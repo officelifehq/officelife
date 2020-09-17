@@ -67,10 +67,6 @@
 <script>
 export default {
   props: {
-    employee: {
-      type: Object,
-      default: null,
-    },
     permissions: {
       type: Object,
       default: null,

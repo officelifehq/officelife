@@ -98,7 +98,7 @@ class EmployeeShowViewHelper
      * @param Employee $employee
      * @return array
      */
-    public static function informationAboutLoggedEmployee(Employee $loggedEmployee, Employee $employee): array
+    public static function permissions(Employee $loggedEmployee, Employee $employee): array
     {
         $loggedEmployeeIsManager = $loggedEmployee->isManagerOf($employee->id);
 
@@ -111,6 +111,9 @@ class EmployeeShowViewHelper
         // can the logged employee manage expenses
         $canSeeExpenses = $loggedEmployee->can_manage_expenses;
         if ($loggedEmployee->id == $employee->id) {
+            $canSeeExpenses = true;
+        }
+        if ($loggedEmployeeIsManager) {
             $canSeeExpenses = true;
         }
 
@@ -193,11 +196,18 @@ class EmployeeShowViewHelper
             $canSeePerformanceTab = true;
         }
 
+        // can see hardware
+        $canSeeHardware = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeHardware = true;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
             'can_manage_position' => $canManagePosition,
             'can_manage_pronouns' => $canManagePronouns,
+            'can_marray' => $canManagePronouns,
             'can_manage_status' => $canManageStatus,
             'can_manage_teams' => $canManageTeam,
             'can_manage_skills' => $canManageSkills,
@@ -205,6 +215,7 @@ class EmployeeShowViewHelper
             'can_see_expenses' => $canSeeExpenses,
             'can_see_work_from_home_history' => $canSeeWorkFromHomeHistory,
             'can_see_work_log_history' => $canSeeWorkLogHistory,
+            'can_see_hardware' => $canSeeHardware,
             'can_edit_profile' => $canEditProfile,
             'can_delete_profile' => $canDeleteProfile,
             'can_see_audit_log' => $canSeeAuditLog,
@@ -412,10 +423,15 @@ class EmployeeShowViewHelper
      * employee.
      *
      * @param Employee $employee
-     * @return Collection
+     * @param array $permissions
+     * @return Collection|null
      */
-    public static function hardware(Employee $employee): Collection
+    public static function hardware(Employee $employee, array $permissions): ?Collection
     {
+        if (! $permissions['can_see_hardware']) {
+            return null;
+        }
+
         $hardware = $employee->hardware;
 
         $hardwareCollection = collect([]);
@@ -510,10 +526,15 @@ class EmployeeShowViewHelper
      * 30 days.
      *
      * @param Employee $employee
-     * @return array
+     * @param array $permissions
+     * @return array|null
      */
-    public static function expenses(Employee $employee): array
+    public static function expenses(Employee $employee, array $permissions): ?array
     {
+        if (! $permissions['can_see_expenses']) {
+            return null;
+        }
+
         $expenses = $employee->expenses;
 
         // filter out expenses not in the last 30 days
@@ -548,6 +569,57 @@ class EmployeeShowViewHelper
             'expenses' => $expensesCollection,
             'hasMorePastExpenses' => $expenses->count() - $latestExpenses->count() != 0,
             'totalPastExpenses' => $expenses->count() - $latestExpenses->count(),
+        ];
+    }
+
+    /**
+     * Array containing information about the latest one on ones associated with
+     * the employee.
+     *
+     * @param Employee $employee
+     * @param array $permissions
+     * @return array|null
+     */
+    public static function oneOnOnes(Employee $employee, array $permissions): ?array
+    {
+        if (! $permissions['can_see_one_on_one_with_manager']) {
+            return null;
+        }
+
+        $oneOnOnes = $employee->oneOnOneEntriesAsEmployee()
+            ->with('manager')
+            ->latest()->take(3)->get();
+
+        $company = $employee->company;
+
+        $collection = collect([]);
+        foreach ($oneOnOnes as $oneOnOne) {
+            $collection->push([
+                'id' => $oneOnOne->id,
+                'happened_at' => DateHelper::formatDate($oneOnOne->happened_at),
+                'manager' => [
+                    'id' => $oneOnOne->manager->id,
+                    'name' => $oneOnOne->manager->name,
+                    'avatar' => $oneOnOne->manager->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $oneOnOne->manager,
+                    ]),
+                ],
+                'url' => route('employees.oneonones.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                    'oneonone' => $oneOnOne,
+                ]),
+            ]);
+        }
+
+        return [
+            'entries' => $collection,
+            'view_all_url' => route('employees.oneonones.index', [
+                'company' => $company,
+                'employee' => $employee,
+            ]),
         ];
     }
 }

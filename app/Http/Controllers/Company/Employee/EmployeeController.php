@@ -88,10 +88,14 @@ class EmployeeController extends Controller
                 ->with('ships')
                 ->with('skills')
                 ->with('expenses')
+                ->with('oneOnOneEntriesAsEmployee')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
+
+        // information about what the logged employee can do
+        $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
 
         // managers
         $managersOfEmployee = EmployeeShowViewHelper::managers($employee);
@@ -109,7 +113,7 @@ class EmployeeController extends Controller
         $questions = EmployeeShowViewHelper::questions($employee);
 
         // hardware
-        $hardware = EmployeeShowViewHelper::hardware($employee);
+        $hardware = EmployeeShowViewHelper::hardware($employee, $permissions);
 
         // all the teams the employee belongs to
         $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee);
@@ -125,13 +129,13 @@ class EmployeeController extends Controller
         $skills = EmployeeShowViewHelper::skills($employee);
 
         // all expenses of this employee
-        $expenses = EmployeeShowViewHelper::expenses($employee);
+        $expenses = EmployeeShowViewHelper::expenses($employee, $permissions);
 
         // surveys, to know if the performance tab should be visible
         $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
 
-        // information about the logged employee
-        $permissions = EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee);
+        // the latest one on ones
+        $oneOnOnes = EmployeeShowViewHelper::oneOnOnes($employee, $permissions);
 
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
@@ -156,6 +160,7 @@ class EmployeeController extends Controller
             'skills' => $skills,
             'expenses' => $expenses,
             'surveys' => $surveys,
+            'oneOnOnes' => $oneOnOnes,
         ]);
     }
 

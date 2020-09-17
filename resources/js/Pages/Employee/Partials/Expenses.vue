@@ -97,10 +97,6 @@
 export default {
 
   props: {
-    employee: {
-      type: Object,
-      default: null,
-    },
     expenses: {
       type: Object,
       default: null,

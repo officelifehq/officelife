@@ -91,7 +91,7 @@ class DashboardMeOneOnOneController extends Controller
 
         return response()->json([
             'data' => [
-                'url' => route('employees.show.oneonones', [
+                'url' => route('dashboard.oneonones.show', [
                     'company' => $company,
                     'entry' => $newEntry,
                 ]),
