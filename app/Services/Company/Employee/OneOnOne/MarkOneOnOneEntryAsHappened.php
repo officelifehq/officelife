@@ -26,6 +26,7 @@ class MarkOneOnOneEntryAsHappened extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'one_on_one_entry_id' => 'required|integer|exists:one_on_one_entries,id',
+            'date' => 'nullable|date_format:Y-m-d',
         ];
     }
 
@@ -75,7 +76,7 @@ class MarkOneOnOneEntryAsHappened extends BaseService
             'author_id' => $this->author->id,
             'manager_id' => $this->entry->manager->id,
             'employee_id' => $this->entry->employee->id,
-            'date' => Carbon::now()->format('Y-m-d'),
+            'date' => $this->valueOrFalse($this->data, 'date') ? $this->data['date'] : Carbon::now()->format('Y-m-d'),
         ]);
     }
 
