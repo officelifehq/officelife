@@ -64,15 +64,15 @@ class EmployeePerformanceController extends Controller
         $teams = EmployeeShowViewHelper::teams($teams, $employee);
 
         // information about the logged employee
-        $loggedEmployee = EmployeeShowViewHelper::informationAboutLoggedEmployee($loggedEmployee, $employee);
+        $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
 
         // information about the employee, that depends on what the logged Employee can see
-        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $loggedEmployee);
+        $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
         return Inertia::render('Employee/Performance/Index', [
             'menu' => 'performance',
             'employee' => $employee,
-            'loggedEmployee' => $loggedEmployee,
+            'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'employeeTeams' => $employeeTeams,
             'positions' => PositionCollection::prepare($company->positions()->get()),

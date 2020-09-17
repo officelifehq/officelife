@@ -10,10 +10,10 @@
       <div class="pa3">
         <!-- employee hasn't logged yet -->
         <p v-show="!editorShown && !updatedEmployee.has_logged_worklog_today" class="db mt0">
-          <span class="dib-ns db mb0-ns mb2">
+          <span class="dib-ns db mb0-ns mb2 lh-copy">
             {{ $t('dashboard.worklog_placeholder') }}
           </span>
-          <inertia-link v-show="updatedWorklogCount != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs'" class="ml2-ns pointer">
+          <inertia-link v-show="updatedWorklogCount != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs'" class="f6 ml2-ns pointer">
             {{ $t('dashboard.worklog_read_previous_entries') }}
           </inertia-link>
         </p>

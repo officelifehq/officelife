@@ -64,7 +64,7 @@
 
         <div class="flex-ns justify-around dn">
           <div>
-            <img loading="lazy" class="db center mb4" alt="total of expenses" src="/img/streamline-icon-startup-benefit@60x60.png" />
+            <img loading="lazy" class="db center mb4" alt="total of expenses" src="/img/streamline-icon-startup-benefit@60x60.png" width="60" />
           </div>
           <div>
             <p class="mt0 f3 mb2">{{ statistics.reimbursedAmount }}</p>

@@ -175,4 +175,14 @@ return [
     'survey_detail_comment' => 'Comments',
     'survey_detail_participants' => 'Employees surveyed',
     'survey_detail_comment_anonymous' => 'Anonymous comment',
+
+    'one_on_one_title' => 'One on One with your manager',
+    'one_on_one_view_all' => 'View one on one history',
+    'one_on_one_detail' => 'Entry of {date} with {name}',
+    'one_on_one_blank' => 'There are no one on ones yet.',
+    'one_on_one_index_stat_number_of_entries' => 'entries in the last 365 days',
+    'one_on_one_index_stat_avg_number' => 'avg number of days between entries',
+    'one_on_one_index_item_talking_point' => '{count} talking point|{count} talking points',
+    'one_on_one_index_item_action_item' => '{count} talking point|{count} action items',
+    'one_on_one_index_item_note' => '{count} talking point|{count} notes',
 ];

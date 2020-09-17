@@ -112,11 +112,28 @@ describe('Dashboard - employee - one on one', function () {
     // check one of these items
     cy.get('[data-cy=action-item-2-single-item]').check()
 
-    //
     cy.get('[data-cy=entry-mark-as-happened-button]').click()
 
     // check that there are 2 talking points
     cy.get('[data-cy=talking-point-2]').contains('action item 2')
     cy.get('[data-cy=talking-point-3]').contains('action item 3')
+
+    // go to the employee page to check if there are entries
+    cy.visit('/1/employees/1')
+    cy.get('[data-cy=entry-item-1]').should('exist')
+    cy.get('[data-cy=entry-item-2]').should('exist')
+
+    cy.get('[data-cy=entry-item-1]').click()
+    cy.url().should('include', '/1/oneonones/1')
+
+    cy.visit('/1/employees/1')
+    cy.get('[data-cy=view-all-one-on-ones]').click()
+
+    // go back to the list of all one on ones
+    cy.get('[data-cy=entry-list-item-1]').should('exist')
+    cy.get('[data-cy=entry-list-item-2]').should('exist')
+    cy.get('[data-cy=entry-list-item-1]').click()
+    cy.get('[data-cy=view-all-one-on-ones]').click()
+    cy.get('[data-cy=entry-list-item-2]').click()
   })
 })

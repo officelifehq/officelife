@@ -238,7 +238,7 @@ class DashboardMeViewHelper
                 ]),
                 'entry' => [
                     'id' => $entry->id,
-                    'url' => route('employees.show.oneonones', [
+                    'url' => route('dashboard.oneonones.show', [
                         'company' => $manager->company,
                         'entry' => $entry,
                     ]),

@@ -30,11 +30,11 @@
       </div>
 
       <div class="cf mw7 center br3 mb3 bg-white box relative">
-        <img loading="lazy" src="/img/streamline-icon-judge-1-4@140x140.png" alt="judge" class="judge absolute top-1 left-1" />
+        <img loading="lazy" src="/img/streamline-icon-judge-1-4@140x140.png" alt="judge" class="judge absolute-ns di-ns dn top-1 left-1" />
 
         <div class="pa3">
           <!-- Emotion panel -->
-          <div v-if="!alreadyAnswered" class="ml6">
+          <div v-if="!alreadyAnswered" class="ml6-ns ml0">
             <h2 class="f4 fw4 mt0 mb2 lh-copy">
               {{ $t('dashboard.rate_your_manager_subtitle', { name: answer.manager_name}) }}
             </h2>

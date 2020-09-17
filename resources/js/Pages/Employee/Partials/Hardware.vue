@@ -5,7 +5,7 @@ li:last-child {
 </style>
 
 <template>
-  <div v-if="employeeOrAtLeastHR()" class="mb4 relative">
+  <div class="mb4 relative">
     <span class="db fw5 mb2 relative">
       <span class="mr1">
         👨‍💻
@@ -41,10 +41,6 @@ export default {
   },
 
   props: {
-    employee: {
-      type: Object,
-      default: null,
-    },
     hardware: {
       type: Array,
       default: null,
@@ -57,19 +53,6 @@ export default {
   },
 
   methods: {
-    employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.auth.user.id == this.employee.user.id) {
-        return true;
-      }
-    }
   }
 };
 </script>

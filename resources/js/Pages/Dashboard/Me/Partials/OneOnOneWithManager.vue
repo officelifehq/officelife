@@ -38,13 +38,13 @@
           🏔
         </span> {{ $t('dashboard.one_on_ones_title') }}
 
-        <help :url="$page.help_links.manager_rate_manager" />
+        <help :url="$page.help_links.one_on_ones" />
       </div>
 
       <div class="cf mw7 center br3 mb3 bg-white box relative">
-        <img loading="lazy" src="/img/streamline-icon-work-desk-sofa-1-3@140x140.png" width="90" alt="meeting" class="judge absolute top-1 left-1" />
+        <img loading="lazy" src="/img/streamline-icon-work-desk-sofa-1-3@140x140.png" width="90" alt="meeting" class="judge absolute-ns di-ns dn top-1 left-1" />
 
-        <ul class="pl6 pb3 pt3 pr3 ma0">
+        <ul class="pl6-ns pl3 pb3 pt3 pr3 ma0">
           <li v-for="manager in oneOnOnes" :key="manager.id" class="flex justify-between items-center br bl bb bb-gray bb-gray-hover pa3 entry-item">
             <!-- identity -->
             <div>
