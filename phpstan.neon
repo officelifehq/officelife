@@ -1,10 +1,17 @@
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
+#    - ./vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
+#    - ./vendor/phpstan/phpstan-phpunit/extension.neon
+#    - ./vendor/phpstan/phpstan-deprecation-rules/rules.neon
+#    - ./vendor/phpstan/phpstan-strict-rules/rules.neon
+
 parameters:
-    level: 5
-    checkMissingIterableValueType: false
     paths:
         - app
+    inferPrivatePropertyTypeFromConstructor: true
+    level: 5
+
+    checkMissingIterableValueType: false
     ignoreErrors:
         - '#Unsafe usage of new static#'
         - '#If condition is always true#'
