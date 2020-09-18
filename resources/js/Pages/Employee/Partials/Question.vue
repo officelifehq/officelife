@@ -29,10 +29,6 @@
 <script>
 export default {
   props: {
-    employee: {
-      type: Object,
-      default: null,
-    },
     questions: {
       type: Array,
       default: null,

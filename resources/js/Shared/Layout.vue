@@ -58,22 +58,22 @@ nav {
             <img loading="lazy" src="/img/logo.png" height="30" width="30" alt="logo" />
           </inertia-link>
           <div v-if="!noMenu">
-            <inertia-link v-if="$page.auth.employee.display_welcome_message" :href="'/' + $page.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr2 no-underline pa2 bb-0 special">
+            <inertia-link v-if="$page.auth.employee.display_welcome_message" :href="'/' + $page.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">👋</span> {{ $t('app.header_welcome') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr2 no-underline pa2 bb-0 special">
+            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">🏡</span> {{ $t('app.header_home') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees'" class="mr2 no-underline pa2 bb-0 special">
+            <inertia-link :href="'/' + $page.auth.company.id + '/employees'" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">🧑</span> {{ $t('app.header_employees') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
+            <inertia-link :href="'/' + $page.auth.company.id + '/teams'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               <span class="mr1">👫</span> {{ $t('app.header_teams') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/company'" class="mr2 no-underline pa2 bb-0 special" data-cy="header-teams-link">
+            <inertia-link :href="'/' + $page.auth.company.id + '/company'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               <span class="mr1">⛺️</span> {{ $t('app.header_company') }}
             </inertia-link>
-            <a data-cy="header-find-link" class="mr2 no-underline pa2 bb-0 special pointer" @click="showFindModal">
+            <a data-cy="header-find-link" class="mr1 no-underline pa2 bb-0 special pointer" @click="showFindModal">
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
             <inertia-link v-if="$page.auth.company && $page.auth.employee.permission_level <= 200" :href="'/' + $page.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">

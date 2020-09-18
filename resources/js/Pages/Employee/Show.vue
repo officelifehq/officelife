@@ -72,7 +72,6 @@
           <location
             :employee="employee"
             :permissions="permissions"
-            :hardware="hardware"
           />
 
           <hierarchy
@@ -83,7 +82,7 @@
           />
 
           <hardware
-            :employee="employee"
+            v-if="permissions.can_see_hardware"
             :hardware="hardware"
           />
 
@@ -95,13 +94,11 @@
         <!-- RIGHT COLUMN -->
         <div class="fl w-60-l w-100 pl4-l">
           <worklogs
-            :employee="employee"
             :permissions="permissions"
             :worklogs="worklogs"
           />
 
           <question
-            :employee="employee"
             :questions="questions"
           />
 
@@ -111,8 +108,12 @@
 
           <expenses
             v-if="permissions.can_see_expenses"
-            :employee="employee"
             :expenses="expenses"
+          />
+
+          <one-on-one
+            v-if="permissions.can_see_one_on_one_with_manager"
+            :one-on-ones="oneOnOnes"
           />
         </div>
       </div>
@@ -135,6 +136,7 @@ import Hardware from '@/Pages/Employee/Partials/Hardware';
 import RecentShips from '@/Pages/Employee/Partials/RecentShips';
 import Skills from '@/Pages/Employee/Partials/Skills';
 import Expenses from '@/Pages/Employee/Partials/Expenses';
+import OneOnOne from '@/Pages/Employee/Partials/OneOnOneWithManager';
 
 export default {
   components: {
@@ -151,6 +153,7 @@ export default {
     RecentShips,
     Skills,
     Expenses,
+    OneOnOne,
   },
 
   props: {
@@ -227,6 +230,10 @@ export default {
       default: null,
     },
     surveys: {
+      type: Object,
+      default: null,
+    },
+    oneOnOnes: {
       type: Object,
       default: null,
     },

@@ -15,24 +15,29 @@
       </div>
 
       <dashboard-menu :employee="employee" />
-
-      <expense
-        :employee="employee"
-        :expenses="pendingExpenses"
-        :default-currency="defaultCurrency"
-      />
     </div>
+
+    <one-on-one-with-direct-report
+      :one-on-ones="oneOnOnes"
+    />
+
+    <expense
+      :expenses="pendingExpenses"
+      :default-currency="defaultCurrency"
+    />
   </layout>
 </template>
 
 <script>
 import Expense from '@/Pages/Dashboard/Manager/Partials/Expense';
+import OneOnOneWithDirectReport from '@/Pages/Dashboard/Manager/Partials/OneOnOneWithDirectReport';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
 export default {
   components: {
     Expense,
+    OneOnOneWithDirectReport,
     Layout,
     DashboardMenu,
   },
@@ -47,6 +52,10 @@ export default {
       default: null,
     },
     pendingExpenses: {
+      type: Array,
+      default: null,
+    },
+    oneOnOnes: {
       type: Array,
       default: null,
     },
