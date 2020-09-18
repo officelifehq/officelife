@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Faker\Factory as Faker;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
@@ -1443,7 +1444,7 @@ class SetupDummyAccount extends Command
             $manager = $employee->getListOfManagers()->first();
 
             if ($manager) {
-                $date = Carbon::now()->subDays(150);
+                $date = CarbonImmutable::now()->subDays(150);
 
                 // create a first entry with a couple of points and items
                 // this entire process is complex because each entry depends on
@@ -1457,6 +1458,7 @@ class SetupDummyAccount extends Command
                     'date' => $date->format('Y-m-d'),
                 ]);
 
+                // add talking points
                 for ($j = 0; $j < rand(2, 6); $j++) {
                     $randomItem = $talkingPoints->shuffle()->first();
 
@@ -1477,6 +1479,7 @@ class SetupDummyAccount extends Command
                     }
                 }
 
+                // add action items
                 for ($j = 0; $j < rand(2, 6); $j++) {
                     $randomItem = $actionItems->shuffle()->first();
 
@@ -1497,6 +1500,7 @@ class SetupDummyAccount extends Command
                     }
                 }
 
+                // add notes
                 for ($j = 0; $j < rand(1, 3); $j++) {
                     $randomItem = $notes->shuffle()->first();
 
@@ -1508,13 +1512,16 @@ class SetupDummyAccount extends Command
                     ]);
                 }
 
+                // now we mark the entry as "happened", so it will create a new
+                // entry
                 for ($i = 0; $i < 9; $i++) {
-                    $date->addDays(7);
+                    $date = $date->copy()->addDays(7);
 
                     $entry = (new MarkOneOnOneEntryAsHappened)->execute([
                         'company_id' => $this->company->id,
                         'author_id' => $this->michael->id,
                         'one_on_one_entry_id' => $entry->id,
+                        'date' => $date->format('Y-m-d'),
                     ]);
 
                     for ($j = 0; $j < rand(2, 6); $j++) {
