@@ -100,10 +100,6 @@ export default {
   },
 
   props: {
-    employee: {
-      type: Object,
-      default: null,
-    },
     expenses: {
       type: Array,
       default: null,

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
+use App\Models\Company\OneOnOneEntry;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
@@ -47,7 +48,7 @@ class DashboardManagerViewHelperTest extends TestCase
             'status' => Expense::CREATED,
         ]);
 
-        $collection = DashboardManagerViewHelper::pendingExpenses($michael->directReports);
+        $collection = DashboardManagerViewHelper::pendingExpenses($michael, $michael->directReports);
 
         $this->assertEquals(1, $collection->count());
 
@@ -104,5 +105,64 @@ class DashboardManagerViewHelperTest extends TestCase
         $this->assertArrayHasKey('converted_at', $expense);
         $this->assertArrayHasKey('exchange_rate', $expense);
         $this->assertArrayHasKey('employee', $expense);
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_one_on_ones_for_direct_reports(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $jim = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $michael->id,
+        ]);
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $jim->id,
+            'manager_id' => $michael->id,
+        ]);
+
+        $collection = DashboardManagerViewHelper::oneOnOnes($michael, $michael->directReports);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => 'Dwight Schrute',
+                    'avatar' => $dwight->avatar,
+                    'position' => $dwight->position->title,
+                    'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
+                    'entry' => [
+                        'id' => OneOnOneEntry::all()->first()->id,
+                        'happened_at' => '2018-01-01',
+                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->first()->id,
+                    ],
+                ],
+                1 => [
+                    'id' => $jim->id,
+                    'name' => 'Dwight Schrute',
+                    'avatar' => $jim->avatar,
+                    'position' => $jim->position->title,
+                    'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
+                    'entry' => [
+                        'id' => OneOnOneEntry::all()->last()->id,
+                        'happened_at' => '2018-01-01',
+                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->last()->id,
+                    ],
+                ],
+            ],
+            $collection->toArray()
+        );
     }
 }
