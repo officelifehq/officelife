@@ -41,7 +41,7 @@
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">
-      <img loading="lazy" src="/img/streamline-icon-work-desk-sofa-3-3@140x140.png" width="90" alt="meeting" class="judge absolute-ns di-ns dn top-1 left-1" />
+      <img loading="lazy" src="/img/streamline-icon-work-desk-sofa-3-3@140x140.png" width="90" alt="meeting" class="absolute-ns di-ns dn top-1 left-1" />
 
       <ul class="pl6-ns pl3 pb3 pt3 pr3 ma0">
         <li v-for="directReport in oneOnOnes" :key="directReport.id" class="flex justify-between items-center br bl bb bb-gray bb-gray-hover pa3 entry-item">
