@@ -205,6 +205,7 @@ class DashboardMeViewHelper
     public static function oneOnOnes(Employee $employee): Collection
     {
         $managers = $employee->getListOfManagers();
+        $company = $employee->company;
         $managersCollection = collect([]);
 
         foreach ($managers as $manager) {
@@ -219,7 +220,7 @@ class DashboardMeViewHelper
             if (! $entry) {
                 // there is no active entry, we need to create one
                 $entry = (new CreateOneOnOneEntry)->execute([
-                    'company_id' => $employee->company->id,
+                    'company_id' => $company->id,
                     'author_id' => $employee->id,
                     'manager_id' => $manager->id,
                     'employee_id' => $employee->id,
@@ -233,13 +234,13 @@ class DashboardMeViewHelper
                 'avatar' => $manager->avatar,
                 'position' => (! $manager->position) ? null : $manager->position->title,
                 'url' => route('employees.show', [
-                    'company' => $manager->company,
+                    'company' => $company,
                     'employee' => $manager,
                 ]),
                 'entry' => [
                     'id' => $entry->id,
                     'url' => route('dashboard.oneonones.show', [
-                        'company' => $manager->company,
+                        'company' => $company,
                         'entry' => $entry,
                     ]),
                 ],
