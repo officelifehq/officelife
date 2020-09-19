@@ -2,6 +2,13 @@ name: Static analysis
 
 on:
   push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+  release:
+    types:
+      - created
 
 jobs:
   php-cs-fixer:
