@@ -48,7 +48,13 @@
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_dashboard_one_on_one') }}
+            ...
+          </li>
+          <li class="di">
+            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/oneonones'" data-cy="view-all-one-on-ones">{{ $t('app.breadcrumb_employee_one_on_ones') }}</inertia-link>
+          </li>
+          <li class="di">
+            {{ $t('app.breadcrumb_employee_one_on_one') }}
           </li>
         </ul>
       </div>
@@ -213,6 +219,10 @@ export default {
       type: Array,
       default: null,
     },
+    employee: {
+      type: Object,
+      default: null,
+    },
     entry: {
       type: Object,
       default: null,
@@ -226,19 +236,6 @@ export default {
   },
 
   methods: {
-    markAsHappened() {
-      this.loadingState = 'loading';
-
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/happened')
-        .then(response => {
-          this.loadingState = null;
-          this.$inertia.visit(response.data.data.url);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    }
   },
 };
 

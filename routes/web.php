@@ -69,7 +69,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('manager/rate/{answer}/comment', 'Company\\Dashboard\\DashboardRateYourManagerController@storeComment');
 
             // details of one on ones
-            Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardMeOneOnOneController@show')->name('employees.show.oneonones');
+            Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardMeOneOnOneController@show')->name('dashboard.oneonones.show');
             Route::post('oneonones/{entry}/happened', 'Company\\Dashboard\\DashboardMeOneOnOneController@markHappened');
 
             Route::post('oneonones/{entry}/talkingPoints', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeTalkingPoint');
@@ -95,6 +95,12 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('{employee}/performance', 'Company\\Employee\\EmployeePerformanceController@show')->name('employees.show.performance');
                 Route::get('{employee}/performance/surveys', 'Company\\Employee\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
                 Route::get('{employee}/performance/{survey}', 'Company\\Employee\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
+            });
+
+            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
+                Route::resource('{employee}/oneonones', 'Company\\Employee\\EmployeeOneOnOneController', ['as' => 'employees'])->only([
+                    'index', 'show',
+                ]);
             });
 
             Route::post('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager');

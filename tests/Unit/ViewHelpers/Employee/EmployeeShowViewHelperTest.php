@@ -14,6 +14,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Question;
 use App\Models\Company\WorkFromHome;
+use App\Models\Company\OneOnOneEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
@@ -325,7 +326,7 @@ class EmployeeShowViewHelperTest extends TestCase
             'serial_number' => '123',
         ]);
 
-        $collection = EmployeeShowViewHelper::hardware($michael);
+        $collection = EmployeeShowViewHelper::hardware($michael, ['can_see_hardware' => true]);
 
         $this->assertEquals(1, $collection->count());
         $this->assertEquals(
@@ -338,6 +339,9 @@ class EmployeeShowViewHelperTest extends TestCase
             ],
             $collection->toArray()
         );
+
+        $collection = EmployeeShowViewHelper::hardware($michael, ['can_see_hardware' => false]);
+        $this->assertNull($collection);
     }
 
     /** @test */
@@ -427,7 +431,7 @@ class EmployeeShowViewHelperTest extends TestCase
             'created_at' => '2010-01-01 01:00:00',
         ]);
 
-        $array = EmployeeShowViewHelper::expenses($michael);
+        $array = EmployeeShowViewHelper::expenses($michael, ['can_see_expenses' => true]);
 
         $this->assertEquals(1, $array['expenses']->count());
 
@@ -459,5 +463,89 @@ class EmployeeShowViewHelperTest extends TestCase
             1,
             $array['totalPastExpenses']
         );
+
+        $array = EmployeeShowViewHelper::expenses($michael, ['can_see_expenses' => false]);
+        $this->assertNull($array);
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_latest_one_on_one_entries(): void
+    {
+        Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
+
+        $michael = $this->createAdministrator();
+        $dwight = $this->createDirectReport($michael);
+
+        $entry2019 = factory(OneOnOneEntry::class)->create([
+            'manager_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'created_at' => '2019-01-01 01:00:00',
+        ]);
+        $entry2018 = factory(OneOnOneEntry::class)->create([
+            'manager_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'created_at' => '2018-01-01 01:00:00',
+        ]);
+        $entry2017 = factory(OneOnOneEntry::class)->create([
+            'manager_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'created_at' => '2017-01-01 01:00:00',
+        ]);
+        $entry2016 = factory(OneOnOneEntry::class)->create([
+            'manager_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'created_at' => '2016-01-01 01:00:00',
+        ]);
+
+        $array = EmployeeShowViewHelper::oneOnOnes($dwight, ['can_see_one_on_one_with_manager' => true]);
+
+        $this->assertEquals(3, $array['entries']->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $entry2019->id,
+                    'happened_at' => 'Mar 02, 2020',
+                    'manager' => [
+                        'id' => $michael->id,
+                        'name' => $michael->name,
+                        'avatar' => $michael->avatar,
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                    ],
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2019->id,
+                ],
+                1 => [
+                    'id' => $entry2018->id,
+                    'happened_at' => 'Mar 02, 2020',
+                    'manager' => [
+                        'id' => $michael->id,
+                        'name' => $michael->name,
+                        'avatar' => $michael->avatar,
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                    ],
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2018->id,
+                ],
+                2 => [
+                    'id' => $entry2017->id,
+                    'happened_at' => 'Mar 02, 2020',
+                    'manager' => [
+                        'id' => $michael->id,
+                        'name' => $michael->name,
+                        'avatar' => $michael->avatar,
+                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                    ],
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2017->id,
+                ],
+            ],
+            $array['entries']->toArray()
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones',
+            $array['view_all_url']
+        );
+
+        $array = EmployeeShowViewHelper::oneOnOnes($dwight, ['can_see_one_on_one_with_manager' => false]);
+        $this->assertNull($array);
     }
 }

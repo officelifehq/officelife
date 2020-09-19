@@ -147,5 +147,6 @@ return [
         'account_general_currency' => 'currency',
         'employee_hiring_date' => 'employee-profile#hiring-date',
         'employee_work_anniversaries' => 'employee-profile#work-anniversaries',
+        'one_on_ones' => 'one-on-one',
     ],
 ];

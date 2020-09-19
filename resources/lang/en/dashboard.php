@@ -4,7 +4,7 @@ return [
     'tab_me' => 'You',
     'tab_my_team' => 'Your team',
     'tab_expenses' => 'Accountant area',
-    'tab_manager' => 'Decisions as manager',
+    'tab_manager' => 'Manager area',
 
     'blank_state' => 'You are not associated with a team at the moment.',
 
@@ -109,6 +109,7 @@ return [
     'one_on_ones_previous_entry' => 'Previous entry',
     'one_on_ones_next_entry' => 'Next entry',
     'one_on_ones_created_on' => 'Created on',
+    'one_on_ones_manager_title' => 'One on One with your direct reports',
 
     'manager_expense_title' => 'Expenses that needs your approval',
     'manager_expense_blank_state' => 'You don’t have any expenses to validate.',
