@@ -70,7 +70,7 @@ jobs:
 
     # Prepare
       - name: Prepare environment
-        run: cp test/.env.ci-${{ matrix.connection }} .env
+        run: cp tests/.env.ci-${{ matrix.connection }} .env
       - name: Create SQLite database
         if: matrix.connection == 'sqlite'
         run: |
