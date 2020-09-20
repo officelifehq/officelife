@@ -1,4 +1,10 @@
 preset: laravel
 enabled:
-    - fully_qualified_strict_types
-    - length_ordered_imports
+  - fully_qualified_strict_types
+  - length_ordered_imports
+disabled:
+  - unused_use
+finder:
+  not-name:
+    - index.php
+    - server.php
