@@ -1,0 +1,96 @@
+name: Build and test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+  release:
+    types:
+      - created
+
+jobs:
+  laravel:
+    runs-on: ubuntu-latest
+    name: Test on ${{ matrix.connection }} (PHP ${{ matrix.php-version }})
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: officelife
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.4']
+        connection: [sqlite, mysql]
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, dom, fileinfo, mysql
+          coverage: none
+      - name: Check PHP Version
+        run: php -v
+      - name: Check Composer Version
+        run: composer -V
+      - name: Check PHP Extensions
+        run: php -m
+
+    # Composer
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache composer files
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            ${{ runner.os }}-composer-
+
+      - name: Install composer dependencies
+        run: composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
+
+    # Prepare
+      - name: Prepare environment
+        run: cp tests/.env.ci-${{ matrix.connection }} .env
+      - name: Create SQLite database
+        if: matrix.connection == 'sqlite'
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Run migrations
+        run: php artisan migrate --no-interaction -vvv
+      - name: Run seeds
+        run: php artisan db:seed --no-interaction -vvv
+
+    # Test
+      - name: Run test suite
+        run: vendor/bin/phpunit -c phpunit.xml --log-junit ./results/${{ matrix.connection }}/results.xml
+
+      - name: Store results
+        uses: actions/upload-artifact@v2
+        with:
+          name: results
+          path: results
