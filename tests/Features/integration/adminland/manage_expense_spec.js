@@ -4,7 +4,7 @@ describe('Adminland - Expenses', function () {
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=expenses-admin-link]').click()
 
     // required because otherwise, categories don't load (wtf)
@@ -42,7 +42,7 @@ describe('Adminland - Expenses', function () {
 
     cy.changePermission(1, 200)
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=expenses-admin-link]').click()
 
     // open the popup
@@ -93,7 +93,7 @@ describe('Adminland - Expenses', function () {
     cy.get('[data-cy=dashboard-expenses-tab]').should('exist')
 
     // go to the adminland to remove the accountant
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=expenses-admin-link]').click()
     cy.get('[data-cy=show-edit-mode]').click()
     cy.get('[data-cy=remove-employee-1]').click()
@@ -127,7 +127,7 @@ describe('Adminland - Expenses', function () {
     cy.get('[data-cy=dashboard-expenses-tab]').should('exist')
 
     // go to the adminland to remove the accountant
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=expenses-admin-link]').click()
     cy.get('[data-cy=show-edit-mode]').click()
     cy.get('[data-cy=remove-employee-1]').click()

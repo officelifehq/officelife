@@ -172,7 +172,7 @@ describe('Adminland - Employee management', function () {
     cy.get('[data-cy=results]').should('not.contain', 'scott')
 
     // go to add hardware and see if the employee appears in the list of employees
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=hardware-admin-link]').click()
     cy.get('[data-cy=add-hardware-button]').click()
     cy.get('[data-cy=lend-hardware-checkbox]').check()
@@ -266,7 +266,7 @@ describe('Adminland - Employee management', function () {
     cy.get('[data-cy=results]').should('not.contain', 'scott')
 
     // go to add hardware and see if the employee appears in the list of employees
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=hardware-admin-link]').click()
     cy.get('[data-cy=add-hardware-button]').click()
     cy.get('[data-cy=lend-hardware-checkbox]').check()

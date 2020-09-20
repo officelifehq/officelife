@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User\User;
 use Illuminate\Console\Command;
-use App\Services\User\CreateAccount;
 
 class SetupFrontEndTest extends Command
 {
@@ -12,7 +12,8 @@ class SetupFrontEndTest extends Command
      *
      * @var string
      */
-    protected $signature = 'setup:frontendtesting';
+    protected $signature = 'setup:frontendtesting
+                            {--database= : The database connection to use}';
 
     /**
      * The console command description.
@@ -22,27 +23,30 @@ class SetupFrontEndTest extends Command
     protected $description = 'Create the test environment exclusively for front-end testing with Cypress.';
 
     /**
+     * The migrator instance.
+     *
+     * @var \Illuminate\Database\Migrations\Migrator
+     */
+    protected $migrator;
+
+    /**
      * Create a new command.
      */
     public function __construct()
     {
         parent::__construct();
+
+        $this->migrator = app('migrator');
     }
 
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        exec('php artisan migrate:fresh && php artisan db:seed');
+        $this->migrator->setConnection($this->option('database'));
 
-        $data = [
-            'email' => 'admin@admin.com',
-            'password' => 'admin',
-        ];
-
-        $user = (new CreateAccount)->execute($data);
-        $user->email_verified_at = now();
-        $user->save();
+        $user = factory(User::class)->create();
+        $this->info($user->getKey());
     }
 }

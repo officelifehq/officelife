@@ -4,7 +4,7 @@ describe('Adminland - Hardware', function () {
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=hardware-admin-link]').click()
 
     // blank state should exist
@@ -84,7 +84,7 @@ describe('Adminland - Hardware', function () {
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
 
     cy.changePermission(1, 200)
     cy.get('[data-cy=hardware-admin-link]').click()

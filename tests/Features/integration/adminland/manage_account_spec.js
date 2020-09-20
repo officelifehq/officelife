@@ -34,7 +34,7 @@ describe('Adminland - Basic account management', function () {
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=general-admin-link]').click()
 
     cy.get('[data-cy=rename-company-button]').click()
@@ -55,7 +55,7 @@ describe('Adminland - Basic account management', function () {
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=general-admin-link]').click()
 
     cy.get('[data-cy=update-currency-company-button]').click()

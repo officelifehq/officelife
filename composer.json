@@ -36,6 +36,7 @@
         "fzaninotto/faker": "^1.4",
         "graham-campbell/testbench-core": "^3.1",
         "johnkary/phpunit-speedtrap": "^3.1",
+        "laravel/dusk": "^6.6",
         "mariuzzo/laravel-js-localization": "dev-laravel-7",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^4.1",

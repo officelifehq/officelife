@@ -9,7 +9,7 @@ describe('Employee - hardware', function () {
     cy.visit('/1/employees/2')
     cy.get('[data-cy=hardware-blank]').should('exist')
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=hardware-admin-link]').click()
 
     // add one hardware and associate an employee
@@ -40,7 +40,7 @@ describe('Employee - hardware', function () {
     cy.visit('/1/employees/2')
     cy.get('[data-cy=hardware-blank]').should('exist')
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=hardware-admin-link]').click()
 
     // add one hardware and associate an employee
@@ -67,7 +67,7 @@ describe('Employee - hardware', function () {
     cy.visit('/1/employees/1')
     cy.get('[data-cy=hardware-blank]').should('exist')
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=hardware-admin-link]').click()
 
     // add one hardware and associate an employee
@@ -94,7 +94,7 @@ describe('Employee - hardware', function () {
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=hardware-admin-link]').click()
 
     // add one hardware and associate an employee

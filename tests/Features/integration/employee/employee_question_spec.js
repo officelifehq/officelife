@@ -9,7 +9,7 @@ describe('Employee - Questions', function () {
     cy.get('[data-cy=question-blank-state]').should('exist')
 
     // first we should create a question
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
     cy.get('[data-cy=add-question-button]').click()
     cy.get('[data-cy=add-title-input]').type('this is my question 1')
@@ -46,7 +46,7 @@ describe('Employee - Questions', function () {
     cy.get('[data-cy=question-blank-state]').should('exist')
 
     // first we should create a question
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
     cy.get('[data-cy=add-question-button]').click()
     cy.get('[data-cy=add-title-input]').type('this is my question 1')
@@ -81,7 +81,7 @@ describe('Employee - Questions', function () {
     cy.get('[data-cy=question-blank-state]').should('exist')
 
     // first we should create a question
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
     cy.get('[data-cy=add-question-button]').click()
     cy.get('[data-cy=add-title-input]').type('this is my question 1')

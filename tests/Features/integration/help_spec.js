@@ -28,15 +28,29 @@ describe('Help - Show and validate help for all features', function () {
     * ADMINLAND
     */
     // hardware
-    cy.visit('/1/account/hardware/create')
+    cy.get('[data-cy=header-adminland-link]').click()
+    cy.get('[data-cy=hardware-admin-link]').click()
+    cy.get('[data-cy=add-hardware-button]').click()
     cy.get('[data-cy=help-icon-hardware]').click()
 
     // locking
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
-    cy.visit('/1/account/employees/2/lock')
-    cy.get('[data-cy=help-icon-employee-lock]').click()
+    cy.get('[data-cy=header-adminland-link]').click()
+    cy.get('[data-cy=employee-admin-link]').click()
+
+    cy.get('[data-cy=employees]').should('be.visible')
+      .invoke('attr', 'cy-items').then(function (items) {
+
+        let item = _.last(items.split(','));
+
+        cy.get('[data-cy=lock-account-'+item+']').click()
+        cy.get('[data-cy=help-icon-employee-lock]').click()
+    });
 
     // deleting employee
+    cy.get('[data-cy=header-adminland-link]').click()
+    cy.get('[data-cy=employee-admin-link]').click()
+
     cy.visit('/1/account/employees/2/delete')
     cy.get('[data-cy=help-icon-employee-delete]').click()
   })

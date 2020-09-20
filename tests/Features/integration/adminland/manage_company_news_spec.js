@@ -14,7 +14,7 @@ describe('Adminland - Company news management', function () {
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=news-admin-link]').click()
 
     // open the new page
@@ -62,7 +62,7 @@ describe('Adminland - Company news management', function () {
 
     cy.changePermission(1, 200)
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=news-admin-link]').click()
 
     // open the new page

@@ -1,18 +1,12 @@
+var faker = require('faker');
+
 // Create a user
 Cypress.Commands.add('login', (role) => {
-  cy.exec('php artisan setup:frontendtesting -vvv')
-
-  cy.visit('/login')
-
-  cy.get('input[name=email]').type('admin@admin.com')
-  cy.get('input[name=password]').type('admin')
-
-  cy.get('button[type=submit]').click()
-
-  cy.wait(1000)
-
-  cy.url().should('include', '/home')
-})
+  cy.exec('php artisan setup:frontendtesting').then((result) => {
+    cy.visit('/_dusk/login/'+result.stdout+'/');
+  });
+  cy.visit('/home')
+});
 
 Cypress.Commands.add('logout', () => {
   cy.get('[data-cy=header-menu]').click()
@@ -25,7 +19,7 @@ Cypress.Commands.add('createCompany', () => {
 
   cy.url().should('include', '/company/create')
 
-  cy.get('input[name=name]').type('Dunder Mifflin')
+  cy.get('input[name=name]').type(faker.company.companyName())
   cy.get('[data-cy=create-company-submit]').click()
 
   cy.wait(500)
@@ -33,7 +27,7 @@ Cypress.Commands.add('createCompany', () => {
 
 // Create a team
 Cypress.Commands.add('createTeam', (productName) => {
-  cy.visit('/1/account')
+  cy.get('[data-cy=header-adminland-link]').click()
 
   cy.get('[data-cy=team-admin-link]').click()
   cy.get('[data-cy=add-team-button]').click()
@@ -45,7 +39,7 @@ Cypress.Commands.add('createTeam', (productName) => {
 
 // Create an employee status
 Cypress.Commands.add('createEmployeeStatus', (status) => {
-  cy.visit('/1/account')
+  cy.get('[data-cy=header-adminland-link]').click()
 
   cy.get('[data-cy=employee-statuses-admin-link]').click()
   cy.get('[data-cy=add-status-button]').click()
@@ -57,7 +51,7 @@ Cypress.Commands.add('createEmployeeStatus', (status) => {
 
 // Create an employee
 Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, sendEmail) => {
-  cy.visit('/1/account')
+  cy.get('[data-cy=header-adminland-link]').click()
 
   cy.get('[data-cy=employee-admin-link]').click()
   cy.url().should('include', '/account/employees')
@@ -166,7 +160,7 @@ Cypress.Commands.add('assignManager', (name) => {
 
 // Give the accountant right to the employee
 Cypress.Commands.add('grantAccountantRight', (name, employeeNumber) => {
-  cy.visit('/1/account')
+  cy.get('[data-cy=header-adminland-link]').click()
   cy.get('[data-cy=expenses-admin-link]').click()
   cy.get('[data-cy=show-edit-mode]').click()
   cy.get('[data-cy=hide-edit-mode]').click()

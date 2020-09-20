@@ -33,7 +33,7 @@
           </p>
 
           <!-- LIST OF FLOWS -->
-          <ul v-show="flows.length != 0" class="list pl0 mt0 center">
+          <ul v-show="flows.length != 0" class="list pl0 mt0 center" :datacy="'employees'" :cy-items="flows.map(f => f.id)">
             <li
               v-for="flow in flows" :key="flow.id"
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10"
@@ -46,7 +46,7 @@
                 </span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id">
+                    <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id" :datacy="'lock-account-'+flow.id">
                       {{ $t('app.view') }}
                     </inertia-link>
                   </li>

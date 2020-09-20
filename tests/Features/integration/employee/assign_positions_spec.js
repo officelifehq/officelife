@@ -7,7 +7,7 @@ describe('Employee - Assign positions', function () {
     cy.createTeam('product')
 
     // create a position
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=position-admin-link]').click()
     cy.get('[data-cy=add-position-button]').click()
     cy.get('[data-cy=add-title-input]').type('CEO')
@@ -38,7 +38,7 @@ describe('Employee - Assign positions', function () {
     cy.createTeam('product')
 
     // create a position
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=position-admin-link]').click()
     cy.get('[data-cy=add-position-button]').click()
     cy.get('[data-cy=add-title-input]').type('CEO')

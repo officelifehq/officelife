@@ -4,7 +4,7 @@ describe('Dashboard - employee - Questions/answers', function () {
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
 
     //add a question

@@ -4,7 +4,7 @@ describe('Adminland - PTO policies', function () {
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=pto-policies-admin-link]').click()
 
     cy.get('[data-cy=list-edit-button-1]').click()
@@ -51,7 +51,7 @@ describe('Adminland - PTO policies', function () {
     cy.createCompany()
 
     cy.changePermission(1, 200)
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=pto-policies-admin-link]').click()
 
     cy.get('[data-cy=list-edit-button-1]').click()

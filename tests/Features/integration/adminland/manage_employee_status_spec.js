@@ -14,7 +14,7 @@ describe('Adminland - Employee statuses', function () {
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=employee-statuses-admin-link]').click()
 
     // open the popup
@@ -53,7 +53,7 @@ describe('Adminland - Employee statuses', function () {
     cy.createCompany()
 
     cy.changePermission(1, 200)
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=employee-statuses-admin-link]').click()
 
     // open the popup
