@@ -20,7 +20,6 @@ class CreateNotificationsTable extends Migration
             $table->string('action');
             $table->text('objects');
             $table->boolean('read')->default(false);
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });

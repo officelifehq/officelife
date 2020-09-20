@@ -23,7 +23,6 @@ class AssignPositionToEmployee extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'position_id' => 'required|integer|exists:positions,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -63,7 +62,6 @@ class AssignPositionToEmployee extends BaseService
                 'position_id' => $position->id,
                 'position_title' => $position->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -76,7 +74,6 @@ class AssignPositionToEmployee extends BaseService
                 'position_id' => $position->id,
                 'position_title' => $position->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $employee;

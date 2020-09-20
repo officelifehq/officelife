@@ -66,7 +66,6 @@ class SetSlackHandle extends BaseService
                     'employee_name' => $this->employee->name,
                     'slack' => $this->valueOrNull($data, 'slack'),
                 ]),
-                'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
             ])->onQueue('low');
 
             LogEmployeeAudit::dispatch([
@@ -78,7 +77,6 @@ class SetSlackHandle extends BaseService
                 'objects' => json_encode([
                     'slack' => $this->valueOrNull($data, 'slack'),
                 ]),
-                'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
             ])->onQueue('low');
         }
 
@@ -93,7 +91,6 @@ class SetSlackHandle extends BaseService
                     'employee_id' => $this->employee->id,
                     'employee_name' => $this->employee->name,
                 ]),
-                'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
             ])->onQueue('low');
 
             LogEmployeeAudit::dispatch([
@@ -103,7 +100,6 @@ class SetSlackHandle extends BaseService
                 'author_name' => $this->author->name,
                 'audited_at' => Carbon::now(),
                 'objects' => json_encode([]),
-                'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
             ])->onQueue('low');
         }
     }

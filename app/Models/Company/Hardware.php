@@ -28,7 +28,6 @@ class Hardware extends Model
         'company_id',
         'name',
         'serial_number',
-        'is_dummy',
     ];
 
     /**
@@ -59,15 +58,6 @@ class Hardware extends Model
      */
     protected static $logAttributes = [
         'name',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**

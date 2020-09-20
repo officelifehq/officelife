@@ -31,7 +31,6 @@ class AddEmployeeToCompany extends BaseService
             'last_name' => 'required|string|max:255',
             'permission_level' => 'required|integer',
             'send_invitation' => 'required|boolean',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -94,7 +93,6 @@ class AddEmployeeToCompany extends BaseService
             'last_name' => $data['last_name'],
             'avatar' => $avatar,
             'permission_level' => $data['permission_level'],
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         LogEmployeeAudit::dispatch([
@@ -107,7 +105,6 @@ class AddEmployeeToCompany extends BaseService
                 'employee_id' => $this->employee->id,
                 'employee_name' => $this->employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $this->employee;
@@ -164,7 +161,6 @@ class AddEmployeeToCompany extends BaseService
                 'employee_last_name' => $data['last_name'],
                 'employee_name' => $this->employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

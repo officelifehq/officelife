@@ -24,7 +24,6 @@ class UpdateWorkFromHomeInformation extends BaseService
             'employee_id' => 'required|integer|exists:employees,id',
             'date' => 'required|date_format:Y-m-d',
             'work_from_home' => 'required|boolean',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -88,7 +87,6 @@ class UpdateWorkFromHomeInformation extends BaseService
                 'employee_name' => $employee->name,
                 'date' => $data['date'],
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -100,7 +98,6 @@ class UpdateWorkFromHomeInformation extends BaseService
             'objects' => json_encode([
                 'date' => $data['date'],
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 
@@ -117,7 +114,6 @@ class UpdateWorkFromHomeInformation extends BaseService
                 'employee_name' => $employee->name,
                 'date' => $data['date'],
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -129,7 +125,6 @@ class UpdateWorkFromHomeInformation extends BaseService
             'objects' => json_encode([
                 'date' => $data['date'],
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

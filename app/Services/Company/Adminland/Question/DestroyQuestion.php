@@ -20,7 +20,6 @@ class DestroyQuestion extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'question_id' => 'required|integer|exists:questions,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -54,7 +53,6 @@ class DestroyQuestion extends BaseService
             'objects' => json_encode([
                 'question_title' => $question->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

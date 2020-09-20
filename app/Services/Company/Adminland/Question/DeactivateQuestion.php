@@ -74,7 +74,6 @@ class DeactivateQuestion extends BaseService
                 'question_id' => $question->id,
                 'question_title' => $question->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

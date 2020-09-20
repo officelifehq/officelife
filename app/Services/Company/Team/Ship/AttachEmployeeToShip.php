@@ -34,7 +34,6 @@ class AttachEmployeeToShip extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'ship_id' => 'required|integer|exists:ships,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -115,7 +114,6 @@ class AttachEmployeeToShip extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -125,7 +123,6 @@ class AttachEmployeeToShip extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

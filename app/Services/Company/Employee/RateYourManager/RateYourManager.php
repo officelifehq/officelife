@@ -25,7 +25,6 @@ class RateYourManager extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'answer_id' => 'required|integer|exists:rate_your_manager_answers,id',
             'rating' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -73,7 +72,6 @@ class RateYourManager extends BaseService
                 'manager_id' => $survey->manager->id,
                 'manager_name' => $survey->manager->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -86,7 +84,6 @@ class RateYourManager extends BaseService
                 'manager_id' => $survey->manager->id,
                 'manager_name' => $survey->manager->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $answer;

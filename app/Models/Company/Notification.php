@@ -18,7 +18,6 @@ class Notification extends Model
         'action',
         'objects',
         'read',
-        'is_dummy',
     ];
 
     /**
@@ -28,7 +27,6 @@ class Notification extends Model
      */
     protected $casts = [
         'read' => 'boolean',
-        'is_dummy' => 'boolean',
     ];
 
     /**

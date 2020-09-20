@@ -21,7 +21,6 @@ class CreateEmployeePtoTable extends Migration
             $table->string('type');
             $table->boolean('full');
             $table->boolean('actually_taken')->default(false);
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
@@ -34,7 +33,6 @@ class CreateEmployeePtoTable extends Migration
             $table->double('daily_accrued_amount');
             $table->double('current_holidays_per_year');
             $table->double('default_amount_of_allowed_holidays_in_company');
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });

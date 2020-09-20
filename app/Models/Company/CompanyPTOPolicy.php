@@ -26,7 +26,6 @@ class CompanyPTOPolicy extends Model
         'default_amount_of_allowed_holidays',
         'default_amount_of_sick_days',
         'default_amount_of_pto_days',
-        'is_dummy',
         'created_at',
     ];
 

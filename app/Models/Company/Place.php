@@ -23,7 +23,6 @@ class Place extends Model
         'placable_id',
         'placable_type',
         'is_active',
-        'is_dummy',
     ];
 
     /**
@@ -33,7 +32,6 @@ class Place extends Model
      */
     protected $casts = [
         'is_active' => 'boolean',
-        'is_dummy' => 'boolean',
     ];
 
     /**

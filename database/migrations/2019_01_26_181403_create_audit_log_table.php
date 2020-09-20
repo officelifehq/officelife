@@ -23,7 +23,6 @@ class CreateAuditLogTable extends Migration
             $table->text('objects');
             $table->datetime('audited_at');
             $table->string('ip_address')->nullable();
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('employees')->onDelete('set null');

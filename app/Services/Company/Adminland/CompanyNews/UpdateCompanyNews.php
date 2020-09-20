@@ -23,7 +23,6 @@ class UpdateCompanyNews extends BaseService
             'company_news_id' => 'required|integer|exists:company_news,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:65535',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -63,7 +62,6 @@ class UpdateCompanyNews extends BaseService
                 'company_news_title' => $news->title,
                 'company_news_old_title' => $oldNewsTitle,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         $news->refresh();

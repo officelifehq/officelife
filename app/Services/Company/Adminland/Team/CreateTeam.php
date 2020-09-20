@@ -24,7 +24,6 @@ class CreateTeam extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'name' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -83,7 +82,6 @@ class CreateTeam extends BaseService
         $this->team = Team::create([
             'company_id' => $data['company_id'],
             'name' => $data['name'],
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
     }
 
@@ -104,7 +102,6 @@ class CreateTeam extends BaseService
                 'team_id' => $this->team->id,
                 'team_name' => $this->team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -117,7 +114,6 @@ class CreateTeam extends BaseService
                 'team_id' => $this->team->id,
                 'team_name' => $this->team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

@@ -23,7 +23,6 @@ class UpdateTeam extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
             'name' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -97,7 +96,6 @@ class UpdateTeam extends BaseService
                 'team_old_name' => $oldName,
                 'team_new_name' => $data['name'],
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -110,7 +108,6 @@ class UpdateTeam extends BaseService
                 'team_old_name' => $oldName,
                 'team_new_name' => $data['name'],
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

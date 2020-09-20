@@ -22,7 +22,6 @@ class Worklog extends Model
     protected $fillable = [
         'employee_id',
         'content',
-        'is_dummy',
         'created_at',
     ];
 
@@ -33,15 +32,6 @@ class Worklog extends Model
      */
     protected static $logAttributes = [
         'content',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**

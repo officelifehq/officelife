@@ -20,7 +20,6 @@ class DestroyEmployeeStatus extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'employee_status_id' => 'required|integer|exists:employee_statuses,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -54,7 +53,6 @@ class DestroyEmployeeStatus extends BaseService
             'objects' => json_encode([
                 'employee_status_name' => $employeeStatus->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

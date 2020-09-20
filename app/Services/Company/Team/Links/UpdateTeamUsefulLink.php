@@ -90,7 +90,6 @@ class UpdateTeamUsefulLink extends BaseService
                 'team_id' => $link->team->id,
                 'team_name' => $link->team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -103,7 +102,6 @@ class UpdateTeamUsefulLink extends BaseService
                 'link_id' => $link->id,
                 'link_name' => $link->label,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

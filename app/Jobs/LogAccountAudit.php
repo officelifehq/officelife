@@ -33,11 +33,6 @@ class LogAccountAudit implements ShouldQueue
      */
     public function handle()
     {
-        $isDummy = true;
-        if (empty($this->auditLog['is_dummy'])) {
-            $isDummy = false;
-        }
-
         (new LogAccountAction)->execute([
             'company_id' => $this->auditLog['company_id'],
             'author_id' => $this->auditLog['author_id'],
@@ -45,7 +40,6 @@ class LogAccountAudit implements ShouldQueue
             'audited_at' => $this->auditLog['audited_at'],
             'action' => $this->auditLog['action'],
             'objects' => $this->auditLog['objects'],
-            'is_dummy' => $isDummy,
         ]);
     }
 }

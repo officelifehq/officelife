@@ -22,15 +22,6 @@ class TeamUsefulLink extends Model
     ];
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
-    ];
-
-    /**
      * Get the team record associated with the team useful link object.
      *
      * @return BelongsTo

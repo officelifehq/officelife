@@ -22,7 +22,6 @@ class CreateQuestion extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'title' => 'required|string|max:255',
             'active' => 'required|boolean',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -49,7 +48,6 @@ class CreateQuestion extends BaseService
             'company_id' => $data['company_id'],
             'title' => $data['title'],
             'active' => $this->valueOrFalse($data, 'active'),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         LogAccountAudit::dispatch([
@@ -63,7 +61,6 @@ class CreateQuestion extends BaseService
                 'question_title' => $question->title,
                 'question_status' => $question->active,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $question;

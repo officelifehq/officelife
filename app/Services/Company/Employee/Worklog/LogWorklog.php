@@ -27,7 +27,6 @@ class LogWorklog extends BaseService
             'employee_id' => 'required|integer|exists:employees,id',
             'content' => 'required|string|max:65535',
             'date' => 'nullable|date_format:Y-m-d',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -56,7 +55,6 @@ class LogWorklog extends BaseService
             'employee_id' => $data['employee_id'],
             'content' => $data['content'],
             'created_at' => $this->valueOrNow($data, 'date'),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         $this->log($worklog, $data);
@@ -89,7 +87,6 @@ class LogWorklog extends BaseService
                 'employee_name' => $this->employee->name,
                 'worklog_id' => $worklog->id,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -103,7 +100,6 @@ class LogWorklog extends BaseService
                 'employee_name' => $this->employee->name,
                 'worklog_id' => $worklog->id,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

@@ -20,7 +20,6 @@ class DestroyCompanyNews extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'company_news_id' => 'required|integer|exists:company_news,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -54,7 +53,6 @@ class DestroyCompanyNews extends BaseService
             'objects' => json_encode([
                 'company_news_title' => $news->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

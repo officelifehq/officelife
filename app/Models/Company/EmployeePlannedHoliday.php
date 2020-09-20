@@ -20,7 +20,6 @@ class EmployeePlannedHoliday extends Model
         'type',
         'full',
         'actually_taken',
-        'is_dummy',
     ];
 
     /**
@@ -40,7 +39,6 @@ class EmployeePlannedHoliday extends Model
     protected $casts = [
         'full' => 'boolean',
         'actually_taken' => 'boolean',
-        'is_dummy' => 'boolean',
     ];
 
     /**

@@ -25,7 +25,6 @@ class CompanyNews extends Model
         'author_name',
         'title',
         'content',
-        'is_dummy',
         'created_at',
     ];
 

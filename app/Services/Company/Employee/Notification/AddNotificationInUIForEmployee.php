@@ -39,7 +39,6 @@ class AddNotificationInUIForEmployee extends BaseService
                 'max:255',
             ],
             'objects' => 'required|json',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -60,7 +59,6 @@ class AddNotificationInUIForEmployee extends BaseService
             'employee_id' => $data['employee_id'],
             'action' => $data['action'],
             'objects' => $data['objects'],
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         return $notification;

@@ -21,7 +21,6 @@ class DestroyEmployee extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|exists:employees,id|integer',
             'company_id' => 'required|exists:companies,id|integer',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -55,7 +54,6 @@ class DestroyEmployee extends BaseService
             'objects' => json_encode([
                 'employee_name' => $employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

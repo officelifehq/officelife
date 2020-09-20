@@ -21,7 +21,6 @@ class ClearTeamDescription extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -56,7 +55,6 @@ class ClearTeamDescription extends BaseService
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -69,7 +67,6 @@ class ClearTeamDescription extends BaseService
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $team;

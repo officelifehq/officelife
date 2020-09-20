@@ -29,7 +29,6 @@ class RemoveSkillFromEmployee extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'skill_id' => 'required|integer|exists:skills,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -99,7 +98,6 @@ class RemoveSkillFromEmployee extends BaseService
                 'employee_id' => $this->employee->id,
                 'employee_name' => $this->employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -112,7 +110,6 @@ class RemoveSkillFromEmployee extends BaseService
                 'skill_id' => $this->skill->id,
                 'skill_name' => $this->skill->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

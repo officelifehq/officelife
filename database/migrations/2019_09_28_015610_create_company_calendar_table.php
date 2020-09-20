@@ -21,7 +21,6 @@ class CreateCompanyCalendarTable extends Migration
             $table->integer('day_of_week');
             $table->integer('day_of_year');
             $table->boolean('is_worked')->default(true);
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_pto_policy_id')->references('id')->on('company_pto_policies')->onDelete('cascade');
         });

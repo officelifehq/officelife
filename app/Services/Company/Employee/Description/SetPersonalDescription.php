@@ -22,7 +22,6 @@ class SetPersonalDescription extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'description' => 'required|string|max:65535',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -61,7 +60,6 @@ class SetPersonalDescription extends BaseService
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -71,7 +69,6 @@ class SetPersonalDescription extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $employee;

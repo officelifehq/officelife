@@ -23,7 +23,6 @@ class DestroyAnswer extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'answer_id' => 'required|integer|exists:answers,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -62,7 +61,6 @@ class DestroyAnswer extends BaseService
                 'question_id' => $question->id,
                 'question_title' => $question->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -75,7 +73,6 @@ class DestroyAnswer extends BaseService
                 'question_id' => $answer->question->id,
                 'question_title' => $answer->question->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

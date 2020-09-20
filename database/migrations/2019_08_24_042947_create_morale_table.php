@@ -19,7 +19,6 @@ class CreateMoraleTable extends Migration
             $table->unsignedBigInteger('employee_id');
             $table->integer('emotion');
             $table->string('comment')->nullable();
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });
@@ -29,7 +28,6 @@ class CreateMoraleTable extends Migration
             $table->unsignedBigInteger('company_id');
             $table->double('average');
             $table->integer('number_of_employees');
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
@@ -39,7 +37,6 @@ class CreateMoraleTable extends Migration
             $table->unsignedBigInteger('team_id');
             $table->double('average');
             $table->integer('number_of_team_members');
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });

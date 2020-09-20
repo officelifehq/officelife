@@ -27,7 +27,6 @@ class UpdateCompanyPTOPolicy extends BaseService
             'default_amount_of_allowed_holidays' => 'nullable|integer',
             'default_amount_of_sick_days' => 'nullable|integer',
             'default_amount_of_pto_days' => 'nullable|integer',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -68,7 +67,6 @@ class UpdateCompanyPTOPolicy extends BaseService
                 'company_pto_policy_id' => $ptoPolicy->id,
                 'company_pto_policy_year' => $ptoPolicy->year,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         $ptoPolicy->refresh();

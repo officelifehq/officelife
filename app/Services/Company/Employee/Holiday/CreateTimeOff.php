@@ -33,7 +33,6 @@ class CreateTimeOff extends BaseService
                     'pto',
                 ]),
             'full' => 'required|boolean',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -176,7 +175,6 @@ class CreateTimeOff extends BaseService
                 'planned_holiday_id' => $plannedHoliday->id,
                 'planned_holiday_date' => $plannedHoliday->planned_date,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -189,7 +187,6 @@ class CreateTimeOff extends BaseService
                 'planned_holiday_id' => $plannedHoliday->id,
                 'planned_holiday_date' => $plannedHoliday->planned_date,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }
