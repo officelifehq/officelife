@@ -18,3 +18,4 @@ yarn-error.log
 /tests/Features/screenshots/
 /tests/Features/videos/
 .env.cypress.local
+/results
