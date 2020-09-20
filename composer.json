@@ -7,23 +7,17 @@
         "crm"
     ],
     "license": "BSD-3",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/coxy121/Laravel-JS-Localization.git"
-        }
-    ],
     "require": {
         "php": "^7.4",
         "facade/ignition": "^2.0",
         "fideloper/proxy": "^4.0",
-        "guzzlehttp/guzzle": "^6.3",
-        "inertiajs/inertia-laravel": "dev-master",
-        "laravel/framework": "^7.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "inertiajs/inertia-laravel": "^0",
+        "laravel/framework": "^8.0",
         "laravel/helpers": "^1.1",
-        "laravel/passport": "^7.1",
+        "laravel/passport": "^10.0",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^2.0",
+        "laravel/ui": "^3.0",
         "moneyphp/money": "^3.3",
         "parsedown/laravel": "^1.2",
         "spatie/laravel-activitylog": "^3.1",
@@ -33,10 +27,11 @@
         "barryvdh/laravel-debugbar": "^3.2",
         "beyondcode/laravel-dump-server": "^1.0",
         "friendsofphp/php-cs-fixer": "^2.14",
-        "fzaninotto/faker": "^1.4",
+        "fzaninotto/faker": "^1.6",
         "graham-campbell/testbench-core": "^3.1",
         "johnkary/phpunit-speedtrap": "^3.1",
-        "mariuzzo/laravel-js-localization": "dev-laravel-7",
+        "laravel/legacy-factories": "^1.0",
+        "mariuzzo/laravel-js-localization": "^1.7",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6",
@@ -45,13 +40,15 @@
         "phpstan/phpstan-strict-rules": "^0.12",
         "phpunit/phpunit": "^9.0",
         "psalm/plugin-laravel": "^1.4",
+        "roave/security-advisories": "dev-master",
         "thecodingmachine/phpstan-safe-rule": "^1.0",
         "vimeo/psalm": "^3.0"
     },
     "config": {
-        "optimize-autoloader": true,
+        "apcu-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "optimize-autoloader": true
     },
     "extra": {
         "laravel": {
@@ -72,7 +69,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "minimum-stability": "dev",
