@@ -21,7 +21,6 @@ class RemoveEmployeeStatusFromEmployee extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -60,7 +59,6 @@ class RemoveEmployeeStatusFromEmployee extends BaseService
                 'employee_status_id' => $employeeStatus->id,
                 'employee_status_name' => $employeeStatus->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -73,7 +71,6 @@ class RemoveEmployeeStatusFromEmployee extends BaseService
                 'employee_status_id' => $employeeStatus->id,
                 'employee_status_name' => $employeeStatus->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         $employee->refresh();

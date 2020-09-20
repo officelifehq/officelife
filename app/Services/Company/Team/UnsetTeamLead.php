@@ -23,7 +23,6 @@ class UnsetTeamLead extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -93,7 +92,6 @@ class UnsetTeamLead extends BaseService
                 'team_leader_name' => $oldTeamLeader->name,
                 'team_name' => $team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -105,7 +103,6 @@ class UnsetTeamLead extends BaseService
             'objects' => json_encode([
                 'team_leader_name' => $oldTeamLeader->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

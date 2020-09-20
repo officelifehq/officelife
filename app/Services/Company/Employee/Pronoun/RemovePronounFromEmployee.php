@@ -22,7 +22,6 @@ class RemovePronounFromEmployee extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -58,7 +57,6 @@ class RemovePronounFromEmployee extends BaseService
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -68,7 +66,6 @@ class RemovePronounFromEmployee extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $employee;

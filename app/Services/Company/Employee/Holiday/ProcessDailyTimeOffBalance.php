@@ -20,7 +20,6 @@ class ProcessDailyTimeOffBalance extends BaseService
         return [
             'employee_id' => 'required|integer|exists:employees,id',
             'date' => 'required|date_format:Y-m-d',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -57,7 +56,6 @@ class ProcessDailyTimeOffBalance extends BaseService
             'daily_accrued_amount' => $holidaysEarnedEachDay,
             'current_holidays_per_year' => $employee->amount_of_allowed_holidays,
             'default_amount_of_allowed_holidays_in_company' => $ptoPolicy->default_amount_of_allowed_holidays,
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         $employee->holiday_balance = $newBalance;

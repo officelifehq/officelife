@@ -54,7 +54,6 @@ class DestroyTimeOff extends BaseService
             'objects' => json_encode([
                 'planned_holiday_date' => $holiday->planned_date,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -66,7 +65,6 @@ class DestroyTimeOff extends BaseService
             'objects' => json_encode([
                 'planned_holiday_date' => $holiday->planned_date,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

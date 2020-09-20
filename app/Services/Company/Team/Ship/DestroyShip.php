@@ -59,7 +59,6 @@ class DestroyShip extends BaseService
                 'team_id' => $ship->team->id,
                 'team_name' => $ship->team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -71,7 +70,6 @@ class DestroyShip extends BaseService
             'objects' => json_encode([
                 'ship_title' => $ship->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

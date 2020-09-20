@@ -27,7 +27,6 @@ class UpdateSkill extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'skill_id' => 'required|integer|exists:skills,id',
             'name' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -92,7 +91,6 @@ class UpdateSkill extends BaseService
                 'skill_old_name' => $oldName,
                 'skill_new_name' => $newName,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 
@@ -105,6 +103,7 @@ class UpdateSkill extends BaseService
     private function formatName(string $name): string
     {
         $name = StringHelper::removeLettersWithAccent($name);
+
         return strtolower($name);
     }
 

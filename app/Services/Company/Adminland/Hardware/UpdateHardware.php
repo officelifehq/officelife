@@ -61,7 +61,6 @@ class UpdateHardware extends BaseService
                 'hardware_name' => $hardware->name,
                 'hardware_old_name' => $oldName,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         $hardware->refresh();

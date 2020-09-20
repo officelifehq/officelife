@@ -32,7 +32,6 @@ class LogMorale extends BaseService
                 ]),
             'comment' => 'nullable|string|max:65535',
             'date' => 'nullable|date_format:Y-m-d',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -66,7 +65,6 @@ class LogMorale extends BaseService
             'emotion' => $data['emotion'],
             'comment' => $this->valueOrNull($data, 'comment'),
             'created_at' => $this->valueOrNow($data, 'date'),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         LogAccountAudit::dispatch([
@@ -81,7 +79,6 @@ class LogMorale extends BaseService
                 'morale_id' => $morale->id,
                 'emotion' => $morale->emotion,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -96,7 +93,6 @@ class LogMorale extends BaseService
                 'morale_id' => $morale->id,
                 'emotion' => $morale->emotion,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $morale;

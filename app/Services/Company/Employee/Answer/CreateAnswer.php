@@ -25,7 +25,6 @@ class CreateAnswer extends BaseService
             'employee_id' => 'required|integer|exists:employees,id',
             'question_id' => 'required|integer|exists:questions,id',
             'body' => 'required|string|max:65535',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -72,7 +71,6 @@ class CreateAnswer extends BaseService
                 'question_id' => $question->id,
                 'question_title' => $question->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -86,7 +84,6 @@ class CreateAnswer extends BaseService
                 'question_id' => $question->id,
                 'question_title' => $question->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $answer;

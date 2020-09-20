@@ -25,7 +25,6 @@ class AssignManager extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'manager_id' => 'required|integer|exists:employees,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -82,7 +81,6 @@ class AssignManager extends BaseService
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         // Log information about the employee having a manager assigned
@@ -97,7 +95,6 @@ class AssignManager extends BaseService
                 'manager_id' => $manager->id,
                 'manager_name' => $manager->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         // Log information about the manager having assigned a direct report
@@ -111,7 +108,6 @@ class AssignManager extends BaseService
                 'direct_report_id' => $employee->id,
                 'direct_report_name' => $employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

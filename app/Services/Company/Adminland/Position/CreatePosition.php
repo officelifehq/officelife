@@ -20,7 +20,6 @@ class CreatePosition extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'title' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -43,7 +42,6 @@ class CreatePosition extends BaseService
         $position = Position::create([
             'company_id' => $data['company_id'],
             'title' => $data['title'],
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         LogAccountAudit::dispatch([
@@ -56,7 +54,6 @@ class CreatePosition extends BaseService
                 'position_id' => $position->id,
                 'position_title' => $position->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $position;

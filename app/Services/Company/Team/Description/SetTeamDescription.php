@@ -22,7 +22,6 @@ class SetTeamDescription extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
             'description' => 'required|string|max:65535',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -60,7 +59,6 @@ class SetTeamDescription extends BaseService
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -73,7 +71,6 @@ class SetTeamDescription extends BaseService
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $team;

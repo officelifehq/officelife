@@ -33,7 +33,6 @@ class CreateTeamUsefulLink extends BaseService
             ],
             'label' => 'nullable|string|max:255',
             'url' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -78,7 +77,6 @@ class CreateTeamUsefulLink extends BaseService
             'label' => $this->valueOrNull($data, 'label'),
             'type' => $data['type'],
             'url' => $data['url'],
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
     }
 
@@ -103,7 +101,6 @@ class CreateTeamUsefulLink extends BaseService
                 'team_id' => $team->id,
                 'team_name' => $team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -116,7 +113,6 @@ class CreateTeamUsefulLink extends BaseService
                 'link_id' => $link->id,
                 'link_name' => $link->label,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

@@ -121,7 +121,6 @@ class LogMoraleTest extends TestCase
             'employee_id' => $dwight->id,
             'emotion' => 1,
             'comment' => 'Michael is my idol',
-            'is_dummy' => false,
         ]);
 
         $this->assertInstanceOf(

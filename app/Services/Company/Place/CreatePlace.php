@@ -30,7 +30,6 @@ class CreatePlace extends BaseService
             'placable_id' => 'required|integer',
             'placable_type' => 'required|string|max:255',
             'is_active' => 'nullable|boolean',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -83,7 +82,6 @@ class CreatePlace extends BaseService
             'placable_id' => $data['placable_id'],
             'placable_type' => $data['placable_type'],
             'is_active' => $this->valueOrFalse($data, 'is_active'),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
     }
 
@@ -131,7 +129,6 @@ class CreatePlace extends BaseService
                 'place_id' => $place->id,
                 'partial_address' => $place->getPartialAddress(),
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -144,7 +141,6 @@ class CreatePlace extends BaseService
                 'place_id' => $place->id,
                 'partial_address' => $place->getPartialAddress(),
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

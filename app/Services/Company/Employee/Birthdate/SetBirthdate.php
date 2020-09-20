@@ -25,7 +25,6 @@ class SetBirthdate extends BaseService
             'year' => 'required|integer',
             'month' => 'required|integer',
             'day' => 'required|integer',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -83,7 +82,6 @@ class SetBirthdate extends BaseService
                 'employee_name' => $this->employee->name,
                 'birthday' => $date->format('Y-m-d'),
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -95,7 +93,6 @@ class SetBirthdate extends BaseService
             'objects' => json_encode([
                 'birthday' => $date->format('Y-m-d'),
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

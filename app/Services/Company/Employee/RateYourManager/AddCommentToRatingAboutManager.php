@@ -23,7 +23,6 @@ class AddCommentToRatingAboutManager extends BaseService
             'answer_id' => 'required|integer|exists:rate_your_manager_answers,id',
             'comment' => 'required|string|max:65535',
             'reveal_identity_to_manager' => 'boolean',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 

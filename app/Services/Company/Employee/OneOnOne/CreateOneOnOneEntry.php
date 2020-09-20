@@ -148,7 +148,6 @@ class CreateOneOnOneEntry extends BaseService
                 'manager_id' => $this->data['manager_id'],
                 'manager_name' => $this->manager->name,
             ]),
-            'is_dummy' => false,
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -162,7 +161,6 @@ class CreateOneOnOneEntry extends BaseService
                 'employee_id' => $this->data['manager_id'],
                 'employee_name' => $this->manager->name,
             ]),
-            'is_dummy' => false,
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -176,7 +174,6 @@ class CreateOneOnOneEntry extends BaseService
                 'employee_id' => $this->data['employee_id'],
                 'employee_name' => $this->employee->name,
             ]),
-            'is_dummy' => false,
         ])->onQueue('low');
     }
 }

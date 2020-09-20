@@ -21,7 +21,6 @@ class UpdatePosition extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'position_id' => 'required|integer|exists:positions,id',
             'title' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -60,7 +59,6 @@ class UpdatePosition extends BaseService
                 'position_title' => $position->title,
                 'position_old_title' => $oldPositionTitle,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         $position->refresh();

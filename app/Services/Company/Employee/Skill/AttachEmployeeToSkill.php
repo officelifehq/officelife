@@ -30,7 +30,6 @@ class AttachEmployeeToSkill extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'name' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -91,7 +90,6 @@ class AttachEmployeeToSkill extends BaseService
         $this->skill = Skill::create([
             'company_id' => $this->data['company_id'],
             'name' => $name,
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ]);
     }
 
@@ -122,7 +120,6 @@ class AttachEmployeeToSkill extends BaseService
                 'employee_id' => $this->employee->id,
                 'employee_name' => $this->employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 
@@ -143,7 +140,6 @@ class AttachEmployeeToSkill extends BaseService
                 'employee_id' => $this->employee->id,
                 'employee_name' => $this->employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -156,7 +152,6 @@ class AttachEmployeeToSkill extends BaseService
                 'skill_id' => $this->skill->id,
                 'skill_name' => $this->skill->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 
@@ -169,6 +164,7 @@ class AttachEmployeeToSkill extends BaseService
     private function formatName(string $name): string
     {
         $name = StringHelper::removeLettersWithAccent($name);
+
         return strtolower($name);
     }
 }

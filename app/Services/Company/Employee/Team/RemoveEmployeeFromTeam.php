@@ -27,7 +27,6 @@ class RemoveEmployeeFromTeam extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -103,7 +102,6 @@ class RemoveEmployeeFromTeam extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -113,7 +111,6 @@ class RemoveEmployeeFromTeam extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -123,7 +120,6 @@ class RemoveEmployeeFromTeam extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode($dataToLog),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }
