@@ -3,12 +3,13 @@
 namespace Tests;
 
 use App\Models\Company\Employee;
+use \Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    use RefreshDatabase, CreatesApplication;
 
     /**
      * Check if the given route is accessible by a user with the given
