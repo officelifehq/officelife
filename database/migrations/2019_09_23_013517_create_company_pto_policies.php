@@ -22,7 +22,6 @@ class CreateCompanyPtoPolicies extends Migration
             $table->integer('default_amount_of_allowed_holidays')->nullable();
             $table->integer('default_amount_of_sick_days')->nullable();
             $table->integer('default_amount_of_pto_days')->nullable();
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });

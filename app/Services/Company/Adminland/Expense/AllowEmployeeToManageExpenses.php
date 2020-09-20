@@ -80,7 +80,6 @@ class AllowEmployeeToManageExpenses extends BaseService
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         NotifyEmployee::dispatch([

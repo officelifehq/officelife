@@ -19,7 +19,6 @@ class CreateShipsTable extends Migration
             $table->unsignedBigInteger('team_id');
             $table->string('title');
             $table->text('description')->nullable();
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });

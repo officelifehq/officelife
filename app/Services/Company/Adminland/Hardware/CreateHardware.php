@@ -21,7 +21,6 @@ class CreateHardware extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'name' => 'required|string|max:255',
             'serial_number' => 'nullable|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -45,7 +44,6 @@ class CreateHardware extends BaseService
             'company_id' => $data['company_id'],
             'name' => $data['name'],
             'serial_number' => $this->valueOrNull($data, 'serial_number'),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         LogAccountAudit::dispatch([
@@ -58,7 +56,6 @@ class CreateHardware extends BaseService
                 'hardware_id' => $hardware->id,
                 'hardware_name' => $hardware->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $hardware;

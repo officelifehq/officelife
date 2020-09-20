@@ -21,7 +21,6 @@ class DestroyHardware extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'hardware_id' => 'required|integer|exists:hardware,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -55,7 +54,6 @@ class DestroyHardware extends BaseService
             'objects' => json_encode([
                 'hardware_name' => $hardware->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

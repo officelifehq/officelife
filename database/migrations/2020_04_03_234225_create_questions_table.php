@@ -21,7 +21,6 @@ class CreateQuestionsTable extends Migration
             $table->boolean('active')->default(false);
             $table->dateTime('activated_at')->nullable();
             $table->dateTime('deactivated_at')->nullable();
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });

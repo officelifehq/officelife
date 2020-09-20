@@ -20,7 +20,6 @@ class RemoveStepFromFlow extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'flow_id' => 'required|integer|exists:flows,id',
             'step_id' => 'required|integer|exists:steps,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 

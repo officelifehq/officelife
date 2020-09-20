@@ -36,7 +36,6 @@ class CreateFlow extends BaseService
                     'employee_returns_leave',
                 ]),
             ],
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -72,7 +71,6 @@ class CreateFlow extends BaseService
                 'flow_id' => $flow->id,
                 'flow_name' => $flow->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $flow;

@@ -27,16 +27,6 @@ class EmployeeLog extends Model
         'objects',
         'audited_at',
         'ip_address',
-        'is_dummy',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**

@@ -29,7 +29,6 @@ class InviteEmployeeToBecomeUser extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -65,7 +64,6 @@ class InviteEmployeeToBecomeUser extends BaseService
                 'employee_first_name' => $employee->first_name,
                 'employee_last_name' => $employee->last_name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $employee;

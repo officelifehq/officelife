@@ -21,7 +21,6 @@ class CreateTeamNewsTable extends Migration
             $table->string('author_name');
             $table->string('title');
             $table->text('content');
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('employees')->onDelete('set null');

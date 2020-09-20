@@ -21,7 +21,6 @@ class CreateTasksTable extends Migration
             $table->boolean('completed')->default(false);
             $table->datetime('due_at')->nullable();
             $table->datetime('completed_at')->nullable();
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });

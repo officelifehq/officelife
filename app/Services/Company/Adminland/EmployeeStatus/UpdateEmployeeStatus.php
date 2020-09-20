@@ -21,7 +21,6 @@ class UpdateEmployeeStatus extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_status_id' => 'required|integer|exists:employee_statuses,id',
             'name' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -61,7 +60,6 @@ class UpdateEmployeeStatus extends BaseService
                 'employee_status_old_name' => $oldStatusName,
                 'employee_status_new_name' => $data['name'],
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $employeeStatus;

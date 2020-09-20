@@ -21,7 +21,6 @@ class RemoveActionFromStep extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'step_id' => 'required|integer|exists:steps,id',
             'action_id' => 'required|integer|exists:actions,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 

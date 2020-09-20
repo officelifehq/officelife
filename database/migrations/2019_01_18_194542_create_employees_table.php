@@ -36,7 +36,6 @@ class CreateEmployeesTable extends Migration
             $table->string('default_dashboard_view')->default('me');
             $table->boolean('can_manage_expenses')->default(false);
             $table->boolean('display_welcome_message')->default(false);
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

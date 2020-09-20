@@ -23,7 +23,6 @@ class UpdateEmployee extends BaseService
             'email' => 'required|email|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -63,7 +62,6 @@ class UpdateEmployee extends BaseService
                 'employee_id' => $employee->id,
                 'employee_name' => $employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $employee;

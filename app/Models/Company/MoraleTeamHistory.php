@@ -18,16 +18,6 @@ class MoraleTeamHistory extends Model
         'team_id',
         'average',
         'number_of_team_members',
-        'is_dummy',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**

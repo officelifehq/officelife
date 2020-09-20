@@ -21,7 +21,6 @@ class Position extends Model
     protected $fillable = [
         'company_id',
         'title',
-        'is_dummy',
     ];
 
     /**
@@ -50,15 +49,6 @@ class Position extends Model
      */
     protected static $logAttributes = [
         'title',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**

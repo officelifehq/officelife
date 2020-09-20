@@ -18,7 +18,6 @@ class CreateWorklogTable extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id')->nullable();
             $table->text('content');
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
         });

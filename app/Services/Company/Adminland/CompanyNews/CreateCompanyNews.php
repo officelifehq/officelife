@@ -22,7 +22,6 @@ class CreateCompanyNews extends BaseService
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:65535',
             'created_at' => 'nullable|date_format:Y-m-d H:i:s',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -48,7 +47,6 @@ class CreateCompanyNews extends BaseService
             'author_name' => $this->author->name,
             'title' => $data['title'],
             'content' => $data['content'],
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         if (! empty($data['created_at'])) {
@@ -66,7 +64,6 @@ class CreateCompanyNews extends BaseService
                 'company_news_id' => $news->id,
                 'company_news_title' => $news->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $news;

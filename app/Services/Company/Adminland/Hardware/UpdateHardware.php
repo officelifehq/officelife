@@ -22,7 +22,6 @@ class UpdateHardware extends BaseService
             'hardware_id' => 'required|integer|exists:hardware,id',
             'name' => 'required|string|max:255',
             'serial_number' => 'nullable|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 

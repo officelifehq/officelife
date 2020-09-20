@@ -24,7 +24,6 @@ class LendHardware extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'hardware_id' => 'required|integer|exists:hardware,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -75,7 +74,6 @@ class LendHardware extends BaseService
                 'hardware_name' => $hardware->name,
                 'employee_name' => $this->employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

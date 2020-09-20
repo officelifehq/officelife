@@ -276,7 +276,6 @@ class CreatePlacesTable extends Migration
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
             $table->boolean('is_active')->default(false);
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
         });

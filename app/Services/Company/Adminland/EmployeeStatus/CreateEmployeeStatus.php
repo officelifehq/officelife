@@ -20,7 +20,6 @@ class CreateEmployeeStatus extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'name' => 'required|string|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -55,7 +54,6 @@ class CreateEmployeeStatus extends BaseService
                 'employee_status_id' => $employeeStatus->id,
                 'employee_status_name' => $employeeStatus->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $employeeStatus;

@@ -20,7 +20,6 @@ class Flow extends Model
         'company_id',
         'name',
         'type',
-        'is_dummy',
     ];
 
     /**
@@ -30,15 +29,6 @@ class Flow extends Model
      */
     protected static $logAttributes = [
         'name',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**
