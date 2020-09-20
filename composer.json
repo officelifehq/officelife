@@ -1,10 +1,11 @@
 {
-    "name": "djaiss/officelife",
+    "name": "officelifehq/officelife",
     "type": "project",
     "description": "Know how your employees feel.",
     "keywords": [
         "company",
-        "crm"
+        "crm",
+        "employee lifecycle"
     ],
     "license": "BSD-3",
     "require": {
