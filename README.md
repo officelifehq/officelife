@@ -1,6 +1,7 @@
-![](https://github.com/djaiss/homas/workflows/Unit%20tests/badge.svg)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=officelife&metric=ncloc)](https://sonarcloud.io/dashboard?id=officelife)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=officelife&metric=alert_status)](https://sonarcloud.io/dashboard?id=officelife)
+[![Build and test](https://github.com/officelifehq/officelife/workflows/Build%20and%20test/badge.svg)](https://github.com/officelifehq/officelife/actions?query=workflow%3A%22Build+and+test%22)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=officelife&amp;metric=ncloc)](https://sonarcloud.io/dashboard?id=officelife)
+[![Code coverage](https://sonarcloud.io/api/project_badges/measure?project=officelife&amp;metric=coverage)](https://sonarcloud.io/project/activity?custom_metrics=coverage&amp;graph=custom&amp;id=officelife)
+[![Quality gate](https://sonarcloud.io/api/project_badges/measure?project=officelife&amp;metric=alert_status)](https://sonarcloud.io/dashboard?id=officelife)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 # OfficeLife
