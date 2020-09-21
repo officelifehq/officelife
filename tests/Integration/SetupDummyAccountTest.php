@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Commands;
+namespace Tests\Integration;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
