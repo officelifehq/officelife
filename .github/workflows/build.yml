@@ -11,9 +11,9 @@ on:
       - created
 
 jobs:
-  ######################
+  ###########
   # Run tests
-  ######################
+  ###########
   tests:
     runs-on: ubuntu-latest
     name: Test on ${{ matrix.connection }} (PHP ${{ matrix.php-version }})
@@ -98,9 +98,9 @@ jobs:
           name: results
           path: results
 
-  ######################
+  #########################
   # Reporting to sonarcloud
-  ######################
+  #########################
   reporting:
     needs: tests
     runs-on: ubuntu-latest
