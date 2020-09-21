@@ -90,7 +90,11 @@ jobs:
 
     # Test
       - name: Run Unit test suite
-        run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml --coverage-clover ./results/${{ matrix.connection }}/coverage1.xml
+        if: matrix.connection == 'sqlite'
+        run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml --coverage-clover ./results/${{ matrix.connection }}/coverage.xml
+      - name: Run Unit test suite
+        if: matrix.connection == 'mysql'
+        run: vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml
       - name: Run Integration test suite
         run: vendor/bin/phpunit -c phpunit.xml --testsuite Integration --log-junit ./results/${{ matrix.connection }}/results2.xml
 
@@ -128,6 +132,7 @@ jobs:
       - name: Fix results files
         run: |
           sed -i -e "s%$GITHUB_WORKSPACE/%%g" results/sqlite/results*.xml
+          sed -i -e "s%$GITHUB_WORKSPACE/%%g" results/sqlite/coverage.xml
 
       - name: SonarCloud Scan
         if: env.SONAR_TOKEN != ''
