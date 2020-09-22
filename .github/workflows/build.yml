@@ -96,6 +96,7 @@ jobs:
         if: matrix.connection != 'mysql'
         run: vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml
       - name: Run Integration test suite
+        if: matrix.connection == 'sqlite'
         run: vendor/bin/phpunit -c phpunit.xml --testsuite Integration --log-junit ./results/${{ matrix.connection }}/results2.xml
 
       - name: Store results
