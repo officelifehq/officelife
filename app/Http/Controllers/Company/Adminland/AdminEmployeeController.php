@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\LockEmployee;
+use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
 use App\Services\Company\Adminland\Employee\UnlockEmployee;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -31,44 +32,84 @@ class AdminEmployeeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $employeesCollection = collect([]);
-        foreach ($employees as $employee) {
-            $employeesCollection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'permission_level' => $employee->permission_level,
-                'avatar' => $employee->avatar,
-                'invitation_link' => $employee->invitation_link,
-                'invited' => ! $employee->invitation_used_at && $employee->invitation_link ? true : false,
-                'lock_status' => $employee->locked,
-                'url_view' => route('employees.show', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
-                'url_delete' => route('account.delete', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
-                'url_lock' => route('account.lock', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
-                'url_unlock' => route('account.unlock', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
-            ]);
-        }
-
-        $numberOfLockedAccounts = $employees->filter(function ($employee) {
-            return $employee->locked;
-        });
-
         return Inertia::render('Adminland/Employee/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'employees' => $employeesCollection,
-            'numberOfLockedAccounts' => $numberOfLockedAccounts->count(),
-            'numberOfActiveAccounts' => $employees->count() - $numberOfLockedAccounts->count(),
+            'statistics' => AdminEmployeeViewHelper::index($employees, $company),
+        ]);
+    }
+
+    /**
+     * Show the list of all employees.
+     *
+     * @return Response
+     */
+    public function all(): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employees = $company->employees()
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Inertia::render('Adminland/Employee/IndexAll', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employees' => AdminEmployeeViewHelper::all($employees, $company),
+        ]);
+    }
+
+    /**
+     * Show the list of all active employees.
+     *
+     * @return Response
+     */
+    public function active(): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employees = $company->employees()
+            ->where('locked', false)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Inertia::render('Adminland/Employee/IndexActive', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employees' => AdminEmployeeViewHelper::all($employees, $company),
+        ]);
+    }
+
+    /**
+     * Show the list of all locked employees.
+     *
+     * @return Response
+     */
+    public function locked(): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employees = $company->employees()
+            ->where('locked', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Inertia::render('Adminland/Employee/IndexLocked', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employees' => AdminEmployeeViewHelper::all($employees, $company),
+        ]);
+    }
+
+    /**
+     * Show the list of all employees without an hiring date.
+     *
+     * @return Response
+     */
+    public function noHiringDate(): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employees = $company->employees()
+            ->where('hired_at', null)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Inertia::render('Adminland/Employee/IndexNoHiringDate', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employees' => AdminEmployeeViewHelper::all($employees, $company),
         ]);
     }
 
