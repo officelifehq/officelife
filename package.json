@@ -20,6 +20,10 @@
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@inertiajs/inertia-vue": "^0.1.0",
+        "@semantic-release/changelog": "^5.0.1",
+        "@semantic-release/exec": "^5.0.0",
+        "@semantic-release/git": "^9.0.0",
+        "@semantic-release/release-notes-generator": "^9.0.1",
         "axios": "^0.18",
         "cross-env": "^5.1",
         "cypress": "5.2.0",
@@ -36,6 +40,7 @@
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
+        "semantic-release": "^17.1.2",
         "tachyons": "^4.11.1",
         "vue": "^2.5.17",
         "vue-template-compiler": "^2.5.22"
