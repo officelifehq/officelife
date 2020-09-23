@@ -64,8 +64,14 @@ class AdminEmployeeViewHelper
      */
     public static function all(EloquentCollection $employees, Company $company): Collection
     {
-        $employeesCollection = collect([]);
+        $employeesCollection = self::getCollectionOfEmployees($employees, $company);
 
+        return $employeesCollection;
+    }
+
+    private static function getCollectionOfEmployees(Collection $employees, Company $company): Collection
+    {
+        $employeesCollection = collect([]);
         foreach ($employees as $employee) {
             $employeesCollection->push([
                 'id' => $employee->id,

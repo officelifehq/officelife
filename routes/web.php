@@ -233,8 +233,9 @@ Route::middleware(['auth'])->group(function () {
 
             //employee CRUD
             Route::get('account/employees/create', 'Company\\Adminland\\AdminEmployeeController@create')->name('account.employees.new');
-            Route::post('account/employees/store', 'Company\\Adminland\\AdminEmployeeController@store')->name('account.employees.create');
+            Route::post('account/employees', 'Company\\Adminland\\AdminEmployeeController@store')->name('account.employees.create');
             Route::get('account/employees/{employee}/delete', 'Company\\Adminland\\AdminEmployeeController@delete')->name('account.delete');
+            Route::delete('account/employees/{employee}', 'Company\\Adminland\\AdminEmployeeController@destroy');
             Route::get('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lock')->name('account.lock');
             Route::post('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lockAccount');
             Route::get('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlock')->name('account.unlock');

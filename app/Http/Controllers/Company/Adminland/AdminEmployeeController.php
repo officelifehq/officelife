@@ -28,9 +28,7 @@ class AdminEmployeeController extends Controller
     public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employees = $company->employees()
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $employees = $company->employees()->get();
 
         return Inertia::render('Adminland/Employee/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -47,7 +45,7 @@ class AdminEmployeeController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $employees = $company->employees()
-            ->orderBy('created_at', 'desc')
+            ->orderBy('last_name', 'asc')
             ->get();
 
         return Inertia::render('Adminland/Employee/IndexAll', [
@@ -66,7 +64,7 @@ class AdminEmployeeController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employees = $company->employees()
             ->where('locked', false)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('last_name', 'asc')
             ->get();
 
         return Inertia::render('Adminland/Employee/IndexActive', [
@@ -85,7 +83,7 @@ class AdminEmployeeController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employees = $company->employees()
             ->where('locked', true)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('last_name', 'asc')
             ->get();
 
         return Inertia::render('Adminland/Employee/IndexLocked', [
