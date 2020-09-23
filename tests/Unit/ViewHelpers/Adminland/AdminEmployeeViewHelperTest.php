@@ -17,12 +17,12 @@ class AdminEmployeeViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
         factory(Employee::class)->create([
-            'company_id' => $michael->id,
+            'company_id' => $michael->company_id,
             'hired_at' => Carbon::now(),
             'locked' => true,
         ]);
         factory(Employee::class)->create([
-            'company_id' => $michael->id,
+            'company_id' => $michael->company_id,
             'hired_at' => null,
             'locked' => false,
         ]);
