@@ -8,6 +8,7 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\CompanyViewHelper;
 
 class CompanyController extends Controller
 {
@@ -22,8 +23,12 @@ class CompanyController extends Controller
 
         $questions = $company->questions()->count();
         $skills = $company->skills()->count();
+        $latestQuestions = CompanyViewHelper::latestQuestions($company);
+        $birthdaysThisWeek = CompanyViewHelper::birthdaysThisWeek($company);
 
         return Inertia::render('Company/Index', [
+            'latestQuestions' => $latestQuestions,
+            'birthdaysThisWeek' => $birthdaysThisWeek,
             'questions' => $questions,
             'questionsUrl' => route('company.questions.index', [
                 'company' => $company->id,

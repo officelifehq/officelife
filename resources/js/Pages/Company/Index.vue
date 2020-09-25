@@ -7,6 +7,14 @@
         </h2>
       </div>
 
+      <ul>
+        <li v-for="question in latestQuestions.latest_questions" :key="question.id">{{ question.title }}</li>
+      </ul>
+
+      <ul>
+        <li v-for="birthday in birthdaysThisWeek" :key="birthday.id">{{ birthday.name }}</li>
+      </ul>
+
       <p><inertia-link :href="questionsUrl">{{ questions }} questions</inertia-link></p>
       <p><inertia-link :href="skillsUrl" data-cy="company-skills">{{ skills }} skills</inertia-link></p>
     </div>
@@ -22,6 +30,14 @@ export default {
   },
 
   props: {
+    latestQuestions: {
+      type: Object,
+      default: null,
+    },
+    birthdaysThisWeek: {
+      type: Array,
+      default: null,
+    },
     questions: {
       type: Number,
       default: null,
