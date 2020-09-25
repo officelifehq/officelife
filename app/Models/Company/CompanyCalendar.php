@@ -24,7 +24,6 @@ class CompanyCalendar extends Model
         'day_of_week',
         'day_of_year',
         'is_worked',
-        'is_dummy',
     ];
 
     /**
@@ -34,7 +33,6 @@ class CompanyCalendar extends Model
      */
     protected $casts = [
         'is_worked' => 'boolean',
-        'is_dummy' => 'boolean',
     ];
 
     /**

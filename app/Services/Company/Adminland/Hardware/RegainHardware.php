@@ -23,7 +23,6 @@ class RegainHardware extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'hardware_id' => 'required|integer|exists:hardware,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -74,7 +73,6 @@ class RegainHardware extends BaseService
                 'hardware_name' => $hardware->name,
                 'employee_name' => $this->employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

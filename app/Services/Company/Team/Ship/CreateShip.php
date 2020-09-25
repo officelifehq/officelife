@@ -32,7 +32,6 @@ class CreateShip extends BaseService
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:65535',
             'employees' => 'nullable|array',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -73,7 +72,6 @@ class CreateShip extends BaseService
             'team_id' => $this->data['team_id'],
             'title' => $this->data['title'],
             'description' => $this->valueOrNull($this->data, 'description'),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ]);
     }
 
@@ -93,7 +91,6 @@ class CreateShip extends BaseService
                 'author_id' => $this->data['author_id'],
                 'employee_id' => $employeeId,
                 'ship_id' => $this->ship->id,
-                'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
             ])->onQueue('low');
         }
     }
@@ -115,7 +112,6 @@ class CreateShip extends BaseService
                 'ship_id' => $this->ship->id,
                 'ship_title' => $this->ship->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -128,7 +124,6 @@ class CreateShip extends BaseService
                 'ship_id' => $this->ship->id,
                 'ship_title' => $this->ship->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

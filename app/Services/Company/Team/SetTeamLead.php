@@ -29,7 +29,6 @@ class SetTeamLead extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'team_id' => 'required|integer|exists:teams,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -129,7 +128,6 @@ class SetTeamLead extends BaseService
                 'team_leader_name' => $this->employee->name,
                 'team_name' => $this->team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -142,7 +140,6 @@ class SetTeamLead extends BaseService
                 'team_leader_id' => $this->employee->id,
                 'team_leader_name' => $this->employee->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

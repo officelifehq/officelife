@@ -64,7 +64,6 @@ class UpdateQuestion extends BaseService
                 'question_title' => $question->title,
                 'question_old_title' => $oldQuestionTitle,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         $question->refresh();

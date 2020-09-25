@@ -59,7 +59,6 @@ class DestroyTeamUsefulLink extends BaseService
                 'team_id' => $link->team->id,
                 'team_name' => $link->team->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -71,7 +70,6 @@ class DestroyTeamUsefulLink extends BaseService
             'objects' => json_encode([
                 'link_name' => $link->label,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

@@ -27,7 +27,6 @@ class SetPersonalDetails extends BaseService
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email:rfc|max:255',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -80,7 +79,6 @@ class SetPersonalDetails extends BaseService
                 'employee_name' => $this->employee->name,
                 'employee_email' => $this->employee->email,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -93,7 +91,6 @@ class SetPersonalDetails extends BaseService
                 'name' => $this->employee->name,
                 'email' => $this->employee->email,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

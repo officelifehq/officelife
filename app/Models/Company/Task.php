@@ -25,7 +25,6 @@ class Task extends Model
         'completed',
         'due_at',
         'completed_at',
-        'is_dummy',
     ];
 
     /**
@@ -45,7 +44,6 @@ class Task extends Model
      */
     protected $casts = [
         'completed' => 'boolean',
-        'is_dummy' => 'boolean',
     ];
 
     /**

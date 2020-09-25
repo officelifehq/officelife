@@ -33,7 +33,6 @@ class CreateTask extends BaseService
             'completed' => 'nullable|boolean',
             'due_at' => 'nullable|date_format:Y-m-d',
             'completed_at' => 'nullable|date_format:Y-m-d',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -79,7 +78,6 @@ class CreateTask extends BaseService
             'title' => $this->data['title'],
             'due_at' => $this->nullOrDate($this->data, 'due_at'),
             'completed_at' => $this->nullOrDate($this->data, 'completed_at'),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ]);
     }
 
@@ -99,7 +97,6 @@ class CreateTask extends BaseService
                 'employee_name' => $this->employee->name,
                 'title' => $this->data['title'],
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -111,7 +108,6 @@ class CreateTask extends BaseService
             'objects' => json_encode([
                 'title' => $this->data['title'],
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 
@@ -130,7 +126,6 @@ class CreateTask extends BaseService
                 'author_name' => $this->author->name,
                 'title' => $this->data['title'],
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

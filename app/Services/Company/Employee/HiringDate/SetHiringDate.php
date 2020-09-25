@@ -25,7 +25,6 @@ class SetHiringDate extends BaseService
             'year' => 'required|integer',
             'month' => 'required|integer',
             'day' => 'required|integer',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -83,7 +82,6 @@ class SetHiringDate extends BaseService
                 'employee_name' => $this->employee->name,
                 'hiring_date' => $date->format('Y-m-d'),
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -95,7 +93,6 @@ class SetHiringDate extends BaseService
             'objects' => json_encode([
                 'hiring_date' => $date->format('Y-m-d'),
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

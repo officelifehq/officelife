@@ -24,7 +24,6 @@ class DestroySkill extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'skill_id' => 'required|integer|exists:skills,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -73,7 +72,6 @@ class DestroySkill extends BaseService
             'objects' => json_encode([
                 'skill_name' => $this->skill->name,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

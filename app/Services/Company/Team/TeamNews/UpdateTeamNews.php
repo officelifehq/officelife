@@ -25,7 +25,6 @@ class UpdateTeamNews extends BaseService
             'team_news_id' => 'required|integer|exists:team_news,id',
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:65535',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -71,7 +70,6 @@ class UpdateTeamNews extends BaseService
                 'team_news_title' => $news->title,
                 'team_news_old_title' => $oldNewsTitle,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -85,7 +83,6 @@ class UpdateTeamNews extends BaseService
                 'team_news_title' => $news->title,
                 'team_news_old_title' => $oldNewsTitle,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         $news->refresh();

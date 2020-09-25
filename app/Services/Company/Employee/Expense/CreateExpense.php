@@ -42,7 +42,6 @@ class CreateExpense extends BaseService
             'currency' => 'required|string|max:255',
             'description' => 'nullable|string|max:65535',
             'expensed_at' => 'required|date',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -106,7 +105,6 @@ class CreateExpense extends BaseService
             'description' => $this->valueOrNull($this->data, 'description'),
             'expensed_at' => $this->data['expensed_at'],
             'status' => $this->managers->count() > 0 ? Expense::AWAITING_MANAGER_APPROVAL : Expense::AWAITING_ACCOUTING_APPROVAL,
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ]);
     }
 
@@ -147,7 +145,6 @@ class CreateExpense extends BaseService
                 'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                 'expensed_at' => $this->expense->expensed_at,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -162,7 +159,6 @@ class CreateExpense extends BaseService
                 'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                 'expensed_at' => $this->expense->expensed_at,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 }

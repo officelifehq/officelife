@@ -21,7 +21,6 @@ class Morale extends Model
         'employee_id',
         'emotion',
         'comment',
-        'is_dummy',
         'created_at',
     ];
 
@@ -33,15 +32,6 @@ class Morale extends Model
     protected static $logAttributes = [
         'emotion',
         'comment',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**

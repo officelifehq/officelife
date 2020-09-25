@@ -18,7 +18,6 @@ class CreatePositionsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('title');
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });

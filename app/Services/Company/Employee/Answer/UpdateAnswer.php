@@ -68,7 +68,6 @@ class UpdateAnswer extends BaseService
                 'question_id' => $answer->question->id,
                 'question_title' => $answer->question->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -82,10 +81,10 @@ class UpdateAnswer extends BaseService
                 'question_id' => $answer->question->id,
                 'question_title' => $answer->question->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         $answer->refresh();
+
         return $answer;
     }
 }

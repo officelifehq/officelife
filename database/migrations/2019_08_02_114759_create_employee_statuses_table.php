@@ -18,7 +18,6 @@ class CreateEmployeeStatusesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->string('name');
-            $table->boolean('is_dummy')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });

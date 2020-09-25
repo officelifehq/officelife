@@ -20,7 +20,6 @@ class DestroyPosition extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'position_id' => 'required|integer|exists:positions,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -54,7 +53,6 @@ class DestroyPosition extends BaseService
             'objects' => json_encode([
                 'position_title' => $position->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

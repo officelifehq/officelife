@@ -20,7 +20,6 @@ class Ship extends Model
         'team_id',
         'title',
         'description',
-        'is_dummy',
     ];
 
     /**
@@ -31,15 +30,6 @@ class Ship extends Model
     protected static $logAttributes = [
         'title',
         'description',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**

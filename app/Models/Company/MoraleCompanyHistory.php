@@ -18,16 +18,6 @@ class MoraleCompanyHistory extends Model
         'company_id',
         'average',
         'number_of_employees',
-        'is_dummy',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**

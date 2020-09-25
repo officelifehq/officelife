@@ -33,16 +33,10 @@ class NotifyEmployee implements ShouldQueue
      */
     public function handle()
     {
-        $isDummy = true;
-        if (empty($this->notification['is_dummy'])) {
-            $isDummy = false;
-        }
-
         (new AddNotificationInUIForEmployee)->execute([
             'employee_id' => $this->notification['employee_id'],
             'action' => $this->notification['action'],
             'objects' => $this->notification['objects'],
-            'is_dummy' => $isDummy,
         ]);
     }
 }

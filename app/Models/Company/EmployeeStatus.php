@@ -20,7 +20,6 @@ class EmployeeStatus extends Model
     protected $fillable = [
         'company_id',
         'name',
-        'is_dummy',
     ];
 
     /**

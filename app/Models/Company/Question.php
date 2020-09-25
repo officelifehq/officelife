@@ -23,7 +23,6 @@ class Question extends Model
         'activated_at',
         'deactivated_at',
         'active',
-        'is_dummy',
     ];
 
     /**
@@ -52,7 +51,6 @@ class Question extends Model
      */
     protected $casts = [
         'active' => 'boolean',
-        'is_dummy' => 'boolean',
     ];
 
     /**

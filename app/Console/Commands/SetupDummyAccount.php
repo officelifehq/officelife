@@ -140,7 +140,8 @@ class SetupDummyAccount extends Command
      *
      * @var string
      */
-    protected $signature = 'setup:dummyaccount';
+    protected $signature = 'setup:dummyaccount
+                            {--skip-refresh : Don\'t refresh the database}';
 
     /**
      * The console command description.
@@ -150,20 +151,14 @@ class SetupDummyAccount extends Command
     protected $description = 'Prepare an account with fake data so users can play with it';
 
     /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      */
     public function handle(): void
     {
         $this->start();
-        $this->wipeAndMigrateDB();
+        if (! $this->option('skip-refresh')) {
+            $this->wipeAndMigrateDB();
+        }
         $this->createFirstUser();
         $this->assignAccountantRole();
         $this->createEmployeeStatuses();

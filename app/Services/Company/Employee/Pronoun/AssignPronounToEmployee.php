@@ -23,7 +23,6 @@ class AssignPronounToEmployee extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'pronoun_id' => 'required|integer|exists:pronouns,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -63,7 +62,6 @@ class AssignPronounToEmployee extends BaseService
                 'pronoun_id' => $pronoun->id,
                 'pronoun_label' => $pronoun->label,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -76,7 +74,6 @@ class AssignPronounToEmployee extends BaseService
                 'pronoun_id' => $pronoun->id,
                 'pronoun_label' => $pronoun->label,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $employee;

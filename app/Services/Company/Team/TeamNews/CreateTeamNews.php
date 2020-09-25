@@ -25,7 +25,6 @@ class CreateTeamNews extends BaseService
             'title' => 'required|string|max:255',
             'content' => 'required|string|max:65535',
             'created_at' => 'nullable|date_format:Y-m-d H:i:s',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -53,7 +52,6 @@ class CreateTeamNews extends BaseService
             'author_name' => $this->author->name,
             'title' => $data['title'],
             'content' => $data['content'],
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ]);
 
         if (! empty($data['created_at'])) {
@@ -73,7 +71,6 @@ class CreateTeamNews extends BaseService
                 'team_news_id' => $news->id,
                 'team_news_title' => $news->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -86,7 +83,6 @@ class CreateTeamNews extends BaseService
                 'team_news_id' => $news->id,
                 'team_news_title' => $news->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return $news;

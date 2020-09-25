@@ -22,7 +22,6 @@ class DestroyTeamNews extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'team_news_id' => 'required|integer|exists:team_news,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -62,7 +61,6 @@ class DestroyTeamNews extends BaseService
                 'team_name' => $team->name,
                 'team_news_title' => $news->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         LogTeamAudit::dispatch([
@@ -74,7 +72,6 @@ class DestroyTeamNews extends BaseService
             'objects' => json_encode([
                 'team_news_title' => $news->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($data, 'is_dummy'),
         ])->onQueue('low');
 
         return true;

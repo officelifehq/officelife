@@ -29,7 +29,6 @@ class AcceptExpenseAsAccountant extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'expense_id' => 'required|integer|exists:expenses,id',
-            'is_dummy' => 'nullable|boolean',
         ];
     }
 
@@ -105,7 +104,6 @@ class AcceptExpenseAsAccountant extends BaseService
             'objects' => json_encode([
                 'title' => $this->expense->title,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
     }
 
@@ -128,7 +126,6 @@ class AcceptExpenseAsAccountant extends BaseService
                 'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                 'expensed_at' => $this->expense->expensed_at,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         LogEmployeeAudit::dispatch([
@@ -145,7 +142,6 @@ class AcceptExpenseAsAccountant extends BaseService
                 'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                 'expensed_at' => $this->expense->expensed_at,
             ]),
-            'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
         ])->onQueue('low');
 
         if ($this->expense->employee) {
@@ -161,7 +157,6 @@ class AcceptExpenseAsAccountant extends BaseService
                     'expense_amount' => MoneyHelper::format($this->expense->amount, $this->expense->currency),
                     'expensed_at' => $this->expense->expensed_at,
                 ]),
-                'is_dummy' => $this->valueOrFalse($this->data, 'is_dummy'),
             ])->onQueue('low');
         }
     }

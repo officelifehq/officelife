@@ -21,7 +21,6 @@ class Skill extends Model
     protected $fillable = [
         'company_id',
         'name',
-        'is_dummy',
     ];
 
     /**
@@ -50,15 +49,6 @@ class Skill extends Model
      */
     protected static $logAttributes = [
         'name',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'is_dummy' => 'boolean',
     ];
 
     /**
