@@ -1,12 +1,27 @@
 var faker = require('faker');
 
 // Create a user
-Cypress.Commands.add('login', (role) => {
-  cy.exec('php artisan setup:frontendtesting').then((result) => {
+Cypress.Commands.add('login2', (role) => {
+  cy.exec('php artisan setup:frontendtestuser').then((result) => {
     cy.visit('/_dusk/login/'+result.stdout+'/');
   });
   cy.visit('/home')
 });
+
+Cypress.Commands.add('login', (role) => {
+  cy.exec('php artisan setup:frontendtesting -vvv')
+
+  cy.visit('/login')
+
+  cy.get('input[name=email]').type('admin@admin.com')
+  cy.get('input[name=password]').type('admin')
+
+  cy.get('button[type=submit]').click()
+
+  cy.wait(1000)
+
+  cy.url().should('include', '/home')
+})
 
 Cypress.Commands.add('logout', () => {
   cy.get('[data-cy=header-menu]').click()
@@ -93,14 +108,18 @@ Cypress.Commands.add('acceptInvitationLinkAndGoToDashboard', (password, link) =>
 
 // Assert that the page can be visited by a user with the right permission level
 Cypress.Commands.add('canAccess', (url, permission, textToSee) => {
-  cy.changePermission(1, permission)
+  cy.get('body').invoke('attr', 'data-account-id').then(function (accountId) {
+    cy.changePermission(accountId, permission)
+  });
   cy.visit(url)
   cy.contains(textToSee)
 })
 
 // Assert that a page can not be visited
 Cypress.Commands.add('canNotAccess', (url, permission) => {
-  cy.changePermission(1, permission)
+  cy.get('body').invoke('attr', 'data-account-id').then(function (accountId) {
+    cy.changePermission(accountId, permission)
+  });
   cy.request({
     url: url,
     failOnStatusCode: false
@@ -113,7 +132,9 @@ Cypress.Commands.add('canNotAccess', (url, permission) => {
 // Assert that an audit log has been created with the following content
 // and redirect the page to the given url
 Cypress.Commands.add('hasAuditLog', (content, redirectUrl) => {
-  cy.visit('/1/account/audit')
+  cy.get('body').invoke('attr', 'data-account-id').then(function (accountId) {
+    cy.visit('/'+accountId+'/account/audit')
+  });
 
   cy.contains(content)
 
@@ -126,7 +147,9 @@ Cypress.Commands.add('hasEmployeeLog', (content, redirectUrl, visitUrl = '') => 
   if (visitUrl != '') {
     cy.visit(visitUrl)
   } else {
-    cy.visit('/1/employees/1/logs')
+    cy.get('body').invoke('attr', 'data-account-id').then(function (accountId) {
+      cy.visit('/'+accountId+'/employees/1/logs')
+    });
   }
 
   cy.contains(content)
@@ -137,7 +160,9 @@ Cypress.Commands.add('hasEmployeeLog', (content, redirectUrl, visitUrl = '') => 
 // Assert that a team log has been created with the following content
 // and redirect the page to the given url
 Cypress.Commands.add('hasTeamLog', (content, redirectUrl) => {
-  cy.visit('/1/account/teams/1/logs')
+  cy.get('body').invoke('attr', 'data-account-id').then(function (accountId) {
+    cy.visit('/'+accountId+'/account/teams/1/logs')
+  });
 
   cy.contains(content)
 
@@ -146,7 +171,9 @@ Cypress.Commands.add('hasTeamLog', (content, redirectUrl) => {
 
 // Assert that the employee has a notification
 Cypress.Commands.add('hasNotification', (content) => {
-  cy.visit('/1/notifications')
+  cy.get('body').invoke('attr', 'data-account-id').then(function (accountId) {
+    cy.visit('/'+accountId+'/notifications')
+  });
   cy.contains(content)
 })
 
@@ -177,7 +204,9 @@ Cypress.Commands.add('changePermission', (userId, permission) => {
 
 // Assign an employee to a team
 Cypress.Commands.add('assignEmployeeToTeam', (employeeId, teamId) => {
-  cy.visit('/1/employees/' + employeeId)
+  cy.get('body').invoke('attr', 'data-account-id').then(function (accountId) {
+    cy.visit('/'+accountId+'/employees/' + employeeId)
+  });
 
   // Open the modal to assign a team and select the first line
   cy.get('[data-cy=open-team-modal-blank]').click()
@@ -215,7 +244,9 @@ Cypress.Commands.add('readRecentShipEntry', (title, description, employeeName, e
 
 // Create an expense
 Cypress.Commands.add('createExpense', (title, amount) => {
-  cy.visit('/1/dashboard')
+  cy.get('body').invoke('attr', 'data-account-id').then(function (accountId) {
+    cy.visit('/'+accountId+'/dashboard')
+  });
   cy.get('[data-cy=create-expense-cta]').click()
   cy.get('[data-cy=expense-create-cancel]').click()
   cy.get('[data-cy=create-expense-cta]').click()

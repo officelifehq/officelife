@@ -19,7 +19,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\LangGenerate',
     ];
 
     /**
@@ -47,6 +46,10 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
+
+        if ($this->app->environment() != 'production') {
+            $this->load(__DIR__.'/Commands/Tests');
+        }
 
         require base_path('routes/console.php');
     }
