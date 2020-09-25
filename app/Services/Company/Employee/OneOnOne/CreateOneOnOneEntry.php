@@ -103,7 +103,7 @@ class CreateOneOnOneEntry extends BaseService
         $entries = OneOnOneEntry::where('manager_id', $this->data['manager_id'])
             ->where('employee_id', $this->data['employee_id'])
             ->with('actionItems')
-            ->latest()
+            ->orderBy('happened_at', 'desc')
             ->take(2)
             ->get();
 
