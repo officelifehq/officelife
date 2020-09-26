@@ -7,12 +7,29 @@
         </h2>
       </div>
 
+      <p>questions</p>
       <ul>
-        <li v-for="question in latestQuestions.latest_questions" :key="question.id">{{ question.title }}</li>
+        <li v-for="question in latestQuestions.latest_questions" :key="question.id">{{ question.title }} ({{ question.number_of_answers }})</li>
       </ul>
 
+      <p>birthday this week</p>
       <ul>
         <li v-for="birthday in birthdaysThisWeek" :key="birthday.id">{{ birthday.name }}</li>
+      </ul>
+
+      <p>new hires this week</p>
+      <ul>
+        <li v-for="hire in newHiresThisWeek" :key="hire.id">{{ hire.name }}</li>
+      </ul>
+
+      <p>recent ships</p>
+      <ul>
+        <li v-for="ship in latestShips" :key="ship.id">{{ ship.title }}</li>
+      </ul>
+
+      <p>recent skills</p>
+      <ul>
+        <li v-for="skill in latestSkills.skills" :key="skill.id">{{ skill.name }}</li>
       </ul>
 
       <p><inertia-link :href="questionsUrl">{{ questions }} questions</inertia-link></p>
@@ -35,6 +52,18 @@ export default {
       default: null,
     },
     birthdaysThisWeek: {
+      type: Array,
+      default: null,
+    },
+    newHiresThisWeek: {
+      type: Array,
+      default: null,
+    },
+    latestShips: {
+      type: Array,
+      default: null,
+    },
+    latestSkills: {
       type: Array,
       default: null,
     },

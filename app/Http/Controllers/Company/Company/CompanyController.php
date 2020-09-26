@@ -25,10 +25,16 @@ class CompanyController extends Controller
         $skills = $company->skills()->count();
         $latestQuestions = CompanyViewHelper::latestQuestions($company);
         $birthdaysThisWeek = CompanyViewHelper::birthdaysThisWeek($company);
+        $newHiresThisWeek = CompanyViewHelper::newHiresThisWeek($company);
+        $latestShips = CompanyViewHelper::latestShips($company);
+        $latestSkills = CompanyViewHelper::latestSkills($company);
 
         return Inertia::render('Company/Index', [
             'latestQuestions' => $latestQuestions,
             'birthdaysThisWeek' => $birthdaysThisWeek,
+            'newHiresThisWeek' => $newHiresThisWeek,
+            'latestShips' => $latestShips,
+            'latestSkills' => $latestSkills,
             'questions' => $questions,
             'questionsUrl' => route('company.questions.index', [
                 'company' => $company->id,
