@@ -98,7 +98,7 @@
           <div class="mb4">
             <!-- if there are any news to display -->
             <div v-if="news.length > 0">
-              <div class="bg-white box cf mb4 relative" data-cy="news-list">
+              <div class="bg-white box cf mb4 relative" data-cy="news-list" :data-cy-items="news.map(n => n.id)">
                 <div v-for="newsItem in news" :key="newsItem.id" class="pa3 bb bb-gray">
                   <h3 class="mt0 mb1-ns mb2 normal pointer" @click.prevent="goToNews()">
                     {{ newsItem.title }}

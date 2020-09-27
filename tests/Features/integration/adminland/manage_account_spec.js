@@ -1,93 +1,99 @@
+var faker = require('faker');
+
 describe('Adminland - Basic account management', function () {
   it('should let me access adminland with the right permission level', function () {
-    cy.login2()
+    cy.login((userId) => {
 
-    cy.createCompany()
+      cy.createCompany()
 
-    cy.get('[data-cy=header-adminland-link]')
-      .invoke('attr', 'href').then(function (href) {
+      cy.get('[data-cy=header-adminland-link]')
+        .invoke('attr', 'url').then(function (url) {
 
-      cy.canAccess(href, 100, 'Administration')
-      cy.canAccess(href, 200, 'Administration')
-      cy.canNotAccess(href, 300)
+        cy.canAccess(url, 100, 'Administration', userId)
+        cy.canAccess(url, 200, 'Administration', userId)
+        cy.canNotAccess(url, 300, userId)
+      })
     })
   })
 
   it('should let me access audit section only if admin', function () {
-    cy.login2()
+    cy.login((userId) => {
 
-    cy.createCompany()
+      cy.createCompany()
 
-    cy.get('[data-cy=header-adminland-link]')
-      .invoke('attr', 'href').then(function (href) {
+      cy.get('[data-cy=header-adminland-link]')
+        .invoke('attr', 'url').then(function (url) {
 
-      cy.canAccess(href+'/audit', 100, 'Audit logs')
-      cy.canNotAccess(href+'/audit', 200)
-      cy.canNotAccess(href+'/audit', 300)
+        cy.canAccess(url+'/audit', 100, 'Audit logs', userId)
+        cy.canNotAccess(url+'/audit', 200, userId)
+        cy.canNotAccess(url+'/audit', 300, userId)
+      })
     })
   })
 
   it('should let me access general settings section only if admin', function () {
-    cy.login2()
+    cy.login((userId) => {
 
-    cy.createCompany()
+      cy.createCompany()
 
-    cy.get('[data-cy=header-adminland-link]')
-      .invoke('attr', 'href').then(function (href) {
+      cy.get('[data-cy=header-adminland-link]')
+        .invoke('attr', 'url').then(function (url) {
 
-      cy.canAccess(href+'/general', 100, 'General settings')
-      cy.canNotAccess(href+'/general', 200)
-      cy.canNotAccess(href+'/general', 300)
+        cy.canAccess(url+'/general', 100, 'General settings', userId)
+        cy.canNotAccess(url+'/general', 200, userId)
+        cy.canNotAccess(url+'/general', 300, userId)
+      })
     })
   })
 
   it('should let an administrator update the company name', function () {
-    cy.login2()
+    cy.login()
 
-    cy.createCompany()
+    cy.createCompany((companyId) => {
 
-    cy.get('[data-cy=header-adminland-link]').click()
-    cy.get('[data-cy=general-admin-link]').click()
+      cy.get('[data-cy=header-adminland-link]').click()
+      cy.get('[data-cy=general-admin-link]').click()
 
-    cy.get('[data-cy=rename-company-button]').click()
-    cy.get('[data-cy=cancel-rename-company-button]').click()
-    cy.get('[data-cy=rename-company-button]').click()
-    cy.get('[data-cy=company-name-input]').clear()
-    cy.get('[data-cy=company-name-input]').type('Coca Cola')
-    cy.get('[data-cy=submit-rename-company-button]').click()
+      cy.get('[data-cy=rename-company-button]').click()
+      cy.get('[data-cy=cancel-rename-company-button]').click()
+      cy.get('[data-cy=rename-company-button]').click()
+      cy.get('[data-cy=company-name-input]').clear()
 
-    cy.get('[data-cy=company-name]').contains('Coca Cola')
+      let name = faker.company.companyName()
+      cy.get('[data-cy=company-name-input]').type(name)
+      cy.get('[data-cy=submit-rename-company-button]').click()
 
-    cy.get('[data-cy=header-adminland-link]')
-      .invoke('attr', 'href').then(function (href) {
+      cy.get('[data-cy=company-name]').contains(name)
 
-      cy.hasAuditLog('Renamed the company from', href+'/general')
+      cy.get('[data-cy=header-adminland-link]')
+        .invoke('attr', 'url').then(function (url) {
+
+        cy.hasAuditLog('Renamed the company from', url+'/general', companyId)
+      })
     })
   })
 
   it('should let an administrator update the currency used in the company', function () {
-    cy.login2()
+    cy.login()
 
-    cy.createCompany()
+    cy.createCompany((companyId) => {
 
-    cy.get('[data-cy=header-adminland-link]').click()
-    cy.get('[data-cy=general-admin-link]').click()
+      cy.get('[data-cy=header-adminland-link]').click()
+      cy.get('[data-cy=general-admin-link]').click()
 
-    cy.get('[data-cy=update-currency-company-button]').click()
-    cy.get('[data-cy=cancel-update-currency-company-button]').click()
-    cy.get('[data-cy=update-currency-company-button]').click()
-    cy.get('[data-cy=currency-selector]').select('EUR')
-    cy.get('[data-cy=submit-update-currency-company-button]').click()
+      cy.get('[data-cy=update-currency-company-button]').click()
+      cy.get('[data-cy=cancel-update-currency-company-button]').click()
+      cy.get('[data-cy=update-currency-company-button]').click()
+      cy.get('[data-cy=currency-selector]').select('EUR')
+      cy.get('[data-cy=submit-update-currency-company-button]').click()
 
-    cy.get('[data-cy=currency-used]').contains('EUR')
+      cy.get('[data-cy=currency-used]').contains('EUR')
 
-    cy.wait(400)
+      cy.get('[data-cy=header-adminland-link]')
+        .invoke('attr', 'url').then(function (url) {
 
-    cy.get('[data-cy=header-adminland-link]')
-      .invoke('attr', 'href').then(function (href) {
-
-      cy.hasAuditLog('Changed the company’s currency from', href+'/general')
+        cy.hasAuditLog('Changed the company’s currency from', url+'/general', companyId)
+      })
     })
-
   })
 })

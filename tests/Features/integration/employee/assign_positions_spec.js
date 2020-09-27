@@ -44,7 +44,9 @@ describe('Employee - Assign positions', function () {
     cy.get('[data-cy=add-title-input]').type('CEO')
     cy.get('[data-cy=modal-add-cta]').click()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
     cy.visit('/1/employees/1')
 
     // Open the modal to assign a team and select the first line

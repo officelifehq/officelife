@@ -30,7 +30,9 @@ describe('Employee - Assign employee statuses', function () {
 
     cy.createEmployeeStatus('Dunder Mifflin')
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
     cy.visit('/1/employees/1')
 
     // Open the modal
@@ -51,7 +53,9 @@ describe('Employee - Assign employee statuses', function () {
 
     cy.createCompany()
 
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
     cy.visit('/1/employees/1')
 
     cy.contains('No status set')

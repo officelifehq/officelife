@@ -24,7 +24,9 @@ describe('Employee - assign gender pronoun', function () {
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
     cy.visit('/1/employees/1')
 
     // Open the modal to assign a pronoun and select the first line
@@ -44,7 +46,9 @@ describe('Employee - assign gender pronoun', function () {
 
     cy.createCompany()
 
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
     cy.visit('/1/employees/1')
 
     // Open the modal to assign a pronoun and select the first line
@@ -71,7 +75,9 @@ describe('Employee - assign gender pronoun', function () {
     cy.get('[data-cy=open-pronoun-modal-blank]').click()
     cy.get('[data-cy=list-pronoun-1]').click()
 
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
     cy.visit('/1/employees/2')
 
     cy.get('[data-cy=pronoun-name-wrong-permission]').contains('he/him')

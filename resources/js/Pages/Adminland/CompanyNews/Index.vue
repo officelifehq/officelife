@@ -39,7 +39,7 @@
           </p>
 
           <!-- LIST OF EXISTING NEWS -->
-          <ul v-show="news.length != 0" class="list pl0 mv0 center" data-cy="news-list">
+          <ul v-show="news.length != 0" class="list pl0 mv0 center" data-cy="news-list" :data-cy-items="news.map(n => n.id)">
             <li v-for="singleNews in news" :key="singleNews.id" class="pb2 pt1 bb bb-gray bb-gray-hover">
               <h3>{{ singleNews.title }}</h3>
 

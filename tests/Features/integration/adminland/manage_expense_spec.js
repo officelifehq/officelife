@@ -40,7 +40,9 @@ describe('Adminland - Expenses', function () {
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
     cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=expenses-admin-link]').click()
@@ -106,7 +108,9 @@ describe('Adminland - Expenses', function () {
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
     // check that the user, regardless of their roles, has not access to the
     // expenses tab on the dashboard

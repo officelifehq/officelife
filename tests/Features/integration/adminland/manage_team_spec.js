@@ -42,7 +42,9 @@ describe('Adminland - Team management', function () {
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
     cy.createTeam('product')
 

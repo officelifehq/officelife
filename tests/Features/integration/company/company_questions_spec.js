@@ -49,7 +49,9 @@ describe('Company - Questions', function () {
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
     // first we should create a question
     cy.get('[data-cy=header-adminland-link]').click()
@@ -121,20 +123,26 @@ describe('Company - Questions', function () {
     cy.get('[data-cy=questions-admin-link]').click()
     cy.get('[data-cy=question-number-of-answers-1]').contains('1 answer')
 
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
     cy.visit('/1/company/questions/1')
     cy.get('[data-cy=company-question-title]').should('exist')
     cy.contains('this is my answer')
 
     // then we add another question but we shouldn't be able to see it in the list of questions on the company page
-    cy.changePermission(1, 100)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 100)
+    })
     cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
     cy.get('[data-cy=add-question-button]').click()
     cy.get('[data-cy=add-title-input]').type('this is my question 2')
     cy.get('[data-cy=modal-add-cta]').click()
 
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
     cy.visit('/1/company/questions')
     cy.get('[data-cy=list-question-2]').should('not.exist')
   })

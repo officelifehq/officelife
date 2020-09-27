@@ -19,7 +19,7 @@
              alt="avatar"
         />
         <div class="pl3 flex-auto">
-          <span class="db black-70 f4 mb1" :name="currentEmployee.name" :data-invitation-link="currentEmployee.invitation_link">
+          <span class="db black-70 f4 mb1" :name="currentEmployee.name" :data-cy="currentEmployee.id" :data-invitation-link="currentEmployee.invitation_link">
             {{ currentEmployee.name }} <span v-if="currentEmployee.lock_status" data-cy="lock-status">🔐</span>
           </span>
           <span v-if="currentEmployee.invited" class="db f6 ">{{ 'Invited by email' }}</span>

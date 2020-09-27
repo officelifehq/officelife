@@ -84,7 +84,9 @@ describe('Company - Skills', function () {
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
     // create first skill
     cy.visit('/1/employees/1')
@@ -110,7 +112,9 @@ describe('Company - Skills', function () {
 
     cy.createCompany()
 
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
 
     // create first skill
     cy.visit('/1/employees/1')
