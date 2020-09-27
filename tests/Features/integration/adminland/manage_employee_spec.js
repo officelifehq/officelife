@@ -1,120 +1,141 @@
+let faker = require('faker');
+
 describe('Adminland - Employee management', function () {
   it('should create an employee with different permission levels', function () {
-    cy.login()
-    cy.createCompany()
+    cy.login((userId) => {
+      cy.createCompany()
 
-    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
-    cy.visit('/1/account/employees/all')
-    cy.contains('Michael Scott')
-    cy.hasAuditLog('Added Michael Scott as an employee', '/1/account/employees')
+      var firstname = faker.name.firstName()
+      var lastname = faker.name.lastName()
+      cy.createEmployee(firstname, lastname, faker.internet.email(), 'admin', false)
+      cy.visit('/${userId}/account/employees/all')
+      cy.contains(firstname + ' ' + lastname)
+      cy.hasAuditLog('Added '+firstname+' '+lastname+' as an employee', '/'+userId+'/account/employees')
 
-    cy.createEmployee('Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'hr', false)
-    cy.visit('/1/account/employees/all')
-    cy.contains('Dwight Schrute')
-    cy.hasAuditLog('Added Dwight Schrute as an employee', '/1/account/employees')
+      firstname = faker.name.firstName()
+      lastname = faker.name.lastName()
+      cy.createEmployee(firstname, lastname, faker.internet.email(), 'hr', false)
+      cy.createEmployee('Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'hr', false)
+      cy.visit('/'+userId+'/account/employees/all')
+      cy.contains(firstname + ' ' + lastname)
+      cy.hasAuditLog('Added '+firstname+' '+lastname+' as an employee', '/'+userId+'/account/employees')
 
-    cy.createEmployee('Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'user', false)
-    cy.visit('/1/account/employees/all')
-    cy.contains('Jim Halpert')
-    cy.hasAuditLog('Added Jim Halpert as an employee', '/1/account/employees')
+      firstname = faker.name.firstName()
+      lastname = faker.name.lastName()
+      cy.createEmployee(firstname, lastname, faker.internet.email(), 'user', false)
+      cy.visit('/'+userId+'/account/employees/all')
+      cy.contains(firstname + ' ' + lastname)
+      cy.hasAuditLog('Added '+firstname+' '+lastname+' as an employee', '/'+userId+'/account/employees')
+    })
   })
 
   it('should let a new admin create an account after being invited to use the app', function () {
-    cy.login()
-    cy.createCompany()
-    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)
-    cy.visit('/1/account/employees/all')
+    cy.login((userId) => {
+      cy.createCompany()
 
-    cy.get("[name='Michael Scott']").invoke('attr', 'data-invitation-link').then((link) => {
-      cy.logout()
-      cy.visit('/invite/employee/' + link)
-      cy.get('[data-cy=accept-create-account]').click()
-      cy.get('input[name=password]').type('admin1012')
-      cy.get('[data-cy=create-cta]').click()
-      cy.get('body').should('contain', 'Dunder Mifflin')
+      var firstname = faker.name.firstName()
+      var lastname = faker.name.lastName()
+      cy.createEmployee(firstname, lastname, faker.internet.email(), 'admin', true)
+      cy.visit('/'+userId+'/account/employees/all')
+
+      cy.get("[name='"+firstname+" "+lastname+"']").invoke('attr', 'data-invitation-link').then((link) => {
+        cy.logout()
+        cy.visit('/invite/employee/' + link)
+        cy.get('[data-cy=accept-create-account]').click()
+        cy.get('input[name=password]').type('admin1012')
+        cy.get('[data-cy=create-cta]').click()
+        cy.get('body').should('contain', firstname + ' ' + lastname)
+      })
     })
   })
 
   it('should let a new hr create an account after being invited to use the app', function () {
-    cy.login()
-    cy.createCompany()
-    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'hr', true)
-    cy.visit('/1/account/employees/all')
+    cy.login((userId) => {
+      cy.createCompany()
 
-    cy.get("[name='Michael Scott']").invoke('attr', 'data-invitation-link').then((link) => {
-      cy.logout()
-      cy.visit('/invite/employee/' + link)
-      cy.get('[data-cy=accept-create-account]').click()
-      cy.get('input[name=password]').type('admin1012')
-      cy.get('[data-cy=create-cta]').click()
-      cy.get('body').should('contain', 'Dunder Mifflin')
+      var firstname = faker.name.firstName()
+      var lastname = faker.name.lastName()
+      cy.createEmployee(firstname, lastname, faker.internet.email(), 'hr', true)
+      cy.visit('/'+userId+'/account/employees/all')
+
+      cy.get("[name='"+firstname+" "+lastname+"']").invoke('attr', 'data-invitation-link').then((link) => {
+        cy.logout()
+        cy.visit('/invite/employee/' + link)
+        cy.get('[data-cy=accept-create-account]').click()
+        cy.get('input[name=password]').type('admin1012')
+        cy.get('[data-cy=create-cta]').click()
+        cy.get('body').should('contain', firstname + ' ' + lastname)
+      })
     })
   })
 
   it('should let a new user create an account after being invited to use the app', function () {
-    cy.login()
-    cy.createCompany()
-    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
-    cy.visit('/1/account/employees/all')
+    cy.login((userId) => {
+      cy.createCompany()
+      cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
+      cy.visit('/'+userId+'/account/employees/all')
 
-    cy.get("[name='Michael Scott']").invoke('attr', 'data-invitation-link').then((link) => {
-      cy.logout()
-      cy.visit('/invite/employee/' + link)
-      cy.get('[data-cy=accept-create-account]').click()
-      cy.get('input[name=password]').type('admin1012')
-      cy.get('[data-cy=create-cta]').click()
-      cy.get('body').should('contain', 'Dunder Mifflin')
+      cy.get("[name='Michael Scott']").invoke('attr', 'data-invitation-link').then((link) => {
+        cy.logout()
+        cy.visit('/invite/employee/' + link)
+        cy.get('[data-cy=accept-create-account]').click()
+        cy.get('input[name=password]').type('admin1012')
+        cy.get('[data-cy=create-cta]').click()
+        cy.get('body').should('contain', 'Dunder Mifflin')
+      })
     })
   })
 
   it('should let an administrator delete an employee', function () {
-    cy.login()
+    cy.loginLegacy()
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
 
-    cy.visit('/1/account/employees/2/delete')
+    cy.visit('/'+userId+'/account/employees/2/delete')
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
-    cy.url().should('include', '/1/account/employees')
-    cy.visit('/1/account/employees/2/delete')
+    cy.url().should('include', '/'+userId+'/account/employees')
+    cy.visit('/'+userId+'/account/employees/2/delete')
 
     // delete the employee for real
     cy.get('[data-cy=submit-delete-employee-button').click()
-    cy.url().should('include', '/1/account/employees')
-    cy.visit('/1/account/employees/all')
+    cy.url().should('include', '/'+userId+'/account/employees')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=employee-list]').should('not.contain', 'Michael Scott')
 
     cy.wait(1000)
 
-    cy.hasAuditLog('Deleted the employee named Michael Scott', '/1/account/employees')
+    cy.hasAuditLog('Deleted the employee named Michael Scott', '/'+userId+'/account/employees')
   })
 
   it('should let an HR delete an employee', function () {
-    cy.login()
+    cy.loginLegacy()
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
-    cy.visit('/1/account/employees/2/delete')
+    cy.visit('/'+userId+'/account/employees/2/delete')
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
-    cy.url().should('include', '/1/account/employees')
-    cy.visit('/1/account/employees/2/delete')
+    cy.url().should('include', '/'+userId+'/account/employees')
+    cy.visit('/'+userId+'/account/employees/2/delete')
 
     // delete the employee for real
     cy.get('[data-cy=submit-delete-employee-button').click()
-    cy.url().should('include', '/1/account/employees')
+    cy.url().should('include', '/'+userId+'/account/employees')
     cy.get('[data-cy=employee-list]').should('not.contain', 'Michael Scott')
   })
 
   it('should let an administrator lock and unlock an employee', function () {
-    cy.login()
+    cy.loginLegacy()
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
-    cy.visit('/1/account/employees/all')
+    cy.visit('/'+userId+'/account/employees/all')
 
     // logout and login the new employee to create the account
     cy.get("[name='Michael Scott']").invoke('attr', 'data-invitation-link').then((link) => {
@@ -132,25 +153,25 @@ describe('Adminland - Employee management', function () {
     cy.get('input[name=password]').type('admin')
     cy.get('button[type=submit]').click()
     cy.wait(1000)
-    cy.visit('/1/account/employees/all')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=unlock-account-2').should('not.exist')
     cy.get('[data-cy=lock-account-2').click()
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
-    cy.url().should('include', '/1/account/employees')
-    cy.visit('/1/account/employees/all')
+    cy.url().should('include', '/'+userId+'/account/employees')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=lock-account-2').click()
 
     // lock the employee for real
     cy.get('[data-cy=submit-lock-employee-button').click()
-    cy.url().should('include', '/1/account/employees')
-    cy.visit('/1/account/employees/all')
+    cy.url().should('include', '/'+userId+'/account/employees')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=lock-status]').should('exist')
 
     cy.wait(1000)
 
-    cy.hasAuditLog('Locked the account of the employee named ', '/1/account/employees')
+    cy.hasAuditLog('Locked the account of the employee named ', '/'+userId+'/account/employees')
     cy.logout()
 
     cy.get('input[name=email]').type('michael.scott@dundermifflin.com')
@@ -168,14 +189,14 @@ describe('Adminland - Employee management', function () {
     cy.wait(1000)
 
     // try to search the employee
-    cy.visit('/1/dashboard')
+    cy.visit('/'+userId+'/dashboard')
     cy.get('[data-cy=header-find-link]').click()
     cy.get('input[name=search]').type('scott')
     cy.get('[data-cy=header-find-submit]').click()
     cy.get('[data-cy=results]').should('not.contain', 'scott')
 
     // try to search the employee in the add manager dropdown
-    cy.visit('/1/employees/1')
+    cy.visit('/'+userId+'/employees/1')
     cy.get('[data-cy=add-hierarchy-button]').click()
     cy.get('[data-cy=add-manager-button]').click()
     cy.get('[data-cy=search-manager]').type('scott')
@@ -190,30 +211,32 @@ describe('Adminland - Employee management', function () {
     cy.get('ul.vs__dropdown-menu>li').eq(1).should('not.exist')
 
     // now unlocking the account
-    cy.visit('/1/account/employees/all')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=lock-account-2').should('not.exist')
     cy.get('[data-cy=unlock-account-2').click()
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
-    cy.url().should('include', '/1/account/employees')
-    cy.visit('/1/account/employees/all')
+    cy.url().should('include', '/'+userId+'/account/employees')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=unlock-account-2').click()
 
     // unlock the employee
     cy.get('[data-cy=submit-unlock-employee-button').click()
-    cy.url().should('include', '/1/account/employees')
+    cy.url().should('include', '/'+userId+'/account/employees')
     cy.get('[data-cy=lock-status]').should('not.exist')
-    cy.hasAuditLog('Unlocked the account of the employee named ', '/1/account/employees')
+    cy.hasAuditLog('Unlocked the account of the employee named ', '/'+userId+'/account/employees')
   })
 
   it('should let an HR lock and unlock an employee', function () {
-    cy.login()
+    cy.loginLegacy()
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
 
-    cy.changePermission(1, 200)
-    cy.visit('/1/account/employees/all')
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
+    cy.visit('/'+userId+'/account/employees/all')
 
     // logout and login the new employee to create the account
     cy.get("[name='Michael Scott']").invoke('attr', 'data-invitation-link').then((link) => {
@@ -231,20 +254,20 @@ describe('Adminland - Employee management', function () {
     cy.get('input[name=password]').type('admin')
     cy.get('button[type=submit]').click()
     cy.wait(1000)
-    cy.visit('/1/account/employees/all')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=unlock-account-2').should('not.exist')
     cy.get('[data-cy=lock-account-2').click()
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
-    cy.url().should('include', '/1/account/employees')
-    cy.visit('/1/account/employees/all')
+    cy.url().should('include', '/'+userId+'/account/employees')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=lock-account-2').click()
 
     // lock the employee for real
     cy.get('[data-cy=submit-lock-employee-button').click()
-    cy.url().should('include', '/1/account/employees')
-    cy.visit('/1/account/employees/all')
+    cy.url().should('include', '/'+userId+'/account/employees')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=lock-status]').should('exist')
 
     cy.wait(1000)
@@ -266,14 +289,14 @@ describe('Adminland - Employee management', function () {
     cy.wait(1000)
 
     // try to search the employee
-    cy.visit('/1/dashboard')
+    cy.visit('/'+userId+'/dashboard')
     cy.get('[data-cy=header-find-link]').click()
     cy.get('input[name=search]').type('scott')
     cy.get('[data-cy=header-find-submit]').click()
     cy.get('[data-cy=results]').should('not.contain', 'scott')
 
     // try to search the employee in the add manager dropdown
-    cy.visit('/1/employees/1')
+    cy.visit('/'+userId+'/employees/1')
     cy.get('[data-cy=add-hierarchy-button]').click()
     cy.get('[data-cy=add-manager-button]').click()
     cy.get('[data-cy=search-manager]').type('scott')
@@ -288,19 +311,19 @@ describe('Adminland - Employee management', function () {
     cy.get('ul.vs__dropdown-menu>li').eq(1).should('not.exist')
 
     // now unlocking the account
-    cy.visit('/1/account/employees/all')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=lock-account-2').should('not.exist')
     cy.get('[data-cy=unlock-account-2').click()
 
     // make sure the cancel button works
     cy.get('[data-cy=cancel-button').click()
-    cy.url().should('include', '/1/account/employees')
-    cy.visit('/1/account/employees/all')
+    cy.url().should('include', '/'+userId+'/account/employees')
+    cy.visit('/'+userId+'/account/employees/all')
     cy.get('[data-cy=unlock-account-2').click()
 
     // unlock the employee
     cy.get('[data-cy=submit-unlock-employee-button').click()
-    cy.url().should('include', '/1/account/employees')
+    cy.url().should('include', '/'+userId+'/account/employees')
     cy.get('[data-cy=lock-status]').should('not.exist')
   })
 })

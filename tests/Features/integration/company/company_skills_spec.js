@@ -1,6 +1,6 @@
 describe('Company - Skills', function () {
   it('should let you see all the skills in the company on the company page as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -80,11 +80,13 @@ describe('Company - Skills', function () {
   })
 
   it('should let you see all the skills in the company on the company page as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
     // create first skill
     cy.visit('/1/employees/1')
@@ -106,11 +108,13 @@ describe('Company - Skills', function () {
   })
 
   it('should let you see all skills on the company page a normal user', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
 
     // create first skill
     cy.visit('/1/employees/1')

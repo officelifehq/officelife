@@ -1,6 +1,6 @@
 describe('Employee - Questions', function () {
   it('should let you see all questions answered by an employee as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -35,7 +35,7 @@ describe('Employee - Questions', function () {
   })
 
   it('should let you see all questions answered by an employee as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -72,7 +72,7 @@ describe('Employee - Questions', function () {
   })
 
   it('should let you see all questions answered by an employee as a normal user', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

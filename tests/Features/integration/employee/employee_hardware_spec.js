@@ -1,6 +1,6 @@
 describe('Employee - hardware', function () {
   it('should let an admin view an item from someone else', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -29,7 +29,7 @@ describe('Employee - hardware', function () {
   })
 
   it('should let an HR view an item from someone else', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -60,7 +60,7 @@ describe('Employee - hardware', function () {
   })
 
   it('should let a normal user view his own hardware', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -89,7 +89,7 @@ describe('Employee - hardware', function () {
   })
 
   it('should not let a normal user view someone elses hardware', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)

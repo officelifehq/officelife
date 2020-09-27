@@ -1,6 +1,6 @@
 describe('Employee - work from home', function () {
   it('should let the employee indicates that he works from home', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -20,7 +20,7 @@ describe('Employee - work from home', function () {
   })
 
   it('should let an hr rep view anothers employee works from home entries', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -36,7 +36,7 @@ describe('Employee - work from home', function () {
   })
 
   it('should not let a normal employee view anothers employee works from home entries', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

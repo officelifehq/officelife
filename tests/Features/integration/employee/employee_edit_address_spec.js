@@ -1,6 +1,6 @@
 describe('Employee - assign address', function () {
   it('should let an admin edit an address', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -31,7 +31,7 @@ describe('Employee - assign address', function () {
   })
 
   it('should let a HR edit an address', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)
@@ -58,7 +58,7 @@ describe('Employee - assign address', function () {
   })
 
   it('should let a normal user edit his own address', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.changePermission(1, 300)
@@ -83,7 +83,7 @@ describe('Employee - assign address', function () {
   })
 
   it('should not let a normal user edit someone elses address', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)
@@ -96,7 +96,7 @@ describe('Employee - assign address', function () {
   })
 
   it('should let an admin and an hr see the complete address of an employee and a normal employee see a partial address', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -136,7 +136,7 @@ describe('Employee - assign address', function () {
   })
 
   it('should let an employee sees his complete address', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

@@ -1,6 +1,6 @@
 describe('Employee - edit birthdate', function () {
   it('should let an admin see and edit birthdate', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -35,7 +35,7 @@ describe('Employee - edit birthdate', function () {
   })
 
   it('should let a HR see and edit birthdate', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -69,7 +69,7 @@ describe('Employee - edit birthdate', function () {
   })
 
   it('should let a normal user see and edit his own birthdate', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -98,7 +98,7 @@ describe('Employee - edit birthdate', function () {
   })
 
   it('should not let a normal user edit someone elses birthdate but he can see a partial birthdate', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)

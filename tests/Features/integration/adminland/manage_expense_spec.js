@@ -1,6 +1,6 @@
 describe('Adminland - Expenses', function () {
   it('should let you manage expense categories as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -36,11 +36,13 @@ describe('Adminland - Expenses', function () {
   })
 
   it('should let you manage expense categories as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
     cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=expenses-admin-link]').click()
@@ -69,7 +71,7 @@ describe('Adminland - Expenses', function () {
   })
 
   it('should let you manage accountants as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -102,11 +104,13 @@ describe('Adminland - Expenses', function () {
   })
 
   it('should let you manage accountants as HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
     // check that the user, regardless of their roles, has not access to the
     // expenses tab on the dashboard

@@ -1,6 +1,6 @@
 describe('Dashboard - teams', function () {
   it.skip('should display an empty tab when not associated with a team', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -11,7 +11,7 @@ describe('Dashboard - teams', function () {
   })
 
   it.skip('should display the list of teams if the employee is associated with at least one team', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -46,7 +46,7 @@ describe('Dashboard - teams', function () {
   })
 
   it.skip('should display the upcoming birthdays of employees on the team dashboard', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -95,7 +95,7 @@ describe('Dashboard - teams', function () {
   })
 
   it.skip('should display the employees of this team who work from home today', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -121,7 +121,7 @@ describe('Dashboard - teams', function () {
   })
 
   it('should display upcoming new hires in this team', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
