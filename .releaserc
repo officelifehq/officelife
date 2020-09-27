@@ -1,8 +1,7 @@
 {
   "branches": [
-    {
-      "name": "main"
-    }
+    "release",
+    {"name": "next", "prerelease": true},
   ],
   "plugins": [
     [
@@ -10,7 +9,7 @@
         "preset": "angular",
         "releaseRules": [
           {"type": "docs", "scope": "README", "release": "patch"},
-          {"type": "refactor", "scope": "core-*", "release": "minor"},
+          {"type": "refactor", "scope": "inertia", "release": "minor"},
           {"type": "refactor", "release": "patch"},
           {"scope": "no-release", "release": false}
         ]
@@ -32,8 +31,6 @@
     ],
     [
       "@semantic-release/exec", {
-        "prepareCmd" : "set-version ${nextRelease.version}",
-        "publishCmd" : "publish-package"
       }
     ]
   ]
