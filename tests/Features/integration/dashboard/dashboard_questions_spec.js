@@ -1,6 +1,6 @@
 describe('Dashboard - employee - Questions/answers', function () {
   it('should let you manage answers of questions', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

@@ -1,6 +1,6 @@
 describe('Employee - permissions', function () {
   it('should restrict viewing anyone audit logs depending on role', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

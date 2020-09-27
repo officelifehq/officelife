@@ -1,6 +1,6 @@
 describe('Adminland - Employee statuses', function () {
   it('should let user access employee statuses adminland screen with the right permissions', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

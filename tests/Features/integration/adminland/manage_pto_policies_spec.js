@@ -1,6 +1,6 @@
 describe('Adminland - PTO policies', function () {
   it('should let you manage company PTO policies as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -46,7 +46,7 @@ describe('Adminland - PTO policies', function () {
   })
 
   it('should let you manage company PTO policies as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

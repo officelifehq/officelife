@@ -1,6 +1,6 @@
 describe('Employee - Assign employee statuses', function () {
   it('should assign an employee status and remove it as administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -24,7 +24,7 @@ describe('Employee - Assign employee statuses', function () {
   })
 
   it('should assign an employee status and remove it as hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -49,7 +49,7 @@ describe('Employee - Assign employee statuses', function () {
   })
 
   it('should not let a normal user assign employee status', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

@@ -1,6 +1,6 @@
 describe('Adminland - Expenses', function () {
   it('should let you manage expense categories as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -36,7 +36,7 @@ describe('Adminland - Expenses', function () {
   })
 
   it('should let you manage expense categories as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -71,7 +71,7 @@ describe('Adminland - Expenses', function () {
   })
 
   it('should let you manage accountants as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -104,7 +104,7 @@ describe('Adminland - Expenses', function () {
   })
 
   it('should let you manage accountants as HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

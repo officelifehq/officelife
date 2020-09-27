@@ -1,6 +1,6 @@
 describe('Adminland - Hardware', function () {
   it('should let you manage company hardware as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -80,7 +80,7 @@ describe('Adminland - Hardware', function () {
   })
 
   it('should let you manage hardware as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

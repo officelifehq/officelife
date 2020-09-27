@@ -1,6 +1,6 @@
 describe('Employee - Assign managers and direct reports', function () {
   it('should assign a manager and a direct report as administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -58,7 +58,7 @@ describe('Employee - Assign managers and direct reports', function () {
   })
 
   it('should assign a manager and a direct report as hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -118,7 +118,7 @@ describe('Employee - Assign managers and direct reports', function () {
   })
 
   it('should give managers a new tab on the dashboard when they become a manager', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -132,7 +132,7 @@ describe('Employee - Assign managers and direct reports', function () {
   })
 
   it('should check that assigning manager or direct report is reserved for a certain permission level', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

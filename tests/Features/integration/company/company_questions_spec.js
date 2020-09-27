@@ -1,6 +1,6 @@
 describe('Company - Questions', function () {
   it('should let you see all questions on the company page an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -45,7 +45,7 @@ describe('Company - Questions', function () {
   })
 
   it('should let you see all questions on the company page an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -94,7 +94,7 @@ describe('Company - Questions', function () {
   })
 
   it('should let you see all questions on the company page a normal user', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

@@ -87,7 +87,7 @@ describe('Adminland - Employee management', function () {
   })
 
   it('should let an administrator delete an employee', function () {
-    cy.login()
+    cy.loginLegacy()
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
 
@@ -110,7 +110,7 @@ describe('Adminland - Employee management', function () {
   })
 
   it('should let an HR delete an employee', function () {
-    cy.login()
+    cy.loginLegacy()
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
 
@@ -132,7 +132,7 @@ describe('Adminland - Employee management', function () {
   })
 
   it('should let an administrator lock and unlock an employee', function () {
-    cy.login()
+    cy.loginLegacy()
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
     cy.visit('/'+userId+'/account/employees/all')
@@ -229,7 +229,7 @@ describe('Adminland - Employee management', function () {
   })
 
   it('should let an HR lock and unlock an employee', function () {
-    cy.login()
+    cy.loginLegacy()
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'user', true)
 

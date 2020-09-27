@@ -1,6 +1,6 @@
 describe('Adminland - Positions management', function () {
   it('should let user access position adminland screen with the right permissions', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -10,7 +10,7 @@ describe('Adminland - Positions management', function () {
   })
 
   it('should let you manage positions as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -52,7 +52,7 @@ describe('Adminland - Positions management', function () {
   })
 
   it('should let you manage positions as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

@@ -1,6 +1,6 @@
 describe('Team - Team lead management', function () {
   it('should let you add a team lead who was not part of the team as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -35,7 +35,7 @@ describe('Team - Team lead management', function () {
   })
 
   it('should let you add a team lead who was not part of the team as an hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -72,7 +72,7 @@ describe('Team - Team lead management', function () {
   })
 
   it('should not let you add a team lead who was not part of the team as an employee', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -87,7 +87,7 @@ describe('Team - Team lead management', function () {
   })
 
   it('should not let you manage team leads as an employee', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')

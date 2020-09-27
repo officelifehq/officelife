@@ -1,6 +1,6 @@
 describe('Team - Team news management', function () {
   it('should let user access team news regardless of the team they are part of', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -11,7 +11,7 @@ describe('Team - Team news management', function () {
   })
 
   it('should let you manage team news as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -57,7 +57,7 @@ describe('Team - Team news management', function () {
   })
 
   it('should let you manage team news as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -105,7 +105,7 @@ describe('Team - Team news management', function () {
   })
 
   it('should let you manage team news as a normal user who is part of the team', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -155,7 +155,7 @@ describe('Team - Team news management', function () {
   })
 
   it('should not let you manage team news as a normal user who is not part of the team', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')

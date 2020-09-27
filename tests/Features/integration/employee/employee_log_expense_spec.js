@@ -1,6 +1,6 @@
 describe('Employee - Complete expense management', function () {
   it('should let an employeee log an expense, let his manager accept it and let the accountant validate it', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -66,7 +66,7 @@ describe('Employee - Complete expense management', function () {
   })
 
   it('should let an employeee log an expense and let his manager reject it', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

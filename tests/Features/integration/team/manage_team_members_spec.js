@@ -1,6 +1,6 @@
 describe('Team - Members management', function () {
   it('should let users manage members depending on their role', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -20,7 +20,7 @@ describe('Team - Members management', function () {
   })
 
   it('should let you manage team members as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -54,7 +54,7 @@ describe('Team - Members management', function () {
   })
 
   it('should let you manage team members as an hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -95,7 +95,7 @@ describe('Team - Members management', function () {
   })
 
   it('should not let you manage members as a normal user', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -109,7 +109,7 @@ describe('Team - Members management', function () {
   })
 
   it('should indicate who the newest member is', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')

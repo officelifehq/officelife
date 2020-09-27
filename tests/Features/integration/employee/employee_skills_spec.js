@@ -1,6 +1,6 @@
 describe('Employee - skills', function () {
   it('should let an admin manage a skill on an employee profile page', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -45,7 +45,7 @@ describe('Employee - skills', function () {
   })
 
   it('should let an HR manage a skill on an employee profile page', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -88,7 +88,7 @@ describe('Employee - skills', function () {
   })
 
   it('should let a normal user manage a skill on his own employee profile page', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -122,7 +122,7 @@ describe('Employee - skills', function () {
   })
 
   it('should not let a normal user view someone elses skills', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)

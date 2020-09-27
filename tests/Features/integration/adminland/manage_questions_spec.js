@@ -1,6 +1,6 @@
 describe('Adminland - Questions', function () {
   it('should let you manage company questions as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -58,7 +58,7 @@ describe('Adminland - Questions', function () {
   })
 
   it('should let you manage company questions as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

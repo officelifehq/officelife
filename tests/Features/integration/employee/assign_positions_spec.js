@@ -1,6 +1,6 @@
 describe('Employee - Assign positions', function () {
   it('should assign a position and remove it as administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -31,7 +31,7 @@ describe('Employee - Assign positions', function () {
   })
 
   it('should assign a position and remove it as hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -63,7 +63,7 @@ describe('Employee - Assign positions', function () {
   })
 
   it('should not let a normal user assign positions', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

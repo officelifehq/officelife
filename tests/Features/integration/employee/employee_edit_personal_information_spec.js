@@ -1,6 +1,6 @@
 describe('Employee - edit personal information', function () {
   it('should let an admin edit personal information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -31,7 +31,7 @@ describe('Employee - edit personal information', function () {
   })
 
   it('should let a HR edit an address', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)
@@ -61,7 +61,7 @@ describe('Employee - edit personal information', function () {
   })
 
   it('should let a normal user edit his own address', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.changePermission(1, 300)
@@ -83,7 +83,7 @@ describe('Employee - edit personal information', function () {
   })
 
   it('should not let a normal user edit someone elses address', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)
@@ -96,7 +96,7 @@ describe('Employee - edit personal information', function () {
   })
 
   it('should let an admin edit twitter information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -139,7 +139,7 @@ describe('Employee - edit personal information', function () {
   })
 
   it('should let an HR edit twitter information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -180,7 +180,7 @@ describe('Employee - edit personal information', function () {
   })
 
   it('should let a normal user edit his own twitter information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -214,7 +214,7 @@ describe('Employee - edit personal information', function () {
   })
 
   it('should let an admin edit slack information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -257,7 +257,7 @@ describe('Employee - edit personal information', function () {
   })
 
   it('should let an HR edit slack information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -298,7 +298,7 @@ describe('Employee - edit personal information', function () {
   })
 
   it('should let a normal user edit his own slack information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

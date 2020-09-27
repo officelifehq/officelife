@@ -1,6 +1,6 @@
 describe('Company - Skills', function () {
   it('should let you see all the skills in the company on the company page as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -80,7 +80,7 @@ describe('Company - Skills', function () {
   })
 
   it('should let you see all the skills in the company on the company page as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -108,7 +108,7 @@ describe('Company - Skills', function () {
   })
 
   it('should let you see all skills on the company page a normal user', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

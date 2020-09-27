@@ -1,6 +1,6 @@
 describe('Employee - assign gender pronoun', function () {
   it('should assign a pronoun and remove it as administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -20,7 +20,7 @@ describe('Employee - assign gender pronoun', function () {
     cy.hasEmployeeLog('Removed the gender pronoun', '/1/employees/1')
   })
 
-  it('should assign a pronoun and remove it as hr', function () { cy.login()
+  it('should assign a pronoun and remove it as hr', function () { cy.loginLegacy()
 
     cy.createCompany()
 
@@ -42,7 +42,7 @@ describe('Employee - assign gender pronoun', function () {
   })
 
   it('should assign a pronoun and remove it as the concerned employee', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -65,7 +65,7 @@ describe('Employee - assign gender pronoun', function () {
   })
 
   it('should not let another normal employee assign a pronoun', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

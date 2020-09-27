@@ -1,6 +1,6 @@
 describe('Dashboard - employee - log morale', function () {
   it('should let the employee logs a bad morale', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -21,7 +21,7 @@ describe('Dashboard - employee - log morale', function () {
   })
 
   it('should let the employee logs a normal morale', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -41,7 +41,7 @@ describe('Dashboard - employee - log morale', function () {
   })
 
   it('should let the employee logs a good morale', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
