@@ -1,4 +1,5 @@
-var faker = require('faker');
+let faker = require('faker');
+let _ = require('lodash')
 
 // Create a user
 Cypress.Commands.add('login', (callback) => {
@@ -73,7 +74,7 @@ Cypress.Commands.add('createEmployeeStatus', (status) => {
 })
 
 // Create an employee
-Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, sendEmail) => {
+Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, sendEmail, callback) => {
   cy.get('[data-cy=header-adminland-link]').click()
 
   cy.get('[data-cy=employee-admin-link]').click()
@@ -102,6 +103,16 @@ Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, 
   }
 
   cy.get('[data-cy=submit-add-employee-button]').click()
+
+  if (callback !== undefined) {
+    cy.wait(200)
+    cy.get('[data-cy=all-employee-link]', {timeout: 500}).should('be.visible').click()
+    cy.get('[data-cy=employee-list]').should('be.visible')
+    .invoke('attr', 'data-cy-items').then(function (items) {
+      let employeeId = _.last(items.split(','))
+      callback(employeeId)
+    })
+  }
 })
 
 // Finalize account creation and go to the dashboard

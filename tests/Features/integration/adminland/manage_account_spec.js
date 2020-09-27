@@ -1,4 +1,4 @@
-var faker = require('faker');
+let faker = require('faker');
 
 describe('Adminland - Basic account management', function () {
   it('should let me access adminland with the right permission level', function () {

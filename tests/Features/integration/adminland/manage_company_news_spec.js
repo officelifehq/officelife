@@ -1,5 +1,5 @@
-var faker = require('faker');
-var _ = require('lodash');
+let faker = require('faker');
+let _ = require('lodash');
 
 describe('Adminland - Company news management', function () {
   it('should let user access company news adminland screen with the right permissions', function () {
