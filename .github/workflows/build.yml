@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - release
+      - next
   pull_request:
     types: [opened, synchronize, reopened]
   release:
@@ -140,3 +142,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+  #########################
+  # Semantic release
+  #########################
+  semantic-release:
+    needs: tests
+    runs-on: ubuntu-latest
+    name: Semantic release
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/exec
+            @semantic-release/git
