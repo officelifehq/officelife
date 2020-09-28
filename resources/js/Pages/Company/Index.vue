@@ -7,9 +7,10 @@
         </h2>
       </div>
 
-      <p>questions</p>
+      <p>questions (latestQuestions.total_number_of_questions)</p>
       <ul>
         <li v-for="question in latestQuestions.latest_questions" :key="question.id">{{ question.title }} ({{ question.number_of_answers }})</li>
+        <li><inertia-link :href="latestQuestions.all_questions_url">view all</inertia-link></li>
       </ul>
 
       <p>birthday this week</p>
@@ -30,6 +31,7 @@
       <p>recent skills</p>
       <ul>
         <li v-for="skill in latestSkills.skills" :key="skill.id">{{ skill.name }}</li>
+        <li><inertia-link :href="latestSkills.view_all_url">view all ({{ latestSkills.count }})</inertia-link></li>
       </ul>
 
       <p><inertia-link :href="questionsUrl">{{ questions }} questions</inertia-link></p>

@@ -52,6 +52,9 @@ class CompanyViewHelper
 
         return [
             'total_number_of_questions' => $questionsCount,
+            'all_questions_url' => route('company.questions.index', [
+                'company' => $company->id,
+            ]),
             'latest_questions' => $questionCollection,
         ];
     }
@@ -196,6 +199,9 @@ class CompanyViewHelper
 
         return [
             'count' => $skillsCount,
+            'view_all_url' => route('company.skills.index', [
+                'company' => $company->id,
+            ]),
             'skills' => $skillsCollection,
         ];
     }

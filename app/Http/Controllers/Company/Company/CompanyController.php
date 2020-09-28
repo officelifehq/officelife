@@ -35,10 +35,6 @@ class CompanyController extends Controller
             'newHiresThisWeek' => $newHiresThisWeek,
             'latestShips' => $latestShips,
             'latestSkills' => $latestSkills,
-            'questions' => $questions,
-            'questionsUrl' => route('company.questions.index', [
-                'company' => $company->id,
-            ]),
             'skills' => $skills,
             'skillsUrl' => route('company.skills.index', [
                 'company' => $company->id,

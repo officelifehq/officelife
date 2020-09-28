@@ -48,6 +48,11 @@ class CompanyViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/company/questions',
+            $response['all_questions_url']
+        );
+
+        $this->assertEquals(
             1,
             $response['total_number_of_questions']
         );
@@ -219,6 +224,12 @@ class CompanyViewHelperTest extends TestCase
             2,
             $array['count']
         );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/company/skills',
+            $array['view_all_url']
+        );
+
         $this->assertEquals(
             [
                 0 => [
