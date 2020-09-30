@@ -4,10 +4,12 @@ namespace App\Http\ViewHelpers\Company;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\RandomHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use App\Services\Company\GuessEmployeeGame\CreateGuessEmployeeGame;
 
 class CompanyViewHelper
 {
@@ -55,7 +57,7 @@ class CompanyViewHelper
             'all_questions_url' => route('company.questions.index', [
                 'company' => $company->id,
             ]),
-            'latest_questions' => $questionCollection,
+            'questions' => $questionCollection,
         ];
     }
 
@@ -68,13 +70,19 @@ class CompanyViewHelper
      */
     public static function birthdaysThisWeek(Company $company): array
     {
+        // $employees = $company->employees()
+        //     ->select('id', 'first_name', 'last_name', 'avatar', 'birthdate')
+        //     ->where('locked', false)
+        //     ->whereMonth('birthdate', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY)->format('m'))
+        //     ->orWhereMonth('birthdate', '<', Carbon::now()->endOfWeek(Carbon::SUNDAY)->format('m') + 1)
+        //     ->whereDay('birthdate', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY)->format('d'))
+        //     ->orWhereDay('birthdate', '<', Carbon::now()->endOfWeek(Carbon::SUNDAY)->format('d') + 1)
+        //     ->get();
+
         $employees = $company->employees()
-            ->select('id', 'first_name', 'last_name', 'avatar', 'birthdate')
             ->where('locked', false)
-            ->whereMonth('birthdate', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY)->format('m'))
-            ->WhereMonth('birthdate', '<', Carbon::now()->endOfWeek(Carbon::SUNDAY)->format('m') + 1)
-            ->whereDay('birthdate', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY)->format('d'))
-            ->WhereDay('birthdate', '<', Carbon::now()->endOfWeek(Carbon::SUNDAY)->format('d') + 1)
+            ->whereNotNull('birthdate')
+            ->select('id', 'first_name', 'last_name', 'avatar', 'birthdate')
             ->get();
 
         $birthdaysCollection = collect([]);
@@ -83,6 +91,7 @@ class CompanyViewHelper
 
             $birthdaysCollection->push([
                 'id' => $employee->id,
+                'uuid' => $employee->id.RandomHelper::getNumber(), // necessary for uniqueness of keys in vue
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee->id,
@@ -203,6 +212,88 @@ class CompanyViewHelper
                 'company' => $company->id,
             ]),
             'skills' => $skillsCollection,
+        ];
+    }
+
+    /**
+     * Array containing all the information about the latest company news.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function latestNews(Company $company): array
+    {
+        $companyNewsCount = $company->news()->count();
+
+        $news = $company->news()
+            ->latest()
+            ->take(3)
+            ->get();
+
+        $newsCollection = collect([]);
+        foreach ($news as $new) {
+            $newsCollection->push([
+                'title' => $new->title,
+                'content' => $new->content,
+                'author_name' => $new->author_name,
+            ]);
+        }
+
+        return [
+            'count' => $companyNewsCount,
+            'news' => $newsCollection,
+        ];
+    }
+
+    /**
+     * Array containing all the information about the Guess Employee Game.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return array
+     */
+    public static function guessEmployeeGameInformation(Employee $employee, Company $company): array
+    {
+        $game = (new CreateGuessEmployeeGame)->execute([
+            'company_id' => $employee->company_id,
+            'author_id' => $employee->id,
+            'employee_id' => $employee->id,
+        ]);
+
+        $employeeToFind = $game->employeeToFind;
+        $firstOtherEmployeeToFind = $game->firstOtherEmployeeToFind;
+        $secondOtherEmployeeToFind = $game->secondOtherEmployeeToFind;
+
+        $choices = collect();
+        $choices->push([
+            'id' => $employeeToFind->id,
+            'name' => $employeeToFind->name,
+            'position' => (! $employeeToFind->position) ? null : $employeeToFind->position->title,
+            'right_answer' => true,
+            'url' => route('employees.show', [
+                'company' => $company,
+                'employee' => $employeeToFind,
+            ]),
+        ]);
+        $choices->push([
+            'id' => $firstOtherEmployeeToFind->id,
+            'name' => $firstOtherEmployeeToFind->name,
+            'position' => (! $firstOtherEmployeeToFind->position) ? null : $firstOtherEmployeeToFind->position->title,
+            'right_answer' => false,
+        ]);
+        $choices->push([
+            'id' => $secondOtherEmployeeToFind->id,
+            'name' => $secondOtherEmployeeToFind->name,
+            'position' => (! $secondOtherEmployeeToFind->position) ? null : $secondOtherEmployeeToFind->position->title,
+            'right_answer' => false,
+        ]);
+
+        $choices = $choices->shuffle();
+
+        return [
+            'id' => $game->id,
+            'avatar_to_find' => $employeeToFind->avatar,
+            'choices' => $choices,
         ];
     }
 }

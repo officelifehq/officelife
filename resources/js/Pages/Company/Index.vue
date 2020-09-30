@@ -1,22 +1,24 @@
 <template>
   <layout title="Home" :notifications="notifications">
-    <div class="ph2 ph0-ns">
+    <div class="ph2 ph5-ns">
       <div class="cf mt4 mw7 center">
         <h2 class="tc fw5">
           {{ $page.auth.company.name }}
         </h2>
       </div>
 
-      <p>questions (latestQuestions.total_number_of_questions)</p>
-      <ul>
-        <li v-for="question in latestQuestions.latest_questions" :key="question.id">{{ question.title }} ({{ question.number_of_answers }})</li>
-        <li><inertia-link :href="latestQuestions.all_questions_url">view all</inertia-link></li>
-      </ul>
+      <!-- central content -->
+      <div class="cf mw9 center">
+        <div class="fl w-60-l w-100">
+          <questions :questions="latestQuestions" />
+        </div>
 
-      <p>birthday this week</p>
-      <ul>
-        <li v-for="birthday in birthdaysThisWeek" :key="birthday.id">{{ birthday.name }}</li>
-      </ul>
+        <div class="fl w-40-l w-100 pl4-l">
+          <guess-employee-game :game="game" />
+
+          <birthdays :birthdays="birthdaysThisWeek" />
+        </div>
+      </div>
 
       <p>new hires this week</p>
       <ul>
@@ -34,18 +36,26 @@
         <li><inertia-link :href="latestSkills.view_all_url">view all ({{ latestSkills.count }})</inertia-link></li>
       </ul>
 
-      <p><inertia-link :href="questionsUrl">{{ questions }} questions</inertia-link></p>
-      <p><inertia-link :href="skillsUrl" data-cy="company-skills">{{ skills }} skills</inertia-link></p>
+      <p>recent news</p>
+      <ul>
+        <li v-for="news in latestNews.news" :key="news.id">{{ news.title }}</li>
+      </ul>
     </div>
   </layout>
 </template>
 
 <script>
 import Layout from '@/Shared/Layout';
+import Questions from '@/Pages/Company/Partials/Questions';
+import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame';
+import Birthdays from '@/Pages/Company/Partials/Birthdays';
 
 export default {
   components: {
     Layout,
+    Questions,
+    GuessEmployeeGame,
+    Birthdays,
   },
 
   props: {
@@ -69,20 +79,12 @@ export default {
       type: Array,
       default: null,
     },
-    questions: {
-      type: Number,
+    latestNews: {
+      type: Array,
       default: null,
     },
-    skills: {
-      type: Number,
-      default: null,
-    },
-    questionsUrl: {
-      type: String,
-      default: null,
-    },
-    skillsUrl: {
-      type: String,
+    game: {
+      type: Object,
       default: null,
     },
     notifications: {

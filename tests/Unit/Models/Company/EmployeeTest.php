@@ -27,6 +27,7 @@ use App\Models\Company\Notification;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\GuessEmployeeGame;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
 use App\Models\Company\EmployeePlannedHoliday;
@@ -363,6 +364,28 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->oneOnOneEntriesAsManager()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_games_as_player(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(GuessEmployeeGame::class, 2)->create([
+            'employee_who_played_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->gamesAsPlayer()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_games_as_player_to_find(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(GuessEmployeeGame::class, 2)->create([
+            'employee_to_find_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->gamesAsPersonToFind()->exists());
     }
 
     /** @test */

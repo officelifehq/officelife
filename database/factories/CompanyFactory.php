@@ -450,3 +450,20 @@ $factory->define(App\Models\Company\OneOnOneNote::class, function () {
         'note' => 'what are you doing right now',
     ];
 });
+
+$factory->define(App\Models\Company\GuessEmployeeGame::class, function () {
+    return [
+        'employee_who_played_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create([])->id;
+        },
+        'employee_to_find_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create([])->id;
+        },
+        'first_other_employee_to_find_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create([])->id;
+        },
+        'second_other_employee_to_find_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create([])->id;
+        },
+    ];
+});

@@ -18,26 +18,26 @@ class BirthdayHelperTest extends TestCase
 
         // date is 2018-01-01
         $date = Carbon::now();
-        $this->assertTrue(BirthdayHelper::isBirthdaySoon(Carbon::now(), $date, 30));
+        $this->assertTrue(BirthdayHelper::isBirthdayInXDays(Carbon::now(), $date, 30));
 
         // date is 2018-01-20
         $date = Carbon::createFromFormat('Y-m-d', '2018-01-20');
-        $this->assertTrue(BirthdayHelper::isBirthdaySoon(Carbon::now(), $date, 30));
+        $this->assertTrue(BirthdayHelper::isBirthdayInXDays(Carbon::now(), $date, 30));
 
         // date is 2018-01-30
         $date = Carbon::createFromFormat('Y-m-d', '2018-01-30');
-        $this->assertTrue(BirthdayHelper::isBirthdaySoon(Carbon::now(), $date, 30));
+        $this->assertTrue(BirthdayHelper::isBirthdayInXDays(Carbon::now(), $date, 30));
 
         // date is 2018-02-20
         $date = Carbon::createFromFormat('Y-m-d', '2018-02-20');
-        $this->assertFalse(BirthdayHelper::isBirthdaySoon(Carbon::now(), $date, 30));
+        $this->assertFalse(BirthdayHelper::isBirthdayInXDays(Carbon::now(), $date, 30));
 
         // date is 1887-02-20
         $date = Carbon::createFromFormat('Y-m-d', '1887-02-20');
-        $this->assertFalse(BirthdayHelper::isBirthdaySoon(Carbon::now(), $date, 30));
+        $this->assertFalse(BirthdayHelper::isBirthdayInXDays(Carbon::now(), $date, 30));
 
         // date is 1887-02-20
         $date = Carbon::createFromFormat('Y-m-d', '1887-01-20');
-        $this->assertTrue(BirthdayHelper::isBirthdaySoon(Carbon::now(), $date, 30));
+        $this->assertTrue(BirthdayHelper::isBirthdayInXDays(Carbon::now(), $date, 30));
     }
 }

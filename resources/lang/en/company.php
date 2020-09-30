@@ -5,6 +5,14 @@ return [
     'subtitle' => 'There is only one step to get started.',
     'next_step_cta' => 'Ok, let’s go',
 
+    'guess_employee_game_title' => 'Who is this person?',
+    'guess_employee_game_success' => 'Right answer! It was indeed...',
+    'guess_employee_game_failure' => 'Wrong answer! It was...',
+    'guess_employee_game_play_again' => 'Play again',
+
+    'birthdays_title' => 'Birthdays this week',
+    'birthdays_blank' => 'No one has a birthday this week.',
+
     'questions_title' => 'Questions to get to know your colleagues',
     'question_number_of_answers' => 'No colleague has answered. | {number} colleague has answered. | {number} colleagues have answered.',
     'question_date_range_no_deactivated' => 'This question has been live since :start_date.',

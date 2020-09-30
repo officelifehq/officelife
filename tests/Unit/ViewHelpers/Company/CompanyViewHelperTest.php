@@ -10,9 +10,11 @@ use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Models\Company\CompanyNews;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Services\Company\GuessEmployeeGame\CreateGuessEmployeeGame;
 
 class CompanyViewHelperTest extends TestCase
 {
@@ -44,7 +46,7 @@ class CompanyViewHelperTest extends TestCase
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
                 ],
             ],
-            $response['latest_questions']
+            $response['questions']
         );
 
         $this->assertEquals(
@@ -93,25 +95,40 @@ class CompanyViewHelperTest extends TestCase
         $this->assertEquals(2, count($array));
 
         $this->assertEquals(
-            [
-                0 => [
-                    'id' => $angela->id,
-                    'name' => 'Angela Bernard',
-                    'avatar' => $angela->avatar,
-                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
-                    'birthdate' => 'January 1st',
-                    'sort_key' => '2018-01-01',
-                ],
-                1 => [
-                    'id' => $dwight->id,
-                    'name' => 'Dwight Schrute',
-                    'avatar' => $dwight->avatar,
-                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
-                    'birthdate' => 'January 3rd',
-                    'sort_key' => '2018-01-03',
-                ],
-            ],
-            $array
+            $angela->id,
+            $array[0]['id']
+        );
+        $this->assertIsInt(
+            (int) $array[0]['uuid']
+        );
+        $this->assertEquals(
+            'Angela Bernard',
+            $array[0]['name']
+        );
+        $this->assertEquals(
+            $angela->avatar,
+            $array[0]['avatar']
+        );
+        $this->assertEquals(
+            env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
+            $array[0]['url']
+        );
+        $this->assertEquals(
+            'January 1st',
+            $array[0]['birthdate']
+        );
+        $this->assertEquals(
+            '2018-01-01',
+            $array[0]['sort_key']
+        );
+
+        $this->assertEquals(
+            $dwight->id,
+            $array[1]['id']
+        );
+        $this->assertEquals(
+            'Dwight Schrute',
+            $array[1]['name']
         );
     }
 
@@ -242,6 +259,82 @@ class CompanyViewHelperTest extends TestCase
                 ],
             ],
             $array['skills']->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_latest_news(): void
+    {
+        $michael = $this->createAdministrator();
+        $newsA = factory(CompanyNews::class)->create([
+            'company_id' => $michael->company_id,
+            'title' => 'php',
+            'content' => 'php',
+            'author_name' => 'regis',
+        ]);
+        $newsB = factory(CompanyNews::class)->create([
+            'company_id' => $michael->company_id,
+            'title' => 'php',
+            'content' => 'php',
+            'author_name' => 'regis',
+        ]);
+
+        $array = CompanyViewHelper::latestNews($michael->company);
+
+        $this->assertEquals(
+            2,
+            $array['count']
+        );
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'title' => $newsA->title,
+                    'content' => $newsA->content,
+                    'author_name' => $newsA->author_name,
+                ],
+                1 => [
+                    'title' => $newsB->title,
+                    'content' => $newsB->content,
+                    'author_name' => $newsB->author_name,
+                ],
+            ],
+            $array['news']->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_information_about_the_guess_employees_game(): void
+    {
+        $michael = factory(Employee::class)->create([
+            'pronoun_id' => 1,
+        ]);
+        factory(Employee::class, 3)->create([
+            'company_id' => $michael->id,
+            'pronoun_id' => 1,
+        ]);
+
+        $game = (new CreateGuessEmployeeGame)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $michael->id,
+        ]);
+
+        $array = CompanyViewHelper::guessEmployeeGameInformation($michael);
+
+        $this->assertEquals(
+            $game->id,
+            $array['id']
+        );
+
+        $this->assertEquals(
+            $game->employeeToFind->avatar,
+            $array['avatar_to_find']
+        );
+
+        $this->assertEquals(
+            3,
+            count($array['choices'])
         );
     }
 }
