@@ -9,12 +9,20 @@
 
       <!-- central content -->
       <div class="cf mw9 center">
-        <div class="fl w-60-l w-100">
+        <div class="fl w-third-l w-100">
+          <company-news :news="latestNews" />
+
           <questions :questions="latestQuestions" />
         </div>
 
-        <div class="fl w-40-l w-100 pl4-l">
-          <guess-employee-game :game="game" />
+        <div class="fl w-third-l w-100 pl4-l">
+          <guess-employee-game v-if="game" :game="game" />
+
+          <birthdays :birthdays="birthdaysThisWeek" />
+        </div>
+
+        <div class="fl w-third-l w-100 pl4-l">
+          <guess-employee-game v-if="game" :game="game" />
 
           <birthdays :birthdays="birthdaysThisWeek" />
         </div>
@@ -35,11 +43,6 @@
         <li v-for="skill in latestSkills.skills" :key="skill.id">{{ skill.name }}</li>
         <li><inertia-link :href="latestSkills.view_all_url">view all ({{ latestSkills.count }})</inertia-link></li>
       </ul>
-
-      <p>recent news</p>
-      <ul>
-        <li v-for="news in latestNews.news" :key="news.id">{{ news.title }}</li>
-      </ul>
     </div>
   </layout>
 </template>
@@ -49,6 +52,7 @@ import Layout from '@/Shared/Layout';
 import Questions from '@/Pages/Company/Partials/Questions';
 import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame';
 import Birthdays from '@/Pages/Company/Partials/Birthdays';
+import CompanyNews from '@/Pages/Company/Partials/CompanyNews';
 
 export default {
   components: {
@@ -56,6 +60,7 @@ export default {
     Questions,
     GuessEmployeeGame,
     Birthdays,
+    CompanyNews,
   },
 
   props: {
@@ -80,7 +85,7 @@ export default {
       default: null,
     },
     latestNews: {
-      type: Array,
+      type: Object,
       default: null,
     },
     game: {

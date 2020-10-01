@@ -269,13 +269,13 @@ class CompanyViewHelperTest extends TestCase
         $newsA = factory(CompanyNews::class)->create([
             'company_id' => $michael->company_id,
             'title' => 'php',
-            'content' => 'php',
+            'content' => 'this is a test',
             'author_name' => 'regis',
         ]);
         $newsB = factory(CompanyNews::class)->create([
             'company_id' => $michael->company_id,
             'title' => 'php',
-            'content' => 'php',
+            'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.',
             'author_name' => 'regis',
         ]);
 
@@ -290,12 +290,12 @@ class CompanyViewHelperTest extends TestCase
             [
                 0 => [
                     'title' => $newsA->title,
-                    'content' => $newsA->content,
+                    'extract' => '<p>this is a test</p>',
                     'author_name' => $newsA->author_name,
                 ],
                 1 => [
                     'title' => $newsB->title,
-                    'content' => $newsB->content,
+                    'extract' => '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ...</p>',
                     'author_name' => $newsB->author_name,
                 ],
             ],
@@ -320,7 +320,7 @@ class CompanyViewHelperTest extends TestCase
             'employee_id' => $michael->id,
         ]);
 
-        $array = CompanyViewHelper::guessEmployeeGameInformation($michael);
+        $array = CompanyViewHelper::guessEmployeeGameInformation($michael, $michael->company);
 
         $this->assertEquals(
             $game->id,

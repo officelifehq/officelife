@@ -40,4 +40,17 @@ class BirthdayHelperTest extends TestCase
         $date = Carbon::createFromFormat('Y-m-d', '1887-01-20');
         $this->assertTrue(BirthdayHelper::isBirthdayInXDays(Carbon::now(), $date, 30));
     }
+
+    /** @test */
+    public function it_indicates_if_a_birthday_occurs_in_a_range_of_dates(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        // date is 2018-01-01
+        $date = Carbon::now();
+        $min = Carbon::now()->subDays(3);
+        $max = Carbon::now()->addDays(3);
+        $this->assertTrue(BirthdayHelper::isBirthdayInRange($date, $min, $max));
+        $this->assertFalse(BirthdayHelper::isBirthdayInRange($date, $min->addMonth(), $max->addMonth()));
+    }
 }

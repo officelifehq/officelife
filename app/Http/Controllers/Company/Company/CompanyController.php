@@ -80,7 +80,8 @@ class CompanyController extends Controller
     public function replay(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
-        $guessEmployeeGameInformation = CompanyViewHelper::guessEmployeeGameInformation($loggedEmployee);
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $guessEmployeeGameInformation = CompanyViewHelper::guessEmployeeGameInformation($loggedEmployee, $loggedCompany);
 
         return response()->json([
             'game' => $guessEmployeeGameInformation,

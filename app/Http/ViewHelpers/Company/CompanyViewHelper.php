@@ -3,8 +3,12 @@
 namespace App\Http\ViewHelpers\Company;
 
 use Carbon\Carbon;
+use OutOfRangeException;
 use App\Helpers\DateHelper;
+use Illuminate\Support\Str;
 use App\Helpers\RandomHelper;
+use App\Helpers\StringHelper;
+use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
@@ -70,15 +74,6 @@ class CompanyViewHelper
      */
     public static function birthdaysThisWeek(Company $company): array
     {
-        // $employees = $company->employees()
-        //     ->select('id', 'first_name', 'last_name', 'avatar', 'birthdate')
-        //     ->where('locked', false)
-        //     ->whereMonth('birthdate', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY)->format('m'))
-        //     ->orWhereMonth('birthdate', '<', Carbon::now()->endOfWeek(Carbon::SUNDAY)->format('m') + 1)
-        //     ->whereDay('birthdate', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY)->format('d'))
-        //     ->orWhereDay('birthdate', '<', Carbon::now()->endOfWeek(Carbon::SUNDAY)->format('d') + 1)
-        //     ->get();
-
         $employees = $company->employees()
             ->where('locked', false)
             ->whereNotNull('birthdate')
@@ -87,9 +82,13 @@ class CompanyViewHelper
 
         $birthdaysCollection = collect([]);
         foreach ($employees as $employee) {
-            $date = $employee->birthdate;
+            $date = $employee->birthdate->copy();
+            $date = $date->year(Carbon::now()->year);
+            $maxDate = Carbon::now()->endOfWeek(Carbon::SUNDAY);
+            $minDate = Carbon::now()->startOfWeek(Carbon::MONDAY);
 
-            $birthdaysCollection->push([
+            if (BirthdayHelper::isBirthdayInRange($date, $minDate, $maxDate)) {
+                $birthdaysCollection->push([
                 'id' => $employee->id,
                 'uuid' => $employee->id.RandomHelper::getNumber(), // necessary for uniqueness of keys in vue
                 'url' => route('employees.show', [
@@ -101,6 +100,7 @@ class CompanyViewHelper
                 'birthdate' => DateHelper::formatMonthAndDay($date),
                 'sort_key' => Carbon::createFromDate(Carbon::now()->year, $date->month, $date->day)->format('Y-m-d'),
             ]);
+            }
         }
 
         // sort the entries by soonest birthdates
@@ -234,7 +234,7 @@ class CompanyViewHelper
         foreach ($news as $new) {
             $newsCollection->push([
                 'title' => $new->title,
-                'content' => $new->content,
+                'extract' => StringHelper::parse(Str::words($new->content, 20, ' ...')),
                 'author_name' => $new->author_name,
             ]);
         }
@@ -250,15 +250,19 @@ class CompanyViewHelper
      *
      * @param Employee $employee
      * @param Company $company
-     * @return array
+     * @return ?array
      */
-    public static function guessEmployeeGameInformation(Employee $employee, Company $company): array
+    public static function guessEmployeeGameInformation(Employee $employee, Company $company): ?array
     {
-        $game = (new CreateGuessEmployeeGame)->execute([
-            'company_id' => $employee->company_id,
-            'author_id' => $employee->id,
-            'employee_id' => $employee->id,
-        ]);
+        try {
+            $game = (new CreateGuessEmployeeGame)->execute([
+                'company_id' => $employee->company_id,
+                'author_id' => $employee->id,
+                'employee_id' => $employee->id,
+            ]);
+        } catch (OutOfRangeException $e) {
+            return null;
+        }
 
         $employeeToFind = $game->employeeToFind;
         $firstOtherEmployeeToFind = $game->firstOtherEmployeeToFind;

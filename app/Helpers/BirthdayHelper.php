@@ -29,19 +29,12 @@ class BirthdayHelper
      * Check if the birthdate will happen in the given range.
      *
      * @param Carbon $startDate
-     * @param integer $numberOfDaysBefore
-     * @param integer $numberOfDaysAfter
-     * @return boolean
+     * @param Carbon $minDate
+     * @param Carbon $maxDate
+     * @return bool
      */
-    public static function isBirthdayInRange(Carbon $birthdate, int $numberOfDaysBefore, int $numberOfDaysAfter): bool
+    public static function isBirthdayInRange(Carbon $birthdate, Carbon $minDate, Carbon $maxDate): bool
     {
-        $future = $startDate->subDays($);
-        $birthdate->year = $startDate->year;
-
-        if ($birthdate->isPast()) {
-            return false;
-        }
-
-        return $birthdate->lessThanOrEqualTo($future) && $future->greaterThanOrEqualTo($startDate);
+        return $birthdate->between($minDate, $maxDate);
     }
 }

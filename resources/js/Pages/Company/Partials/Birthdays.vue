@@ -1,4 +1,21 @@
 <style lang="scss" scoped>
+.avatar {
+  left: 1px;
+  top: 5px;
+  width: 35px;
+}
+
+.person {
+  padding-left: 44px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .avatar {
+    top: 2px;
+  }
+}
 </style>
 
 <template>
@@ -11,19 +28,17 @@
 
     <div class="br3 bg-white box z-1 pa3 relative">
       <ul v-if="birthdays.length != 0" class="list pl0 ma0">
-        <li v-for="birthday in birthdays" :key="birthday.id">
-          <span class="pl3 db relative team-member">
-            <img loading="lazy" :src="birthday.avatar" class="br-100 absolute avatar" alt="avatar" />
+        <li v-for="birthday in birthdays" :key="birthday.id" class="mb3 pl3 db relative person">
+          <img loading="lazy" :src="birthday.avatar" class="br-100 absolute avatar" alt="avatar" />
 
-            <!-- normal mode -->
-            <inertia-link :href="birthday.url" class="mb2">
-              {{ birthday.name }}
-            </inertia-link>
+          <!-- normal mode -->
+          <inertia-link :href="birthday.url" class="mb2">
+            {{ birthday.name }}
+          </inertia-link>
 
-            <!-- birthdate information -->
-            <span class="title db f7 mt1">
-              {{ $t('dashboard.team_birthdate_date', { date: birthday.birthdate}) }}
-            </span>
+          <!-- birthdate information -->
+          <span class="title db f7 mt1">
+            {{ $t('dashboard.team_birthdate_date', { date: birthday.birthdate}) }}
           </span>
         </li>
       </ul>
