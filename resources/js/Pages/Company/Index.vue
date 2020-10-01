@@ -16,28 +16,18 @@
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
-          <new-hires :hires="newHiresThisWeek" />
-
-          <birthdays :birthdays="birthdaysThisWeek" />
+          <recent-ships :ships="latestShips" />
+          <recent-skills :skills="latestSkills" />
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
           <guess-employee-game v-if="game" :game="game" />
 
           <birthdays :birthdays="birthdaysThisWeek" />
+
+          <new-hires :hires="newHiresThisWeek" />
         </div>
       </div>
-
-      <p>recent ships</p>
-      <ul>
-        <li v-for="ship in latestShips" :key="ship.id">{{ ship.title }}</li>
-      </ul>
-
-      <p>recent skills</p>
-      <ul>
-        <li v-for="skill in latestSkills.skills" :key="skill.id">{{ skill.name }}</li>
-        <li><inertia-link :href="latestSkills.view_all_url">view all ({{ latestSkills.count }})</inertia-link></li>
-      </ul>
     </div>
   </layout>
 </template>
@@ -49,6 +39,8 @@ import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame';
 import Birthdays from '@/Pages/Company/Partials/Birthdays';
 import CompanyNews from '@/Pages/Company/Partials/CompanyNews';
 import NewHires from '@/Pages/Company/Partials/NewHires';
+import RecentShips from '@/Pages/Company/Partials/RecentShips';
+import RecentSkills from '@/Pages/Company/Partials/RecentSkills';
 
 export default {
   components: {
@@ -58,6 +50,8 @@ export default {
     Birthdays,
     CompanyNews,
     NewHires,
+    RecentShips,
+    RecentSkills,
   },
 
   props: {
@@ -78,7 +72,7 @@ export default {
       default: null,
     },
     latestSkills: {
-      type: Array,
+      type: Object,
       default: null,
     },
     latestNews: {

@@ -9,7 +9,7 @@
     <span class="db fw5 mb2">
       <span class="mr1">
         📰
-      </span> {{ $t('employee.company_news_title') }}
+      </span> {{ $t('company.company_news_title') }}
     </span>
 
     <div class="br3 bg-white box z-1">

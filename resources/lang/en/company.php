@@ -13,9 +13,16 @@ return [
     'birthdays_title' => 'Birthdays this week',
     'birthdays_blank' => 'No one has a birthday this week.',
 
+    'company_news_title' => 'Latest company news',
+
+    'recent_skills_title' => 'Latest skills created in the company',
+    'recent_skills_view_all' => 'View all skills ({count})',
+
     'new_hires_title' => 'New hires this week',
     'new_hires_date' => 'Starts on {date}',
     'new_hires_date_with_position' => 'Starts on {date} as {position}',
+
+    'recent_ships_title' => 'Recent ships',
 
     'questions_title' => 'Questions to get to know your colleagues',
     'question_number_of_answers' => 'No colleague has answered. | {number} colleague has answered. | {number} colleagues have answered.',
