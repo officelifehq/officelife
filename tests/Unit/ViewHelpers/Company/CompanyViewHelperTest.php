@@ -22,6 +22,28 @@ class CompanyViewHelperTest extends TestCase
         HelperTrait;
 
     /** @test */
+    public function it_gets_statistics_about_the_company(): void
+    {
+        $michael = $this->createAdministrator();
+        factory(Team::class, 2)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        factory(Employee::class, 2)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        $response = CompanyViewHelper::statistics($michael->company);
+
+        $this->assertEquals(
+            [
+                'number_of_teams' => 2,
+                'number_of_employees' => 5, // because creating a team creates a team leader too
+            ],
+            $response
+        );
+    }
+
+    /** @test */
     public function it_gets_the_latest_questions_in_the_company(): void
     {
         $michael = $this->createAdministrator();

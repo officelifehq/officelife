@@ -12,13 +12,15 @@
       </span> {{ $t('employee.question_title') }}
     </span>
 
-    <div class="br3 bg-white box z-1 pa3">
-      <ul v-if="questions.questions.length > 0" class="list pl0 ma0">
+    <div class="br3 bg-white box z-1">
+      <ul v-if="questions.questions.length > 0" class="list pa3 ma0">
         <li v-for="question in questions.questions" :key="question.id" class="answer-item mb3" :data-cy="'question-title-' + question.id">
-          <inertia-link :href="question.url" class="fw5 f5 lh-copy mb2">{{ question.title }}</inertia-link> ({{ question.number_of_answers }})
+          <inertia-link :href="question.url" class="fw5 f5 lh-copy mb2">{{ question.title }}</inertia-link> <span class="gray f7">({{ question.number_of_answers }})</span>
         </li>
-        <li>view all ({{ questions.total_number_of_questions }})</li>
       </ul>
+      <div class="ph3 pv2 tc f6 bt bb-gray">
+        <inertia-link :href="questions.all_questions_url">{{ $t('company.questions_view_all', { count: questions.total_number_of_questions }) }}</inertia-link>
+      </div>
 
       <!-- blank state -->
       <p v-if="questions.length == 0" class="mb0 mt0 lh-copy f6" data-cy="question-blank-state">{{ $t('employee.question_blank') }}</p>
