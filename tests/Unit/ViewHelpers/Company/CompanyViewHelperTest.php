@@ -173,14 +173,16 @@ class CompanyViewHelperTest extends TestCase
                     'name' => 'Angela Bernard',
                     'avatar' => $angela->avatar,
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
-                    'hired_at' => 'January 1st',
+                    'hired_at' => 'Monday (Jan 1st)',
+                    'position' => 'Assistant to the regional manager',
                 ],
                 1 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
                     'avatar' => $dwight->avatar,
                     'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$dwight->id,
-                    'hired_at' => 'January 3rd',
+                    'hired_at' => 'Wednesday (Jan 3rd)',
+                    'position' => 'Assistant to the regional manager',
                 ],
             ],
             $collection->toArray()
@@ -310,7 +312,7 @@ class CompanyViewHelperTest extends TestCase
             'pronoun_id' => 1,
         ]);
         factory(Employee::class, 3)->create([
-            'company_id' => $michael->id,
+            'company_id' => $michael->company_id,
             'pronoun_id' => 1,
         ]);
 

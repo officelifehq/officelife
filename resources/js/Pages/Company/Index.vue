@@ -16,7 +16,7 @@
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">
-          <guess-employee-game v-if="game" :game="game" />
+          <new-hires :hires="newHiresThisWeek" />
 
           <birthdays :birthdays="birthdaysThisWeek" />
         </div>
@@ -27,11 +27,6 @@
           <birthdays :birthdays="birthdaysThisWeek" />
         </div>
       </div>
-
-      <p>new hires this week</p>
-      <ul>
-        <li v-for="hire in newHiresThisWeek" :key="hire.id">{{ hire.name }}</li>
-      </ul>
 
       <p>recent ships</p>
       <ul>
@@ -53,6 +48,7 @@ import Questions from '@/Pages/Company/Partials/Questions';
 import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame';
 import Birthdays from '@/Pages/Company/Partials/Birthdays';
 import CompanyNews from '@/Pages/Company/Partials/CompanyNews';
+import NewHires from '@/Pages/Company/Partials/NewHires';
 
 export default {
   components: {
@@ -61,6 +57,7 @@ export default {
     GuessEmployeeGame,
     Birthdays,
     CompanyNews,
+    NewHires,
   },
 
   props: {

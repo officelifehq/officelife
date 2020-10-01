@@ -119,17 +119,19 @@ class CompanyViewHelper
     public static function newHiresThisWeek(Company $company): Collection
     {
         $employees = $company->employees()
-            ->select('id', 'first_name', 'last_name', 'avatar', 'hired_at')
+            ->select('id', 'first_name', 'last_name', 'avatar', 'hired_at', 'position_id')
             ->where('locked', false)
             ->whereNotNull('hired_at')
             ->whereDate('hired_at', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY))
             ->whereDate('hired_at', '<=', Carbon::now()->endOfWeek(Carbon::SUNDAY))
+            ->with('position')
             ->orderBy('hired_at', 'asc')
             ->get();
 
         $newHiresCollection = collect([]);
         foreach ($employees as $employee) {
             $date = $employee->hired_at;
+            $position = $employee->position;
 
             $newHiresCollection->push([
                 'id' => $employee->id,
@@ -139,7 +141,8 @@ class CompanyViewHelper
                 ]),
                 'name' => $employee->name,
                 'avatar' => $employee->avatar,
-                'hired_at' => DateHelper::formatMonthAndDay($date),
+                'hired_at' => DateHelper::formatDayAndMonthInParenthesis($date),
+                'position' => (! $position) ? null : $position->title,
             ]);
         }
 

@@ -13,6 +13,10 @@ return [
     'birthdays_title' => 'Birthdays this week',
     'birthdays_blank' => 'No one has a birthday this week.',
 
+    'new_hires_title' => 'New hires this week',
+    'new_hires_date' => 'Starts on {date}',
+    'new_hires_date_with_position' => 'Starts on {date} as {position}',
+
     'questions_title' => 'Questions to get to know your colleagues',
     'question_number_of_answers' => 'No colleague has answered. | {number} colleague has answered. | {number} colleagues have answered.',
     'question_date_range_no_deactivated' => 'This question has been live since :start_date.',
