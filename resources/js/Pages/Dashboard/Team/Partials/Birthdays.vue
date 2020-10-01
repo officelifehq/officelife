@@ -38,7 +38,7 @@
             {{ employee.name }}
           </inertia-link>
 
-          <!-- position -->
+          <!-- birthdate information -->
           <span class="title db f7 mt1">
             {{ $t('dashboard.team_birthdate_date', { date: employee.birthdate}) }}
           </span>

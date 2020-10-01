@@ -1,6 +1,14 @@
 <style lang="scss" scoped>
-.list li:last-child {
-  border-bottom: 0;
+.news-item:first-child {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.news-item:last-child {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 </style>
 
@@ -40,10 +48,10 @@
 
           <!-- LIST OF EXISTING NEWS -->
           <ul v-show="news.length != 0" class="list pl0 mv0 center" data-cy="news-list">
-            <li v-for="singleNews in news" :key="singleNews.id" class="pb2 pt1 bb bb-gray bb-gray-hover">
-              <h3>{{ singleNews.title }}</h3>
+            <li v-for="singleNews in news" :key="singleNews.id" class="news-item pa3 br bl bb bb-gray bb-gray-hover">
+              <h3 class="mt0">{{ singleNews.title }}</h3>
 
-              <div class="parsed-content" v-html="singleNews.parsed_content"></div>
+              <div class="parsed-content mb3" v-html="singleNews.parsed_content"></div>
 
               <!-- LIST OF ACTIONS FOR EACH NEWS -->
               <ul class="list pa0 ma0 di-ns db mt2 mt0-ns">

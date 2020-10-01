@@ -158,7 +158,7 @@ abstract class BaseService
 
         return true;
 
-        // $validator = Validator::make($data, $this->rules())->validate();
+        // $validator = Validator::make($data, $this->rules());
 
         // if ($validator->fails()) {
         //     dd($validator->errors());

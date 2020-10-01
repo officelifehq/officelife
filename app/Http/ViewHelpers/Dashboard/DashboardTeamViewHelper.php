@@ -41,7 +41,7 @@ class DashboardTeamViewHelper
                 continue;
             }
 
-            if (BirthdayHelper::isBirthdaySoon(Carbon::now(), $employee->birthdate, 30)) {
+            if (BirthdayHelper::isBirthdayInXDays(Carbon::now(), $employee->birthdate, 30)) {
                 $birthdaysCollection->push([
                     'id' => $employee->id,
                     'url' => route('employees.show', [
