@@ -47,5 +47,15 @@ class CreateProjectsTable extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
         });
+
+        Schema::create('project_links', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('project_id');
+            $table->string('type');
+            $table->string('label')->nullable();
+            $table->string('url');
+            $table->timestamps();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+        });
     }
 }

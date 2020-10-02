@@ -477,3 +477,14 @@ $factory->define(App\Models\Company\Project::class, function () {
         'code' => '123',
     ];
 });
+
+$factory->define(App\Models\Company\ProjectLink::class, function () {
+    return [
+        'project_id' => function () {
+            return factory(App\Models\Company\Project::class)->create()->id;
+        },
+        'type' => 'slack',
+        'label' => '#dunder-mifflin',
+        'url' => 'https://slack.com/dunder',
+    ];
+});

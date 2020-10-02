@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\ProjectLink;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTest extends TestCase
@@ -63,5 +64,16 @@ class ProjectTest extends TestCase
         $project->teams()->syncWithoutDetaching([$marketing->id]);
 
         $this->assertTrue($project->teams()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_links(): void
+    {
+        $project = factory(Project::class)->create();
+        factory(ProjectLink::class, 2)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $this->assertTrue($project->links()->exists());
     }
 }

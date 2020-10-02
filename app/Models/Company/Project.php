@@ -78,12 +78,22 @@ class Project extends Model
     }
 
     /**
-     * Get the employee records associated with the project.
+     * Get the team records associated with the project.
      *
      * @return belongsToMany
      */
     public function teams()
     {
         return $this->belongsToMany(Team::class);
+    }
+
+    /**
+     * Get the employee records associated with the project.
+     *
+     * @return hasMany
+     */
+    public function links()
+    {
+        return $this->hasMany(ProjectLink::class);
     }
 }
