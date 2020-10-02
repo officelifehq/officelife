@@ -8,7 +8,11 @@
     "build": {
 		"dockerfile": "Dockerfile",
 		// Update 'VARIANT' to pick a PHP version: 7, 7.4, 7.3
-		"args": { "VARIANT": "7.4" }
+		"args": {
+            "VARIANT": "7.4",
+            "INSTALL_NODE": "true",
+            "NODE_VERSION": "10"
+        }
     },
 
 	// Set *default* container specific settings.json values on container create.
@@ -36,18 +40,19 @@
 	],
 
 	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
-	"forwardPorts": [8000, 3306],
+	"forwardPorts": [8080, 8000, 3306],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-    // "postCreateCommand": "sudo rm -rf /var/www/html && sudo ln -s . /var/www/html",
     "postCreateCommand": [
+        "sudo rm -rf /var/www/html && sudo ln -s public /var/www/html;",
         "cp .env.example .env;",
-        "composer install;",
+        "composer install --no-suggest;",
         "php artisan key:generate;",
         "php artisan storage:link;",
-        "yarn install;",
-        "yarn prod;",
-        "php artisan migrate;"
+        "php artisan migrate;",
+        "php artisan lang:generate",
+        "yarn install && yarn prod;",
+        "apache2ctl start"
     ]
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
