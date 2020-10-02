@@ -756,6 +756,30 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'project_destroyed') {
+            $sentence = trans('account.log_project_destroyed', [
+                'project_name' => $log->object->{'project_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_added_to_project') {
+            $sentence = trans('account.log_employee_added_to_project', [
+                'project_id' => $log->object->{'project_id'},
+                'project_name' => $log->object->{'project_name'},
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_removed_from_project') {
+            $sentence = trans('account.log_employee_removed_from_project', [
+                'project_id' => $log->object->{'project_id'},
+                'project_name' => $log->object->{'project_name'},
+                'employee_id' => $log->object->{'employee_id'},
+                'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
         return $sentence;
     }
 
@@ -1163,6 +1187,20 @@ class LogHelper
                 'happened_at' => $log->object->{'happened_at'},
                 'employee_id' => $log->object->{'employee_id'},
                 'employee_name' => $log->object->{'employee_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_added_to_project') {
+            $sentence = trans('account.employee_log_employee_added_to_project', [
+                'project_id' => $log->object->{'project_id'},
+                'project_name' => $log->object->{'project_name'},
+            ]);
+        }
+
+        if ($log->action == 'employee_removed_from_project') {
+            $sentence = trans('account.employee_log_employee_removed_from_project', [
+                'project_id' => $log->object->{'project_id'},
+                'project_name' => $log->object->{'project_name'},
             ]);
         }
 

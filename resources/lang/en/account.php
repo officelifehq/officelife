@@ -243,6 +243,9 @@ return [
     'log_one_on_one_note_destroyed' => 'Deleted a note on the 1 on 1 entry of :happened_at between :manager_name and :employee_name.',
     'log_one_on_one_note_marked_happened' => 'Mark the 1 on 1 entry of :happened_at between :manager_name and :employee_name as happened.',
     'log_project_created' => 'Created the project called :project_name.',
+    'log_project_destroyed' => 'Deleted the project called :project_name.',
+    'log_employee_added_to_project' => 'Added :employee_name to the project called :project_name.',
+    'log_employee_removed_from_project' => 'Removed :employee_name from the project called :project_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -304,6 +307,8 @@ return [
     'employee_log_one_on_one_talking_point_destroyed' => 'Deleted a talking point on the 1 on 1 entry of :happened_at with :employee_name.',
     'employee_log_one_on_one_action_item_destroyed' => 'Deleted a note on the 1 on 1 entry of :happened_at with :employee_name.',
     'employee_log_one_on_one_note_marked_happened' => 'Mark the 1 on 1 entry of :happened_at with :employee_name as happened.',
+    'employee_log_employee_added_to_project' => 'Has been added to the project called :project_name.',
+    'employee_log_employee_removed_from_project' => 'Has been removed from the project called :project_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

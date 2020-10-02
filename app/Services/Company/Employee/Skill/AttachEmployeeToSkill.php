@@ -34,7 +34,7 @@ class AttachEmployeeToSkill extends BaseService
     }
 
     /**
-     * Create a skill.
+     * Attach a skill to an employee.
      *
      * @param array $data
      *

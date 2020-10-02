@@ -7,7 +7,6 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
-use App\Services\Company\Place\CreatePlace;
 use Illuminate\Validation\ValidationException;
 use App\Services\Company\Project\CreateProject;
 use App\Exceptions\ProjectCodeAlreadyExistException;
@@ -81,7 +80,7 @@ class CreateProjectTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new CreatePlace)->execute($request);
+        (new CreateProject)->execute($request);
     }
 
     private function executeService(Employee $michael, Employee $lead = null): void
