@@ -412,6 +412,26 @@ class Employee extends Model
     }
 
     /**
+     * Get the Guess Employee Games records associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function gamesAsPlayer()
+    {
+        return $this->hasMany(GuessEmployeeGame::class, 'employee_who_played_id');
+    }
+
+    /**
+     * Get the Guess Employee Games records associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function gamesAsPersonToFind()
+    {
+        return $this->hasMany(GuessEmployeeGame::class, 'employee_to_find_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

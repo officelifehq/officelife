@@ -37,7 +37,7 @@
             {{ $t('dashboard.team_hired_at_date_with_position', { date: employee.hired_at, position: employee.position.title }) }}
           </span>
           <span v-else class="title db f7 mt1">
-            {{ $t('dashboard.team_birthdate_date', { date: employee.hired_at }) }}
+            {{ $t('dashboard.team_hired_at_date', { date: employee.hired_at }) }}
           </span>
         </span>
       </div>

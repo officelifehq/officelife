@@ -23,7 +23,7 @@ class CompanyQuestionViewHelper
     public static function questions(Company $company): ?Collection
     {
         // get all questions
-        $questions = $company->questions()->with('answers')->get();
+        $questions = $company->questions()->with('answers')->orderBy('id', 'desc')->get();
 
         // if no active question
         if ($questions->count() == 0) {
@@ -68,7 +68,7 @@ class CompanyQuestionViewHelper
         $detailOfAnswer = QuestionHelper::getAnswer($question, $employee);
 
         // building the sentence `This question was asked from Jan 20, 2020 to Mar 21, 2020`
-        $date = CompanyQuestionViewHelper::getInformationAboutActivationDate($question);
+        $date = self::getInformationAboutActivationDate($question);
 
         // preparing the array of answers
         $answerCollection = collect([]);

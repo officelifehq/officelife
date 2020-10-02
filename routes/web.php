@@ -186,6 +186,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('company')->group(function () {
             Route::get('', 'Company\\Company\\CompanyController@index');
+            Route::post('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');
+            Route::get('guessEmployee/replay', 'Company\\Company\\CompanyController@replay');
 
             // Questions and answers
             Route::resource('questions', 'Company\\Company\\QuestionController', ['as' => 'company'])->only([
