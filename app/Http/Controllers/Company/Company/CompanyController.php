@@ -25,6 +25,7 @@ class CompanyController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
+        $statistics = CompanyViewHelper::statistics($company);
         $latestQuestions = CompanyViewHelper::latestQuestions($company);
         $birthdaysThisWeek = CompanyViewHelper::birthdaysThisWeek($company);
         $newHiresThisWeek = CompanyViewHelper::newHiresThisWeek($company);
@@ -34,6 +35,7 @@ class CompanyController extends Controller
         $guessEmployeeGameInformation = CompanyViewHelper::guessEmployeeGameInformation($employee, $company);
 
         return Inertia::render('Company/Index', [
+            'statistics' => $statistics,
             'latestQuestions' => $latestQuestions,
             'birthdaysThisWeek' => $birthdaysThisWeek,
             'newHiresThisWeek' => $newHiresThisWeek,
