@@ -1,12 +1,18 @@
-// Update the VARIANT arg in docker-compose.yml to pick a PHP version: 7, 7.3, 7.4 
+// Update the VARIANT arg in docker-compose.yml to pick a PHP version: 7, 7.3, 7.4
 {
 	"name": "PHP & MariaDB",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/workspace",
-	
+
+    "build": {
+		"dockerfile": "Dockerfile",
+		// Update 'VARIANT' to pick a PHP version: 7, 7.4, 7.3
+		"args": { "VARIANT": "7.4" }
+    },
+
 	// Set *default* container specific settings.json values on container create.
-	"settings": { 
+	"settings": {
 		"terminal.integrated.shell.linux": "/bin/bash",
 		"sqltools.connections": [{
 			"name": "Container database",
@@ -14,9 +20,9 @@
 			"server": "localhost",
 			"previewLimit": 50,
 			"port": 3306,
-			"database": "mariadb",
+			"database": "officelife",
 			"username": "root",
-			"password": "mariadb"
+			"password": ""
 		}]
 	},
 
@@ -30,10 +36,11 @@
 	],
 
 	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
-	"forwardPorts": [8080, 3306]
+	"forwardPorts": [8080, 3306],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	// "postCreateCommand": "sudo rm -rf /var/www/html && sudo ln -s . /var/www/html",
+    // "postCreateCommand": "sudo rm -rf /var/www/html && sudo ln -s . /var/www/html",
+    "postCreateCommand": "cp .env.example .env && yarn install",
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
 	// "remoteUser": "vscode"
