@@ -467,3 +467,13 @@ $factory->define(App\Models\Company\GuessEmployeeGame::class, function () {
         },
     ];
 });
+
+$factory->define(App\Models\Company\Project::class, function () {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'name' => 'API v3',
+        'code' => '123',
+    ];
+});

@@ -432,6 +432,26 @@ class Employee extends Model
     }
 
     /**
+     * Get the project records associated with the employee.
+     *
+     * @return belongsToMany
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
+    /**
+     * Get the project records as lead associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function projectsAsLead()
+    {
+        return $this->hasMany(Project::class, 'project_lead_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

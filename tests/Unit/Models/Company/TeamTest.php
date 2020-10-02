@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
+use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\TeamNews;
@@ -78,6 +79,23 @@ class TeamTest extends TestCase
         ]);
 
         $this->assertTrue($sales->news()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_projects()
+    {
+        $sales = factory(Team::class)->create([]);
+        $apiv3 = factory(Project::class)->create([
+            'company_id' => $sales->company_id,
+        ]);
+        $apiv4 = factory(Project::class)->create([
+            'company_id' => $sales->company_id,
+        ]);
+
+        $sales->projects()->syncWithoutDetaching([$apiv3->id]);
+        $sales->projects()->syncWithoutDetaching([$apiv4->id]);
+
+        $this->assertTrue($sales->projects()->exists());
     }
 
     /** @test */

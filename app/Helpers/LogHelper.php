@@ -749,6 +749,13 @@ class LogHelper
             ]);
         }
 
+        if ($log->action == 'project_created') {
+            $sentence = trans('account.log_project_created', [
+                'project_id' => $log->object->{'project_id'},
+                'project_name' => $log->object->{'project_name'},
+            ]);
+        }
+
         return $sentence;
     }
 

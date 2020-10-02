@@ -15,6 +15,7 @@ use App\Models\Company\Answer;
 use App\Models\Company\Morale;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
@@ -386,6 +387,30 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->gamesAsPersonToFind()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_projects(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        $project = factory(Project::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $dwight->projects()->sync([$project->id]);
+
+        $this->assertTrue($dwight->projects()->exists());
+    }
+
+    /** @test */
+    public function it_gets_the_projects_that_the_employee_leads(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Project::class, 2)->create([
+            'project_lead_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->projectsAsLead()->exists());
     }
 
     /** @test */
