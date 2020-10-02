@@ -18,6 +18,23 @@ use App\Services\Company\GuessEmployeeGame\CreateGuessEmployeeGame;
 class CompanyViewHelper
 {
     /**
+     * Array containing several statistics for this company.
+     *
+     * @param Company $company
+     * @return array
+     */
+    public static function statistics(Company $company): array
+    {
+        $teams = $company->teams->count();
+        $employees = $company->employees()->notLocked()->count();
+
+        return [
+            'number_of_teams' => $teams,
+            'number_of_employees' => $employees,
+        ];
+    }
+
+    /**
      * Array containing all the information about the latest questions in the
      * company.
      *
@@ -32,7 +49,7 @@ class CompanyViewHelper
 
         // get the 3 latest questions asked to every employee of the company
         $latestQuestions = DB::select(
-            'select questions.id as id, questions.title as title, count(answers.id) as count from questions, answers where company_id = ? and questions.id = answers.question_id group by questions.id limit 3;',
+            'select questions.id as id, questions.title as title, count(answers.id) as count from questions, answers where company_id = ? and questions.id = answers.question_id group by questions.id order by questions.id desc limit 3;',
             [$company->id]
         );
 
