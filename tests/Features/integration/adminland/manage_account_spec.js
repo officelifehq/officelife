@@ -6,8 +6,10 @@ describe('Adminland - Basic account management', function () {
 
       cy.createCompany()
 
-      cy.get('[data-cy=header-adminland-link]')
-        .invoke('attr', 'url').then(function (url) {
+      cy.get('[data-cy=header-adminland-link]', { timeout: 600 }).should('be.visible')
+        .invoke('attr', 'href').then(function (url) {
+
+        cy.log(url)
 
         cy.canAccess(url, 100, 'Administration', userId)
         cy.canAccess(url, 200, 'Administration', userId)
@@ -21,12 +23,13 @@ describe('Adminland - Basic account management', function () {
 
       cy.createCompany()
 
-      cy.get('[data-cy=header-adminland-link]')
-        .invoke('attr', 'url').then(function (url) {
+      cy.get('[data-cy=header-adminland-link]').click()
+      cy.get('[data-cy=audit-admin-link]', { timeout: 600 }).should('be.visible')
+        .invoke('attr', 'href').then(function (url) {
 
-        cy.canAccess(url+'/audit', 100, 'Audit logs', userId)
-        cy.canNotAccess(url+'/audit', 200, userId)
-        cy.canNotAccess(url+'/audit', 300, userId)
+        cy.canAccess(url, 100, 'Audit logs', userId)
+        cy.canNotAccess(url, 200, userId)
+        cy.canNotAccess(url, 300, userId)
       })
     })
   })
@@ -36,12 +39,13 @@ describe('Adminland - Basic account management', function () {
 
       cy.createCompany()
 
-      cy.get('[data-cy=header-adminland-link]')
-        .invoke('attr', 'url').then(function (url) {
+      cy.get('[data-cy=header-adminland-link]').click()
+      cy.get('[data-cy=general-admin-link]', { timeout: 600 }).should('be.visible')
+        .invoke('attr', 'href').then(function (url) {
 
-        cy.canAccess(url+'/general', 100, 'General settings', userId)
-        cy.canNotAccess(url+'/general', 200, userId)
-        cy.canNotAccess(url+'/general', 300, userId)
+        cy.canAccess(url, 100, 'General settings', userId)
+        cy.canNotAccess(url, 200, userId)
+        cy.canNotAccess(url, 300, userId)
       })
     })
   })
@@ -65,11 +69,7 @@ describe('Adminland - Basic account management', function () {
 
       cy.get('[data-cy=company-name]').contains(name)
 
-      cy.get('[data-cy=header-adminland-link]')
-        .invoke('attr', 'url').then(function (url) {
-
-        cy.hasAuditLog('Renamed the company from', url+'/general', companyId)
-      })
+      cy.hasAuditLog('Renamed the company from', null, companyId)
     })
   })
 
@@ -89,11 +89,7 @@ describe('Adminland - Basic account management', function () {
 
       cy.get('[data-cy=currency-used]').contains('EUR')
 
-      cy.get('[data-cy=header-adminland-link]')
-        .invoke('attr', 'url').then(function (url) {
-
-        cy.hasAuditLog('Changed the company’s currency from', url+'/general', companyId)
-      })
+      cy.hasAuditLog('Changed the company’s currency from', null, companyId)
     })
   })
 })

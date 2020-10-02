@@ -39,9 +39,10 @@ describe('Adminland - Company news management', function () {
         cy.get('[data-cy=submit-add-news-button]').click()
 
         // check to see if the data is there in the table
-        cy.get('[data-cy=news-list]').contains(news)
-        cy.get('[data-cy=news-list]')
-        .invoke('attr', 'data-cy-items').then(function (items) {
+        cy.get('[data-cy=news-list]', {timeout: 500}).should('be.visible')
+          .contains(news)
+        cy.get('[data-cy=news-list]', {timeout: 500}).should('be.visible')
+          .invoke('attr', 'data-cy-items').then(function (items) {
           let id = _.last(items.split(','));
 
           cy.hasAuditLog('Wrote a company news called '+news+'.', url, companyId)
@@ -59,17 +60,16 @@ describe('Adminland - Company news management', function () {
           cy.get('[data-cy=news-content-textarea').clear()
           cy.get('[data-cy=news-content-textarea').type(faker.lorem.sentences())
           cy.get('[data-cy=submit-update-news-button]').click()
+          cy.get('[data-cy=news-list]', {timeout: 1000}).should('be.visible')
           cy.hasAuditLog('Updated the news called '+news+'.', url, companyId)
 
-          cy.wait(2200)
-
           // delete the company news
-          cy.get('[data-cy=list-delete-button-'+id+']').click()
+          cy.get('[data-cy=list-delete-button-'+id+']', {timeout: 1000}).click()
           cy.get('[data-cy=list-delete-cancel-button-'+id+']').click()
           cy.get('[data-cy=list-delete-button-'+id+']').click()
           cy.get('[data-cy=list-delete-confirm-button-'+id+']').click()
           cy.get('[data-cy=news-list]').should('not.contain', news)
-          cy.hasAuditLog('Destroyed the news called '+news+'.', url, companyId)
+          cy.hasAuditLog('Destroyed the news called '+news+'.', null, companyId)
         })
       })
     })
@@ -83,7 +83,7 @@ describe('Adminland - Company news management', function () {
       cy.createCompany((companyId) => {
 
         cy.get('[data-cy=header-adminland-link]').click()
-        cy.get('[data-cy=news-admin-link]', { timeout: 600 }).should('be.visible')
+        cy.get('[data-cy=news-admin-link]', { timeout: 800 }).should('be.visible')
         .invoke('attr', 'href').then(function (url) {
 
           cy.visit(url)
@@ -98,8 +98,9 @@ describe('Adminland - Company news management', function () {
           cy.get('[data-cy=submit-add-news-button]').click()
 
           // check to see if the data is there in the table
-          cy.get('[data-cy=news-list]').contains(news)
-          cy.get('[data-cy=news-list]')
+          cy.get('[data-cy=news-list]', {timeout: 500}).as('news-list').should('be.visible')
+            .contains(news)
+          cy.get('@news-list')
           .invoke('attr', 'data-cy-items').then(function (items) {
             let id = _.last(items.split(','));
 
@@ -118,17 +119,16 @@ describe('Adminland - Company news management', function () {
             cy.get('[data-cy=news-content-textarea').clear()
             cy.get('[data-cy=news-content-textarea').type(faker.lorem.sentences())
             cy.get('[data-cy=submit-update-news-button]').click()
+            cy.get('@news-list', {timeout: 10000}).should('be.visible')
             cy.hasAuditLog('Updated the news called '+news+'.', url, companyId)
 
-            cy.wait(2200)
-
             // delete the company news
-            cy.get('[data-cy=list-delete-button-'+id+']').click()
+            cy.get('[data-cy=list-delete-button-'+id+']', {timeout: 1000}).click()
             cy.get('[data-cy=list-delete-cancel-button-'+id+']').click()
             cy.get('[data-cy=list-delete-button-'+id+']').click()
             cy.get('[data-cy=list-delete-confirm-button-'+id+']').click()
-            cy.get('[data-cy=news-list]').should('not.contain', news)
-            cy.hasAuditLog('Destroyed the news called '+news+'.', url, companyId)
+            cy.get('@news-list').should('not.contain', news)
+            cy.hasAuditLog('Destroyed the news called '+news+'.', null, companyId)
           })
         })
       })

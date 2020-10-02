@@ -4,12 +4,16 @@ let _ = require('lodash')
 // Create a user
 Cypress.Commands.add('login', (callback) => {
   cy.exec('php artisan setup:frontendtestuser').then((result) => {
-    cy.visit('/_dusk/login/'+result.stdout+'/');
+    cy.loginin(result.stdout);
     cy.visit('/home')
     if (callback !== undefined) {
       callback(result.stdout)
     }
   })
+});
+
+Cypress.Commands.add('loginin', (id) => {
+  cy.visit('/_dusk/login/'+id+'/');
 });
 
 Cypress.Commands.add('loginLegacy', (role) => {
@@ -30,21 +34,28 @@ Cypress.Commands.add('loginLegacy', (role) => {
 Cypress.Commands.add('logout', () => {
   cy.get('[data-cy=header-menu]').click()
   cy.get('[data-cy=logout-button]').click()
+  cy.wait(500)
 })
 
 // Create a company called "Dunder Mifflin"
-Cypress.Commands.add('createCompany', (callback) => {
+Cypress.Commands.add('createCompany', (companyName, callback) => {
   cy.get('[data-cy=create-company-blank-state]').click()
 
   cy.url().should('include', '/company/create')
 
-  cy.get('input[name=name]').type(faker.company.companyName())
-  cy.get('[data-cy=create-company-submit]').click()
+  let _companyName = (typeof companyName === 'string') ? companyName : faker.company.companyName()
+  let _callback = (typeof companyName === 'function') ? companyName : ((typeof callback === 'function') ? callback : undefined)
 
-  cy.get('[data-cy=company-welcome]', { timeout: 6000 }).should('be.visible')
+  cy.log("callback: "+ (typeof _callback))
+
+  cy.get('input[name=name]').type(_companyName)
+  cy.get('[data-cy=create-company-submit]').click()
+  cy.wait(500)
+
+  cy.get('[data-cy=company-welcome]', { timeout: 30000 }).should('be.visible')
   .invoke('attr', 'data-cy-item').then(function (companyId) {
-    if (callback !== undefined) {
-      callback(companyId)
+    if (_callback !== undefined) {
+      _callback(companyId)
     }
   })
 })
@@ -75,12 +86,12 @@ Cypress.Commands.add('createEmployeeStatus', (status) => {
 
 // Create an employee
 Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, sendEmail, callback) => {
-  cy.get('[data-cy=header-adminland-link]').click()
+  cy.get('[data-cy=header-adminland-link]', {timeout: 500}).click()
 
-  cy.get('[data-cy=employee-admin-link]').click()
+  cy.get('[data-cy=employee-admin-link]', {timeout: 500}).click()
   cy.url().should('include', '/account/employees')
 
-  cy.get('[data-cy=add-employee-button]').click()
+  cy.get('[data-cy=add-employee-button]', {timeout: 500}).click()
 
   cy.get('input[name=first_name]').type(firstname)
   cy.get('input[name=last_name]').type(lastname)
@@ -104,9 +115,10 @@ Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, 
 
   cy.get('[data-cy=submit-add-employee-button]').click()
 
+  cy.get('[data-cy=all-employee-link]', {timeout: 800}).should('be.visible').as('all-employee-link')
+
   if (callback !== undefined) {
-    cy.wait(200)
-    cy.get('[data-cy=all-employee-link]', {timeout: 500}).should('be.visible').click()
+    cy.get('@all-employee-link').click()
     cy.get('[data-cy=employee-list]').should('be.visible')
     .invoke('attr', 'data-cy-items').then(function (items) {
       let employeeId = _.last(items.split(','))
@@ -149,7 +161,9 @@ Cypress.Commands.add('canNotAccess', (url, permission, userId = 1) => {
 Cypress.Commands.add('hasAuditLog', (content, redirectUrl, companyId = 1) => {
   cy.visit('/'+companyId+'/account/audit')
   cy.contains(content)
-  cy.visit(redirectUrl)
+  if (redirectUrl) {
+    cy.visit(redirectUrl)
+  }
 })
 
 // Assert that an employee log has been created with the following content
