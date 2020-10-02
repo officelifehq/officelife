@@ -25,8 +25,8 @@
 			"previewLimit": 50,
 			"port": 3306,
 			"database": "officelife",
-			"username": "root",
-			"password": ""
+			"username": "officelife",
+			"password": "officelife"
 		}]
 	},
 
@@ -44,13 +44,13 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": [
-        "sudo rm -rf /var/www/html && sudo ln -s public /var/www/html;",
+        "sudo rm -rf /var/www/html && sudo ln -s ~/workspace/officelife/public /var/www/html;",
         "cp .env.example .env;",
         "composer install --no-suggest;",
         "php artisan key:generate;",
         "php artisan storage:link;",
         "php artisan migrate;",
-        "php artisan lang:generate",
+        "php artisan lang:generate;",
         "yarn install && yarn prod;",
         "apache2ctl start"
     ]

@@ -38,8 +38,8 @@ services:
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: true
       MYSQL_DATABASE: officelife
-      MYSQL_USER: root
-      MYSQL_PASSWORD: ''
+      MYSQL_USER: officelife
+      MYSQL_PASSWORD: officelife
 
     # Add "forwardPorts": ["3306"] to **devcontainer.json** to forward MariaDB locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
