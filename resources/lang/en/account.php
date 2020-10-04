@@ -246,6 +246,7 @@ return [
     'log_project_destroyed' => 'Deleted the project called :project_name.',
     'log_employee_added_to_project' => 'Added :employee_name to the project called :project_name.',
     'log_employee_removed_from_project' => 'Removed :employee_name from the project called :project_name.',
+    'log_project_started' => 'Started the project called :project_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',

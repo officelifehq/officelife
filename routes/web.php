@@ -184,6 +184,15 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{team}/ships/search', 'Company\\Team\\TeamRecentShipController@search');
         });
 
+        Route::prefix('projects')->group(function () {
+            Route::get('', 'Company\\Project\\ProjectController@index');
+            Route::get('{project}', 'Company\\Project\\ProjectController@show');
+            Route::get('{project}/summary', 'Company\\Project\\ProjectController@show');
+            Route::get('{project}/messages', 'Company\\Project\\ProjectController@messages');
+            Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectController@message');
+            Route::get('{project}/create', 'Company\\Project\\ProjectController@create');
+        });
+
         Route::prefix('company')->group(function () {
             Route::get('', 'Company\\Company\\CompanyController@index');
             Route::post('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');
