@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Project extends Model
 {
     /**
+     * Possible statuses.
+     */
+    const CREATED = 'created';
+    const STARTED = 'started';
+    const PAUSED = 'paused';
+    const CANCELLED = 'cancelled';
+    const CLOSED = 'closed';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -15,7 +24,7 @@ class Project extends Model
     protected $fillable = [
         'company_id',
         'project_lead_id',
-        'active',
+        'status',
         'completed',
         'name',
         'code',
@@ -32,7 +41,6 @@ class Project extends Model
      * @var array
      */
     protected $casts = [
-        'active' => 'boolean',
         'completed' => 'boolean',
     ];
 

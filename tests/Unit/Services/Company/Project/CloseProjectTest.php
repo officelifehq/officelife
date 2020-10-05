@@ -7,17 +7,17 @@ use App\Jobs\LogAccountAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
-use App\Services\Company\Project\StartProject;
+use App\Services\Company\Project\CloseProject;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class StartProjectTest extends TestCase
+class CloseProjectTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_starts_a_project_as_administrator(): void
+    public function it_stops_a_project_as_administrator(): void
     {
         $michael = $this->createAdministrator();
         $project = factory(Project::class)->create([
@@ -27,7 +27,7 @@ class StartProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_starts_a_project_as_hr(): void
+    public function it_stops_a_project_as_hr(): void
     {
         $michael = $this->createHR();
         $project = factory(Project::class)->create([
@@ -37,7 +37,7 @@ class StartProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_starts_a_project_as_normal_user(): void
+    public function it_stops_a_project_as_normal_user(): void
     {
         $michael = $this->createEmployee();
         $project = factory(Project::class)->create([
@@ -66,7 +66,7 @@ class StartProjectTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new StartProject)->execute($request);
+        (new CloseProject)->execute($request);
     }
 
     private function executeService(Employee $michael, Project $project = null): void
@@ -79,15 +79,15 @@ class StartProjectTest extends TestCase
             'project_id' => $project->id,
         ];
 
-        (new StartProject)->execute($request);
+        (new CloseProject)->execute($request);
 
         $this->assertDatabaseHas('projects', [
             'id' => $project->id,
-            'status' => Project::STARTED,
+            'status' => Project::CLOSED,
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project) {
-            return $job->auditLog['action'] === 'project_started' &&
+            return $job->auditLog['action'] === 'project_closed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'project_id' => $project->id,

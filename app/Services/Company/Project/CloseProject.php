@@ -7,7 +7,7 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 
-class StartProject extends BaseService
+class CloseProject extends BaseService
 {
     protected array $data;
 
@@ -37,7 +37,7 @@ class StartProject extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->startProject();
+        $this->stopProject();
         $this->log();
 
         return $this->project;
@@ -56,9 +56,9 @@ class StartProject extends BaseService
             ->findOrFail($this->data['project_id']);
     }
 
-    private function startProject(): void
+    private function stopProject(): void
     {
-        $this->project->status = Project::STARTED;
+        $this->project->status = Project::CLOSED;
         $this->project->save();
     }
 
@@ -66,7 +66,7 @@ class StartProject extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_started',
+            'action' => 'project_closed',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

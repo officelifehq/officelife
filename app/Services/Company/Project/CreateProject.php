@@ -80,6 +80,7 @@ class CreateProject extends BaseService
             'company_id' => $this->data['company_id'],
             'project_lead_id' => $this->valueOrNull($this->data, 'project_lead_id'),
             'name' => $this->data['name'],
+            'status' => Project::CREATED,
             'code' => $this->valueOrNull($this->data, 'code'),
             'emoji' => $this->valueOrNull($this->data, 'emoji'),
             'description' => $this->valueOrNull($this->data, 'description'),

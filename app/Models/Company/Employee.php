@@ -674,7 +674,6 @@ class Employee extends Model
      * Check wether the employee is part of the given team.
      *
      * @param int $teamId
-     *
      * @return bool
      */
     public function isInTeam(int $teamId): bool
@@ -699,6 +698,23 @@ class Employee extends Model
         $directReports = $this->getListOfDirectReports();
         $result = $directReports->filter(function ($directReport) use ($employeeId) {
             return $directReport->id === $employeeId;
+        });
+
+        return $result->count() == 1;
+    }
+
+    /**
+     * Check wether the employee is part of the given project.
+     *
+     * @param int $projectId
+     * @return bool
+     */
+    public function isInProject(int $projectId): bool
+    {
+        $projects = $this->projects;
+
+        $result = $projects->filter(function ($project) use ($projectId) {
+            return $project->id === $projectId;
         });
 
         return $result->count() == 1;

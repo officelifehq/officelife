@@ -22,7 +22,7 @@ class ProjectLink extends Model
     ];
 
     /**
-     * Get the team record associated with the project link.
+     * Get the project record associated with the project link.
      *
      * @return BelongsTo
      */

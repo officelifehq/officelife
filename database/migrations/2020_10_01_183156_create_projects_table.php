@@ -18,7 +18,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('project_lead_id')->nullable();
-            $table->boolean('active')->default(false);
+            $table->string('status');
             $table->boolean('completed')->default(false);
             $table->string('name');
             $table->string('code')->nullable();
@@ -56,6 +56,18 @@ class CreateProjectsTable extends Migration
             $table->string('url');
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+        });
+
+        Schema::create('project_statuses', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('project_id');
+            $table->unsignedBigInteger('author_id');
+            $table->string('status');
+            $table->string('title');
+            $table->text('description');
+            $table->timestamps();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->foreign('author_id')->references('id')->on('employees')->onDelete('set null');
         });
     }
 }

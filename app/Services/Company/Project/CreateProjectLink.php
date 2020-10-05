@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Company\Team\Links;
+namespace App\Services\Company\Project;
 
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
@@ -62,8 +62,8 @@ class CreateProjectLink extends BaseService
         $this->validateRules($this->data);
 
         $this->author($this->data['author_id'])
-        ->inCompany($this->data['company_id'])
-        ->asNormalUser()
+            ->inCompany($this->data['company_id'])
+            ->asNormalUser()
             ->canExecuteService();
 
         $this->project = Project::where('company_id', $this->data['company_id'])

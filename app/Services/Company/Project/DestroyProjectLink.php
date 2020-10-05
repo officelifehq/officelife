@@ -6,10 +6,13 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectLink;
 
-class StartProject extends BaseService
+class DestroyProjectLink extends BaseService
 {
     protected array $data;
+
+    protected ProjectLink $projectLink;
 
     protected Project $project;
 
@@ -23,24 +26,22 @@ class StartProject extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'project_id' => 'nullable|integer|exists:projects,id',
+            'project_id' => 'required|integer|exists:projects,id',
+            'project_link_id' => 'required|integer|exists:project_links,id',
         ];
     }
 
     /**
-     * Start a project.
+     * Destroy a project link.
      *
      * @param array $data
-     * @return Project
      */
-    public function execute(array $data): Project
+    public function execute(array $data): void
     {
         $this->data = $data;
         $this->validate();
-        $this->startProject();
+        $this->deleteLink();
         $this->log();
-
-        return $this->project;
     }
 
     private function validate(): void
@@ -54,23 +55,26 @@ class StartProject extends BaseService
 
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
+
+        $this->projectLink = ProjectLink::where('project_id', $this->data['project_id'])
+            ->findOrFail($this->data['project_link_id']);
     }
 
-    private function startProject(): void
+    private function deleteLink(): void
     {
-        $this->project->status = Project::STARTED;
-        $this->project->save();
+        $this->projectLink->delete();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_started',
+            'action' => 'project_link_destroyed',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
+                'project_link_name' => $this->projectLink->label,
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
             ]),

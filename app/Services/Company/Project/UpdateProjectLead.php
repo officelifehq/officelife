@@ -5,13 +5,17 @@ namespace App\Services\Company\Project;
 use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
+use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 
-class StartProject extends BaseService
+class UpdateProjectLead extends BaseService
 {
-    protected array $data;
+    private array $data;
 
-    protected Project $project;
+    private Employee $employee;
+
+    private Project $project;
 
     /**
      * Get the validation rules that apply to the service.
@@ -23,12 +27,13 @@ class StartProject extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'project_id' => 'nullable|integer|exists:projects,id',
+            'project_id' => 'required|integer|exists:projects,id',
+            'employee_id' => 'required|integer|exists:employees,id',
         ];
     }
 
     /**
-     * Start a project.
+     * Update project lead.
      *
      * @param array $data
      * @return Project
@@ -37,7 +42,7 @@ class StartProject extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->startProject();
+        $this->updateLead();
         $this->log();
 
         return $this->project;
@@ -52,13 +57,24 @@ class StartProject extends BaseService
             ->asNormalUser()
             ->canExecuteService();
 
+        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
+
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
     }
 
-    private function startProject(): void
+    private function updateLead(): void
     {
-        $this->project->status = Project::STARTED;
+        // check if the new lead is part of the project - if not, add him
+        if ($this->employee->isInProject($this->project->id)) {
+            return;
+        } else {
+            $this->project->employees()->syncWithoutDetaching([
+                $this->data['employee_id'],
+            ]);
+        }
+
+        $this->project->project_lead_id = $this->data['employee_id'];
         $this->project->save();
     }
 
@@ -66,7 +82,21 @@ class StartProject extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_started',
+            'action' => 'project_team_lead_updated',
+            'author_id' => $this->author->id,
+            'author_name' => $this->author->name,
+            'audited_at' => Carbon::now(),
+            'objects' => json_encode([
+                'project_id' => $this->project->id,
+                'project_name' => $this->project->name,
+                'employee_id' => $this->employee->id,
+                'employee_name' => $this->employee->name,
+            ]),
+        ])->onQueue('low');
+
+        LogEmployeeAudit::dispatch([
+            'employee_id' => $this->employee->id,
+            'action' => 'project_team_lead_updated',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

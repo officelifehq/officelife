@@ -722,4 +722,24 @@ class EmployeeTest extends TestCase
 
         $this->assertFalse($michael->isManagerOf($dwight->id));
     }
+
+    /** @test */
+    public function it_checks_if_the_employee_is_in_a_given_project(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        $api = factory(Project::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $api->employees()->attach($dwight->id);
+
+        $this->assertTrue($dwight->isInProject($api->id));
+
+        $dwight = factory(Employee::class)->create();
+        $api = factory(Project::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $this->assertFalse($dwight->isInProject($api->id));
+    }
 }

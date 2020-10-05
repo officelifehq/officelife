@@ -6,10 +6,14 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectStatus;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class StartProject extends BaseService
+class DestroyProjectStatus extends BaseService
 {
     protected array $data;
+
+    protected ProjectStatus $projectStatus;
 
     protected Project $project;
 
@@ -23,24 +27,23 @@ class StartProject extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'project_id' => 'nullable|integer|exists:projects,id',
+            'project_id' => 'required|integer|exists:projects,id',
+            'status' => 'required|string|max:255',
+            'description' => 'required|string|max:65535',
         ];
     }
 
     /**
-     * Start a project.
+     * Destroy a project status.
      *
      * @param array $data
-     * @return Project
      */
-    public function execute(array $data): Project
+    public function execute(array $data): void
     {
         $this->data = $data;
         $this->validate();
-        $this->startProject();
+        $this->destroyStatus();
         $this->log();
-
-        return $this->project;
     }
 
     private function validate(): void
@@ -54,19 +57,22 @@ class StartProject extends BaseService
 
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
+
+        if (! $this->author->isInProject($this->data['project_id'])) {
+            throw new ModelNotFoundException();
+        }
     }
 
-    private function startProject(): void
+    private function destroyStatus(): void
     {
-        $this->project->status = Project::STARTED;
-        $this->project->save();
+        $this->projectStatus->delete();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_started',
+            'action' => 'project_status_destroyed',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

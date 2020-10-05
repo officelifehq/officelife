@@ -6,10 +6,14 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectStatus;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class StartProject extends BaseService
+class CreateProjectStatus extends BaseService
 {
     protected array $data;
+
+    protected ProjectStatus $projectStatus;
 
     protected Project $project;
 
@@ -23,24 +27,27 @@ class StartProject extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'project_id' => 'nullable|integer|exists:projects,id',
+            'project_id' => 'required|integer|exists:projects,id',
+            'status' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:65535',
         ];
     }
 
     /**
-     * Start a project.
+     * Create a project status.
      *
      * @param array $data
-     * @return Project
+     * @return ProjectStatus
      */
-    public function execute(array $data): Project
+    public function execute(array $data): ProjectStatus
     {
         $this->data = $data;
         $this->validate();
-        $this->startProject();
+        $this->createStatus();
         $this->log();
 
-        return $this->project;
+        return $this->projectStatus;
     }
 
     private function validate(): void
@@ -54,19 +61,28 @@ class StartProject extends BaseService
 
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
+
+        if (! $this->author->isInProject($this->data['project_id'])) {
+            throw new ModelNotFoundException();
+        }
     }
 
-    private function startProject(): void
+    private function createStatus(): void
     {
-        $this->project->status = Project::STARTED;
-        $this->project->save();
+        $this->projectStatus = ProjectStatus::create([
+            'project_id' => $this->data['project_id'],
+            'author_id' => $this->data['author_id'],
+            'status' => $this->data['status'],
+            'title' => $this->data['title'],
+            'description' => $this->data['description'],
+        ]);
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_started',
+            'action' => 'project_status_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

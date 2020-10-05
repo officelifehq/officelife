@@ -63,6 +63,7 @@ class CreateProjectTest extends TestCase
         $jim = $this->createAnotherEmployee($michael);
         factory(Project::class)->create([
             'company_id' => $michael->company_id,
+            'status' => Project::CREATED,
             'code' => '123',
         ]);
 
