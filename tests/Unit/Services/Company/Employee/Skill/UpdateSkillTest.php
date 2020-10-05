@@ -122,4 +122,37 @@ class UpdateSkillTest extends TestCase
                 ]);
         });
     }
+
+    /** @test */
+    public function it_save_skill_without_special_char(): void
+    {
+        $michael = $this->createAdministrator();
+
+        Queue::fake();
+
+        $skill = factory(Skill::class)->create([
+            'company_id' => $michael->company_id,
+            'name' => 'Full Time',
+        ]);
+
+        $request = [
+            'company_id' => $skill->company_id,
+            'author_id' => $michael->id,
+            'skill_id' => $skill->id,
+            'name' => 'Thé Tìmê',
+        ];
+
+        $skill = (new UpdateSkill)->execute($request);
+
+        $this->assertDatabaseHas('skills', [
+            'id' => $skill->id,
+            'company_id' => $skill->company_id,
+            'name' => 'The Time',
+        ]);
+
+        $this->assertInstanceOf(
+            Skill::class,
+            $skill
+        );
+    }
 }
