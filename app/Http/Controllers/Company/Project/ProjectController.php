@@ -84,10 +84,9 @@ class ProjectController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $projectId
      * @return Response
      */
-    public function create(Request $request, int $companyId, int $projectId): Response
+    public function create(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
 

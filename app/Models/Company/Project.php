@@ -27,6 +27,7 @@ class Project extends Model
         'status',
         'completed',
         'name',
+        'summary',
         'code',
         'emoji',
         'description',

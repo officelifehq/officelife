@@ -23,6 +23,7 @@ class CreateProjectsTable extends Migration
             $table->string('name');
             $table->string('code')->nullable();
             $table->string('emoji', 5)->nullable();
+            $table->string('summary')->nullable();
             $table->text('description')->nullable();
             $table->dateTime('started_at')->nullable();
             $table->dateTime('planned_finished_at')->nullable();
@@ -61,7 +62,7 @@ class CreateProjectsTable extends Migration
         Schema::create('project_statuses', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('author_id');
+            $table->unsignedBigInteger('author_id')->nullable();
             $table->string('status');
             $table->string('title');
             $table->text('description');
