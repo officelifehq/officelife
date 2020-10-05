@@ -23,14 +23,14 @@ class UpdateSkillTest extends TestCase
     public function it_updates_a_skill_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $this->executeService($michael, 'php', 'jira');
+        $this->executeService($michael, 'php', 'jira', 'jira');
     }
 
     /** @test */
     public function it_updates_a_skill_as_hr(): void
     {
         $michael = $this->createHR();
-        $this->executeService($michael, 'php', 'jira');
+        $this->executeService($michael, 'php', 'jira', 'jira');
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class UpdateSkillTest extends TestCase
     {
         $this->expectException(NotEnoughPermissionException::class);
         $michael = $this->createEmployee();
-        $this->executeService($michael, 'php', 'jira');
+        $this->executeService($michael, 'php', 'jira', 'jira');
     }
 
     /** @test */
@@ -52,7 +52,7 @@ class UpdateSkillTest extends TestCase
             'name' => 'jira',
         ]);
 
-        $this->executeService($michael, 'jira', 'jira');
+        $this->executeService($michael, 'jira', 'jira', 'jira');
     }
 
     /** @test */
@@ -83,7 +83,14 @@ class UpdateSkillTest extends TestCase
         (new UpdateSkill)->execute($request);
     }
 
-    private function executeService(Employee $michael, string $currentName, string $newName): void
+    /** @test */
+    public function it_save_skill_without_special_char(): void
+    {
+        $michael = $this->createAdministrator();
+        $this->executeService($michael, 'Full Time', 'Thé Tìmê', 'the time');
+    }
+
+    private function executeService(Employee $michael, string $currentName, string $newName, string $name): void
     {
         Queue::fake();
 
@@ -104,7 +111,7 @@ class UpdateSkillTest extends TestCase
         $this->assertDatabaseHas('skills', [
             'id' => $skill->id,
             'company_id' => $skill->company_id,
-            'name' => $newName,
+            'name' => $name,
         ]);
 
         $this->assertInstanceOf(
@@ -112,13 +119,13 @@ class UpdateSkillTest extends TestCase
             $skill
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $skill, $currentName, $newName) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $skill, $currentName, $name) {
             return $job->auditLog['action'] === 'skill_updated' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'skill_id' => $skill->id,
                     'skill_old_name' => $currentName,
-                    'skill_new_name' => $newName,
+                    'skill_new_name' => $name,
                 ]);
         });
     }

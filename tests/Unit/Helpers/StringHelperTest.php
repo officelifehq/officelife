@@ -20,15 +20,4 @@ class StringHelperTest extends TestCase
             StringHelper::parse($content)
         );
     }
-
-    /** @test */
-    public function it_removes_the_accents_from_a_string(): void
-    {
-        $content = 'jéÔï';
-
-        $this->assertEquals(
-            'jeOi',
-            StringHelper::removeLettersWithAccent($content)
-        );
-    }
 }
