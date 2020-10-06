@@ -3,6 +3,7 @@
 namespace App\Services\Company\Employee\Skill;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use App\Helpers\StringHelper;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Skill;
@@ -62,7 +63,8 @@ class UpdateSkill extends BaseService
      */
     private function verifySkillNameUniqueness(): void
     {
-        $name = $this->formatName($this->data['name']);
+        $name = Str::of($this->data['name'])->ascii();
+        $name = strtolower($name);
 
         $uniqueSkill = Skill::where('company_id', $this->data['company_id'])
             ->where('name', $name)
@@ -95,25 +97,13 @@ class UpdateSkill extends BaseService
     }
 
     /**
-     * Remove accents and convert to lowercase.
-     *
-     * @param string $name
-     * @return string
-     */
-    private function formatName(string $name): string
-    {
-        $name = StringHelper::removeLettersWithAccent($name);
-
-        return strtolower($name);
-    }
-
-    /**
      * Actually update the skill.
      */
     private function updateName(): void
     {
         $oldName = $this->skill->name;
-        $name = $this->formatName($this->data['name']);
+        $name = Str::of($this->data['name'])->ascii();
+        $name = strtolower($name);
 
         $this->skill->update([
             'name' => $name,

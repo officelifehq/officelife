@@ -46,87 +46,89 @@ class NotificationHelper
     {
         $sentence = '';
 
-        if ($notification->action == 'dummy_data_generated') {
-            $sentence = trans('account.notification_dummy_data_generated', [
-                'name' => $notification->object->{'company_name'},
-            ]);
-        }
+        switch($notification->action ) {
+            case 'dummy_data_generated':
+                $sentence = trans('account.notification_dummy_data_generated', [
+                    'name' => $notification->object->{'company_name'},
+                ]);
+                break;
 
-        if ($notification->action == 'employee_added_to_company') {
-            $sentence = trans('account.notification_employee_added_to_company', [
-                'name' => $notification->object->{'company_name'},
-            ]);
-        }
+            case 'employee_added_to_company':
+                $sentence = trans('account.notification_employee_added_to_company', [
+                    'name' => $notification->object->{'company_name'},
+                ]);
+                break;
 
-        if ($notification->action == 'employee_added_to_team') {
-            $sentence = trans('account.notification_employee_added_to_team', [
-                'name' => $notification->object->{'team_name'},
-            ]);
-        }
+            case 'employee_added_to_team':
+                $sentence = trans('account.notification_employee_added_to_team', [
+                    'name' => $notification->object->{'team_name'},
+                ]);
+                break;
 
-        if ($notification->action == 'employee_removed_from_team') {
-            $sentence = trans('account.notification_employee_removed_from_team', [
-                'name' => $notification->object->{'team_name'},
-            ]);
-        }
+            case 'employee_removed_from_team':
+                $sentence = trans('account.notification_employee_removed_from_team', [
+                    'name' => $notification->object->{'team_name'},
+                ]);
+                break;
 
-        if ($notification->action == 'team_lead_set') {
-            $sentence = trans('account.notification_team_lead_set', [
-                'name' => $notification->object->{'team_name'},
-            ]);
-        }
+            case 'team_lead_set':
+                $sentence = trans('account.notification_team_lead_set', [
+                    'name' => $notification->object->{'team_name'},
+                ]);
+                break;
 
-        if ($notification->action == 'team_lead_removed') {
-            $sentence = trans('account.notification_team_lead_removed', [
-                'name' => $notification->object->{'team_name'},
-            ]);
-        }
+            case 'team_lead_removed':
+                $sentence = trans('account.notification_team_lead_removed', [
+                    'name' => $notification->object->{'team_name'},
+                ]);
+                break;
 
-        if ($notification->action == 'employee_attached_to_recent_ship') {
-            $sentence = trans('account.notification_employee_attached_to_recent_ship', [
-                'title' => $notification->object->{'ship_title'},
-            ]);
-        }
+            case 'employee_attached_to_recent_ship':
+                $sentence = trans('account.notification_employee_attached_to_recent_ship', [
+                    'title' => $notification->object->{'ship_title'},
+                ]);
+                break;
 
-        if ($notification->action == 'task_assigned') {
-            $sentence = trans('account.notification_task_assigned', [
-                'title' => $notification->object->{'title'},
-                'name' => $notification->object->{'author_name'},
-            ]);
-        }
+            case 'task_assigned':
+                $sentence = trans('account.notification_task_assigned', [
+                    'title' => $notification->object->{'title'},
+                    'name' => $notification->object->{'author_name'},
+                ]);
+                break;
 
-        if ($notification->action == 'expense_assigned_for_validation') {
-            $sentence = trans('account.notification_expense_assigned_for_validation', [
-                'name' => $notification->object->{'name'},
-            ]);
-        }
+            case 'expense_assigned_for_validation':
+                $sentence = trans('account.notification_expense_assigned_for_validation', [
+                    'name' => $notification->object->{'name'},
+                ]);
+                break;
 
-        if ($notification->action == 'expense_accepted_by_manager') {
-            $sentence = trans('account.notification_expense_accepted_by_manager', [
-                'title' => $notification->object->{'title'},
-            ]);
-        }
+            case 'expense_accepted_by_manager':
+                $sentence = trans('account.notification_expense_accepted_by_manager', [
+                    'title' => $notification->object->{'title'},
+                ]);
+                break;
 
-        if ($notification->action == 'expense_rejected_by_manager') {
-            $sentence = trans('account.notification_expense_rejected_by_manager', [
-                'title' => $notification->object->{'title'},
-            ]);
-        }
+            case 'expense_rejected_by_manager':
+                $sentence = trans('account.notification_expense_rejected_by_manager', [
+                    'title' => $notification->object->{'title'},
+                ]);
+               break;
 
-        if ($notification->action == 'expense_accepted_by_accounting') {
-            $sentence = trans('account.notification_expense_accepted_by_accounting', [
-                'title' => $notification->object->{'title'},
-            ]);
-        }
+            case 'expense_accepted_by_accounting':
+                $sentence = trans('account.notification_expense_accepted_by_accounting', [
+                    'title' => $notification->object->{'title'},
+                ]);
+                break;
 
-        if ($notification->action == 'expense_rejected_by_accounting') {
-            $sentence = trans('account.notification_expense_rejected_by_accounting', [
-                'title' => $notification->object->{'title'},
-            ]);
-        }
+            case 'expense_rejected_by_accounting':
+                $sentence = trans('account.notification_expense_rejected_by_accounting', [
+                    'title' => $notification->object->{'title'},
+                ]);
+                break;
 
-        if ($notification->action == 'employee_allowed_to_manage_expenses') {
-            $sentence = trans('account.notification_employee_allowed_to_manage_expenses', []);
+            case 'employee_allowed_to_manage_expenses':
+                $sentence = trans('account.notification_employee_allowed_to_manage_expenses', []);
+                break;
         }
 
         return $sentence;
