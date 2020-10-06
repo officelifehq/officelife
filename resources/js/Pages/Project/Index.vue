@@ -33,7 +33,7 @@
             <span class="pr2">
               All the projects in the company
             </span>
-            <inertia-link href="/1/projects/1/create" class="btn absolute db-l dn">
+            <inertia-link :href="'/' + $page.auth.company.id + '/projects/create'" class="btn absolute db-l dn">
               Create a project
             </inertia-link>
           </p>

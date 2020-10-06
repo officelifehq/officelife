@@ -27,6 +27,7 @@ class CreateProject extends BaseService
             'project_lead_id' => 'nullable|integer|exists:employees,id',
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:255',
+            'summary' => 'nullable|string|max:255',
             'emoji' => 'nullable|string|max:5',
             'description' => 'nullable|string|max:65535',
         ];
@@ -80,11 +81,21 @@ class CreateProject extends BaseService
             'company_id' => $this->data['company_id'],
             'project_lead_id' => $this->valueOrNull($this->data, 'project_lead_id'),
             'name' => $this->data['name'],
+            'summary' => $this->valueOrNull($this->data, 'summary'),
             'status' => Project::CREATED,
             'code' => $this->valueOrNull($this->data, 'code'),
             'emoji' => $this->valueOrNull($this->data, 'emoji'),
             'description' => $this->valueOrNull($this->data, 'description'),
         ]);
+
+        if (! is_null($this->valueOrNull($this->data, 'project_lead_id'))) {
+            (new AddEmployeeToProject)->execute([
+                'company_id' => $this->data['company_id'],
+                'author_id' => $this->data['author_id'],
+                'project_id' => $this->project->id,
+                'employee_id' => $this->data['project_lead_id'],
+            ]);
+        }
     }
 
     private function log(): void

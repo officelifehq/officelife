@@ -106,6 +106,13 @@ class CreateProjectTest extends TestCase
             'name' => 'Livraison API v3',
         ]);
 
+        if ($lead) {
+            $this->assertDatabaseHas('employee_project', [
+                'employee_id' => $lead->id,
+                'project_id' => $project->id,
+            ]);
+        }
+
         $this->assertInstanceOf(
             Project::class,
             $project

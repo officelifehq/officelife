@@ -9,7 +9,8 @@
   padding-left: 34px;
 
   .avatar {
-    top: -2px;
+    top: 6px;
+    left: 7px;
   }
 }
 
@@ -40,10 +41,10 @@
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams/'">Projects list</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/projects/'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
           </li>
           <li class="di">
-            Add a new project
+            {{ $t('app.breadcrumb_project_create') }}
           </li>
         </ul>
       </div>
@@ -52,7 +53,7 @@
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
         <div class="pa3 measure center">
           <h2 class="tc normal mb4 lh-copy">
-            Create a new project
+            {{ $t('project.create_title') }}
 
             <help :url="$page.help_links.team_recent_ship_create" :top="'1px'" />
           </h2>
@@ -60,58 +61,56 @@
           <form @submit.prevent="submit">
             <errors :errors="form.errors" />
 
-            <!-- Title -->
-            <text-input :id="'title'"
-                        v-model="form.title"
-                        :name="'title'"
-                        :datacy="'recent-ship-title-input'"
+            <!-- Name -->
+            <text-input :id="'name'"
+                        v-model="form.name"
+                        :name="'name'"
+                        :datacy="'project-name-input'"
                         :errors="$page.errors.title"
-                        :label="'Name of the project'"
-                        :help="$t('team.team_news_new_title_help')"
+                        :label="$t('project.create_input_name')"
+                        :help="$t('project.create_input_name_help')"
                         :required="true"
             />
 
             <!-- Code -->
-            <text-input :id="'code'"
+            <p v-if="!showCode" class="bt bb-gray pt3 pointer" data-cy="add-summary" @click.prevent="showCode = true"><span class="ba br-100 plus-button">+</span> Add project code</p>
+            <text-input v-if="showCode" :id="'code'"
                         v-model="form.code"
                         :name="'code'"
-                        :datacy="'recent-ship-title-input'"
+                        :datacy="'project-code-input'"
                         :errors="$page.errors.title"
-                        :label="'Project code'"
-                        :help="$t('team.team_news_new_title_help')"
-                        :required="true"
+                        :label="$t('project.create_input_code')"
+                        @esc-key-pressed="showCode = false"
             />
 
-            <!-- Description -->
-            <p v-if="!showDescription" class="bt bb-gray pt3 pointer" data-cy="ship-add-description" @click.prevent="showDescription = true"><span class="ba br-100 plus-button">+</span> Add description</p>
-            <div v-if="showDescription" class="">
-              <text-area v-model="form.description"
-                         :label="$t('team.recent_ship_new_description')"
-                         :datacy="'ship-description'"
-                         :required="false"
-                         :rows="10"
-                         :help="$t('team.team_news_new_content_help')"
-              />
-            </div>
+            <!-- Summary -->
+            <p v-if="!showSummary" class="bt bb-gray pt3 pointer" data-cy="add-summary" @click.prevent="showSummary = true"><span class="ba br-100 plus-button">+</span> Add summary</p>
+            <text-area v-if="showSummary"
+                       v-model="form.summary"
+                       :label="$t('project.create_input_summary')"
+                       :datacy="'project-summary-input'"
+                       :required="false"
+                       :rows="10"
+                       :help="$t('project.create_input_summary_help')"
+                       @esc-key-pressed="showSummary = false"
+            />
 
             <template>
               <!-- list of people who worked on this ship -->
-              <p v-if="!showTeamMembers && form.employees.length == 0" class="bt bb-gray pt3 pointer" data-cy="ship-add-employees" @click.prevent="showTeamMembers = true"><span class="ba br-100 plus-button">+</span> Give credit to specific people</p>
-              <p v-if="!showTeamMembers && form.employees.length > 0" class="bt bb-gray pt3 pointer" data-cy="ship-add-employees" @click.prevent="showTeamMembers = true"><span class="ba br-100 plus-button">+</span> Add additional credits</p>
+              <p v-if="!showAssignProjectLead && !form.projectLead" class="bt bb-gray pt3 pointer" data-cy="ship-add-employees" @click.prevent="showAssignProjectLead = true"><span class="ba br-100 plus-button">+</span> Add a project lead</p>
 
-              <div v-if="showTeamMembers == true" class="bb bb-gray bt pt3">
+              <div v-if="showAssignProjectLead == true" class="bb bb-gray bt pt3">
                 <form class="relative" @submit.prevent="search">
                   <text-input :id="'name'"
                               v-model="form.searchTerm"
                               :name="'name'"
                               :datacy="'ship-employees'"
                               :errors="$page.errors.name"
-                              :label="$t('team.recent_ship_new_credit')"
-                              :placeholder="$t('team.recent_ship_new_credit_help')"
+                              :label="$t('project.create_input_project_lead')"
                               :required="false"
                               @keyup="search"
                               @input="search"
-                              @esc-key-pressed="showTeamMembers = false"
+                              @esc-key-pressed="showAssignProjectLead = false"
                   />
                   <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
                 </form>
@@ -132,19 +131,18 @@
                 </ul>
               </div>
 
-              <div v-show="form.employees.length > 0" class="ba bb-gray mb3 mt4">
-                <div v-for="employee in form.employees" :key="employee.id" class="pa2 db bb-gray bb" data-cy="members-list">
-                  <span class="pl3 db relative team-member">
-                    <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
+              <div v-if="form.projectLead" class="mb3 mt2 bt bb-gray pt3">
+                <p class="mt0 db fw4 lh-copy f6 mb1">Lead by</p>
+                <span class="ba bb-gray br3 pa2 pl3 db relative team-member">
+                  <img loading="lazy" :src="form.projectLead.avatar" class="br-100 absolute avatar" alt="avatar" />
 
-                    {{ employee.name }}
+                  {{ form.projectLead.name }}
 
-                    <!-- remove -->
-                    <a href="#" class="db f7 mt1 c-delete dib fr" :data-cy="'remove-employee-' + employee.id" @click.prevent="detach(employee)">
-                      {{ $t('app.remove') }}
-                    </a>
-                  </span>
-                </div>
+                  <!-- remove -->
+                  <a href="#" class="db f7 mt1 c-delete dib fr" :data-cy="'remove-employee-' + form.projectLead.id" @click.prevent="detach(form.projectLead)">
+                    {{ $t('app.remove') }}
+                  </a>
+                </span>
               </div>
             </template>
 
@@ -152,11 +150,11 @@
             <div class="mb4 mt5">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/teams/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.auth.company.id + '/projects/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-add-ship-button'" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.create')" :cypress-selector="'submit-add-ship-button'" />
               </div>
             </div>
           </form>
@@ -196,14 +194,16 @@ export default {
 
   data() {
     return {
-      showDescription: false,
-      showTeamMembers: false,
+      showCode: false,
+      showSummary: false,
+      showAssignProjectLead: false,
       form: {
-        title: null,
+        name: null,
         code: null,
+        summary: null,
         description: null,
         searchTerm: null,
-        employees: [],
+        projectLead: null,
         errors: [],
       },
       processingSearch: false,
@@ -214,6 +214,46 @@ export default {
   },
 
   methods: {
+    submit() {
+      this.loadingState = 'loading';
+
+      axios.post('/' + this.$page.auth.company.id + '/projects', this.form)
+        .then(response => {
+          this.$inertia.visit(response.data.data.url);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    search: _.debounce(
+      function() {
+
+        if (this.form.searchTerm != '') {
+          this.processingSearch = true;
+
+          axios.post('/' + this.$page.auth.company.id + '/projects/search', this.form)
+            .then(response => {
+              this.potentialMembers = response.data.data;
+              this.processingSearch = false;
+            })
+            .catch(error => {
+              console.log(error);
+              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.processingSearch = false;
+            });
+        } else {
+          this.potentialMembers = [];
+        }
+      }, 500),
+
+    add(employee) {
+      this.form.projectLead = employee;
+      this.potentialMembers = [];
+      this.showAssignProjectLead = false;
+      this.form.searchTerm = null;
+    },
   }
 };
 
