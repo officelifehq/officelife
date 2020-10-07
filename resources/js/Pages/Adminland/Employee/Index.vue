@@ -31,54 +31,26 @@
             {{ $t('account.employees_title', {company: $page.auth.company.name}) }}
           </h2>
 
-          <!-- HEADER: number of employees and button -->
-          <p class="relative adminland-headline">
-            <span class="db mb3 di-l lh-copy pb0-l pb3">
-              {{ $t('account.employees_number_employees', { company: $page.auth.company.name, total: employees.length, active: numberOfActiveAccounts, locked: numberOfLockedAccounts}) }}
-            </span>
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/employees/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
-              {{ $t('account.employees_cta') }}
-            </inertia-link>
-          </p>
+          <ul class="list pl3">
+            <li class="mb5"><span class="mr1">🧸</span> <inertia-link :href="statistics.url_new" :data-cy="'add-employee-button'">{{ $t('account.employees_cta') }}</inertia-link></li>
 
-          <!-- list of employees -->
-          <ul class="list pl0 mt0 center">
-            <li
-              v-for="currentEmployee in employees" :key="currentEmployee.id"
-              class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10 employee-item"
-              data-cy="employee-list"
-            >
-              <img loading="lazy" class="w2 h2 w3-ns h3-ns br-100" :src="currentEmployee.avatar" width="64" height="64"
-                   alt="avatar"
-              />
-              <div class="pl3 flex-auto">
-                <span class="db black-70 f4 mb1" :name="currentEmployee.name" :data-invitation-link="currentEmployee.invitation_link">
-                  {{ currentEmployee.name }} <span v-if="currentEmployee.lock_status" data-cy="lock-status">🔐</span>
-                </span>
-                <span v-if="currentEmployee.invited" class="db f6 ">{{ 'Invited by email' }}</span>
-                <ul class="f6 list pl0">
-                  <li class="di pr2">
-                    <span class="badge f7">
-                      {{ $t('app.permission_' + currentEmployee.permission_level) }}
-                    </span>
-                  </li>
-                  <li class="di pr2">
-                    <inertia-link :href="currentEmployee.url_view" data-cy="employee-view">{{ $t('app.view') }}</inertia-link>
-                  </li>
-                  <li v-if="!currentEmployee.invited" class="di pr2">
-                    <inertia-link :href="'/account/employees/' + currentEmployee.id + '/permissions'">{{ $t('account.employees_change_permission') }}</inertia-link>
-                  </li>
-                  <li v-if="currentEmployee.id != $page.auth.employee.id && !currentEmployee.lock_status && !currentEmployee.invited" class="di pr2">
-                    <inertia-link :href="currentEmployee.url_lock" :data-cy="'lock-account-' + currentEmployee.id">{{ $t('account.employees_lock_account') }}</inertia-link>
-                  </li>
-                  <li v-if="currentEmployee.id != $page.auth.employee.id && currentEmployee.lock_status" class="di pr2">
-                    <inertia-link :href="currentEmployee.url_unlock" :data-cy="'unlock-account-' + currentEmployee.id">{{ $t('account.employees_unlock_account') }}</inertia-link>
-                  </li>
-                  <li v-if="currentEmployee.id != $page.auth.employee.id" class="di">
-                    <inertia-link :href="currentEmployee.url_delete" class="c-delete" data-cy="delete-account">{{ $t('app.delete') }}</inertia-link>
-                  </li>
-                </ul>
-              </div>
+            <li class="mb3 gray f6">{{ $t('account.employees_description_1') }}</li>
+            <li class="mb5"><span class="mr1">👉</span> <inertia-link :href="statistics.url_all">{{ $t('account.employees_cta_view_all_employees', { count: statistics.number_of_employees }) }}</inertia-link></li>
+            <li class="mb3 gray f6">{{ $t('account.employees_description_2') }}</li>
+            <li class="mb3">
+              <span class="mr1">👉</span>
+              <inertia-link v-if="statistics.number_of_active_accounts != 0" :href="statistics.url_active">{{ $t('account.employees_cta_view_active_employees', { count: statistics.number_of_active_accounts }) }}</inertia-link>
+              <span v-else class="gray">{{ $t('account.employees_cta_view_active_employees', { count: 0 }) }}</span>
+            </li>
+            <li class="mb3">
+              <span class="mr1">👉</span>
+              <inertia-link v-if="statistics.number_of_locked_accounts != 0" :href="statistics.url_locked">{{ $t('account.employees_cta_view_locked_employees', { count: statistics.number_of_locked_accounts }) }}</inertia-link>
+              <span v-else class="gray">{{ $t('account.employees_cta_view_locked_employees', { count: 0 }) }}</span>
+            </li>
+            <li class="mb3">
+              <span class="mr1">👉</span>
+              <inertia-link v-if="statistics.number_of_employees_without_hire_date != 0" :href="statistics.url_no_hiring_date">{{ $t('account.employees_cta_view_employees_without_hiring_date', { count: statistics.number_of_employees_without_hire_date }) }}</inertia-link>
+              <span v-else class="gray">{{ $t('account.employees_cta_view_employees_without_hiring_date', { count: 0 }) }}</span>
             </li>
           </ul>
         </div>
@@ -100,17 +72,9 @@ export default {
       type: Array,
       default: null,
     },
-    employees: {
+    statistics: {
       type: Array,
       default: null,
-    },
-    numberOfLockedAccounts: {
-      type: Number,
-      default: 0,
-    },
-    numberOfActiveAccounts: {
-      type: Number,
-      default: 0,
     },
   },
 

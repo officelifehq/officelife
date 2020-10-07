@@ -61,6 +61,9 @@ nav {
             <inertia-link v-if="$page.auth.employee.display_welcome_message" :href="'/' + $page.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">👋</span> {{ $t('app.header_welcome') }}
             </inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/company'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
+              <span class="mr1">⛺️</span> {{ $t('app.header_company') }}
+            </inertia-link>
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">🏡</span> {{ $t('app.header_home') }}
             </inertia-link>
@@ -69,9 +72,6 @@ nav {
             </inertia-link>
             <inertia-link :href="'/' + $page.auth.company.id + '/teams'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               <span class="mr1">👫</span> {{ $t('app.header_teams') }}
-            </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/company'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
-              <span class="mr1">⛺️</span> {{ $t('app.header_company') }}
             </inertia-link>
             <a data-cy="header-find-link" class="mr1 no-underline pa2 bb-0 special pointer" @click="showFindModal">
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
