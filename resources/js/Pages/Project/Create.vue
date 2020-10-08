@@ -73,7 +73,7 @@
             />
 
             <!-- Code -->
-            <p v-if="!showCode" class="bt bb-gray pt3 pointer" data-cy="add-summary" @click.prevent="showCode = true"><span class="ba br-100 plus-button">+</span> Add project code</p>
+            <p v-if="!showCode" class="bt bb-gray pt3 pointer" data-cy="add-code" @click.prevent="showCode = true"><span class="ba br-100 plus-button">+</span> Add project code</p>
             <text-input v-if="showCode" :id="'code'"
                         v-model="form.code"
                         :name="'code'"
@@ -97,14 +97,14 @@
 
             <template>
               <!-- list of people who worked on this ship -->
-              <p v-if="!showAssignProjectLead && !form.projectLead" class="bt bb-gray pt3 pointer" data-cy="ship-add-employees" @click.prevent="showAssignProjectLead = true"><span class="ba br-100 plus-button">+</span> Add a project lead</p>
+              <p v-if="!showAssignProjectLead && !form.projectLead" class="bt bb-gray pt3 pointer" data-cy="project-assign-project-lead" @click.prevent="showAssignProjectLead = true"><span class="ba br-100 plus-button">+</span> Add a project lead</p>
 
               <div v-if="showAssignProjectLead == true" class="bb bb-gray bt pt3">
                 <form class="relative" @submit.prevent="search">
                   <text-input :id="'name'"
                               v-model="form.searchTerm"
                               :name="'name'"
-                              :datacy="'ship-employees'"
+                              :datacy="'project-lead-search'"
                               :errors="$page.errors.name"
                               :label="$t('project.create_input_project_lead')"
                               :required="false"
@@ -139,7 +139,7 @@
                   {{ form.projectLead.name }}
 
                   <!-- remove -->
-                  <a href="#" class="db f7 mt1 c-delete dib fr" :data-cy="'remove-employee-' + form.projectLead.id" @click.prevent="detach(form.projectLead)">
+                  <a href="#" class="db f7 mt1 c-delete dib fr" :data-cy="'remove-project-lead-' + form.projectLead.id" @click.prevent="unassignProjectLead()">
                     {{ $t('app.remove') }}
                   </a>
                 </span>
@@ -154,7 +154,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.create')" :cypress-selector="'submit-add-ship-button'" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.create')" :cypress-selector="'submit-create-project-button'" />
               </div>
             </div>
           </form>
@@ -250,6 +250,13 @@ export default {
 
     add(employee) {
       this.form.projectLead = employee;
+      this.potentialMembers = [];
+      this.showAssignProjectLead = false;
+      this.form.searchTerm = null;
+    },
+
+    unassignProjectLead() {
+      this.form.projectLead = null;
       this.potentialMembers = [];
       this.showAssignProjectLead = false;
       this.form.searchTerm = null;

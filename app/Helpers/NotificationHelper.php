@@ -46,7 +46,7 @@ class NotificationHelper
     {
         $sentence = '';
 
-        switch($notification->action ) {
+        switch ($notification->action) {
             case 'dummy_data_generated':
                 $sentence = trans('account.notification_dummy_data_generated', [
                     'name' => $notification->object->{'company_name'},

@@ -21,7 +21,7 @@
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            Project list
+            {{ $t('app.breadcrumb_project_list') }}
           </li>
         </ul>
       </div>
@@ -31,62 +31,22 @@
         <div class="mt4 mt5-l center section-btn relative mb5">
           <p>
             <span class="pr2">
-              All the projects in the company
+              {{ $t('project.index_title') }}
             </span>
             <inertia-link :href="'/' + $page.auth.company.id + '/projects/create'" class="btn absolute db-l dn">
-              Create a project
+              {{ $t('project.index_cta') }}
             </inertia-link>
           </p>
         </div>
 
         <div class="mt2 grid">
-          <div class="w-100 bg-white box pa3 mb3 mr3">
+          <div v-for="project in projects.projects" :key="project.id" class="w-100 bg-white box pa3 mb3 mr3">
             <h2 class="fw4 f4 mt0 mb2 lh-copy">
-              <a href="/1/projects/1">Name of the project</a> <span class="f7 gray">
-                SDN-123
+              <inertia-link :href="project.url">{{ project.name }}</inertia-link> <span class="f7 gray">
+                {{ project.code }}
               </span>
             </h2>
-            <p class="mv0 lh-copy f6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum...</p>
-          </div>
-          <div class="w-100 bg-white box pa3 mb3 mr3">
-            <h2 class="fw4 f4 mt0 mb2 lh-copy">
-              Name of the project <span class="f7 gray">
-                SDN-123
-              </span>
-            </h2>
-            <p class="mv0 lh-copy f6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum...</p>
-          </div>
-          <div class="w-100 bg-white box pa3 mb3 mr3">
-            <h2 class="fw4 f4 mt0 mb2 lh-copy">
-              Name of the project <span class="f7 gray">
-                SDN-123
-              </span>
-            </h2>
-            <p class="mv0 lh-copy f6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum...</p>
-          </div>
-          <div class="w-100 bg-white box pa3 mb3 mr3">
-            <h2 class="fw4 f4 mt0 mb2 lh-copy">
-              Name of the project <span class="f7 gray">
-                SDN-123
-              </span>
-            </h2>
-            <p class="mv0 lh-copy f6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum...</p>
-          </div>
-          <div class="w-100 bg-white box pa3 mb3 mr3">
-            <h2 class="fw4 f4 mt0 mb2 lh-copy">
-              Name of the project <span class="f7 gray">
-                SDN-123
-              </span>
-            </h2>
-            <p class="mv0 lh-copy f6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum...</p>
-          </div>
-          <div class="w-100 bg-white box pa3 mb3 mr3">
-            <h2 class="fw4 f4 mt0 mb2 lh-copy">
-              Name of the project <span class="f7 gray">
-                SDN-123
-              </span>
-            </h2>
-            <p class="mv0 lh-copy f6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum...</p>
+            <p class="mv0 lh-copy f6">{{ project.summary }}</p>
           </div>
         </div>
       </div>
@@ -103,6 +63,10 @@ export default {
   },
 
   props: {
+    projects: {
+      type: Object,
+      default: null,
+    },
     notifications: {
       type: Array,
       default: null,
@@ -112,6 +76,13 @@ export default {
   data() {
     return {
     };
+  },
+
+  mounted() {
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
   },
 
   methods: {

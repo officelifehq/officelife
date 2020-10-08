@@ -24,42 +24,23 @@
             <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/projects'">Project list</inertia-link>
+            <inertia-link :href="'/' + $page.auth.company.id + '/projects'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
           </li>
           <li class="di">
-            Project name
+            {{ $t('app.breadcrumb_project_detail') }}
           </li>
         </ul>
       </div>
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
+        <h2 class="tc mb2">
+          {{ project.name }} <span>{{ project.code }}</span>
+        </h2>
+        <p class="tc mt0 mb4">{{ project.summary }}</p>
+
         <!-- Menu -->
-        <div class="center br3 mb5 tc">
-          <div class="cf dib btn-group">
-            <inertia-link :href="'/' + $page.auth.company.id + '/projects/1'" class="f6 fl ph3 pv2 dib pointer no-underline">
-              Project summary
-            </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/projects/1/messages'" class="f6 fl ph3 pv2 dib pointer no-underline">
-              Messages
-            </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
-              Tasks
-            </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
-              Calendar
-            </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
-              Members
-            </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
-              Finance
-            </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
-              Files
-            </inertia-link>
-          </div>
-        </div>
+        <project-menu />
 
         <div class="cf center">
           <!-- LEFT COLUMN -->
@@ -68,23 +49,29 @@
             <div class="mb2 fw5 relative">
               <span class="mr1">
                 🏔
-              </span> Description
+              </span> {{ $t('project.summary_description') }}
             </div>
 
             <div class="bg-white box mb4 pa3">
-              <h2 class="mt0 mb2 fw4 lh-copy">
-                Project name <span class="f7 gray">
-                  SDN-123
-                </span>
-              </h2>
-              <p class="mt0 lh-copy bb bb-gray pb3 mb3">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.</p>
+              <div v-if="project.parsed_description" class="parsed-content" v-html="project.parsed_description"></div>
+              <div v-else class="mb0 mt0 lh-copy f6 tc">
+                This project doesn’t have a description.
+              </div>
+            </div>
 
-              <h3 class="ttc f7 gray mt0 mb2 fw4">
-                <span class="ttu">
-                  Latest status
-                </span> • Written by Michael Scott on Oct 4th
-              </h3>
-              <p class="lh-copy mt0 mb0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.</p>
+            <div>
+              <div class="mb2 fw5 relative">
+                <span class="mr1">
+                  👩‍🏫
+                </span> {{ $t('project.summary_status') }}
+              </div>
+
+              <div class="bg-white box mb4 pa3">
+                <h3 class="ttc f7 gray mt0 mb2 fw4">
+                  Written by Michael Scott on Oct 4th
+                </h3>
+                <p class="lh-copy mt0 mb0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.</p>
+              </div>
             </div>
           </div>
 
@@ -95,7 +82,7 @@
               <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="'Start project'" />
             </div>
 
-            <div class="bg-white box mb4 pa3">
+            <div class="bg-white box mb2 pa3">
               <!-- lead by -->
               <h3 class="ttc f7 gray mt0 mb2 fw4 ttu">
                 Lead by
@@ -128,6 +115,10 @@
               </h3>
               <p class="mv0">Jan 02, 2019</p>
             </div>
+
+            <ul class="list pl0">
+              <li><inertia-link :href="project.url_delete" data-cy="project-delete" class="f6 gray">Delete the project</inertia-link></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -138,16 +129,22 @@
 <script>
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
+import ProjectMenu from '@/Pages/Project/Partials/ProjectMenu';
 
 export default {
   components: {
     Layout,
     LoadingButton,
+    ProjectMenu,
   },
 
   props: {
     notifications: {
       type: Array,
+      default: null,
+    },
+    project: {
+      type: Object,
       default: null,
     },
   },

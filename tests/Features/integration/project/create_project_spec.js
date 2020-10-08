@@ -1,60 +1,70 @@
-describe('Employee - Assign employee statuses', function () {
-  it('should assign an employee status and remove it as administrator', function () {
+describe('Project - project creation', function () {
+  it('should let an employee create a project as administrator', function () {
     cy.login()
 
     cy.createCompany()
 
-    cy.createEmployeeStatus('Dunder Mifflin')
+    // make sure we can create a project with only the name of the project
+    cy.createProject(1, 'project 1')
+    cy.url().should('include', '/1/projects/1')
 
-    cy.visit('/1/employees/1')
+    // make sure we can create a project name + code
+    cy.createProject(1, 'project 2', 'code project 2')
+    cy.url().should('include', '/1/projects/2')
 
-    // Open the modal
-    cy.get('[data-cy=open-status-modal-blank]').click()
-    cy.get('[data-cy=list-status-1]').click()
-    cy.get('[data-cy=status-name-right-permission]').contains('Dunder Mifflin')
-    cy.hasAuditLog('Assigned the employee status called Dunder Mifflin', '/1/employees/1')
-    cy.hasEmployeeLog('Assigned the employee status called Dunder Mifflin.', '/1/employees/1')
+    // make sure we can create a project name + code + summary
+    cy.createProject(1, 'project 3', 'code project 3', 'summary project 3')
+    cy.url().should('include', '/1/projects/3')
 
-    // Open the modal to remove the assignment
-    cy.get('[data-cy=open-status-modal').click()
-    cy.get('[data-cy=status-reset-button]').click()
-    cy.get('[data-cy=open-status-modal-blank]').should('not.contain', 'Dunder Mifflin')
-    cy.hasAuditLog('Removed the employee status called Dunder Mifflin from', '/1/employees/1')
-    cy.hasEmployeeLog('Removed the employee status called Dunder Mifflin', '/1/employees/1')
+    // make sure we can create a project name + code + summary + project lead
+    cy.createProject(1, 'project 4', 'code project 4', 'summary project 4', 1)
+    cy.url().should('include', '/1/projects/4')
   })
 
-  it('should assign an employee status and remove it as hr', function () {
+  it('should create a project as hr', function () {
     cy.login()
 
     cy.createCompany()
-
-    cy.createEmployeeStatus('Dunder Mifflin')
-
     cy.changePermission(1, 200)
-    cy.visit('/1/employees/1')
 
-    // Open the modal
-    cy.get('[data-cy=open-status-modal-blank]').click()
-    cy.get('[data-cy=list-status-1]').click()
-    cy.get('[data-cy=status-name-right-permission]').contains('Dunder Mifflin')
-    cy.hasEmployeeLog('Assigned the employee status called Dunder Mifflin.', '/1/employees/1')
+    // make sure we can create a project with only the name of the project
+    cy.createProject(1, 'project 1')
+    cy.url().should('include', '/1/projects/1')
 
-    // Open the modal to remove the assignment
-    cy.get('[data-cy=open-status-modal').click()
-    cy.get('[data-cy=status-reset-button]').click()
-    cy.get('[data-cy=open-status-modal-blank]').should('not.contain', 'Dunder Mifflin')
-    cy.hasEmployeeLog('Removed the employee status called Dunder Mifflin', '/1/employees/1')
+    // make sure we can create a project name + code
+    cy.createProject(1, 'project 2', 'code project 2')
+    cy.url().should('include', '/1/projects/2')
+
+    // make sure we can create a project name + code + summary
+    cy.createProject(1, 'project 3', 'code project 3', 'summary project 3')
+    cy.url().should('include', '/1/projects/3')
+
+    // make sure we can create a project name + code + summary + project lead
+    cy.createProject(1, 'project 4', 'code project 4', 'summary project 4', 1)
+    cy.url().should('include', '/1/projects/4')
   })
 
-  it('should not let a normal user assign employee status', function () {
+  it('should create a project as normal user', function () {
     cy.login()
 
     cy.createCompany()
 
     cy.changePermission(1, 300)
-    cy.visit('/1/employees/1')
 
-    cy.contains('No status set')
-    cy.get('[data-cy=open-status-modal-blank]').should('not.exist')
+    // make sure we can create a project with only the name of the project
+    cy.createProject(1, 'project 1')
+    cy.url().should('include', '/1/projects/1')
+
+    // make sure we can create a project name + code
+    cy.createProject(1, 'project 2', 'code project 2')
+    cy.url().should('include', '/1/projects/2')
+
+    // make sure we can create a project name + code + summary
+    cy.createProject(1, 'project 3', 'code project 3', 'summary project 3')
+    cy.url().should('include', '/1/projects/3')
+
+    // make sure we can create a project name + code + summary + project lead
+    cy.createProject(1, 'project 4', 'code project 4', 'summary project 4', 1)
+    cy.url().should('include', '/1/projects/4')
   })
 })

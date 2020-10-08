@@ -189,7 +189,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('create', 'Company\\Project\\ProjectController@create');
             Route::post('', 'Company\\Project\\ProjectController@store');
             Route::post('search', 'Company\\Project\\ProjectController@search');
+
+            // project detail
             Route::get('{project}', 'Company\\Project\\ProjectController@show')->name('projects.show');
+            Route::get('{project}/delete', 'Company\\Project\\ProjectController@delete')->name('projects.delete');
+            Route::delete('{project}', 'Company\\Project\\ProjectController@destroy');
             Route::get('{project}/summary', 'Company\\Project\\ProjectController@show');
             Route::get('{project}/messages', 'Company\\Project\\ProjectController@messages');
             Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectController@message');
