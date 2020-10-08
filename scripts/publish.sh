@@ -16,4 +16,5 @@ fi
 
 set -v
 
+gh auth login
 gh release upload $version $file
