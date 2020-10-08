@@ -8,7 +8,6 @@
       "@semantic-release/commit-analyzer", {
         "preset": "angular",
         "releaseRules": [
-          {"type": "docs", "scope": "README", "release": "patch"},
           {"type": "refactor", "scope": "inertia", "release": "minor"},
           {"type": "refactor", "release": "patch"},
           {"scope": "no-release", "release": false}
@@ -26,11 +25,11 @@
         }
       }
     ],
-    [
-      "@semantic-release/github",
-    ],
+    "@semantic-release/github",
     [
       "@semantic-release/exec", {
+        "prepareCmd" : "scripts/package.sh '${nextRelease.version}'",
+        "publishCmd" : "scripts/publish.sh '${nextRelease.version}' 'officelife-${nextRelease.version}.tar.bz2'"
       }
     ]
   ]
