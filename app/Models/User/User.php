@@ -4,7 +4,6 @@ namespace App\Models\User;
 
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +12,7 @@ use App\Http\Resources\Company\Notification\Notification as NotificationResource
 
 class User extends Authenticatable
 {
-    use Notifiable, LogsActivity, HasApiTokens;
+    use Notifiable, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
