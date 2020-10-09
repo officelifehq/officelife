@@ -1,13 +1,28 @@
 <style lang="scss" scoped>
-.overflow-ellipsis {
-  text-overflow: ellipsis;
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-row-gap: 20px;
   grid-column-gap: 20px;
+}
+
+.dot {
+  height: 11px;
+  width: 11px;
+  top: -1px;
+}
+
+.dot-created,
+.dot-paused {
+  background-color: #b7b7b7;
+}
+
+.dot-started {
+  background-color: #56bb76;
+}
+
+.dot-closed {
+  background-color: #c8d7cd;
 }
 </style>
 
@@ -41,7 +56,8 @@
 
         <div class="mt2 grid">
           <div v-for="project in projects.projects" :key="project.id" class="w-100 bg-white box pa3 mb3 mr3">
-            <h2 class="fw4 f4 mt0 mb2 lh-copy">
+            <h2 class="fw4 f4 mt0 mb2 lh-copy relative">
+              <span :class="'dot-' + project.status" class="dib relative mr1 br-100 dot"></span>
               <inertia-link :href="project.url">{{ project.name }}</inertia-link> <span class="f7 gray">
                 {{ project.code }}
               </span>

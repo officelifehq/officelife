@@ -25,6 +25,7 @@ class ProjectViewHelper
                 'name' => $project->name,
                 'code' => $project->code,
                 'summary' => $project->summary,
+                'status' => $project->status,
                 'url' => route('projects.show', [
                     'company' => $company,
                     'project' => $project,
@@ -50,6 +51,7 @@ class ProjectViewHelper
         $lead = $project->lead;
 
         return [
+            'id' => $project->id,
             'name' => $project->name,
             'code' => $project->code,
             'summary' => $project->summary,

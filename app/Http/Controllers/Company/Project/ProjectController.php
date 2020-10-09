@@ -11,6 +11,9 @@ use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Services\Company\Project\CloseProject;
+use App\Services\Company\Project\PauseProject;
+use App\Services\Company\Project\StartProject;
 use App\Services\Company\Project\CreateProject;
 use App\Services\Company\Project\DestroyProject;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
@@ -54,6 +57,84 @@ class ProjectController extends Controller
             'project' => ProjectViewHelper::summary($project, $company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
+    }
+
+    /**
+     * Start the project.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function start(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+        ];
+
+        $project = (new StartProject)->execute($request);
+
+        return response()->json([
+            'status' => $project->status,
+        ], 201);
+    }
+
+    /**
+     * Pause the project.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function pause(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+        ];
+
+        $project = (new PauseProject)->execute($request);
+
+        return response()->json([
+            'status' => $project->status,
+        ], 201);
+    }
+
+    /**
+     * Close the project.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function close(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+        ];
+
+        $project = (new CloseProject)->execute($request);
+
+        return response()->json([
+            'status' => $project->status,
+        ], 201);
     }
 
     /**

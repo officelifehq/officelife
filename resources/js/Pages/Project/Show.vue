@@ -21,7 +21,8 @@
   top: 3px;
 }
 
-.created {
+.created,
+.paused {
   background-color: #fff6c5;
 
   .dot {
@@ -34,6 +35,15 @@
 
   .dot {
     background-color: #56bb76;
+  }
+}
+
+.closed {
+  background-color: #4f7584;
+  color: #fff;
+
+  .dot {
+    background-color: #c8d7cd;
   }
 }
 </style>
@@ -59,11 +69,11 @@
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
         <h2 class="tc mb2 relative" data-cy="project-name">
-          {{ project.name }} <span v-if="project.code" class="ml2 ttu f7 project-code br3 pa1 relative fw4">
-            {{ project.code }}
+          {{ localProject.name }} <span v-if="localProject.code" class="ml2 ttu f7 project-code br3 pa1 relative fw4">
+            {{ localProject.code }}
           </span>
         </h2>
-        <p class="tc mt0 mb4">{{ project.summary }}</p>
+        <p class="tc mt0 mb4">{{ localProject.summary }}</p>
 
         <!-- Menu -->
         <project-menu />
@@ -79,7 +89,7 @@
             </div>
 
             <div class="bg-white box mb4 pa3">
-              <div v-if="project.parsed_description" class="parsed-content" v-html="project.parsed_description"></div>
+              <div v-if="localProject.parsed_description" class="parsed-content" v-html="localProject.parsed_description"></div>
               <div v-else class="mb0 mt0 lh-copy f6 tc">
                 This project doesn’t have a description.
               </div>
@@ -105,9 +115,23 @@
           <div class="fl w-30-l w-100 pl4-l">
             <!-- actions -->
             <div class="bg-white box mb4 tc">
-              <p class="f6 mt0 pa3 bb bb-gray relative"><span :class="project.status" class="pv1 ph2 br3 gray"><span class="dib dot br-100 relative mr2">&nbsp;</span> {{ $t('project.summary_status_' + project.status) }}</span></p>
-              <div class="mb3">
-                <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('project.summary_cta_start_project')" />
+              <p class="f6 mt0 pa3 bb bb-gray relative"><span :class="localProject.status" class="pv1 ph2 br3 gray"><span class="dib dot br-100 relative mr2">&nbsp;</span> {{ $t('project.summary_status_' + localProject.status) }}</span></p>
+
+              <!-- start button -->
+              <div v-if="localProject.status == 'created'" class="mb3">
+                <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('project.summary_cta_start_project')" @click="start()" />
+              </div>
+
+              <!-- pause or close buttons -->
+              <div v-if="localProject.status == 'started' || localProject.status == 'paused'" class="mb3">
+                <loading-button v-if="localProject.status != 'paused'" :classes="'btn w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingPauseState" :text="$t('project.summary_cta_pause_project')" @click="pause()" />
+                <loading-button v-if="localProject.status != 'started'" :classes="'btn w-auto-ns w-100 pv2 ph3 mr2'" :state="loadingUnpauseState" :text="$t('project.summary_cta_unpause_project')" @click="unpause()" />
+                <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingCloseState" :text="$t('project.summary_cta_close_project')" @click="close()" />
+              </div>
+
+              <!-- reopen -->
+              <div v-if="localProject.status == 'closed'" class="mb3">
+                <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('project.summary_cta_reopen_project')" @click="start()" />
               </div>
             </div>
 
@@ -146,8 +170,8 @@
             </div>
 
             <ul class="list pl0">
-              <li class="mb2 pl2"><inertia-link :href="project.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.summary_edit') }}</inertia-link></li>
-              <li class="pl2"><inertia-link :href="project.url_delete" data-cy="project-delete" class="f6 gray">{{ $t('project.summary_delete') }}</inertia-link></li>
+              <li class="mb2 pl2"><inertia-link :href="localProject.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.summary_edit') }}</inertia-link></li>
+              <li class="pl2"><inertia-link :href="localProject.url_delete" data-cy="project-delete" class="f6 gray">{{ $t('project.summary_delete') }}</inertia-link></li>
             </ul>
           </div>
         </div>
@@ -181,10 +205,81 @@ export default {
 
   data() {
     return {
+      localProject: null,
+      loadingState: '',
+      loadingPauseState: '',
+      loadingUnpauseState: '',
+      loadingCloseState: '',
     };
   },
 
+  created() {
+    this.localProject = this.project;
+  },
+
+  mounted() {
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
+  },
+
   methods: {
+    start() {
+      this.loadingState = 'loading';
+
+      axios.post('/' + this.$page.auth.company.id + '/projects/' + this.localProject.id + '/start')
+        .then(response => {
+          this.localProject.status = response.data.status;
+          this.loadingState = null;
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    pause() {
+      this.loadingPauseState = 'loading';
+
+      axios.post('/' + this.$page.auth.company.id + '/projects/' + this.localProject.id + '/pause')
+        .then(response => {
+          this.localProject.status = response.data.status;
+          this.loadingPauseState = null;
+        })
+        .catch(error => {
+          this.loadingPauseState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    unpause() {
+      this.loadingUnpauseState = 'loading';
+
+      axios.post('/' + this.$page.auth.company.id + '/projects/' + this.localProject.id + '/start')
+        .then(response => {
+          this.localProject.status = response.data.status;
+          this.loadingUnpauseState = null;
+        })
+        .catch(error => {
+          this.loadingUnpauseState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    close() {
+      this.loadingCloseState = 'loading';
+
+      axios.post('/' + this.$page.auth.company.id + '/projects/' + this.localProject.id + '/close')
+        .then(response => {
+          this.localProject.status = response.data.status;
+          this.loadingCloseState = null;
+        })
+        .catch(error => {
+          this.loadingCloseState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
   }
 };
 

@@ -31,6 +31,7 @@ class ProjectViewHelperTest extends TestCase
                     'id' => $projectA->id,
                     'name' => $projectA->name,
                     'code' => $projectA->code,
+                    'status' => $projectA->status,
                     'summary' => $projectA->summary,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$projectA->id,
                 ],
@@ -38,6 +39,7 @@ class ProjectViewHelperTest extends TestCase
                     'id' => $projectB->id,
                     'name' => $projectB->name,
                     'code' => $projectB->code,
+                    'status' => $projectB->status,
                     'summary' => $projectB->summary,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$projectB->id,
                 ],
@@ -59,6 +61,7 @@ class ProjectViewHelperTest extends TestCase
 
         $this->assertEquals(
             [
+                'id' => $project->id,
                 'name' => 'API v3',
                 'code' => $project->code,
                 'summary' => null,

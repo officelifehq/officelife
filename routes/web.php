@@ -192,6 +192,9 @@ Route::middleware(['auth'])->group(function () {
 
             // project detail
             Route::get('{project}', 'Company\\Project\\ProjectController@show')->name('projects.show');
+            Route::post('{project}/start', 'Company\\Project\\ProjectController@start');
+            Route::post('{project}/pause', 'Company\\Project\\ProjectController@pause');
+            Route::post('{project}/close', 'Company\\Project\\ProjectController@close');
             Route::get('{project}/edit', 'Company\\Project\\ProjectController@edit')->name('projects.edit');
             Route::post('{project}/update', 'Company\\Project\\ProjectController@update');
             Route::get('{project}/delete', 'Company\\Project\\ProjectController@delete')->name('projects.delete');

@@ -13,12 +13,18 @@ return [
     'menu_files' => 'Files',
 
     'summary_cta_start_project' => 'Start project',
+    'summary_cta_pause_project' => 'Pause',
+    'summary_cta_unpause_project' => 'Continue',
+    'summary_cta_close_project' => 'Mark completed',
+    'summary_cta_reopen_project' => 'Reopen project',
     'summary_description' => 'Description',
     'summary_status' => 'Latest update',
     'summary_edit' => 'Edit name and information',
     'summary_delete' => 'Delete the project',
     'summary_status_created' => 'Not started',
     'summary_status_started' => 'Active',
+    'summary_status_paused' => 'Paused',
+    'summary_status_closed' => 'Completed',
 
     'delete_title' => 'Delete the project',
     'delete_success' => 'The project has been successfully deleted.',
@@ -35,4 +41,5 @@ return [
     'edit_title' => 'Edit the project information',
     'edit_description' => 'Project description',
     'edit_input_description_help' => 'Everything we need to know about this project, in details.',
+    'edit_success' => 'The project has been successfully edited.',
 ];

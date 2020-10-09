@@ -131,6 +131,7 @@ export default {
 
       axios.post('/' + this.$page.auth.company.id + '/projects/' + this.project.id + '/update', this.form)
         .then(response => {
+          localStorage.success = this.$t('project.edit_success');
           this.$inertia.visit(response.data.data.url);
         })
         .catch(error => {

@@ -248,6 +248,7 @@ return [
     'log_employee_removed_from_project' => 'Removed :employee_name from the project called :project_name.',
     'log_project_started' => 'Started the project called :project_name.',
     'log_project_closed' => 'Closed the project called :project_name.',
+    'log_project_paused' => 'Put the project called :project_name in pause.',
     'log_project_team_lead_updated' => 'Assigned :employee_name as lead of the project called :project_name.',
     'log_project_link_created' => 'Added the link called :project_name in the project called :project_name.',
     'log_project_link_destroyed' => 'Deleted the link called :project_name from the project called :project_name.',
