@@ -23,7 +23,7 @@ class AttachEmployeeToSkillTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $this->executeService($michael, $dwight, 'PéÔ');
+        $this->executeService($michael, $dwight, 'PéÔ', 'peo');
     }
 
     /** @test */
@@ -35,7 +35,7 @@ class AttachEmployeeToSkillTest extends TestCase
             'company_id' => $michael->company_id,
             'name' => 'peo',
         ]);
-        $this->executeService($michael, $dwight, 'PéÔ', $skill);
+        $this->executeService($michael, $dwight, 'PéÔ', 'peo', $skill);
     }
 
     /** @test */
@@ -43,14 +43,14 @@ class AttachEmployeeToSkillTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
-        $this->executeService($michael, $dwight, 'PéÔ');
+        $this->executeService($michael, $dwight, 'PéÔ', 'peo');
     }
 
     /** @test */
     public function it_assigns_a_skill_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $this->executeService($michael, $michael, 'PéÔ');
+        $this->executeService($michael, $michael, 'PéÔ', 'peo');
     }
 
     /** @test */
@@ -60,7 +60,7 @@ class AttachEmployeeToSkillTest extends TestCase
         $dwight = $this->createAnotherEmployee($michael);
 
         $this->expectException(NotEnoughPermissionException::class);
-        $this->executeService($michael, $dwight, 'PéÔ');
+        $this->executeService($michael, $dwight, 'PéÔ', 'peo');
     }
 
     /** @test */
@@ -81,10 +81,10 @@ class AttachEmployeeToSkillTest extends TestCase
         $dwight = $this->createEmployee();
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $dwight, 'PéÔ');
+        $this->executeService($michael, $dwight, 'PéÔ', 'peo');
     }
 
-    private function executeService(Employee $michael, Employee $dwight, string $skillName, Skill $skillAlreadyExisting = null): void
+    private function executeService(Employee $michael, Employee $dwight, string $skillName, string $name, Skill $skillAlreadyExisting = null): void
     {
         Queue::fake();
 
@@ -100,7 +100,7 @@ class AttachEmployeeToSkillTest extends TestCase
         $this->assertDatabaseHas('skills', [
             'id' => $skill->id,
             'company_id' => $dwight->company_id,
-            'name' => 'peo',
+            'name' => $name,
         ]);
 
         $this->assertDatabaseHas('employee_skill', [
