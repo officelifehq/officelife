@@ -1,6 +1,6 @@
 describe('Company', function () {
   it('should search an employee and a team', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

@@ -1,6 +1,6 @@
 describe('Employee - rate your manager', function () {
   it('should let a user rates his manager', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

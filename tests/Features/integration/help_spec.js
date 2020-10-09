@@ -2,42 +2,53 @@ describe('Help - Show and validate help for all features', function () {
   it('should check that all links about help are valid', function () {
     cy.login()
 
-    cy.createCompany()
+    cy.createCompany((companyId) => {
 
-    cy.wait(2000)
+      cy.visit('/'+companyId+'/dashboard')
 
-    // make sure the toggle feature exists
-    cy.get('[data-cy=layout-show-help]').click()
-    cy.wait(200)
-    cy.get('[data-cy=layout-show-help]').should('not.exist')
-    cy.get('[data-cy=layout-hide-help]').click()
-    cy.wait(200)
-    cy.get('[data-cy=layout-hide-help]').should('not.exist')
-    cy.get('[data-cy=layout-show-help]').click()
-
-
-    /*–----------------------
-    * DASHBOARD
-    */
-    // work from home
-    cy.get('[data-cy=help-icon-work-from-home]').should('exist')
-    cy.get('[data-cy=help-icon-work-from-home]').click()
+      // make sure the toggle feature exists
+      cy.get('[data-cy=layout-show-help]').click()
+      cy.wait(200)
+      cy.get('[data-cy=layout-show-help]').should('not.exist')
+      cy.get('[data-cy=layout-hide-help]').click()
+      cy.wait(200)
+      cy.get('[data-cy=layout-hide-help]').should('not.exist')
+      cy.get('[data-cy=layout-show-help]').click()
 
 
-    /*–----------------------
-    * ADMINLAND
-    */
-    // hardware
-    cy.visit('/1/account/hardware/create')
-    cy.get('[data-cy=help-icon-hardware]').click()
+      /*–----------------------
+      * DASHBOARD
+      */
+      // work from home
+      cy.get('[data-cy=help-icon-work-from-home]').should('exist')
+      cy.get('[data-cy=help-icon-work-from-home]')
+        .invoke('attr', 'data-url').should('include', 'employees#work-from-home')
 
-    // locking
-    cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
-    cy.visit('/1/account/employees/2/lock')
-    cy.get('[data-cy=help-icon-employee-lock]').click()
 
-    // deleting employee
-    cy.visit('/1/account/employees/2/delete')
-    cy.get('[data-cy=help-icon-employee-delete]').click()
+      /*–----------------------
+      * ADMINLAND
+      */
+      // hardware
+      cy.get('[data-cy=header-adminland-link]').click()
+      cy.get('[data-cy=hardware-admin-link]').click()
+      cy.get('[data-cy=add-hardware-button]').click()
+      cy.get('[data-cy=help-icon-hardware]')
+        .invoke('attr', 'data-url').should('include', 'hardware')
+
+      // locking
+      cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false, (employeeId) => {
+        cy.get('[data-cy=lock-account-'+employeeId+']').click()
+        cy.get('[data-cy=help-icon-employee-lock]')
+          .invoke('attr', 'data-url').should('include', 'employee-management#locking-an-employee')
+
+        // deleting employee
+        cy.get('[data-cy=header-adminland-link]').click()
+        //cy.get('[data-cy=employee-admin-link]').click()
+
+        cy.visit('/'+companyId+'/account/employees/'+employeeId+'/delete')
+        cy.get('[data-cy=help-icon-employee-delete]')
+          .invoke('attr', 'data-url').should('include', 'employee-management#deleting-an-employee')
+      })
+    })
   })
 })

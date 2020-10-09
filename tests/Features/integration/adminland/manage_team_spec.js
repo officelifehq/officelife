@@ -1,6 +1,6 @@
 describe('Adminland - Team management', function () {
   it('should create a team', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -13,7 +13,7 @@ describe('Adminland - Team management', function () {
   })
 
   it('should let rename and delete a team as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -38,11 +38,13 @@ describe('Adminland - Team management', function () {
   })
 
   it('should let rename and delete a team as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
 
     cy.createTeam('product')
 

@@ -1,6 +1,6 @@
 describe('Adminland - Positions management', function () {
   it('should let user access position adminland screen with the right permissions', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -10,11 +10,11 @@ describe('Adminland - Positions management', function () {
   })
 
   it('should let you manage positions as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=position-admin-link]').click()
 
     // open the popup
@@ -52,12 +52,14 @@ describe('Adminland - Positions management', function () {
   })
 
   it('should let you manage positions as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
-    cy.visit('/1/account')
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=position-admin-link]').click()
 
     // open the popup

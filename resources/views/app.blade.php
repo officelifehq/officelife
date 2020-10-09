@@ -12,7 +12,7 @@
   @routes
 </head>
 
-<body data-account-id={{ Auth::check() ? auth()->user()->account_id : 0 }}>
+<body>
 
   @inertia
 

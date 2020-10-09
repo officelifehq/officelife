@@ -35,7 +35,7 @@
             <li class="mb5"><span class="mr1">🧸</span> <inertia-link :href="statistics.url_new" :data-cy="'add-employee-button'">{{ $t('account.employees_cta') }}</inertia-link></li>
 
             <li class="mb3 gray f6">{{ $t('account.employees_description_1') }}</li>
-            <li class="mb5"><span class="mr1">👉</span> <inertia-link :href="statistics.url_all">{{ $t('account.employees_cta_view_all_employees', { count: statistics.number_of_employees }) }}</inertia-link></li>
+            <li class="mb5"><span class="mr1">👉</span> <inertia-link :href="statistics.url_all" data-cy="all-employee-link">{{ $t('account.employees_cta_view_all_employees', { count: statistics.number_of_employees }) }}</inertia-link></li>
             <li class="mb3 gray f6">{{ $t('account.employees_description_2') }}</li>
             <li class="mb3">
               <span class="mr1">👉</span>

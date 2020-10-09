@@ -64,7 +64,7 @@
           </form>
 
           <!-- LIST OF EXISTING EMPLOYEE STATUSES -->
-          <ul v-show="statuses.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list">
+          <ul v-show="statuses.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="statuses.map(n => n.id)">
             <li v-for="status in statuses" :key="status.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
               {{ status.name }}
 

@@ -36,7 +36,7 @@
           </h2>
 
           <!-- List of news -->
-          <div v-for="newsItem in news" :key="newsItem.id" class="cf news" data-cy="news-list">
+          <div v-for="newsItem in news" :key="newsItem.id" class="cf news" data-cy="news-list" :data-cy-items="news.map(n => n.id)">
             <h3 class="mb1">
               {{ newsItem.title }}
             </h3>

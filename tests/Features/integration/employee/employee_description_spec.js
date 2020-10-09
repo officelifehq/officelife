@@ -1,6 +1,6 @@
 describe('Employee - description', function () {
   it('should let an employee update his personal description', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -23,7 +23,7 @@ describe('Employee - description', function () {
   })
 
   it('should let an admin update the personal description of an employee', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -44,7 +44,7 @@ describe('Employee - description', function () {
   })
 
   it('should let an HR update the personal description of an employee', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -67,7 +67,7 @@ describe('Employee - description', function () {
   })
 
   it('should let not a normal employee update another employee description', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

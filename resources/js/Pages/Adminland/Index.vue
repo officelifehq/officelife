@@ -105,7 +105,7 @@
                 </inertia-link>
               </li>
               <li class="pa2 pl0 relative">
-                📡 <inertia-link :href="'/' + $page.auth.company.id + '/account/audit'">
+                📡 <inertia-link :href="'/' + $page.auth.company.id + '/account/audit'" data-cy="audit-admin-link">
                   {{ $t('account.home_audit_log') }}
                 </inertia-link>
               </li>

@@ -1,13 +1,13 @@
 describe('Employee - Assign positions', function () {
   it('should assign a position and remove it as administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
     cy.createTeam('product')
 
     // create a position
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=position-admin-link]').click()
     cy.get('[data-cy=add-position-button]').click()
     cy.get('[data-cy=add-title-input]').type('CEO')
@@ -31,20 +31,22 @@ describe('Employee - Assign positions', function () {
   })
 
   it('should assign a position and remove it as hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
     cy.createTeam('product')
 
     // create a position
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=position-admin-link]').click()
     cy.get('[data-cy=add-position-button]').click()
     cy.get('[data-cy=add-title-input]').type('CEO')
     cy.get('[data-cy=modal-add-cta]').click()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
     cy.visit('/1/employees/1')
 
     // Open the modal to assign a team and select the first line
@@ -61,7 +63,7 @@ describe('Employee - Assign positions', function () {
   })
 
   it('should not let a normal user assign positions', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

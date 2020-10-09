@@ -6,5 +6,7 @@
     "fixturesFolder": "tests/Features/fixtures",
     "integrationFolder": "tests/Features/integration",
     "pluginsFile": "tests/Features/plugins/index.js",
+    "viewportWidth": 1200,
+    "viewportHeight": 800,
     "video": false
 }

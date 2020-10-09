@@ -25,6 +25,7 @@
         "cypress": "5.2.0",
         "eslint": "^6.1.0",
         "eslint-plugin-vue": "^5.2.2",
+        "faker": "^5.1.0",
         "husky": "^2.7.0",
         "laravel-mix": "^4.0.7",
         "laravel-mix-purgecss": "^4.1.0",

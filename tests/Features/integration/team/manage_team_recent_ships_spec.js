@@ -1,6 +1,6 @@
 describe('Team - Recent ships management', function () {
   it('should let you manage recent ship as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
@@ -47,7 +47,7 @@ describe('Team - Recent ships management', function () {
   })
 
   it('should let you manage recent ship as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
@@ -88,7 +88,7 @@ describe('Team - Recent ships management', function () {
   })
 
   it('should let you manage recent ship as a normal user who is part of the team', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
@@ -134,7 +134,7 @@ describe('Team - Recent ships management', function () {
   })
 
   it('should not let you manage recent ships as a normal user who is not part of the team', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -150,7 +150,7 @@ describe('Team - Recent ships management', function () {
   })
 
   it('should let a normal user consult the details of a recent ship entry from all the places a recent ship entry is listed', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)
@@ -190,7 +190,7 @@ describe('Team - Recent ships management', function () {
   })
 
   it('should create a notification when you are associated with a recent ship', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false)

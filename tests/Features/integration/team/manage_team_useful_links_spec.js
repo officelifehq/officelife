@@ -1,6 +1,6 @@
 describe('Team - Useful link management', function () {
   it('should let you add a useful link as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -90,7 +90,7 @@ describe('Team - Useful link management', function () {
   })
 
   it('should let you add a useful link as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -175,7 +175,7 @@ describe('Team - Useful link management', function () {
   })
 
   it('should not let you add a useful link as an external normal employee', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -191,7 +191,7 @@ describe('Team - Useful link management', function () {
   })
 
   it('should let you add a useful link as a team member', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')

@@ -1,6 +1,6 @@
 describe('Team - Edit description', function () {
   it('should let an administrator update the team description', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -20,7 +20,7 @@ describe('Team - Edit description', function () {
   })
 
   it('should let an HR update the team description', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -40,7 +40,7 @@ describe('Team - Edit description', function () {
   })
 
   it('should not let a random employee update the team description', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')
@@ -53,7 +53,7 @@ describe('Team - Edit description', function () {
   })
 
   it('should let a team member update the team description', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createTeam('product')

@@ -1,6 +1,6 @@
 describe('Employee - Assign employee statuses', function () {
   it('should assign an employee status and remove it as administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -24,13 +24,15 @@ describe('Employee - Assign employee statuses', function () {
   })
 
   it('should assign an employee status and remove it as hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
     cy.createEmployeeStatus('Dunder Mifflin')
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
     cy.visit('/1/employees/1')
 
     // Open the modal
@@ -47,11 +49,13 @@ describe('Employee - Assign employee statuses', function () {
   })
 
   it('should not let a normal user assign employee status', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
     cy.visit('/1/employees/1')
 
     cy.contains('No status set')
