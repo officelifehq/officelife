@@ -6,6 +6,12 @@
   grid-column-gap: 20px;
 }
 
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .dot {
   height: 11px;
   width: 11px;

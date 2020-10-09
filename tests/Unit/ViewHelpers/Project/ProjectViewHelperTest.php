@@ -66,6 +66,7 @@ class ProjectViewHelperTest extends TestCase
                 'code' => $project->code,
                 'summary' => null,
                 'status' => 'created',
+                'raw_description' => 'it is going well',
                 'parsed_description' => '<p>it is going well</p>',
                 'url_edit' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/edit',
                 'url_delete' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/delete',

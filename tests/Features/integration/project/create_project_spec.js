@@ -32,6 +32,32 @@ describe('Project - project creation', function () {
 
     cy.get('[data-cy=project-name]').contains('new project name')
     cy.hasAuditLog('Updated project information for the project called project 4', '/1/projects/4')
+
+    // change project status
+    cy.get('[data-cy=project-status]').contains('Not started')
+    cy.get('[data-cy=start-project]').click()
+    cy.get('[data-cy=project-status]').contains('Active')
+    cy.hasAuditLog('Started the project called', '/1/projects/4')
+    cy.get('[data-cy=pause-project]').click()
+    cy.get('[data-cy=project-status]').contains('Paused')
+    cy.hasAuditLog('Put the project called', '/1/projects/4')
+    cy.get('[data-cy=unpause-project]').click()
+    cy.get('[data-cy=project-status]').contains('Active')
+    cy.hasAuditLog('Started the project called', '/1/projects/4')
+    cy.get('[data-cy=close-project]').click()
+    cy.get('[data-cy=project-status]').contains('Completed')
+    cy.hasAuditLog('Closed the project called', '/1/projects/4')
+    cy.get('[data-cy=start-project]').click()
+    cy.get('[data-cy=project-status]').contains('Active')
+
+    // update project description
+    cy.get('[data-cy=add-description-button]').click()
+    cy.get('[data-cy=description-textarea]').type('this is a description')
+    cy.get('[data-cy=submit-add-description]').click()
+    cy.hasAuditLog('Updated the description of the project called', '/1/projects/4')
+
+    cy.get('[data-cy=add-description-button]').click()
+    cy.get('[data-cy=clear-description]').click()
   })
 
   it('should create a project as hr', function () {
@@ -65,6 +91,27 @@ describe('Project - project creation', function () {
     cy.get('[data-cy=submit-edit-project-button]').click()
 
     cy.get('[data-cy=project-name]').contains('new project name')
+
+    // change project status
+    cy.get('[data-cy=project-status]').contains('Not started')
+    cy.get('[data-cy=start-project]').click()
+    cy.get('[data-cy=project-status]').contains('Active')
+    cy.get('[data-cy=pause-project]').click()
+    cy.get('[data-cy=project-status]').contains('Paused')
+    cy.get('[data-cy=unpause-project]').click()
+    cy.get('[data-cy=project-status]').contains('Active')
+    cy.get('[data-cy=close-project]').click()
+    cy.get('[data-cy=project-status]').contains('Completed')
+    cy.get('[data-cy=start-project]').click()
+    cy.get('[data-cy=project-status]').contains('Active')
+
+    // update project description
+    cy.get('[data-cy=add-description-button]').click()
+    cy.get('[data-cy=description-textarea]').type('this is a description')
+    cy.get('[data-cy=submit-add-description]').click()
+
+    cy.get('[data-cy=add-description-button]').click()
+    cy.get('[data-cy=clear-description]').click()
   })
 
   it('should create a project as normal user', function () {
@@ -99,5 +146,26 @@ describe('Project - project creation', function () {
     cy.get('[data-cy=submit-edit-project-button]').click()
 
     cy.get('[data-cy=project-name]').contains('new project name')
+
+    // change project status
+    cy.get('[data-cy=project-status]').contains('Not started')
+    cy.get('[data-cy=start-project]').click()
+    cy.get('[data-cy=project-status]').contains('Active')
+    cy.get('[data-cy=pause-project]').click()
+    cy.get('[data-cy=project-status]').contains('Paused')
+    cy.get('[data-cy=unpause-project]').click()
+    cy.get('[data-cy=project-status]').contains('Active')
+    cy.get('[data-cy=close-project]').click()
+    cy.get('[data-cy=project-status]').contains('Completed')
+    cy.get('[data-cy=start-project]').click()
+    cy.get('[data-cy=project-status]').contains('Active')
+
+    // update project description
+    cy.get('[data-cy=add-description-button]').click()
+    cy.get('[data-cy=description-textarea]').type('this is a description')
+    cy.get('[data-cy=submit-add-description]').click()
+
+    cy.get('[data-cy=add-description-button]').click()
+    cy.get('[data-cy=clear-description]').click()
   })
 })

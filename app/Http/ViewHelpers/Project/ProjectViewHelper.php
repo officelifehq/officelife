@@ -56,6 +56,7 @@ class ProjectViewHelper
             'code' => $project->code,
             'summary' => $project->summary,
             'status' => $project->status,
+            'raw_description' => is_null($project->description) ? null : $project->description,
             'parsed_description' => is_null($project->description) ? null : StringHelper::parse($project->description),
             'url_edit' => route('projects.edit', [
                 'company' => $company,

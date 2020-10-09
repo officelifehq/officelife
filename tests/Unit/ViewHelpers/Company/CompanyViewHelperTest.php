@@ -314,12 +314,12 @@ class CompanyViewHelperTest extends TestCase
             [
                 0 => [
                     'title' => $newsA->title,
-                    'extract' => '<p>this is a test</p>',
+                    'extract' => '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ...</p>',
                     'author_name' => $newsA->author_name,
                 ],
                 1 => [
                     'title' => $newsB->title,
-                    'extract' => '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ...</p>',
+                    'extract' => '<p>this is a test</p>',
                     'author_name' => $newsB->author_name,
                 ],
             ],

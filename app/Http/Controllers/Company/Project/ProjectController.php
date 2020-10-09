@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Project;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
+use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -19,6 +20,7 @@ use App\Services\Company\Project\DestroyProject;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use App\Exceptions\ProjectCodeAlreadyExistException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Project\UpdateProjectDescription;
 use App\Services\Company\Project\UpdateProjectInformation;
 
 class ProjectController extends Controller
@@ -193,6 +195,36 @@ class ProjectController extends Controller
                     'company' => $company,
                     'project' => $project,
                 ]),
+            ],
+        ], 201);
+    }
+
+    /**
+     * Update the project description.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function description(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'description' => $request->input('description'),
+        ];
+
+        $project = (new UpdateProjectDescription)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'raw_description' => is_null($project->description) ? null : $project->description,
+                'parsed_description' => is_null($project->description) ? null : StringHelper::parse($project->description),
             ],
         ], 201);
     }
