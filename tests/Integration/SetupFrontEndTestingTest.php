@@ -3,7 +3,6 @@
 namespace Tests\Integration;
 
 use Tests\TestCase;
-use App\Models\User\User;
 
 class SetupFrontEndTestingTest extends TestCase
 {

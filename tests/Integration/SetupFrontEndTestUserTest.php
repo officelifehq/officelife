@@ -13,8 +13,6 @@ class SetupFrontEndTestUserTest extends TestCase
     /** @test */
     public function it_creates_a_user_for_frontend_tests(): void
     {
-        $this->withoutMockingConsoleOutput();
-
         $userCount = User::count();
 
         $this->artisan('setup:frontendtestuser')
