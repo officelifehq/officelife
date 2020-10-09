@@ -1,22 +1,40 @@
 <style lang="scss" scoped>
 .avatar {
   left: 1px;
-  top: 5px;
+  top: 2px;
   width: 35px;
 }
 
 .team-member {
   padding-left: 44px;
-
-  .avatar {
-    top: 2px;
-  }
 }
 
 .project-code {
   top: -2px;
-  color: #5e6c84;
+  color: #737e91;
   border: 1px solid #b3d4ff;
+}
+
+.dot {
+  height: 11px;
+  width: 11px;
+  top: 3px;
+}
+
+.created {
+  background-color: #fff6c5;
+
+  .dot {
+    background-color: #b7b7b7;
+  }
+}
+
+.started {
+  background-color: #e8f7f0;
+
+  .dot {
+    background-color: #56bb76;
+  }
 }
 </style>
 
@@ -40,8 +58,8 @@
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
-        <h2 class="tc mb2 relative">
-          {{ project.name }} <span v-if="project.code" class="ml2 ttu f7 project-code br3 pa1 relative">
+        <h2 class="tc mb2 relative" data-cy="project-name">
+          {{ project.name }} <span v-if="project.code" class="ml2 ttu f7 project-code br3 pa1 relative fw4">
             {{ project.code }}
           </span>
         </h2>
@@ -86,8 +104,11 @@
           <!-- RIGHT COLUMN -->
           <div class="fl w-30-l w-100 pl4-l">
             <!-- actions -->
-            <div class="bg-white box mb4 pa3 tc">
-              <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="'Start project'" />
+            <div class="bg-white box mb4 tc">
+              <p class="f6 mt0 pa3 bb bb-gray relative"><span :class="project.status" class="pv1 ph2 br3 gray"><span class="dib dot br-100 relative mr2">&nbsp;</span> {{ $t('project.summary_status_' + project.status) }}</span></p>
+              <div class="mb3">
+                <loading-button :classes="'btn w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('project.summary_cta_start_project')" />
+              </div>
             </div>
 
             <div class="bg-white box mb2 pa3">

@@ -12,10 +12,13 @@ return [
     'menu_finance' => 'Finance',
     'menu_files' => 'Files',
 
+    'summary_cta_start_project' => 'Start project',
     'summary_description' => 'Description',
-    'summary_status' => 'Status',
+    'summary_status' => 'Latest update',
     'summary_edit' => 'Edit name and information',
     'summary_delete' => 'Delete the project',
+    'summary_status_created' => 'Not started',
+    'summary_status_started' => 'Active',
 
     'delete_title' => 'Delete the project',
     'delete_success' => 'The project has been successfully deleted.',

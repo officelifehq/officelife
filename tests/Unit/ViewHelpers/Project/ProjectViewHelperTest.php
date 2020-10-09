@@ -62,6 +62,7 @@ class ProjectViewHelperTest extends TestCase
                 'name' => 'API v3',
                 'code' => $project->code,
                 'summary' => null,
+                'status' => 'created',
                 'parsed_description' => '<p>it is going well</p>',
                 'url_edit' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/edit',
                 'url_delete' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/delete',
