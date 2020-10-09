@@ -3,12 +3,9 @@
 namespace Tests\Integration;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SetupDummyAccountTest extends TestCase
 {
-    use DatabaseTransactions;
-
     /** @test */
     public function it_populates_the_account_with_dummy_data(): void
     {

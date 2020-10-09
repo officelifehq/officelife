@@ -6,18 +6,18 @@ use Tests\TestCase;
 use App\Models\User\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SetupFrontEndTestTest extends TestCase
+class SetupFrontEndTestUserTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_setups_the_front_end_environnement(): void
+    public function it_creates_a_user_for_frontend_tests(): void
     {
         $this->withoutMockingConsoleOutput();
 
         $userCount = User::count();
 
-        $this->artisan('setup:frontendtesting')
+        $this->artisan('setup:frontendtestuser')
             ->assertExitCode(0);
 
         $this->assertEquals($userCount + 1, User::count());
