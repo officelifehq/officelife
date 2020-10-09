@@ -476,7 +476,8 @@ $factory->define(App\Models\Company\Project::class, function () {
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'name' => 'API v3',
-        'code' => '123',
+        'code' => '123456',
+        'description' => 'it is going well',
         'status' => Project::CREATED,
     ];
 });

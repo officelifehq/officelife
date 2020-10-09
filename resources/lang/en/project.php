@@ -14,6 +14,8 @@ return [
 
     'summary_description' => 'Description',
     'summary_status' => 'Status',
+    'summary_edit' => 'Edit name and information',
+    'summary_delete' => 'Delete the project',
 
     'delete_title' => 'Delete the project',
     'delete_success' => 'The project has been successfully deleted.',
@@ -26,4 +28,8 @@ return [
     'create_input_summary' => 'Project summary',
     'create_input_summary_help' => 'A one-liner, if possible, that describes what the project does.',
     'create_input_project_lead' => 'Who will lead this project?',
+
+    'edit_title' => 'Edit the project information',
+    'edit_description' => 'Project description',
+    'edit_input_description_help' => 'Everything we need to know about this project, in details.',
 ];

@@ -54,6 +54,10 @@ class ProjectViewHelper
             'code' => $project->code,
             'summary' => $project->summary,
             'parsed_description' => is_null($project->description) ? null : StringHelper::parse($project->description),
+            'url_edit' => route('projects.edit', [
+                'company' => $company,
+                'project' => $project,
+            ]),
             'url_delete' => route('projects.delete', [
                 'company' => $company,
                 'project' => $project,
@@ -71,6 +75,25 @@ class ProjectViewHelper
                     'employee' => $lead,
                 ]),
             ] : null,
+        ];
+    }
+
+    /**
+     * Array containing the information needed to update the project details.
+     *
+     * @param Project
+     * @param Company
+     * @return array
+     */
+    public static function edit(Project $project): array
+    {
+        $lead = $project->lead;
+
+        return [
+            'id' => $project->id,
+            'name' => $project->name,
+            'code' => $project->code,
+            'summary' => $project->summary,
         ];
     }
 }

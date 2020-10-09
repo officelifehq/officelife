@@ -12,6 +12,12 @@
     top: 2px;
   }
 }
+
+.project-code {
+  top: -2px;
+  color: #5e6c84;
+  border: 1px solid #b3d4ff;
+}
 </style>
 
 <template>
@@ -34,8 +40,10 @@
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
-        <h2 class="tc mb2">
-          {{ project.name }} <span>{{ project.code }}</span>
+        <h2 class="tc mb2 relative">
+          {{ project.name }} <span v-if="project.code" class="ml2 ttu f7 project-code br3 pa1 relative">
+            {{ project.code }}
+          </span>
         </h2>
         <p class="tc mt0 mb4">{{ project.summary }}</p>
 
@@ -117,7 +125,8 @@
             </div>
 
             <ul class="list pl0">
-              <li><inertia-link :href="project.url_delete" data-cy="project-delete" class="f6 gray">Delete the project</inertia-link></li>
+              <li class="mb2 pl2"><inertia-link :href="project.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.summary_edit') }}</inertia-link></li>
+              <li class="pl2"><inertia-link :href="project.url_delete" data-cy="project-delete" class="f6 gray">{{ $t('project.summary_delete') }}</inertia-link></li>
             </ul>
           </div>
         </div>

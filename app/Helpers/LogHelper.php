@@ -827,6 +827,13 @@ class LogHelper
                     'project_name' => $log->object->{'project_name'},
                 ]);
                 break;
+
+            case 'project_information_updated':
+                $sentence = trans('account.log_project_information_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
         }
 
         return $sentence;

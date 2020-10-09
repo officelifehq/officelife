@@ -93,6 +93,7 @@ return [
     'breadcrumb_project_list' => 'Projects list',
     'breadcrumb_project_detail' => 'Project detail',
     'breadcrumb_project_create' => 'Add a new project',
+    'breadcrumb_project_edit' => 'Edit project',
     'breadcrumb_project_delete' => 'Delete project',
     'breadcrumb_dashboard_one_on_one' => 'One on One',
     'breadcrumb_team_list' => 'All teams',

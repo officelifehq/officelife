@@ -16,6 +16,7 @@ use App\Services\Company\Project\DestroyProject;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use App\Exceptions\ProjectCodeAlreadyExistException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Project\UpdateProjectInformation;
 
 class ProjectController extends Controller
 {
@@ -53,6 +54,66 @@ class ProjectController extends Controller
             'project' => ProjectViewHelper::summary($project, $company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
+    }
+
+    /**
+     * Display the Edit project page.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return Response
+     */
+    public function edit(Request $request, int $companyId, int $projectId): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $project = Project::findOrFail($projectId);
+
+        return Inertia::render('Project/Edit', [
+            'project' => ProjectViewHelper::edit($project),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Update the project information.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'name' => $request->input('name'),
+            'code' => $request->input('code'),
+            'summary' => $request->input('summary'),
+        ];
+
+        try {
+            $project = (new UpdateProjectInformation)->execute($request);
+        } catch (ProjectCodeAlreadyExistException $e) {
+            return response()->json([
+                'message' => trans('app.error_project_code_already_exists'),
+            ], 500);
+        }
+
+        return response()->json([
+            'data' => [
+                'id' => $project->id,
+                'url' => route('projects.show', [
+                    'company' => $company,
+                    'project' => $project,
+                ]),
+            ],
+        ], 201);
     }
 
     /**

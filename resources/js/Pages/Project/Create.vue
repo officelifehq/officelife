@@ -96,7 +96,6 @@
             />
 
             <template>
-              <!-- list of people who worked on this ship -->
               <p v-if="!showAssignProjectLead && !form.projectLead" class="bt bb-gray pt3 pointer" data-cy="project-assign-project-lead" @click.prevent="showAssignProjectLead = true"><span class="ba br-100 plus-button">+</span> Add a project lead</p>
 
               <div v-if="showAssignProjectLead == true" class="bb bb-gray bt pt3">

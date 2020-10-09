@@ -252,6 +252,7 @@ return [
     'log_project_link_created' => 'Added the link called :project_name in the project called :project_name.',
     'log_project_link_destroyed' => 'Deleted the link called :project_name from the project called :project_name.',
     'log_project_status_created' => 'Wrote a status from the project called :project_name.',
+    'log_project_information_updated' => 'Updated project information for the project called :project_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
