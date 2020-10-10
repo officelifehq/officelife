@@ -163,7 +163,7 @@ jobs:
     needs: tests
     runs-on: ubuntu-latest
     name: Semantic release
-#    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request'
 
     strategy:
       matrix:
@@ -192,7 +192,7 @@ jobs:
           echo ${{ steps.semantic.outputs.new_release_version }}
 
       - name: Setup PHP ${{ matrix.php-version }}
-#        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.semantic.outputs.new_release_published == 'true'
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
@@ -201,11 +201,11 @@ jobs:
 
     # Composer
       - name: Get Composer Cache Directory
-#        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.semantic.outputs.new_release_published == 'true'
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer files
-#        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.semantic.outputs.new_release_published == 'true'
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -216,11 +216,11 @@ jobs:
 
     # Yarn
       - name: Get yarn cache directory path
-#        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.semantic.outputs.new_release_published == 'true'
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Cache yarn files
-#        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.semantic.outputs.new_release_published == 'true'
         uses: actions/cache@v2
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -230,19 +230,18 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Create package
-#        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.semantic.outputs.new_release_published == 'true'
         id: package
         run: |
-          scripts/package.sh '0.0.1-alpha.1'
-#          scripts/package.sh '${{ steps.semantic.outputs.new_release_version }}'
+          scripts/package.sh '${{ steps.semantic.outputs.new_release_version }}'
 
-#      - name: Publish package
-#        if: steps.semantic.outputs.new_release_published == 'true'
-#        run: |
-#          scripts/publish.sh '${{ steps.semantic.outputs.new_release_version }}' '${{ steps.package.outputs.package }}'
+      - name: Publish package
+        if: steps.semantic.outputs.new_release_published == 'true'
+        run: |
+          scripts/publish.sh '${{ steps.semantic.outputs.new_release_version }}' '${{ steps.package.outputs.package }}'
 
       - name: Store package
-#        if: steps.semantic.outputs.new_release_published == 'true'
+        if: steps.semantic.outputs.new_release_published == 'true'
         uses: actions/upload-artifact@v2
         with:
           name: release
