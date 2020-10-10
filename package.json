@@ -27,7 +27,7 @@
         "eslint-plugin-vue": "^5.2.2",
         "faker": "^5.1.0",
         "husky": "^2.7.0",
-        "laravel-mix": "^4.0.7",
+        "laravel-mix": "^5.0.6",
         "laravel-mix-purgecss": "^4.1.0",
         "lint-staged": "^8.2.1",
         "lodash": "^4.17.13",
