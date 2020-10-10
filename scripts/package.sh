@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eo pipefail
+set -xeo pipefail
 
 SELF_PATH=$(cd -P -- "$(dirname -- "$0")" && /bin/pwd -P)
 source $SELF_PATH/realpath.sh
@@ -14,13 +14,15 @@ fi
 
 set -v
 
-echo "$version" > $ROOT/config/version
+echo "$version" | tee $ROOT/config/version
 
+# BUILD
 composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
 php artisan lang:generate
 yarn install
 yarn production
 
+# PACKAGE
 composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader --no-dev
 
 r=officelife-$version
@@ -56,3 +58,5 @@ mkdir -p $r/storage/framework/views
 mkdir -p $r/storage/framework/sessions
 
 tar chfj $ROOT/$r.tar.bz2 --exclude .gitignore --exclude .gitkeep $r
+
+echo "::set-output name=package::$ROOT/$r.tar.bz2"

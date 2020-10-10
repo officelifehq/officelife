@@ -2,6 +2,7 @@
   "branches": [
     "release",
     {"name": "next", "prerelease": true},
+    {"name": "alpha", "prerelease": true}
   ],
   "plugins": [
     [
@@ -25,12 +26,6 @@
         }
       }
     ],
-    "@semantic-release/github",
-    [
-      "@semantic-release/exec", {
-        "prepareCmd" : "scripts/package.sh '${nextRelease.version}'",
-        "publishCmd" : "scripts/publish.sh '${nextRelease.version}' 'officelife-${nextRelease.version}.tar.bz2'"
-      }
-    ]
+    "@semantic-release/github"
   ]
 }
