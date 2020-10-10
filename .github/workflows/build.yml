@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+      - release
+      - next
+      - alpha
   pull_request:
     types: [opened, synchronize, reopened]
   release:
@@ -11,9 +14,9 @@ on:
       - created
 
 jobs:
-  ###########
+  #############
   # Run tests
-  ###########
+  #############
   tests:
     runs-on: ubuntu-latest
     name: Test on ${{ matrix.connection }} (PHP ${{ matrix.php-version }})
@@ -105,9 +108,9 @@ jobs:
           name: results
           path: results
 
-  #########################
+  ###########################
   # Reporting to sonarcloud
-  #########################
+  ###########################
   reporting:
     needs: tests
     runs-on: ubuntu-latest
@@ -121,8 +124,9 @@ jobs:
 
       # If this run was triggered by a pull request event, then checkout
       # the head of the pull request instead of the merge commit.
-      - run: git checkout HEAD^2
-        if: ${{ github.event_name == 'pull_request' }}
+      - name: Checkout HEAD
+        if: github.event_name == 'pull_request'
+        run: git checkout HEAD^2
 
       - name: Download results
         uses: actions/download-artifact@v2
@@ -134,9 +138,111 @@ jobs:
         run: |
           sed -i -e "s%$GITHUB_WORKSPACE/%%g" results/*/*.xml
 
+      - name: Set version parameter
+        id: version
+        run: |
+          version=$(git tag --points-at HEAD)
+          test -z "$version" && version="main"
+          echo "::set-output name=value::$version"
+
       - name: SonarCloud Scan
         if: env.SONAR_TOKEN != ''
         uses: SonarSource/sonarcloud-github-action@v1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: |
+            -Dsonar.projectVersion=${{ steps.version.outputs.value }}
+
+
+  ####################
+  # Semantic release
+  ####################
+  semantic-release:
+    needs: tests
+    runs-on: ubuntu-latest
+    name: Semantic release
+    if: github.event_name != 'pull_request'
+
+    strategy:
+      matrix:
+        php-version: ['7.4']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Get all tags
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          semantic_version: 17.1.2
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+
+      - name: New release published
+        if: steps.semantic.outputs.new_release_published == 'true'
+        run: |
+          echo ${{ steps.semantic.outputs.new_release_version }}
+
+      - name: Setup PHP ${{ matrix.php-version }}
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mbstring, dom, fileinfo, mysql
+          coverage: none
+
+    # Composer
+      - name: Get Composer Cache Directory
+        if: steps.semantic.outputs.new_release_published == 'true'
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache composer files
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            ${{ runner.os }}-composer-
+
+    # Yarn
+      - name: Get yarn cache directory path
+        if: steps.semantic.outputs.new_release_published == 'true'
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Cache yarn files
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+            ${{ runner.os }}-yarn-
+
+      - name: Create package
+        if: steps.semantic.outputs.new_release_published == 'true'
+        id: package
+        run: |
+          scripts/package.sh '${{ steps.semantic.outputs.new_release_version }}'
+
+      - name: Publish package
+        if: steps.semantic.outputs.new_release_published == 'true'
+        run: |
+          scripts/publish.sh '${{ steps.semantic.outputs.new_release_version }}' '${{ steps.package.outputs.package }}'
+
+      - name: Store package
+        if: steps.semantic.outputs.new_release_published == 'true'
+        uses: actions/upload-artifact@v2
+        with:
+          name: release
+          path: ${{ steps.package.outputs.package }}

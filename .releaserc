@@ -1,0 +1,31 @@
+{
+  "branches": [
+    "release",
+    {"name": "next", "prerelease": true},
+    {"name": "alpha", "prerelease": true}
+  ],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer", {
+        "preset": "angular",
+        "releaseRules": [
+          {"type": "refactor", "scope": "inertia", "release": "minor"},
+          {"type": "refactor", "release": "patch"},
+          {"scope": "no-release", "release": false}
+        ]
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator", {
+        "preset": "angular",
+        "parserOpts": {
+          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+        },
+        "writerOpts": {
+          "commitsSort": ["scope"]
+        }
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}
