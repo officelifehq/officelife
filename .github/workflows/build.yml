@@ -228,8 +228,8 @@ jobs:
 #        if: steps.semantic.outputs.new_release_published == 'true'
         id: package
         run: |
-#          scripts/package.sh '${{ steps.semantic.outputs.new_release_version }}'
           scripts/package.sh '0.0.1-alpha.1'
+#          scripts/package.sh '${{ steps.semantic.outputs.new_release_version }}'
 
 #      - name: Publish package
 #        if: steps.semantic.outputs.new_release_published == 'true'
