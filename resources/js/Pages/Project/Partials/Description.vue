@@ -40,6 +40,7 @@
                      :required="true"
                      :rows="10"
                      :help="$t('project.summary_description_title_help')"
+                     @esc-key-pressed="showEdit = false"
           />
 
           <!-- Actions -->

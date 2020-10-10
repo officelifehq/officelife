@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Project;
 
 use Tests\TestCase;
 use App\Models\Company\Project;
+use App\Models\Company\ProjectLink;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -56,32 +57,75 @@ class ProjectViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
             'project_lead_id' => $michael->id,
         ]);
+        $link = factory(ProjectLink::class)->create([
+            'project_id' => $project->id,
+        ]);
 
         $array = ProjectViewHelper::summary($project, $michael->company);
 
         $this->assertEquals(
+            $project->id,
+            $array['id']
+        );
+        $this->assertEquals(
+            'API v3',
+            $array['name']
+        );
+        $this->assertEquals(
+            'API v3',
+            $array['name']
+        );
+        $this->assertEquals(
+            $project->code,
+            $array['code']
+        );
+        $this->assertEquals(
+            null,
+            $array['summary']
+        );
+        $this->assertEquals(
+            'created',
+            $array['status']
+        );
+        $this->assertEquals(
+            'it is going well',
+            $array['raw_description']
+        );
+        $this->assertEquals(
+            '<p>it is going well</p>',
+            $array['parsed_description']
+        );
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/edit',
+            $array['url_edit']
+        );
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/delete',
+            $array['url_delete']
+        );
+        $this->assertEquals(
             [
-                'id' => $project->id,
-                'name' => 'API v3',
-                'code' => $project->code,
-                'summary' => null,
-                'status' => 'created',
-                'raw_description' => 'it is going well',
-                'parsed_description' => '<p>it is going well</p>',
-                'url_edit' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/edit',
-                'url_delete' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/delete',
-                'project_lead' => [
-                    'id' => $michael->id,
-                    'name' => $michael->name,
-                    'avatar' => $michael->avatar,
-                    'position' => [
-                        'id' => $michael->position->id,
-                        'title' => $michael->position->title,
-                    ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => $michael->avatar,
+                'position' => [
+                    'id' => $michael->position->id,
+                    'title' => $michael->position->title,
+                ],
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+            ],
+            $array['project_lead']
+        );
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $link->id,
+                    'type' => $link->type,
+                    'label' => $link->label,
+                    'url' => $link->url,
                 ],
             ],
-            $array
+            $array['links']->toArray()
         );
     }
 

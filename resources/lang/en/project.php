@@ -29,6 +29,11 @@ return [
     'summary_status_started' => 'Active',
     'summary_status_paused' => 'Paused',
     'summary_status_closed' => 'Completed',
+    'summary_project_lead_label' => 'Project lead',
+    'summary_project_lead_remove_label' => 'Remove project lead',
+    'summary_project_lead_no_leader' => 'Assign someone as project lead',
+    'summary_project_lead_added_success' => 'The project lead has been assigned',
+    'summary_project_lead_cleared_success' => 'The project lead has been cleared',
 
     'delete_title' => 'Delete the project',
     'delete_success' => 'The project has been successfully deleted.',

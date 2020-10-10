@@ -9,7 +9,7 @@ use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 
-class UpdateProjectLead extends BaseService
+class ClearProjectLead extends BaseService
 {
     private array $data;
 
@@ -28,24 +28,23 @@ class UpdateProjectLead extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
-            'employee_id' => 'required|integer|exists:employees,id',
         ];
     }
 
     /**
-     * Update project lead.
+     * Remove an existing project lead from a project.
      *
      * @param array $data
-     * @return Employee
+     * @return Project
      */
-    public function execute(array $data): Employee
+    public function execute(array $data): Project
     {
         $this->data = $data;
         $this->validate();
         $this->updateLead();
         $this->log();
 
-        return $this->employee;
+        return $this->project;
     }
 
     private function validate(): void
@@ -57,24 +56,15 @@ class UpdateProjectLead extends BaseService
             ->asNormalUser()
             ->canExecuteService();
 
-        $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
-
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
+
+        $this->employee = $this->project->lead;
     }
 
     private function updateLead(): void
     {
-        // check if the new lead is part of the project - if not, add him
-        if ($this->employee->isInProject($this->project->id)) {
-            return;
-        } else {
-            $this->project->employees()->syncWithoutDetaching([
-                $this->data['employee_id'],
-            ]);
-        }
-
-        $this->project->project_lead_id = $this->data['employee_id'];
+        $this->project->project_lead_id = null;
         $this->project->save();
     }
 
@@ -82,7 +72,7 @@ class UpdateProjectLead extends BaseService
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_team_lead_updated',
+            'action' => 'project_team_lead_cleared',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
@@ -96,7 +86,7 @@ class UpdateProjectLead extends BaseService
 
         LogEmployeeAudit::dispatch([
             'employee_id' => $this->employee->id,
-            'action' => 'project_team_lead_updated',
+            'action' => 'project_team_lead_cleared',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),

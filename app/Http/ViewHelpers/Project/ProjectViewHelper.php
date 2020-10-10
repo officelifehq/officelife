@@ -50,6 +50,17 @@ class ProjectViewHelper
     {
         $lead = $project->lead;
 
+        $links = $project->links;
+        $linkCollection = collect([]);
+        foreach ($links as $link) {
+            $linkCollection->push([
+                'id' => $link->id,
+                'type' => $link->type,
+                'label' => $link->label,
+                'url' => $link->url,
+            ]);
+        }
+
         return [
             'id' => $project->id,
             'name' => $project->name,
@@ -79,6 +90,7 @@ class ProjectViewHelper
                     'employee' => $lead,
                 ]),
             ] : null,
+            'links' => $linkCollection,
         ];
     }
 

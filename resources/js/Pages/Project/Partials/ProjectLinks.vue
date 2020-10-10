@@ -1,34 +1,41 @@
 <style lang="scss" scoped>
 .useful-link {
-  top: 4px;
+  width: 20px;
+  top: 1px;
+}
+
+.link {
+  max-width: calc(100% - 22px);
 }
 </style>
 
 <template>
   <div class="ma0 pa3">
-    <p class="silver f6 ma0 mb1">{{ $t('team.useful_link_title') }}</p>
+    <p class="silver f6 ma0 mb1">Project links</p>
 
     <!-- list of links -->
     <ul class="list pl0 mb0">
-      <li v-for="link in updatedLinks" :key="link.id" class="mb2 relative" :data-cy="'team-useful-link-' + link.id">
-        <!-- icon types -->
-        <img v-if="link.type == 'slack'" loading="lazy" src="/img/slack.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-slack-' + link.id"
-             alt="link to slack"
-        />
-        <img v-if="link.type == 'email'" loading="lazy" src="/img/mail.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-email-' + link.id"
-             alt="link to email"
-        />
-        <img v-if="link.type == 'url'" loading="lazy" src="/img/url.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-url-' + link.id"
-             alt="link to url"
-        />
+      <li v-for="link in localLinks" :key="link.id" class="mb2 relative" :data-cy="'team-useful-link-' + link.id">
+        <div class="flex">
+          <!-- icon types -->
+          <img v-if="link.type == 'slack'" loading="lazy" src="/img/slack.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-slack-' + link.id"
+               alt="link to slack" :class="editMode ? 'dn' : ''"
+          />
+          <img v-if="link.type == 'email'" loading="lazy" src="/img/mail.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-email-' + link.id"
+               alt="link to email" :class="editMode ? 'dn' : ''"
+          />
+          <img v-if="link.type == 'url'" loading="lazy" src="/img/url.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-url-' + link.id"
+               alt="link to url" :class="editMode ? 'dn' : ''"
+          />
 
-        <template v-if="!editMode">
-          <!-- case of a url or slack link -->
-          <a v-if="link.type == 'url' || link.type == 'slack'" :href="link.url" class="relative ml1">{{ labelOrLink(link) }}</a>
+          <template v-if="!editMode">
+            <!-- case of a url or slack link -->
+            <a v-if="link.type == 'url' || link.type == 'slack'" :href="link.url" class="relative ml1 truncate di link">{{ labelOrLink(link) }}</a>
 
-          <!-- case of email -->
-          <a v-if="link.type == 'email'" :href="'mailto:' + link.url" class="relative ml1">{{ labelOrLink(link) }}</a>
-        </template>
+            <!-- case of email -->
+            <a v-if="link.type == 'email'" :href="'mailto:' + link.url" class="relative ml1 truncate di link">{{ labelOrLink(link) }}</a>
+          </template>
+        </div>
 
         <!-- delete button -->
         <template v-if="editMode">
@@ -37,10 +44,10 @@
       </li>
 
       <!-- add a new link / edit links -->
-      <li v-if="addMode == false && teamMemberOrAtLeastHR()" class="mt3">
+      <li v-if="addMode == false" class="mt3">
         <a v-if="!editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-add-new-link" @click.prevent="addMode = true"><span>+</span> {{ $t('team.useful_link_cta') }}</a>
-        <span v-if="!editMode && updatedLinks.length > 0" class="moon-gray">|</span>
-        <a v-if="!editMode && updatedLinks.length > 0" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-edit-links" @click.prevent="editMode = true">{{ $t('team.useful_link_edit') }}</a>
+        <span v-if="!editMode && localLinks.length > 0" class="moon-gray">|</span>
+        <a v-if="!editMode && localLinks.length > 0" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-edit-links" @click.prevent="editMode = true">{{ $t('team.useful_link_edit') }}</a>
         <a v-if="editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-exit-edit-link" @click.prevent="editMode = false">{{ $t('team.useful_link_exit_edit_mode') }}</a>
       </li>
     </ul>
@@ -116,18 +123,10 @@ export default {
   },
 
   props: {
-    team: {
+    project: {
       type: Object,
       default: null,
     },
-    links: {
-      type: Array,
-      default: null,
-    },
-    userBelongsToTheTeam: {
-      type: Boolean,
-      default: false,
-    }
   },
 
   data() {
@@ -141,12 +140,12 @@ export default {
         errors: [],
       },
       loadingState: '',
-      updatedLinks: [],
+      localLinks: [],
     };
   },
 
   created: function() {
-    this.updatedLinks = this.links;
+    this.localLinks = this.project.links;
   },
 
   methods: {
@@ -165,9 +164,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/links', this.form)
+      axios.post('/' + this.$page.auth.company.id + '/projects/' + this.project.id + '/links', this.form)
         .then(response => {
-          this.updatedLinks.push(response.data.data);
+          this.localLinks.push(response.data.data);
+
           this.addMode = false;
           this.loadingState = null;
           this.form.url = null;
@@ -181,29 +181,15 @@ export default {
     },
 
     removeLink(link) {
-      axios.delete('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/links/' + link.id)
+      axios.delete('/' + this.$page.auth.company.id + '/projects/' + this.project.id + '/links/' + link.id)
         .then(response => {
-          flash(this.$t('team.team_lead_removed'), 'success');
-
-          this.updatedLinks.splice(this.updatedLinks.findIndex(i => i.id == response.data.data), 1);
+          this.localLinks.splice(this.localLinks.findIndex(i => i.id == link.id), 1);
           this.editMode = false;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
-
-    teamMemberOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (this.userBelongsToTheTeam == false) {
-        return false;
-      }
-
-      return true;
-    }
   }
 };
 

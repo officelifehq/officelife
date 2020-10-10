@@ -58,6 +58,19 @@ describe('Project - project creation', function () {
 
     cy.get('[data-cy=add-description-button]').click()
     cy.get('[data-cy=clear-description]').click()
+
+    // add project lead
+    cy.createProject(1, 'project 5')
+    cy.get('[data-cy=add-project-lead-blank-state]').click()
+    cy.get('[data-cy=search-project-lead]').type('admin')
+    cy.get('[data-cy=potential-project-lead-1]').click()
+    cy.get('[data-cy=current-project-lead]').contains('admin')
+
+    // remove project lead
+    cy.get('[data-cy=display-remove-project-lead-modal]').click()
+    cy.get('[data-cy=remove-project-lead-button]').click()
+    cy.get('[data-cy=confirm-remove-project-lead]').click()
+    cy.get('[data-cy=add-project-lead-blank-state]').should('exist')
   })
 
   it('should create a project as hr', function () {
@@ -112,6 +125,19 @@ describe('Project - project creation', function () {
 
     cy.get('[data-cy=add-description-button]').click()
     cy.get('[data-cy=clear-description]').click()
+
+    // add project lead
+    cy.createProject(1, 'project 5')
+    cy.get('[data-cy=add-project-lead-blank-state]').click()
+    cy.get('[data-cy=search-project-lead]').type('admin')
+    cy.get('[data-cy=potential-project-lead-1]').click()
+    cy.get('[data-cy=current-project-lead]').contains('admin')
+
+    // remove project lead
+    cy.get('[data-cy=display-remove-project-lead-modal]').click()
+    cy.get('[data-cy=remove-project-lead-button]').click()
+    cy.get('[data-cy=confirm-remove-project-lead]').click()
+    cy.get('[data-cy=add-project-lead-blank-state]').should('exist')
   })
 
   it('should create a project as normal user', function () {
@@ -167,5 +193,18 @@ describe('Project - project creation', function () {
 
     cy.get('[data-cy=add-description-button]').click()
     cy.get('[data-cy=clear-description]').click()
+
+    // add project lead
+    cy.createProject(1, 'project 5')
+    cy.get('[data-cy=add-project-lead-blank-state]').click()
+    cy.get('[data-cy=search-project-lead]').type('admin')
+    cy.get('[data-cy=potential-project-lead-1]').click()
+    cy.get('[data-cy=current-project-lead]').contains('admin')
+
+    // remove project lead
+    cy.get('[data-cy=display-remove-project-lead-modal]').click()
+    cy.get('[data-cy=remove-project-lead-button]').click()
+    cy.get('[data-cy=confirm-remove-project-lead]').click()
+    cy.get('[data-cy=add-project-lead-blank-state]').should('exist')
   })
 })

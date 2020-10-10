@@ -17,8 +17,12 @@ use App\Services\Company\Project\PauseProject;
 use App\Services\Company\Project\StartProject;
 use App\Services\Company\Project\CreateProject;
 use App\Services\Company\Project\DestroyProject;
+use App\Services\Company\Project\ClearProjectLead;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
+use App\Services\Company\Project\CreateProjectLink;
+use App\Services\Company\Project\UpdateProjectLead;
 use App\Exceptions\ProjectCodeAlreadyExistException;
+use App\Services\Company\Project\DestroyProjectLink;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\UpdateProjectDescription;
 use App\Services\Company\Project\UpdateProjectInformation;
@@ -288,6 +292,81 @@ class ProjectController extends Controller
     }
 
     /**
+     * Assign project lead.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function assign(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        try {
+            $project = Project::where('company_id', $company->id)
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $lead = (new UpdateProjectLead)->execute([
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $project->id,
+            'employee_id' => $request->input('employeeId'),
+        ]);
+
+        return response()->json([
+            'data' => [
+                'id' => $lead->id,
+                'name' => $lead->name,
+                'avatar' => $lead->avatar,
+                'position' => (! $lead->position) ? null : [
+                    'id' => $lead->position->id,
+                    'title' => $lead->position->title,
+                ],
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $lead,
+                ]),
+            ],
+        ], 200);
+    }
+
+    /**
+     * Clear project lead.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function clear(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        try {
+            $project = Project::where('company_id', $company->id)
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $project = (new ClearProjectLead)->execute([
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $project->id,
+        ]);
+
+        return response()->json([
+            'data' => null,
+        ], 200);
+    }
+
+    /**
      * Display the project messages.
      *
      * @param Request $request
@@ -407,6 +486,68 @@ class ProjectController extends Controller
                     'project' => $project,
                 ]),
             ],
+        ], 201);
+    }
+
+    /**
+     * Create a new project link.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function createLink(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'type' => $request->input('type'),
+            'label' => ($request->input('label')) ? $request->input('label') : null,
+            'url' => $request->input('url'),
+        ];
+
+        $link = (new CreateProjectLink)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'id' => $link->id,
+                'type' => $link->type,
+                'label' => $link->label,
+                'url' => $link->url,
+            ],
+        ], 201);
+    }
+
+    /**
+     * Destroy a new project link.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $linkId
+     * @return JsonResponse
+     */
+    public function destroyLink(Request $request, int $companyId, int $projectId, int $linkId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'project_link_id' => $linkId,
+        ];
+
+        (new DestroyProjectLink)->execute($request);
+
+        return response()->json([
+            'data' => true,
         ], 201);
     }
 }

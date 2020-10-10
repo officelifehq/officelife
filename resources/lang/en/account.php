@@ -250,11 +250,12 @@ return [
     'log_project_closed' => 'Closed the project called :project_name.',
     'log_project_paused' => 'Put the project called :project_name in pause.',
     'log_project_team_lead_updated' => 'Assigned :employee_name as lead of the project called :project_name.',
-    'log_project_link_created' => 'Added the link called :project_name in the project called :project_name.',
-    'log_project_link_destroyed' => 'Deleted the link called :project_name from the project called :project_name.',
+    'log_project_link_created' => 'Added the link called :project_link_name in the project called :project_name.',
+    'log_project_link_destroyed' => 'Deleted the link called :project_link_name from the project called :project_name.',
     'log_project_status_created' => 'Wrote a status from the project called :project_name.',
     'log_project_information_updated' => 'Updated project information for the project called :project_name.',
     'log_project_description_updated' => 'Updated the description of the project called :project_name.',
+    'log_project_team_lead_cleared' => 'Removed :employee_name as the project lead of the project called :project_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -319,6 +320,7 @@ return [
     'employee_log_employee_added_to_project' => 'Has been added to the project called :project_name.',
     'employee_log_employee_removed_from_project' => 'Has been removed from the project called :project_name.',
     'employee_log_project_team_lead_updated' => 'Has been assigned as project lead for the called :project_name.',
+    'employee_log_project_team_lead_cleared' => 'Has been removed as the project lead of the project called :project_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

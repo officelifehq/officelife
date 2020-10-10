@@ -62,7 +62,7 @@
             />
 
             <!-- Actions -->
-            <div class="mb4 mt5">
+            <div class="mb4 mt3">
               <div class="flex-ns justify-between">
                 <div>
                   <inertia-link :href="'/' + $page.auth.company.id + '/projects/' + project.id" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">

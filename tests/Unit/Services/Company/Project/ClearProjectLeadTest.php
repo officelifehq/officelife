@@ -9,42 +9,45 @@ use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\UpdateProjectLead;
+use App\Services\Company\Project\ClearProjectLead;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class UpdateProjectLeadTest extends TestCase
+class ClearProjectLeadTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_updates_the_project_lead_as_administrator(): void
+    public function it_clears_the_project_lead_as_administrator(): void
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
+            'project_lead_id' => $michael->id,
         ]);
         $this->executeService($michael, $dwight, $project);
     }
 
     /** @test */
-    public function it_updates_the_project_lead_as_hr(): void
+    public function it_clears_the_project_lead_as_hr(): void
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
+            'project_lead_id' => $michael->id,
         ]);
         $this->executeService($michael, $dwight, $project);
     }
 
     /** @test */
-    public function it_updates_the_project_lead_as_normal_user(): void
+    public function it_clears_the_project_lead_as_normal_user(): void
     {
         $michael = $this->createEmployee();
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
+            'project_lead_id' => $michael->id,
         ]);
         $this->executeService($michael, $michael, $project);
     }
@@ -57,20 +60,7 @@ class UpdateProjectLeadTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new UpdateProjectLead)->execute($request);
-    }
-
-    /** @test */
-    public function it_fails_if_the_employee_is_not_in_the_authors_company(): void
-    {
-        $michael = $this->createAdministrator();
-        $dwight = $this->createEmployee();
-        $project = factory(Project::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $dwight, $project);
+        (new ClearProjectLead)->execute($request);
     }
 
     /** @test */
@@ -78,7 +68,9 @@ class UpdateProjectLeadTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $project = factory(Project::class)->create();
+        $project = factory(Project::class)->create([
+            'project_lead_id' => $michael->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $dwight, $project);
@@ -95,37 +87,32 @@ class UpdateProjectLeadTest extends TestCase
             'employee_id' => $dwight->id,
         ];
 
-        $employee = (new UpdateProjectLead)->execute($request);
+        $project = (new ClearProjectLead)->execute($request);
 
         $this->assertDatabaseHas('projects', [
             'id' => $project->id,
             'company_id' => $dwight->company_id,
-            'project_lead_id' => $dwight->id,
-        ]);
-
-        $this->assertDatabaseHas('employee_project', [
-            'project_id' => $project->id,
-            'employee_id' => $dwight->id,
+            'project_lead_id' => null,
         ]);
 
         $this->assertInstanceOf(
-            Employee::class,
-            $employee
+            Project::class,
+            $project
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $dwight) {
-            return $job->auditLog['action'] === 'project_team_lead_updated' &&
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project) {
+            return $job->auditLog['action'] === 'project_team_lead_cleared' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'project_id' => $project->id,
                     'project_name' => $project->name,
-                    'employee_id' => $dwight->id,
-                    'employee_name' => $dwight->name,
+                    'employee_id' => $michael->id,
+                    'employee_name' => $michael->name,
                 ]);
         });
 
         Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $project) {
-            return $job->auditLog['action'] === 'project_team_lead_updated' &&
+            return $job->auditLog['action'] === 'project_team_lead_cleared' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'project_id' => $project->id,

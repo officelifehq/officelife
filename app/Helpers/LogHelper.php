@@ -848,6 +848,15 @@ class LogHelper
                     'project_name' => $log->object->{'project_name'},
                 ]);
                 break;
+
+            case 'project_team_lead_cleared':
+                $sentence = trans('account.log_project_team_lead_cleared', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                ]);
+                break;
         }
 
         return $sentence;
@@ -1277,6 +1286,13 @@ class LogHelper
 
             case 'project_team_lead_updated':
                 $sentence = trans('account.employee_log_project_team_lead_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_team_lead_cleared':
+                $sentence = trans('account.employee_log_project_team_lead_cleared', [
                     'project_id' => $log->object->{'project_id'},
                     'project_name' => $log->object->{'project_name'},
                 ]);
