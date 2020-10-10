@@ -6,6 +6,7 @@ on:
       - main
       - release
       - next
+      - alpha
   pull_request:
     types: [opened, synchronize, reopened]
   release:
@@ -162,7 +163,7 @@ jobs:
     needs: tests
     runs-on: ubuntu-latest
     name: Semantic release
-    if: github.event_name != 'pull_request'
+#    if: github.event_name != 'pull_request'
 
     steps:
       - name: Checkout repository
