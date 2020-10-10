@@ -165,6 +165,10 @@ jobs:
     name: Semantic release
 #    if: github.event_name != 'pull_request'
 
+    strategy:
+      matrix:
+        php-version: ['7.4']
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
