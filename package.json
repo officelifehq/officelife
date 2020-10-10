@@ -33,7 +33,7 @@
         "lodash": "^4.17.13",
         "mrm": "^1.2.2",
         "popper.js": "^1.12",
-        "prettier": "^1.18.2",
+        "prettier": "^2.1.2",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^7.1.0",
