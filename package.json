@@ -58,16 +58,13 @@
     },
     "lint-staged": {
         "resources/**/*.{css, scss}": [
-            "prettier --write --ignore-unknown",
-            "git add"
+            "prettier --write --ignore-unknown"
         ],
         "*.php": [
-            "php ./vendor/bin/php-cs-fixer fix --config .php_cs",
-            "git add"
+            "php ./vendor/bin/php-cs-fixer fix --config .php_cs"
         ],
         "resources/js/**/*.{vue,js}": [
-            "eslint --ext .js,.vue resources/js/ --fix",
-            "git add"
+            "eslint --ext .js,.vue resources/js/ --fix"
         ]
     },
     "husky": {
