@@ -131,7 +131,7 @@ export default {
       this.form.gameId = this.updatedGame.id;
       this.form.choiceId = choice.id;
 
-      axios.post('/' + this.$page.auth.company.id + '/company/guessEmployee/vote/', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/company/guessEmployee/vote/', this.form)
         .then(response => {
         })
         .catch(error => {
@@ -139,7 +139,7 @@ export default {
     },
 
     replay() {
-      axios.get('/' + this.$page.auth.company.id + '/company/guessEmployee/replay')
+      axios.get('/' + this.$page.props.auth.company.id + '/company/guessEmployee/replay')
         .then(response => {
           this.isRightChoice = false;
           this.result.name = null;

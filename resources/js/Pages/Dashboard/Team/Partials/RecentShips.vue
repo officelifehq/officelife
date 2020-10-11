@@ -59,7 +59,7 @@ export default {
 
   methods: {
     teamMemberOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
       }
 

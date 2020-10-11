@@ -34,13 +34,13 @@
             <li v-if="!currentEmployee.invited" class="di pr2">
               <inertia-link :href="'/account/employees/' + currentEmployee.id + '/permissions'">{{ $t('account.employees_change_permission') }}</inertia-link>
             </li>
-            <li v-if="currentEmployee.id != $page.auth.employee.id && !currentEmployee.lock_status && !currentEmployee.invited" class="di pr2">
+            <li v-if="currentEmployee.id != $page.props.auth.employee.id && !currentEmployee.lock_status && !currentEmployee.invited" class="di pr2">
               <inertia-link :href="currentEmployee.url_lock" :data-cy="'lock-account-' + currentEmployee.id">{{ $t('account.employees_lock_account') }}</inertia-link>
             </li>
-            <li v-if="currentEmployee.id != $page.auth.employee.id && currentEmployee.lock_status" class="di pr2">
+            <li v-if="currentEmployee.id != $page.props.auth.employee.id && currentEmployee.lock_status" class="di pr2">
               <inertia-link :href="currentEmployee.url_unlock" :data-cy="'unlock-account-' + currentEmployee.id">{{ $t('account.employees_unlock_account') }}</inertia-link>
             </li>
-            <li v-if="currentEmployee.id != $page.auth.employee.id" class="di">
+            <li v-if="currentEmployee.id != $page.props.auth.employee.id" class="di">
               <inertia-link :href="currentEmployee.url_delete" class="c-delete" data-cy="delete-account">{{ $t('app.delete') }}</inertia-link>
             </li>
           </ul>

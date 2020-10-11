@@ -31,7 +31,7 @@
             {{ $t('dashboard.team_viewing') }}
           </li>
           <li v-for="team in teams" :key="team.id" class="di team-item pa2 br2 pointer" :class="{ selected: currentTeam == team.id }" :data-cy="'team-selector-' + team.id ">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team/' + team.id">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/team/' + team.id">
               {{ team.name }}
             </inertia-link>
           </li>

@@ -36,7 +36,7 @@
         💵
       </span> {{ $t('dashboard.expense_title') }}
 
-      <help :url="$page.help_links.employee_expenses" :datacy="'help-icon-expense'" />
+      <help :url="$page.props.help_links.employee_expenses" :datacy="'help-icon-expense'" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">
@@ -62,7 +62,7 @@
                           v-model="form.title"
                           :datacy="'expense-title'"
                           :name="'title'"
-                          :errors="$page.errors.title"
+                          :errors="$page.props.errors.title"
                           :label="$t('dashboard.expense_create_title')"
                           :required="true"
                           @esc-key-pressed="hideAddMode()"
@@ -75,7 +75,7 @@
                               v-model="form.amount"
                               :name="'amount'"
                               :datacy="'expense-amount'"
-                              :errors="$page.errors.amount"
+                              :errors="$page.props.errors.amount"
                               :label="$t('dashboard.expense_create_amount')"
                               :required="true"
                               :type="'number'"
@@ -92,7 +92,7 @@
                     v-model="form.currency"
                     :options="currencies"
                     :name="'currency'"
-                    :errors="$page.errors.currency"
+                    :errors="$page.props.errors.currency"
                     :label="$t('dashboard.expense_create_currency')"
                     :custom-label-key="'code'"
                     :placeholder="$t('dashboard.expense_create_currency')"
@@ -110,7 +110,7 @@
                           :name="'category'"
                           :label="$t('dashboard.expense_create_category')"
                           :custom-label-key="'name'"
-                          :errors="$page.errors.category"
+                          :errors="$page.props.errors.category"
                           :placeholder="$t('dashboard.expense_create_category')"
                           :required="false"
                           :value="form.category"
@@ -123,7 +123,7 @@
                           :datacy="'expense-receipt'"
                           :name="'title'"
                           :type="'file'"
-                          :errors="$page.errors.title"
+                          :errors="$page.props.errors.title"
                           :label="$t('dashboard.expense_create_title')"
                           :required="true"
                           @change="selectFile()"
@@ -266,7 +266,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/expense', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/expense', this.form)
         .then(response => {
           this.loadingState = null;
           this.expenses.unshift(response.data.data);

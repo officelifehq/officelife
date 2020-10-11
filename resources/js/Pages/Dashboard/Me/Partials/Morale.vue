@@ -85,7 +85,7 @@ export default {
       this.successMessage = true;
       this.form.emotion = emotion;
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/morale', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/morale', this.form)
         .then(response => {
           this.updatedEmployee.has_logged_morale_today = true;
         })

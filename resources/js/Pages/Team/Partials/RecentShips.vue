@@ -19,10 +19,10 @@
       <span>
         🚀 {{ $t('team.recent_ship_title') }}
 
-        <help :url="$page.help_links.team_recent_ship" :top="'2px'" />
+        <help :url="$page.props.help_links.team_recent_ship" :top="'2px'" />
       </span>
 
-      <inertia-link v-if="teamMemberOrAtLeastHR()" :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/ships/create'" class="btn f5" data-cy="add-recent-ship-entry">{{ $t('team.recent_ship_list_cta') }}</inertia-link>
+      <inertia-link v-if="teamMemberOrAtLeastHR()" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships/create'" class="btn f5" data-cy="add-recent-ship-entry">{{ $t('team.recent_ship_list_cta') }}</inertia-link>
     </h3>
 
     <div class="mb4 bg-white box cf">
@@ -38,7 +38,7 @@
         </div>
 
         <div class="ph3 pv2 tc f6 bb-gray">
-          <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/ships'" data-cy="view-all-ships">{{ $t('team.recent_ship_view_all') }}</inertia-link>
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships'" data-cy="view-all-ships">{{ $t('team.recent_ship_view_all') }}</inertia-link>
         </div>
       </div>
 
@@ -75,7 +75,7 @@ export default {
 
   methods: {
     teamMemberOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
       }
 

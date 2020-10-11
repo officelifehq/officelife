@@ -13,7 +13,7 @@
           <span class="dib-ns db mb0-ns mb2 lh-copy">
             {{ $t('dashboard.worklog_placeholder') }}
           </span>
-          <inertia-link v-show="updatedWorklogCount != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs'" class="f6 ml2-ns pointer">
+          <inertia-link v-show="updatedWorklogCount != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/worklogs'" class="f6 ml2-ns pointer">
             {{ $t('dashboard.worklog_read_previous_entries') }}
           </inertia-link>
         </p>
@@ -23,7 +23,7 @@
           <span class="dib-ns db mb0-ns mb2">
             {{ $t('dashboard.worklog_already_logged') }}
           </span>
-          <inertia-link v-show="updatedWorklogCount != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs'" class="ml2-ns pointer">
+          <inertia-link v-show="updatedWorklogCount != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/worklogs'" class="ml2-ns pointer">
             {{ $t('dashboard.worklog_read_previous_entries') }}
           </inertia-link>
         </p>
@@ -128,7 +128,7 @@ export default {
       this.editorShown = false;
       this.updatedEmployee.has_logged_worklog_today = true;
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/worklog', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/worklog', this.form)
         .then(response => {
           flash(this.$t('dashboard.worklog_success_message'), 'success');
           this.updatedWorklogCount = this.updatedWorklogCount + 1;

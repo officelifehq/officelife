@@ -182,7 +182,7 @@ export default {
       this.form.employee_id = this.entry.employee.id;
       this.form.manager_id = this.entry.manager.id;
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems', this.form)
         .then(response => {
           this.localActionItems.push(response.data.data);
           this.addActionItemMode = false;
@@ -198,7 +198,7 @@ export default {
     update(itemId) {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + itemId, this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + itemId, this.form)
         .then(response => {
           this.actionItemToEdit = 0;
           this.loadingState = null;
@@ -214,7 +214,7 @@ export default {
     },
 
     toggle(id) {
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + id + '/toggle')
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + id + '/toggle')
         .then(response => {
         })
         .catch(error => {
@@ -223,7 +223,7 @@ export default {
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + id)
         .then(response => {
           flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
           id = this.localActionItems.findIndex(x => x.id === id);

@@ -21,7 +21,7 @@
         </div>
         <div class="mt3">
           <h2 class="mt0 fw4 f3 mb4 company-name">
-            {{ $page.auth.company.name }} <a href="https://dundermifflin.com" class="ml3 f6 fw4 no-underline gray bb-0">https://dundermifflin.com</a>
+            {{ $page.props.auth.company.name }} <a href="https://dundermifflin.com" class="ml3 f6 fw4 no-underline gray bb-0">https://dundermifflin.com</a>
           </h2>
           <div class="flex">
             <div class="">

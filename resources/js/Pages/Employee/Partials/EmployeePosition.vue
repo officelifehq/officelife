@@ -132,7 +132,7 @@ export default {
     },
 
     assign(position) {
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/position', position)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/position', position)
         .then(response => {
           flash(this.$t('employee.position_modal_assign_success'), 'success');
 
@@ -146,7 +146,7 @@ export default {
     },
 
     reset() {
-      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/position/' + this.updatedEmployee.position.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/position/' + this.updatedEmployee.position.id)
         .then(response => {
           flash(this.$t('employee.position_modal_unassign_success'), 'success');
 
