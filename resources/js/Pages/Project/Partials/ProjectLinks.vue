@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-.useful-link {
+.link-icon {
   width: 20px;
   top: 1px;
 }
@@ -15,16 +15,16 @@
 
     <!-- list of links -->
     <ul class="list pl0 mb0">
-      <li v-for="link in localLinks" :key="link.id" class="mb2 relative" :data-cy="'team-useful-link-' + link.id">
+      <li v-for="link in localLinks" :key="link.id" class="mb2 relative" :data-cy="'project-link-' + link.id">
         <div class="flex">
           <!-- icon types -->
-          <img v-if="link.type == 'slack'" loading="lazy" src="/img/slack.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-slack-' + link.id"
+          <img v-if="link.type == 'slack'" loading="lazy" src="/img/slack.svg" class="relative link-icon" :data-cy="'project-link-logo-slack-' + link.id"
                alt="link to slack" :class="editMode ? 'dn' : ''"
           />
-          <img v-if="link.type == 'email'" loading="lazy" src="/img/mail.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-email-' + link.id"
+          <img v-if="link.type == 'email'" loading="lazy" src="/img/mail.svg" class="relative link-icon" :data-cy="'project-link-logo-email-' + link.id"
                alt="link to email" :class="editMode ? 'dn' : ''"
           />
-          <img v-if="link.type == 'url'" loading="lazy" src="/img/url.svg" class="relative useful-link" :data-cy="'team-useful-link-logo-url-' + link.id"
+          <img v-if="link.type == 'url'" loading="lazy" src="/img/url.svg" class="relative link-icon" :data-cy="'project-link-logo-url-' + link.id"
                alt="link to url" :class="editMode ? 'dn' : ''"
           />
 
@@ -39,16 +39,16 @@
 
         <!-- delete button -->
         <template v-if="editMode">
-          <span class="f6">{{ labelOrLink(link) }}</span> <a href="#" :data-cy="'team-useful-link-' + link.id + '-destroy'" class="f6" @click.prevent="removeLink(link)">{{ $t('app.remove') }}</a>
+          <span class="f6">{{ labelOrLink(link) }}</span> <a href="#" :data-cy="'project-link-' + link.id + '-destroy'" class="f6" @click.prevent="removeLink(link)">{{ $t('app.remove') }}</a>
         </template>
       </li>
 
       <!-- add a new link / edit links -->
       <li v-if="addMode == false" class="mt3">
-        <a v-if="!editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-add-new-link" @click.prevent="addMode = true"><span>+</span> {{ $t('team.useful_link_cta') }}</a>
+        <a v-if="!editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-link" @click.prevent="addMode = true"><span>+</span> {{ $t('team.useful_link_cta') }}</a>
         <span v-if="!editMode && localLinks.length > 0" class="moon-gray">|</span>
-        <a v-if="!editMode && localLinks.length > 0" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-edit-links" @click.prevent="editMode = true">{{ $t('team.useful_link_edit') }}</a>
-        <a v-if="editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-exit-edit-link" @click.prevent="editMode = false">{{ $t('team.useful_link_exit_edit_mode') }}</a>
+        <a v-if="!editMode && localLinks.length > 0" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="edit-links" @click.prevent="editMode = true">{{ $t('team.useful_link_edit') }}</a>
+        <a v-if="editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="exit-edit-link" @click.prevent="editMode = false">{{ $t('team.useful_link_exit_edit_mode') }}</a>
       </li>
     </ul>
 
@@ -64,7 +64,7 @@
         <label class="lh-copy f6">
           {{ $t('team.useful_link_type_of_link') }}
         </label>
-        <select v-model="form.type" class="mb3" required data-cy="useful-link-type">
+        <select v-model="form.type" class="mb3" required data-cy="link-type">
           <option value="url">
             {{ $t('team.useful_link_form_url') }}
           </option>
@@ -102,7 +102,7 @@
                 {{ $t('app.cancel') }}
               </a>
             </div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'useful-link-submit-button'" />
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'link-submit-button'" />
           </div>
         </div>
       </form>
