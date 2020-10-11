@@ -57,7 +57,7 @@
         "vue-snotify": "^3.2.1"
     },
     "lint-staged": {
-        "resources/**/*.{css, scss}": [
+        "resources/**/*.{css,scss}": [
             "prettier --write --ignore-unknown"
         ],
         "*.php": [
