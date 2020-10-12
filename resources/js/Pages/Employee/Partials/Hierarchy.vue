@@ -258,7 +258,7 @@ import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
-    ['ball-pulse-loader']: BallPulseLoader.component,
+    'ball-pulse-loader': BallPulseLoader.component,
     IconDelete,
   },
 

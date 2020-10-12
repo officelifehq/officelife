@@ -175,7 +175,7 @@ import Help from '@/Shared/Help';
 export default {
   components: {
     Layout,
-    ['ball-pulse-loader']: BallPulseLoader.component,
+    'ball-pulse-loader': BallPulseLoader.component,
     SmallNameAndAvatar,
     Help,
   },

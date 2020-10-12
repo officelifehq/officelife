@@ -170,7 +170,7 @@ export default {
     TextArea,
     Errors,
     LoadingButton,
-    ['ball-pulse-loader']: BallPulseLoader.component,
+    'ball-pulse-loader': BallPulseLoader.component,
     Help
   },
 

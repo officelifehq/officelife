@@ -103,7 +103,7 @@ export default {
   components: {
     Help,
     TextInput,
-    ['ball-pulse-loader']: BallPulseLoader.component
+    'ball-pulse-loader': BallPulseLoader.component
   },
 
   props: {

@@ -231,7 +231,7 @@ export default {
     LoadingButton,
     NotificationsComponent,
     Toaster,
-    ['ball-pulse-loader']: BallPulseLoader.component,
+    'ball-pulse-loader': BallPulseLoader.component,
   },
 
   directives: {

@@ -112,7 +112,7 @@ import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 export default {
   components: {
     TextInput,
-    ['ball-pulse-loader']: BallPulseLoader.component,
+    'ball-pulse-loader': BallPulseLoader.component,
   },
 
   props: {

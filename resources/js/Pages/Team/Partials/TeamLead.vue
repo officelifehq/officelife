@@ -136,7 +136,7 @@ export default {
   components: {
     Errors,
     IconDelete,
-    ['ball-pulse-loader']: BallPulseLoader.component,
+    'ball-pulse-loader': BallPulseLoader.component,
   },
 
   directives: {

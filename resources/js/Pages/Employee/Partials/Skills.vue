@@ -136,7 +136,7 @@ import Help from '@/Shared/Help';
 
 export default {
   components: {
-    ['ball-pulse-loader']: BallPulseLoader.component,
+    'ball-pulse-loader': BallPulseLoader.component,
     TextInput,
     Help,
   },
