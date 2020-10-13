@@ -3,8 +3,11 @@
 namespace Tests\Unit\ViewHelpers\Project;
 
 use Tests\TestCase;
+use App\Helpers\DateHelper;
+use App\Helpers\StringHelper;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectLink;
+use App\Models\Company\ProjectStatus;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -58,6 +61,9 @@ class ProjectViewHelperTest extends TestCase
             'project_lead_id' => $michael->id,
         ]);
         $link = factory(ProjectLink::class)->create([
+            'project_id' => $project->id,
+        ]);
+        $status = factory(ProjectStatus::class)->create([
             'project_id' => $project->id,
         ]);
 
@@ -126,6 +132,25 @@ class ProjectViewHelperTest extends TestCase
                 ],
             ],
             $array['links']->toArray()
+        );
+        $this->assertEquals(
+            [
+                'title' => $status->title,
+                'status' => $status->status,
+                'description' => StringHelper::parse($status->description),
+                'written_at' => DateHelper::formatDate($status->created_at),
+                'author' => [
+                    'id' => $status->author->id,
+                    'name' => $status->author->name,
+                    'avatar' => $status->author->avatar,
+                    'position' => (! $status->author->position) ? null : [
+                        'id' => $status->author->position->id,
+                        'title' => $status->author->position->title,
+                    ],
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$status->author->id,
+                ],
+            ],
+            $array['latest_update']
         );
     }
 

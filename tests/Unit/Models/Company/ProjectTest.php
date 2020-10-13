@@ -7,6 +7,7 @@ use App\Models\Company\Team;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectLink;
+use App\Models\Company\ProjectStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTest extends TestCase
@@ -75,5 +76,16 @@ class ProjectTest extends TestCase
         ]);
 
         $this->assertTrue($project->links()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_statuses(): void
+    {
+        $project = factory(Project::class)->create();
+        factory(ProjectStatus::class, 2)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $this->assertTrue($project->statuses()->exists());
     }
 }

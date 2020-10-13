@@ -105,4 +105,14 @@ class Project extends Model
     {
         return $this->hasMany(ProjectLink::class);
     }
+
+    /**
+     * Get the project status associated with the project.
+     *
+     * @return hasMany
+     */
+    public function statuses()
+    {
+        return $this->hasMany(ProjectStatus::class);
+    }
 }

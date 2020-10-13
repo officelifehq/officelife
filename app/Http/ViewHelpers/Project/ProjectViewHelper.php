@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Project;
 
+use App\Helpers\DateHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
@@ -49,6 +50,7 @@ class ProjectViewHelper
     public static function summary(Project $project, Company $company): array
     {
         $lead = $project->lead;
+        $latestStatus = $project->statuses()->with('author')->latest()->first();
 
         $links = $project->links;
         $linkCollection = collect([]);
@@ -69,6 +71,25 @@ class ProjectViewHelper
             'status' => $project->status,
             'raw_description' => is_null($project->description) ? null : $project->description,
             'parsed_description' => is_null($project->description) ? null : StringHelper::parse($project->description),
+            'latest_update' => is_null($latestStatus) ? null : [
+                'title' => $latestStatus->title,
+                'status' => $latestStatus->status,
+                'description' => StringHelper::parse($latestStatus->description),
+                'written_at' => DateHelper::formatDate($latestStatus->created_at),
+                'author' => $latestStatus->author ? [
+                    'id' => $latestStatus->author->id,
+                    'name' => $latestStatus->author->name,
+                    'avatar' => $latestStatus->author->avatar,
+                    'position' => (! $latestStatus->author->position) ? null : [
+                        'id' => $latestStatus->author->position->id,
+                        'title' => $latestStatus->author->position->title,
+                    ],
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $latestStatus->author,
+                    ]),
+                ] : null,
+            ],
             'url_edit' => route('projects.edit', [
                 'company' => $company,
                 'project' => $project,

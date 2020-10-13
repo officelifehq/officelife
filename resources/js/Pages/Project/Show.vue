@@ -10,6 +10,7 @@
 }
 
 .project-code {
+  padding-bottom: 2px;
   top: -2px;
   color: #737e91;
   border: 1px solid #b3d4ff;
@@ -37,7 +38,7 @@
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
         <h2 class="tc mb2 relative" data-cy="project-name">
-          {{ localProject.name }} <span v-if="localProject.code" class="ml2 ttu f7 project-code br3 pa1 relative fw4">
+          {{ localProject.name }} <span v-if="localProject.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">
             {{ localProject.code }}
           </span>
         </h2>
@@ -49,41 +50,25 @@
         <div class="cf center">
           <!-- LEFT COLUMN -->
           <div class="fl w-70-l w-100">
+            <!-- project status -->
+            <project-updates :project="project" />
+
             <!-- Project description -->
             <description :project="project" />
-
-            <div>
-              <div class="mb2 fw5 relative flex justify-between items-center">
-                <div>
-                  <span class="mr1">
-                    👩‍🏫
-                  </span> {{ $t('project.summary_status') }}
-                </div>
-
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/status'" class="btn f5" data-cy="add-recent-ship-entry">Update status</inertia-link>
-              </div>
-
-              <div class="bg-white box mb4 pa3">
-                <h3 class="ttc f7 gray mt0 mb2 fw4">
-                  Written by Michael Scott on Oct 4th
-                </h3>
-                <p class="lh-copy mt0 mb0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.</p>
-              </div>
-            </div>
           </div>
 
           <!-- RIGHT COLUMN -->
           <div class="fl w-30-l w-100 pl4-l">
-            <!-- actions -->
-            <status :project="project" />
-
-            <div class="bg-white box mb2">
+            <div class="bg-white box mb4">
               <!-- lead by -->
               <project-lead :project="project" />
 
               <!-- links -->
               <project-links :project="project" />
             </div>
+
+            <!-- actions -->
+            <status :project="project" />
 
             <ul class="list pl0">
               <li class="mb2 pl2"><inertia-link :href="localProject.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.summary_edit') }}</inertia-link></li>
@@ -103,6 +88,7 @@ import Description from '@/Pages/Project/Partials/Description';
 import Status from '@/Pages/Project/Partials/Status';
 import ProjectLead from '@/Pages/Project/Partials/ProjectLead';
 import ProjectLinks from '@/Pages/Project/Partials/ProjectLinks';
+import ProjectUpdates from '@/Pages/Project/Partials/ProjectUpdates';
 
 export default {
   components: {
@@ -112,6 +98,7 @@ export default {
     Status,
     ProjectLead,
     ProjectLinks,
+    ProjectUpdates,
   },
 
   props: {
