@@ -37,7 +37,7 @@
         🏔
       </span> {{ $t('dashboard.one_on_ones_title') }}
 
-      <help :url="$page.help_links.one_on_ones" />
+      <help :url="$page.props.help_links.one_on_ones" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">

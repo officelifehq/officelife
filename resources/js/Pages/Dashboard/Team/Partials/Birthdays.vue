@@ -54,11 +54,11 @@ export default {
   props: {
     birthdays: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
     teams: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
   },
 };

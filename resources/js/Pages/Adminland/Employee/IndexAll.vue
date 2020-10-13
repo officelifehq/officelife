@@ -5,13 +5,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="route('account.employees.index', $page.auth.company.id)">{{ $t('app.breadcrumb_account_manage_employees') }}</inertia-link>
+            <inertia-link :href="route('account.employees.index', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_manage_employees') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_employee_all') }}
@@ -23,7 +23,7 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.employees_all_title', {company: $page.auth.company.name}) }}
+            {{ $t('account.employees_all_title', {company: $page.props.auth.company.name}) }}
           </h2>
 
           <employee-list

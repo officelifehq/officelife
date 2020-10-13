@@ -5,10 +5,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="route('account', $page.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="route('account', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_flows') }}
@@ -21,13 +21,13 @@
         <!-- WHEN THERE ARE TEAMS -->
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.flows_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.flows_title', { company: $page.props.auth.company.name}) }}
           </h2>
           <p class="relative adminland-headline">
             <span class="dib mb3 di-l">
-              {{ $tc('account.flows_number_flows', flows.length, { company: $page.auth.company.name, count: flows.length}) }}
+              {{ $tc('account.flows_number_flows', flows.length, { company: $page.props.auth.company.name, count: flows.length}) }}
             </span>
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-employee-button">
               {{ $t('account.flows_cta') }}
             </inertia-link>
           </p>
@@ -46,17 +46,17 @@
                 </span>
                 <ul class="f6 list pl0">
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id" :datacy="'lock-account-'+flow.id">
+                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows/' + flow.id" :datacy="'lock-account-'+flow.id">
                       {{ $t('app.view') }}
                     </inertia-link>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id + '/lock'">
+                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows/' + flow.id + '/lock'">
                       {{ $t('app.rename') }}
                     </inertia-link>
                   </li>
                   <li class="di">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/account/flows/' + flow.id + '/destroy'">
+                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows/' + flow.id + '/destroy'">
                       {{ $t('app.delete') }}
                     </inertia-link>
                   </li>

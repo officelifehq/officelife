@@ -31,10 +31,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_company_skills') }}
@@ -45,15 +45,15 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1 pa3">
         <h2 class="tc relative fw5">
-          {{ $t('company.skills_index_title', { name: $page.auth.company.name}) }}
+          {{ $t('company.skills_index_title', { name: $page.props.auth.company.name}) }}
 
-          <help :url="$page.help_links.skills" :datacy="'help-icon-skills'" :top="'1px'" />
+          <help :url="$page.props.help_links.skills" :datacy="'help-icon-skills'" :top="'1px'" />
         </h2>
         <p class="tc lh-copy mb5">{{ $t('company.skills_index_description') }}</p>
 
         <text-input v-model="search"
                     :datacy="'news-title-input'"
-                    :errors="$page.errors.title"
+                    :errors="$page.props.errors.title"
                     :required="true"
                     :placeholder="$t('company.skills_index_search_placeholder')"
                     :extra-class-upper-div="'mb4 mw6 center'"

@@ -26,8 +26,8 @@
       <span>🤼‍♀️ {{ $tc('team.count_team_members', listOfEmployees.length, { count: listOfEmployees.length }) }}</span>
 
       <!-- actions -->
-      <a v-if="!editMode && $page.auth.employee.permission_level <= 200" href="" class="btn f5" data-cy="manage-team-on" @click.prevent="editMode = true">{{ $t('team.members_enable_manage_mode') }}</a>
-      <a v-if="editMode && $page.auth.employee.permission_level <= 200" href="" class="btn f5" data-cy="manage-team-off" @click.prevent="editMode = false">{{ $t('team.members_disable_manage_mode') }}</a>
+      <a v-if="!editMode && $page.props.auth.employee.permission_level <= 200" href="" class="btn f5" data-cy="manage-team-on" @click.prevent="editMode = true">{{ $t('team.members_enable_manage_mode') }}</a>
+      <a v-if="editMode && $page.props.auth.employee.permission_level <= 200" href="" class="btn f5" data-cy="manage-team-off" @click.prevent="editMode = false">{{ $t('team.members_disable_manage_mode') }}</a>
     </h3>
 
     <div class="mb4 bg-white box cf">
@@ -38,7 +38,7 @@
                       v-model="form.searchTerm"
                       :name="'title'"
                       :datacy="'member-input'"
-                      :errors="$page.errors.title"
+                      :errors="$page.props.errors.title"
                       :label="$t('team.members_add_input')"
                       :placeholder="$t('team.members_add_input_help')"
                       :required="false"
@@ -107,12 +107,12 @@
 <script>
 import TextInput from '@/Shared/TextInput';
 import 'vue-loaders/dist/vue-loaders.css';
-import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
     TextInput,
-    BallPulseLoader,
+    'ball-pulse-loader': BallPulseLoader.component,
   },
 
   props: {
@@ -149,7 +149,7 @@ export default {
 
     // when a team lead is set, we must react to the event emitted by the
     // TeamLead.vue component and add the team lead to the list of employees
-    this.$root.$on('leadSet', employee => {
+    this.$root.$on('lead-set', employee => {
       var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
 
       if (id == -1) {
@@ -160,7 +160,7 @@ export default {
 
   methods: {
     load(employee) {
-      this.$inertia.visit(this.route('employees.show', [this.$page.auth.company.id, employee.id]));
+      this.$inertia.visit(this.route('employees.show', [this.$page.props.auth.company.id, employee.id]));
     },
 
     search: _.debounce(
@@ -169,7 +169,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/members/search', this.form)
+          axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/members/search', this.form)
             .then(response => {
               this.potentialMembers = response.data.data;
               this.processingSearch = false;
@@ -186,7 +186,7 @@ export default {
       }, 500),
 
     add(employee) {
-      axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/members/attach/' + employee.id)
+      axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/members/attach/' + employee.id)
         .then(response => {
           this.listOfEmployees.push(response.data.data);
           this.potentialMembers = [];
@@ -202,7 +202,7 @@ export default {
     },
 
     detach(employee) {
-      axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/members/detach/' + employee.id)
+      axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/members/detach/' + employee.id)
         .then(response => {
           var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
           this.listOfEmployees.splice(id, 1);

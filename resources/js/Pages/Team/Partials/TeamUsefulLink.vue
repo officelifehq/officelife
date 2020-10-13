@@ -74,7 +74,7 @@
                       v-model="form.label"
                       :name="'label'"
                       :datacy="'link-label-input'"
-                      :errors="$page.errors.label"
+                      :errors="$page.props.errors.label"
                       :label="$t('team.useful_link_new_label')"
                       :help="$t('team.useful_link_new_label_help')"
           />
@@ -83,7 +83,7 @@
                       v-model="form.url"
                       :name="'url'"
                       :datacy="'link-url-input'"
-                      :errors="$page.errors.url"
+                      :errors="$page.props.errors.url"
                       :label="$t('team.useful_link_new_url')"
                       :help="$t('team.useful_link_new_url_help')"
                       :required="true"
@@ -167,7 +167,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/links', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/links', this.form)
         .then(response => {
           flash(this.$t('team.description_success'), 'success');
 
@@ -186,7 +186,7 @@ export default {
     },
 
     removeLink(link) {
-      axios.delete('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/links/' + link.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/links/' + link.id)
         .then(response => {
           flash(this.$t('team.team_lead_removed'), 'success');
 
@@ -199,7 +199,7 @@ export default {
     },
 
     teamMemberOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
       }
 

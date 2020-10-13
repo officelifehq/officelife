@@ -15,7 +15,7 @@
     <div class="br3 bg-white box z-1">
       <ul v-if="news.news.length > 0" class="list ma0 pa3">
         <li v-for="newsItem in news.news" :key="newsItem.id" class="answer-item mb3">
-          <h3 class="f5 fw5 mt0 mb1"><inertia-link>{{ newsItem.title }}</inertia-link></h3>
+          <h3 class="f5 fw5 mt0 mb1"><inertia-link href="">{{ newsItem.title }}</inertia-link></h3>
           <div class="gray parsed-content f6" v-html="newsItem.extract"></div>
         </li>
       </ul>

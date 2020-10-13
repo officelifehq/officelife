@@ -24,7 +24,7 @@ img {
         <form @submit.prevent="submit">
           <text-input v-model="form.name"
                       :name="'name'"
-                      :errors="$page.errors.name"
+                      :errors="$page.props.errors.name"
                       :label="$t('company.new_name')"
                       :required="true"
                       :autofocus="true"

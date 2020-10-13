@@ -11,10 +11,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="route('account', $page.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="route('account', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_employee_statuses') }}
@@ -26,12 +26,12 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.employee_statuses_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.employee_statuses_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="statuses.length == 0 ? 'white' : ''">
-              {{ $tc('account.employee_statuses_number_positions', statuses.length, { company: $page.auth.company.name, count: statuses.length}) }}
+              {{ $tc('account.employee_statuses_number_positions', statuses.length, { company: $page.props.auth.company.name, count: statuses.length}) }}
             </span>
             <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="displayAddModal">
               {{ $t('account.employee_statuses_cta') }}
@@ -47,7 +47,7 @@
                 <text-input
                   :ref="'newStatus'"
                   v-model="form.name"
-                  :errors="$page.errors.name"
+                  :errors="$page.props.errors.name"
                   :datacy="'add-title-input'"
                   required
                   :placeholder="$t('account.employee_statuses_placeholder')"
@@ -77,7 +77,7 @@
                                 v-model="form.name"
                                 :custom-ref="'name' + status.id"
                                 :datacy="'list-rename-input-name-' + status.id"
-                                :errors="$page.errors.name"
+                                :errors="$page.props.errors.name"
                                 required
                                 :extra-class-upper-div="'mb0'"
                                 @esc-key-pressed="idToUpdate = 0"
@@ -195,7 +195,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/employeestatuses', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/employeestatuses', this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_new'), 'success');
 
@@ -211,7 +211,7 @@ export default {
     },
 
     update(id) {
-      axios.put('/' + this.$page.auth.company.id + '/account/employeestatuses/' + id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/account/employeestatuses/' + id, this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_update'), 'success');
 
@@ -227,7 +227,7 @@ export default {
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/employeestatuses/' + id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/account/employeestatuses/' + id)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_destroy'), 'success');
 

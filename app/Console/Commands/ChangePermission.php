@@ -41,7 +41,7 @@ class ChangePermission extends Command
             DB::table('employees')
                 ->where('id', $this->option('employee'))
                 ->update(['permission_level' => $this->option('permission')]);
-        } else if ($this->option('user')) {
+        } elseif ($this->option('user')) {
             DB::table('employees')
                 ->where('user_id', $this->option('user'))
                 ->update(['permission_level' => $this->option('permission')]);

@@ -34,7 +34,7 @@ export default {
 
   methods: {
     employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
       }
 
@@ -42,7 +42,7 @@ export default {
         return false;
       }
 
-      if (this.$page.auth.user.id == this.employee.user.id) {
+      if (this.$page.props.auth.user.id == this.employee.user.id) {
         return true;
       }
     }

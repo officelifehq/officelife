@@ -54,7 +54,7 @@ class AdminEmployeeViewHelper
             'url_new' => route('account.employees.new', [
                 'company' => $company,
             ]),
-       ];
+        ];
 
         return $stats;
     }

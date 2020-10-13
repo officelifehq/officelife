@@ -11,7 +11,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_list') }}
@@ -25,7 +25,7 @@
           <!-- HEADER: number of employees and button -->
           <p class="relative">
             <span class="dib mb3 di-l">
-              {{ $tc('account.employees_number_employees', employees.length, { company: $page.auth.company.name, count: employees.length}) }}
+              {{ $tc('account.employees_number_employees', employees.length, { company: $page.props.auth.company.name, count: employees.length}) }}
             </span>
           </p>
 
@@ -39,7 +39,7 @@
               />
               <div class="pl3">
                 <!-- name -->
-                <inertia-link class="dib pointer mb1" :href="'/' + $page.auth.company.id + '/employees/' + employee.id">
+                <inertia-link class="dib pointer mb1" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id">
                   {{ employee.name }}
                 </inertia-link>
 
@@ -61,7 +61,7 @@
                       <ul class="di list pl0">
                         <li class="di">Part of </li>
                         <li v-for="team in employee.teams" :key="team.id" class="di mr2">
-                          <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">
+                          <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id">
                             {{ team.name }}
                           </inertia-link>
                         </li>

@@ -17,13 +17,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_edit') }}
@@ -41,12 +41,12 @@
           <div class="cf w-100">
             <ul class="list pl0 db tc bb bb-gray pa2 edit-information-menu">
               <li class="di mr2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
                   {{ $t('employee.edit_information_menu') }}
                 </inertia-link>
               </li>
               <li class="di">
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
                   {{ $t('employee.edit_information_menu_address') }}
                 </inertia-link>
               </li>
@@ -69,7 +69,7 @@
                 <text-input :id="'street'"
                             v-model="form.street"
                             :name="'street'"
-                            :errors="$page.errors.street"
+                            :errors="$page.props.errors.street"
                             :label="$t('employee.edit_information_street')"
                             :required="true"
                 />
@@ -80,7 +80,7 @@
                     <text-input :id="'city'"
                                 v-model="form.city"
                                 :name="'city'"
-                                :errors="$page.errors.city"
+                                :errors="$page.props.errors.city"
                                 :label="$t('employee.edit_information_city')"
                                 :required="true"
                     />
@@ -90,7 +90,7 @@
                     <text-input :id="'state'"
                                 v-model="form.state"
                                 :name="'state'"
-                                :errors="$page.errors.state"
+                                :errors="$page.props.errors.state"
                                 :label="$t('employee.edit_information_state')"
                     />
                   </div>
@@ -99,7 +99,7 @@
                     <text-input :id="'postal_code'"
                                 v-model="form.postal_code"
                                 :name="'postal_code'"
-                                :errors="$page.errors.postal_code"
+                                :errors="$page.props.errors.postal_code"
                                 :label="$t('employee.edit_information_postal_code')"
                                 :required="true"
                     />
@@ -110,7 +110,7 @@
                             v-model="form.country_id"
                             :options="countries"
                             :name="'country_id'"
-                            :errors="$page.errors.country_id"
+                            :errors="$page.props.errors.country_id"
                             :label="$t('employee.edit_information_country')"
                             :placeholder="$t('app.choose_value')"
                             :required="true"
@@ -124,7 +124,7 @@
             <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -212,10 +212,10 @@ export default {
       this.loadingState = 'loading';
       this.form.country_id = this.form.country_id.value;
 
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/address/update', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/address/update', this.form)
         .then(response => {
           localStorage.success = this.$t('employee.edit_information_success');
-          this.$inertia.visit('/' + this.$page.auth.company.id + '/employees/' + this.employee.id);
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id);
         })
         .catch(error => {
           this.loadingState = null;

@@ -14,13 +14,13 @@ input[type=radio] {
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/news'">{{ $t('app.breadcrumb_account_manage_company_news') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news'">{{ $t('app.breadcrumb_account_manage_company_news') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_edit_company_news') }}
@@ -32,7 +32,7 @@ input[type=radio] {
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5 measure center">
           <h2 class="tc normal mb4">
-            {{ $t('account.company_news_edit_headline', { name: $page.auth.company.name}) }}
+            {{ $t('account.company_news_edit_headline', { name: $page.props.auth.company.name}) }}
           </h2>
 
           <form @submit.prevent="submit">
@@ -43,7 +43,7 @@ input[type=radio] {
                         v-model="form.title"
                         :name="'title'"
                         :datacy="'news-title-input'"
-                        :errors="$page.errors.title"
+                        :errors="$page.props.errors.title"
                         :label="$t('account.company_news_new_title')"
                         :help="$t('account.company_news_new_title_help')"
                         :required="true"
@@ -62,7 +62,7 @@ input[type=radio] {
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news'" data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news'" data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -124,7 +124,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.put('/' + this.$page.auth.company.id + '/account/news/' + this.news.id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/account/news/' + this.news.id, this.form)
         .then(response => {
           localStorage.success = this.$t('account.company_news_update_success');
           this.$inertia.visit('/' + response.data.data.company.id + '/account/news');

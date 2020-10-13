@@ -13,7 +13,7 @@
       <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2" :class="{'bg-white box': teams.length == 0}">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_team_list') }}
@@ -25,7 +25,7 @@
         <!-- list of teams -->
         <div v-for="team in teams" v-show="teams.length > 0" :key="team.id" class="bg-white box mb4 pa3">
           <div class="">
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id" class="">{{ team.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id" class="">{{ team.name }}</inertia-link>
             <span>({{ team.employees.length }} members)</span>
           </div>
           <div v-html="team.parsed_description"></div>
@@ -82,7 +82,7 @@ export default {
 
   methods: {
     load(employee) {
-      this.$inertia.visit(this.route('employees.show', [this.$page.auth.company.id, employee.id]));
+      this.$inertia.visit(this.route('employees.show', [this.$page.props.auth.company.id, employee.id]));
     }
   }
 };

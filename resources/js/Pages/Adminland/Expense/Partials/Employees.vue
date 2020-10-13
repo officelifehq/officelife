@@ -28,7 +28,7 @@
           🤾‍♂️
         </span> {{ $tc('account.expense_employees_headline') }}
 
-        <help :url="$page.help_links.accountants" :datacy="'help-icon-accounts'" :top="'1px'" />
+        <help :url="$page.props.help_links.accountants" :datacy="'help-icon-accounts'" :top="'1px'" />
       </span>
 
       <!-- main cta -->
@@ -42,7 +42,7 @@
         <text-input :ref="'employee-input'"
                     v-model="form.searchTerm"
                     :datacy="'potential-employees'"
-                    :errors="$page.errors.name"
+                    :errors="$page.props.errors.name"
                     :label="$t('account.expense_employees_create_label')"
                     :placeholder="$t('team.recent_ship_new_credit_help')"
                     :required="true"
@@ -97,13 +97,13 @@
 <script>
 import Help from '@/Shared/Help';
 import TextInput from '@/Shared/TextInput';
-import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
     Help,
     TextInput,
-    BallPulseLoader
+    'ball-pulse-loader': BallPulseLoader.component
   },
 
   props: {
@@ -153,7 +153,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/expenses', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/expenses', this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_new'), 'success');
 
@@ -171,7 +171,7 @@ export default {
     add(employee) {
       this.form.selectedEmployee = employee.id;
 
-      axios.post('/' + this.$page.auth.company.id + '/account/expenses/employee', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/employee', this.form)
         .then(response => {
           flash(this.$t('account.expense_employees_assign_success'), 'success');
 
@@ -186,7 +186,7 @@ export default {
     remove(employee) {
       this.form.selectedEmployee = employee.id;
 
-      axios.post('/' + this.$page.auth.company.id + '/account/expenses/removeEmployee', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/removeEmployee', this.form)
         .then(response => {
           flash(this.$t('account.expense_employees_unassign_success'), 'success');
 
@@ -205,7 +205,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.auth.company.id + '/account/expenses/search', this.form)
+          axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/search', this.form)
             .then(response => {
               let searchResults = response.data.data;
 

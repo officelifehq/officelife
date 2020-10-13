@@ -11,10 +11,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/manager'">{{ $t('app.breadcrumb_dashboard_manager') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/manager'">{{ $t('app.breadcrumb_dashboard_manager') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_dashboard_manager_expense_details') }}
@@ -193,10 +193,10 @@ export default {
     accept() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/manager/expenses/' + this.expense.id + '/accept')
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/manager/expenses/' + this.expense.id + '/accept')
         .then(response => {
           localStorage.success = this.$t('dashboard.manager_expense_accepted');
-          this.$inertia.visit('/' + this.$page.auth.company.id + '/dashboard/manager');
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/dashboard/manager');
         })
         .catch(error => {
           this.loadingState = null;
@@ -211,10 +211,10 @@ export default {
     reject() {
       this.rejectLoadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/manager/expenses/' + this.expense.id + '/reject', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/manager/expenses/' + this.expense.id + '/reject', this.form)
         .then(response => {
           localStorage.success = this.$t('dashboard.manager_expense_rejected');
-          this.$inertia.visit('/' + this.$page.auth.company.id + '/dashboard/manager');
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/dashboard/manager');
         })
         .catch(error => {
           this.rejectLoadingState = null;

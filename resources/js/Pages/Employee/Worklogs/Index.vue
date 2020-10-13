@@ -26,13 +26,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_worklogs') }}
@@ -52,7 +52,7 @@
           <ul v-show="years.length > 1" class="list years tc" data-cy="worklog-year-selector">
             <li class="di">{{ $t('employee.worklog_year_selector') }}</li>
             <li v-for="singleYear in years" :key="singleYear.number" class="di mh2">
-              <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + singleYear.number" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</inertia-link>
+              <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/worklogs/' + singleYear.number" :class="{ selected: currentYear == singleYear.number }">{{ singleYear.number }}</inertia-link>
             </li>
           </ul>
 
@@ -64,16 +64,16 @@
               <!-- list of months -->
               <p class="f6 mt0 silver">{{ $t('employee.worklog_filter_month') }}</p>
               <ul class="pl0 list months f6">
-                <li class="mb2"><inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year">All</inertia-link></li>
+                <li class="mb2"><inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year">All</inertia-link></li>
                 <li v-for="month in months" :key="month.month" class="mb2" :data-cy="'worklog-month-selector-' + month.month">
                   <!-- we are viewing a specific month, so we need to highlight the proper month in the UI -->
                   <template v-if="currentMonth">
-                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month" :class="{ selected: currentMonth == month.month }">{{ month.translation }} ({{ month.occurences }})</inertia-link>
                     <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
                   </template>
 
                   <template v-else>
-                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month">{{ month.translation }} ({{ month.occurences }})</inertia-link>
+                    <inertia-link v-if="month.occurences != 0" :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/worklogs/' + year + '/' + month.month">{{ month.translation }} ({{ month.occurences }})</inertia-link>
                     <span v-if="month.occurences == 0">{{ month.translation }} ({{ month.occurences }})</span>
                   </template>
                 </li>

@@ -46,7 +46,7 @@
     <div class="ph2 ph0-ns">
       <div class="cf mt4 mw7 center">
         <h2 class="tc fw5">
-          {{ $page.auth.company.name }}
+          {{ $page.props.auth.company.name }}
         </h2>
       </div>
 
@@ -58,7 +58,7 @@
           💵
         </span> {{ $t('dashboard.accountant_awaiting_accounting_title') }}
 
-        <help :url="$page.help_links.accoutant_expenses" :datacy="'help-icon-expense'" />
+        <help :url="$page.props.help_links.accoutant_expenses" :datacy="'help-icon-expense'" />
       </div>
 
       <div class="cf mw7 center br3 mb5 bg-white box relative">
@@ -114,7 +114,7 @@
           💵
         </span> {{ $t('dashboard.accountant_awaiting_manager_title') }}
 
-        <help :url="$page.help_links.employee_expenses" :datacy="'help-icon-expense'" />
+        <help :url="$page.props.help_links.employee_expenses" :datacy="'help-icon-expense'" />
       </div>
 
       <div class="cf mw7 center br3 mb5 bg-white box relative">
@@ -184,7 +184,7 @@
           💵
         </span> {{ $t('dashboard.accounting_accepted_rejected_expenses') }}
 
-        <help :url="$page.help_links.employee_expenses" :datacy="'help-icon-expense'" />
+        <help :url="$page.props.help_links.employee_expenses" :datacy="'help-icon-expense'" />
       </div>
 
       <div class="cf mw7 center br3 mb3 bg-white box relative">

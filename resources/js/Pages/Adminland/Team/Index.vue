@@ -42,10 +42,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="route('account', $page.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="route('account', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_teams') }}
@@ -58,13 +58,13 @@
         <!-- WHEN THERE ARE TEAMS -->
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.teams_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.teams_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <!-- add a team -->
           <div class="relative mb4">
             <span v-show="teams.length != 0" class="dib mb3 di-l">
-              {{ $tc('account.teams_number_teams', teams.length, { company: $page.auth.company.name, count: teams.length}) }}
+              {{ $tc('account.teams_number_teams', teams.length, { company: $page.props.auth.company.name, count: teams.length}) }}
             </span>
             <a data-cy="add-team-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="displayAddModal">
               {{ $t('account.teams_cta') }}
@@ -83,7 +83,7 @@
                               v-model="form.name"
                               :placeholder="''"
                               :name="'name'"
-                              :errors="$page.errors.name"
+                              :errors="$page.props.errors.name"
                               required
                               :label="$t('account.team_new_name')"
                               :extra-class-upper-div="'mb0'"
@@ -122,7 +122,7 @@
                     <inertia-link :href="team.url">{{ $t('account.team_visit_page') }}</inertia-link>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/account/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</inertia-link>
+                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</inertia-link>
                   </li>
                   <li class="di pr2">
                     <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'team-rename-link-' + team.id" @click.prevent="showRenameModal(team)">{{ $t('app.rename') }}</a>
@@ -150,7 +150,7 @@
                                 :placeholder="'Product team'"
                                 :custom-ref="'name' + team.id"
                                 :datacy="'list-rename-input-name-' + team.id"
-                                :errors="$page.errors.name"
+                                :errors="$page.props.errors.name"
                                 required
                                 :extra-class-upper-div="'mb0'"
                                 @esc-key-pressed="teamToRename = 0"
@@ -276,7 +276,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/teams', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/teams', this.form)
         .then(response => {
           flash(this.$t('account.team_creation_success'), 'success');
 
@@ -292,7 +292,7 @@ export default {
     },
 
     update(team) {
-      axios.put('/' + this.$page.auth.company.id + '/account/teams/' + team.id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/account/teams/' + team.id, this.form)
         .then(response => {
           flash(this.$t('account.team_update_success'), 'success');
 
@@ -308,7 +308,7 @@ export default {
     },
 
     destroy(team) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/teams/' + team.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/account/teams/' + team.id)
         .then(response => {
           flash(this.$t('account.team_destroy_success'), 'success');
 

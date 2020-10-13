@@ -57,11 +57,11 @@ export default {
   props: {
     workFromHomes: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
     teams: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
   },
 };
