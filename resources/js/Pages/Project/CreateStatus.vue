@@ -1,30 +1,10 @@
 <style lang="scss" scoped>
-.avatar {
-  left: 1px;
-  top: 5px;
-  width: 23px;
+.rate-late {
+  background: linear-gradient(0deg, #ec89793d 0%, white 100%);
 }
 
-.team-member {
-  padding-left: 34px;
-
-  .avatar {
-    top: 6px;
-    left: 7px;
-  }
-}
-
-.ball-pulse {
-  right: 8px;
-  top: 37px;
-  position: absolute;
-}
-
-.plus-button {
-  padding: 2px 7px 4px;
-  margin-right: 4px;
-  border-color: #60995c;
-  color: #60995c;
+.rate-on-track {
+  background: linear-gradient(0deg, #abddac96 0%, white 100%);
 }
 </style>
 
@@ -35,13 +15,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/projects/' + project.id">{{ project.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/' + project.id">{{ project.name }}</inertia-link>
           </li>
           <li class="di">
             Edit status
@@ -55,28 +35,43 @@
           <h2 class="tc normal mb4 lh-copy">
             How is the project doing?
 
-            <help :url="$page.help_links.team_recent_ship_create" :top="'1px'" />
+            <help :url="$page.props.help_links.team_recent_ship_create" :top="'1px'" />
           </h2>
 
           <form @submit.prevent="submit">
             <errors :errors="form.errors" />
 
             <!-- Status -->
-            <div class="flex-ns justify-around mt3 mb3">
-              <span class="btn mr3-ns mb0-ns mb2 dib-l db rate-bad" data-cy="log-rate-bad" @click.prevent="submit(answer, 'bad')">
-                <span class="mr1">
-                  😇
-                </span> On track
+            <div class="flex-ns justify-around mt3 mb5">
+              <span class="btn mr3-ns mb0-ns mb2 dib-l db rate-on-track" data-cy="project-status-on-track">
+                <input id="status_on_track" v-model="form.status" type="radio" class="mr1 relative" name="status"
+                       value="on_track"
+                />
+                <label for="status_on_track" class="pointer mb0">
+                  <span class="mr1">
+                    😇
+                  </span> On track
+                </label>
               </span>
-              <span class="btn mr3-ns mb0-ns mb2 dib-l db" data-cy="log-rate-normal" @click.prevent="submit(answer, 'average')">
-                <span class="mr1">
-                  🥴
-                </span> At risk
+              <span class="btn mr3-ns mb0-ns mb2 dib-l db rate-risk" data-cy="project-status-at-risk">
+                <input id="status_at_risk" v-model="form.status" type="radio" class="mr1 relative" name="status"
+                       value="at_risk"
+                />
+                <label for="status_at_risk" class="pointer mb0">
+                  <span class="mr1">
+                    🥴
+                  </span> At risk
+                </label>
               </span>
-              <span class="btn dib-l db mb0-ns rate-good" data-cy="log-rate-good" @click.prevent="submit(answer, 'good')">
-                <span class="mr1">
-                  🙀
-                </span> Late
+              <span class="btn mr3-ns mb0-ns mb2 dib-l db rate-late" data-cy="project-status-late">
+                <input id="status_late" v-model="form.status" type="radio" class="mr1 relative" name="status"
+                       value="late"
+                />
+                <label for="status_late" class="pointer mb0">
+                  <span class="mr1">
+                    🙀
+                  </span> Late
+                </label>
               </span>
             </div>
 
@@ -85,42 +80,31 @@
                         v-model="form.title"
                         :name="'title'"
                         :datacy="'status-title-input'"
-                        :errors="$page.errors.title"
+                        :errors="$page.props.errors.title"
                         :label="'Project status'"
                         :placeholder="'It’s going well'"
                         :help="$t('project.status_input_title_help')"
                         :required="true"
             />
 
-            <!-- Code -->
-            <text-input :id="'code'" v-model="form.code"
-                        :name="'code'"
-                        :datacy="'project-code-input'"
-                        :errors="$page.errors.title"
-                        :label="$t('project.create_input_code')"
-                        @esc-key-pressed="showCode = false"
-            />
-
-            <!-- Summary -->
-            <text-area v-if="showSummary"
-                       v-model="form.summary"
+            <!-- Description -->
+            <text-area v-model="form.description"
                        :label="$t('project.create_input_summary')"
-                       :datacy="'project-summary-input'"
-                       :required="false"
+                       :required="true"
+                       :datacy="'textarea-description'"
                        :rows="10"
                        :help="$t('project.create_input_summary_help')"
-                       @esc-key-pressed="showSummary = false"
             />
 
             <!-- Actions -->
             <div class="mb4 mt5">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/projects/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/' + project.id" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.create')" :cypress-selector="'submit-create-project-button'" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.update')" :cypress-selector="'submit-create-project-button'" />
               </div>
             </div>
           </form>
@@ -163,7 +147,7 @@ export default {
     return {
       form: {
         title: null,
-        status: null,
+        status: 'on_track',
         description: null,
         errors: [],
       },
@@ -175,7 +159,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/projects', this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/status', this.form)
         .then(response => {
           this.$inertia.visit(response.data.data.url);
         })
@@ -183,20 +167,6 @@ export default {
           this.loadingState = null;
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
-    },
-
-    add(employee) {
-      this.form.projectLead = employee;
-      this.potentialMembers = [];
-      this.showAssignProjectLead = false;
-      this.form.searchTerm = null;
-    },
-
-    unassignProjectLead() {
-      this.form.projectLead = null;
-      this.potentialMembers = [];
-      this.showAssignProjectLead = false;
-      this.form.searchTerm = null;
     },
   }
 };

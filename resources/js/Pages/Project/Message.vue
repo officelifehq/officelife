@@ -25,13 +25,13 @@
       <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams/ships'">Messages</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/ships'">Messages</inertia-link>
           </li>
           <li class="di">
             Message details
@@ -95,7 +95,7 @@
                 <div class="flex-ns">
                   <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-news-button'" />
                   <div>
-                    <inertia-link :href="'/' + $page.auth.company.id + '/account/news'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                       {{ $t('app.cancel') }}
                     </inertia-link>
                   </div>

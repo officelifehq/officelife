@@ -1,10 +1,10 @@
 describe('Adminland - Hardware', function () {
   it('should let you manage company hardware as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=hardware-admin-link]').click()
 
     // blank state should exist
@@ -80,13 +80,15 @@ describe('Adminland - Hardware', function () {
   })
 
   it('should let you manage hardware as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
 
-    cy.changePermission(1, 200)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
     cy.get('[data-cy=hardware-admin-link]').click()
 
     // blank state should exist

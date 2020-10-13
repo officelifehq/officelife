@@ -39,7 +39,7 @@
       <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_project_list') }}
@@ -54,7 +54,7 @@
             <span class="pr2">
               {{ $t('project.index_title') }}
             </span>
-            <inertia-link :href="'/' + $page.auth.company.id + '/projects/create'" class="btn absolute db-l dn">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/create'" class="btn absolute db-l dn">
               {{ $t('project.index_cta') }}
             </inertia-link>
           </p>

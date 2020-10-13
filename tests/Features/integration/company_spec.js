@@ -1,6 +1,6 @@
 describe('Company - Basic company management', function () {
   it('should create a company', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -13,7 +13,7 @@ describe('Company - Basic company management', function () {
   })
 
   it('should display a welcome message for the first administrator of a company', function () {
-    cy.login()
+    cy.loginLegacy()
     cy.createCompany()
     cy.url().should('include', '/welcome')
 

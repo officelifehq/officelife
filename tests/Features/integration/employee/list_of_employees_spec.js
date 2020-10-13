@@ -1,6 +1,6 @@
 describe('Employee - List of employees', function () {
   it('should let create employees and see it in a list', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

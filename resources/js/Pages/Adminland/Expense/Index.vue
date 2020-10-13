@@ -11,10 +11,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_expense_categories') }}
@@ -26,7 +26,7 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.expense_categories_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.expense_categories_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <!-- EXPENSES CATEGORIES -->
@@ -108,7 +108,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/expenses', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/expenses', this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_new'), 'success');
 
@@ -129,7 +129,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.auth.company.id + '/expenses/search', this.form)
+          axios.post('/' + this.$page.props.auth.company.id + '/expenses/search', this.form)
             .then(response => {
               let searchResults = response.data.data;
 

@@ -1,6 +1,6 @@
 describe('Project - project creation', function () {
   it('should let an employee create a project as administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -74,7 +74,7 @@ describe('Project - project creation', function () {
   })
 
   it('should create a project as hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.changePermission(1, 200)
@@ -141,7 +141,7 @@ describe('Project - project creation', function () {
   })
 
   it('should create a project as normal user', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

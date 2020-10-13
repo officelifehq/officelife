@@ -1,5 +1,4 @@
-@import "~tachyons/css/tachyons.min";
-@import "~nprogress/nprogress.css";
+@import '~tachyons/css/tachyons.min';
 
 // Variables
 @import 'variables';
@@ -9,9 +8,10 @@
 @import 'header';
 
 body {
-    background-color: $body-bg;
-    color: $body-color;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background-color: $body-bg;
+  color: $body-color;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 a {
@@ -38,13 +38,13 @@ input:invalid {
 hr {
   margin-top: 1rem;
   border: 0;
-  border-top: 1px solid rgba(34,34,48,.1);
+  border-top: 1px solid rgba(34, 34, 48, 0.1);
 }
 
 .box {
-    border: 1px solid #e7e7e7;
-    border-radius: 11px;
-    box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.17);
+  border: 1px solid #e7e7e7;
+  border-radius: 11px;
+  box-shadow: 1px 1px 2px rgba(122, 122, 122, 0.17);
 }
 
 .box-plus-button {
@@ -85,7 +85,7 @@ hr {
   line-height: 23px;
   top: 9px;
 
-  li+li:before {
+  li + li:before {
     content: '>';
     padding-left: 5px;
     padding-right: 5px;
@@ -101,9 +101,9 @@ hr {
 }
 
 // input
-input[type=text],
-input[type=email],
-input[type=password],
+input[type='text'],
+input[type='email'],
+input[type='password'],
 textarea {
   &::placeholder {
     background-color: #fafbfc;
@@ -119,15 +119,15 @@ textarea {
 
 // popmenu
 .popupmenu {
-  border: 1px solid rgba(27,31,35,.15);
-  box-shadow: 0 3px 12px rgba(27,31,35,.15);
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  box-shadow: 0 3px 12px rgba(27, 31, 35, 0.15);
   right: 22px;
   top: 46px;
 }
 
 .popupmenu:after,
 .popupmenu:before {
-  content: "";
+  content: '';
   display: inline-block;
   position: absolute;
 }
@@ -142,7 +142,7 @@ textarea {
 
 .popupmenu:before {
   border: 8px solid transparent;
-  border-bottom-color: rgba(27,31,35,.15);
+  border-bottom-color: rgba(27, 31, 35, 0.15);
   left: auto;
   right: 9px;
   top: -16px;
@@ -151,7 +151,10 @@ textarea {
 // restricted
 .restricted {
   background-image: url('/img/company/account/restricted-1x.png');
-  background-image: -webkit-image-set(url('/img/company/account/restricted-1x.png') 1x,url('/img/company/account/restricted-2x.png') 2x);
+  background-image: -webkit-image-set(
+    url('/img/company/account/restricted-1x.png') 1x,
+    url('/img/company/account/restricted-2x.png') 2x
+  );
   background-repeat: repeat-x;
 }
 

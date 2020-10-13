@@ -1,6 +1,6 @@
 describe('Dashboard - employee - work from home', function () {
   it('should let the employee indicates that he works from home', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

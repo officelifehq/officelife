@@ -13,10 +13,10 @@
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/projects'">Project list</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects'">Project list</inertia-link>
           </li>
           <li class="di">
             Project name
@@ -29,25 +29,25 @@
         <!-- Menu -->
         <div class="center br3 mb5 tc">
           <div class="cf dib btn-group">
-            <inertia-link :href="'/' + $page.auth.company.id + '/projects/1'" class="f6 fl ph3 pv2 dib pointer no-underline">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/1'" class="f6 fl ph3 pv2 dib pointer no-underline">
               Project summary
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/projects/1/messages'" class="f6 fl ph3 pv2 dib pointer no-underline">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/1/messages'" class="f6 fl ph3 pv2 dib pointer no-underline">
               Messages
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
               Tasks
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
               Calendar
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
               Members
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
               Finance
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
               Files
             </inertia-link>
           </div>

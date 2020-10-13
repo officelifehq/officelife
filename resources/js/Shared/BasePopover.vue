@@ -77,7 +77,7 @@ export default {
       if (this.popperInstance) {
         this.popperInstance.destroy();
         this.popperInstance = null;
-        this.$emit('closePopover');
+        this.$emit('close-popover');
       }
     },
 

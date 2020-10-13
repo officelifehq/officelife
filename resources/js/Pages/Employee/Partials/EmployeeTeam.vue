@@ -86,7 +86,7 @@
       <!-- Shown if there is no teams setup in the account yet -->
       <div v-show="teams.length == 0">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.team_modal_blank_title') }} <inertia-link :href="'/' + $page.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">
+          {{ $t('employee.team_modal_blank_title') }} <inertia-link :href="'/' + $page.props.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">
             {{ $t('employee.team_modal_blank_cta') }}
           </inertia-link>
         </p>
@@ -161,7 +161,7 @@ export default {
     },
 
     assign(team) {
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/team', team)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/team', team)
         .then(response => {
           flash(this.$t('employee.team_modal_assign_success'), 'success');
 
@@ -173,7 +173,7 @@ export default {
     },
 
     reset(team) {
-      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/team/' + team.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/team/' + team.id)
         .then(response => {
           flash(this.$t('employee.team_modal_unassign_success'), 'success');
 

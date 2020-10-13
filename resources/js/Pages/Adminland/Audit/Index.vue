@@ -11,10 +11,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_audit_logs') }}
@@ -34,7 +34,7 @@
             >
               <div class="flex-auto">
                 <!-- log author -->
-                <inertia-link v-if="log.author.id" :href="'/' + $page.auth.company.id + '/employees/' + log.author.id" class="">
+                <inertia-link v-if="log.author.id" :href="'/' + $page.props.auth.company.id + '/employees/' + log.author.id" class="">
                   {{ log.author.name }}
                 </inertia-link>
                 <span v-else class="black-70">

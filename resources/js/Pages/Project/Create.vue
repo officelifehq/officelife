@@ -35,13 +35,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/projects/'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_project_create') }}
@@ -55,7 +55,7 @@
           <h2 class="tc normal mb4 lh-copy">
             {{ $t('project.create_title') }}
 
-            <help :url="$page.help_links.team_recent_ship_create" :top="'1px'" />
+            <help :url="$page.props.help_links.team_recent_ship_create" :top="'1px'" />
           </h2>
 
           <form @submit.prevent="submit">
@@ -66,7 +66,7 @@
                         v-model="form.name"
                         :name="'name'"
                         :datacy="'project-name-input'"
-                        :errors="$page.errors.title"
+                        :errors="$page.props.errors.title"
                         :label="$t('project.create_input_name')"
                         :help="$t('project.create_input_name_help')"
                         :required="true"
@@ -78,7 +78,7 @@
                         v-model="form.code"
                         :name="'code'"
                         :datacy="'project-code-input'"
-                        :errors="$page.errors.title"
+                        :errors="$page.props.errors.title"
                         :label="$t('project.create_input_code')"
                         @esc-key-pressed="showCode = false"
             />
@@ -104,7 +104,7 @@
                               v-model="form.searchTerm"
                               :name="'name'"
                               :datacy="'project-lead-search'"
-                              :errors="$page.errors.name"
+                              :errors="$page.props.errors.name"
                               :label="$t('project.create_input_project_lead')"
                               :required="false"
                               @keyup="search"
@@ -149,7 +149,7 @@
             <div class="mb4 mt5">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/projects/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -170,7 +170,7 @@ import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import 'vue-loaders/dist/vue-loaders.css';
-import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import Help from '@/Shared/Help';
 
 export default {
@@ -180,7 +180,7 @@ export default {
     TextArea,
     Errors,
     LoadingButton,
-    BallPulseLoader,
+    'ball-pulse-loader': BallPulseLoader.component,
     Help
   },
 
@@ -216,7 +216,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/projects', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/projects', this.form)
         .then(response => {
           this.$inertia.visit(response.data.data.url);
         })
@@ -232,7 +232,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.auth.company.id + '/projects/search', this.form)
+          axios.post('/' + this.$page.props.auth.company.id + '/projects/search', this.form)
             .then(response => {
               this.potentialMembers = response.data.data;
               this.processingSearch = false;

@@ -1,5 +1,22 @@
+let faker = require('faker');
+let _ = require('lodash')
+
 // Create a user
-Cypress.Commands.add('login', (role) => {
+Cypress.Commands.add('login', (callback) => {
+  cy.exec('php artisan setup:frontendtestuser').then((result) => {
+    cy.loginin(result.stdout);
+    cy.visit('/home')
+    if (callback !== undefined) {
+      callback(result.stdout)
+    }
+  })
+});
+
+Cypress.Commands.add('loginin', (id) => {
+  cy.visit('/_dusk/login/'+id+'/');
+});
+
+Cypress.Commands.add('loginLegacy', (role) => {
   cy.exec('php artisan setup:frontendtesting -vvv')
 
   cy.visit('/login')
@@ -17,23 +34,35 @@ Cypress.Commands.add('login', (role) => {
 Cypress.Commands.add('logout', () => {
   cy.get('[data-cy=header-menu]').click()
   cy.get('[data-cy=logout-button]').click()
+  cy.wait(500)
 })
 
 // Create a company called "Dunder Mifflin"
-Cypress.Commands.add('createCompany', () => {
+Cypress.Commands.add('createCompany', (companyName, callback) => {
   cy.get('[data-cy=create-company-blank-state]').click()
 
   cy.url().should('include', '/company/create')
 
-  cy.get('input[name=name]').type('Dunder Mifflin')
-  cy.get('[data-cy=create-company-submit]').click()
+  let _companyName = (typeof companyName === 'string') ? companyName : faker.company.companyName()
+  let _callback = (typeof companyName === 'function') ? companyName : ((typeof callback === 'function') ? callback : undefined)
 
+  cy.log("callback: "+ (typeof _callback))
+
+  cy.get('input[name=name]').type(_companyName)
+  cy.get('[data-cy=create-company-submit]').click()
   cy.wait(500)
+
+  cy.get('[data-cy=company-welcome]', { timeout: 30000 }).should('be.visible')
+  .invoke('attr', 'data-cy-item').then(function (companyId) {
+    if (_callback !== undefined) {
+      _callback(companyId)
+    }
+  })
 })
 
 // Create a team
 Cypress.Commands.add('createTeam', (productName) => {
-  cy.visit('/1/account')
+  cy.get('[data-cy=header-adminland-link]').click()
 
   cy.get('[data-cy=team-admin-link]').click()
   cy.get('[data-cy=add-team-button]').click()
@@ -45,7 +74,7 @@ Cypress.Commands.add('createTeam', (productName) => {
 
 // Create an employee status
 Cypress.Commands.add('createEmployeeStatus', (status) => {
-  cy.visit('/1/account')
+  cy.get('[data-cy=header-adminland-link]').click()
 
   cy.get('[data-cy=employee-statuses-admin-link]').click()
   cy.get('[data-cy=add-status-button]').click()
@@ -56,28 +85,28 @@ Cypress.Commands.add('createEmployeeStatus', (status) => {
 })
 
 // Create an employee
-Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, sendEmail) => {
-  cy.visit('/1/account')
+Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, sendEmail, callback) => {
+  cy.get('[data-cy=header-adminland-link]', {timeout: 500}).click()
 
-  cy.get('[data-cy=employee-admin-link]').click()
+  cy.get('[data-cy=employee-admin-link]', {timeout: 500}).click()
   cy.url().should('include', '/account/employees')
 
-  cy.get('[data-cy=add-employee-button]').click()
+  cy.get('[data-cy=add-employee-button]', {timeout: 500}).click()
 
   cy.get('input[name=first_name]').type(firstname)
   cy.get('input[name=last_name]').type(lastname)
   cy.get('input[name=email]').type(email)
 
-  if (permission === 'admin') {
-    cy.get('[type="radio"]').first().check()
-  }
-
-  if (permission === 'hr') {
-    cy.get('[type="radio"]').check(['200'])
-  }
-
-  if (permission === 'user') {
-    cy.get('[type="radio"]').check(['300'])
+  switch (permission) {
+    case 'admin':
+      cy.get('[type="radio"]').first().check()
+      break;
+    case 'hr':
+      cy.get('[type="radio"]').check(['200'])
+      break;
+    case 'user':
+      cy.get('[type="radio"]').check(['300'])
+      break;
   }
 
   if (sendEmail === true) {
@@ -85,6 +114,17 @@ Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, 
   }
 
   cy.get('[data-cy=submit-add-employee-button]').click()
+
+  cy.get('[data-cy=all-employee-link]', {timeout: 800}).should('be.visible').as('all-employee-link')
+
+  if (callback !== undefined) {
+    cy.get('@all-employee-link').click()
+    cy.get('[data-cy=employee-list]').should('be.visible')
+    .invoke('attr', 'data-cy-items').then(function (items) {
+      let employeeId = _.last(items.split(','))
+      callback(employeeId)
+    })
+  }
 })
 
 // Finalize account creation and go to the dashboard
@@ -98,15 +138,15 @@ Cypress.Commands.add('acceptInvitationLinkAndGoToDashboard', (password, link) =>
 })
 
 // Assert that the page can be visited by a user with the right permission level
-Cypress.Commands.add('canAccess', (url, permission, textToSee) => {
-  cy.changePermission(1, permission)
+Cypress.Commands.add('canAccess', (url, permission, textToSee, userId = 1) => {
+  cy.changePermission(userId, permission)
   cy.visit(url)
   cy.contains(textToSee)
 })
 
 // Assert that a page can not be visited
-Cypress.Commands.add('canNotAccess', (url, permission) => {
-  cy.changePermission(1, permission)
+Cypress.Commands.add('canNotAccess', (url, permission, userId = 1) => {
+  cy.changePermission(userId, permission)
   cy.request({
     url: url,
     failOnStatusCode: false
@@ -118,21 +158,21 @@ Cypress.Commands.add('canNotAccess', (url, permission) => {
 
 // Assert that an audit log has been created with the following content
 // and redirect the page to the given url
-Cypress.Commands.add('hasAuditLog', (content, redirectUrl) => {
-  cy.visit('/1/account/audit')
-
+Cypress.Commands.add('hasAuditLog', (content, redirectUrl, companyId = 1) => {
+  cy.visit('/'+companyId+'/account/audit')
   cy.contains(content)
-
-  cy.visit(redirectUrl)
+  if (redirectUrl) {
+    cy.visit(redirectUrl)
+  }
 })
 
 // Assert that an employee log has been created with the following content
 // and redirect the page to the given url
-Cypress.Commands.add('hasEmployeeLog', (content, redirectUrl, visitUrl = '') => {
+Cypress.Commands.add('hasEmployeeLog', (content, redirectUrl, visitUrl = '', companyId = 1, userId = 1) => {
   if (visitUrl != '') {
     cy.visit(visitUrl)
   } else {
-    cy.visit('/1/employees/1/logs')
+    cy.visit('/'+companyId+'/employees/'+userId+'/logs')
   }
 
   cy.contains(content)
@@ -142,8 +182,8 @@ Cypress.Commands.add('hasEmployeeLog', (content, redirectUrl, visitUrl = '') => 
 
 // Assert that a team log has been created with the following content
 // and redirect the page to the given url
-Cypress.Commands.add('hasTeamLog', (content, redirectUrl) => {
-  cy.visit('/1/account/teams/1/logs')
+Cypress.Commands.add('hasTeamLog', (content, redirectUrl, companyId = 1, userId = 1) => {
+  cy.visit('/'+companyId+'/account/teams/'+userId+'/logs')
 
   cy.contains(content)
 
@@ -151,8 +191,8 @@ Cypress.Commands.add('hasTeamLog', (content, redirectUrl) => {
 })
 
 // Assert that the employee has a notification
-Cypress.Commands.add('hasNotification', (content) => {
-  cy.visit('/1/notifications')
+Cypress.Commands.add('hasNotification', (content, companyId = 1) => {
+  cy.visit('/'+companyId+'/notifications')
   cy.contains(content)
 })
 
@@ -166,7 +206,7 @@ Cypress.Commands.add('assignManager', (name) => {
 
 // Give the accountant right to the employee
 Cypress.Commands.add('grantAccountantRight', (name, employeeNumber) => {
-  cy.visit('/1/account')
+  cy.get('[data-cy=header-adminland-link]').click()
   cy.get('[data-cy=expenses-admin-link]').click()
   cy.get('[data-cy=show-edit-mode]').click()
   cy.get('[data-cy=hide-edit-mode]').click()
@@ -178,12 +218,12 @@ Cypress.Commands.add('grantAccountantRight', (name, employeeNumber) => {
 
 // Change persmission of the user
 Cypress.Commands.add('changePermission', (userId, permission) => {
-  cy.exec('php artisan test:changepermission ' + userId + ' ' + permission)
+  cy.exec('php artisan test:changepermission --user=' + userId + ' --permission=' + permission)
 })
 
 // Assign an employee to a team
-Cypress.Commands.add('assignEmployeeToTeam', (employeeId, teamId) => {
-  cy.visit('/1/employees/' + employeeId)
+Cypress.Commands.add('assignEmployeeToTeam', (employeeId, teamId, companyId = 1) => {
+  cy.visit('/'+companyId+'/employees/'+employeeId)
 
   // Open the modal to assign a team and select the first line
   cy.get('[data-cy=open-team-modal-blank]').click()
@@ -205,8 +245,7 @@ Cypress.Commands.add('createRecentShip', (featureName, description = '', name = 
   if (name != '') {
     cy.get('[data-cy=ship-add-employees]').click()
     cy.get('[data-cy=ship-employees]').type(name)
-    cy.wait(600)
-    cy.get('[data-cy=employee-id-' + employeePosition + ']').click()
+    cy.get('[data-cy=employee-id-' + employeePosition + ']', { timeout: 600 }).should('be.visible').click()
   }
 
   cy.get('[data-cy=submit-add-ship-button]').click()
@@ -220,8 +259,8 @@ Cypress.Commands.add('readRecentShipEntry', (title, description, employeeName, e
 })
 
 // Create an expense
-Cypress.Commands.add('createExpense', (title, amount) => {
-  cy.visit('/1/dashboard')
+Cypress.Commands.add('createExpense', (title, amount, companyId = 1) => {
+  cy.visit('/'+companyId+'/dashboard')
   cy.get('[data-cy=create-expense-cta]').click()
   cy.get('[data-cy=expense-create-cancel]').click()
   cy.get('[data-cy=create-expense-cta]').click()

@@ -1,6 +1,6 @@
 describe('Project - project deletion', function () {
   it('should let an employee delete a project as administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -11,10 +11,11 @@ describe('Project - project deletion', function () {
     cy.get('[data-cy=project-delete]').click()
     cy.get('[data-cy=submit-delete-project-button]').click()
     cy.url().should('include', '/1/projects')
+    cy.wait(200)
   })
 
   it('should delete a project as hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.changePermission(1, 200)
@@ -27,10 +28,11 @@ describe('Project - project deletion', function () {
     cy.get('[data-cy=project-delete]').click()
     cy.get('[data-cy=submit-delete-project-button]').click()
     cy.url().should('include', '/1/projects')
+    cy.wait(200)
   })
 
   it('should delete a project as normal user', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

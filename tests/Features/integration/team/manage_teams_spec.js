@@ -1,6 +1,6 @@
 describe('Teams - Manage teams', function () {
   it('should display a blank state', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -11,7 +11,7 @@ describe('Teams - Manage teams', function () {
   })
 
   it('should display the team in a list', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

@@ -17,13 +17,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" data-cy="breadcrumb-employee">{{ employee.name }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_edit') }}
@@ -41,12 +41,12 @@
           <div class="cf w-100">
             <ul class="list pl0 db tc bb bb-gray pa2 edit-information-menu">
               <li class="di mr2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
                   {{ $t('employee.edit_information_menu') }}
                 </inertia-link>
               </li>
               <li class="di">
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
                   {{ $t('employee.edit_information_menu_address') }}
                 </inertia-link>
               </li>
@@ -77,7 +77,7 @@
                     <text-input :id="'firstname'"
                                 v-model="form.first_name"
                                 :name="'firstname'"
-                                :errors="$page.errors.firstname"
+                                :errors="$page.props.errors.firstname"
                                 :label="$t('employee.edit_information_firstname')"
                                 :required="true"
                     />
@@ -87,7 +87,7 @@
                     <text-input :id="'lastname'"
                                 v-model="form.last_name"
                                 :name="'lastname'"
-                                :errors="$page.errors.lastname"
+                                :errors="$page.props.errors.lastname"
                                 :label="$t('employee.edit_information_lastname')"
                                 :required="true"
                     />
@@ -98,7 +98,7 @@
                 <text-input :id="'email'"
                             v-model="form.email"
                             :name="'email'"
-                            :errors="$page.errors.email"
+                            :errors="$page.props.errors.email"
                             :label="$t('employee.edit_information_email')"
                             :required="true"
                             :type="'email'"
@@ -124,7 +124,7 @@
                     <text-input :id="'year'"
                                 v-model="form.year"
                                 :name="'year'"
-                                :errors="$page.errors.year"
+                                :errors="$page.props.errors.year"
                                 :label="$t('employee.edit_information_year')"
                                 :required="true"
                                 :type="'number'"
@@ -138,7 +138,7 @@
                     <text-input :id="'month'"
                                 v-model="form.month"
                                 :name="'month'"
-                                :errors="$page.errors.month"
+                                :errors="$page.props.errors.month"
                                 :label="$t('employee.edit_information_month')"
                                 :required="true"
                                 :type="'number'"
@@ -152,7 +152,7 @@
                     <text-input :id="'day'"
                                 v-model="form.day"
                                 :name="'day'"
-                                :errors="$page.errors.day"
+                                :errors="$page.props.errors.day"
                                 :label="$t('employee.edit_information_day')"
                                 :required="true"
                                 :type="'number'"
@@ -182,7 +182,7 @@
                     <text-input :id="'hired_at_year'"
                                 v-model="form.hired_year"
                                 :name="'hired_at_year'"
-                                :errors="$page.errors.hired_year"
+                                :errors="$page.props.errors.hired_year"
                                 :label="$t('employee.edit_information_year')"
                                 :required="true"
                                 :type="'number'"
@@ -196,7 +196,7 @@
                     <text-input :id="'hired_at_month'"
                                 v-model="form.hired_month"
                                 :name="'hired_at_month'"
-                                :errors="$page.errors.hired_month"
+                                :errors="$page.props.errors.hired_month"
                                 :label="$t('employee.edit_information_month')"
                                 :required="true"
                                 :type="'number'"
@@ -210,7 +210,7 @@
                     <text-input :id="'hired_at_day'"
                                 v-model="form.hired_day"
                                 :name="'hired_at_day'"
-                                :errors="$page.errors.hired_day"
+                                :errors="$page.props.errors.hired_day"
                                 :label="$t('employee.edit_information_day')"
                                 :required="true"
                                 :type="'number'"
@@ -239,7 +239,7 @@
                     <text-input :id="'twitter'"
                                 v-model="form.twitter"
                                 :name="'twitter'"
-                                :errors="$page.errors.twitter"
+                                :errors="$page.props.errors.twitter"
                                 :label="$t('employee.edit_information_twitter')"
                                 :help="$t('employee.edit_information_twitter_help')"
                                 :required="false"
@@ -250,7 +250,7 @@
                     <text-input :id="'slack'"
                                 v-model="form.slack"
                                 :name="'slack'"
-                                :errors="$page.errors.slack"
+                                :errors="$page.props.errors.slack"
                                 :label="$t('employee.edit_information_slack')"
                                 :help="$t('employee.edit_information_slack_help')"
                                 :required="false"
@@ -264,7 +264,7 @@
             <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -355,10 +355,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/update', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/update', this.form)
         .then(response => {
           localStorage.success = this.$t('employee.edit_information_success');
-          this.$inertia.visit('/' + this.$page.auth.company.id + '/employees/' + this.employee.id);
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id);
         })
         .catch(error => {
           this.loadingState = null;

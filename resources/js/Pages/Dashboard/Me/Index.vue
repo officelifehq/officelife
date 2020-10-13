@@ -10,7 +10,7 @@
     <div class="ph2 ph0-ns">
       <div class="cf mt4 mw7 center">
         <h2 class="tc fw5">
-          {{ $page.auth.company.name }}
+          {{ $page.props.auth.company.name }}
         </h2>
       </div>
 

@@ -1,6 +1,6 @@
 describe('Employee - manage hiring date information', function () {
   it('should let an admin edit hiring date information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -28,7 +28,7 @@ describe('Employee - manage hiring date information', function () {
   })
 
   it('should let an HR edit hiring date information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -58,7 +58,7 @@ describe('Employee - manage hiring date information', function () {
   })
 
   it('should let not a normal user edit his own hiring date information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.changePermission(1, 300)
@@ -69,7 +69,7 @@ describe('Employee - manage hiring date information', function () {
   })
 
   it('should not let a normal user edit someone elses hiring date information', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true)

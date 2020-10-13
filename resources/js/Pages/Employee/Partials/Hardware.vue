@@ -11,7 +11,7 @@ li:last-child {
         👨‍💻
       </span> {{ $t('employee.hardware_title') }}
 
-      <help :url="$page.help_links.account_hardware_create" :datacy="'help-icon-hardware'" />
+      <help :url="$page.props.help_links.account_hardware_create" :datacy="'help-icon-hardware'" />
     </span>
 
     <div v-if="hardware.length > 0" class="br3 bg-white box z-1 pa3">

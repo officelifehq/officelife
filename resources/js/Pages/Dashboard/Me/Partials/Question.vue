@@ -227,7 +227,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/question', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/question', this.form)
         .then(response => {
           this.loadingState = null;
           this.answers = response.data.data;
@@ -246,7 +246,7 @@ export default {
     update(answer) {
       this.loadingState = 'loading';
 
-      axios.put('/' + this.$page.auth.company.id + '/dashboard/question/' + answer.id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/dashboard/question/' + answer.id, this.form)
         .then(response => {
           this.loadingState = null;
           flash(this.$t('dashboard.question_answer_updated'), 'success');
@@ -264,7 +264,7 @@ export default {
     },
 
     destroy(answer) {
-      axios.delete('/' + this.$page.auth.company.id + '/dashboard/question/' + answer.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/question/' + answer.id)
         .then(response => {
           flash(this.$t('dashboard.question_answer_destroyed'), 'success');
 

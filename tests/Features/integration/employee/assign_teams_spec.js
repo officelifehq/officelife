@@ -1,6 +1,6 @@
 describe('Employee - Assign teams', function () {
   it('should assign a team and remove it as administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -24,7 +24,7 @@ describe('Employee - Assign teams', function () {
   })
 
   it('should assign a team and remove it as hr', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -47,7 +47,7 @@ describe('Employee - Assign teams', function () {
   })
 
   it('should not let a normal user assign teams', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -59,7 +59,7 @@ describe('Employee - Assign teams', function () {
   })
 
   it('should display a blank state when there is no team in the account', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

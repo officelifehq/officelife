@@ -20,7 +20,7 @@
         🚀
       </span> {{ $t('employee.recent_ship_title') }}
 
-      <help :url="$page.help_links.team_recent_ship" :top="'2px'" />
+      <help :url="$page.props.help_links.team_recent_ship" :top="'2px'" />
     </span>
 
     <div class="mb4 bg-white box cf">

@@ -1,10 +1,10 @@
 describe('Adminland - PTO policies', function () {
   it('should let you manage company PTO policies as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=pto-policies-admin-link]').click()
 
     cy.get('[data-cy=list-edit-button-1]').click()
@@ -46,12 +46,14 @@ describe('Adminland - PTO policies', function () {
   })
 
   it('should let you manage company PTO policies as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
-    cy.visit('/1/account')
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=pto-policies-admin-link]').click()
 
     cy.get('[data-cy=list-edit-button-1]').click()

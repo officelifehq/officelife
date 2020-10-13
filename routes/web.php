@@ -212,7 +212,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectController@message');
 
             Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
-            Route::post('{project}/status', 'Company\\Project\\ProjectController@postStatus');
+            Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
         });
 
         Route::prefix('company')->group(function () {

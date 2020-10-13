@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Tests;
 
 use Illuminate\Console\Command;
 use App\Services\User\CreateAccount;

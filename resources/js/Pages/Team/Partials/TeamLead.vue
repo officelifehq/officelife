@@ -32,7 +32,7 @@
         <p class="silver f6 ma0 mb1">{{ $t('team.team_lead_label') }}</p>
         <span class="pl3 db team-lead relative">
           <img loading="lazy" :src="updatedTeam.team_leader.avatar" class="br-100 absolute avatar" alt="avatar" />
-          <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + updatedTeam.team_leader.id" class="mb2" data-cy="current-team-lead">
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + updatedTeam.team_leader.id" class="mb2" data-cy="current-team-lead">
             {{ updatedTeam.team_leader.name }}
           </inertia-link>
 
@@ -44,14 +44,14 @@
             {{ updatedTeam.team_leader.position.title }}
           </span>
 
-          <img v-if="$page.auth.employee.permission_level <= 200" loading="lazy" src="/img/common/triple-dots.svg" class="absolute right-0 pointer team-lead-action" data-cy="display-remove-team-lead-modal"
+          <img v-if="$page.props.auth.employee.permission_level <= 200" loading="lazy" src="/img/common/triple-dots.svg" class="absolute right-0 pointer team-lead-action" data-cy="display-remove-team-lead-modal"
                alt="display the menu"
                @click.prevent="removeMode = true"
           />
 
           <!-- REMOVE TEAM LEADER MENU -->
           <template v-if="removeMode">
-            <div v-show="$page.auth.employee.permission_level <= 200" v-click-outside="hideRemovalMode" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn">
+            <div v-show="$page.props.auth.employee.permission_level <= 200" v-click-outside="hideRemovalMode" class="popupmenu absolute br2 bg-white z-max tl pv2 ph3 bounceIn">
               <ul class="list ma0 pa0">
                 <li v-show="!removalConfirmation" class="pv2 relative">
                   <icon-delete :classes="'icon-delete relative'" :width="15" :height="15" />
@@ -129,14 +129,14 @@
 import Errors from '@/Shared/Errors';
 import IconDelete from '@/Shared/IconDelete';
 import 'vue-loaders/dist/vue-loaders.css';
-import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import vClickOutside from 'v-click-outside';
 
 export default {
   components: {
     Errors,
     IconDelete,
-    BallPulseLoader,
+    'ball-pulse-loader': BallPulseLoader.component,
   },
 
   directives: {
@@ -195,7 +195,7 @@ export default {
           this.hasMadeASearch = false;
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/lead/search', this.form)
+          axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead/search', this.form)
             .then(response => {
               this.potentialTeamLeads = response.data.data;
               this.processingSearch = false;
@@ -213,14 +213,14 @@ export default {
     assign(lead) {
       this.form.employeeId = lead.id;
 
-      axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/lead', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead', this.form)
         .then(response => {
           flash(this.$t('team.team_lead_added'), 'success');
 
           this.updatedTeam.team_leader = response.data.data;
           this.editMode = false;
 
-          this.$root.$emit('leadSet', response.data.data);
+          this.$root.$emit('lead-set', response.data.data);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -228,7 +228,7 @@ export default {
     },
 
     atLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
       }
 
@@ -236,7 +236,7 @@ export default {
     },
 
     removeTeamLead() {
-      axios.delete('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/lead/' + this.updatedTeam.team_leader.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/lead/' + this.updatedTeam.team_leader.id)
         .then(response => {
           flash(this.$t('team.team_lead_removed'), 'success');
 

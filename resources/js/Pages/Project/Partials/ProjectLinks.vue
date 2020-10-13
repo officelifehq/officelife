@@ -80,7 +80,7 @@
                     v-model="form.label"
                     :name="'label'"
                     :datacy="'link-label-input'"
-                    :errors="$page.errors.label"
+                    :errors="$page.props.errors.label"
                     :label="$t('team.useful_link_new_label')"
                     :help="$t('team.useful_link_new_label_help')"
         />
@@ -89,7 +89,7 @@
                     v-model="form.url"
                     :name="'url'"
                     :datacy="'link-url-input'"
-                    :errors="$page.errors.url"
+                    :errors="$page.props.errors.url"
                     :label="$t('team.useful_link_new_url')"
                     :help="$t('team.useful_link_new_url_help')"
                     :required="true"
@@ -164,7 +164,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/projects/' + this.project.id + '/links', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/links', this.form)
         .then(response => {
           this.localLinks.push(response.data.data);
 
@@ -181,7 +181,7 @@ export default {
     },
 
     removeLink(link) {
-      axios.delete('/' + this.$page.auth.company.id + '/projects/' + this.project.id + '/links/' + link.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/links/' + link.id)
         .then(response => {
           this.localLinks.splice(this.localLinks.findIndex(i => i.id == link.id), 1);
           this.editMode = false;

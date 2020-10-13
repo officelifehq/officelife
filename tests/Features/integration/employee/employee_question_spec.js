@@ -1,6 +1,6 @@
 describe('Employee - Questions', function () {
   it('should let you see all questions answered by an employee as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -9,7 +9,7 @@ describe('Employee - Questions', function () {
     cy.get('[data-cy=question-blank-state]').should('exist')
 
     // first we should create a question
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
     cy.get('[data-cy=add-question-button]').click()
     cy.get('[data-cy=add-title-input]').type('this is my question 1')
@@ -35,7 +35,7 @@ describe('Employee - Questions', function () {
   })
 
   it('should let you see all questions answered by an employee as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -46,7 +46,7 @@ describe('Employee - Questions', function () {
     cy.get('[data-cy=question-blank-state]').should('exist')
 
     // first we should create a question
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
     cy.get('[data-cy=add-question-button]').click()
     cy.get('[data-cy=add-title-input]').type('this is my question 1')
@@ -72,7 +72,7 @@ describe('Employee - Questions', function () {
   })
 
   it('should let you see all questions answered by an employee as a normal user', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
@@ -81,7 +81,7 @@ describe('Employee - Questions', function () {
     cy.get('[data-cy=question-blank-state]').should('exist')
 
     // first we should create a question
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
     cy.get('[data-cy=add-question-button]').click()
     cy.get('[data-cy=add-title-input]').type('this is my question 1')

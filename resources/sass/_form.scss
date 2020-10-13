@@ -1,9 +1,8 @@
-input[type=text],
-input[type=email],
-input[type=password],
+input[type='text'],
+input[type='email'],
+input[type='password'],
 textarea {
-  transition: border-color .15s ease-in-out,
-              box-shadow .15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 
   &:focus,
   &:active {
@@ -25,7 +24,7 @@ textarea {
 
 label {
   display: inline-block;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 // specific to tiptap

@@ -23,6 +23,7 @@ use App\Services\Company\Project\CreateProjectLink;
 use App\Services\Company\Project\UpdateProjectLead;
 use App\Exceptions\ProjectCodeAlreadyExistException;
 use App\Services\Company\Project\DestroyProjectLink;
+use App\Services\Company\Project\CreateProjectStatus;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\UpdateProjectDescription;
 use App\Services\Company\Project\UpdateProjectInformation;
@@ -570,5 +571,38 @@ class ProjectController extends Controller
             'project' => ProjectViewHelper::summary($project, $company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
+    }
+
+    /**
+     * Save the new project status.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     */
+    public function postStatus(Request $request, int $companyId, int $projectId)
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $request = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'status' => $request->input('status'),
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+        ];
+
+        (new CreateProjectStatus)->execute($request);
+
+        return response()->json([
+            'data' => [
+                'url' => route('projects.show', [
+                    'company' => $company,
+                    'project' => $projectId,
+                ]),
+            ],
+        ], 201);
     }
 }

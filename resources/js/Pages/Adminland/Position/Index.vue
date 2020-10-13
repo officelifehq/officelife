@@ -11,10 +11,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_positions') }}
@@ -26,12 +26,12 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.positions_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.positions_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="positions.length == 0 ? 'white' : ''">
-              {{ $tc('account.positions_number_positions', positions.length, { company: $page.auth.company.name, count: positions.length}) }}
+              {{ $tc('account.positions_number_positions', positions.length, { company: $page.props.auth.company.name, count: positions.length}) }}
             </span>
             <a class="btn absolute-l relative dib-l db right-0" data-cy="add-position-button" @click.prevent="displayAddModal">
               {{ $t('account.positions_cta') }}
@@ -48,7 +48,7 @@
                             v-model="form.title"
                             :placeholder="'Marketing coordinator'"
                             :datacy="'add-title-input'"
-                            :errors="$page.errors.first_name"
+                            :errors="$page.props.errors.first_name"
                             :extra-class-upper-div="'mb0'"
                             @esc-key-pressed="modal = false"
                 />
@@ -77,7 +77,7 @@
                                 :placeholder="'Marketing coordinator'"
                                 :custom-ref="'title' + position.id"
                                 :datacy="'list-rename-input-name-' + position.id"
-                                :errors="$page.errors.first_name"
+                                :errors="$page.props.errors.first_name"
                                 required
                                 :extra-class-upper-div="'mb0'"
                                 @esc-key-pressed="idToUpdate = 0"
@@ -198,7 +198,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/positions', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/positions', this.form)
         .then(response => {
           flash(this.$t('account.position_success_new'), 'success');
 
@@ -214,7 +214,7 @@ export default {
     },
 
     update(id) {
-      axios.put('/' + this.$page.auth.company.id + '/account/positions/' + id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/account/positions/' + id, this.form)
         .then(response => {
           flash(this.$t('account.position_success_update'), 'success');
 
@@ -230,7 +230,7 @@ export default {
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/positions/' + id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/account/positions/' + id)
         .then(response => {
           flash(this.$t('account.position_success_destroy'), 'success');
 

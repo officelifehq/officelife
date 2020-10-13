@@ -39,10 +39,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_hardware') }}
@@ -56,14 +56,14 @@
           <h2 class="tc normal mb4 relative">
             {{ $t('account.hardware_title') }}
 
-            <help :url="$page.help_links.account_hardware_create" :datacy="'help-icon-hardware'" :top="'1px'" />
+            <help :url="$page.props.help_links.account_hardware_create" :datacy="'help-icon-hardware'" :top="'1px'" />
           </h2>
 
           <p class="relative adminland-headline">
             <span v-if="hardwareCollection" class="dib mb3 di-l">
               {{ $t('account.hardware_description') }}
             </span>
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-hardware-button">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-hardware-button">
               {{ $t('account.hardware_cta') }}
             </inertia-link>
           </p>
@@ -87,7 +87,7 @@
                 {{ $t('account.hardware_all_hardware') }} <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
               </li>
               <li v-else class="pa2 mr2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware'">{{ $t('account.hardware_all_hardware') }}</inertia-link> <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware'">{{ $t('account.hardware_all_hardware') }}</inertia-link> <span data-cy="hardware-total">({{ countHardwareTotal }})</span>
               </li>
 
               <!-- viewing only hardware not lent -->
@@ -95,7 +95,7 @@
                 {{ $t('account.hardware_available_hardware') }} <span data-cy="hardware-total">({{ countHardwareNotLent }})</span>
               </li>
               <li v-else class="pa2 mr2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/available'">{{ $t('account.hardware_available_hardware') }}</inertia-link> <span data-cy="hardware-count-not-lent">({{ countHardwareNotLent }})</span>
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware/available'">{{ $t('account.hardware_available_hardware') }}</inertia-link> <span data-cy="hardware-count-not-lent">({{ countHardwareNotLent }})</span>
               </li>
 
               <!-- viewing only hardware lent -->
@@ -103,7 +103,7 @@
                 {{ $t('account.hardware_lent_hardware') }} <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
               </li>
               <li v-else class="pa2 mr2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/lent'">{{ $t('account.hardware_lent_hardware') }}</inertia-link> <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware/lent'">{{ $t('account.hardware_lent_hardware') }}</inertia-link> <span data-cy="hardware-count-lent">({{ countHardwareLent }})</span>
               </li>
             </ul>
           </div>
@@ -169,13 +169,13 @@
 <script>
 import Layout from '@/Shared/Layout';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
-import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
-    BallPulseLoader,
+    'ball-pulse-loader': BallPulseLoader.component,
     SmallNameAndAvatar,
     Help,
   },
@@ -222,7 +222,7 @@ export default {
 
   methods: {
     load(item) {
-      this.$inertia.visit('/' + this.$page.auth.company.id + '/account/hardware/' + item.id);
+      this.$inertia.visit('/' + this.$page.props.auth.company.id + '/account/hardware/' + item.id);
     },
 
     populateData(hardware) {
@@ -238,7 +238,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.auth.company.id + '/account/hardware/search', this.form)
+          axios.post('/' + this.$page.props.auth.company.id + '/account/hardware/search', this.form)
             .then(response => {
               this.populateData(response.data.data);
               this.processingSearch = false;

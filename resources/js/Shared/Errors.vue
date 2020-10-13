@@ -27,6 +27,7 @@
 export default {
   props: {
     errors: {
+      type: Object,
       default: null,
     },
     classes: {

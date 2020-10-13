@@ -13,7 +13,7 @@
           📦
         </span> {{ $tc('account.expense_category_headline') }}
 
-        <help :url="$page.help_links.adminland_expense_categories" :datacy="'help-icon-expenses-categories'" :top="'1px'" />
+        <help :url="$page.props.help_links.adminland_expense_categories" :datacy="'help-icon-expenses-categories'" :top="'1px'" />
       </span>
       <a class="btn absolute-l relative dib-l db right-0 f5" data-cy="add-category-button" @click.prevent="displayAddModal">
         {{ $t('account.expense_category_create_cta') }}
@@ -29,7 +29,7 @@
           <text-input
             :ref="'newCategory'"
             v-model="form.name"
-            :errors="$page.errors.name"
+            :errors="$page.props.errors.name"
             :datacy="'add-title-input'"
             required
             :placeholder="$t('account.expense_category_create_placeholder')"
@@ -61,7 +61,7 @@
                           :placeholder="form.name"
                           :custom-ref="'title' + category.id"
                           :datacy="'list-rename-input-name-' + category.id"
-                          :errors="$page.errors.first_name"
+                          :errors="$page.props.errors.first_name"
                           required
                           :extra-class-upper-div="'mb0'"
                           @esc-key-pressed="idToUpdate = 0"
@@ -170,7 +170,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/expenses', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/expenses', this.form)
         .then(response => {
           flash(this.$t('account.expense_category_success'), 'success');
 
@@ -186,7 +186,7 @@ export default {
     },
 
     update(id) {
-      axios.put('/' + this.$page.auth.company.id + '/account/expenses/' + id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/account/expenses/' + id, this.form)
         .then(response => {
           flash(this.$t('account.expense_category_update_success'), 'success');
 
@@ -202,7 +202,7 @@ export default {
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/expenses/' + id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/account/expenses/' + id)
         .then(response => {
           flash(this.$t('account.expense_category_delete_success'), 'success');
 

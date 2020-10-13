@@ -1,6 +1,6 @@
 describe('Employee - worklogs', function () {
   it('should let the employee sees a worklog', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

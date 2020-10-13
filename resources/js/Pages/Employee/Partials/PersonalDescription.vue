@@ -113,7 +113,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/description', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/description', this.form)
         .then(response => {
           flash(this.$t('employee.description_success'), 'success');
 
@@ -128,7 +128,7 @@ export default {
     },
 
     clear() {
-      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/description/' + this.employee.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/description/' + this.employee.id)
         .then(response => {
           flash(this.$t('employee.description_success'), 'success');
 

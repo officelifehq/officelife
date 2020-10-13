@@ -1,10 +1,10 @@
 describe('Dashboard - employee - Questions/answers', function () {
   it('should let you manage answers of questions', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
 
     //add a question
@@ -17,7 +17,9 @@ describe('Dashboard - employee - Questions/answers', function () {
     cy.get('[data-cy=question-activate-link-1]').click()
     cy.get('[data-cy=question-activate-link-confirm-1]').click()
 
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
 
     cy.visit('/1/dashboard/me')
 
@@ -31,11 +33,15 @@ describe('Dashboard - employee - Questions/answers', function () {
 
     // check logs
     cy.hasEmployeeLog('Answered the question called', '/1/dashboard/me')
-    cy.changePermission(1, 100)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 100)
+    })
     cy.hasAuditLog('Answered the question called', '/1/dashboard/me')
 
     // now edit the answer
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
     cy.get('[data-cy=answer-edit-link-1]').click()
     cy.get('[data-cy=answer-edit-content]').clear()
     cy.get('[data-cy=answer-edit-content]').type('new answer')
@@ -44,12 +50,15 @@ describe('Dashboard - employee - Questions/answers', function () {
     cy.get('[data-cy=answer-content-1]').contains('new answer')
 
     // check logs
-    cy.hasEmployeeLog('Updated the answer', '/1/dashboard/me')
-    cy.changePermission(1, 100)
+    cy.hasEmployeeLog('Updated the answer', '/1/dashboard/me')    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 100)
+    })
     cy.hasAuditLog('Updated the answer', '/1/dashboard/me')
 
     // now delete the answer
-    cy.changePermission(1, 300)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 300)
+    })
     cy.get('[data-cy=answer-destroy-1]').click()
     cy.get('[data-cy=answer-destroy-confirm-1]').click()
 
@@ -57,7 +66,9 @@ describe('Dashboard - employee - Questions/answers', function () {
 
     // check logs
     cy.hasEmployeeLog('Deleted the answer', '/1/dashboard/me')
-    cy.changePermission(1, 100)
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 100)
+    })
     cy.hasAuditLog('Deleted the answer', '/1/dashboard/me')
 
     cy.get('[data-cy=answer-employee-hasnt-answered]').should('be.visible')

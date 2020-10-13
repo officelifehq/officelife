@@ -1,6 +1,6 @@
 describe('Dashboard - employee - one on one', function () {
   it('should let the employee starts a one on one with his manager', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 

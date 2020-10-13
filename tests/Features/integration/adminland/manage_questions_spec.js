@@ -1,10 +1,10 @@
 describe('Adminland - Questions', function () {
   it('should let you manage company questions as an administrator', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.visit('/1/account')
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
 
     // blank state should exist
@@ -58,12 +58,14 @@ describe('Adminland - Questions', function () {
   })
 
   it('should let you manage company questions as an HR', function () {
-    cy.login()
+    cy.loginLegacy()
 
     cy.createCompany()
 
-    cy.changePermission(1, 200)
-    cy.visit('/1/account')
+    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
+      cy.changePermission(userId, 200)
+    })
+    cy.get('[data-cy=header-adminland-link]').click()
     cy.get('[data-cy=questions-admin-link]').click()
 
     // blank state should exist

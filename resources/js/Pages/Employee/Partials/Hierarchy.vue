@@ -254,11 +254,11 @@
 import IconDelete from '@/Shared/IconDelete';
 import vClickOutside from 'v-click-outside';
 import 'vue-loaders/dist/vue-loaders.css';
-import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
-    BallPulseLoader,
+    'ball-pulse-loader': BallPulseLoader.component,
     IconDelete,
   },
 
@@ -343,7 +343,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/search/hierarchy', this.form)
+          axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/search/hierarchy', this.form)
             .then(response => {
               if (this.modal == 'manager') {
                 this.searchManagers = response.data.data;
@@ -361,7 +361,7 @@ export default {
       }, 500),
 
     assignManager(manager) {
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/assignManager', manager)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/assignManager', manager)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_add_manager_success'), 'success');
           this.managersOfEmployee.push(response.data.data);
@@ -373,7 +373,7 @@ export default {
     },
 
     assignDirectReport(directReport) {
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/assignDirectReport', directReport)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/assignDirectReport', directReport)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_add_direct_report_success'), 'success');
           this.directReports.push(response.data.data);
@@ -385,7 +385,7 @@ export default {
     },
 
     unassignManager(manager) {
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/unassignManager', manager)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/unassignManager', manager)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_remove_manager_success'), 'success');
 
@@ -399,7 +399,7 @@ export default {
     },
 
     unassignDirectReport(directReport) {
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/unassignDirectReport', directReport)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/unassignDirectReport', directReport)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_remove_direct_report_success'), 'success');
 

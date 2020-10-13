@@ -21,10 +21,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_questions') }}
@@ -37,13 +37,13 @@
         <!-- WHEN THERE ARE QUESTIONS -->
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.questions_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.questions_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <!-- add a question -->
           <p class="relative adminland-headline mb0">
             <span class="db mb3" :class="questions.length == 0 ? 'white' : ''">
-              {{ $tc('account.questions_number_questions', questions.length, { company: $page.auth.company.name, count: questions.length}) }}
+              {{ $tc('account.questions_number_questions', questions.length, { company: $page.props.auth.company.name, count: questions.length}) }}
             </span>
             <span v-if="questions.length > 0" class="dib mb3 f6 gray lh-copy">{{ $t('account.questions_description') }}</span>
             <a v-if="!modal" data-cy="add-question-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="showAddModal">
@@ -61,7 +61,7 @@
                             v-model="form.title"
                             :placeholder="$t('account.questions_form_title_placeholder')"
                             :datacy="'add-title-input'"
-                            :errors="$page.errors.first_name"
+                            :errors="$page.props.errors.first_name"
                             :extra-class-upper-div="'mb0'"
                             @esc-key-pressed="modal = false"
                 />
@@ -157,7 +157,7 @@
                                 v-model="form.title"
                                 :custom-ref="'name' + question.id"
                                 :datacy="'list-rename-input-name-' + question.id"
-                                :errors="$page.errors.name"
+                                :errors="$page.props.errors.name"
                                 required
                                 :extra-class-upper-div="'mb0'"
                                 @esc-key-pressed="questionToRename = 0"
@@ -286,7 +286,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/questions', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/questions', this.form)
         .then(response => {
           flash(this.$t('account.question_creation_success'), 'success');
 
@@ -304,7 +304,7 @@ export default {
     update(question) {
       this.loadingState = 'loading';
 
-      axios.put('/' + this.$page.auth.company.id + '/account/questions/' + question.id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/account/questions/' + question.id, this.form)
         .then(response => {
           flash(this.$t('account.question_update_success'), 'success');
 
@@ -323,7 +323,7 @@ export default {
     },
 
     destroy(question) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/questions/' + question.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/account/questions/' + question.id)
         .then(response => {
           flash(this.$t('account.question_destroy_success'), 'success');
 
@@ -337,7 +337,7 @@ export default {
     },
 
     activate(question) {
-      axios.post('/' + this.$page.auth.company.id + '/account/questions/' + question.id + '/activate')
+      axios.post('/' + this.$page.props.auth.company.id + '/account/questions/' + question.id + '/activate')
         .then(response => {
           flash(this.$t('account.question_activate_success'), 'success');
 
@@ -350,7 +350,7 @@ export default {
     },
 
     deactivate(question) {
-      axios.post('/' + this.$page.auth.company.id + '/account/questions/' + question.id + '/deactivate')
+      axios.post('/' + this.$page.props.auth.company.id + '/account/questions/' + question.id + '/deactivate')
         .then(response => {
           flash(this.$t('account.question_deactivate_success'), 'success');
 

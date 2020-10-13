@@ -53,7 +53,7 @@
         🧠
       </span> {{ $t('employee.skills_title') }}
 
-      <help :url="$page.help_links.skills" :datacy="'help-icon-skills'" />
+      <help :url="$page.props.help_links.skills" :datacy="'help-icon-skills'" />
     </span>
     <img v-if="permissions.can_manage_skills && !editMode" loading="lazy" src="/img/edit_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="manage-skill-button"
          width="22"
@@ -83,7 +83,7 @@
         <div class="relative">
           <text-input :ref="'search-skill-input'"
                       v-model="form.searchTerm"
-                      :errors="$page.errors.lastname"
+                      :errors="$page.props.errors.lastname"
                       :label="$t('employee.skills_search_term')"
                       :required="true"
                       :datacy="'search-skill'"
@@ -131,12 +131,12 @@
 
 <script>
 import TextInput from '@/Shared/TextInput';
-import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import Help from '@/Shared/Help';
 
 export default {
   components: {
-    BallPulseLoader,
+    'ball-pulse-loader': BallPulseLoader.component,
     TextInput,
     Help,
   },
@@ -199,7 +199,7 @@ export default {
           this.searchResults = [];
           this.foundExactTerm = false;
 
-          axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/skills/search', this.form)
+          axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills/search', this.form)
             .then(response => {
               this.processingSearch = false;
               this.searchProcessed = true;
@@ -250,7 +250,7 @@ export default {
     create(name) {
       this.form.searchTerm = name;
 
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/skills', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills', this.form)
         .then(response => {
           this.updatedSkills.push(response.data.data);
           this.searchProcessed = false;
@@ -268,7 +268,7 @@ export default {
     remove(skill) {
       this.form.searchTerm = name;
 
-      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/skills/' + skill.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills/' + skill.id)
         .then(response => {
           var changedId = this.updatedSkills.findIndex(x => x.id === skill.id);
           this.updatedSkills.splice(changedId, 1);
