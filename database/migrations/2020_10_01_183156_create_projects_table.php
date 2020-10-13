@@ -63,8 +63,8 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('author_id')->nullable();
-            $table->string('status');
             $table->string('title');
+            $table->string('status');
             $table->text('description');
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');

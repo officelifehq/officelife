@@ -41,6 +41,7 @@ class ProjectController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         return Inertia::render('Project/Index', [
+            'tab' => 'summary',
             'projects' => ProjectViewHelper::index($company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -549,5 +550,25 @@ class ProjectController extends Controller
         return response()->json([
             'data' => true,
         ], 201);
+    }
+
+    /**
+     * Display a Create status page.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $linkId
+     * @return Response
+     */
+    public function createStatus(Request $request, int $companyId, int $projectId): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $project = Project::findOrFail($projectId);
+
+        return Inertia::render('Project/CreateStatus', [
+            'project' => ProjectViewHelper::summary($project, $company),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
     }
 }

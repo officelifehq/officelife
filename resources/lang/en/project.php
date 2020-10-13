@@ -34,6 +34,7 @@ return [
     'summary_project_lead_no_leader' => 'Assign someone as project lead',
     'summary_project_lead_added_success' => 'The project lead has been assigned',
     'summary_project_lead_cleared_success' => 'The project lead has been cleared',
+    'summary_project_link_title' => 'Project links',
 
     'delete_title' => 'Delete the project',
     'delete_success' => 'The project has been successfully deleted.',

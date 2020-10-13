@@ -210,6 +210,9 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get('{project}/messages', 'Company\\Project\\ProjectController@messages');
             Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectController@message');
+
+            Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
+            Route::post('{project}/status', 'Company\\Project\\ProjectController@postStatus');
         });
 
         Route::prefix('company')->group(function () {

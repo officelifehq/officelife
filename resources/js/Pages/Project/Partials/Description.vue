@@ -2,7 +2,7 @@
 </style>
 
 <template>
-  <div>
+  <div class="mb5">
     <div class="mb2 fw5 relative">
       <span class="mr1">
         🏔
@@ -16,7 +16,7 @@
       />
     </div>
 
-    <div class="bg-white box mb4 pa3">
+    <div class="bg-white box pa3">
       <div v-if="! showEdit">
         <div v-if="localProject.parsed_description" class="parsed-content" v-html="localProject.parsed_description"></div>
         <div v-else class="mb0 mt0 lh-copy f6 tc">

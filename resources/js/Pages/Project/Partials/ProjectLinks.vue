@@ -11,7 +11,7 @@
 
 <template>
   <div class="ma0 pa3">
-    <p class="silver f6 ma0 mb1">Project links</p>
+    <p class="silver f6 ma0 mb1">{{ $t('project.summary_project_link_title') }}</p>
 
     <!-- list of links -->
     <ul class="list pl0 mb0">

@@ -44,7 +44,7 @@
         <p class="tc mt0 mb4">{{ localProject.summary }}</p>
 
         <!-- Menu -->
-        <project-menu />
+        <project-menu :tab="tab" />
 
         <div class="cf center">
           <!-- LEFT COLUMN -->
@@ -53,10 +53,14 @@
             <description :project="project" />
 
             <div>
-              <div class="mb2 fw5 relative">
-                <span class="mr1">
-                  👩‍🏫
-                </span> {{ $t('project.summary_status') }}
+              <div class="mb2 fw5 relative flex justify-between items-center">
+                <div>
+                  <span class="mr1">
+                    👩‍🏫
+                  </span> {{ $t('project.summary_status') }}
+                </div>
+
+                <inertia-link :href="'/' + $page.auth.company.id + '/projects/' + project.id + '/status'" class="btn f5" data-cy="add-recent-ship-entry">Update status</inertia-link>
               </div>
 
               <div class="bg-white box mb4 pa3">
@@ -118,6 +122,10 @@ export default {
     project: {
       type: Object,
       default: null,
+    },
+    tab: {
+      type: String,
+      default: 'summary',
     },
   },
 
