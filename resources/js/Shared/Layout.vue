@@ -64,7 +64,7 @@ nav {
             <inertia-link :href="'/' + $page.auth.company.id + '/company'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               <span class="mr1">⛺️</span> {{ $t('app.header_company') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr1 no-underline pa2 bb-0 special">
+            <inertia-link :href="route('dashboard', $page.auth.company.id)" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">🏡</span> {{ $t('app.header_home') }}
             </inertia-link>
             <inertia-link :href="'/' + $page.auth.company.id + '/employees'" class="mr1 no-underline pa2 bb-0 special">
@@ -76,7 +76,7 @@ nav {
             <a data-cy="header-find-link" class="mr1 no-underline pa2 bb-0 special pointer" @click="showFindModal">
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
-            <inertia-link v-if="$page.auth.company && $page.auth.employee.permission_level <= 200" :href="'/' + $page.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
+            <inertia-link v-if="$page.auth.company && $page.auth.employee.permission_level <= 200" :href="route('account', $page.auth.company.id)" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
               <span class="mr1">👮‍♂️</span> Adminland
             </inertia-link>
           </div>

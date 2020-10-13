@@ -12,7 +12,7 @@ Route::post('login', 'Auth\\LoginController@store')->name('login.attempt');
 
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
 Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join');
-Route::post('invite/employee/{link}/accept', 'Auth\\UserInvitationController@accept');
+Route::post('invite/employee/{link}/accept', 'Auth\\UserInvitationController@accept')->name('invitation.accept');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('logout', 'Auth\\LoginController@logout');
@@ -223,7 +223,7 @@ Route::middleware(['auth'])->group(function () {
         // only available to hr role
         Route::middleware(['hr'])->group(function () {
             // adminland
-            Route::get('account', 'Company\\Adminland\\AdminlandController@index');
+            Route::get('account', 'Company\\Adminland\\AdminlandController@index')->name('account');
 
             // employee list
             Route::get('account/employees', 'Company\\Adminland\\AdminEmployeeController@index')->name('account.employees.index');
@@ -237,11 +237,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('account/employees/create', 'Company\\Adminland\\AdminEmployeeController@create')->name('account.employees.new');
             Route::post('account/employees', 'Company\\Adminland\\AdminEmployeeController@store')->name('account.employees.create');
             Route::get('account/employees/{employee}/delete', 'Company\\Adminland\\AdminEmployeeController@delete')->name('account.delete');
-            Route::delete('account/employees/{employee}', 'Company\\Adminland\\AdminEmployeeController@destroy');
+            Route::delete('account/employees/{employee}', 'Company\\Adminland\\AdminEmployeeController@destroy')->name('account.employees.destroy');
             Route::get('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lock')->name('account.lock');
-            Route::post('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lockAccount');
+            Route::put('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lockAccount')->name('account.lock.update');
             Route::get('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlock')->name('account.unlock');
-            Route::post('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlockAccount');
+            Route::put('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlockAccount')->name('account.unlock.update');
             Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@index');
             Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
 

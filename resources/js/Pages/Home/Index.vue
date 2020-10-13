@@ -40,7 +40,7 @@
       <!-- Blank state -->
       <div v-show="employees.length == 0" class="cf mt4 mt5-l mw7 center">
         <div class="fl w-100 w-25-m w-50-l pr2-l">
-          <inertia-link href="/company/create">
+          <inertia-link :href="route('company.create')">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box" data-cy="create-company-blank-state">
                 <h3>{{ $t('home.create_company') }}</h3>
@@ -51,7 +51,7 @@
           </inertia-link>
         </div>
         <div class="fl w-100 w-25-m w-50-l">
-          <inertia-link href="/company/create">
+          <inertia-link :href="route('company.create')">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box">
                 <h3>{{ $t('home.join_company') }}</h3>
@@ -70,7 +70,7 @@
             <span class="pr2">
               {{ $t('home.companies_part_of') }}
             </span>
-            <inertia-link href="/company/create" class="btn absolute db-l dn">
+            <inertia-link :href="route('company.create')" class="btn absolute db-l dn">
               {{ $t('home.create_company_cta') }}
             </inertia-link>
           </p>
@@ -88,7 +88,7 @@
           </div>
         </div>
         <div class="w-100 dn-ns db mt2">
-          <inertia-link href="/company/create" class="btn br3 pa3 white no-underline bb-0 db tc">
+          <inertia-link :href="route('company.create')" class="btn br3 pa3 white no-underline bb-0 db tc">
             {{ $t('home.create_company_cta') }}
           </inertia-link>
         </div>

@@ -25,7 +25,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
@@ -215,7 +215,7 @@
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <a :href="'/' + $page.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <a :href="route('account.employees.index', $page.auth.company.id)" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </a>
                 </div>

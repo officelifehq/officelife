@@ -44,9 +44,9 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/invite/employee/' + this.invitationLink + '/accept')
+      axios.post(this.route('invitation.accept', this.invitationLink))
         .then(response => {
-          this.$inertia.visit('/home');
+          this.$inertia.visit(this.route('home'));
         })
         .catch(error => {
           this.loadingState = null;

@@ -91,10 +91,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/login', this.form)
+      axios.post(this.route('login').url(), this.form)
         .then(response => {
           this.loadingState = null;
-          this.$inertia.visit('/home');
+          this.$inertia.visit(this.route('home'));
         })
         .catch(error => {
           this.loadingState = null;

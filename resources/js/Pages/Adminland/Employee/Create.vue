@@ -14,13 +14,13 @@ input[type=radio] {
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'">{{ $t('app.breadcrumb_account_manage_employees') }}</inertia-link>
+            <inertia-link :href="route('account.employees.index', $page.auth.company.id)">{{ $t('app.breadcrumb_account_manage_employees') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_add_employee') }}
@@ -136,7 +136,7 @@ input[type=radio] {
             <div class="cf pa3">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                  <inertia-link :href="route('account.employees.index', $page.auth.company.id)" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -190,10 +190,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/employees', this.form)
+      axios.post(this.route('account.employees.create', this.$page.auth.company.id), this.form)
         .then(response => {
           localStorage.success = 'The employee has been added';
-          this.$inertia.visit('/' + response.data.company_id + '/account/employees');
+          this.$inertia.visit(this.route('account.employees.index', response.data.company_id));
         })
         .catch(error => {
           this.loadingState = null;

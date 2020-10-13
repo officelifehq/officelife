@@ -13,7 +13,7 @@
       <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2" :class="{'bg-white box': teams.length == 0}">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="route('dashboard', $page.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_team_list') }}
@@ -82,7 +82,7 @@ export default {
 
   methods: {
     load(employee) {
-      this.$inertia.visit('/' + this.$page.auth.company.id + '/employees/' + employee.id);
+      this.$inertia.visit(this.route('employees.show', [this.$page.auth.company.id, employee.id]));
     }
   }
 };

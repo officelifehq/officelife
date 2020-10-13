@@ -162,7 +162,7 @@ export default {
 
       axios.post('/invite/employee/' + this.invitationLink + '/join', this.form)
         .then(response => {
-          this.$inertia.visit('/home');
+          this.$inertia.visit(this.route('home'));
         })
         .catch(error => {
           this.loadingState = null;

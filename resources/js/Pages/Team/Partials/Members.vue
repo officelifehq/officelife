@@ -160,7 +160,7 @@ export default {
 
   methods: {
     load(employee) {
-      this.$inertia.visit('/' + this.$page.auth.company.id + '/employees/' + employee.id);
+      this.$inertia.visit(this.route('employees.show', [this.$page.auth.company.id, employee.id]));
     },
 
     search: _.debounce(
