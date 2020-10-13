@@ -58,25 +58,25 @@ nav {
             <img loading="lazy" src="/img/logo.png" height="30" width="30" alt="logo" />
           </inertia-link>
           <div v-if="!noMenu">
-            <inertia-link v-if="$page.auth.employee.display_welcome_message" :href="'/' + $page.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr1 no-underline pa2 bb-0 special">
+            <inertia-link v-if="$page.props.auth.employee.display_welcome_message" :href="'/' + $page.props.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">👋</span> {{ $t('app.header_welcome') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/company'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               <span class="mr1">⛺️</span> {{ $t('app.header_company') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'" class="mr1 no-underline pa2 bb-0 special">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">🏡</span> {{ $t('app.header_home') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees'" class="mr1 no-underline pa2 bb-0 special">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees'" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">🧑</span> {{ $t('app.header_employees') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/teams'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               <span class="mr1">👫</span> {{ $t('app.header_teams') }}
             </inertia-link>
             <a data-cy="header-find-link" class="mr1 no-underline pa2 bb-0 special pointer" @click="showFindModal">
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
-            <inertia-link v-if="$page.auth.company && $page.auth.employee.permission_level <= 200" :href="'/' + $page.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
+            <inertia-link v-if="$page.props.auth.company && $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
               <span class="mr1">👮‍♂️</span> Adminland
             </inertia-link>
           </div>
@@ -110,7 +110,7 @@ nav {
             </span>
             <ul v-if="employees.length > 0" class="list ma0 pl0">
               <li v-for="localEmployee in employees" :key="localEmployee.id" class="mb2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + localEmployee.id">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + localEmployee.id">
                   {{ localEmployee.name }}
                 </inertia-link>
               </li>
@@ -127,7 +127,7 @@ nav {
             </span>
             <ul v-if="teams.length > 0" class="list ma0 pl0">
               <li v-for="team in teams" :key="team.id" class="mb2">
-                <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id">
                   {{ team.name }}
                 </inertia-link>
               </li>
@@ -200,7 +200,7 @@ nav {
 
     <!-- toggle help -->
     <div v-if="showHelpOnPage">
-      <div v-if="$page.auth.user.show_help" class="tc mv3">
+      <div v-if="$page.props.auth.user.show_help" class="tc mv3">
         <span class="pointer" data-cy="layout-hide-help" @click="toggleHelp()">
           {{ $t('app.hide_help') }}
         </span>
@@ -223,7 +223,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 import NotificationsComponent from '@/Shared/Notifications';
 import Toaster from '@/Shared/Toaster';
 import 'vue-loaders/dist/vue-loaders.css';
-import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
@@ -231,7 +231,7 @@ export default {
     LoadingButton,
     NotificationsComponent,
     Toaster,
-    BallPulseLoader,
+    'ball-pulse-loader': BallPulseLoader.component,
   },
 
   directives: {
@@ -336,7 +336,7 @@ export default {
     toggleHelp() {
       axios.post('/help')
         .then(response => {
-          this.$page.auth.user.show_help = response.data.data;
+          this.$page.props.auth.user.show_help = response.data.data;
         })
         .catch(error => {
           this.loadingState = null;

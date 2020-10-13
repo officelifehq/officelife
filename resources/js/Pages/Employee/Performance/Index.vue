@@ -40,10 +40,10 @@
         <!-- menu -->
         <div v-if="permissions.can_see_performance_tab && surveys" class="cf mw7 center br3 mt3 mb5 tc">
           <div class="cf dib btn-group">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(menu == 'all')}">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(menu == 'all')}">
               {{ $t('employee.menu_all_information') }}
             </inertia-link>
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/performance'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(menu == 'performance')}" data-cy="dashboard-team-tab">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(menu == 'performance')}" data-cy="dashboard-team-tab">
               {{ $t('employee.menu_performance') }}
             </inertia-link>
           </div>
@@ -128,7 +128,7 @@ export default {
 
   methods: {
     employeeOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
       }
 
@@ -136,7 +136,7 @@ export default {
         return false;
       }
 
-      if (this.$page.auth.user.id == this.employee.user.id) {
+      if (this.$page.props.auth.user.id == this.employee.user.id) {
         return true;
       }
     },
@@ -147,7 +147,7 @@ export default {
       }
 
       if (this.employee.user) {
-        if (this.$page.auth.user.id == this.employee.user.id) {
+        if (this.$page.props.auth.user.id == this.employee.user.id) {
           return true;
         }
       }

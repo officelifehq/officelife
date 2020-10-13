@@ -125,15 +125,15 @@ export default {
     },
     teams: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
     worklogDates: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
     worklogEntries: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
     currentDate: {
       type: String,

@@ -15,13 +15,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + employee.id + '/performance'">{{ employee.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance'">{{ employee.name }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_surveys_detail', { month: survey.survey.month }) }}
@@ -34,7 +34,7 @@
         <h2 class="pa3 mt2 mb4 center tc normal">
           {{ $t('employee.survey_detail_title', { month: survey.survey.month }) }}
 
-          <help :url="$page.help_links.manager_rate_manager" />
+          <help :url="$page.props.help_links.manager_rate_manager" />
         </h2>
 
         <!-- poll grades -->

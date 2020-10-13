@@ -26,10 +26,10 @@
       <div class="mt4-l mt1 mb3 mw7 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams'">{{ $t('app.breadcrumb_team_list') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/teams'">{{ $t('app.breadcrumb_team_list') }}</inertia-link>
           </li>
           <li class="di">
             {{ team.name }}
@@ -92,7 +92,7 @@
           <!-- News -->
           <h3 class="db fw5 mb3 flex justify-between items-center">
             <span>🗞 {{ $tc('team.count_team_news', newsCount, { count: newsCount }) }}</span>
-            <inertia-link v-if="userBelongsToTheTeam || $page.auth.employee.permission_level <= 200" :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
+            <inertia-link v-if="userBelongsToTheTeam || $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news/create'" class="btn f5" data-cy="add-team-news">{{ $t('team.news_write') }}</inertia-link>
           </h3>
 
           <div class="mb4">
@@ -111,7 +111,7 @@
 
                 <!-- link to go to the news page -->
                 <div class="ph3 pv2 tc f6 bb-gray">
-                  <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/news'" data-cy="view-all-news">{{ $t('team.news_view_all') }}</inertia-link>
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/news'" data-cy="view-all-news">{{ $t('team.news_view_all') }}</inertia-link>
                 </div>
               </div>
             </div>
@@ -215,7 +215,7 @@ export default {
 
   methods: {
     goToNews() {
-      this.$inertia.visit('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/news');
+      this.$inertia.visit('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/news');
     },
 
     refreshTeamMembers(object) {

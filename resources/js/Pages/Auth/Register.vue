@@ -20,12 +20,12 @@
       </div>
       <div class="">
         <!-- Form Errors -->
-        <errors :errors="$page.errors" />
+        <errors :errors="$page.props.errors" />
 
         <form @submit.prevent="submit">
           <text-input v-model="form.email"
                       :name="'email'"
-                      :errors="$page.errors.email"
+                      :errors="$page.props.errors.email"
                       :label="$t('auth.register_email')"
                       :help="$t('auth.register_email_help')"
                       :required="true"
@@ -33,7 +33,7 @@
 
           <text-input v-model="form.password"
                       :name="'password'"
-                      :errors="$page.errors.password"
+                      :errors="$page.props.errors.password"
                       class="mb3"
                       type="password"
                       :label="$t('auth.register_password')"

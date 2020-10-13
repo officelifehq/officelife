@@ -6,7 +6,7 @@
 </style>
 
 <template>
-  <layout title="Home" :show-help-on-page="false" :notifications="notifications" data-cy="company-welcome" :data-cy-item="$page.auth.company.id">
+  <layout title="Home" :show-help-on-page="false" :notifications="notifications" data-cy="company-welcome" :data-cy-item="$page.props.auth.company.id">
     <div class="ph2 ph0-ns">
       <!-- toggle button -->
       <p class="mt3 tc f6"><span class="mr1">🙈</span><a data-cy="hide-message" href="#" class="mb2" @click.prevent="hide()">{{ $t('welcome.hide_message_forever') }}</a></p>
@@ -45,9 +45,9 @@ export default {
 
   methods: {
     hide() {
-      axios.post('/' + this.$page.auth.company.id + '/hide')
+      axios.post('/' + this.$page.props.auth.company.id + '/hide')
         .then(response => {
-          this.$inertia.visit('/' + this.$page.auth.company.id + '/dashboard');
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/dashboard');
         })
         .catch(error => {
         });

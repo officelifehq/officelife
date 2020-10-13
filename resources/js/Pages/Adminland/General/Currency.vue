@@ -9,7 +9,7 @@
     <h3 class="ph3 fw5">
       {{ $t('account.general_currency_information') }}
 
-      <help :url="$page.help_links.account_general_currency" :datacy="'help-icon-general'" :top="'2px'" />
+      <help :url="$page.props.help_links.account_general_currency" :datacy="'help-icon-general'" :top="'2px'" />
     </h3>
 
     <!-- currency used in the company -->
@@ -106,7 +106,7 @@ export default {
     },
 
     submit() {
-      axios.post('/' + this.$page.auth.company.id + '/account/general/currency', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/general/currency', this.form)
         .then(response => {
           this.updatedCurrency = this.form.currency;
           this.editMode = false;

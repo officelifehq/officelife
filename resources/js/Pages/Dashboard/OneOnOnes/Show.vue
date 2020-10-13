@@ -45,7 +45,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_dashboard_one_on_one') }}
@@ -60,7 +60,7 @@
           <h2 class="tc fw5 mt0">
             1 on 1
 
-            <help :url="$page.help_links.one_on_ones" :top="'0px'" />
+            <help :url="$page.props.help_links.one_on_ones" :top="'0px'" />
           </h2>
           <ul class="tc list pl0">
             <li data-cy="employee-name" class="di tl">
@@ -229,7 +229,7 @@ export default {
     markAsHappened() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/happened')
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/happened')
         .then(response => {
           this.loadingState = null;
           this.$inertia.visit(response.data.data.url);

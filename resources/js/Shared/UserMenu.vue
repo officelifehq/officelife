@@ -47,27 +47,27 @@ svg {
 <template>
   <div class="relative di">
     <a ref="popoverReference" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="header-menu" @click.prevent="openPopover">
-      {{ $page.auth.user.name }}
+      {{ $page.props.auth.user.name }}
     </a>
 
     <base-popover
       v-if="isPopoverVisible"
       :popover-options="popoverOptions"
-      @closePopover="closePopover"
+      @close-popover="closePopover"
     >
       <div class="menu f5 br3">
         <ul class="list ma0 pl0">
-          <li v-if="$page.auth.company" class="pa2 relative bb bb-gray bb-gray-hover">
+          <li v-if="$page.props.auth.company" class="pa2 relative bb bb-gray bb-gray-hover">
             <span class="dib icon relative">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd" />
               </svg>
             </span>
-            <inertia-link :href="'/' + $page.auth.company.id + '/employees/' + $page.auth.employee.id" class="no-color no-underline" data-cy="go-to-employee-button">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + $page.props.auth.employee.id" class="no-color no-underline" data-cy="go-to-employee-button">
               {{ $t('app.header_go_to_employee_profile') }}
             </inertia-link>
           </li>
-          <li v-if="$page.auth.company" class="pa2 relative bb bb-gray bb-gray-hover">
+          <li v-if="$page.props.auth.company" class="pa2 relative bb bb-gray bb-gray-hover">
             <span class="dib icon relative">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M8 5a1 1 0 100 2h5.586l-1.293 1.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L13.586 5H8zM12 15a1 1 0 100-2H6.414l1.293-1.293a1 1 0 10-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L6.414 15H12z" />

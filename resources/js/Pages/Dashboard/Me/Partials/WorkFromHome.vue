@@ -5,7 +5,7 @@
         🏡
       </span> {{ $t('dashboard.work_from_home_title') }}
 
-      <help :url="$page.help_links.work_from_home" :datacy="'help-icon-work-from-home'" />
+      <help :url="$page.props.help_links.work_from_home" :datacy="'help-icon-work-from-home'" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">
@@ -70,7 +70,7 @@ export default {
       this.form.errors = [];
       this.form.content = payload;
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/workFromHome', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/workFromHome', this.form)
         .then(response => {
           flash(this.$t('dashboard.work_from_home_success'), 'success');
         })

@@ -13,7 +13,7 @@
     <h3 class="ph3 fw5">
       {{ $t('account.general_information') }}
 
-      <help :url="$page.help_links.account_general_company_name" :datacy="'help-icon-general'" :top="'2px'" />
+      <help :url="$page.props.help_links.account_general_company_name" :datacy="'help-icon-general'" :top="'2px'" />
     </h3>
 
     <!-- information about the company -->
@@ -64,7 +64,7 @@
                 :name="'name'"
                 :datacy="'company-name-input'"
                 :extra-class-upper-div="'mb0'"
-                :errors="$page.errors.title"
+                :errors="$page.props.errors.title"
                 :required="true"
                 :autofocus="true"
                 @esc-key-pressed="editMode = false"
@@ -140,7 +140,7 @@ export default {
     },
 
     submit() {
-      axios.post('/' + this.$page.auth.company.id + '/account/general/rename', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/general/rename', this.form)
         .then(response => {
           this.updatedName = this.form.name;
           this.editMode = false;

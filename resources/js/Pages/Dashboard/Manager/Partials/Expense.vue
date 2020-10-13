@@ -36,7 +36,7 @@
         💵
       </span> {{ $t('dashboard.manager_expense_title') }}
 
-      <help :url="$page.help_links.manager_expenses" :datacy="'help-icon-expense'" />
+      <help :url="$page.props.help_links.manager_expenses" :datacy="'help-icon-expense'" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">

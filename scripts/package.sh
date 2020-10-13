@@ -19,7 +19,7 @@ echo "$version" | tee $ROOT/config/version
 # BUILD
 composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
 php artisan lang:generate
-yarn install
+yarn install --ignore-engines --frozen-lockfile
 yarn production
 
 # PACKAGE

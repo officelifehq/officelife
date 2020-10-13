@@ -103,7 +103,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/description', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/description', this.form)
         .then(response => {
           flash(this.$t('team.description_success'), 'success');
 
@@ -119,7 +119,7 @@ export default {
     },
 
     teamMemberOrAtLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
       }
 

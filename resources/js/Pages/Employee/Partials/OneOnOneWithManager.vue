@@ -20,7 +20,7 @@
         🏔
       </span> {{ $t('employee.one_on_one_title') }}
 
-      <help :url="$page.help_links.one_on_ones" :top="'2px'" />
+      <help :url="$page.props.help_links.one_on_ones" :top="'2px'" />
     </span>
 
     <div class="mb4 bg-white box cf">
