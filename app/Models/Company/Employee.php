@@ -10,6 +10,7 @@ use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -432,6 +433,26 @@ class Employee extends Model
     }
 
     /**
+     * Get the project records associated with the employee.
+     *
+     * @return belongsToMany
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
+    /**
+     * Get the project records as lead associated with the employee.
+     *
+     * @return hasMany
+     */
+    public function projectsAsLead()
+    {
+        return $this->hasMany(Project::class, 'project_lead_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query
@@ -654,7 +675,6 @@ class Employee extends Model
      * Check wether the employee is part of the given team.
      *
      * @param int $teamId
-     *
      * @return bool
      */
     public function isInTeam(int $teamId): bool
@@ -682,5 +702,21 @@ class Employee extends Model
         });
 
         return $result->count() == 1;
+    }
+
+    /**
+     * Check wether the employee is part of the given project.
+     *
+     * @param int $projectId
+     * @return bool
+     */
+    public function isInProject(int $projectId): bool
+    {
+        $result = DB::table('employee_project')
+            ->where('employee_id', $this->id)
+            ->where('project_id', $projectId)
+            ->count();
+
+        return $result == 1;
     }
 }

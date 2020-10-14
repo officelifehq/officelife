@@ -98,6 +98,7 @@
               </div>
               <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'useful-link-submit-button'" />
             </div>
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'useful-link-submit-button'" />
           </div>
         </form>
       </template>
@@ -169,10 +170,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/links', this.form)
         .then(response => {
-          flash(this.$t('team.description_success'), 'success');
-
           this.updatedLinks.push(response.data.data);
-
           this.addMode = false;
           this.loadingState = null;
           this.form.url = null;

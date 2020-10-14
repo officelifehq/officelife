@@ -254,7 +254,6 @@ export default {
               this.processingSearch = false;
             })
             .catch(error => {
-              console.log(error);
               this.form.errors = _.flatten(_.toArray(error.response.data));
               this.processingSearch = false;
             });

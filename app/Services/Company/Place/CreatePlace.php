@@ -37,7 +37,6 @@ class CreatePlace extends BaseService
      * Create a place.
      *
      * @param array $data
-     *
      * @return Place
      */
     public function execute(array $data): Place

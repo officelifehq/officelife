@@ -184,6 +184,37 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{team}/ships/search', 'Company\\Team\\TeamRecentShipController@search');
         });
 
+        Route::prefix('projects')->group(function () {
+            Route::get('', 'Company\\Project\\ProjectController@index');
+            Route::get('create', 'Company\\Project\\ProjectController@create');
+            Route::post('', 'Company\\Project\\ProjectController@store');
+            Route::post('search', 'Company\\Project\\ProjectController@search');
+
+            // project detail
+            Route::get('{project}', 'Company\\Project\\ProjectController@show')->name('projects.show');
+            Route::get('{project}/summary', 'Company\\Project\\ProjectController@show');
+
+            Route::post('{project}/start', 'Company\\Project\\ProjectController@start');
+            Route::post('{project}/pause', 'Company\\Project\\ProjectController@pause');
+            Route::post('{project}/close', 'Company\\Project\\ProjectController@close');
+            Route::post('{project}/lead/assign', 'Company\\Project\\ProjectController@assign');
+            Route::post('{project}/lead/clear', 'Company\\Project\\ProjectController@clear');
+            Route::get('{project}/edit', 'Company\\Project\\ProjectController@edit')->name('projects.edit');
+            Route::post('{project}/description', 'Company\\Project\\ProjectController@description');
+            Route::post('{project}/update', 'Company\\Project\\ProjectController@update');
+            Route::get('{project}/delete', 'Company\\Project\\ProjectController@delete')->name('projects.delete');
+            Route::delete('{project}', 'Company\\Project\\ProjectController@destroy');
+
+            Route::post('{project}/links', 'Company\\Project\\ProjectController@createLink');
+            Route::delete('{project}/links/{link}', 'Company\\Project\\ProjectController@destroyLink');
+
+            Route::get('{project}/messages', 'Company\\Project\\ProjectController@messages');
+            Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectController@message');
+
+            Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
+            Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
+        });
+
         Route::prefix('company')->group(function () {
             Route::get('', 'Company\\Company\\CompanyController@index');
             Route::post('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');

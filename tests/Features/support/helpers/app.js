@@ -271,3 +271,28 @@ Cypress.Commands.add('createExpense', (title, amount, companyId = 1) => {
   cy.get('[data-cy=expense-title]').type(title)
   cy.get('[data-cy=submit-expense]').click()
 })
+
+// Create a project
+Cypress.Commands.add('createProject', (companyId = 1, name, code = '', summary = '', projectLeadId = '') => {
+  cy.visit('/' + companyId +'/projects/create')
+  cy.get('[data-cy=project-name-input]').type(name)
+
+  if (code != '') {
+    cy.get('[data-cy=add-code]').click()
+    cy.get('[data-cy=project-code-input]').type(code)
+  }
+
+  if (summary != '') {
+    cy.get('[data-cy=add-summary]').click()
+    cy.get('[data-cy=project-summary-input]').type(summary)
+  }
+
+  if (projectLeadId != '') {
+    cy.get('[data-cy=project-assign-project-lead]').click()
+    cy.get('[data-cy=project-lead-search]').type('admin')
+    cy.wait(600)
+    cy.get('[data-cy=employee-id-1]').click()
+  }
+
+  cy.get('[data-cy=submit-create-project-button]').click()
+})

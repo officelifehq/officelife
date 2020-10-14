@@ -128,6 +128,16 @@ class Team extends Model
     }
 
     /**
+     * Get the project records associated with the team.
+     *
+     * @return belongsToMany
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
+    /**
      * Returns an array of worklogs for a given date.
      * This method uses a raw SQL query as I don't know how to make this kind
      * of queries with Eloquent. It’s not elegant, but it’s performant.

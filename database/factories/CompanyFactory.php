@@ -1,6 +1,8 @@
 <?php
 
 use Faker\Generator as Faker;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectStatus;
 use App\Models\Company\RateYourManagerAnswer;
 
 $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
@@ -465,5 +467,48 @@ $factory->define(App\Models\Company\GuessEmployeeGame::class, function () {
         'second_other_employee_to_find_id' => function () {
             return factory(App\Models\Company\Employee::class)->create([])->id;
         },
+    ];
+});
+
+$factory->define(App\Models\Company\Project::class, function () {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'name' => 'API v3',
+        'code' => '123456',
+        'description' => 'it is going well',
+        'status' => Project::CREATED,
+    ];
+});
+
+$factory->define(App\Models\Company\ProjectLink::class, function () {
+    return [
+        'project_id' => function () {
+            return factory(App\Models\Company\Project::class)->create()->id;
+        },
+        'type' => 'slack',
+        'label' => '#dunder-mifflin',
+        'url' => 'https://slack.com/dunder',
+    ];
+});
+
+$factory->define(App\Models\Company\ProjectStatus::class, function () {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
+    return [
+        'project_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Project::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'author_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'status' => ProjectStatus::ON_TRACK,
+        'title' => 'Title',
+        'description' => 'it is going well',
     ];
 });

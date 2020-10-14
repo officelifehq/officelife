@@ -13,17 +13,22 @@ use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Services\User\CreateAccount;
+use App\Models\Company\ProjectStatus;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Services\Company\Team\SetTeamLead;
 use Illuminate\Database\Eloquent\Collection;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
+use App\Services\Company\Project\StartProject;
 use App\Services\Company\Team\Ship\CreateShip;
+use App\Services\Company\Project\CreateProject;
 use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Morale\LogMorale;
+use App\Services\Company\Project\CreateProjectLink;
 use App\Services\Company\Employee\Worklog\LogWorklog;
+use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
@@ -177,6 +182,7 @@ class SetupDummyAccount extends Command
         $this->addRecentShips();
         $this->addRateYourManagerSurveys();
         $this->addOneOnOnes();
+        $this->addProjects();
         $this->addSecondaryBlankAccount();
         $this->stop();
     }
@@ -1572,6 +1578,54 @@ class SetupDummyAccount extends Command
                 }
             }
         }
+    }
+
+    private function addProjects(): void
+    {
+        $this->info('☐ Add projects');
+
+        $project = (new CreateProject)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'project_lead_id' => $this->jim->id,
+            'name' => 'Dunder Mifflin Infinity',
+            'code' => 'dun-76',
+            'summary' => 'Revitalize the company with new technology',
+            'description' => 'We aim to replace all our old technology with something much more powerful: a website with a complete set of instructions. The goal is to replace the sales people by a machine learning algorithm.',
+        ]);
+
+        (new StartProject)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $project->id,
+        ]);
+
+        (new CreateProjectLink)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $project->id,
+            'type' => 'url',
+            'label' => 'Upcoming website',
+            'url' => 'https://dundermifflin.com/infinity',
+        ]);
+
+        (new CreateProjectLink)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $project->id,
+            'type' => 'slack',
+            'label' => 'Slack channel of the project',
+            'url' => 'https://slack.com/infinity',
+        ]);
+
+        (new CreateProjectStatus)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $project->id,
+            'status' => ProjectStatus::ON_TRACK,
+            'title' => 'Phase 2 is completed',
+            'description' => 'Yes, you have read it right. We have finally finished the second phase of the project, which makes us proud. We are on track with delivering the project at the promised date, and we will let you know how it is going.',
+        ]);
     }
 
     private function addSecondaryBlankAccount(): void

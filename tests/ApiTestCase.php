@@ -3,7 +3,6 @@
 namespace Tests;
 
 use App\Models\User\User;
-use Laravel\Passport\Passport;
 use Illuminate\Testing\TestResponse;
 
 class ApiTestCase extends TestCase
