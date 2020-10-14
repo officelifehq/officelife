@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'Auth\\LoginController@index')->name('default');
+Route::get('/', 'Auth\\LoginController@showLoginForm')->name('default');
 
 // auth
 Route::get('signup', 'Auth\\RegisterController@index')->name('signup');
 Route::post('signup', 'Auth\\RegisterController@store')->name('signup.attempt');
-Route::get('login', 'Auth\\LoginController@index')->name('login');
-Route::post('login', 'Auth\\LoginController@store')->name('login.attempt');
+Route::get('login', 'Auth\\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\\LoginController@login')->name('login.attempt');
 
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
 Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join');

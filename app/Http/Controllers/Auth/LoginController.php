@@ -4,72 +4,64 @@ namespace App\Http\Controllers\Auth;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
-    use ThrottlesLogins;
+    use AuthenticatesUsers;
 
     /**
-     * Shows the login page.
-     *
-     * @return mixed
+     * Create a new controller instance.
      */
-    public function index()
+    public function __construct()
     {
-        if (Auth::check()) {
-            return redirect('/home');
-        }
+        $this->middleware('guest', ['except' => 'logout']);
+    }
 
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showLoginForm()
+    {
         return Inertia::render('Auth/Login', [
             'registerUrl' => route('signup'),
         ]);
     }
 
     /**
-     * Authenticate the user.
+     * The user has been authenticated.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
      * @return mixed
      */
-    public function store(Request $request)
+    protected function authenticated(Request $request, $user)
     {
-        if (Auth::check()) {
-            return Redirect::route('home');
-        }
+        $path = $request->session()->pull('url.intended', route('home'));
 
-        $email = $request->input('email');
-        $password = $request->input('password');
-        $password = trim(preg_replace('/\t/', '', $password));
-        $credentials = [
-            'email' => $email,
-            'password' => $password,
-        ];
-
-        if (Auth::attempt($credentials)) {
-            return Redirect::route('home');
-        }
-
-        return response()->json([
-            'data' => [
-                trans('auth.login_invalid_credentials'),
-            ],
-        ], 500);
+        return new JsonResponse([
+            'success' => true,
+            'redirect' => $path,
+        ]);
     }
 
     /**
-     * Logs out the user.
+     * Get the failed login response instance.
      *
-     * @return RedirectResponse
+     * @param  \Illuminate\Http\Request  $request
+     * @throws \Illuminate\Validation\ValidationException
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function logout()
+    protected function sendFailedLoginResponse(Request $request)
     {
-        Auth::logout();
-
-        return Redirect::route('login');
+        return new JsonResponse([
+            'data' => [
+                trans('auth.login_invalid_credentials'),
+            ],
+        ], 401);
     }
 }
