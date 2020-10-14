@@ -64,7 +64,7 @@
               <project-lead :project="project" />
 
               <!-- links -->
-              <project-links :project="project" />
+              <project-links :project="project" :permissions="permissions" />
             </div>
 
             <!-- actions -->

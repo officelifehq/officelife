@@ -146,9 +146,21 @@ class ProjectViewHelper
     public static function permissions(Project $project, Employee $employee): array
     {
         $isInProject = $employee->isInProject($project->id);
+        $isProjectLead = is_null($project->lead) ? false : $project->lead->id == $employee->id;
+
+        $canEditLastUpdate = false;
+        if ($isProjectLead || $employee->permission_level <= 200) {
+            $canEditLastUpdate = true;
+        }
+
+        $canManageLinks = false;
+        if ($isInProject || $employee->permission_level <= 200) {
+            $canManageLinks = true;
+        }
 
         return [
-            'can_edit_latest_update' => $isInProject,
+            'can_edit_latest_update' => $canEditLastUpdate,
+            'can_manage_links' => $canManageLinks,
         ];
     }
 }

@@ -38,13 +38,13 @@
         </div>
 
         <!-- delete button -->
-        <template v-if="editMode">
+        <div v-if="editMode">
           <span class="f6">{{ labelOrLink(link) }}</span> <a href="#" :data-cy="'project-link-' + link.id + '-destroy'" class="f6" @click.prevent="removeLink(link)">{{ $t('app.remove') }}</a>
-        </template>
+        </div>
       </li>
 
       <!-- add a new link / edit links -->
-      <li v-if="addMode == false" class="mt3">
+      <li v-if="permissions.can_manage_links && addMode == false" class="mt3">
         <a v-if="!editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-link" @click.prevent="addMode = true"><span>+</span> {{ $t('team.useful_link_cta') }}</a>
         <span v-if="!editMode && localLinks.length > 0" class="moon-gray">|</span>
         <a v-if="!editMode && localLinks.length > 0" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="edit-links" @click.prevent="editMode = true">{{ $t('team.useful_link_edit') }}</a>
@@ -53,13 +53,13 @@
     </ul>
 
     <!-- add a new link form -->
-    <template v-if="addMode">
+    <div v-if="addMode">
       <form class="mt3" @submit.prevent="submit()">
-        <template v-if="form.errors.length > 0">
+        <div v-if="form.errors.length > 0">
           <div class="cf pb1 w-100 mb2">
             <errors :errors="form.errors" />
           </div>
-        </template>
+        </div>
 
         <label class="lh-copy f6">
           {{ $t('team.useful_link_type_of_link') }}
@@ -97,16 +97,14 @@
 
         <div class="mb0">
           <div class="flex-ns justify-between">
-            <div>
-              <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addMode = false">
-                {{ $t('app.cancel') }}
-              </a>
-            </div>
+            <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addMode = false">
+              {{ $t('app.cancel') }}
+            </a>
             <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'link-submit-button'" />
           </div>
         </div>
       </form>
-    </template>
+    </div>
   </div>
 </template>
 
@@ -125,6 +123,10 @@ export default {
   props: {
     project: {
       type: Object,
+      default: null,
+    },
+    permissions: {
+      type: Array,
       default: null,
     },
   },

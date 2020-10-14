@@ -178,7 +178,7 @@ class ProjectViewHelperTest extends TestCase
     /** @test */
     public function it_shows_information_about_the_permissions_of_the_logged_user(): void
     {
-        $michael = $this->createAdministrator();
+        $michael = $this->createEmployee();
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
         ]);
@@ -188,6 +188,7 @@ class ProjectViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'can_edit_latest_update' => false,
+                'can_manage_links' => false,
             ],
             $array
         );
@@ -197,7 +198,21 @@ class ProjectViewHelperTest extends TestCase
         $array = ProjectViewHelper::permissions($project, $michael);
         $this->assertEquals(
             [
+                'can_edit_latest_update' => false,
+                'can_manage_links' => true,
+            ],
+            $array
+        );
+
+        // employee is part of the project and is the project lead
+        $project->project_lead_id = $michael->id;
+        $project->save();
+        $project->refresh();
+        $array = ProjectViewHelper::permissions($project, $michael);
+        $this->assertEquals(
+            [
                 'can_edit_latest_update' => true,
+                'can_manage_links' => true,
             ],
             $array
         );
