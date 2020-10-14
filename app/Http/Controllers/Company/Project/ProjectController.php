@@ -569,7 +569,7 @@ class ProjectController extends Controller
         $employee = InstanceHelper::getLoggedEmployee();
         $project = Project::findOrFail($projectId);
 
-        if (! $employee->isInProject($projectId)) {
+        if (! $employee->isInProject($projectId) && $employee->permission_level > 200) {
             return redirect('home');
         }
 
