@@ -100,10 +100,12 @@ export default {
       type: Number,
       default: 65535,
     },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
+  },
+
+  data() {
+    return {
+      errors: [],
+    };
   },
 
   methods: {

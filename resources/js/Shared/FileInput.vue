@@ -91,14 +91,16 @@ export default {
       type: String,
       default: 'mb3',
     },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
     autofocus: {
       type: Boolean,
       default: false,
     }
+  },
+
+  data() {
+    return {
+      errors: [],
+    };
   },
 
   computed: {

@@ -136,7 +136,7 @@ export default {
       default: null,
     },
     statistics: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },
