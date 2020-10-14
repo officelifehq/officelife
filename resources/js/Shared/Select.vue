@@ -101,10 +101,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
     customLabelKey: {
       type: String,
       default: 'label',
@@ -114,6 +110,7 @@ export default {
   data() {
     return {
       selected: null,
+      errors: [],
     };
   },
 

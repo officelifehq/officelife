@@ -321,10 +321,7 @@ export default {
         hired_day: null,
         twitter: null,
         slack: null,
-        errors: {
-          type: Array,
-          default: null,
-        },
+        errors: [],
       },
       loadingState: '',
     };

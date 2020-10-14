@@ -167,10 +167,7 @@ export default {
       updatedSkills: [],
       form: {
         searchTerm: null,
-        errors: {
-          type: Array,
-          default: null,
-        },
+        errors: [],
       },
     };
   },
