@@ -51,7 +51,7 @@
           <!-- LEFT COLUMN -->
           <div class="fl w-70-l w-100">
             <!-- project status -->
-            <project-updates :project="project" />
+            <project-updates :project="project" :permissions="permissions" />
 
             <!-- Project description -->
             <description :project="project" />
@@ -108,6 +108,10 @@ export default {
     },
     project: {
       type: Object,
+      default: null,
+    },
+    permissions: {
+      type: Array,
       default: null,
     },
     tab: {

@@ -10,6 +10,7 @@ use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -711,12 +712,11 @@ class Employee extends Model
      */
     public function isInProject(int $projectId): bool
     {
-        $projects = $this->projects;
+        $result = DB::table('employee_project')
+            ->where('employee_id', $this->id)
+            ->where('project_id', $projectId)
+            ->count();
 
-        $result = $projects->filter(function ($project) use ($projectId) {
-            return $project->id === $projectId;
-        });
-
-        return $result->count() == 1;
+        return $result == 1;
     }
 }

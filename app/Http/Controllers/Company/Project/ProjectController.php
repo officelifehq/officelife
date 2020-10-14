@@ -59,10 +59,12 @@ class ProjectController extends Controller
     public function show(Request $request, int $companyId, int $projectId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
         $project = Project::findOrFail($projectId);
 
         return Inertia::render('Project/Show', [
             'project' => ProjectViewHelper::summary($project, $company),
+            'permissions' => ProjectViewHelper::permissions($project, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -560,12 +562,22 @@ class ProjectController extends Controller
      * @param int $companyId
      * @param int $projectId
      * @param int $linkId
-     * @return Response
      */
-    public function createStatus(Request $request, int $companyId, int $projectId): Response
+    public function createStatus(Request $request, int $companyId, int $projectId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
         $project = Project::findOrFail($projectId);
+
+        if (! $employee->isInProject($projectId)) {
+            return redirect('home');
+        }
+
+        if ($project->lead) {
+            if ($project->lead->id != $employee->id) {
+                return redirect('home');
+            }
+        }
 
         return Inertia::render('Project/CreateStatus', [
             'project' => ProjectViewHelper::summary($project, $company),

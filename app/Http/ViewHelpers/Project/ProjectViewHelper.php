@@ -6,6 +6,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 
 class ProjectViewHelper
 {
@@ -131,6 +132,23 @@ class ProjectViewHelper
             'name' => $project->name,
             'code' => $project->code,
             'summary' => $project->summary,
+        ];
+    }
+
+    /**
+     * Array containing all the permissions a user can do on the different
+     * pages of the project, depending on his role.
+     *
+     * @param Project $project
+     * @param Employee $employee
+     * @return array
+     */
+    public static function permissions(Project $project, Employee $employee): array
+    {
+        $isInProject = $employee->isInProject($project->id);
+
+        return [
+            'can_edit_latest_update' => $isInProject,
         ];
     }
 }

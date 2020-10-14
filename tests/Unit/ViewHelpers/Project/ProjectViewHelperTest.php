@@ -174,4 +174,32 @@ class ProjectViewHelperTest extends TestCase
             $array
         );
     }
+
+    /** @test */
+    public function it_shows_information_about_the_permissions_of_the_logged_user(): void
+    {
+        $michael = $this->createAdministrator();
+        $project = factory(Project::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+
+        // employee is not part of the project
+        $array = ProjectViewHelper::permissions($project, $michael);
+        $this->assertEquals(
+            [
+                'can_edit_latest_update' => false,
+            ],
+            $array
+        );
+
+        // employee is part of the project
+        $project->employees()->syncWithoutDetaching([$michael->id]);
+        $array = ProjectViewHelper::permissions($project, $michael);
+        $this->assertEquals(
+            [
+                'can_edit_latest_update' => true,
+            ],
+            $array
+        );
+    }
 }
