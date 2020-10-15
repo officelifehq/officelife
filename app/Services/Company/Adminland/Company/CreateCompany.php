@@ -62,11 +62,8 @@ class CreateCompany extends BaseService
      */
     private function addFirstEmployee(Company $company, User $user): Employee
     {
-        $uuid = Str::uuid()->toString();
-
         $avatar = (new GenerateAvatar)->execute([
-            'uuid' => $uuid,
-            'size' => 200,
+            'name' => $user->first_name.' '.$user->last_name,
         ]);
 
         return Employee::create([
