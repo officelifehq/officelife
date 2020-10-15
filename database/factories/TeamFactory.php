@@ -22,8 +22,10 @@ $factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
             return factory(App\Models\Company\Team::class)->create([])->id;
         },
         'action' => 'account_created',
-        'author_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([]);
+        'author_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => \App\Models\Company\Team::find($data['team_id'])->company_id,
+            ]);
         },
         'author_name' => 'Dwight Schrute',
         'audited_at' => $faker->dateTimeThisCentury(),
@@ -57,8 +59,10 @@ $factory->define(App\Models\Company\TeamNews::class, function () {
         'team_id' => function () {
             return factory(App\Models\Company\Team::class)->create()->id;
         },
-        'author_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([])->id;
+        'author_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => \App\Models\Company\Team::find($data['team_id'])->company_id,
+            ]);
         },
         'author_name' => 'Dwight Schrute',
         'title' => 'Party at the office',

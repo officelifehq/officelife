@@ -12,14 +12,12 @@ $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
 });
 
 $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
-    $companyId = factory(App\Models\Company\Company::class)->create()->id;
-
     return [
         'user_id' => factory(App\Models\User\User::class)->create()->id,
-        'company_id' => $companyId,
-        'position_id' => function () use ($companyId) {
+        'company_id' => factory(App\Models\Company\Company::class)->create()->id,
+        'position_id' => function (array $attributes) {
             return factory(App\Models\Company\Position::class)->create([
-                'company_id' => $companyId,
+                'company_id' => $attributes['company_id'],
             ])->id;
         },
         'pronoun_id' => function () {
@@ -33,9 +31,9 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'last_name' => 'Schrute',
         'birthdate' => $faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
         'consecutive_worklog_missed' => 0,
-        'employee_status_id' => function () use ($companyId) {
+        'employee_status_id' => function (array $attributes) {
             return factory(App\Models\Company\EmployeeStatus::class)->create([
-                'company_id' => $companyId,
+                'company_id' => $attributes['company_id'],
             ])->id;
         },
         'amount_of_allowed_holidays' => 30,
@@ -48,8 +46,10 @@ $factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'action' => 'account_created',
-        'author_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([]);
+        'author_id' => function (array $attributes) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $attributes['company_id'],
+            ]);
         },
         'author_name' => 'Dwight Schrute',
         'audited_at' => $faker->dateTimeThisCentury(),
@@ -63,8 +63,10 @@ $factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) 
             return factory(App\Models\Company\Employee::class)->create()->id;
         },
         'action' => 'account_created',
-        'author_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([]);
+        'author_id' => function (array $attributes) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => \App\Models\Company\Employee::find($attributes['employee_id'])->company_id,
+            ]);
         },
         'author_name' => 'Dwight Schrute',
         'audited_at' => $faker->dateTimeThisCentury(),
@@ -307,17 +309,13 @@ $factory->define(App\Models\Company\Question::class, function () {
 });
 
 $factory->define(App\Models\Company\Answer::class, function () {
-    $companyId = factory(App\Models\Company\Company::class)->create()->id;
-
     return [
-        'question_id' => function () use ($companyId) {
-            return factory(App\Models\Company\Question::class)->create([
-                'company_id' => $companyId,
-            ])->id;
+        'question_id' => function () {
+            return factory(App\Models\Company\Question::class)->create()->id;
         },
-        'employee_id' => function () use ($companyId) {
+        'employee_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $companyId,
+                'company_id' => \App\Models\Company\Question::find($data['question_id'])->company_id,
             ])->id;
         },
         'body' => 'This is my answer',
@@ -398,8 +396,10 @@ $factory->define(App\Models\Company\RateYourManagerAnswer::class, function () {
         'rate_your_manager_survey_id' => function () {
             return factory(App\Models\Company\RateYourManagerSurvey::class)->create()->id;
         },
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
+        'employee_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => \App\Models\Company\RateYourManagerSurvey::find($data['rate_your_manager_survey_id'])->manager->company_id
+            ])->id;
         },
         'rating' => RateYourManagerAnswer::BAD,
         'comment' => 'A really bad manager',
@@ -407,17 +407,13 @@ $factory->define(App\Models\Company\RateYourManagerAnswer::class, function () {
 });
 
 $factory->define(App\Models\Company\OneOnOneEntry::class, function () {
-    $companyId = factory(App\Models\Company\Company::class)->create()->id;
-
     return [
-        'manager_id' => function () use ($companyId) {
-            return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $companyId,
-            ])->id;
+        'manager_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create()->id;
         },
-        'employee_id' => function () use ($companyId) {
+        'employee_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $companyId,
+                'company_id' => \App\Models\Company\Employee::find($data['manager_id'])->company_id,
             ])->id;
         },
         'happened_at' => '2020-03-02 00:00:00',
@@ -458,14 +454,20 @@ $factory->define(App\Models\Company\GuessEmployeeGame::class, function () {
         'employee_who_played_id' => function () {
             return factory(App\Models\Company\Employee::class)->create([])->id;
         },
-        'employee_to_find_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([])->id;
+        'employee_to_find_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => \App\Models\Company\Employee::find($data['employee_who_played_id'])->company_id,
+            ])->id;
         },
-        'first_other_employee_to_find_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([])->id;
+        'first_other_employee_to_find_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => \App\Models\Company\Employee::find($data['employee_who_played_id'])->company_id,
+            ])->id;
         },
-        'second_other_employee_to_find_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([])->id;
+        'second_other_employee_to_find_id' => function (array $data) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => \App\Models\Company\Employee::find($data['employee_who_played_id'])->company_id,
+            ])->id;
         },
     ];
 });
@@ -494,17 +496,13 @@ $factory->define(App\Models\Company\ProjectLink::class, function () {
 });
 
 $factory->define(App\Models\Company\ProjectStatus::class, function () {
-    $companyId = factory(App\Models\Company\Company::class)->create()->id;
-
     return [
-        'project_id' => function () use ($companyId) {
-            return factory(App\Models\Company\Project::class)->create([
-                'company_id' => $companyId,
-            ])->id;
+        'project_id' => function () {
+            return factory(App\Models\Company\Project::class)->create()->id;
         },
-        'author_id' => function () use ($companyId) {
+        'author_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $companyId,
+                'company_id' => \App\Models\Company\Project::find($data['project_id'])->company_id,
             ])->id;
         },
         'status' => ProjectStatus::ON_TRACK,
