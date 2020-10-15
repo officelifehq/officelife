@@ -29,6 +29,7 @@ class AddEmployeeToProject extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
             'employee_id' => 'required|integer|exists:employees,id',
+            'role' => 'nullable|string',
         ];
     }
 
@@ -67,7 +68,9 @@ class AddEmployeeToProject extends BaseService
     private function attachEmployee(): void
     {
         $this->project->employees()->syncWithoutDetaching([
-            $this->data['employee_id'],
+            $this->data['employee_id'] => [
+                'role' => $this->valueOrNull($this->data, 'role'),
+            ],
         ]);
     }
 
