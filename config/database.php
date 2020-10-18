@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 $config = [
@@ -176,11 +177,12 @@ $config = [
 
 ];
 
-if ($config['connections'][$config['default']]['url'] == '') {
+$connectionUrl = 'connections.'.$config['default'].'.url';
+if (Arr::get($config, $connectionUrl, '') === '') {
     if (env('JAWSDB_URL') != '') {
-        $config['connections'][$config['default']]['url'] = env('JAWSDB_URL');
+        Arr::set($config, $connectionUrl, env('JAWSDB_URL'));
     } else if (env('CLEARDB_DATABASE_URL') != '') {
-        $config['connections'][$config['default']]['url'] = env('CLEARDB_DATABASE_URL');
+        Arr::set($config, $connectionUrl, env('CLEARDB_DATABASE_URL'));
     }
 }
 

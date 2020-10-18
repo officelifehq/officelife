@@ -8,6 +8,8 @@
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "preproduction": "php artisan lang:generate -vvv",
+        "postinstall": "npm run production",
         "e2e": "cypress run",
         "e2e-gui": "cypress open",
         "inst": "yarn install --ignore-engines --frozen-lockfile",
@@ -16,9 +18,7 @@
         "normal": "mv .env .env.cypress.local && mv .env2 .env",
         "test": "DB_CONNECTION=testing php artisan migrate:fresh && DB_CONNECTION=testing php artisan db:seed",
         "local": "php artisan migrate:fresh && php artisan db:seed",
-        "composer update": "COMPOSER_MEMORY_LIMIT=-1 composer update",
-        "postinstall": "npm run production",
-        "preproduction": "php artisan lang:generate -vvv"
+        "composer update": "COMPOSER_MEMORY_LIMIT=-1 composer update"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
