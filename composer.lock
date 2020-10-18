@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24a04bacb1a1be6d55e643b0befa6875",
+    "content-hash": "113a20005a1b22b39fbe9d1b4da2884b",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1750,6 +1750,95 @@
                 }
             ],
             "time": "2020-09-21T18:10:53+00:00"
+        },
+        {
+            "name": "mariuzzo/laravel-js-localization",
+            "version": "v1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rmariuzzo/Laravel-JS-Localization.git",
+                "reference": "9e92f50134e8decb57c4530725b5d08b61002242"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rmariuzzo/Laravel-JS-Localization/zipball/9e92f50134e8decb57c4530725b5d08b61002242",
+                "reference": "9e92f50134e8decb57c4530725b5d08b61002242",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/console": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
+                "illuminate/filesystem": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
+                "php": "^5.4 || ^7.0",
+                "tedivm/jshrink": "~1.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^2.2 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
+                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mariuzzo\\LaravelJsLocalization\\LaravelJsLocalizationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mariuzzo\\LaravelJsLocalization\\": "src/Mariuzzo/LaravelJsLocalization/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rubens Mariuzzo",
+                    "email": "rubens@mariuzzo.com",
+                    "homepage": "https://github.com/rmariuzzo",
+                    "role": "Developer"
+                },
+                {
+                    "name": "German Popoter",
+                    "email": "me@gpopoteur.com",
+                    "homepage": "https://github.com/gpopoteur",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Galievskiy Dmitriy",
+                    "homepage": "https://github.com/xAockd",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Ramon Ackermann",
+                    "homepage": "https://github.com/sboo",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Anton Komarev",
+                    "homepage": "https://github.com/antonkomarev",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Pascal Baljet",
+                    "homepage": "https://github.com/pascalbaljetmedia",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Localization in JavaScript",
+            "homepage": "https://github.com/rmariuzzo/laravel-js-localization",
+            "keywords": [
+                "JS",
+                "i18n",
+                "javascript",
+                "lang",
+                "laravel",
+                "laravel 5",
+                "localization"
+            ],
+            "time": "2020-09-16T23:46:26+00:00"
         },
         {
             "name": "moneyphp/money",
@@ -5290,6 +5379,52 @@
             "time": "2020-09-18T14:27:32+00:00"
         },
         {
+            "name": "tedivm/jshrink",
+            "version": "v1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tedious/JShrink.git",
+                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tedious/JShrink/zipball/566e0c731ba4e372be2de429ef7d54f4faf4477a",
+                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.8",
+                "php-coveralls/php-coveralls": "^1.1.0",
+                "phpunit/phpunit": "^6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JShrink": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Hafner",
+                    "email": "tedivm@tedivm.com"
+                }
+            ],
+            "description": "Javascript Minifier built in PHP",
+            "homepage": "http://github.com/tedious/JShrink",
+            "keywords": [
+                "javascript",
+                "minifier"
+            ],
+            "time": "2019-06-28T18:11:46+00:00"
+        },
+        {
             "name": "tightenco/ziggy",
             "version": "v0.8.1",
             "source": {
@@ -7409,95 +7544,6 @@
             "description": "The legacy version of the Laravel Eloquent factories.",
             "homepage": "http://laravel.com",
             "time": "2020-09-21T13:31:44+00:00"
-        },
-        {
-            "name": "mariuzzo/laravel-js-localization",
-            "version": "v1.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rmariuzzo/Laravel-JS-Localization.git",
-                "reference": "9e92f50134e8decb57c4530725b5d08b61002242"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rmariuzzo/Laravel-JS-Localization/zipball/9e92f50134e8decb57c4530725b5d08b61002242",
-                "reference": "9e92f50134e8decb57c4530725b5d08b61002242",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/config": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
-                "illuminate/console": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
-                "illuminate/filesystem": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
-                "php": "^5.4 || ^7.0",
-                "tedivm/jshrink": "~1.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^2.2 || ^3.0 || ^4.0 || ^5.0 || ^6.0",
-                "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Mariuzzo\\LaravelJsLocalization\\LaravelJsLocalizationServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Mariuzzo\\LaravelJsLocalization\\": "src/Mariuzzo/LaravelJsLocalization/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rubens Mariuzzo",
-                    "email": "rubens@mariuzzo.com",
-                    "homepage": "https://github.com/rmariuzzo",
-                    "role": "Developer"
-                },
-                {
-                    "name": "German Popoter",
-                    "email": "me@gpopoteur.com",
-                    "homepage": "https://github.com/gpopoteur",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Galievskiy Dmitriy",
-                    "homepage": "https://github.com/xAockd",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Ramon Ackermann",
-                    "homepage": "https://github.com/sboo",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Anton Komarev",
-                    "homepage": "https://github.com/antonkomarev",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Pascal Baljet",
-                    "homepage": "https://github.com/pascalbaljetmedia",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Laravel Localization in JavaScript",
-            "homepage": "https://github.com/rmariuzzo/laravel-js-localization",
-            "keywords": [
-                "JS",
-                "i18n",
-                "javascript",
-                "lang",
-                "laravel",
-                "laravel 5",
-                "localization"
-            ],
-            "time": "2020-09-16T23:46:26+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -10855,52 +10901,6 @@
                 }
             ],
             "time": "2020-09-27T03:44:28+00:00"
-        },
-        {
-            "name": "tedivm/jshrink",
-            "version": "v1.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tedious/JShrink.git",
-                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tedious/JShrink/zipball/566e0c731ba4e372be2de429ef7d54f4faf4477a",
-                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6|^7.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.8",
-                "php-coveralls/php-coveralls": "^1.1.0",
-                "phpunit/phpunit": "^6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JShrink": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Robert Hafner",
-                    "email": "tedivm@tedivm.com"
-                }
-            ],
-            "description": "Javascript Minifier built in PHP",
-            "homepage": "http://github.com/tedious/JShrink",
-            "keywords": [
-                "javascript",
-                "minifier"
-            ],
-            "time": "2019-06-28T18:11:46+00:00"
         },
         {
             "name": "thecodingmachine/phpstan-safe-rule",
