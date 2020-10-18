@@ -17,7 +17,7 @@
         "test": "DB_CONNECTION=testing php artisan migrate:fresh && DB_CONNECTION=testing php artisan db:seed",
         "local": "php artisan migrate:fresh && php artisan db:seed",
         "composer update": "COMPOSER_MEMORY_LIMIT=-1 composer update",
-        "postinstall": "php artisan lang:generate -vvv && npm run production"
+        "postinstall": "npm run production"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
@@ -56,9 +56,6 @@
         "vue-loaders": "^4.1.1",
         "vue-select": "^3.10.8",
         "vue-snotify": "^3.2.1"
-    },
-    "engines": {
-        "node": "12.x"
     },
     "lint-staged": {
         "resources/**/*.{css,scss}": [
