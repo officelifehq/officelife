@@ -26,7 +26,7 @@
     }
   ],
   "scripts": {
-    "postdeploy": ""
+    "postdeploy": "php artisan migrate --force -vvv"
   },
   "env": {
     "APP_KEY": {
@@ -35,11 +35,8 @@
     },
     "APP_ENV": {
       "description": "Set to 'production' by default, or set it to 'local' if you want to install the app as a development version.",
-      "value": "production"
-    },
-    "APP_DEBUG": {
-      "description": "Enables or disables debug mode.",
-      "value": "false"
+      "value": "production",
+      "required": false
     }
   },
   "environments": {
