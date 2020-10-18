@@ -9,6 +9,14 @@
     "office",
     "management"
   ],
+  "buildpacks": [
+    {
+      "url": "heroku/php"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
   "addons": [
     {
       "plan": "jawsdb:kitefin"
@@ -18,7 +26,7 @@
     }
   ],
   "scripts": {
-    "postdeploy": "php artisan migrate --force -vvv; yarn production"
+    "postdeploy": "php artisan migrate --force -vvv"
   },
   "env": {
     "APP_KEY": {
@@ -32,6 +40,13 @@
     "APP_DEBUG": {
       "description": "Enables or disables debug mode.",
       "value": "false"
+    }
+  },
+  "environments": {
+    "test": {
+      "env": {
+        "APP_ENV": "local"
+      }
     }
   }
 }
