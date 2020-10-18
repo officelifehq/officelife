@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-return [
+$config = [
 
     /*
     |--------------------------------------------------------------------------
@@ -175,3 +175,13 @@ return [
     ],
 
 ];
+
+if ($config['connections'][$config['default']]['url'] == '') {
+    if (env('JAWSDB_URL') != '') {
+        $config['connections'][$config['default']]['url'] = env('JAWSDB_URL');
+    } else if (env('CLEARDB_DATABASE_URL') != '') {
+        $config['connections'][$config['default']]['url'] = env('CLEARDB_DATABASE_URL');
+    }
+}
+
+return $config;
