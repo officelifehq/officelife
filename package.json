@@ -56,6 +56,9 @@
         "vue-select": "^3.10.8",
         "vue-snotify": "^3.2.1"
     },
+    "engines": {
+        "node": "12.x"
+    },
     "lint-staged": {
         "resources/**/*.{css,scss}": [
             "prettier --write --ignore-unknown"
