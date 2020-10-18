@@ -15,9 +15,9 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
     return [
         'user_id' => factory(App\Models\User\User::class)->create()->id,
         'company_id' => factory(App\Models\Company\Company::class)->create()->id,
-        'position_id' => function (array $attributes) {
+        'position_id' => function (array $data) {
             return factory(App\Models\Company\Position::class)->create([
-                'company_id' => $attributes['company_id'],
+                'company_id' => $data['company_id'],
             ])->id;
         },
         'pronoun_id' => function () {
@@ -31,9 +31,9 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'last_name' => 'Schrute',
         'birthdate' => $faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
         'consecutive_worklog_missed' => 0,
-        'employee_status_id' => function (array $attributes) {
+        'employee_status_id' => function (array $data) {
             return factory(App\Models\Company\EmployeeStatus::class)->create([
-                'company_id' => $attributes['company_id'],
+                'company_id' => $data['company_id'],
             ])->id;
         },
         'amount_of_allowed_holidays' => 30,
@@ -46,9 +46,9 @@ $factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'action' => 'account_created',
-        'author_id' => function (array $attributes) {
+        'author_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $attributes['company_id'],
+                'company_id' => $data['company_id'],
             ]);
         },
         'author_name' => 'Dwight Schrute',
@@ -63,9 +63,9 @@ $factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) 
             return factory(App\Models\Company\Employee::class)->create()->id;
         },
         'action' => 'account_created',
-        'author_id' => function (array $attributes) {
+        'author_id' => function (array $data) {
             return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => \App\Models\Company\Employee::find($attributes['employee_id'])->company_id,
+                'company_id' => \App\Models\Company\Employee::find($data['employee_id'])->company_id,
             ]);
         },
         'author_name' => 'Dwight Schrute',
