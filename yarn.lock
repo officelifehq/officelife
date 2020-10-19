@@ -912,9 +912,9 @@
   integrity sha512-6pOLn6jreF+DKn65VI5vpuWgBeQJBKCT2ffzF5z3qfL1kk2DjoQzMTUD9Uk+V/B2RJAGdZDdHnups7FlbOHW9Q==
 
 "@inertiajs/inertia@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@inertiajs/inertia/-/inertia-0.4.0.tgz#5bf235c193f84923be97d8a7d9875b474b36c35c"
-  integrity sha512-TEp+ACP49qnGrtirzQlH5jbFZnRwdM1t4McIW8LsfKFJrE+aKo6ZEUaQ1zd6Sy7z6re1I7r1IN515Z4Hz6fj4w==
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@inertiajs/inertia/-/inertia-0.4.3.tgz#bba909573455c754ff4e19ac06bdafad51af047e"
+  integrity sha512-AEzyL8dd7F7thTLDhzQTi9I+p4r6k9QtacZ2sy5XYmt1E4ZI8MX67z+pKrV9yR2oIG8YAOMEJVhgIyJIg+nJ5Q==
   dependencies:
     axios "^0.19.0 || ^0.20.0"
 
