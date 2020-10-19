@@ -2,7 +2,7 @@
 
 Officelife can be deployed on Heroku using the button below:
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/officelifehq/officelife/tree/master)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/officelifehq/officelife/tree/main)
 
 - [Installation](#installation)
 
