@@ -37,6 +37,16 @@
       "description": "Set to 'production' by default, or set it to 'local' if you want to install the app as a development version.",
       "value": "production",
       "required": false
+    },
+    "APP_TRUSTED_PROXIES": {
+        "description": "Set the trusted proxy IP addresses. Default to '*' to allow all heroku background ips.",
+        "value": "*",
+        "required": false
+    },
+    "LOG_CHANNEL": {
+        "description": "Set logging channel. Default to 'errorlog' to log error on heroku logs.",
+        "value": "errorlog",
+        "required": false
     }
   },
   "environments": {
