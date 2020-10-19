@@ -37,9 +37,9 @@ class AddEmployeeToProject extends BaseService
      * Add an employee to a project.
      *
      * @param array $data
-     * @return Project
+     * @return Employee
      */
-    public function execute(array $data): Project
+    public function execute(array $data): Employee
     {
         $this->data = $data;
         $this->validate();
@@ -47,7 +47,7 @@ class AddEmployeeToProject extends BaseService
         $this->attachEmployee();
         $this->log();
 
-        return $this->project;
+        return $this->employee;
     }
 
     private function validate(): void

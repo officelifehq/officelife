@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'project_title_lead' => 'Project lead',
+
     'index_title' => 'All the projects in the company',
     'index_cta' => 'Create a project',
 
@@ -58,4 +60,6 @@ return [
     'edit_description' => 'Project description',
     'edit_input_description_help' => 'Everything we need to know about this project, in details.',
     'edit_success' => 'The project has been successfully edited.',
+
+    'members_index_role' => 'In this project: {role} since {date}',
 ];

@@ -89,11 +89,10 @@ class CreateProject extends BaseService
         ]);
 
         if (! is_null($this->valueOrNull($this->data, 'project_lead_id'))) {
-            (new AddEmployeeToProject)->execute([
-                'company_id' => $this->data['company_id'],
-                'author_id' => $this->data['author_id'],
-                'project_id' => $this->project->id,
-                'employee_id' => $this->data['project_lead_id'],
+            $this->project->employees()->syncWithoutDetaching([
+                $this->data['project_lead_id'] => [
+                    'role' => trans('project.project_title_lead'),
+                ],
             ]);
         }
     }

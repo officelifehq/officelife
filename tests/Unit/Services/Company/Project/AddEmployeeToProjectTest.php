@@ -95,7 +95,7 @@ class AddEmployeeToProjectTest extends TestCase
             'employee_id' => $dwight->id,
         ];
 
-        $project = (new AddEmployeeToProject)->execute($request);
+        $employee = (new AddEmployeeToProject)->execute($request);
 
         $this->assertDatabaseHas('projects', [
             'id' => $project->id,
@@ -108,8 +108,8 @@ class AddEmployeeToProjectTest extends TestCase
         ]);
 
         $this->assertInstanceOf(
-            Project::class,
-            $project
+            Employee::class,
+            $employee
         );
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $dwight) {
