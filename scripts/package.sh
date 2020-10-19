@@ -17,14 +17,10 @@ set -v
 echo "$version" | tee $ROOT/config/version
 
 # BUILD
-composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
-php artisan lang:generate
+composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader --no-dev
 yarn install --ignore-engines --frozen-lockfile
-yarn production
 
 # PACKAGE
-composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader --no-dev
-
 r=officelife-$version
 mkdir -p $r/database
 ln -s $ROOT/.env.example $r/

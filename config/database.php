@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-return [
+$config = [
 
     /*
     |--------------------------------------------------------------------------
@@ -175,3 +176,10 @@ return [
     ],
 
 ];
+
+$connectionUrl = 'connections.'.$config['default'].'.url';
+if (Arr::get($config, $connectionUrl, '') == '') {
+    Arr::set($config, $connectionUrl, env('JAWSDB_URL', env('CLEARDB_DATABASE_URL')));
+}
+
+return $config;
