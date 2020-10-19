@@ -178,12 +178,8 @@ $config = [
 ];
 
 $connectionUrl = 'connections.'.$config['default'].'.url';
-if (Arr::get($config, $connectionUrl, '') === '') {
-    if (env('JAWSDB_URL') != '') {
-        Arr::set($config, $connectionUrl, env('JAWSDB_URL'));
-    } else if (env('CLEARDB_DATABASE_URL') != '') {
-        Arr::set($config, $connectionUrl, env('CLEARDB_DATABASE_URL'));
-    }
+if (Arr::get($config, $connectionUrl, '') == '') {
+    Arr::set($config, $connectionUrl, env('JAWSDB_URL', env('CLEARDB_DATABASE_URL')));
 }
 
 return $config;
