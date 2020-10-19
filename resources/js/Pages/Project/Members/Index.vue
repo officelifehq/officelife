@@ -50,7 +50,11 @@
         <div class="cf center">
           <!-- LEFT COLUMN -->
           <div class="fl w-20-l w-100">
-            <p>Test</p>
+            <ul>
+              <li v-for="role in localRoles" :key="role.id">
+                {{ role.role }}
+              </li>
+            </ul>
           </div>
 
           <!-- RIGHT COLUMN -->
@@ -138,8 +142,8 @@
                   </div>
                   <div class="">
                     <span class="mb2 dib">{{ member.name }}</span>
-                    <span v-if="member.position" class="db f7 gray mb2">{{ member.position.title }}</span>
-                    <span v-if="member.role" class="db f7 gray">{{ $t('project.members_index_role', { role: member.role, date: member.added_at }) }}</span>
+                    <span v-if="member.role" class="db f7 gray mb2">ICON {{ $t('project.members_index_role', { role: member.role, date: member.added_at }) }}</span>
+                    <span v-if="member.position" class="db f7 gray">{{ $t('project.members_index_position', { role: member.position.title }) }}</span>
                   </div>
                 </li>
               </ul>
@@ -189,6 +193,7 @@ export default {
   data() {
     return {
       localMembers: null,
+      localRoles: null,
       showModal: false,
       showNewRoleInputField: false,
       potentialMembers: null,
@@ -205,6 +210,7 @@ export default {
   created() {
     this.localProject = this.project;
     this.localMembers = this.members.members;
+    this.localRoles = this.members.roles;
   },
 
   mounted() {
@@ -246,6 +252,7 @@ export default {
 
       axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members/store', this.form)
         .then(response => {
+          flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
           this.form.role = null;
           this.form.employee = null;

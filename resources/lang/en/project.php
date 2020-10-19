@@ -61,5 +61,7 @@ return [
     'edit_input_description_help' => 'Everything we need to know about this project, in details.',
     'edit_success' => 'The project has been successfully edited.',
 
-    'members_index_role' => 'In this project: {role} since {date}',
+    'members_index_role' => '{role} since {date}',
+    'members_index_position' => 'Also, {role} in the company.',
+    'members_index_add_success' => 'The member has been added.',
 ];
