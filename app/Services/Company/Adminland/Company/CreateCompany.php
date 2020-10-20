@@ -63,7 +63,7 @@ class CreateCompany extends BaseService
     private function addFirstEmployee(Company $company, User $user): Employee
     {
         $avatar = (new GenerateAvatar)->execute([
-            'name' => $user->first_name.' '.$user->last_name,
+            'name' => $user->first_name != '' || $user->last_name != '' ? $user->first_name.' '.$user->last_name : $user->email,
         ]);
 
         return Employee::create([

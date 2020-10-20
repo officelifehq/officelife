@@ -1,0 +1,60 @@
+{
+  "name": "Officelife",
+  "description": "Know how your employees feel.",
+  "repository": "https://github.com/officelifehq/officelife",
+  "logo": "https://raw.githubusercontent.com/officelifehq/officelife/main/public/img/logo.png",
+  "keywords": [
+    "hr",
+    "crm",
+    "office",
+    "management"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/php"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "addons": [
+    {
+      "plan": "jawsdb:kitefin"
+    },
+    {
+      "plan": "scheduler:standard"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "php artisan migrate --force -vvv"
+  },
+  "env": {
+    "APP_KEY": {
+      "description": "Please change this to a 32-character string. For example run `echo -n 'base64:'; openssl rand -base64 32` and copy/paste the value.",
+      "value": "",
+      "required": true
+    },
+    "APP_ENV": {
+      "description": "Set to 'production' by default, or set it to 'local' if you want to install the app as a development version.",
+      "value": "production",
+      "required": false
+    },
+    "APP_TRUSTED_PROXIES": {
+        "description": "Set the trusted proxy IP addresses. Default to '*' to allow all heroku background ips.",
+        "value": "*",
+        "required": false
+    },
+    "LOG_CHANNEL": {
+        "description": "Set logging channel. Default to 'errorlog' to log error on heroku logs.",
+        "value": "errorlog",
+        "required": false
+    }
+  },
+  "environments": {
+    "test": {
+      "env": {
+        "APP_ENV": "local"
+      }
+    }
+  }
+}
