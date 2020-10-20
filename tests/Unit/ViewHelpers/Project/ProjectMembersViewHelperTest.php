@@ -16,12 +16,18 @@ class ProjectMembersViewHelperTest extends TestCase
     public function it_gets_a_collection_of_employees(): void
     {
         $michael = $this->createAdministrator();
+        $jim = $this->createAnotherEmployee($michael);
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([
             $michael->id => [
                 'role' => 'developer',
+            ],
+        ]);
+        $project->employees()->attach([
+            $jim->id => [
+                'role' => 'ios dev',
             ],
         ]);
 
@@ -40,8 +46,33 @@ class ProjectMembersViewHelperTest extends TestCase
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
+                1 => [
+                    'id' => $jim->id,
+                    'name' => $jim->name,
+                    'avatar' => $jim->avatar,
+                    'role' => 'ios dev',
+                    'added_at' => DateHelper::formatDate($jim->created_at),
+                    'position' => [
+                        'id' => $jim->position->id,
+                        'title' => $jim->position->title,
+                    ],
+                    'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
+                ],
             ],
             $array['members']->toArray()
+        );
+        $this->assertEquals(
+            [
+                '0' => [
+                    'id' => $michael->id,
+                    'role' => 'developer',
+                ],
+                1 => [
+                    'id' => $jim->id,
+                    'role' => 'ios dev',
+                ],
+            ],
+            $array['roles']->toArray()
         );
     }
 
@@ -71,18 +102,12 @@ class ProjectMembersViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $jim = $this->createAnotherEmployee($michael);
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([
             $michael->id => [
                 'role' => 'developer',
-            ],
-        ]);
-        $project->employees()->attach([
-            $jim->id => [
-                'role' => 'ios dev',
             ],
         ]);
 
@@ -95,19 +120,6 @@ class ProjectMembersViewHelperTest extends TestCase
                 ],
             ],
             $array['potential_members']->toArray()
-        );
-        $this->assertEquals(
-            [
-                '0' => [
-                    'id' => $michael->id,
-                    'role' => 'developer',
-                ],
-                1 => [
-                    'id' => $jim->id,
-                    'role' => 'ios dev',
-                ],
-            ],
-            $array['roles']->toArray()
         );
     }
 }

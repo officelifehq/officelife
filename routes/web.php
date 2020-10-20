@@ -218,6 +218,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('{project}/members', 'Company\\Project\\ProjectMembersController@index');
             Route::get('{project}/members/search', 'Company\\Project\\ProjectMembersController@search');
             Route::post('{project}/members/store', 'Company\\Project\\ProjectMembersController@store');
+            Route::post('{project}/members/remove', 'Company\\Project\\ProjectMembersController@remove');
         });
 
         Route::prefix('company')->group(function () {

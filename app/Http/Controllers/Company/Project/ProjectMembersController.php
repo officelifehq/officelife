@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Company\Project\AddEmployeeToProject;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Project\ProjectMembersViewHelper;
+use App\Services\Company\Project\RemoveEmployeeFromProject;
 
 class ProjectMembersController extends Controller
 {
@@ -110,6 +111,35 @@ class ProjectMembersController extends Controller
                     'company' => $loggedCompany,
                     'employee' => $employee,
                 ]),
+            ],
+        ], 201);
+    }
+
+    /**
+     * Remove an employee from the project.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function remove(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'employee_id' => $request->input('employee'),
+        ];
+
+        (new RemoveEmployeeFromProject)->execute($data);
+
+        return response()->json([
+            'data' => [
+                'id' => $request->input('employee.value'),
             ],
         ], 201);
     }

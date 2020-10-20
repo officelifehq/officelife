@@ -8,7 +8,8 @@ use App\Models\Company\Project;
 class ProjectMembersViewHelper
 {
     /**
-     * Array containing the information all the members in the project.
+     * Array containing the information all the members in the project, and all
+     * the roles.
      *
      * @param Project $project
      * @return array
@@ -17,10 +18,12 @@ class ProjectMembersViewHelper
     {
         $members = $project->employees()
             ->where('locked', false)
+            ->with('position')
             ->orderBy('pivot_created_at', 'desc')
             ->get();
 
         $membersCollection = collect([]);
+        $roles = collect([]);
         foreach ($members as $member) {
             $membersCollection->push([
                 'id' => $member->id,
@@ -37,10 +40,21 @@ class ProjectMembersViewHelper
                     'employee' => $member,
                 ]),
             ]);
+
+            if ($member->pivot->role) {
+                $roles->push([
+                    'id' => $member->id,
+                    'role' => $member->pivot->role,
+                ]);
+            }
         }
+
+        // filter the unique roles in the collection
+        $roles = $roles->unique('role')->sortBy('role');
 
         return [
             'members' => $membersCollection,
+            'roles' => $roles,
         ];
     }
 
@@ -87,22 +101,8 @@ class ProjectMembersViewHelper
             ]);
         }
 
-        // all the roles in the project
-        $roles = collect([]);
-        foreach ($currentMembers as $member) {
-            if ($member->pivot->role) {
-                $roles->push([
-                    'id' => $member->id,
-                    'role' => $member->pivot->role,
-                ]);
-            }
-        }
-
-        $roles = $roles->unique('role');
-
         return [
             'potential_members' => $potentialMembersCollection,
-            'roles' => $roles,
         ];
     }
 }

@@ -15,6 +15,28 @@
   color: #737e91;
   border: 1px solid #b3d4ff;
 }
+
+.icon-date {
+  width: 15px;
+  top: 2px;
+}
+
+.icon-role {
+  width: 15px;
+  top: 2px;
+}
+
+.information {
+  flex: 1 0 128px;
+}
+
+.list-no-line-bottom {
+  li:last-child {
+    border-bottom: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+  }
+}
 </style>
 
 <template>
@@ -47,28 +69,35 @@
         <!-- Menu -->
         <project-menu :project="project" :tab="'members'" />
 
+        <!-- members list -->
         <div class="cf center">
           <!-- LEFT COLUMN -->
           <div class="fl w-20-l w-100">
-            <ul>
-              <li v-for="role in localRoles" :key="role.id">
-                {{ role.role }}
-              </li>
-            </ul>
+            <div class="bg-white box mb3">
+              <ul class="list pl0 ma0 list-no-line-bottom">
+                <li class="ph3 pv2 fw6 bb bb-gray">Current roles</li>
+                <li v-for="role in localRoles" :key="role.id" class="bb bb-gray ph3 pv2 bb-gray-hover">
+                  {{ role.role }}
+                </li>
+                <li v-if="localRoles.length == 0" class="ph3 pv2 bb-gray-hover">{{ $t('project.members_index_blank_role') }}</li>
+              </ul>
+            </div>
           </div>
 
           <!-- RIGHT COLUMN -->
           <div class="fl w-80-l w-100 pl4-l">
-            <div class="flex justify-between items-center mb2">
-              <span>This</span>
-              <a v-if="!showModal" href="#" class="btn dib-l db" @click.prevent="displayAddModal()">Add a new member</a>
+            <div v-if="!showModal" class="flex justify-between items-center mb2">
+              <span>{{ $t('project.members_index_count', { count: localMembers.length }) }}</span>
+              <a href="#" class="btn dib-l db" data-cy="member-add-button" @click.prevent="displayAddModal()">{{ $t('project.members_index_add_cta') }}</a>
             </div>
 
             <!-- add a new member -->
             <div v-if="showModal" class="pa3 bg-white box mb3">
               <form @submit.prevent="submit">
                 <div class="measure">
-                  <h2>Add a member</h2>
+                  <h2 class="mt0 fw4 f4">
+                    {{ $t('project.members_index_add_title') }}
+                  </h2>
 
                   <!-- employee -->
                   <select-box :id="'employee'"
@@ -76,23 +105,27 @@
                               :options="potentialMembers"
                               :name="'employee'"
                               :errors="$page.props.errors.employee"
-                              :label="'Select an employee'"
-                              :placeholder="'Choose someone or type a few letters'"
+                              :label="$t('project.members_index_add_select_title')"
+                              :placeholder="$t('project.members_index_add_select_placeholder')"
                               :required="true"
                               :value="form.employee"
-                              :datacy="'country_selector'"
+                              :datacy="'members_selector'"
                   />
-                  <p>Do you want to specify a role for this new member? You don’t have to, but it can be useful for others to understand his/her role.</p>
-                  <ul class="list pl0 ma0">
+                  <p class="lh-copy">{{ $t('project.members_index_add_role') }}</p>
+
+                  <!-- choose role (optional) -->
+                  <ul :class="showNewRoleInputField ? 'mb0' : 'mb3'" class="list pl0 ma0">
+                    <!-- no role -->
                     <li>
                       <input id="no-role" type="radio" name="roles" class="mr1 relative" checked
                              @click="setNoRole()"
                       />
                       <label for="no-role" class="pointer">
-                        No role
+                        {{ $t('project.members_index_add_role_no_role') }}
                       </label>
                     </li>
-                    <li v-for="role in roles" :key="role.id" @click="showNewRoleInputField = false">
+                    <!-- existing roles -->
+                    <li v-for="role in localRoles" :key="role.id" @click="showNewRoleInputField = false">
                       <input :id="'role_' + role.id" v-model="form.role" type="radio" class="mr1 relative"
                              :value="role.role" name="roles"
                       />
@@ -100,12 +133,14 @@
                         {{ role.role }}
                       </label>
                     </li>
+
+                    <!-- custom role -->
                     <li>
                       <input id="new-role" type="radio" name="roles" class="mr1 relative" value="new"
                              @click="displayNewRoleInput()"
                       />
                       <label for="new-role" class="pointer">
-                        Or create a new role
+                        {{ $t('project.members_index_add_role_create_new_one') }}
                       </label>
                     </li>
                   </ul>
@@ -125,7 +160,7 @@
 
                 <!-- Actions -->
                 <div class="cf flex">
-                  <loading-button :classes="'btn add mr2 w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-unlock-employee-button'" />
+                  <loading-button :classes="'btn add mr2 w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
                   <a class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button" @click.prevent="showModal = false">
                     {{ $t('app.cancel') }}
                   </a>
@@ -134,19 +169,65 @@
             </div>
 
             <!-- members list -->
-            <div class="bg-white box">
-              <ul class="list pl0 ma0">
-                <li v-for="member in localMembers" :key="member.id" class="pa3 bb bb-gray flex">
+            <div v-if="localMembers.length > 0" class="bg-white box">
+              <ul class="list pl0 ma0 list-no-line-bottom">
+                <li v-for="member in localMembers" :key="member.id" class="pa3 bb bb-gray flex items-center">
+                  <!-- avatar -->
                   <div class="mr3">
-                    <img :src="member.avatar" alt="avatar" class="br-100" />
+                    <img :src="member.avatar" alt="avatar" height="64" width="64" class="br-100" />
                   </div>
-                  <div class="">
-                    <span class="mb2 dib">{{ member.name }}</span>
-                    <span v-if="member.role" class="db f7 gray mb2">ICON {{ $t('project.members_index_role', { role: member.role, date: member.added_at }) }}</span>
-                    <span v-if="member.position" class="db f7 gray">{{ $t('project.members_index_position', { role: member.position.title }) }}</span>
+
+                  <!-- name + information -->
+                  <div class="information">
+                    <inertia-link :href="member.url" class="mb2 dib">{{ member.name }}</inertia-link>
+
+                    <span v-if="member.role" class="db f7 mb2 relative">
+                      <!-- icon role -->
+                      <svg class="relative icon-role gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd" />
+                      </svg>
+                      <span class="mr2">
+                        {{ member.role }}
+                      </span>
+
+                      <!-- icon date -->
+                      <span>
+                        <svg class="relative icon-date gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                        </svg>
+                      </span>
+                      <span class="gray">
+                        {{ $t('project.members_index_role', { date: member.added_at }) }}
+                      </span>
+                    </span>
+                    <span v-if="member.position && member.role" class="db f7 gray">{{ $t('project.members_index_position_with_role', { role: member.position.title }) }}</span>
+                    <span v-else class="db f7 gray">{{ $t('project.members_index_position', { role: member.position.title }) }}</span>
+                  </div>
+
+                  <!-- actions -->
+                  <div>
+                    <a v-if="idToDelete != member.id" class="c-delete f6" href="#" @click.prevent="showDeleteModal(member)">{{ $t('app.remove') }}</a>
+
+                    <div v-if="removeMode && idToDelete == member.id">
+                      {{ $t('app.sure') }}
+                      <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + member.id" @click.prevent="remove(member.id)">
+                        {{ $t('app.yes') }}
+                      </a>
+                      <a class="pointer" :data-cy="'list-delete-cancel-button-' + member.id" @click.prevent="idToDelete = 0">
+                        {{ $t('app.no') }}
+                      </a>
+                    </div>
                   </div>
                 </li>
               </ul>
+            </div>
+
+            <!-- blank member lists -->
+            <div v-if="localMembers.length == 0" class="bg-white box pa3 tc" data-cy="members-blank-state">
+              <h3 class="fw4 f5"></h3>
+              <img loading="lazy" src="/img/streamline-icon-cyclist-1-4@140x140.png" width="140" height="140" alt="people hanging out"
+                   class="di-ns dn top-1 left-1"
+              />
             </div>
           </div>
         </div>
@@ -195,9 +276,10 @@ export default {
       localMembers: null,
       localRoles: null,
       showModal: false,
+      removeMode: false,
+      idToDelete: 0,
       showNewRoleInputField: false,
       potentialMembers: null,
-      roles: null,
       loadingState: '',
       form: {
         employee: null,
@@ -239,12 +321,16 @@ export default {
       axios.get('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members/search')
         .then(response => {
           this.potentialMembers = response.data.data.potential_members;
-          this.roles = response.data.data.roles;
           this.showModal = true;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
+    },
+
+    showDeleteModal(member) {
+      this.removeMode = true;
+      this.idToDelete = member.id;
     },
 
     submit() {
@@ -258,6 +344,24 @@ export default {
           this.form.employee = null;
           this.showModal = false;
           this.localMembers.unshift(response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = _.flatten(_.toArray(error.response.data));
+        });
+    },
+
+    remove(employee) {
+      this.form.employee = employee;
+
+      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members/remove', this.form)
+        .then(response => {
+          flash(this.$t('project.members_index_remove_success'), 'success');
+
+          var id = this.localMembers.findIndex(x => x.id == employee);
+          this.localMembers.splice(id, 1);
+
+          this.form.employee = null;
         })
         .catch(error => {
           this.loadingState = null;
