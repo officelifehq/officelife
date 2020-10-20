@@ -95,55 +95,53 @@
                        @esc-key-pressed="showSummary = false"
             />
 
-            <template>
-              <p v-if="!showAssignProjectLead && !form.projectLead" class="bt bb-gray pt3 pointer" data-cy="project-assign-project-lead" @click.prevent="showAssignProjectLead = true"><span class="ba br-100 plus-button">+</span> Add a project lead</p>
+            <p v-if="!showAssignProjectLead && !form.projectLead" class="bt bb-gray pt3 pointer" data-cy="project-assign-project-lead" @click.prevent="showAssignProjectLead = true"><span class="ba br-100 plus-button">+</span> Add a project lead</p>
 
-              <div v-if="showAssignProjectLead == true" class="bb bb-gray bt pt3">
-                <form class="relative" @submit.prevent="search">
-                  <text-input :id="'name'"
-                              v-model="form.searchTerm"
-                              :name="'name'"
-                              :datacy="'project-lead-search'"
-                              :errors="$page.props.errors.name"
-                              :label="$t('project.create_input_project_lead')"
-                              :required="false"
-                              @keyup="search"
-                              @input="search"
-                              @esc-key-pressed="showAssignProjectLead = false"
-                  />
-                  <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
-                </form>
+            <div v-if="showAssignProjectLead == true" class="bb bb-gray bt pt3">
+              <form class="relative" @submit.prevent="search">
+                <text-input :id="'name'"
+                            v-model="form.searchTerm"
+                            :name="'name'"
+                            :datacy="'project-lead-search'"
+                            :errors="$page.props.errors.name"
+                            :label="$t('project.create_input_project_lead')"
+                            :required="false"
+                            @keyup="search"
+                            @input="search"
+                            @esc-key-pressed="showAssignProjectLead = false"
+                />
+                <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
+              </form>
 
-                <!-- search results -->
-                <ul v-show="potentialMembers.length > 0" class="list pl0 ba bb-gray bb-gray-hover">
-                  <li v-for="employee in potentialMembers" :key="employee.id" class="relative pa2 bb bb-gray">
-                    {{ employee.name }}
-                    <a href="" class="fr f6" :data-cy="'employee-id-' + employee.id" @click.prevent="add(employee)">{{ $t('app.add') }}</a>
-                  </li>
-                </ul>
+              <!-- search results -->
+              <ul v-show="potentialMembers.length > 0" class="list pl0 ba bb-gray bb-gray-hover">
+                <li v-for="employee in potentialMembers" :key="employee.id" class="relative pa2 bb bb-gray">
+                  {{ employee.name }}
+                  <a href="" class="fr f6" :data-cy="'employee-id-' + employee.id" @click.prevent="add(employee)">{{ $t('app.add') }}</a>
+                </li>
+              </ul>
 
-                <!-- no results found -->
-                <ul v-show="potentialMembers.length == 0 && form.searchTerm" class="list pl0 ba bb-gray bb-gray-hover">
-                  <li class="relative pa2 bb bb-gray">
-                    {{ $t('team.members_no_results') }}
-                  </li>
-                </ul>
-              </div>
+              <!-- no results found -->
+              <ul v-show="potentialMembers.length == 0 && form.searchTerm" class="list pl0 ba bb-gray bb-gray-hover">
+                <li class="relative pa2 bb bb-gray">
+                  {{ $t('team.members_no_results') }}
+                </li>
+              </ul>
+            </div>
 
-              <div v-if="form.projectLead" class="mb3 mt2 bt bb-gray pt3">
-                <p class="mt0 db fw4 lh-copy f6 mb1">Lead by</p>
-                <span class="ba bb-gray br3 pa2 pl3 db relative team-member">
-                  <img loading="lazy" :src="form.projectLead.avatar" class="br-100 absolute avatar" alt="avatar" />
+            <div v-if="form.projectLead" class="mb3 mt2 bt bb-gray pt3">
+              <p class="mt0 db fw4 lh-copy f6 mb1">Lead by</p>
+              <span class="ba bb-gray br3 pa2 pl3 db relative team-member">
+                <img loading="lazy" :src="form.projectLead.avatar" class="br-100 absolute avatar" alt="avatar" />
 
-                  {{ form.projectLead.name }}
+                {{ form.projectLead.name }}
 
-                  <!-- remove -->
-                  <a href="#" class="db f7 mt1 c-delete dib fr" :data-cy="'remove-project-lead-' + form.projectLead.id" @click.prevent="unassignProjectLead()">
-                    {{ $t('app.remove') }}
-                  </a>
-                </span>
-              </div>
-            </template>
+                <!-- remove -->
+                <a href="#" class="db f7 mt1 c-delete dib fr" :data-cy="'remove-project-lead-' + form.projectLead.id" @click.prevent="unassignProjectLead()">
+                  {{ $t('app.remove') }}
+                </a>
+              </span>
+            </div>
 
             <!-- Actions -->
             <div class="mb4 mt5">

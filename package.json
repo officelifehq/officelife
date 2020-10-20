@@ -14,6 +14,9 @@
         "e2e-gui": "cypress open",
         "inst": "yarn install --ignore-engines --frozen-lockfile",
         "lint": "eslint --ext .js,.vue resources/js/",
+        "lint:cypress": "eslint --ext .js tests/Features/",
+        "lint:all": "yarn lint & yarn lint:cypress",
+        "lint:fix": "yarn lint --fix & yarn lint:cypress --fix",
         "cypress": "mv .env .env2 && mv .env.cypress.local .env && yarn run e2e-gui",
         "normal": "mv .env .env.cypress.local && mv .env2 .env",
         "test": "DB_CONNECTION=testing php artisan migrate:fresh && DB_CONNECTION=testing php artisan db:seed",
@@ -25,6 +28,12 @@
         "cross-env": "^7.0",
         "cypress": "^5.3.0",
         "eslint": "^7.11.0",
+        "eslint-config-standard": "^14.1.1",
+        "eslint-plugin-cypress": "^2.11.2",
+        "eslint-plugin-import": ">=2.22.1",
+        "eslint-plugin-node": ">=11.1.0",
+        "eslint-plugin-promise": ">=4.2.1",
+        "eslint-plugin-standard": ">=4.0.0",
         "eslint-plugin-vue": "^7.0.1",
         "faker": "^5.1.0",
         "husky": "^4.3.0",
@@ -66,7 +75,10 @@
             "php ./vendor/bin/php-cs-fixer fix --config .php_cs"
         ],
         "resources/js/**/*.{vue,js}": [
-            "eslint --ext .js,.vue resources/js/ --fix"
+            "yarn lint --fix"
+        ],
+        "tests/Features/**/*.js": [
+            "yarn lint:cypress --fix"
         ]
     },
     "husky": {
