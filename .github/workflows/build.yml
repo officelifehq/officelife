@@ -149,7 +149,7 @@ jobs:
           echo "::set-output name=value::$version"
 
       - name: SonarCloud Scan
-        if: env.SONAR_TOKEN != ''
+        if: env.SONAR_TOKEN != '' && github.event_name == 'push'
         uses: SonarSource/sonarcloud-github-action@v1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -157,6 +157,17 @@ jobs:
         with:
           args: |
             -Dsonar.projectVersion=${{ steps.version.outputs.value }}
+
+      - name: SonarCloud Scan
+        if: env.SONAR_TOKEN != '' && github.event_name == 'pull_request'
+        uses: SonarSource/sonarcloud-github-action@v1.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: |
+            -Dsonar.projectVersion=${{ steps.version.outputs.value }}
+            -Dsonar.scm.revision=${{ github.event.pull_request.head.sha }}
 
 
   ####################
