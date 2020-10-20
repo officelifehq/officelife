@@ -9,19 +9,41 @@ describe('Project - members', function () {
 
     // add a member without a role
     cy.visit('/1/projects/1/members')
-    cy.get('[data-cy=members-blank-state]').should('not.exist')
+    cy.get('[data-cy=members-blank-state]').should('exist')
 
     cy.get('[data-cy=member-add-button]').click()
     cy.get('[data-cy=members_selector]').click()
-    cy.get('ul.vs__dropdown-menu>li').eq(1).click()
+    cy.get('ul.vs__dropdown-menu>li').eq(0).click()
     cy.get('[data-cy=members_selector]').click()
     cy.get('[data-cy=submit-add-member]').click()
+    cy.get('[data-cy=member-1]').contains('admin@admin.com')
+    cy.get('[data-cy=members-blank-state]').should('not.exist')
     cy.hasAuditLog('Added ', '/1/projects/1/members')
 
+    // remove the member
+    cy.get('[data-cy=member-delete-1]').click()
+    cy.get('[data-cy=list-delete-cancel-button-1]').click()
+    cy.get('[data-cy=member-delete-1]').click()
+    cy.get('[data-cy=list-delete-confirm-button-1]').click()
+    cy.get('[data-cy=members-blank-state]').should('exist')
 
+    // add a member with a role
+    cy.get('[data-cy=member-add-button]').click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('ul.vs__dropdown-menu>li').eq(0).click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('[data-cy=custom-role-field]').click()
+    cy.get('[data-cy=customRole]').type('custom role')
+    cy.get('[data-cy=submit-add-member]').click()
+
+    cy.get('[data-cy=member-1]').contains('admin@admin.com')
+    cy.get('[data-cy=member-1]').contains('custom role')
+
+    cy.get('[data-cy=members-blank-state]').should('not.exist')
+    cy.hasAuditLog('Added ', '/1/projects/1/members')
   })
 
-  it.skip('should let an employee create a project as HR', function () {
+  it('should let an employee add a member as HR', function () {
     cy.loginLegacy()
 
     cy.createCompany()
@@ -31,74 +53,41 @@ describe('Project - members', function () {
     // make sure we can create a project with only the name of the project
     cy.createProject(1, 'project 1')
 
-    // add project links
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('url')
-    cy.get('input[name=label]').type('Name of the url')
-    cy.get('input[name=url]').type('https://officelife.io')
-    cy.get('[data-cy=link-submit-button]').click()
+    // add a member without a role
+    cy.visit('/1/projects/1/members')
+    cy.get('[data-cy=members-blank-state]').should('exist')
 
-    cy.get('[data-cy=project-link-1]').contains('Name of the url')
-    cy.get('[data-cy=project-link-logo-url-1]').should('exist')
-    cy.hasAuditLog('Added the link called', '/1/projects/1')
+    cy.get('[data-cy=member-add-button]').click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('ul.vs__dropdown-menu>li').eq(0).click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('[data-cy=submit-add-member]').click()
+    cy.get('[data-cy=member-1]').contains('admin@admin.com')
+    cy.get('[data-cy=members-blank-state]').should('not.exist')
 
-    // add another link without label of the URL type
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('url')
-    cy.get('input[name=url]').type('https://officelife.io')
-    cy.get('[data-cy=link-submit-button]').click()
+    // remove the member
+    cy.get('[data-cy=member-delete-1]').click()
+    cy.get('[data-cy=list-delete-cancel-button-1]').click()
+    cy.get('[data-cy=member-delete-1]').click()
+    cy.get('[data-cy=list-delete-confirm-button-1]').click()
+    cy.get('[data-cy=members-blank-state]').should('exist')
 
-    cy.get('[data-cy=project-link-2]').should('exist')
-    cy.get('[data-cy=project-link-logo-url-2]').should('exist')
+    // add a member with a role
+    cy.get('[data-cy=member-add-button]').click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('ul.vs__dropdown-menu>li').eq(0).click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('[data-cy=custom-role-field]').click()
+    cy.get('[data-cy=customRole]').type('custom role')
+    cy.get('[data-cy=submit-add-member]').click()
 
-    // remove the link
-    cy.get('[data-cy=edit-links]').click()
-    cy.get('[data-cy=exit-edit-link]').click()
-    cy.get('[data-cy=edit-links]').click()
-    cy.get('[data-cy=project-link-2-destroy]').click()
+    cy.get('[data-cy=member-1]').contains('admin@admin.com')
+    cy.get('[data-cy=member-1]').contains('custom role')
 
-    cy.get('[data-cy=team-useful-link-2]').should('not.exist')
-    cy.hasAuditLog('Deleted the link called', '/1/projects/1')
-
-    // add a link with a label of the Slack type
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('slack')
-    cy.get('input[name=label]').type('Slack channel')
-    cy.get('input[name=url]').type('https://slack.com/officelife')
-    cy.get('[data-cy=link-submit-button]').click()
-
-    cy.get('[data-cy=project-link-3]').contains('Slack channel')
-    cy.get('[data-cy=project-link-logo-slack-3]').should('exist')
-    cy.hasAuditLog('Added the link called', '/1/projects/1')
-
-    // add a link of the Slack type without a label
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('slack')
-    cy.get('input[name=url]').type('https://slack.com/officelife')
-    cy.get('[data-cy=link-submit-button]').click()
-
-    cy.get('[data-cy=project-link-4]').contains('https://slack.com/officelife')
-    cy.get('[data-cy=project-link-logo-slack-4]').should('exist')
-
-    // add a link with a label of the email type
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('email')
-    cy.get('input[name=label]').type('Contact support')
-    cy.get('input[name=url]').type('dwight@dundermifflin.com')
-    cy.get('[data-cy=link-submit-button]').click()
-
-    cy.get('[data-cy=project-link-5]').contains('Contact support')
-    cy.get('[data-cy=project-link-logo-email-5]').should('exist')
-
-    // add a link with a label of the email type, without a label
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('email')
-    cy.get('input[name=url]').type('dwight@dundermifflin.com')
-    cy.get('[data-cy=link-submit-button]').click()
-    cy.get('[data-cy=project-link-logo-email-6]').should('exist')
+    cy.get('[data-cy=members-blank-state]').should('not.exist')
   })
 
-  it.skip('should let an employee create a project as normal user', function () {
+  it('should let an employee add a member a project as normal user', function () {
     cy.loginLegacy()
 
     cy.createCompany()
@@ -108,70 +97,37 @@ describe('Project - members', function () {
     // make sure we can create a project with only the name of the project
     cy.createProject(1, 'project 1')
 
-    // add project links
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('url')
-    cy.get('input[name=label]').type('Name of the url')
-    cy.get('input[name=url]').type('https://officelife.io')
-    cy.get('[data-cy=link-submit-button]').click()
+    // add a member without a role
+    cy.visit('/1/projects/1/members')
+    cy.get('[data-cy=members-blank-state]').should('exist')
 
-    cy.get('[data-cy=project-link-1]').contains('Name of the url')
-    cy.get('[data-cy=project-link-logo-url-1]').should('exist')
-    cy.hasAuditLog('Added the link called', '/1/projects/1')
+    cy.get('[data-cy=member-add-button]').click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('ul.vs__dropdown-menu>li').eq(0).click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('[data-cy=submit-add-member]').click()
+    cy.get('[data-cy=member-1]').contains('admin@admin.com')
+    cy.get('[data-cy=members-blank-state]').should('not.exist')
 
-    // add another link without label of the URL type
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('url')
-    cy.get('input[name=url]').type('https://officelife.io')
-    cy.get('[data-cy=link-submit-button]').click()
+    // remove the member
+    cy.get('[data-cy=member-delete-1]').click()
+    cy.get('[data-cy=list-delete-cancel-button-1]').click()
+    cy.get('[data-cy=member-delete-1]').click()
+    cy.get('[data-cy=list-delete-confirm-button-1]').click()
+    cy.get('[data-cy=members-blank-state]').should('exist')
 
-    cy.get('[data-cy=project-link-2]').should('exist')
-    cy.get('[data-cy=project-link-logo-url-2]').should('exist')
+    // add a member with a role
+    cy.get('[data-cy=member-add-button]').click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('ul.vs__dropdown-menu>li').eq(0).click()
+    cy.get('[data-cy=members_selector]').click()
+    cy.get('[data-cy=custom-role-field]').click()
+    cy.get('[data-cy=customRole]').type('custom role')
+    cy.get('[data-cy=submit-add-member]').click()
 
-    // remove the link
-    cy.get('[data-cy=edit-links]').click()
-    cy.get('[data-cy=exit-edit-link]').click()
-    cy.get('[data-cy=edit-links]').click()
-    cy.get('[data-cy=project-link-2-destroy]').click()
+    cy.get('[data-cy=member-1]').contains('admin@admin.com')
+    cy.get('[data-cy=member-1]').contains('custom role')
 
-    cy.get('[data-cy=team-useful-link-2]').should('not.exist')
-    cy.hasAuditLog('Deleted the link called', '/1/projects/1')
-
-    // add a link with a label of the Slack type
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('slack')
-    cy.get('input[name=label]').type('Slack channel')
-    cy.get('input[name=url]').type('https://slack.com/officelife')
-    cy.get('[data-cy=link-submit-button]').click()
-
-    cy.get('[data-cy=project-link-3]').contains('Slack channel')
-    cy.get('[data-cy=project-link-logo-slack-3]').should('exist')
-    cy.hasAuditLog('Added the link called', '/1/projects/1')
-
-    // add a link of the Slack type without a label
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('slack')
-    cy.get('input[name=url]').type('https://slack.com/officelife')
-    cy.get('[data-cy=link-submit-button]').click()
-
-    cy.get('[data-cy=project-link-4]').contains('https://slack.com/officelife')
-    cy.get('[data-cy=project-link-logo-slack-4]').should('exist')
-
-    // add a link with a label of the email type
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('email')
-    cy.get('input[name=label]').type('Contact support')
-    cy.get('input[name=url]').type('dwight@dundermifflin.com')
-    cy.get('[data-cy=link-submit-button]').click()
-
-    cy.get('[data-cy=project-link-5]').contains('Contact support')
-    cy.get('[data-cy=project-link-logo-email-5]').should('exist')
-
-    // add a link with a label of the email type, without a label
-    cy.get('[data-cy=add-new-link]').click()
-    cy.get('[data-cy=link-type]').select('email')
-    cy.get('input[name=url]').type('dwight@dundermifflin.com')
-    cy.get('[data-cy=link-submit-button]').click()
-    cy.get('[data-cy=project-link-logo-email-6]').should('exist')
+    cy.get('[data-cy=members-blank-state]').should('not.exist')
   })
 })

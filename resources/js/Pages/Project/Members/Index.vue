@@ -137,7 +137,7 @@
                     <!-- custom role -->
                     <li>
                       <input id="new-role" type="radio" name="roles" class="mr1 relative" value="new"
-                             @click="displayNewRoleInput()"
+                             data-cy="custom-role-field" @click="displayNewRoleInput()"
                       />
                       <label for="new-role" class="pointer">
                         {{ $t('project.members_index_add_role_create_new_one') }}
@@ -151,6 +151,7 @@
                     <text-input :id="'role'"
                                 :ref="'newRole'"
                                 v-model="form.role"
+                                :datacy="'customRole'"
                                 :name="'role'"
                                 :errors="$page.props.errors.role"
                                 :required="true"
@@ -171,7 +172,7 @@
             <!-- members list -->
             <div v-if="localMembers.length > 0" class="bg-white box">
               <ul class="list pl0 ma0 list-no-line-bottom">
-                <li v-for="member in localMembers" :key="member.id" class="pa3 bb bb-gray flex items-center">
+                <li v-for="member in localMembers" :key="member.id" :data-cy="'member-' + member.id" class="pa3 bb bb-gray flex items-center">
                   <!-- avatar -->
                   <div class="mr3">
                     <img :src="member.avatar" alt="avatar" height="64" width="64" class="br-100" />
@@ -201,12 +202,12 @@
                       </span>
                     </span>
                     <span v-if="member.position && member.role" class="db f7 gray">{{ $t('project.members_index_position_with_role', { role: member.position.title }) }}</span>
-                    <span v-else class="db f7 gray">{{ $t('project.members_index_position', { role: member.position.title }) }}</span>
+                    <span v-if="member.position && !member.role" class="db f7 gray">{{ $t('project.members_index_position', { role: member.position.title }) }}</span>
                   </div>
 
                   <!-- actions -->
                   <div>
-                    <a v-if="idToDelete != member.id" class="c-delete f6" href="#" @click.prevent="showDeleteModal(member)">{{ $t('app.remove') }}</a>
+                    <a v-if="idToDelete != member.id" :data-cy="'member-delete-' + member.id" class="c-delete f6" href="#" @click.prevent="showDeleteModal(member)">{{ $t('app.remove') }}</a>
 
                     <div v-if="removeMode && idToDelete == member.id">
                       {{ $t('app.sure') }}
@@ -224,7 +225,9 @@
 
             <!-- blank member lists -->
             <div v-if="localMembers.length == 0" class="bg-white box pa3 tc" data-cy="members-blank-state">
-              <h3 class="fw4 f5"></h3>
+              <h3 class="fw4 f5">
+                {{ $t('project.members_index_blank_role') }}
+              </h3>
               <img loading="lazy" src="/img/streamline-icon-cyclist-1-4@140x140.png" width="140" height="140" alt="people hanging out"
                    class="di-ns dn top-1 left-1"
               />
