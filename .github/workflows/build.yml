@@ -119,15 +119,17 @@ jobs:
 
     steps:
       - name: Checkout repository
+        if: github.event_name == 'push'
         uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
-      # If this run was triggered by a pull request event, then checkout
-      # the head of the pull request instead of the merge commit.
-      - name: Checkout HEAD
+      - name: Checkout repository
         if: github.event_name == 'pull_request'
-        run: git checkout HEAD^2
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Download results
         uses: actions/download-artifact@v2
