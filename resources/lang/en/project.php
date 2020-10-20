@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'project_title_lead' => 'Project lead',
+
     'index_title' => 'All the projects in the company',
     'index_cta' => 'Create a project',
 
@@ -58,4 +60,20 @@ return [
     'edit_description' => 'Project description',
     'edit_input_description_help' => 'Everything we need to know about this project, in details.',
     'edit_success' => 'The project has been successfully edited.',
+
+    'members_index_role' => 'Since {date}',
+    'members_index_position_with_role' => 'Also, {role} in the company.',
+    'members_index_position' => '{role}',
+    'members_index_add_cta' => 'Add a new member',
+    'members_index_add_title' => 'Add a member to the project',
+    'members_index_add_select_title' => 'Select an employee',
+    'members_index_add_select_placeholder' => 'Choose someone or type a few letters',
+    'members_index_add_role' => 'Do you want to specify a role for this new member? You don’t have to, but it can be useful for others to understand his/her role.',
+    'members_index_add_role_no_role' => 'No role',
+    'members_index_add_role_create_new_one' => 'Or create a new role',
+    'members_index_count' => 'This project has {count} members.',
+    'members_index_blank' => 'Projects are more fun when employees are assigned to them.',
+    'members_index_blank_role' => 'No role created yet',
+    'members_index_add_success' => 'The member has been added.',
+    'members_index_remove_success' => 'The member has been removed.',
 ];

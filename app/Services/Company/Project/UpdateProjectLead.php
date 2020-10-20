@@ -70,7 +70,9 @@ class UpdateProjectLead extends BaseService
             return;
         } else {
             $this->project->employees()->syncWithoutDetaching([
-                $this->data['employee_id'],
+                $this->data['employee_id'] => [
+                    'role' => trans('project.project_title_lead'),
+                ],
             ]);
         }
 

@@ -9,7 +9,7 @@
 .style-chooser .vs__search::placeholder,
 .style-chooser .vs__dropdown-toggle,
 .style-chooser .vs__dropdown-menu {
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  border: 0;
 }
 </style>
 

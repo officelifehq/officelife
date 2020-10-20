@@ -30,6 +30,7 @@ use App\Services\Company\Project\CreateProjectLink;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Employee\Answer\CreateAnswer;
+use App\Services\Company\Project\AddEmployeeToProject;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Services\Company\Adminland\Company\CreateCompany;
@@ -1584,7 +1585,7 @@ class SetupDummyAccount extends Command
     {
         $this->info('☐ Add projects');
 
-        $project = (new CreateProject)->execute([
+        $infinity = (new CreateProject)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'project_lead_id' => $this->jim->id,
@@ -1597,13 +1598,13 @@ class SetupDummyAccount extends Command
         (new StartProject)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $project->id,
+            'project_id' => $infinity->id,
         ]);
 
         (new CreateProjectLink)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $project->id,
+            'project_id' => $infinity->id,
             'type' => 'url',
             'label' => 'Upcoming website',
             'url' => 'https://dundermifflin.com/infinity',
@@ -1612,7 +1613,7 @@ class SetupDummyAccount extends Command
         (new CreateProjectLink)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $project->id,
+            'project_id' => $infinity->id,
             'type' => 'slack',
             'label' => 'Slack channel of the project',
             'url' => 'https://slack.com/infinity',
@@ -1621,10 +1622,40 @@ class SetupDummyAccount extends Command
         (new CreateProjectStatus)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $project->id,
+            'project_id' => $infinity->id,
             'status' => ProjectStatus::ON_TRACK,
             'title' => 'Phase 2 is completed',
             'description' => 'Yes, you have read it right. We have finally finished the second phase of the project, which makes us proud. We are on track with delivering the project at the promised date, and we will let you know how it is going.',
+        ]);
+
+        // assign members to the project
+        (new AddEmployeeToProject)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'employee_id' => $this->dwight->id,
+            'role' => 'Assistant to the project lead',
+        ]);
+        (new AddEmployeeToProject)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'employee_id' => $this->erin->id,
+            'role' => 'Secretary',
+        ]);
+        (new AddEmployeeToProject)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'employee_id' => $this->oscar->id,
+            'role' => 'Developer',
+        ]);
+        (new AddEmployeeToProject)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'employee_id' => $this->angela->id,
+            'role' => 'Developer',
         ]);
     }
 

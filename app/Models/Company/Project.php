@@ -83,7 +83,7 @@ class Project extends Model
      */
     public function employees()
     {
-        return $this->belongsToMany(Employee::class);
+        return $this->belongsToMany(Employee::class)->withTimestamps()->withPivot('role', 'created_at');
     }
 
     /**

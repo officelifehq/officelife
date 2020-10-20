@@ -126,7 +126,7 @@ export default {
       default: null,
     },
     permissions: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },

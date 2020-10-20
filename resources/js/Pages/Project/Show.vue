@@ -45,7 +45,7 @@
         <p class="tc mt0 mb4">{{ localProject.summary }}</p>
 
         <!-- Menu -->
-        <project-menu :tab="tab" />
+        <project-menu :project="project" :tab="tab" />
 
         <div class="cf center">
           <!-- LEFT COLUMN -->
@@ -111,7 +111,7 @@ export default {
       default: null,
     },
     permissions: {
-      type: Array,
+      type: Object,
       default: null,
     },
     tab: {
