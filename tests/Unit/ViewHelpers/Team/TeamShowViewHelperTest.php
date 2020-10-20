@@ -20,9 +20,6 @@ class TeamShowViewHelperTest extends TestCase
         $dwight = factory(Employee::class)->create([
             'company_id' => $michael->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
         // create one final employee with a locked status (shouldn't appear in the results)
         factory(Employee::class)->create([
             'company_id' => $michael->company_id,
@@ -59,7 +56,7 @@ class TeamShowViewHelperTest extends TestCase
                         'id' => $dwight->position->id,
                         'title' => $dwight->position->title,
                     ],
-                    'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'. $dwight->id,
+                    'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                 ],
             ],
             $collection->toArray()
@@ -80,7 +77,6 @@ class TeamShowViewHelperTest extends TestCase
             'team_id' => $team->id,
         ]);
         $featureA->employees()->attach([$michael->id]);
-
         $collection = TeamShowViewHelper::recentShips($team);
 
         $this->assertEquals(2, $collection->count());
@@ -96,7 +92,7 @@ class TeamShowViewHelperTest extends TestCase
                             'id' => $michael->id,
                             'name' => $michael->name,
                             'avatar' => $michael->avatar,
-                            'url' => env('APP_URL') . '/' . $michael->company_id . '/employees/' . $michael->id,
+                            'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
                     'url' => route('ships.show', [
