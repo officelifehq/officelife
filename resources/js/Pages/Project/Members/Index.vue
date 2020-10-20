@@ -73,7 +73,7 @@
         <div class="cf center">
           <!-- LEFT COLUMN -->
           <div class="fl w-20-l w-100">
-            <div class="bg-white box mb3">
+            <div class="bg-white box mb3 db-ns dn">
               <ul class="list pl0 ma0 list-no-line-bottom">
                 <li class="ph3 pv2 fw6 bb bb-gray">Current roles</li>
                 <li v-for="role in localRoles" :key="role.id" class="bb bb-gray ph3 pv2 bb-gray-hover">
@@ -86,9 +86,11 @@
 
           <!-- RIGHT COLUMN -->
           <div class="fl w-80-l w-100 pl4-l">
-            <div v-if="!showModal" class="flex justify-between items-center mb2">
-              <span>{{ $t('project.members_index_count', { count: localMembers.length }) }}</span>
-              <a href="#" class="btn dib-l db" data-cy="member-add-button" @click.prevent="displayAddModal()">{{ $t('project.members_index_add_cta') }}</a>
+            <div v-if="!showModal" class="flex-ns justify-between items-center mb2">
+              <span class="mb2 mb0-ns db di-ns">
+                {{ $t('project.members_index_count', { count: localMembers.length }) }}
+              </span>
+              <a href="#" class="btn dib-l db mb3 mb0-ns" data-cy="member-add-button" @click.prevent="displayAddModal()">{{ $t('project.members_index_add_cta') }}</a>
             </div>
 
             <!-- add a new member -->
@@ -160,9 +162,9 @@
                 </div>
 
                 <!-- Actions -->
-                <div class="cf flex">
-                  <loading-button :classes="'btn add mr2 w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
-                  <a class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button" @click.prevent="showModal = false">
+                <div class="cf flex-ns">
+                  <loading-button :classes="'btn add mr2 w-auto-ns w-100 pv2 ph3 db dib-ns mb3 mb0-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
+                  <a class="btn dib-ns db tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button" @click.prevent="showModal = false">
                     {{ $t('app.cancel') }}
                   </a>
                 </div>
