@@ -94,75 +94,77 @@
             </div>
 
             <!-- add a new member -->
-            <div v-if="showModal" class="pa3 bg-white box mb3">
+            <div v-if="showModal" class="bg-white box mb3">
               <form @submit.prevent="submit">
-                <div class="measure">
-                  <h2 class="mt0 fw4 f4">
-                    {{ $t('project.members_index_add_title') }}
-                  </h2>
+                <h2 class="mv0 fw4 f4 pa3 bb bb-gray">
+                  {{ $t('project.members_index_add_title') }}
+                </h2>
 
-                  <!-- employee -->
-                  <select-box :id="'employee'"
-                              v-model="form.employee"
-                              :options="potentialMembers"
-                              :name="'employee'"
-                              :errors="$page.props.errors.employee"
-                              :label="$t('project.members_index_add_select_title')"
-                              :placeholder="$t('project.members_index_add_select_placeholder')"
-                              :required="true"
-                              :value="form.employee"
-                              :datacy="'members_selector'"
-                  />
-                  <p class="lh-copy">{{ $t('project.members_index_add_role') }}</p>
+                <div class="pa3 bb bb-gray">
+                  <div class="measure">
+                    <!-- employee -->
+                    <select-box :id="'employee'"
+                                v-model="form.employee"
+                                :options="potentialMembers"
+                                :name="'employee'"
+                                :errors="$page.props.errors.employee"
+                                :label="$t('project.members_index_add_select_title')"
+                                :placeholder="$t('project.members_index_add_select_placeholder')"
+                                :required="true"
+                                :value="form.employee"
+                                :datacy="'members_selector'"
+                    />
+                    <p class="lh-copy">{{ $t('project.members_index_add_role') }}</p>
 
-                  <!-- choose role (optional) -->
-                  <ul :class="showNewRoleInputField ? 'mb0' : 'mb3'" class="list pl0 ma0">
-                    <!-- no role -->
-                    <li>
-                      <input id="no-role" type="radio" name="roles" class="mr1 relative" checked
-                             @click="setNoRole()"
-                      />
-                      <label for="no-role" class="pointer">
-                        {{ $t('project.members_index_add_role_no_role') }}
-                      </label>
-                    </li>
-                    <!-- existing roles -->
-                    <li v-for="role in localRoles" :key="role.id" @click="showNewRoleInputField = false">
-                      <input :id="'role_' + role.id" v-model="form.role" type="radio" class="mr1 relative"
-                             :value="role.role" name="roles"
-                      />
-                      <label :for="'role_' + role.id" class="pointer">
-                        {{ role.role }}
-                      </label>
-                    </li>
+                    <!-- choose role (optional) -->
+                    <ul :class="showNewRoleInputField ? 'mb0' : 'mb3'" class="list pl0 ma0">
+                      <!-- no role -->
+                      <li>
+                        <input id="no-role" type="radio" name="roles" class="mr1 relative" checked
+                               @click="setNoRole()"
+                        />
+                        <label for="no-role" class="pointer">
+                          {{ $t('project.members_index_add_role_no_role') }}
+                        </label>
+                      </li>
+                      <!-- existing roles -->
+                      <li v-for="role in localRoles" :key="role.id" @click="showNewRoleInputField = false">
+                        <input :id="'role_' + role.id" v-model="form.role" type="radio" class="mr1 relative"
+                               :value="role.role" name="roles"
+                        />
+                        <label :for="'role_' + role.id" class="pointer">
+                          {{ role.role }}
+                        </label>
+                      </li>
+
+                      <!-- custom role -->
+                      <li>
+                        <input id="new-role" type="radio" name="roles" class="mr1 relative" value="new"
+                               data-cy="custom-role-field" @click="displayNewRoleInput()"
+                        />
+                        <label for="new-role" class="pointer">
+                          {{ $t('project.members_index_add_role_create_new_one') }}
+                        </label>
+                      </li>
+                    </ul>
 
                     <!-- custom role -->
-                    <li>
-                      <input id="new-role" type="radio" name="roles" class="mr1 relative" value="new"
-                             data-cy="custom-role-field" @click="displayNewRoleInput()"
+                    <div v-if="showNewRoleInputField" class="pl3">
+                      <!-- role -->
+                      <text-input :id="'role'"
+                                  :ref="'newRole'"
+                                  v-model="form.role"
+                                  :datacy="'customRole'"
+                                  :name="'role'"
+                                  :errors="$page.props.errors.role"
+                                  :required="true"
                       />
-                      <label for="new-role" class="pointer">
-                        {{ $t('project.members_index_add_role_create_new_one') }}
-                      </label>
-                    </li>
-                  </ul>
-
-                  <!-- custom role -->
-                  <div v-if="showNewRoleInputField" class="pl3">
-                    <!-- role -->
-                    <text-input :id="'role'"
-                                :ref="'newRole'"
-                                v-model="form.role"
-                                :datacy="'customRole'"
-                                :name="'role'"
-                                :errors="$page.props.errors.role"
-                                :required="true"
-                    />
+                    </div>
                   </div>
                 </div>
 
                 <!-- Actions -->
-                <div class="cf flex-ns">
+                <div class="pa3 cf flex-ns">
                   <loading-button :classes="'btn add mr2 w-auto-ns w-100 pv2 ph3 db dib-ns mb3 mb0-ns'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-member'" />
                   <a class="btn dib-ns db tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" data-cy="cancel-button" @click.prevent="showModal = false">
                     {{ $t('app.cancel') }}

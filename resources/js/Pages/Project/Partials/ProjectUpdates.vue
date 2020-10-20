@@ -5,7 +5,7 @@
   <div>
     <div class="bg-white box mb4">
       <!-- title + status -->
-      <div class="pv2 ph3 fw5 flex justify-between items-center">
+      <div class="pv3 ph3 fw5 flex justify-between items-center">
         <!-- if a status is already defined -->
         <div v-if="project.latest_update">
           <p v-if="project.latest_update.status == 'on_track'" class="ma0"><span class="mr1">😇</span> {{ $t('project.summary_project_latest_update_on_track') }}</p>
