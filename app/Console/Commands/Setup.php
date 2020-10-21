@@ -66,38 +66,4 @@ class Setup extends Command
             $this->line('Officelife '.config('officelife.app_version').' is set up, enjoy.');
         }
     }
-
-    /**
-     * @codeCoverageIgnore
-     * @param mixed $message
-     * @param mixed $commandline
-     */
-    public function exec($message, $commandline)
-    {
-        $this->info($message);
-        $this->line($commandline, null, OutputInterface::VERBOSITY_VERBOSE);
-        exec($commandline.' 2>&1', $output);
-        foreach ($output as $line) {
-            $this->line($line, null, OutputInterface::VERBOSITY_VERY_VERBOSE);
-        }
-        $this->line('', null, OutputInterface::VERBOSITY_VERBOSE);
-    }
-
-    /**
-     * @codeCoverageIgnore
-     * @param mixed $message
-     * @param mixed $commandline
-     */
-    public function artisan($message, $commandline, array $arguments = [])
-    {
-        $info = '';
-        foreach ($arguments as $key => $value) {
-            if (is_string($key)) {
-                $info .= ' '.$key.'="'.$value.'"';
-            } else {
-                $info .= ' '.$value;
-            }
-        }
-        $this->exec($message, Application::formatCommandString($commandline.$info));
-    }
 }
