@@ -38,9 +38,11 @@ class Setup extends Command
             }
 
             if ($this->getLaravel()->environment() == 'production') {
+                // @codeCoverageIgnoreStart
                 $this->artisan('✓ Clear config cache', 'config:clear');
                 $this->artisan('✓ Resetting route cache', 'route:cache');
                 $this->artisan('✓ Resetting view cache', 'view:clear');
+                // @codeCoverageIgnoreEnd
             } else {
                 $this->artisan('✓ Clear config cache', 'config:clear');
                 $this->artisan('✓ Clear route cache', 'route:clear');
@@ -50,7 +52,9 @@ class Setup extends Command
             if ($this->option('skip-storage-link') !== true
                 && $this->getLaravel()->environment() != 'testing'
                 && ! file_exists(public_path('storage'))) {
+                // @codeCoverageIgnoreStart
                 $this->artisan('✓ Symlink the storage folder', 'storage:link');
+                // @codeCoverageIgnoreEnd
             }
 
             $this->artisan('✓ Performing migrations', 'migrate', ['--force']);
@@ -58,7 +62,9 @@ class Setup extends Command
             // Cache config
             if ($this->getLaravel()->environment() == 'production'
                 && (config('cache.default') != 'database' || Schema::hasTable(config('cache.stores.database.table')))) {
+                // @codeCoverageIgnoreStart
                 $this->artisan('✓ Cache configuraton', 'config:cache');
+                // @codeCoverageIgnoreEnd
             }
 
             $this->line('Officelife '.config('officelife.app_version').' is set up, enjoy.');
