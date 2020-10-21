@@ -27,6 +27,7 @@ use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\ProjectDecision;
 use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\GuessEmployeeGame;
 use App\Models\Company\RateYourManagerAnswer;
@@ -411,6 +412,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->projectsAsLead()->exists());
+    }
+
+    /** @test */
+    public function it_gets_the_project_decisions_written_by_the_employee(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(ProjectDecision::class, 2)->create([
+            'author_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->projectDecisions()->exists());
     }
 
     /** @test */

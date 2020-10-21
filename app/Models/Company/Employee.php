@@ -453,6 +453,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the project decision record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function projectDecisions()
+    {
+        return $this->hasMany(ProjectDecision::class, 'author_id', 'id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

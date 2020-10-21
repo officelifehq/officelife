@@ -7,7 +7,7 @@ k
       <inertia-link :class="{'selected':(tab == 'summary')}" :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + ''" class="f6 fl ph3 pv2 dib pointer no-underline">
         {{ $t('project.menu_summary') }}
       </inertia-link>
-      <inertia-link :class="{'selected':(tab == 'decisions')}" :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer no-underline">
+      <inertia-link :class="{'selected':(tab == 'decisions')}" :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/decisions'" class="f6 fl ph3 pv2 dib pointer no-underline">
         Decision logs
       </inertia-link>
       <inertia-link :class="{'selected':(tab == 'messages')}" :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer no-underline">

@@ -115,4 +115,14 @@ class Project extends Model
     {
         return $this->hasMany(ProjectStatus::class);
     }
+
+    /**
+     * Get the project decisions associated with the project.
+     *
+     * @return hasMany
+     */
+    public function decisions()
+    {
+        return $this->hasMany(ProjectDecision::class);
+    }
 }

@@ -214,6 +214,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
             Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
 
+            // project decision logs
+            Route::get('{project}/decisions', 'Company\\Project\\ProjectDecisionsController@index');
+
             // project members
             Route::get('{project}/members', 'Company\\Project\\ProjectMembersController@index');
             Route::get('{project}/members/search', 'Company\\Project\\ProjectMembersController@search');

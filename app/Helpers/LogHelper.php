@@ -857,6 +857,22 @@ class LogHelper
                     'employee_name' => $log->object->{'employee_name'},
                 ]);
                 break;
+
+            case 'project_decision_created':
+                $sentence = trans('account.log_project_decision_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                ]);
+                break;
+
+            case 'project_decision_destroyed':
+                $sentence = trans('account.log_project_decision_destroyed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                ]);
+                break;
         }
 
         return $sentence;
