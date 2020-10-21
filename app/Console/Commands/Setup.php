@@ -3,10 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Console\Application;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Console\ConfirmableTrait;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class Setup extends Command
 {

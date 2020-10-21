@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
 
         if (App::runningInConsole()) {
             Command::macro('exec', function(string $message, string $commandline) {
+                /** @codeCoverageIgnore */
                 \App\Console\Commands\Helpers\Command::exec($this, $message, $commandline);
             });
             Command::macro('artisan', function(string $message, string $commandline, array $arguments = []) {
