@@ -34,9 +34,7 @@ class Command
     private static function getBackend() : CommandCallerContract
     {
         if (is_null(static::$CommandCaller)) {
-            // @codeCoverageIgnoreStart
-            static::$CommandCaller = app(CommandCaller::class);
-            // @codeCoverageIgnoreEnd
+            static::$CommandCaller = app(CommandCaller::class); // @codeCoverageIgnore
         }
 
         return static::$CommandCaller;
@@ -66,9 +64,7 @@ class Command
         $instance = static::getBackend();
 
         if (! $instance) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('No backend.');
-            // @codeCoverageIgnoreEnd
+            throw new RuntimeException('No backend.'); // @codeCoverageIgnore
         }
 
         return $instance->$method(...$args);

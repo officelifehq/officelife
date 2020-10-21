@@ -52,9 +52,7 @@ class Setup extends Command
             if ($this->option('skip-storage-link') !== true
                 && $this->getLaravel()->environment() != 'testing'
                 && ! file_exists(public_path('storage'))) {
-                // @codeCoverageIgnoreStart
-                $this->artisan('✓ Symlink the storage folder', 'storage:link');
-                // @codeCoverageIgnoreEnd
+                $this->artisan('✓ Symlink the storage folder', 'storage:link'); // @codeCoverageIgnore
             }
 
             $this->artisan('✓ Performing migrations', 'migrate', ['--force']);
@@ -62,9 +60,7 @@ class Setup extends Command
             // Cache config
             if ($this->getLaravel()->environment() == 'production'
                 && (config('cache.default') != 'database' || Schema::hasTable(config('cache.stores.database.table')))) {
-                // @codeCoverageIgnoreStart
-                $this->artisan('✓ Cache configuraton', 'config:cache');
-                // @codeCoverageIgnoreEnd
+                $this->artisan('✓ Cache configuraton', 'config:cache'); // @codeCoverageIgnore
             }
 
             $this->line('Officelife '.config('officelife.app_version').' is set up, enjoy.');
