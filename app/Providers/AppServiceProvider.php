@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Inertia\Inertia;
 use App\Helpers\InstanceHelper;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
@@ -18,6 +20,15 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         $this->registerInertia();
+
+        if (App::runningInConsole()) {
+            Command::macro('exec', function(string $message, string $commandline) {
+                \App\Console\Commands\Helpers\Command::exec($this, $message, $commandline); // @codeCoverageIgnore
+            });
+            Command::macro('artisan', function(string $message, string $commandline, array $arguments = []) {
+                \App\Console\Commands\Helpers\Command::artisan($this, $message, $commandline, $arguments);
+            });
+        }
     }
 
     /**
