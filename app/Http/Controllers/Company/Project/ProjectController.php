@@ -574,7 +574,7 @@ class ProjectController extends Controller
         }
 
         if ($project->lead) {
-            if ($project->lead->id != $employee->id) {
+            if ($project->lead->id != $employee->id && $employee->permission_level > 200) {
                 return redirect('home');
             }
         }
