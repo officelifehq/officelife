@@ -32,6 +32,8 @@ class VerificationController extends Controller
 
     /**
      * Create a new controller instance.
+     *
+     * @codeCoverageIgnore
      */
     public function __construct()
     {
@@ -45,6 +47,8 @@ class VerificationController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     *
+     * @codeCoverageIgnore
      */
     public function show(Request $request)
     {
@@ -56,6 +60,8 @@ class VerificationController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return mixed
+     *
+     * @codeCoverageIgnore
      */
     protected function verified(Request $request)
     {
