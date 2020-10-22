@@ -16,8 +16,6 @@ class EmailMessaging
      */
     public static function verifyEmailMail(User $user, $verificationUrl): MailMessage
     {
-        // App::setLocale($user->locale);
-
         return (new MailMessage)
             ->subject(trans('mail.confirmation_email_title'))
             ->greeting(trans('mail.confirmation_email_greetings', ['name' => $user->name]))

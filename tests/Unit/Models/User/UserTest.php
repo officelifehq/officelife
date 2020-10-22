@@ -7,7 +7,9 @@ use App\Models\User\User;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification as FacadesNotification;
 
 class UserTest extends TestCase
 {
@@ -121,6 +123,20 @@ class UserTest extends TestCase
 
         $this->assertEmpty(
             $result
+        );
+    }
+
+    /** @test */
+    public function it_sends_a_verification_email()
+    {
+        FacadesNotification::fake();
+
+        $user = factory(User::class)->create([]);
+        $user->sendEmailVerificationNotification();
+
+        FacadesNotification::assertSentTo(
+            [$user],
+            VerifyEmail::class
         );
     }
 }
