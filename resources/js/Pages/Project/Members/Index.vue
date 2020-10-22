@@ -59,13 +59,6 @@
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
-        <h2 class="tc mb2 relative" data-cy="project-name">
-          {{ localProject.name }} <span v-if="localProject.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">
-            {{ localProject.code }}
-          </span>
-        </h2>
-        <p class="tc mt0 mb4">{{ localProject.summary }}</p>
-
         <!-- Menu -->
         <project-menu :project="project" :tab="tab" />
 

@@ -59,21 +59,31 @@
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
-        <h2 class="tc mb2 relative" data-cy="project-name">
-          {{ localProject.name }} <span v-if="localProject.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">
-            {{ localProject.code }}
-          </span>
-        </h2>
-        <p class="tc mt0 mb4">{{ localProject.summary }}</p>
-
         <!-- Menu -->
         <project-menu :project="project" :tab="tab" />
       </div>
 
       <div class="mw6 center br3 mb5 relative z-1">
-        <!-- members list -->
-        <div class="cf center">
-          test
+        <!-- list of decisions -->
+        <div class="bg-white box pa3 tc">
+          <ul class="dt list pl0">
+            <li class="dt-row">
+              <!-- date -->
+              <div class="dtc">Jun 20 <span>1999</span></div>
+
+              <!-- title + description + members -->
+              <div class="dtc">
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- blank state -->
+        <div class="bg-white box pa3 tc">
+          <img loading="lazy" src="/img/streamline-icon-factory-engineer-3@140x140.png" width="140" height="140" alt="meeting"
+               class=""
+          />
+          <p class="lh-copy">Keeping a log of decisions is beneficial to improve communication between members and stakeholders of the project, and employees of the company in general.</p>
         </div>
       </div>
     </div>

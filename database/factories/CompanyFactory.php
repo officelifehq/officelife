@@ -529,7 +529,6 @@ $factory->define(App\Models\Company\ProjectDecision::class, function () {
             ])->id;
         },
         'title' => 'This is a title',
-        'decision' => 'This si the core of the decision',
         'decided_at' => Carbon::now(),
     ];
 });

@@ -63,7 +63,8 @@ class ProjectController extends Controller
         $project = Project::findOrFail($projectId);
 
         return Inertia::render('Project/Show', [
-            'project' => ProjectViewHelper::summary($project, $company),
+            'project' => ProjectViewHelper::info($project),
+            'projectDetails' => ProjectViewHelper::summary($project, $company),
             'permissions' => ProjectViewHelper::permissions($project, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

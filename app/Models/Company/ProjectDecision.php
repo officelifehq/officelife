@@ -23,7 +23,6 @@ class ProjectDecision extends Model
         'project_id',
         'author_id',
         'title',
-        'decision',
         'decided_at',
     ];
 

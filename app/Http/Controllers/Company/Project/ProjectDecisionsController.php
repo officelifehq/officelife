@@ -12,6 +12,7 @@ use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use App\Services\Company\Project\AddEmployeeToProject;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Project\ProjectMembersViewHelper;
@@ -40,7 +41,7 @@ class ProjectDecisionsController extends Controller
 
         return Inertia::render('Project/Decisions/Index', [
             'tab' => 'decisions',
-            'project' => ProjectMembersViewHelper::info($project),
+            'project' => ProjectViewHelper::info($project),
             'members' => ProjectMembersViewHelper::members($project),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'menu_other_member' => '+ {count} others',
+
     'project_title_lead' => 'Project lead',
 
     'index_title' => 'All the projects in the company',

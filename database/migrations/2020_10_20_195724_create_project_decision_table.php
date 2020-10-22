@@ -19,7 +19,6 @@ class CreateProjectDecisionTable extends Migration
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->string('title');
-            $table->text('decision')->nullable();
             $table->date('decided_at')->nullable();
             $table->timestamps();
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
