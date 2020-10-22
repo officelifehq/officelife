@@ -22,6 +22,12 @@ return [
     'login_no_account' => 'You are not lucky to have an account yet?',
     'login_register' => 'Create your account now',
 
+    'confirmation_title' => 'Verify Your Email Address',
+    'confirmation_fresh' => 'A fresh verification link has been sent to your email address.',
+    'confirmation_check' => 'Before proceeding, please check your email for a verification link.',
+    'confirmation_request_another' => 'If you did not received the verification email, you can request another here:',
+    'confirmation_request_another_button' => 'Resend the verification email',
+
     'invitation_invalid_link' => 'This invitation link is invalid.',
     'invitation_link_already_accepted' => 'This invitation has already been accepted. Please sign in to your account.',
     'invitation_logged_accept_title' => 'Would you like to join {name}?',
