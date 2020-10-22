@@ -16,7 +16,6 @@ class HelpCenterTest extends TestCase
 
         foreach ($links as $key => $link) {
             $url = config('officelife.help_center_url').$link;
-            \Log::info($url);
             $ch = curl_init($url);
 
             curl_setopt($ch, CURLOPT_NOBODY, true);
