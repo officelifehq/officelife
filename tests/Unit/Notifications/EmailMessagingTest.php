@@ -16,7 +16,6 @@ class UserTest extends TestCase
     public function it_sends_confirmation_email()
     {
         Notification::fake();
-        config(['monica.signup_double_optin' => true]);
 
         $user = factory(User::class)->create([]);
         $user->sendEmailVerificationNotification();
