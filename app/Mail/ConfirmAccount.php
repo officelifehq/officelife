@@ -31,6 +31,6 @@ class ConfirmAccount extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.user.confirm');
+        return $this->markdown('vendor.notifications.email', ['level' => '', 'introLines' => [], 'outroLines' => []]);
     }
 }
