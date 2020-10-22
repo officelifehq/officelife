@@ -36,24 +36,7 @@ class CreateAccountTest extends TestCase
     }
 
     /** @test */
-    public function it_generates_a_confirmation_link(): void
-    {
-        $request = [
-            'email' => 'dwight@dundermifflin.com',
-            'password' => 'password',
-        ];
-
-        $user = (new CreateAccount)->execute($request);
-
-        $this->assertDatabaseHas('users', [
-            'id' => $user->id,
-            'email_verified_at' => null,
-        ]);
-
-        $this->assertNotNull($user->verification_link);
-    }
-
-    /** @test */
+    // TODO
     public function it_schedules_an_email(): void
     {
         $request = [

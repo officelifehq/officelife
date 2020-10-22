@@ -50,19 +50,6 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_path_for_the_confirmation_link(): void
-    {
-        $user = factory(User::class)->create([
-            'verification_link' => 'dunder',
-        ]);
-
-        $this->assertEquals(
-            config('app.url').'/invite/employee/dunder',
-            $user->getPathConfirmationLink()
-        );
-    }
-
-    /** @test */
     public function it_gets_the_employee_object_for_the_given_user(): void
     {
         $dwight = factory(Employee::class)->create([]);

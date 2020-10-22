@@ -70,20 +70,24 @@ class UserInvitationController extends Controller
         ];
 
         try {
-            User::where('email', $email)->firstOrFail();
+            $user = User::where('email', $email)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             // email doesn't exist yet, create the account
-            (new CreateAccount)->execute($requestInputs);
-        }
+            $user = (new CreateAccount)->execute($requestInputs);
 
-        Auth::attempt($requestInputs);
+            $user->sendEmailVerificationNotification();
+
+            /** @var \Illuminate\Contracts\Auth\StatefulGuard */
+            $guard = Auth::guard();
+            $guard->login($user);
+        }
 
         // mark the link as used
         $employee = Employee::where('invitation_link', $invitationLink)
             ->firstOrFail();
 
         $employee->invitation_used_at = Carbon::now();
-        $employee->user_id = Auth::user()->id;
+        $employee->user_id = $user->id;
         $employee->save();
     }
 }

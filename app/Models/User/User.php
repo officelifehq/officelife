@@ -2,15 +2,17 @@
 
 namespace App\Models\User;
 
+use App\Jobs\SendVerifyEmail;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Http\Resources\Company\Notification\Notification as NotificationResource;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, LogsActivity;
 
@@ -28,7 +30,6 @@ class User extends Authenticatable
         'nickname',
         'uuid',
         'show_help',
-        'verification_link',
     ];
 
     /**
@@ -95,16 +96,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the fully qualified path to registration.
-     *
-     * @return string
-     */
-    public function getPathConfirmationLink(): string
-    {
-        return secure_url('invite/employee/'.$this->verification_link);
-    }
-
-    /**
      * Check if the user is part of the given company.
      *
      * @param Company $company
@@ -152,5 +143,15 @@ class User extends Authenticatable
         }
 
         return [];
+    }
+
+    /**
+     * Send the email verification notification.
+     */
+    public function sendEmailVerificationNotification(): void
+    {
+        if (User::count() > 1) {
+            SendVerifyEmail::dispatch($this);
+        }
     }
 }
