@@ -1,8 +1,16 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'Auth\\LoginController@showLoginForm')->name('default');
+
+// @see vendor/laravel/ui/src/AuthRouteMethods.php
+Auth::routes([
+    'login' => false,
+    'register' => false,
+    'verify' => true,
+]);
 
 // auth
 Route::get('signup', 'Auth\\RegisterController@index')->name('signup');
@@ -14,9 +22,7 @@ Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
 Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join');
 Route::post('invite/employee/{link}/accept', 'Auth\\UserInvitationController@accept');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('logout', 'Auth\\LoginController@logout');
-
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::post('search/employees', 'HeaderSearchController@employees');
     Route::post('search/teams', 'HeaderSearchController@teams');
