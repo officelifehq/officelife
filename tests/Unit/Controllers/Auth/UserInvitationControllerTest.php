@@ -22,6 +22,7 @@ class UserInvitationControllerTest extends TestCase
 
         $response = $this->get('invite/employee/link');
 
+        dump($response);
         $response->assertStatus(200);
         $response->assertSee('Auth\/Invitation\/AcceptInvitationUnlogged');
     }
