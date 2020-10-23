@@ -36,24 +36,6 @@ class CreateAccountTest extends TestCase
     }
 
     /** @test */
-    // TODO
-    public function it_schedules_an_email(): void
-    {
-        $request = [
-            'email' => 'dwight@dundermifflin.com',
-            'password' => 'password',
-        ];
-
-        Mail::fake();
-
-        $user = (new CreateAccount)->execute($request);
-
-        Mail::assertQueued(ConfirmAccount::class, function ($mail) use ($user) {
-            return $mail->user->id === $user->id;
-        });
-    }
-
-    /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $request = [
