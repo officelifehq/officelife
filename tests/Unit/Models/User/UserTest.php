@@ -118,6 +118,8 @@ class UserTest extends TestCase
     {
         FacadesNotification::fake();
 
+        // be sure to have at least 2 users
+        factory(User::class)->create([]);
         $user = factory(User::class)->create([]);
         $user->sendEmailVerificationNotification();
 
