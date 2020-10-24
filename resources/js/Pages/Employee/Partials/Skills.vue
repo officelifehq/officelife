@@ -196,7 +196,7 @@ export default {
           this.foundExactTerm = false;
           const self = this;
 
-          axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills/search', this.form)
+          axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/skills/search`, this.form)
             .then(response => {
               this.processingSearch = false;
               this.searchProcessed = true;
@@ -204,7 +204,7 @@ export default {
               if (response.data.data.length > 0) {
 
                 this.searchResults = _.filter(response.data.data, function(skill) {
-                  return _.every(self.updatedSkills, function(s) { return skill.name !== s.name; });
+                  return _.every(self.updatedSkills, (s) => skill.name !== s.name);
                 });
 
                 // also, find out if we have found exactly the name we were looking for
