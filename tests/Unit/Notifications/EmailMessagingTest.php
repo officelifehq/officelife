@@ -8,16 +8,20 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class UserTest extends TestCase
+class EmailMessagingTest extends TestCase
 {
     use DatabaseTransactions;
 
     /** @test */
-    public function it_sends_confirmation_email()
+    public function it_sends_a_confirmation_email()
     {
         Notification::fake();
 
-        $user = factory(User::class)->create([]);
+        // be sure to have at least 2 users
+        factory(User::class)->create([]);
+        $user = factory(User::class)->create([
+            'email_verified_at' => null
+        ]);
         $user->sendEmailVerificationNotification();
 
         Notification::assertSentTo($user, VerifyEmail::class);

@@ -19,8 +19,7 @@ Route::get('login', 'Auth\\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\\LoginController@login')->name('login.attempt');
 
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
-Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join');
-Route::post('invite/employee/{link}/accept', 'Auth\\UserInvitationController@accept');
+Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join')->name('invitation.join');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
