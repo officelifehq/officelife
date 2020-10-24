@@ -48,10 +48,8 @@
         "cp .env.example .env;",
         "composer install --no-suggest;",
         "php artisan key:generate;",
-        "php artisan storage:link;",
-        "php artisan migrate;",
-        "php artisan lang:generate;",
-        "yarn install && yarn prod;",
+        "php artisan setup;",
+        "yarn install;",
         "apache2ctl start"
     ]
 
