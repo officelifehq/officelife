@@ -232,7 +232,7 @@ export default {
           axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships/search', this.form)
             .then(response => {
               this.potentialMembers = _.filter(response.data.data, function(employee) {
-                return _.every(self.form.employees, s => employee.id !== s.id);
+                return _.every(self.form.employees, e => employee.id !== e.id);
               });
               this.processingSearch = false;
             })
