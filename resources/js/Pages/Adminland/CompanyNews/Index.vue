@@ -1,6 +1,14 @@
 <style lang="scss" scoped>
-.list li:last-child {
-  border-bottom: 0;
+.news-item:first-child {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.news-item:last-child {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 </style>
 
@@ -11,10 +19,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_company_news') }}
@@ -26,24 +34,24 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.company_news_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.company_news_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="news.length == 0 ? 'white' : ''">
-              {{ $tc('account.company_news_number_news', news.length, { company: $page.auth.company.name, count: news.length}) }}
+              {{ $tc('account.company_news_number_news', news.length, { company: $page.props.auth.company.name, count: news.length}) }}
             </span>
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
               {{ $t('account.company_news_cta') }}
             </inertia-link>
           </p>
 
           <!-- LIST OF EXISTING NEWS -->
-          <ul v-show="news.length != 0" class="list pl0 mv0 center" data-cy="news-list">
-            <li v-for="singleNews in news" :key="singleNews.id" class="pb2 pt1 bb bb-gray bb-gray-hover">
-              <h3>{{ singleNews.title }}</h3>
+          <ul v-show="news.length != 0" class="list pl0 mv0 center" data-cy="news-list" :data-cy-items="news.map(n => n.id)">
+            <li v-for="singleNews in news" :key="singleNews.id" class="news-item pa3 br bl bb bb-gray bb-gray-hover">
+              <h3 class="mt0">{{ singleNews.title }}</h3>
 
-              <div class="parsed-content" v-html="singleNews.parsed_content"></div>
+              <div class="parsed-content mb3" v-html="singleNews.parsed_content"></div>
 
               <!-- LIST OF ACTIONS FOR EACH NEWS -->
               <ul class="list pa0 ma0 di-ns db mt2 mt0-ns">
@@ -54,7 +62,7 @@
 
                 <!-- RENAME A NEWS -->
                 <li class="di mr1 f7">
-                  <inertia-link :href="'/' + $page.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">{{ $t('app.edit') }}</inertia-link>
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">{{ $t('app.edit') }}</inertia-link>
                 </li>
 
                 <!-- DELETE A NEWS -->
@@ -113,7 +121,7 @@ export default {
 
   methods: {
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/news/' + id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/account/news/' + id)
         .then(response => {
           flash(this.$t('account.company_news_success_destroy'), 'success');
 

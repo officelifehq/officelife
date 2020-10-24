@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Helpers\StringHelper;
 use App\Models\Company\Skill;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
@@ -26,7 +26,7 @@ class EmployeeSkillController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $name = $request->input('searchTerm');
-        $name = StringHelper::removeLettersWithAccent($name);
+        $name = Str::of($name)->ascii();
         $name = strtolower($name);
 
         $potentialSkills = Skill::search(

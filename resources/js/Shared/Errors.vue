@@ -26,13 +26,16 @@
 <script>
 export default {
   props: {
-    errors: {
-      default: null,
-    },
     classes: {
       type: String,
       default: '',
     }
+  },
+
+  data() {
+    return {
+      errors: [],
+    };
   },
 };
 </script>

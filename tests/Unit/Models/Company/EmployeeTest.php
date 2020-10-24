@@ -15,6 +15,7 @@ use App\Models\Company\Answer;
 use App\Models\Company\Morale;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
@@ -27,6 +28,7 @@ use App\Models\Company\Notification;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\CompanyPTOPolicy;
+use App\Models\Company\GuessEmployeeGame;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
 use App\Models\Company\EmployeePlannedHoliday;
@@ -366,6 +368,52 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_games_as_player(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(GuessEmployeeGame::class, 2)->create([
+            'employee_who_played_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->gamesAsPlayer()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_games_as_player_to_find(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(GuessEmployeeGame::class, 2)->create([
+            'employee_to_find_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->gamesAsPersonToFind()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_projects(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        $project = factory(Project::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $dwight->projects()->sync([$project->id]);
+
+        $this->assertTrue($dwight->projects()->exists());
+    }
+
+    /** @test */
+    public function it_gets_the_projects_that_the_employee_leads(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(Project::class, 2)->create([
+            'project_lead_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->projectsAsLead()->exists());
+    }
+
+    /** @test */
     public function it_scopes_the_employees_by_the_locked_status(): void
     {
         $dwight = factory(Employee::class)->create([
@@ -673,5 +721,25 @@ class EmployeeTest extends TestCase
         $dwight = $this->createAnotherEmployee($michael);
 
         $this->assertFalse($michael->isManagerOf($dwight->id));
+    }
+
+    /** @test */
+    public function it_checks_if_the_employee_is_in_a_given_project(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        $api = factory(Project::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $api->employees()->attach($dwight->id);
+
+        $this->assertTrue($dwight->isInProject($api->id));
+
+        $dwight = factory(Employee::class)->create();
+        $api = factory(Project::class)->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $this->assertFalse($dwight->isInProject($api->id));
     }
 }

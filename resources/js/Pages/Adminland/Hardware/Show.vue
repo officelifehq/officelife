@@ -22,13 +22,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/hardware'">{{ $t('app.breadcrumb_account_manage_hardware') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware'">{{ $t('app.breadcrumb_account_manage_hardware') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_show_hardware') }}
@@ -67,7 +67,7 @@
           </div>
 
           <ul class="list pl0 mb5">
-            <li class="di mr2"><inertia-link :href="'/' + $page.auth.company.id + '/account/hardware/' + hardware.id + '/edit'" :data-cy="'hardware-edit-link-' + hardware.id">{{ $t('app.edit') }}</inertia-link></li>
+            <li class="di mr2"><inertia-link :href="'/' + $page.props.auth.company.id + '/account/hardware/' + hardware.id + '/edit'" :data-cy="'hardware-edit-link-' + hardware.id">{{ $t('app.edit') }}</inertia-link></li>
 
             <!-- DELETE AN ITEM -->
             <li v-if="idToDelete == hardware.id" class="di">
@@ -143,10 +143,10 @@ export default {
 
   methods: {
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/hardware/' + id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/account/hardware/' + id)
         .then(response => {
           flash(this.$t('account.position_success_destroy'), 'success');
-          this.$inertia.visit('/' + this.$page.auth.company.id + '/account/hardware');
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/account/hardware');
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

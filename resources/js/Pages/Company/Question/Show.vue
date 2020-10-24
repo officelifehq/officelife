@@ -16,13 +16,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/company/questions'">{{ $t('app.breadcrumb_company_questions') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/questions'">{{ $t('app.breadcrumb_company_questions') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_company_questions_detail') }}
@@ -132,9 +132,9 @@ export default {
     navigateTo() {
       console.log(this.form.id);
       if (this.form.id == 0) {
-        this.$inertia.visit('/' + this.$page.auth.company.id + '/company/questions/' + this.question.id);
+        this.$inertia.visit('/' + this.$page.props.auth.company.id + '/company/questions/' + this.question.id);
       } else {
-        this.$inertia.visit('/' + this.$page.auth.company.id + '/company/questions/' + this.question.id + '/teams/' + this.form.id);
+        this.$inertia.visit('/' + this.$page.props.auth.company.id + '/company/questions/' + this.question.id + '/teams/' + this.form.id);
       }
     },
   },

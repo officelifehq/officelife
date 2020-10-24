@@ -30,7 +30,7 @@
         {{ $t('app.edit') }}
       </li>
     </ul>
-    <ul v-if="$page.auth.employee.permission_level > 200 && updatedEmployee.status" class="ma0 pa0 existing-statuses di">
+    <ul v-if="$page.props.auth.employee.permission_level > 200 && updatedEmployee.status" class="ma0 pa0 existing-statuses di">
       <li class="di" data-cy="status-name-wrong-permission">
         {{ updatedEmployee.status.name }}
       </li>
@@ -87,7 +87,7 @@
       <!-- Shown if there is no statuses setup in the account yet -->
       <div v-show="statuses.length == 0">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.status_modal_blank_title') }} <inertia-link :href="'/' + $page.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">
+          {{ $t('employee.status_modal_blank_title') }} <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employeestatuses'" data-cy="modal-blank-state-cta">
             {{ $t('employee.status_modal_blank_cta') }}
           </inertia-link>
         </p>
@@ -158,7 +158,7 @@ export default {
     },
 
     assign(status) {
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses', status)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses', status)
         .then(response => {
           flash(this.$t('employee.status_modal_assign_success'), 'success');
 
@@ -170,7 +170,7 @@ export default {
     },
 
     reset(status) {
-      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses/' + status.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses/' + status.id)
         .then(response => {
           flash(this.$t('employee.status_modal_unassign_success'), 'success');
 

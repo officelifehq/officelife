@@ -81,8 +81,7 @@ class AddEmployeeToCompany extends BaseService
         $uuid = Str::uuid()->toString();
 
         $avatar = (new GenerateAvatar)->execute([
-            'uuid' => $uuid,
-            'size' => 200,
+            'name' => $data['first_name'].' '.$data['last_name'],
         ]);
 
         $this->employee = Employee::create([

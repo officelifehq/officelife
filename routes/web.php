@@ -1,22 +1,28 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'Auth\\LoginController@index')->name('default');
+Route::get('/', 'Auth\\LoginController@showLoginForm')->name('default');
+
+// @see vendor/laravel/ui/src/AuthRouteMethods.php
+Auth::routes([
+    'login' => false,
+    'register' => false,
+    'verify' => true,
+]);
 
 // auth
 Route::get('signup', 'Auth\\RegisterController@index')->name('signup');
 Route::post('signup', 'Auth\\RegisterController@store')->name('signup.attempt');
-Route::get('login', 'Auth\\LoginController@index')->name('login');
-Route::post('login', 'Auth\\LoginController@store')->name('login.attempt');
+Route::get('login', 'Auth\\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\\LoginController@login')->name('login.attempt');
 
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
 Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join');
 Route::post('invite/employee/{link}/accept', 'Auth\\UserInvitationController@accept');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('logout', 'Auth\\LoginController@logout');
-
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::post('search/employees', 'HeaderSearchController@employees');
     Route::post('search/teams', 'HeaderSearchController@teams');
@@ -184,8 +190,47 @@ Route::middleware(['auth'])->group(function () {
             Route::post('{team}/ships/search', 'Company\\Team\\TeamRecentShipController@search');
         });
 
+        Route::prefix('projects')->group(function () {
+            Route::get('', 'Company\\Project\\ProjectController@index');
+            Route::get('create', 'Company\\Project\\ProjectController@create');
+            Route::post('', 'Company\\Project\\ProjectController@store');
+            Route::post('search', 'Company\\Project\\ProjectController@search');
+
+            // project detail
+            Route::get('{project}', 'Company\\Project\\ProjectController@show')->name('projects.show');
+            Route::get('{project}/summary', 'Company\\Project\\ProjectController@show');
+
+            Route::post('{project}/start', 'Company\\Project\\ProjectController@start');
+            Route::post('{project}/pause', 'Company\\Project\\ProjectController@pause');
+            Route::post('{project}/close', 'Company\\Project\\ProjectController@close');
+            Route::post('{project}/lead/assign', 'Company\\Project\\ProjectController@assign');
+            Route::post('{project}/lead/clear', 'Company\\Project\\ProjectController@clear');
+            Route::get('{project}/edit', 'Company\\Project\\ProjectController@edit')->name('projects.edit');
+            Route::post('{project}/description', 'Company\\Project\\ProjectController@description');
+            Route::post('{project}/update', 'Company\\Project\\ProjectController@update');
+            Route::get('{project}/delete', 'Company\\Project\\ProjectController@delete')->name('projects.delete');
+            Route::delete('{project}', 'Company\\Project\\ProjectController@destroy');
+
+            Route::post('{project}/links', 'Company\\Project\\ProjectController@createLink');
+            Route::delete('{project}/links/{link}', 'Company\\Project\\ProjectController@destroyLink');
+
+            Route::get('{project}/messages', 'Company\\Project\\ProjectController@messages');
+            Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectController@message');
+
+            Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
+            Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
+
+            // project members
+            Route::get('{project}/members', 'Company\\Project\\ProjectMembersController@index');
+            Route::get('{project}/members/search', 'Company\\Project\\ProjectMembersController@search');
+            Route::post('{project}/members/store', 'Company\\Project\\ProjectMembersController@store');
+            Route::post('{project}/members/remove', 'Company\\Project\\ProjectMembersController@remove');
+        });
+
         Route::prefix('company')->group(function () {
             Route::get('', 'Company\\Company\\CompanyController@index');
+            Route::post('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');
+            Route::get('guessEmployee/replay', 'Company\\Company\\CompanyController@replay');
 
             // Questions and answers
             Route::resource('questions', 'Company\\Company\\QuestionController', ['as' => 'company'])->only([
@@ -223,9 +268,19 @@ Route::middleware(['auth'])->group(function () {
             // adminland
             Route::get('account', 'Company\\Adminland\\AdminlandController@index');
 
-            // employee management
-            Route::resource('account/employees', 'Company\\Adminland\\AdminEmployeeController', ['as' => 'account']);
+            // employee list
+            Route::get('account/employees', 'Company\\Adminland\\AdminEmployeeController@index')->name('account.employees.index');
+            Route::get('account/employees/all', 'Company\\Adminland\\AdminEmployeeController@all')->name('account.employees.all');
+            Route::get('account/employees/active', 'Company\\Adminland\\AdminEmployeeController@active')->name('account.employees.active');
+            Route::get('account/employees/locked', 'Company\\Adminland\\AdminEmployeeController@locked')->name('account.employees.locked');
+            Route::get('account/employees/noHiringDate', 'Company\\Adminland\\AdminEmployeeController@noHiringDate')->name('account.employees.no_hiring_date');
+            Route::get('account/employees/permission', 'Company\\Adminland\\AdminEmployeeController@permission')->name('account.employees.permission');
+
+            //employee CRUD
+            Route::get('account/employees/create', 'Company\\Adminland\\AdminEmployeeController@create')->name('account.employees.new');
+            Route::post('account/employees', 'Company\\Adminland\\AdminEmployeeController@store')->name('account.employees.create');
             Route::get('account/employees/{employee}/delete', 'Company\\Adminland\\AdminEmployeeController@delete')->name('account.delete');
+            Route::delete('account/employees/{employee}', 'Company\\Adminland\\AdminEmployeeController@destroy');
             Route::get('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lock')->name('account.lock');
             Route::post('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lockAccount');
             Route::get('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlock')->name('account.unlock');

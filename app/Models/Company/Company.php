@@ -185,6 +185,16 @@ class Company extends Model
     }
 
     /**
+     * Get all the projets in the company.
+     *
+     * @return HasMany
+     */
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return CompanyPTOPolicy

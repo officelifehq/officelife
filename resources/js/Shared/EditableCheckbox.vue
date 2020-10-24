@@ -185,10 +185,6 @@ export default {
       type: Number,
       default: 0,
     },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
   },
 
   data() {
@@ -196,6 +192,7 @@ export default {
       updatedValue: false,
       hover: false,
       idToDelete: 0,
+      errors: [],
     };
   },
 

@@ -93,15 +93,12 @@ export default {
       type: String,
       default: 'mb3',
     },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
   },
 
   data() {
     return {
       updatedValue: false,
+      errors: [],
     };
   },
 

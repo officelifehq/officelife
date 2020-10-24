@@ -46,7 +46,7 @@
         🌴
       </span> Holidays
     </span>
-    <img v-show="$page.auth.employee.permission_level <= 200" loading="lazy" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-holiday-button"
+    <img v-show="$page.props.auth.employee.permission_level <= 200" loading="lazy" src="/img/plus_button.svg" class="box-plus-button absolute br-100 pa2 bg-white pointer" data-cy="add-holiday-button"
          width="22"
          height="22" alt="add button"
          @click.prevent="toggleModals()"

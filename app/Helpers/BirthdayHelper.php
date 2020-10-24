@@ -13,7 +13,7 @@ class BirthdayHelper
      * @param int $numberOfDays
      * @return bool
      */
-    public static function isBirthdaySoon(Carbon $startDate, Carbon $birthdate, int $numberOfDays): bool
+    public static function isBirthdayInXDays(Carbon $startDate, Carbon $birthdate, int $numberOfDays): bool
     {
         $future = $startDate->addDays($numberOfDays);
         $birthdate->year = $startDate->year;
@@ -23,5 +23,18 @@ class BirthdayHelper
         }
 
         return $birthdate->lessThanOrEqualTo($future) && $future->greaterThanOrEqualTo($startDate);
+    }
+
+    /**
+     * Check if the birthdate will happen in the given range.
+     *
+     * @param Carbon $startDate
+     * @param Carbon $minDate
+     * @param Carbon $maxDate
+     * @return bool
+     */
+    public static function isBirthdayInRange(Carbon $birthdate, Carbon $minDate, Carbon $maxDate): bool
+    {
+        return $birthdate->between($minDate, $maxDate);
     }
 }

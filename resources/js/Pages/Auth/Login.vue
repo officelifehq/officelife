@@ -20,12 +20,12 @@
       </div>
       <div class="">
         <!-- Form Errors -->
-        <errors :errors="form.errors" :classes="'mb3'" />
+        <errors :errors="errors" :classes="'mb3'" />
 
         <form @submit.prevent="submit">
           <text-input v-model="form.email"
                       :name="'email'"
-                      :errors="$page.errors.email"
+                      :errors="$page.props.errors.email"
                       :label="$t('auth.login_email')"
                       :required="true"
                       :type="'email'"
@@ -33,7 +33,7 @@
           />
           <text-input v-model="form.password"
                       :name="'password'"
-                      :errors="$page.errors.password"
+                      :errors="$page.props.errors.password"
                       type="password"
                       :label="$t('auth.login_password')"
                       :required="true"
@@ -76,8 +76,8 @@ export default {
       form: {
         email: null,
         password: null,
-        errors: [],
       },
+      errors: [],
       loadingState: '',
       errorTemplate: Error,
     };
@@ -91,14 +91,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/login', this.form)
+      axios.post(this.$route('login.attempt'), _.assign({}, this.form, { remember: true}))
         .then(response => {
           this.loadingState = null;
-          this.$inertia.visit('/home');
+          this.$inertia.visit(response.data.redirect);
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data.data;
+          this.errors = error.response.data.data;
         });
     },
   }

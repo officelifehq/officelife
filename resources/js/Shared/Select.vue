@@ -9,7 +9,7 @@
 .style-chooser .vs__search::placeholder,
 .style-chooser .vs__dropdown-toggle,
 .style-chooser .vs__dropdown-menu {
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  border: 0;
 }
 </style>
 
@@ -101,10 +101,6 @@ export default {
       type: Array,
       default: () => [],
     },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
     customLabelKey: {
       type: String,
       default: 'label',
@@ -114,6 +110,7 @@ export default {
   data() {
     return {
       selected: null,
+      errors: [],
     };
   },
 

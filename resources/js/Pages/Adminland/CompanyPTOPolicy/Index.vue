@@ -44,10 +44,10 @@ td, th {
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_pto_policies') }}
@@ -59,7 +59,7 @@ td, th {
       <div class="mw8 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.pto_policies_edit_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.pto_policies_edit_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <p class="lh-copy">
@@ -131,7 +131,7 @@ td, th {
                       <text-input :id="'holidays'"
                                   v-model="form.default_amount_of_allowed_holidays"
                                   :name="'holidays'"
-                                  :errors="$page.errors.holidays"
+                                  :errors="$page.props.errors.holidays"
                                   :label="$t('account.pto_policies_edit_default_amount_of_allowed_holidays')"
                                   :required="true"
                                   :type="'number'"
@@ -144,7 +144,7 @@ td, th {
                       <text-input :id="'sick'"
                                   v-model="form.default_amount_of_sick_days"
                                   :name="'sick'"
-                                  :errors="$page.errors.default_amount_of_sick_days"
+                                  :errors="$page.props.errors.default_amount_of_sick_days"
                                   :label="$t('account.pto_policies_edit_default_amount_of_sick_days')"
                                   :required="true"
                                   :type="'number'"
@@ -157,7 +157,7 @@ td, th {
                       <text-input :id="'pto'"
                                   v-model="form.default_amount_of_pto_days"
                                   :name="'pto'"
-                                  :errors="$page.errors.default_amount_of_pto_days"
+                                  :errors="$page.props.errors.default_amount_of_pto_days"
                                   :label="$t('account.pto_policies_edit_default_amount_of_pto_days')"
                                   :required="true"
                                   :type="'number'"
@@ -355,7 +355,7 @@ export default {
     },
 
     load(ptoPolicy) {
-      axios.get('/' + this.$page.auth.company.id + '/account/ptopolicies/' + ptoPolicy.id + '/getHolidays')
+      axios.get('/' + this.$page.props.auth.company.id + '/account/ptopolicies/' + ptoPolicy.id + '/getHolidays')
         .then(response => {
           this.localHolidays = response.data;
         })
@@ -365,7 +365,7 @@ export default {
     },
 
     update(id) {
-      axios.put('/' + this.$page.auth.company.id + '/account/ptopolicies/' + id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/account/ptopolicies/' + id, this.form)
         .then(response => {
           flash(this.$t('account.pto_policies_update'), 'success');
 

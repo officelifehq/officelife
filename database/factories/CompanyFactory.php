@@ -1,6 +1,8 @@
 <?php
 
 use Faker\Generator as Faker;
+use App\Models\Company\Project;
+use App\Models\Company\ProjectStatus;
 use App\Models\Company\RateYourManagerAnswer;
 
 $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
@@ -10,14 +12,14 @@ $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
 });
 
 $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
     return [
         'user_id' => factory(App\Models\User\User::class)->create()->id,
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'position_id' => function (array $data) {
+        'company_id' => $companyId,
+        'position_id' => function () use ($companyId) {
             return factory(App\Models\Company\Position::class)->create([
-                'company_id' => $data['company_id'],
+                'company_id' => $companyId,
             ])->id;
         },
         'pronoun_id' => function () {
@@ -31,9 +33,9 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'last_name' => 'Schrute',
         'birthdate' => $faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
         'consecutive_worklog_missed' => 0,
-        'employee_status_id' => function (array $data) {
+        'employee_status_id' => function () use ($companyId) {
             return factory(App\Models\Company\EmployeeStatus::class)->create([
-                'company_id' => $data['company_id'],
+                'company_id' => $companyId,
             ])->id;
         },
         'amount_of_allowed_holidays' => 30,
@@ -448,5 +450,65 @@ $factory->define(App\Models\Company\OneOnOneNote::class, function () {
             return factory(App\Models\Company\OneOnOneEntry::class)->create([])->id;
         },
         'note' => 'what are you doing right now',
+    ];
+});
+
+$factory->define(App\Models\Company\GuessEmployeeGame::class, function () {
+    return [
+        'employee_who_played_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create([])->id;
+        },
+        'employee_to_find_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create([])->id;
+        },
+        'first_other_employee_to_find_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create([])->id;
+        },
+        'second_other_employee_to_find_id' => function () {
+            return factory(App\Models\Company\Employee::class)->create([])->id;
+        },
+    ];
+});
+
+$factory->define(App\Models\Company\Project::class, function () {
+    return [
+        'company_id' => function () {
+            return factory(App\Models\Company\Company::class)->create()->id;
+        },
+        'name' => 'API v3',
+        'code' => '123456',
+        'description' => 'it is going well',
+        'status' => Project::CREATED,
+    ];
+});
+
+$factory->define(App\Models\Company\ProjectLink::class, function () {
+    return [
+        'project_id' => function () {
+            return factory(App\Models\Company\Project::class)->create()->id;
+        },
+        'type' => 'slack',
+        'label' => '#dunder-mifflin',
+        'url' => 'https://slack.com/dunder',
+    ];
+});
+
+$factory->define(App\Models\Company\ProjectStatus::class, function () {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
+    return [
+        'project_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Project::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'author_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'status' => ProjectStatus::ON_TRACK,
+        'title' => 'Title',
+        'description' => 'it is going well',
     ];
 });

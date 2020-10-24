@@ -31,35 +31,33 @@
       </template>
 
       <!-- worklogs -->
-      <template v-show="worklogs.length != 0">
-        <div data-cy="list-worklogs">
-          <ul class="list mv0 pa3">
-            <li v-for="worklog in worklogs.worklogs_collection" :key="worklog.id" class="mb3 relative worklog-item">
-              <template v-if="worklog.worklog_parsed_content">
-                <div class="parsed-content mb1" v-html="worklog.worklog_parsed_content"></div>
-              </template>
-              <template v-else>
-                <div>
-                  <p class="i mt0 mb1">
-                    {{ $t('employee.worklog_no_worklog') }}
-                  </p>
-                </div>
-              </template>
-              <ul class="f7 mb1 list pl0">
-                <li class="di">
-                  {{ worklog.friendly_date }}
-                </li>
-                <li v-if="worklog.morale" class="di">
-                  – {{ worklog.morale }}
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <div v-if="permissions.can_see_work_log_history" class="ph3 pv2 tc f6 bt bb-gray">
-            <inertia-link :href="worklogs.url" data-cy="view-all-worklogs">{{ $t('employee.worklog_view_all') }}</inertia-link>
-          </div>
+      <div v-show="worklogs.length != 0" data-cy="list-worklogs">
+        <ul class="list mv0 pa3">
+          <li v-for="worklog in worklogs.worklogs_collection" :key="worklog.id" class="mb3 relative worklog-item">
+            <template v-if="worklog.worklog_parsed_content">
+              <div class="parsed-content mb1" v-html="worklog.worklog_parsed_content"></div>
+            </template>
+            <template v-else>
+              <div>
+                <p class="i mt0 mb1">
+                  {{ $t('employee.worklog_no_worklog') }}
+                </p>
+              </div>
+            </template>
+            <ul class="f7 mb1 list pl0">
+              <li class="di">
+                {{ worklog.friendly_date }}
+              </li>
+              <li v-if="worklog.morale" class="di">
+                – {{ worklog.morale }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <div v-if="permissions.can_see_work_log_history" class="ph3 pv2 tc f6 bt bb-gray">
+          <inertia-link :href="worklogs.url" data-cy="view-all-worklogs">{{ $t('employee.worklog_view_all') }}</inertia-link>
         </div>
-      </template>
+      </div>
     </div>
   </div>
 </template>

@@ -116,14 +116,16 @@ export default {
       type: Number,
       default: 0,
     },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
     autofocus: {
       type: Boolean,
       default: false,
     }
+  },
+
+  data() {
+    return {
+      errors: [],
+    };
   },
 
   computed: {

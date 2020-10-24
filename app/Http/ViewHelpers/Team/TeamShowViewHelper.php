@@ -78,7 +78,10 @@ class TeamShowViewHelper
      */
     public static function recentShips(Team $team): Collection
     {
-        $ships = $team->ships()->with('employees')->take(3)->get();
+        $ships = $team->ships()->with('employees')
+            ->take(3)
+            ->get();
+
         $shipsCollection = collect([]);
         foreach ($ships as $ship) {
             $employees = $ship->employees;
