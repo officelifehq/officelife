@@ -203,13 +203,10 @@ export default {
       function () {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
-          const self = this;
 
-          axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/search', this.form)
+          axios.post(`/${this.$page.props.auth.company.id}/account/expenses/search`, this.form)
             .then(response => {
-              this.potentialEmployees = _.filter(response.data.data, function(employee) {
-                return _.every(self.localEmployees, e => employee.id !== e.id);
-              });
+              this.potentialEmployees = _.filter(response.data.data, employee => _.every(this.localEmployees, e => employee.id !== e.id));
               this.processingSearch = false;
             })
             .catch(error => {

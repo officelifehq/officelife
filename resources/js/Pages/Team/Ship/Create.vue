@@ -227,13 +227,10 @@ export default {
 
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
-          const self = this;
 
-          axios.post('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships/search', this.form)
+          axios.post(`/${this.$page.props.auth.company.id}/teams/${this.team.id}/ships/search`, this.form)
             .then(response => {
-              this.potentialMembers = _.filter(response.data.data, function(employee) {
-                return _.every(self.form.employees, e => employee.id !== e.id);
-              });
+              this.potentialMembers = _.filter(response.data.data, employee => _.every(this.form.employees, e => employee.id !== e.id));
               this.processingSearch = false;
             })
             .catch(error => {

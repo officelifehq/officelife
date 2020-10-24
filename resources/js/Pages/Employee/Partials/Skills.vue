@@ -194,7 +194,6 @@ export default {
           this.allPossibleEntriesAlreadyChosen = false;
           this.searchResults = [];
           this.foundExactTerm = false;
-          const self = this;
 
           axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/skills/search`, this.form)
             .then(response => {
@@ -203,9 +202,7 @@ export default {
 
               if (response.data.data.length > 0) {
 
-                this.searchResults = _.filter(response.data.data, function(skill) {
-                  return _.every(self.updatedSkills, s => skill.name !== s.name);
-                });
+                this.searchResults = _.filter(response.data.data, skill => _.every(this.updatedSkills, s => skill.name !== s.name));
 
                 // also, find out if we have found exactly the name we were looking for
                 if (this.searchResults.some(skill => skill.name === this.form.searchTerm)) {
