@@ -22,7 +22,7 @@ class UserInvitationControllerTest extends TestCase
         factory(User::class)->create([]);
 
         $employee = factory(Employee::class)->create([
-            'invitation_link' => 'link'
+            'invitation_link' => 'link',
         ]);
 
         $params = [
@@ -32,7 +32,7 @@ class UserInvitationControllerTest extends TestCase
 
         $response = $this->post('invite/employee/link/join', $params);
 
-        $response->assertStatus(200);
+        $response->assertStatus(204);
 
         $employee->refresh();
         $this->assertNotEmpty($employee->invitation_used_at);
@@ -60,7 +60,7 @@ class UserInvitationControllerTest extends TestCase
         ]);
 
         $employee = factory(Employee::class)->create([
-            'invitation_link' => 'link'
+            'invitation_link' => 'link',
         ]);
 
         $params = [
@@ -70,7 +70,7 @@ class UserInvitationControllerTest extends TestCase
 
         $response = $this->post('invite/employee/link/join', $params);
 
-        $response->assertStatus(200);
+        $response->assertStatus(204);
 
         $employee->refresh();
         $this->assertNotEmpty($employee->invitation_used_at);
