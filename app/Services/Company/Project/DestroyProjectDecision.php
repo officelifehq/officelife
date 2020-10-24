@@ -7,7 +7,6 @@ use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectDecision;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class DestroyProjectDecision extends BaseService
 {
@@ -59,10 +58,6 @@ class DestroyProjectDecision extends BaseService
 
         $this->projectDecision = ProjectDecision::where('project_id', $this->data['project_id'])
             ->findOrFail($this->data['project_decision_id']);
-
-        if (! $this->author->isInProject($this->data['project_id'])) {
-            throw new ModelNotFoundException();
-        }
     }
 
     private function destroyDecision(): void

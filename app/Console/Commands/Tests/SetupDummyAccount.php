@@ -31,6 +31,7 @@ use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Project\AddEmployeeToProject;
+use App\Services\Company\Project\CreateProjectDecision;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Services\Company\Adminland\Company\CreateCompany;
@@ -1656,6 +1657,32 @@ class SetupDummyAccount extends Command
             'project_id' => $infinity->id,
             'employee_id' => $this->angela->id,
             'role' => 'Developer',
+        ]);
+
+        // add decisions to the project
+        (new CreateProjectDecision)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'title' => 'Ryan will lead the project in the coming month',
+            'decided_at' => '2019-03-12',
+            'deciders' => [$this->michael->id],
+        ]);
+        (new CreateProjectDecision)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'title' => 'Overtime is permitted',
+            'decided_at' => '2019-05-04',
+            'deciders' => null,
+        ]);
+        (new CreateProjectDecision)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'title' => 'We will hire an agency for the website',
+            'decided_at' => '2019-06-29',
+            'deciders' => [$this->dwight->id, $this->oscar->id],
         ]);
     }
 

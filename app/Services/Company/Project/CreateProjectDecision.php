@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use App\Models\Company\ProjectDecision;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -29,8 +30,8 @@ class CreateProjectDecision extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
             'title' => 'required|string|max:255',
-            'decision' => 'required|string|max:65535',
             'decided_at' => 'nullable|date_format:Y-m-d',
+            'deciders' => 'nullable|array',
         ];
     }
 
@@ -45,6 +46,7 @@ class CreateProjectDecision extends BaseService
         $this->data = $data;
         $this->validate();
         $this->createDecision();
+        $this->attachEmployees();
         $this->log();
 
         return $this->projectDecision;
@@ -61,10 +63,6 @@ class CreateProjectDecision extends BaseService
 
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
-
-        if (! $this->author->isInProject($this->data['project_id'])) {
-            throw new ModelNotFoundException();
-        }
     }
 
     private function createDecision(): void
@@ -73,9 +71,30 @@ class CreateProjectDecision extends BaseService
             'project_id' => $this->data['project_id'],
             'author_id' => $this->data['author_id'],
             'title' => $this->data['title'],
-            'decision' => $this->valueOrNull($this->data, 'decision'),
             'decided_at' => $this->valueOrNow($this->data, 'decided_at'),
         ]);
+    }
+
+    private function attachEmployees(): void
+    {
+        if (! $this->data['deciders']) {
+            return;
+        }
+
+        foreach ($this->data['deciders'] as $key => $employeeId) {
+
+            // make sure the employee exists and is in the company
+            try {
+                $employee = Employee::where('company_id', $this->data['company_id'])
+                    ->findOrFail($employeeId);
+            } catch (ModelNotFoundException $e) {
+                continue;
+            }
+
+            $this->projectDecision->deciders()->syncWithoutDetaching([
+                $employee->id,
+            ]);
+        }
     }
 
     private function log(): void

@@ -25,7 +25,7 @@ class CreateProjectDecisionTable extends Migration
             $table->foreign('author_id')->references('id')->on('employees')->onDelete('set null');
         });
 
-        Schema::create('project_decision_decision_makers', function (Blueprint $table) {
+        Schema::create('project_decision_deciders', function (Blueprint $table) {
             $table->unsignedBigInteger('project_decision_id');
             $table->unsignedBigInteger('employee_id');
             $table->timestamps();

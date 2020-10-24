@@ -22,33 +22,36 @@ class CreateProjectDecisionTest extends TestCase
     public function it_adds_a_decision_to_a_project_as_administrator(): void
     {
         $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $this->executeService($michael, $project);
+        $this->executeService($michael, $dwight, $project);
     }
 
     /** @test */
     public function it_adds_a_decision_to_a_project_as_hr(): void
     {
         $michael = $this->createHR();
+        $dwight = $this->createAnotherEmployee($michael);
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $this->executeService($michael, $project);
+        $this->executeService($michael, $dwight, $project);
     }
 
     /** @test */
     public function it_adds_a_decision_to_a_project_as_normal_user(): void
     {
         $michael = $this->createEmployee();
+        $dwight = $this->createAnotherEmployee($michael);
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $this->executeService($michael, $project);
+        $this->executeService($michael, $dwight, $project);
     }
 
     /** @test */
@@ -66,24 +69,26 @@ class CreateProjectDecisionTest extends TestCase
     public function it_fails_if_the_project_is_not_in_the_company(): void
     {
         $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
         $project = factory(Project::class)->create();
         $project->employees()->attach([$michael->id]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $project);
+        $this->executeService($michael, $dwight, $project);
     }
 
     /** @test */
-    public function it_fails_if_the_author_is_not_part_of_the_project(): void
+    public function it_fails_if_the_decider_is_not_part_of_the_company(): void
     {
         $michael = $this->createAdministrator();
+        $dwight = $this->createEmployee();
         $project = factory(Project::class)->create();
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $project);
+        $this->executeService($michael, $dwight, $project);
     }
 
-    private function executeService(Employee $michael, Project $project): void
+    private function executeService(Employee $michael, Employee $dwight, Project $project): void
     {
         Queue::fake();
 
@@ -92,7 +97,7 @@ class CreateProjectDecisionTest extends TestCase
             'author_id' => $michael->id,
             'project_id' => $project->id,
             'title' => 'email',
-            'decision' => 'https',
+            'deciders' => [$dwight->id],
         ];
 
         $projectDecision = (new CreateProjectDecision)->execute($request);
@@ -101,7 +106,11 @@ class CreateProjectDecisionTest extends TestCase
             'id' => $projectDecision->id,
             'project_id' => $project->id,
             'title' => 'email',
-            'decision' => 'https',
+        ]);
+
+        $this->assertDatabaseHas('project_decision_deciders', [
+            'project_decision_id' => $project->id,
+            'employee_id' => $dwight->id,
         ]);
 
         $this->assertInstanceOf(

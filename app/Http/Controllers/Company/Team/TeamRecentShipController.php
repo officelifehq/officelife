@@ -24,9 +24,8 @@ class TeamRecentShipController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     * @return Response
      */
-    public function index(Request $request, int $companyId, int $teamId): Response
+    public function index(Request $request, int $companyId, int $teamId)
     {
         $company = InstanceHelper::getLoggedCompany();
 

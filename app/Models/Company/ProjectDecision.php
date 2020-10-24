@@ -62,6 +62,6 @@ class ProjectDecision extends Model
      */
     public function deciders()
     {
-        return $this->belongsToMany('App\Models\Company\Employee', 'project_decision_decision_makers', 'employee_id', 'project_decision_id');
+        return $this->belongsToMany('App\Models\Company\Employee', 'project_decision_deciders', 'project_decision_id', 'employee_id');
     }
 }
