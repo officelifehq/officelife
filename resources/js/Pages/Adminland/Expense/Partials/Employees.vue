@@ -71,6 +71,7 @@
 
     <!-- list of employees -->
     <div v-show="localEmployees.length > 0" class="ba bb-gray mt2 br2 employees-list">
+      ici
       <div v-for="employee in localEmployees" :key="employee.id" class="pa2 db bb-gray bb bb-gray-hover" data-cy="employees-list">
         <span class="pl3 db relative team-member">
           <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
@@ -200,34 +201,16 @@ export default {
     },
 
     search: _.debounce(
-      function() {
-
+      function () {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
+          const self = this;
 
           axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/search', this.form)
             .then(response => {
-              let searchResults = response.data.data;
-
-              // filter out the employees that are already in the list of employees
-              // there is probably a much better way to do this, but i don't know how
-              for (let index = 0; index < this.form.employees.length; index++) {
-                const employee = this.form.employees[index];
-                let found = false;
-                let otherIndex = 0;
-
-                for (otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
-                  if (employee.id == searchResults[otherIndex].id) {
-                    found = true;
-                    break;
-                  }
-                }
-
-                if (found == true) {
-                  searchResults.splice(otherIndex, 1);
-                }
-              }
-              this.potentialEmployees = searchResults;
+              this.potentialEmployees = _.filter(response.data.data, function(employee) {
+                return _.every(self.localEmployees, function(s) { return employee.id !== s.id; });
+              });
               this.processingSearch = false;
             })
             .catch(error => {

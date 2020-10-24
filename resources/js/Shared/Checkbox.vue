@@ -54,8 +54,7 @@ export default {
   props: {
     id: {
       type: String,
-      default() {
-      },
+      default: '',
     },
     value: {
       type: Boolean,

@@ -159,9 +159,6 @@ export default {
     };
   },
 
-  created: function() {
-  },
-
   methods: {
     submit(answer, rating) {
       this.loadingState = 'loading';

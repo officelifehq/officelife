@@ -187,41 +187,25 @@ export default {
     },
 
     search: _.debounce(
-      function() {
-
-        if (this.form.searchTerm != '') {
+      function () {
+        if (this.form.searchTerm !== '') {
           this.processingSearch = true;
           this.searchProcessed = false;
           this.allPossibleEntriesAlreadyChosen = false;
           this.searchResults = [];
           this.foundExactTerm = false;
+          const self = this;
 
           axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills/search', this.form)
             .then(response => {
               this.processingSearch = false;
               this.searchProcessed = true;
-              this.searchResults = response.data.data;
 
-              if (this.searchResults.length > 0) {
+              if (response.data.data.length > 0) {
 
-                // filter out the skills that are already in the list of skills
-                // there is probably a much better way to do this, but i don't know how
-                for (let index = 0; index < this.updatedSkills.length; index++) {
-                  const skill = this.updatedSkills[index];
-                  let found = false;
-                  let searchIndex = 0;
-
-                  for (searchIndex = 0; searchIndex < this.searchResults.length; searchIndex++) {
-                    if (skill.name == this.searchResults[searchIndex].name) {
-                      found = true;
-                      break;
-                    }
-                  }
-
-                  if (found == true) {
-                    this.searchResults.splice(searchIndex, 1);
-                  }
-                }
+                this.searchResults = _.filter(response.data.data, function(skill) {
+                  return _.every(self.updatedSkills, function(s) { return skill.name !== s.name; });
+                });
 
                 // also, find out if we have found exactly the name we were looking for
                 if (this.searchResults.some(skill => skill.name === this.form.searchTerm)) {
@@ -245,16 +229,14 @@ export default {
       }, 500),
 
     create(name) {
-      this.form.searchTerm = name;
-
-      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills', this.form)
+      this.searchProcessed = false;
+      this.searchResults = [];
+      this.form.searchTerm = null;
+      this.foundExactTerm = false;
+      this.allPossibleEntriesAlreadyChosen = false;
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills', { searchTerm: name })
         .then(response => {
           this.updatedSkills.push(response.data.data);
-          this.searchProcessed = false;
-          this.searchResults = [];
-          this.form.searchTerm = null;
-          this.foundExactTerm = false;
-          this.allPossibleEntriesAlreadyChosen = false;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
