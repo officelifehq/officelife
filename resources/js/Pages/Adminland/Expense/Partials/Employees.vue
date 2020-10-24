@@ -71,7 +71,6 @@
 
     <!-- list of employees -->
     <div v-show="localEmployees.length > 0" class="ba bb-gray mt2 br2 employees-list">
-      ici
       <div v-for="employee in localEmployees" :key="employee.id" class="pa2 db bb-gray bb bb-gray-hover" data-cy="employees-list">
         <span class="pl3 db relative team-member">
           <img loading="lazy" :src="employee.avatar" class="br-100 absolute avatar" alt="avatar" />
