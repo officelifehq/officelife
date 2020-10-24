@@ -96,6 +96,6 @@ class UserInvitationController extends Controller
         $employee->user_id = $user->id;
         $employee->save();
 
-        new JsonResponse([], 204);
+        return new JsonResponse([], 204);
     }
 }
