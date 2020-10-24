@@ -144,7 +144,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('{employee}/skills', 'Company\\Employee\\EmployeeSkillController')->only([
                 'store', 'destroy',
             ]);
-            Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search');
+            Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search')->name('skills.search');
 
             // worklogs
             Route::get('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('employees.worklogs');
