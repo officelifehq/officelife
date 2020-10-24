@@ -204,7 +204,7 @@ export default {
               if (response.data.data.length > 0) {
 
                 this.searchResults = _.filter(response.data.data, function(skill) {
-                  return _.every(self.updatedSkills, (s) => skill.name !== s.name);
+                  return _.every(self.updatedSkills, s => skill.name !== s.name);
                 });
 
                 // also, find out if we have found exactly the name we were looking for

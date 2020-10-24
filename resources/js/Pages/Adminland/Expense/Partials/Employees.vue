@@ -208,7 +208,7 @@ export default {
           axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/search', this.form)
             .then(response => {
               this.potentialEmployees = _.filter(response.data.data, function(employee) {
-                return _.every(self.localEmployees, (s) => employee.id !== s.id);
+                return _.every(self.localEmployees, s => employee.id !== s.id);
               });
               this.processingSearch = false;
             })
