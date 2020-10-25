@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Project;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
@@ -148,7 +149,7 @@ class ProjectDecisionsController extends Controller
                 'name' => $decider->name,
                 'avatar' => $decider->avatar,
                 'url' => route('employees.show', [
-                    'company' => $company,
+                    'company' => $loggedCompany,
                     'employee' => $decider,
                 ]),
             ]);
@@ -156,13 +157,10 @@ class ProjectDecisionsController extends Controller
 
         return response()->json([
             'data' => [
-                'id' => $decider->id,
-                'name' => $decider->name,
-                'avatar' => $decider->avatar,
-                'url' => route('employees.show', [
-                    'company' => $loggedCompany,
-                    'employee' => $decider,
-                ]),
+                'id' => $decision->id,
+                'title' => $decision->title,
+                'decided_at' => DateHelper::formatDate($decision->decided_at),
+                'deciders' => $decidersCollection,
             ],
         ], 201);
     }

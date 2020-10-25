@@ -283,6 +283,7 @@ export default {
       deleteActionConfirmation: false,
       showDeciders: false,
       potentialMembers: [],
+      processingSearch: false,
       form: {
         title: null,
         searchTerm: null,
