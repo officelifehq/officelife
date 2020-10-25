@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -249,9 +250,9 @@ class Employee extends Model
     /**
      * Get all of the employee's places.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return MorphMany
      */
-    public function places(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function places()
     {
         return $this->morphMany('App\Models\Company\Place', 'placable');
     }
@@ -261,7 +262,7 @@ class Employee extends Model
      *
      * @return HasMany
      */
-    public function dailyLogs(): HasMany
+    public function dailyLogs()
     {
         return $this->hasMany(EmployeeDailyCalendarEntry::class);
     }
@@ -271,7 +272,7 @@ class Employee extends Model
      *
      * @return HasMany
      */
-    public function plannedHolidays(): HasMany
+    public function plannedHolidays()
     {
         return $this->hasMany(EmployeePlannedHoliday::class);
     }
@@ -523,9 +524,9 @@ class Employee extends Model
     /**
      * Get the permission level of the employee.
      *
-     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
+     * @return string
      */
-    public function getPermissionLevel()
+    public function getPermissionLevel(): string
     {
         return trans('app.permission_'.$this->permission_level);
     }
