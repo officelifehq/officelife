@@ -37,7 +37,7 @@ class DashboardExpensesController extends Controller
         $employeeInformation = [
             'id' => $employee->id,
             'dashboard_view' => 'expenses',
-            'is_manager' => $employee->directReports->count() > 0 ? true : false,
+            'is_manager' => $employee->directReports->count() > 0,
             'can_manage_expenses' => $employee->can_manage_expenses,
         ];
 

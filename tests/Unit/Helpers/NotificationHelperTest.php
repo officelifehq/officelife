@@ -197,4 +197,21 @@ class NotificationHelperTest extends TestCase
             $string
         );
     }
+
+    /** @test */
+    public function it_returns_empty_by_default(): void
+    {
+        $notification = factory(Notification::class)->create([
+            'action' => '',
+        ]);
+
+        $string = NotificationHelper::process($notification);
+
+        $this->assertIsString($string);
+
+        $this->assertEquals(
+            '',
+            $string
+        );
+    }
 }

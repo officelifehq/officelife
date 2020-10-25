@@ -13,7 +13,7 @@ class ProjectViewHelper
     /**
      * Array containing the information all the projects in the company.
      *
-     * @param Company
+     * @param Company $company
      * @return array
      */
     public static function index(Company $company): array
@@ -44,8 +44,8 @@ class ProjectViewHelper
      * Array containing the information about the project displayed on the
      * summary page.
      *
-     * @param Project
-     * @param Company
+     * @param Project $project
+     * @param Company $company
      * @return array
      */
     public static function summary(Project $project, Company $company): array
@@ -119,8 +119,7 @@ class ProjectViewHelper
     /**
      * Array containing the information needed to update the project details.
      *
-     * @param Project
-     * @param Company
+     * @param Project $project
      * @return array
      */
     public static function edit(Project $project): array

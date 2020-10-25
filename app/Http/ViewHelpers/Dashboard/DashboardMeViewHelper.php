@@ -54,7 +54,7 @@ class DashboardMeViewHelper
             'title' => $question->title,
             'number_of_answers' => $allAnswers->count(),
             'answers' => $answersCollection,
-            'employee_has_answered' => $answerByEmployee ? true : false,
+            'employee_has_answered' => (bool) $answerByEmployee,
             'answer_by_employee' => $answerByEmployee ? [
                 'body' => $answerByEmployee->body,
             ] : null,

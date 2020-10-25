@@ -19,8 +19,6 @@ class LogHelper
      */
     public static function processAuditLog(AuditLog $log): string
     {
-        $sentence = '';
-
         switch ($log->action) {
             case 'account_created':
                 $sentence = trans('account.log_account_created');
@@ -872,6 +870,9 @@ class LogHelper
                     'project_name' => $log->object->{'project_name'},
                     'title' => $log->object->{'title'},
                 ]);
+
+            default:
+                $sentence = '';
                 break;
         }
 
@@ -887,8 +888,6 @@ class LogHelper
      */
     public static function processEmployeeLog(EmployeeLog $log): string
     {
-        $sentence = '';
-
         switch ($log->action) {
             case 'employee_created':
                 $sentence = trans('account.employee_log_employee_created');
@@ -1313,6 +1312,10 @@ class LogHelper
                     'project_name' => $log->object->{'project_name'},
                 ]);
                 break;
+
+            default:
+                $sentence = '';
+                break;
         }
 
         return $sentence;
@@ -1327,8 +1330,6 @@ class LogHelper
      */
     public static function processTeamLog(TeamLog $log): string
     {
-        $sentence = '';
-
         switch ($log->action) {
             case 'team_created':
                 $sentence = trans('account.team_log_team_created', [
@@ -1428,6 +1429,10 @@ class LogHelper
                 $sentence = trans('account.team_log_ship_destroyed', [
                     'title' => $log->object->{'ship_title'},
                 ]);
+                break;
+
+            default:
+                $sentence = '';
                 break;
         }
 

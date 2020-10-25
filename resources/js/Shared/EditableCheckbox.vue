@@ -134,8 +134,7 @@ export default {
   props: {
     id: {
       type: String,
-      default() {
-      },
+      default: '',
     },
     value: {
       type: Boolean,
@@ -198,7 +197,7 @@ export default {
 
   computed: {
     hasError: function () {
-      return this.errors.length > 0 && this.required ? true : false;
+      return this.errors.length > 0 && this.required;
     }
   },
 

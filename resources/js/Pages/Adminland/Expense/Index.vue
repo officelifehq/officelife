@@ -122,46 +122,6 @@ export default {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
-
-    search: _.debounce(
-      function() {
-
-        if (this.form.searchTerm != '') {
-          this.processingSearch = true;
-
-          axios.post('/' + this.$page.props.auth.company.id + '/expenses/search', this.form)
-            .then(response => {
-              let searchResults = response.data.data;
-
-              // filter out the employees that are already in the list of employees
-              // there is probably a much better way to do this, but i don't know how
-              for (let index = 0; index < this.form.employeeForm.length; index++) {
-                const employee = this.form.employeeForm[index];
-                let found = false;
-                let otherIndex = 0;
-
-                for (otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
-                  if (employee.id == searchResults[otherIndex].id) {
-                    found = true;
-                    break;
-                  }
-                }
-
-                if (found == true) {
-                  searchResults.splice(otherIndex, 1);
-                }
-              }
-              this.potentialEmployees = searchResults;
-              this.processingSearch = false;
-            })
-            .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data));
-              this.processingSearch = false;
-            });
-        } else {
-          this.potentialEmployees = [];
-        }
-      }, 500),
   }
 };
 

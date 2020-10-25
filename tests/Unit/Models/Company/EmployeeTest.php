@@ -439,7 +439,7 @@ class EmployeeTest extends TestCase
 
         $this->assertEquals(
             3,
-            $company->employees()->notLocked()->get()->count()
+            $company->employees()->notLocked()->count()
         );
     }
 
@@ -651,6 +651,7 @@ class EmployeeTest extends TestCase
             'is_active' => true,
         ]);
 
+        $this->assertNotNull($dwight->getCurrentAddress());
         $address = $dwight->getCurrentAddress();
         $this->assertInstanceOf(
             Place::class,

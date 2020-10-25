@@ -109,7 +109,7 @@ class DashboardManagerViewHelper
      * @param Collection $directReports
      * @return SupportCollection|null
      */
-    public static function oneOnOnes(Employee $manager, Collection $directReports): SupportCollection
+    public static function oneOnOnes(Employee $manager, Collection $directReports): ?SupportCollection
     {
         // get the list of employees this manager manages
         $oneOnOnesCollection = collect([]);

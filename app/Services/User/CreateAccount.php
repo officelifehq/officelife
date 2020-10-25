@@ -4,10 +4,8 @@ namespace App\Services\User;
 
 use App\Models\User\User;
 use Illuminate\Support\Str;
-use App\Mail\ConfirmAccount;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 
 class CreateAccount extends BaseService
 {
@@ -65,36 +63,6 @@ class CreateAccount extends BaseService
             'uuid' => $uuid,
         ]);
 
-        $user = $this->generateConfirmationLink($user);
-
-        $this->scheduleConfirmationEmail($user);
-
         return $user;
-    }
-
-    /**
-     * Generate a confirmation link for the user.
-     *
-     * @param User $user
-     *
-     * @return User
-     */
-    private function generateConfirmationLink($user): User
-    {
-        $user->verification_link = Str::uuid()->toString();
-        $user->save();
-
-        return $user;
-    }
-
-    /**
-     * Schedule a confirmation email to be sent.
-     *
-     * @param User $user
-     */
-    private function scheduleConfirmationEmail(User $user): void
-    {
-        Mail::to($user->email)
-            ->queue(new ConfirmAccount($user));
     }
 }

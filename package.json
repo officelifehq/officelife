@@ -19,7 +19,9 @@
         "lint:fix": "yarn lint --fix & yarn lint:cypress --fix",
         "cypress": "mv .env .env2 && mv .env.cypress.local .env && yarn run e2e-gui",
         "normal": "mv .env .env.cypress.local && mv .env2 .env",
-        "test": "DB_CONNECTION=testing php artisan migrate:fresh && DB_CONNECTION=testing php artisan db:seed",
+        "pretest": "DB_CONNECTION=testing php artisan migrate:fresh && DB_CONNECTION=testing php artisan db:seed",
+        "test": "vendor/bin/phpunit",
+        "posttest": "vendor/bin/phpstan analyse",
         "local": "php artisan migrate:fresh && php artisan db:seed",
         "composer update": "COMPOSER_MEMORY_LIMIT=-1 composer update"
     },
