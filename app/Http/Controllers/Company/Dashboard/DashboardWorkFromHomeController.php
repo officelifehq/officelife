@@ -22,7 +22,7 @@ class DashboardWorkFromHomeController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'company_id' => $company->id,
@@ -30,7 +30,7 @@ class DashboardWorkFromHomeController extends Controller
             'work_from_home' => $request->input('content'),
         ];
 
-        (new UpdateWorkFromHomeInformation)->execute($request);
+        (new UpdateWorkFromHomeInformation)->execute($data);
 
         return response()->json([
             'data' => true,

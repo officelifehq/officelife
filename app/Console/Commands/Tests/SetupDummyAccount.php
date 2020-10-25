@@ -730,7 +730,7 @@ class SetupDummyAccount extends Command
         $this->debra->save();
     }
 
-    private function addSpecificDataToEmployee(Employee $employee, string $description = null, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
+    private function addSpecificDataToEmployee(Employee $employee, ?string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
     {
         (new AddEmployeeToTeam)->execute([
             'company_id' => $this->company->id,

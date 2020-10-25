@@ -82,13 +82,13 @@ class ProjectController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
         ];
 
-        $project = (new StartProject)->execute($request);
+        $project = (new StartProject)->execute($data);
 
         return response()->json([
             'status' => $project->status,
@@ -108,13 +108,13 @@ class ProjectController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
         ];
 
-        $project = (new PauseProject)->execute($request);
+        $project = (new PauseProject)->execute($data);
 
         return response()->json([
             'status' => $project->status,
@@ -134,13 +134,13 @@ class ProjectController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
         ];
 
-        $project = (new CloseProject)->execute($request);
+        $project = (new CloseProject)->execute($data);
 
         return response()->json([
             'status' => $project->status,
@@ -179,7 +179,7 @@ class ProjectController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
@@ -189,7 +189,7 @@ class ProjectController extends Controller
         ];
 
         try {
-            $project = (new UpdateProjectInformation)->execute($request);
+            $project = (new UpdateProjectInformation)->execute($data);
         } catch (ProjectCodeAlreadyExistException $e) {
             return response()->json([
                 'message' => trans('app.error_project_code_already_exists'),
@@ -220,14 +220,14 @@ class ProjectController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
             'description' => $request->input('description'),
         ];
 
-        $project = (new UpdateProjectDescription)->execute($request);
+        $project = (new UpdateProjectDescription)->execute($data);
 
         return response()->json([
             'data' => [
@@ -465,7 +465,7 @@ class ProjectController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_lead_id' => $request->input('projectLead') ? $request->input('projectLead')['id'] : null,
@@ -476,7 +476,7 @@ class ProjectController extends Controller
         ];
 
         try {
-            $project = (new CreateProject)->execute($request);
+            $project = (new CreateProject)->execute($data);
         } catch (ProjectCodeAlreadyExistException $e) {
             return response()->json([
                 'message' => trans('app.error_project_code_already_exists'),
@@ -507,7 +507,7 @@ class ProjectController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
@@ -516,7 +516,7 @@ class ProjectController extends Controller
             'url' => $request->input('url'),
         ];
 
-        $link = (new CreateProjectLink)->execute($request);
+        $link = (new CreateProjectLink)->execute($data);
 
         return response()->json([
             'data' => [
@@ -542,14 +542,14 @@ class ProjectController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
             'project_link_id' => $linkId,
         ];
 
-        (new DestroyProjectLink)->execute($request);
+        (new DestroyProjectLink)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -599,7 +599,7 @@ class ProjectController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
@@ -608,7 +608,7 @@ class ProjectController extends Controller
             'description' => $request->input('description'),
         ];
 
-        (new CreateProjectStatus)->execute($request);
+        (new CreateProjectStatus)->execute($data);
 
         return response()->json([
             'data' => [

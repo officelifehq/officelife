@@ -77,14 +77,14 @@ class SkillController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'skill_id' => $skillId,
             'name' => $request->input('name'),
         ];
 
-        (new UpdateSkill)->execute($request);
+        (new UpdateSkill)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -103,13 +103,13 @@ class SkillController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'skill_id' => $skillId,
         ];
 
-        (new DestroySkill)->execute($request);
+        (new DestroySkill)->execute($data);
 
         return response()->json([
             'data' => true,

@@ -89,7 +89,7 @@ class TeamNewsController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'team_id' => $teamId,
@@ -97,7 +97,7 @@ class TeamNewsController extends Controller
             'content' => $request->input('content'),
         ];
 
-        $news = (new CreateTeamNews)->execute($request);
+        $news = (new CreateTeamNews)->execute($data);
 
         return response()->json([
             'data' => $news->toObject(),
@@ -140,7 +140,7 @@ class TeamNewsController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'team_news_id' => $newsId,
@@ -148,7 +148,7 @@ class TeamNewsController extends Controller
             'content' => $request->input('content'),
         ];
 
-        $news = (new UpdateTeamNews)->execute($request);
+        $news = (new UpdateTeamNews)->execute($data);
 
         return response()->json([
             'data' => $news,
@@ -168,13 +168,13 @@ class TeamNewsController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'team_news_id' => $newsId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyTeamNews)->execute($request);
+        (new DestroyTeamNews)->execute($data);
 
         return response()->json([
             'data' => true,

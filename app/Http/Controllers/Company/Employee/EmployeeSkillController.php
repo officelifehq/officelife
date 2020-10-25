@@ -66,14 +66,14 @@ class EmployeeSkillController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'name' => $request->input('searchTerm'),
         ];
 
-        $skill = (new AttachEmployeeToSkill)->execute($request);
+        $skill = (new AttachEmployeeToSkill)->execute($data);
 
         return response()->json([
             'data' => [
@@ -101,14 +101,14 @@ class EmployeeSkillController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'skill_id' => $skillId,
         ];
 
-        (new RemoveSkillFromEmployee)->execute($request);
+        (new RemoveSkillFromEmployee)->execute($data);
 
         return response()->json([
             'data' => true,

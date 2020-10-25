@@ -26,14 +26,14 @@ class EmployeeTeamController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'team_id' => $request->input('id'),
         ];
 
-        $employee = (new AddEmployeeToTeam)->execute($request);
+        $employee = (new AddEmployeeToTeam)->execute($data);
 
         return EmployeeShowViewHelper::teams($employee->teams, $employee);
     }
@@ -51,14 +51,14 @@ class EmployeeTeamController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'team_id' => $teamId,
         ];
 
-        $employee = (new RemoveEmployeeFromTeam)->execute($request);
+        $employee = (new RemoveEmployeeFromTeam)->execute($data);
 
         return EmployeeShowViewHelper::teams($employee->teams, $employee);
     }
