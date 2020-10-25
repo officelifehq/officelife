@@ -44,9 +44,7 @@ class EmployeeSurveysViewHelper
         foreach ($allSurveys as $survey) {
             $totalNumberOfPotentialResponders = $survey->answers->count();
 
-            // counting results about answers, if available
-            $results = [];
-
+            // counting results about answers
             $bad = $survey->answers->filter(function ($answer) {
                 return $answer->rating == RateYourManagerAnswer::BAD;
             });
@@ -111,24 +109,21 @@ class EmployeeSurveysViewHelper
             ->with('answers.employee')
             ->findOrFail($surveyId);
 
-        // counting results about answers, if available
-        $results = [];
-        if ($survey->answers->count() > 0) {
-            $bad = $survey->answers->filter(function ($answer) {
-                return $answer->rating == RateYourManagerAnswer::BAD;
-            });
-            $average = $survey->answers->filter(function ($answer) {
-                return $answer->rating == RateYourManagerAnswer::AVERAGE;
-            });
-            $good = $survey->answers->filter(function ($answer) {
-                return $answer->rating == RateYourManagerAnswer::GOOD;
-            });
-            $results = [
-                'bad' => $bad->count(),
-                'average' => $average->count(),
-                'good' => $good->count(),
-            ];
-        }
+        // counting results about answers
+        $bad = $survey->answers->filter(function ($answer) {
+            return $answer->rating == RateYourManagerAnswer::BAD;
+        });
+        $average = $survey->answers->filter(function ($answer) {
+            return $answer->rating == RateYourManagerAnswer::AVERAGE;
+        });
+        $good = $survey->answers->filter(function ($answer) {
+            return $answer->rating == RateYourManagerAnswer::GOOD;
+        });
+        $results = [
+            'bad' => $bad->count(),
+            'average' => $average->count(),
+            'good' => $good->count(),
+        ];
 
         // employees
         $directReportsCollection = collect([]);
