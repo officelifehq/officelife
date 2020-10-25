@@ -56,6 +56,9 @@ class SetHiringDate extends BaseService
     {
         try {
             $carbonObject = Carbon::createSafe($data['year'], $data['month'], $data['day']);
+            if ($carbonObject === false) {
+                throw new InvalidDateException('', '');
+            }
         } catch (InvalidDateException $e) {
             throw new \Exception(trans('app.error_invalid_date'));
         }

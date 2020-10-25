@@ -17,6 +17,8 @@ class CalculateTimeOffBalanceForAllEmployees extends Command
 
     /**
      * The date the calculation is made.
+     *
+     * @var string
      */
     protected $date;
 

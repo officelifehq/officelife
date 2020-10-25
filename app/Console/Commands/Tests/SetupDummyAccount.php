@@ -139,7 +139,7 @@ class SetupDummyAccount extends Command
     protected Question $questionDoYouHaveAnyPersonalGoalsThatYouWouldLikeToShareWithUsThisWeek;
     protected Question $questionWhatIsTheBestTVShowOfThisYearSoFar;
 
-    protected $faker;
+    protected ?\Faker\Generator $faker;
 
     /**
      * The name and signature of the console command.
