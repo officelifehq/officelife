@@ -50,12 +50,12 @@ class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChangesTest exten
 
         $this->assertEquals(
             1,
-            $michael->company->expenses()->where('status', Expense::AWAITING_MANAGER_APPROVAL)->get()->count()
+            $michael->company->expenses()->where('status', Expense::AWAITING_MANAGER_APPROVAL)->count()
         );
 
         $this->assertEquals(
             2,
-            $michael->company->expenses()->where('status', Expense::AWAITING_ACCOUTING_APPROVAL)->get()->count()
+            $michael->company->expenses()->where('status', Expense::AWAITING_ACCOUTING_APPROVAL)->count()
         );
     }
 }
