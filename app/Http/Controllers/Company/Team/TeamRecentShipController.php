@@ -132,7 +132,7 @@ class TeamRecentShipController extends Controller
             }
         }
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'team_id' => $teamId,
@@ -141,7 +141,7 @@ class TeamRecentShipController extends Controller
             'employees' => $employees,
         ];
 
-        (new CreateShip)->execute($request);
+        (new CreateShip)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -203,13 +203,13 @@ class TeamRecentShipController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'ship_id' => $shipId,
         ];
 
-        (new DestroyShip)->execute($request);
+        (new DestroyShip)->execute($data);
 
         return response()->json([
             'data' => true,

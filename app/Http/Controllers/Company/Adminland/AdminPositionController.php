@@ -45,13 +45,13 @@ class AdminPositionController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'title' => $request->input('title'),
         ];
 
-        $position = (new CreatePosition)->execute($request);
+        $position = (new CreatePosition)->execute($data);
 
         return response()->json([
             'data' => $position->toObject(),
@@ -70,14 +70,14 @@ class AdminPositionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'position_id' => $positionId,
             'title' => $request->input('title'),
         ];
 
-        $position = (new UpdatePosition)->execute($request);
+        $position = (new UpdatePosition)->execute($data);
 
         return response()->json([
             'data' => $position->toObject(),
@@ -96,13 +96,13 @@ class AdminPositionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'position_id' => $positionId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyPosition)->execute($request);
+        (new DestroyPosition)->execute($data);
 
         return response()->json([
             'data' => true,

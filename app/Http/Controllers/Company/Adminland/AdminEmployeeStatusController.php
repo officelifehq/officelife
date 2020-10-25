@@ -45,13 +45,13 @@ class AdminEmployeeStatusController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
         ];
 
-        $employeeStatus = (new CreateEmployeeStatus)->execute($request);
+        $employeeStatus = (new CreateEmployeeStatus)->execute($data);
 
         return response()->json([
             'data' => $employeeStatus->toObject(),
@@ -70,14 +70,14 @@ class AdminEmployeeStatusController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_status_id' => $employeeStatusId,
             'name' => $request->input('name'),
         ];
 
-        $employeeStatus = (new UpdateEmployeeStatus)->execute($request);
+        $employeeStatus = (new UpdateEmployeeStatus)->execute($data);
 
         return response()->json([
             'data' => $employeeStatus->toObject(),
@@ -96,13 +96,13 @@ class AdminEmployeeStatusController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'employee_status_id' => $employeeStatusId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyEmployeeStatus)->execute($request);
+        (new DestroyEmployeeStatus)->execute($data);
 
         return response()->json([
             'data' => true,
