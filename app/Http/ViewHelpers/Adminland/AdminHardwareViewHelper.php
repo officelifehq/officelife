@@ -188,7 +188,7 @@ class AdminHardwareViewHelper
 
         // now filter by hardware id
         $logs = $logs->filter(function ($log) use ($hardware) {
-            return strpos($log->objects, '"hardware_id":'.$hardware->id) != false;
+            return strpos($log->objects, '"hardware_id":'.$hardware->id) !== false;
         });
 
         // now preparing the sentences

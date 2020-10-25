@@ -109,10 +109,10 @@ export default {
       // check whether the actions are "complete" to prevent submitting a wrong
       // json to the backend
       var isCompleteYet = true;
-      for (let index = 0; index < this.localActions.length; index++) {
-        const localAction = this.localActions[index];
-        if (localAction.complete == false || !localAction.complete) {
+      for (let localAction of this.localActions) {
+        if (localAction.complete === false || !localAction.complete) {
           isCompleteYet = false;
+          break;
         }
       }
 

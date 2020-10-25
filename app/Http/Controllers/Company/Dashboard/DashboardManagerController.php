@@ -147,7 +147,7 @@ class DashboardManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $expense = $this->canAccess($company, $expenseId, $employee);
+        $this->canAccess($company, $expenseId, $employee);
 
         $data = [
             'company_id' => $company->id,
@@ -175,7 +175,7 @@ class DashboardManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $expense = $this->canAccess($company, $expenseId, $employee);
+        $this->canAccess($company, $expenseId, $employee);
 
         $data = [
             'company_id' => $company->id,
