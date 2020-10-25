@@ -561,7 +561,6 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
-     * @param int $linkId
      */
     public function createStatus(Request $request, int $companyId, int $projectId)
     {

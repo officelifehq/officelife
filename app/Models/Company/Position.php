@@ -64,7 +64,7 @@ class Position extends Model
     /**
      * Get the employee records associated with the position.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function employees()
     {

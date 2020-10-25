@@ -70,7 +70,7 @@ class Team extends Model
     /**
      * Get the employee records associated with the team.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function employees()
     {
@@ -90,7 +90,7 @@ class Team extends Model
     /**
      * Get the team useful link records associated with the team.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function links()
     {
@@ -100,7 +100,7 @@ class Team extends Model
     /**
      * Get the team news records associated with the team.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function news()
     {
@@ -130,7 +130,7 @@ class Team extends Model
     /**
      * Get the project records associated with the team.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function projects()
     {

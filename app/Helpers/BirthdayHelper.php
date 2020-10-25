@@ -28,7 +28,7 @@ class BirthdayHelper
     /**
      * Check if the birthdate will happen in the given range.
      *
-     * @param Carbon $startDate
+     * @param Carbon $birthdate
      * @param Carbon $minDate
      * @param Carbon $maxDate
      * @return bool

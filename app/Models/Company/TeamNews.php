@@ -41,7 +41,7 @@ class TeamNews extends Model
     /**
      * Get the team record associated with the team news.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function team()
     {
@@ -50,6 +50,8 @@ class TeamNews extends Model
 
     /**
      * Get the employee record associated with the team news.
+     *
+     * @return BelongsTo
      */
     public function author()
     {

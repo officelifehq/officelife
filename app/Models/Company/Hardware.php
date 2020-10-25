@@ -73,7 +73,7 @@ class Hardware extends Model
     /**
      * Get the employee records associated with the hardware.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function employee()
     {

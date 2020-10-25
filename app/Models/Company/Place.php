@@ -4,6 +4,8 @@ namespace App\Models\Company;
 
 use App\Helpers\MapHelper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Place extends Model
 {
@@ -36,6 +38,8 @@ class Place extends Model
 
     /**
      * Get the owning placable model.
+     *
+     * @return MorphTo
      */
     public function placable()
     {
@@ -44,6 +48,8 @@ class Place extends Model
 
     /**
      * Get the country record associated with the place.
+     *
+     * @return BelongsTo
      */
     public function country()
     {

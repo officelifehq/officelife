@@ -5,6 +5,10 @@ namespace App\Console\Commands\Helpers;
 use RuntimeException;
 use Tests\Helpers\CommandCallerFake;
 
+/**
+ * @method static void exec(\Illuminate\Console\Command $command, string $message, string $commandline)
+ * @method static void artisan(\Illuminate\Console\Command $command, string $message, string $commandline, array $arguments)
+ */
 class Command
 {
     /**

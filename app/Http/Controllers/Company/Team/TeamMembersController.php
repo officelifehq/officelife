@@ -35,6 +35,8 @@ class TeamMembersController extends Controller
         }
 
         $search = $request->input('searchTerm');
+
+        /** @var \Illuminate\Pagination\LengthAwarePaginator */
         $potentialEmployees = Employee::search(
             $search,
             $companyId,
