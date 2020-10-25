@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Unit\Controllers;
+namespace Tests\Unit\Controllers\Auth;
 
 use Tests\TestCase;
 use App\Models\User\User;
-use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

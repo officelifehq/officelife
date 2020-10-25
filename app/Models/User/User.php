@@ -66,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /**
      * Get the employee records associated with the user.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function employees()
     {

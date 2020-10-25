@@ -3,7 +3,9 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Project extends Model
 {
@@ -79,7 +81,7 @@ class Project extends Model
     /**
      * Get the employee records associated with the project.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function employees()
     {
@@ -89,7 +91,7 @@ class Project extends Model
     /**
      * Get the team records associated with the project.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function teams()
     {
@@ -99,7 +101,7 @@ class Project extends Model
     /**
      * Get the employee records associated with the project.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function links()
     {
@@ -109,7 +111,7 @@ class Project extends Model
     /**
      * Get the project status associated with the project.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function statuses()
     {

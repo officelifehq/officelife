@@ -161,8 +161,6 @@ class AdminHardwareViewHelperTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'id' => $androidPhone->id,
-                'name' => 'iOS phone',
                 'id' => $iosPhone->id,
                 'name' => 'iOS phone',
                 'employee' => [

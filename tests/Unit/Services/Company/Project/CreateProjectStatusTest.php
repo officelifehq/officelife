@@ -110,7 +110,7 @@ class CreateProjectStatusTest extends TestCase
             $projectStatus
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $projectStatus) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project) {
             return $job->auditLog['action'] === 'project_status_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
