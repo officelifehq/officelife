@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OneOnOneEntry extends Model
@@ -78,7 +79,7 @@ class OneOnOneEntry extends Model
     /**
      * Get the one on one talking point associated with the entry.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function talkingPoints()
     {
@@ -88,7 +89,7 @@ class OneOnOneEntry extends Model
     /**
      * Get the one on one action items associated with the entry.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function actionItems()
     {
@@ -98,7 +99,7 @@ class OneOnOneEntry extends Model
     /**
      * Get the one on one action items associated with the entry.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function notes()
     {

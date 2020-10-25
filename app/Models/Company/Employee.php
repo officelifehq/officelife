@@ -129,7 +129,7 @@ class Employee extends Model
     /**
      * Get the Company record associated with the company.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function company()
     {
@@ -139,7 +139,7 @@ class Employee extends Model
     /**
      * Get the teams record associated with the employee.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function teams()
     {
@@ -149,7 +149,7 @@ class Employee extends Model
     /**
      * Get all the employees this employee reports to (ie the managers).
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function managers()
     {
@@ -159,7 +159,7 @@ class Employee extends Model
     /**
      * Get all the employees this employee manages.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function directReports()
     {
@@ -179,7 +179,7 @@ class Employee extends Model
     /**
      * Get the position record associated with the employee.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function position()
     {
@@ -209,7 +209,7 @@ class Employee extends Model
     /**
      * Get the employee status associated with the employee.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function status()
     {
@@ -273,7 +273,7 @@ class Employee extends Model
     /**
      * Get the pronoun record associated with the employee.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function pronoun()
     {
@@ -323,7 +323,7 @@ class Employee extends Model
     /**
      * Get the ship records associated with the employee.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function ships()
     {
@@ -333,7 +333,7 @@ class Employee extends Model
     /**
      * Get the skill records associated with the employee.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function skills()
     {
@@ -343,7 +343,7 @@ class Employee extends Model
     /**
      * Get the expense records associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function expenses()
     {
@@ -354,7 +354,7 @@ class Employee extends Model
      * Get the expense records approved by this employee as a manager
      * associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function approvedExpenses()
     {
@@ -365,7 +365,7 @@ class Employee extends Model
      * Get the expense records approved by this employee as someone in the
      * accounting department associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function approvedAccountingExpenses()
     {
@@ -375,7 +375,7 @@ class Employee extends Model
     /**
      * Get the current active surveys about how his manager is doing.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function rateYourManagerSurveys()
     {
@@ -385,7 +385,7 @@ class Employee extends Model
     /**
      * Get the current active surveys about how his manager is doing.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function rateYourManagerAnswers()
     {
@@ -395,7 +395,7 @@ class Employee extends Model
     /**
      * Get the one on one entries associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function oneOnOneEntriesAsEmployee()
     {
@@ -405,7 +405,7 @@ class Employee extends Model
     /**
      * Get the one on one entries associated with the employee being a manager.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function oneOnOneEntriesAsManager()
     {
@@ -415,7 +415,7 @@ class Employee extends Model
     /**
      * Get the Guess Employee Games records associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function gamesAsPlayer()
     {
@@ -425,7 +425,7 @@ class Employee extends Model
     /**
      * Get the Guess Employee Games records associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function gamesAsPersonToFind()
     {
@@ -435,7 +435,7 @@ class Employee extends Model
     /**
      * Get the project records associated with the employee.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function projects()
     {
@@ -445,7 +445,7 @@ class Employee extends Model
     /**
      * Get the project records as lead associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function projectsAsLead()
     {

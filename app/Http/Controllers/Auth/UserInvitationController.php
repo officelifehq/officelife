@@ -8,6 +8,7 @@ use Inertia\Response;
 use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Models\Company\Employee;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserInvitationController extends Controller
 {
+
     /**
      * Validates the invitation page.
      *
@@ -61,29 +63,39 @@ class UserInvitationController extends Controller
      */
     public function join(Request $request, string $invitationLink)
     {
-        $email = $request->input('email');
-        $password = $request->input('password');
+        if (($user = Auth::user()) === null) {
+            $email = $request->input('email');
+            $password = $request->input('password');
 
-        $requestInputs = [
-            'email' => $email,
-            'password' => $password,
-        ];
+            $requestInputs = [
+                'email' => $email,
+                'password' => $password,
+            ];
 
-        try {
-            User::where('email', $email)->firstOrFail();
-        } catch (ModelNotFoundException $e) {
-            // email doesn't exist yet, create the account
-            (new CreateAccount)->execute($requestInputs);
+            try {
+                $user = User::where('email', $email)->firstOrFail();
+                // The user already exists, and should log before...
+                // TODO
+            } catch (ModelNotFoundException $e) {
+                // email doesn't exist yet, create the account
+                $user = (new CreateAccount)->execute($requestInputs);
+
+                $user->sendEmailVerificationNotification();
+
+                /** @var \Illuminate\Contracts\Auth\StatefulGuard */
+                $guard = Auth::guard();
+                $guard->login($user);
+            }
         }
-
-        Auth::attempt($requestInputs);
 
         // mark the link as used
         $employee = Employee::where('invitation_link', $invitationLink)
             ->firstOrFail();
 
         $employee->invitation_used_at = Carbon::now();
-        $employee->user_id = Auth::user()->id;
+        $employee->user_id = $user->id;
         $employee->save();
+
+        return new JsonResponse([], 204);
     }
 }

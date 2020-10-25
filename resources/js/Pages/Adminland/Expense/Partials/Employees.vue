@@ -200,34 +200,13 @@ export default {
     },
 
     search: _.debounce(
-      function() {
-
+      function () {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.props.auth.company.id + '/account/expenses/search', this.form)
+          axios.post(`/${this.$page.props.auth.company.id}/account/expenses/search`, this.form)
             .then(response => {
-              let searchResults = response.data.data;
-
-              // filter out the employees that are already in the list of employees
-              // there is probably a much better way to do this, but i don't know how
-              for (let index = 0; index < this.form.employees.length; index++) {
-                const employee = this.form.employees[index];
-                let found = false;
-                let otherIndex = 0;
-
-                for (otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
-                  if (employee.id == searchResults[otherIndex].id) {
-                    found = true;
-                    break;
-                  }
-                }
-
-                if (found == true) {
-                  searchResults.splice(otherIndex, 1);
-                }
-              }
-              this.potentialEmployees = searchResults;
+              this.potentialEmployees = _.filter(response.data.data, employee => _.every(this.localEmployees, e => employee.id !== e.id));
               this.processingSearch = false;
             })
             .catch(error => {

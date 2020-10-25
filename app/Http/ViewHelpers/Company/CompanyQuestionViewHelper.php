@@ -3,7 +3,6 @@
 namespace App\Http\ViewHelpers\Company;
 
 use App\Helpers\DateHelper;
-use App\Models\Company\Team;
 use App\Models\Company\Answer;
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
@@ -77,8 +76,8 @@ class CompanyQuestionViewHelper
                 'id' => $answer->answer_id,
                 'body' => $answer->body,
                 'employee' => [
-                    'name' => $answer->employee->name,
-                    'avatar' => $answer->employee->avatar,
+                    'name' => $answer->employee ? $answer->employee->name : $answer->name,
+                    'avatar' => $answer->employee ? $answer->employee->avatar : $answer->avatar,
                 ],
             ]);
         }
@@ -88,7 +87,7 @@ class CompanyQuestionViewHelper
             'title' => $question->title,
             'number_of_answers' => $answers->count(),
             'answers' => $answerCollection,
-            'employee_has_answered' => $detailOfAnswer ? true : false,
+            'employee_has_answered' => (bool) $detailOfAnswer,
             'answer_by_employee' => $detailOfAnswer,
             'date' => $date,
             'url' => route('company.questions.show', [
@@ -118,52 +117,6 @@ class CompanyQuestionViewHelper
         }
 
         return $teamsCollection;
-    }
-
-    /**
-     * Detail of a question, along with all the answers only written by
-     * employees in a team.
-     *
-     * @param Question $question
-     * @param mixed $answers
-     * @param Employee $employee
-     *
-     * @return array|null
-     */
-    public static function allAnswers(Question $question, $answers, Employee $employee): ?array
-    {
-        $answerByEmployee = QuestionHelper::getAnswer($question, $employee);
-
-        $date = self::getInformationAboutActivationDate($question);
-
-        // preparing the array of answers
-        $answerCollection = collect([]);
-        foreach ($answers as $answer) {
-            $answerCollection->push([
-                'id' => $answer->answer_id,
-                'body' => $answer->body,
-                'employee' => [
-                    'name' => $answer->name,
-                    'avatar' => $answer->avatar,
-                ],
-            ]);
-        }
-
-        $array = [
-            'id' => $question->id,
-            'title' => $question->title,
-            'number_of_answers' => $answers->count(),
-            'answers' => $answerCollection,
-            'employee_has_answered' => $answerByEmployee ? true : false,
-            'answer_by_employee' => $answerByEmployee,
-            'date' => $date,
-            'url' => route('company.questions.show', [
-                'company' => $employee->company,
-                'question' => $question,
-            ]),
-        ];
-
-        return $array;
     }
 
     /**

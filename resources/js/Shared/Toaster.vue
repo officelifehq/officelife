@@ -63,7 +63,7 @@ export default {
       this.flash();
     }
 
-    let self = this;
+    const self = this;
 
     window.events.$on(
       'flash', data => self.flash(data)
@@ -77,7 +77,7 @@ export default {
         this.levelClass = 'is-' + data.level;
       }
 
-      let self = this;
+      const self = this;
 
       setTimeout(() => {
         self.isOpen = true;
@@ -87,7 +87,7 @@ export default {
     },
 
     hide() {
-      let self = this;
+      const self = this;
 
       setTimeout(() => {
         self.isOpen = false;

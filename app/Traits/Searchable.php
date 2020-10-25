@@ -21,10 +21,10 @@ trait Searchable
      *
      * @return LengthAwarePaginator|null
      */
-    public function scopeSearch(Builder $builder, $needle, $companyId, $limitPerPage, $sortOrder, $whereCondition = null, $eagerLoadModel = null)
+    public function scopeSearch(Builder $builder, $needle, $companyId, $limitPerPage, $sortOrder, $whereCondition = null, $eagerLoadModel = null): ?LengthAwarePaginator
     {
         if ($this->searchableColumns == null) {
-            return;
+            return null;
         }
 
         $queryString = SearchHelper::buildQuery($this->searchableColumns, $needle);

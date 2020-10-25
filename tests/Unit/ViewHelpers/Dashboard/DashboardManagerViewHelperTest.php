@@ -144,9 +144,9 @@ class DashboardManagerViewHelperTest extends TestCase
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
-                        'id' => OneOnOneEntry::all()->first()->id,
+                        'id' => OneOnOneEntry::first()->id,
                         'happened_at' => '2018-01-01',
-                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->first()->id,
+                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::first()->id,
                     ],
                 ],
                 1 => [
@@ -156,9 +156,9 @@ class DashboardManagerViewHelperTest extends TestCase
                     'position' => $jim->position->title,
                     'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                     'entry' => [
-                        'id' => OneOnOneEntry::all()->last()->id,
+                        'id' => OneOnOneEntry::orderBy('id', 'desc')->first()->id,
                         'happened_at' => '2018-01-01',
-                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->last()->id,
+                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::orderBy('id', 'desc')->first()->id,
                     ],
                 ],
             ],

@@ -11,7 +11,6 @@ class RandomHelper
      */
     public static function getNumber(): int
     {
-        $number = rand(10000000, 10000000000);
-        return $number;
+        return random_int(10000000, 10000000000);
     }
 }

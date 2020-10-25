@@ -71,7 +71,7 @@ class AdminExpenseController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @param mixed $expenseCategoryId
+     * @param int $expenseCategoryId
      * @return JsonResponse
      */
     public function update(Request $request, int $companyId, int $expenseCategoryId): JsonResponse

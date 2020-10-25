@@ -95,23 +95,18 @@ class CreateTimeOff extends BaseService
      * @param Employee $employee
      * @param Carbon   $date
      *
-     * @return EmployeePlannedHoliday
+     * @return EmployeePlannedHoliday|null
      */
-    private function getExistingPlannedHoliday(Employee $employee, Carbon $date)
+    private function getExistingPlannedHoliday(Employee $employee, Carbon $date): ?EmployeePlannedHoliday
     {
-        $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
-            ->where('planned_date', $date->format('Y-m-d 00:00:00'))
-            ->count();
+        $holidays = EmployeePlannedHoliday::where('employee_id', $employee->id)
+            ->where('planned_date', $date->format('Y-m-d 00:00:00'));
 
-        if ($holiday > 1) {
+        if ($holidays->count() > 1) {
             throw new Exception();
         }
 
-        $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
-            ->where('planned_date', $date->format('Y-m-d 00:00:00'))
-            ->first();
-
-        return $holiday;
+        return $holidays->first();
     }
 
     /**

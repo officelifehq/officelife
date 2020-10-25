@@ -43,7 +43,7 @@ class EmployeeOneOnOneViewHelper
     /**
      * Array containing all the one on ones done.
      *
-     * @param Collection $expenses
+     * @param Collection $oneOnOnes
      * @param Employee $employee
      * @return SupportCollection
      */

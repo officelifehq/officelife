@@ -187,41 +187,22 @@ export default {
     },
 
     search: _.debounce(
-      function() {
-
-        if (this.form.searchTerm != '') {
+      function () {
+        if (this.form.searchTerm !== '') {
           this.processingSearch = true;
           this.searchProcessed = false;
           this.allPossibleEntriesAlreadyChosen = false;
           this.searchResults = [];
           this.foundExactTerm = false;
 
-          axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills/search', this.form)
+          axios.post(this.$route('skills.search', [this.$page.props.auth.company.id, this.employee.id]), this.form)
             .then(response => {
               this.processingSearch = false;
               this.searchProcessed = true;
-              this.searchResults = response.data.data;
 
-              if (this.searchResults.length > 0) {
+              if (response.data.data.length > 0) {
 
-                // filter out the skills that are already in the list of skills
-                // there is probably a much better way to do this, but i don't know how
-                for (let index = 0; index < this.updatedSkills.length; index++) {
-                  const skill = this.updatedSkills[index];
-                  let found = false;
-                  let searchIndex = 0;
-
-                  for (searchIndex = 0; searchIndex < this.searchResults.length; searchIndex++) {
-                    if (skill.name == this.searchResults[searchIndex].name) {
-                      found = true;
-                      break;
-                    }
-                  }
-
-                  if (found == true) {
-                    this.searchResults.splice(searchIndex, 1);
-                  }
-                }
+                this.searchResults = _.filter(response.data.data, skill => _.every(this.updatedSkills, s => skill.name !== s.name));
 
                 // also, find out if we have found exactly the name we were looking for
                 if (this.searchResults.some(skill => skill.name === this.form.searchTerm)) {
@@ -245,16 +226,15 @@ export default {
       }, 500),
 
     create(name) {
-      this.form.searchTerm = name;
+      this.searchProcessed = false;
+      this.searchResults = [];
+      this.form.searchTerm = null;
+      this.foundExactTerm = false;
+      this.allPossibleEntriesAlreadyChosen = false;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills', this.form)
+      axios.post(this.$route('skills.store', [this.$page.props.auth.company.id, this.employee.id]), { searchTerm: name })
         .then(response => {
           this.updatedSkills.push(response.data.data);
-          this.searchProcessed = false;
-          this.searchResults = [];
-          this.form.searchTerm = null;
-          this.foundExactTerm = false;
-          this.allPossibleEntriesAlreadyChosen = false;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -265,7 +245,7 @@ export default {
     remove(skill) {
       this.form.searchTerm = name;
 
-      axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/skills/' + skill.id)
+      axios.delete(this.$route('skills.destroy', [this.$page.props.auth.company.id, this.employee.id, skill.id]))
         .then(response => {
           var changedId = this.updatedSkills.findIndex(x => x.id === skill.id);
           this.updatedSkills.splice(changedId, 1);

@@ -41,7 +41,7 @@ class CompanyNews extends Model
     /**
      * Get the company record associated with the company news.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function company()
     {
@@ -50,6 +50,8 @@ class CompanyNews extends Model
 
     /**
      * Get the employee record associated with the company news.
+     *
+     * @return BelongsTo
      */
     public function author()
     {

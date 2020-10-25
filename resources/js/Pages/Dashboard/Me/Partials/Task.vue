@@ -62,10 +62,5 @@ export default {
       loadingState: '',
     };
   },
-
-  created: function() {},
-
-  methods: {
-  }
 };
 </script>

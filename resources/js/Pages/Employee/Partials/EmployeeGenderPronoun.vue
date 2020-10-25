@@ -115,20 +115,11 @@ export default {
     filteredList() {
       // filter the list when searching
       // also, sort the list by label
-      var list;
-      list = this.pronouns.filter(pronoun => {
+      var list = this.pronouns.filter(pronoun => {
         return pronoun.label.toLowerCase().includes(this.search.toLowerCase());
       });
 
-      function compare(a, b) {
-        if (a.label < b.label)
-          return -1;
-        if (a.label > b.label)
-          return 1;
-        return 0;
-      }
-
-      return list.sort(compare);
+      return _.sortBy(list, ['label']);
     }
   },
 

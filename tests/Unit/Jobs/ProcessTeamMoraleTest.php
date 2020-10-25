@@ -62,7 +62,7 @@ class ProcessTeamMoraleTest extends TestCase
 
         $this->assertEquals(
             1,
-            MoraleTeamHistory::get()->count()
+            MoraleTeamHistory::count()
         );
 
         $this->assertDatabaseHas('morale_team_history', [
@@ -75,7 +75,7 @@ class ProcessTeamMoraleTest extends TestCase
 
         $this->assertEquals(
             1,
-            MoraleTeamHistory::get()->count()
+            MoraleTeamHistory::count()
         );
     }
 }

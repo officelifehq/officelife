@@ -38,7 +38,7 @@ class CompanyCalendar extends Model
     /**
      * Get the company record associated with the company news.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function policy()
     {

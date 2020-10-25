@@ -50,7 +50,7 @@ class ExpenseCategory extends Model
     /**
      * Get the expense records associated with the expense category.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function expenses()
     {

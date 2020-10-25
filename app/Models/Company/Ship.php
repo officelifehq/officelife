@@ -45,7 +45,7 @@ class Ship extends Model
     /**
      * Get the employee records associated with the ship.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function employees()
     {
