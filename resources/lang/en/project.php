@@ -78,4 +78,16 @@ return [
     'members_index_blank_role' => 'No role created yet',
     'members_index_add_success' => 'The member has been added.',
     'members_index_remove_success' => 'The member has been removed.',
+
+    'decision_index_cta' => 'Log a new decision',
+    'decision_index_add_decision' => 'What’s the decision?',
+    'decision_index_add_decision_help' => 'Everyone in the company will be able to read this decision.',
+    'decision_index_add_decider' => 'Who made the decision?',
+    'decision_index_add_decider_additional' => 'Add an additional decider',
+    'decision_index_date' => 'Decided on',
+    'decision_index_decider' => 'Decided by',
+    'decision_index_delete' => 'Delete decision',
+    'decision_index_blank' => 'Keeping a log of decisions is beneficial to improve communication between members and stakeholders of the project, and employees of the company in general.',
+    'decision_index_add_success' => 'The decision has been recorded.',
+    'decision_index_destroy_success' => 'The decision has been forgotten.',
 ];
