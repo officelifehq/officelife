@@ -139,7 +139,7 @@ class SetupDummyAccount extends Command
     protected Question $questionDoYouHaveAnyPersonalGoalsThatYouWouldLikeToShareWithUsThisWeek;
     protected Question $questionWhatIsTheBestTVShowOfThisYearSoFar;
 
-    protected $faker;
+    protected ?\Faker\Generator $faker;
 
     /**
      * The name and signature of the console command.
@@ -1676,7 +1676,7 @@ class SetupDummyAccount extends Command
         ]);
     }
 
-    private function artisan($message, $command, array $arguments = [])
+    private function artisan(string $message, string $command, array $arguments = []): void
     {
         $this->info($message);
         $this->callSilent($command, $arguments);

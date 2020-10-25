@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -248,6 +249,8 @@ class Employee extends Model
 
     /**
      * Get all of the employee's places.
+     *
+     * @return MorphMany
      */
     public function places()
     {
@@ -256,6 +259,8 @@ class Employee extends Model
 
     /**
      * Get all of the employee's daily logs.
+     *
+     * @return HasMany
      */
     public function dailyLogs()
     {
@@ -264,6 +269,8 @@ class Employee extends Model
 
     /**
      * Get all of the employee's planned holidays.
+     *
+     * @return HasMany
      */
     public function plannedHolidays()
     {

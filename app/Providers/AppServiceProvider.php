@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function boot(): void
     {
         Schema::defaultStringLength(191);
         $this->registerInertia();
@@ -29,12 +29,16 @@ class AppServiceProvider extends ServiceProvider
 
         if (App::runningInConsole()) {
             Command::macro('exec', function (string $message, string $commandline) {
-                /** @var \Illuminate\Console\Command $this */
-                \App\Console\Commands\Helpers\Command::exec($this, $message, $commandline); // @codeCoverageIgnore
+                // @codeCoverageIgnoreStart
+                /** @var \Illuminate\Console\Command */
+                $command = $this;
+                \App\Console\Commands\Helpers\Command::exec($command, $message, $commandline);
+                // @codeCoverageIgnoreEnd
             });
             Command::macro('artisan', function (string $message, string $commandline, array $arguments = []) {
-                /** @var \Illuminate\Console\Command $this */
-                \App\Console\Commands\Helpers\Command::artisan($this, $message, $commandline, $arguments);
+                /** @var \Illuminate\Console\Command */
+                $command = $this;
+                \App\Console\Commands\Helpers\Command::artisan($command, $message, $commandline, $arguments);
             });
         }
     }
@@ -46,7 +50,7 @@ class AppServiceProvider extends ServiceProvider
     {
     }
 
-    public function registerInertia()
+    public function registerInertia(): void
     {
         Inertia::version(function () {
             return md5_file(public_path('mix-manifest.json'));

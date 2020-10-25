@@ -33,7 +33,8 @@ class DashboardMeOneOnOneController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $entryId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
     public function show(Request $request, int $companyId, int $entryId)
     {

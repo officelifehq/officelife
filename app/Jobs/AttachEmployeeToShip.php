@@ -29,7 +29,7 @@ class AttachEmployeeToShip implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         (new ShipAttachEmployeeToShip)->execute([
             'company_id' => $this->data['company_id'],

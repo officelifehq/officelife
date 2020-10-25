@@ -53,7 +53,8 @@ class TeamController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
     public function show(Request $request, int $companyId, int $teamId)
     {

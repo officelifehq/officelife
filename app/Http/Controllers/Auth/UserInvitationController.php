@@ -60,8 +60,10 @@ class UserInvitationController extends Controller
      *
      * @param Request $request
      * @param string $invitationLink
+     *
+     * @return JsonResponse
      */
-    public function join(Request $request, string $invitationLink)
+    public function join(Request $request, string $invitationLink): JsonResponse
     {
         if (($user = Auth::user()) === null) {
             $email = $request->input('email');

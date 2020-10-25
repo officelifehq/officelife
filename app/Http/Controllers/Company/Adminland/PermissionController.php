@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Company\Adminland;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Adminland\Employee\ChangePermission;
@@ -17,7 +16,7 @@ class PermissionController extends Controller
      * @param int $companyId
      * @param int $employeeId
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request, int $companyId, int $employeeId)
     {

@@ -25,6 +25,8 @@ class ProjectMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
     public function index(Request $request, int $companyId, int $projectId)
     {

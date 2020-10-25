@@ -9,7 +9,7 @@ class AddDescriptionToTeams extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::table('teams', function (Blueprint $table) {
             $table->text('description')->after('name')->nullable();

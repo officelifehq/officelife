@@ -79,10 +79,8 @@ class SetTeamLead extends BaseService
      * Add the employee to the team - if he’s not in the team already.
      *
      * @param array $data
-     *
-     * @return void|null
      */
-    private function addEmployeeToTeam(array $data)
+    private function addEmployeeToTeam(array $data): void
     {
         if ($this->employee->isInTeam($this->team->id)) {
             return;

@@ -32,7 +32,7 @@ class AskEmployeesToRateTheirManager implements ShouldQueue
      * Next, for each employee of this manager, we need to create a Rate your
      * manager Answer, which will store the answer.
      */
-    public function handle()
+    public function handle(): void
     {
         // create the RateYourManagerSurvey
         $entry = RateYourManagerSurvey::create([
