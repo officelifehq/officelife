@@ -32,7 +32,6 @@ class QuestionControllerTest extends TestCase
 
         $response = $this->get('/'.$employee->company_id.'/company/questions/'.$question->id.'/teams/'.$team->id);
 
-        dump($response);
         $response->assertStatus(200);
 
         $testJson = new AssertableJsonString($response->viewData('page')['props']);

@@ -79,6 +79,11 @@ jobs:
         run: |
           cp tests/.env.ci-${{ matrix.connection }} .env
           touch config/version
+          echo '{"/js/app.js": "/js/app.js", "/css/app.css": "/css/app.css"}' > public/mix-manifest.json
+          mkdir -p public/js
+          echo '' > public/js/app.js
+          mkdir -p public/css
+          echo '' > public/css/app.css
       - name: Create SQLite database
         if: matrix.connection == 'sqlite'
         run: |
