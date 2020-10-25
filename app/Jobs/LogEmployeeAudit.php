@@ -31,7 +31,7 @@ class LogEmployeeAudit implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         (new LogEmployeeAction)->execute([
             'employee_id' => $this->auditLog['employee_id'],

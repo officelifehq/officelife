@@ -46,9 +46,9 @@ class CreateTimeOff extends BaseService
      *
      * @param array $data
      *
-     * @return EmployeePlannedHoliday
+     * @return EmployeePlannedHoliday|string
      */
-    public function execute(array $data): EmployeePlannedHoliday
+    public function execute(array $data)
     {
         $this->validateRules($data);
 
@@ -158,7 +158,7 @@ class CreateTimeOff extends BaseService
      * @param EmployeePlannedHoliday $plannedHoliday
      * @param array $data
      */
-    private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday, array $data)
+    private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday, array $data): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,

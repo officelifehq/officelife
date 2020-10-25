@@ -56,9 +56,10 @@ class DashboardExpensesController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $expenseId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function show(Request $request, int $companyId, int $expenseId): Response
+    public function show(Request $request, int $companyId, int $expenseId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -89,9 +90,10 @@ class DashboardExpensesController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $expenseId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function summary(Request $request, int $companyId, int $expenseId): Response
+    public function summary(Request $request, int $companyId, int $expenseId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();

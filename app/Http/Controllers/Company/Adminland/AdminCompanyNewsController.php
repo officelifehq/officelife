@@ -80,9 +80,10 @@ class AdminCompanyNewsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $newsId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function edit(Request $request, int $companyId, int $newsId): Response
+    public function edit(Request $request, int $companyId, int $newsId)
     {
         try {
             $news = CompanyNews::where('company_id', $companyId)

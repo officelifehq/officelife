@@ -15,9 +15,9 @@ class LogHelper
      *
      * @param AuditLog $log
      *
-     * @return string
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
-    public static function processAuditLog(AuditLog $log): string
+    public static function processAuditLog(AuditLog $log)
     {
         switch ($log->action) {
             case 'account_created':
@@ -869,9 +869,9 @@ class LogHelper
      *
      * @param EmployeeLog $log
      *
-     * @return string
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
-    public static function processEmployeeLog(EmployeeLog $log): string
+    public static function processEmployeeLog(EmployeeLog $log)
     {
         switch ($log->action) {
             case 'employee_created':
@@ -1311,9 +1311,9 @@ class LogHelper
      *
      * @param TeamLog $log
      *
-     * @return string
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
-    public static function processTeamLog(TeamLog $log): string
+    public static function processTeamLog(TeamLog $log)
     {
         switch ($log->action) {
             case 'team_created':

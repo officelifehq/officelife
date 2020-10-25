@@ -24,9 +24,10 @@ class TeamRecentShipController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function index(Request $request, int $companyId, int $teamId): Response
+    public function index(Request $request, int $companyId, int $teamId)
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -91,9 +92,10 @@ class TeamRecentShipController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function create(Request $request, int $companyId, int $teamId): Response
+    public function create(Request $request, int $companyId, int $teamId)
     {
         try {
             $team = Team::where('company_id', $companyId)
@@ -155,7 +157,8 @@ class TeamRecentShipController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $recentShipId
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
     public function show(Request $request, int $companyId, int $teamId, int $recentShipId)
     {

@@ -41,9 +41,10 @@ class SkillController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $skillId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function show(Request $request, int $companyId, int $skillId): Response
+    public function show(Request $request, int $companyId, int $skillId)
     {
         $company = InstanceHelper::getLoggedCompany();
 

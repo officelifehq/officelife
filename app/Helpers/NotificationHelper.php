@@ -40,9 +40,9 @@ class NotificationHelper
      *
      * @param Notification $notification
      *
-     * @return string
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
-    public static function process(Notification $notification): string
+    public static function process(Notification $notification)
     {
         switch ($notification->action) {
             case 'dummy_data_generated':

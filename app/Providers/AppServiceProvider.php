@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot()
+    public function boot(): void
     {
         Schema::defaultStringLength(191);
         $this->registerInertia();
@@ -46,7 +46,7 @@ class AppServiceProvider extends ServiceProvider
     {
     }
 
-    public function registerInertia()
+    public function registerInertia(): void
     {
         Inertia::version(function () {
             return md5_file(public_path('mix-manifest.json'));

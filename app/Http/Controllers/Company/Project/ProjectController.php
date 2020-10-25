@@ -243,9 +243,10 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function delete(Request $request, int $companyId, int $projectId): Response
+    public function delete(Request $request, int $companyId, int $projectId)
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -561,6 +562,8 @@ class ProjectController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
     public function createStatus(Request $request, int $companyId, int $projectId)
     {

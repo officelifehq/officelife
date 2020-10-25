@@ -58,7 +58,7 @@ class Morale extends Model
      *
      * @param mixed $value
      *
-     * @return string
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
     public function getTranslatedEmotionAttribute($value)
     {

@@ -248,24 +248,30 @@ class Employee extends Model
 
     /**
      * Get all of the employee's places.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
-    public function places()
+    public function places(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany('App\Models\Company\Place', 'placable');
     }
 
     /**
      * Get all of the employee's daily logs.
+     *
+     * @return HasMany
      */
-    public function dailyLogs()
+    public function dailyLogs(): HasMany
     {
         return $this->hasMany(EmployeeDailyCalendarEntry::class);
     }
 
     /**
      * Get all of the employee's planned holidays.
+     *
+     * @return HasMany
      */
-    public function plannedHolidays()
+    public function plannedHolidays(): HasMany
     {
         return $this->hasMany(EmployeePlannedHoliday::class);
     }
@@ -517,9 +523,9 @@ class Employee extends Model
     /**
      * Get the permission level of the employee.
      *
-     * @return string
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
-    public function getPermissionLevel(): string
+    public function getPermissionLevel()
     {
         return trans('app.permission_'.$this->permission_level);
     }

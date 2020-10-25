@@ -121,9 +121,10 @@ class CompanyQuestionViewHelper
 
     /**
      * @param Question $question
-     * @return string|null
+     *
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
-    private static function getInformationAboutActivationDate(Question $question): ?string
+    private static function getInformationAboutActivationDate(Question $question)
     {
         // building the sentence `This question was asked from Jan 20, 2020 to Mar 21, 2020`
         $date = null;

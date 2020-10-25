@@ -26,9 +26,9 @@ class Pronoun extends Model
      *
      * @param string $value
      *
-     * @return string
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
-    public function getLabelAttribute($value): string
+    public function getLabelAttribute($value)
     {
         return trans($this->translation_key);
     }

@@ -45,12 +45,13 @@ class VerificationController extends Controller
     /**
      * Show the email verification notice.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     * @param \Illuminate\Http\Request  $request
+     *
+     * @return \Inertia\Response
      *
      * @codeCoverageIgnore
      */
-    public function show(Request $request)
+    public function show(Request $request): \Inertia\Response
     {
         return Inertia::render('Auth/VerifyEmail');
     }

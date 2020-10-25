@@ -24,7 +24,7 @@ class LangGenerate extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $dirs = new DirectoryIterator(resource_path('lang').'/');
 

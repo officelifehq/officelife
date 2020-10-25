@@ -157,9 +157,10 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function address(Request $request, int $companyId, int $employeeId): Response
+    public function address(Request $request, int $companyId, int $employeeId)
     {
         try {
             $employee = Employee::where('company_id', $companyId)

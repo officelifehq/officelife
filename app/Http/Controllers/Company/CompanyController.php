@@ -43,7 +43,8 @@ class CompanyController extends Controller
      * Create the company.
      *
      * @param Request $request
-     * @return RedirectResponse
+     *
+     * @return \Illuminate\Routing\Redirector|RedirectResponse
      */
     public function store(Request $request)
     {

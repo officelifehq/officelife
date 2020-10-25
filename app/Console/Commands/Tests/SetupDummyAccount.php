@@ -1676,7 +1676,7 @@ class SetupDummyAccount extends Command
         ]);
     }
 
-    private function artisan($message, $command, array $arguments = [])
+    private function artisan(string $message, string $command, array $arguments = []): void
     {
         $this->info($message);
         $this->callSilent($command, $arguments);
