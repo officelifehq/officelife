@@ -116,7 +116,7 @@ class QuestionController extends Controller
             ->orderBy('answers.created_at', 'desc')
             ->paginate(10);
 
-        $answersCollection = CompanyQuestionViewHelper::allAnswers($question, $answers, $employee);
+        $answersCollection = CompanyQuestionViewHelper::question($question, $answers, $employee);
 
         return Inertia::render('Company/Question/Show', [
             'teams' => $teams,
