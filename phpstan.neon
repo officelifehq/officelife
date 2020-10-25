@@ -1,9 +1,7 @@
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
 #    - ./vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
-#    - ./vendor/phpstan/phpstan-phpunit/extension.neon
-#    - ./vendor/phpstan/phpstan-deprecation-rules/rules.neon
-#    - ./vendor/phpstan/phpstan-strict-rules/rules.neon
+    - ./vendor/phpstan/phpstan-deprecation-rules/rules.neon
 
 parameters:
     paths:
@@ -13,14 +11,8 @@ parameters:
 
     checkMissingIterableValueType: false
     ignoreErrors:
-        - '#If condition is always true#'
-        - '#Negated boolean expression is always false.#'
         - '#Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator supplied for foreach, only iterables are supported#'
-        - '#Call to function is_null(.*?)#'
-        - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\Response but returns Illuminate\\Http\\RedirectResponse\.#'
+        - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\(Json)?Response but returns Illuminate\\Http\\RedirectResponse\.#'
         - '#Method [a-zA-Z0-9\\_:]+\(\) should return Inertia\\Response but returns Illuminate\\Http\\RedirectResponse\.#'
-        - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\JsonResponse but returns Illuminate\\Http\\RedirectResponse\.#'
         - message: '#Access to an undefined property App\\Models\\Company\\Employee::\$pivot\.#'
           path: 'app/Http/ViewHelpers/Project/ProjectMembersViewHelper.php'
-    excludes_analyse:
-        - */*/*/Authenticate.php

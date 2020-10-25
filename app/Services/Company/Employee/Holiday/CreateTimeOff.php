@@ -76,7 +76,7 @@ class CreateTimeOff extends BaseService
         $existingPlannedHoliday = $this->getExistingPlannedHoliday($employee, $suggestedDate);
         $plannedHoliday = '';
 
-        if ($existingPlannedHoliday) {
+        if ($existingPlannedHoliday->exists()) {
             if ($this->validateCreationHoliday($existingPlannedHoliday, $data)) {
                 $plannedHoliday = $this->createPlannedHoliday($data, $suggestedDate);
             }
@@ -97,21 +97,16 @@ class CreateTimeOff extends BaseService
      *
      * @return EmployeePlannedHoliday
      */
-    private function getExistingPlannedHoliday(Employee $employee, Carbon $date)
+    private function getExistingPlannedHoliday(Employee $employee, Carbon $date): EmployeePlannedHoliday
     {
-        $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
-            ->where('planned_date', $date->format('Y-m-d 00:00:00'))
-            ->count();
+        $holidays = EmployeePlannedHoliday::where('employee_id', $employee->id)
+            ->where('planned_date', $date->format('Y-m-d 00:00:00'));
 
-        if ($holiday > 1) {
+        if ($holidays->count() > 1) {
             throw new Exception();
         }
 
-        $holiday = EmployeePlannedHoliday::where('employee_id', $employee->id)
-            ->where('planned_date', $date->format('Y-m-d 00:00:00'))
-            ->first();
-
-        return $holiday;
+        return $holidays->first();
     }
 
     /**

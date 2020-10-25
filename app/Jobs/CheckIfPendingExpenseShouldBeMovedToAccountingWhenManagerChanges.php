@@ -58,10 +58,6 @@ class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges implement
         foreach ($expenses as $expense) {
             $employee = $expense->employee;
 
-            if (! $employee->managers) {
-                continue;
-            }
-
             if ($employee->managers->count() == 0) {
                 $expense->status = Expense::AWAITING_ACCOUTING_APPROVAL;
                 $expense->save();

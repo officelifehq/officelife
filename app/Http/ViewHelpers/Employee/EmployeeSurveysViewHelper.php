@@ -42,12 +42,14 @@ class EmployeeSurveysViewHelper
         }
 
         foreach ($allSurveys as $survey) {
-            $totalNumberOfPotentialResponders = $survey->answers->count();
+            $totalNumberOfPotentialResponders = 0;
             $numberOfAnswers = 0;
 
             // counting results about answers, if available
             $results = [];
-            if ($survey->answers) {
+            if ($survey->answers->count() > 0) {
+                $totalNumberOfPotentialResponders = $survey->answers->count();
+
                 $bad = $survey->answers->filter(function ($answer) {
                     return $answer->rating == RateYourManagerAnswer::BAD;
                 });
@@ -115,7 +117,7 @@ class EmployeeSurveysViewHelper
 
         // counting results about answers, if available
         $results = [];
-        if ($survey->answers) {
+        if ($survey->answers->count() > 0) {
             $bad = $survey->answers->filter(function ($answer) {
                 return $answer->rating == RateYourManagerAnswer::BAD;
             });

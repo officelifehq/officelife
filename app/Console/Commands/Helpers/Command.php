@@ -26,9 +26,9 @@ class Command
     /**
      * The Command Executor.
      *
-     * @var CommandCallerContract
+     * @var CommandCallerContract|null
      */
-    private static $CommandCaller;
+    private static $commandCaller;
 
     /**
      * Get the current backend command.
@@ -37,11 +37,11 @@ class Command
      */
     private static function getBackend() : CommandCallerContract
     {
-        if (is_null(static::$CommandCaller)) {
-            static::$CommandCaller = app(CommandCaller::class); // @codeCoverageIgnore
+        if (! static::$commandCaller) {
+            static::$commandCaller = app(CommandCaller::class); // @codeCoverageIgnore
         }
 
-        return static::$CommandCaller;
+        return static::$commandCaller;
     }
 
     /**
@@ -51,7 +51,7 @@ class Command
      */
     public static function setBackend(CommandCallerContract $executor) : void
     {
-        static::$CommandCaller = $executor;
+        static::$commandCaller = $executor;
     }
 
     /**
@@ -66,10 +66,6 @@ class Command
     public static function __callStatic($method, $args)
     {
         $instance = static::getBackend();
-
-        if (! $instance) {
-            throw new RuntimeException('No backend.'); // @codeCoverageIgnore
-        }
 
         return $instance->$method(...$args);
     }
