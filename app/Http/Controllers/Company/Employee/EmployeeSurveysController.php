@@ -62,7 +62,8 @@ class EmployeeSurveysController extends Controller
      * @param int $companyId
      * @param int $employeeId
      * @param int $surveyId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Inertia\Response
      */
     public function show(Request $request, int $companyId, int $employeeId, int $surveyId)
     {

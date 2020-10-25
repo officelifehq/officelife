@@ -129,8 +129,10 @@ class Place extends Model
 
     /**
      * Get the partial address, used to show basic information to other employees.
+     *
+     * @return string|null
      */
-    public function getPartialAddress()
+    public function getPartialAddress(): ?string
     {
         $address = '';
 

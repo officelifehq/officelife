@@ -21,7 +21,7 @@
         "normal": "mv .env .env.cypress.local && mv .env2 .env",
         "pretest": "DB_CONNECTION=testing php artisan migrate:fresh && DB_CONNECTION=testing php artisan db:seed",
         "test": "vendor/bin/phpunit",
-        "posttest": "vendor/bin/phpstan analyse",
+        "posttest": "vendor/bin/phpstan analyse && vendor/bin/psalm",
         "local": "php artisan migrate:fresh && php artisan db:seed",
         "composer update": "COMPOSER_MEMORY_LIMIT=-1 composer update"
     },

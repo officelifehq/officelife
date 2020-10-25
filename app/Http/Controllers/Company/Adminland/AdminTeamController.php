@@ -48,13 +48,13 @@ class AdminTeamController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => InstanceHelper::getLoggedCompany()->id,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
         ];
 
-        $team = (new CreateTeam)->execute($request);
+        $team = (new CreateTeam)->execute($data);
 
         return response()->json([
             'data' => AdminTeamViewHelper::team($team),

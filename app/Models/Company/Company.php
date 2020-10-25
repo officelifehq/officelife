@@ -197,9 +197,9 @@ class Company extends Model
     /**
      * Return the PTO policy for the current year.
      *
-     * @return CompanyPTOPolicy
+     * @return object|null
      */
-    public function getCurrentPTOPolicy(): CompanyPTOPolicy
+    public function getCurrentPTOPolicy(): ?object
     {
         $ptoPolicy = $this->ptoPolicies()->where('year', Carbon::now()->format('Y'))->first();
 

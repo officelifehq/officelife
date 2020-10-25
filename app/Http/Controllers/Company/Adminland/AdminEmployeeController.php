@@ -134,7 +134,7 @@ class AdminEmployeeController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'email' => $request->input('email'),
@@ -144,7 +144,7 @@ class AdminEmployeeController extends Controller
             'send_invitation' => $request->input('send_invitation'),
         ];
 
-        (new AddEmployeeToCompany)->execute($request);
+        (new AddEmployeeToCompany)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,
@@ -201,13 +201,13 @@ class AdminEmployeeController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'employee_id' => $employeeId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new LockEmployee)->execute($request);
+        (new LockEmployee)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,
@@ -264,13 +264,13 @@ class AdminEmployeeController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'employee_id' => $employeeId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new UnlockEmployee)->execute($request);
+        (new UnlockEmployee)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,
@@ -327,13 +327,13 @@ class AdminEmployeeController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'employee_id' => $employeeId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyEmployee)->execute($request);
+        (new DestroyEmployee)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,

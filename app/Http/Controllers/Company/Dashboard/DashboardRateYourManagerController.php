@@ -23,14 +23,14 @@ class DashboardRateYourManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'answer_id' => $answerId,
             'rating' => $request->input('rating'),
         ];
 
-        $answer = (new RateYourManager)->execute($request);
+        $answer = (new RateYourManager)->execute($data);
 
         return response()->json([
             'data' => $answer->id,
@@ -49,7 +49,7 @@ class DashboardRateYourManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'answer_id' => $answerId,
@@ -57,7 +57,7 @@ class DashboardRateYourManagerController extends Controller
             'reveal_identity_to_manager' => $request->input('reveal'),
         ];
 
-        $answer = (new AddCommentToRatingAboutManager)->execute($request);
+        $answer = (new AddCommentToRatingAboutManager)->execute($data);
 
         return response()->json([
             'data' => $answer->id,

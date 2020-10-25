@@ -31,7 +31,7 @@ class LogTeamsMorale implements ShouldQueue
      * employees of those teams.
      * This job is meant to be executed every day at 11pm (UTC).
      */
-    public function handle()
+    public function handle(): void
     {
         Team::select('id')->chunk(100, function ($teams) {
             $teams->each(function (Team $team) {

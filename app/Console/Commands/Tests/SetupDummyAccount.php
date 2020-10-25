@@ -140,7 +140,7 @@ class SetupDummyAccount extends Command
     protected Question $questionDoYouHaveAnyPersonalGoalsThatYouWouldLikeToShareWithUsThisWeek;
     protected Question $questionWhatIsTheBestTVShowOfThisYearSoFar;
 
-    protected $faker;
+    protected ?\Faker\Generator $faker;
 
     /**
      * The name and signature of the console command.
@@ -731,7 +731,7 @@ class SetupDummyAccount extends Command
         $this->debra->save();
     }
 
-    private function addSpecificDataToEmployee(Employee $employee, string $description = null, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
+    private function addSpecificDataToEmployee(Employee $employee, ?string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void
     {
         (new AddEmployeeToTeam)->execute([
             'company_id' => $this->company->id,
@@ -1703,7 +1703,7 @@ class SetupDummyAccount extends Command
         ]);
     }
 
-    private function artisan($message, $command, array $arguments = [])
+    private function artisan(string $message, string $command, array $arguments = []): void
     {
         $this->info($message);
         $this->callSilent($command, $arguments);

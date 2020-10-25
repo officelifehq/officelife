@@ -2,7 +2,6 @@
 
 namespace Tests\Helpers;
 
-use Illuminate\Support\Str;
 use PHPUnit\Framework\Assert;
 use App\Console\Commands\Helpers\CommandCallerContract;
 
@@ -38,7 +37,7 @@ class CommandCallerFake implements CommandCallerContract
     /**
      * Assert the command identified by a message has been launched.
      */
-    public function assertContainsMessage(string $message)
+    public function assertContainsMessage(string $message): void
     {
         $messages = $this->buffer->map(function ($line) {
             return $line['message'];
