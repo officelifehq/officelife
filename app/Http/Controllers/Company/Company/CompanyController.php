@@ -57,7 +57,7 @@ class CompanyController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $loggedEmployee->id,
@@ -65,7 +65,7 @@ class CompanyController extends Controller
             'choice_id' => $request->input('choiceId'),
         ];
 
-        (new VoteGuessEmployeeGame)->execute($request);
+        (new VoteGuessEmployeeGame)->execute($data);
 
         return response()->json([
             'success' => true,

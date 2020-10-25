@@ -48,14 +48,14 @@ class AdminQuestionController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'title' => $request->input('title'),
             'active' => false,
         ];
 
-        $question = (new CreateQuestion)->execute($request);
+        $question = (new CreateQuestion)->execute($data);
 
         return response()->json([
             'data' => $question->toObject(),
@@ -74,7 +74,7 @@ class AdminQuestionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'question_id' => $questionId,
@@ -82,7 +82,7 @@ class AdminQuestionController extends Controller
             'active' => $request->input('active'),
         ];
 
-        $question = (new UpdateQuestion)->execute($request);
+        $question = (new UpdateQuestion)->execute($data);
 
         return response()->json([
             'data' => $question->toObject(),
@@ -101,13 +101,13 @@ class AdminQuestionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'question_id' => $questionId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyQuestion)->execute($request);
+        (new DestroyQuestion)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -126,13 +126,13 @@ class AdminQuestionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'question_id' => $questionId,
         ];
 
-        (new ActivateQuestion)->execute($request);
+        (new ActivateQuestion)->execute($data);
 
         $company = InstanceHelper::getLoggedCompany();
         $questions = $company->questions()->get();
@@ -155,13 +155,13 @@ class AdminQuestionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'question_id' => $questionId,
         ];
 
-        (new DeactivateQuestion)->execute($request);
+        (new DeactivateQuestion)->execute($data);
 
         $company = InstanceHelper::getLoggedCompany();
         $questions = $company->questions()->get();

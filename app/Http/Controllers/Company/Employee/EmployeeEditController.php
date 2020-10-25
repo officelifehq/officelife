@@ -206,7 +206,7 @@ class EmployeeEditController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'street' => $request->input('street'),
@@ -219,7 +219,7 @@ class EmployeeEditController extends Controller
             'is_active' => true,
         ];
 
-        (new CreatePlace)->execute($request);
+        (new CreatePlace)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,

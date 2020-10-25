@@ -17,12 +17,12 @@ class HelpController extends Controller
      */
     public function toggle(Request $request): JsonResponse
     {
-        $request = [
+        $data = [
             'user_id' => Auth::user()->id,
             'visibility' => ! Auth::user()->show_help,
         ];
 
-        (new ChangeHelpPreferences)->execute($request);
+        (new ChangeHelpPreferences)->execute($data);
 
         return response()->json([
             'data' => ! Auth::user()->show_help,

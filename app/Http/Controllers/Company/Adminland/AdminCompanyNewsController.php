@@ -60,14 +60,14 @@ class AdminCompanyNewsController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'title' => $request->input('title'),
             'content' => $request->input('content'),
         ];
 
-        $news = (new CreateCompanyNews)->execute($request);
+        $news = (new CreateCompanyNews)->execute($data);
 
         return response()->json([
             'data' => $news->toObject(),
@@ -110,7 +110,7 @@ class AdminCompanyNewsController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'company_news_id' => $newsId,
@@ -118,7 +118,7 @@ class AdminCompanyNewsController extends Controller
             'content' => $request->input('content'),
         ];
 
-        $news = (new UpdateCompanyNews)->execute($request);
+        $news = (new UpdateCompanyNews)->execute($data);
 
         return response()->json([
             'data' => $news->toObject(),
@@ -138,13 +138,13 @@ class AdminCompanyNewsController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'company_news_id' => $companyNewsId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyCompanyNews)->execute($request);
+        (new DestroyCompanyNews)->execute($data);
 
         return response()->json([
             'data' => true,

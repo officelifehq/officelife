@@ -84,7 +84,7 @@ class CreateTimeOff extends BaseService
             $plannedHoliday = $this->createPlannedHoliday($data, $suggestedDate);
         }
 
-        $this->createLogs($employee, $plannedHoliday, $data);
+        $this->createLogs($employee, $plannedHoliday);
 
         return $plannedHoliday;
     }
@@ -156,9 +156,8 @@ class CreateTimeOff extends BaseService
      *
      * @param Employee               $employee
      * @param EmployeePlannedHoliday $plannedHoliday
-     * @param array $data
      */
-    private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday, array $data)
+    private function createLogs(Employee $employee, EmployeePlannedHoliday $plannedHoliday)
     {
         LogAccountAudit::dispatch([
             'company_id' => $employee->company_id,

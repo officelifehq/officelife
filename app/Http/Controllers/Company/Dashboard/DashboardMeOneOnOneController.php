@@ -81,13 +81,13 @@ class DashboardMeOneOnOneController extends Controller
             return redirect('home');
         }
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
         ];
 
-        $newEntry = (new MarkOneOnOneEntryAsHappened)->execute($request);
+        $newEntry = (new MarkOneOnOneEntryAsHappened)->execute($data);
 
         return response()->json([
             'data' => [
@@ -116,14 +116,14 @@ class DashboardMeOneOnOneController extends Controller
             ->where('employee_id', $request->input('employee_id'))
             ->findOrFail($entryId);
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
             'description' => $request->input('description'),
         ];
 
-        $talkingPoint = (new CreateOneOnOneTalkingPoint)->execute($request);
+        $talkingPoint = (new CreateOneOnOneTalkingPoint)->execute($data);
 
         return response()->json([
             'data' => [
@@ -151,14 +151,14 @@ class DashboardMeOneOnOneController extends Controller
             ->where('employee_id', $request->input('employee_id'))
             ->findOrFail($entryId);
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
             'description' => $request->input('description'),
         ];
 
-        $actionItem = (new CreateOneOnOneActionItem)->execute($request);
+        $actionItem = (new CreateOneOnOneActionItem)->execute($data);
 
         return response()->json([
             'data' => [
@@ -186,14 +186,14 @@ class DashboardMeOneOnOneController extends Controller
             ->where('employee_id', $request->input('employee_id'))
             ->findOrFail($entryId);
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
             'note' => $request->input('description'),
         ];
 
-        $note = (new CreateOneOnOneNote)->execute($request);
+        $note = (new CreateOneOnOneNote)->execute($data);
 
         return response()->json([
             'data' => [
@@ -217,7 +217,7 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
@@ -225,7 +225,7 @@ class DashboardMeOneOnOneController extends Controller
             'description' => $request->input('description'),
         ];
 
-        $talkingPoint = (new UpdateOneOnOneTalkingPoint)->execute($request);
+        $talkingPoint = (new UpdateOneOnOneTalkingPoint)->execute($data);
 
         return response()->json([
             'data' => [
@@ -250,7 +250,7 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
@@ -258,7 +258,7 @@ class DashboardMeOneOnOneController extends Controller
             'description' => $request->input('description'),
         ];
 
-        $actionItem = (new UpdateOneOnOneActionItem)->execute($request);
+        $actionItem = (new UpdateOneOnOneActionItem)->execute($data);
 
         return response()->json([
             'data' => [
@@ -283,7 +283,7 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
@@ -291,7 +291,7 @@ class DashboardMeOneOnOneController extends Controller
             'note' => $request->input('description'),
         ];
 
-        $note = (new UpdateOneOnOneNote)->execute($request);
+        $note = (new UpdateOneOnOneNote)->execute($data);
 
         return response()->json([
             'data' => [
@@ -315,14 +315,14 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
             'one_on_one_talking_point_id' => $talkingPointId,
         ];
 
-        $talkingPoint = (new ToggleOneOnOneTalkingPoint)->execute($request);
+        $talkingPoint = (new ToggleOneOnOneTalkingPoint)->execute($data);
 
         return response()->json([
             'data' => [
@@ -347,14 +347,14 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
             'one_on_one_action_item_id' => $actionItemId,
         ];
 
-        $actionItem = (new ToggleOneOnOneActionItem)->execute($request);
+        $actionItem = (new ToggleOneOnOneActionItem)->execute($data);
 
         return response()->json([
             'data' => [
@@ -379,14 +379,14 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
             'one_on_one_talking_point_id' => $talkingPointId,
         ];
 
-        (new DestroyOneOnOneTalkingPoint)->execute($request);
+        (new DestroyOneOnOneTalkingPoint)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -407,14 +407,14 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
             'one_on_one_action_item_id' => $talkingPointId,
         ];
 
-        (new DestroyOneOnOneActionItem)->execute($request);
+        (new DestroyOneOnOneActionItem)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -435,14 +435,14 @@ class DashboardMeOneOnOneController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'one_on_one_entry_id' => $entryId,
             'one_on_one_note_id' => $noteId,
         ];
 
-        (new DestroyOneOnOneNote)->execute($request);
+        (new DestroyOneOnOneNote)->execute($data);
 
         return response()->json([
             'data' => true,

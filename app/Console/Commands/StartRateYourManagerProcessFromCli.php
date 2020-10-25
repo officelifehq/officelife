@@ -22,14 +22,6 @@ class StartRateYourManagerProcessFromCli extends Command
     protected $description = 'Start the Rate Your Manager process from the CLI';
 
     /**
-     * Create a new command instance.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
      * Execute the console command.
      */
     public function handle(): void

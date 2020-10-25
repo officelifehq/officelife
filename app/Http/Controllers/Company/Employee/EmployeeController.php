@@ -176,14 +176,14 @@ class EmployeeController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'manager_id' => $request->input('id'),
         ];
 
-        $manager = (new AssignManager)->execute($request);
+        $manager = (new AssignManager)->execute($data);
 
         return response()->json([
             'data' => [
@@ -254,14 +254,14 @@ class EmployeeController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'manager_id' => $request->input('id'),
         ];
 
-        $manager = (new UnassignManager)->execute($request);
+        $manager = (new UnassignManager)->execute($data);
 
         return response()->json([
             'data' => [
@@ -282,14 +282,14 @@ class EmployeeController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $request->input('id'),
             'manager_id' => $managerId,
         ];
 
-        $manager = (new UnassignManager)->execute($request);
+        $manager = (new UnassignManager)->execute($data);
 
         return response()->json([
             'data' => [

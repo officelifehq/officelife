@@ -85,7 +85,6 @@ class EmployeeSurveysViewHelper
 
         // the average response rate
         // to calculate this, we need to remove any active or future survey
-        $surveyAnswered = $surveysCollection->whereNotNull('id');
         $surveyAnswered = $surveysCollection->where('active', false);
         $averageResponseRate = round($surveyAnswered->sum('response_rate') / $surveyAnswered->count());
 
