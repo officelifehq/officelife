@@ -96,5 +96,9 @@
         <PossiblyUndefinedMethod errorLevel="info" />
         <ReservedWord errorLevel="info" />
         <UndefinedInterfaceMethod errorLevel="info" />
+
+        <!-- Personal fixes -->
+        <UndefinedMagicPropertyFetch errorLevel="suppress" />
+        <InvalidPropertyAssignmentValue errorLevel="suppress" />
     </issueHandlers>
 </psalm>

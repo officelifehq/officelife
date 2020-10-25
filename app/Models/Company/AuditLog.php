@@ -84,9 +84,9 @@ class AuditLog extends Model
      *
      * @param mixed $value
      *
-     * @return string
+     * @return array|\Illuminate\Contracts\Translation\Translator|string|null
      */
-    public function getContentAttribute($value): string
+    public function getContentAttribute($value)
     {
         return LogHelper::processAuditLog($this);
     }
