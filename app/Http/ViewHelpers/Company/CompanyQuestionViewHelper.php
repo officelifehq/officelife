@@ -88,7 +88,7 @@ class CompanyQuestionViewHelper
             'title' => $question->title,
             'number_of_answers' => $answers->count(),
             'answers' => $answerCollection,
-            'employee_has_answered' => $detailOfAnswer ? true : false,
+            'employee_has_answered' => (bool) $detailOfAnswer,
             'answer_by_employee' => $detailOfAnswer,
             'date' => $date,
             'url' => route('company.questions.show', [
@@ -154,7 +154,7 @@ class CompanyQuestionViewHelper
             'title' => $question->title,
             'number_of_answers' => $answers->count(),
             'answers' => $answerCollection,
-            'employee_has_answered' => $answerByEmployee ? true : false,
+            'employee_has_answered' => (bool) $answerByEmployee,
             'answer_by_employee' => $answerByEmployee,
             'date' => $date,
             'url' => route('company.questions.show', [

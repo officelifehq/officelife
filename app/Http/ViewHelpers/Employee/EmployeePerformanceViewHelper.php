@@ -42,31 +42,27 @@ class EmployeePerformanceViewHelper
         }
 
         foreach ($surveysToDisplay as $survey) {
-            $totalNumberOfPotentialResponders = 0;
-            $numberOfAnswers = 0;
+            $totalNumberOfPotentialResponders = $survey->answers->count();
 
             // counting results about answers, if available
             $results = [];
-            if ($survey->answers->count() > 0) {
-                $totalNumberOfPotentialResponders = $survey->answers->count();
 
-                $bad = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::BAD;
-                });
-                $average = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::AVERAGE;
-                });
-                $good = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::GOOD;
-                });
-                $results = [
-                    'bad' => $bad->count(),
-                    'average' => $average->count(),
-                    'good' => $good->count(),
-                ];
+            $bad = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::BAD;
+            });
+            $average = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::AVERAGE;
+            });
+            $good = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::GOOD;
+            });
+            $results = [
+                'bad' => $bad->count(),
+                'average' => $average->count(),
+                'good' => $good->count(),
+            ];
 
-                $numberOfAnswers = $bad->count() + $average->count() + $good->count();
-            }
+            $numberOfAnswers = $bad->count() + $average->count() + $good->count();
 
             $surveysCollection->push([
                 'id' => $survey->id,
