@@ -39,8 +39,8 @@ class QuestionControllerTest extends TestCase
             'answer_by_employee' => [
                 'id' => $answer->id,
                 'body' => $answer->body,
-                'employee_id' => config('database.default') == 'mysql' ? $employee->id : (string) $employee->id,
-                'question_id' => config('database.default') == 'mysql' ? $question->id : (string) $question->id,
+                'employee_id' => config('database.connections.testing.driver') == 'mysql' ? (int) $employee->id : (string) $employee->id,
+                'question_id' => config('database.connections.testing.driver') == 'mysql' ? (int) $question->id : (string) $question->id,
                 'created_at' => $answer->created_at,
                 'updated_at' => $answer->updated_at,
             ],
