@@ -18,6 +18,7 @@ class QuestionControllerTest extends TestCase
     {
         $employee = $this->createAdministrator();
         $this->actingAs($employee->user);
+
         $question = factory(Question::class)->create([
             'company_id' => $employee->company_id,
         ]);
@@ -31,6 +32,7 @@ class QuestionControllerTest extends TestCase
 
         $response = $this->get('/'.$employee->company_id.'/company/questions/'.$question->id.'/teams/'.$team->id);
 
+        dump($response);
         $response->assertStatus(200);
 
         $testJson = new AssertableJsonString($response->viewData('page')['props']);
