@@ -131,20 +131,11 @@ export default {
     filteredList() {
       // filter the list when searching
       // also, sort the list by name
-      var list;
-      list = this.statuses.filter(status => {
+      var list = this.statuses.filter(status => {
         return status.name.toLowerCase().includes(this.search.toLowerCase());
       });
 
-      function compare(a, b) {
-        if (a.name < b.name)
-          return -1;
-        if (a.name > b.name)
-          return 1;
-        return 0;
-      }
-
-      return list.sort(compare);
+      return _.sortBy(list, ['name']);
     }
   },
 

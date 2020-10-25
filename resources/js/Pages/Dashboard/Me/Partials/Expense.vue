@@ -238,8 +238,6 @@ export default {
     this.form.currency = this.defaultCurrency;
   },
 
-  created: function() {},
-
   methods: {
     hideAddMode() {
       this.addMode = false;
