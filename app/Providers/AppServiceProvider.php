@@ -29,16 +29,14 @@ class AppServiceProvider extends ServiceProvider
 
         if (App::runningInConsole()) {
             Command::macro('exec', function (string $message, string $commandline) {
-                /*
-                 * @var \Illuminate\Console\Command $this
-                 */
-                \App\Console\Commands\Helpers\Command::exec($this, $message, $commandline); // @codeCoverageIgnore
+                /** @var \Illuminate\Console\Command */
+                $command = $this;
+                \App\Console\Commands\Helpers\Command::exec($command, $message, $commandline); // @codeCoverageIgnore
             });
             Command::macro('artisan', function (string $message, string $commandline, array $arguments = []) {
-                /*
-                 * @var \Illuminate\Console\Command $this
-                 **/
-                \App\Console\Commands\Helpers\Command::artisan($this, $message, $commandline, $arguments);
+                /** @var \Illuminate\Console\Command */
+                $command = $this;
+                \App\Console\Commands\Helpers\Command::artisan($command, $message, $commandline, $arguments);
             });
         }
     }
