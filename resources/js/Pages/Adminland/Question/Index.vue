@@ -318,7 +318,7 @@ export default {
           this.form.active = false;
           this.loadingState = null;
 
-          var id = this.localQuestions.findIndex(x => x.id == question.id);
+          var id = this.localQuestions.findIndex(x => x.id === question.id);
           this.$set(this.localQuestions, id, response.data.data);
         })
         .catch(error => {
@@ -333,7 +333,7 @@ export default {
           flash(this.$t('account.question_destroy_success'), 'success');
 
           this.questionToDelete = 0;
-          var id = this.localQuestions.findIndex(x => x.id == question.id);
+          var id = this.localQuestions.findIndex(x => x.id === question.id);
           this.localQuestions.splice(id, 1);
         })
         .catch(error => {

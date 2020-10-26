@@ -304,7 +304,7 @@ export default {
           this.teamToRename = 0;
           this.form.name = null;
 
-          var id = this.localTeams.findIndex(x => x.id == team.id);
+          var id = this.localTeams.findIndex(x => x.id === team.id);
           this.$set(this.localTeams, id, response.data.data);
         })
         .catch(error => {
@@ -318,7 +318,7 @@ export default {
           flash(this.$t('account.team_destroy_success'), 'success');
 
           this.teamToDelete = 0;
-          var id = this.localTeams.findIndex(x => x.id == team.id);
+          var id = this.localTeams.findIndex(x => x.id === team.id);
           this.localTeams.splice(id, 1);
         })
         .catch(error => {
