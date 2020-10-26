@@ -17,7 +17,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_expense_categories') }}
+            {{ $t('app.breadcrumb_account_manage_expenselocalCategories') }}
           </li>
         </ul>
       </div>
@@ -26,12 +26,12 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.expense_categories_title', { company: $page.props.auth.company.name}) }}
+            {{ $t('account.expenselocalCategories_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <!-- EXPENSES CATEGORIES -->
           <categories
-            :categories="categories"
+            :categories="localCategories"
           />
 
           <!-- Employees with rights to manage expenses -->
@@ -73,10 +73,10 @@ export default {
 
   data() {
     return {
+      localCategories: [],
       loadingState: '',
       modal: false,
       addEmployeesMode: false,
-      localEmployees: [],
       potentialEmployees: [],
       processingSearch: false,
       form: {
@@ -91,8 +91,8 @@ export default {
     };
   },
 
-  created() {
-    this.localEmployees = this.employees;
+  mounted() {
+    this.localCategories = this.categories;
   },
 
   methods: {
@@ -108,14 +108,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/expenses', this.form)
+      axios.post(this.$route('account.expenses.create', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_new'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
           this.modal = false;
-          this.categories.push(response.data.data);
+          this.localCategories.push(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;

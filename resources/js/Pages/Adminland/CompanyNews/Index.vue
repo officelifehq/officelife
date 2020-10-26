@@ -25,7 +25,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_company_news') }}
+            {{ $t('app.breadcrumb_account_manage_companylocalNews') }}
           </li>
         </ul>
       </div>
@@ -34,20 +34,22 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.company_news_title', { company: $page.props.auth.company.name}) }}
+            {{ $t('account.companylocalNews_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
+          <errors :errors="errors" />
+
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l" :class="news.length == 0 ? 'white' : ''">
-              {{ $tc('account.company_news_number_news', news.length, { company: $page.props.auth.company.name, count: news.length}) }}
+            <span class="dib mb3 di-l" :class="localNews.length == 0 ? 'white' : ''">
+              {{ $tc('account.companylocalNews_numberlocalNews', localNews.length, { company: $page.props.auth.company.name, count: localNews.length}) }}
             </span>
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
-              {{ $t('account.company_news_cta') }}
+              {{ $t('account.companylocalNews_cta') }}
             </inertia-link>
           </p>
 
           <!-- LIST OF EXISTING NEWS -->
-          <ul v-show="news.length != 0" class="list pl0 mv0 center" data-cy="news-list" :data-cy-items="news.map(n => n.id)">
+          <ul v-show="localNews.length != 0" class="list pl0 mv0 center" data-cy="news-list" :data-cy-items="localNews.map(n => n.id)">
             <li v-for="singleNews in news" :key="singleNews.id" class="news-item pa3 br bl bb bb-gray bb-gray-hover">
               <h3 class="mt0">{{ singleNews.title }}</h3>
 
@@ -57,7 +59,7 @@
               <ul class="list pa0 ma0 di-ns db mt2 mt0-ns">
                 <!-- DATE -->
                 <span class="f7 mr1">
-                  {{ $t('account.company_news_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}
+                  {{ $t('account.companylocalNews_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}
                 </span>
 
                 <!-- RENAME A NEWS -->
@@ -83,9 +85,9 @@
           </ul>
 
           <!-- BLANK STATE -->
-          <div v-show="news.length == 0" class="pa3 mt5">
+          <div v-show="localNews.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.company_news_blank') }}
+              {{ $t('account.companylocalNews_blank') }}
             </p>
           </div>
         </div>
@@ -96,10 +98,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Errors from '@/Shared/Errors';
 
 export default {
   components: {
     Layout,
+    Errors,
   },
 
   props: {
@@ -115,22 +119,29 @@ export default {
 
   data() {
     return {
+      localNews: [],
       idToDelete: 0,
+      error: [],
     };
+  },
+
+  mounted() {
+    this.localNews = this.news;
   },
 
   methods: {
     destroy(id) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/account/news/' + id)
+      this.errors = [];
+      axios.delete(this.$route('accountlocalNews.news.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.company_news_success_destroy'), 'success');
+          flash(this.$t('account.companylocalNews_success_destroy'), 'success');
 
           this.idToDelete = 0;
-          id = this.news.findIndex(x => x.id === id);
-          this.news.splice(id, 1);
+          id = this.localNews.findIndex(x => x.id === id);
+          this.localNews.splice(id, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.errors = _.flatten(_.toArray(error.response.data));
         });
     },
   }

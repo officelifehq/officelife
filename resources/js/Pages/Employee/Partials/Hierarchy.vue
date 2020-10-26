@@ -137,18 +137,18 @@
     <!-- LIST OF EMPLOYEES -->
     <div class="br3 bg-white box z-1 pa3 list-employees">
       <!-- Blank state -->
-      <p v-if="managersOfEmployee.length == 0 && directReports.length == 0" class="lh-copy mb0 f6">
+      <p v-if="localManagersOfEmployee.length == 0 && localDirectReports.length == 0" class="lh-copy mb0 f6">
         {{ $t('employee.hierarchy_blank') }}
       </p>
 
       <!-- Managers -->
-      <template v-if="managersOfEmployee.length != 0">
+      <template v-if="localManagersOfEmployee.length != 0">
         <div data-cy="list-managers">
           <p class="mt0 mb2 f6">
-            {{ $tc('employee.hierarchy_list_manager_title', managersOfEmployee.length) }}
+            {{ $tc('employee.hierarchy_list_manager_title', localManagersOfEmployee.length) }}
           </p>
           <ul class="list mv0">
-            <li v-for="manager in managersOfEmployee" :key="manager.id" class="mb3 relative">
+            <li v-for="manager in localManagersOfEmployee" :key="manager.id" class="mb3 relative">
               <img loading="lazy" :src="manager.avatar" class="br-100 absolute avatar" alt="avatar" />
               <inertia-link :href="manager.url" class="mb2">
                 {{ manager.name }}
@@ -195,13 +195,13 @@
       </template>
 
       <!-- Direct reports -->
-      <template v-if="directReports.length != 0">
-        <div :class="managersOfEmployee.length != 0 ? 'mt3' : ''" data-cy="list-direct-reports">
+      <template v-if="localDirectReports.length != 0">
+        <div :class="localManagersOfEmployee.length != 0 ? 'mt3' : ''" data-cy="list-direct-reports">
           <p class="mt0 mb2 f6">
-            {{ $tc('employee.hierarchy_list_direct_report_title', directReports.length) }}
+            {{ $tc('employee.hierarchy_list_direct_report_title', localDirectReports.length) }}
           </p>
           <ul class="list mv0">
-            <li v-for="directReport in directReports" :key="directReport.id" class="mb3 relative">
+            <li v-for="directReport in localDirectReports" :key="directReport.id" class="mb3 relative">
               <img loading="lazy" :src="directReport.avatar" class="br-100 absolute avatar" alt="avatar" />
               <inertia-link :href="directReport.url" class="mb2">
                 {{ directReport.name }}
@@ -287,6 +287,8 @@ export default {
 
   data() {
     return {
+      localManagersOfEmployee: [],
+      localDirectReports: [],
       modal: 'hide',
       processingSearch: false,
       searchManagers: [],
@@ -299,6 +301,20 @@ export default {
       directReportModalId: 0,
       deleteEmployeeConfirmation: false,
     };
+  },
+
+  watch: {
+    managersOfEmployee(value) {
+      this.localManagersOfEmployee = value;
+    },
+    directReports(value) {
+      this.localDirectReports = value;
+    },
+  },
+
+  mounted() {
+    this.localManagersOfEmployee = this.managersOfEmployee;
+    this.localDirectReports = this.directReports;
   },
 
   methods: {
@@ -361,10 +377,10 @@ export default {
       }, 500),
 
     assignManager(manager) {
-      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/assignManager', manager)
+      axios.put(this.$route('employee.manager.assign', [this.$page.props.auth.company.id, this.employee.id]), manager)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_add_manager_success'), 'success');
-          this.managersOfEmployee.push(response.data.data);
+          this.localManagersOfEmployee.push(response.data.data);
           this.modal = 'hide';
         })
         .catch(error => {
@@ -373,10 +389,10 @@ export default {
     },
 
     assignDirectReport(directReport) {
-      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/assignDirectReport', directReport)
+      axios.put(this.$route('employee.directReport.assign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_add_direct_report_success'), 'success');
-          this.directReports.push(response.data.data);
+          this.localDirectReports.push(response.data.data);
           this.modal = 'hide';
         })
         .catch(error => {
@@ -385,11 +401,11 @@ export default {
     },
 
     unassignManager(manager) {
-      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/unassignManager', manager)
+      axios.put(this.$route('employee.manager.unassign', [this.$page.props.auth.company.id, this.employee.id]), manager)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_remove_manager_success'), 'success');
 
-          this.managersOfEmployee.splice(this.managersOfEmployee.findIndex(i => i.id === response.data.data.id), 1);
+          this.localManagersOfEmployee.splice(this.localManagersOfEmployee.findIndex(i => i.id === response.data.data.id), 1);
           this.deleteEmployeeConfirmation = false;
           this.managerModalId = 0;
         })
@@ -399,11 +415,11 @@ export default {
     },
 
     unassignDirectReport(directReport) {
-      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/unassignDirectReport', directReport)
+      axios.put(this.$route('employee.directReport.unassign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_remove_direct_report_success'), 'success');
 
-          this.directReports.splice(this.directReports.findIndex(i => i.id === response.data.data.id), 1);
+          this.localDirectReports.splice(this.localDirectReports.findIndex(i => i.id === response.data.data.id), 1);
           this.deleteEmployeeConfirmation = false;
           this.directReportModalId = 0;
         })
