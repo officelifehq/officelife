@@ -121,7 +121,7 @@ export default {
     return {
       localNews: [],
       idToDelete: 0,
-      error: [],
+      errors: [],
     };
   },
 

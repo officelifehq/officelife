@@ -148,6 +148,10 @@ export default {
       type: String,
       default: 'input',
     },
+    errors: {
+      type: Array,
+      default: () => [],
+    },
     datacy: {
       type: String,
       default: '',
@@ -191,7 +195,7 @@ export default {
       updatedValue: false,
       hover: false,
       idToDelete: 0,
-      errors: [],
+      localErrors: [],
     };
   },
 
@@ -204,11 +208,15 @@ export default {
   watch: {
     value(newValue) {
       this.updatedValue = newValue;
-    }
+    },
+    errors(value) {
+      this.localErrors = value;
+    },
   },
 
   mounted() {
     this.updatedValue = this.value;
+    this.localErrors = this.errors;
   },
 
   methods: {
