@@ -26,12 +26,12 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.expenselocalCategories_title', { company: $page.props.auth.company.name}) }}
+            {{ $t('account.expense_categories_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <!-- EXPENSES CATEGORIES -->
           <categories
-            :categories="localCategories"
+            :categories="categories"
           />
 
           <!-- Employees with rights to manage expenses -->
@@ -73,7 +73,6 @@ export default {
 
   data() {
     return {
-      localCategories: [],
       loadingState: '',
       modal: false,
       addEmployeesMode: false,
@@ -91,10 +90,6 @@ export default {
     };
   },
 
-  mounted() {
-    this.localCategories = this.categories;
-  },
-
   methods: {
     displayAddModal() {
       this.modal = true;
@@ -103,24 +98,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['newCategory'].$refs['input'].focus();
       });
-    },
-
-    submit() {
-      this.loadingState = 'loading';
-
-      axios.post(this.$route('account.expenses.create', this.$page.props.auth.company.id), this.form)
-        .then(response => {
-          flash(this.$t('account.employee_statuses_success_new'), 'success');
-
-          this.loadingState = null;
-          this.form.name = null;
-          this.modal = false;
-          this.localCategories.push(response.data.data);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
     },
   }
 };
