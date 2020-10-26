@@ -17,6 +17,8 @@ class CalculateTimeOffBalanceForAllEmployees extends Command
 
     /**
      * The date the calculation is made.
+     *
+     * @var string
      */
     protected $date;
 
@@ -38,7 +40,7 @@ class CalculateTimeOffBalanceForAllEmployees extends Command
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         $this->date = $this->argument('day');
         Employee::select('id')->chunk(100, function ($employees) {

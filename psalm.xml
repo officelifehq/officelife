@@ -8,6 +8,7 @@
         <directory name="database/seeds" />
         <directory name="database/migrations" />
         <directory name="app" />
+        <directory name="tests" />
         <directory name="routes" />
         <ignoreFiles>
             <directory name="vendor" />
@@ -96,5 +97,9 @@
         <PossiblyUndefinedMethod errorLevel="info" />
         <ReservedWord errorLevel="info" />
         <UndefinedInterfaceMethod errorLevel="info" />
+
+        <!-- Personal fixes -->
+        <UndefinedMagicPropertyFetch errorLevel="suppress" />
+        <InvalidPropertyAssignmentValue errorLevel="suppress" />
     </issueHandlers>
 </psalm>

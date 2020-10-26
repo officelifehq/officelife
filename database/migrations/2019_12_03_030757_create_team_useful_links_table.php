@@ -9,7 +9,7 @@ class CreateTeamUsefulLinksTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         // necessary for SQLlite
         Schema::enableForeignKeyConstraints();

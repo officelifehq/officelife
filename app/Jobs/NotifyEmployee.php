@@ -31,7 +31,7 @@ class NotifyEmployee implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         (new AddNotificationInUIForEmployee)->execute([
             'employee_id' => $this->notification['employee_id'],

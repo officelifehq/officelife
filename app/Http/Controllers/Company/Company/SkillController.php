@@ -41,9 +41,10 @@ class SkillController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $skillId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function show(Request $request, int $companyId, int $skillId): Response
+    public function show(Request $request, int $companyId, int $skillId)
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -76,14 +77,14 @@ class SkillController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'skill_id' => $skillId,
             'name' => $request->input('name'),
         ];
 
-        (new UpdateSkill)->execute($request);
+        (new UpdateSkill)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -102,13 +103,13 @@ class SkillController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'skill_id' => $skillId,
         ];
 
-        (new DestroySkill)->execute($request);
+        (new DestroySkill)->execute($data);
 
         return response()->json([
             'data' => true,

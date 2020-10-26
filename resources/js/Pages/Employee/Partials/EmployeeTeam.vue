@@ -176,8 +176,8 @@ export default {
     },
 
     isAssigned: function(id) {
-      for(var i=0; i < this.updatedEmployeeTeams.length; i++){
-        if (this.updatedEmployeeTeams[i].id == id) {
+      for(let team of this.updatedEmployeeTeams){
+        if (team.id === id) {
           return true;
         }
       }

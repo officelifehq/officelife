@@ -23,9 +23,9 @@ class LoginController extends Controller
     /**
      * Show the application's login form.
      *
-     * @return \Illuminate\View\View
+     * @return \Inertia\Response
      */
-    public function showLoginForm()
+    public function showLoginForm(): \Inertia\Response
     {
         return Inertia::render('Auth/Login', [
             'registerUrl' => route('signup'),

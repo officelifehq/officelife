@@ -50,13 +50,13 @@ class AdminExpenseController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
         ];
 
-        $category = (new CreateExpenseCategory)->execute($request);
+        $category = (new CreateExpenseCategory)->execute($data);
 
         return response()->json([
             'data' => [
@@ -79,14 +79,14 @@ class AdminExpenseController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'expense_category_id' => $expenseCategoryId,
             'name' => $request->input('name'),
         ];
 
-        $category = (new UpdateExpenseCategory)->execute($request);
+        $category = (new UpdateExpenseCategory)->execute($data);
 
         return response()->json([
             'data' => [
@@ -108,13 +108,13 @@ class AdminExpenseController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'expense_category_id' => $expenseCategoryId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyExpenseCategory)->execute($request);
+        (new DestroyExpenseCategory)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -165,13 +165,13 @@ class AdminExpenseController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $request->input('selectedEmployee'),
         ];
 
-        $employee = (new AllowEmployeeToManageExpenses)->execute($request);
+        $employee = (new AllowEmployeeToManageExpenses)->execute($data);
 
         return response()->json([
             'data' => [
@@ -197,13 +197,13 @@ class AdminExpenseController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $request->input('selectedEmployee'),
         ];
 
-        $employee = (new DisallowEmployeeToManageExpenses)->execute($request);
+        $employee = (new DisallowEmployeeToManageExpenses)->execute($data);
 
         return response()->json([
             'data' => [

@@ -147,15 +147,15 @@ class DashboardManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $expense = $this->canAccess($company, $expenseId, $employee);
+        $this->canAccess($company, $expenseId, $employee);
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'expense_id' => $expenseId,
         ];
 
-        $expense = (new AcceptExpenseAsManager)->execute($request);
+        $expense = (new AcceptExpenseAsManager)->execute($data);
 
         return response()->json([
             'data' => $expense->id,
@@ -175,16 +175,16 @@ class DashboardManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $expense = $this->canAccess($company, $expenseId, $employee);
+        $this->canAccess($company, $expenseId, $employee);
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'expense_id' => $expenseId,
             'reason' => $request->input('reason'),
         ];
 
-        $expense = (new RejectExpenseAsManager)->execute($request);
+        $expense = (new RejectExpenseAsManager)->execute($data);
 
         return response()->json([
             'data' => $expense->id,

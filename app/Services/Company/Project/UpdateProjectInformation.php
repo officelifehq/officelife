@@ -6,14 +6,11 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\Employee;
 use App\Exceptions\ProjectCodeAlreadyExistException;
 
 class UpdateProjectInformation extends BaseService
 {
     private array $data;
-
-    private Employee $employee;
 
     private Project $project;
 

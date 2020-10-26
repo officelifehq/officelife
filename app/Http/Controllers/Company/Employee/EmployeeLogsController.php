@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Helpers\PaginatorHelper;
 use App\Models\Company\Employee;
@@ -24,7 +23,8 @@ class EmployeeLogsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     * @return Redirector|RedirectResponse|Response
+     *
+     * @return \Inertia\Response|Redirector|RedirectResponse
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {

@@ -21,7 +21,7 @@ class DashboardMoraleController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'company_id' => $company->id,
@@ -29,7 +29,7 @@ class DashboardMoraleController extends Controller
             'comment' => $request->input('comment'),
         ];
 
-        (new LogMorale)->execute($request);
+        (new LogMorale)->execute($data);
 
         $employee->refresh();
 

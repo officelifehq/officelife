@@ -32,7 +32,7 @@ class SetupFrontEndTest extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         exec('php artisan migrate:fresh && php artisan db:seed');
 

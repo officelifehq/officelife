@@ -121,6 +121,7 @@ class CompanyQuestionViewHelper
 
     /**
      * @param Question $question
+     *
      * @return string|null
      */
     private static function getInformationAboutActivationDate(Question $question): ?string

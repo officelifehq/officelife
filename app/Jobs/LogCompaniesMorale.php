@@ -32,7 +32,7 @@ class LogCompaniesMorale implements ShouldQueue
      * employee's feeling on the given date.
      * This job is meant to be executed every day at 11pm (UTC).
      */
-    public function handle()
+    public function handle(): void
     {
         Company::select('id')->chunk(100, function ($companies) {
             $companies->each(function (Company $company) {

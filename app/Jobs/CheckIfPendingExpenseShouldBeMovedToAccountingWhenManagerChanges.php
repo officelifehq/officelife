@@ -42,7 +42,7 @@ class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges implement
      * validated in this case. We will move the expenses in the accounting
      * department for validation.
      */
-    public function handle()
+    public function handle(): void
     {
         // grab all the expenses with the awaiting manager approval status
         // analyze the expense's associated employee

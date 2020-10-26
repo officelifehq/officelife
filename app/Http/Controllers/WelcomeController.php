@@ -13,7 +13,7 @@ class WelcomeController extends Controller
     /**
      * Display the welcome page.
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Inertia\Response
      */
     public function index()
     {
