@@ -41,7 +41,7 @@
 
           <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="localNews.length == 0 ? 'white' : ''">
-              {{ $tc('account.company_news_numberlocalNews', localNews.length, { company: $page.props.auth.company.name, count: localNews.length}) }}
+              {{ $tc('account.company_news_number_news', localNews.length, { company: $page.props.auth.company.name, count: localNews.length}) }}
             </span>
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
               {{ $t('account.company_news_cta') }}

@@ -17,7 +17,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_expenselocalCategories') }}
+            {{ $t('app.breadcrumb_account_manage_expense_categories') }}
           </li>
         </ul>
       </div>
