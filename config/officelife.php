@@ -158,5 +158,6 @@ return [
         'employee_hiring_date' => 'manage/employee-management.html#hiring-date',
         'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
         'one_on_ones' => 'introduction.html',
+        'project_decisions' => 'operate/project-management.html#project-decisions',
     ],
 ];

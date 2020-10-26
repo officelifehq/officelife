@@ -59,15 +59,8 @@
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
-        <h2 class="tc mb2 relative" data-cy="project-name">
-          {{ localProject.name }} <span v-if="localProject.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">
-            {{ localProject.code }}
-          </span>
-        </h2>
-        <p class="tc mt0 mb4">{{ localProject.summary }}</p>
-
         <!-- Menu -->
-        <project-menu :project="project" :tab="'members'" />
+        <project-menu :project="project" :tab="tab" />
 
         <!-- members list -->
         <div class="cf center">
@@ -76,7 +69,7 @@
             <div class="bg-white box mb3 db-ns dn">
               <ul class="list pl0 ma0 list-no-line-bottom">
                 <li class="ph3 pv2 fw6 bb bb-gray">Current roles</li>
-                <li v-for="role in localRoles" :key="role.id" class="bb bb-gray ph3 pv2 bb-gray-hover">
+                <li v-for="role in localRoles" :key="role.id" class="bb bb-gray ph3 pv2 bb-gray-hover lh-copy f6">
                   {{ role.role }}
                 </li>
                 <li v-if="localRoles.length == 0" class="ph3 pv2 bb-gray-hover">{{ $t('project.members_index_blank_role') }}</li>

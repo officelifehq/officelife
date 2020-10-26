@@ -77,27 +77,6 @@ class ProjectMembersViewHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_information_about_the_project(): void
-    {
-        $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-
-        $array = ProjectMembersViewHelper::info($project);
-
-        $this->assertEquals(
-            [
-                'id' => $project->id,
-                'name' => $project->name,
-                'code' => $project->code,
-                'summary' => $project->summary,
-            ],
-            $array
-        );
-    }
-
-    /** @test */
     public function it_gets_a_collection_of_potential_members(): void
     {
         $michael = $this->createAdministrator();

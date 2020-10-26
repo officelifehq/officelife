@@ -8,6 +8,7 @@ use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectStatus;
+use App\Models\Company\ProjectDecision;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTest extends TestCase
@@ -87,5 +88,16 @@ class ProjectTest extends TestCase
         ]);
 
         $this->assertTrue($project->statuses()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_decisions(): void
+    {
+        $project = factory(Project::class)->create();
+        factory(ProjectDecision::class, 2)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $this->assertTrue($project->decisions()->exists());
     }
 }

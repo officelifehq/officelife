@@ -162,4 +162,45 @@ class ProjectViewHelper
             'can_manage_links' => $canManageLinks,
         ];
     }
+
+    /**
+     * Array containing the information about the project itself.
+     *
+     * @param Project $project
+     * @return array
+     */
+    public static function info(Project $project): array
+    {
+        $company = $project->company;
+
+        // get random members of the project
+        if ($project->employees->count() > 4) {
+            $random = 4;
+        } else {
+            $random = $project->employees->count();
+        }
+        $randomMembers = $project->employees->random($random);
+
+        $membersCollection = collect([]);
+        foreach ($randomMembers as $member) {
+            $membersCollection->push([
+                'id' => $member->id,
+                'avatar' => $member->avatar,
+                'name' => $member->name,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $member,
+                ]),
+            ]);
+        }
+
+        return [
+            'id' => $project->id,
+            'name' => $project->name,
+            'code' => $project->code,
+            'summary' => $project->summary,
+            'members' => $membersCollection,
+            'other_members_counter' => $project->employees->count() - 4,
+        ];
+    }
 }

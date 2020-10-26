@@ -2,8 +2,8 @@
 
 namespace App\Services\Company\GuessEmployeeGame;
 
-use App\Models\Company\Employee;
 use App\Services\BaseService;
+use App\Models\Company\Employee;
 use App\Models\Company\GuessEmployeeGame;
 
 class VoteGuessEmployeeGame extends BaseService

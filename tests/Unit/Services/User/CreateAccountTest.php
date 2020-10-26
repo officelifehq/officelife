@@ -4,9 +4,7 @@ namespace Tests\Unit\Services\User;
 
 use Tests\TestCase;
 use App\Models\User\User;
-use App\Mail\ConfirmAccount;
 use App\Services\User\CreateAccount;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

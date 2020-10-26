@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectStatus;
@@ -510,5 +511,24 @@ $factory->define(App\Models\Company\ProjectStatus::class, function () {
         'status' => ProjectStatus::ON_TRACK,
         'title' => 'Title',
         'description' => 'it is going well',
+    ];
+});
+
+$factory->define(App\Models\Company\ProjectDecision::class, function () {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
+    return [
+        'project_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Project::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'author_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'title' => 'This is a title',
+        'decided_at' => Carbon::now(),
     ];
 });

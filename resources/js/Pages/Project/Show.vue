@@ -8,13 +8,6 @@
 .team-member {
   padding-left: 44px;
 }
-
-.project-code {
-  padding-bottom: 2px;
-  top: -2px;
-  color: #737e91;
-  border: 1px solid #b3d4ff;
-}
 </style>
 
 <template>
@@ -37,13 +30,6 @@
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
-        <h2 class="tc mb2 relative" data-cy="project-name">
-          {{ localProject.name }} <span v-if="localProject.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">
-            {{ localProject.code }}
-          </span>
-        </h2>
-        <p class="tc mt0 mb4">{{ localProject.summary }}</p>
-
         <!-- Menu -->
         <project-menu :project="project" :tab="tab" />
 
@@ -51,24 +37,24 @@
           <!-- LEFT COLUMN -->
           <div class="fl w-70-l w-100">
             <!-- project status -->
-            <project-updates :project="project" :permissions="permissions" />
+            <project-updates :project="localProject" :permissions="permissions" />
 
             <!-- Project description -->
-            <description :project="project" />
+            <description :project="localProject" />
           </div>
 
           <!-- RIGHT COLUMN -->
           <div class="fl w-30-l w-100 pl4-l">
             <div class="bg-white box mb4">
               <!-- lead by -->
-              <project-lead :project="project" />
+              <project-lead :project="localProject" />
 
               <!-- links -->
-              <project-links :project="project" :permissions="permissions" />
+              <project-links :project="localProject" :permissions="permissions" />
             </div>
 
             <!-- actions -->
-            <status :project="project" />
+            <status :project="localProject" />
 
             <ul class="list pl0">
               <li class="mb2 pl2"><inertia-link :href="localProject.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.summary_edit') }}</inertia-link></li>
@@ -110,6 +96,10 @@ export default {
       type: Object,
       default: null,
     },
+    projectDetails: {
+      type: Object,
+      default: null,
+    },
     permissions: {
       type: Object,
       default: null,
@@ -126,7 +116,7 @@ export default {
   },
 
   created() {
-    this.localProject = this.project;
+    this.localProject = this.projectDetails;
   },
 
   mounted() {

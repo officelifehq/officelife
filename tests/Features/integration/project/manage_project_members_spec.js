@@ -4,7 +4,6 @@ describe('Project - members', function () {
 
     cy.createCompany();
 
-    // make sure we can create a project with only the name of the project
     cy.createProject(1, 'project 1');
 
     // add a member without a role
@@ -50,7 +49,6 @@ describe('Project - members', function () {
 
     cy.changePermission(1, 200);
 
-    // make sure we can create a project with only the name of the project
     cy.createProject(1, 'project 1');
 
     // add a member without a role
@@ -94,7 +92,6 @@ describe('Project - members', function () {
 
     cy.changePermission(1, 300);
 
-    // make sure we can create a project with only the name of the project
     cy.createProject(1, 'project 1');
 
     // add a member without a role

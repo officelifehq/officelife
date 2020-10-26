@@ -4,7 +4,6 @@ namespace App\Http\ViewHelpers\Team;
 
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Enumerable;
 
 class TeamMembersViewHelper
 {

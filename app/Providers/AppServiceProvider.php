@@ -67,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
                         'name' => Auth::user()->name,
                         'show_help' => Auth::user()->show_help,
                     ] : null,
-                    'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? InstanceHelper::getLoggedCompany(): null,
+                    'company' => Auth::user() && ! is_null(InstanceHelper::getLoggedCompany()) ? InstanceHelper::getLoggedCompany() : null,
                     'employee' => Auth::user() && ! is_null(InstanceHelper::getLoggedEmployee()) ? [
                         'id' => InstanceHelper::getLoggedEmployee()->id,
                         'first_name' => InstanceHelper::getLoggedEmployee()->first_name,
@@ -78,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
                         'user' => (! InstanceHelper::getLoggedEmployee()->user) ? null : [
                             'id' => InstanceHelper::getLoggedEmployee()->user_id,
                         ],
-                    ]: null,
+                    ] : null,
                 ];
             },
             'help_links' => function () {
