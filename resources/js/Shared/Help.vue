@@ -32,7 +32,7 @@ export default {
 
   data() {
     return {
-      localUrl: 'https://docs.officelife.io/docs/',
+      localUrl: 'https://docs.officelife.io/documentation/',
     };
   },
 

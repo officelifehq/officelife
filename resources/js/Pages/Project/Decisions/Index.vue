@@ -70,7 +70,12 @@
       </div>
 
       <div class="mw6 center br3 mb5 relative z-1">
-        <p class="mt0 mb3 tr">
+        <p class="db fw5 mb2 flex justify-between items-center">
+          <span>
+            🗞 {{ $t('project.decision_index_title') }}
+
+            <help :url="$page.props.help_links.project_decisions" :top="'3px'" />
+          </span>
           <a href="#" class="btn f5" data-cy="add-decision" @click.prevent="showAddMode()">{{ $t('project.decision_index_cta') }}</a>
         </p>
 
@@ -242,6 +247,7 @@ import IconDelete from '@/Shared/IconDelete';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 import LoadingButton from '@/Shared/LoadingButton';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -253,6 +259,7 @@ export default {
     Errors,
     LoadingButton,
     'ball-pulse-loader': BallPulseLoader.component,
+    Help,
   },
 
   directives: {

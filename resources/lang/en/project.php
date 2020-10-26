@@ -90,4 +90,5 @@ return [
     'decision_index_blank' => 'Keeping a log of decisions is beneficial to improve communication between members and stakeholders of the project, and employees of the company in general.',
     'decision_index_add_success' => 'The decision has been recorded.',
     'decision_index_destroy_success' => 'The decision has been forgotten.',
+    'decision_index_title' => 'Decisions in the project',
 ];
