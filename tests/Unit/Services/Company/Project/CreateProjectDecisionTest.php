@@ -109,7 +109,7 @@ class CreateProjectDecisionTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('project_decision_deciders', [
-            'project_decision_id' => $project->id,
+            'project_decision_id' => $projectDecision->id,
             'employee_id' => $dwight->id,
         ]);
 

@@ -140,10 +140,10 @@ class ProjectDecisionsController extends Controller
             'deciders' => $employees,
         ];
 
-        $decision = (new CreateProjectDecision)->execute($data);
+        $projectDecision = (new CreateProjectDecision)->execute($data);
 
         $decidersCollection = collect([]);
-        foreach ($decision->deciders as $decider) {
+        foreach ($projectDecision->deciders as $decider) {
             $decidersCollection->push([
                 'id' => $decider->id,
                 'name' => $decider->name,
@@ -157,9 +157,9 @@ class ProjectDecisionsController extends Controller
 
         return response()->json([
             'data' => [
-                'id' => $decision->id,
-                'title' => $decision->title,
-                'decided_at' => DateHelper::formatDate($decision->decided_at),
+                'id' => $projectDecision->id,
+                'title' => $projectDecision->title,
+                'decided_at' => DateHelper::formatDate($projectDecision->decided_at),
                 'deciders' => $decidersCollection,
             ],
         ], 201);
