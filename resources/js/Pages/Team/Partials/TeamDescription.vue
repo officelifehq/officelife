@@ -86,6 +86,20 @@ export default {
     };
   },
 
+  computed: {
+    teamMemberOrAtLeastHR() {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
+        return true;
+      }
+
+      if (this.userBelongsToTheTeam == false) {
+        return false;
+      }
+
+      return true;
+    },
+  },
+
   created: function() {
     this.updatedTeam = this.team;
     this.form.description = this.team.raw_description;
@@ -117,18 +131,6 @@ export default {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
-
-    teamMemberOrAtLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (this.userBelongsToTheTeam == false) {
-        return false;
-      }
-
-      return true;
-    }
   }
 };
 

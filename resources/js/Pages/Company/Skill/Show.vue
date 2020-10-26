@@ -192,7 +192,13 @@ export default {
     };
   },
 
-  created() {
+  computed: {
+    atLeastHR() {
+      return this.$page.props.auth.employee.permission_level <= 200;
+    },
+  },
+
+  mounted() {
     this.form.name = this.skill.name;
     this.updatedName = this.skill.name;
   },
@@ -204,14 +210,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['editModal'].$refs['input'].focus();
       });
-    },
-
-    atLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      return false;
     },
 
     update() {

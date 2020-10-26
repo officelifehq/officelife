@@ -119,14 +119,7 @@ export default {
     },
   },
 
-  mounted() {
-    if (localStorage.success) {
-      flash(localStorage.success, 'success');
-      localStorage.removeItem('success');
-    }
-  },
-
-  methods: {
+  computed: {
     employeeOrAtLeastHR() {
       if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
@@ -136,9 +129,11 @@ export default {
         return false;
       }
 
-      if (this.$page.props.auth.user.id == this.employee.user.id) {
+      if (this.$page.props.auth.user.id === this.employee.user.id) {
         return true;
       }
+
+      return false;
     },
 
     employeeOrAccountant() {
@@ -147,12 +142,19 @@ export default {
       }
 
       if (this.employee.user) {
-        if (this.$page.props.auth.user.id == this.employee.user.id) {
+        if (this.$page.props.auth.user.id === this.employee.user.id) {
           return true;
         }
       }
 
       return false;
+    }
+  },
+
+  mounted() {
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
     }
   }
 };

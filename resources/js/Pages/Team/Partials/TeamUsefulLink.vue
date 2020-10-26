@@ -148,6 +148,20 @@ export default {
     };
   },
 
+  computed: {
+    teamMemberOrAtLeastHR() {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
+        return true;
+      }
+
+      if (this.userBelongsToTheTeam == false) {
+        return false;
+      }
+
+      return true;
+    },
+  },
+
   created: function() {
     this.updatedLinks = this.links;
   },
@@ -188,25 +202,13 @@ export default {
         .then(response => {
           flash(this.$t('team.team_lead_removed'), 'success');
 
-          this.updatedLinks.splice(this.updatedLinks.findIndex(i => i.id == response.data.data), 1);
+          this.updatedLinks.splice(this.updatedLinks.findIndex(i => i.id === response.data.data), 1);
           this.editMode = false;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
-
-    teamMemberOrAtLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (this.userBelongsToTheTeam == false) {
-        return false;
-      }
-
-      return true;
-    }
   }
 };
 

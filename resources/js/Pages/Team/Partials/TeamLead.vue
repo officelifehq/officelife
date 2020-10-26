@@ -171,6 +171,12 @@ export default {
     };
   },
 
+  computed: {
+    atLeastHR() {
+      return this.$page.props.auth.employee.permission_level <= 200;
+    },
+  },
+
   created: function() {
     this.updatedTeam = this.team;
   },
@@ -225,14 +231,6 @@ export default {
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
-    },
-
-    atLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      return false;
     },
 
     removeTeamLead() {
