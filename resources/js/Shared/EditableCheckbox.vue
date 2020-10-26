@@ -196,12 +196,18 @@ export default {
   },
 
   computed: {
-    hasError: function () {
+    hasError() {
       return this.errors.length > 0 && this.required;
     }
   },
 
-  mounted: function() {
+  watch: {
+    value(newValue) {
+      this.updatedValue = newValue;
+    }
+  },
+
+  mounted() {
     this.updatedValue = this.value;
   },
 

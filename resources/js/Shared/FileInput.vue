@@ -104,7 +104,7 @@ export default {
   },
 
   computed: {
-    hasError: function () {
+    hasError() {
       return this.errors.length > 0 && this.required;
     }
   },

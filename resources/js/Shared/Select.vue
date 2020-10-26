@@ -28,7 +28,7 @@
               :label="customLabelKey"
               :data-cy="datacy"
               :close-on-select="true"
-              @input="broadcast(selected)"
+              @input="broadcast"
     >
       <!-- all this complex code below just to make sure the select box is required -->
       <template #search="{attributes, events}">
@@ -114,10 +114,14 @@ export default {
     };
   },
 
-  created() {
-    if (this.value !== null) {
-      this.selected = this.value;
+  watch: {
+    value(newValue) {
+      this.selected = newValue;
     }
+  },
+
+  mounted() {
+    this.selected = this.value;
   },
 
   methods: {
