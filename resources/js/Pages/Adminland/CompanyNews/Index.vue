@@ -25,7 +25,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_companylocalNews') }}
+            {{ $t('app.breadcrumb_account_manage_company_news') }}
           </li>
         </ul>
       </div>
@@ -34,17 +34,17 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.companylocalNews_title', { company: $page.props.auth.company.name}) }}
+            {{ $t('account.company_news_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <errors :errors="errors" />
 
           <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="localNews.length == 0 ? 'white' : ''">
-              {{ $tc('account.companylocalNews_numberlocalNews', localNews.length, { company: $page.props.auth.company.name, count: localNews.length}) }}
+              {{ $tc('account.company_news_numberlocalNews', localNews.length, { company: $page.props.auth.company.name, count: localNews.length}) }}
             </span>
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
-              {{ $t('account.companylocalNews_cta') }}
+              {{ $t('account.company_news_cta') }}
             </inertia-link>
           </p>
 
@@ -59,7 +59,7 @@
               <ul class="list pa0 ma0 di-ns db mt2 mt0-ns">
                 <!-- DATE -->
                 <span class="f7 mr1">
-                  {{ $t('account.companylocalNews_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}
+                  {{ $t('account.company_news_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}
                 </span>
 
                 <!-- RENAME A NEWS -->
@@ -87,7 +87,7 @@
           <!-- BLANK STATE -->
           <div v-show="localNews.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.companylocalNews_blank') }}
+              {{ $t('account.company_news_blank') }}
             </p>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default {
       this.errors = [];
       axios.delete(this.$route('accountlocalNews.news.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.companylocalNews_success_destroy'), 'success');
+          flash(this.$t('account.company_news_success_destroy'), 'success');
 
           this.idToDelete = 0;
           id = this.localNews.findIndex(x => x.id === id);

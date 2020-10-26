@@ -17,7 +17,7 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_employeelocalStatuses') }}
+            {{ $t('app.breadcrumb_account_manage_employee_statuses') }}
           </li>
         </ul>
       </div>
@@ -26,15 +26,15 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.employeelocalStatuses_title', { company: $page.props.auth.company.name}) }}
+            {{ $t('account.employee_statuses_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="localStatuses.length == 0 ? 'white' : ''">
-              {{ $tc('account.employeelocalStatuses_number_positions', localStatuses.length, { company: $page.props.auth.company.name, count: localStatuses.length}) }}
+              {{ $tc('account.employee_statuses_number_positions', localStatuses.length, { company: $page.props.auth.company.name, count: localStatuses.length}) }}
             </span>
             <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="displayAddModal">
-              {{ $t('account.employeelocalStatuses_cta') }}
+              {{ $t('account.employee_statuses_cta') }}
             </a>
           </p>
 
@@ -50,7 +50,7 @@
                   :errors="$page.props.errors.name"
                   :datacy="'add-title-input'"
                   required
-                  :placeholder="$t('account.employeelocalStatuses_placeholder')"
+                  :placeholder="$t('account.employee_statuses_placeholder')"
                   :extra-class-upper-div="'mb0'"
                 />
               </div>
@@ -117,7 +117,7 @@
           <!-- BLANK STATE -->
           <div v-show="localStatuses.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.employeelocalStatuses_blank') }}
+              {{ $t('account.employee_statuses_blank') }}
             </p>
             <img loading="lazy" class="db center mb4" alt="add a position symbol" srcset="/img/company/account/blank-position-1x.png,
                                           /img/company/account/blank-position-2x.png 2x"
@@ -202,7 +202,7 @@ export default {
 
       axios.post(this.$route('account_employeestatuses.employeestatuses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.employeelocalStatuses_success_new'), 'success');
+          flash(this.$t('account.employee_statuses_success_new'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
@@ -218,7 +218,7 @@ export default {
     update(id) {
       axios.put(this.$route('account_employeestatuses.employeestatuses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
-          flash(this.$t('account.employeelocalStatuses_success_update'), 'success');
+          flash(this.$t('account.employee_statuses_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
@@ -234,7 +234,7 @@ export default {
     destroy(id) {
       axios.delete(this.$route('account_employeestatuses.employeestatuses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.employeelocalStatuses_success_destroy'), 'success');
+          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
 
           this.idToDelete = 0;
           var changedId = this.localStatuses.findIndex(x => x.id === id);

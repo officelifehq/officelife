@@ -13,7 +13,7 @@
           📦
         </span> {{ $tc('account.expense_category_headline') }}
 
-        <help :url="$page.props.help_links.adminland_expenselocalCategories" :datacy="'help-icon-expenses-categories'" :top="'1px'" />
+        <help :url="$page.props.help_links.adminland_expense_categories" :datacy="'help-icon-expenses-categories'" :top="'1px'" />
       </span>
       <a class="btn absolute-l relative dib-l db right-0 f5" data-cy="add-category-button" @click.prevent="displayAddModal">
         {{ $t('account.expense_category_create_cta') }}
