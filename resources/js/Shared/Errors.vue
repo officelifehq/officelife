@@ -8,16 +8,16 @@
 
 <template>
   <div>
-    <div v-if="localErrors.length > 0" class="border-red ba br3 pa3" :class="classes">
+    <div v-if="errors.length > 0" class="border-red ba br3 pa3" :class="classes">
       <p class="mv0 fw6">{{ $t('app.error_title') }}</p>
-      <p class="mb0">{{ localErrors[0] }}</p>
-      <template v-if="localErrors[1]">
-        <p v-for="item in localErrors[1]" :key="item.index" class="mb0 mt2">{{ item[0] }}</p>
+      <p class="mb0">{{ errors[0] }}</p>
+      <template v-if="errors[1]">
+        <p v-for="item in errors[1]" :key="item.index" class="mb0 mt2">{{ item[0] }}</p>
       </template>
     </div>
-    <template v-if="localErrors.message">
+    <template v-if="errors.message">
       <div class="border-red ba br3 pa3" :class="classes">
-        <p class="mv0 fw6">{{ localErrors.message }}</p>
+        <p class="mv0 fw6">{{ errors.message }}</p>
       </div>
     </template>
   </div>
@@ -31,25 +31,9 @@ export default {
       default: '',
     },
     errors: {
-      type: Array,
+      type: [Array, Object],
       default: () => [],
     }
-  },
-
-  data() {
-    return {
-      localErrors: [],
-    };
-  },
-
-  watch: {
-    errors(value) {
-      this.localErrors = value;
-    }
-  },
-
-  mounted() {
-    this.localErrors = this.errors;
   },
 };
 </script>
