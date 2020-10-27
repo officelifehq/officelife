@@ -25,12 +25,12 @@ jobs:
     steps:
       - name: Automerge
         uses: pascalgn/automerge-action@v0.12.0
+        if: github.event.pull_request.user.login != 'dependabot[bot]' && github.event.pull_request.user.login != 'dependabot-preview[bot]'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MERGE_LABELS: automerge,!wip
           MERGE_METHOD: squash
           MERGE_REMOVE_LABELS: automerge
-          MERGE_COMMIT_MESSAGE: pull-request-title
           MERGE_DELETE_BRANCH: true
           MERGE_RETRIES: 15
           MERGE_RETRY_SLEEP: 30000
