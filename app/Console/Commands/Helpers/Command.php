@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands\Helpers;
 
-use RuntimeException;
 use Tests\Helpers\CommandCallerFake;
 
 /**
@@ -59,9 +58,8 @@ class Command
      *
      * @param  string  $method
      * @param  array  $args
-     * @return mixed
-     *
      * @throws \RuntimeException
+     * @return mixed
      */
     public static function __callStatic($method, $args)
     {

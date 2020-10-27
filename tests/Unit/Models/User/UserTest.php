@@ -121,7 +121,7 @@ class UserTest extends TestCase
         // be sure to have at least 2 users
         factory(User::class)->create([]);
         $user = factory(User::class)->create([
-            'email_verified_at' => null
+            'email_verified_at' => null,
         ]);
         $user->sendEmailVerificationNotification();
 

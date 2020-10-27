@@ -219,6 +219,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
             Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
 
+            // project decision logs
+            Route::get('{project}/decisions', 'Company\\Project\\ProjectDecisionsController@index');
+            Route::post('{project}/decisions/search', 'Company\\Project\\ProjectDecisionsController@search');
+            Route::post('{project}/decisions/store', 'Company\\Project\\ProjectDecisionsController@store');
+            Route::delete('{project}/decisions/{decision}', 'Company\\Project\\ProjectDecisionsController@destroy');
+
             // project members
             Route::get('{project}/members', 'Company\\Project\\ProjectMembersController@index');
             Route::get('{project}/members/search', 'Company\\Project\\ProjectMembersController@search');

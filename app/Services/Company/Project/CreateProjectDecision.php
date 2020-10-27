@@ -6,14 +6,15 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
-use App\Models\Company\ProjectStatus;
+use App\Models\Company\Employee;
+use App\Models\Company\ProjectDecision;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class DestroyProjectStatus extends BaseService
+class CreateProjectDecision extends BaseService
 {
     protected array $data;
 
-    protected ProjectStatus $projectStatus;
+    protected ProjectDecision $projectDecision;
 
     protected Project $project;
 
@@ -28,22 +29,27 @@ class DestroyProjectStatus extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
-            'status' => 'required|string|max:255',
-            'description' => 'required|string|max:65535',
+            'title' => 'required|string|max:255',
+            'decided_at' => 'nullable|date_format:Y-m-d',
+            'deciders' => 'nullable|array',
         ];
     }
 
     /**
-     * Destroy a project status.
+     * Create a project decision.
      *
      * @param array $data
+     * @return ProjectDecision
      */
-    public function execute(array $data): void
+    public function execute(array $data): ProjectDecision
     {
         $this->data = $data;
         $this->validate();
-        $this->destroyStatus();
+        $this->createDecision();
+        $this->attachEmployees();
         $this->log();
+
+        return $this->projectDecision;
     }
 
     private function validate(): void
@@ -57,28 +63,52 @@ class DestroyProjectStatus extends BaseService
 
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
-
-        if (! $this->author->isInProject($this->data['project_id'])) {
-            throw new ModelNotFoundException();
-        }
     }
 
-    private function destroyStatus(): void
+    private function createDecision(): void
     {
-        $this->projectStatus->delete();
+        $this->projectDecision = ProjectDecision::create([
+            'project_id' => $this->data['project_id'],
+            'author_id' => $this->data['author_id'],
+            'title' => $this->data['title'],
+            'decided_at' => $this->valueOrNow($this->data, 'decided_at'),
+        ]);
+    }
+
+    private function attachEmployees(): void
+    {
+        if (! $this->data['deciders']) {
+            return;
+        }
+
+        foreach ($this->data['deciders'] as $key => $employeeId) {
+
+            // make sure the employee exists and is in the company
+            try {
+                $employee = Employee::where('company_id', $this->data['company_id'])
+                    ->findOrFail($employeeId);
+            } catch (ModelNotFoundException $e) {
+                continue;
+            }
+
+            $this->projectDecision->deciders()->syncWithoutDetaching([
+                $employee->id,
+            ]);
+        }
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_status_destroyed',
+            'action' => 'project_decision_created',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
+                'title' => $this->projectDecision->title,
             ]),
         ])->onQueue('low');
     }

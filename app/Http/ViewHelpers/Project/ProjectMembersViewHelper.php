@@ -59,22 +59,6 @@ class ProjectMembersViewHelper
     }
 
     /**
-     * Array containing the information about the project itself.
-     *
-     * @param Project $project
-     * @return array
-     */
-    public static function info(Project $project): array
-    {
-        return [
-            'id' => $project->id,
-            'name' => $project->name,
-            'code' => $project->code,
-            'summary' => $project->summary,
-        ];
-    }
-
-    /**
      * Returns the potential employees that can be assigned as members.
      * This filters out the current members of the project (doh).
      * It also contains all the current roles currently used in the project.

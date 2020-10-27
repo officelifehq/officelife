@@ -8,7 +8,7 @@ let purgeCssOptions = {
   whitelistPatterns: [/^ball-pulse/, /^vs__/],
   // List of regex of CSS class name whose child path CSS class will not be removed
   //  ex: to exclude "jane" in "mary jane": add "mary")
-  whitelistPatternsChildren: [/^vs-/]
+  whitelistPatternsChildren: [/^vs-/],
 };
 
 mix.js('resources/js/app.js', 'public/js')

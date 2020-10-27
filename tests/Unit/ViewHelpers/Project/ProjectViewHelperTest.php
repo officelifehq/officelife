@@ -217,4 +217,49 @@ class ProjectViewHelperTest extends TestCase
             $array
         );
     }
+
+    /** @test */
+    public function it_gets_information_about_the_project(): void
+    {
+        $michael = $this->createAdministrator();
+        $jim = $this->createAnotherEmployee($michael);
+        $tom = $this->createAnotherEmployee($michael);
+        $pam = $this->createAnotherEmployee($michael);
+        $jenny = $this->createAnotherEmployee($michael);
+        $project = factory(Project::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $project->employees()->attach([$michael->id]);
+        $project->employees()->attach([$jim->id]);
+        $project->employees()->attach([$tom->id]);
+        $project->employees()->attach([$pam->id]);
+        $project->employees()->attach([$jenny->id]);
+
+        $array = ProjectViewHelper::info($project);
+
+        $this->assertEquals(
+            $project->id,
+            $array['id']
+        );
+        $this->assertEquals(
+            $project->name,
+            $array['name']
+        );
+        $this->assertEquals(
+            $project->code,
+            $array['code']
+        );
+        $this->assertEquals(
+            $project->summary,
+            $array['summary']
+        );
+        $this->assertEquals(
+            4,
+            count($array['members']->toArray())
+        );
+        $this->assertEquals(
+            1,
+            $array['other_members_counter']
+        );
+    }
 }
