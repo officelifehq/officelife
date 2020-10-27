@@ -9,6 +9,11 @@ on:
   release:
     types:
       - created
+  workflow_run:
+    workflows: ["Compress images", "Automerge"]
+    types:
+      - completed
+      - requested
 
 jobs:
   php-cs-fixer:
