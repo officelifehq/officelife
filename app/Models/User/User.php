@@ -150,7 +150,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendEmailVerificationNotification(): void
     {
-        if (User::count() > 1) {
+        if (config('mail.verify') && User::count() > 1) {
             SendVerifyEmail::dispatch($this);
         }
     }
