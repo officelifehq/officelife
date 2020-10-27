@@ -18,3 +18,7 @@ parameters:
           path: 'app/Http/ViewHelpers/Project/ProjectMembersViewHelper.php'
         - message: '#Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::[a-zA-Z0-9\\_]+\(\)\.#'
           path: 'tests/Unit/Traits/JsonRespondControllerTest.php'
+        - message: '#Cannot access property \$[a-zA-Z0-9_]+ on array.#'
+          path: 'app/Helpers/LogHelper.php'
+        - message: '#Cannot access property \$[a-zA-Z0-9_]+ on array.#'
+          path: 'app/Helpers/NotificationHelper.php'
