@@ -11,6 +11,7 @@ on:
       - created
   workflow_run:
     workflows: ["Compress images", "Automerge"]
+    branches: [main]
     types:
       - completed
       - requested
