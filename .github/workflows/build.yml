@@ -11,6 +11,7 @@ on:
     types: [opened, synchronize, reopened]
   release:
     types: [created]
+
   workflow_run:
     workflows:
       - Compress images
