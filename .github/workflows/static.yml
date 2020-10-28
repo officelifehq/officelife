@@ -1,16 +1,12 @@
 name: Static analysis
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types: [opened, synchronize, reopened]
-  release:
-    types:
-      - created
+
   workflow_run:
-    workflows: ["Compress images"]
+    workflows:
+      - Compress images
     types: [completed]
 
 jobs:
