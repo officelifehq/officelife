@@ -23,7 +23,7 @@
     <!-- Case when there is a prenoun -->
     <!-- Assigning an employee gender pronoun is restricted to HR or admin -->
     <ul v-if="permissions.can_manage_pronouns && updatedEmployee.pronoun" class="ma0 pa0 di existing-pronouns">
-      <li class="di">
+      <li class="di" data-cy="pronoun-label">
         {{ updatedEmployee.pronoun.label }}
       </li>
       <li data-cy="open-pronoun-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f6" @click.prevent="modal = true">
