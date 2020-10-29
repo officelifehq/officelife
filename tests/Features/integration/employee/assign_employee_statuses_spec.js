@@ -1,3 +1,5 @@
+let faker = require('faker');
+
 describe('Employee - Assign employee statuses', function () {
   it('should assign an employee status and remove it as administrator', function () {
     cy.loginLegacy();
@@ -49,16 +51,20 @@ describe('Employee - Assign employee statuses', function () {
   });
 
   it('should not let a normal user assign employee status', function () {
-    cy.loginLegacy();
+    cy.login((userId) => {
+      cy.createCompany((companyId) => {
 
-    cy.createCompany();
+        var firstname = faker.name.firstName();
+        var lastname = faker.name.lastName();
+        cy.createEmployee(firstname, lastname, faker.internet.email(), 'user', true, (id) => {
 
-    cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
-      cy.changePermission(userId, 300);
+          cy.changePermission(userId, 300);
+          cy.visit(`/${companyId}/employees/${id}`);
+
+          cy.contains('No status set');
+          cy.get('[data-cy=open-status-modal-blank]').should('not.exist');
+        });
+      });
     });
-    cy.visit('/1/employees/1');
-
-    cy.contains('No status set');
-    cy.get('[data-cy=open-status-modal-blank]').should('not.exist');
   });
 });

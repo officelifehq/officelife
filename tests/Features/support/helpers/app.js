@@ -295,4 +295,5 @@ Cypress.Commands.add('createProject', (companyId = 1, name, code = '', summary =
   }
 
   cy.get('[data-cy=submit-create-project-button]').click();
+  cy.wait(1000);
 });

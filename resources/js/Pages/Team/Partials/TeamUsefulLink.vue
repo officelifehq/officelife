@@ -98,7 +98,6 @@
               </div>
               <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'useful-link-submit-button'" />
             </div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'useful-link-submit-button'" />
           </div>
         </form>
       </template>
