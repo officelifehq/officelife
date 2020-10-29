@@ -107,4 +107,15 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Verify Email
+    |--------------------------------------------------------------------------
+    |
+    | Verifies the user's email by sending a verification mail.
+    |
+    */
+
+    'verify' => (bool) env('MAIL_VERIFY', true),
+
 ];
