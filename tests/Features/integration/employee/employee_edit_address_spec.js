@@ -21,6 +21,7 @@ describe('Employee - assign address', function () {
     cy.get('[data-cy=country_selector]').click();
     cy.get('input[name=state]').click();
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(1000);
     cy.url().should('include', '/2');
 
     cy.visit('/1/employees/2');
@@ -52,6 +53,7 @@ describe('Employee - assign address', function () {
     cy.get('[data-cy=country_selector]').click();
     cy.get('input[name=state]').click();
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(1000);
     cy.url().should('include', '/2');
 
     cy.visit('/1/employees/2');
@@ -77,6 +79,7 @@ describe('Employee - assign address', function () {
     cy.get('[data-cy=country_selector]').click();
     cy.get('input[name=state]').click();
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(1000);
     cy.url().should('include', '/1');
 
     cy.visit('/1/employees/1');
@@ -119,6 +122,7 @@ describe('Employee - assign address', function () {
     cy.get('[data-cy=country_selector]').click();
     cy.get('input[name=state]').click();
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(1000);
 
     cy.visit('/1/employees/2');
 
@@ -157,6 +161,7 @@ describe('Employee - assign address', function () {
     cy.get('[data-cy=country_selector]').click();
     cy.get('input[name=state]').click();
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(1000);
 
     cy.changePermission(1, 300);
     cy.visit('/1/employees/1');
