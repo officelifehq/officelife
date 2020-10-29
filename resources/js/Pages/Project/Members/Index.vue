@@ -290,7 +290,6 @@ export default {
   },
 
   created() {
-    this.localProject = this.project;
     this.localMembers = this.members.members;
     this.localRoles = this.members.roles;
   },

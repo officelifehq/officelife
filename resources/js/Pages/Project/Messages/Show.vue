@@ -16,39 +16,53 @@
     top: 2px;
   }
 }
+
+.icon-date {
+  width: 15px;
+  top: 2px;
+}
+
+.icon-role {
+  width: 15px;
+  top: 2px;
+}
 </style>
 
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph5-ns">
       <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2">
+      <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            ...
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages'">{{ project.name }}</inertia-link>
-          </li>
-          <li class="di">
-            Detail of a message
+            {{ $t('app.breadcrumb_project_detail') }}
           </li>
         </ul>
+      </div>
+
+      <!-- BODY -->
+      <div class="mw8 center br3 mb5 relative z-1">
+        <!-- Menu -->
+        <project-menu :project="project" :tab="tab" />
       </div>
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative cf">
         <!-- LEFT COLUMN -->
         <div class="fl w-70-l w-100">
-          <div class="bg-white box mb4 pa3">
-            <h3 class="mt0 mb0 fw5">
-              Message title
-            </h3>
-            <p class="mb2 f7 gray">Written on Jan 02, 2020</p>
-            <p class="lh-copy bb bb-gray pb3"> Open enrollment for our Flex Spending Account begins next month, so if you want to enroll or re-enroll, you have to do so within that month.</p>
+          <div class="bg-white box mb4">
+            <div class="pa3 bb bb-gray pb3">
+              <h2 class="mt0 mb3 fw5">
+                {{ message.title }}
+              </h2>
+              <div class="parsed-content" v-html="message.parsed_content"></div>
+            </div>
 
             <div class="bb bb-gray pb3">
               <p class="fw6">Comments</p>
@@ -107,27 +121,61 @@
 
         <!-- RIGHT COLUMN -->
         <div class="fl w-30-l w-100 pl4-l">
-          <div class="bg-white box mb4 pa3">
-            <!-- written by -->
-            <h3 class="ttc f7 gray mt0 mb2 fw4 ttu">
-              Written by
-            </h3>
-            <div class="bb bb-gray pb3 mb3">
-              <span class="pl3 db relative team-member">
-                <img loading="lazy" src="https://api.adorable.io/avatars/200/1499e9ea-b9a2-4d60-8bf6-a9bdf4cacbbc.png" alt="avatar" class="br-100 absolute avatar" />
-                <inertia-link class="mb2">Scott</inertia-link>
-                <span class="title db f7 mt1">
-                  Manager
+          <div class="bg-white box mb4">
+            <div class="pa3 bb bb-gray">
+              <!-- written by -->
+              <h3 class="ttc f7 gray mt0 mb2 fw4">
+                Written by
+              </h3>
+
+              <div class="information">
+                <inertia-link :href="message.author.url" class="mb2 dib">{{ message.author.name }}</inertia-link>
+
+                <span v-if="message.author.role" class="db f7 mb2 relative">
+                  <!-- icon role -->
+                  <svg class="relative icon-role gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="mr2">
+                    {{ message.author.role }}
+                  </span>
+
+                  <!-- icon date -->
+                  <span>
+                    <svg class="relative icon-date gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  <span class="gray">
+                    {{ $t('project.members_index_role', { date: message.author.added_at }) }}
+                  </span>
                 </span>
-              </span>
+                <span v-if="message.author.position && message.author.role" class="db f7 gray">
+                  {{ $t('project.members_index_position_with_role', { role: message.author.position.title }) }}
+                </span>
+                <span v-if="message.author.position && !message.author.role" class="db f7 gray">
+                  {{ $t('project.members_index_position', { role: message.author.position.title }) }}
+                </span>
+              </div>
             </div>
 
-            <!-- written by -->
-            <h3 class="ttc f7 gray mt0 mb2 fw4 ttu">
-              Seen by
-            </h3>
-            <p class="mb0 mt1">34 team members (85%)</p>
+            <!-- written on -->
+            <div class="pa3">
+              <h3 class="ttc f7 gray mt0 mb2 fw4">
+                Written on
+              </h3>
+              <p class="mb0">{{ message.written_at }} <span class="f6 gray">({{ message.written_at_human }})</span></p>
+            </div>
           </div>
+
+          <!-- message action -->
+          <ul class="list pl0">
+            <!-- edit -->
+            <li class="mb2 pl2"><inertia-link :href="message.url_edit" data-cy="project-edit" class="f6 gray">Edit message</inertia-link></li>
+
+            <!-- delete -->
+            <li class="pl2"><inertia-link :href="''" data-cy="project-delete" class="f6 gray">Delete message</inertia-link></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -136,18 +184,32 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import ProjectMenu from '@/Pages/Project/Partials/ProjectMenu';
 import TextArea from '@/Shared/TextArea';
 
 export default {
   components: {
     Layout,
     TextArea,
+    ProjectMenu,
   },
 
   props: {
     notifications: {
       type: Array,
       default: null,
+    },
+    project: {
+      type: Object,
+      default: null,
+    },
+    message: {
+      type: Array,
+      default: null,
+    },
+    tab: {
+      type: String,
+      default: 'summary',
     },
   },
 
@@ -158,6 +220,13 @@ export default {
         errors: [],
       },
     };
+  },
+
+  mounted() {
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
   },
 
   methods: {

@@ -91,4 +91,6 @@ return [
     'decision_index_add_success' => 'The decision has been recorded.',
     'decision_index_destroy_success' => 'The decision has been forgotten.',
     'decision_index_title' => 'Decisions in the project',
+
+    'message_update_success' => 'The message has been updated.',
 ];

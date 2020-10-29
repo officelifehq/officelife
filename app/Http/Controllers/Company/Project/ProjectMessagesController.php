@@ -1,0 +1,211 @@
+<?php
+
+namespace App\Http\Controllers\Company\Project;
+
+use Inertia\Inertia;
+use Inertia\Response;
+use Illuminate\Http\Request;
+use App\Helpers\InstanceHelper;
+use App\Models\Company\Project;
+use Illuminate\Http\JsonResponse;
+use App\Helpers\NotificationHelper;
+use App\Http\Controllers\Controller;
+use App\Models\Company\ProjectMessage;
+use App\Http\ViewHelpers\Project\ProjectViewHelper;
+use App\Services\Company\Project\CreateProjectMessage;
+use App\Services\Company\Project\UpdateProjectMessage;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Project\ProjectMessagesViewHelper;
+
+class ProjectMessagesController extends Controller
+{
+    /**
+     * Display the list of messages in the project.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     */
+    public function index(Request $request, int $companyId, int $projectId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $project = Project::where('company_id', $company->id)
+                ->with('employees')
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Project/Messages/Index', [
+            'tab' => 'messages',
+            'project' => ProjectViewHelper::info($project),
+            'messages' => ProjectMessagesViewHelper::index($project),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Display the Create message view.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     */
+    public function create(Request $request, int $companyId, int $projectId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $project = Project::where('company_id', $company->id)
+                ->with('employees')
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Project/Messages/Create', [
+            'project' => ProjectViewHelper::info($project),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Create the message.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function store(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ];
+
+        $message = (new CreateProjectMessage)->execute($data);
+
+        return response()->json([
+            'data' => $message->id,
+        ], 201);
+    }
+
+    /**
+     * Display the detail of a given message.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $messageId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     */
+    public function show(Request $request, int $companyId, int $projectId, int $messageId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $project = Project::where('company_id', $company->id)
+                ->with('employees')
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            $message = ProjectMessage::where('project_id', $project->id)
+                ->with('project')
+                ->findOrFail($messageId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Project/Messages/Show', [
+            'tab' => 'messages',
+            'project' => ProjectViewHelper::info($project),
+            'message' => ProjectMessagesViewHelper::show($message),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Display the edit message page.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $messageId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     */
+    public function edit(Request $request, int $companyId, int $projectId, int $messageId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $project = Project::where('company_id', $company->id)
+                ->with('employees')
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            $message = ProjectMessage::where('project_id', $project->id)
+                ->with('project')
+                ->findOrFail($messageId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Project/Messages/Update', [
+            'tab' => 'messages',
+            'project' => ProjectViewHelper::info($project),
+            'message' => ProjectMessagesViewHelper::edit($message),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Create the message.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $projectMessageId
+     * @return JsonResponse
+     */
+    public function update(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'project_message_id' => $projectMessageId,
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ];
+
+        $message = (new UpdateProjectMessage)->execute($data);
+
+        return response()->json([
+            'data' => $message->id,
+        ], 201);
+    }
+}
