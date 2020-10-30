@@ -23,7 +23,7 @@
     <!-- Case when there is a prenoun -->
     <!-- Assigning an employee gender pronoun is restricted to HR or admin -->
     <ul v-if="permissions.can_manage_pronouns && updatedEmployee.pronoun" class="ma0 pa0 di existing-pronouns">
-      <li class="di">
+      <li class="di" data-cy="pronoun-label">
         {{ updatedEmployee.pronoun.label }}
       </li>
       <li data-cy="open-pronoun-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f6" @click.prevent="modal = true">
@@ -115,20 +115,11 @@ export default {
     filteredList() {
       // filter the list when searching
       // also, sort the list by label
-      var list;
-      list = this.pronouns.filter(pronoun => {
+      var list = this.pronouns.filter(pronoun => {
         return pronoun.label.toLowerCase().includes(this.search.toLowerCase());
       });
 
-      function compare(a, b) {
-        if (a.label < b.label)
-          return -1;
-        if (a.label > b.label)
-          return 1;
-        return 0;
-      }
-
-      return list.sort(compare);
+      return _.sortBy(list, ['label']);
     }
   },
 
@@ -169,12 +160,11 @@ export default {
       if (!this.updatedEmployee.pronoun) {
         return false;
       }
-      if (this.updatedEmployee.pronoun.id == id) {
+      if (this.updatedEmployee.pronoun.id === id) {
         return true;
       }
       return false;
     },
   }
 };
-
 </script>

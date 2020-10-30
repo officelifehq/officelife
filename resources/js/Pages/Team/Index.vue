@@ -68,11 +68,6 @@ export default {
     },
   },
 
-  data() {
-    return {
-    };
-  },
-
   mounted() {
     if (localStorage.success) {
       flash(localStorage.success, 'success');

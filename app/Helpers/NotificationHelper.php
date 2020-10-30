@@ -44,8 +44,6 @@ class NotificationHelper
      */
     public static function process(Notification $notification): string
     {
-        $sentence = '';
-
         switch ($notification->action) {
             case 'dummy_data_generated':
                 $sentence = trans('account.notification_dummy_data_generated', [
@@ -128,6 +126,10 @@ class NotificationHelper
 
             case 'employee_allowed_to_manage_expenses':
                 $sentence = trans('account.notification_employee_allowed_to_manage_expenses', []);
+                break;
+
+            default:
+                $sentence = '';
                 break;
         }
 

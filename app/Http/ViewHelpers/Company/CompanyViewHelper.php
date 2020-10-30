@@ -246,7 +246,7 @@ class CompanyViewHelper
         $companyNewsCount = $company->news()->count();
 
         $news = $company->news()
-            ->latest()
+            ->orderBy('id', 'desc')
             ->take(3)
             ->get();
 

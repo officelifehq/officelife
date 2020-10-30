@@ -10,11 +10,13 @@ use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -128,7 +130,7 @@ class Employee extends Model
     /**
      * Get the Company record associated with the company.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function company()
     {
@@ -138,7 +140,7 @@ class Employee extends Model
     /**
      * Get the teams record associated with the employee.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function teams()
     {
@@ -148,7 +150,7 @@ class Employee extends Model
     /**
      * Get all the employees this employee reports to (ie the managers).
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function managers()
     {
@@ -158,7 +160,7 @@ class Employee extends Model
     /**
      * Get all the employees this employee manages.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function directReports()
     {
@@ -178,7 +180,7 @@ class Employee extends Model
     /**
      * Get the position record associated with the employee.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function position()
     {
@@ -208,7 +210,7 @@ class Employee extends Model
     /**
      * Get the employee status associated with the employee.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function status()
     {
@@ -247,6 +249,8 @@ class Employee extends Model
 
     /**
      * Get all of the employee's places.
+     *
+     * @return MorphMany
      */
     public function places()
     {
@@ -255,6 +259,8 @@ class Employee extends Model
 
     /**
      * Get all of the employee's daily logs.
+     *
+     * @return HasMany
      */
     public function dailyLogs()
     {
@@ -263,6 +269,8 @@ class Employee extends Model
 
     /**
      * Get all of the employee's planned holidays.
+     *
+     * @return HasMany
      */
     public function plannedHolidays()
     {
@@ -272,7 +280,7 @@ class Employee extends Model
     /**
      * Get the pronoun record associated with the employee.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function pronoun()
     {
@@ -322,7 +330,7 @@ class Employee extends Model
     /**
      * Get the ship records associated with the employee.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function ships()
     {
@@ -332,7 +340,7 @@ class Employee extends Model
     /**
      * Get the skill records associated with the employee.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function skills()
     {
@@ -342,7 +350,7 @@ class Employee extends Model
     /**
      * Get the expense records associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function expenses()
     {
@@ -353,7 +361,7 @@ class Employee extends Model
      * Get the expense records approved by this employee as a manager
      * associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function approvedExpenses()
     {
@@ -364,7 +372,7 @@ class Employee extends Model
      * Get the expense records approved by this employee as someone in the
      * accounting department associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function approvedAccountingExpenses()
     {
@@ -374,7 +382,7 @@ class Employee extends Model
     /**
      * Get the current active surveys about how his manager is doing.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function rateYourManagerSurveys()
     {
@@ -384,7 +392,7 @@ class Employee extends Model
     /**
      * Get the current active surveys about how his manager is doing.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function rateYourManagerAnswers()
     {
@@ -394,7 +402,7 @@ class Employee extends Model
     /**
      * Get the one on one entries associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function oneOnOneEntriesAsEmployee()
     {
@@ -404,7 +412,7 @@ class Employee extends Model
     /**
      * Get the one on one entries associated with the employee being a manager.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function oneOnOneEntriesAsManager()
     {
@@ -414,7 +422,7 @@ class Employee extends Model
     /**
      * Get the Guess Employee Games records associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function gamesAsPlayer()
     {
@@ -424,11 +432,41 @@ class Employee extends Model
     /**
      * Get the Guess Employee Games records associated with the employee.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function gamesAsPersonToFind()
     {
         return $this->hasMany(GuessEmployeeGame::class, 'employee_to_find_id');
+    }
+
+    /**
+     * Get the project records associated with the employee.
+     *
+     * @return BelongsToMany
+     */
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class)->withTimestamps()->withPivot('role', 'created_at');
+    }
+
+    /**
+     * Get the project records as lead associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function projectsAsLead()
+    {
+        return $this->hasMany(Project::class, 'project_lead_id');
+    }
+
+    /**
+     * Get the project decision record associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function projectDecisions()
+    {
+        return $this->hasMany(ProjectDecision::class, 'author_id', 'id');
     }
 
     /**
@@ -654,7 +692,6 @@ class Employee extends Model
      * Check wether the employee is part of the given team.
      *
      * @param int $teamId
-     *
      * @return bool
      */
     public function isInTeam(int $teamId): bool
@@ -682,5 +719,21 @@ class Employee extends Model
         });
 
         return $result->count() == 1;
+    }
+
+    /**
+     * Check wether the employee is part of the given project.
+     *
+     * @param int $projectId
+     * @return bool
+     */
+    public function isInProject(int $projectId): bool
+    {
+        $result = DB::table('employee_project')
+            ->where('employee_id', $this->id)
+            ->where('project_id', $projectId)
+            ->count();
+
+        return $result == 1;
     }
 }

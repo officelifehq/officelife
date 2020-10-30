@@ -128,7 +128,7 @@ return [
     | This platform hosts the help documentation.
     |
     */
-    'help_center_url' => 'https://docs.officelife.io/',
+    'help_center_url' => 'https://docs.officelife.io/documentation/',
 
     /*
     |--------------------------------------------------------------------------
@@ -140,23 +140,24 @@ return [
     |
     */
     'help_links' => [
-        'work_from_home' => 'employees#work-from-home',
-        'employee_expenses' => 'expenses#employees-expenses',
-        'adminland_expense_categories' => 'expenses#expense-categories',
-        'manager_expenses' => 'expenses#approval-by-the-manager',
-        'accoutant_expenses' => 'expenses#approval-by-the-accounting-department',
-        'accountants' => 'expenses#who-can-manage-expenses',
-        'manager_rate_manager' => 'rate-your-manager',
-        'skills' => 'skills',
-        'account_hardware_create' => 'hardware',
-        'account_employee_delete' => 'employee-management#deleting-an-employee',
-        'account_employee_lock' => 'employee-management#locking-an-employee',
-        'team_recent_ship' => 'recent-ships',
-        'team_recent_ship_create' => 'recent-ships#creating-an-entry',
-        'account_general_company_name' => 'company#update-company-name',
-        'account_general_currency' => 'currency',
-        'employee_hiring_date' => 'employee-profile#hiring-date',
-        'employee_work_anniversaries' => 'employee-profile#work-anniversaries',
-        'one_on_ones' => 'one-on-one',
+        'work_from_home' => 'manage/employee-management.html#work-from-home',
+        'employee_expenses' => 'manage/employee-management.html#expenses',
+        'adminland_expense_categories' => 'manage/employee-management.html#expense-categories',
+        'manager_expenses' => 'manage/employee-management.html#expenses',
+        'accoutant_expenses' => 'manage/employee-management.html#expenses',
+        'accountants' => 'manage/employee-management.html#expenses',
+        'manager_rate_manager' => 'manage/overview.html',
+        'skills' => 'manage/employee-management.html#skills',
+        'account_hardware_create' => 'introduction.html',
+        'account_employee_delete' => 'manage/employee-management.html#deleting-an-employee',
+        'account_employee_lock' => 'manage/employee-management.html#locking-an-employee',
+        'team_recent_ship' => 'introduction.html',
+        'team_recent_ship_create' => 'introduction.html',
+        'account_general_company_name' => 'introduction.html',
+        'account_general_currency' => 'introduction.html',
+        'employee_hiring_date' => 'manage/employee-management.html#hiring-date',
+        'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
+        'one_on_ones' => 'introduction.html',
+        'project_decisions' => 'operate/project-management.html#project-decisions',
     ],
 ];

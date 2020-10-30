@@ -19,8 +19,6 @@ class LogHelper
      */
     public static function processAuditLog(AuditLog $log): string
     {
-        $sentence = '';
-
         switch ($log->action) {
             case 'account_created':
                 $sentence = trans('account.log_account_created');
@@ -749,6 +747,134 @@ class LogHelper
                     'manager_name' => $log->object->{'manager_name'},
                 ]);
                 break;
+
+            case 'project_created':
+                $sentence = trans('account.log_project_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_destroyed':
+                $sentence = trans('account.log_project_destroyed', [
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'employee_added_to_project':
+                $sentence = trans('account.log_employee_added_to_project', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                ]);
+                break;
+
+            case 'employee_removed_from_project':
+                $sentence = trans('account.log_employee_removed_from_project', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                ]);
+                break;
+
+            case 'project_started':
+                $sentence = trans('account.log_project_started', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_closed':
+                $sentence = trans('account.log_project_closed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_team_lead_updated':
+                $sentence = trans('account.log_project_team_lead_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                ]);
+                break;
+
+            case 'project_link_created':
+                $sentence = trans('account.log_project_link_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_link_id' => $log->object->{'project_link_id'},
+                    'project_link_name' => $log->object->{'project_link_name'},
+                ]);
+                break;
+
+            case 'project_link_destroyed':
+                $sentence = trans('account.log_project_link_destroyed', [
+                        'project_id' => $log->object->{'project_id'},
+                        'project_name' => $log->object->{'project_name'},
+                        'project_link_name' => $log->object->{'project_link_name'},
+                    ]);
+                break;
+
+            case 'project_status_created':
+                $sentence = trans('account.log_project_status_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_information_updated':
+                $sentence = trans('account.log_project_information_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_paused':
+                $sentence = trans('account.log_project_paused', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_description_updated':
+                $sentence = trans('account.log_project_description_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_team_lead_cleared':
+                $sentence = trans('account.log_project_team_lead_cleared', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                ]);
+                break;
+
+            case 'project_decision_created':
+                $sentence = trans('account.log_project_decision_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                ]);
+                break;
+
+            case 'project_decision_destroyed':
+                $sentence = trans('account.log_project_decision_destroyed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                ]);
+
+                // no break
+            default:
+                $sentence = '';
+                break;
         }
 
         return $sentence;
@@ -763,8 +889,6 @@ class LogHelper
      */
     public static function processEmployeeLog(EmployeeLog $log): string
     {
-        $sentence = '';
-
         switch ($log->action) {
             case 'employee_created':
                 $sentence = trans('account.employee_log_employee_created');
@@ -1161,6 +1285,38 @@ class LogHelper
                     'employee_name' => $log->object->{'employee_name'},
                 ]);
                 break;
+
+            case 'employee_added_to_project':
+                $sentence = trans('account.employee_log_employee_added_to_project', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'employee_removed_from_project':
+                $sentence = trans('account.employee_log_employee_removed_from_project', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_team_lead_updated':
+                $sentence = trans('account.employee_log_project_team_lead_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'project_team_lead_cleared':
+                $sentence = trans('account.employee_log_project_team_lead_cleared', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            default:
+                $sentence = '';
+                break;
         }
 
         return $sentence;
@@ -1175,8 +1331,6 @@ class LogHelper
      */
     public static function processTeamLog(TeamLog $log): string
     {
-        $sentence = '';
-
         switch ($log->action) {
             case 'team_created':
                 $sentence = trans('account.team_log_team_created', [
@@ -1276,6 +1430,10 @@ class LogHelper
                 $sentence = trans('account.team_log_ship_destroyed', [
                     'title' => $log->object->{'ship_title'},
                 ]);
+                break;
+
+            default:
+                $sentence = '';
                 break;
         }
 

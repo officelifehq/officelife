@@ -82,12 +82,10 @@
 
 <script>
 import Help from '@/Shared/Help';
-//import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
 export default {
   components: {
     Help,
-    //SmallNameAndAvatar,
   },
 
   props: {

@@ -118,7 +118,6 @@ export default {
       answers: Array,
       form: {
         id: 0,
-        errors: [],
       },
     };
   },

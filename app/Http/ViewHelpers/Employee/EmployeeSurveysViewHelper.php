@@ -43,28 +43,24 @@ class EmployeeSurveysViewHelper
 
         foreach ($allSurveys as $survey) {
             $totalNumberOfPotentialResponders = $survey->answers->count();
-            $numberOfAnswers = 0;
 
-            // counting results about answers, if available
-            $results = [];
-            if ($survey->answers) {
-                $bad = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::BAD;
-                });
-                $average = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::AVERAGE;
-                });
-                $good = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::GOOD;
-                });
-                $results = [
-                    'bad' => $bad->count(),
-                    'average' => $average->count(),
-                    'good' => $good->count(),
-                ];
+            // counting results about answers
+            $bad = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::BAD;
+            });
+            $average = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::AVERAGE;
+            });
+            $good = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::GOOD;
+            });
+            $results = [
+                'bad' => $bad->count(),
+                'average' => $average->count(),
+                'good' => $good->count(),
+            ];
 
-                $numberOfAnswers = $bad->count() + $average->count() + $good->count();
-            }
+            $numberOfAnswers = $bad->count() + $average->count() + $good->count();
 
             $surveysCollection->push([
                 'id' => $survey->id,
@@ -89,7 +85,6 @@ class EmployeeSurveysViewHelper
 
         // the average response rate
         // to calculate this, we need to remove any active or future survey
-        $surveyAnswered = $surveysCollection->whereNotNull('id');
         $surveyAnswered = $surveysCollection->where('active', false);
         $averageResponseRate = round($surveyAnswered->sum('response_rate') / $surveyAnswered->count());
 
@@ -113,24 +108,21 @@ class EmployeeSurveysViewHelper
             ->with('answers.employee')
             ->findOrFail($surveyId);
 
-        // counting results about answers, if available
-        $results = [];
-        if ($survey->answers) {
-            $bad = $survey->answers->filter(function ($answer) {
-                return $answer->rating == RateYourManagerAnswer::BAD;
-            });
-            $average = $survey->answers->filter(function ($answer) {
-                return $answer->rating == RateYourManagerAnswer::AVERAGE;
-            });
-            $good = $survey->answers->filter(function ($answer) {
-                return $answer->rating == RateYourManagerAnswer::GOOD;
-            });
-            $results = [
-                'bad' => $bad->count(),
-                'average' => $average->count(),
-                'good' => $good->count(),
-            ];
-        }
+        // counting results about answers
+        $bad = $survey->answers->filter(function ($answer) {
+            return $answer->rating == RateYourManagerAnswer::BAD;
+        });
+        $average = $survey->answers->filter(function ($answer) {
+            return $answer->rating == RateYourManagerAnswer::AVERAGE;
+        });
+        $good = $survey->answers->filter(function ($answer) {
+            return $answer->rating == RateYourManagerAnswer::GOOD;
+        });
+        $results = [
+            'bad' => $bad->count(),
+            'average' => $average->count(),
+            'good' => $good->count(),
+        ];
 
         // employees
         $directReportsCollection = collect([]);

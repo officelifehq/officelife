@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Helpers\PaginatorHelper;
 use App\Models\Company\Employee;
+use Illuminate\Routing\Redirector;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use App\Http\ViewHelpers\Employee\EmployeeLogViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -21,7 +23,8 @@ class EmployeeLogsController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     * @return Response
+     *
+     * @return \Inertia\Response|Redirector|RedirectResponse
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {

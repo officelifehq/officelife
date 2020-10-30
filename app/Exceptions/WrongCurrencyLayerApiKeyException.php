@@ -3,14 +3,15 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class WrongCurrencyLayerApiKeyException extends Exception
 {
     /**
      * Report or log an exception.
      */
-    public function report()
+    public function report(): void
     {
-        \Log::debug('Wrong API key for Currency Layer');
+        Log::debug('Wrong API key for Currency Layer');
     }
 }

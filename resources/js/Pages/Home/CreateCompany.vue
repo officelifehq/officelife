@@ -84,7 +84,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      this.$inertia.post(this.route('company.store'), this.form)
+      this.$inertia.post(this.$route('company.store'), this.form)
         .then(() =>
           this.loadingState = null
         );

@@ -234,9 +234,5 @@ export default {
       loadingState: '',
     };
   },
-
-  methods: {
-  },
 };
-
 </script>

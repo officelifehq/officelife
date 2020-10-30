@@ -13,7 +13,7 @@ class DashboardHRController extends Controller
      *
      * @param Request $request
      */
-    public function index(Request $request)
+    public function index(Request $request): void
     {
     }
 }

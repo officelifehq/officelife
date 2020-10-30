@@ -3,7 +3,7 @@
     <div class="ph2 ph0-ns">
       <div class="cf mw6 center br3 mb3 bg-white box">
         <div class="pa3">
-          <p>{{ $t('auth.invitation_logged_accept_title', { name: $page.props.auth.company.name }) }}Would you like to join {{ $page.props.auth.company.name }}?</p>
+          <p>{{ $t('auth.invitation_logged_accept_title', { name: $page.props.auth.company.name }) }}</p>
           <form @submit.prevent="submit">
             <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('auth.invitation_logged_accept_cta')" />
           </form>
@@ -44,7 +44,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.route('invitation.accept', this.invitationLink))
+      axios.post(this.$route('invitation.join', this.invitationLink))
         .then(response => {
           this.$inertia.visit(this.route('home'));
         })

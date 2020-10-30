@@ -242,13 +242,13 @@ class AdminHardwareController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'hardware_id' => $hardwareId,
         ];
 
-        (new DestroyHardware)->execute($request);
+        (new DestroyHardware)->execute($data);
 
         return response()->json([
             'data' => true,

@@ -69,7 +69,7 @@
               </a>
             </li>
             <li v-else class="di">
-              <a v-if="atLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + ship.id" @click.prevent="deleteMode = true">
+              <a v-if="atLeastHR" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + ship.id" @click.prevent="deleteMode = true">
                 {{ $t('app.delete') }}
               </a>
             </li>
@@ -141,6 +141,12 @@ export default {
     };
   },
 
+  computed: {
+    atLeastHR() {
+      return this.$page.props.auth.employee.permission_level <= 200;
+    },
+  },
+
   mounted() {
     if (localStorage.success) {
       flash(localStorage.success, 'success');
@@ -149,12 +155,6 @@ export default {
   },
 
   methods: {
-    atLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-    },
-
     destroy(id) {
       axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships/' + id)
         .then(response => {

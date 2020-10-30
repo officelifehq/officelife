@@ -43,7 +43,7 @@ class CalculateTimeOffBalance implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         (new ProcessDailyTimeOffBalance)->execute([
             'employee_id' => $this->employee->id,

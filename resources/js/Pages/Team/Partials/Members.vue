@@ -152,7 +152,7 @@ export default {
     this.$root.$on('lead-set', employee => {
       var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
 
-      if (id == -1) {
+      if (id === -1) {
         this.listOfEmployees.push(employee);
       }
     });

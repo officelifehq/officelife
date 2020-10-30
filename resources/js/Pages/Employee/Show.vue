@@ -122,7 +122,6 @@
 </template>
 
 <script>
-import vClickOutside from 'v-click-outside';
 import Layout from '@/Shared/Layout';
 import HeaderEmployee from '@/Pages/Employee/Partials/HeaderEmployee';
 import PersonalDescription from '@/Pages/Employee/Partials/PersonalDescription';
@@ -245,9 +244,6 @@ export default {
       localStorage.removeItem('success');
     }
   },
-
-  methods: {
-  }
 };
 
 </script>

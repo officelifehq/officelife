@@ -143,8 +143,7 @@ class DashboardMeViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_currencies(): void
     {
-        $michael = $this->createAdministrator();
-        $response = DashboardMeViewHelper::currencies($michael->company);
+        $response = DashboardMeViewHelper::currencies();
 
         $this->assertEquals(
             179,
@@ -264,8 +263,8 @@ class DashboardMeViewHelperTest extends TestCase
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
-                        'id' => OneOnOneEntry::all()->first()->id,
-                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->first()->id,
+                        'id' => OneOnOneEntry::first()->id,
+                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::first()->id,
                     ],
                 ],
                 1 => [
@@ -275,8 +274,8 @@ class DashboardMeViewHelperTest extends TestCase
                     'position' => $michael->position->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'entry' => [
-                        'id' => OneOnOneEntry::all()->last()->id,
-                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->last()->id,
+                        'id' => OneOnOneEntry::orderBy('id', 'desc')->first()->id,
+                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::orderBy('id', 'desc')->first()->id,
                     ],
                 ],
             ],

@@ -94,7 +94,7 @@
         </h2>
 
         <!-- actions available for HR and administrators -->
-        <ul v-if="atLeastHR() && !editMode" class="tc pl0 ma0 f6 mb4">
+        <ul v-if="atLeastHR && !editMode" class="tc pl0 ma0 f6 mb4">
           <li class="mr2 di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="edit-skill" href="#" @click.prevent="showEditMode()">{{ $t('app.edit') }}</a></li>
           <li v-if="deleteMode" class="di">
             {{ $t('app.sure') }}
@@ -192,7 +192,13 @@ export default {
     };
   },
 
-  created() {
+  computed: {
+    atLeastHR() {
+      return this.$page.props.auth.employee.permission_level <= 200;
+    },
+  },
+
+  mounted() {
     this.form.name = this.skill.name;
     this.updatedName = this.skill.name;
   },
@@ -204,14 +210,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['editModal'].$refs['input'].focus();
       });
-    },
-
-    atLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      return false;
     },
 
     update() {

@@ -111,7 +111,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
         $this->expense->save();
     }
 
-    private function buildQuery()
+    private function buildQuery(): void
     {
         if (is_null(config('officelife.currency_layer_api_key'))) {
             throw new WrongCurrencyLayerApiKeyException();

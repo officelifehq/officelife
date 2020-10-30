@@ -7,7 +7,9 @@ use App\Models\User\User;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Notification;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Notification as FacadesNotification;
 
 class UserTest extends TestCase
 {
@@ -46,19 +48,6 @@ class UserTest extends TestCase
         $this->assertEquals(
             $user->name,
             'Dwight Schrute'
-        );
-    }
-
-    /** @test */
-    public function it_gets_the_path_for_the_confirmation_link(): void
-    {
-        $user = factory(User::class)->create([
-            'verification_link' => 'dunder',
-        ]);
-
-        $this->assertEquals(
-            config('app.url').'/invite/employee/dunder',
-            $user->getPathConfirmationLink()
         );
     }
 
@@ -121,6 +110,24 @@ class UserTest extends TestCase
 
         $this->assertEmpty(
             $result
+        );
+    }
+
+    /** @test */
+    public function it_sends_a_verification_email()
+    {
+        FacadesNotification::fake();
+
+        // be sure to have at least 2 users
+        factory(User::class)->create([]);
+        $user = factory(User::class)->create([
+            'email_verified_at' => null,
+        ]);
+        $user->sendEmailVerificationNotification();
+
+        FacadesNotification::assertSentTo(
+            [$user],
+            VerifyEmail::class
         );
     }
 }

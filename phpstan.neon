@@ -1,32 +1,24 @@
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
 #    - ./vendor/thecodingmachine/phpstan-safe-rule/phpstan-safe-rule.neon
-#    - ./vendor/phpstan/phpstan-phpunit/extension.neon
-#    - ./vendor/phpstan/phpstan-deprecation-rules/rules.neon
-#    - ./vendor/phpstan/phpstan-strict-rules/rules.neon
+    - ./vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - ./vendor/phpstan/phpstan-phpunit/extension.neon
 
 parameters:
     paths:
         - app
+        - tests
     inferPrivatePropertyTypeFromConstructor: true
-    level: 5
-
     checkMissingIterableValueType: false
+    level: 5
     ignoreErrors:
-        - '#Unsafe usage of new static#'
-        - '#If condition is always true#'
-        - '#Negated boolean expression is always false.#'
-        - '#Access to an undefined property Illuminate\\Contracts\\Auth\\MustVerifyEmail::\$email\.#'
-        - '#Access to an undefined property Illuminate\\Support\\Fluent::\$[a-zA-Z0-9_]+\.#'
         - '#Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator supplied for foreach, only iterables are supported#'
-        - '#Call to function is_null(.*?)#'
-        - '#Call to an undefined method \(Illuminate\\Database\\Eloquent\\Collection&iterable<[a-zA-Z0-9\\_]+>\)\|Illuminate\\Database\\Eloquent\\Model::[a-zA-Z0-9\\_]+\(\)\.#'
-        - '#Method [a-zA-Z0-9\\_:]+\(\) should return [a-zA-Z0-9\\_\|]+ but empty return statement found\.#'
-        - '#Method [a-zA-Z0-9\\_:]+\(\) should return [a-zA-Z0-9\\_\|]+ but returns [a-zA-Z0-9\\_]+\.#'
-        - '#Method [a-zA-Z0-9\\_:]+\(\) should return [a-zA-Z0-9\\_\|]+ but returns \(Illuminate\\Database\\Eloquent\\Collection&iterable<[a-zA-Z0-9\\_]+>\)\|Illuminate\\Database\\Eloquent\\Model.#'
-        - '#Parameter [a-zA-Z0-9\\_$\#:\(\)]+.#'
-        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model::[a-zA-Z0-9_]+\(\)\.#'
-        - '#Call to an undefined method App\\Http\\Resources\\[a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\)\.#'
-        - '#Call to an undefined method Illuminate\\Http\\Resources\\[a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\)\.#'
-    excludes_analyse:
-        - */*/*/Authenticate.php
+        - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\(Json)?Response but returns Illuminate\\Http\\RedirectResponse\.#'
+        - message: '#Access to an undefined property App\\Models\\Company\\Employee::\$pivot\.#'
+          path: 'app/Http/ViewHelpers/Project/ProjectMembersViewHelper.php'
+        - message: '#Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::[a-zA-Z0-9\\_]+\(\)\.#'
+          path: 'tests/Unit/Traits/JsonRespondControllerTest.php'
+        - message: '#Cannot access property \$[a-zA-Z0-9_]+ on array.#'
+          path: 'app/Helpers/LogHelper.php'
+        - message: '#Cannot access property \$[a-zA-Z0-9_]+ on array.#'
+          path: 'app/Helpers/NotificationHelper.php'

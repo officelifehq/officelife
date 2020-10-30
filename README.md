@@ -27,4 +27,4 @@
 
 ## License
 
-OfficeLife is open-sourced software licensed under [the BSD 3-Clause license](LICENSE).
+OfficeLife is open-sourced software licensed under [the BSD 3-Clause license](LICENSE). Don't be a jerk.

@@ -14,8 +14,8 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
-import './helpers/app'
+import './commands';
+import './helpers/app';
 // import './helpers/contacts'
 
 // Alternatively you can use CommonJS syntax:

@@ -14,14 +14,12 @@ class GenerateAvatar extends BaseService
     public function rules(): array
     {
         return [
-            'uuid' => 'required|string',
-            'size' => 'nullable|integer|between:1,2000',
+            'name' => 'required|string',
         ];
     }
 
     /**
-     * Get an url for an adorable avatar.
-     * - http://avatars.adorable.io/ gives avatars based on a random string.
+     * Get an url for an avatar.
      *
      * @param array $data
      *
@@ -31,25 +29,6 @@ class GenerateAvatar extends BaseService
     {
         $this->validateRules($data);
 
-        $size = $this->size($data);
-
-        return 'https://api.adorable.io/avatars/'.$size.'/'.$data['uuid'].'.png';
-    }
-
-    /**
-     * Get the size for the avatar, based on a given parameter. Provides a
-     * default otherwise.
-     *
-     * @param array $data
-     *
-     * @return int
-     */
-    private function size(array $data): int
-    {
-        if (isset($data['size'])) {
-            return $data['size'];
-        }
-
-        return 200;
+        return 'https://ui-avatars.com/api/?name='.$data['name'];
     }
 }

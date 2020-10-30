@@ -17,7 +17,7 @@
 <template>
   <div class="di relative">
     <!-- Assigning a title is restricted to HR or admin -->
-    <span v-if="permissions.can_manage_position && updatedEmployee.position">
+    <span v-if="permissions.can_manage_position && updatedEmployee.position" data-cy="position-label">
       {{ title }}
       <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
         {{ $t('app.edit') }}
@@ -101,20 +101,11 @@ export default {
     filteredList() {
       // filter the list when searching
       // also, sort the list by title
-      var list;
-      list = this.positions.filter(position => {
+      var list = this.positions.filter(position => {
         return position.title.toLowerCase().includes(this.search.toLowerCase());
       });
 
-      function compare(a, b) {
-        if (a.title < b.title)
-          return -1;
-        if (a.title > b.title)
-          return 1;
-        return 0;
-      }
-
-      return list.sort(compare);
+      return _.sortBy(list, ['title']);
     }
   },
 

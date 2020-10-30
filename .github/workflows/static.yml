@@ -1,14 +1,13 @@
 name: Static analysis
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types: [opened, synchronize, reopened]
-  release:
-    types:
-      - created
+
+  workflow_run:
+    workflows:
+      - Compress images
+    types: [completed]
 
 jobs:
   php-cs-fixer:
@@ -46,71 +45,71 @@ jobs:
         run: vendor/bin/php-cs-fixer fix
 
 
-  # psalm:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       php-version: [7.4]
+  psalm:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [7.4]
 
-  #   steps:
-  #     - name: Checkout sources
-  #       uses: actions/checkout@v2
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
 
-  #     - name: Setup PHP ${{ matrix.php-version }}
-  #       uses: shivammathur/setup-php@v2
-  #       with:
-  #         php-version: ${{ matrix.php-version }}
-  #         coverage: none
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
 
-  #     - name: Get Composer Cache Directory
-  #       id: composer-cache
-  #       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-  #     - name: Cache composer files
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: ${{ steps.composer-cache.outputs.dir }}
-  #         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-  #           ${{ runner.os }}-composer-
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache composer files
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            ${{ runner.os }}-composer-
 
-  #     - name: Install dependencies
-  #       run: composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
+      - name: Install dependencies
+        run: composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
 
-  #     - name: Run psalm
-  #       run: vendor/bin/psalm --output-format=github
+      - name: Run psalm
+        run: vendor/bin/psalm --output-format=github
 
 
-  # phpstan:
-  #   runs-on: ubuntu-latest
-  #   strategy:
-  #     matrix:
-  #       php-version: [7.4]
+  phpstan:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [7.4]
 
-  #   steps:
-  #     - name: Checkout sources
-  #       uses: actions/checkout@v2
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
 
-  #     - name: Setup PHP ${{ matrix.php-version }}
-  #       uses: shivammathur/setup-php@v2
-  #       with:
-  #         php-version: ${{ matrix.php-version }}
-  #         coverage: none
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
 
-  #     - name: Get Composer Cache Directory
-  #       id: composer-cache
-  #       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-  #     - name: Cache composer files
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: ${{ steps.composer-cache.outputs.dir }}
-  #         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-  #           ${{ runner.os }}-composer-
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache composer files
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+            ${{ runner.os }}-composer-
 
-  #     - name: Install dependencies
-  #       run: composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
+      - name: Install dependencies
+        run: composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
 
-  #     - name: Run phpstan
-  #       run: vendor/bin/phpstan analyse
+      - name: Run phpstan
+        run: vendor/bin/phpstan analyse

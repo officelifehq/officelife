@@ -76,7 +76,6 @@ export default {
       loadingState: '',
       modal: false,
       addEmployeesMode: false,
-      localEmployees: [],
       potentialEmployees: [],
       processingSearch: false,
       form: {
@@ -91,10 +90,6 @@ export default {
     };
   },
 
-  created() {
-    this.localEmployees = this.employees;
-  },
-
   methods: {
     displayAddModal() {
       this.modal = true;
@@ -104,65 +99,6 @@ export default {
         this.$refs['newCategory'].$refs['input'].focus();
       });
     },
-
-    submit() {
-      this.loadingState = 'loading';
-
-      axios.post('/' + this.$page.props.auth.company.id + '/account/expenses', this.form)
-        .then(response => {
-          flash(this.$t('account.employee_statuses_success_new'), 'success');
-
-          this.loadingState = null;
-          this.form.name = null;
-          this.modal = false;
-          this.categories.push(response.data.data);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
-    },
-
-    search: _.debounce(
-      function() {
-
-        if (this.form.searchTerm != '') {
-          this.processingSearch = true;
-
-          axios.post('/' + this.$page.props.auth.company.id + '/expenses/search', this.form)
-            .then(response => {
-              let searchResults = response.data.data;
-
-              // filter out the employees that are already in the list of employees
-              // there is probably a much better way to do this, but i don't know how
-              for (let index = 0; index < this.form.employeeForm.length; index++) {
-                const employee = this.form.employeeForm[index];
-                let found = false;
-                let otherIndex = 0;
-
-                for (otherIndex = 0; otherIndex < searchResults.length; otherIndex++) {
-                  if (employee.id == searchResults[otherIndex].id) {
-                    found = true;
-                    break;
-                  }
-                }
-
-                if (found == true) {
-                  searchResults.splice(otherIndex, 1);
-                }
-              }
-              this.potentialEmployees = searchResults;
-              this.processingSearch = false;
-            })
-            .catch(error => {
-              console.log(error);
-              this.form.errors = _.flatten(_.toArray(error.response.data));
-              this.processingSearch = false;
-            });
-        } else {
-          this.potentialEmployees = [];
-        }
-      }, 500),
   }
 };
 

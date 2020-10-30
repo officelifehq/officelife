@@ -30,8 +30,8 @@
           </h2>
 
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l" :class="positions.length == 0 ? 'white' : ''">
-              {{ $tc('account.positions_number_positions', positions.length, { company: $page.props.auth.company.name, count: positions.length}) }}
+            <span class="dib mb3 di-l" :class="localPositions.length == 0 ? 'white' : ''">
+              {{ $tc('account.positions_number_positions', localPositions.length, { company: $page.props.auth.company.name, count: localPositions.length}) }}
             </span>
             <a class="btn absolute-l relative dib-l db right-0" data-cy="add-position-button" @click.prevent="displayAddModal">
               {{ $t('account.positions_cta') }}
@@ -63,8 +63,8 @@
           </form>
 
           <!-- LIST OF EXISTING POSITIONS -->
-          <ul v-show="positions.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="positions-list">
-            <li v-for="(position) in positions" :key="position.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+          <ul v-show="localPositions.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="positions-list">
+            <li v-for="(position) in localPositions" :key="position.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
               {{ position.title }}
 
               <!-- RENAME POSITION FORM -->
@@ -119,7 +119,7 @@
           </ul>
 
           <!-- BLANK STATE -->
-          <div v-show="positions.length == 0" class="pa3 mt5">
+          <div v-show="localPositions.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
               {{ $t('account.positions_blank') }}
             </p>
@@ -160,6 +160,7 @@ export default {
 
   data() {
     return {
+      localPositions: [],
       modal: false,
       deleteModal: false,
       updateModal: false,
@@ -172,6 +173,10 @@ export default {
         errors: [],
       },
     };
+  },
+
+  mounted() {
+    this.localPositions = this.positions;
   },
 
   methods: {
@@ -198,14 +203,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/positions', this.form)
+      axios.post(this.$route('positions.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.position_success_new'), 'success');
 
           this.loadingState = null;
           this.form.title = null;
           this.modal = false;
-          this.positions.push(response.data.data);
+          this.localPositions.push(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
@@ -214,15 +219,15 @@ export default {
     },
 
     update(id) {
-      axios.put('/' + this.$page.props.auth.company.id + '/account/positions/' + id, this.form)
+      axios.put(this.$route('positions.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
           flash(this.$t('account.position_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.title = null;
 
-          id = this.positions.findIndex(x => x.id === id);
-          this.$set(this.positions, id, response.data.data);
+          id = this.localPositions.findIndex(x => x.id === id);
+          this.$set(this.localPositions, id, response.data.data);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -230,13 +235,13 @@ export default {
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/account/positions/' + id)
+      axios.delete(this.$route('positions.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
           flash(this.$t('account.position_success_destroy'), 'success');
 
           this.idToDelete = 0;
-          id = this.positions.findIndex(x => x.id === id);
-          this.positions.splice(id, 1);
+          id = this.localPositions.findIndex(x => x.id === id);
+          this.localPositions.splice(id, 1);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

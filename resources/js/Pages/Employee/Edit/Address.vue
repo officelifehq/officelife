@@ -177,10 +177,7 @@ export default {
         state: null,
         postal_code: null,
         country_id: null,
-        errors: {
-          type: Array,
-          default: null,
-        },
+        errors: [],
       },
       existing_address: {
         street: '',

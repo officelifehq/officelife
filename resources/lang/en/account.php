@@ -33,6 +33,7 @@ return [
     'employees_lock_account' => 'Lock account',
     'employees_unlock_account' => 'Unlock account',
     'employees_change_permission' => 'Change permission',
+    'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
 
     'employee_delete_title' => 'Delete all information about {name}',
     'employee_delete_description' => 'You are about to remove {name} from OfficeLife. This will effectively delete all information we know about this person. We will revoke all possible access to OfficeLife immediately.',
@@ -242,6 +243,22 @@ return [
     'log_one_on_one_talking_point_destroyed' => 'Deleted a talking point on the 1 on 1 entry of :happened_at between :manager_name and :employee_name.',
     'log_one_on_one_note_destroyed' => 'Deleted a note on the 1 on 1 entry of :happened_at between :manager_name and :employee_name.',
     'log_one_on_one_note_marked_happened' => 'Mark the 1 on 1 entry of :happened_at between :manager_name and :employee_name as happened.',
+    'log_project_created' => 'Created the project called :project_name.',
+    'log_project_destroyed' => 'Deleted the project called :project_name.',
+    'log_employee_added_to_project' => 'Added :employee_name to the project called :project_name.',
+    'log_employee_removed_from_project' => 'Removed :employee_name from the project called :project_name.',
+    'log_project_started' => 'Started the project called :project_name.',
+    'log_project_closed' => 'Closed the project called :project_name.',
+    'log_project_paused' => 'Put the project called :project_name in pause.',
+    'log_project_team_lead_updated' => 'Assigned :employee_name as lead of the project called :project_name.',
+    'log_project_link_created' => 'Added the link called :project_link_name in the project called :project_name.',
+    'log_project_link_destroyed' => 'Deleted the link called :project_link_name from the project called :project_name.',
+    'log_project_status_created' => 'Wrote a status from the project called :project_name.',
+    'log_project_information_updated' => 'Updated project information for the project called :project_name.',
+    'log_project_description_updated' => 'Updated the description of the project called :project_name.',
+    'log_project_team_lead_cleared' => 'Removed :employee_name as the project lead of the project called :project_name.',
+    'log_project_decision_created' => 'Added a decision called :title in the project called :project_name.',
+    'log_project_decision_destroyed' => 'Deleted a decision called :title in the project called :project_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -303,6 +320,10 @@ return [
     'employee_log_one_on_one_talking_point_destroyed' => 'Deleted a talking point on the 1 on 1 entry of :happened_at with :employee_name.',
     'employee_log_one_on_one_action_item_destroyed' => 'Deleted a note on the 1 on 1 entry of :happened_at with :employee_name.',
     'employee_log_one_on_one_note_marked_happened' => 'Mark the 1 on 1 entry of :happened_at with :employee_name as happened.',
+    'employee_log_employee_added_to_project' => 'Has been added to the project called :project_name.',
+    'employee_log_employee_removed_from_project' => 'Has been removed from the project called :project_name.',
+    'employee_log_project_team_lead_updated' => 'Has been assigned as project lead for the called :project_name.',
+    'employee_log_project_team_lead_cleared' => 'Has been removed as the project lead of the project called :project_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',
@@ -405,7 +426,7 @@ return [
     'question_deactivate_success' => 'The question is now deactivated',
     'question_status_active' => 'active',
     'question_status_inactive' => 'inactive',
-    'question_number_of_answers' => '{count} answer | {count} answer | {count} answers',
+    'question_number_of_answers' => '{count} answer | {count} answers',
 
     'hardware_title' => 'Manage company hardware',
     'hardware_blank' => 'Here you can keep track of all the hardware your company buys, and whose employee has what.',

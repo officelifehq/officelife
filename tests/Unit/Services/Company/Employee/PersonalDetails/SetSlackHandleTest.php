@@ -107,7 +107,7 @@ class SetSlackHandleTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $dwight) {
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'slack_set' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
@@ -143,7 +143,7 @@ class SetSlackHandleTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $dwight) {
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'slack_reset' &&
             $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([]);

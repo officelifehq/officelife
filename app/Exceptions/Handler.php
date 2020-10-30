@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Throwable;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -27,38 +29,21 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
-     *
-     * @param \Throwable $exception
-     *
-     * @throws \Exception
-     */
-    public function report(Throwable $exception)
-    {
-        parent::report($exception);
-    }
-
-    /**
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Throwable               $exception
+     * @param \Throwable               $e
      *
      * @throws \Throwable
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
-        return parent::render($request, $exception);
-    }
-
-    protected function whoopsHandler()
-    {
-        try {
-            return app(\Whoops\Handler\HandlerInterface::class);
-        } catch (\Illuminate\Contracts\Container\BindingResolutionException $e) {
-            return parent::whoopsHandler();
+        if ($e instanceof TokenMismatchException) {
+            return Redirect::route('login');
         }
+
+        return parent::render($request, $e);
     }
 }

@@ -96,9 +96,6 @@ export default {
       localStorage.removeItem('success');
     }
   },
-
-  methods: {
-  }
 };
 
 </script>

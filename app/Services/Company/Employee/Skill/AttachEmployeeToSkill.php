@@ -34,13 +34,13 @@ class AttachEmployeeToSkill extends BaseService
     }
 
     /**
-     * Create a skill.
+     * Attach a skill to an employee.
      *
      * @param array $data
      *
-     * @return Skill
+     * @return Skill|null
      */
-    public function execute(array $data): Skill
+    public function execute(array $data): ?Skill
     {
         $this->data = $data;
         $this->validateRules($data);

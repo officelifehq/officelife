@@ -3,7 +3,6 @@
 namespace Tests;
 
 use App\Models\User\User;
-use Laravel\Passport\Passport;
 use Illuminate\Testing\TestResponse;
 
 class ApiTestCase extends TestCase
@@ -11,11 +10,9 @@ class ApiTestCase extends TestCase
     /**
      * Create a user and sign in as that user.
      *
-     * @param null $user
-     *
-     * @return mixed
+     * @return User
      */
-    public function signIn()
+    public function signIn(User $user): User
     {
         $user = factory(User::class)->create();
         $this->actingAs($user);

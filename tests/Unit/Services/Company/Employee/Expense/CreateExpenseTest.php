@@ -106,7 +106,7 @@ class CreateExpenseTest extends TestCase
     public function it_fails_if_expense_category_is_not_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = $this->createEmployee($michael);
+        $dwight = $this->createEmployee();
         $category = factory(ExpenseCategory::class)->create();
 
         $this->expectException(ModelNotFoundException::class);
@@ -157,7 +157,7 @@ class CreateExpenseTest extends TestCase
             $expense
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight, $expense) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $expense) {
             return $job->auditLog['action'] === 'expense_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([

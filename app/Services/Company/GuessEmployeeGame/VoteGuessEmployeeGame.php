@@ -3,12 +3,14 @@
 namespace App\Services\Company\GuessEmployeeGame;
 
 use App\Services\BaseService;
+use App\Models\Company\Employee;
 use App\Models\Company\GuessEmployeeGame;
 
 class VoteGuessEmployeeGame extends BaseService
 {
     protected array $data;
     protected GuessEmployeeGame $game;
+    protected Employee $employee;
 
     /**
      * Get the validation rules that apply to the service.

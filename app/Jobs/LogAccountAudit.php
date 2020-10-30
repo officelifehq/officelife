@@ -31,7 +31,7 @@ class LogAccountAudit implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         (new LogAccountAction)->execute([
             'company_id' => $this->auditLog['company_id'],

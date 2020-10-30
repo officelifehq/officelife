@@ -10,8 +10,12 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   release:
-    types:
-      - created
+    types: [created]
+
+  workflow_run:
+    workflows:
+      - Compress images
+    types: [completed]
 
 jobs:
   #############
@@ -76,7 +80,14 @@ jobs:
 
     # Prepare
       - name: Prepare environment
-        run: cp tests/.env.ci-${{ matrix.connection }} .env
+        run: |
+          cp tests/.env.ci-${{ matrix.connection }} .env
+          touch config/version
+          echo '{"/js/app.js": "/js/app.js", "/css/app.css": "/css/app.css"}' > public/mix-manifest.json
+          mkdir -p public/js
+          echo '' > public/js/app.js
+          mkdir -p public/css
+          echo '' > public/css/app.css
       - name: Create SQLite database
         if: matrix.connection == 'sqlite'
         run: |

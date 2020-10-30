@@ -41,7 +41,7 @@
         </li>
       </ul>
       <div class="ph3 pv2 tc f6 bt bb-gray">
-        <inertia-link :href="skills.view_all_url">{{ $t('company.recent_skills_view_all', { count: skills.count }) }}</inertia-link>
+        <inertia-link :href="skills.view_all_url" :data-cy="'company-skills'">{{ $t('company.recent_skills_view_all', { count: skills.count }) }}</inertia-link>
       </div>
     </div>
   </div>
@@ -55,16 +55,5 @@ export default {
       default: null,
     },
   },
-
-  data() {
-    return {
-    };
-  },
-
-  created() {
-  },
-
-  methods: {
-  }
 };
 </script>

@@ -154,17 +154,6 @@ export default {
       default: null,
     }
   },
-
-  data() {
-    return {
-    };
-  },
-
-  created() {
-  },
-
-  methods: {
-  },
 };
 
 </script>

@@ -66,7 +66,7 @@ class LogWorklog extends BaseService
      * Reset the counter indicating the number of missed daily worklog for the
      * given employee.
      */
-    private function resetWorklogMissed()
+    private function resetWorklogMissed(): void
     {
         $this->employee->consecutive_worklog_missed = 0;
         $this->employee->save();

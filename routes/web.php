@@ -1,22 +1,27 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', 'Auth\\LoginController@index')->name('default');
+Route::get('/', 'Auth\\LoginController@showLoginForm')->name('default');
+
+// @see vendor/laravel/ui/src/AuthRouteMethods.php
+Auth::routes([
+    'login' => false,
+    'register' => false,
+    'verify' => true,
+]);
 
 // auth
 Route::get('signup', 'Auth\\RegisterController@index')->name('signup');
 Route::post('signup', 'Auth\\RegisterController@store')->name('signup.attempt');
-Route::get('login', 'Auth\\LoginController@index')->name('login');
-Route::post('login', 'Auth\\LoginController@store')->name('login.attempt');
+Route::get('login', 'Auth\\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\\LoginController@login')->name('login.attempt');
 
 Route::get('invite/employee/{link}', 'Auth\\UserInvitationController@check');
-Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join');
-Route::post('invite/employee/{link}/accept', 'Auth\\UserInvitationController@accept')->name('invitation.accept');
+Route::post('invite/employee/{link}/join', 'Auth\\UserInvitationController@join')->name('invitation.join');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('logout', 'Auth\\LoginController@logout');
-
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('home', 'HomeController@index')->name('home');
     Route::post('search/employees', 'HeaderSearchController@employees');
     Route::post('search/teams', 'HeaderSearchController@teams');
@@ -45,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('question', 'Company\\Dashboard\\DashboardQuestionController')->only([
                 'store', 'update', 'destroy',
             ]);
-            Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store');
+            Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
 
             // company
             Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
@@ -103,11 +108,11 @@ Route::middleware(['auth'])->group(function () {
                 ]);
             });
 
-            Route::post('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager');
-            Route::post('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport');
+            Route::put('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager')->name('employee.manager.assign');
+            Route::put('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport')->name('employee.directReport.assign');
             Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');
-            Route::post('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager');
-            Route::post('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport');
+            Route::put('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager')->name('employee.manager.unassign');
+            Route::put('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport')->name('employee.directReport.unassign');
 
             Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('employee.show.logs');
 
@@ -139,7 +144,7 @@ Route::middleware(['auth'])->group(function () {
             Route::resource('{employee}/skills', 'Company\\Employee\\EmployeeSkillController')->only([
                 'store', 'destroy',
             ]);
-            Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search');
+            Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search')->name('skills.search');
 
             // worklogs
             Route::get('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('employees.worklogs');
@@ -182,6 +187,49 @@ Route::middleware(['auth'])->group(function () {
 
             Route::resource('{team}/ships', 'Company\\Team\\TeamRecentShipController');
             Route::post('{team}/ships/search', 'Company\\Team\\TeamRecentShipController@search');
+        });
+
+        Route::prefix('projects')->group(function () {
+            Route::get('', 'Company\\Project\\ProjectController@index');
+            Route::get('create', 'Company\\Project\\ProjectController@create');
+            Route::post('', 'Company\\Project\\ProjectController@store');
+            Route::post('search', 'Company\\Project\\ProjectController@search');
+
+            // project detail
+            Route::get('{project}', 'Company\\Project\\ProjectController@show')->name('projects.show');
+            Route::get('{project}/summary', 'Company\\Project\\ProjectController@show');
+
+            Route::post('{project}/start', 'Company\\Project\\ProjectController@start');
+            Route::post('{project}/pause', 'Company\\Project\\ProjectController@pause');
+            Route::post('{project}/close', 'Company\\Project\\ProjectController@close');
+            Route::post('{project}/lead/assign', 'Company\\Project\\ProjectController@assign');
+            Route::post('{project}/lead/clear', 'Company\\Project\\ProjectController@clear');
+            Route::get('{project}/edit', 'Company\\Project\\ProjectController@edit')->name('projects.edit');
+            Route::post('{project}/description', 'Company\\Project\\ProjectController@description');
+            Route::post('{project}/update', 'Company\\Project\\ProjectController@update');
+            Route::get('{project}/delete', 'Company\\Project\\ProjectController@delete')->name('projects.delete');
+            Route::delete('{project}', 'Company\\Project\\ProjectController@destroy');
+
+            Route::post('{project}/links', 'Company\\Project\\ProjectController@createLink');
+            Route::delete('{project}/links/{link}', 'Company\\Project\\ProjectController@destroyLink');
+
+            Route::get('{project}/messages', 'Company\\Project\\ProjectController@messages');
+            Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectController@message');
+
+            Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
+            Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
+
+            // project decision logs
+            Route::get('{project}/decisions', 'Company\\Project\\ProjectDecisionsController@index');
+            Route::post('{project}/decisions/search', 'Company\\Project\\ProjectDecisionsController@search');
+            Route::post('{project}/decisions/store', 'Company\\Project\\ProjectDecisionsController@store');
+            Route::delete('{project}/decisions/{decision}', 'Company\\Project\\ProjectDecisionsController@destroy');
+
+            // project members
+            Route::get('{project}/members', 'Company\\Project\\ProjectMembersController@index');
+            Route::get('{project}/members/search', 'Company\\Project\\ProjectMembersController@search');
+            Route::post('{project}/members/store', 'Company\\Project\\ProjectMembersController@store');
+            Route::post('{project}/members/remove', 'Company\\Project\\ProjectMembersController@remove');
         });
 
         Route::prefix('company')->group(function () {
@@ -267,8 +315,8 @@ Route::middleware(['auth'])->group(function () {
 
             // questions
             Route::resource('account/questions', 'Company\\Adminland\\AdminQuestionController');
-            Route::post('account/questions/{question}/activate', 'Company\\Adminland\\AdminQuestionController@activate');
-            Route::post('account/questions/{question}/deactivate', 'Company\\Adminland\\AdminQuestionController@deactivate');
+            Route::put('account/questions/{question}/activate', 'Company\\Adminland\\AdminQuestionController@activate')->name('questions.activate');
+            Route::put('account/questions/{question}/deactivate', 'Company\\Adminland\\AdminQuestionController@deactivate')->name('questions.deactivate');
 
             // hardware
             Route::get('account/hardware/available', 'Company\\Adminland\\AdminHardwareController@available');

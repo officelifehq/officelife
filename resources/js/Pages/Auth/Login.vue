@@ -20,7 +20,7 @@
       </div>
       <div class="">
         <!-- Form Errors -->
-        <errors :errors="form.errors" :classes="'mb3'" />
+        <errors :errors="errors" :classes="'mb3'" />
 
         <form @submit.prevent="submit">
           <text-input v-model="form.email"
@@ -76,8 +76,8 @@ export default {
       form: {
         email: null,
         password: null,
-        errors: [],
       },
+      errors: [],
       loadingState: '',
       errorTemplate: Error,
     };
@@ -91,14 +91,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.route('login').url(), this.form)
+      axios.post(this.$route('login.attempt'), _.assign({}, this.form, { remember: true}))
         .then(response => {
           this.loadingState = null;
-          this.$inertia.visit(this.route('home'));
+          this.$inertia.visit(response.data.redirect);
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data.data;
+          this.errors = error.response.data.data;
         });
     },
   }

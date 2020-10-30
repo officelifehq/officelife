@@ -335,7 +335,7 @@ export default {
         if (step.id == this.oldestStep) {
           // this basically calculates what is the mininum number that we should
           // assign to the step
-          this.oldestStep = Math.min.apply(Math, this.form.steps.map(function(o) { return o.id; }));
+          this.oldestStep = Math.min.apply(Math, this.form.steps.map(o => o.id));
         }
       }
 
@@ -344,7 +344,7 @@ export default {
         this.numberOfAfterSteps = this.numberOfAfterSteps - 1;
 
         if (step.id == this.newestStep) {
-          this.newestStep = Math.max.apply(Math, this.form.steps.map(function(o) { return o.id; }));
+          this.newestStep = Math.max.apply(Math, this.form.steps.map(o => o.id));
         }
       }
     },
@@ -367,22 +367,26 @@ export default {
       var isCompleteYet = true;
 
       // check if the event is selected
-      if (this.form.type == null) {
+      if (this.form.type === null) {
         isCompleteYet = false;
       }
 
       // check if a name has been set for the flow
-      if (!this.form.name) {
+      else if (!this.form.name) {
         isCompleteYet = false;
       }
 
-      // check if all the steps have the all actions they need
-      for (let index = 0; index < this.form.steps.length; index++) {
-        const actions = this.form.steps[index]['actions'];
-
-        for (let otherIndex = 0; otherIndex < actions.length; otherIndex++) {
-          if (actions[otherIndex]['complete'] == false || !actions[otherIndex]['complete']) {
-            isCompleteYet = false;
+      else {
+        // check if all the steps have the all actions they need
+        for (let actions of this.form.steps) {
+          for (let action of actions) {
+            if (action['complete'] === false || !action['complete']) {
+              isCompleteYet = false;
+              break;
+            }
+          }
+          if (!isCompleteYet) {
+            break;
           }
         }
       }
