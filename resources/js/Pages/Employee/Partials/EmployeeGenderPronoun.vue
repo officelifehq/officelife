@@ -160,12 +160,11 @@ export default {
       if (!this.updatedEmployee.pronoun) {
         return false;
       }
-      if (this.updatedEmployee.pronoun.id == id) {
+      if (this.updatedEmployee.pronoun.id === id) {
         return true;
       }
       return false;
     },
   }
 };
-
 </script>

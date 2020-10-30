@@ -159,9 +159,6 @@ export default {
       },
     };
   },
-
-  methods: {
-  }
 };
 
 </script>

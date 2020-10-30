@@ -30,8 +30,8 @@
           </h2>
 
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l" :class="statuses.length == 0 ? 'white' : ''">
-              {{ $tc('account.employee_statuses_number_positions', statuses.length, { company: $page.props.auth.company.name, count: statuses.length}) }}
+            <span class="dib mb3 di-l" :class="localStatuses.length == 0 ? 'white' : ''">
+              {{ $tc('account.employee_statuses_number_positions', localStatuses.length, { company: $page.props.auth.company.name, count: localStatuses.length}) }}
             </span>
             <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="displayAddModal">
               {{ $t('account.employee_statuses_cta') }}
@@ -64,8 +64,8 @@
           </form>
 
           <!-- LIST OF EXISTING EMPLOYEE STATUSES -->
-          <ul v-show="statuses.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="statuses.map(n => n.id)">
-            <li v-for="status in statuses" :key="status.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+          <ul v-show="localStatuses.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="localStatuses.map(n => n.id)">
+            <li v-for="status in localStatuses" :key="status.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
               {{ status.name }}
 
               <!-- RENAME POSITION FORM -->
@@ -115,7 +115,7 @@
           </ul>
 
           <!-- BLANK STATE -->
-          <div v-show="statuses.length == 0" class="pa3 mt5">
+          <div v-show="localStatuses.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
               {{ $t('account.employee_statuses_blank') }}
             </p>
@@ -156,6 +156,7 @@ export default {
 
   data() {
     return {
+      localStatuses: [],
       modal: false,
       deleteModal: false,
       updateModal: false,
@@ -168,6 +169,10 @@ export default {
         errors: [],
       },
     };
+  },
+
+  mounted() {
+    this.localStatuses = this.statuses;
   },
 
   methods: {
@@ -195,14 +200,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/employeestatuses', this.form)
+      axios.post(this.$route('account_employeestatuses.employeestatuses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_new'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
           this.modal = false;
-          this.statuses.push(response.data.data);
+          this.localStatuses.push(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
@@ -211,15 +216,15 @@ export default {
     },
 
     update(id) {
-      axios.put('/' + this.$page.props.auth.company.id + '/account/employeestatuses/' + id, this.form)
+      axios.put(this.$route('account_employeestatuses.employeestatuses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
 
-          var changedId = this.statuses.findIndex(x => x.id === id);
-          this.$set(this.statuses, changedId, response.data.data);
+          var changedId = this.localStatuses.findIndex(x => x.id === id);
+          this.$set(this.localStatuses, changedId, response.data.data);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -227,13 +232,13 @@ export default {
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/account/employeestatuses/' + id)
+      axios.delete(this.$route('account_employeestatuses.employeestatuses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
           flash(this.$t('account.employee_statuses_success_destroy'), 'success');
 
           this.idToDelete = 0;
-          var changedId = this.statuses.findIndex(x => x.id === id);
-          this.statuses.splice(changedId, 1);
+          var changedId = this.localStatuses.findIndex(x => x.id === id);
+          this.localStatuses.splice(changedId, 1);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

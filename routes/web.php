@@ -50,7 +50,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('question', 'Company\\Dashboard\\DashboardQuestionController')->only([
                 'store', 'update', 'destroy',
             ]);
-            Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store');
+            Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
 
             // company
             Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
@@ -108,11 +108,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ]);
             });
 
-            Route::post('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager');
-            Route::post('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport');
+            Route::put('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager')->name('employee.manager.assign');
+            Route::put('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport')->name('employee.directReport.assign');
             Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');
-            Route::post('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager');
-            Route::post('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport');
+            Route::put('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager')->name('employee.manager.unassign');
+            Route::put('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport')->name('employee.directReport.unassign');
 
             Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('employee.show.logs');
 
@@ -315,8 +315,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // questions
             Route::resource('account/questions', 'Company\\Adminland\\AdminQuestionController');
-            Route::post('account/questions/{question}/activate', 'Company\\Adminland\\AdminQuestionController@activate');
-            Route::post('account/questions/{question}/deactivate', 'Company\\Adminland\\AdminQuestionController@deactivate');
+            Route::put('account/questions/{question}/activate', 'Company\\Adminland\\AdminQuestionController@activate')->name('questions.activate');
+            Route::put('account/questions/{question}/deactivate', 'Company\\Adminland\\AdminQuestionController@deactivate')->name('questions.deactivate');
 
             // hardware
             Route::get('account/hardware/available', 'Company\\Adminland\\AdminHardwareController@available');

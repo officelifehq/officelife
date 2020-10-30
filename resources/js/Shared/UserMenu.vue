@@ -101,9 +101,6 @@ export default {
     BasePopover,
   },
 
-  props: {
-  },
-
   data() {
     return {
       isPopoverVisible: false,

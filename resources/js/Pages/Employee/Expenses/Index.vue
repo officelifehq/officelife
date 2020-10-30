@@ -141,5 +141,4 @@ export default {
     },
   },
 };
-
 </script>

@@ -45,7 +45,7 @@
            @keydown.esc="sendEscKey"
     />
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
-      {{ errors[0] }}
+      {{ errors }}
     </div>
     <p v-if="help" class="f7 mb3 lh-copy">
       {{ help }}
@@ -73,7 +73,7 @@ export default {
       default: null,
     },
     value: {
-      type: String,
+      type: [String, Number],
       default: '',
     },
     customRef: {
@@ -83,6 +83,10 @@ export default {
     name: {
       type: String,
       default: 'input',
+    },
+    errors: {
+      type: String,
+      default: '',
     },
     datacy: {
       type: String,
@@ -124,14 +128,24 @@ export default {
 
   data() {
     return {
-      errors: [],
+      localErrors: '',
     };
   },
 
   computed: {
-    hasError: function () {
-      return this.errors.length > 0 && this.required;
+    hasError() {
+      return this.localErrors.length > 0 && this.required;
     }
+  },
+
+  watch: {
+    errors(value) {
+      this.localErrors = value;
+    },
+  },
+
+  mounted() {
+    this.localErrors = this.errors;
   },
 
   methods: {

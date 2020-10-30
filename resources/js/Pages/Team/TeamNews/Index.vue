@@ -36,7 +36,7 @@
           </h2>
 
           <!-- List of news -->
-          <div v-for="newsItem in news" :key="newsItem.id" class="cf news" data-cy="news-list" :data-cy-items="news.map(n => n.id)">
+          <div v-for="newsItem in localNews" :key="newsItem.id" class="cf news" data-cy="news-list" :data-cy-items="localNews.map(n => n.id)">
             <h3 class="mb1">
               {{ newsItem.title }}
             </h3>
@@ -111,11 +111,13 @@ export default {
 
   data() {
     return {
+      localNews: [],
       idToDelete: 0,
     };
   },
 
   mounted() {
+    this.localNews = this.news;
     if (localStorage.success) {
       flash(localStorage.success, 'success');
       localStorage.removeItem('success');
@@ -129,8 +131,8 @@ export default {
           flash(this.$t('team.team_news_destroy_success'), 'success');
 
           this.idToDelete = 0;
-          id = this.news.findIndex(x => x.id === id);
-          this.news.splice(id, 1);
+          id = this.localNews.findIndex(x => x.id === id);
+          this.localNews.splice(id, 1);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

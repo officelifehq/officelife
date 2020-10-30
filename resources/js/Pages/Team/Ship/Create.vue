@@ -203,10 +203,6 @@ export default {
     };
   },
 
-  computed: {
-
-  },
-
   methods: {
     submit() {
       this.loadingState = 'loading';

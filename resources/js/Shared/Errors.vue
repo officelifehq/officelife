@@ -29,13 +29,11 @@ export default {
     classes: {
       type: String,
       default: '',
+    },
+    errors: {
+      type: [Array, Object],
+      default: () => [],
     }
-  },
-
-  data() {
-    return {
-      errors: [],
-    };
   },
 };
 </script>

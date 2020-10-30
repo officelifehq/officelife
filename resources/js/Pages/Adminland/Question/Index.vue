@@ -42,10 +42,10 @@
 
           <!-- add a question -->
           <p class="relative adminland-headline mb0">
-            <span class="db mb3" :class="questions.length == 0 ? 'white' : ''">
-              {{ $tc('account.questions_number_questions', questions.length, { company: $page.props.auth.company.name, count: questions.length}) }}
+            <span class="db mb3" :class="localQuestions.length == 0 ? 'white' : ''">
+              {{ $tc('account.questions_number_questions', localQuestions.length, { company: $page.props.auth.company.name, count: localQuestions.length}) }}
             </span>
-            <span v-if="questions.length > 0" class="dib mb3 f6 gray lh-copy">{{ $t('account.questions_description') }}</span>
+            <span v-if="localQuestions.length > 0" class="dib mb3 f6 gray lh-copy">{{ $t('account.questions_description') }}</span>
             <a v-if="!modal" data-cy="add-question-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="showAddModal">
               {{ $t('account.questions_cta') }}
             </a>
@@ -76,9 +76,9 @@
           </form>
 
           <!-- LIST OF QUESTIONS -->
-          <ul v-show="questions.length != 0" class="list pl0 mt0 center">
+          <ul v-show="localQuestions.length != 0" class="list pl0 mt0 center">
             <li
-              v-for="question in questions" :key="question.id"
+              v-for="question in localQuestions" :key="question.id"
               class="pa3-l pa1 ph0-l bb b--black-10 question-item"
             >
               <!-- normal case (ie not rename mode) -->
@@ -196,7 +196,7 @@
         </div>
 
         <!-- NO questions -->
-        <div v-show="questions.length == 0" class="pa3">
+        <div v-show="localQuestions.length == 0" class="pa3">
           <p class="tc measure center mb4 lh-copy" data-cy="questions-blank-message">
             {{ $t('account.questions_blank') }}
           </p>
@@ -234,6 +234,7 @@ export default {
 
   data() {
     return {
+      localQuestions: [],
       modal: false,
       renameMode: false,
       deletionMode: false,
@@ -249,6 +250,10 @@ export default {
       loadingState: '',
       errorTemplate: Error,
     };
+  },
+
+  mounted() {
+    this.localQuestions = this.questions;
   },
 
   methods: {
@@ -286,14 +291,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/questions', this.form)
+      axios.post(this.$route('questions.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.question_creation_success'), 'success');
 
           this.loadingState = null;
           this.form.title = null;
           this.modal = false;
-          this.questions.unshift(response.data.data);
+          this.localQuestions.unshift(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
@@ -304,7 +309,7 @@ export default {
     update(question) {
       this.loadingState = 'loading';
 
-      axios.put('/' + this.$page.props.auth.company.id + '/account/questions/' + question.id, this.form)
+      axios.put(this.$route('questions.update', [this.$page.props.auth.company.id, question.id]), this.form)
         .then(response => {
           flash(this.$t('account.question_update_success'), 'success');
 
@@ -313,8 +318,8 @@ export default {
           this.form.active = false;
           this.loadingState = null;
 
-          var id = this.questions.findIndex(x => x.id == question.id);
-          this.$set(this.questions, id, response.data.data);
+          var id = this.localQuestions.findIndex(x => x.id === question.id);
+          this.$set(this.localQuestions, id, response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
@@ -323,13 +328,13 @@ export default {
     },
 
     destroy(question) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/account/questions/' + question.id)
+      axios.delete(this.$route('questions.destroy', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
           flash(this.$t('account.question_destroy_success'), 'success');
 
           this.questionToDelete = 0;
-          var id = this.questions.findIndex(x => x.id == question.id);
-          this.questions.splice(id, 1);
+          var id = this.localQuestions.findIndex(x => x.id === question.id);
+          this.localQuestions.splice(id, 1);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -337,11 +342,11 @@ export default {
     },
 
     activate(question) {
-      axios.post('/' + this.$page.props.auth.company.id + '/account/questions/' + question.id + '/activate')
+      axios.put(this.$route('questions.activate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
           flash(this.$t('account.question_activate_success'), 'success');
 
-          this.questions = response.data.data;
+          this.localQuestions = response.data.data;
           this.questionToActivate = 0;
         })
         .catch(error => {
@@ -350,11 +355,11 @@ export default {
     },
 
     deactivate(question) {
-      axios.post('/' + this.$page.props.auth.company.id + '/account/questions/' + question.id + '/deactivate')
+      axios.put(this.$route('questions.deactivate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
           flash(this.$t('account.question_deactivate_success'), 'success');
 
-          this.questions = response.data.data;
+          this.localQuestions = response.data.data;
           this.questionToDeactivate = 0;
         })
         .catch(error => {

@@ -76,7 +76,6 @@ export default {
       loadingState: '',
       modal: false,
       addEmployeesMode: false,
-      localEmployees: [],
       potentialEmployees: [],
       processingSearch: false,
       form: {
@@ -91,10 +90,6 @@ export default {
     };
   },
 
-  created() {
-    this.localEmployees = this.employees;
-  },
-
   methods: {
     displayAddModal() {
       this.modal = true;
@@ -103,24 +98,6 @@ export default {
       this.$nextTick(() => {
         this.$refs['newCategory'].$refs['input'].focus();
       });
-    },
-
-    submit() {
-      this.loadingState = 'loading';
-
-      axios.post('/' + this.$page.props.auth.company.id + '/account/expenses', this.form)
-        .then(response => {
-          flash(this.$t('account.employee_statuses_success_new'), 'success');
-
-          this.loadingState = null;
-          this.form.name = null;
-          this.modal = false;
-          this.categories.push(response.data.data);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
-        });
     },
   }
 };
