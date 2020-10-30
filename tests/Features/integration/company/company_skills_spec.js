@@ -54,7 +54,7 @@ describe('Company - Skills', function () {
       cy.get('[data-cy=list-of-employees]').contains('Michael Scott');
 
       // lock Michael and see him disappear from the list of employees for the skill
-      cy.visit(`/${companyId}/account/employees`);
+      cy.visit(`/${companyId}/account/employees/all`);
       cy.get('[data-cy=lock-account-2').click();
       cy.get('[data-cy=submit-lock-employee-button').click();
       cy.visit(`/${companyId}/company/skills`);
