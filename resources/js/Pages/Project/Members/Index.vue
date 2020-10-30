@@ -336,7 +336,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members/store', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members', this.form)
         .then(response => {
           flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
@@ -352,16 +352,12 @@ export default {
     },
 
     remove(employee) {
-      this.form.employee = employee;
-
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members/remove', this.form)
+      axios.delete('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members/' + employee)
         .then(response => {
           flash(this.$t('project.members_index_remove_success'), 'success');
 
           var id = this.localMembers.findIndex(x => x.id == employee);
           this.localMembers.splice(id, 1);
-
-          this.form.employee = null;
         })
         .catch(error => {
           this.loadingState = null;

@@ -377,7 +377,7 @@ export default {
       }, 500),
 
     assignManager(manager) {
-      axios.put(this.$route('employee.manager.assign', [this.$page.props.auth.company.id, this.employee.id]), manager)
+      axios.put(this.$route('employees.manager.assign', [this.$page.props.auth.company.id, this.employee.id]), manager)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_add_manager_success'), 'success');
           this.localManagersOfEmployee.push(response.data.data);
@@ -389,7 +389,7 @@ export default {
     },
 
     assignDirectReport(directReport) {
-      axios.put(this.$route('employee.directReport.assign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
+      axios.put(this.$route('employees.directReport.assign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_add_direct_report_success'), 'success');
           this.localDirectReports.push(response.data.data);
@@ -401,7 +401,7 @@ export default {
     },
 
     unassignManager(manager) {
-      axios.put(this.$route('employee.manager.unassign', [this.$page.props.auth.company.id, this.employee.id]), manager)
+      axios.put(this.$route('employees.manager.unassign', [this.$page.props.auth.company.id, this.employee.id]), manager)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_remove_manager_success'), 'success');
 
@@ -415,7 +415,7 @@ export default {
     },
 
     unassignDirectReport(directReport) {
-      axios.put(this.$route('employee.directReport.unassign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
+      axios.put(this.$route('employees.directReport.unassign', [this.$page.props.auth.company.id, this.employee.id]), directReport)
         .then(response => {
           flash(this.$t('employee.hierarchy_modal_remove_direct_report_success'), 'success');
 

@@ -140,7 +140,7 @@ export default {
     },
 
     submit() {
-      axios.post('/' + this.$page.props.auth.company.id + '/account/general/rename', this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/account/general/rename', this.form)
         .then(response => {
           this.updatedName = this.form.name;
           this.editMode = false;

@@ -106,7 +106,7 @@ export default {
     },
 
     submit() {
-      axios.post('/' + this.$page.props.auth.company.id + '/account/general/currency', this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/account/general/currency', this.form)
         .then(response => {
           this.updatedCurrency = this.form.currency;
           this.editMode = false;

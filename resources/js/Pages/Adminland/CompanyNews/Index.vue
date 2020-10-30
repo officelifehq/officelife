@@ -19,10 +19,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="$route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="route('account', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="$route('account.index', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_company_news') }}
@@ -132,7 +132,7 @@ export default {
   methods: {
     destroy(id) {
       this.errors = [];
-      axios.delete(this.$route('account_news.news.destroy', [this.$page.props.auth.company.id, id]))
+      axios.delete(this.$route('account.news.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
           flash(this.$t('account.company_news_success_destroy'), 'success');
 

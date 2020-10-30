@@ -376,7 +376,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/decisions/store', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/decisions', this.form)
         .then(response => {
           localStorage.success = this.$t('project.decision_index_add_success');
           this.localDecisions.unshift(response.data.data);

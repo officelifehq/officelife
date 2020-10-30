@@ -21,10 +21,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="$route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="route('account', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="$route('account.index', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_questions') }}
@@ -342,7 +342,7 @@ export default {
     },
 
     activate(question) {
-      axios.put(this.$route('questions.activate', [this.$page.props.auth.company.id, question.id]))
+      axios.put(this.$route('account.questions.activate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
           flash(this.$t('account.question_activate_success'), 'success');
 
@@ -355,7 +355,7 @@ export default {
     },
 
     deactivate(question) {
-      axios.put(this.$route('questions.deactivate', [this.$page.props.auth.company.id, question.id]))
+      axios.put(this.$route('account.questions.deactivate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
           flash(this.$t('account.question_deactivate_success'), 'success');
 

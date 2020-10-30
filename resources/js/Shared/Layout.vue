@@ -79,7 +79,7 @@ nav {
             <a data-cy="header-find-link" class="mr1 no-underline pa2 bb-0 special pointer" @click="showFindModal">
               <span class="mr1">🔍</span> {{ $t('app.header_find') }}
             </a>
-            <inertia-link v-if="$page.props.auth.company && $page.props.auth.employee.permission_level <= 200" :href="route('account', $page.props.auth.company.id)" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
+            <inertia-link v-if="$page.props.auth.company && $page.props.auth.employee.permission_level <= 200" :href="$route('account.index', $page.props.auth.company.id)" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
               <span class="mr1">👮‍♂️</span> Adminland
             </inertia-link>
           </div>

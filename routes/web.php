@@ -38,11 +38,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('notifications', 'User\\Notification\\NotificationController@index');
         Route::post('notifications/read', 'User\\Notification\\MarkNotificationAsReadController@store');
 
-        Route::prefix('dashboard')->group(function () {
-            Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
+        Route::prefix('dashboard')->name('dashboard.')->group(function () {
+            Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('index');
 
             // me
-            Route::get('me', 'Company\\Dashboard\\DashboardMeController@index')->name('dashboard.me');
+            Route::get('me', 'Company\\Dashboard\\DashboardMeController@index')->name('me');
 
             Route::post('worklog', 'Company\\Dashboard\\DashboardWorklogController@store');
             Route::post('morale', 'Company\\Dashboard\\DashboardMoraleController@store');
@@ -50,31 +50,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('question', 'Company\\Dashboard\\DashboardQuestionController')->only([
                 'store', 'update', 'destroy',
             ]);
-            Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store')->name('dashboard.expense.store');
+            Route::post('expense', 'Company\\Dashboard\\DashboardMeExpenseController@store')->name('expense.store');
 
             // company
-            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
+            Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('company');
 
             // hr
-            Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
+            Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('hr');
 
             // team
-            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
+            Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('team');
             Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');
             Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
 
             // manager
-            Route::get('manager', 'Company\\Dashboard\\DashboardManagerController@index')->name('dashboard.manager');
-            Route::get('manager/expenses/{expense}', 'Company\\Dashboard\\DashboardManagerController@showExpense')->name('dashboard.manager.expense.show');
-            Route::post('manager/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardManagerController@accept');
-            Route::post('manager/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
+            Route::get('manager', 'Company\\Dashboard\\DashboardManagerController@index')->name('manager');
+            Route::get('manager/expenses/{expense}', 'Company\\Dashboard\\DashboardManagerController@showExpense')->name('manager.expense.show');
+            Route::put('manager/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardManagerController@accept');
+            Route::put('manager/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
 
             // rate your manager
             Route::post('manager/rate/{answer}', 'Company\\Dashboard\\DashboardRateYourManagerController@store');
             Route::post('manager/rate/{answer}/comment', 'Company\\Dashboard\\DashboardRateYourManagerController@storeComment');
 
             // details of one on ones
-            Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardMeOneOnOneController@show')->name('dashboard.oneonones.show');
+            Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardMeOneOnOneController@show')->name('oneonones.show');
             Route::post('oneonones/{entry}/happened', 'Company\\Dashboard\\DashboardMeOneOnOneController@markHappened');
 
             Route::post('oneonones/{entry}/talkingPoints', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeTalkingPoint');
@@ -92,31 +92,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyNote');
         });
 
-        Route::prefix('employees')->group(function () {
-            Route::get('', 'Company\\Employee\\EmployeeController@index')->name('employees.index');
-            Route::get('{employee}', 'Company\\Employee\\EmployeeController@show')->name('employees.show');
+        Route::prefix('employees')->name('employees.')->group(function () {
+            Route::get('', 'Company\\Employee\\EmployeeController@index')->name('index');
+            Route::get('{employee}', 'Company\\Employee\\EmployeeController@show')->name('show');
 
             Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
-                Route::get('{employee}/performance', 'Company\\Employee\\EmployeePerformanceController@show')->name('employees.show.performance');
-                Route::get('{employee}/performance/surveys', 'Company\\Employee\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
-                Route::get('{employee}/performance/{survey}', 'Company\\Employee\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
-            });
-
-            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
-                Route::resource('{employee}/oneonones', 'Company\\Employee\\EmployeeOneOnOneController', ['as' => 'employees'])->only([
+                Route::get('{employee}/performance', 'Company\\Employee\\EmployeePerformanceController@show')->name('show.performance');
+                Route::resource('{employee}/performance/surveys', 'Company\\Employee\\EmployeeSurveysController', ['as' => 'show.performance'])->only([
                     'index', 'show',
                 ]);
             });
 
-            Route::put('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager')->name('employee.manager.assign');
-            Route::put('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport')->name('employee.directReport.assign');
+            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
+                Route::resource('{employee}/oneonones', 'Company\\Employee\\EmployeeOneOnOneController')->only([
+                    'index', 'show',
+                ]);
+            });
+
+            Route::put('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager')->name('manager.assign');
+            Route::put('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport')->name('directReport.assign');
             Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');
-            Route::put('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager')->name('employee.manager.unassign');
-            Route::put('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport')->name('employee.directReport.unassign');
+            Route::put('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager')->name('manager.unassign');
+            Route::put('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport')->name('directReport.unassign');
 
-            Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('employee.show.logs');
+            Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('show.logs');
 
-            Route::get('{employee}/edit', 'Company\\Employee\\EmployeeEditController@show')->name('employee.show.edit');
+            Route::get('{employee}/edit', 'Company\\Employee\\EmployeeEditController@show')->name('show.edit');
             Route::get('{employee}/address/edit', 'Company\\Employee\\EmployeeEditController@address');
             Route::post('{employee}/update', 'Company\\Employee\\EmployeeEditController@update');
             Route::post('{employee}/address/update', 'Company\\Employee\\EmployeeEditController@updateAddress');
@@ -147,30 +148,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search')->name('skills.search');
 
             // worklogs
-            Route::get('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('employees.worklogs');
+            Route::get('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('worklogs');
             Route::get('{employee}/worklogs/{year}', 'Company\\Employee\\EmployeeWorklogController@year');
             Route::get('{employee}/worklogs/{year}/{month}', 'Company\\Employee\\EmployeeWorklogController@month');
 
             // work from home
-            Route::get('{employee}/workfromhome', 'Company\\Employee\\EmployeeWorkFromHomeController@index')->name('employees.workfromhome');
+            Route::get('{employee}/workfromhome', 'Company\\Employee\\EmployeeWorkFromHomeController@index')->name('workfromhome');
             Route::get('{employee}/workfromhome/{year}', 'Company\\Employee\\EmployeeWorkFromHomeController@year');
             Route::get('{employee}/workfromhome/{year}/{month}', 'Company\\Employee\\EmployeeWorkFromHomeController@month');
 
             // expenses
-            Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee'])->only([
+            Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController')->only([
                 'index', 'show',
             ]);
         });
 
-        Route::prefix('teams')->group(function () {
-            Route::get('', 'Company\\Team\\TeamController@index');
-            Route::get('{team}', 'Company\\Team\\TeamController@show')->name('team.show');
+        Route::prefix('teams')->name('teams.')->group(function () {
+            Route::get('', 'Company\\Team\\TeamController@index')->name('index');
+            Route::get('{team}', 'Company\\Team\\TeamController@show')->name('show');
 
             Route::post('{team}/members/search', 'Company\\Team\\TeamMembersController@index');
-            Route::post('{team}/members/attach/{employee}', 'Company\\Team\\TeamMembersController@attach');
-            Route::post('{team}/members/detach/{employee}', 'Company\\Team\\TeamMembersController@detach');
+            Route::put('{team}/members/attach/{employee}', 'Company\\Team\\TeamMembersController@attach');
+            Route::put('{team}/members/detach/{employee}', 'Company\\Team\\TeamMembersController@detach');
 
-            Route::resource('{team}/description', 'Company\\Team\\TeamDescriptionController', ['as' => 'description'])->only([
+            Route::resource('{team}/description', 'Company\\Team\\TeamDescriptionController')->only([
                 'store', 'destroy',
             ]);
 
@@ -189,26 +190,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{team}/ships/search', 'Company\\Team\\TeamRecentShipController@search');
         });
 
-        Route::prefix('projects')->group(function () {
-            Route::get('', 'Company\\Project\\ProjectController@index');
-            Route::get('create', 'Company\\Project\\ProjectController@create');
-            Route::post('', 'Company\\Project\\ProjectController@store');
-            Route::post('search', 'Company\\Project\\ProjectController@search');
+        Route::resource('projects', 'Company\\Project\\ProjectController');
+        Route::prefix('projects')->name('projects.')->group(function () {
+            Route::post('search', 'Company\\Project\\ProjectController@search')->name('search');
+            Route::get('{project}/delete', 'Company\\Project\\ProjectController@delete')->name('delete');
 
             // project detail
-            Route::get('{project}', 'Company\\Project\\ProjectController@show')->name('projects.show');
-            Route::get('{project}/summary', 'Company\\Project\\ProjectController@show');
-
             Route::post('{project}/start', 'Company\\Project\\ProjectController@start');
             Route::post('{project}/pause', 'Company\\Project\\ProjectController@pause');
             Route::post('{project}/close', 'Company\\Project\\ProjectController@close');
             Route::post('{project}/lead/assign', 'Company\\Project\\ProjectController@assign');
             Route::post('{project}/lead/clear', 'Company\\Project\\ProjectController@clear');
-            Route::get('{project}/edit', 'Company\\Project\\ProjectController@edit')->name('projects.edit');
             Route::post('{project}/description', 'Company\\Project\\ProjectController@description');
-            Route::post('{project}/update', 'Company\\Project\\ProjectController@update');
-            Route::get('{project}/delete', 'Company\\Project\\ProjectController@delete')->name('projects.delete');
-            Route::delete('{project}', 'Company\\Project\\ProjectController@destroy');
 
             Route::post('{project}/links', 'Company\\Project\\ProjectController@createLink');
             Route::delete('{project}/links/{link}', 'Company\\Project\\ProjectController@destroyLink');
@@ -220,115 +213,118 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
 
             // project decision logs
-            Route::get('{project}/decisions', 'Company\\Project\\ProjectDecisionsController@index');
             Route::post('{project}/decisions/search', 'Company\\Project\\ProjectDecisionsController@search');
-            Route::post('{project}/decisions/store', 'Company\\Project\\ProjectDecisionsController@store');
-            Route::delete('{project}/decisions/{decision}', 'Company\\Project\\ProjectDecisionsController@destroy');
+            Route::resource('{project}/decisions', 'Company\\Project\\ProjectDecisionsController')->only([
+                'index', 'store', 'destroy',
+            ]);
 
             // project members
-            Route::get('{project}/members', 'Company\\Project\\ProjectMembersController@index');
             Route::get('{project}/members/search', 'Company\\Project\\ProjectMembersController@search');
-            Route::post('{project}/members/store', 'Company\\Project\\ProjectMembersController@store');
-            Route::post('{project}/members/remove', 'Company\\Project\\ProjectMembersController@remove');
+            Route::resource('{project}/members', 'Company\\Project\\ProjectMembersController')->only([
+                'index', 'store', 'destroy',
+            ]);
         });
 
-        Route::prefix('company')->group(function () {
-            Route::get('', 'Company\\Company\\CompanyController@index');
-            Route::post('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');
+        Route::prefix('company')->name('company.')->group(function () {
+            Route::get('', 'Company\\Company\\CompanyController@index')->name('index');
+            Route::put('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');
             Route::get('guessEmployee/replay', 'Company\\Company\\CompanyController@replay');
 
             // Questions and answers
-            Route::resource('questions', 'Company\\Company\\QuestionController', ['as' => 'company'])->only([
+            Route::resource('questions', 'Company\\Company\\QuestionController')->only([
                 'index', 'show',
             ]);
             Route::get('questions/{question}/teams/{team}', 'Company\\Company\\QuestionController@team');
 
             // Skills
-            Route::get('skills', 'Company\\Company\\SkillController@index')->name('company.skills.index');
-            Route::get('skills/{skill}', 'Company\\Company\\SkillController@show')->name('company.skills.show');
-            Route::put('skills/{skill}', 'Company\\Company\\SkillController@update');
-            Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
+            Route::resource('skills', 'Company\\Company\\SkillController')->only([
+                'index', 'show', 'update', 'destroy',
+            ]);
         });
 
         // only available to accountant role
-        Route::middleware(['accountant'])->group(function () {
-            Route::get('dashboard/expenses', 'Company\\Dashboard\\DashboardExpensesController@index');
-            Route::get('dashboard/expenses/{expense}/summary', 'Company\\Dashboard\\DashboardExpensesController@summary')->name('dashboard.expenses.summary');
-            Route::get('dashboard/expenses/{expense}', 'Company\\Dashboard\\DashboardExpensesController@show')->name('dashboard.expenses.show');
-            Route::post('dashboard/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardExpensesController@accept');
-            Route::post('dashboard/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardExpensesController@reject');
+        Route::middleware(['accountant'])->prefix('dashboard/expenses')->name('dashboard.expenses.')->group(function () {
+            Route::get('', 'Company\\Dashboard\\DashboardExpensesController@index');
+            Route::get('{expense}', 'Company\\Dashboard\\DashboardExpensesController@show')->name('show');
+            Route::get('{expense}/summary', 'Company\\Dashboard\\DashboardExpensesController@summary')->name('summary');
+            Route::put('{expense}/accept', 'Company\\Dashboard\\DashboardExpensesController@accept')->name('accept');
+            ;
+            Route::put('{expense}/reject', 'Company\\Dashboard\\DashboardExpensesController@reject')->name('reject');
+            ;
         });
 
         // only available to administrator role
-        Route::middleware(['administrator'])->group(function () {
-            Route::get('account/audit', 'Company\\Adminland\\AdminAuditController@index');
+        Route::middleware(['administrator'])->prefix('account')->group(function () {
+            Route::get('audit', 'Company\\Adminland\\AdminAuditController@index');
 
-            Route::get('account/general', 'Company\\Adminland\\AdminGeneralController@index');
-            Route::post('account/general/rename', 'Company\\Adminland\\AdminGeneralController@rename');
-            Route::post('account/general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
+            Route::get('general', 'Company\\Adminland\\AdminGeneralController@index');
+            Route::put('general/rename', 'Company\\Adminland\\AdminGeneralController@rename');
+            Route::put('general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
         });
 
         // only available to hr role
-        Route::middleware(['hr'])->group(function () {
+        Route::middleware(['hr'])->prefix('account')->name('account.')->group(function () {
             // adminland
-            Route::get('account', 'Company\\Adminland\\AdminlandController@index')->name('account');
+            Route::get('', 'Company\\Adminland\\AdminlandController@index')->name('index');
 
-            // employee list
-            Route::get('account/employees', 'Company\\Adminland\\AdminEmployeeController@index')->name('account.employees.index');
-            Route::get('account/employees/all', 'Company\\Adminland\\AdminEmployeeController@all')->name('account.employees.all');
-            Route::get('account/employees/active', 'Company\\Adminland\\AdminEmployeeController@active')->name('account.employees.active');
-            Route::get('account/employees/locked', 'Company\\Adminland\\AdminEmployeeController@locked')->name('account.employees.locked');
-            Route::get('account/employees/noHiringDate', 'Company\\Adminland\\AdminEmployeeController@noHiringDate')->name('account.employees.no_hiring_date');
-            Route::get('account/employees/permission', 'Company\\Adminland\\AdminEmployeeController@permission')->name('account.employees.permission');
+            Route::prefix('employees')->name('employees.')->group(function () {
+                // employee list
+                Route::get('', 'Company\\Adminland\\AdminEmployeeController@index')->name('index');
+                Route::get('all', 'Company\\Adminland\\AdminEmployeeController@all')->name('all');
+                Route::get('active', 'Company\\Adminland\\AdminEmployeeController@active')->name('active');
+                Route::get('locked', 'Company\\Adminland\\AdminEmployeeController@locked')->name('locked');
+                Route::get('noHiringDate', 'Company\\Adminland\\AdminEmployeeController@noHiringDate')->name('no_hiring_date');
+                Route::get('permission', 'Company\\Adminland\\AdminEmployeeController@permission')->name('permission');
 
-            //employee CRUD
-            Route::get('account/employees/create', 'Company\\Adminland\\AdminEmployeeController@create')->name('account.employees.new');
-            Route::post('account/employees', 'Company\\Adminland\\AdminEmployeeController@store')->name('account.employees.create');
-            Route::get('account/employees/{employee}/delete', 'Company\\Adminland\\AdminEmployeeController@delete')->name('account.delete');
-            Route::delete('account/employees/{employee}', 'Company\\Adminland\\AdminEmployeeController@destroy')->name('account.employees.destroy');
-            Route::get('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lock')->name('account.lock');
-            Route::put('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lockAccount')->name('account.lock.update');
-            Route::get('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlock')->name('account.unlock');
-            Route::put('account/employees/{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlockAccount')->name('account.unlock.update');
-            Route::get('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@index');
-            Route::post('account/employees/{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
+                //employee CRUD
+                Route::get('create', 'Company\\Adminland\\AdminEmployeeController@create')->name('create');
+                Route::post('', 'Company\\Adminland\\AdminEmployeeController@store')->name('store');
+                Route::get('{employee}/delete', 'Company\\Adminland\\AdminEmployeeController@delete')->name('delete');
+                Route::delete('{employee}', 'Company\\Adminland\\AdminEmployeeController@destroy')->name('destroy');
+                Route::get('{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lock')->name('lock');
+                Route::put('{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lockAccount')->name('lock.update');
+                Route::get('{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlock')->name('unlock');
+                Route::put('{employee}/unlock', 'Company\\Adminland\\AdminEmployeeController@unlockAccount')->name('unlock.update');
+                Route::get('{employee}/permissions', 'Company\\Adminland\\PermissionController@index');
+                Route::post('{employee}/permissions', 'Company\\Adminland\\PermissionController@store');
+            });
 
             // team management
-            Route::resource('account/teams', 'Company\\Adminland\\AdminTeamController', ['as' => 'account_teams']);
-            Route::get('account/teams/{team}/logs', 'Company\\Adminland\\AdminTeamController@logs');
+            Route::resource('teams', 'Company\\Adminland\\AdminTeamController');
+            Route::get('teams/{team}/logs', 'Company\\Adminland\\AdminTeamController@logs');
 
             // position management
-            Route::resource('account/positions', 'Company\\Adminland\\AdminPositionController');
+            Route::resource('positions', 'Company\\Adminland\\AdminPositionController');
 
             // flow management
-            Route::resource('account/flows', 'Company\\Adminland\\AdminFlowController');
+            Route::resource('flows', 'Company\\Adminland\\AdminFlowController');
 
             // employee statuses
-            Route::resource('account/employeestatuses', 'Company\\Adminland\\AdminEmployeeStatusController', ['as' => 'account_employeestatuses']);
+            Route::resource('employeestatuses', 'Company\\Adminland\\AdminEmployeeStatusController');
 
             // company news
-            Route::resource('account/news', 'Company\\Adminland\\AdminCompanyNewsController', ['as' => 'account_news']);
+            Route::resource('news', 'Company\\Adminland\\AdminCompanyNewsController');
 
             // pto policies
-            Route::resource('account/ptopolicies', 'Company\\Adminland\\AdminPTOPoliciesController');
-            Route::get('account/ptopolicies/{ptopolicy}/getHolidays', 'Company\\Adminland\\AdminPTOPoliciesController@getHolidays');
+            Route::resource('ptopolicies', 'Company\\Adminland\\AdminPTOPoliciesController');
+            Route::get('ptopolicies/{ptopolicy}/getHolidays', 'Company\\Adminland\\AdminPTOPoliciesController@getHolidays');
 
             // questions
-            Route::resource('account/questions', 'Company\\Adminland\\AdminQuestionController');
-            Route::put('account/questions/{question}/activate', 'Company\\Adminland\\AdminQuestionController@activate')->name('questions.activate');
-            Route::put('account/questions/{question}/deactivate', 'Company\\Adminland\\AdminQuestionController@deactivate')->name('questions.deactivate');
+            Route::resource('questions', 'Company\\Adminland\\AdminQuestionController');
+            Route::put('questions/{question}/activate', 'Company\\Adminland\\AdminQuestionController@activate')->name('questions.activate');
+            Route::put('questions/{question}/deactivate', 'Company\\Adminland\\AdminQuestionController@deactivate')->name('questions.deactivate');
 
             // hardware
-            Route::get('account/hardware/available', 'Company\\Adminland\\AdminHardwareController@available');
-            Route::get('account/hardware/lent', 'Company\\Adminland\\AdminHardwareController@lent');
-            Route::post('account/hardware/search', 'Company\\Adminland\\AdminHardwareController@search');
-            Route::resource('account/hardware', 'Company\\Adminland\\AdminHardwareController');
+            Route::get('hardware/available', 'Company\\Adminland\\AdminHardwareController@available');
+            Route::get('hardware/lent', 'Company\\Adminland\\AdminHardwareController@lent');
+            Route::post('hardware/search', 'Company\\Adminland\\AdminHardwareController@search');
+            Route::resource('hardware', 'Company\\Adminland\\AdminHardwareController');
 
             // expenses
-            Route::resource('account/expenses', 'Company\\Adminland\\AdminExpenseController', ['as' => 'account'])->except(['show']);
-            Route::post('account/expenses/search', 'Company\\Adminland\\AdminExpenseController@search');
-            Route::post('account/expenses/employee', 'Company\\Adminland\\AdminExpenseController@addEmployee');
-            Route::post('account/expenses/removeEmployee', 'Company\\Adminland\\AdminExpenseController@removeEmployee');
+            Route::resource('expenses', 'Company\\Adminland\\AdminExpenseController')->except(['show']);
+            Route::post('expenses/search', 'Company\\Adminland\\AdminExpenseController@search');
+            Route::post('expenses/employee', 'Company\\Adminland\\AdminExpenseController@addEmployee');
+            Route::post('expenses/removeEmployee', 'Company\\Adminland\\AdminExpenseController@removeEmployee');
         });
     });
 });

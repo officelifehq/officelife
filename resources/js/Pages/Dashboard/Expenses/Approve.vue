@@ -11,7 +11,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="$route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/expenses'">Expenses</inertia-link>
@@ -252,7 +252,7 @@ export default {
     accept() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/expenses/' + this.expense.id + '/accept')
+      axios.put(this.$route('dashboard.expenses.accept', [this.$page.props.auth.company.id, this.expense.id]))
         .then(response => {
           localStorage.success = this.$t('dashboard.accounting_expense_accepted');
           this.$inertia.visit('/' + this.$page.props.auth.company.id + '/dashboard/expenses');
@@ -270,7 +270,7 @@ export default {
     reject() {
       this.rejectLoadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/expenses/' + this.expense.id + '/reject', this.form)
+      axios.put(this.$route('dashboard.expenses.reject', [this.$page.props.auth.company.id, this.expense.id]), this.form)
         .then(response => {
           localStorage.success = this.$t('dashboard.accounting_expense_rejected');
           this.$inertia.visit('/' + this.$page.props.auth.company.id + '/dashboard/expenses');

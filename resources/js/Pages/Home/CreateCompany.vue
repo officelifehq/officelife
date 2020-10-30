@@ -7,7 +7,7 @@ img {
   <layout title="Home" :no-menu="true" :notifications="notifications">
     <div class="ph2 ph0-ns">
       <div class="mt4 mw6 center mb1">
-        <p class="mt0 mb3 f6">← <inertia-link :href="route('default')">{{ $t('app.back') }}</inertia-link></p>
+        <p class="mt0 mb3 f6">← <inertia-link :href="$route('default')">{{ $t('app.back') }}</inertia-link></p>
       </div>
       <div class="mw6 center br3 mb3 bg-white box pa3">
         <div class="tc">

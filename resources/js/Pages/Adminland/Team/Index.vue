@@ -42,10 +42,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="$route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="route('account', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="$route('account.index', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_teams') }}
@@ -281,7 +281,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.$route('account_teams.teams.store', this.$page.props.auth.company.id), this.form)
+      axios.post(this.$route('account.teams.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.team_creation_success'), 'success');
 
@@ -297,7 +297,7 @@ export default {
     },
 
     update(team) {
-      axios.put(this.$route('account_teams.teams.update', [this.$page.props.auth.company.id, team.id]), this.form)
+      axios.put(this.$route('account.teams.update', [this.$page.props.auth.company.id, team.id]), this.form)
         .then(response => {
           flash(this.$t('account.team_update_success'), 'success');
 
@@ -313,7 +313,7 @@ export default {
     },
 
     destroy(team) {
-      axios.delete(this.$route('account_teams.teams.destroy', [this.$page.props.auth.company.id, team.id]))
+      axios.delete(this.$route('account.teams.destroy', [this.$page.props.auth.company.id, team.id]))
         .then(response => {
           flash(this.$t('account.team_destroy_success'), 'success');
 

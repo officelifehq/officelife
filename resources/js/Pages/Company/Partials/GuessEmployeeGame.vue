@@ -131,7 +131,7 @@ export default {
       this.form.gameId = this.updatedGame.id;
       this.form.choiceId = choice.id;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/company/guessEmployee/vote/', this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/company/guessEmployee/vote/', this.form)
         .then(response => {
         })
         .catch(error => {

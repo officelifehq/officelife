@@ -11,10 +11,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="$route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="route('account', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="$route('account.index', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_employee_statuses') }}
@@ -200,7 +200,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.$route('account_employeestatuses.employeestatuses.store', this.$page.props.auth.company.id), this.form)
+      axios.post(this.$route('account.employeestatuses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_new'), 'success');
 
@@ -216,7 +216,7 @@ export default {
     },
 
     update(id) {
-      axios.put(this.$route('account_employeestatuses.employeestatuses.update', [this.$page.props.auth.company.id, id]), this.form)
+      axios.put(this.$route('account.employeestatuses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_update'), 'success');
 
@@ -232,7 +232,7 @@ export default {
     },
 
     destroy(id) {
-      axios.delete(this.$route('account_employeestatuses.employeestatuses.destroy', [this.$page.props.auth.company.id, id]))
+      axios.delete(this.$route('account.employeestatuses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
           flash(this.$t('account.employee_statuses_success_destroy'), 'success');
 
