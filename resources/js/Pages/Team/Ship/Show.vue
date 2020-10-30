@@ -69,7 +69,7 @@
               </a>
             </li>
             <li v-else class="di">
-              <a v-if="atLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + ship.id" @click.prevent="deleteMode = true">
+              <a v-if="atLeastHR" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + ship.id" @click.prevent="deleteMode = true">
                 {{ $t('app.delete') }}
               </a>
             </li>

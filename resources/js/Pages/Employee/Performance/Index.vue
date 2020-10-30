@@ -119,38 +119,6 @@ export default {
     },
   },
 
-  computed: {
-    employeeOrAtLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.props.auth.user.id === this.employee.user.id) {
-        return true;
-      }
-
-      return false;
-    },
-
-    employeeOrAccountant() {
-      if (this.isAccountant) {
-        return true;
-      }
-
-      if (this.employee.user) {
-        if (this.$page.props.auth.user.id === this.employee.user.id) {
-          return true;
-        }
-      }
-
-      return false;
-    }
-  },
-
   mounted() {
     if (localStorage.success) {
       flash(localStorage.success, 'success');

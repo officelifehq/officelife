@@ -94,7 +94,7 @@
         </h2>
 
         <!-- actions available for HR and administrators -->
-        <ul v-if="atLeastHR() && !editMode" class="tc pl0 ma0 f6 mb4">
+        <ul v-if="atLeastHR && !editMode" class="tc pl0 ma0 f6 mb4">
           <li class="mr2 di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="edit-skill" href="#" @click.prevent="showEditMode()">{{ $t('app.edit') }}</a></li>
           <li v-if="deleteMode" class="di">
             {{ $t('app.sure') }}

@@ -38,7 +38,7 @@
         </li>
 
         <!-- add a new link / edit links -->
-        <li v-if="addMode == false && teamMemberOrAtLeastHR()" class="mt3">
+        <li v-if="addMode == false && teamMemberOrAtLeastHR" class="mt3">
           <a v-if="!editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-add-new-link" @click.prevent="addMode = true"><span>+</span> {{ $t('team.useful_link_cta') }}</a>
           <span v-if="!editMode && updatedLinks.length > 0" class="moon-gray">|</span>
           <a v-if="!editMode && updatedLinks.length > 0" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-edit-links" @click.prevent="editMode = true">{{ $t('team.useful_link_edit') }}</a>

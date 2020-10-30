@@ -313,7 +313,7 @@ export default {
     },
 
     destroy(team) {
-      axios.delete(this.$route('account_teams.teams.detroy', [this.$page.props.auth.company.id, team.id]))
+      axios.delete(this.$route('account_teams.teams.destroy', [this.$page.props.auth.company.id, team.id]))
         .then(response => {
           flash(this.$t('account.team_destroy_success'), 'success');
 
