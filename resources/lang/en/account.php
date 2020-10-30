@@ -33,6 +33,7 @@ return [
     'employees_lock_account' => 'Lock account',
     'employees_unlock_account' => 'Unlock account',
     'employees_change_permission' => 'Change permission',
+    'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
 
     'employee_delete_title' => 'Delete all information about {name}',
     'employee_delete_description' => 'You are about to remove {name} from OfficeLife. This will effectively delete all information we know about this person. We will revoke all possible access to OfficeLife immediately.',
@@ -425,7 +426,7 @@ return [
     'question_deactivate_success' => 'The question is now deactivated',
     'question_status_active' => 'active',
     'question_status_inactive' => 'inactive',
-    'question_number_of_answers' => '{count} answer | {count} answer | {count} answers',
+    'question_number_of_answers' => '{count} answer | {count} answers',
 
     'hardware_title' => 'Manage company hardware',
     'hardware_blank' => 'Here you can keep track of all the hardware your company buys, and whose employee has what.',

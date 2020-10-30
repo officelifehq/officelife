@@ -33,6 +33,7 @@ describe('Employee - work from home', function () {
     cy.visit('/1/employees/2');
     cy.get('[data-cy=view-all-work-from-home]').should('exist');
     cy.get('[data-cy=view-all-work-from-home]').click();
+    cy.wait(500);
   });
 
   it('should not let a normal employee view anothers employee works from home entries', function () {
