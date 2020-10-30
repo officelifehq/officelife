@@ -40,6 +40,7 @@ describe('Adminland - Questions', function () {
     // mark the status of the second question as active
     cy.get('[data-cy=question-activate-link-2]').click();
     cy.get('[data-cy=question-activate-link-confirm-2]').click();
+    cy.wait(200);
     cy.get('[data-cy=question-status-active-2]').should('exist');
     cy.get('[data-cy=question-status-inactive-2]').should('not.exist');
 

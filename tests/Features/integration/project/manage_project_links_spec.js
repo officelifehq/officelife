@@ -93,7 +93,6 @@ describe('Project - project links', function () {
 
     cy.get('[data-cy=project-link-1]').contains('Name of the url');
     cy.get('[data-cy=project-link-logo-url-1]').should('exist');
-    //cy.hasAuditLog('Added the link called', '/1/projects/1');
 
     // add another link without label of the URL type
     cy.get('[data-cy=add-new-link]').click();
@@ -111,7 +110,6 @@ describe('Project - project links', function () {
     cy.get('[data-cy=project-link-2-destroy]').click();
 
     cy.get('[data-cy=team-useful-link-2]').should('not.exist');
-    //cy.hasAuditLog('Deleted the link called', '/1/projects/1');
 
     // add a link with a label of the Slack type
     cy.get('[data-cy=add-new-link]').click();
@@ -122,7 +120,6 @@ describe('Project - project links', function () {
 
     cy.get('[data-cy=project-link-3]').contains('Slack channel');
     cy.get('[data-cy=project-link-logo-slack-3]').should('exist');
-    //cy.hasAuditLog('Added the link called', '/1/projects/1');
 
     // add a link of the Slack type without a label
     cy.get('[data-cy=add-new-link]').click();
@@ -159,7 +156,7 @@ describe('Project - project links', function () {
     cy.changePermission(1, 300);
 
     // make sure we can create a project with only the name of the project
-    cy.createProject(1, 'project 1');
+    cy.createProject(1, 'project 1', '', '', 1);
 
     // add project links
     cy.get('[data-cy=add-new-link]').click();
@@ -170,7 +167,6 @@ describe('Project - project links', function () {
 
     cy.get('[data-cy=project-link-1]').contains('Name of the url');
     cy.get('[data-cy=project-link-logo-url-1]').should('exist');
-    cy.hasAuditLog('Added the link called', '/1/projects/1');
 
     // add another link without label of the URL type
     cy.get('[data-cy=add-new-link]').click();
@@ -188,7 +184,6 @@ describe('Project - project links', function () {
     cy.get('[data-cy=project-link-2-destroy]').click();
 
     cy.get('[data-cy=team-useful-link-2]').should('not.exist');
-    cy.hasAuditLog('Deleted the link called', '/1/projects/1');
 
     // add a link with a label of the Slack type
     cy.get('[data-cy=add-new-link]').click();
@@ -199,7 +194,6 @@ describe('Project - project links', function () {
 
     cy.get('[data-cy=project-link-3]').contains('Slack channel');
     cy.get('[data-cy=project-link-logo-slack-3]').should('exist');
-    cy.hasAuditLog('Added the link called', '/1/projects/1');
 
     // add a link of the Slack type without a label
     cy.get('[data-cy=add-new-link]').click();
