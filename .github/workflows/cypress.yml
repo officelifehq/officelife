@@ -37,9 +37,9 @@ jobs:
             done
 
       - name: Test
-        if: $cypress == 'true'
+        if: env.cypress == 'true'
         run: echo $cypress
 
       - name: Test
-        if: $bla == 'true'
+        if: env.bla == 'true'
         run: echo $bla
