@@ -23,22 +23,23 @@ jobs:
         php-version: ['7.4']
 
     steps:
-      - name: Inspect contexts
+      - name: Set cypress context
         run: |
-          echo "The github context is:"
-          echo "${{ toJson(github) }}"
-          echo ""
-          echo "The job context is:"
-          echo "${{ toJson(job) }}"
-          echo ""
-          echo "The steps context is:"
-          echo "${{ toJson(steps) }}"
-          echo ""
-          echo "The runner context is:"
-          echo "${{ toJson(runner) }}"
-          echo ""
-          echo "The strategy context is:"
-          echo "${{ toJson(strategy) }}"
-          echo ""
-          echo "The matrix context is:"
-          echo "${{ toJson(matrix) }}"
+          echo "cypress=false" >> $GITHUB_ENV
+          echo "bla=false" >> $GITHUB_ENV
+          PR=$(jq --raw-output .pull_request.self.href "${{ github.event }}")
+          curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --header 'content-type: application/json' $PR | \
+            jq --raw-output .labels[].name | \
+            while IFS=$'\n' read -r label; do
+              if [ "$label" == "cypress" ]; then
+                echo "cypress=true" >> $GITHUB_ENV
+              fi
+            done
+
+      - name: Test
+        if: $cypress == 'true'
+        run: echo $cypress
+
+      - name: Test
+        if: $bla == 'true'
+        run: echo $bla
