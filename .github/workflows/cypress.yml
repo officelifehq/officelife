@@ -27,8 +27,7 @@ jobs:
         run: |
           echo "cypress=false" >> $GITHUB_ENV
           echo "bla=false" >> $GITHUB_ENV
-          cat "${{ github.event_path }}"
-          href=$(jq --raw-output .pull_request.self.href "${{ github.event_path }}")
+          href=$(jq --raw-output .pull_request._links.self.href "${{ github.event_path }}")
           echo $href
           curl -sSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --header 'content-type: application/json' $href | \
             jq --raw-output ".labels[].name" | \
