@@ -14,6 +14,7 @@ use App\Models\Company\ProjectMessage;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use App\Services\Company\Project\CreateProjectMessage;
 use App\Services\Company\Project\UpdateProjectMessage;
+use App\Services\Company\Project\DestroyProjectMessage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Project\ProjectMessagesViewHelper;
 
@@ -180,7 +181,7 @@ class ProjectMessagesController extends Controller
     }
 
     /**
-     * Create the message.
+     * Actually update the message.
      *
      * @param Request $request
      * @param int $companyId
@@ -206,6 +207,34 @@ class ProjectMessagesController extends Controller
 
         return response()->json([
             'data' => $message->id,
+        ], 201);
+    }
+
+    /**
+     * Destroy the message.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $projectMessageId
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $company = InstanceHelper::getLoggedCompany();
+
+        $data = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'project_message_id' => $projectMessageId,
+        ];
+
+        (new DestroyProjectMessage)->execute($data);
+
+        return response()->json([
+            'data' => true,
         ], 201);
     }
 }

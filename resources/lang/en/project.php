@@ -92,5 +92,9 @@ return [
     'decision_index_destroy_success' => 'The decision has been forgotten.',
     'decision_index_title' => 'Decisions in the project',
 
+    'message_title' => 'Messages',
+    'message_blank' => 'Messages are essential to make announcements, give feedback, ask questions and have a central point of documentation in the project.',
+    'message_create_success' => 'The message has been created.',
     'message_update_success' => 'The message has been updated.',
+    'message_destroy_success' => 'The message has been deleted.',
 ];

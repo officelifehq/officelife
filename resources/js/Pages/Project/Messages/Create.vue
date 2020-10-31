@@ -124,8 +124,8 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/messages`, this.form)
         .then(response => {
-          localStorage.success = this.$t('account.company_news_create_success');
-          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/messages');
+          localStorage.success = this.$t('project.message_create_success');
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/messages' + '/' + response.data.data);
         })
         .catch(error => {
           this.loadingState = null;

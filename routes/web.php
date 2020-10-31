@@ -235,6 +235,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectMessagesController@show')->name('projects.messages.show');
             Route::get('{project}/messages/{message}/edit', 'Company\\Project\\ProjectMessagesController@edit')->name('projects.messages.edit');
             Route::put('{project}/messages/{message}', 'Company\\Project\\ProjectMessagesController@update');
+            Route::delete('{project}/messages/{message}', 'Company\\Project\\ProjectMessagesController@destroy');
         });
 
         Route::prefix('company')->group(function () {

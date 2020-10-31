@@ -49,7 +49,7 @@
       <div class="mw7 center br3 mb5 relative z-1">
         <p class="db fw5 mb2 flex justify-between items-center">
           <span>
-            <span class="mr1">📨</span> Messages
+            <span class="mr1">📨</span> {{ $t('project.message_title') }}
 
             <help :url="$page.props.help_links.project_decisions" :top="'3px'" />
           </span>
@@ -85,7 +85,7 @@
           <img loading="lazy" src="/img/streamline-icon-morning-news-1@140x140.png" width="140" height="140" alt="meeting"
                class=""
           />
-          <p class="lh-copy measure center">Messages are essential to make announcements, give feedback, ask questions and have a central point of documentation in the project.</p>
+          <p class="lh-copy measure center">{{ $t('project.message_blank') }}</p>
         </div>
       </div>
     </div>
