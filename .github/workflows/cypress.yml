@@ -38,12 +38,14 @@ jobs:
     runs-on: ubuntu-latest
     if: needs.init.outputs.cypress == 'true'
 
-    name: Cypress tests (PHP ${{ matrix.php-version }})
+    name: Cypress tests with ${{ matrix.browser }} (PHP ${{ matrix.php-version }})
 
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.4']
+        php-version: [7.4]
+        browser: [chrome]
+        containers: [1, 2, 3, 4]
 
     steps:
       - name: Checkout sources
@@ -117,7 +119,7 @@ jobs:
       - name: Find google-chrome
         run: |
           which google-chrome || true
-      - uses: cypress-io/github-action@v1
+      - uses: cypress-io/github-action@v2
         with:
           start: php artisan serve
           browser: ${{ matrix.browser }}
@@ -125,8 +127,10 @@ jobs:
           record: true
           parallel: true
           group: Azure DevOps CI ${{ matrix.browser }}
+          tag: ${{ github.event_name }}
           config: baseUrl=http://localhost:8000
           wait-on: http://localhost:8000
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY2 }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
