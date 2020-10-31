@@ -22,6 +22,7 @@ jobs:
       - name: Set cypress context
         id: cypress
         run: |
+          cat "${{ github.event_path }}"
           echo "::set-output name=cypress::false"
           href=$(jq --raw-output .pull_request._links.self.href "${{ github.event_path }}")
           echo $href
@@ -135,9 +136,10 @@ jobs:
           group: Azure DevOps CI ${{ matrix.browser }}
           tag: ${{ github.event_name }}
           config: baseUrl=http://localhost:8000
-          wait-on: http://localhost:8000
+          wait-on: 'http://localhost:8000'
+          cache-key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY2 }}
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
 
