@@ -114,11 +114,10 @@ jobs:
 
     # Cypress
       - name: Cypress verify
-        run: npm run cypress verify
+        run: npx cypress verify
 
       - name: Find google-chrome
-        run: |
-          which google-chrome || true
+        run: which google-chrome || true
       - uses: cypress-io/github-action@v2
         with:
           start: php artisan serve
