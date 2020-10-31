@@ -45,7 +45,7 @@ export default {
 
   methods: {
     hide() {
-      axios.post('/' + this.$page.props.auth.company.id + '/hide')
+      axios.put('/' + this.$page.props.auth.company.id + '/hide')
         .then(response => {
           this.$inertia.visit('/' + this.$page.props.auth.company.id + '/dashboard');
         })

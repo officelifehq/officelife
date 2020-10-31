@@ -198,7 +198,7 @@ export default {
     update(itemId) {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/talkingPoints/' + itemId, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/talkingPoints/' + itemId, this.form)
         .then(response => {
           this.talkingPointToEdit = 0;
           this.loadingState = null;
@@ -214,7 +214,7 @@ export default {
     },
 
     toggle(id) {
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/talkingPoints/' + id + '/toggle')
+      axios.put('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/talkingPoints/' + id + '/toggle')
         .then(response => {
         })
         .catch(error => {

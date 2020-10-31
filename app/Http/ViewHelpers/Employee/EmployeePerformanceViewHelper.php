@@ -72,7 +72,7 @@ class EmployeePerformanceViewHelper
                 'results' => $results,
                 'employees' => $totalNumberOfPotentialResponders,
                 'response_rate' => $numberOfAnswers != 0 ? round($numberOfAnswers * 100 / $totalNumberOfPotentialResponders) : 0,
-                'url' => route('employees.show.performance.survey.show', [
+                'url' => route('employees.performance.surveys.show', [
                     'company' => $employee->company,
                     'employee' => $employee,
                     'survey' => $survey,
@@ -82,7 +82,7 @@ class EmployeePerformanceViewHelper
 
         return [
             'number_of_surveys' => $allSurveys->count(),
-            'url_view_all' => route('employees.show.performance.survey.index', [
+            'url_view_all' => route('employees.performance.surveys.index', [
                 'company' => $employee->company,
                 'employee' => $employee,
             ]),

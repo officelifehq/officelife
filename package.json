@@ -23,8 +23,7 @@
         "test": "vendor/bin/phpunit",
         "posttest": "vendor/bin/phpstan analyse && vendor/bin/psalm",
         "local": "php artisan migrate:fresh && php artisan db:seed",
-        "composer update": "COMPOSER_MEMORY_LIMIT=-1 composer update",
-        "preproduction": "php artisan lang:generate"
+        "composer update": "COMPOSER_MEMORY_LIMIT=-1 composer update"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",

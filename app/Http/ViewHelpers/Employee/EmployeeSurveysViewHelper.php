@@ -70,7 +70,7 @@ class EmployeeSurveysViewHelper
                 'results' => $results,
                 'employees' => $totalNumberOfPotentialResponders,
                 'response_rate' => $numberOfAnswers != 0 ? round($numberOfAnswers * 100 / $totalNumberOfPotentialResponders) : 0,
-                'url' => route('employees.show.performance.survey.show', [
+                'url' => route('employees.performance.surveys.show', [
                     'company' => $employee->company,
                     'employee' => $employee,
                     'survey' => $survey,

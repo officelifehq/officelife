@@ -186,7 +186,7 @@ export default {
       }, 500),
 
     add(employee) {
-      axios.put('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/members/attach/' + employee.id)
+      axios.put('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/members/' + employee.id + '/attach')
         .then(response => {
           this.listOfEmployees.push(response.data.data);
           this.potentialMembers = [];
@@ -202,7 +202,7 @@ export default {
     },
 
     detach(employee) {
-      axios.put('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/members/detach/' + employee.id)
+      axios.put('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/members/' + employee.id + '/detach')
         .then(response => {
           var id = this.listOfEmployees.findIndex(member => member.id === employee.id);
           this.listOfEmployees.splice(id, 1);

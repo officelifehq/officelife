@@ -21,7 +21,7 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="$route('dashboard', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="$route('dashboard.index', $page.props.auth.company.id)">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="$route('account.index', $page.props.auth.company.id)">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
@@ -291,7 +291,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.$route('questions.store', this.$page.props.auth.company.id), this.form)
+      axios.post(this.$route('account.questions.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.question_creation_success'), 'success');
 
@@ -309,7 +309,7 @@ export default {
     update(question) {
       this.loadingState = 'loading';
 
-      axios.put(this.$route('questions.update', [this.$page.props.auth.company.id, question.id]), this.form)
+      axios.put(this.$route('account.questions.update', [this.$page.props.auth.company.id, question.id]), this.form)
         .then(response => {
           flash(this.$t('account.question_update_success'), 'success');
 
@@ -328,7 +328,7 @@ export default {
     },
 
     destroy(question) {
-      axios.delete(this.$route('questions.destroy', [this.$page.props.auth.company.id, question.id]))
+      axios.delete(this.$route('account.questions.destroy', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
           flash(this.$t('account.question_destroy_success'), 'success');
 

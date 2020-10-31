@@ -20,7 +20,7 @@ class AdminTeamViewHelper
             $teamsCollection->push([
                 'id' => $team->id,
                 'name' => $team->name,
-                'url' => route('team.show', [
+                'url' => route('teams.show', [
                     'company' => $team->company,
                     'team' => $team,
                 ]),
@@ -41,7 +41,7 @@ class AdminTeamViewHelper
         return [
             'id' => $team->id,
             'name' => $team->name,
-            'url' => route('team.show', [
+            'url' => route('teams.show', [
                 'company' => $team->company,
                 'team' => $team,
             ]),

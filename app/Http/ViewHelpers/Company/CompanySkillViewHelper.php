@@ -78,7 +78,7 @@ class CompanySkillViewHelper
                 $teamsCollection->push([
                     'id' => $team->id,
                     'name' => $team->name,
-                    'url' => route('team.show', [
+                    'url' => route('teams.show', [
                         'company' => $company,
                         'team' => $team,
                     ]),

@@ -19,6 +19,31 @@ use App\Http\ViewHelpers\Dashboard\DashboardTeamViewHelper;
 class DashboardTeamController extends Controller
 {
     /**
+     * Displays the Team index page on the dashboard.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @return mixed
+     */
+    public function index(Request $request, int $companyId)
+    {
+        return $this->display($request, $companyId);
+    }
+
+    /**
+     * Displays one Team page on the dashboard.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $teamId
+     * @return mixed
+     */
+    public function show(Request $request, int $companyId, int $teamId)
+    {
+        return $this->display($request, $companyId, $teamId);
+    }
+
+    /**
      * Displays the Team page on the dashboard.
      *
      * @param Request $request
@@ -27,7 +52,7 @@ class DashboardTeamController extends Controller
      * @param mixed $requestedDate
      * @return mixed
      */
-    public function index(Request $request, int $companyId, int $teamId = null, $requestedDate = null)
+    private function display(Request $request, int $companyId, int $teamId = null, $requestedDate = null)
     {
         if (! is_null($teamId)) {
             try {

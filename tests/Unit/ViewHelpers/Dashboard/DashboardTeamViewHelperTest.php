@@ -160,7 +160,7 @@ class DashboardTeamViewHelperTest extends TestCase
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
-                    'url' => route('ships.show', [
+                    'url' => route('teams.ships.show', [
                         'company' => $featureA->team->company,
                         'team' => $featureA->team,
                         'ship' => $featureA->id,
@@ -171,7 +171,7 @@ class DashboardTeamViewHelperTest extends TestCase
                     'title' => $featureB->title,
                     'description' => $featureB->description,
                     'employees' => null,
-                    'url' => route('ships.show', [
+                    'url' => route('teams.ships.show', [
                         'company' => $featureB->team->company,
                         'team' => $featureB->team,
                         'ship' => $featureB->id,

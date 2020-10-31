@@ -187,7 +187,7 @@ class CompanyViewHelper
         $shipsCollection = collect([]);
         foreach ($ships as $ship) {
             $shipsCollection->push([
-                'url' => route('ships.show', [
+                'url' => route('teams.ships.show', [
                     'company' => $company,
                     'team' => $ship->team_id,
                     'ship' => $ship->id,

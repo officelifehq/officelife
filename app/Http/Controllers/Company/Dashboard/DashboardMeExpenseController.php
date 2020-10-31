@@ -50,7 +50,7 @@ class DashboardMeExpenseController extends Controller
                 'status' => $expense->status,
                 'category' => ($expense->category) ? $expense->category->name : null,
                 'expensed_at' => DateHelper::formatDate($expense->expensed_at),
-                'url' => route('employee.expenses.show', [
+                'url' => route('employees.expenses.show', [
                     'company' => $employee->company,
                     'employee' => $employee,
                     'expense' => $expense,

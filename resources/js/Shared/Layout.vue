@@ -334,7 +334,7 @@ export default {
       }, 500),
 
     toggleHelp() {
-      axios.post('/help')
+      axios.put('/help')
         .then(response => {
           this.$page.props.auth.user.show_help = response.data.data;
         })

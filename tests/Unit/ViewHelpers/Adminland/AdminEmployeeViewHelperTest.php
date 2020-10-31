@@ -67,15 +67,15 @@ class AdminEmployeeViewHelperTest extends TestCase
                         'company' => $michael->company,
                         'employee' => $michael,
                     ]),
-                    'url_delete' => route('account.delete', [
+                    'url_delete' => route('account.employees.delete', [
                         'company' => $michael->company,
                         'employee' => $michael,
                     ]),
-                    'url_lock' => route('account.lock', [
+                    'url_lock' => route('account.employees.lock', [
                         'company' => $michael->company,
                         'employee' => $michael,
                     ]),
-                    'url_unlock' => route('account.unlock', [
+                    'url_unlock' => route('account.employees.unlock', [
                         'company' => $michael->company,
                         'employee' => $michael,
                     ]),

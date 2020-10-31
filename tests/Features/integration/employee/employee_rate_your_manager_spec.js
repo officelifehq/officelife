@@ -70,8 +70,8 @@ describe('Employee - rate your manager', function () {
 
     cy.visit('/1/employees/2/performance/surveys');
     cy.url().should('include', '/1/employees/2/performance/surveys');
-    cy.visit('/1/employees/2/performance/1');
-    cy.url().should('include', '/1/employees/2/performance/1');
+    cy.visit('/1/employees/2/performance/surveys/1');
+    cy.url().should('include', '/1/employees/2/performance/surveys/1');
 
     // change permission
     cy.changePermission(1, 200);
@@ -79,8 +79,8 @@ describe('Employee - rate your manager', function () {
     cy.get('[data-cy=employee-tab]').should('exist');
     cy.visit('/1/employees/2/performance/surveys');
     cy.url().should('include', '/1/employees/2/performance/surveys');
-    cy.visit('/1/employees/2/performance/1');
-    cy.url().should('include', '/1/employees/2/performance/1');
+    cy.visit('/1/employees/2/performance/surveys/1');
+    cy.url().should('include', '/1/employees/2/performance/surveys/1');
 
     // change permission
     cy.changePermission(1, 300);
@@ -94,7 +94,7 @@ describe('Employee - rate your manager', function () {
         expect(response.status).to.eq(401);
       });
     cy.request({
-      url: '/1/employees/2/performance/1',
+      url: '/1/employees/2/performance/surveys/1',
       failOnStatusCode: false
     })
       .should((response) => {

@@ -114,7 +114,7 @@ class DashboardTeamViewHelper
             $teamsCollection->push([
                 'id' => $team->id,
                 'name' => $team->name,
-                'url' => route('team.show', [
+                'url' => route('teams.show', [
                     'company' => $team->company,
                     'team' => $team,
                 ]),
@@ -155,7 +155,7 @@ class DashboardTeamViewHelper
                 'title' => $ship->title,
                 'description' => $ship->description,
                 'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all() : null,
-                'url' => route('ships.show', [
+                'url' => route('teams.ships.show', [
                     'company' => $team->company,
                     'team' => $team,
                     'ship' => $ship->id,

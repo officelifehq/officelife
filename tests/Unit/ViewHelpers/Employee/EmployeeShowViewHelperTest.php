@@ -368,7 +368,7 @@ class EmployeeShowViewHelperTest extends TestCase
                     'title' => $featureA->title,
                     'description' => $featureA->description,
                     'employees' => null,
-                    'url' => route('ships.show', [
+                    'url' => route('teams.ships.show', [
                         'company' => $featureA->team->company,
                         'team' => $featureA->team,
                         'ship' => $featureA->id,

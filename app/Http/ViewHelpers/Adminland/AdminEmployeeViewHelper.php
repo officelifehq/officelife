@@ -51,7 +51,7 @@ class AdminEmployeeViewHelper
             'url_permission' => route('account.employees.permission', [
                 'company' => $company,
             ]),
-            'url_new' => route('account.employees.new', [
+            'url_new' => route('account.employees.create', [
                 'company' => $company,
             ]),
         ];
@@ -85,15 +85,15 @@ class AdminEmployeeViewHelper
                     'company' => $company,
                     'employee' => $employee,
                 ]),
-                'url_delete' => route('account.delete', [
+                'url_delete' => route('account.employees.delete', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
-                'url_lock' => route('account.lock', [
+                'url_lock' => route('account.employees.lock', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
-                'url_unlock' => route('account.unlock', [
+                'url_unlock' => route('account.employees.unlock', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),

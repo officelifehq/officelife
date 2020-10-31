@@ -205,7 +205,7 @@ export default {
     update(itemId) {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes/' + itemId, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes/' + itemId, this.form)
         .then(response => {
           this.noteToEdit = 0;
           this.loadingState = null;

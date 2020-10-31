@@ -84,7 +84,7 @@ export default {
     markRead() {
       this.showMenu = true;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/notifications/read')
+      axios.put('/' + this.$page.props.auth.company.id + '/notifications/read')
         .then(response => {
           this.numberOfNotifications = 0;
         })

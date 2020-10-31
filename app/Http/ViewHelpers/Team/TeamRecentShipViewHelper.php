@@ -41,7 +41,7 @@ class TeamRecentShipViewHelper
                 'title' => $ship->title,
                 'description' => $ship->description,
                 'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all() : null,
-                'url' => route('ships.show', [
+                'url' => route('teams.ships.show', [
                     'company' => $team->company,
                     'team' => $team,
                     'ship' => $ship->id,
@@ -86,7 +86,7 @@ class TeamRecentShipViewHelper
             'description' => is_null($ship->description) ? null : StringHelper::parse($ship->description),
             'created_at' => DateHelper::formatFullDate($ship->created_at),
             'employees' => ($employeeCollection->count() > 0) ? $employeeCollection->all() : null,
-            'url' => route('ships.show', [
+            'url' => route('teams.ships.show', [
                 'company' => $team->company,
                 'team' => $team,
                 'ship' => $ship->id,
