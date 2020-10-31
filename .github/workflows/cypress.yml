@@ -27,9 +27,10 @@ jobs:
         run: |
           echo "cypress=false" >> $GITHUB_ENV
           echo "bla=false" >> $GITHUB_ENV
-          PR=$(jq --raw-output .pull_request.self.href "${{ github.event }}")
-          curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --header 'content-type: application/json' $PR | \
-            jq --raw-output .labels[].name | \
+          href=$(jq --raw-output .pull_request.self.href "${{ github.event_path }}")
+          echo $href
+          curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --header 'content-type: application/json' $href | \
+            jq --raw-output ".labels[].name" | \
             while IFS=$'\n' read -r label; do
               if [ "$label" == "cypress" ]; then
                 echo "cypress=true" >> $GITHUB_ENV
