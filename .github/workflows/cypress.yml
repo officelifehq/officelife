@@ -10,11 +10,34 @@ on:
     types: [completed]
 
 jobs:
-  #############
-  # Run cypress tests
-  #############
-  cypress:
+
+  init:
     runs-on: ubuntu-latest
+    name: Initialisation
+
+    outputs:
+      cypress: ${{ steps.cypress.outputs.cypress }}
+
+    steps:
+      - name: Set cypress context
+        id: cypress
+        run: |
+          echo "::set-output name=cypress::false"
+          href=$(jq --raw-output .pull_request._links.self.href "${{ github.event_path }}")
+          echo $href
+          curl -sSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --header 'content-type: application/json' $href | \
+            jq --raw-output ".labels[].name" | \
+            while IFS=$'\n' read -r label; do
+              if [ "$label" == "cypress" ]; then
+                echo "::set-output name=cypress::true"
+              fi
+            done
+
+  cypress:
+    needs: init
+    runs-on: ubuntu-latest
+    if: needs.init.outputs.cypress == 'true'
+
     name: Cypress tests (PHP ${{ matrix.php-version }})
 
     strategy:
@@ -23,24 +46,6 @@ jobs:
         php-version: ['7.4']
 
     steps:
-      - name: Set cypress context
-        run: |
-          echo "cypress=false" >> $GITHUB_ENV
-          echo "bla=false" >> $GITHUB_ENV
-          href=$(jq --raw-output .pull_request._links.self.href "${{ github.event_path }}")
-          echo $href
-          curl -sSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --header 'content-type: application/json' $href | \
-            jq --raw-output ".labels[].name" | \
-            while IFS=$'\n' read -r label; do
-              if [ "$label" == "cypress" ]; then
-                echo "cypress=true" >> $GITHUB_ENV
-              fi
-            done
+      - name: Checkout sources
+        uses: actions/checkout@v2
 
-      - name: Test
-        if: env.cypress == 'true'
-        run: echo $cypress
-
-      - name: Test
-        if: env.bla == 'true'
-        run: echo $bla
