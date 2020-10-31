@@ -1,0 +1,44 @@
+name: Cypress tests
+
+on:
+  pull_request:
+    types: [labeled, opened, synchronize, reopened]
+
+  workflow_run:
+    workflows:
+      - Compress images
+    types: [completed]
+
+jobs:
+  #############
+  # Run cypress tests
+  #############
+  cypress:
+    runs-on: ubuntu-latest
+    name: Cypress tests (PHP ${{ matrix.php-version }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['7.4']
+
+    steps:
+      - name: Inspect contexts
+        run: |
+          echo "The github context is:"
+          echo "${{ toJson(github) }}"
+          echo ""
+          echo "The job context is:"
+          echo "${{ toJson(job) }}"
+          echo ""
+          echo "The steps context is:"
+          echo "${{ toJson(steps) }}"
+          echo ""
+          echo "The runner context is:"
+          echo "${{ toJson(runner) }}"
+          echo ""
+          echo "The strategy context is:"
+          echo "${{ toJson(strategy) }}"
+          echo ""
+          echo "The matrix context is:"
+          echo "${{ toJson(matrix) }}"
