@@ -100,7 +100,9 @@ jobs:
 
     # Prepare
       - name: Prepare environment
-        run: cp tests/.env.ci-cypress .env
+        run: |
+          cp tests/.env.ci-cypress .env
+          touch config/version
       - name: Create SQLite database
         run: |
           mkdir -p database
@@ -121,12 +123,15 @@ jobs:
       - name: Find google-chrome
         run: which google-chrome || true
       - uses: cypress-io/github-action@v2
+        id: cypress
+        continue-on-error: true
         with:
           start: php artisan serve
           browser: ${{ matrix.browser }}
           headless: true
           record: true
           parallel: true
+          install: false
           group: Azure DevOps CI ${{ matrix.browser }}
           tag: ${{ github.event_name }}
           config: baseUrl=http://localhost:8000
@@ -135,3 +140,8 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY2 }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
+
+      - name: Cypress infos
+        run: |
+          echo Cypress finished with: ${{ steps.cypress.outcome }}
+          echo See results at ${{ steps.cypress.outputs.dashboardUrl }}
