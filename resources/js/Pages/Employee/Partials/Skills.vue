@@ -217,7 +217,7 @@ export default {
               }
             })
             .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.form.errors = error.response.data;
               this.processingSearch = false;
             });
         } else {
@@ -237,7 +237,7 @@ export default {
           this.updatedSkills.push(response.data.data);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
           this.processingSearch = false;
         });
     },
@@ -251,7 +251,7 @@ export default {
           this.updatedSkills.splice(changedId, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
           this.processingSearch = false;
         });
     }

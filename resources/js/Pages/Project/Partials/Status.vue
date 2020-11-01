@@ -106,7 +106,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -120,7 +120,7 @@ export default {
         })
         .catch(error => {
           this.loadingPauseState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -134,7 +134,7 @@ export default {
         })
         .catch(error => {
           this.loadingUnpauseState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -148,7 +148,7 @@ export default {
         })
         .catch(error => {
           this.loadingCloseState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

@@ -376,7 +376,7 @@ export default {
           this.$set(this.ptoPolicies, id, response.data.data);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

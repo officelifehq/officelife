@@ -367,7 +367,7 @@ export default {
               this.processingSearch = false;
             })
             .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.form.errors = error.response.data;
               this.processingSearch = false;
             });
         }
@@ -385,7 +385,7 @@ export default {
               this.processingSearch = false;
             })
             .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.form.errors = error.response.data;
               this.processingSearch = false;
             });
         }
