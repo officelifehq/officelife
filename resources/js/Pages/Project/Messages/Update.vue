@@ -33,7 +33,7 @@
           <h2 class="tc normal mb4 lh-copy">
             {{ $t('project.message_edit_title_message') }}
 
-            <help :url="$page.props.help_links.team_recent_ship_create" :top="'1px'" />
+            <help :url="$page.props.help_links.project_messages" :top="'1px'" />
           </h2>
 
           <form @submit.prevent="submit">
@@ -134,7 +134,7 @@ export default {
       axios.put(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/messages/${this.message.id}`, this.form)
         .then(response => {
           localStorage.success = this.$t('project.message_update_success');
-          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/messages/' + this.message.id);
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/messages/${this.message.id}`);
         })
         .catch(error => {
           this.loadingState = null;

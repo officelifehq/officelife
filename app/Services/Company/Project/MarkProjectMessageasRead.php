@@ -8,7 +8,7 @@ use App\Models\Company\Project;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectMessage;
 
-class ReadProjectMessage extends BaseService
+class MarkProjectMessageasRead extends BaseService
 {
     protected array $data;
 

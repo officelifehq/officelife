@@ -55,7 +55,7 @@
           <span>
             <span class="mr1">📨</span> {{ $t('project.message_title') }}
 
-            <help :url="$page.props.help_links.project_decisions" :top="'3px'" />
+            <help :url="$page.props.help_links.project_messages" :top="'3px'" />
           </span>
           <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages/create'" class="btn f5" data-cy="add-message">{{ $t('project.message_cta') }}</inertia-link>
         </p>

@@ -12,11 +12,11 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\ProjectMessage;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
-use App\Services\Company\Project\ReadProjectMessage;
 use App\Services\Company\Project\CreateProjectMessage;
 use App\Services\Company\Project\UpdateProjectMessage;
 use App\Services\Company\Project\DestroyProjectMessage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Project\MarkProjectMessageasRead;
 use App\Http\ViewHelpers\Project\ProjectMessagesViewHelper;
 
 class ProjectMessagesController extends Controller
@@ -137,7 +137,7 @@ class ProjectMessagesController extends Controller
             return redirect('home');
         }
 
-        (new ReadProjectMessage)->execute([
+        (new MarkProjectMessageasRead)->execute([
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $project->id,

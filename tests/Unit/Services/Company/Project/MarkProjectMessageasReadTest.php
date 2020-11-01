@@ -8,12 +8,12 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use App\Models\Company\ProjectMessage;
 use Illuminate\Validation\ValidationException;
-use App\Services\Company\Project\ReadProjectMessage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Project\DestroyProjectDecision;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Project\MarkProjectMessageasRead;
 
-class ReadProjectMessageTest extends TestCase
+class MarkProjectMessageasReadTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -104,7 +104,7 @@ class ReadProjectMessageTest extends TestCase
             'project_message_id' => $message->id,
         ];
 
-        (new ReadProjectMessage)->execute($request);
+        (new MarkProjectMessageasRead)->execute($request);
 
         $this->assertDatabaseHas('project_message_read_status', [
             'project_message_id' => $message->id,

@@ -74,7 +74,7 @@ class CreateProjectMessage extends BaseService
 
     private function markAsReadForThisUser(): void
     {
-        (new ReadProjectMessage)->execute([
+        (new MarkProjectMessageasRead)->execute([
             'company_id' => $this->data['company_id'],
             'author_id' => $this->data['author_id'],
             'project_id' => $this->data['project_id'],
