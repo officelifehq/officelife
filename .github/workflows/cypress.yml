@@ -20,7 +20,7 @@ jobs:
       matrix:
         php-version: [7.4]
         browser: [chrome]
-        containers: [1, 2, 3, 4]
+        containers: [1, 2, 3, 4, 5, 6, 7, 8]
 
     steps:
       - name: Checkout sources
@@ -78,8 +78,6 @@ jobs:
         run: |
           mkdir -p database
           touch database/database.sqlite
-          echo "$GITHUB_WORKSPACE"
-          ls $GITHUB_WORKSPACE/database/database.sqlite
 
       - name: Generate key
         run: php artisan key:generate
@@ -95,7 +93,7 @@ jobs:
 
       - name: Find google-chrome
         run: which google-chrome || true
-      - uses: cypress-io/github-action@v1
+      - uses: cypress-io/github-action@v2
         id: cypress
         continue-on-error: true
         with:
