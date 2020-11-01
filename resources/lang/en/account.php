@@ -259,6 +259,9 @@ return [
     'log_project_team_lead_cleared' => 'Removed :employee_name as the project lead of the project called :project_name.',
     'log_project_decision_created' => 'Added a decision called :title in the project called :project_name.',
     'log_project_decision_destroyed' => 'Deleted a decision called :title in the project called :project_name.',
+    'log_project_message_created' => 'Added a message called :title in the project called :project_name.',
+    'log_project_message_destroyed' => 'Deleted a message called :title in the project called :project_name.',
+    'log_project_message_updated' => 'Updated a message called :title in the project called :project_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',

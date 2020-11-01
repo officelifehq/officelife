@@ -127,4 +127,14 @@ class Project extends Model
     {
         return $this->hasMany(ProjectDecision::class);
     }
+
+    /**
+     * Get the project messages associated with the project.
+     *
+     * @return HasMany
+     */
+    public function messages()
+    {
+        return $this->hasMany(ProjectMessage::class);
+    }
 }

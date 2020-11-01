@@ -532,3 +532,22 @@ $factory->define(App\Models\Company\ProjectDecision::class, function () {
         'decided_at' => Carbon::now(),
     ];
 });
+
+$factory->define(App\Models\Company\ProjectMessage::class, function () {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
+    return [
+        'project_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Project::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'author_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'title' => 'This is a title',
+        'content' => 'This is a description',
+    ];
+});
