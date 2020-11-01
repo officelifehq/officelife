@@ -229,13 +229,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{project}/members/remove', 'Company\\Project\\ProjectMembersController@remove');
 
             // project messages
-            Route::get('{project}/messages', 'Company\\Project\\ProjectMessagesController@index');
-            Route::get('{project}/messages/create', 'Company\\Project\\ProjectMessagesController@create');
-            Route::post('{project}/messages', 'Company\\Project\\ProjectMessagesController@store');
-            Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectMessagesController@show')->name('projects.messages.show');
-            Route::get('{project}/messages/{message}/edit', 'Company\\Project\\ProjectMessagesController@edit')->name('projects.messages.edit');
-            Route::put('{project}/messages/{message}', 'Company\\Project\\ProjectMessagesController@update');
-            Route::delete('{project}/messages/{message}', 'Company\\Project\\ProjectMessagesController@destroy');
+            Route::resource('{project}/messages', 'Company\\Project\\ProjectMessagesController', ['as' => 'projects.messages']);
         });
 
         Route::prefix('company')->group(function () {
