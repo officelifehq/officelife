@@ -77,6 +77,7 @@ class ProjectMessagesViewHelper
     {
         // check author role in project
         $author = $projectMessage->author;
+        $role = null;
         if ($author) {
             $role = DB::table('employee_project')
                 ->where('employee_id', $author->id)
