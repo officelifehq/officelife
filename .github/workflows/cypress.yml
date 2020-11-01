@@ -78,6 +78,8 @@ jobs:
         run: |
           mkdir -p database
           touch database/database.sqlite
+          echo "$GITHUB_WORKSPACE"
+          ls $GITHUB_WORKSPACE/database/database.sqlite
 
       - name: Generate key
         run: php artisan key:generate
