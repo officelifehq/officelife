@@ -109,8 +109,8 @@ jobs:
           install: false
           group: Azure DevOps CI ${{ matrix.browser }}
           tag: ${{ github.event_name }}
-          config: baseUrl=http://localhost:8000
-          wait-on: 'http://localhost:8000'
+          config: baseUrl=http://127.0.0.1:8000
+          wait-on: 'http://127.0.0.1:8000'
           cache-key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
