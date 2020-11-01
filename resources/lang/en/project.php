@@ -74,7 +74,7 @@ return [
     'members_index_add_role_no_role' => 'No role',
     'members_index_add_role_create_new_one' => 'Or create a new role',
     'members_index_count' => 'This project has {count} members.',
-    'members_index_blank' => 'Projects are more fun when employees are assigned to them.',
+    'members_index_blank' => 'Projects are more fun when employees are working on them.',
     'members_index_blank_role' => 'No role created yet',
     'members_index_add_success' => 'The member has been added.',
     'members_index_remove_success' => 'The member has been removed.',

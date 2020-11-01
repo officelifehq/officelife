@@ -4,6 +4,8 @@ namespace Tests\Unit\ViewHelpers\Project;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\DateHelper;
+use App\Helpers\StringHelper;
 use App\Models\Company\Project;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectMessage;
@@ -65,6 +67,49 @@ class ProjectMessagesViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_an_array_containing_all_the_information_about_a_given_message(): void
+    {
+        $michael = $this->createAdministrator();
+        $project = factory(Project::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectMessage = factory(ProjectMessage::class)->create([
+            'project_id' => $project->id,
+            'author_id' => $michael->id,
+        ]);
+
+        $array = ProjectMessagesViewHelper::show($projectMessage);
+        $this->assertEquals(
+            [
+                'id' => $projectMessage->id,
+                'title' => $projectMessage->title,
+                'content' => $projectMessage->content,
+                'parsed_content' => StringHelper::parse($projectMessage->content),
+                'written_at' => DateHelper::formatDate($projectMessage->created_at),
+                'written_at_human' => $projectMessage->created_at->diffForHumans(),
+                'url_edit' => route('projects.messages.edit', [
+                    'company' => $projectMessage->project->company_id,
+                    'project' => $projectMessage->project,
+                    'message' => $projectMessage,
+                ]),
+                'author' => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                    'avatar' => $michael->avatar,
+                    'role' => null,
+                    'added_at' => null,
+                    'position' => [
+                        'id' => $michael->position->id,
+                        'title' => $michael->position->title,
+                    ],
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                ],
+            ],
+            $array
         );
     }
 }

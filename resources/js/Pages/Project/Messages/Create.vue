@@ -43,7 +43,7 @@
             <text-input :id="'title'"
                         v-model="form.title"
                         :name="'title'"
-                        :datacy="'news-title-input'"
+                        :datacy="'message-title-input'"
                         :errors="$page.props.errors.title"
                         :label="$t('project.message_create_title_message')"
                         :help="$t('project.message_create_title_message_help')"
@@ -53,7 +53,7 @@
             <!-- Content -->
             <text-area v-model="form.content"
                        :label="$t('project.message_create_title_content')"
-                       :datacy="'news-content-textarea'"
+                       :datacy="'message-content-textarea'"
                        :required="true"
                        :rows="10"
                        :help="$t('project.message_create_title_content_help')"
@@ -67,7 +67,7 @@
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-news-button'" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-message-button'" />
               </div>
             </div>
           </form>
@@ -125,7 +125,7 @@ export default {
       axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/messages`, this.form)
         .then(response => {
           localStorage.success = this.$t('project.message_create_success');
-          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/messages' + '/' + response.data.data);
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/messages/${response.data.data}`);
         })
         .catch(error => {
           this.loadingState = null;

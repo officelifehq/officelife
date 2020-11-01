@@ -64,60 +64,6 @@
             <div class="pa3 pb3" data-cy="project-content">
               <div class="parsed-content" v-html="message.parsed_content"></div>
             </div>
-
-            <!-- comments -->
-            <!-- <div class="bb bb-gray pb3">
-              <p class="fw6">Comments</p>
-              <div class="relative mb4">
-                <img loading="lazy" src="https://api.adorable.io/avatars/200/d5f148f9-f029-4c71-9fd7-1c9d3f1ef0ac.png" alt="avatar" class="br-100 absolute comment-avatar" />
-                <div class="pl5">
-                  <ul class="f7 list pl0 gray">
-                    <li class="di mr1"><a href="">Regis Freyd</a></li>
-                    <li class="di mr1">Sun, 4 Oct at 11:35am</li>
-                    <li class="di mr1"><a href="">Edit</a></li>
-                    <li class="di"><a href="">Delete</a></li>
-                  </ul>
-                  <p class="lh-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.</p>
-                </div>
-              </div>
-              <div class="relative">
-                <img loading="lazy" src="https://api.adorable.io/avatars/200/d5f148f9-f029-4c71-9fd7-1c9d3f1ef0ac.png" alt="avatar" class="br-100 absolute comment-avatar" />
-                <div class="pl5">
-                  <ul class="f7 list pl0 gray">
-                    <li class="di mr1"><a href="">Regis Freyd</a></li>
-                    <li class="di mr1">Sun, 4 Oct at 11:35am</li>
-                    <li class="di mr1"><a href="">Edit</a></li>
-                    <li class="di"><a href="">Delete</a></li>
-                  </ul>
-                  <p class="lh-copy">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.</p>
-                </div>
-              </div>
-            </div> -->
-
-            <!-- add a comment -->
-            <!-- <p class="fw6">Comments</p>
-            <form action="">
-
-              <text-area v-model="form.comment"
-                         :label="$t('account.company_news_new_content')"
-                         :datacy="'news-content-textarea'"
-                         :required="true"
-                         :rows="10"
-                         :help="$t('account.company_news_new_content_help')"
-              />
-
-
-              <div class="mt2 mb0">
-                <div class="flex-ns">
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 mr2'" :state="loadingState" :text="$t('app.publish')" :cypress-selector="'submit-add-news-button'" />
-                  <div>
-                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
-                      {{ $t('app.cancel') }}
-                    </inertia-link>
-                  </div>
-                </div>
-              </div>
-            </form> -->
           </div>
         </div>
 
