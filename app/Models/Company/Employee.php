@@ -50,6 +50,7 @@ class Employee extends Model
         'consecutive_worklog_missed',
         'employee_status_id',
         'uuid',
+        'phone_number',
         'locked',
         'avatar',
         'holiday_balance',

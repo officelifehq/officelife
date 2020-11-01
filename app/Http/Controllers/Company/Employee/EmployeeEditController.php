@@ -59,6 +59,7 @@ class EmployeeEditController extends Controller
                 'last_name' => $employee->last_name,
                 'name' => $employee->name,
                 'email' => $employee->email,
+                'phone' => $employee->phone_number,
                 'birthdate' => (! $employee->birthdate) ? null : [
                     'year' => $employee->birthdate->year,
                     'month' => $employee->birthdate->month,
@@ -96,6 +97,7 @@ class EmployeeEditController extends Controller
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
             'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
         ];
 
         (new SetPersonalDetails)->execute($data);
