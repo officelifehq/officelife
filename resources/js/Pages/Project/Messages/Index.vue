@@ -132,7 +132,6 @@ export default {
 
   data() {
     return {
-      localMessages: null,
       loadingState: '',
       addMode: false,
       decisionToDelete: 0,
@@ -147,10 +146,6 @@ export default {
         errors: [],
       },
     };
-  },
-
-  created() {
-    this.localMessages = this.decisions;
   },
 
   mounted() {
