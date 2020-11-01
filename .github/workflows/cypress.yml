@@ -10,35 +10,9 @@ on:
     types: [completed]
 
 jobs:
-
-  init:
-    runs-on: ubuntu-latest
-    name: Initialisation
-
-    outputs:
-      cypress: ${{ steps.cypress.outputs.cypress }}
-
-    steps:
-      - name: Set cypress context
-        id: cypress
-        run: |
-          cat "${{ github.event_path }}"
-          echo "::set-output name=cypress::false"
-          href=$(jq --raw-output .pull_request._links.self.href "${{ github.event_path }}")
-          echo $href
-          curl -sSL -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" --header 'content-type: application/json' $href | \
-            jq --raw-output ".labels[].name" | \
-            while IFS=$'\n' read -r label; do
-              if [ "$label" == "cypress" ]; then
-                echo "::set-output name=cypress::true"
-              fi
-            done
-
   cypress:
-    needs: init
     runs-on: ubuntu-latest
-    if: needs.init.outputs.cypress == 'true'
-
+    if: contains(github.event.pull_request.labels.*.name, 'cypress')
     name: Cypress tests with ${{ matrix.browser }} (PHP ${{ matrix.php-version }})
 
     strategy:
