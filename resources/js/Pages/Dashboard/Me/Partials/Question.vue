@@ -239,7 +239,7 @@ export default {
         .catch(error => {
           this.loadingState = null;
           this.editMode = true;
-          this.form.errors = error.response.data.errors;
+          this.form.errors = error.response.data;
         });
     },
 

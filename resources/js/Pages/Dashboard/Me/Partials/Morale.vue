@@ -91,7 +91,7 @@ export default {
         })
         .catch(error => {
           this.successMessage = false;
-          this.form.errors = error.response.data.errors;
+          this.form.errors = error.response.data;
         });
     },
   }
