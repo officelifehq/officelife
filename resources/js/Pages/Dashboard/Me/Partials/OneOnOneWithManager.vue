@@ -84,16 +84,5 @@ export default {
       default: null,
     },
   },
-
-  data() {
-    return {
-    };
-  },
-
-  created: function() {
-  },
-
-  methods: {
-  }
 };
 </script>

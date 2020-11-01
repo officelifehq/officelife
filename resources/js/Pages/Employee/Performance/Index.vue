@@ -124,36 +124,6 @@ export default {
       flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
-  },
-
-  methods: {
-    employeeOrAtLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (!this.employee.user) {
-        return false;
-      }
-
-      if (this.$page.props.auth.user.id == this.employee.user.id) {
-        return true;
-      }
-    },
-
-    employeeOrAccountant() {
-      if (this.isAccountant) {
-        return true;
-      }
-
-      if (this.employee.user) {
-        if (this.$page.props.auth.user.id == this.employee.user.id) {
-          return true;
-        }
-      }
-
-      return false;
-    }
   }
 };
 

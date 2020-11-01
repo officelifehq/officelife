@@ -110,11 +110,6 @@ export default {
     },
   },
 
-  data() {
-    return {
-    };
-  },
-
   created() {
     this.localProject = this.projectDetails;
   },
@@ -125,9 +120,6 @@ export default {
       localStorage.removeItem('success');
     }
   },
-
-  methods: {
-  }
 };
 
 </script>

@@ -45,7 +45,7 @@ class RegisterController extends Controller
             'password',
         ]));
 
-        if (User::count() == 1) {
+        if (! config('mail.verify') || User::count() == 1) {
             // if it's the first user, we can skip the email verification
             $user->markEmailAsVerified();
         } else {

@@ -27,10 +27,12 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Morale\LogMorale;
 use App\Services\Company\Project\CreateProjectLink;
+use App\Services\Company\Project\ReadProjectMessage;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Project\AddEmployeeToProject;
+use App\Services\Company\Project\CreateProjectMessage;
 use App\Services\Company\Project\CreateProjectDecision;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
@@ -1684,6 +1686,26 @@ class SetupDummyAccount extends Command
             'decided_at' => '2019-06-29',
             'deciders' => [$this->dwight->id, $this->oscar->id],
         ]);
+
+        // add messages
+        for ($j = 0; $j < 5; $j++) {
+            $message = (new CreateProjectMessage)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->jim->id,
+                'project_id' => $infinity->id,
+                'title' => $this->faker->sentence(rand(5, 10)),
+                'content' => $this->faker->paragraph(rand(3, 10)),
+            ]);
+
+            if (rand(1, 2) == 1) {
+                (new ReadProjectMessage)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'project_id' => $infinity->id,
+                    'project_message_id' => $message->id,
+                ]);
+            }
+        }
     }
 
     private function addSecondaryBlankAccount(): void

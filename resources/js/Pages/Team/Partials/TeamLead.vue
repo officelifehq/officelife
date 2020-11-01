@@ -77,9 +77,9 @@
 
     <!-- team lead blank state -->
     <div v-show="!updatedTeam.team_leader && !editMode" class="lh-copy ma0 pa3 bb bb-gray">
-      <a v-if="atLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="add-team-lead-blank-state" @click.prevent="displaySearch()">{{ $t('team.team_lead_cta') }}</a>
+      <a v-if="atLeastHR" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="add-team-lead-blank-state" @click.prevent="displaySearch()">{{ $t('team.team_lead_cta') }}</a>
 
-      <span v-if="!atLeastHR()" class="f6">
+      <span v-if="!atLeastHR" class="f6">
         {{ $t('team.team_lead_blank') }}
       </span>
     </div>
@@ -171,6 +171,12 @@ export default {
     };
   },
 
+  computed: {
+    atLeastHR() {
+      return this.$page.props.auth.employee.permission_level <= 200;
+    },
+  },
+
   created: function() {
     this.updatedTeam = this.team;
   },
@@ -225,14 +231,6 @@ export default {
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
-    },
-
-    atLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      return false;
     },
 
     removeTeamLead() {

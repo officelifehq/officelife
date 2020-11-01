@@ -10,8 +10,12 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
   release:
-    types:
-      - created
+    types: [created]
+
+  workflow_run:
+    workflows:
+      - Compress images
+    types: [completed]
 
 jobs:
   #############

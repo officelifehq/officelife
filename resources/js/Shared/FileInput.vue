@@ -71,6 +71,10 @@ export default {
       type: String,
       default: 'input',
     },
+    errors: {
+      type: Array,
+      default: () => [],
+    },
     datacy: {
       type: String,
       default: '',
@@ -99,14 +103,24 @@ export default {
 
   data() {
     return {
-      errors: [],
+      localErrors: [],
     };
   },
 
   computed: {
-    hasError: function () {
+    hasError() {
       return this.errors.length > 0 && this.required;
     }
+  },
+
+  watch: {
+    errors(value) {
+      this.localErrors = value;
+    },
+  },
+
+  mounted() {
+    this.localErrors = this.errors;
   },
 
   methods: {

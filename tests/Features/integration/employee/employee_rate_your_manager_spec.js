@@ -43,7 +43,7 @@ describe('Employee - rate your manager', function () {
 
     // now, end the survey process and go to see the manager profile page
     cy.exec('php artisan rateyourmanagerprocess:stop --force');
-    cy.visit('/1/account/employees');
+    cy.visit('/1/account/employees/all');
     cy.get('[name=\'Michael Scott\']').invoke('attr', 'data-invitation-link').then((link) => {
       cy.acceptInvitationLinkAndGoToDashboard('admin2020', link);
 

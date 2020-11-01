@@ -38,7 +38,7 @@
         </li>
 
         <!-- add a new link / edit links -->
-        <li v-if="addMode == false && teamMemberOrAtLeastHR()" class="mt3">
+        <li v-if="addMode == false && teamMemberOrAtLeastHR" class="mt3">
           <a v-if="!editMode" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-add-new-link" @click.prevent="addMode = true"><span>+</span> {{ $t('team.useful_link_cta') }}</a>
           <span v-if="!editMode && updatedLinks.length > 0" class="moon-gray">|</span>
           <a v-if="!editMode && updatedLinks.length > 0" href="" class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="useful-link-edit-links" @click.prevent="editMode = true">{{ $t('team.useful_link_edit') }}</a>
@@ -98,7 +98,6 @@
               </div>
               <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'useful-link-submit-button'" />
             </div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'useful-link-submit-button'" />
           </div>
         </form>
       </template>
@@ -148,6 +147,20 @@ export default {
     };
   },
 
+  computed: {
+    teamMemberOrAtLeastHR() {
+      if (this.$page.props.auth.employee.permission_level <= 200) {
+        return true;
+      }
+
+      if (this.userBelongsToTheTeam == false) {
+        return false;
+      }
+
+      return true;
+    },
+  },
+
   created: function() {
     this.updatedLinks = this.links;
   },
@@ -188,25 +201,13 @@ export default {
         .then(response => {
           flash(this.$t('team.team_lead_removed'), 'success');
 
-          this.updatedLinks.splice(this.updatedLinks.findIndex(i => i.id == response.data.data), 1);
+          this.updatedLinks.splice(this.updatedLinks.findIndex(i => i.id === response.data.data), 1);
           this.editMode = false;
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
         });
     },
-
-    teamMemberOrAtLeastHR() {
-      if (this.$page.props.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      if (this.userBelongsToTheTeam == false) {
-        return false;
-      }
-
-      return true;
-    }
   }
 };
 

@@ -27,11 +27,6 @@ export default {
     },
   },
 
-  data() {
-    return {
-    };
-  },
-
   methods: {
     employeeOrAtLeastHR() {
       if (this.$page.props.auth.employee.permission_level <= 200) {
@@ -42,9 +37,11 @@ export default {
         return false;
       }
 
-      if (this.$page.props.auth.user.id == this.employee.user.id) {
+      if (this.$page.props.auth.user.id === this.employee.user.id) {
         return true;
       }
+
+      return false;
     }
   }
 };

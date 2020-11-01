@@ -7,6 +7,7 @@ use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectMessage;
@@ -17,9 +18,10 @@ class ProjectMessagesViewHelper
      * Array containing the information about the messages made in the project.
      *
      * @param Project $project
+     * @param Employee $employee
      * @return Collection
      */
-    public static function index(Project $project): Collection
+    public static function index(Project $project, Employee $employee): Collection
     {
         $company = $project->company;
         $messages = $project->messages()
@@ -35,12 +37,9 @@ class ProjectMessagesViewHelper
         $messagesCollection = collect([]);
         foreach ($messages as $message) {
             // check read status for each message
-            $readStatus = false;
-            if ($message->author) {
-                $readStatus = $messageReadStatuses->contains(function ($readStatus, $key) use ($message) {
-                    return $readStatus->project_message_id == $message->id && $readStatus->employee_id == $message->author->id;
-                });
-            }
+            $readStatus = $messageReadStatuses->contains(function ($readStatus, $key) use ($message, $employee) {
+                return $readStatus->project_message_id == $message->id && $readStatus->employee_id == $employee->id;
+            });
 
             $messagesCollection->push([
                 'id' => $message->id,

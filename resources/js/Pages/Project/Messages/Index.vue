@@ -20,6 +20,10 @@
     font-weight: 400;
   }
 }
+
+.author {
+  width: 200px;
+}
 </style>
 
 <template>
@@ -53,7 +57,7 @@
 
             <help :url="$page.props.help_links.project_decisions" :top="'3px'" />
           </span>
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages/create'" class="btn f5" data-cy="add-decision">Write a message</inertia-link>
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages/create'" class="btn f5" data-cy="add-message">{{ $t('project.message_cta') }}</inertia-link>
         </p>
 
         <!-- list of messages -->
@@ -63,19 +67,20 @@
               <div class="ma0 fw5 message">
                 <p class="mt0 mb2 fw5">
                   <span v-if="!message.read_status" class="dib relative mr1 br-100 dot"></span>
-                  <inertia-link :href="message.url">{{ message.title }}</inertia-link>
-                  <span class="pl2 f7 gray">{{ message.written_at }}</span>
+                  <inertia-link :href="message.url" class="lh-copy">{{ message.title }}</inertia-link>
                 </p>
-                <p class="mt0 mb0 f6 gray">{{ message.content }}</p>
+                <p class="mt0 mb0 f6 gray"><span class="mr1 f7 gray">{{ message.written_at }}</span> {{ message.content }}</p>
               </div>
 
-              <small-name-and-avatar
-                :name="message.author.name"
-                :avatar="message.author.avatar"
-                :classes="'f4 fw4'"
-                :top="'0px'"
-                :margin-between-name-avatar="'29px'"
-              />
+              <div v-if="message.author" class="author tr">
+                <small-name-and-avatar
+                  :name="message.author.name"
+                  :avatar="message.author.avatar"
+                  :classes="'f4 fw4'"
+                  :top="'0px'"
+                  :margin-between-name-avatar="'29px'"
+                />
+              </div>
             </li>
           </ul>
         </div>

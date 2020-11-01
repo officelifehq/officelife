@@ -37,13 +37,5 @@ export default {
       default: null,
     },
   },
-
-  data() {
-    return {
-    };
-  },
-
-  methods: {
-  }
 };
 </script>

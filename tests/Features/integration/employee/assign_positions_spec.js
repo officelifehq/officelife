@@ -18,7 +18,7 @@ describe('Employee - Assign positions', function () {
     // Open the modal to assign a team and select the first line
     cy.get('[data-cy=open-position-modal-blank]').click();
     cy.get('[data-cy=list-position-1]').click();
-    cy.get('[data-cy=open-position-modal]').contains('CEO');
+    cy.get('[data-cy=position-label]').contains('CEO');
     cy.hasAuditLog('Assigned the position called CEO to admin@admin.com', '/1/employees/1');
     cy.hasEmployeeLog('Assigned the position called CEO', '/1/employees/1');
 
@@ -52,7 +52,7 @@ describe('Employee - Assign positions', function () {
     // Open the modal to assign a team and select the first line
     cy.get('[data-cy=open-position-modal-blank]').click();
     cy.get('[data-cy=list-position-1]').click();
-    cy.get('[data-cy=open-position-modal]').contains('CEO');
+    cy.get('[data-cy=position-label]').contains('CEO');
     cy.hasEmployeeLog('Assigned the position called CEO', '/1/employees/1');
 
     // Open the modal to assign a team and select the first line

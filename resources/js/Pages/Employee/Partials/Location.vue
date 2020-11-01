@@ -39,11 +39,6 @@ export default {
     },
   },
 
-  data() {
-    return {
-    };
-  },
-
   methods: {
     navigateToUrl(params) {
       window.open(params, '_blank');

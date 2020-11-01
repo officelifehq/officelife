@@ -6,8 +6,9 @@ describe('Employee - Assign managers and direct reports', function () {
 
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false);
     cy.createEmployee('Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'admin', false);
-    cy.createEmployee('Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'admin', false);
-    cy.get('[data-cy=employee-view]').first().click();
+    cy.createEmployee('Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'admin', false, (id) => {
+      cy.visit(`/1/employees/${id}`);
+    });
 
     // i should be now on Jim Halpert page so I will test that I can add
     // michael scott as Jim's manager
@@ -64,8 +65,9 @@ describe('Employee - Assign managers and direct reports', function () {
 
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', false);
     cy.createEmployee('Dwight', 'Schrute', 'dwight.schrute@dundermifflin.com', 'admin', false);
-    cy.createEmployee('Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'admin', false);
-    cy.get('[data-cy=employee-view]').first().click();
+    cy.createEmployee('Jim', 'Halpert', 'jim.halpert@dundermifflin.com', 'admin', false, (id) => {
+      cy.visit(`/1/employees/${id}`);
+    });
 
     cy.changePermission(1, 200);
 

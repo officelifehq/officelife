@@ -8,7 +8,7 @@
   <!-- EXPENSES CATEGORIES -->
   <div class="mb5">
     <h3 class="relative adminland-headline fw4">
-      <span class="dib mb3 di-l" :class="categories.length == 0 ? 'white' : ''">
+      <span class="dib mb3 di-l" :class="localCategories.length == 0 ? 'white' : ''">
         <span class="mr1">
           📦
         </span> {{ $tc('account.expense_category_headline') }}
@@ -47,8 +47,8 @@
     </form>
 
     <!-- LIST OF EXISTING EXPENSE CATEGORIES -->
-    <ul v-show="categories.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="categories-list">
-      <li v-for="category in categories" :key="category.id" :data-cy="'category-' + category.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+    <ul v-show="localCategories.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="categories-list">
+      <li v-for="category in localCategories" :key="category.id" :data-cy="'category-' + category.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
         {{ category.name }}
 
         <!-- RENAME POSITION FORM -->
@@ -103,7 +103,7 @@
     </ul>
 
     <!-- BLANK STATE -->
-    <div v-show="categories.length == 0" class="pa3 mt5">
+    <div v-show="localCategories.length == 0" class="pa3 mt5">
       <p class="tc measure center mb4 lh-copy">
         {{ $t('account.expense_category_blank') }}
       </p>
@@ -134,6 +134,7 @@ export default {
 
   data() {
     return {
+      localCategories: [],
       loadingState: '',
       modal: false,
       form: {
@@ -143,6 +144,16 @@ export default {
       idToUpdate: 0,
       idToDelete: 0,
     };
+  },
+
+  watch: {
+    categories(value) {
+      this.localCategories = value;
+    }
+  },
+
+  mounted() {
+    this.localCategories = this.categories;
   },
 
   methods: {
@@ -170,14 +181,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/expenses', this.form)
+      axios.post(this.$route('account.expenses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.expense_category_success'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
           this.modal = false;
-          this.categories.push(response.data.data);
+          this.localCategories.push(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
@@ -186,15 +197,15 @@ export default {
     },
 
     update(id) {
-      axios.put('/' + this.$page.props.auth.company.id + '/account/expenses/' + id, this.form)
+      axios.put(this.$route('account.expenses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
           flash(this.$t('account.expense_category_update_success'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
 
-          id = this.categories.findIndex(x => x.id === id);
-          this.$set(this.categories, id, response.data.data);
+          id = this.localCategories.findIndex(x => x.id === id);
+          this.$set(this.localCategories, id, response.data.data);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));
@@ -202,13 +213,13 @@ export default {
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/account/expenses/' + id)
+      axios.delete(this.$route('account.expenses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
           flash(this.$t('account.expense_category_delete_success'), 'success');
 
           this.idToDelete = 0;
-          id = this.categories.findIndex(x => x.id === id);
-          this.categories.splice(id, 1);
+          id = this.localCategories.findIndex(x => x.id === id);
+          this.localCategories.splice(id, 1);
         })
         .catch(error => {
           this.form.errors = _.flatten(_.toArray(error.response.data));

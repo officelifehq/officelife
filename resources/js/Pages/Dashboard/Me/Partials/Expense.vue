@@ -151,9 +151,9 @@
       </div>
 
       <!-- LIST OF IN PROGRESS EXPENSES -->
-      <div v-if="expenses.length > 0">
+      <div v-if="localExpenses.length > 0">
         <ul class="list pl0 mb0" data-cy="expenses-list">
-          <li v-for="expense in expenses" :key="expense.id" :data-cy="'expense-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
+          <li v-for="expense in localExpenses" :key="expense.id" :data-cy="'expense-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
             <div class="dt-row-ns">
               <div class="dtc-ns db mb3 mb0-ns">
                 <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
@@ -220,6 +220,7 @@ export default {
 
   data() {
     return {
+      localExpenses: [],
       addMode: false,
       form: {
         title: null,
@@ -234,7 +235,14 @@ export default {
     };
   },
 
+  watch: {
+    expenses(value) {
+      this.localExpenses = value;
+    }
+  },
+
   mounted() {
+    this.localExpenses = this.expenses;
     this.form.currency = this.defaultCurrency;
   },
 
@@ -264,10 +272,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/expense', this.form)
+      axios.post(this.$route('dashboard.expense.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           this.loadingState = null;
-          this.expenses.unshift(response.data.data);
+          this.localExpenses.unshift(response.data.data);
           this.hideAddMode();
           flash(this.$t('dashboard.expense_submitted'), 'success');
         })

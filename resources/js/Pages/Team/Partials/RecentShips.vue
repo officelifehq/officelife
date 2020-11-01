@@ -22,7 +22,7 @@
         <help :url="$page.props.help_links.team_recent_ship" :top="'2px'" />
       </span>
 
-      <inertia-link v-if="teamMemberOrAtLeastHR()" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships/create'" class="btn f5" data-cy="add-recent-ship-entry">{{ $t('team.recent_ship_list_cta') }}</inertia-link>
+      <inertia-link v-if="teamMemberOrAtLeastHR" :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships/create'" class="btn f5" data-cy="add-recent-ship-entry">{{ $t('team.recent_ship_list_cta') }}</inertia-link>
     </h3>
 
     <div class="mb4 bg-white box cf">
@@ -73,13 +73,13 @@ export default {
     }
   },
 
-  methods: {
+  computed: {
     teamMemberOrAtLeastHR() {
       if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
       }
 
-      if (this.userBelongsToTheTeam == false) {
+      if (this.userBelongsToTheTeam === false) {
         return false;
       }
 

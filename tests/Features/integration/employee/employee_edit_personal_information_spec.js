@@ -117,7 +117,8 @@ describe('Employee - edit personal information', function () {
     cy.get('input[name=hired_at_day]').type('10');
     cy.get('input[name=twitter]').type('dwight');
     cy.get('[data-cy=submit-edit-employee-button]').click();
-    cy.url().should('include', '/2');
+    cy.wait(500);
+    cy.url().should('include', 'employees/2');
 
     cy.get('[data-cy=employee-twitter-handle]').contains('dwight');
 
@@ -162,7 +163,8 @@ describe('Employee - edit personal information', function () {
     cy.get('input[name=hired_at_day]').type('10');
     cy.get('input[name=twitter]').type('dwight');
     cy.get('[data-cy=submit-edit-employee-button]').click();
-    cy.url().should('include', '/2');
+    cy.wait(500);
+    cy.url().should('include', 'employees/2');
 
     cy.hasEmployeeLog('Set Twitter handle’s to dwight', '/1/dashboard', '1/employees/2/logs');
 
@@ -172,7 +174,8 @@ describe('Employee - edit personal information', function () {
     cy.get('[data-cy=show-edit-view]').click();
     cy.get('input[name=twitter]').clear();
     cy.get('[data-cy=submit-edit-employee-button]').click();
-    cy.url().should('include', '/2');
+    cy.wait(500);
+    cy.url().should('include', 'employees/2');
 
     cy.get('[data-cy=employee-twitter-handle]').should('not.exist');
 
@@ -198,6 +201,7 @@ describe('Employee - edit personal information', function () {
     cy.get('input[name=day]').type('10');
     cy.get('input[name=twitter]').type('dwight');
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(500);
 
     cy.hasEmployeeLog('Set Twitter handle’s to dwight', '/1/dashboard', '1/employees/1/logs');
 
@@ -207,6 +211,7 @@ describe('Employee - edit personal information', function () {
     cy.get('[data-cy=show-edit-view]').click();
     cy.get('input[name=twitter]').clear();
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(500);
 
     cy.get('[data-cy=employee-twitter-handle]').should('not.exist');
 
@@ -235,6 +240,7 @@ describe('Employee - edit personal information', function () {
     cy.get('input[name=hired_at_day]').type('10');
     cy.get('input[name=slack]').type('dwight');
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(500);
     cy.url().should('include', '/2');
 
     cy.get('[data-cy=employee-slack-handle]').contains('dwight');
@@ -280,6 +286,7 @@ describe('Employee - edit personal information', function () {
     cy.get('input[name=hired_at_day]').type('10');
     cy.get('input[name=slack]').type('dwight');
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(500);
     cy.url().should('include', '/2');
 
     cy.hasEmployeeLog('Set Slack handle’s to dwight', '/1/dashboard', '1/employees/2/logs');
@@ -290,6 +297,7 @@ describe('Employee - edit personal information', function () {
     cy.get('[data-cy=show-edit-view]').click();
     cy.get('input[name=slack]').clear();
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(500);
     cy.url().should('include', '/2');
 
     cy.get('[data-cy=employee-slack-handle]').should('not.exist');
@@ -316,6 +324,7 @@ describe('Employee - edit personal information', function () {
     cy.get('input[name=day]').type('10');
     cy.get('input[name=slack]').type('dwight');
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(500);
 
     cy.hasEmployeeLog('Set Slack handle’s to dwight', '/1/dashboard', '1/employees/1/logs');
 
@@ -325,6 +334,7 @@ describe('Employee - edit personal information', function () {
     cy.get('[data-cy=show-edit-view]').click();
     cy.get('input[name=slack]').clear();
     cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.wait(500);
 
     cy.get('[data-cy=employee-slack-handle]').should('not.exist');
 

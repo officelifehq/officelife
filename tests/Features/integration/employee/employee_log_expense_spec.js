@@ -12,7 +12,7 @@ describe('Employee - Complete expense management', function () {
     cy.assignManager('scott');
 
     // grant the accountant right to this manager, so he can also give the final acceptance
-    cy.grantAccountantRight('scott',2);
+    cy.grantAccountantRight('scott', 2);
 
     // now go back to the dashboard and create an expense
     cy.createExpense('restaurant', 123);
@@ -25,7 +25,7 @@ describe('Employee - Complete expense management', function () {
     cy.hasEmployeeLog('Created an expense about restaurant for an amount of $123.00', '/1/dashboard');
 
     // now login to the Michael Scott's account to check the notification
-    cy.visit('/1/account/employees');
+    cy.visit('/1/account/employees/all');
     cy.get('[name=\'Michael Scott\']').invoke('attr', 'data-invitation-link').then((link) => {
       cy.acceptInvitationLinkAndGoToDashboard('admin2020', link);
       cy.hasNotification('You have a new expense to validate for admin@admin.com');
@@ -84,7 +84,7 @@ describe('Employee - Complete expense management', function () {
     cy.createExpense('restaurant', 123);
 
     // now login to the Michael Scott's account to check the notification
-    cy.visit('/1/account/employees');
+    cy.visit('/1/account/employees/all');
     cy.get('[name=\'Michael Scott\']').invoke('attr', 'data-invitation-link').then((link) => {
       cy.acceptInvitationLinkAndGoToDashboard('admin2020', link);
 

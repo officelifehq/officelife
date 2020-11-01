@@ -66,7 +66,7 @@ class ReadProjectMessage extends BaseService
             ->where('employee_id', $this->author->id)
             ->count();
 
-        if ($count > 1) {
+        if ($count > 0) {
             return;
         }
 

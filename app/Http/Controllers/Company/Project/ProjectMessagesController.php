@@ -12,6 +12,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\ProjectMessage;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
+use App\Services\Company\Project\ReadProjectMessage;
 use App\Services\Company\Project\CreateProjectMessage;
 use App\Services\Company\Project\UpdateProjectMessage;
 use App\Services\Company\Project\DestroyProjectMessage;
@@ -32,6 +33,7 @@ class ProjectMessagesController extends Controller
     public function index(Request $request, int $companyId, int $projectId)
     {
         $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $project = Project::where('company_id', $company->id)
@@ -44,7 +46,7 @@ class ProjectMessagesController extends Controller
         return Inertia::render('Project/Messages/Index', [
             'tab' => 'messages',
             'project' => ProjectViewHelper::info($project),
-            'messages' => ProjectMessagesViewHelper::index($project),
+            'messages' => ProjectMessagesViewHelper::index($project, $employee),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -116,10 +118,11 @@ class ProjectMessagesController extends Controller
      */
     public function show(Request $request, int $companyId, int $projectId, int $messageId)
     {
-        $company = InstanceHelper::getLoggedCompany();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
-            $project = Project::where('company_id', $company->id)
+            $project = Project::where('company_id', $loggedCompany->id)
                 ->with('employees')
                 ->findOrFail($projectId);
         } catch (ModelNotFoundException $e) {
@@ -133,6 +136,13 @@ class ProjectMessagesController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
+
+        (new ReadProjectMessage)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $project->id,
+            'project_message_id' => $message->id,
+        ]);
 
         return Inertia::render('Project/Messages/Show', [
             'tab' => 'messages',

@@ -95,20 +95,12 @@ export default {
     },
   },
 
-  data() {
-    return {
-    };
-  },
-
   mounted() {
     if (localStorage.success) {
       flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
   },
-
-  methods: {
-  }
 };
 
 </script>

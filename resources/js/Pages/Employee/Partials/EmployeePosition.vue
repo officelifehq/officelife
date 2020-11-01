@@ -17,7 +17,7 @@
 <template>
   <div class="di relative">
     <!-- Assigning a title is restricted to HR or admin -->
-    <span v-if="permissions.can_manage_position && updatedEmployee.position">
+    <span v-if="permissions.can_manage_position && updatedEmployee.position" data-cy="position-label">
       {{ title }}
       <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
         {{ $t('app.edit') }}
