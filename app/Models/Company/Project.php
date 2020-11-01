@@ -131,7 +131,7 @@ class Project extends Model
     /**
      * Get the project messages associated with the project.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function messages()
     {
