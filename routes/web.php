@@ -229,7 +229,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{project}/members/remove', 'Company\\Project\\ProjectMembersController@remove');
 
             // project messages
-            Route::resource('{project}/messages', 'Company\\Project\\ProjectMessagesController', ['as' => 'projects.messages']);
+            Route::resource('{project}/messages', 'Company\\Project\\ProjectMessagesController', ['as' => 'projects']);
         });
 
         Route::prefix('company')->group(function () {
