@@ -16,5 +16,7 @@ fi
 
 set -v
 
-gh auth login
+if [ -z "$GITHUB_TOKEN" ]; then
+  gh auth login
+fi
 gh release upload $version $file
