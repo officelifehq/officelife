@@ -258,9 +258,9 @@ jobs:
 
       - name: Publish package
         run: |
-          scripts/publish.sh '0.1.0-alpha.1' '${{ steps.package.outputs.package }}'
+          scripts/publish.sh 'v0.1.0-alpha.1' '${{ steps.package.outputs.package }}'
 #        run: |
-#          scripts/publish.sh '${{ needs.semantic-release.outputs.new_release_version }}' '${{ steps.package.outputs.package }}'
+#          scripts/publish.sh 'v${{ needs.semantic-release.outputs.new_release_version }}' '${{ steps.package.outputs.package }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
