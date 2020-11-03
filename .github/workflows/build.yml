@@ -252,26 +252,21 @@ jobs:
 
       - name: Create package
         id: package
-        run: |
-          scripts/package.sh 'v0.1.0-alpha.1'
-#          scripts/package.sh 'v${{ needs.semantic-release.outputs.new_release_version }}'
+        run: scripts/package.sh 'v0.1.0-alpha.1'
+#        run: scripts/package.sh 'v${{ needs.semantic-release.outputs.new_release_version }}'
 
       - name: Import key
-        run: |
-          echo -e "$GPG_KEY" > officelife.asc
-          echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --import officelife.asc
-          rm -f officelife.asc
+        run: echo -e "$GPG_KEY" | gpg --batch --yes --import -
         env:
           GPG_KEY: ${{ secrets.GPG_KEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Sign package
         run: |
-          set -e
           sha512sum '${{ steps.package.outputs.package }}' > '${{ steps.package.outputs.package }}.sha512'
           for f in '${{ steps.package.outputs.package }}'{,.sha512}; do
-            echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode=loopback --local-user $GPG_FINGERPRINT --sign --armor --output "$f.asc" --detach-sig "$f"
-            echo -e "\nSigned with key fingerprint $GPG_FINGERPRINT" >> $f.asc
+            echo "Signing '$f'..."
+            echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode=loopback --local-user $GPG_FINGERPRINT --sign --armor --detach-sig --output "$f.asc" "$f"
+            echo -e "\nSigned with key fingerprint $GPG_FINGERPRINT" >> "$f.asc"
           done
         env:
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
@@ -280,9 +275,10 @@ jobs:
       - name: Publish package
         run: |
           for f in '${{ steps.package.outputs.package }}'{,.asc,.sha512,.sha512.asc}; do
+            echo "Uploading release file '$f'..."
             gh release upload 'v0.1.0-alpha.1' "$f" --clobber
           done
-#          scripts/publish.sh 'v${{ needs.semantic-release.outputs.new_release_version }}' '${{ steps.package.outputs.package }}'
+#          gh release upload 'v${{ needs.semantic-release.outputs.new_release_version }}' "$f" --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
