@@ -216,6 +216,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
         with:
@@ -252,14 +253,33 @@ jobs:
       - name: Create package
         id: package
         run: |
-          scripts/package.sh '0.1.0-alpha.1'
-#        run: |
-#          scripts/package.sh '${{ needs.semantic-release.outputs.new_release_version }}'
+          scripts/package.sh 'v0.1.0-alpha.1'
+#          scripts/package.sh 'v${{ needs.semantic-release.outputs.new_release_version }}'
+
+      - name: Import key
+        run: |
+          echo -e "$GPG_KEY" > officelife.asc
+          echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --import officelife.asc
+          rm -f officelife.asc
+        env:
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Sign package
+        run: |
+          set -ex
+          sha512sum '${{ steps.package.outputs.package }}' > '${{ steps.package.outputs.package }}.sha512'
+          for f in '${{ steps.package.outputs.package }}' '${{ steps.package.outputs.package }}.sha512'; do
+            echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode=loopback --local-user $GPG_FINGERPRINT --sign --armor --output "$f.asc" --detach-sig "$f"
+            echo -e "\nSigned with key fingerprint $GPG_FINGERPRINT" >> $f.asc
+          done
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GPG_FINGERPRINT: ${{ secrets.GPG_FINGERPRINT }}
 
       - name: Publish package
         run: |
           scripts/publish.sh 'v0.1.0-alpha.1' '${{ steps.package.outputs.package }}'
-#        run: |
 #          scripts/publish.sh 'v${{ needs.semantic-release.outputs.new_release_version }}' '${{ steps.package.outputs.package }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

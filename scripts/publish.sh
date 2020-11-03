@@ -19,4 +19,5 @@ set -v
 if [ -z "$GITHUB_TOKEN" ]; then
   gh auth login
 fi
-gh release upload "$version" "$file"
+
+gh release upload "$version" "${file}*" --clobber
