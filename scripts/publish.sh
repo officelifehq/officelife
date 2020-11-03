@@ -20,4 +20,6 @@ if [ -z "$GITHUB_TOKEN" ]; then
   gh auth login
 fi
 
-gh release upload "$version" "${file}*" --clobber
+for f in $(ls -d $file*); do
+  gh release upload "$version" "$f" --clobber
+done
