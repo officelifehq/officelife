@@ -204,10 +204,10 @@ jobs:
           echo ${{ steps.semantic.outputs.new_release_version }}
 
   package:
-#    needs: semantic-release
+    needs: semantic-release
     runs-on: ubuntu-latest
     name: Package release
-#    if: needs.semantic-release.outputs.new_release_published == 'true'
+    if: needs.semantic-release.outputs.new_release_published == 'true'
 
     strategy:
       matrix:
@@ -252,8 +252,7 @@ jobs:
 
       - name: Create package
         id: package
-        run: scripts/package.sh 'v0.1.0-alpha.1'
-#        run: scripts/package.sh 'v${{ needs.semantic-release.outputs.new_release_version }}'
+        run: scripts/package.sh 'v${{ needs.semantic-release.outputs.new_release_version }}'
 
       - name: Import key
         run: echo -e "$GPG_KEY" | gpg --batch --yes --import -
@@ -276,9 +275,8 @@ jobs:
         run: |
           for f in '${{ steps.package.outputs.package }}'{,.asc,.sha512,.sha512.asc}; do
             echo "Uploading release file '$f'..."
-            gh release upload 'v0.1.0-alpha.1' "$f" --clobber
+            gh release upload 'v${{ needs.semantic-release.outputs.new_release_version }}' "$f" --clobber
           done
-#          gh release upload 'v${{ needs.semantic-release.outputs.new_release_version }}' "$f" --clobber
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
