@@ -86,6 +86,7 @@ class SetPersonalDetailsTest extends TestCase
             'first_name' => 'michael',
             'last_name' => 'scott',
             'email' => 'michael@dundermifflin.com',
+            'phone' => '123456789',
         ];
 
         $dwight = (new SetPersonalDetails)->execute($request);
@@ -100,6 +101,7 @@ class SetPersonalDetailsTest extends TestCase
             'first_name' => 'michael',
             'last_name' => 'scott',
             'email' => 'michael@dundermifflin.com',
+            'phone_number' => '123456789',
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {

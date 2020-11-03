@@ -27,6 +27,7 @@ class SetPersonalDetails extends BaseService
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|email:rfc|max:255',
+            'phone' => 'nullable|max:255',
         ];
     }
 
@@ -63,6 +64,7 @@ class SetPersonalDetails extends BaseService
         $this->employee->first_name = $data['first_name'];
         $this->employee->last_name = $data['last_name'];
         $this->employee->email = $data['email'];
+        $this->employee->phone_number = $data['phone'];
         $this->employee->save();
     }
 
