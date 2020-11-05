@@ -30,6 +30,7 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
         'permission_level' => config('officelife.permission_level.administrator'),
         'email' => 'dwigth@dundermifflin.com',
+        'phone_number' => '1234567',
         'first_name' => 'Dwight',
         'last_name' => 'Schrute',
         'birthdate' => $faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),

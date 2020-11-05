@@ -34,6 +34,7 @@ class EmployeeShowViewHelper
             'last_name' => $employee->last_name,
             'avatar' => $employee->avatar,
             'email' => $employee->email,
+            'phone' => $employee->phone_number,
             'twitter_handle' => $employee->twitter_handle,
             'slack_handle' => $employee->slack_handle,
             'locked' => $employee->locked,

@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 .edit-information-menu {
   a {
-    border-bottom: 0;
+    border-bottom: 1px solid #fff;
   }
 
   .selected {
@@ -209,10 +209,10 @@ export default {
       this.loadingState = 'loading';
       this.form.country_id = this.form.country_id.value;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/address/update', this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/address/update`, this.form)
         .then(response => {
           localStorage.success = this.$t('employee.edit_information_success');
-          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id);
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}`);
         })
         .catch(error => {
           this.loadingState = null;

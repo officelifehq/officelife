@@ -21,38 +21,38 @@ composer install --no-progress --no-interaction --no-suggest --prefer-dist --opt
 yarn install --ignore-engines --frozen-lockfile
 
 # PACKAGE
-r=officelife-$version
-mkdir -p $r/database
-ln -s $ROOT/.env.example $r/
-ln -s $ROOT/artisan $r/
-ln -s $ROOT/CHANGELOG $r/
-ln -s $ROOT/composer.json $r/
-ln -s $ROOT/composer.lock $r/
-ln -s $ROOT/LICENSE $r/
-ln -s $ROOT/package.json $r/
-ln -s $ROOT/README.md $r/
-ln -s $ROOT/server.php $r/
-ln -s $ROOT/webpack.mix.js $r/
-ln -s $ROOT/yarn.lock $r/
-ln -s $ROOT/app $r/
-ln -s $ROOT/bootstrap $r/
-ln -s $ROOT/config $r/
-ln -s $ROOT/docs $r/
-ln -s $ROOT/public $r/
-ln -s $ROOT/resources $r/
-ln -s $ROOT/routes $r/
-ln -s $ROOT/vendor $r/
+package=officelife-$version
+mkdir -p $package/database
+ln -s $ROOT/.env.example $package/
+ln -s $ROOT/artisan $package/
+ln -s $ROOT/CHANGELOG $package/
+ln -s $ROOT/composer.json $package/
+ln -s $ROOT/composer.lock $package/
+ln -s $ROOT/LICENSE $package/
+ln -s $ROOT/package.json $package/
+ln -s $ROOT/README.md $package/
+ln -s $ROOT/server.php $package/
+ln -s $ROOT/webpack.mix.js $package/
+ln -s $ROOT/yarn.lock $package/
+ln -s $ROOT/app $package/
+ln -s $ROOT/bootstrap $package/
+ln -s $ROOT/config $package/
+ln -s $ROOT/docs $package/
+ln -s $ROOT/public $package/
+ln -s $ROOT/resources $package/
+ln -s $ROOT/routes $package/
+ln -s $ROOT/vendor $package/
 
-ln -s $ROOT/database/factories $r/database/
-ln -s $ROOT/database/migrations $r/database/
-ln -s $ROOT/database/seeds $r/database/
+ln -s $ROOT/database/factories $package/database/
+ln -s $ROOT/database/migrations $package/database/
+ln -s $ROOT/database/seeds $package/database/
 
-mkdir -p $r/storage/app/public
-mkdir -p $r/storage/logs
-mkdir -p $r/storage/framework/cache
-mkdir -p $r/storage/framework/views
-mkdir -p $r/storage/framework/sessions
+mkdir -p $package/storage/app/public
+mkdir -p $package/storage/logs
+mkdir -p $package/storage/framework/cache
+mkdir -p $package/storage/framework/views
+mkdir -p $package/storage/framework/sessions
 
-tar chfj $ROOT/$r.tar.bz2 --exclude .gitignore --exclude .gitkeep $r
+tar chfj $ROOT/$package.tar.bz2 --exclude .gitignore --exclude .gitkeep $package
 
-echo "::set-output name=package::$ROOT/$r.tar.bz2"
+echo "::set-output name=package::$package.tar.bz2"
