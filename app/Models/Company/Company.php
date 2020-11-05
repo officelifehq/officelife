@@ -7,10 +7,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        HasFactory;
 
     protected $table = 'companies';
 
