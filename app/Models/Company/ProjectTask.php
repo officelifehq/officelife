@@ -21,10 +21,13 @@ class ProjectTask extends Model
      * @var array
      */
     protected $fillable = [
-        'employee_id',
+        'project_id',
+        'project_task_list_id',
+        'author_id',
+        'assignee_id',
         'title',
+        'description',
         'completed',
-        'due_at',
         'completed_at',
     ];
 
@@ -35,7 +38,7 @@ class ProjectTask extends Model
      */
     protected static $logAttributes = [
         'title',
-        'completed',
+        'description',
     ];
 
     /**
@@ -54,7 +57,6 @@ class ProjectTask extends Model
      */
     protected $dates = [
         'completed_at',
-        'due_at',
     ];
 
     /**
@@ -65,5 +67,35 @@ class ProjectTask extends Model
     public function project()
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * Get the author record associated with the task.
+     *
+     * @return BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(Employee::class, 'author_id');
+    }
+
+    /**
+     * Get the project task list record associated with the task.
+     *
+     * @return BelongsTo
+     */
+    public function list()
+    {
+        return $this->belongsTo(ProjectTaskList::class, 'project_task_list_id');
+    }
+
+    /**
+     * Get the assignee record associated with the task.
+     *
+     * @return BelongsTo
+     */
+    public function assignee()
+    {
+        return $this->belongsTo(Employee::class, 'assignee_id');
     }
 }

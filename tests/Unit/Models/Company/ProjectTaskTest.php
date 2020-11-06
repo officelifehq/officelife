@@ -3,7 +3,9 @@
 namespace Tests\Unit\Models\Company;
 
 use Tests\TestCase;
+use App\Models\Company\Employee;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\ProjectTaskList;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTaskTest extends TestCase
@@ -15,5 +17,35 @@ class ProjectTaskTest extends TestCase
     {
         $task = ProjectTask::factory()->make();
         $this->assertTrue($task->project()->exists());
+    }
+
+    /** @test */
+    public function it_has_an_author(): void
+    {
+        $task = ProjectTask::factory()
+            ->for(Employee::factory(), 'author')
+            ->create();
+
+        $this->assertTrue($task->author()->exists());
+    }
+
+    /** @test */
+    public function it_has_a_list(): void
+    {
+        $task = ProjectTask::factory()
+            ->for(ProjectTaskList::factory(), 'list')
+            ->create();
+
+        $this->assertTrue($task->list()->exists());
+    }
+
+    /** @test */
+    public function it_has_an_assignee(): void
+    {
+        $task = ProjectTask::factory()
+            ->for(Employee::factory(), 'assignee')
+            ->create();
+
+        $this->assertTrue($task->assignee()->exists());
     }
 }

@@ -23,6 +23,7 @@ use App\Models\Company\Position;
 use App\Models\Company\TeamNews;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
+use App\Models\Company\ProjectTask;
 use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
 use App\Models\Company\WorkFromHome;
@@ -401,6 +402,26 @@ class EmployeeTest extends TestCase
         $dwight->projects()->sync([$project->id]);
 
         $this->assertTrue($dwight->projects()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_project_tasks_as_author(): void
+    {
+        $michael = Employee::factory()
+            ->has(ProjectTask::factory()->count(2), 'projectTasksAsAuthor')
+            ->create();
+
+        $this->assertTrue($michael->projectTasksAsAuthor()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_project_tasks_as_assignee(): void
+    {
+        $michael = Employee::factory()
+            ->has(ProjectTask::factory()->count(2), 'assigneeOfprojectTasks')
+            ->create();
+
+        $this->assertTrue($michael->assigneeOfprojectTasks()->exists());
     }
 
     /** @test */

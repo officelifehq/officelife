@@ -483,6 +483,26 @@ class Employee extends Model
     }
 
     /**
+     * Get the project task records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function projectTasksAsAuthor()
+    {
+        return $this->hasMany(ProjectTask::class, 'author_id', 'id');
+    }
+
+    /**
+     * Get the project task records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function assigneeOfprojectTasks()
+    {
+        return $this->hasMany(ProjectTask::class, 'assignee_id', 'id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query
