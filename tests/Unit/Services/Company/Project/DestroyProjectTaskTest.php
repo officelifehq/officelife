@@ -112,7 +112,7 @@ class DestroyProjectTaskTest extends TestCase
         ]);
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $project, $task) {
-            return $job->auditLog['action'] === 'project_task_list_destroyed' &&
+            return $job->auditLog['action'] === 'project_task_destroyed' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([
                     'project_id' => $project->id,
