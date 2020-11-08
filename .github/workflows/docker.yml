@@ -14,7 +14,7 @@ jobs:
       matrix:
         php-version: [7.4]
 
-    output:
+    outputs:
       package: ${{ steps.package.outputs.package }}
 
     steps:
@@ -63,7 +63,7 @@ jobs:
           name: package
           path: ${{ steps.package.outputs.package }}
 
-  package:
+  docker:
     runs-on: ubuntu-latest
     needs: package
     strategy:
