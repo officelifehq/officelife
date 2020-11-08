@@ -27,11 +27,11 @@
           {{ errors.message }}
         </p>
         <p>
-          <a href="" @click.prevent="toggle">See more...</a>
+          <a href="" @click.prevent="toggle">{{ $t('app.error_more') }}</a>
         </p>
         <p v-show="traces">
           <span class="mb0">
-            Exception: {{ errors.exception }}
+            {{ $t('app.error_exception') }} {{ errors.exception }}
           </span>
           <br />
           <span v-for="trace in errors.trace" :key="trace.id">
