@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Http\ViewHelpers\Project;
+
+use Carbon\Carbon;
+use App\Helpers\DateHelper;
+use Illuminate\Support\Str;
+use App\Helpers\StringHelper;
+use App\Models\Company\Project;
+use App\Models\Company\Employee;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use App\Models\Company\ProjectMessage;
+
+class ProjectMessagesViewHelper
+{
+    /**
+     * Array containing the information about the messages made in the project.
+     *
+     * @param Project $project
+     * @param Employee $employee
+     * @return Collection
+     */
+    public static function index(Project $project, Employee $employee): Collection
+    {
+        $company = $project->company;
+        $messages = $project->messages()
+            ->select('id', 'title', 'content', 'created_at', 'author_id')
+            ->with('author')
+            ->latest()
+            ->get();
+
+        $messageReadStatuses = DB::table('project_message_read_status')
+            ->whereIn('project_message_id', $messages->pluck('id'))
+            ->get();
+
+        $messagesCollection = collect([]);
+        foreach ($messages as $message) {
+            // check read status for each message
+            $readStatus = $messageReadStatuses->contains(function ($readStatus, $key) use ($message, $employee) {
+                return $readStatus->project_message_id == $message->id && $readStatus->employee_id == $employee->id;
+            });
+
+            $messagesCollection->push([
+                'id' => $message->id,
+                'title' => $message->title,
+                'content' => Str::words($message->content, 10, '...'),
+                'read_status' => $readStatus,
+                'written_at' => $message->created_at->diffForHumans(),
+                'url' => route('projects.messages.show', [
+                    'company' => $company,
+                    'project' => $project,
+                    'message' => $message,
+                ]),
+                'author' => $message->author ? [
+                    'id' => $message->author->id,
+                    'name' => $message->author->name,
+                    'avatar' => $message->author->avatar,
+                    'url_view' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $message->author,
+                    ]),
+                ] : null,
+            ]);
+        }
+
+        return $messagesCollection;
+    }
+
+    /**
+     * Array containing the information about a given message.
+     *
+     * @param ProjectMessage $projectMessage
+     * @return array
+     */
+    public static function show(ProjectMessage $projectMessage): array
+    {
+        // check author role in project
+        $author = $projectMessage->author;
+        $role = null;
+        if ($author) {
+            $role = DB::table('employee_project')
+                ->where('employee_id', $author->id)
+                ->where('project_id', $projectMessage->project->id)
+                ->select('role', 'created_at')
+                ->first();
+        }
+
+        return [
+            'id' => $projectMessage->id,
+            'title' => $projectMessage->title,
+            'content' => $projectMessage->content,
+            'parsed_content' => StringHelper::parse($projectMessage->content),
+            'written_at' => DateHelper::formatDate($projectMessage->created_at),
+            'written_at_human' => $projectMessage->created_at->diffForHumans(),
+            'url_edit' => route('projects.messages.edit', [
+                'company' => $projectMessage->project->company_id,
+                'project' => $projectMessage->project,
+                'message' => $projectMessage,
+            ]),
+            'author' => $projectMessage->author ? [
+                'id' => $projectMessage->author->id,
+                'name' => $projectMessage->author->name,
+                'avatar' => $projectMessage->author->avatar,
+                'role' => $role ? $role->role : null,
+                'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at)) : null,
+                'position' => (! $projectMessage->author->position) ? null : [
+                    'id' => $projectMessage->author->position->id,
+                    'title' => $projectMessage->author->position->title,
+                ],
+                'url' => route('employees.show', [
+                    'company' => $projectMessage->project->company_id,
+                    'employee' => $projectMessage->author,
+                ]),
+            ] : null,
+        ];
+    }
+
+    /**
+     * Array containing the information necessary to edit a message.
+     *
+     * @param ProjectMessage $projectMessage
+     * @return array
+     */
+    public static function edit(ProjectMessage $projectMessage): array
+    {
+        return [
+            'id' => $projectMessage->id,
+            'title' => $projectMessage->title,
+            'content' => $projectMessage->content,
+        ];
+    }
+}

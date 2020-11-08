@@ -50,6 +50,7 @@ class Employee extends Model
         'consecutive_worklog_missed',
         'employee_status_id',
         'uuid',
+        'phone_number',
         'locked',
         'avatar',
         'holiday_balance',
@@ -460,13 +461,23 @@ class Employee extends Model
     }
 
     /**
-     * Get the project decision record associated with the employee.
+     * Get the project decision records associated with the employee.
      *
      * @return HasMany
      */
     public function projectDecisions()
     {
         return $this->hasMany(ProjectDecision::class, 'author_id', 'id');
+    }
+
+    /**
+     * Get the project message records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function projectMessages()
+    {
+        return $this->hasMany(ProjectMessage::class, 'author_id', 'id');
     }
 
     /**

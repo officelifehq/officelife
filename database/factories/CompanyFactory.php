@@ -30,6 +30,7 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
         'permission_level' => config('officelife.permission_level.administrator'),
         'email' => 'dwigth@dundermifflin.com',
+        'phone_number' => '1234567',
         'first_name' => 'Dwight',
         'last_name' => 'Schrute',
         'birthdate' => $faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
@@ -530,5 +531,24 @@ $factory->define(App\Models\Company\ProjectDecision::class, function () {
         },
         'title' => 'This is a title',
         'decided_at' => Carbon::now(),
+    ];
+});
+
+$factory->define(App\Models\Company\ProjectMessage::class, function () {
+    $companyId = factory(App\Models\Company\Company::class)->create()->id;
+
+    return [
+        'project_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Project::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'author_id' => function () use ($companyId) {
+            return factory(App\Models\Company\Employee::class)->create([
+                'company_id' => $companyId,
+            ])->id;
+        },
+        'title' => 'This is a title',
+        'content' => 'This is a description',
     ];
 });

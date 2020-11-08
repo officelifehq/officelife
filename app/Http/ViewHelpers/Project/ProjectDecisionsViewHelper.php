@@ -24,7 +24,7 @@ class ProjectDecisionsViewHelper
 
         $decisionsCollection = collect([]);
         foreach ($decisions as $decision) {
-            $deciders = $decision->deciders()->get();
+            $deciders = $decision->deciders;
             $decidersCollection = collect([]);
             foreach ($deciders as $decider) {
                 $decidersCollection->push([

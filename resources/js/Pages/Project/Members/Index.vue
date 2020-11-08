@@ -223,7 +223,7 @@
             <!-- blank member lists -->
             <div v-if="localMembers.length == 0" class="bg-white box pa3 tc" data-cy="members-blank-state">
               <h3 class="fw4 f5">
-                {{ $t('project.members_index_blank_role') }}
+                {{ $t('project.members_index_blank') }}
               </h3>
               <img loading="lazy" src="/img/streamline-icon-cyclist-1-4@140x140.png" width="140" height="140" alt="people hanging out"
                    class="di-ns dn top-1 left-1"
@@ -290,7 +290,6 @@ export default {
   },
 
   created() {
-    this.localProject = this.project;
     this.localMembers = this.members.members;
     this.localRoles = this.members.roles;
   },
