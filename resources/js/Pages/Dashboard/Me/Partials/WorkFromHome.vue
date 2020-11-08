@@ -76,7 +76,7 @@ export default {
         })
         .catch(error => {
           this.successMessage = false;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

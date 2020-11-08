@@ -135,7 +135,7 @@ export default {
           this.localNews.splice(id, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

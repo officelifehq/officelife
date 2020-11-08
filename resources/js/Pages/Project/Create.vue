@@ -220,7 +220,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -237,7 +237,7 @@ export default {
             })
             .catch(error => {
               console.log(error);
-              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.form.errors = error.response.data;
               this.processingSearch = false;
             });
         } else {

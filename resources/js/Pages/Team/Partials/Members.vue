@@ -175,7 +175,7 @@ export default {
               this.processingSearch = false;
             })
             .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.form.errors = error.response.data;
               this.processingSearch = false;
               this.addedEmployeeId = 0;
             });
@@ -195,7 +195,7 @@ export default {
           flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
           this.potentialMembers = [];
           this.form.searchTerm = '';
         });
@@ -210,7 +210,7 @@ export default {
           flash(this.$t('account.employee_statuses_success_destroy'), 'success');
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     }
   }

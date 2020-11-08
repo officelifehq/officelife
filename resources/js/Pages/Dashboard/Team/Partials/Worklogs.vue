@@ -180,7 +180,7 @@ export default {
           this.currentWorklogDate = worklogDate;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

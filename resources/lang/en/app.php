@@ -41,6 +41,8 @@ return [
     'error_skill_name_not_unique' => 'There is already a skill with this name.',
     'error_not_enough_permission' => 'You do not have the right to do this action.',
     'error_project_code_already_exists' => 'This project code is already used. Pick a new one.',
+    'error_more' => 'See more...',
+    'error_exception' => 'Exception:',
 
     'previous' => 'Previous',
     'next' => 'Next',
