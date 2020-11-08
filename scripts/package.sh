@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xeo pipefail
+set -eo pipefail
 
 SELF_PATH=$(cd -P -- "$(dirname -- "$0")" && /bin/pwd -P)
 source $SELF_PATH/realpath.sh
@@ -17,7 +17,7 @@ set -v
 echo "$version" | tee $ROOT/config/version
 
 # BUILD
-composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader --no-dev
+composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader --no-dev
 yarn install --ignore-engines --frozen-lockfile
 
 # PACKAGE
