@@ -1,11 +1,8 @@
 name: Docker image
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened]
+  schedule:
+    - cron:  '0 0 * * *'
 
 jobs:
   package:
