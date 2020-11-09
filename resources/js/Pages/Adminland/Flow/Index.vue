@@ -33,7 +33,7 @@
           </p>
 
           <!-- LIST OF FLOWS -->
-          <ul v-show="flows.length != 0" class="list pl0 mt0 center" :datacy="'employees'" :cy-items="flows.map(f => f.id)">
+          <ul v-show="flows.length != 0" class="list pl0 mt0 center" :datacy="'employees'" :cy-items="flowsMap">
             <li
               v-for="flow in flows" :key="flow.id"
               class="flex items-center lh-copy pa3-l pa1 ph0-l bb b--black-10"
@@ -90,7 +90,7 @@ export default {
 
   props: {
     flows: {
-      type: Array,
+      type: Object,
       default: null,
     },
     notifications: {
@@ -105,6 +105,12 @@ export default {
       localStorage.removeItem('success');
     }
   },
+
+  methods: {
+    flowsMap() {
+      return _.isArray(flows) ? flows.map(f => f.id): '';
+    },
+  }
 };
 
 </script>

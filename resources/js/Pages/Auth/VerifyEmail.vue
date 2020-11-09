@@ -66,7 +66,7 @@ export default {
         .catch(error => {
           this.loadingState = null;
           if (typeof error.response.data === 'object') {
-            this.form.errors = _.flatten(_.toArray(error.response.data));
+            this.form.errors = error.response.data;
           } else {
             this.form.errors = [this.$t('app.error_try_again')];
           }

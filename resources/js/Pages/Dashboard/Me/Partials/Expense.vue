@@ -281,8 +281,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.hideAddMode();
-          this.form.errors = error.response.data.errors;
+          this.form.errors = error.response.data;
         });
     },
   }

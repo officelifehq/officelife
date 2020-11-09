@@ -235,7 +235,7 @@ export default {
           this.$inertia.visit('/' + this.$page.props.auth.company.id + '/company/skills');
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

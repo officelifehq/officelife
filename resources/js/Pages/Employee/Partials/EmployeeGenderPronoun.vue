@@ -140,7 +140,7 @@ export default {
           this.updatedEmployee = response.data.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -152,7 +152,7 @@ export default {
           this.updatedEmployee = response.data.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 

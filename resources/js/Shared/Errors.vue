@@ -8,18 +8,38 @@
 
 <template>
   <div>
-    <div v-if="errors.length > 0" class="border-red ba br3 pa3" :class="classes">
+    <div v-if="dataerror || exception" class="border-red ba br3 pa3" :class="classes">
       <p class="mv0 fw6">{{ $t('app.error_title') }}</p>
-      <p class="mb0">{{ errors[0] }}</p>
-      <template v-if="errors[1]">
-        <p v-for="item in errors[1]" :key="item.index" class="mb0 mt2">{{ item[0] }}</p>
+      <template v-if="dataerror">
+        <p v-if="flatten[0] != 'The given data was invalid.'" class="mb0">
+          {{ flatten[0] }}
+        </p>
+        <template v-if="display(flatten[1])">
+          <p v-for="errorsList in flatten[1]" :key="errorsList.id">
+            <span v-for="error in errorsList" :key="error.id" class="mb0 mt2">
+              {{ error }}
+            </span>
+          </p>
+        </template>
+      </template>
+      <template v-else-if="exception">
+        <p class="mb0">
+          {{ errors.message }}
+        </p>
+        <p>
+          <a href="" @click.prevent="toggle">{{ $t('app.error_more') }}</a>
+        </p>
+        <p v-show="traces">
+          <span class="mb0">
+            {{ $t('app.error_exception') }} {{ errors.exception }}
+          </span>
+          <br />
+          <span v-for="trace in errors.trace" :key="trace.id">
+            {{ trace.class }}{{ trace.type }}{{ trace.function }}<br />
+          </span>
+        </p>
       </template>
     </div>
-    <template v-if="errors.message">
-      <div class="border-red ba br3 pa3" :class="classes">
-        <p class="mv0 fw6">{{ errors.message }}</p>
-      </div>
-    </template>
   </div>
 </template>
 
@@ -31,9 +51,36 @@ export default {
       default: '',
     },
     errors: {
-      type: [Array, Object],
-      default: () => [],
+      type: [Object, Array],
+      default: null,
     }
   },
+
+  data() {
+    return {
+      traces: false,
+    };
+  },
+
+  computed: {
+    dataerror() {
+      return this.errors !== null && (this.errors.errors !== undefined || this.flatten.length > 0);
+    },
+    flatten() {
+      return _.flatten(_.toArray(this.errors));
+    },
+    exception() {
+      return this.errors !== null && this.errors.exception !== undefined;
+    },
+  },
+
+  methods: {
+    display(val) {
+      return _.isObject(val);
+    },
+    toggle() {
+      this.traces = !this.traces;
+    }
+  }
 };
 </script>
