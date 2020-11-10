@@ -268,6 +268,7 @@ return [
     'log_project_task_list_created' => 'Created a task list called :project_task_list_title in the project called :project_name.',
     'log_project_task_destroyed' => 'Deleted a task called :title in the project called :project_name.',
     'log_project_task_list_destroyed' => 'Deleted a task list called :title in the project called :project_name.',
+    'log_project_task_assigned_to_assignee' => 'Assigned the task called :project_task_title in the project called :project_name to :assignee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',

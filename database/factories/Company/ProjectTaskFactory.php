@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Company;
 
+use Carbon\Carbon;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -26,6 +27,8 @@ class ProjectTaskFactory extends Factory
             'project_id' => Project::factory(),
             'title' => $this->faker->title,
             'description' => $this->faker->paragraph,
+            'completed' => false,
+            'completed_at' => null,
         ];
     }
 
@@ -39,6 +42,7 @@ class ProjectTaskFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'completed' => true,
+                'completed_at' => Carbon::now(),
             ];
         });
     }

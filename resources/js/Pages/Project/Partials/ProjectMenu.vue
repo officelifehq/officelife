@@ -55,7 +55,7 @@
         <inertia-link :class="{'selected':(tab == 'messages')}" :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer no-underline">
           {{ $t('project.menu_messages') }}
         </inertia-link>
-        <inertia-link :class="{'selected':(tab == 'tasks')}" :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">
+        <inertia-link :class="{'selected':(tab == 'tasks')}" :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/tasks'" class="f6 fl ph3 pv2 dib pointer">
           {{ $t('project.menu_tasks') }}
         </inertia-link>
         <inertia-link :class="{'selected':(tab == 'calendar')}" :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages'" class="f6 fl ph3 pv2 dib pointer">

@@ -230,6 +230,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // project messages
             Route::resource('{project}/messages', 'Company\\Project\\ProjectMessagesController', ['as' => 'projects']);
+
+            // project tasks
+            Route::resource('{project}/tasks', 'Company\\Project\\ProjectTasksController', ['as' => 'projects']);
         });
 
         Route::prefix('company')->group(function () {

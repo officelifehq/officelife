@@ -3,8 +3,11 @@
 namespace App\Http\ViewHelpers\Project;
 
 use App\Helpers\DateHelper;
+use App\Models\Company\Company;
 use App\Models\Company\Project;
 use Illuminate\Support\Collection;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\ProjectTaskList;
 
 class ProjectTasksViewHelper
 {
@@ -13,40 +16,93 @@ class ProjectTasksViewHelper
      * This collection contains all the tasks as well as all the tasks lists.
      *
      * @param Project $project
-     * @return Collection
+     * @return array
      */
-    public static function tasks(Project $project): Collection
+    public static function index(Project $project): array
     {
         $company = $project->company;
-        $decisions = $project->decisions()
-            ->with('deciders')
+        $tasks = $project->tasks()
+            ->with('list')
+            ->with('assignee')
+            ->with('author')
             ->latest()
             ->get();
 
-        $decisionsCollection = collect([]);
-        foreach ($decisions as $decision) {
-            $deciders = $decision->deciders;
-            $decidersCollection = collect([]);
-            foreach ($deciders as $decider) {
-                $decidersCollection->push([
-                    'id' => $decider->id,
-                    'name' => $decider->name,
-                    'avatar' => $decider->avatar,
-                    'url' => route('employees.show', [
-                        'company' => $company,
-                        'employee' => $decider,
-                    ]),
-                ]);
+        // the goal of the following is to first display tasks without lists,
+        // and after this, tasks with lists, grouped by lists.
+        // the trick is to do this with a single query, as we don’t want to do
+        // multiple queries to slow down the loading speed of the page.
+
+        $tasksWithoutLists = $tasks->filter(function ($task) {
+            return is_null($task->project_task_list_id);
+        });
+        $tasksWithoutListsCollection = collect([]);
+        foreach ($tasksWithoutLists as $task) {
+            $tasksWithoutListsCollection->push(self::getTaskInfo($task, $company));
+        }
+
+        // get the list of unique task list ids
+        $tasksWithLists = $tasks->diff($tasksWithoutLists);
+        $uniqueTaskListIds = $tasksWithLists->map->only('project_task_list_id')->unique();
+
+        $tasksListCollection = collect([]);
+        foreach ($uniqueTaskListIds as $uniqueListId) {
+            $tasksWithListsCollection = collect([]);
+            $uniqueId = $uniqueListId['project_task_list_id'];
+
+            $taskList = ProjectTaskList::find($uniqueId);
+
+            $tasks = $tasksWithLists->filter(function ($task) use ($uniqueId) {
+                return $task->project_task_list_id == $uniqueId;
+            });
+
+            foreach ($tasks as $task) {
+                $tasksWithListsCollection->push(self::getTaskInfo($task, $company));
             }
 
-            $decisionsCollection->push([
-                'id' => $decision->id,
-                'title' => $decision->title,
-                'decided_at' => DateHelper::formatDate($decision->decided_at),
-                'deciders' => $decidersCollection,
+            $tasksListCollection->push([
+                'id' => $taskList->id,
+                'title' => $taskList->title,
+                'description' => $taskList->description,
+                'tasks' => $tasksWithListsCollection,
             ]);
         }
 
-        return $decisionsCollection;
+        return [
+            'tasks_without_lists' => $tasksWithoutListsCollection,
+            'task_lists' => $tasksListCollection,
+        ];
+    }
+
+    private static function getTaskInfo(ProjectTask $task, Company $company): array
+    {
+        $author = $task->author;
+        $assignee = $task->assignee;
+
+        return [
+            'id' => $task->id,
+            'title' => $task->title,
+            'description' => $task->description,
+            'completed' => $task->completed,
+            'completed_at' => $task->completed_at ? DateHelper::formatDate($task->completed_at) : null,
+            'author' => $author ? [
+                'id' => $author->id,
+                'name' => $author->name,
+                'avatar' => $author->avatar,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $author,
+                ]),
+            ] : null,
+            'assignee' => $assignee ? [
+                'id' => $assignee->id,
+                'name' => $assignee->name,
+                'avatar' => $assignee->avatar,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $assignee,
+                ]),
+            ] : null,
+        ];
     }
 }

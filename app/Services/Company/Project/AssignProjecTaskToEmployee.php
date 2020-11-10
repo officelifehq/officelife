@@ -6,16 +6,17 @@ use Carbon\Carbon;
 use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use App\Models\Company\ProjectTask;
-use App\Models\Company\ProjectTaskList;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class CreateProjectTask extends BaseService
+class AssignProjecTaskToEmployee extends BaseService
 {
     protected array $data;
 
     protected ProjectTask $projectTask;
 
-    protected ProjectTaskList $projectTaskList;
+    protected Employee $assignee;
 
     protected Project $project;
 
@@ -30,14 +31,13 @@ class CreateProjectTask extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
-            'project_task_list_id' => 'nullable|integer|exists:project_task_lists,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:65535',
+            'project_task_id' => 'required|integer|exists:project_tasks,id',
+            'assignee_id' => 'required|integer|exists:employees,id',
         ];
     }
 
     /**
-     * Create a project task.
+     * Assign the project task to an employee.
      *
      * @param array $data
      * @return ProjectTask
@@ -46,7 +46,7 @@ class CreateProjectTask extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->createTask();
+        $this->assign();
         $this->log();
 
         return $this->projectTask;
@@ -64,37 +64,38 @@ class CreateProjectTask extends BaseService
         $this->project = Project::where('company_id', $this->data['company_id'])
             ->findOrFail($this->data['project_id']);
 
-        if (! is_null($this->valueOrNull($this->data, 'project_task_list_id'))) {
-            $this->projectTaskList = ProjectTaskList::where('project_id', $this->data['project_id'])
-                ->findOrFail($this->data['project_task_list_id']);
+        $this->projectTask = ProjectTask::where('project_id', $this->data['project_id'])
+            ->findOrFail($this->data['project_task_id']);
+
+        $this->assignee = Employee::where('company_id', $this->data['company_id'])
+            ->findOrFail($this->data['assignee_id']);
+
+        if (! $this->assignee->isInProject($this->project->id)) {
+            throw new ModelNotFoundException();
         }
     }
 
-    private function createTask(): void
+    private function assign(): void
     {
-        $this->projectTask = ProjectTask::create([
-            'project_id' => $this->data['project_id'],
-            'project_task_list_id' => $this->valueOrNull($this->data, 'project_task_list_id'),
-            'author_id' => $this->data['author_id'],
-            'assignee_id' => $this->valueOrNull($this->data, 'assignee_id'),
-            'title' => $this->data['title'],
-            'description' => $this->data['description'],
-        ]);
+        $this->projectTask->assignee_id = $this->assignee->id;
+        $this->projectTask->save();
     }
 
     private function log(): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $this->data['company_id'],
-            'action' => 'project_task_created',
+            'action' => 'project_task_assigned_to_assignee',
             'author_id' => $this->author->id,
             'author_name' => $this->author->name,
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
-                'project_task_id' => $this->projectTask->id,
-                'project_task_title' => $this->projectTask->title,
                 'project_id' => $this->project->id,
                 'project_name' => $this->project->name,
+                'project_task_id' => $this->projectTask->id,
+                'project_task_title' => $this->projectTask->title,
+                'assignee_id' => $this->assignee->id,
+                'assignee_name' => $this->assignee->name,
             ]),
         ])->onQueue('low');
     }
