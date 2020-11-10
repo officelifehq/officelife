@@ -39,9 +39,9 @@ jobs:
       pgsql:
         image: pgsql:13.0
         env:
-	        POSTGRES_DB: officelife
-	        POSTGRES_USER: officelife
-	        POSTGRES_PASSWORD: secret
+          POSTGRES_DB: officelife
+          POSTGRES_USER: officelife
+          POSTGRES_PASSWORD: secret
         ports:
           - 5432:5432
 
