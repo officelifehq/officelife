@@ -74,6 +74,18 @@ class ProjectTasksViewHelper
         ];
     }
 
+    /**
+     * Contains all the information about a single task.
+     *
+     * @param ProjectTask $task
+     * @param Company $company
+     * @return array
+     */
+    public static function show(ProjectTask $task, Company $company): array
+    {
+        return self::getTaskInfo($task, $company);
+    }
+
     private static function getTaskInfo(ProjectTask $task, Company $company): array
     {
         $author = $task->author;
@@ -104,5 +116,26 @@ class ProjectTasksViewHelper
                 ]),
             ] : null,
         ];
+    }
+
+    /**
+     * Collection containing all the potential project members.
+     *
+     * @param Project $projet
+     * @return Collection|null
+     */
+    public static function members(Project $project): ?Collection
+    {
+        $employees = $project->employees()->notLocked()->get();
+
+        $employeesCollection = collect([]);
+        foreach ($employees as $employee) {
+            $employeesCollection->push([
+                'value' => $employee->id,
+                'label' => $employee->name,
+            ]);
+        }
+
+        return $employeesCollection;
     }
 }

@@ -41,7 +41,7 @@
 <template>
   <div>
     <ul class="list pl0 mt0  mb4">
-      <li v-for="task in tasks" :key="task.id" class="list-item relative">
+      <li v-for="task in localTasks" :key="task.id" class="list-item relative">
         <checkbox
           :id="'ai-' + task.id"
           v-model="task.completed"
@@ -68,14 +68,29 @@
       <li v-if="addTaskMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
         <form @submit.prevent="store()">
           <text-area
-            ref="newActionItem"
-            v-model="form.description"
+            ref="newTaskItem"
+            v-model="form.title"
             :label="$t('dashboard.one_on_ones_action_item_textarea_desc')"
             :datacy="'action-item-description-textarea'"
             :required="true"
             :rows="2"
             @esc-key-pressed="addTaskMode = false"
           />
+
+          <div class="w-50">
+            <select-box :id="'country_id'"
+                        v-model="form.assignee_id"
+                        :options="members"
+                        :name="'country_id'"
+                        :errors="$page.props.errors.country_id"
+                        :label="'Who is responsible'"
+                        :placeholder="$t('app.choose_value')"
+                        :required="false"
+                        :value="form.assignee_id"
+                        :datacy="'country_selector'"
+            />
+          </div>
+
           <!-- actions -->
           <div>
             <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-action-item-cta" />
@@ -93,12 +108,14 @@
 import Checkbox from '@/Shared/EditableCheckbox';
 import TextArea from '@/Shared/TextArea';
 import LoadingButton from '@/Shared/LoadingButton';
+import SelectBox from '@/Shared/Select';
 
 export default {
   components: {
     TextArea,
     Checkbox,
     LoadingButton,
+    SelectBox,
   },
 
   props: {
@@ -106,28 +123,41 @@ export default {
       type: Array,
       default: null,
     },
+    project: {
+      type: Object,
+      default: null,
+    },
     taskList: {
       type: Object,
+      default: null,
+    },
+    members: {
+      type: Array,
       default: null,
     },
   },
 
   data() {
     return {
+      localTasks: null,
       loadingState: '',
       addTaskMode: false,
       form: {
-        manager_id: null,
-        employee_id: null,
+        assignee_id: null,
         title: null,
         description: null,
-        content: null,
+        task_list_id: null,
         errors: [],
       },
     };
   },
 
   mounted() {
+    this.localTasks= this.tasks;
+
+    if (this.taskList) {
+      this.form.task_list_id = this.taskList.id;
+    }
   },
 
   methods: {
@@ -137,8 +167,25 @@ export default {
       this.form.description = null;
 
       this.$nextTick(() => {
-        this.$refs['newActionItem'].$refs['input'].focus();
+        this.$refs['newTaskItem'].$refs['input'].focus();
       });
+    },
+
+    store() {
+      this.loadingState = 'loading';
+
+      axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks`, this.form)
+        .then(response => {
+          this.localTasks.push(response.data.data);
+          this.addTaskMode = false;
+          this.form.title = null;
+          this.form.description = null;
+          this.loadingState = null;
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
     },
   }
 };

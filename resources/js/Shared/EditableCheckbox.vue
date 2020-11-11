@@ -95,8 +95,8 @@ input[type=checkbox] {
             :avatar="assignee.avatar"
             :classes="'gray'"
             :size="'18px'"
-            :top="'0px'"
-            :margin-between-name-avatar="'25px'"
+            :top="'2px'"
+            :margin-between-name-avatar="'22px'"
           />
 
           <!-- actions - only shown on mobile -->

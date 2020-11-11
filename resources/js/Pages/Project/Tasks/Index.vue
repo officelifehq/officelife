@@ -38,14 +38,14 @@
 
         <!-- list of tasks without a list -->
         <div class="bg-white box pa3">
-          <project-tasks :tasks="tasks.tasks_without_lists" />
+          <project-tasks :tasks="tasks.tasks_without_lists" :members="members" :project="project" />
 
           <div v-for="taskList in tasks.task_lists" :key="taskList.id">
             <h3 class="f4 fw5 mb2">
               {{ taskList.title }}
             </h3>
             <p v-if="taskList.description" class="f6 gray mt1">{{ taskList.description }}</p>
-            <project-tasks :tasks="taskList.tasks" :task-list="taskList" />
+            <project-tasks :tasks="taskList.tasks" :task-list="taskList" :members="members" :project="project" />
           </div>
         </div>
       </div>
@@ -77,6 +77,10 @@ export default {
       default: null,
     },
     tasks: {
+      type: Object,
+      default: null,
+    },
+    members: {
       type: Array,
       default: null,
     },
@@ -88,19 +92,6 @@ export default {
 
   data() {
     return {
-      loadingState: '',
-      addMode: false,
-      decisionToDelete: 0,
-      deleteActionConfirmation: false,
-      showDeciders: false,
-      potentialMembers: [],
-      processingSearch: false,
-      form: {
-        title: null,
-        searchTerm: null,
-        employees: [],
-        errors: [],
-      },
     };
   },
 

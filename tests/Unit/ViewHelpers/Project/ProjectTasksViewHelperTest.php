@@ -7,12 +7,13 @@ use Tests\TestCase;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
+use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Project\ProjectTasksViewHelper;
 
 class ProjectTasksViewHelperTest extends TestCase
 {
-    use DatabaseTransactions;
+    use DatabaseTransactions, HelperTrait;
 
     /** @test */
     public function it_gets_a_collection_of_tasks_without_task_lists(): void
@@ -181,6 +182,74 @@ class ProjectTasksViewHelperTest extends TestCase
                 ],
             ],
             $array['tasks_without_lists']->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_description_of_a_single_task(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectTaskA = ProjectTask::factory()->completed()->create([
+            'project_id' => $project->id,
+            'author_id' => $michael->id,
+            'assignee_id' => $michael->id,
+        ]);
+
+        $array = ProjectTasksViewHelper::show($projectTaskA, $michael->company);
+
+        $this->assertEquals(
+            [
+                'id' => $projectTaskA->id,
+                'title' => $projectTaskA->title,
+                'description' => $projectTaskA->description,
+                'completed' => true,
+                'completed_at' => 'Jan 01, 2018',
+                'author' => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                    'avatar' => $michael->avatar,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                ],
+                'assignee' => [
+                    'id' => $michael->id,
+                    'name' => $michael->name,
+                    'avatar' => $michael->avatar,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_all_employees_in_the_project(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $project->employees()->attach([$michael->id]);
+        $project->employees()->attach([$dwight->id]);
+
+        $response = ProjectTasksViewHelper::members($project);
+
+        $this->assertCount(
+            2,
+            $response
+        );
+
+        $this->assertArraySubset(
+            [
+                'value' => $michael->id,
+                'label' => $michael->name,
+            ],
+            $response->toArray()[0]
         );
     }
 }

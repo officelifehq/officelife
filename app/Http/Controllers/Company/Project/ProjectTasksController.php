@@ -12,7 +12,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\ProjectMessage;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
-use App\Services\Company\Project\CreateProjectMessage;
+use App\Services\Company\Project\CreateProjectTask;
 use App\Services\Company\Project\UpdateProjectMessage;
 use App\Services\Company\Project\DestroyProjectMessage;
 use App\Http\ViewHelpers\Project\ProjectTasksViewHelper;
@@ -47,39 +47,13 @@ class ProjectTasksController extends Controller
             'tab' => 'tasks',
             'project' => ProjectViewHelper::info($project),
             'tasks' => ProjectTasksViewHelper::index($project),
+            'members' => ProjectTasksViewHelper::members($project),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
 
     /**
-     * Display the Create message view.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
-     */
-    public function create(Request $request, int $companyId, int $projectId)
-    {
-        $company = InstanceHelper::getLoggedCompany();
-
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->with('employees')
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
-
-        return Inertia::render('Project/Messages/Create', [
-            'project' => ProjectViewHelper::info($project),
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-        ]);
-    }
-
-    /**
-     * Create the message.
+     * Create the task.
      *
      * @param Request $request
      * @param int $companyId
@@ -96,13 +70,14 @@ class ProjectTasksController extends Controller
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
             'title' => $request->input('title'),
-            'content' => $request->input('content'),
+            'description' => $request->input('description'),
+            'project_task_list_id' => $request->input('task_list_id'),
         ];
 
-        $message = (new CreateProjectMessage)->execute($data);
+        $task = (new CreateProjectTask)->execute($data);
 
         return response()->json([
-            'data' => $message->id,
+            'data' => ProjectTasksViewHelper::show($task, $company),
         ], 201);
     }
 
