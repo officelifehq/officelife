@@ -82,7 +82,7 @@ class EmployeeSurveysViewHelper
         $uniqueParticipants = DB::table('rate_your_manager_answers')
             ->join('rate_your_manager_surveys', 'rate_your_manager_answers.rate_your_manager_survey_id', '=', 'rate_your_manager_surveys.id')
             ->where('rate_your_manager_surveys.id', '=', $employee->id)
-            ->select('count(distinct(ra.employee_id)) as count')
+            ->selectRaw('count(distinct(rate_your_manager_answers.employee_id)) as count')
             ->get();
 
         // the average response rate
