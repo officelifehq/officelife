@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Answer;
 use App\Models\Company\Question;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\AssertableJsonString;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -34,13 +35,16 @@ class QuestionControllerTest extends TestCase
 
         $response->assertStatus(200);
 
+        /** @var \Illuminate\Database\Connection */
+        $connection = DB::connection();
+
         $testJson = new AssertableJsonString($response->viewData('page')['props']);
         $testJson->assertFragment([
             'answer_by_employee' => [
                 'id' => $answer->id,
                 'body' => $answer->body,
-                'employee_id' => config('database.connections.testing.driver') == 'mysql' ? (int) $employee->id : (string) $employee->id,
-                'question_id' => config('database.connections.testing.driver') == 'mysql' ? (int) $question->id : (string) $question->id,
+                'employee_id' => $connection->getDriverName() == 'sqlite' ? (string) $employee->id : (int) $employee->id,
+                'question_id' => $connection->getDriverName() == 'sqlite' ? (string) $question->id : (int) $question->id,
                 'created_at' => $answer->created_at,
                 'updated_at' => $answer->updated_at,
             ],
