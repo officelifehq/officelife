@@ -82,7 +82,7 @@
                         v-model="form.assignee_id"
                         :options="members"
                         :name="'country_id'"
-                        :errors="$page.props.errors.country_id"
+                        :errors="$page.props.errors.assignee_id"
                         :label="'Who is responsible'"
                         :placeholder="$t('app.choose_value')"
                         :required="false"
@@ -174,12 +174,17 @@ export default {
     store() {
       this.loadingState = 'loading';
 
+      if (this.form.assignee_id) {
+        this.form.assignee_id = this.form.assignee_id.value;
+      }
+
       axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks`, this.form)
         .then(response => {
-          this.localTasks.push(response.data.data);
           this.addTaskMode = false;
+          this.localTasks.push(response.data.data);
           this.form.title = null;
           this.form.description = null;
+          this.form.assignee_id = null;
           this.loadingState = null;
         })
         .catch(error => {

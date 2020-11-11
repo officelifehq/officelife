@@ -896,8 +896,8 @@ class LogHelper
                 ]);
                 break;
 
-            case 'log_project_task_created':
-                $sentence = trans('account.log_log_project_task_created', [
+            case 'project_task_created':
+                $sentence = trans('account.log_project_task_created', [
                     'project_id' => $log->object->{'project_id'},
                     'project_name' => $log->object->{'project_name'},
                     'project_task_id' => $log->object->{'project_task_id'},
@@ -958,7 +958,6 @@ class LogHelper
                     'project_task_title' => $log->object->{'project_task_title'},
                     'assignee_id' => $log->object->{'assignee_id'},
                     'assignee_name' => $log->object->{'assignee_name'},
-
                 ]);
                 break;
 

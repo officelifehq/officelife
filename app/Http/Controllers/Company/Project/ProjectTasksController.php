@@ -19,6 +19,7 @@ use App\Http\ViewHelpers\Project\ProjectTasksViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\MarkProjectMessageasRead;
 use App\Http\ViewHelpers\Project\ProjectMessagesViewHelper;
+use App\Services\Company\Project\AssignProjecTaskToEmployee;
 
 class ProjectTasksController extends Controller
 {
@@ -75,6 +76,16 @@ class ProjectTasksController extends Controller
         ];
 
         $task = (new CreateProjectTask)->execute($data);
+
+        if ($request->input('assignee_id')) {
+            $task = (new AssignProjecTaskToEmployee)->execute([
+                'company_id' => $company->id,
+                'author_id' => $loggedEmployee->id,
+                'project_id' => $projectId,
+                'project_task_id' => $task->id,
+                'assignee_id' => $request->input('assignee_id'),
+            ]);
+        }
 
         return response()->json([
             'data' => ProjectTasksViewHelper::show($task, $company),
