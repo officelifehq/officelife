@@ -29,9 +29,10 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_USER: officelife
           MYSQL_DATABASE: officelife
+          MYSQL_PASSWORD: secret
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -50,7 +51,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: mbstring, dom, fileinfo, mysql
+          extensions: mbstring, dom, fileinfo, ${{ matrix.connection }}
           coverage: none
       - name: Check PHP Version
         run: php -v
@@ -76,7 +77,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install composer dependencies
-        run: composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
+        run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
 
     # Prepare
       - name: Prepare environment
@@ -90,9 +91,7 @@ jobs:
           echo '' > public/css/app.css
       - name: Create SQLite database
         if: matrix.connection == 'sqlite'
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
+        run: touch database/database.sqlite
 
       - name: Generate key
         run: php artisan key:generate
@@ -106,12 +105,18 @@ jobs:
       - name: Run Unit test suite
         if: matrix.connection == 'mysql'
         run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml --coverage-clover ./results/${{ matrix.connection }}/coverage.xml
+        env:
+          DB_CONNECTION: ${{ matrix.connection }}
       - name: Run Unit test suite
         if: matrix.connection != 'mysql'
         run: vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml
+        env:
+          DB_CONNECTION: ${{ matrix.connection }}
       - name: Run Integration test suite
         if: matrix.connection == 'sqlite'
         run: vendor/bin/phpunit -c phpunit.xml --testsuite Integration --log-junit ./results/${{ matrix.connection }}/results2.xml
+        env:
+          DB_CONNECTION: ${{ matrix.connection }}
 
       - name: Store results
         uses: actions/upload-artifact@v2
@@ -147,8 +152,7 @@ jobs:
           path: results
 
       - name: Fix results files
-        run: |
-          sed -i -e "s%$GITHUB_WORKSPACE/%%g" results/*/*.xml
+        run: sed -i -e "s%$GITHUB_WORKSPACE/%%g" results/*/*.xml
 
       - name: Set version parameter
         id: version
@@ -200,8 +204,7 @@ jobs:
 
       - name: New release published
         if: steps.semantic.outputs.new_release_published == 'true'
-        run: |
-          echo ${{ steps.semantic.outputs.new_release_version }}
+        run: echo ${{ steps.semantic.outputs.new_release_version }}
 
   package:
     needs: semantic-release
@@ -221,7 +224,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: mbstring, dom, fileinfo, mysql
+          extensions: mbstring, dom, fileinfo
           coverage: none
 
     # Composer
