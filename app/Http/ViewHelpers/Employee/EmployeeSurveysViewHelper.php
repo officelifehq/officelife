@@ -79,11 +79,11 @@ class EmployeeSurveysViewHelper
         }
 
         // calculating the number of unique participants
-        $uniqueParticipants = DB::table('rate_your_manager_answers')
-            ->join('rate_your_manager_surveys', 'rate_your_manager_answers.rate_your_manager_survey_id', '=', 'rate_your_manager_surveys.id')
-            ->where('rate_your_manager_surveys.id', '=', $employee->id)
-            ->selectRaw('count(distinct(rate_your_manager_answers.employee_id)) as count')
-            ->get();
+        $uniqueParticipants = DB::table('rate_your_manager_answers', 'ra')
+            ->join('rate_your_manager_surveys', 'ra.rate_your_manager_survey_id', '=', 'rate_your_manager_surveys.id')
+            ->where('rate_your_manager_surveys.manager_id', $employee->id)
+            ->distinct()
+            ->count();
 
         // the average response rate
         // to calculate this, we need to remove any active or future survey
@@ -92,7 +92,7 @@ class EmployeeSurveysViewHelper
 
         return [
             'number_of_completed_surveys' => $surveyAnswered->count(),
-            'number_of_unique_participants' => $uniqueParticipants[0]->count,
+            'number_of_unique_participants' => $uniqueParticipants,
             'average_response_rate' => $averageResponseRate,
             'surveys' => $surveysCollection,
         ];
