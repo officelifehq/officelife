@@ -100,9 +100,7 @@ jobs:
           echo '' > public/css/app.css
       - name: Create SQLite database
         if: matrix.connection == 'sqlite'
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
+        run: touch database/database.sqlite
 
       - name: Generate key
         run: php artisan key:generate
