@@ -7,7 +7,7 @@
         "crm",
         "employee lifecycle"
     ],
-    "license": "BSD-3",
+    "license": "BSD-3-Clause",
     "require": {
         "php": "^7.4",
         "facade/ignition": "^2.0",
