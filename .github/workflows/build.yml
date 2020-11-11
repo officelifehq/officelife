@@ -36,12 +36,21 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      pgsql:
+        image: postgres:13.0
+        env:
+          POSTGRES_DB: officelife
+          POSTGRES_USER: officelife
+          POSTGRES_PASSWORD: secret
+        ports:
+          - 5432:5432
+        options: --name=postgres --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
 
     strategy:
       fail-fast: false
       matrix:
         php-version: [7.4]
-        connection: [sqlite, mysql]
+        connection: [sqlite, mysql, pgsql]
 
     steps:
       - name: Checkout sources
@@ -102,7 +111,7 @@ jobs:
         run: php artisan db:seed --no-interaction -vvv
 
     # Test
-      - name: Run Unit test suite
+      - name: Run Unit test suite with coverage
         if: matrix.connection == 'mysql'
         run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml --coverage-clover ./results/${{ matrix.connection }}/coverage.xml
         env:

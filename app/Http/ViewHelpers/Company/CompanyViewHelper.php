@@ -48,30 +48,30 @@ class CompanyViewHelper
             ->count();
 
         // get the 3 latest questions asked to every employee of the company
-        $latestQuestions = DB::select(
-            'select questions.id as id, questions.title as title, count(answers.id) as count from questions, answers where company_id = ? and questions.id = answers.question_id group by questions.id order by questions.id desc limit 3;',
-            [$company->id]
-        );
+        $latestQuestions = DB::table('questions')
+            ->join('answers', 'questions.id', '=', 'answers.question_id')
+            ->where('company_id', '=', $company->id)
+            ->groupBy('questions.id')
+            ->orderByDesc('questions.id')
+            ->limit(3)
+            ->select('questions.id', 'questions.title')
+            ->selectRaw('count(answers.id) as count')
+            ->get();
 
         // building a collection of questions
-        $questionCollection = collect([]);
-        foreach ($latestQuestions as $question) {
-            $numberOfAnswers = $question->count;
-
-            if ($numberOfAnswers == 0) {
-                continue;
-            }
-
-            $questionCollection->push([
+        $questionCollection = $latestQuestions->filter(function ($question) {
+            return $question->count > 0;
+        })->map(function ($question) use ($company) {
+            return [
                 'id' => $question->id,
                 'title' => $question->title,
-                'number_of_answers' => $numberOfAnswers,
+                'number_of_answers' => $question->count,
                 'url' => route('company.questions.show', [
                     'company' => $company,
                     'question' => $question->id,
                 ]),
-            ]);
-        }
+                ];
+        });
 
         return [
             'total_number_of_questions' => $questionsCount,

@@ -79,9 +79,11 @@ class EmployeeSurveysViewHelper
         }
 
         // calculating the number of unique participants
-        // running a raw query to reduce the number of queries to the maximum
-        // TODO: do this with Eloquent and make it performant
-        $uniqueParticipants = DB::select('select count(distinct(ra.employee_id)) as count from rate_your_manager_answers ra, rate_your_manager_surveys rs where ra.rate_your_manager_survey_id = rs.id and rs.manager_id = '.$employee->id);
+        $uniqueParticipants = DB::table('rate_your_manager_answers', 'ra')
+            ->join('rate_your_manager_surveys', 'ra.rate_your_manager_survey_id', '=', 'rate_your_manager_surveys.id')
+            ->where('rate_your_manager_surveys.manager_id', $employee->id)
+            ->distinct()
+            ->count();
 
         // the average response rate
         // to calculate this, we need to remove any active or future survey
@@ -90,7 +92,7 @@ class EmployeeSurveysViewHelper
 
         return [
             'number_of_completed_surveys' => $surveyAnswered->count(),
-            'number_of_unique_participants' => $uniqueParticipants[0]->count,
+            'number_of_unique_participants' => $uniqueParticipants,
             'average_response_rate' => $averageResponseRate,
             'surveys' => $surveysCollection,
         ];
