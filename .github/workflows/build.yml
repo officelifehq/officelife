@@ -111,7 +111,7 @@ jobs:
         run: php artisan db:seed --no-interaction -vvv
 
     # Test
-      - name: Run Unit test suite
+      - name: Run Unit test suite with coverage
         if: matrix.connection == 'mysql'
         run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml --coverage-clover ./results/${{ matrix.connection }}/coverage.xml
         env:
