@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Carbon\Carbon;
 use App\Traits\Searchable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -139,16 +140,22 @@ class Team extends Model
 
     /**
      * Returns an array of worklogs for a given date.
-     * This method uses a raw SQL query as I don't know how to make this kind
-     * of queries with Eloquent. It’s not elegant, but it’s performant.
      *
      * @param Carbon $date
      *
-     * @return array
+     * @return Collection
      */
-    public function worklogsForDate($date): array
+    public function worklogsForDate($date): Collection
     {
-        $worklogs = DB::select('select worklogs.content as content, employees.id as id, employees.first_name as first_name, employees.email as email, employees.last_name, employees.avatar from employees, worklogs, employee_team where employees.id = employee_team.employee_id and employees.id = worklogs.employee_id and worklogs.created_at LIKE \''.$date->format('Y-m-d').'%\' and employee_team.team_id = '.$this->id.';');
+        $worklogs = DB::table('employees')
+            ->join('worklogs', 'employees.id', '=', 'worklogs.employee_id')
+            ->join('employee_team', 'employees.id', '=', 'employee_team.employee_id')
+            ->where([
+                ['worklogs.created_at', 'LIKE', $date->format('Y-m-d').'%'],
+                ['employee_team.team_id', '=', $this->id],
+            ])
+            ->select('worklogs.content', 'employees.id', 'employees.first_name', 'employees.email', 'employees.last_name', 'employees.avatar')
+            ->get();
 
         foreach ($worklogs as $worklog) {
             $employee = new Employee();
