@@ -40,7 +40,7 @@
 
 <template>
   <div>
-    <ul class="list pl0 mt0  mb4">
+    <ul class="list pl0 mv0">
       <li v-for="task in localTasks" :key="task.id" class="list-item relative">
         <checkbox
           :id="'ai-' + task.id"

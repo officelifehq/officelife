@@ -119,6 +119,21 @@ class ProjectTasksViewHelper
     }
 
     /**
+     * Array containing all the information about the given task list info.
+     *
+     * @param ProjectTaskList $taskList
+     * @return array
+     */
+    public static function getTaskListInfo(ProjectTaskList $taskList): array
+    {
+        return [
+            'id' => $taskList->id,
+            'title' => $taskList->title,
+            'description' => $taskList->description,
+        ];
+    }
+
+    /**
      * Collection containing all the potential project members.
      *
      * @param Project $project

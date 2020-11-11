@@ -233,6 +233,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // project tasks
             Route::resource('{project}/tasks', 'Company\\Project\\ProjectTasksController', ['as' => 'projects']);
+            Route::get('{project}/tasks/lists/create', 'Company\\Project\\ProjectTaskListsController@create');
+            Route::post('{project}/tasks/lists/store', 'Company\\Project\\ProjectTaskListsController@store');
             Route::post('{project}/tasks/{task}/toggle', 'Company\\Project\\ProjectTasksController@toggle');
         });
 
