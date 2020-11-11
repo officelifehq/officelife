@@ -23,6 +23,7 @@ class CheckCompany
     {
         $requestedCompanyId = $request->route()->parameter('company');
 
+        $employee = null;
         try {
             $employee = Employee::where('user_id', Auth::user()->id)
                 ->where('company_id', $requestedCompanyId)
@@ -31,7 +32,7 @@ class CheckCompany
             abort(401);
         }
 
-        if ($employee->locked) {
+        if ($employee === null || $employee->locked) {
             abort(401);
         }
 
