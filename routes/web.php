@@ -233,6 +233,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // project tasks
             Route::resource('{project}/tasks', 'Company\\Project\\ProjectTasksController', ['as' => 'projects']);
+            Route::post('{project}/tasks/{task}/toggle', 'Company\\Project\\ProjectTasksController@toggle');
         });
 
         Route::prefix('company')->group(function () {

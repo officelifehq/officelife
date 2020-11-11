@@ -961,6 +961,15 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_task_updated':
+                $sentence = trans('account.log_project_task_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_task_id' => $log->object->{'project_task_id'},
+                    'project_task_title' => $log->object->{'project_task_title'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

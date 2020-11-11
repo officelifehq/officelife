@@ -109,4 +109,7 @@ return [
     'message_create_title_content' =>'Content of the message',
     'message_create_title_content_help' => 'Everyone in the company will be able to read this message.',
     'message_edit_title_message' => 'Edit message',
+
+    'task_create_success' => 'The task has been created.',
+    'task_delete_success' => 'The task has been deleted.',
 ];

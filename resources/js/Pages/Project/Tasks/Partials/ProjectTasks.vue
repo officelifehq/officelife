@@ -54,17 +54,54 @@
           :maxlength="255"
           :required="true"
           @change="toggle(task.id)"
-          @update="showEdittask(task.id, task.description)"
+          @update="showEditTask(task)"
           @destroy="destroy(task.id)"
         />
+
+        <!-- edit task -->
+        <div v-if="taskToEdit == task.id" class="bg-gray add-item-section edit-item ph2 mt1 mb3 pv1 br1 relative">
+          <form @submit.prevent="update(task)">
+            <text-area
+              :ref="'task' + task.id"
+              v-model="form.title"
+              :label="'Edit task'"
+              :datacy="'edit-action-item-title-textarea-' + task.id"
+              :required="true"
+              :rows="2"
+              @esc-key-pressed="taskToEdit = 0"
+            />
+
+            <div class="w-50">
+              <select-box :id="'country_id'"
+                          v-model="form.assignee_id"
+                          :options="members"
+                          :name="'country_id'"
+                          :errors="$page.props.errors.assignee_id"
+                          :label="'Who is responsible'"
+                          :placeholder="$t('app.choose_value')"
+                          :required="false"
+                          :value="form.assignee_id"
+                          :datacy="'country_selector'"
+              />
+            </div>
+
+            <!-- actions -->
+            <div>
+              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
+              <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="taskToEdit = 0">
+                {{ $t('app.cancel') }}
+              </a>
+            </div>
+          </form>
+        </div>
       </li>
 
-      <!-- add a new item -->
-      <li v-if="!addTaskMode" class="add-item-section">
+      <!-- call to action to add a new item -->
+      <li v-if="!addTaskMode" class="add-item-section bg-gray ph2 mt1 pv1 br1">
         <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-action-item" @click="displayAddTask()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
       </li>
 
-      <!-- create a new item -->
+      <!-- form to create a new item -->
       <li v-if="addTaskMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
         <form @submit.prevent="store()">
           <text-area
@@ -142,6 +179,7 @@ export default {
       localTasks: null,
       loadingState: '',
       addTaskMode: false,
+      taskToEdit: 0,
       form: {
         assignee_id: null,
         title: null,
@@ -171,6 +209,25 @@ export default {
       });
     },
 
+    showEditTask(task) {
+      this.taskToEdit = task.id;
+      this.form.title = task.title;
+      if (task.assignee) {
+        this.form.assignee_id = {
+          value: task.assignee.id,
+          label: task.assignee.name,
+        };
+      }
+
+      // this is really barbaric, but I need to do this to
+      // first: target the TextInput with the right ref attribute
+      // second: target within the component, the refs of the input text
+      // this is because we try here to access $refs from a child component
+      this.$nextTick(() => {
+        this.$refs[`task${task.id}`][0].$refs['input'].focus();
+      });
+    },
+
     store() {
       this.loadingState = 'loading';
 
@@ -186,9 +243,53 @@ export default {
           this.form.description = null;
           this.form.assignee_id = null;
           this.loadingState = null;
+          flash(this.$t('project.task_create_success'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    toggle(id) {
+      axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${id}/toggle`)
+        .then(response => {
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+
+    update(task) {
+      this.loadingState = 'loading';
+
+      if (this.form.assignee_id) {
+        this.form.assignee_id = this.form.assignee_id.value;
+      }
+
+      axios.put(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${task.id}`, this.form)
+        .then(response => {
+          this.taskToEdit = 0;
+          this.loadingState = null;
+          this.form.title = null;
+
+          var id = this.localTasks.findIndex(x => x.id === task.id);
+          this.$set(this.localTasks, id, response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    destroy(id) {
+      axios.delete(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${id}`)
+        .then(response => {
+          flash(this.$t('project.task_delete_success'), 'success');
+          id = this.localTasks.findIndex(x => x.id === id);
+          this.localTasks.splice(id, 1);
+        })
+        .catch(error => {
           this.form.errors = error.response.data;
         });
     },

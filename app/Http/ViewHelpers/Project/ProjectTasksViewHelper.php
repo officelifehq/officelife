@@ -121,7 +121,7 @@ class ProjectTasksViewHelper
     /**
      * Collection containing all the potential project members.
      *
-     * @param Project $projet
+     * @param Project $project
      * @return Collection|null
      */
     public static function members(Project $project): ?Collection

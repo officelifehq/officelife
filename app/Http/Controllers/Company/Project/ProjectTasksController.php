@@ -10,15 +10,13 @@ use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\ProjectMessage;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use App\Services\Company\Project\CreateProjectTask;
-use App\Services\Company\Project\UpdateProjectMessage;
-use App\Services\Company\Project\DestroyProjectMessage;
+use App\Services\Company\Project\ToggleProjectTask;
+use App\Services\Company\Project\UpdateProjectTask;
+use App\Services\Company\Project\DestroyProjectTask;
 use App\Http\ViewHelpers\Project\ProjectTasksViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Project\MarkProjectMessageasRead;
-use App\Http\ViewHelpers\Project\ProjectMessagesViewHelper;
 use App\Services\Company\Project\AssignProjecTaskToEmployee;
 
 class ProjectTasksController extends Controller
@@ -93,87 +91,43 @@ class ProjectTasksController extends Controller
     }
 
     /**
-     * Display the detail of a given message.
+     * Actually update the task.
      *
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
-     * @param int $messageId
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     * @param int $taskId
+     * @return JsonResponse
      */
-    public function show(Request $request, int $companyId, int $projectId, int $messageId)
+    public function update(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
     {
-        $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
-
-        try {
-            $project = Project::where('company_id', $loggedCompany->id)
-                ->with('employees')
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
-
-        try {
-            $message = ProjectMessage::where('project_id', $project->id)
-                ->with('project')
-                ->findOrFail($messageId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
-
-        (new MarkProjectMessageasRead)->execute([
-            'company_id' => $loggedCompany->id,
-            'author_id' => $loggedEmployee->id,
-            'project_id' => $project->id,
-            'project_message_id' => $message->id,
-        ]);
-
-        return Inertia::render('Project/Messages/Show', [
-            'tab' => 'messages',
-            'project' => ProjectViewHelper::info($project),
-            'message' => ProjectMessagesViewHelper::show($message),
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-        ]);
-    }
-
-    /**
-     * Display the edit message page.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $messageId
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
-     */
-    public function edit(Request $request, int $companyId, int $projectId, int $messageId)
-    {
         $company = InstanceHelper::getLoggedCompany();
 
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->with('employees')
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
+        $data = [
+            'company_id' => $company->id,
+            'author_id' => $loggedEmployee->id,
+            'project_id' => $projectId,
+            'project_task_id' => $taskId,
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ];
+
+        $task = (new UpdateProjectTask)->execute($data);
+
+        if ($request->input('assignee_id')) {
+            $task = (new AssignProjecTaskToEmployee)->execute([
+                'company_id' => $company->id,
+                'author_id' => $loggedEmployee->id,
+                'project_id' => $projectId,
+                'project_task_id' => $task->id,
+                'assignee_id' => $request->input('assignee_id'),
+            ]);
         }
 
-        try {
-            $message = ProjectMessage::where('project_id', $project->id)
-                ->with('project')
-                ->findOrFail($messageId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
-
-        return Inertia::render('Project/Messages/Update', [
-            'tab' => 'messages',
-            'project' => ProjectViewHelper::info($project),
-            'message' => ProjectMessagesViewHelper::edit($message),
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-        ]);
+        return response()->json([
+            'data' => ProjectTasksViewHelper::show($task, $company),
+        ], 201);
     }
 
     /**
@@ -182,10 +136,10 @@ class ProjectTasksController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
-     * @param int $projectMessageId
+     * @param int $projectTaskId
      * @return JsonResponse
      */
-    public function update(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
+    public function toggle(Request $request, int $companyId, int $projectId, int $projectTaskId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
@@ -194,28 +148,26 @@ class ProjectTasksController extends Controller
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
-            'project_message_id' => $projectMessageId,
-            'title' => $request->input('title'),
-            'content' => $request->input('content'),
+            'project_task_id' => $projectTaskId,
         ];
 
-        $message = (new UpdateProjectMessage)->execute($data);
+        $task = (new ToggleProjectTask)->execute($data);
 
         return response()->json([
-            'data' => $message->id,
+            'data' => ProjectTasksViewHelper::show($task, $company),
         ], 201);
     }
 
     /**
-     * Destroy the message.
+     * Destroy the task.
      *
      * @param Request $request
      * @param int $companyId
      * @param int $projectId
-     * @param int $projectMessageId
+     * @param int $taskId
      * @return JsonResponse
      */
-    public function destroy(Request $request, int $companyId, int $projectId, int $projectMessageId): JsonResponse
+    public function destroy(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $company = InstanceHelper::getLoggedCompany();
@@ -224,10 +176,10 @@ class ProjectTasksController extends Controller
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'project_id' => $projectId,
-            'project_message_id' => $projectMessageId,
+            'project_task_id' => $taskId,
         ];
 
-        (new DestroyProjectMessage)->execute($data);
+        (new DestroyProjectTask)->execute($data);
 
         return response()->json([
             'data' => true,
