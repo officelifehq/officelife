@@ -23,7 +23,7 @@
         "moneyphp/money": "^3.3",
         "parsedown/laravel": "^1.2",
         "spatie/laravel-activitylog": "^3.1",
-        "tightenco/ziggy": "^0.8.0"
+        "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
@@ -38,9 +38,9 @@
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6",
         "phpstan/phpstan-deprecation-rules": "^0.12",
-        "phpstan/phpstan-phpunit": "^0.12.16",
+        "phpstan/phpstan-phpunit": "^0.12",
         "phpunit/phpunit": "^9.0",
-        "psalm/plugin-laravel": "^1.4.1",
+        "psalm/plugin-laravel": "^1.4",
         "roave/security-advisories": "dev-master",
         "thecodingmachine/phpstan-safe-rule": "^1.0",
         "vimeo/psalm": "^4.0"
