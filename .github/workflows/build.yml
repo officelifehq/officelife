@@ -36,21 +36,12 @@ jobs:
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-      pgsql:
-        image: postgres:13.0
-        env:
-          POSTGRES_DB: officelife
-          POSTGRES_USER: officelife
-          POSTGRES_PASSWORD: secret
-        ports:
-          - 5432:5432
-        options: --name=postgres --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
 
     strategy:
       fail-fast: false
       matrix:
         php-version: [7.4]
-        connection: [sqlite, mysql, pgsql]
+        connection: [sqlite, mysql]
 
     steps:
       - name: Checkout sources
