@@ -60,7 +60,7 @@
             <!-- list of tasks without a list -->
             <div class="mb4">
               <h3 class="fw4 gray f4">
-                General list
+                {{ $t('project.task_default_task_list') }}
               </h3>
               <project-tasks :tasks="tasks.tasks_without_lists" :members="members" :project="project" />
             </div>
@@ -68,7 +68,7 @@
             <!-- list of tasks with task lists -->
             <div v-for="taskList in localTaskLists" :key="taskList.id" class="task-list">
               <h3 class="f4 fw5 mb2 relative">
-                {{ taskList.title }} <a class="bb b--dotted bt-0 bl-0 br-0 pointer ml1 f7 fw4 relative edit-cta" @click.prevent="showEditMode(taskList)">{{ $t('app.edit') }}</a>
+                {{ taskList.title }} <a :data-cy="'edit-task-list-' + taskList.id" class="bb b--dotted bt-0 bl-0 br-0 pointer ml1 f7 fw4 relative edit-cta" @click.prevent="showEditMode(taskList)">{{ $t('app.edit') }}</a>
               </h3>
               <p v-if="taskList.description" class="f6 gray mt1">{{ taskList.description }}</p>
 
@@ -80,7 +80,7 @@
                               :ref="'editTaskList' + taskList.id"
                               v-model="form.title"
                               :name="'title'"
-                              :datacy="'news-title-input'"
+                              :datacy="'task-list-title-input-' + taskList.id"
                               :errors="$page.props.errors.title"
                               :label="$t('project.task_create_title')"
                               :required="true"
@@ -91,7 +91,7 @@
                   <text-area
                     v-model="form.description"
                     :label="$t('project.task_create_description')"
-                    :datacy="'edit-action-item-title-textarea-'"
+                    :datacy="'edit-task-list-title-textarea-' + taskList.id"
                     :required="false"
                     :rows="2"
                     @esc-key-pressed="editListMode = false"
@@ -100,12 +100,12 @@
                   <!-- actions -->
                   <div class="flex justify-between">
                     <div>
-                      <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
+                      <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-list-cta-' + taskList.id" :state="loadingState" :text="$t('app.update')" />
                       <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="editListMode = false">{{ $t('app.cancel') }}</a>
                     </div>
 
                     <!-- destroy list -->
-                    <a class="btn destroy dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="destroy(taskList)">{{ $t('app.delete') }}</a>
+                    <a :data-cy="'delete-task-list-cta-' + taskList.id" class="btn destroy dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="destroy(taskList)">{{ $t('app.delete') }}</a>
                   </div>
                 </form>
               </div>
@@ -128,7 +128,7 @@
                             :ref="'newTaskList'"
                             v-model="form.title"
                             :name="'title'"
-                            :datacy="'news-title-input'"
+                            :datacy="'task-list-title-input'"
                             :errors="$page.props.errors.title"
                             :label="$t('project.task_create_title')"
                             :required="true"
@@ -139,7 +139,7 @@
                 <text-area
                   v-model="form.description"
                   :label="$t('project.task_create_description')"
-                  :datacy="'edit-action-item-title-textarea-'"
+                  :datacy="'edit-task-list-title-textarea-'"
                   :required="false"
                   :rows="2"
                   @esc-key-pressed="addListMode = false"
@@ -147,7 +147,7 @@
 
                 <!-- actions -->
                 <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-task-list-cta" :state="loadingState" :text="$t('app.save')" />
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addListMode = false">{{ $t('app.cancel') }}</a>
                 </div>
               </form>

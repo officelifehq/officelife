@@ -46,7 +46,7 @@
           :id="'ai-' + task.id"
           v-model="task.completed"
           :item-id="task.id"
-          :datacy="'action-item-' + task.id"
+          :datacy="'task-' + task.id"
           :label="task.title"
           :extra-class-upper-div="'mb0 relative'"
           :assignee="task.assignee"
@@ -65,29 +65,29 @@
               :ref="'task' + task.id"
               v-model="form.title"
               :label="$t('project.task_add_title')"
-              :datacy="'edit-action-item-title-textarea-' + task.id"
+              :datacy="'edit-task-title-textarea-' + task.id"
               :required="true"
               :rows="2"
               @esc-key-pressed="taskToEdit = 0"
             />
 
             <div class="w-50">
-              <select-box :id="'country_id'"
+              <select-box :id="'assignee'"
                           v-model="form.assignee_id"
                           :options="members"
-                          :name="'country_id'"
+                          :name="'assignee'"
                           :errors="$page.props.errors.assignee_id"
                           :label="$t('project.task_edit_assignee')"
                           :placeholder="$t('app.choose_value')"
                           :required="false"
                           :value="form.assignee_id"
-                          :datacy="'country_selector'"
+                          :datacy="'assignee_selector'"
               />
             </div>
 
             <!-- actions -->
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-task-cta" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="taskToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>
@@ -98,7 +98,7 @@
 
       <!-- call to action to add a new item -->
       <li v-if="!addTaskMode" class="add-item-section bg-gray ph2 mt1 pv1 br1">
-        <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-action-item" @click="displayAddTask()">{{ $t('project.task_add_cta') }}</span>
+        <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-task" @click="displayAddTask()">{{ $t('project.task_add_cta') }}</span>
       </li>
 
       <!-- form to create a new item -->
@@ -108,7 +108,7 @@
             ref="newTaskItem"
             v-model="form.title"
             :label="$t('project.task_add_title')"
-            :datacy="'action-item-description-textarea'"
+            :datacy="'task-description-textarea'"
             :required="true"
             :rows="2"
             @esc-key-pressed="addTaskMode = false"
@@ -130,7 +130,7 @@
 
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-action-item-cta" />
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-task-cta" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addTaskMode = false">
               {{ $t('app.cancel') }}
             </a>

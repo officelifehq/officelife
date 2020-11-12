@@ -111,6 +111,7 @@ return [
     'message_edit_title_message' => 'Edit message',
 
     'task_title' => 'All the tasks in this project',
+    'task_default_task_list' => 'General list',
     'task_list_cta' => 'Create a task list',
     'task_blank_desc' => 'Tasks let you track progress and assign work so everyone is accountable to move things forward.',
     'task_edit_cta' => 'Edit task',
