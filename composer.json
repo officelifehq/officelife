@@ -7,7 +7,7 @@
         "crm",
         "employee lifecycle"
     ],
-    "license": "BSD-3",
+    "license": "BSD-3-Clause",
     "require": {
         "php": "^7.4",
         "facade/ignition": "^2.0",
@@ -23,13 +23,13 @@
         "moneyphp/money": "^3.3",
         "parsedown/laravel": "^1.2",
         "spatie/laravel-activitylog": "^3.1",
-        "tightenco/ziggy": "^0.8.0"
+        "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
         "beyondcode/laravel-dump-server": "^1.0",
+        "fakerphp/faker": "^1.10",
         "friendsofphp/php-cs-fixer": "^2.14",
-        "fzaninotto/faker": "^1.6",
         "graham-campbell/testbench-core": "^3.1",
         "johnkary/phpunit-speedtrap": "^3.1",
         "laravel/dusk": "^6.6",
@@ -38,12 +38,12 @@
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6",
         "phpstan/phpstan-deprecation-rules": "^0.12",
-        "phpstan/phpstan-phpunit": "^0.12.16",
+        "phpstan/phpstan-phpunit": "^0.12",
         "phpunit/phpunit": "^9.0",
         "psalm/plugin-laravel": "^1.4",
         "roave/security-advisories": "dev-master",
         "thecodingmachine/phpstan-safe-rule": "^1.0",
-        "vimeo/psalm": "^3.0"
+        "vimeo/psalm": "^4.0"
     },
     "config": {
         "apcu-autoloader": true,
