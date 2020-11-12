@@ -64,7 +64,7 @@
             <text-area
               :ref="'task' + task.id"
               v-model="form.title"
-              :label="'Edit task'"
+              :label="$t('project.task_add_title')"
               :datacy="'edit-action-item-title-textarea-' + task.id"
               :required="true"
               :rows="2"
@@ -77,7 +77,7 @@
                           :options="members"
                           :name="'country_id'"
                           :errors="$page.props.errors.assignee_id"
-                          :label="'Who is responsible'"
+                          :label="$t('project.task_edit_assignee')"
                           :placeholder="$t('app.choose_value')"
                           :required="false"
                           :value="form.assignee_id"
@@ -98,7 +98,7 @@
 
       <!-- call to action to add a new item -->
       <li v-if="!addTaskMode" class="add-item-section bg-gray ph2 mt1 pv1 br1">
-        <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-action-item" @click="displayAddTask()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
+        <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-action-item" @click="displayAddTask()">{{ $t('project.task_add_cta') }}</span>
       </li>
 
       <!-- form to create a new item -->
@@ -107,7 +107,7 @@
           <text-area
             ref="newTaskItem"
             v-model="form.title"
-            :label="$t('dashboard.one_on_ones_action_item_textarea_desc')"
+            :label="$t('project.task_add_title')"
             :datacy="'action-item-description-textarea'"
             :required="true"
             :rows="2"
@@ -120,7 +120,7 @@
                         :options="members"
                         :name="'country_id'"
                         :errors="$page.props.errors.assignee_id"
-                        :label="'Who is responsible'"
+                        :label="$t('project.task_edit_assignee')"
                         :placeholder="$t('app.choose_value')"
                         :required="false"
                         :value="form.assignee_id"
@@ -176,7 +176,7 @@ export default {
 
   data() {
     return {
-      localTasks: null,
+      localTasks: [],
       loadingState: '',
       addTaskMode: false,
       taskToEdit: 0,
@@ -191,7 +191,9 @@ export default {
   },
 
   mounted() {
-    this.localTasks= this.tasks;
+    if (this.tasks) {
+      this.localTasks= this.tasks;
+    }
 
     if (this.taskList) {
       this.form.task_list_id = this.taskList.id;

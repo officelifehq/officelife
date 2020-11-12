@@ -11,6 +11,7 @@ use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectStatus;
 use App\Models\Company\ProjectMessage;
 use App\Models\Company\ProjectDecision;
+use App\Models\Company\ProjectTaskList;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTest extends TestCase
@@ -122,5 +123,15 @@ class ProjectTest extends TestCase
             ->create();
 
         $this->assertTrue($project->tasks()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_task_lists(): void
+    {
+        $project = Project::factory()
+            ->has(ProjectTaskList::factory()->count(2), 'lists')
+            ->create();
+
+        $this->assertTrue($project->lists()->exists());
     }
 }

@@ -41,19 +41,16 @@ class ProjectTasksViewHelper
             $tasksWithoutListsCollection->push(self::getTaskInfo($task, $company));
         }
 
-        // get the list of unique task list ids
         $tasksWithLists = $tasks->diff($tasksWithoutLists);
-        $uniqueTaskListIds = $tasksWithLists->map->only('project_task_list_id')->unique();
 
+        // get the list of unique task list ids
+        $taskLists = $project->lists;
         $tasksListCollection = collect([]);
-        foreach ($uniqueTaskListIds as $uniqueListId) {
+        foreach ($taskLists as $taskList) {
             $tasksWithListsCollection = collect([]);
-            $uniqueId = $uniqueListId['project_task_list_id'];
 
-            $taskList = ProjectTaskList::find($uniqueId);
-
-            $tasks = $tasksWithLists->filter(function ($task) use ($uniqueId) {
-                return $task->project_task_list_id == $uniqueId;
+            $tasks = $tasksWithLists->filter(function ($task) use ($taskList) {
+                return $task->project_task_list_id == $taskList->id;
             });
 
             foreach ($tasks as $task) {

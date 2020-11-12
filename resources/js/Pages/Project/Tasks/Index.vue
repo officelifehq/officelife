@@ -7,6 +7,10 @@
   top: 5px;
   background-color: #f5f5f5;
 }
+
+.edit-cta {
+  top: -2px;
+}
 </style>
 
 <template>
@@ -36,28 +40,86 @@
       <div class="mw7 center br3 mb5 relative z-1">
         <p class="db fw5 mb2 flex justify-between items-center">
           <span>
-            <span class="mr1">🪑</span> All the tasks in this project
+            <span class="mr1">🪑</span> {{ $t('project.task_title') }}
 
             <help :url="$page.props.help_links.project_messages" :top="'3px'" />
           </span>
         </p>
 
-        <!-- list of tasks without a list -->
         <div class="bg-white box pa3">
-          <div class="mb4">
-            <project-tasks :tasks="localTaskLists" :members="members" :project="project" />
+          <!-- blank state -->
+          <div v-if="!checkTasksPresence" class="pa3 tc">
+            <img loading="lazy" src="/img/streamline-icon-artist-drawing-3@140x140.png" width="140" height="140" alt="meeting"
+                 class=""
+            />
+            <p class="lh-copy measure center mb4">{{ $t('project.task_blank_desc') }}</p>
           </div>
 
-          <div v-for="taskList in tasks.task_lists" :key="taskList.id" class="task-list">
-            <h3 class="f4 fw5 mb2">
-              {{ taskList.title }}
-            </h3>
-            <p v-if="taskList.description" class="f6 gray mt1">{{ taskList.description }}</p>
-            <project-tasks :tasks="taskList.tasks" :task-list="taskList" :members="members" :project="project" />
+          <!-- list of tasks, if they exist -->
+          <div>
+            <!-- list of tasks without a list -->
+            <div class="mb4">
+              <h3 class="fw4 gray f4">
+                General list
+              </h3>
+              <project-tasks :tasks="tasks.tasks_without_lists" :members="members" :project="project" />
+            </div>
+
+            <!-- list of tasks with task lists -->
+            <div v-for="taskList in localTaskLists" :key="taskList.id" class="task-list">
+              <h3 class="f4 fw5 mb2 relative">
+                {{ taskList.title }} <a class="bb b--dotted bt-0 bl-0 br-0 pointer ml1 f7 fw4 relative edit-cta" @click.prevent="showEditMode(taskList)">{{ $t('app.edit') }}</a>
+              </h3>
+              <p v-if="taskList.description" class="f6 gray mt1">{{ taskList.description }}</p>
+
+              <!-- edit task list details -->
+              <div v-if="editListMode && listToEdit == taskList" class="bg-gray add-list-section edit-item ph2 mt1 mb3 pv1 br1 relative">
+                <form @submit.prevent="update(taskList)">
+                  <!-- Title -->
+                  <text-input :id="'title'"
+                              :ref="'editTaskList' + taskList.id"
+                              v-model="form.title"
+                              :name="'title'"
+                              :datacy="'news-title-input'"
+                              :errors="$page.props.errors.title"
+                              :label="$t('project.task_create_title')"
+                              :required="true"
+                              @esc-key-pressed="editListMode = false"
+                  />
+
+                  <!-- description -->
+                  <text-area
+                    v-model="form.description"
+                    :label="$t('project.task_create_description')"
+                    :datacy="'edit-action-item-title-textarea-'"
+                    :required="false"
+                    :rows="2"
+                    @esc-key-pressed="editListMode = false"
+                  />
+
+                  <!-- actions -->
+                  <div class="flex justify-between">
+                    <div>
+                      <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
+                      <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="editListMode = false">{{ $t('app.cancel') }}</a>
+                    </div>
+
+                    <!-- destroy list -->
+                    <a class="btn destroy dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="destroy(taskList)">{{ $t('app.delete') }}</a>
+                  </div>
+                </form>
+              </div>
+
+              <!-- actual tasks -->
+              <div class="pl3">
+                <project-tasks :tasks="taskList.tasks" :task-list="taskList" :members="members" :project="project" />
+              </div>
+            </div>
           </div>
 
-          <div class="mt5">
-            <a v-if="!addListMode" class="btn" href="#" @click.prevent="showAddListMode()">Create a new task list</a>
+          <!-- create a new task list -->
+          <div class="db mt5 mb3">
+            <a v-if="!addListMode" class="btn pointer" @click.prevent="showAddListMode()">{{ $t('project.task_list_cta') }}</a>
 
             <div v-if="addListMode" class="bg-gray add-list-section edit-item ph2 mt1 mb3 pv1 br1 relative">
               <form @submit.prevent="store()">
@@ -68,7 +130,7 @@
                             :name="'title'"
                             :datacy="'news-title-input'"
                             :errors="$page.props.errors.title"
-                            :label="'Name of the list'"
+                            :label="$t('project.task_create_title')"
                             :required="true"
                             @esc-key-pressed="addListMode = false"
                 />
@@ -76,7 +138,7 @@
                 <!-- description -->
                 <text-area
                   v-model="form.description"
-                  :label="'Describe the list, if necessary'"
+                  :label="$t('project.task_create_description')"
                   :datacy="'edit-action-item-title-textarea-'"
                   :required="false"
                   :rows="2"
@@ -85,10 +147,8 @@
 
                 <!-- actions -->
                 <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.update')" />
-                  <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addListMode = false">
-                    {{ $t('app.cancel') }}
-                  </a>
+                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-action-item-cta" :state="loadingState" :text="$t('app.save')" />
+                  <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addListMode = false">{{ $t('app.cancel') }}</a>
                 </div>
               </form>
             </div>
@@ -146,7 +206,9 @@ export default {
     return {
       loadingState: '',
       addListMode: false,
-      taskToEdit: 0,
+      editListMode: false,
+      listToEdit: 0,
+      localTasks: null,
       localTaskLists: null,
       form: {
         title: null,
@@ -156,9 +218,29 @@ export default {
     };
   },
 
+  computed: {
+    checkTasksPresence() {
+      let numberOfTasks = 0;
+
+      if (this.localTasks) {
+        numberOfTasks = this.localTasks.length;
+      }
+
+      if (this.localTaskLists) {
+        numberOfTasks = numberOfTasks + this.localTaskLists.length;
+      }
+
+      return numberOfTasks > 0;
+    }
+  },
+
   mounted() {
     if (this.tasks.tasks_without_lists) {
-      this.localTaskLists =  this.tasks.tasks_without_lists;
+      this.localTasks =  this.tasks.tasks_without_lists;
+    }
+
+    if (this.tasks.task_lists) {
+      this.localTaskLists =  this.tasks.task_lists;
     }
 
     if (localStorage.success) {
@@ -178,6 +260,17 @@ export default {
       });
     },
 
+    showEditMode(taskList) {
+      this.editListMode = true;
+      this.listToEdit = taskList;
+      this.form.title = taskList.title;
+      this.form.description = taskList.description;
+
+      this.$nextTick(() => {
+        this.$refs[`editTaskList${taskList.id}`][0].$refs['input'].focus();
+      });
+    },
+
     store() {
       this.loadingState = 'loading';
 
@@ -188,7 +281,42 @@ export default {
           this.localTaskLists.push(response.data.data);
           this.form.title = null;
           this.form.description = null;
-          flash(this.$t('project.task_create_success'), 'success');
+          flash(this.$t('project.task_list_create_success'), 'success');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    update(taskList) {
+      this.loadingState = 'loading';
+
+      axios.put(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/lists/${taskList.id}`, this.form)
+        .then(response => {
+          this.loadingState = null;
+          this.editListMode = false;
+
+          var id = this.localTaskLists.findIndex(x => x.id === taskList.id);
+          this.$set(this.localTaskLists, id, response.data.data);
+
+          this.form.title = null;
+          this.form.description = null;
+          flash(this.$t('project.task_list_update_success'), 'success');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    destroy(taskList) {
+      this.loadingState = 'loading';
+
+      axios.delete(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/lists/${taskList.id}`, this.form)
+        .then(response => {
+          localStorage.success = this.$t('project.task_list_destroy_success');
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks`);
         })
         .catch(error => {
           this.loadingState = null;

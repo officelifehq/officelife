@@ -150,4 +150,14 @@ class Project extends Model
     {
         return $this->hasMany(ProjectTask::class);
     }
+
+    /**
+     * Get the project task lists associated with the project.
+     *
+     * @return HasMany
+     */
+    public function lists()
+    {
+        return $this->hasMany(ProjectTaskList::class);
+    }
 }
