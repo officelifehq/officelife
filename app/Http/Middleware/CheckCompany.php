@@ -27,6 +27,7 @@ class CheckCompany
             $employee = Employee::where('user_id', Auth::user()->id)
                 ->where('company_id', $requestedCompanyId)
                 ->firstOrFail();
+
                 if ($employee->locked) {
                     abort(401);
                 }
@@ -36,6 +37,7 @@ class CheckCompany
 
                 Cache::put($cachedCompanyObject, $employee->company, now()->addMinutes(60));
                 Cache::put($cachedEmployeeObject, $employee, now()->addMinutes(60));
+
         } catch (ModelNotFoundException $e) {
             abort(401);
         }
