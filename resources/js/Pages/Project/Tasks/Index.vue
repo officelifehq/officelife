@@ -59,7 +59,7 @@
           <div>
             <!-- list of tasks without a list -->
             <div class="mb4">
-              <h3 class="fw4 gray f4">
+              <h3 class="fw4 gray f4 mt0">
                 {{ $t('project.task_default_task_list') }}
               </h3>
               <project-tasks :tasks="tasks.tasks_without_lists" :members="members" :project="project" />
@@ -67,7 +67,7 @@
 
             <!-- list of tasks with task lists -->
             <div v-for="taskList in localTaskLists" :key="taskList.id" class="task-list">
-              <h3 class="f4 fw5 mb2 relative">
+              <h3 :data-cy="'task-list-' + taskList.id" class="f4 fw5 mb2 relative">
                 {{ taskList.title }} <a :data-cy="'edit-task-list-' + taskList.id" class="bb b--dotted bt-0 bl-0 br-0 pointer ml1 f7 fw4 relative edit-cta" @click.prevent="showEditMode(taskList)">{{ $t('app.edit') }}</a>
               </h3>
               <p v-if="taskList.description" class="f6 gray mt1">{{ taskList.description }}</p>
@@ -119,7 +119,7 @@
 
           <!-- create a new task list -->
           <div class="db mt5 mb3">
-            <a v-if="!addListMode" class="btn pointer" @click.prevent="showAddListMode()">{{ $t('project.task_list_cta') }}</a>
+            <a v-if="!addListMode" class="btn pointer" data-cy="new-task-list-cta" @click.prevent="showAddListMode()">{{ $t('project.task_list_cta') }}</a>
 
             <div v-if="addListMode" class="bg-gray add-list-section edit-item ph2 mt1 mb3 pv1 br1 relative">
               <form @submit.prevent="store()">
@@ -139,7 +139,7 @@
                 <text-area
                   v-model="form.description"
                   :label="$t('project.task_create_description')"
-                  :datacy="'edit-task-list-title-textarea-'"
+                  :datacy="'task-list-description'"
                   :required="false"
                   :rows="2"
                   @esc-key-pressed="addListMode = false"
@@ -147,7 +147,7 @@
 
                 <!-- actions -->
                 <div>
-                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-task-list-cta" :state="loadingState" :text="$t('app.save')" />
+                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="store-task-list-cta" :state="loadingState" :text="$t('app.save')" />
                   <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addListMode = false">{{ $t('app.cancel') }}</a>
                 </div>
               </form>

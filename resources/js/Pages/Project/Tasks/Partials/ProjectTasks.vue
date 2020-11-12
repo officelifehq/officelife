@@ -87,7 +87,7 @@
 
             <!-- actions -->
             <div>
-              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="edit-task-cta" :state="loadingState" :text="$t('app.update')" />
+              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-cta-' + task.id" :state="loadingState" :text="$t('app.update')" />
               <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="taskToEdit = 0">
                 {{ $t('app.cancel') }}
               </a>
@@ -98,7 +98,7 @@
 
       <!-- call to action to add a new item -->
       <li v-if="!addTaskMode" class="add-item-section bg-gray ph2 mt1 pv1 br1">
-        <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-task" @click="displayAddTask()">{{ $t('project.task_add_cta') }}</span>
+        <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" :data-cy="'task-list-' + taskList.id + '-add-new-task'" @click="displayAddTask()">{{ $t('project.task_add_cta') }}</span>
       </li>
 
       <!-- form to create a new item -->
@@ -108,7 +108,7 @@
             ref="newTaskItem"
             v-model="form.title"
             :label="$t('project.task_add_title')"
-            :datacy="'task-description-textarea'"
+            :datacy="'task-list-' + taskList.id + '-task-title-textarea'"
             :required="true"
             :rows="2"
             @esc-key-pressed="addTaskMode = false"
@@ -130,7 +130,7 @@
 
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" data-cy="add-task-cta" />
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + taskList.id + '-add-task-cta'" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addTaskMode = false">
               {{ $t('app.cancel') }}
             </a>
