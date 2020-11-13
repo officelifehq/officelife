@@ -107,7 +107,8 @@ jobs:
         with:
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: ghcr.io/officelifehq/officelife-dev:main-${{ matrix.variant }}
-          context: ./main/${{ matrix.variant }}
+          context: main/${{ matrix.variant }}
+          file: main/${{ matrix.variant }}/Dockerfile
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
