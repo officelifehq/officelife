@@ -19,11 +19,8 @@ use App\Services\Company\Project\CreateProject;
 use App\Services\Company\Project\DestroyProject;
 use App\Services\Company\Project\ClearProjectLead;
 use App\Http\ViewHelpers\Project\ProjectViewHelper;
-use App\Services\Company\Project\CreateProjectLink;
 use App\Services\Company\Project\UpdateProjectLead;
 use App\Exceptions\ProjectCodeAlreadyExistException;
-use App\Services\Company\Project\DestroyProjectLink;
-use App\Services\Company\Project\CreateProjectStatus;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\UpdateProjectDescription;
 use App\Services\Company\Project\UpdateProjectInformation;
@@ -455,132 +452,6 @@ class ProjectController extends Controller
                 'url' => route('projects.show', [
                     'company' => $company,
                     'project' => $project,
-                ]),
-            ],
-        ], 201);
-    }
-
-    /**
-     * Create a new project link.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @return JsonResponse
-     */
-    public function createLink(Request $request, int $companyId, int $projectId): JsonResponse
-    {
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
-        $company = InstanceHelper::getLoggedCompany();
-
-        $data = [
-            'company_id' => $company->id,
-            'author_id' => $loggedEmployee->id,
-            'project_id' => $projectId,
-            'type' => $request->input('type'),
-            'label' => ($request->input('label')) ? $request->input('label') : null,
-            'url' => $request->input('url'),
-        ];
-
-        $link = (new CreateProjectLink)->execute($data);
-
-        return response()->json([
-            'data' => [
-                'id' => $link->id,
-                'type' => $link->type,
-                'label' => $link->label,
-                'url' => $link->url,
-            ],
-        ], 201);
-    }
-
-    /**
-     * Destroy a new project link.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $linkId
-     * @return JsonResponse
-     */
-    public function destroyLink(Request $request, int $companyId, int $projectId, int $linkId): JsonResponse
-    {
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
-        $company = InstanceHelper::getLoggedCompany();
-
-        $data = [
-            'company_id' => $company->id,
-            'author_id' => $loggedEmployee->id,
-            'project_id' => $projectId,
-            'project_link_id' => $linkId,
-        ];
-
-        (new DestroyProjectLink)->execute($data);
-
-        return response()->json([
-            'data' => true,
-        ], 201);
-    }
-
-    /**
-     * Display a Create status page.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
-     */
-    public function createStatus(Request $request, int $companyId, int $projectId)
-    {
-        $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
-        $project = Project::findOrFail($projectId);
-
-        if (! $employee->isInProject($projectId) && $employee->permission_level > 200) {
-            return redirect('home');
-        }
-
-        if ($project->lead) {
-            if ($project->lead->id != $employee->id && $employee->permission_level > 200) {
-                return redirect('home');
-            }
-        }
-
-        return Inertia::render('Project/CreateStatus', [
-            'project' => ProjectViewHelper::summary($project, $company),
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-        ]);
-    }
-
-    /**
-     * Save the new project status.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     */
-    public function postStatus(Request $request, int $companyId, int $projectId)
-    {
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
-        $company = InstanceHelper::getLoggedCompany();
-
-        $data = [
-            'company_id' => $company->id,
-            'author_id' => $loggedEmployee->id,
-            'project_id' => $projectId,
-            'status' => $request->input('status'),
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-        ];
-
-        (new CreateProjectStatus)->execute($data);
-
-        return response()->json([
-            'data' => [
-                'url' => route('projects.show', [
-                    'company' => $company,
-                    'project' => $projectId,
                 ]),
             ],
         ], 201);

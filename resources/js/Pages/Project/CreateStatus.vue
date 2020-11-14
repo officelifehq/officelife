@@ -159,7 +159,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.put('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/status', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/status', this.form)
         .then(response => {
           this.$inertia.visit(response.data.data.url);
         })

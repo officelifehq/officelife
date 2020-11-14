@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class EmployeeEditController extends Controller
+class EmployeeAddressController extends Controller
 {
     /**
      * Show the employee edit address page.
@@ -26,7 +26,7 @@ class EmployeeEditController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function address(Request $request, int $companyId, int $employeeId)
+    public function edit(Request $request, int $companyId, int $employeeId)
     {
         try {
             $employee = Employee::where('company_id', $companyId)
@@ -69,7 +69,7 @@ class EmployeeEditController extends Controller
      * @param int $employeeId
      * @return JsonResponse
      */
-    public function updateAddress(Request $request, int $companyId, int $employeeId): JsonResponse
+    public function update(Request $request, int $companyId, int $employeeId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

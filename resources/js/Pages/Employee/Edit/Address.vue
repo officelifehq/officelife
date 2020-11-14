@@ -209,7 +209,7 @@ export default {
       this.loadingState = 'loading';
       this.form.country_id = this.form.country_id.value;
 
-      axios.put(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/address/update`, this.form)
+      axios.put(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/address`, this.form)
         .then(response => {
           localStorage.success = this.$t('employee.edit_information_success');
           this.$inertia.visit(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}`);

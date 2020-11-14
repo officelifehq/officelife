@@ -132,8 +132,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::get('logs', 'Company\\Employee\\EmployeeLogsController@index')->name('logs.index');
 
-            Route::get('address/edit', 'Company\\Employee\\EmployeeEditController@address');
-            Route::put('address/update', 'Company\\Employee\\EmployeeEditController@updateAddress');
+            Route::get('address/edit', 'Company\\Employee\\EmployeeAddressController@edit')->name('address.edit');
+            Route::put('address', 'Company\\Employee\\EmployeeAddressController@update')->name('address.update');
 
             Route::resources([
                 'position' => 'Company\\Employee\\EmployeePositionController',
@@ -205,11 +205,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{project}/lead/clear', 'Company\\Project\\ProjectController@clear');
             Route::post('{project}/description', 'Company\\Project\\ProjectController@description');
 
-            Route::post('{project}/links', 'Company\\Project\\ProjectController@createLink');
-            Route::delete('{project}/links/{link}', 'Company\\Project\\ProjectController@destroyLink');
-
-            Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
-            Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
+            Route::resource('{project}/links', 'Company\\Project\\ProjectLinkController')->only([
+                'store', 'destroy'
+            ]);
+            Route::resource('{project}/status', 'Company\\Project\\ProjectLinkController@create')->only([
+                'create', 'store'
+            ]);
 
             // project decision logs
             Route::post('{project}/decisions/search', 'Company\\Project\\ProjectDecisionsController@search');
