@@ -31,6 +31,7 @@ use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Project\AddEmployeeToProject;
+use App\Services\Company\Project\CreateProjectMessage;
 use App\Services\Company\Project\CreateProjectDecision;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
@@ -38,6 +39,7 @@ use App\Services\Company\Adminland\Company\CreateCompany;
 use App\Services\Company\Adminland\Hardware\LendHardware;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
+use App\Services\Company\Project\MarkProjectMessageasRead;
 use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
@@ -1684,6 +1686,39 @@ class SetupDummyAccount extends Command
             'decided_at' => '2019-06-29',
             'deciders' => [$this->dwight->id, $this->oscar->id],
         ]);
+
+        // add messages
+        $messages = collect([
+            'Let’s change how we do business',
+            'Ryan promoted as the principal project manager',
+            'Changing the name of the project - my thoughts',
+            'Need more resources? Contact Corporate if you need help',
+        ]);
+        $content = 'Kelly tries to restart her relationship with Ryan, an effort he ignores until she (untruly) tells him she’s pregnant. He agrees to discuss the situation over dinner that night. Jim informs Pam that Dwight and Angela are secretly dating, only to discover that she has known this for quite some time. Meanwhile, Dwight attempts to make amends for the death of Angela’s cat Sprinkles by giving her a stray cat he found in his barn. Dwight’s cousin Mose named the cat Garbage because that’s what it eats. Angela rejects the gift, and Dwight attempts to dump the cat into the office of Vance Refrigeration.
+
+Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince everyone that he’s much younger. After a conversation with Jan, Michael decides to formally challenge Dunder Mifflin Infinity by claiming that Ryan is being ageist. Michael brings the octogenarian co-founder of Dunder Mifflin into a meeting to make his point about old things still being useful, but shoves Dunder out after tiring of his rambling stories. Angela asks Dwight out to dinner, where she breaks up with him, saying that she can’t look into Dwight’s eyes without seeing Sprinkles’ corpse.
+
+* Alternate talking heads of different people reacting to Jim and Pam dating
+* Michael drives a rental car to the office using a GPS. Jan calls him and yells at him for allegedly eating her Grape-Nuts';
+
+        foreach ($messages as $message) {
+            $message = (new CreateProjectMessage)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->jim->id,
+                'project_id' => $infinity->id,
+                'title' => $message,
+                'content' => $content,
+            ]);
+
+            if (rand(1, 2) == 1) {
+                (new MarkProjectMessageasRead)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'project_id' => $infinity->id,
+                    'project_message_id' => $message->id,
+                ]);
+            }
+        }
     }
 
     private function addSecondaryBlankAccount(): void

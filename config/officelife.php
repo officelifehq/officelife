@@ -88,7 +88,7 @@ return [
     | Used to convert one currency to another.
     |
     */
-    'currency_layer_api_key' => env('CURRENCY_LAYER_API_KEY', null),
+    'currency_layer_api_key' => env('CURRENCY_LAYER_API_KEY', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -159,5 +159,6 @@ return [
         'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
         'one_on_ones' => 'introduction.html',
         'project_decisions' => 'operate/project-management.html#project-decisions',
+        'project_messages' => 'operate/project-management.html#project-messages',
     ],
 ];

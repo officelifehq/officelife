@@ -8,6 +8,7 @@ use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectStatus;
+use App\Models\Company\ProjectMessage;
 use App\Models\Company\ProjectDecision;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -99,5 +100,16 @@ class ProjectTest extends TestCase
         ]);
 
         $this->assertTrue($project->decisions()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_messages(): void
+    {
+        $project = factory(Project::class)->create();
+        factory(ProjectMessage::class, 2)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $this->assertTrue($project->messages()->exists());
     }
 }

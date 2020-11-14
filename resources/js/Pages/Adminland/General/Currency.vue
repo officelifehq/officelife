@@ -114,8 +114,7 @@ export default {
         })
         .catch(error => {
           this.editMode = true;
-          //this.form.errors = error.response.data.message;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

@@ -159,7 +159,7 @@ export default {
           this.updatedEmployeeTeams = response.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -171,7 +171,7 @@ export default {
           this.updatedEmployeeTeams = response.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 

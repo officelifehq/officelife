@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 .edit-information-menu {
   a {
-    border-bottom: 0;
+    border-bottom: 1px solid #fff;
   }
 
   .selected {
@@ -103,6 +103,16 @@
                             :required="true"
                             :type="'email'"
                             :help="$t('employee.edit_information_email_help')"
+                />
+
+                <!-- phone number -->
+                <text-input :id="'phone'"
+                            v-model="form.phone"
+                            :name="'phone'"
+                            :errors="$page.props.errors.phone"
+                            :label="$t('employee.edit_information_phone')"
+                            :type="'text'"
+                            :help="$t('employee.edit_information_phone_help')"
                 />
               </div>
             </div>
@@ -313,6 +323,7 @@ export default {
         first_name: null,
         last_name: null,
         email: null,
+        phone: null,
         year: null,
         month: null,
         day: null,
@@ -332,6 +343,7 @@ export default {
     this.form.first_name = this.employee.first_name;
     this.form.last_name = this.employee.last_name;
     this.form.email = this.employee.email;
+    this.form.phone = this.employee.phone;
     this.form.twitter = this.employee.twitter_handle;
     this.form.slack = this.employee.slack_handle;
 
@@ -352,14 +364,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.put('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id, this.form)
+      axios.put(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}`, this.form)
         .then(response => {
           localStorage.success = this.$t('employee.edit_information_success');
-          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id);
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}`);
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     }
   },

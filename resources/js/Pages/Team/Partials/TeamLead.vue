@@ -208,7 +208,7 @@ export default {
               this.hasMadeASearch = true;
             })
             .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.form.errors = error.response.data;
               this.processingSearch = false;
               this.hasMadeASearch = false;
             });
@@ -229,7 +229,7 @@ export default {
           this.$root.$emit('lead-set', response.data.data);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -242,7 +242,7 @@ export default {
           this.removeMode = false;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

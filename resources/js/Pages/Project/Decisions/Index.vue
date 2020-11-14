@@ -72,7 +72,7 @@
       <div class="mw6 center br3 mb5 relative z-1">
         <p class="db fw5 mb2 flex justify-between items-center">
           <span>
-            🗞 {{ $t('project.decision_index_title') }}
+            <span class="mr1">🗞</span> {{ $t('project.decision_index_title') }}
 
             <help :url="$page.props.help_links.project_decisions" :top="'3px'" />
           </span>
@@ -349,7 +349,7 @@ export default {
               this.processingSearch = false;
             })
             .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.form.errors = error.response.data;
               this.processingSearch = false;
             });
         } else {
@@ -385,7 +385,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -400,7 +400,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

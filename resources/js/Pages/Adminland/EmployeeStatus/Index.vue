@@ -211,7 +211,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -227,7 +227,7 @@ export default {
           this.$set(this.localStatuses, changedId, response.data.data);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -241,7 +241,7 @@ export default {
           this.localStatuses.splice(changedId, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

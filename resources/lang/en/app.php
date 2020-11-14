@@ -41,6 +41,8 @@ return [
     'error_skill_name_not_unique' => 'There is already a skill with this name.',
     'error_not_enough_permission' => 'You do not have the right to do this action.',
     'error_project_code_already_exists' => 'This project code is already used. Pick a new one.',
+    'error_more' => 'See more...',
+    'error_exception' => 'Exception:',
 
     'previous' => 'Previous',
     'next' => 'Next',
@@ -95,6 +97,8 @@ return [
     'breadcrumb_project_create' => 'Add a new project',
     'breadcrumb_project_edit' => 'Edit project',
     'breadcrumb_project_delete' => 'Delete project',
+    'breadcrumb_project_create_message' => 'Add a new message',
+    'breadcrumb_project_edit_message' => 'Edit message',
     'breadcrumb_dashboard_one_on_one' => 'One on One',
     'breadcrumb_team_list' => 'All teams',
     'breadcrumb_team_show_team_news' => 'Team news',

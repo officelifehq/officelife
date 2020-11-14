@@ -29,18 +29,28 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_USER: officelife
           MYSQL_DATABASE: officelife
+          MYSQL_PASSWORD: secret
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      pgsql:
+        image: postgres:13.0
+        env:
+          POSTGRES_DB: officelife
+          POSTGRES_USER: officelife
+          POSTGRES_PASSWORD: secret
+        ports:
+          - 5432:5432
+        options: --name=postgres --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
 
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['7.4']
-        connection: [sqlite, mysql]
+        php-version: [7.4]
+        connection: [sqlite, mysql, pgsql]
 
     steps:
       - name: Checkout sources
@@ -50,7 +60,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: mbstring, dom, fileinfo, mysql
+          extensions: mbstring, dom, fileinfo, ${{ matrix.connection }}
           coverage: none
       - name: Check PHP Version
         run: php -v
@@ -76,7 +86,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install composer dependencies
-        run: composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
+        run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
 
     # Prepare
       - name: Prepare environment
@@ -90,9 +100,7 @@ jobs:
           echo '' > public/css/app.css
       - name: Create SQLite database
         if: matrix.connection == 'sqlite'
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
+        run: touch database/database.sqlite
 
       - name: Generate key
         run: php artisan key:generate
@@ -103,15 +111,21 @@ jobs:
         run: php artisan db:seed --no-interaction -vvv
 
     # Test
-      - name: Run Unit test suite
+      - name: Run Unit test suite with coverage
         if: matrix.connection == 'mysql'
         run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml --coverage-clover ./results/${{ matrix.connection }}/coverage.xml
+        env:
+          DB_CONNECTION: ${{ matrix.connection }}
       - name: Run Unit test suite
         if: matrix.connection != 'mysql'
         run: vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml
+        env:
+          DB_CONNECTION: ${{ matrix.connection }}
       - name: Run Integration test suite
         if: matrix.connection == 'sqlite'
         run: vendor/bin/phpunit -c phpunit.xml --testsuite Integration --log-junit ./results/${{ matrix.connection }}/results2.xml
+        env:
+          DB_CONNECTION: ${{ matrix.connection }}
 
       - name: Store results
         uses: actions/upload-artifact@v2
@@ -147,8 +161,7 @@ jobs:
           path: results
 
       - name: Fix results files
-        run: |
-          sed -i -e "s%$GITHUB_WORKSPACE/%%g" results/*/*.xml
+        run: sed -i -e "s%$GITHUB_WORKSPACE/%%g" results/*/*.xml
 
       - name: Set version parameter
         id: version
@@ -177,9 +190,9 @@ jobs:
     name: Semantic release
     if: github.event_name != 'pull_request'
 
-    strategy:
-      matrix:
-        php-version: ['7.4']
+    outputs:
+      new_release_published: ${{ steps.semantic.outputs.new_release_published }}
+      new_release_version: ${{ steps.semantic.outputs.new_release_version }}
 
     steps:
       - name: Checkout repository
@@ -200,24 +213,34 @@ jobs:
 
       - name: New release published
         if: steps.semantic.outputs.new_release_published == 'true'
-        run: |
-          echo ${{ steps.semantic.outputs.new_release_version }}
+        run: echo ${{ steps.semantic.outputs.new_release_version }}
+
+  package:
+    needs: semantic-release
+    runs-on: ubuntu-latest
+    name: Package release
+    if: needs.semantic-release.outputs.new_release_published == 'true'
+
+    strategy:
+      matrix:
+        php-version: [7.4]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Setup PHP ${{ matrix.php-version }}
-        if: steps.semantic.outputs.new_release_published == 'true'
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: mbstring, dom, fileinfo, mysql
+          extensions: mbstring, dom, fileinfo
           coverage: none
 
     # Composer
       - name: Get Composer Cache Directory
-        if: steps.semantic.outputs.new_release_published == 'true'
         id: composer-cache
         run: echo "::set-output name=dir::$(composer config cache-files-dir)"
       - name: Cache composer files
-        if: steps.semantic.outputs.new_release_published == 'true'
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -228,32 +251,48 @@ jobs:
 
     # Yarn
       - name: Get yarn cache directory path
-        if: steps.semantic.outputs.new_release_published == 'true'
-        id: yarn-cache-dir-path
+        id: yarn-cache
         run: echo "::set-output name=dir::$(yarn cache dir)"
       - name: Cache yarn files
-        if: steps.semantic.outputs.new_release_published == 'true'
         uses: actions/cache@v2
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          path: ${{ steps.yarn-cache.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
             ${{ runner.os }}-yarn-
 
       - name: Create package
-        if: steps.semantic.outputs.new_release_published == 'true'
         id: package
+        run: scripts/package.sh 'v${{ needs.semantic-release.outputs.new_release_version }}'
+
+      - name: Import key
+        run: echo -e "$GPG_KEY" | gpg --batch --yes --import -
+        env:
+          GPG_KEY: ${{ secrets.GPG_KEY }}
+
+      - name: Sign package
         run: |
-          scripts/package.sh '${{ steps.semantic.outputs.new_release_version }}'
+          sha512sum '${{ steps.package.outputs.package }}' > '${{ steps.package.outputs.package }}.sha512'
+          for f in '${{ steps.package.outputs.package }}'{,.sha512}; do
+            echo "Signing '$f'..."
+            echo "$GPG_PASSPHRASE" | gpg --batch --yes --passphrase-fd 0 --pinentry-mode=loopback --local-user $GPG_FINGERPRINT --sign --armor --detach-sig --output "$f.asc" "$f"
+            echo -e "\nSigned with key fingerprint $GPG_FINGERPRINT" >> "$f.asc"
+          done
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GPG_FINGERPRINT: ${{ secrets.GPG_FINGERPRINT }}
 
       - name: Publish package
-        if: steps.semantic.outputs.new_release_published == 'true'
         run: |
-          scripts/publish.sh '${{ steps.semantic.outputs.new_release_version }}' '${{ steps.package.outputs.package }}'
+          for f in '${{ steps.package.outputs.package }}'{,.asc,.sha512,.sha512.asc}; do
+            echo "Uploading release file '$f'..."
+            gh release upload 'v${{ needs.semantic-release.outputs.new_release_version }}' "$f" --clobber
+          done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Store package
-        if: steps.semantic.outputs.new_release_published == 'true'
         uses: actions/upload-artifact@v2
         with:
           name: release

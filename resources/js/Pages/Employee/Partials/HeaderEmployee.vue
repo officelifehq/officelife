@@ -142,6 +142,13 @@
             </div>
             <div class="pr5">
               <p class="mt0 f6">
+                <span class="f7 gray">{{ $t('employee.phone') }}</span>
+
+                <employee-phone
+                  :employee="employee"
+                />
+              </p>
+              <p class="mt0 f6">
                 <span class="f7 gray">{{ $t('employee.email') }}</span>
 
                 <employee-email
@@ -177,6 +184,7 @@ import EmployeeTeam from '@/Pages/Employee/Partials/EmployeeTeam';
 import EmployeeBirthdate from '@/Pages/Employee/Partials/EmployeeBirthdate';
 import EmployeeEmail from '@/Pages/Employee/Partials/EmployeeEmail';
 import EmployeeTwitter from '@/Pages/Employee/Partials/EmployeeTwitter';
+import EmployeePhone from '@/Pages/Employee/Partials/EmployeePhone';
 import EmployeeSlack from '@/Pages/Employee/Partials/EmployeeSlack';
 import EmployeeHiredDate from '@/Pages/Employee/Partials/EmployeeHiredDate';
 
@@ -189,6 +197,7 @@ export default {
     EmployeeBirthdate,
     EmployeeEmail,
     EmployeeTwitter,
+    EmployeePhone,
     EmployeeSlack,
     EmployeeHiredDate,
   },

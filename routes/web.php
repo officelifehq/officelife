@@ -208,9 +208,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{project}/links', 'Company\\Project\\ProjectController@createLink');
             Route::delete('{project}/links/{link}', 'Company\\Project\\ProjectController@destroyLink');
 
-            Route::get('{project}/messages', 'Company\\Project\\ProjectController@messages');
-            Route::get('{project}/messages/{message}', 'Company\\Project\\ProjectController@message');
-
             Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
             Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
 
@@ -225,6 +222,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('{project}/members', 'Company\\Project\\ProjectMembersController')->only([
                 'index', 'store', 'destroy',
             ]);
+
+            // project messages
+            Route::resource('{project}/messages', 'Company\\Project\\ProjectMessagesController', ['as' => 'projects']);
         });
 
         Route::prefix('company')->name('company.')->group(function () {

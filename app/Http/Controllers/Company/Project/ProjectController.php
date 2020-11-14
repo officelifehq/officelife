@@ -373,41 +373,6 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display the project messages.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @return Response
-     */
-    public function messages(Request $request, int $companyId, int $projectId): Response
-    {
-        $company = InstanceHelper::getLoggedCompany();
-
-        return Inertia::render('Project/Messages', [
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-        ]);
-    }
-
-    /**
-     * Display the project messages.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @param int $messageId
-     * @return Response
-     */
-    public function message(Request $request, int $companyId, int $projectId, int $messageId): Response
-    {
-        $company = InstanceHelper::getLoggedCompany();
-
-        return Inertia::render('Project/Message', [
-            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-        ]);
-    }
-
-    /**
      * Display the create new project form.
      *
      * @param Request $request

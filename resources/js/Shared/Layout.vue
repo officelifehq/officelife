@@ -317,7 +317,7 @@ export default {
           .catch(error => {
             this.loadingState = null;
             this.processingSearch = false;
-            this.form.errors = _.flatten(_.toArray(error.response.data));
+            this.form.errors = error.response.data;
           });
 
         axios.post('/search/teams', this.form)
@@ -329,7 +329,7 @@ export default {
           .catch(error => {
             this.loadingState = null;
             this.processingSearch = false;
-            this.form.errors = _.flatten(_.toArray(error.response.data));
+            this.form.errors = error.response.data;
           });
       }, 500),
 
@@ -340,7 +340,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     }
   },

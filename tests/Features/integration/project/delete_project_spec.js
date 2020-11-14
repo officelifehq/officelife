@@ -11,7 +11,7 @@ describe('Project - project deletion', function () {
     cy.get('[data-cy=project-delete]').click();
     cy.get('[data-cy=submit-delete-project-button]').click();
     cy.url().should('include', '/1/projects');
-    cy.wait(200);
+    cy.visit('/1/projects');
   });
 
   it('should delete a project as hr', function () {
@@ -28,7 +28,7 @@ describe('Project - project deletion', function () {
     cy.get('[data-cy=project-delete]').click();
     cy.get('[data-cy=submit-delete-project-button]').click();
     cy.url().should('include', '/1/projects');
-    cy.wait(200);
+    cy.visit('/1/projects');
   });
 
   it('should delete a project as normal user', function () {
@@ -46,5 +46,6 @@ describe('Project - project deletion', function () {
     cy.get('[data-cy=project-delete]').click();
     cy.get('[data-cy=submit-delete-project-button]').click();
     cy.url().should('include', '/1/projects');
+    cy.visit('/1/projects');
   });
 });

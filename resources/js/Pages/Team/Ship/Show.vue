@@ -162,7 +162,7 @@ export default {
           this.$inertia.visit('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships');
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

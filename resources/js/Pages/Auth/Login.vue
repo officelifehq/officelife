@@ -98,7 +98,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.errors = error.response.data.data;
+          this.errors = error.response.data;
         });
     },
   }

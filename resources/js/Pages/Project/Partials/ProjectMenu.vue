@@ -22,7 +22,7 @@
     <div class="bg-white box pa3 mb4 flex justify-between">
       <!-- name + summary -->
       <div class="pl3">
-        <h2 class="mt0 mb2 relative fw4" data-cy="project-name">
+        <h2 :class="project.summary ? 'mb2': 'mb0'" class="mt0 relative fw4" data-cy="project-name">
           {{ project.name }} <span v-if="project.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">
             {{ project.code }}
           </span>
@@ -31,7 +31,7 @@
       </div>
 
       <!-- avatars -->
-      <div class="">
+      <div v-if="project.members.length > 0">
         <p class="mt0 mb2 f7 gray">Project members</p>
         <div class="flex items-center relative tr">
           <img v-for="member in project.members" :key="member.id" :src="member.avatar" alt="avatar" class="br-100 small-avatar"
