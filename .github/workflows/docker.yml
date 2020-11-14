@@ -86,20 +86,24 @@ jobs:
       - name: Add commit number
         run: sed -i 's/\(org\.opencontainers\.image\.revision="\)/\1${{ github.sha }}/' main/${{ matrix.variant }}/Dockerfile
 
-      - name: Update base image
-        run: docker pull php:7.4-${{ matrix.variant }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      - name: Docker build
-        run: |
-          docker build main/${{ matrix.variant }} -t officelife:${{ matrix.variant }}
-          docker images
-
-      - name: Publish package
-        if: github.ref == 'refs/heads/main'
-        run: |
-          echo "$password" | docker login ghcr.io -u $username --password-stdin
-          docker tag officelife:${{ matrix.variant }} ghcr.io/officelifehq/officelife-dev:main-${{ matrix.variant }}
-          docker push ghcr.io/officelifehq/officelife-dev:main-${{ matrix.variant }}
-        env:
+      - name: Login to GitHub container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
           username: ${{ secrets.CR_USER }}
           password: ${{ secrets.CR_PAT }}
+
+      - name: Docker build
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          push: ${{ github.ref == 'refs/heads/main' }}
+          tags: ghcr.io/officelifehq/officelife-dev:main-${{ matrix.variant }}
+          context: main/${{ matrix.variant }}
+          file: main/${{ matrix.variant }}/Dockerfile
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
