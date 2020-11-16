@@ -42,7 +42,7 @@
           <span>
             <span class="mr1">🪑</span> {{ $t('project.task_title') }}
 
-            <help :url="$page.props.help_links.project_messages" :top="'3px'" />
+            <help :url="$page.props.help_links.project_tasks" :top="'3px'" />
           </span>
         </p>
 
