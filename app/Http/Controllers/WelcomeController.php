@@ -21,7 +21,7 @@ class WelcomeController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         if (! $employee->display_welcome_message) {
-            return redirect($company->id.'/dashboard');
+            return redirect(route('dashboard.index', ['company' => $company->id]));
         }
 
         return Inertia::render('Welcome/Index', [

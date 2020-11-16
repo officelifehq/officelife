@@ -67,7 +67,7 @@ nav {
             <inertia-link :href="'/' + $page.props.auth.company.id + '/projects'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
               <span class="mr1">👨‍🚀</span> Projects
             </inertia-link>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'" class="mr1 no-underline pa2 bb-0 special">
+            <inertia-link :href="$route('dashboard.index', $page.props.auth.company.id)" class="mr1 no-underline pa2 bb-0 special">
               <span class="mr1">🏡</span> {{ $t('app.header_home') }}
             </inertia-link>
             <inertia-link :href="'/' + $page.props.auth.company.id + '/employees'" class="mr1 no-underline pa2 bb-0 special">
