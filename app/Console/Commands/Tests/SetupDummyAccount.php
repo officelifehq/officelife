@@ -245,9 +245,6 @@ class SetupDummyAccount extends Command
             'last_name' => 'Scott',
         ]);
 
-        $user->email_verified_at = Carbon::now();
-        $user->save();
-
         $this->company = (new CreateCompany)->execute([
             'author_id' => $user->id,
             'name' => 'Dunder Mifflin',

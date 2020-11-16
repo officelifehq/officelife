@@ -101,7 +101,7 @@ class ProjectTaskListsController extends Controller
 
         return response()->json([
             'data' => ProjectTasksViewHelper::getTaskListInfo($taskList),
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -129,6 +129,6 @@ class ProjectTaskListsController extends Controller
 
         return response()->json([
             'data' => true,
-        ], 201);
+        ], 200);
     }
 }

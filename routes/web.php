@@ -233,11 +233,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             // project tasks
             Route::resource('{project}/tasks', 'Company\\Project\\ProjectTasksController', ['as' => 'projects']);
-            Route::post('{project}/tasks/{task}/toggle', 'Company\\Project\\ProjectTasksController@toggle');
-            Route::get('{project}/tasks/lists/create', 'Company\\Project\\ProjectTaskListsController@create');
-            Route::post('{project}/tasks/lists/store', 'Company\\Project\\ProjectTaskListsController@store');
-            Route::put('{project}/tasks/lists/{list}', 'Company\\Project\\ProjectTaskListsController@update');
-            Route::delete('{project}/tasks/lists/{list}', 'Company\\Project\\ProjectTaskListsController@destroy');
+            Route::put('{project}/tasks/{task}/toggle', 'Company\\Project\\ProjectTasksController@toggle');
+            Route::resource('{project}/tasks/lists', 'Company\\Project\\ProjectTaskListsController')->only([
+                'create', 'store', 'update', 'destroy',
+            ]);
         });
 
         Route::prefix('company')->group(function () {

@@ -254,7 +254,7 @@ export default {
     },
 
     toggle(id) {
-      axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${id}/toggle`)
+      axios.put(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${id}/toggle`)
         .then(response => {
         })
         .catch(error => {
