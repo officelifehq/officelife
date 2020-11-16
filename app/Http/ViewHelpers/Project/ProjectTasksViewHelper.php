@@ -138,16 +138,13 @@ class ProjectTasksViewHelper
      */
     public static function members(Project $project): ?Collection
     {
-        $employees = $project->employees()->notLocked()->get();
-
-        $employeesCollection = collect([]);
-        foreach ($employees as $employee) {
-            $employeesCollection->push([
-                'value' => $employee->id,
-                'label' => $employee->name,
-            ]);
-        }
-
-        return $employeesCollection;
+        return $project->employees()->notLocked()
+            ->get()
+            ->map(function($employee) {
+                return [
+                    'value' => $employee->id,
+                    'label' => $employee->name,
+                ];
+            });
     }
 }
