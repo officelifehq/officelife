@@ -33,13 +33,11 @@ class ProjectTasksViewHelper
         // the trick is to do this with a single query, as we don’t want to do
         // multiple queries to slow down the loading speed of the page.
 
-        $tasksWithoutLists = $tasks->filter(function ($task) {
+        $tasksWithoutListsCollection = $tasksWithoutLists = $tasks->filter(function ($task) {
             return is_null($task->project_task_list_id);
-        });
-        $tasksWithoutListsCollection = collect([]);
-        foreach ($tasksWithoutLists as $task) {
-            $tasksWithoutListsCollection->push(self::getTaskInfo($task, $company));
-        }
+        })->map(function($task) use ($company) {
+            return self::getTaskInfo($task, $company));
+        })
 
         $tasksWithLists = $tasks->diff($tasksWithoutLists);
 
