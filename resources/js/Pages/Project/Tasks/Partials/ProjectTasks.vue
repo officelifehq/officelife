@@ -98,7 +98,7 @@
 
       <!-- call to action to add a new item -->
       <li v-if="!addTaskMode" class="add-item-section bg-gray ph2 mt1 pv1 br1">
-        <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" :data-cy="'task-list-' + taskList.id + '-add-new-task'" @click="displayAddTask()">{{ $t('project.task_add_cta') }}</span>
+        <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" :data-cy="'task-list-' + form.task_list_id + '-add-new-task'" @click="displayAddTask()">{{ $t('project.task_add_cta') }}</span>
       </li>
 
       <!-- form to create a new item -->
@@ -108,7 +108,7 @@
             ref="newTaskItem"
             v-model="form.title"
             :label="$t('project.task_add_title')"
-            :datacy="'task-list-' + taskList.id + '-task-title-textarea'"
+            :datacy="'task-list-' + form.task_list_id + '-task-title-textarea'"
             :required="true"
             :rows="2"
             @esc-key-pressed="addTaskMode = false"
@@ -130,7 +130,7 @@
 
           <!-- actions -->
           <div>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + taskList.id + '-add-task-cta'" />
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + form.task_list_id + '-add-task-cta'" />
             <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addTaskMode = false">
               {{ $t('app.cancel') }}
             </a>
@@ -197,6 +197,8 @@ export default {
 
     if (this.taskList) {
       this.form.task_list_id = this.taskList.id;
+    } else {
+      this.form.task_list_id = 0;
     }
   },
 
@@ -237,6 +239,10 @@ export default {
         this.form.assignee_id = this.form.assignee_id.value;
       }
 
+      if (this.form.task_list_id == 0) {
+        this.form.task_list_id = null;
+      }
+
       axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks`, this.form)
         .then(response => {
           this.addTaskMode = false;
@@ -267,6 +273,10 @@ export default {
 
       if (this.form.assignee_id) {
         this.form.assignee_id = this.form.assignee_id.value;
+      }
+
+      if (this.form.task_list_id == 0) {
+        this.form.task_list_id = null;
       }
 
       axios.put(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${task.id}`, this.form)

@@ -25,7 +25,6 @@ class ProjectTasksViewHelper
             ->with('list')
             ->with('assignee')
             ->with('author')
-            ->latest()
             ->get();
 
         // the goal of the following is to first display tasks without lists,
@@ -33,11 +32,13 @@ class ProjectTasksViewHelper
         // the trick is to do this with a single query, as we don’t want to do
         // multiple queries to slow down the loading speed of the page.
 
-        $tasksWithoutListsCollection = $tasksWithoutLists = $tasks->filter(function ($task) {
+        $tasksWithoutLists = $tasks->filter(function ($task) {
             return is_null($task->project_task_list_id);
-        })->map(function($task) use ($company) {
-            return self::getTaskInfo($task, $company));
-        })
+        });
+        $tasksWithoutListsCollection = collect([]);
+        foreach ($tasksWithoutLists as $task) {
+            $tasksWithoutListsCollection->push(self::getTaskInfo($task, $company));
+        }
 
         $tasksWithLists = $tasks->diff($tasksWithoutLists);
 
@@ -138,7 +139,7 @@ class ProjectTasksViewHelper
     {
         return $project->employees()->notLocked()
             ->get()
-            ->map(function($employee) {
+            ->map(function ($employee) {
                 return [
                     'value' => $employee->id,
                     'label' => $employee->name,

@@ -154,6 +154,7 @@ class ProjectTasksViewHelperTest extends TestCase
             $projectTaskListB->description,
             $array['task_lists'][1]['description']
         );
+
         $this->assertEquals(
             [
                 0 => [
