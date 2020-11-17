@@ -5,10 +5,12 @@ namespace App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EmployeeStatus extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        HasFactory;
 
     protected $table = 'employee_statuses';
 

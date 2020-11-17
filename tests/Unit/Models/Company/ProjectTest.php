@@ -7,9 +7,11 @@ use App\Models\Company\Team;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectLink;
+use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectStatus;
 use App\Models\Company\ProjectMessage;
 use App\Models\Company\ProjectDecision;
+use App\Models\Company\ProjectTaskList;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTest extends TestCase
@@ -19,7 +21,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $project = factory(Project::class)->create([]);
+        $project = Project::factory()->make();
         $this->assertTrue($project->company()->exists());
     }
 
@@ -111,5 +113,25 @@ class ProjectTest extends TestCase
         ]);
 
         $this->assertTrue($project->messages()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_tasks(): void
+    {
+        $project = Project::factory()
+            ->has(ProjectTask::factory()->count(2), 'tasks')
+            ->create();
+
+        $this->assertTrue($project->tasks()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_task_lists(): void
+    {
+        $project = Project::factory()
+            ->has(ProjectTaskList::factory()->count(2), 'lists')
+            ->create();
+
+        $this->assertTrue($project->lists()->exists());
     }
 }

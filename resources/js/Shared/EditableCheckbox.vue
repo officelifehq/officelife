@@ -87,7 +87,17 @@ input[type=checkbox] {
 
         <!-- content of the checkbox -->
         <label v-if="label" :for="id" class="fw4 lh-copy f5 pointer di relative hover-effect">
-          <span v-html="label"></span>
+          <span class="pr2" v-html="label"></span>
+
+          <small-name-and-avatar
+            v-if="assignee"
+            :name="assignee.name"
+            :avatar="assignee.avatar"
+            :classes="'gray'"
+            :size="'18px'"
+            :top="'2px'"
+            :margin-between-name-avatar="'22px'"
+          />
 
           <!-- actions - only shown on mobile -->
           <div class="show-actions">
@@ -130,7 +140,13 @@ input[type=checkbox] {
 </template>
 
 <script>
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+
 export default {
+  components: {
+    SmallNameAndAvatar,
+  },
+
   props: {
     id: {
       type: String,
@@ -187,6 +203,10 @@ export default {
     itemId: {
       type: Number,
       default: 0,
+    },
+    assignee: {
+      type: Object,
+      default: null,
     },
   },
 

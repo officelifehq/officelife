@@ -42,7 +42,7 @@ class Setup extends Command
                 $this->artisan('✓ Clear config cache', 'config:clear');
                 $this->artisan('✓ Resetting route cache', 'route:cache');
                 $this->artisan('✓ Resetting view cache', 'view:clear');
-                // @codeCoverageIgnoreEnd
+            // @codeCoverageIgnoreEnd
             } else {
                 $this->artisan('✓ Clear config cache', 'config:clear');
                 $this->artisan('✓ Clear route cache', 'route:clear');
