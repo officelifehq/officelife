@@ -160,5 +160,6 @@ return [
         'one_on_ones' => 'introduction.html',
         'project_decisions' => 'operate/project-management.html#project-decisions',
         'project_messages' => 'operate/project-management.html#project-messages',
+        'project_tasks' => 'operate/project-management.html#project-tasks',
     ],
 ];

@@ -9,12 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Http\Resources\Company\Notification\Notification as NotificationResource;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, LogsActivity;
+    use Notifiable, LogsActivity, HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -150,7 +151,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendEmailVerificationNotification(): void
     {
-        if (config('mail.verify') && User::count() > 1) {
+        if (config('mail.verify') && self::count() > 1) {
             SendVerifyEmail::dispatch($this);
         }
     }

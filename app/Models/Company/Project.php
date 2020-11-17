@@ -5,10 +5,13 @@ namespace App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Project extends Model
 {
+    use HasFactory;
+
     /**
      * Possible statuses.
      */
@@ -136,5 +139,25 @@ class Project extends Model
     public function messages()
     {
         return $this->hasMany(ProjectMessage::class);
+    }
+
+    /**
+     * Get the project tasks associated with the project.
+     *
+     * @return HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(ProjectTask::class);
+    }
+
+    /**
+     * Get the project task lists associated with the project.
+     *
+     * @return HasMany
+     */
+    public function lists()
+    {
+        return $this->hasMany(ProjectTaskList::class);
     }
 }

@@ -22,3 +22,4 @@ parameters:
           path: 'app/Helpers/LogHelper.php'
         - message: '#Cannot access property \$[a-zA-Z0-9_]+ on array.#'
           path: 'app/Helpers/NotificationHelper.php'
+        - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Factories\\Factory::[a-zA-Z0-9\\_]+\(\)\.#'

@@ -1,0 +1,311 @@
+<style lang="scss" scoped>
+.avatar {
+  left: 1px;
+  top: 5px;
+  width: 35px;
+}
+
+.add-item-section {
+  margin-left: 24px;
+  top: 5px;
+  background-color: #f5f5f5;
+}
+
+.edit-item {
+  left: 88px;
+}
+
+.list-item {
+  left: -86px;
+}
+
+@media (max-width: 480px) {
+  .list-item {
+    left: 0;
+  }
+
+  .edit-item {
+    left: 0;
+  }
+}
+
+.list-item-offset {
+  left: 0px;
+}
+
+.title-section {
+  background-color: #E9EDF2;
+}
+</style>
+
+<template>
+  <div>
+    <ul class="list pl0 mv0">
+      <li v-for="task in localTasks" :key="task.id" class="list-item relative">
+        <checkbox
+          :id="'ai-' + task.id"
+          v-model="task.completed"
+          :item-id="task.id"
+          :datacy="'task-' + task.id"
+          :label="task.title"
+          :extra-class-upper-div="'mb0 relative'"
+          :assignee="task.assignee"
+          :classes="'mb0 mr1'"
+          :maxlength="255"
+          :required="true"
+          @change="toggle(task.id)"
+          @update="showEditTask(task)"
+          @destroy="destroy(task.id)"
+        />
+
+        <!-- edit task -->
+        <div v-if="taskToEdit == task.id" class="bg-gray add-item-section edit-item ph2 mt1 mb3 pv1 br1 relative">
+          <form @submit.prevent="update(task)">
+            <text-area
+              :ref="'task' + task.id"
+              v-model="form.title"
+              :label="$t('project.task_add_title')"
+              :datacy="'edit-task-title-textarea-' + task.id"
+              :required="true"
+              :rows="2"
+              @esc-key-pressed="taskToEdit = 0"
+            />
+
+            <div class="w-50">
+              <select-box :id="'assignee'"
+                          v-model="form.assignee_id"
+                          :options="members"
+                          :name="'assignee'"
+                          :errors="$page.props.errors.assignee_id"
+                          :label="$t('project.task_edit_assignee')"
+                          :placeholder="$t('app.choose_value')"
+                          :required="false"
+                          :value="form.assignee_id"
+                          :datacy="'assignee_selector'"
+              />
+            </div>
+
+            <!-- actions -->
+            <div>
+              <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :data-cy="'edit-task-cta-' + task.id" :state="loadingState" :text="$t('app.update')" />
+              <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="taskToEdit = 0">
+                {{ $t('app.cancel') }}
+              </a>
+            </div>
+          </form>
+        </div>
+      </li>
+
+      <!-- call to action to add a new item -->
+      <li v-if="!addTaskMode" class="add-item-section bg-gray ph2 mt1 pv1 br1">
+        <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" :data-cy="'task-list-' + form.task_list_id + '-add-new-task'" @click="displayAddTask()">{{ $t('project.task_add_cta') }}</span>
+      </li>
+
+      <!-- form to create a new item -->
+      <li v-if="addTaskMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
+        <form @submit.prevent="store()">
+          <text-area
+            ref="newTaskItem"
+            v-model="form.title"
+            :label="$t('project.task_add_title')"
+            :datacy="'task-list-' + form.task_list_id + '-task-title-textarea'"
+            :required="true"
+            :rows="2"
+            @esc-key-pressed="addTaskMode = false"
+          />
+
+          <div class="w-50">
+            <select-box :id="'country_id'"
+                        v-model="form.assignee_id"
+                        :options="members"
+                        :name="'country_id'"
+                        :errors="$page.props.errors.assignee_id"
+                        :label="$t('project.task_edit_assignee')"
+                        :placeholder="$t('app.choose_value')"
+                        :required="false"
+                        :value="form.assignee_id"
+                        :datacy="'country_selector'"
+            />
+          </div>
+
+          <!-- actions -->
+          <div>
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :data-cy="'task-list-' + form.task_list_id + '-add-task-cta'" />
+            <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="addTaskMode = false">
+              {{ $t('app.cancel') }}
+            </a>
+          </div>
+        </form>
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import Checkbox from '@/Shared/EditableCheckbox';
+import TextArea from '@/Shared/TextArea';
+import LoadingButton from '@/Shared/LoadingButton';
+import SelectBox from '@/Shared/Select';
+
+export default {
+  components: {
+    TextArea,
+    Checkbox,
+    LoadingButton,
+    SelectBox,
+  },
+
+  props: {
+    tasks: {
+      type: Array,
+      default: null,
+    },
+    project: {
+      type: Object,
+      default: null,
+    },
+    taskList: {
+      type: Object,
+      default: null,
+    },
+    members: {
+      type: Array,
+      default: null,
+    },
+  },
+
+  data() {
+    return {
+      localTasks: [],
+      loadingState: '',
+      addTaskMode: false,
+      taskToEdit: 0,
+      form: {
+        assignee_id: null,
+        title: null,
+        description: null,
+        task_list_id: null,
+        errors: [],
+      },
+    };
+  },
+
+  mounted() {
+    if (this.tasks) {
+      this.localTasks= this.tasks;
+    }
+
+    if (this.taskList) {
+      this.form.task_list_id = this.taskList.id;
+    } else {
+      this.form.task_list_id = 0;
+    }
+  },
+
+  methods: {
+    displayAddTask() {
+      this.addTaskMode = true;
+      this.form.title = null;
+      this.form.description = null;
+
+      this.$nextTick(() => {
+        this.$refs['newTaskItem'].$refs['input'].focus();
+      });
+    },
+
+    showEditTask(task) {
+      this.taskToEdit = task.id;
+      this.form.title = task.title;
+      if (task.assignee) {
+        this.form.assignee_id = {
+          value: task.assignee.id,
+          label: task.assignee.name,
+        };
+      }
+
+      // this is really barbaric, but I need to do this to
+      // first: target the TextInput with the right ref attribute
+      // second: target within the component, the refs of the input text
+      // this is because we try here to access $refs from a child component
+      this.$nextTick(() => {
+        this.$refs[`task${task.id}`][0].$refs['input'].focus();
+      });
+    },
+
+    store() {
+      this.loadingState = 'loading';
+
+      if (this.form.assignee_id) {
+        this.form.assignee_id = this.form.assignee_id.value;
+      }
+
+      if (this.form.task_list_id == 0) {
+        this.form.task_list_id = null;
+      }
+
+      axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks`, this.form)
+        .then(response => {
+          this.addTaskMode = false;
+          this.localTasks.push(response.data.data);
+          this.form.title = null;
+          this.form.description = null;
+          this.form.assignee_id = null;
+          this.loadingState = null;
+          flash(this.$t('project.task_create_success'), 'success');
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    toggle(id) {
+      axios.put(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${id}/toggle`)
+        .then(response => {
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+
+    update(task) {
+      this.loadingState = 'loading';
+
+      if (this.form.assignee_id) {
+        this.form.assignee_id = this.form.assignee_id.value;
+      }
+
+      if (this.form.task_list_id == 0) {
+        this.form.task_list_id = null;
+      }
+
+      axios.put(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${task.id}`, this.form)
+        .then(response => {
+          this.taskToEdit = 0;
+          this.loadingState = null;
+          this.form.title = null;
+
+          var id = this.localTasks.findIndex(x => x.id === task.id);
+          this.$set(this.localTasks, id, response.data.data);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    destroy(id) {
+      axios.delete(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${id}`)
+        .then(response => {
+          flash(this.$t('project.task_delete_success'), 'success');
+          id = this.localTasks.findIndex(x => x.id === id);
+          this.localTasks.splice(id, 1);
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+  }
+};
+
+</script>

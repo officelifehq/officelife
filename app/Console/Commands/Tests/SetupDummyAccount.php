@@ -27,12 +27,14 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use App\Services\Company\Adminland\Team\CreateTeam;
 use App\Services\Company\Employee\Morale\LogMorale;
 use App\Services\Company\Project\CreateProjectLink;
+use App\Services\Company\Project\CreateProjectTask;
 use App\Services\Company\Employee\Worklog\LogWorklog;
 use App\Services\Company\Project\CreateProjectStatus;
 use App\Services\Company\Employee\Answer\CreateAnswer;
 use App\Services\Company\Project\AddEmployeeToProject;
 use App\Services\Company\Project\CreateProjectMessage;
 use App\Services\Company\Project\CreateProjectDecision;
+use App\Services\Company\Project\CreateProjectTaskList;
 use App\Services\Company\Employee\Expense\CreateExpense;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Services\Company\Adminland\Company\CreateCompany;
@@ -44,6 +46,7 @@ use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use App\Services\Company\Project\AssignProjecTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
@@ -1719,6 +1722,116 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 ]);
             }
         }
+
+        // add tasks
+        (new CreateProjectTask)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'project_id' => $infinity->id,
+            'project_task_list_id' => null,
+            'title' => 'Organize a meetup with HR',
+            'description' => 'We need to make sure that HR is on par with what we want to achieve with this project.',
+        ]);
+        $task = (new CreateProjectTask)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->meredith->id,
+            'project_id' => $infinity->id,
+            'project_task_list_id' => null,
+            'title' => 'Migrate domain names when the new site launches',
+            'description' => null,
+        ]);
+        (new AssignProjecTaskToEmployee)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->meredith->id,
+            'project_id' => $infinity->id,
+            'project_task_id' => $task->id,
+            'assignee_id' => $this->oscar->id,
+        ]);
+
+        $launchTaskList = (new CreateProjectTaskList)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->meredith->id,
+            'project_id' => $infinity->id,
+            'title' => 'Todos for the launch',
+            'description' => 'Everything we need to make sure before the new site launches',
+        ]);
+        $task = (new CreateProjectTask)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->meredith->id,
+            'project_id' => $infinity->id,
+            'project_task_list_id' => $launchTaskList->id,
+            'title' => 'Make sure the SEO is implemented',
+            'description' => null,
+        ]);
+        (new AssignProjecTaskToEmployee)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'project_task_id' => $task->id,
+            'assignee_id' => $this->angela->id,
+        ]);
+        (new CreateProjectTask)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->oscar->id,
+            'project_id' => $infinity->id,
+            'project_task_list_id' => $launchTaskList->id,
+            'title' => 'Check the Fathom Analytics code',
+            'description' => null,
+        ]);
+        $task = (new CreateProjectTask)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'project_task_list_id' => $launchTaskList->id,
+            'title' => 'Migrate the ACLs',
+            'description' => null,
+        ]);
+        (new AssignProjecTaskToEmployee)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->meredith->id,
+            'project_id' => $infinity->id,
+            'project_task_id' => $task->id,
+            'assignee_id' => $this->erin->id,
+        ]);
+
+        $marketingTaskList = (new CreateProjectTaskList)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->meredith->id,
+            'project_id' => $infinity->id,
+            'title' => 'Marketing assets to provide',
+            'description' => null,
+        ]);
+        $task = (new CreateProjectTask)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->meredith->id,
+            'project_id' => $infinity->id,
+            'project_task_list_id' => $marketingTaskList->id,
+            'title' => 'Take appointment with the photographer',
+            'description' => 'We need to make sure all photos look great if possible',
+        ]);
+        (new AssignProjecTaskToEmployee)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'project_id' => $infinity->id,
+            'project_task_id' => $task->id,
+            'assignee_id' => $this->oscar->id,
+        ]);
+        (new CreateProjectTask)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->oscar->id,
+            'project_id' => $infinity->id,
+            'project_task_list_id' => $marketingTaskList->id,
+            'title' => 'Update all business cards with the new URL',
+            'description' => null,
+        ]);
+        (new CreateProjectTask)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->jim->id,
+            'project_id' => $infinity->id,
+            'project_task_list_id' => $marketingTaskList->id,
+            'title' => 'Migrate the ACLs',
+            'description' => null,
+        ]);
     }
 
     private function addSecondaryBlankAccount(): void

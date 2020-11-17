@@ -896,6 +896,89 @@ class LogHelper
                 ]);
                 break;
 
+            case 'project_task_created':
+                $sentence = trans('account.log_project_task_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_task_id' => $log->object->{'project_task_id'},
+                    'project_task_title' => $log->object->{'project_task_title'},
+                ]);
+                break;
+
+            case 'project_task_toggled':
+                $sentence = trans('account.log_project_task_toggled', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_task_id' => $log->object->{'project_task_id'},
+                    'project_task_title' => $log->object->{'project_task_title'},
+                ]);
+                break;
+
+            case 'project_task_assigned_to_task_list':
+                $sentence = trans('account.log_project_task_assigned_to_task_list', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_task_id' => $log->object->{'project_task_id'},
+                    'project_task_title' => $log->object->{'project_task_title'},
+                    'project_task_list_id' => $log->object->{'project_task_list_id'},
+                    'project_task_list_title' => $log->object->{'project_task_list_title'},
+                ]);
+                break;
+
+            case 'project_task_list_created':
+                $sentence = trans('account.log_project_task_list_created', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_task_list_id' => $log->object->{'project_task_list_id'},
+                    'project_task_list_title' => $log->object->{'project_task_list_title'},
+                ]);
+                break;
+
+            case 'project_task_destroyed':
+                $sentence = trans('account.log_project_task_destroyed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                ]);
+                break;
+
+            case 'project_task_list_destroyed':
+                $sentence = trans('account.log_project_task_list_destroyed', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'title' => $log->object->{'title'},
+                ]);
+                break;
+
+            case 'project_task_assigned_to_assignee':
+                $sentence = trans('account.log_project_task_assigned_to_assignee', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_task_id' => $log->object->{'project_task_id'},
+                    'project_task_title' => $log->object->{'project_task_title'},
+                    'assignee_id' => $log->object->{'assignee_id'},
+                    'assignee_name' => $log->object->{'assignee_name'},
+                ]);
+                break;
+
+            case 'project_task_updated':
+                $sentence = trans('account.log_project_task_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_task_id' => $log->object->{'project_task_id'},
+                    'project_task_title' => $log->object->{'project_task_title'},
+                ]);
+                break;
+
+            case 'project_task_list_updated':
+                $sentence = trans('account.log_project_task_list_updated', [
+                    'project_id' => $log->object->{'project_id'},
+                    'project_name' => $log->object->{'project_name'},
+                    'project_task_list_id' => $log->object->{'project_task_list_id'},
+                    'project_task_list_title' => $log->object->{'project_task_list_title'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

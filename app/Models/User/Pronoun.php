@@ -3,12 +3,15 @@
 namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Represent a gender identity.
  */
 class Pronoun extends Model
 {
+    use HasFactory;
+
     protected $table = 'pronouns';
 
     /**
