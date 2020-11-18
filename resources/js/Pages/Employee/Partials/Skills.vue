@@ -195,7 +195,7 @@ export default {
           this.searchResults = [];
           this.foundExactTerm = false;
 
-          axios.post(this.$route('skills.search', [this.$page.props.auth.company.id, this.employee.id]), this.form)
+          axios.post(this.route('skills.search', [this.$page.props.auth.company.id, this.employee.id]), this.form)
             .then(response => {
               this.processingSearch = false;
               this.searchProcessed = true;
@@ -232,7 +232,7 @@ export default {
       this.foundExactTerm = false;
       this.allPossibleEntriesAlreadyChosen = false;
 
-      axios.post(this.$route('skills.store', [this.$page.props.auth.company.id, this.employee.id]), { searchTerm: name })
+      axios.post(this.route('skills.store', [this.$page.props.auth.company.id, this.employee.id]), { searchTerm: name })
         .then(response => {
           this.updatedSkills.push(response.data.data);
         })
@@ -245,7 +245,7 @@ export default {
     remove(skill) {
       this.form.searchTerm = name;
 
-      axios.delete(this.$route('skills.destroy', [this.$page.props.auth.company.id, this.employee.id, skill.id]))
+      axios.delete(this.route('skills.destroy', [this.$page.props.auth.company.id, this.employee.id, skill.id]))
         .then(response => {
           var changedId = this.updatedSkills.findIndex(x => x.id === skill.id);
           this.updatedSkills.splice(changedId, 1);

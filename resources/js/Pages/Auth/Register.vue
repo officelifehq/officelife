@@ -100,7 +100,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      this.$inertia.post(this.$route('signup.attempt'), this.form)
+      this.$inertia.post(this.route('signup.attempt'), this.form)
         .then(() =>
           this.loadingState = null
         );

@@ -44,7 +44,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.$route('invitation.join', this.invitationLink))
+      axios.post(this.route('invitation.join', this.invitationLink))
         .then(response => {
           this.$inertia.visit('/home');
         })

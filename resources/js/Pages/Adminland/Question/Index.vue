@@ -291,7 +291,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.$route('questions.store', this.$page.props.auth.company.id), this.form)
+      axios.post(this.route('questions.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.question_creation_success'), 'success');
 
@@ -309,7 +309,7 @@ export default {
     update(question) {
       this.loadingState = 'loading';
 
-      axios.put(this.$route('questions.update', [this.$page.props.auth.company.id, question.id]), this.form)
+      axios.put(this.route('questions.update', [this.$page.props.auth.company.id, question.id]), this.form)
         .then(response => {
           flash(this.$t('account.question_update_success'), 'success');
 
@@ -328,7 +328,7 @@ export default {
     },
 
     destroy(question) {
-      axios.delete(this.$route('questions.destroy', [this.$page.props.auth.company.id, question.id]))
+      axios.delete(this.route('questions.destroy', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
           flash(this.$t('account.question_destroy_success'), 'success');
 
@@ -342,7 +342,7 @@ export default {
     },
 
     activate(question) {
-      axios.put(this.$route('questions.activate', [this.$page.props.auth.company.id, question.id]))
+      axios.put(this.route('questions.activate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
           flash(this.$t('account.question_activate_success'), 'success');
 
@@ -355,7 +355,7 @@ export default {
     },
 
     deactivate(question) {
-      axios.put(this.$route('questions.deactivate', [this.$page.props.auth.company.id, question.id]))
+      axios.put(this.route('questions.deactivate', [this.$page.props.auth.company.id, question.id]))
         .then(response => {
           flash(this.$t('account.question_deactivate_success'), 'success');
 
