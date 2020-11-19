@@ -281,7 +281,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.$route('account_teams.teams.store', this.$page.props.auth.company.id), this.form)
+      axios.post(this.route('account_teams.teams.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.team_creation_success'), 'success');
 
@@ -297,7 +297,7 @@ export default {
     },
 
     update(team) {
-      axios.put(this.$route('account_teams.teams.update', [this.$page.props.auth.company.id, team.id]), this.form)
+      axios.put(this.route('account_teams.teams.update', [this.$page.props.auth.company.id, team.id]), this.form)
         .then(response => {
           flash(this.$t('account.team_update_success'), 'success');
 
@@ -313,7 +313,7 @@ export default {
     },
 
     destroy(team) {
-      axios.delete(this.$route('account_teams.teams.destroy', [this.$page.props.auth.company.id, team.id]))
+      axios.delete(this.route('account_teams.teams.destroy', [this.$page.props.auth.company.id, team.id]))
         .then(response => {
           flash(this.$t('account.team_destroy_success'), 'success');
 

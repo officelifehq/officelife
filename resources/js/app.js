@@ -12,8 +12,6 @@ Vue.config.productionTip = false;
 Vue.mixin({ methods: { route: window.route } })
 Vue.use(plugin);
 
-Vue.prototype.$route = (...args) => route(...args).url()
-
 // Axios for some ajax queries
 window._ = require('lodash');
 window.axios = require('axios');

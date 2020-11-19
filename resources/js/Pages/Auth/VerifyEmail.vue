@@ -58,7 +58,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.$route('verification.resend'))
+      axios.post(this.route('verification.resend'))
         .then(response => {
           this.loadingState = null;
           this.resend = true;

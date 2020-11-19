@@ -132,7 +132,7 @@ export default {
   methods: {
     destroy(id) {
       this.errors = [];
-      axios.delete(this.$route('account_news.news.destroy', [this.$page.props.auth.company.id, id]))
+      axios.delete(this.route('account_news.news.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
           flash(this.$t('account.company_news_success_destroy'), 'success');
 
