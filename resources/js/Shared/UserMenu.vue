@@ -126,7 +126,7 @@ export default {
     },
 
     logout() {
-      axios.post(this.$route('logout'))
+      axios.post(this.route('logout'))
         .then(response => {
           if (response.status === 204) {
             this.$inertia.visit('/');

@@ -272,7 +272,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.$route('dashboard.expense.store', this.$page.props.auth.company.id), this.form)
+      axios.post(this.route('dashboard.expense.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           this.loadingState = null;
           this.localExpenses.unshift(response.data.data);

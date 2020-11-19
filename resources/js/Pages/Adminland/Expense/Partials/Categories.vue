@@ -181,7 +181,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.$route('account.expenses.store', this.$page.props.auth.company.id), this.form)
+      axios.post(this.route('account.expenses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.expense_category_success'), 'success');
 
@@ -197,7 +197,7 @@ export default {
     },
 
     update(id) {
-      axios.put(this.$route('account.expenses.update', [this.$page.props.auth.company.id, id]), this.form)
+      axios.put(this.route('account.expenses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
           flash(this.$t('account.expense_category_update_success'), 'success');
 
@@ -213,7 +213,7 @@ export default {
     },
 
     destroy(id) {
-      axios.delete(this.$route('account.expenses.destroy', [this.$page.props.auth.company.id, id]))
+      axios.delete(this.route('account.expenses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
           flash(this.$t('account.expense_category_delete_success'), 'success');
 
