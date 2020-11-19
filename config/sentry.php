@@ -2,9 +2,6 @@
 
 return [
 
-    // Enable or disable Sentry
-    'enable' => env('SENTRY_ENABLED', false),
-
     'dsn' => env('SENTRY_LARAVEL_DSN', env('SENTRY_DSN')),
 
     // capture release as git sha

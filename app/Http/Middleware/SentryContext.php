@@ -18,7 +18,7 @@ class SentryContext
      */
     public function handle($request, Closure $next)
     {
-        if (app()->bound('sentry') && config('sentry.enable')) {
+        if (app()->bound('sentry') && config('app.sentry.enable')) {
             // Add user context
             if (auth()->check()) {
                 \Sentry\configureScope(function (Scope $scope): void {

@@ -64,7 +64,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $e)
     {
-        if (config('sentry.enable') && app()->bound('sentry') && $this->shouldReport($e)) {
+        if (config('app.sentry.enable') && app()->bound('sentry') && $this->shouldReport($e)) {
             app('sentry')->captureException($e); // @codeCoverageIgnore
         }
 

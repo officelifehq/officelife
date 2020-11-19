@@ -93,6 +93,7 @@ jobs:
         run: |
           cp tests/.env.ci-${{ matrix.connection }} .env
           touch config/version
+          touch config/release
           echo '{"/js/app.js": "/js/app.js", "/css/app.css": "/css/app.css"}' > public/mix-manifest.json
           mkdir -p public/js
           echo '' > public/js/app.js
