@@ -160,4 +160,14 @@ class Project extends Model
     {
         return $this->hasMany(ProjectTaskList::class);
     }
+
+    /**
+     * Get the time tracking entries associated with the project.
+     *
+     * @return HasMany
+     */
+    public function timeTrackingEntries()
+    {
+        return $this->hasMany(TimeTrackingEntry::class);
+    }
 }

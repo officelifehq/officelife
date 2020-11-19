@@ -7,18 +7,12 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Timesheet extends Model
+class TimeTrackingEntry extends Model
 {
     use LogsActivity,
         HasFactory;
 
-    /**
-     * Possible status of a timesheet.
-     */
-    const OPEN = 'open';
-    const READY_TO_SUBMIT = 'ready_to_submit';
-    const APPROVED = 'approved';
-    const REJECTED = 'rejected';
+    protected $table = 'time_tracking_entries';
 
     /**
      * The attributes that are mass assignable.
@@ -26,13 +20,12 @@ class Timesheet extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id',
+        'timesheet_id',
+        'project_id',
         'employee_id',
-        'started_at',
-        'ended_at',
-        'status',
-        'approved_at',
-        'approver_id',
+        'duration',
+        'happened_at',
+        'description',
     ];
 
     /**
@@ -41,7 +34,7 @@ class Timesheet extends Model
      * @var array
      */
     protected static $logAttributes = [
-        'status',
+        'duration',
     ];
 
     /**
@@ -50,23 +43,21 @@ class Timesheet extends Model
      * @var array
      */
     protected $dates = [
-        'started_at',
-        'ended_at',
-        'approved_at',
+        'happened_at',
     ];
 
     /**
-     * Get the company record associated with the timesheet.
+     * Get the timesheet record associated with the time tracking entry.
      *
      * @return BelongsTo
      */
-    public function company()
+    public function timesheet()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Timesheet::class);
     }
 
     /**
-     * Get the employee record associated with the timesheet.
+     * Get the employee record associated with the time tracking entry.
      *
      * @return BelongsTo
      */
@@ -76,12 +67,12 @@ class Timesheet extends Model
     }
 
     /**
-     * Get the approver record associated with the timesheet.
+     * Get the project record associated with the time tracking entry.
      *
      * @return BelongsTo
      */
-    public function approver()
+    public function project()
     {
-        return $this->belongsTo(Employee::class, 'approver_id');
+        return $this->belongsTo(Project::class);
     }
 }

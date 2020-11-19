@@ -22,20 +22,22 @@ class CreateTimeTrackingTable extends Migration
             $table->unsignedBigInteger('approver_id')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('set null');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('approver_id')->references('id')->on('employees')->onDelete('set null');
         });
 
         Schema::create('time_tracking_entries', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('timesheet_id')->nullable();
+            $table->unsignedBigInteger('timesheet_id');
+            $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('project_id')->nullable();
             $table->integer('duration');
             $table->date('happened_at');
             $table->string('description')->nullable();
             $table->timestamps();
             $table->foreign('timesheet_id')->references('id')->on('timesheets')->onDelete('cascade');
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('set null');
         });
     }
 }

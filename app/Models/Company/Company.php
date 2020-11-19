@@ -187,13 +187,23 @@ class Company extends Model
     }
 
     /**
-     * Get all the projets in the company.
+     * Get all the projects in the company.
      *
      * @return HasMany
      */
     public function projects()
     {
         return $this->hasMany(Project::class);
+    }
+
+    /**
+     * Get all the timesheets in the company.
+     *
+     * @return HasMany
+     */
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class);
     }
 
     /**
