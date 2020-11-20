@@ -23,6 +23,8 @@ class CreateTimeTrackingEntry extends BaseService
 
     private TimeTrackingEntry $timeTrackingEntry;
 
+    private Project $project;
+
     private Carbon $date;
 
     /**
@@ -95,11 +97,11 @@ class CreateTimeTrackingEntry extends BaseService
     {
         // how much is the duration of all the time entries for the timesheet?
         $entries = $this->timesheet->timeTrackingEntries;
-
         $totalDuration = $entries->sum('duration');
 
         // duration is in minutes in the DB, so 24 hours is 1440 minutes
-        if (($totalDuration + $this->data['duration']) > 1440) {
+        $newTotalDuration = $totalDuration + $this->data['duration'];
+        if ((int) $newTotalDuration > 1440) {
             throw new DurationExceedingMaximalDurationException();
         }
 

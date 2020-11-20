@@ -7,12 +7,14 @@ use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Timesheet;
 use Illuminate\Support\Facades\Queue;
 use App\Models\Company\TimeTrackingEntry;
 use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Exceptions\DurationExceedingMaximalDurationException;
 use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
 
 class CreateTimeTrackingEntryTest extends TestCase
@@ -89,13 +91,24 @@ class CreateTimeTrackingEntryTest extends TestCase
     public function it_fails_if_total_duration_of_the_day_exceeds_24_hours(): void
     {
         $michael = factory(Employee::class)->create([]);
-
-        $request = [
+        $dwight = $this->createAnotherEmployee($michael);
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
-        ];
+        ]);
+        $timesheet = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $dwight->id,
+            'started_at' => '2020-11-16 00:00:00',
+            'ended_at' => '2020-11-22 23:59:59',
+        ]);
+        $entry = TimeTrackingEntry::factory()->create([
+            'timesheet_id' => $timesheet->id,
+            'employee_id' => $dwight->id,
+            'duration' => 1321,
+        ]);
 
-        $this->expectException(ValidationException::class);
-        (new CreateTimeTrackingEntry)->execute($request);
+        $this->expectException(DurationExceedingMaximalDurationException::class);
+        $this->executeService($michael, $dwight, $project);
     }
 
     /** @test */
