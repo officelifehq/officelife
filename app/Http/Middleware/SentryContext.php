@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Sentry\State\Scope;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class SentryContext
 {
@@ -19,25 +20,23 @@ class SentryContext
     public function handle($request, Closure $next)
     {
         if (app()->bound('sentry') && config('app.sentry.enable')) {
-            // Add user context
-            if (auth()->check()) {
-                \Sentry\configureScope(function (Scope $scope): void {
-                    $user = Auth::user();
+            \Sentry\configureScope(function (Scope $scope): void {
+                // Add user context
+                $user = Auth::user();
+                if ($user !== null) {
                     $scope->setUser([
                         'id' => $user->id,
                         'email' => $user->email,
                         'username' => $user->name,
                     ]);
-                    //$scope->setExtra('isSubscribed', $user->account->isSubscribed());
-                });
-            } else {
-                \Sentry\configureScope(function (Scope $scope): void {
+                } else {
                     $scope->setUser([
                         'id' => null,
-                        //'ip_address' => RequestHelper::ip(),
                     ]);
-                });
-            }
+                }
+                $scope->setTag('page.route.name', Route::currentRouteName());
+                $scope->setTag('page.route.action', Route::currentRouteAction());
+            });
         }
 
         return $next($request);
