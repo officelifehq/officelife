@@ -40,7 +40,7 @@ class TimeTrackingEntryFactory extends Factory
             ]),
             'duration' => 100,
             'happened_at' => Carbon::now(),
-            'description' => $this->faker->paragraph(),
+            'description' => $this->faker->words(10),
         ];
     }
 }
