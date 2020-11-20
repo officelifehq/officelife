@@ -979,6 +979,14 @@ class LogHelper
                 ]);
                 break;
 
+            case 'time_tracking_entry_created':
+                $sentence = trans('account.log_time_tracking_entry_created', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'week_number' => $log->object->{'week_number'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
@@ -1418,6 +1426,12 @@ class LogHelper
                 $sentence = trans('account.employee_log_project_team_lead_cleared', [
                     'project_id' => $log->object->{'project_id'},
                     'project_name' => $log->object->{'project_name'},
+                ]);
+                break;
+
+            case 'time_tracking_entry_created':
+                $sentence = trans('account.employee_log_time_tracking_entry_created', [
+                    'week_number' => $log->object->{'week_number'},
                 ]);
                 break;
 

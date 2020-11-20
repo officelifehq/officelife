@@ -32,7 +32,7 @@ class CreateTimeTrackingTable extends Migration
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('project_id')->nullable();
             $table->integer('duration');
-            $table->date('happened_at');
+            $table->datetime('happened_at');
             $table->string('description')->nullable();
             $table->timestamps();
             $table->foreign('timesheet_id')->references('id')->on('timesheets')->onDelete('cascade');

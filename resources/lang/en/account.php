@@ -271,6 +271,7 @@ return [
     'log_project_task_assigned_to_assignee' => 'Assigned the task called :project_task_title in the project called :project_name to :assignee_name.',
     'log_project_task_udpated' => 'Updated the task called :project_task_title in the project called :project_name.',
     'log_project_task_list_udpated' => 'Updated the task called :project_task_list_title in the project called :project_name.',
+    'log_time_tracking_entry_created' => 'Added a time tracking entry for the week :week_number for :employee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -336,6 +337,7 @@ return [
     'employee_log_employee_removed_from_project' => 'Has been removed from the project called :project_name.',
     'employee_log_project_team_lead_updated' => 'Has been assigned as project lead for the called :project_name.',
     'employee_log_project_team_lead_cleared' => 'Has been removed as the project lead of the project called :project_name.',
+    'employee_log_time_tracking_entry_created' => 'Added a time tracking entry for the week :week_number.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

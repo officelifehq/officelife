@@ -84,4 +84,14 @@ class Timesheet extends Model
     {
         return $this->belongsTo(Employee::class, 'approver_id');
     }
+
+    /**
+     * Get all the time tracking entries in the company.
+     *
+     * @return HasMany
+     */
+    public function timeTrackingEntries()
+    {
+        return $this->hasMany(TimeTrackingEntry::class);
+    }
 }
