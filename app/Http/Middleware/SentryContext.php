@@ -16,6 +16,8 @@ class SentryContext
      * @param  \Closure                 $next
      *
      * @return mixed
+     *
+     * @codeCoverageIgnore
      */
     public function handle($request, Closure $next)
     {
