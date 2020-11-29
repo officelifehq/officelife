@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
+use App\Models\Company\TimeTrackingEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTaskTest extends TestCase
@@ -47,5 +48,15 @@ class ProjectTaskTest extends TestCase
             ->create();
 
         $this->assertTrue($task->assignee()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_time_tracking_entries(): void
+    {
+        $task = ProjectTask::factory()
+            ->has(TimeTrackingEntry::factory(), 'timeTrackingEntries')
+            ->create();
+
+        $this->assertTrue($task->timeTrackingEntries()->exists());
     }
 }

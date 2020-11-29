@@ -58,6 +58,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // hr
             Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
 
+            // timesheet
+            Route::resource('timesheet', 'Company\\Dashboard\\DashboardTimesheetController')->only([
+                'index', 'show', 'store', 'destroy',
+            ]);
+
             // team
             Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
             Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');

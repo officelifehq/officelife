@@ -8,7 +8,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use Carbon\Exceptions\InvalidDateException;
 
-class CreateTimesheet extends BaseService
+class CreateOrGetTimesheet extends BaseService
 {
     private array $data;
 

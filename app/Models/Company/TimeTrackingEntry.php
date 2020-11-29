@@ -75,4 +75,14 @@ class TimeTrackingEntry extends Model
     {
         return $this->belongsTo(Project::class);
     }
+
+    /**
+     * Get the project task record associated with the time tracking entry.
+     *
+     * @return BelongsTo
+     */
+    public function projectTask()
+    {
+        return $this->belongsTo(ProjectTask::class);
+    }
 }

@@ -31,6 +31,7 @@ class CreateTimeTrackingTable extends Migration
             $table->unsignedBigInteger('timesheet_id');
             $table->unsignedBigInteger('employee_id');
             $table->unsignedBigInteger('project_id')->nullable();
+            $table->unsignedBigInteger('project_task_id')->nullable();
             $table->integer('duration');
             $table->datetime('happened_at');
             $table->string('description')->nullable();
@@ -38,6 +39,7 @@ class CreateTimeTrackingTable extends Migration
             $table->foreign('timesheet_id')->references('id')->on('timesheets')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('set null');
+            $table->foreign('project_task_id')->references('id')->on('project_tasks')->onDelete('set null');
         });
     }
 }

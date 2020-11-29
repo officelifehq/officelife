@@ -86,8 +86,8 @@ input[type=checkbox] {
         />
 
         <!-- content of the checkbox -->
-        <label v-if="label" :for="id" class="fw4 lh-copy f5 pointer di relative hover-effect">
-          <span class="pr2" v-html="label"></span>
+        <label v-if="label" :for="id" class="fw4 lh-copy f5 pointer di relative">
+          <span class="mr2 hover-effect" v-html="label"></span>
 
           <small-name-and-avatar
             v-if="assignee"

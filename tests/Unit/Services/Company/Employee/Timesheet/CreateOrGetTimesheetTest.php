@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Project;
+namespace Tests\Unit\Services\Company\Employee\Timesheet;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
@@ -9,9 +9,9 @@ use Illuminate\Validation\ValidationException;
 use App\Exceptions\NotEnoughPermissionException;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Services\Company\Employee\Timesheet\CreateTimesheet;
+use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 
-class CreateTimesheetTest extends TestCase
+class CreateOrGetTimesheetTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -82,7 +82,7 @@ class CreateTimesheetTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new CreateTimesheet)->execute($request);
+        (new CreateOrGetTimesheet)->execute($request);
     }
 
     private function executeService(Employee $author, Employee $employee, Timesheet $existingTimesheet = null): void
@@ -94,7 +94,7 @@ class CreateTimesheetTest extends TestCase
             'date' => '2020-11-17', // start date of week: 16 nov, end: 22 nov
         ];
 
-        $timesheet = (new CreateTimesheet)->execute($request);
+        $timesheet = (new CreateOrGetTimesheet)->execute($request);
 
         $this->assertDatabaseHas('timesheets', [
             'id' => $timesheet->id,

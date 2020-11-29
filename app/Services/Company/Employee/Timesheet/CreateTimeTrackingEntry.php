@@ -9,6 +9,7 @@ use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use App\Models\Company\ProjectTask;
 use App\Models\Company\TimeTrackingEntry;
 use Carbon\Exceptions\InvalidDateException;
 use App\Exceptions\DurationExceedingMaximalDurationException;
@@ -25,6 +26,8 @@ class CreateTimeTrackingEntry extends BaseService
 
     private Project $project;
 
+    private ProjectTask $projectTask;
+
     private Carbon $date;
 
     /**
@@ -39,6 +42,7 @@ class CreateTimeTrackingEntry extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
             'project_id' => 'nullable|integer|exists:projects,id',
+            'project_task_id' => 'nullable|integer|exists:project_tasks,id',
             'duration' => 'required|integer',
             'date' => 'required|date_format:Y-m-d',
             'description' => 'nullable|string|max:65535',
@@ -77,15 +81,18 @@ class CreateTimeTrackingEntry extends BaseService
 
         $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
 
-        if (! is_null($this->data['project_id'])) {
+        if (! is_null($this->data['project_id']) && ! is_null($this->data['project_task_id'])) {
             $this->project = Project::where('company_id', $this->data['company_id'])
                 ->findOrFail($this->data['project_id']);
+
+            $this->projectTask = ProjectTask::where('project_id', $this->data['project_id'])
+                ->findOrFail($this->data['project_task_id']);
         }
     }
 
     private function getTimesheet(): void
     {
-        $this->timesheet = (new CreateTimesheet)->execute([
+        $this->timesheet = (new CreateOrGetTimesheet)->execute([
             'company_id' => $this->data['company_id'],
             'author_id' => $this->data['author_id'],
             'employee_id' => $this->data['employee_id'],
@@ -118,6 +125,7 @@ class CreateTimeTrackingEntry extends BaseService
             'timesheet_id' => $this->timesheet->id,
             'employee_id' => $this->employee->id,
             'project_id' => is_null($this->data['project_id']) ? null : $this->project->id,
+            'project_task_id' => is_null($this->data['project_task_id']) ? null : $this->projectTask->id,
             'duration' => $this->data['duration'],
             'happened_at' => $this->date,
             'description' => $this->valueOrNull($this->data, 'description'),

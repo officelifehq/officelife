@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Project;
+namespace Tests\Unit\Services\Company\Employee\Timesheet;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
@@ -133,6 +133,7 @@ class CreateTimeTrackingEntryTest extends TestCase
             'author_id' => $author->id,
             'employee_id' => $employee->id,
             'project_id' => $project ? $project->id : null,
+            'project_task_id' => null,
             'duration' => 120,
             'date' => '2020-11-17', // week number 47 of the year
         ];

@@ -30,4 +30,11 @@ class TimeTrackingEntryTest extends TestCase
         $entry = TimeTrackingEntry::factory()->make();
         $this->assertTrue($entry->timesheet()->exists());
     }
+
+    /** @test */
+    public function it_belongs_to_one_project_task(): void
+    {
+        $entry = TimeTrackingEntry::factory()->make();
+        $this->assertTrue($entry->projectTask()->exists());
+    }
 }
