@@ -4285,6 +4285,11 @@ git-config-path@^1.0.1:
     fs-exists-sync "^0.1.0"
     homedir-polyfill "^1.0.0"
 
+git-default-branch@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/git-default-branch/-/git-default-branch-1.0.0.tgz#5e6eeb3ac9e4c89500514d53b0f8773183c80b6d"
+  integrity sha512-/eBj13g+SDiPnRMO82wTCA6P0Xi413TWSeyjf5Qj/vdLzn7iXROotuElMF4fNxNlL7TMbUjUW1EHjd3E9OAItQ==
+
 git-username@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/git-username/-/git-username-1.0.0.tgz#5e31ef29efe15c184cfaa5ed23212c89b0fcf123"
@@ -6172,14 +6177,14 @@ mrm-core@^4.3.0:
     webpack-merge "^4.2.2"
     yaml "^2.0.0-1"
 
-mrm-preset-default@^2.3.3:
-  version "2.3.3"
-  resolved "https://registry.yarnpkg.com/mrm-preset-default/-/mrm-preset-default-2.3.3.tgz#378f32927fb5fad43f154368888ae7a5e01223c9"
-  integrity sha512-hRwwEcgxBk1MyaMGT1dm4SvNuuVbR0OCuM5XJiJufgJ7mHewDx1gFB4eKDWBamSDuAVKfdfyPmczGrGeUZb+Iw==
+mrm-preset-default@^2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/mrm-preset-default/-/mrm-preset-default-2.3.4.tgz#57a5559e4205c8afaa07274cdfc593ada655079f"
+  integrity sha512-Qw4mGroD/17+DwuCdNKgEJEAMS3RDC0MIFUYGsMJ+1O0x3Q93KIqstbhN7H+Q1uL0WcpGGhMfHp7CI2aVSwfTQ==
   dependencies:
     mrm-core "^4.3.0"
-    mrm-task-ci "^0.2.0"
-    mrm-task-codecov "^2.1.3"
+    mrm-task-ci "^0.2.1"
+    mrm-task-codecov "^3.0.0"
     mrm-task-contributing "^2.0.13"
     mrm-task-dependabot "^1.2.3"
     mrm-task-editorconfig "^2.0.13"
@@ -6193,28 +6198,30 @@ mrm-preset-default@^2.3.3:
     mrm-task-readme "^2.1.1"
     mrm-task-semantic-release "^4.0.1"
     mrm-task-styleguidist "^2.0.11"
-    mrm-task-stylelint "^3.0.11"
-    mrm-task-travis "^2.0.11"
+    mrm-task-stylelint "^3.0.12"
+    mrm-task-travis "^2.1.0"
     mrm-task-typescript "^2.0.11"
 
-mrm-task-ci@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/mrm-task-ci/-/mrm-task-ci-0.2.0.tgz#80e5bd9d28bfc57fdc83086524ff7a3bf4844aab"
-  integrity sha512-2epXOdXIkTpOr/ZoW2IKQGYIAAWr2nv1yBT3fDXI8Qw7uBa3Vtm8+b8K0anRtPGaEp+3hCytUOeq1ZvNmaBQ3Q==
+mrm-task-ci@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/mrm-task-ci/-/mrm-task-ci-0.2.1.tgz#68bd9596e92379a5893e9ed106b873956e0466b0"
+  integrity sha512-cRMw+jlAtLKowvg9Rm9K9olDmoKJSmnGoVhoE6ABhfB3uLY8Inv8yGCnUf97y+vLOCaMSnUjIF68Su0PRNTzHA==
   dependencies:
+    git-default-branch "^1.0.0"
     got "^11.8.0"
     lodash "^4.17.20"
     mrm-core "^4.3.0"
     package-repo-url "^1.0.3"
     semver-utils "^1.1.4"
 
-mrm-task-codecov@^2.1.3:
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/mrm-task-codecov/-/mrm-task-codecov-2.1.3.tgz#38615e7ed8cc33876a753a4d5216d60d344e7e50"
-  integrity sha512-Fcz4e6AwahEBNek9s457wYqRT2LwPQS59CA+2ReOrsxp3QxAjTTg9VtMUTfBvd9U0h7jCJyy/0hVV20WFotgvA==
+mrm-task-codecov@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/mrm-task-codecov/-/mrm-task-codecov-3.0.0.tgz#f3d238d27e9c125d862f88d32dc5dc4042d3825c"
+  integrity sha512-nfnt2wtLsT/8LzTXGI9SV+R7pIGaWuunoELOpIdADGiiR2YxvNfIsEBMFw7/SF+0Zs+UJ6xeRMeBG571dN/yAg==
   dependencies:
-    git-username "^1.0.0"
+    git-default-branch "^1.0.0"
     mrm-core "^4.3.0"
+    package-repo-url "^1.0.3"
 
 mrm-task-contributing@^2.0.13:
   version "2.0.13"
@@ -6321,21 +6328,21 @@ mrm-task-styleguidist@^2.0.11:
   dependencies:
     mrm-core "^4.3.0"
 
-mrm-task-stylelint@^3.0.11:
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/mrm-task-stylelint/-/mrm-task-stylelint-3.0.11.tgz#247a1d696d89ccaf1f338cd02838d2e43d31da7e"
-  integrity sha512-aJgIaLgpMYPdEg/LnGIDfd0WuOAdAaw4NmW5Cs7p967jTEVHbYbyb7uCA101DJUIe3m7UeSmE+hcH4vpbQ39Wg==
+mrm-task-stylelint@^3.0.12:
+  version "3.0.12"
+  resolved "https://registry.yarnpkg.com/mrm-task-stylelint/-/mrm-task-stylelint-3.0.12.tgz#84489ccef2a4de87dd8919e980f6993855e8de88"
+  integrity sha512-cELN4nVbF7nYjSBtMSiW2AaR6HTat+5kEoN3pmgodV8MRug/N2WHWWMoiMScxshoPmmgkRii6KkalOySM2BZdg==
   dependencies:
     mrm-core "^4.3.0"
 
-mrm-task-travis@^2.0.11:
-  version "2.0.11"
-  resolved "https://registry.yarnpkg.com/mrm-task-travis/-/mrm-task-travis-2.0.11.tgz#f09165113474260c35e30ac9729e91525f7ac9f4"
-  integrity sha512-HshBTEII7bs4yWkSa22geW94gaT+u7kJQ+jKXR9JyABxur9yBLM1kNZ03LvCgMMFR/0r65ZlAG5BDasWp827jw==
+mrm-task-travis@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/mrm-task-travis/-/mrm-task-travis-2.1.0.tgz#94b6ae3faadb55729e70a77e6dde581bb295c593"
+  integrity sha512-M1dxwAd7hqE5eOQ8tF06+C4RRAdh87Bi/hSeIqe/RUyInr33a7u+CQ2quBjI1Ki/NVvI6I7oF9YCRi5/ok3gbA==
   dependencies:
-    git-username "^1.0.0"
     lodash "^4.17.15"
     mrm-core "^4.3.0"
+    package-repo-url "^1.0.3"
     semver-utils "^1.1.4"
 
 mrm-task-typescript@^2.0.11:
@@ -6346,9 +6353,9 @@ mrm-task-typescript@^2.0.11:
     mrm-core "^4.3.0"
 
 mrm@^2.5.2:
-  version "2.5.12"
-  resolved "https://registry.yarnpkg.com/mrm/-/mrm-2.5.12.tgz#12fc06f3f145cfea03fdf04b10652a43b1dd16b3"
-  integrity sha512-4oqltDHL0KueUCeI1jhtuhYIkul7lLi21vgskS9QYdwh0o9wST3zHa/jD875wu9f9HqKSa7FOOd9G5sZYW0vsA==
+  version "2.5.13"
+  resolved "https://registry.yarnpkg.com/mrm/-/mrm-2.5.13.tgz#3077b54bc4686709d12d179c223f7fb57bda6c75"
+  integrity sha512-vdiOrOnCvjjcQsRdzkPxLWyaJVF+5o61ikxdfiFIubUDySItbvyRsRUsLLVuAtWJWMuEQGmH57B0ijoMV2q8Sg==
   dependencies:
     cross-spawn "7.0.3"
     git-username "^1.0.0"
@@ -6362,7 +6369,7 @@ mrm@^2.5.2:
     middleearth-names "^1.1.0"
     minimist "^1.2.0"
     mrm-core "^4.3.0"
-    mrm-preset-default "^2.3.3"
+    mrm-preset-default "^2.3.4"
     package-json "6.5.0"
     requireg "^0.2.2"
     semver-utils "^1.1.4"
