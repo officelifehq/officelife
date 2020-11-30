@@ -4,6 +4,10 @@ input {
   border: none;
 }
 
+input[type="text"]:empty {
+  background-color: transparent;
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -32,32 +36,43 @@ input[type=number] {
       <span class="legend gray tc absolute f7">
         hours
       </span>
-      <input
-        class="br2 f5 pv2 ph1 outline-0 di tc"
-        type="number"
-        placeholder="00"
-        min="0"
-        max="12"
+      <!-- hours -->
+      <the-mask v-model="hours"
+                mask="##"
+                class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
+                type="text"
+                :masked="false"
+                placeholder="00"
+                @input="broadcastTotal()"
       />
+
+      <!-- separator -->
       <span class="di">
         :
       </span>
+
+      <!-- minutes -->
       <span class="legend gray tc absolute f7">
         min.
       </span>
-      <input
-        class="br2 f5 pv2 ph1 outline-0 di tc"
-        type="number"
-        placeholder="00"
-        min="0"
-        max="59"
+      <the-mask v-model="minutes"
+                mask="##"
+                class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
+                type="text"
+                :masked="false"
+                placeholder="00"
+                @input="broadcastTotal()"
       />
     </div>
   </div>
 </template>
 
 <script>
+import {TheMask} from 'vue-the-mask';
+
 export default {
+
+  components: {TheMask},
   inheritAttrs: false,
 
   props: {
@@ -91,38 +106,13 @@ export default {
       type: String,
       default: '',
     },
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    label: {
-      type: String,
-      default: '',
-    },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-    extraClassUpperDiv: {
-      type: String,
-      default: 'mb3',
-    },
-    min: {
-      type: Number,
-      default: 0,
-    },
-    max: {
-      type: Number,
-      default: 0,
-    },
-    autofocus: {
-      type: Boolean,
-      default: false,
-    }
   },
 
   data() {
     return {
+      hours: 0,
+      minutes: 0,
+      durationInMinutes: 0,
       localErrors: '',
     };
   },
@@ -144,21 +134,21 @@ export default {
   },
 
   methods: {
-    focus() {
-      this.$refs.input.focus();
-    },
+    broadcastTotal() {
+      var localHours = 0;
+      var localMinutes = 0;
 
-    select() {
-      this.$refs.input.select();
-    },
+      if (this.hours) {
+        localHours = parseInt(this.hours) * 60;
+      }
 
-    setSelectionRange(start, end) {
-      this.$refs.input.setSelectionRange(start, end);
-    },
+      if (this.minutes) {
+        localMinutes = parseInt(this.minutes);
+      }
 
-    sendEscKey() {
-      this.$emit('esc-key-pressed');
-    }
+      this.durationInMinutes = localHours + localMinutes;
+      this.$emit('update', this.durationInMinutes);
+    },
   },
 };
 </script>

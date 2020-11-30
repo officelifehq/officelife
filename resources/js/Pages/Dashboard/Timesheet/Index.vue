@@ -14,6 +14,15 @@
   width: 280px;
   max-width: 400px;
 }
+
+.off-days {
+  color: #4b7682;
+  background-color: #e6f5f9;
+}
+
+.add-new-entry {
+  background-color: #f3ffee;
+}
 </style>
 
 <template>
@@ -81,7 +90,7 @@
               </span>
             </div>
             <!-- saturday -->
-            <div class="tc pv2 dtc bl bb bb-gray">
+            <div class="tc pv2 dtc bl bb bb-gray off-days">
               <span class="db">
                 S
               </span>
@@ -90,7 +99,7 @@
               </span>
             </div>
             <!-- sunday -->
-            <div class="tc pv2 bl bb bb-gray">
+            <div class="tc pv2 bl bb bb-gray off-days">
               <span class="db">
                 S
               </span>
@@ -100,51 +109,69 @@
             </div>
           </div>
 
-          <!-- log new time -->
+          <!-- entries -->
+          <timesheet-row @update-day="updateDay" />
+          <timesheet-row @update-day="updateDay" />
+          <timesheet-row @update-day="updateDay" />
+
+          <!-- add a new entry cta -->
           <div class="dt-row">
-            <div class="ph2 dtc bl bb bb-gray project relative v-mid">
-              <span class="db">
-                Dunder Mifflin Infinity
+            <span class="dtc bl bb-gray add-new-entry pv2 tc f6">
+              <span class="bb b--dotted bt-0 bl-0 br-0 pointer">
+                + add a new entry
               </span>
-              <span>Management of the timeline</span>
-              <span class="absolute f7 fw5 right-1">
-                37h30
-              </span>
+            </span>
+            <div class="dtc add-new-entry"></div>
+            <div class="dtc add-new-entry"></div>
+            <div class="dtc add-new-entry"></div>
+            <div class="dtc add-new-entry"></div>
+            <div class="dtc add-new-entry"></div>
+            <div class="dtc add-new-entry"></div>
+            <div class="dtc add-new-entry"></div>
+          </div>
+
+          <!-- add a new entry -->
+
+          <div class="dt-row">
+            <div class="f6 ph2 dtc bt bl bb bb-gray project v-mid">
+              <div class="flex justify-between items-center">
+                <span class="db pb1 fw5">
+                  Total
+                </span>
+                <span class="f7 fw5">
+                  37h30
+                </span>
+              </div>
             </div>
             <!-- monday -->
-            <div class="ph2 pv1 dtc bl bb bb-gray">
-              <text-duration />
+            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
+              37.5
             </div>
             <!-- tuesday -->
-            <div class="ph2 pv1 dtc bl bb bb-gray">
-              <text-duration />
+            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
+              37.5
             </div>
             <!-- wednesday -->
-            <div class="ph2 pv1 dtc bl bb bb-gray">
-              <text-duration />
+            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
+              37.5
             </div>
             <!-- thursday -->
-            <div class="ph2 pv1 dtc bl bb bb-gray">
-              <text-duration />
+            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
+              37.5
             </div>
             <!-- friday -->
-            <div class="ph2 pv1 dtc bl bb bb-gray">
-              <text-duration />
+            <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
+              37.5
             </div>
             <!-- saturday -->
-            <div class="ph2 pv1 dtc bl bb bb-gray">
-              <text-duration />
+            <div class="tc pv2 dtc bt bl bb bb-gray off-days f7 gray">
+              37.5
             </div>
             <!-- sunday -->
-            <div class="ph2 pv1 dtc bl bb bb-gray">
-              <text-duration />
+            <div class="tc pv2 bt bl bb bb-gray off-days f7 gray">
+              37.5
             </div>
           </div>
-        </div>
-
-        <!-- add a new entry -->
-        <div class="">
-          add a new row
         </div>
       </div>
     </div>
@@ -154,13 +181,13 @@
 <script>
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
-import TextDuration from '@/Shared/TextDuration';
+import TimesheetRow from '@/Pages/Dashboard/Timesheet/Partials/TimesheetRow';
 
 export default {
   components: {
     Layout,
     DashboardMenu,
-    TextDuration,
+    TimesheetRow,
   },
 
   props: {
@@ -186,6 +213,13 @@ export default {
         errors: [],
       },
       loadingState: '',
+      mondays: 0,
+      tusdays: 0,
+      wednesdays: 0,
+      thursdays: 0,
+      fridays: 0,
+      saturdays: 0,
+      sundays: 0,
     };
   },
 
@@ -195,6 +229,32 @@ export default {
 
       localStorage.removeItem('success');
     }
+  },
+
+  methods: {
+    updateDay({day, value}) {
+      if (day == 1) {
+        this.mondays = this.mondays + value;
+      }
+      if (day == 2) {
+        this.tuesdays = this.tuesdays + value;
+      }
+      if (day == 3) {
+        this.wednesdays = this.wednesdays + value;
+      }
+      if (day == 4) {
+        this.thursdays = this.thursdays + value;
+      }
+      if (day == 5) {
+        this.fridays = this.fridays + value;
+      }
+      if (day == 6) {
+        this.saturdays = this.saturdays + value;
+      }
+      if (day == 7) {
+        this.sundays = this.sundays + value;
+      }
+    },
   },
 };
 </script>
