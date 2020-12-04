@@ -52,6 +52,7 @@
                   required
                   :placeholder="$t('account.employee_statuses_placeholder')"
                   :extra-class-upper-div="'mb0'"
+                  @esc-key-pressed="modal = false ; form.name = ''"
                 />
               </div>
               <div class="fl w-30-ns w-100 tr">

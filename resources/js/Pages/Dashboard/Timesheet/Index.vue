@@ -37,9 +37,60 @@
       <dashboard-menu :employee="employee" />
 
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
-        <p class="mt0 mb2 lh-copy f6">{{ $t('dashboard.manager_expense_description') }}</p>
+        <div class="mt0 mb4 lh-copy f6 flex justify-between items-center">
+          <ul class="list pl0 ma0">
+            <li class="di"><inertia-link :href="previousTimesheet.url" class="btn dib">sss</inertia-link></li>
+            <li class="di">30/Nov/2020 - 06/Dec/2020</li>
+            <li class="di"><inertia-link :href="nextTimesheet.url" class="btn dib">></inertia-link></li>
+          </ul>
 
-        <div class="dt bt br bb-gray">
+          <a v-if="!displayNewEntry" class="btn f5" @click.prevent="showProjectList()">
+            add a new row
+          </a>
+        </div>
+
+        <!-- add a new row -->
+        <form v-if="displayNewEntry" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="addTimesheetRow()">
+          <span class="bb b--dotted bt-0 bl-0 br-0 pointer">
+            <select-box :id="'employee_id'"
+                        v-model="form.project"
+                        :options="projects"
+                        :name="'employee_id'"
+                        :errors="$page.props.errors.employee_id"
+                        :placeholder="'Choose a project'"
+                        :label="'Choose a project'"
+                        :value="form.employee_id"
+                        :datacy="'employee-selector'"
+                        :required="true"
+                        @input="showTasks($event)"
+            />
+
+            <select-box
+              v-if="displayTasks"
+              :id="'employee_id'"
+              v-model="form.task"
+              :options="tasks"
+              :name="'employee_id'"
+              :errors="$page.props.errors.employee_id"
+              :placeholder="'Select a task'"
+              :label="'Select a task'"
+              :value="form.employee_id"
+              :required="true"
+              :datacy="'employee-selector'"
+              @input="showTasks($event)"
+            />
+          </span>
+
+          <!-- Actions -->
+          <div>
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-update-news-button'" />
+            <a data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="displayNewEntry = false">
+              {{ $t('app.cancel') }}
+            </a>
+          </div>
+        </form>
+
+        <div class="dt bt br bb-gray w-100">
           <!-- header -->
           <div class="dt-row">
             <div class="dtc bl bb bb-gray project">
@@ -47,91 +98,72 @@
             <!-- monday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                Mon
+                {{ timesheet.days.monday.short }}
               </span>
               <span class="f7 gray">
-                22 nov
+                {{ timesheet.days.monday.full }}
               </span>
             </div>
             <!-- tuesday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                T
+                {{ timesheet.days.tuesday.short }}
               </span>
               <span class="f7 gray">
-                22 nov
+                {{ timesheet.days.tuesday.full }}
               </span>
             </div>
             <!-- wednesday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                W
+                {{ timesheet.days.wednesday.short }}
               </span>
               <span class="f7 gray">
-                22 nov
+                {{ timesheet.days.wednesday.full }}
               </span>
             </div>
             <!-- thursday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                T
+                {{ timesheet.days.thursday.short }}
               </span>
               <span class="f7 gray">
-                22 nov
+                {{ timesheet.days.thursday.full }}
               </span>
             </div>
             <!-- friday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                T
+                {{ timesheet.days.friday.short }}
               </span>
               <span class="f7 gray">
-                22 nov
+                {{ timesheet.days.friday.full }}
               </span>
             </div>
             <!-- saturday -->
             <div class="tc pv2 dtc bl bb bb-gray off-days">
               <span class="db">
-                S
+                {{ timesheet.days.saturday.short }}
               </span>
               <span class="f7 gray">
-                22 nov
+                {{ timesheet.days.saturday.full }}
               </span>
             </div>
             <!-- sunday -->
             <div class="tc pv2 bl bb bb-gray off-days">
               <span class="db">
-                S
+                {{ timesheet.days.sunday.short }}
               </span>
               <span class="f7 gray">
-                22 nov
+                {{ timesheet.days.sunday.full }}
               </span>
             </div>
           </div>
 
           <!-- entries -->
-          <timesheet-row @update-day="updateDay" />
-          <timesheet-row @update-day="updateDay" />
-          <timesheet-row @update-day="updateDay" />
+          <timesheet-row v-for="row in timesheetRows" :key="row.id" :row="row" :timesheet="timesheet" @update-day="updateDay" />
 
-          <!-- add a new entry cta -->
-          <div class="dt-row">
-            <span class="dtc bl bb-gray add-new-entry pv2 tc f6">
-              <span class="bb b--dotted bt-0 bl-0 br-0 pointer">
-                + add a new entry
-              </span>
-            </span>
-            <div class="dtc add-new-entry"></div>
-            <div class="dtc add-new-entry"></div>
-            <div class="dtc add-new-entry"></div>
-            <div class="dtc add-new-entry"></div>
-            <div class="dtc add-new-entry"></div>
-            <div class="dtc add-new-entry"></div>
-            <div class="dtc add-new-entry"></div>
-          </div>
-
-          <!-- add a new entry -->
-
+          <!-- total -->
           <div class="dt-row">
             <div class="f6 ph2 dtc bt bl bb bb-gray project v-mid">
               <div class="flex justify-between items-center">
@@ -182,12 +214,16 @@
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 import TimesheetRow from '@/Pages/Dashboard/Timesheet/Partials/TimesheetRow';
+import SelectBox from '@/Shared/Select';
+import LoadingButton from '@/Shared/LoadingButton';
 
 export default {
   components: {
     Layout,
     DashboardMenu,
     TimesheetRow,
+    SelectBox,
+    LoadingButton,
   },
 
   props: {
@@ -200,7 +236,15 @@ export default {
       default: null,
     },
     timesheet: {
-      type: Array,
+      type: Object,
+      default: null,
+    },
+    nextTimesheet: {
+      type: Object,
+      default: null,
+    },
+    previousTimesheet: {
+      type: Object,
       default: null,
     },
   },
@@ -208,11 +252,16 @@ export default {
   data() {
     return {
       form: {
-        title: null,
-        content: null,
+        project: null,
+        task: null,
         errors: [],
       },
       loadingState: '',
+      displayNewEntry: false,
+      displayTasks: false,
+      timesheetRows: [],
+      projects: [],
+      tasks: [],
       mondays: 0,
       tusdays: 0,
       wednesdays: 0,
@@ -224,6 +273,8 @@ export default {
   },
 
   mounted() {
+    this.timesheetRows = this.timesheet.entries;
+
     if (localStorage.success) {
       flash(localStorage.success, 'success');
 
@@ -254,6 +305,82 @@ export default {
       if (day == 7) {
         this.sundays = this.sundays + value;
       }
+    },
+
+    showProjectList() {
+      this.form.project = null;
+      this.form.task = null;
+
+      this.getProjectList();
+      this.displayNewEntry = true;
+    },
+
+    showTasks() {
+      this.getTasks();
+      this.displayTasks = true;
+    },
+
+    getProjectList() {
+      axios.get('/' + this.$page.props.auth.company.id + '/dashboard/timesheet/projects')
+        .then(response => {
+          this.projects = response.data.data;
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+
+    getTasks() {
+      axios.get('/' + this.$page.props.auth.company.id + '/dashboard/timesheet/' + this.timesheet.id + '/projects/' + this.form.project.value + '/tasks')
+        .then(response => {
+          this.tasks = response.data.data;
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+
+    addTimesheetRow() {
+      this.timesheetRows.push({
+        project_id: this.form.project.value,
+        project_name: this.form.project.label,
+        project_code: this.form.project.code,
+        task_id: this.form.task.value,
+        task_title: this.form.task.label,
+        total_this_week: 0,
+        days: {
+          monday: {
+            day_of_week: 1,
+            total_of_hours: 0,
+          },
+          tuesday: {
+            day_of_week: 2,
+            total_of_hours: 0,
+          },
+          wednesday: {
+            day_of_week: 3,
+            total_of_hours: 0,
+          },
+          thursday: {
+            day_of_week: 4,
+            total_of_hours: 0,
+          },
+          friday: {
+            day_of_week: 5,
+            total_of_hours: 0,
+          },
+          saturday: {
+            day_of_week: 6,
+            total_of_hours: 0,
+          },
+          sunday: {
+            day_of_week: 7,
+            total_of_hours: 0,
+          },
+        },
+      });
+
+      this.displayNewEntry = false;
     },
   },
 };

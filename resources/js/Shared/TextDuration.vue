@@ -36,6 +36,7 @@ input[type=number] {
       <span class="legend gray tc absolute f7">
         hours
       </span>
+
       <!-- hours -->
       <the-mask v-model="hours"
                 mask="##"
@@ -55,6 +56,7 @@ input[type=number] {
       <span class="legend gray tc absolute f7">
         min.
       </span>
+
       <the-mask v-model="minutes"
                 mask="##"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"

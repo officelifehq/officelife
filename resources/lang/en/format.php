@@ -11,11 +11,12 @@ return [
     | Be careful to translate it to the right format.
     |
     | We use Carbon to format dates, see http://carbon.nesbot.com/docs/#api-commonformats
-    | Format parameters are describe here http://www.php.net/manual/en/function.date.php
+    | Format parameters are described here http://www.php.net/manual/en/function.date.php
     |
     */
 
     'short_date_year_time' => 'M d, Y H:i',
+    'short_date' => 'M d',
     'long_month_day' => 'MMMM Do',
     'day_month_parenthesis' => 'dddd (MMM Do)',
     'date' => 'M d, Y',

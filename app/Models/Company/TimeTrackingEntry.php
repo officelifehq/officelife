@@ -22,6 +22,7 @@ class TimeTrackingEntry extends Model
     protected $fillable = [
         'timesheet_id',
         'project_id',
+        'project_task_id',
         'employee_id',
         'duration',
         'happened_at',
