@@ -28,12 +28,6 @@ class SentryContext
                 if ($user !== null) {
                     $scope->setUser([
                         'id' => $user->id,
-                        'email' => $user->email,
-                        'username' => $user->name,
-                    ]);
-                } else {
-                    $scope->setUser([
-                        'id' => null,
                     ]);
                 }
                 $scope->setTag('page.route.name', Route::currentRouteName());
