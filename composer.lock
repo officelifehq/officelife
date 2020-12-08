@@ -5186,16 +5186,16 @@
         },
         {
             "name": "tightenco/ziggy",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tighten/ziggy.git",
-                "reference": "aa8a5bbcea064f225870d0924fdb3fbbebaa2735"
+                "reference": "4777dafd683873978ccc529085187d03b750d39f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tighten/ziggy/zipball/aa8a5bbcea064f225870d0924fdb3fbbebaa2735",
-                "reference": "aa8a5bbcea064f225870d0924fdb3fbbebaa2735",
+                "url": "https://api.github.com/repos/tighten/ziggy/zipball/4777dafd683873978ccc529085187d03b750d39f",
+                "reference": "4777dafd683873978ccc529085187d03b750d39f",
                 "shasum": ""
             },
             "require": {
@@ -5244,7 +5244,7 @@
                 "laravel",
                 "routes"
             ],
-            "time": "2020-11-21T01:26:55+00:00"
+            "time": "2020-12-06T22:07:45+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
