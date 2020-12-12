@@ -82,6 +82,7 @@ class DashboardTimesheetController extends Controller
 
         try {
             $currentTimesheet = Timesheet::where('company_id', $company->id)
+                ->where('employee_id', $employee->id)
                 ->findOrFail($timesheetId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -144,7 +145,7 @@ class DashboardTimesheetController extends Controller
             return null;
         }
 
-        $tasks = DashboardTimesheetViewHelper::tasks($project, $timesheet);
+        $tasks = DashboardTimesheetViewHelper::availableTasks($project, $timesheet);
 
         return response()->json([
             'data' => $tasks,

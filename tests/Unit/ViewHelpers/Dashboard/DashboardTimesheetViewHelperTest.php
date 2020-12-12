@@ -96,7 +96,7 @@ class DashboardTimesheetViewHelperTest extends TestCase
             'project_task_id' => $taskA->id,
         ]);
 
-        $collection = DashboardTimesheetViewHelper::tasks($project, $timesheet);
+        $collection = DashboardTimesheetViewHelper::availableTasks($project, $timesheet);
 
         $this->assertEquals(
             [

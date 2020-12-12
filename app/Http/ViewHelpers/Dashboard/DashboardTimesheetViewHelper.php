@@ -182,7 +182,7 @@ class DashboardTimesheetViewHelper
      * @param Timesheet $timesheet
      * @return Collection
      */
-    public static function tasks(Project $project, Timesheet $timesheet): Collection
+    public static function availableTasks(Project $project, Timesheet $timesheet): Collection
     {
         $projectTasks = $project->tasks;
 
