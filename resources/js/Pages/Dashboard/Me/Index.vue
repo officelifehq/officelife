@@ -17,6 +17,7 @@
       <dashboard-menu :employee="employee" />
 
       <one-on-one-with-manager
+        v-if="oneOnOnes.length > 0"
         :employee="employee"
         :one-on-ones="oneOnOnes"
       />

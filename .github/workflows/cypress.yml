@@ -103,7 +103,7 @@ jobs:
           record: true
           parallel: true
           install: false
-          group: Azure DevOps CI ${{ matrix.browser }}
+          group: github action ${{ matrix.browser }}
           tag: ${{ github.event_name }}
           config: baseUrl=http://localhost:8000
           wait-on: 'http://localhost:8000'
