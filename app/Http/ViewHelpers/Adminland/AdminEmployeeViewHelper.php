@@ -79,7 +79,7 @@ class AdminEmployeeViewHelper
                 'permission_level' => $employee->permission_level,
                 'avatar' => $employee->avatar,
                 'invitation_link' => $employee->invitation_link,
-                'invited' => (bool) (! $employee->invitation_used_at && $employee->invitation_link),
+                'invited' => (! $employee->invitation_used_at && $employee->invitation_link) === true,
                 'lock_status' => $employee->locked,
                 'url_view' => route('employees.show', [
                     'company' => $company,
