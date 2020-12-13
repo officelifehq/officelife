@@ -63,7 +63,8 @@ class CreateTimeTrackingEntry extends BaseService
         $this->data = $data;
         $this->validate();
         $this->getTimesheet();
-        $this->createTimeTrackingEntry();
+        $this->createCarbonDate();
+        $this->createOrUpdateTimeTrackingEntry();
         $this->log();
 
         return $this->timeTrackingEntry;
@@ -100,7 +101,31 @@ class CreateTimeTrackingEntry extends BaseService
         ]);
     }
 
-    private function createTimeTrackingEntry(): void
+    private function createCarbonDate(): void
+    {
+        try {
+            $this->date = Carbon::createFromFormat('Y-m-d', $this->data['date']);
+            $this->date->hour(00);
+            $this->date->minute(00);
+            $this->date->second(00);
+        } catch (InvalidDateException $e) {
+            throw new \Exception(trans('app.error_invalid_date'));
+        }
+    }
+
+    private function checkPastTimeTrackingEntryExistence(): void
+    {
+        // we need to check if there is an entry already for this date
+        // and the task in this project
+        $this->timeTrackingEntry = TimeTrackingEntry::where('happened_at', $this->date)
+            ->where('timesheet_id', $this->timesheet->id)
+            ->where('employee_id', $this->employee->id)
+            ->where('project_task_id', is_null($this->data['project_task_id']) ? null : $this->projectTask->id)
+            ->where('project_id', is_null($this->data['project_id']) ? null : $this->project->id)
+            ->first();
+    }
+
+    private function createOrUpdateTimeTrackingEntry(): void
     {
         // how much is the duration of all the time entries for the timesheet?
         $entries = $this->timesheet->timeTrackingEntries;
@@ -112,15 +137,15 @@ class CreateTimeTrackingEntry extends BaseService
             throw new DurationExceedingMaximalDurationException();
         }
 
-        try {
-            $this->date = Carbon::createFromFormat('Y-m-d', $this->data['date']);
-            $this->date->hour(00);
-            $this->date->minute(00);
-            $this->date->second(00);
-        } catch (InvalidDateException $e) {
-            throw new \Exception(trans('app.error_invalid_date'));
+        if ($this->timeTrackingEntry) {
+            $this->updateEntry();
+        } else {
+            $this->createEntry();
         }
+    }
 
+    private function createEntry(): void
+    {
         $this->timeTrackingEntry = TimeTrackingEntry::create([
             'timesheet_id' => $this->timesheet->id,
             'employee_id' => $this->employee->id,
@@ -130,6 +155,12 @@ class CreateTimeTrackingEntry extends BaseService
             'happened_at' => $this->date,
             'description' => $this->valueOrNull($this->data, 'description'),
         ]);
+    }
+
+    private function updateEntry(): void
+    {
+        $this->timeTrackingEntry->duration = $this->data['duration'];
+        $this->timeTrackingEntry->save();
     }
 
     private function log(): void
