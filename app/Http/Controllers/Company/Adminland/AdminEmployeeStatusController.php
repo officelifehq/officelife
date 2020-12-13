@@ -49,6 +49,7 @@ class AdminEmployeeStatusController extends Controller
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
+            'type' => $request->input('type'),
         ];
 
         $employeeStatus = (new CreateEmployeeStatus)->execute($data);

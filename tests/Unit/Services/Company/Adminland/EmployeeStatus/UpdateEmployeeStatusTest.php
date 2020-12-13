@@ -79,6 +79,7 @@ class UpdateEmployeeStatusTest extends TestCase
             'author_id' => $michael->id,
             'employee_status_id' => $employeeStatus->id,
             'name' => 'Non permanent',
+            'type' => 'external',
         ];
 
         (new UpdateEmployeeStatus)->execute($request);
@@ -87,6 +88,7 @@ class UpdateEmployeeStatusTest extends TestCase
             'id' => $employeeStatus->id,
             'company_id' => $employeeStatus->company_id,
             'name' => 'Non permanent',
+            'type' => 'external',
         ]);
 
         $this->assertInstanceOf(

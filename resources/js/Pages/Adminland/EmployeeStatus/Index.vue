@@ -51,14 +51,24 @@
                   :datacy="'add-title-input'"
                   required
                   :placeholder="$t('account.employee_statuses_placeholder')"
-                  :extra-class-upper-div="'mb0'"
+                  :extra-class-upper-div="'mb3'"
+                />
+
+                <checkbox
+                  :id="'home'"
+                  :datacy="'external-employee-checkbox'"
+                  :label="'This status applies to external employees.'"
+                  :help="'Checking this box will add a couple of fields for those employees (like contract renewal dates).'"
+                  :extra-class-upper-div="'mb0 relative'"
+                  :required="false"
+                  @change="updateType($event)"
                 />
               </div>
               <div class="fl w-30-ns w-100 tr">
                 <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false ; form.name = ''">
                   {{ $t('app.cancel') }}
                 </a>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
               </div>
             </div>
           </form>
@@ -96,7 +106,7 @@
               <ul v-show="idToUpdate != status.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns f6">
                 <!-- RENAME A EMPLOYEE STATUS -->
                 <li class="di mr2">
-                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">{{ $t('app.rename') }}</a>
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">{{ $t('app.update') }}</a>
                 </li>
 
                 <!-- DELETE A EMPLOYEE STATUS -->
@@ -134,6 +144,7 @@ import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Checkbox from '@/Shared/Checkbox';
 
 export default {
   components: {
@@ -141,6 +152,7 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
+    Checkbox,
   },
 
   props: {
@@ -166,6 +178,7 @@ export default {
       idToDelete: 0,
       form: {
         name: null,
+        type: 'internal',
         errors: [],
       },
     };
@@ -176,9 +189,18 @@ export default {
   },
 
   methods: {
+    updateType(event) {
+      if (event) {
+        this.form.type = 'external';
+      } else {
+        this.form.type = 'internal';
+      }
+    },
+
     displayAddModal() {
       this.modal = true;
       this.form.name = '';
+      this.form.type = 'internal';
 
       this.$nextTick(() => {
         this.$refs['newStatus'].$refs['input'].focus();
@@ -206,6 +228,7 @@ export default {
 
           this.loadingState = null;
           this.form.name = null;
+          this.form.type = 'internal';
           this.modal = false;
           this.localStatuses.push(response.data.data);
         })
@@ -222,6 +245,7 @@ export default {
 
           this.idToUpdate = 0;
           this.form.name = null;
+          this.form.type = 'internal';
 
           var changedId = this.localStatuses.findIndex(x => x.id === id);
           this.$set(this.localStatuses, changedId, response.data.data);

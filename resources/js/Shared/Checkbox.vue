@@ -23,27 +23,30 @@ input[type=checkbox] {
 
 <template>
   <div :class="extraClassUpperDiv">
-    <input
-      :id="id"
-      v-model="updatedValue"
-      type="checkbox"
-      class="relative"
-      :class="classes"
-      :required="required"
-      :name="name"
-      :data-cy="datacy"
-      @change="$emit('change', updatedValue)"
-    />
-    <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="id">
-      <span v-html="label"></span>
-      <span v-if="!required" class="optional-badge f7">
-        {{ $t('app.optional') }}
-      </span>
-    </label>
+    <div class="flex items-start">
+      <input
+        :id="id"
+        v-model="updatedValue"
+        type="checkbox"
+        class="relative mr2"
+        :class="classes"
+        :required="required"
+        :name="name"
+        :data-cy="datacy"
+        @change="$emit('change', updatedValue)"
+      />
+      <label v-if="label" class="fw4 lh-copy f5 pointer di" :for="id">
+        <span v-html="label"></span>
+        <span v-if="!required" class="optional-badge f7">
+          {{ $t('app.optional') }}
+        </span>
+      </label>
+    </div>
+
     <div v-if="hasError" class="error-explanation pa3 ba br3 mt1">
       {{ errors[0] }}
     </div>
-    <p v-if="help" class="f7 mb3 lh-title">
+    <p v-if="help" class="pl4 ma0 f7 lh-title">
       {{ help }}
     </p>
   </div>
@@ -90,11 +93,11 @@ export default {
     },
     classes: {
       type: String,
-      default: 'mb3',
+      default: '',
     },
     extraClassUpperDiv: {
       type: String,
-      default: 'mb3',
+      default: '',
     },
   },
 
