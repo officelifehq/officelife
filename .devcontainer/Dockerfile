@@ -3,9 +3,10 @@ ARG VARIANT=7.4
 FROM mcr.microsoft.com/vscode/devcontainers/php:dev-${VARIANT}
 
 # Install MariaDB client
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get install -y mariadb-client \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+RUN apt-get update; \
+    export DEBIAN_FRONTEND=noninteractive; \
+    apt-get install -y mariadb-client; \
+    rm -rf /var/lib/apt/lists/*
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
 ARG USER_UID=1000
@@ -23,8 +24,29 @@ ARG NODE_VERSION="lts/*"
 RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
 # [Optional] Uncomment this section to install additional OS packages.
-# RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-#     && apt-get -y install --no-install-recommends <your-package-list-here>
+RUN apt-get update; \
+    export DEBIAN_FRONTEND=noninteractive \
+    apt-get install -y --no-install-recommends \
+        libicu-dev \
+        zlib1g-dev \
+        libzip-dev \
+        libpq-dev \
+        libsqlite3-dev \
+        libxml2-dev \
+        libfreetype6-dev \
+    ; \
+    \
+    debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
+    docker-php-ext-configure intl; \
+    docker-php-ext-install -j$(nproc) \
+        intl \
+        zip \
+        pdo_mysql \
+        mysqli \
+        pdo_pgsql \
+        pdo_sqlite \
+    ; \
+    rm -rf /var/lib/apt/lists/*
 
 # [Optional] Uncomment this line to install global node packages.
 RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g yarn" 2>&1
