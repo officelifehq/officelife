@@ -44,14 +44,12 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": [
-        "sudo rm -rf /var/www/html && sudo ln -s ~/workspace/officelife/public /var/www/html;",
+        "chmod a+x /root && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\"/public /var/www/html;",
         "cp .env.example .env;",
-        "composer install --no-suggest;",
-        "php artisan key:generate;",
-        "php artisan storage:link;",
-        "php artisan migrate;",
-        "php artisan lang:generate;",
-        "yarn install && yarn prod;",
+        "composer install;",
+        "yarn install;",
+        "php artisan setup;",
+        "chgrp -R www-data \"$(pwd)\"/storage && chmod -R g+w \"$(pwd)\"/storage",
         "apache2ctl start"
     ]
 
