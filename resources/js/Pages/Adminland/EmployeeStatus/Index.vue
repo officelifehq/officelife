@@ -1,6 +1,30 @@
-<style scoped>
+<style lang="scss" scoped>
 .list li:last-child {
   border-bottom: 0;
+}
+
+.type {
+  font-size: 12px;
+  border: 1px solid transparent;
+  border-radius: 2em;
+  padding: 3px 10px;
+  line-height: 22px;
+  color: #0366d6;
+  background-color: #f1f8ff;
+
+  &:hover {
+    background-color: #def;
+  }
+
+  a:hover {
+    border-bottom: 0;
+  }
+
+  span {
+    border-radius: 100%;
+    background-color: #c8dcf0;
+    padding: 0px 5px;
+  }
 }
 </style>
 
@@ -52,13 +76,13 @@
                   required
                   :placeholder="$t('account.employee_statuses_placeholder')"
                   :extra-class-upper-div="'mb3'"
+                  @esc-key-pressed="modal = false"
                 />
 
                 <checkbox
-                  :id="'home'"
                   :datacy="'external-employee-checkbox'"
-                  :label="'This status applies to external employees.'"
-                  :help="'Checking this box will add a couple of fields for those employees (like contract renewal dates).'"
+                  :label="$t('account.employee_statuses_new_external')"
+                  :help="$t('account.employee_statuses_new_external_help')"
                   :extra-class-upper-div="'mb0 relative'"
                   :required="false"
                   @change="updateType($event)"
@@ -76,10 +100,12 @@
           <!-- LIST OF EXISTING EMPLOYEE STATUSES -->
           <ul v-show="localStatuses.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="localStatuses.map(n => n.id)">
             <li v-for="status in localStatuses" :key="status.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
-              {{ status.name }}
+              <div v-if="idToUpdate != status.id" class="di">
+                {{ status.name }} <span class="type">{{ status.type_translated }}</span>
+              </div>
 
-              <!-- RENAME POSITION FORM -->
-              <div v-show="idToUpdate == status.id" class="cf mt3">
+              <!-- UPDATE POSITION FORM -->
+              <div v-if="idToUpdate == status.id" class="cf">
                 <form @submit.prevent="update(status.id)">
                   <div class="fl w-100 w-70-ns mb3 mb0-ns">
                     <text-input :id="'name-' + status.id"
@@ -89,8 +115,18 @@
                                 :datacy="'list-rename-input-name-' + status.id"
                                 :errors="$page.props.errors.name"
                                 required
-                                :extra-class-upper-div="'mb0'"
+                                :extra-class-upper-div="'mb3'"
                                 @esc-key-pressed="idToUpdate = 0"
+                    />
+
+                    <checkbox
+                      :id="'home'"
+                      :datacy="'external-employee-checkbox'"
+                      :label="$t('account.employee_statuses_new_external')"
+                      :help="$t('account.employee_statuses_new_external_help')"
+                      :extra-class-upper-div="'mb0 relative'"
+                      :required="false"
+                      @change="updateType($event)"
                     />
                   </div>
                   <div class="fl w-30-ns w-100 tr">
@@ -201,6 +237,7 @@ export default {
       this.modal = true;
       this.form.name = '';
       this.form.type = 'internal';
+      this.form.errors = null;
 
       this.$nextTick(() => {
         this.$refs['newStatus'].$refs['input'].focus();
