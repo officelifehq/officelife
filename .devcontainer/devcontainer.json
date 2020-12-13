@@ -48,6 +48,7 @@
         "cp .env.example .env;",
         "composer install;",
         "yarn install;",
+        "php artisan key:generate;",
         "php artisan setup;",
         "chgrp -R www-data \"$(pwd)\"/storage && chmod -R g+w \"$(pwd)\"/storage",
         "apache2ctl start"
