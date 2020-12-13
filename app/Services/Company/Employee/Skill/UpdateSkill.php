@@ -62,8 +62,7 @@ class UpdateSkill extends BaseService
      */
     private function verifySkillNameUniqueness(): void
     {
-        $name = Str::of($this->data['name'])->ascii();
-        $name = strtolower($name);
+        $name = Str::of($this->data['name'])->ascii()->lower();
 
         $uniqueSkill = Skill::where('company_id', $this->data['company_id'])
             ->where('name', $name)
@@ -101,8 +100,7 @@ class UpdateSkill extends BaseService
     private function updateName(): void
     {
         $oldName = $this->skill->name;
-        $name = Str::of($this->data['name'])->ascii();
-        $name = strtolower($name);
+        $name = Str::of($this->data['name'])->ascii()->lower();
 
         $this->skill->update([
             'name' => $name,

@@ -26,8 +26,7 @@ class EmployeeSkillController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $name = $request->input('searchTerm');
-        $name = Str::of($name)->ascii();
-        $name = strtolower($name);
+        $name = Str::of($name)->ascii()->lower();
 
         $potentialSkills = Skill::search(
             $name,
