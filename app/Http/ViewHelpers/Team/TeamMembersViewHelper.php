@@ -11,11 +11,11 @@ class TeamMembersViewHelper
      * Array containing all the basic information about employees that the user
      * has made a search about.
      *
-     * @param Collection $employees
+     * @param \Traversable $employees
      *
      * @return Collection
      */
-    public static function searchedEmployees(Collection $employees): Collection
+    public static function searchedEmployees(\Traversable $employees): Collection
     {
         $employeesCollection = collect([]);
         foreach ($employees as $employee) {

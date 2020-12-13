@@ -34,13 +34,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/teams/' + team.id + '/ships'">{{ $t('app.breadcrumb_team_show_recent_ships') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/teams/' + team.id + '/ships'">{{ $t('app.breadcrumb_team_show_recent_ships') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_team_show_recent_ship_detail') }}
@@ -69,7 +69,7 @@
               </a>
             </li>
             <li v-else class="di">
-              <a v-if="atLeastHR()" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + ship.id" @click.prevent="deleteMode = true">
+              <a v-if="atLeastHR" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + ship.id" @click.prevent="deleteMode = true">
                 {{ $t('app.delete') }}
               </a>
             </li>
@@ -141,6 +141,12 @@ export default {
     };
   },
 
+  computed: {
+    atLeastHR() {
+      return this.$page.props.auth.employee.permission_level <= 200;
+    },
+  },
+
   mounted() {
     if (localStorage.success) {
       flash(localStorage.success, 'success');
@@ -149,20 +155,14 @@ export default {
   },
 
   methods: {
-    atLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-    },
-
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/ships/' + id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships/' + id)
         .then(response => {
           localStorage.success = this.$t('team.recent_ship_deletion_success');
-          this.$inertia.visit('/' + this.$page.auth.company.id + '/teams/' + this.team.id + '/ships');
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/teams/' + this.team.id + '/ships');
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

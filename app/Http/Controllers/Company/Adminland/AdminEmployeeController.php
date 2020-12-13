@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\LockEmployee;
+use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
 use App\Services\Company\Adminland\Employee\UnlockEmployee;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
@@ -27,48 +28,86 @@ class AdminEmployeeController extends Controller
     public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employees = $company->employees()
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        $employeesCollection = collect([]);
-        foreach ($employees as $employee) {
-            $employeesCollection->push([
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'permission_level' => $employee->permission_level,
-                'avatar' => $employee->avatar,
-                'invitation_link' => $employee->invitation_link,
-                'invited' => ! $employee->invitation_used_at && $employee->invitation_link ? true : false,
-                'lock_status' => $employee->locked,
-                'url_view' => route('employees.show', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
-                'url_delete' => route('account.delete', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
-                'url_lock' => route('account.lock', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
-                'url_unlock' => route('account.unlock', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
-            ]);
-        }
-
-        $numberOfLockedAccounts = $employees->filter(function ($employee) {
-            return $employee->locked;
-        });
+        $employees = $company->employees()->get();
 
         return Inertia::render('Adminland/Employee/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'employees' => $employeesCollection,
-            'numberOfLockedAccounts' => $numberOfLockedAccounts->count(),
-            'numberOfActiveAccounts' => $employees->count() - $numberOfLockedAccounts->count(),
+            'statistics' => AdminEmployeeViewHelper::index($employees, $company),
+        ]);
+    }
+
+    /**
+     * Show the list of all employees.
+     *
+     * @return Response
+     */
+    public function all(): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employees = $company->employees()
+            ->orderBy('last_name', 'asc')
+            ->get();
+
+        return Inertia::render('Adminland/Employee/IndexAll', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employees' => AdminEmployeeViewHelper::all($employees, $company),
+        ]);
+    }
+
+    /**
+     * Show the list of all active employees.
+     *
+     * @return Response
+     */
+    public function active(): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employees = $company->employees()
+            ->where('locked', false)
+            ->orderBy('last_name', 'asc')
+            ->get();
+
+        return Inertia::render('Adminland/Employee/IndexActive', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employees' => AdminEmployeeViewHelper::all($employees, $company),
+        ]);
+    }
+
+    /**
+     * Show the list of all locked employees.
+     *
+     * @return Response
+     */
+    public function locked(): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employees = $company->employees()
+            ->where('locked', true)
+            ->orderBy('last_name', 'asc')
+            ->get();
+
+        return Inertia::render('Adminland/Employee/IndexLocked', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employees' => AdminEmployeeViewHelper::all($employees, $company),
+        ]);
+    }
+
+    /**
+     * Show the list of all employees without an hiring date.
+     *
+     * @return Response
+     */
+    public function noHiringDate(): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employees = $company->employees()
+            ->where('hired_at', null)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return Inertia::render('Adminland/Employee/IndexNoHiringDate', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'employees' => AdminEmployeeViewHelper::all($employees, $company),
         ]);
     }
 
@@ -95,7 +134,7 @@ class AdminEmployeeController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'email' => $request->input('email'),
@@ -105,7 +144,7 @@ class AdminEmployeeController extends Controller
             'send_invitation' => $request->input('send_invitation'),
         ];
 
-        (new AddEmployeeToCompany)->execute($request);
+        (new AddEmployeeToCompany)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,
@@ -162,13 +201,13 @@ class AdminEmployeeController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'employee_id' => $employeeId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new LockEmployee)->execute($request);
+        (new LockEmployee)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,
@@ -225,13 +264,13 @@ class AdminEmployeeController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'employee_id' => $employeeId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new UnlockEmployee)->execute($request);
+        (new UnlockEmployee)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,
@@ -288,13 +327,13 @@ class AdminEmployeeController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'employee_id' => $employeeId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyEmployee)->execute($request);
+        (new DestroyEmployee)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,

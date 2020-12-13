@@ -86,10 +86,12 @@
           </form>
         </div>
       </li>
+
       <!-- cta to add a new action item -->
       <li v-if="!addActionItemMode && !entry.happened" class="bg-gray add-item-section ph2 mt1 pv1 br1">
         <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-action-item" @click="displayAddActionItem()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
       </li>
+
       <!-- add a new action item -->
       <li v-if="addActionItemMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
         <form @submit.prevent="store()">
@@ -182,7 +184,7 @@ export default {
       this.form.employee_id = this.entry.employee.id;
       this.form.manager_id = this.entry.manager.id;
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems', this.form)
         .then(response => {
           this.localActionItems.push(response.data.data);
           this.addActionItemMode = false;
@@ -198,7 +200,7 @@ export default {
     update(itemId) {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + itemId, this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + itemId, this.form)
         .then(response => {
           this.actionItemToEdit = 0;
           this.loadingState = null;
@@ -209,28 +211,28 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     toggle(id) {
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + id + '/toggle')
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + id + '/toggle')
         .then(response => {
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/actionItems/' + id)
         .then(response => {
           flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
           id = this.localActionItems.findIndex(x => x.id === id);
           this.localActionItems.splice(id, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   },

@@ -71,6 +71,10 @@ export default {
       type: String,
       default: 'input',
     },
+    errors: {
+      type: Array,
+      default: () => [],
+    },
     datacy: {
       type: String,
       default: '',
@@ -91,20 +95,32 @@ export default {
       type: String,
       default: 'mb3',
     },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
     autofocus: {
       type: Boolean,
       default: false,
     }
   },
 
+  data() {
+    return {
+      localErrors: [],
+    };
+  },
+
   computed: {
-    hasError: function () {
-      return this.errors.length > 0 && this.required ? true : false;
+    hasError() {
+      return this.errors.length > 0 && this.required;
     }
+  },
+
+  watch: {
+    errors(value) {
+      this.localErrors = value;
+    },
+  },
+
+  mounted() {
+    this.localErrors = this.errors;
   },
 
   methods: {

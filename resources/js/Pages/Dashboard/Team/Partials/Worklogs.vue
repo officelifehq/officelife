@@ -125,15 +125,15 @@ export default {
     },
     teams: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
     worklogDates: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
     worklogEntries: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
     currentDate: {
       type: String,
@@ -180,7 +180,7 @@ export default {
           this.currentWorklogDate = worklogDate;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

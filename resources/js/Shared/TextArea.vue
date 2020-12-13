@@ -33,7 +33,7 @@
               v-bind="$attrs"
               class="br2 f5 w-100 ba b--black-40 pa2 outline-0"
               :class="{ error: errors.length }"
-              :required="required ? 'required' : ''"
+              :required="required"
               :type="type"
               :value="value"
               :data-cy="datacy"
@@ -72,6 +72,10 @@ export default {
       type: String,
       default: '',
     },
+    errors: {
+      type: Array,
+      default: () => [],
+    },
     datacy: {
       type: String,
       default: '',
@@ -100,10 +104,22 @@ export default {
       type: Number,
       default: 65535,
     },
-    errors: {
-      type: Array,
-      default: () => [],
+  },
+
+  data() {
+    return {
+      localErrors: [],
+    };
+  },
+
+  watch: {
+    errors(value) {
+      this.localErrors = value;
     },
+  },
+
+  mounted() {
+    this.localErrors = this.errors;
   },
 
   methods: {

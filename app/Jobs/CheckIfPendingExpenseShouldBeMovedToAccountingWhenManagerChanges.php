@@ -42,7 +42,7 @@ class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges implement
      * validated in this case. We will move the expenses in the accounting
      * department for validation.
      */
-    public function handle()
+    public function handle(): void
     {
         // grab all the expenses with the awaiting manager approval status
         // analyze the expense's associated employee
@@ -57,10 +57,6 @@ class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges implement
 
         foreach ($expenses as $expense) {
             $employee = $expense->employee;
-
-            if (! $employee->managers) {
-                continue;
-            }
 
             if ($employee->managers->count() == 0) {
                 $expense->status = Expense::AWAITING_ACCOUTING_APPROVAL;

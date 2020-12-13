@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Company\Employee;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Helpers\StringHelper;
 use App\Models\Company\Skill;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
@@ -26,8 +26,7 @@ class EmployeeSkillController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $name = $request->input('searchTerm');
-        $name = StringHelper::removeLettersWithAccent($name);
-        $name = strtolower($name);
+        $name = Str::of($name)->ascii()->lower();
 
         $potentialSkills = Skill::search(
             $name,
@@ -66,14 +65,14 @@ class EmployeeSkillController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'name' => $request->input('searchTerm'),
         ];
 
-        $skill = (new AttachEmployeeToSkill)->execute($request);
+        $skill = (new AttachEmployeeToSkill)->execute($data);
 
         return response()->json([
             'data' => [
@@ -101,14 +100,14 @@ class EmployeeSkillController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'skill_id' => $skillId,
         ];
 
-        (new RemoveSkillFromEmployee)->execute($request);
+        (new RemoveSkillFromEmployee)->execute($data);
 
         return response()->json([
             'data' => true,

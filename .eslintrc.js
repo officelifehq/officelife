@@ -58,6 +58,12 @@ module.exports = {
             "error",
             "kebab-case"
         ],
+        "vue/component-tags-order": [
+          "warn",
+          {
+            "order": [ [ "style", "template" ], "script" ]
+          }
+        ],
         "vue/html-end-tags" : "error",
         "vue/html-self-closing": [
             "error",
@@ -68,6 +74,7 @@ module.exports = {
                 }
             }
         ],
+
         "vue/no-v-html" : 0,
         "vue/max-attributes-per-line": [
             // https://vuejs.org/v2/style-guide/#Multi-attribute-elements-strongly-recommended

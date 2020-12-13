@@ -3,6 +3,12 @@
 namespace App\Exceptions;
 
 use Throwable;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Session\TokenMismatchException;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -13,7 +19,10 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        ValidationException::class,
     ];
 
     /**
@@ -27,38 +36,37 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
-     *
-     * @param \Throwable $exception
-     *
-     * @throws \Exception
-     */
-    public function report(Throwable $exception)
-    {
-        parent::report($exception);
-    }
-
-    /**
      * Render an exception into an HTTP response.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Throwable               $exception
+     * @param \Throwable               $e
      *
      * @throws \Throwable
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
-        return parent::render($request, $exception);
+        if ($e instanceof TokenMismatchException) {
+            return Redirect::route('login');
+        }
+
+        return parent::render($request, $e);
     }
 
-    protected function whoopsHandler()
+    /**
+     * Report or log an exception.
+     *
+     * @param  \Throwable  $e
+     *
+     * @throws \Throwable
+     */
+    public function report(Throwable $e)
     {
-        try {
-            return app(\Whoops\Handler\HandlerInterface::class);
-        } catch (\Illuminate\Contracts\Container\BindingResolutionException $e) {
-            return parent::whoopsHandler();
+        if (config('app.sentry.enable') && app()->bound('sentry') && $this->shouldReport($e)) {
+            app('sentry')->captureException($e); // @codeCoverageIgnore
         }
+
+        parent::report($e);
     }
 }

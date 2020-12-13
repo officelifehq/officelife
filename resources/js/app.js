@@ -5,12 +5,12 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-import { InertiaApp } from '@inertiajs/inertia-vue';
+import { app, plugin } from '@inertiajs/inertia-vue';
 import Vue from 'vue';
 
 Vue.config.productionTip = false;
 Vue.mixin({ methods: { route: window.route } })
-Vue.use(InertiaApp);
+Vue.use(plugin);
 
 // Axios for some ajax queries
 window._ = require('lodash');
@@ -22,6 +22,10 @@ window.events = new Vue();
 window.flash = function (message, level = 'success') {
   window.events.$emit('flash', { message, level });
 };
+
+// Progress
+import { InertiaProgress } from '@inertiajs/progress'
+InertiaProgress.init()
 
 import Snotify from 'vue-snotify';
 import 'vue-snotify/styles/simple.css';
@@ -39,14 +43,15 @@ export const i18n = new VueI18n({
   messages: { 'en': messages }
 });
 
-const app = document.getElementById('app');
+const el = document.getElementById('app');
 
 new Vue({
   i18n,
-  render: h => h(InertiaApp, {
+  render: h => h(app, {
     props: {
-      initialPage: JSON.parse(app.dataset.page),
+      initialPage: JSON.parse(el.dataset.page),
       resolveComponent: name => import(`@/Pages/${name}`).then(module => module.default),
     },
   }),
-}).$mount(app);
+}).$mount(el);
+

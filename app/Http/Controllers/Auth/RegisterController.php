@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Inertia\Inertia;
+use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Services\User\CreateAccount;
@@ -39,17 +40,21 @@ class RegisterController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $email = $request->input('email');
-        $password = $request->input('password');
+        $user = (new CreateAccount)->execute($request->only([
+            'email',
+            'password',
+        ]));
 
-        $data = [
-            'email' => $email,
-            'password' => $password,
-        ];
+        if (! config('mail.verify') || User::count() == 1) {
+            // if it's the first user, we can skip the email verification
+            $user->markEmailAsVerified();
+        } else {
+            $user->sendEmailVerificationNotification();
+        }
 
-        (new CreateAccount)->execute($data);
-
-        Auth::attempt($data);
+        /** @var \Illuminate\Contracts\Auth\StatefulGuard */
+        $guard = Auth::guard();
+        $guard->login($user);
 
         return Redirect::route('home');
     }

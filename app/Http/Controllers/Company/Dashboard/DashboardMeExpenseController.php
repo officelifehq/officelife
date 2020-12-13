@@ -28,7 +28,7 @@ class DashboardMeExpenseController extends Controller
         // expense category
         $category = $request->input('category') ? $request->input('category')['id'] : null;
 
-        $request = [
+        $data = [
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'company_id' => $company->id,
@@ -40,7 +40,7 @@ class DashboardMeExpenseController extends Controller
             'expensed_at' => Carbon::now()->format('Y-m-d'),
         ];
 
-        $expense = (new CreateExpense)->execute($request);
+        $expense = (new CreateExpense)->execute($data);
 
         return response()->json([
             'data' => [

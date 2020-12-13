@@ -227,7 +227,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/question', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/question', this.form)
         .then(response => {
           this.loadingState = null;
           this.answers = response.data.data;
@@ -239,14 +239,14 @@ export default {
         .catch(error => {
           this.loadingState = null;
           this.editMode = true;
-          this.form.errors = error.response.data.errors;
+          this.form.errors = error.response.data;
         });
     },
 
     update(answer) {
       this.loadingState = 'loading';
 
-      axios.put('/' + this.$page.auth.company.id + '/dashboard/question/' + answer.id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/dashboard/question/' + answer.id, this.form)
         .then(response => {
           this.loadingState = null;
           flash(this.$t('dashboard.question_answer_updated'), 'success');
@@ -259,12 +259,12 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     destroy(answer) {
-      axios.delete('/' + this.$page.auth.company.id + '/dashboard/question/' + answer.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/question/' + answer.id)
         .then(response => {
           flash(this.$t('dashboard.question_answer_destroyed'), 'success');
 
@@ -273,7 +273,7 @@ export default {
           this.answers.splice(id, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

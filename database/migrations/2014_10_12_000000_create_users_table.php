@@ -9,7 +9,7 @@ class CreateUsersTable extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
@@ -19,7 +19,6 @@ class CreateUsersTable extends Migration
             $table->string('middle_name')->nullable();
             $table->string('nickname')->nullable();
             $table->uuid('uuid');
-            $table->string('verification_link')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();

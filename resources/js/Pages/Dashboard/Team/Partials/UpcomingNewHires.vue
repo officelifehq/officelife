@@ -19,7 +19,7 @@
     <div class="cf mw7 center mb2 fw5">
       🤟 {{ $t('dashboard.team_hired_at_title') }}
 
-      <help :url="$page.help_links.employee_hiring_date" />
+      <help :url="$page.props.help_links.employee_hiring_date" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box">
@@ -37,7 +37,7 @@
             {{ $t('dashboard.team_hired_at_date_with_position', { date: employee.hired_at, position: employee.position.title }) }}
           </span>
           <span v-else class="title db f7 mt1">
-            {{ $t('dashboard.team_birthdate_date', { date: employee.hired_at }) }}
+            {{ $t('dashboard.team_hired_at_date', { date: employee.hired_at }) }}
           </span>
         </span>
       </div>
@@ -56,7 +56,7 @@ export default {
   props: {
     newHires: {
       type: Array,
-      default: () => ({}),
+      default: () => [],
     },
   },
 };

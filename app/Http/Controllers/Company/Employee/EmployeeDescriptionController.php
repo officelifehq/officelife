@@ -25,14 +25,14 @@ class EmployeeDescriptionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'description' => $request->input('description'),
         ];
 
-        $employee = (new SetPersonalDescription)->execute($request);
+        $employee = (new SetPersonalDescription)->execute($data);
 
         return response()->json([
             'data' => $employee->toObject(),
@@ -52,13 +52,13 @@ class EmployeeDescriptionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
         ];
 
-        $employee = (new ClearPersonalDescription)->execute($request);
+        $employee = (new ClearPersonalDescription)->execute($data);
 
         return response()->json([
             'data' => $employee->toObject(),

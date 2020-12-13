@@ -53,7 +53,7 @@ class RateYourManagerSurvey extends Model
     /**
      * Get the answers made by direct reports associated with the survey.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function answers()
     {

@@ -34,7 +34,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         (new ExpenseConvertAmountFromOneCurrencyToCompanyCurrency)->execute($this->expense);
     }

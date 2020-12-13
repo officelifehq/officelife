@@ -14,9 +14,10 @@ class HelpCenterTest extends TestCase
     {
         $links = config('officelife.help_links');
 
-        foreach ($links as $key => $link) {
-            $url = config('officelife.help_center_url') . '/docs/' . $link;
+        $this->assertIsArray($links);
 
+        foreach ($links as $key => $link) {
+            $url = config('officelife.help_center_url').$link;
             $ch = curl_init($url);
 
             curl_setopt($ch, CURLOPT_NOBODY, true);

@@ -15,30 +15,13 @@ class GenerateAvatarTest extends TestCase
     public function it_returns_an_url(): void
     {
         $request = [
-            'uuid' => 'matt@wordpress.com',
-            'size' => 400,
+            'name' => 'Matt Blob',
         ];
 
         $url = (new GenerateAvatar)->execute($request);
 
         $this->assertEquals(
-            'https://api.adorable.io/avatars/400/matt@wordpress.com.png',
-            $url
-        );
-    }
-
-    /** @test */
-    public function it_returns_an_url_with_a_default_avatar_size(): void
-    {
-        $request = [
-            'uuid' => 'matt@wordpress.com',
-        ];
-
-        $url = (new GenerateAvatar)->execute($request);
-
-        // should return an avatar of 200 px wide
-        $this->assertEquals(
-            'https://api.adorable.io/avatars/200/matt@wordpress.com.png',
+            'https://ui-avatars.com/api/?name=Matt Blob',
             $url
         );
     }

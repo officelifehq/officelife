@@ -33,7 +33,7 @@
         💵
       </span> How is your work as a manager
 
-      <help :url="$page.help_links.manager_rate_manager" :datacy="'help-icon-rate'" />
+      <help :url="$page.props.help_links.manager_rate_manager" :datacy="'help-icon-rate'" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">
@@ -82,12 +82,10 @@
 
 <script>
 import Help from '@/Shared/Help';
-//import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
 export default {
   components: {
     Help,
-    //SmallNameAndAvatar,
   },
 
   props: {

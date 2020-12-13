@@ -56,7 +56,7 @@ class Step extends Model
     /**
      * Calculate the real number of days represented by the step.
      */
-    public function calculateDays()
+    public function calculateDays(): void
     {
         if ($this->modifier == 'same_day') {
             $this->real_number_of_days = 0;

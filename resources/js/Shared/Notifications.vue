@@ -42,7 +42,7 @@
       </li>
       <li v-show="notifications == 0" class="pv2 ph3 bb bb-gray lh-copy">{{ $t('app.notification_blank_state') }} 🎉</li>
       <li class="pv2 ph3 f6 tc">
-        <inertia-link :href="'/' + $page.auth.company.id + '/notifications'">{{ $t('app.notification_view_all') }}</inertia-link>
+        <inertia-link :href="'/' + $page.props.auth.company.id + '/notifications'">{{ $t('app.notification_view_all') }}</inertia-link>
       </li>
     </ul>
   </div>
@@ -84,12 +84,12 @@ export default {
     markRead() {
       this.showMenu = true;
 
-      axios.post('/' + this.$page.auth.company.id + '/notifications/read')
+      axios.post('/' + this.$page.props.auth.company.id + '/notifications/read')
         .then(response => {
           this.numberOfNotifications = 0;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     }
   }

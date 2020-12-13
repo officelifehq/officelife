@@ -113,7 +113,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/description', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/description', this.form)
         .then(response => {
           flash(this.$t('employee.description_success'), 'success');
 
@@ -123,12 +123,12 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     clear() {
-      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/description/' + this.employee.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/description/' + this.employee.id)
         .then(response => {
           flash(this.$t('employee.description_success'), 'success');
 
@@ -137,7 +137,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

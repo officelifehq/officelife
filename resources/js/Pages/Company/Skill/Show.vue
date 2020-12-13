@@ -44,13 +44,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/company/skills'">{{ $t('app.breadcrumb_company_skills') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/skills'">{{ $t('app.breadcrumb_company_skills') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_company_skills_detail') }}
@@ -90,11 +90,11 @@
             </form>
           </span>
 
-          <help :url="$page.help_links.skills" :datacy="'help-icon-skills'" :top="'1px'" />
+          <help :url="$page.props.help_links.skills" :datacy="'help-icon-skills'" :top="'1px'" />
         </h2>
 
         <!-- actions available for HR and administrators -->
-        <ul v-if="atLeastHR() && !editMode" class="tc pl0 ma0 f6 mb4">
+        <ul v-if="atLeastHR && !editMode" class="tc pl0 ma0 f6 mb4">
           <li class="mr2 di"><a class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="edit-skill" href="#" @click.prevent="showEditMode()">{{ $t('app.edit') }}</a></li>
           <li v-if="deleteMode" class="di">
             {{ $t('app.sure') }}
@@ -192,7 +192,13 @@ export default {
     };
   },
 
-  created() {
+  computed: {
+    atLeastHR() {
+      return this.$page.props.auth.employee.permission_level <= 200;
+    },
+  },
+
+  mounted() {
     this.form.name = this.skill.name;
     this.updatedName = this.skill.name;
   },
@@ -206,18 +212,10 @@ export default {
       });
     },
 
-    atLeastHR() {
-      if (this.$page.auth.employee.permission_level <= 200) {
-        return true;
-      }
-
-      return false;
-    },
-
     update() {
       this.loadingState = 'loading';
 
-      axios.put('/' + this.$page.auth.company.id + '/company/skills/' + this.skill.id, this.form)
+      axios.put('/' + this.$page.props.auth.company.id + '/company/skills/' + this.skill.id, this.form)
         .then(response => {
           flash(this.$t('company.skill_update_success'), 'success');
           this.updatedName = this.form.name;
@@ -231,13 +229,13 @@ export default {
     },
 
     destroy(skill) {
-      axios.delete('/' + this.$page.auth.company.id + '/company/skills/' + skill.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/company/skills/' + skill.id)
         .then(response => {
           localStorage.success = this.$t('company.skill_delete_success');
-          this.$inertia.visit('/' + this.$page.auth.company.id + '/company/skills');
+          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/company/skills');
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

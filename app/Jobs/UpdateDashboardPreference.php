@@ -33,7 +33,7 @@ class UpdateDashboardPreference implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         (new UpdateDashboardView)->execute([
             'employee_id' => $this->preference['employee_id'],

@@ -83,7 +83,7 @@ class DisallowEmployeeToManageExpensesTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael, $dwight) {
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($michael) {
             return $job->auditLog['action'] === 'employee_disallowed_to_manage_expenses' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([]);

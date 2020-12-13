@@ -42,10 +42,10 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_teams') }}
@@ -58,13 +58,13 @@
         <!-- WHEN THERE ARE TEAMS -->
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.teams_title', { company: $page.auth.company.name}) }}
+            {{ $t('account.teams_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <!-- add a team -->
           <div class="relative mb4">
-            <span v-show="teams.length != 0" class="dib mb3 di-l">
-              {{ $tc('account.teams_number_teams', teams.length, { company: $page.auth.company.name, count: teams.length}) }}
+            <span v-show="localTeams.length != 0" class="dib mb3 di-l">
+              {{ $tc('account.teams_number_teams', localTeams.length, { company: $page.props.auth.company.name, count: localTeams.length}) }}
             </span>
             <a data-cy="add-team-button" class="btn tc absolute-l relative dib-l db right-0" @click.prevent="displayAddModal">
               {{ $t('account.teams_cta') }}
@@ -83,7 +83,7 @@
                               v-model="form.name"
                               :placeholder="''"
                               :name="'name'"
-                              :errors="$page.errors.name"
+                              :errors="$page.props.errors.name"
                               required
                               :label="$t('account.team_new_name')"
                               :extra-class-upper-div="'mb0'"
@@ -105,9 +105,9 @@
           </div>
 
           <!-- LIST OF TEAMS -->
-          <ul v-show="teams.length != 0" class="list pl0 mt0 center">
+          <ul v-show="localTeams.length != 0" class="list pl0 mt0 center">
             <li
-              v-for="team in teams" :key="team.id"
+              v-for="team in localTeams" :key="team.id"
               class="pa3-l pa1 ph0-l bb b--black-10 team-item"
             >
               <!-- normal case (ie not rename mode) -->
@@ -122,7 +122,7 @@
                     <inertia-link :href="team.url">{{ $t('account.team_visit_page') }}</inertia-link>
                   </li>
                   <li class="di pr2">
-                    <inertia-link :href="'/' + $page.auth.company.id + '/account/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</inertia-link>
+                    <inertia-link :href="'/' + $page.props.auth.company.id + '/account/teams/' + team.id + '/logs'">{{ $t('account.team_view_audit_logs') }}</inertia-link>
                   </li>
                   <li class="di pr2">
                     <a href="#" class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'team-rename-link-' + team.id" @click.prevent="showRenameModal(team)">{{ $t('app.rename') }}</a>
@@ -150,7 +150,7 @@
                                 :placeholder="'Product team'"
                                 :custom-ref="'name' + team.id"
                                 :datacy="'list-rename-input-name-' + team.id"
-                                :errors="$page.errors.name"
+                                :errors="$page.props.errors.name"
                                 required
                                 :extra-class-upper-div="'mb0'"
                                 @esc-key-pressed="teamToRename = 0"
@@ -189,7 +189,7 @@
         </div>
 
         <!-- NO TEAMS -->
-        <div v-show="teams.length == 0" class="pa3">
+        <div v-show="localTeams.length == 0" class="pa3">
           <img loading="lazy" height="140" class="db center mb4" alt="no expenses to validate" src="/img/streamline-icon-designer-team-6@140x140.png" />
 
           <p class="tc measure center mb4 lh-copy">
@@ -228,6 +228,7 @@ export default {
 
   data() {
     return {
+      localTeams: [],
       modal: false,
       renameMode: false,
       deletionMode: false,
@@ -240,6 +241,10 @@ export default {
       loadingState: '',
       errorTemplate: Error,
     };
+  },
+
+  mounted() {
+    this.localTeams = this.teams;
   },
 
   methods: {
@@ -276,48 +281,48 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/teams', this.form)
+      axios.post(this.route('account_teams.teams.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.team_creation_success'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
           this.modal = false;
-          this.teams.push(response.data.data);
+          this.localTeams.push(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     update(team) {
-      axios.put('/' + this.$page.auth.company.id + '/account/teams/' + team.id, this.form)
+      axios.put(this.route('account_teams.teams.update', [this.$page.props.auth.company.id, team.id]), this.form)
         .then(response => {
           flash(this.$t('account.team_update_success'), 'success');
 
           this.teamToRename = 0;
           this.form.name = null;
 
-          var id = this.teams.findIndex(x => x.id == team.id);
-          this.$set(this.teams, id, response.data.data);
+          var id = this.localTeams.findIndex(x => x.id === team.id);
+          this.$set(this.localTeams, id, response.data.data);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     destroy(team) {
-      axios.delete('/' + this.$page.auth.company.id + '/account/teams/' + team.id)
+      axios.delete(this.route('account_teams.teams.destroy', [this.$page.props.auth.company.id, team.id]))
         .then(response => {
           flash(this.$t('account.team_destroy_success'), 'success');
 
           this.teamToDelete = 0;
-          var id = this.teams.findIndex(x => x.id == team.id);
-          this.teams.splice(id, 1);
+          var id = this.localTeams.findIndex(x => x.id === team.id);
+          this.localTeams.splice(id, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

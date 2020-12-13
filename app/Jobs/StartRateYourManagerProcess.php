@@ -24,7 +24,7 @@ class StartRateYourManagerProcess implements ShouldQueue
      * Start the Rate your Manager monthly process.
      * This will ask every employee to rate their manager(s).
      */
-    public function handle()
+    public function handle(): void
     {
         $managers = DirectReport::get()->unique('manager_id');
 

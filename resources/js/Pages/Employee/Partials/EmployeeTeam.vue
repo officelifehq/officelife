@@ -86,7 +86,7 @@
       <!-- Shown if there is no teams setup in the account yet -->
       <div v-show="teams.length == 0">
         <p class="pa2 tc lh-copy" data-cy="modal-blank-state-copy">
-          {{ $t('employee.team_modal_blank_title') }} <inertia-link :href="'/' + $page.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">
+          {{ $t('employee.team_modal_blank_title') }} <inertia-link :href="'/' + $page.props.auth.company.id + '/account/teams'" data-cy="modal-blank-state-cta">
             {{ $t('employee.team_modal_blank_cta') }}
           </inertia-link>
         </p>
@@ -134,20 +134,11 @@ export default {
     filteredList() {
       // filter the list when searching
       // also, sort the list by name
-      var list;
-      list = this.teams.filter(team => {
+      var list = this.teams.filter(team => {
         return team.name.toLowerCase().includes(this.search.toLowerCase());
       });
 
-      function compare(a, b) {
-        if (a.name < b.name)
-          return -1;
-        if (a.name > b.name)
-          return 1;
-        return 0;
-      }
-
-      return list.sort(compare);
+      return _.sortBy(list, ['name']);
     }
   },
 
@@ -161,32 +152,32 @@ export default {
     },
 
     assign(team) {
-      axios.post('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/team', team)
+      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/team', team)
         .then(response => {
           flash(this.$t('employee.team_modal_assign_success'), 'success');
 
           this.updatedEmployeeTeams = response.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     reset(team) {
-      axios.delete('/' + this.$page.auth.company.id + '/employees/' + this.employee.id + '/team/' + team.id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/team/' + team.id)
         .then(response => {
           flash(this.$t('employee.team_modal_unassign_success'), 'success');
 
           this.updatedEmployeeTeams = response.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     isAssigned: function(id) {
-      for(var i=0; i < this.updatedEmployeeTeams.length; i++){
-        if (this.updatedEmployeeTeams[i].id == id) {
+      for(let team of this.updatedEmployeeTeams){
+        if (team.id === id) {
           return true;
         }
       }

@@ -49,7 +49,7 @@
           <text-input :id="'email'"
                       v-model="form.email"
                       :type="'email'"
-                      :errors="$page.errors.email"
+                      :errors="$page.props.errors.email"
                       :label="$t('auth.register_email')"
                       :help="$t('auth.register_email_help')"
           />
@@ -59,7 +59,7 @@
                       v-model="form.password"
                       :type="'password'"
                       :name="'password'"
-                      :errors="$page.errors.password"
+                      :errors="$page.props.errors.password"
                       :label="$t('auth.register_password')"
           />
 
@@ -87,13 +87,13 @@
 
         <form @submit.prevent="submit">
           <!-- Email -->
-          <text-input :id="'email'" v-model="form.email" :type="'email'" :errors="$page.errors.email" :label="$t('auth.register_email')" />
+          <text-input :id="'email'" v-model="form.email" :type="'email'" :errors="$page.props.errors.email" :label="$t('auth.register_email')" />
 
           <!-- Password -->
           <text-input :id="'password'"
                       v-model="form.password"
                       :type="'password'"
-                      :errors="$page.errors.password"
+                      :errors="$page.props.errors.password"
                       :label="$t('auth.register_password')"
           />
 
@@ -160,14 +160,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/invite/employee/' + this.invitationLink + '/join', this.form)
+      axios.post(this.route('invitation.join', this.invitationLink), this.form)
         .then(response => {
           this.$inertia.visit('/home');
         })
         .catch(error => {
           this.loadingState = null;
           if (typeof error.response.data === 'object') {
-            this.form.errors = _.flatten(_.toArray(error.response.data));
+            this.form.errors = error.response.data;
           } else {
             this.form.errors = [this.$t('app.error_try_again')];
           }

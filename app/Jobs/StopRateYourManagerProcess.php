@@ -28,7 +28,7 @@ class StopRateYourManagerProcess implements ShouldQueue
      * Stop the Rate your Manager monthly process.
      * This will mark all active survey inactive.
      */
-    public function handle()
+    public function handle(): void
     {
         if ($this->force) {
             DB::table('rate_your_manager_surveys')

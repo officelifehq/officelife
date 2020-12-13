@@ -64,7 +64,7 @@ class Skill extends Model
     /**
      * Get the employee records associated with the skill.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function employees()
     {

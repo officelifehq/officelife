@@ -37,7 +37,7 @@ class DashboardExpensesController extends Controller
         $employeeInformation = [
             'id' => $employee->id,
             'dashboard_view' => 'expenses',
-            'is_manager' => $employee->directReports->count() > 0 ? true : false,
+            'is_manager' => $employee->directReports->count() > 0,
             'can_manage_expenses' => $employee->can_manage_expenses,
         ];
 
@@ -56,9 +56,10 @@ class DashboardExpensesController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $expenseId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function show(Request $request, int $companyId, int $expenseId): Response
+    public function show(Request $request, int $companyId, int $expenseId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -89,9 +90,10 @@ class DashboardExpensesController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $expenseId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function summary(Request $request, int $companyId, int $expenseId): Response
+    public function summary(Request $request, int $companyId, int $expenseId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -139,13 +141,13 @@ class DashboardExpensesController extends Controller
             return redirect('home');
         }
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'expense_id' => $expenseId,
         ];
 
-        $expense = (new AcceptExpenseAsAccountant)->execute($request);
+        $expense = (new AcceptExpenseAsAccountant)->execute($data);
 
         return response()->json([
             'data' => $expense->id,
@@ -177,14 +179,14 @@ class DashboardExpensesController extends Controller
             return redirect('home');
         }
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'expense_id' => $expenseId,
             'reason' => $request->input('reason'),
         ];
 
-        $expense = (new RejectExpenseAsAccountant)->execute($request);
+        $expense = (new RejectExpenseAsAccountant)->execute($data);
 
         return response()->json([
             'data' => $expense->id,

@@ -54,8 +54,7 @@ export default {
   props: {
     id: {
       type: String,
-      default() {
-      },
+      default: '',
     },
     value: {
       type: Boolean,
@@ -68,6 +67,10 @@ export default {
     name: {
       type: String,
       default: 'input',
+    },
+    errors: {
+      type: Array,
+      default: () => [],
     },
     datacy: {
       type: String,
@@ -93,26 +96,33 @@ export default {
       type: String,
       default: 'mb3',
     },
-    errors: {
-      type: Array,
-      default: () => [],
-    },
   },
 
   data() {
     return {
       updatedValue: false,
+      localErrors: [],
     };
   },
 
   computed: {
-    hasError: function () {
-      return this.errors.length > 0 && this.required ? true : false;
+    hasError() {
+      return this.localErrors.length > 0 && this.required;
     }
   },
 
-  mounted: function() {
+  watch: {
+    value(newValue) {
+      this.updatedValue = newValue;
+    },
+    errors(value) {
+      this.localErrors = value;
+    },
+  },
+
+  mounted() {
     this.updatedValue = this.value;
+    this.localErrors = this.errors;
   },
 
   methods: {

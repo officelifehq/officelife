@@ -58,6 +58,7 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertArrayHasKey('slack_handle', $array);
         $this->assertArrayHasKey('hired_at', $array);
         $this->assertArrayHasKey('email', $array);
+        $this->assertArrayHasKey('phone', $array);
         $this->assertArrayHasKey('locked', $array);
         $this->assertArrayHasKey('birthdate', $array);
         $this->assertArrayHasKey('raw_description', $array);
@@ -251,7 +252,6 @@ class EmployeeShowViewHelperTest extends TestCase
             [
                 'work_from_home_today' => true,
                 'number_times_this_year' => 3,
-                'url' => 'dfsd',
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/workfromhome',
             ],
             $array

@@ -7,10 +7,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        HasFactory;
 
     protected $table = 'companies';
 
@@ -185,11 +187,21 @@ class Company extends Model
     }
 
     /**
+     * Get all the projets in the company.
+     *
+     * @return HasMany
+     */
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
-     * @return CompanyPTOPolicy
+     * @return object|null
      */
-    public function getCurrentPTOPolicy(): CompanyPTOPolicy
+    public function getCurrentPTOPolicy(): ?object
     {
         $ptoPolicy = $this->ptoPolicies()->where('year', Carbon::now()->format('Y'))->first();
 

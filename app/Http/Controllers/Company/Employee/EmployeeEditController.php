@@ -59,6 +59,7 @@ class EmployeeEditController extends Controller
                 'last_name' => $employee->last_name,
                 'name' => $employee->name,
                 'email' => $employee->email,
+                'phone' => $employee->phone_number,
                 'birthdate' => (! $employee->birthdate) ? null : [
                     'year' => $employee->birthdate->year,
                     'month' => $employee->birthdate->month,
@@ -96,6 +97,7 @@ class EmployeeEditController extends Controller
             'first_name' => $request->input('first_name'),
             'last_name' => $request->input('last_name'),
             'email' => $request->input('email'),
+            'phone' => $request->input('phone'),
         ];
 
         (new SetPersonalDetails)->execute($data);
@@ -157,9 +159,10 @@ class EmployeeEditController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $employeeId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function address(Request $request, int $companyId, int $employeeId): Response
+    public function address(Request $request, int $companyId, int $employeeId)
     {
         try {
             $employee = Employee::where('company_id', $companyId)
@@ -206,7 +209,7 @@ class EmployeeEditController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'street' => $request->input('street'),
@@ -219,7 +222,7 @@ class EmployeeEditController extends Controller
             'is_active' => true,
         ];
 
-        (new CreatePlace)->execute($request);
+        (new CreatePlace)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,

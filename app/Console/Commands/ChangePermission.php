@@ -12,7 +12,10 @@ class ChangePermission extends Command
      *
      * @var string
      */
-    protected $signature = 'test:changepermission {employee_id} {permission_level}';
+    protected $signature = 'test:changepermission
+                            {--employee= : Id of the employee in DB}
+                            {--user= : Id of the User in DB}
+                            {--permission= : Permission level}';
 
     /**
      * The console command description.
@@ -32,10 +35,16 @@ class ChangePermission extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
-        DB::table('employees')
-            ->where('id', $this->argument('employee_id'))
-            ->update(['permission_level' => $this->argument('permission_level')]);
+        if ($this->option('employee')) {
+            DB::table('employees')
+                ->where('id', $this->option('employee'))
+                ->update(['permission_level' => $this->option('permission')]);
+        } elseif ($this->option('user')) {
+            DB::table('employees')
+                ->where('user_id', $this->option('user'))
+                ->update(['permission_level' => $this->option('permission')]);
+        }
     }
 }

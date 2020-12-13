@@ -19,7 +19,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     employee: {
@@ -32,5 +31,4 @@ export default {
     },
   },
 };
-
 </script>

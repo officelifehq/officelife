@@ -20,7 +20,7 @@
           👨‍⚖️
         </span> {{ $t('dashboard.rate_your_manager_title') }}
 
-        <help :url="$page.help_links.manager_rate_manager" />
+        <help :url="$page.props.help_links.manager_rate_manager" />
 
         <span class="absolute right-0 fw3 f6">
           <span class="mr1">
@@ -159,15 +159,12 @@ export default {
     };
   },
 
-  created: function() {
-  },
-
   methods: {
     submit(answer, rating) {
       this.loadingState = 'loading';
       this.form.rating = rating;
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/manager/rate/' + answer.id, this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/manager/rate/' + answer.id, this.form)
         .then(response => {
           this.loadingState = null;
           this.alreadyAnswered = true;
@@ -176,14 +173,14 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data.errors;
+          this.form.errors = error.response.data;
         });
     },
 
     submitComment(answer) {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/manager/rate/' + answer.id + '/comment', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/manager/rate/' + answer.id + '/comment', this.form)
         .then(response => {
           this.loadingState = null;
           this.alreadyAnswered = true;
@@ -194,7 +191,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data.errors;
+          this.form.errors = error.response.data;
         });
     },
 

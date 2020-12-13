@@ -32,7 +32,7 @@ class CompanyPTOPolicy extends Model
     /**
      * Get the company record associated with the company news.
      *
-     * @return belongsTo
+     * @return BelongsTo
      */
     public function company()
     {

@@ -50,10 +50,7 @@ class RemoveEmployeeFromTeam extends BaseService
 
         $team = $this->validateTeamBelongsToCompany($data);
 
-        $team->employees()->detach(
-            $data['employee_id'],
-            ['company_id' => $data['company_id']]
-        );
+        $team->employees()->detach($data['employee_id']);
 
         $this->addNotification($team);
 

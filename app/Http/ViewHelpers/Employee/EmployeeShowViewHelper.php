@@ -34,6 +34,7 @@ class EmployeeShowViewHelper
             'last_name' => $employee->last_name,
             'avatar' => $employee->avatar,
             'email' => $employee->email,
+            'phone' => $employee->phone_number,
             'twitter_handle' => $employee->twitter_handle,
             'slack_handle' => $employee->slack_handle,
             'locked' => $employee->locked,
@@ -191,8 +192,10 @@ class EmployeeShowViewHelper
 
         // can see performance tab?
         $canSeePerformanceTab = $loggedEmployee->permission_level <= 200;
-        $canSeePerformanceTab = $loggedEmployeeIsManager;
         if ($loggedEmployee->id == $employee->id) {
+            $canSeePerformanceTab = true;
+        }
+        if ($loggedEmployeeIsManager) {
             $canSeePerformanceTab = true;
         }
 

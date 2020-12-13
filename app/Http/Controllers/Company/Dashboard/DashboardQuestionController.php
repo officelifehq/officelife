@@ -24,7 +24,7 @@ class DashboardQuestionController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'company_id' => $company->id,
@@ -32,7 +32,7 @@ class DashboardQuestionController extends Controller
             'body' => $request->input('body'),
         ];
 
-        $answer = (new CreateAnswer)->execute($request);
+        $answer = (new CreateAnswer)->execute($data);
 
         $allEmployeeAnswers = $answer->question->answers()->with('employee')->take(3)->get();
 
@@ -67,7 +67,7 @@ class DashboardQuestionController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $loggedEmployee->id,
@@ -75,7 +75,7 @@ class DashboardQuestionController extends Controller
             'body' => $request->input('body'),
         ];
 
-        $answer = (new UpdateAnswer)->execute($request);
+        $answer = (new UpdateAnswer)->execute($data);
 
         return response()->json([
             'data' => [
@@ -103,14 +103,14 @@ class DashboardQuestionController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $loggedEmployee->id,
             'answer_id' => $answerId,
         ];
 
-        (new DestroyAnswer)->execute($request);
+        (new DestroyAnswer)->execute($data);
 
         return response()->json([
             'data' => true,

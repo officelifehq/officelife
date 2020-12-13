@@ -25,14 +25,14 @@ class EmployeeStatusController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'employee_status_id' => $request->input('id'),
         ];
 
-        $employee = (new AssignEmployeeStatusToEmployee)->execute($request);
+        $employee = (new AssignEmployeeStatusToEmployee)->execute($data);
 
         return response()->json([
             'data' => $employee->toObject(),
@@ -52,13 +52,13 @@ class EmployeeStatusController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
         ];
 
-        $employee = (new RemoveEmployeeStatusFromEmployee)->execute($request);
+        $employee = (new RemoveEmployeeStatusFromEmployee)->execute($data);
 
         return response()->json([
             'data' => $employee->toObject(),

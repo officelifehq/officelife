@@ -34,7 +34,7 @@ class FetchAddressGeocoding implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         (new GetGPSCoordinate)->execute([
             'place_id' => $this->place->id,

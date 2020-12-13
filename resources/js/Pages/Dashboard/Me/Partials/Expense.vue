@@ -36,7 +36,7 @@
         💵
       </span> {{ $t('dashboard.expense_title') }}
 
-      <help :url="$page.help_links.employee_expenses" :datacy="'help-icon-expense'" />
+      <help :url="$page.props.help_links.employee_expenses" :datacy="'help-icon-expense'" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box pa3 relative">
@@ -62,7 +62,7 @@
                           v-model="form.title"
                           :datacy="'expense-title'"
                           :name="'title'"
-                          :errors="$page.errors.title"
+                          :errors="$page.props.errors.title"
                           :label="$t('dashboard.expense_create_title')"
                           :required="true"
                           @esc-key-pressed="hideAddMode()"
@@ -75,7 +75,7 @@
                               v-model="form.amount"
                               :name="'amount'"
                               :datacy="'expense-amount'"
-                              :errors="$page.errors.amount"
+                              :errors="$page.props.errors.amount"
                               :label="$t('dashboard.expense_create_amount')"
                               :required="true"
                               :type="'number'"
@@ -92,7 +92,7 @@
                     v-model="form.currency"
                     :options="currencies"
                     :name="'currency'"
-                    :errors="$page.errors.currency"
+                    :errors="$page.props.errors.currency"
                     :label="$t('dashboard.expense_create_currency')"
                     :custom-label-key="'code'"
                     :placeholder="$t('dashboard.expense_create_currency')"
@@ -110,7 +110,7 @@
                           :name="'category'"
                           :label="$t('dashboard.expense_create_category')"
                           :custom-label-key="'name'"
-                          :errors="$page.errors.category"
+                          :errors="$page.props.errors.category"
                           :placeholder="$t('dashboard.expense_create_category')"
                           :required="false"
                           :value="form.category"
@@ -123,7 +123,7 @@
                           :datacy="'expense-receipt'"
                           :name="'title'"
                           :type="'file'"
-                          :errors="$page.errors.title"
+                          :errors="$page.props.errors.title"
                           :label="$t('dashboard.expense_create_title')"
                           :required="true"
                           @change="selectFile()"
@@ -151,9 +151,9 @@
       </div>
 
       <!-- LIST OF IN PROGRESS EXPENSES -->
-      <div v-if="expenses.length > 0">
+      <div v-if="localExpenses.length > 0">
         <ul class="list pl0 mb0" data-cy="expenses-list">
-          <li v-for="expense in expenses" :key="expense.id" :data-cy="'expense-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
+          <li v-for="expense in localExpenses" :key="expense.id" :data-cy="'expense-item-' + expense.id" class="expense-item dt-ns br bl bb bb-gray bb-gray-hover pa3 w-100">
             <div class="dt-row-ns">
               <div class="dtc-ns db mb3 mb0-ns">
                 <inertia-link :href="expense.url" :data-cy="'expense-cta-' + expense.id" class="dib mb2">{{ expense.title }}</inertia-link>
@@ -220,6 +220,7 @@ export default {
 
   data() {
     return {
+      localExpenses: [],
       addMode: false,
       form: {
         title: null,
@@ -234,11 +235,16 @@ export default {
     };
   },
 
-  mounted() {
-    this.form.currency = this.defaultCurrency;
+  watch: {
+    expenses(value) {
+      this.localExpenses = value;
+    }
   },
 
-  created: function() {},
+  mounted() {
+    this.localExpenses = this.expenses;
+    this.form.currency = this.defaultCurrency;
+  },
 
   methods: {
     hideAddMode() {
@@ -266,17 +272,16 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/expense', this.form)
+      axios.post(this.route('dashboard.expense.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           this.loadingState = null;
-          this.expenses.unshift(response.data.data);
+          this.localExpenses.unshift(response.data.data);
           this.hideAddMode();
           flash(this.$t('dashboard.expense_submitted'), 'success');
         })
         .catch(error => {
           this.loadingState = null;
-          this.hideAddMode();
-          this.form.errors = error.response.data.errors;
+          this.form.errors = error.response.data;
         });
     },
   }

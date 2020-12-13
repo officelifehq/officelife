@@ -25,13 +25,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.auth.company.id + '/account/flows'">{{ $t('app.breadcrumb_account_manage_flows') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/flows'">{{ $t('app.breadcrumb_account_manage_flows') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_add_employee') }}
@@ -215,7 +215,7 @@
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <a :href="'/' + $page.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <a :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </a>
                 </div>
@@ -335,7 +335,7 @@ export default {
         if (step.id == this.oldestStep) {
           // this basically calculates what is the mininum number that we should
           // assign to the step
-          this.oldestStep = Math.min.apply(Math, this.form.steps.map(function(o) { return o.id; }));
+          this.oldestStep = Math.min.apply(Math, this.form.steps.map(o => o.id));
         }
       }
 
@@ -344,7 +344,7 @@ export default {
         this.numberOfAfterSteps = this.numberOfAfterSteps - 1;
 
         if (step.id == this.newestStep) {
-          this.newestStep = Math.max.apply(Math, this.form.steps.map(function(o) { return o.id; }));
+          this.newestStep = Math.max.apply(Math, this.form.steps.map(o => o.id));
         }
       }
     },
@@ -352,14 +352,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/account/flows', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/account/flows', this.form)
         .then(response => {
           localStorage.success = 'The flow has been added';
           Turbolinks.visit('/' + response.data.company_id + '/account/flows');
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -367,22 +367,26 @@ export default {
       var isCompleteYet = true;
 
       // check if the event is selected
-      if (this.form.type == null) {
+      if (this.form.type === null) {
         isCompleteYet = false;
       }
 
       // check if a name has been set for the flow
-      if (!this.form.name) {
+      else if (!this.form.name) {
         isCompleteYet = false;
       }
 
-      // check if all the steps have the all actions they need
-      for (let index = 0; index < this.form.steps.length; index++) {
-        const actions = this.form.steps[index]['actions'];
-
-        for (let otherIndex = 0; otherIndex < actions.length; otherIndex++) {
-          if (actions[otherIndex]['complete'] == false || !actions[otherIndex]['complete']) {
-            isCompleteYet = false;
+      else {
+        // check if all the steps have the all actions they need
+        for (let actions of this.form.steps) {
+          for (let action of actions) {
+            if (action['complete'] === false || !action['complete']) {
+              isCompleteYet = false;
+              break;
+            }
+          }
+          if (!isCompleteYet) {
+            break;
           }
         }
       }

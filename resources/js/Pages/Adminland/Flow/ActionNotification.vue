@@ -215,11 +215,11 @@
 <script>
 import vClickOutside from 'v-click-outside';
 import 'vue-loaders/dist/vue-loaders.css';
-import BallPulseLoader from 'vue-loaders/src/loaders/ball-pulse';
+import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
 
 export default {
   components: {
-    BallPulseLoader,
+    'ball-pulse-loader': BallPulseLoader.component,
   },
 
   directives: {
@@ -367,7 +367,7 @@ export default {
               this.processingSearch = false;
             })
             .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.form.errors = error.response.data;
               this.processingSearch = false;
             });
         }
@@ -385,7 +385,7 @@ export default {
               this.processingSearch = false;
             })
             .catch(error => {
-              this.form.errors = _.flatten(_.toArray(error.response.data));
+              this.form.errors = error.response.data;
               this.processingSearch = false;
             });
         }

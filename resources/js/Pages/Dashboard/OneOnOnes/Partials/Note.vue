@@ -189,7 +189,7 @@ export default {
       this.form.employee_id = this.entry.employee.id;
       this.form.manager_id = this.entry.manager.id;
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes', this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes', this.form)
         .then(response => {
           this.localNotes.push(response.data.data);
           this.addNoteMode = false;
@@ -205,7 +205,7 @@ export default {
     update(itemId) {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes/' + itemId, this.form)
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes/' + itemId, this.form)
         .then(response => {
           this.noteToEdit = 0;
           this.loadingState = null;
@@ -216,12 +216,12 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes/' + id)
+      axios.delete('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/notes/' + id)
         .then(response => {
           flash(this.$t('dashboard.one_on_ones_note_deletion_success'), 'success');
           id = this.localNotes.findIndex(x => x.id === id);
@@ -229,7 +229,7 @@ export default {
           this.noteToDelete = 0;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   },
