@@ -38,7 +38,7 @@ class CreateExpense extends BaseService
             'employee_id' => 'required|integer|exists:employees,id',
             'expense_category_id' => 'nullable|integer|exists:expense_categories,id',
             'title' => 'required|string|max:255',
-            'amount' => 'required|integer',
+            'amount' => 'required|integer|min:1',
             'currency' => 'required|string|max:255',
             'description' => 'nullable|string|max:65535',
             'expensed_at' => 'required|date',
