@@ -46,7 +46,6 @@ class VerificationController extends Controller
      * Show the email verification notice.
      *
      * @param \Illuminate\Http\Request  $request
-     *
      * @return \Inertia\Response
      *
      * @codeCoverageIgnore

@@ -22,6 +22,7 @@
         "mariuzzo/laravel-js-localization": "^1.7",
         "moneyphp/money": "^3.3",
         "parsedown/laravel": "^1.2",
+        "sentry/sentry-laravel": "^2.3",
         "spatie/laravel-activitylog": "^3.1",
         "tightenco/ziggy": "^1.0"
     },

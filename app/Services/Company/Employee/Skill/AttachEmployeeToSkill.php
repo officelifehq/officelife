@@ -67,8 +67,7 @@ class AttachEmployeeToSkill extends BaseService
      */
     private function lookupExistingSkill(): void
     {
-        $name = Str::of($this->data['name'])->ascii();
-        $name = strtolower($name);
+        $name = Str::of($this->data['name'])->ascii()->lower();
 
         $this->skill = Skill::where('company_id', $this->data['company_id'])
             ->where('name', $name)
@@ -86,8 +85,7 @@ class AttachEmployeeToSkill extends BaseService
      */
     private function createSkill(): void
     {
-        $name = Str::of($this->data['name'])->ascii();
-        $name = strtolower($name);
+        $name = Str::of($this->data['name'])->ascii()->lower();
 
         $this->skill = Skill::create([
             'company_id' => $this->data['company_id'],
