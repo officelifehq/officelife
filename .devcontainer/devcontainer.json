@@ -44,14 +44,14 @@
 
 	// Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": [
-        "chmod a+x /root && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\"/public /var/www/html;",
+        "chmod a+x /root && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)/public\" /var/www/html;",
         "cp .env.example .env;",
         "composer install;",
         "yarn install;",
-        "php artisan key:generate;",
+//        "php artisan key:generate;",
         "php artisan setup;",
-        "chgrp -R www-data \"$(pwd)\"/storage && chmod -R g+w \"$(pwd)\"/storage",
-        "apache2ctl start"
+        "chgrp -R www-data \"$(pwd)/storage\" && chmod -R g+w \"$(pwd)/storage\";",
+        "apache2ctl start;"
     ]
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
