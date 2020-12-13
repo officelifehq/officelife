@@ -49,10 +49,10 @@ jobs:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-            ${{ runner.os }}-composer-
+            ${{ runner.os }}-composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+            ${{ runner.os }}-composer-${{ matrix.php-version }}
       - name: Install composer dependencies
-        run: composer install --no-progress --no-interaction --no-suggest --prefer-dist --optimize-autoloader
+        run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
 
     # Yarn
       - name: Get yarn cache directory path
