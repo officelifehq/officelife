@@ -28,16 +28,15 @@ class CheckCompany
                 ->where('company_id', $requestedCompanyId)
                 ->firstOrFail();
 
-                if ($employee->locked) {
-                    abort(401);
-                }
+            if ($employee->locked) {
+                abort(401);
+            }
 
-                $cachedCompanyObject = 'cachedCompanyObject_' . Auth::user()->id;
-                $cachedEmployeeObject = 'cachedEmployeeObject_' . Auth::user()->id;
+            $cachedCompanyObject = 'cachedCompanyObject_' . Auth::user()->id;
+            $cachedEmployeeObject = 'cachedEmployeeObject_' . Auth::user()->id;
 
-                Cache::put($cachedCompanyObject, $employee->company, now()->addMinutes(60));
-                Cache::put($cachedEmployeeObject, $employee, now()->addMinutes(60));
-
+            Cache::put($cachedCompanyObject, $employee->company, now()->addMinutes(60));
+            Cache::put($cachedEmployeeObject, $employee, now()->addMinutes(60));
         } catch (ModelNotFoundException $e) {
             abort(401);
         }

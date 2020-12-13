@@ -15,6 +15,7 @@ use App\Models\Company\Hardware;
 use App\Models\Company\Question;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\EmployeeStatus;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
@@ -547,5 +548,27 @@ class EmployeeShowViewHelperTest extends TestCase
 
         $array = EmployeeShowViewHelper::oneOnOnes($dwight, ['can_see_one_on_one_with_manager' => false]);
         $this->assertNull($array);
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_employee_statuses(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $collection = EmployeeShowViewHelper::employeeStatuses($michael->company);
+
+        $this->assertEquals(1, $collection->count());
+
+        $status = EmployeeStatus::first();
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $status->id,
+                    'name' => $status->name,
+                ],
+            ],
+            $collection->toArray()
+        );
     }
 }
