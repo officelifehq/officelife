@@ -124,6 +124,68 @@ class CreateExpenseTest extends TestCase
         (new CreateExpense)->execute($request);
     }
 
+    /** @test */
+    public function it_fails_if_amount_zero(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $managerA = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+            'first_name' => 'toto',
+        ]);
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $managerA->id,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'expense_category_id' => null,
+            'title' => 'Restaurant',
+            'amount' => '0',
+            'currency' => 'USD',
+            'expensed_at' => '1999-01-01',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateExpense)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_amount_not_positive(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $managerA = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+            'first_name' => 'toto',
+        ]);
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $managerA->id,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'expense_category_id' => null,
+            'title' => 'Restaurant',
+            'amount' => '-10',
+            'currency' => 'USD',
+            'expensed_at' => '1999-01-01',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateExpense)->execute($request);
+    }
+
     private function executeService(Employee $michael, Employee $dwight, ExpenseCategory $category = null): void
     {
         Queue::fake();
