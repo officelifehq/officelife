@@ -3,9 +3,12 @@ ARG VARIANT=7.4
 FROM mcr.microsoft.com/vscode/devcontainers/php:dev-${VARIANT}
 
 # Install MariaDB client
-RUN apt-get update; \
-    export DEBIAN_FRONTEND=noninteractive; \
-    apt-get install -y mariadb-client; \
+RUN set -ex; \
+    \
+    apt-get update; \
+    apt-get install -y --no-install-recommends \
+        mariadb-client \
+    ; \
     rm -rf /var/lib/apt/lists/*
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
@@ -24,8 +27,9 @@ ARG NODE_VERSION="lts/*"
 RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
 # [Optional] Uncomment this section to install additional OS packages.
-RUN apt-get update; \
-    export DEBIAN_FRONTEND=noninteractive \
+RUN set -ex; \
+    \
+    apt-get update; \
     apt-get install -y --no-install-recommends \
         libicu-dev \
         zlib1g-dev \
