@@ -11,7 +11,7 @@
 		"args": {
             "VARIANT": "7.4",
             "INSTALL_NODE": "true",
-            "NODE_VERSION": "10"
+            "NODE_VERSION": "lts/*"
         }
     },
 
