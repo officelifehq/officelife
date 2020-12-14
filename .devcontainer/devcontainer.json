@@ -1,0 +1,71 @@
+// Update the VARIANT arg in docker-compose.yml to pick a PHP version: 7, 7.3, 7.4
+{
+	"name": "PHP & MariaDB",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceFolder": "/workspace",
+
+    "build": {
+		"dockerfile": "Dockerfile",
+		// Update 'VARIANT' to pick a PHP version: 7, 7.4, 7.3
+		"args": {
+            "VARIANT": "7.4",
+            "INSTALL_NODE": "true",
+            "NODE_VERSION": "lts/*"
+        }
+    },
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "sqltools.useNodeRuntime": true,
+		"sqltools.connections": [{
+			"name": "Mariadb database",
+			"driver": "MariaDB",
+			"server": "db",
+			"previewLimit": 50,
+			"port": 3306,
+			"database": "officelife",
+			"username": "officelife",
+			"password": "officelife"
+		},{
+            "name": "Sqlite database",
+            "driver": "SQLite",
+			"previewLimit": 50,
+            "database": "./database/database.sqlite"
+		}]
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"felixfbecker.php-debug",
+        "felixfbecker.php-intellisense",
+        "absszero.vscode-laravel-goto",
+        "mohamedbenhida.laravel-intellisense",
+		"mrmlnc.vscode-apache",
+		"mtxr.sqltools",
+		"mtxr.sqltools-driver-mysql",
+		"mtxr.sqltools-driver-sqlite"
+	],
+
+	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
+	"forwardPorts": [8080, 8000, 3306],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+    "postCreateCommand": [
+        "chmod a+x /root && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)/public\" /var/www/html;",
+        "cp .env.example .env && echo \"APP_TRUSTED_PROXIES=*\" >> .env;",
+        "sed -i \"s%DB_CONNECTION=.*%DB_CONNECTION=sqlite%\" .env;",
+        "sed -i \"s%DB_DATABASE=.*%DB_DATABASE=$(pwd)/database/database.sqlite%\" .env;",
+        "touch database/database.sqlite && chgrp www-data database database/database.sqlite && chmod g+w database database/database.sqlite;",
+        "chgrp -R www-data storage && chmod -R g+w storage;",
+        "composer install;",
+        "yarn install;",
+        "php artisan key:generate --no-interaction;",
+        "php artisan setup -vvv;",
+        "a2enmod rewrite && apache2ctl restart;"
+    ]
+
+	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode"
+}
