@@ -17,7 +17,8 @@
 
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"terminal.integrated.shell.linux": "/bin/bash",
+        "terminal.integrated.shell.linux": "/bin/bash",
+        "sqltools.useNodeRuntime": true,
 		"sqltools.connections": [{
 			"name": "Mariadb database",
 			"driver": "MariaDB",
@@ -31,7 +32,7 @@
             "name": "Sqlite database",
             "driver": "SQLite",
 			"previewLimit": 50,
-            "database": "/root/workspace/officelife/database/database.sqlite"
+            "database": "./database/database.sqlite"
 		}]
 	},
 
@@ -55,9 +56,9 @@
         "chmod a+x /root && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)/public\" /var/www/html;",
         "cp .env.example .env && echo \"APP_TRUSTED_PROXIES=*\" >> .env;",
         "sed -i \"s%DB_CONNECTION=.*%DB_CONNECTION=sqlite%\" .env;",
-        "sed -i \"s%DB_DATABASE=.*%DB_DATABASE=/root/workspace/officelife/database/database.sqlite%\" .env;",
+        "sed -i \"s%DB_DATABASE=.*%DB_DATABASE=$(pwd)/database/database.sqlite%\" .env;",
         "touch database/database.sqlite && chgrp www-data database database/database.sqlite && chmod g+w database database/database.sqlite;",
-        "chgrp -R www-data \"$(pwd)/storage\" && chmod -R g+w \"$(pwd)/storage\";",
+        "chgrp -R www-data storage && chmod -R g+w storage;",
         "composer install;",
         "yarn install;",
         "php artisan key:generate --no-interaction;",
