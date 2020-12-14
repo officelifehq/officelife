@@ -24,7 +24,7 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
 # [Optional] Install a version of Node.js using nvm for front end dev
 ARG INSTALL_NODE="true"
 ARG NODE_VERSION="lts/*"
-RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
+RUN if [ "${INSTALL_NODE}" = "true" ]; then source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION}; fi
 
 # [Optional] Uncomment this section to install additional OS packages.
 RUN set -ex; \
@@ -53,4 +53,4 @@ RUN set -ex; \
     rm -rf /var/lib/apt/lists/*
 
 # [Optional] Uncomment this line to install global node packages.
-RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g yarn" 2>&1
+RUN source /usr/local/share/nvm/nvm.sh && npm install -g yarn

@@ -21,7 +21,7 @@
 		"sqltools.connections": [{
 			"name": "Container database",
 			"driver": "MariaDB",
-			"server": "localhost",
+			"server": "db",
 			"previewLimit": 50,
 			"port": 3306,
 			"database": "officelife",
@@ -45,13 +45,15 @@
 	// Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": [
         "chmod a+x /root && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)/public\" /var/www/html;",
-        "cp .env.example .env;",
+        "cp .env.example .env && echo -e \"\nAPP_TRUSTED_PROXIES=*\" >> .env;",
+        "sed -i \"s%APP_URL=.*%APP_URL=https://${CLOUDENV_ENVIRONMENT_ID}-80.apps.codespaces.githubusercontent.com%\" .env;",
+        "sed -i \"s%DB_HOST=.*%DB_HOST=db%\" .env;",
         "composer install;",
         "yarn install;",
-//        "php artisan key:generate;",
+        "php artisan key:generate --no-interaction;",
         "php artisan setup;",
         "chgrp -R www-data \"$(pwd)/storage\" && chmod -R g+w \"$(pwd)/storage\";",
-        "apache2ctl start;"
+        "a2enmod rewrite && apache2ctl start;"
     ]
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
