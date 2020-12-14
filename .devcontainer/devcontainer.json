@@ -19,7 +19,7 @@
 	"settings": {
 		"terminal.integrated.shell.linux": "/bin/bash",
 		"sqltools.connections": [{
-			"name": "Container database",
+			"name": "Mariadb database",
 			"driver": "MariaDB",
 			"server": "db",
 			"previewLimit": 50,
@@ -27,16 +27,24 @@
 			"database": "officelife",
 			"username": "officelife",
 			"password": "officelife"
+		},{
+            "name": "Sqlite database",
+            "driver": "SQLite",
+			"previewLimit": 50,
+            "database": "/root/workspace/officelife/database/database.sqlite"
 		}]
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"felixfbecker.php-debug",
-		"felixfbecker.php-intellisense",
+        "felixfbecker.php-intellisense",
+        "absszero.vscode-laravel-goto",
+        "mohamedbenhida.laravel-intellisense",
 		"mrmlnc.vscode-apache",
 		"mtxr.sqltools",
-		"mtxr.sqltools-driver-mysql"
+		"mtxr.sqltools-driver-mysql",
+		"mtxr.sqltools-driver-sqlite"
 	],
 
 	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
