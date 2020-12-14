@@ -24,7 +24,11 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
 # [Optional] Install a version of Node.js using nvm for front end dev
 ARG INSTALL_NODE="true"
 ARG NODE_VERSION="lts/*"
-RUN if [ "${INSTALL_NODE}" = "true" ]; then bash -c "source /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION}"; fi
+ENV NVM_DIR="/usr/local/share/nvm"
+ENV NVM_SYMLINK_CURRENT=true \
+    PATH=${NVM_DIR}/current/bin:${PATH}
+COPY library-scripts/node-debian.sh /tmp/library-scripts/
+RUN if [ "${INSTALL_NODE}" = "true" ]; then apt-get update && bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}"; fi
 
 # [Optional] Uncomment this section to install additional OS packages.
 RUN set -ex; \
@@ -53,4 +57,4 @@ RUN set -ex; \
     rm -rf /var/lib/apt/lists/*
 
 # [Optional] Uncomment this line to install global node packages.
-RUN npm install -g yarn
+#RUN npm install -g yarn
