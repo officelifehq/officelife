@@ -47,13 +47,13 @@
         "chmod a+x /root && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)/public\" /var/www/html;",
         "cp .env.example .env && echo \"APP_TRUSTED_PROXIES=*\" >> .env;",
         "sed -i \"s%DB_CONNECTION=.*%DB_CONNECTION=sqlite%\" .env;",
-        "sed -i \"s%DB_DATABASE=.*%DB_DATABASE=database/database.sqlite%\" .env;",
+        "sed -i \"s%DB_DATABASE=.*%DB_DATABASE=/root/workspace/officelife/database/database.sqlite%\" .env;",
         "touch database/database.sqlite && chgrp www-data database database/database.sqlite && chmod g+w database database/database.sqlite;",
         "chgrp -R www-data \"$(pwd)/storage\" && chmod -R g+w \"$(pwd)/storage\";",
         "composer install;",
         "yarn install;",
         "php artisan key:generate --no-interaction;",
-        "php artisan setup;",
+        "php artisan setup -vvv;",
         "a2enmod rewrite && apache2ctl restart;"
     ]
 
