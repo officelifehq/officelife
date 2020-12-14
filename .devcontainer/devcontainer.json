@@ -45,15 +45,16 @@
 	// Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": [
         "chmod a+x /root && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)/public\" /var/www/html;",
-        "cp .env.example .env && echo -e \"\nAPP_TRUSTED_PROXIES=*\" >> .env;",
-        "sed -i \"s%APP_URL=.*%APP_URL=https://${CLOUDENV_ENVIRONMENT_ID}-80.apps.codespaces.githubusercontent.com%\" .env;",
-        "sed -i \"s%DB_HOST=.*%DB_HOST=db%\" .env;",
+        "cp .env.example .env && echo \"APP_TRUSTED_PROXIES=*\" >> .env;",
+        "sed -i \"s%DB_CONNECTION=.*%DB_CONNECTION=sqlite%\" .env;",
+        "sed -i \"s%DB_DATABASE=.*%DB_DATABASE=database/database.sqlite%\" .env;",
+        "touch database/database.sqlite && chgrp www-data database database/database.sqlite && chmod g+w database database/database.sqlite;",
+        "chgrp -R www-data \"$(pwd)/storage\" && chmod -R g+w \"$(pwd)/storage\";",
         "composer install;",
         "yarn install;",
         "php artisan key:generate --no-interaction;",
         "php artisan setup;",
-        "chgrp -R www-data \"$(pwd)/storage\" && chmod -R g+w \"$(pwd)/storage\";",
-        "a2enmod rewrite && apache2ctl start;"
+        "a2enmod rewrite && apache2ctl restart;"
     ]
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
