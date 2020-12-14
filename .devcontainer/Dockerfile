@@ -31,30 +31,30 @@ COPY library-scripts/node-debian.sh /tmp/library-scripts/
 RUN if [ "${INSTALL_NODE}" = "true" ]; then apt-get update && bash /tmp/library-scripts/node-debian.sh "${NVM_DIR}" "${NODE_VERSION}"; fi
 
 # [Optional] Uncomment this section to install additional OS packages.
-RUN set -ex; \
-    \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
-        libicu-dev \
-        zlib1g-dev \
-        libzip-dev \
-        libpq-dev \
-        libsqlite3-dev \
-        libxml2-dev \
-        libfreetype6-dev \
-    ; \
-    \
-    debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
-    docker-php-ext-configure intl; \
-    docker-php-ext-install -j$(nproc) \
-        intl \
-        zip \
-        pdo_mysql \
-        mysqli \
-        pdo_pgsql \
-        pdo_sqlite \
-    ; \
-    rm -rf /var/lib/apt/lists/*
+#RUN set -ex; \
+#    \
+#    apt-get update; \
+#    apt-get install -y --no-install-recommends \
+#        libicu-dev \
+#        zlib1g-dev \
+#        libzip-dev \
+#        libpq-dev \
+#        libsqlite3-dev \
+#        libxml2-dev \
+#        libfreetype6-dev \
+#    ; \
+#    \
+#    debMultiarch="$(dpkg-architecture --query DEB_BUILD_MULTIARCH)"; \
+#    docker-php-ext-configure intl; \
+#    docker-php-ext-install -j$(nproc) \
+#        intl \
+#        zip \
+#        pdo_mysql \
+#        mysqli \
+#        pdo_pgsql \
+#        pdo_sqlite \
+#    ; \
+#    rm -rf /var/lib/apt/lists/*
 
 # [Optional] Uncomment this line to install global node packages.
 #RUN npm install -g yarn
