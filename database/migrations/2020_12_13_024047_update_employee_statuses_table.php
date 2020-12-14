@@ -12,7 +12,7 @@ class UpdateEmployeeStatusesTable extends Migration
     public function up()
     {
         Schema::table('employee_statuses', function (Blueprint $table) {
-            $table->string('type')->after('name');
+            $table->string('type')->default('internal')->after('name');
         });
     }
 }
