@@ -51,6 +51,8 @@
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
             {{ $t('account.employee_statuses_title', { company: $page.props.auth.company.name}) }}
+
+            <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
 
           <p class="relative adminland-headline">
@@ -121,6 +123,7 @@
 
                     <checkbox
                       :id="'home'"
+                      v-model="form.checked"
                       :datacy="'external-employee-checkbox'"
                       :label="$t('account.employee_statuses_new_external')"
                       :help="$t('account.employee_statuses_new_external_help')"
@@ -181,6 +184,7 @@ import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
 import Checkbox from '@/Shared/Checkbox';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -189,6 +193,7 @@ export default {
     Errors,
     LoadingButton,
     Checkbox,
+    Help,
   },
 
   props: {
@@ -214,6 +219,7 @@ export default {
       idToDelete: 0,
       form: {
         name: null,
+        checked: false,
         type: 'internal',
         errors: [],
       },
@@ -246,6 +252,7 @@ export default {
 
     displayUpdateModal(status) {
       this.idToUpdate = status.id;
+      this.form.checked = status.type == 'internal' ? false : true;
 
       this.$nextTick(() => {
         // this is really barbaric, but I need to do this to

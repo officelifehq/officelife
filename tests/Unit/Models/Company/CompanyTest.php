@@ -85,7 +85,7 @@ class CompanyTest extends TestCase
     public function it_has_many_statuses(): void
     {
         $company = factory(Company::class)->create();
-        factory(EmployeeStatus::class, 2)->create([
+        EmployeeStatus::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
