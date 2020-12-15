@@ -3,7 +3,6 @@
 namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Tests\TestCase;
-use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -81,14 +80,11 @@ class AdminHardwareViewHelperTest extends TestCase
     public function it_gets_a_collection_of_all_employees_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        factory(Employee::class, 3)->create([
-            'company_id' => $michael->company_id,
-        ]);
 
         $response = AdminHardwareViewHelper::employeesList($michael->company);
 
         $this->assertCount(
-            4,
+            1,
             $response
         );
 
