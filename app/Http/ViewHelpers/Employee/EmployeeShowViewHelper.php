@@ -7,6 +7,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\WorklogHelper;
+use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use App\Helpers\WorkFromHomeHelper;
@@ -624,5 +625,26 @@ class EmployeeShowViewHelper
                 'employee' => $employee,
             ]),
         ];
+    }
+
+    /**
+     * Get the employee statuses for the given company.
+     *
+     * @param Company $company
+     * @return Collection
+     */
+    public static function employeeStatuses(Company $company): Collection
+    {
+        $statuses = $company->employeeStatuses()->get();
+
+        $statusCollection = collect([]);
+        foreach ($statuses as $status) {
+            $statusCollection->push([
+                'id' => $status->id,
+                'name' => $status->name,
+            ]);
+        }
+
+        return $statusCollection;
     }
 }

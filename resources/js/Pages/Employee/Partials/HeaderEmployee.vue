@@ -135,7 +135,6 @@
                 <span class="f7 gray">{{ $t('employee.status_title') }}</span>
                 <employee-status
                   :employee="employee"
-                  :statuses="statuses"
                   :permissions="permissions"
                 />
               </p>
@@ -224,10 +223,6 @@ export default {
       default: null,
     },
     teams: {
-      type: Array,
-      default: null,
-    },
-    statuses: {
       type: Array,
       default: null,
     },

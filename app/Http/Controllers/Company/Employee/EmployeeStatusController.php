@@ -8,11 +8,31 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\EmployeeStatus\AssignEmployeeStatusToEmployee;
 use App\Services\Company\Employee\EmployeeStatus\RemoveEmployeeStatusFromEmployee;
 
 class EmployeeStatusController extends Controller
 {
+    /**
+     * Return the list of employee statuses in the company.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return JsonResponse
+     */
+    public function index(Request $request, int $companyId, int $employeeId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $statuses = EmployeeShowViewHelper::employeeStatuses($loggedCompany);
+
+        return response()->json([
+            'data' => $statuses,
+        ], 200);
+    }
+
     /**
      * Assign an employee status to the given employee.
      *
