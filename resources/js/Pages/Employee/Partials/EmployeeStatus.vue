@@ -26,7 +26,7 @@
       <li class="di" data-cy="status-name-right-permission">
         {{ updatedEmployee.status.name }}
       </li>
-      <li data-cy="open-status-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
+      <li data-cy="open-status-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="displayModal()">
         {{ $t('app.edit') }}
       </li>
     </ul>
@@ -37,7 +37,7 @@
     </ul>
 
     <!-- Action when there is no status defined -->
-    <a v-show="!updatedEmployee.status" v-if="permissions.can_manage_status" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-status-modal-blank" @click.prevent="modal = true">
+    <a v-show="!updatedEmployee.status" v-if="permissions.can_manage_status" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-status-modal-blank" @click.prevent="displayModal()">
       {{ $t('employee.status_modal_cta') }}
     </a>
     <span v-else v-show="!updatedEmployee.status">
@@ -109,10 +109,6 @@ export default {
       type: Object,
       default: null,
     },
-    statuses: {
-      type: Array,
-      default: null,
-    },
     permissions: {
       type: Object,
       default: null,
@@ -121,6 +117,7 @@ export default {
 
   data() {
     return {
+      statuses: null,
       modal: false,
       search: '',
       updatedEmployee: Object,
@@ -144,8 +141,25 @@ export default {
   },
 
   methods: {
+    displayModal() {
+      this.load();
+      this.modal = true;
+    },
+
     toggleModal() {
       this.modal = false;
+    },
+
+    load() {
+      if (! this.statuses) {
+        axios.get('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses')
+          .then(response => {
+            this.statuses = response.data.data;
+          })
+          .catch(error => {
+            this.form.errors = error.response.data;
+          });
+      }
     },
 
     assign(status) {
