@@ -56,7 +56,7 @@ class AssignEmployeeStatusToEmployeeTest extends TestCase
     public function it_fails_if_employee_status_is_not_linked_to_company(): void
     {
         $michael = $this->createAdministrator();
-        $employeeStatus = factory(EmployeeStatus::class)->create([]);
+        $employeeStatus = EmployeeStatus::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -73,7 +73,7 @@ class AssignEmployeeStatusToEmployeeTest extends TestCase
     {
         Queue::fake();
 
-        $employeeStatus = factory(EmployeeStatus::class)->create([
+        $employeeStatus = EmployeeStatus::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

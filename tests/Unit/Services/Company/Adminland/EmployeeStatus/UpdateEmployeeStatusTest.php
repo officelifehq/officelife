@@ -50,7 +50,7 @@ class UpdateEmployeeStatusTest extends TestCase
     /** @test */
     public function it_fails_if_the_employee_status_does_not_match_the_company(): void
     {
-        $employeeStatus = factory(EmployeeStatus::class)->create([]);
+        $employeeStatus = EmployeeStatus::factory()->create([]);
         $michael = $this->createAdministrator();
 
         $request = [
@@ -58,6 +58,7 @@ class UpdateEmployeeStatusTest extends TestCase
             'author_id' => $michael->id,
             'employee_status_id' => $employeeStatus->id,
             'name' => 'Non permanent',
+            'type' => 'internal',
         ];
 
         $this->expectException(ModelNotFoundException::class);
@@ -68,7 +69,7 @@ class UpdateEmployeeStatusTest extends TestCase
     {
         Queue::fake();
 
-        $employeeStatus = factory(EmployeeStatus::class)->create([]);
+        $employeeStatus = EmployeeStatus::factory()->create([]);
         $michael = factory(Employee::class)->create([
             'company_id' => $employeeStatus->company_id,
             'permission_level' => $permissionLevel,
@@ -79,6 +80,7 @@ class UpdateEmployeeStatusTest extends TestCase
             'author_id' => $michael->id,
             'employee_status_id' => $employeeStatus->id,
             'name' => 'Non permanent',
+            'type' => 'external',
         ];
 
         (new UpdateEmployeeStatus)->execute($request);
@@ -87,6 +89,7 @@ class UpdateEmployeeStatusTest extends TestCase
             'id' => $employeeStatus->id,
             'company_id' => $employeeStatus->company_id,
             'name' => 'Non permanent',
+            'type' => 'external',
         ]);
 
         $this->assertInstanceOf(

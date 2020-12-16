@@ -283,18 +283,21 @@ class SetupDummyAccount extends Command
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'name' => 'Full time',
+            'type' => EmployeeStatus::INTERNAL,
         ]);
 
         $this->employeeStatusPartTime = (new CreateEmployeeStatus)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'name' => 'Part time',
+            'type' => EmployeeStatus::INTERNAL,
         ]);
 
         $this->employeeStatusConsultant = (new CreateEmployeeStatus)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'name' => 'Consultant',
+            'type' => EmployeeStatus::EXTERNAL,
         ]);
     }
 

@@ -64,7 +64,7 @@ class UpdateExpenseCategoryTest extends TestCase
     /** @test */
     public function it_fails_if_the_expense_category_does_not_match_the_company(): void
     {
-        $employeeStatus = factory(EmployeeStatus::class)->create([]);
+        $employeeStatus = EmployeeStatus::factory()->create([]);
         $michael = $this->createAdministrator();
         $category = factory(ExpenseCategory::class)->create([]);
 

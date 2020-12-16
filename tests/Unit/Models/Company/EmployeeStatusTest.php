@@ -14,15 +14,15 @@ class EmployeeStatusTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $employeeLog = factory(EmployeeStatus::class)->create([]);
-        $this->assertTrue($employeeLog->company()->exists());
+        $employeeStatus = EmployeeStatus::factory()->create([]);
+        $this->assertTrue($employeeStatus->company()->exists());
     }
 
     /** @test */
     public function it_returns_an_object(): void
     {
         $dunder = factory(Company::class)->create([]);
-        $status = factory(EmployeeStatus::class)->create([
+        $status = EmployeeStatus::factory()->create([
             'company_id' => $dunder->id,
             'name' => 'dunder',
             'created_at' => '2020-01-12 00:00:00',

@@ -157,6 +157,7 @@ return [
         'account_general_currency' => 'introduction.html',
         'employee_hiring_date' => 'manage/employee-management.html#hiring-date',
         'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
+        'employee_statuses' => 'manage/employee-management.html#employee-statuses',
         'one_on_ones' => 'introduction.html',
         'project_decisions' => 'operate/project-management.html#project-decisions',
         'project_messages' => 'operate/project-management.html#project-messages',
