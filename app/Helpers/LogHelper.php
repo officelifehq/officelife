@@ -979,6 +979,14 @@ class LogHelper
                 ]);
                 break;
 
+            case 'employee_contract_renewed_at_set':
+                $sentence = trans('account.log_employee_contract_renewed_at_set', [
+                        'employee_id' => $log->object->{'project_id'},
+                        'employee_name' => $log->object->{'project_name'},
+                        'contract_renewed_at' => $log->object->{'contract_renewed_at'},
+                    ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
@@ -1419,6 +1427,12 @@ class LogHelper
                     'project_id' => $log->object->{'project_id'},
                     'project_name' => $log->object->{'project_name'},
                 ]);
+                break;
+
+            case 'contract_renewed_at_set':
+                $sentence = trans('account.employee_log_contract_renewed_at_set', [
+                        'contract_renewed_at' => $log->object->{'contract_renewed_at'},
+                    ]);
                 break;
 
             default:

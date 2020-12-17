@@ -43,12 +43,12 @@
                 </inertia-link>
               </li>
               <li v-if="canSeeContractInfoTab" class="di mr2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/contract/edit'" data-cy="menu-contract-link" class="no-underline bb-0 ph3 pv2">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/contract/edit'" data-cy="menu-contract-link" class="no-underline bb-0 ph3 pv2 selected">
                   {{ $t('employee.edit_information_menu_contract') }}
                 </inertia-link>
               </li>
               <li class="di">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline bb-0 ph3 pv2 selected">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline bb-0 ph3 pv2 ">
                   {{ $t('employee.edit_information_menu_address') }}
                 </inertia-link>
               </li>
@@ -61,64 +61,56 @@
             <!-- Basic information -->
             <div class="cf pa3 bb bb-gray pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>{{ $t('employee.edit_information_address') }}</strong>
+                <strong>{{ $t('employee.edit_information_contract_section_date') }}</strong>
                 <p class="f7 silver lh-copy pr3-ns">
-                  {{ $t('employee.edit_information_address_help') }}
+                  {{ $t('employee.edit_information_contract_section_date_help') }}
                 </p>
               </div>
               <div class="fl-ns w-two-thirds-ns w-100">
-                <!-- street -->
-                <text-input :id="'street'"
-                            v-model="form.street"
-                            :name="'street'"
-                            :errors="$page.props.errors.street"
-                            :label="$t('employee.edit_information_street')"
-                            :required="true"
-                />
-
                 <div class="dt-ns dt--fixed di">
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
-                    <!-- city -->
-                    <text-input :id="'city'"
-                                v-model="form.city"
-                                :name="'city'"
-                                :errors="$page.props.errors.city"
-                                :label="$t('employee.edit_information_city')"
+                    <!-- year -->
+                    <text-input :id="'year'"
+                                v-model="form.year"
+                                :name="'year'"
+                                :errors="$page.props.errors.year"
+                                :label="$t('employee.edit_information_year')"
                                 :required="true"
+                                :type="'number'"
+                                :min="1900"
+                                :max="2020"
+                                :help="$t('employee.edit_information_year_help')"
                     />
                   </div>
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
-                    <!-- state -->
-                    <text-input :id="'state'"
-                                v-model="form.state"
-                                :name="'state'"
-                                :errors="$page.props.errors.state"
-                                :label="$t('employee.edit_information_state')"
+                    <!-- month -->
+                    <text-input :id="'month'"
+                                v-model="form.month"
+                                :name="'month'"
+                                :errors="$page.props.errors.month"
+                                :label="$t('employee.edit_information_month')"
+                                :required="true"
+                                :type="'number'"
+                                :min="1"
+                                :max="12"
+                                :help="$t('employee.edit_information_month_help')"
                     />
                   </div>
                   <div class="dtc-ns pr2-ns pb0-ns w-100">
-                    <!-- postal code -->
-                    <text-input :id="'postal_code'"
-                                v-model="form.postal_code"
-                                :name="'postal_code'"
-                                :errors="$page.props.errors.postal_code"
-                                :label="$t('employee.edit_information_postal_code')"
+                    <!-- day -->
+                    <text-input :id="'day'"
+                                v-model="form.day"
+                                :name="'day'"
+                                :errors="$page.props.errors.day"
+                                :label="$t('employee.edit_information_day')"
                                 :required="true"
+                                :type="'number'"
+                                :min="1"
+                                :max="31"
+                                :help="$t('employee.edit_information_day_help')"
                     />
                   </div>
                 </div>
-
-                <select-box :id="'country_id'"
-                            v-model="form.country_id"
-                            :options="countries"
-                            :name="'country_id'"
-                            :errors="$page.props.errors.country_id"
-                            :label="$t('employee.edit_information_country')"
-                            :placeholder="$t('app.choose_value')"
-                            :required="true"
-                            :value="form.country_id"
-                            :datacy="'country_selector'"
-                />
               </div>
             </div>
 
@@ -142,7 +134,6 @@
 
 <script>
 import TextInput from '@/Shared/TextInput';
-import SelectBox from '@/Shared/Select';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
@@ -152,7 +143,6 @@ export default {
     Layout,
     TextInput,
     Errors,
-    SelectBox,
     LoadingButton,
   },
 
@@ -178,19 +168,10 @@ export default {
   data() {
     return {
       form: {
-        street: null,
-        city: null,
-        state: null,
-        postal_code: null,
-        country_id: null,
+        year: null,
+        month: null,
+        day: null,
         errors: [],
-      },
-      existing_address: {
-        street: '',
-        city: '',
-        state: '',
-        postal_code: '',
-        country_id: 0,
       },
       loadingState: '',
       errorTemplate: Error,
@@ -198,24 +179,18 @@ export default {
   },
 
   created() {
-    if (this.employee.address !== null) {
-      this.form.city = this.employee.address.city;
-      this.form.street = this.employee.address.street;
-      this.form.state = this.employee.address.province;
-      this.form.postal_code = this.employee.address.postal_code;
-      this.form.country_id = {
-        label: this.employee.address.country.name,
-        value: this.employee.address.country.id,
-      };
+    if (this.employee.contract_renewed_at !== null) {
+      this.form.year = this.employee.year;
+      this.form.month = this.employee.month;
+      this.form.day = this.employee.day;
     }
   },
 
   methods: {
     submit() {
       this.loadingState = 'loading';
-      this.form.country_id = this.form.country_id.value;
 
-      axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/address/update`, this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/contract/update`, this.form)
         .then(response => {
           localStorage.success = this.$t('employee.edit_information_success');
           this.$inertia.visit(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}`);

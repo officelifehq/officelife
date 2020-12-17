@@ -1,11 +1,8 @@
 <style lang="scss" scoped>
 .edit-information-menu {
-  a {
-    border-bottom: 1px solid #fff;
-  }
-
   .selected {
     color: #4d4d4f;
+    border-width: 2px;
   }
 }
 </style>
@@ -41,12 +38,17 @@
           <div class="cf w-100">
             <ul class="list pl0 db tc bb bb-gray pa2 edit-information-menu">
               <li class="di mr2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline bb-0 ph3 pv2 selected">
                   {{ $t('employee.edit_information_menu') }}
                 </inertia-link>
               </li>
+              <li v-if="canSeeContractInfoTab" class="di mr2">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/contract/edit'" data-cy="menu-contract-link" class="no-underline bb-0 ph3 pv2 ">
+                  {{ $t('employee.edit_information_menu_contract') }}
+                </inertia-link>
+              </li>
               <li class="di">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline bb-0 ph3 pv2 ">
                   {{ $t('employee.edit_information_menu_address') }}
                 </inertia-link>
               </li>
@@ -312,6 +314,10 @@ export default {
       default: null,
     },
     canEditHiredAt: {
+      type: Boolean,
+      default: false,
+    },
+    canSeeContractInfoTab: {
       type: Boolean,
       default: false,
     },

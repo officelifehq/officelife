@@ -52,6 +52,7 @@ use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use App\Services\Company\Employee\Contract\SetContractRenewalDate;
 use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
@@ -190,6 +191,7 @@ class SetupDummyAccount extends Command
         $this->addRateYourManagerSurveys();
         $this->addOneOnOnes();
         $this->addProjects();
+        $this->setContractRenewalDates();
         $this->addSecondaryBlankAccount();
         $this->stop();
     }
@@ -669,7 +671,7 @@ class SetupDummyAccount extends Command
             'send_invitation' => false,
         ]);
         $description = 'I have an unfortunate habit of suffering various misadventures. I’ve contracted herpes, been hit by Michael’s car, had my pelvis broken, had my hair set on fire, caught head lice, and been bitten by a bat, a rat, and a raccoon, all on separate occasions, and had to get rabies post-exposure treatment';
-        $this->addSpecificDataToEmployee($this->meredith, $description, $this->pronounSheHer, $this->teamProductOversight, $this->employeeStatusFullTime, $this->positionSupplierRelationsRep, '1959-11-12', $this->kelly);
+        $this->addSpecificDataToEmployee($this->meredith, $description, $this->pronounSheHer, $this->teamProductOversight, $this->employeeStatusConsultant, $this->positionSupplierRelationsRep, '1959-11-12', $this->kelly);
 
         $this->val = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -705,7 +707,7 @@ class SetupDummyAccount extends Command
             'send_invitation' => false,
         ]);
         $description = 'I am Glenn, and I approve this message.';
-        $this->addSpecificDataToEmployee($this->glenn, $description, $this->pronounHeHim, $this->teamWarehouse, $this->employeeStatusPartTime, $this->positionWarehouseStaff, null, $this->val);
+        $this->addSpecificDataToEmployee($this->glenn, $description, $this->pronounHeHim, $this->teamWarehouse, $this->employeeStatusConsultant, $this->positionWarehouseStaff, null, $this->val);
 
         $this->philip = (new AddEmployeeToCompany)->execute([
             'company_id' => $this->company->id,
@@ -1834,6 +1836,31 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'project_task_list_id' => $marketingTaskList->id,
             'title' => 'Migrate the ACLs',
             'description' => null,
+        ]);
+    }
+
+    private function setContractRenewalDates(): void
+    {
+        $date = Carbon::now()->addWeek();
+
+        (new SetContractRenewalDate)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'employee_id' => $this->glenn->id,
+            'year' => $date->year,
+            'month' => $date->month,
+            'day' => $date->day,
+        ]);
+
+        $date = Carbon::now()->addWeeks(2);
+
+        (new SetContractRenewalDate)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'employee_id' => $this->meredith->id,
+            'year' => $date->year,
+            'month' => $date->month,
+            'day' => $date->day,
         ]);
     }
 
