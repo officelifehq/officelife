@@ -275,6 +275,7 @@ return [
     'log_project_task_assigned_to_assignee' => 'Assigned the task called :project_task_title in the project called :project_name to :assignee_name.',
     'log_project_task_udpated' => 'Updated the task called :project_task_title in the project called :project_name.',
     'log_project_task_list_udpated' => 'Updated the task called :project_task_list_title in the project called :project_name.',
+    'log_employee_contract_renewed_at_set' => 'Set the contract renewal date of :employee_name to :contract_renewed_at.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -340,6 +341,7 @@ return [
     'employee_log_employee_removed_from_project' => 'Has been removed from the project called :project_name.',
     'employee_log_project_team_lead_updated' => 'Has been assigned as project lead for the called :project_name.',
     'employee_log_project_team_lead_cleared' => 'Has been removed as the project lead of the project called :project_name.',
+    'employee_log_contract_renewed_at_set' => 'Has been set the contract renewal date to :contract_renewed_at.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

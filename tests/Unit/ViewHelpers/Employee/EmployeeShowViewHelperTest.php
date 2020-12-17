@@ -58,6 +58,7 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertArrayHasKey('twitter_handle', $array);
         $this->assertArrayHasKey('slack_handle', $array);
         $this->assertArrayHasKey('hired_at', $array);
+        $this->assertArrayHasKey('contract_renewed_at', $array);
         $this->assertArrayHasKey('email', $array);
         $this->assertArrayHasKey('phone', $array);
         $this->assertArrayHasKey('locked', $array);

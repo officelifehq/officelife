@@ -53,6 +53,10 @@ class EmployeeShowViewHelper
                 'month' => $employee->hired_at->month,
                 'day' => $employee->hired_at->day,
             ],
+            'contract_renewed_at' => (! $employee->contract_renewed_at) ? null :
+                ($permissions['can_see_contract_renewal_date'] ? [
+                    'date' => DateHelper::formatDate($employee->contract_renewed_at),
+                ] : null),
             'raw_description' => $employee->description,
             'parsed_description' => is_null($employee->description) ? null : StringHelper::parse($employee->description),
             'address' => is_null($address) ? null : [
@@ -206,6 +210,15 @@ class EmployeeShowViewHelper
             $canSeeHardware = true;
         }
 
+        // can see contract renewal date for external employees
+        $canSeeContractRenewalDate = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeContractRenewalDate = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canSeeContractRenewalDate = true;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
@@ -226,6 +239,7 @@ class EmployeeShowViewHelper
             'can_see_complete_address' => $canSeeCompleteAddress,
             'can_see_performance_tab' => $canSeePerformanceTab,
             'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
+            'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
         ];
     }
 

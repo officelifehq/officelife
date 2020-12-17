@@ -98,6 +98,8 @@ return [
     'status_modal_unassign_success' => 'The status has been removed',
     'status_modal_reset' => 'Remove current status',
 
+    'contract_renewal_date' => 'Contract renewed on',
+
     'work_from_home_title' => 'Work from home',
     'work_from_home_link' => 'View history',
     'work_from_home_today' => 'Works from home today.',
@@ -112,6 +114,7 @@ return [
     'edit_information_title' => 'Edit information',
     'edit_information_menu' => 'Edit personal information',
     'edit_information_menu_address' => 'Change home address',
+    'edit_information_menu_contract' => 'Contract info',
     'edit_information_address' => 'Address',
     'edit_information_address_help' => 'Only administrators and HR will be able to see the complete address. Any other people will be able to see the city and country.',
     'edit_information_street' => 'Street',
@@ -144,6 +147,8 @@ return [
     'edit_information_year_help' => 'Possible values: 1900-?',
     'edit_information_month_help' => 'Possible values: 1-12',
     'edit_information_day_help' => 'Possible values: 1-31',
+    'edit_information_contract_section_date' => 'Date the contract ends',
+    'edit_information_contract_section_date_help' => 'This is the date that the contract signed with this external employee ends. This date will be used to warn managers and human resources that the term will come to an end in advance.',
 
     'hardware_title' => 'Hardware',
     'hardware_no_info' => 'No items have been lent yet.',
