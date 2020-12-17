@@ -168,6 +168,8 @@ class EmployeeEditController extends Controller
      */
     public function address(Request $request, int $companyId, int $employeeId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->findOrFail($employeeId);
@@ -197,6 +199,7 @@ class EmployeeEditController extends Controller
         return Inertia::render('Employee/Edit/Address', [
             'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 && $loggedEmployee->status->type == EmployeeStatus::EXTERNAL,
             'countries' => $countriesCollection,
         ]);
     }
@@ -269,6 +272,7 @@ class EmployeeEditController extends Controller
                 'month' => $employee->contract_renewed_at ? $employee->contract_renewed_at->month : null,
                 'day' => $employee->contract_renewed_at ? $employee->contract_renewed_at->day : null,
             ],
+            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 && $loggedEmployee->status->type == EmployeeStatus::EXTERNAL,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
