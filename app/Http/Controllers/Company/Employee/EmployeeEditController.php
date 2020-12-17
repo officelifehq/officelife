@@ -75,9 +75,11 @@ class EmployeeEditController extends Controller
                 ],
                 'twitter_handle' => $employee->twitter_handle,
                 'slack_handle' => $employee->slack_handle,
+                'max_year' => Carbon::now()->year,
             ],
             'canEditHiredAt' => $loggedEmployee->permission_level <= 200,
-            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 && $loggedEmployee->status->type == EmployeeStatus::EXTERNAL,
+            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
+                $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -199,7 +201,8 @@ class EmployeeEditController extends Controller
         return Inertia::render('Employee/Edit/Address', [
             'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 && $loggedEmployee->status->type == EmployeeStatus::EXTERNAL,
+            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
+                $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
             'countries' => $countriesCollection,
         ]);
     }
@@ -271,8 +274,10 @@ class EmployeeEditController extends Controller
                 'year' => $employee->contract_renewed_at ? $employee->contract_renewed_at->year : null,
                 'month' => $employee->contract_renewed_at ? $employee->contract_renewed_at->month : null,
                 'day' => $employee->contract_renewed_at ? $employee->contract_renewed_at->day : null,
+                'max_year' => Carbon::now()->addYears(5)->year,
             ],
-            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 && $loggedEmployee->status->type == EmployeeStatus::EXTERNAL,
+            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
+                $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

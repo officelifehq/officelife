@@ -297,3 +297,30 @@ Cypress.Commands.add('createProject', (companyId = 1, name, code = '', summary =
   cy.get('[data-cy=submit-create-project-button]').click();
   cy.wait(1000);
 });
+
+// Create an employee status
+Cypress.Commands.add('createEmployeeStatus', (companyId = 1, name, external = true) => {
+  cy.visit('/' + companyId + '/account/employeestatuses');
+
+  cy.get('[data-cy=add-status-button]').click();
+  cy.get('[data-cy=add-title-input]').type(name);
+  if (external == true) {
+    cy.get('[data-cy=external-employee-checkbox]').check();
+  }
+  cy.get('[data-cy=modal-add-cta]').click();
+
+  // to refresh the page
+  cy.visit('/' + companyId + '/account/employeestatuses');
+});
+
+// Set the contract renewal date to X days
+Cypress.Commands.add('setContractRenewalDate', (companyId = 1, employeeId = 1, numberOfDaysMore = 3) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId + '/contract/edit');
+  cy.get('input[name=year]').clear();
+  cy.get('input[name=year]').type(Cypress.moment().add(numberOfDaysMore, 'days').year());
+  cy.get('input[name=month]').clear();
+  cy.get('input[name=month]').type(Cypress.moment().add(numberOfDaysMore, 'days').month() + 1);
+  cy.get('input[name=day]').clear();
+  cy.get('input[name=day]').type(Cypress.moment().add(numberOfDaysMore, 'days').date());
+  cy.get('[data-cy=submit-edit-contract-employee-button]').click();
+});

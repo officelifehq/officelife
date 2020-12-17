@@ -141,7 +141,7 @@
                                 :required="true"
                                 :type="'number'"
                                 :min="1900"
-                                :max="2020"
+                                :max="employee.max_year"
                                 :help="$t('employee.edit_information_year_help')"
                     />
                   </div>
