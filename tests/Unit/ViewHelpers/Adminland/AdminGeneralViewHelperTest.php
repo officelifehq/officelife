@@ -45,6 +45,8 @@ class AdminGeneralViewHelperTest extends TestCase
             $response['currency']
         );
 
+        $response['administrators']->sortBy('id');
+
         $this->assertEquals(
             [
                 'id' => $michael->id,
