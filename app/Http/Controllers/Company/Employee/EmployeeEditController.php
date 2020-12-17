@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Company\EmployeeStatus;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
@@ -38,6 +39,7 @@ class EmployeeEditController extends Controller
 
         try {
             $employee = Employee::where('company_id', $companyId)
+                ->with('status')
                 ->findOrFail($employeeId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -75,6 +77,7 @@ class EmployeeEditController extends Controller
                 'slack_handle' => $employee->slack_handle,
             ],
             'canEditHiredAt' => $loggedEmployee->permission_level <= 200,
+            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 && $loggedEmployee->status->type == EmployeeStatus::EXTERNAL,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

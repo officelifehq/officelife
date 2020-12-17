@@ -11,6 +11,7 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use App\Helpers\WorkFromHomeHelper;
+use App\Models\Company\EmployeeStatus;
 
 class EmployeeShowViewHelper
 {
@@ -217,6 +218,9 @@ class EmployeeShowViewHelper
         }
         if ($loggedEmployeeIsManager) {
             $canSeeContractRenewalDate = true;
+        }
+        if ($employee->status->type == EmployeeStatus::INTERNAL) {
+            $canSeeContractRenewalDate = false;
         }
 
         return [
