@@ -9729,9 +9729,9 @@ vue-resize@^0.4.5:
   integrity sha512-bhP7MlgJQ8TIkZJXAfDf78uJO+mEI3CaLABLjv0WNzr4CcGRGPIAItyWYnP6LsPA4Oq0WE+suidNs6dgpO4RHg==
 
 vue-select@^3.10.8:
-  version "3.10.8"
-  resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-3.10.8.tgz#5d0839cba228a9a5efa1a88e5436840eb3fd0c7a"
-  integrity sha512-PnjtZWCTiSr04bs8ctPIiU41qnBK+oh/SOe6Pb4gElMMxofDFwUxiUe++mz0+84aTy4zrleGxtvVVyWbiPYBiw==
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-3.11.0.tgz#419834216f8cf1d4d96e7a5ddcd16627ddb8f397"
+  integrity sha512-rQpVcufCTBpXWF//3I6Oe+f089Y8e9Fa5oZjeuH5/GE4Hj3gQvwMN3mrrrcTPj3FoSqkloIiFKwKrQ2cZI40WA==
 
 vue-snotify@^3.2.1:
   version "3.2.1"
