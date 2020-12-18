@@ -7,6 +7,7 @@ use Tests\TestCase;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\EmployeeStatus;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
@@ -159,6 +160,61 @@ class DashboardManagerViewHelperTest extends TestCase
                         'id' => OneOnOneEntry::orderBy('id', 'desc')->first()->id,
                         'happened_at' => '2018-01-01',
                         'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::orderBy('id', 'desc')->first()->id,
+                    ],
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_employees_who_have_a_contract_renewed_soon(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+
+        $dwight = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $jim = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $status = EmployeeStatus::factory()->create([
+            'company_id' => $michael->company_id,
+            'type' => EmployeeStatus::EXTERNAL,
+        ]);
+
+        $dwight->employee_status_id = $status->id;
+        $dwight->contract_renewed_at = Carbon::now()->addMonths(1);
+        $dwight->save();
+
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $michael->id,
+        ]);
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $jim->id,
+            'manager_id' => $michael->id,
+        ]);
+
+        $collection = DashboardManagerViewHelper::contractRenewals($michael, $michael->directReports);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => 'Dwight Schrute',
+                    'avatar' => $dwight->avatar,
+                    'position' => $dwight->position->title,
+                    'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
+                    'contract_information' => [
+                        'contract_renewed_at' => 'Feb 01, 2018',
+                        'number_of_days' => 31,
+                        'late' => false,
                     ],
                 ],
             ],

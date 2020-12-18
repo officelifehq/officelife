@@ -35,6 +35,7 @@ class DashboardManagerController extends Controller
         $directReports = DirectReport::where('company_id', $company->id)
             ->where('manager_id', $employee->id)
             ->with('directReport')
+            ->with('directReport.status')
             ->with('directReport.position')
             ->with('directReport.expenses')
             ->with('directReport.expenses.employee')
@@ -60,12 +61,14 @@ class DashboardManagerController extends Controller
 
         $pendingExpenses = DashboardManagerViewHelper::pendingExpenses($employee, $directReports);
         $oneOnOnes = DashboardManagerViewHelper::oneOnOnes($employee, $directReports);
+        $contractRenewals = DashboardManagerViewHelper::contractRenewals($employee, $directReports);
 
         return Inertia::render('Dashboard/Manager/Index', [
             'employee' => $employeeInformation,
             'notifications' => NotificationHelper::getNotifications($employee),
             'pendingExpenses' => $pendingExpenses,
             'oneOnOnes' => $oneOnOnes,
+            'contractRenewals' => $contractRenewals,
             'defaultCompanyCurrency' => $company->currency,
         ]);
     }
