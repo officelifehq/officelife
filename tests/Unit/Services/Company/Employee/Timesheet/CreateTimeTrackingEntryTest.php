@@ -8,6 +8,7 @@ use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use App\Models\Company\ProjectTask;
 use Illuminate\Support\Facades\Queue;
 use App\Models\Company\TimeTrackingEntry;
 use Illuminate\Validation\ValidationException;
@@ -26,7 +27,13 @@ class CreateTimeTrackingEntryTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $this->executeService($michael, $dwight);
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $this->executeService($michael, $dwight, $project, $task);
     }
 
     /** @test */
@@ -34,14 +41,26 @@ class CreateTimeTrackingEntryTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
-        $this->executeService($michael, $dwight);
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $this->executeService($michael, $dwight, $project, $task);
     }
 
     /** @test */
     public function it_creates_a_time_tracking_entry_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $this->executeService($michael, $michael);
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $this->executeService($michael, $michael, $project, $task);
     }
 
     /** @test */
@@ -49,21 +68,15 @@ class CreateTimeTrackingEntryTest extends TestCase
     {
         $michael = $this->createEmployee();
         $dwight = $this->createAnotherEmployee($michael);
-
-        $this->expectException(NotEnoughPermissionException::class);
-        $this->executeService($michael, $dwight);
-    }
-
-    /** @test */
-    public function it_creates_a_time_tracking_entry_with_a_project(): void
-    {
-        $michael = $this->createAdministrator();
-        $dwight = $this->createAnotherEmployee($michael);
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
 
-        $this->executeService($michael, $dwight, $project);
+        $this->expectException(NotEnoughPermissionException::class);
+        $this->executeService($michael, $dwight, $project, $task);
     }
 
     /** @test */
@@ -71,9 +84,15 @@ class CreateTimeTrackingEntryTest extends TestCase
     {
         $michael = factory(Employee::class)->create([]);
         $jim = factory(Employee::class)->create([]);
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $jim);
+        $this->executeService($michael, $jim, $project, $task);
     }
 
     /** @test */
@@ -82,9 +101,12 @@ class CreateTimeTrackingEntryTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
         $project = Project::factory()->create();
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
 
         $this->expectException(ModelNotFoundException::class);
-        $this->executeService($michael, $dwight, $project);
+        $this->executeService($michael, $dwight, $project, $task);
     }
 
     /** @test */
@@ -95,20 +117,24 @@ class CreateTimeTrackingEntryTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
         $timesheet = Timesheet::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $dwight->id,
             'started_at' => '2020-11-16 00:00:00',
             'ended_at' => '2020-11-22 23:59:59',
         ]);
-        $entry = TimeTrackingEntry::factory()->create([
+        TimeTrackingEntry::factory()->create([
             'timesheet_id' => $timesheet->id,
             'employee_id' => $dwight->id,
             'duration' => 1321,
+            'happened_at' => '2020-11-17 00:00:00',
         ]);
 
         $this->expectException(DurationExceedingMaximalDurationException::class);
-        $this->executeService($michael, $dwight, $project);
+        $this->executeService($michael, $dwight, $project, $task);
     }
 
     /** @test */
@@ -124,7 +150,7 @@ class CreateTimeTrackingEntryTest extends TestCase
         (new CreateTimeTrackingEntry)->execute($request);
     }
 
-    private function executeService(Employee $author, Employee $employee, Project $project = null): void
+    private function executeService(Employee $author, Employee $employee, Project $project = null, ProjectTask $task): void
     {
         Queue::fake();
 
@@ -132,8 +158,8 @@ class CreateTimeTrackingEntryTest extends TestCase
             'company_id' => $author->company_id,
             'author_id' => $author->id,
             'employee_id' => $employee->id,
-            'project_id' => $project ? $project->id : null,
-            'project_task_id' => null,
+            'project_id' => $project->id,
+            'project_task_id' => $task->id,
             'duration' => 120,
             'date' => '2020-11-17', // week number 47 of the year
         ];
@@ -143,7 +169,8 @@ class CreateTimeTrackingEntryTest extends TestCase
         $this->assertDatabaseHas('time_tracking_entries', [
             'id' => $entry->id,
             'employee_id' => $employee->id,
-            'project_id' => $project ? $project->id : null,
+            'project_id' => $project->id,
+            'project_task_id' => $task->id,
             'duration' => 120,
             'happened_at' => '2020-11-17 00:00:00',
         ]);

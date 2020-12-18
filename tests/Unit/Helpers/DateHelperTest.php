@@ -63,7 +63,7 @@ class DateHelperTest extends TestCase
         $date = Carbon::createFromFormat('Y-m-d H:i:s', '1978-10-01 17:56:03');
 
         $this->assertEquals(
-            'Oct 1',
+            'Oct 01',
             DateHelper::formatShortMonthAndDay($date)
         );
     }
