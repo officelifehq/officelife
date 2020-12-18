@@ -12,6 +12,7 @@ use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Money\Currencies\ISOCurrencies;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\EmployeeStatus;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 
 class DashboardMeViewHelper
@@ -248,5 +249,46 @@ class DashboardMeViewHelper
         }
 
         return $managersCollection;
+    }
+
+    /**
+     * Get the information about contract renewal, if the employee is external,
+     * and if the contract is due in the next 3 months or less.
+     *
+     * @return array|null
+     */
+    public static function contractRenewal(Employee $employee): ?array
+    {
+        if (! $employee->status) {
+            return null;
+        }
+
+        if ($employee->status->type == EmployeeStatus::INTERNAL) {
+            return null;
+        }
+
+        if (! $employee->contract_renewed_at) {
+            return null;
+        }
+
+        $dateInOneMonth = Carbon::now()->addMonths(1);
+
+        if ($employee->contract_renewed_at->isAfter($dateInOneMonth)) {
+            return null;
+        }
+
+        if ($employee->contract_renewed_at->isBefore(Carbon::now())) {
+            return [
+                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+                'number_of_days' => $employee->contract_renewed_at->diffInDays(Carbon::now()),
+                'late' => true,
+            ];
+        }
+
+        return [
+            'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+            'number_of_days' => $employee->contract_renewed_at->diffInDays(Carbon::now()),
+            'late' => false,
+        ];
     }
 }

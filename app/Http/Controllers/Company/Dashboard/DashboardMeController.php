@@ -60,6 +60,7 @@ class DashboardMeController extends Controller
             'expenses' => DashboardMeViewHelper::expenses($employee),
             'rateYourManagerAnswers' => DashboardMeViewHelper::rateYourManagerAnswers($employee),
             'oneOnOnes' => DashboardMeViewHelper::oneOnOnes($employee),
+            'contractRenewal' => DashboardMeViewHelper::contractRenewal($employee),
             'defaultCurrency' => $defaultCompanyCurrency,
         ]);
     }

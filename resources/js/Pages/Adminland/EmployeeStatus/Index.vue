@@ -101,7 +101,7 @@
 
           <!-- LIST OF EXISTING EMPLOYEE STATUSES -->
           <ul v-show="localStatuses.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="localStatuses.map(n => n.id)">
-            <li v-for="status in localStatuses" :key="status.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+            <li v-for="status in localStatuses" :key="status.id" class="pv3 ph2 bb bb-gray bb-gray-hover" :data-cy="'status-item-' + status.id">
               <div v-if="idToUpdate != status.id" class="di">
                 {{ status.name }} <span class="type">{{ status.type_translated }}</span>
               </div>
@@ -124,7 +124,7 @@
                     <checkbox
                       :id="'home'"
                       v-model="form.checked"
-                      :datacy="'external-employee-checkbox'"
+                      :datacy="'external-employee-checkbox-' + status.id"
                       :label="$t('account.employee_statuses_new_external')"
                       :help="$t('account.employee_statuses_new_external_help')"
                       :extra-class-upper-div="'mb0 relative'"

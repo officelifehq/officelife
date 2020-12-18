@@ -184,4 +184,8 @@ return [
     'rate_your_manager_thanks_add_comment_cta' => 'Add a comment',
     'rate_your_manager_thanks_add_comment_reveal_identity' => 'Reveal your identity to Roger so he can reply to you',
     'rate_your_manager_final_sucess_message' => 'Thanks for giving your opinion',
+
+    'contract_renewal_date_title' => 'Contract renewal',
+    'contract_renewal_date' => 'Your contract ends on {date}, which is in {count} days.',
+    'contract_renewal_date_late' => 'Your contract ended on {date}, so you should take care of that.',
 ];

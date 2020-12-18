@@ -219,7 +219,11 @@ class EmployeeShowViewHelper
         if ($loggedEmployeeIsManager) {
             $canSeeContractRenewalDate = true;
         }
-        if ($employee->status->type == EmployeeStatus::INTERNAL) {
+        if ($employee->status) {
+            if ($employee->status->type == EmployeeStatus::INTERNAL) {
+                $canSeeContractRenewalDate = false;
+            }
+        } else {
             $canSeeContractRenewalDate = false;
         }
 
