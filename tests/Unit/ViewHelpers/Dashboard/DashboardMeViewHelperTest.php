@@ -332,6 +332,22 @@ class DashboardMeViewHelperTest extends TestCase
             [
                 'contract_renewed_at' => 'Feb 01, 2018',
                 'number_of_days' => 31,
+                'late' => false,
+            ],
+            $array
+        );
+
+        // employee is external and contract date is set in the past
+        $michael->contract_renewed_at = Carbon::now()->subMonths(1);
+        $michael->save();
+        $michael->refresh();
+
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertEquals(
+            [
+                'contract_renewed_at' => 'Dec 01, 2017',
+                'number_of_days' => 31,
+                'late' => true,
             ],
             $array
         );
