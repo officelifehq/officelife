@@ -8,6 +8,7 @@ use App\Helpers\MoneyHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\EmployeeStatus;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
@@ -111,7 +112,6 @@ class DashboardManagerViewHelper
      */
     public static function oneOnOnes(Employee $manager, Collection $directReports): ?SupportCollection
     {
-        // get the list of employees this manager manages
         $oneOnOnesCollection = collect([]);
         $company = $manager->company;
 
@@ -156,5 +156,59 @@ class DashboardManagerViewHelper
         }
 
         return $oneOnOnesCollection;
+    }
+
+    /**
+     * Get the information about employees who have a contract that ends in
+     * the next 3 months or less.
+     *
+     * @param Employee $manager
+     * @param Collection $directReports
+     * @return SupportCollection|null
+     */
+    public static function contractRenewals(Employee $manager, Collection $directReports): ?SupportCollection
+    {
+        $collection = collect([]);
+        $company = $manager->company;
+
+        foreach ($directReports as $directReport) {
+            $employee = $directReport->directReport;
+
+            if (! $employee->status) {
+                continue;
+            }
+
+            if ($employee->status->type == EmployeeStatus::INTERNAL) {
+                continue;
+            }
+
+            if (! $employee->contract_renewed_at) {
+                continue;
+            }
+
+            $dateInOneMonth = Carbon::now()->addMonths(1);
+
+            if ($employee->contract_renewed_at->isAfter($dateInOneMonth)) {
+                continue;
+            }
+
+            $collection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'position' => (! $employee->position) ? null : $employee->position->title,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'contract_information' => [
+                    'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+                    'number_of_days' => $employee->contract_renewed_at->diffInDays(Carbon::now()),
+                    'late' => $employee->contract_renewed_at->isBefore(Carbon::now()),
+                ],
+            ]);
+        }
+
+        return $collection;
     }
 }

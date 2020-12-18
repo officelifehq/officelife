@@ -234,5 +234,21 @@ export default {
       loadingState: '',
     };
   },
+
+  methods: {
+    markAsHappened() {
+      this.loadingState = 'loading';
+
+      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/oneonones/' + this.entry.id + '/happened')
+        .then(response => {
+          this.loadingState = null;
+          this.$inertia.visit(response.data.data.url);
+        })
+        .catch(error => {
+          this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    }
+  },
 };
 </script>

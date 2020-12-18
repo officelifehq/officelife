@@ -589,6 +589,17 @@ class LogHelper
                 ]);
                 break;
 
+            case 'expense_rejected_by_manager':
+                $sentence = trans('account.log_expense_rejected_by_manager', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'expense_id' => $log->object->{'expense_id'},
+                    'expense_title' => $log->object->{'expense_title'},
+                    'expense_amount' => $log->object->{'expense_amount'},
+                    'expensed_at' => $log->object->{'expensed_at'},
+                ]);
+                break;
+
             case 'employee_allowed_to_manage_expenses':
                 $sentence = trans('account.log_employee_allowed_to_manage_expenses', [
                     'employee_id' => $log->object->{'employee_id'},
@@ -981,8 +992,8 @@ class LogHelper
 
             case 'employee_contract_renewed_at_set':
                 $sentence = trans('account.log_employee_contract_renewed_at_set', [
-                        'employee_id' => $log->object->{'project_id'},
-                        'employee_name' => $log->object->{'project_name'},
+                        'employee_id' => $log->object->{'employee_id'},
+                        'employee_name' => $log->object->{'employee_name'},
                         'contract_renewed_at' => $log->object->{'contract_renewed_at'},
                     ]);
                 break;
