@@ -72,18 +72,6 @@ Cypress.Commands.add('createTeam', (productName) => {
   cy.get('[data-cy=submit-add-team-button]').click();
 });
 
-// Create an employee status
-Cypress.Commands.add('createEmployeeStatus', (status) => {
-  cy.get('[data-cy=header-adminland-link]').click();
-
-  cy.get('[data-cy=employee-statuses-admin-link]').click();
-  cy.get('[data-cy=add-status-button]').click();
-
-  cy.get('[data-cy=add-title-input]').type(status);
-
-  cy.get('[data-cy=modal-add-cta]').click();
-});
-
 // Create an employee
 Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, sendEmail, callback) => {
   cy.get('[data-cy=header-adminland-link]', {timeout: 500}).click();

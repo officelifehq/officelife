@@ -277,9 +277,18 @@ class DashboardMeViewHelper
             return null;
         }
 
+        if ($employee->contract_renewed_at->isBefore(Carbon::now())) {
+            return [
+                'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+                'number_of_days' => $employee->contract_renewed_at->diffInDays(Carbon::now()),
+                'late' => true,
+            ];
+        }
+
         return [
             'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
             'number_of_days' => $employee->contract_renewed_at->diffInDays(Carbon::now()),
+            'late' => false,
         ];
     }
 }

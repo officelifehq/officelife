@@ -187,4 +187,5 @@ return [
 
     'contract_renewal_date_title' => 'Contract renewal',
     'contract_renewal_date' => 'Your contract ends on {date}, which is in {count} days.',
+    'contract_renewal_date_late' => 'Your contract ended on {date}, so you should take care of that.',
 ];

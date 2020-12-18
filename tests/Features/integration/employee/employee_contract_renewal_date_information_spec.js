@@ -46,6 +46,19 @@ describe('Employee - manage contract renewal date information', function () {
         // change the contract renewal date in a very far future and the date shouldn't appear on the dashboard
         cy.setContractRenewalDate(1, 1, 35);
         cy.get('[data-cy=contract-renewal]').should('not.exist');
+
+        // remove the contract renewal date entirely
+        cy.visit('/1/employees/1');
+        cy.get('[data-cy=open-status-modal').click();
+        cy.get('[data-cy=status-reset-button]').click();
+        cy.visit('/1/employees/1');
+
+        // check that the renewal date is not displayed anymore on the employee profile page
+        cy.get('[data-cy=employee-contract-renewal-date]').should('not.exist');
+
+        // check that the renewal date is not displayed anymore on the employee dashboard
+        cy.visit('/1/dashboard/me');
+        cy.get('[data-cy=contract-renewal]').should('not.exist');
       });
 
     cy.visit('/1/employees/1');
@@ -99,6 +112,19 @@ describe('Employee - manage contract renewal date information', function () {
 
         // change the contract renewal date in a very far future and the date shouldn't appear on the dashboard
         cy.setContractRenewalDate(1, 1, 35);
+        cy.get('[data-cy=contract-renewal]').should('not.exist');
+
+        // remove the contract renewal date entirely
+        cy.visit('/1/employees/1');
+        cy.get('[data-cy=open-status-modal').click();
+        cy.get('[data-cy=status-reset-button]').click();
+        cy.visit('/1/employees/1');
+
+        // check that the renewal date is not displayed anymore on the employee profile page
+        cy.get('[data-cy=employee-contract-renewal-date]').should('not.exist');
+
+        // check that the renewal date is not displayed anymore on the employee dashboard
+        cy.visit('/1/dashboard/me');
         cy.get('[data-cy=contract-renewal]').should('not.exist');
       });
 

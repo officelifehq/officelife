@@ -223,6 +223,8 @@ class EmployeeShowViewHelper
             if ($employee->status->type == EmployeeStatus::INTERNAL) {
                 $canSeeContractRenewalDate = false;
             }
+        } else {
+            $canSeeContractRenewalDate = false;
         }
 
         return [

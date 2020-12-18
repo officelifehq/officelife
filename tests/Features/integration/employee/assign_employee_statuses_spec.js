@@ -6,7 +6,7 @@ describe('Employee - Assign employee statuses', function () {
 
     cy.createCompany();
 
-    cy.createEmployeeStatus('Dunder Mifflin');
+    cy.createEmployeeStatus(1, 'Dunder Mifflin', false);
 
     cy.visit('/1/employees/1');
 
@@ -30,7 +30,7 @@ describe('Employee - Assign employee statuses', function () {
 
     cy.createCompany();
 
-    cy.createEmployeeStatus('Dunder Mifflin');
+    cy.createEmployeeStatus(1, 'Dunder Mifflin', false);
 
     cy.get('body').invoke('attr', 'data-account-id').then(function (userId) {
       cy.changePermission(userId, 200);
