@@ -295,7 +295,7 @@ class DashboardMeViewHelperTest extends TestCase
         $this->assertNull($array);
 
         $status = EmployeeStatus::factory()->create([
-            'company_id' => $michael->id,
+            'company_id' => $michael->company_id,
             'type' => EmployeeStatus::INTERNAL,
         ]);
         $michael->employee_status_id = $status->id;
@@ -305,7 +305,7 @@ class DashboardMeViewHelperTest extends TestCase
 
         // employee is external, but the contract renewal date is not set
         $status = EmployeeStatus::factory()->create([
-            'company_id' => $michael->id,
+            'company_id' => $michael->company_id,
             'type' => EmployeeStatus::EXTERNAL,
         ]);
         $michael->employee_status_id = $status->id;
