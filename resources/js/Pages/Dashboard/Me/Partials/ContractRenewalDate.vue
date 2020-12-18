@@ -8,7 +8,7 @@
         🏔
       </span> {{ $t('dashboard.contract_renewal_date_title') }}
 
-      <help :url="$page.props.help_links.one_on_ones" />
+      <help :url="$page.props.help_links.contract_renewal_dashboard" />
     </div>
 
     <div class="cf mw7 center br3 mb3 bg-white box relative">
