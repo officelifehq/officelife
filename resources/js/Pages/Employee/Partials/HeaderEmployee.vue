@@ -135,8 +135,13 @@
                 <span class="f7 gray">{{ $t('employee.status_title') }}</span>
                 <employee-status
                   :employee="employee"
-                  :statuses="statuses"
                   :permissions="permissions"
+                />
+              </p>
+              <p v-if="employee.contract_renewed_at" class="mb0-ns f6">
+                <span class="f7 gray">{{ $t('employee.contract_renewal_date') }}</span>
+                <employee-renewal-date
+                  :employee="employee"
                 />
               </p>
             </div>
@@ -187,6 +192,7 @@ import EmployeeTwitter from '@/Pages/Employee/Partials/EmployeeTwitter';
 import EmployeePhone from '@/Pages/Employee/Partials/EmployeePhone';
 import EmployeeSlack from '@/Pages/Employee/Partials/EmployeeSlack';
 import EmployeeHiredDate from '@/Pages/Employee/Partials/EmployeeHiredDate';
+import EmployeeRenewalDate from '@/Pages/Employee/Partials/EmployeeRenewalDate';
 
 export default {
   components: {
@@ -200,6 +206,7 @@ export default {
     EmployeePhone,
     EmployeeSlack,
     EmployeeHiredDate,
+    EmployeeRenewalDate,
   },
 
   directives: {
@@ -224,10 +231,6 @@ export default {
       default: null,
     },
     teams: {
-      type: Array,
-      default: null,
-    },
-    statuses: {
       type: Array,
       default: null,
     },

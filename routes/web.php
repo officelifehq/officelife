@@ -126,6 +126,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::get('{employee}/edit', 'Company\\Employee\\EmployeeEditController@show')->name('employee.show.edit');
             Route::get('{employee}/address/edit', 'Company\\Employee\\EmployeeEditController@address');
+            Route::get('{employee}/contract/edit', 'Company\\Employee\\EmployeeEditController@contract');
+            Route::post('{employee}/contract/update', 'Company\\Employee\\EmployeeEditController@updateContractInformation');
             Route::post('{employee}/update', 'Company\\Employee\\EmployeeEditController@update');
             Route::post('{employee}/address/update', 'Company\\Employee\\EmployeeEditController@updateAddress');
 
@@ -138,7 +140,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
 
             Route::resource('{employee}/employeestatuses', 'Company\\Employee\\EmployeeStatusController')->only([
-                'store', 'destroy',
+                'index', 'store', 'destroy',
             ]);
 
             Route::resource('{employee}/pronoun', 'Company\\Employee\\EmployeePronounController')->only([

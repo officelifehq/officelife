@@ -79,10 +79,14 @@ return [
     'employee_statuses_cta' => 'Add an employee status',
     'employee_statuses_blank' => 'Statuses are terms that describe the employment status of an employee. Like full-time, part-time, etc....',
     'employee_statuses_new_title' => 'Status name',
+    'employee_statuses_new_external' => 'This status applies to external employees',
+    'employee_statuses_new_external_help' => 'Checking this box will add a couple of fields for those employees (like contract renewal dates).',
     'employee_statuses_placeholder' => 'Full-time',
     'employee_statuses_success_new' => 'The employee status has been created',
     'employee_statuses_success_update' => 'The employee status has been updated',
     'employee_statuses_success_destroy' => 'The employee status has been destroyed',
+    'employee_statuses_internal' => 'internal',
+    'employee_statuses_external' => 'external',
 
     'positions_title' => 'All the positions used in {company}',
     'positions_number_positions' => '{company} has one position. | {company} has {count} positions.',
@@ -272,6 +276,7 @@ return [
     'log_project_task_udpated' => 'Updated the task called :project_task_title in the project called :project_name.',
     'log_project_task_list_udpated' => 'Updated the task called :project_task_list_title in the project called :project_name.',
     'log_time_tracking_entry_created' => 'Added a time tracking entry for the week :week_number for :employee_name.',
+    'log_employee_contract_renewed_at_set' => 'Set the contract renewal date of :employee_name to :contract_renewed_at.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -338,6 +343,7 @@ return [
     'employee_log_project_team_lead_updated' => 'Has been assigned as project lead for the called :project_name.',
     'employee_log_project_team_lead_cleared' => 'Has been removed as the project lead of the project called :project_name.',
     'employee_log_time_tracking_entry_created' => 'Added a time tracking entry for the week :week_number.',
+    'employee_log_contract_renewed_at_set' => 'Has been set the contract renewal date to :contract_renewed_at.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

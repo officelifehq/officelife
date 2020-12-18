@@ -25,6 +25,7 @@ class EmployeeStatusFactory extends Factory
         return [
             'company_id' => Company::factory(),
             'name' => 'Permanent',
+            'type' => 'internal',
         ];
     }
 }

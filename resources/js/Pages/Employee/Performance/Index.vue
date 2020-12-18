@@ -25,7 +25,6 @@
         :employee-teams="employeeTeams"
         :positions="positions"
         :teams="teams"
-        :statuses="statuses"
         :pronouns="pronouns"
       />
 
@@ -102,10 +101,6 @@ export default {
       default: null,
     },
     teams: {
-      type: Array,
-      default: null,
-    },
-    statuses: {
       type: Array,
       default: null,
     },

@@ -38,7 +38,7 @@ input[type=number] {
       </span>
 
       <!-- hours -->
-      <the-mask v-model="hours"
+      <the-mask v-model="localHours"
                 mask="##"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
@@ -57,7 +57,7 @@ input[type=number] {
         min.
       </span>
 
-      <the-mask v-model="minutes"
+      <the-mask v-model="localMinutes"
                 mask="##"
                 class="br2 f5 pt2 pb0 ph1 outline-0 di tc bg-white"
                 type="text"
@@ -84,25 +84,21 @@ export default {
         return `text-input-${this._uid}`;
       },
     },
-    type: {
-      type: String,
-      default: 'text',
-    },
-    value: {
-      type: [String, Number],
-      default: '',
-    },
-    customRef: {
-      type: String,
-      default: 'input',
-    },
-    name: {
-      type: String,
-      default: 'input',
-    },
     errors: {
       type: String,
       default: '',
+    },
+    total: {
+      type: Number,
+      default: 0,
+    },
+    hours: {
+      type: Number,
+      default: 0,
+    },
+    minutes: {
+      type: Number,
+      default: 0,
     },
     datacy: {
       type: String,
@@ -112,43 +108,34 @@ export default {
 
   data() {
     return {
-      hours: 0,
-      minutes: 0,
+      localHours: 0,
+      localMinutes: 0,
       durationInMinutes: 0,
-      localErrors: '',
     };
   },
 
-  computed: {
-    hasError() {
-      return this.localErrors.length > 0 && this.required;
-    }
-  },
-
-  watch: {
-    errors(value) {
-      this.localErrors = value;
-    },
-  },
-
   mounted() {
-    this.localErrors = this.errors;
+    this.$nextTick(() => {
+      this.localHours = this.hours;
+      this.localMinutes = this.minutes;
+      this.durationInMinutes = this.total;
+    });
   },
 
   methods: {
     broadcastTotal() {
-      var localHours = 0;
-      var localMinutes = 0;
+      var hours = 0;
+      var minutes = 0;
 
-      if (this.hours) {
-        localHours = parseInt(this.hours) * 60;
+      if (this.localHours) {
+        hours = parseInt(this.localHours) * 60;
       }
 
-      if (this.minutes) {
-        localMinutes = parseInt(this.minutes);
+      if (this.localMinutes) {
+        minutes = parseInt(this.localMinutes);
       }
 
-      this.durationInMinutes = localHours + localMinutes;
+      this.durationInMinutes = hours + minutes;
       this.$emit('update', this.durationInMinutes);
     },
   },

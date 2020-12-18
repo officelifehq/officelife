@@ -37,15 +37,17 @@
       <dashboard-menu :employee="employee" />
 
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
-        <div class="mt0 mb4 lh-copy f6 flex justify-between items-center">
+        <div class="mt0 mb4 lh-copy f6 tc">
           <ul class="list pl0 ma0">
-            <li class="di"><inertia-link :href="previousTimesheet.url" class="btn dib">sss</inertia-link></li>
-            <li class="di">30/Nov/2020 - 06/Dec/2020</li>
-            <li class="di"><inertia-link :href="nextTimesheet.url" class="btn dib">></inertia-link></li>
+            <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; Previous week</inertia-link></li>
+            <li class="di mr3">{{ timesheet.start_date }} - {{ timesheet.end_date }}</li>
+            <li class="di"><inertia-link :href="nextTimesheet.url" class="dib">Next week &gt;</inertia-link></li>
           </ul>
+        </div>
 
+        <div class="tr mb3">
           <a v-if="!displayNewEntry" class="btn f5" @click.prevent="showProjectList()">
-            add a new row
+            Add a new row
           </a>
         </div>
 
@@ -161,7 +163,12 @@
           </div>
 
           <!-- entries -->
-          <timesheet-row v-for="row in timesheetRows" :key="row.id" :row="row" :timesheet="timesheet" @update-day="updateDay" />
+          <timesheet-row v-for="row in timesheetRows" :key="row.id"
+                         :row="row"
+                         :timesheet="timesheet"
+                         @update-day="updateDay"
+                         @update-weekly-total="updateWeeklyTotal"
+          />
 
           <!-- total -->
           <div class="dt-row">
@@ -171,37 +178,37 @@
                   Total
                 </span>
                 <span class="f7 fw5">
-                  37h30
+                  {{ weeklyTotalHumanReadable }}
                 </span>
               </div>
             </div>
             <!-- monday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              37.5
+              {{ formatTime(dailyStats[0]) }}
             </div>
             <!-- tuesday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              37.5
+              {{ formatTime(dailyStats[1]) }}
             </div>
             <!-- wednesday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              37.5
+              {{ formatTime(dailyStats[2]) }}
             </div>
             <!-- thursday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              37.5
+              {{ formatTime(dailyStats[3]) }}
             </div>
             <!-- friday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
-              37.5
+              {{ formatTime(dailyStats[4]) }}
             </div>
             <!-- saturday -->
             <div class="tc pv2 dtc bt bl bb bb-gray off-days f7 gray">
-              37.5
+              {{ formatTime(dailyStats[5]) }}
             </div>
             <!-- sunday -->
             <div class="tc pv2 bt bl bb bb-gray off-days f7 gray">
-              37.5
+              {{ formatTime(dailyStats[6]) }}
             </div>
           </div>
         </div>
@@ -262,18 +269,14 @@ export default {
       timesheetRows: [],
       projects: [],
       tasks: [],
-      mondays: 0,
-      tusdays: 0,
-      wednesdays: 0,
-      thursdays: 0,
-      fridays: 0,
-      saturdays: 0,
-      sundays: 0,
+      dailyStats: [],
+      weeklyTotalHumanReadable: 0,
     };
   },
 
   mounted() {
     this.timesheetRows = this.timesheet.entries;
+    this.refreshWeeklyTotal();
 
     if (localStorage.success) {
       flash(localStorage.success, 'success');
@@ -283,28 +286,11 @@ export default {
   },
 
   methods: {
-    updateDay({day, value}) {
-      if (day == 1) {
-        this.mondays = this.mondays + value;
-      }
-      if (day == 2) {
-        this.tuesdays = this.tuesdays + value;
-      }
-      if (day == 3) {
-        this.wednesdays = this.wednesdays + value;
-      }
-      if (day == 4) {
-        this.thursdays = this.thursdays + value;
-      }
-      if (day == 5) {
-        this.fridays = this.fridays + value;
-      }
-      if (day == 6) {
-        this.saturdays = this.saturdays + value;
-      }
-      if (day == 7) {
-        this.sundays = this.sundays + value;
-      }
+    updateDay({id, day, value}) {
+      var id = this.timesheetRows.findIndex(x => x.task_id === id);
+      var row = this.timesheetRows[id];
+      row.days[day].total_of_minutes = value;
+      this.$set(this.timesheetRows, id, row);
     },
 
     showProjectList() {
@@ -316,7 +302,7 @@ export default {
     },
 
     showTasks() {
-      this.getTasks();
+      this.getTasksList();
       this.displayTasks = true;
     },
 
@@ -330,7 +316,7 @@ export default {
         });
     },
 
-    getTasks() {
+    getTasksList() {
       axios.get('/' + this.$page.props.auth.company.id + '/dashboard/timesheet/' + this.timesheet.id + '/projects/' + this.form.project.value + '/tasks')
         .then(response => {
           this.tasks = response.data.data;
@@ -351,37 +337,78 @@ export default {
         days: {
           monday: {
             day_of_week: 1,
-            total_of_hours: 0,
+            total_of_minutes: 0,
           },
           tuesday: {
             day_of_week: 2,
-            total_of_hours: 0,
+            total_of_minutes: 0,
           },
           wednesday: {
             day_of_week: 3,
-            total_of_hours: 0,
+            total_of_minutes: 0,
           },
           thursday: {
             day_of_week: 4,
-            total_of_hours: 0,
+            total_of_minutes: 0,
           },
           friday: {
             day_of_week: 5,
-            total_of_hours: 0,
+            total_of_minutes: 0,
           },
           saturday: {
             day_of_week: 6,
-            total_of_hours: 0,
+            total_of_minutes: 0,
           },
           sunday: {
             day_of_week: 7,
-            total_of_hours: 0,
+            total_of_minutes: 0,
           },
         },
       });
 
       this.displayNewEntry = false;
     },
+
+    updateWeeklyTotal({id, value}) {
+      var id = this.timesheetRows.findIndex(x => x.task_id === id);
+      var row = this.timesheetRows[id];
+      row.total_this_week = value;
+      this.$set(this.timesheetRows, id, row);
+      this.refreshWeeklyTotal();
+      this.refreshDailyTotal();
+    },
+
+    refreshWeeklyTotal() {
+      var total = 0;
+      for(var i = 0; i < this.timesheetRows.length; i++){
+        total = total + this.timesheetRows[i].total_this_week;
+      }
+
+      this.weeklyTotalHumanReadable = this.formatTime(total);
+    },
+
+    refreshDailyTotal() {
+      this.dailyStats = [];
+
+      this.timesheetRows.forEach(row => {
+        for(var day = 0; day < 7; day++) {
+          if (this.dailyStats[day]) {
+            this.dailyStats[day] = parseInt(this.dailyStats[day]) + parseInt(row.days[day].total_of_minutes);
+          } else {
+            this.dailyStats[day] = parseInt(row.days[day].total_of_minutes);
+          }
+        }
+      });
+    },
+
+    formatTime(timeInMinutes) {
+      var hours = Math.floor(timeInMinutes / 60);
+      var minutes = timeInMinutes % 60;
+
+      // this adds leading zero to minutes, if needed
+      const zeroPad = (num, places) => String(num).padStart(places, '0');
+      return hours + 'h' + zeroPad(minutes, 2);
+    }
   },
 };
 </script>

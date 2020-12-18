@@ -12,7 +12,6 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Collections\PronounCollection;
 use App\Http\Collections\PositionCollection;
-use App\Http\Collections\EmployeeStatusCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
@@ -77,7 +76,6 @@ class EmployeePerformanceController extends Controller
             'employeeTeams' => $employeeTeams,
             'positions' => PositionCollection::prepare($company->positions()->get()),
             'teams' => $teams,
-            'statuses' => EmployeeStatusCollection::prepare($company->employeeStatuses()->get()),
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'surveys' => $surveys,
         ]);

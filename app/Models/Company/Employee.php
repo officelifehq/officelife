@@ -117,6 +117,7 @@ class Employee extends Model
     protected $dates = [
         'invitation_used_at',
         'hired_at',
+        'contract_renewed_at',
         'birthdate',
     ];
 

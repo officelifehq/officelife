@@ -50,7 +50,7 @@ class DestroyEmployeeStatusTest extends TestCase
     /** @test */
     public function it_fails_if_the_employee_status_does_not_match_the_company(): void
     {
-        $employeeStatus = factory(EmployeeStatus::class)->create([]);
+        $employeeStatus = EmployeeStatus::factory()->create([]);
         $michael = $this->createAdministrator();
 
         $request = [
@@ -67,7 +67,7 @@ class DestroyEmployeeStatusTest extends TestCase
     {
         Queue::fake();
 
-        $employeeStatus = factory(EmployeeStatus::class)->create([]);
+        $employeeStatus = EmployeeStatus::factory()->create([]);
         $michael = factory(Employee::class)->create([
             'company_id' => $employeeStatus->company_id,
             'permission_level' => $permissionLevel,

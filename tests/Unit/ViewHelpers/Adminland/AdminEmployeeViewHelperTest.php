@@ -61,7 +61,7 @@ class AdminEmployeeViewHelperTest extends TestCase
                     'permission_level' => $michael->permission_level,
                     'avatar' => $michael->avatar,
                     'invitation_link' => $michael->invitation_link,
-                    'invited' => (bool) (! $michael->invitation_used_at && $michael->invitation_link),
+                    'invited' => (! $michael->invitation_used_at && $michael->invitation_link) === true,
                     'lock_status' => $michael->locked,
                     'url_view' => route('employees.show', [
                         'company' => $michael->company,

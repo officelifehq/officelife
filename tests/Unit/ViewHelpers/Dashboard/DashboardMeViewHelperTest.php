@@ -10,6 +10,7 @@ use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Jobs\StartRateYourManagerProcess;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -280,6 +281,75 @@ class DashboardMeViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_an_array_containing_information_about_upcoming_contract_renewals_for_external_employees(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+
+        // employee is internal, it should return a blank array
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertNull($array);
+
+        $status = EmployeeStatus::factory()->create([
+            'company_id' => $michael->company_id,
+            'type' => EmployeeStatus::INTERNAL,
+        ]);
+        $michael->employee_status_id = $status->id;
+        $michael->save();
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertNull($array);
+
+        // employee is external, but the contract renewal date is not set
+        $status = EmployeeStatus::factory()->create([
+            'company_id' => $michael->company_id,
+            'type' => EmployeeStatus::EXTERNAL,
+        ]);
+        $michael->employee_status_id = $status->id;
+        $michael->save();
+        $michael->refresh();
+
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertNull($array);
+
+        // // employee is external and contract date is set, but in the far future
+        $michael->contract_renewed_at = Carbon::now()->addMonths(4);
+        $michael->save();
+        $michael->refresh();
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertNull($array);
+
+        // employee is external and contract date is set in less than 3 months
+        $michael->contract_renewed_at = Carbon::now()->addMonths(1);
+        $michael->save();
+        $michael->refresh();
+
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertEquals(
+            [
+                'contract_renewed_at' => 'Feb 01, 2018',
+                'number_of_days' => 31,
+                'late' => false,
+            ],
+            $array
+        );
+
+        // employee is external and contract date is set in the past
+        $michael->contract_renewed_at = Carbon::now()->subMonths(1);
+        $michael->save();
+        $michael->refresh();
+
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertEquals(
+            [
+                'contract_renewed_at' => 'Dec 01, 2017',
+                'number_of_days' => 31,
+                'late' => true,
+            ],
+            $array
         );
     }
 }

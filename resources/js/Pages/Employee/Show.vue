@@ -25,7 +25,6 @@
         :employee-teams="employeeTeams"
         :positions="positions"
         :teams="teams"
-        :statuses="statuses"
         :pronouns="pronouns"
       />
 
@@ -194,10 +193,6 @@ export default {
     },
     worklogs: {
       type: Object,
-      default: null,
-    },
-    statuses: {
-      type: Array,
       default: null,
     },
     pronouns: {

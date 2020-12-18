@@ -16,6 +16,12 @@
 
       <dashboard-menu :employee="employee" />
 
+      <contract-renewal-date
+        v-if="contractRenewal"
+        :employee="employee"
+        :contract-renewal="contractRenewal"
+      />
+
       <one-on-one-with-manager
         v-if="oneOnOnes.length > 0"
         :employee="employee"
@@ -93,6 +99,7 @@ import Task from '@/Pages/Dashboard/Me/Partials/Task';
 import Expense from '@/Pages/Dashboard/Me/Partials/Expense';
 import RateYourManager from '@/Pages/Dashboard/Me/Partials/RateYourManager';
 import OneOnOneWithManager from '@/Pages/Dashboard/Me/Partials/OneOnOneWithManager';
+import ContractRenewalDate from '@/Pages/Dashboard/Me/Partials/ContractRenewalDate';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -107,6 +114,7 @@ export default {
     WorkFromHome,
     RateYourManager,
     OneOnOneWithManager,
+    ContractRenewalDate,
     DashboardMenu,
   },
 
@@ -152,6 +160,10 @@ export default {
       default: null,
     },
     oneOnOnes: {
+      type: Array,
+      default: null,
+    },
+    contractRenewal: {
       type: Array,
       default: null,
     },

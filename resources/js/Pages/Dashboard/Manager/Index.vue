@@ -21,6 +21,11 @@
       :one-on-ones="oneOnOnes"
     />
 
+    <contract-renewal
+      v-if="contractRenewals.length != 0"
+      :contract-renewals="contractRenewals"
+    />
+
     <expense
       :expenses="pendingExpenses"
       :default-currency="defaultCurrency"
@@ -31,6 +36,7 @@
 <script>
 import Expense from '@/Pages/Dashboard/Manager/Partials/Expense';
 import OneOnOneWithDirectReport from '@/Pages/Dashboard/Manager/Partials/OneOnOneWithDirectReport';
+import ContractRenewal from '@/Pages/Dashboard/Manager/Partials/ContractRenewal';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -40,6 +46,7 @@ export default {
     OneOnOneWithDirectReport,
     Layout,
     DashboardMenu,
+    ContractRenewal,
   },
 
   props: {
@@ -56,6 +63,10 @@ export default {
       default: null,
     },
     oneOnOnes: {
+      type: Array,
+      default: null,
+    },
+    contractRenewals: {
       type: Array,
       default: null,
     },

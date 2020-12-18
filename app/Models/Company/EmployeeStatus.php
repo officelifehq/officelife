@@ -14,6 +14,9 @@ class EmployeeStatus extends Model
 
     protected $table = 'employee_statuses';
 
+    const INTERNAL = 'internal';
+    const EXTERNAL = 'external';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +25,7 @@ class EmployeeStatus extends Model
     protected $fillable = [
         'company_id',
         'name',
+        'type',
     ];
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Dashboard;
 
 use App\Helpers\DateHelper;
+use App\Helpers\TimeHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
@@ -30,32 +31,35 @@ class DashboardTimesheetViewHelper
             ->with('projectTask')
             ->with('project')
             ->get();
-        $linesOfTimesheet = collect([]);
 
         // let's iterate over each task in this timesheet to group entries
         $uniqueTasks = $entries->unique('project_task_id');
+        $linesOfTimesheet = collect([]);
         foreach ($uniqueTasks as $uniqueTask) {
             $uniqueTask = $uniqueTask->projectTask;
-            $entries = $entries->where('project_task_id', $uniqueTask->id);
+            $entriesForThisTask = $entries->where('project_task_id', $uniqueTask->id);
 
             $entriesCollection = collect([]);
             $monday = $timesheet->started_at;
-            $totalOfHoursThisWeek = 0;
+            $totalOfMinutesThisWeek = 0;
             for ($day = 0; $day < 7; $day++) {
                 $currentDay = $monday->copy()->addDays($day);
-                $entriesForTheday = $entries->filter(function ($entry) use ($currentDay) {
+                $entriesForTheday = $entriesForThisTask->filter(function ($entry) use ($currentDay) {
                     return $entry->happened_at == $currentDay;
                 });
 
-                $totalOfHours = 0;
+                $totalOfMinutes = 0;
                 foreach ($entriesForTheday as $entry) {
-                    $totalOfHours = $totalOfHours + $entry->duration;
-                    $totalOfHoursThisWeek = $totalOfHoursThisWeek + $totalOfHours;
+                    $totalOfMinutes = $totalOfMinutes + $entry->duration;
+                    $totalOfMinutesThisWeek = $totalOfMinutesThisWeek + $totalOfMinutes;
                 }
 
+                $statistics = TimeHelper::convertToHoursAndMinutes($totalOfMinutes);
                 $entriesCollection->push([
                     'day_of_week' => $currentDay->dayOfWeek,
-                    'total_of_hours' => $totalOfHours,
+                    'total_of_minutes' => $totalOfMinutes,
+                    'hours' => $statistics['hours'],
+                    'minutes' => $statistics['minutes'],
                 ]);
             }
 
@@ -65,7 +69,7 @@ class DashboardTimesheetViewHelper
                 'project_code' => $uniqueTask->project->code,
                 'task_id' => $uniqueTask->id,
                 'task_title' => $uniqueTask->title,
-                'total_this_week' => $totalOfHoursThisWeek,
+                'total_this_week' => $totalOfMinutesThisWeek,
                 'days' => $entriesCollection,
             ]);
         }

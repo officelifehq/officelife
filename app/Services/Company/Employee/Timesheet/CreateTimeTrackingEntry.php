@@ -22,7 +22,7 @@ class CreateTimeTrackingEntry extends BaseService
 
     private Timesheet $timesheet;
 
-    private TimeTrackingEntry $timeTrackingEntry;
+    private ?TimeTrackingEntry $timeTrackingEntry;
 
     private Project $project;
 
@@ -64,6 +64,8 @@ class CreateTimeTrackingEntry extends BaseService
         $this->validate();
         $this->getTimesheet();
         $this->createCarbonDate();
+        $this->makeSureTimeEnteredIsCorrect();
+        $this->checkPastTimeTrackingEntryExistence();
         $this->createOrUpdateTimeTrackingEntry();
         $this->log();
 
@@ -88,6 +90,29 @@ class CreateTimeTrackingEntry extends BaseService
 
             $this->projectTask = ProjectTask::where('project_id', $this->data['project_id'])
                 ->findOrFail($this->data['project_task_id']);
+        }
+    }
+
+    private function makeSureTimeEnteredIsCorrect(): void
+    {
+        // how much is the duration of all the time entries for the timesheet?
+        $entries = $this->timesheet->timeTrackingEntries;
+        $totalDurationForTheWeek = $entries->sum('duration');
+        $totalDurationForTheDay = $entries->filter(function ($entry) {
+            return $entry->happened_at->format('Y-m-d') == $this->date->format('Y-m-d');
+        })->sum('duration');
+
+        // this duration shouldn't be longer than 24 hours X 7 days = 10 080 min
+        $newTotalDuration = $totalDurationForTheWeek + $this->data['duration'];
+
+        if ((int) $newTotalDuration > 10080) {
+            throw new DurationExceedingMaximalDurationException();
+        }
+
+        // duration for the day shouldn't exceed 1440 minutes (24*60)
+        $newTotalDuration = $totalDurationForTheDay + $this->data['duration'];
+        if ((int) $newTotalDuration > 1440) {
+            throw new DurationExceedingMaximalDurationException();
         }
     }
 
@@ -127,16 +152,6 @@ class CreateTimeTrackingEntry extends BaseService
 
     private function createOrUpdateTimeTrackingEntry(): void
     {
-        // how much is the duration of all the time entries for the timesheet?
-        $entries = $this->timesheet->timeTrackingEntries;
-        $totalDuration = $entries->sum('duration');
-
-        // duration is in minutes in the DB, so 24 hours is 1440 minutes
-        $newTotalDuration = $totalDuration + $this->data['duration'];
-        if ((int) $newTotalDuration > 1440) {
-            throw new DurationExceedingMaximalDurationException();
-        }
-
         if ($this->timeTrackingEntry) {
             $this->updateEntry();
         } else {

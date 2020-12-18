@@ -13,11 +13,13 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Company\EmployeeStatus;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
 use App\Services\Company\Employee\PersonalDetails\SetSlackHandle;
+use App\Services\Company\Employee\Contract\SetContractRenewalDate;
 use App\Services\Company\Employee\PersonalDetails\SetTwitterHandle;
 use App\Services\Company\Employee\PersonalDetails\SetPersonalDetails;
 
@@ -37,6 +39,7 @@ class EmployeeEditController extends Controller
 
         try {
             $employee = Employee::where('company_id', $companyId)
+                ->with('status')
                 ->findOrFail($employeeId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -72,8 +75,11 @@ class EmployeeEditController extends Controller
                 ],
                 'twitter_handle' => $employee->twitter_handle,
                 'slack_handle' => $employee->slack_handle,
+                'max_year' => Carbon::now()->year,
             ],
             'canEditHiredAt' => $loggedEmployee->permission_level <= 200,
+            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
+                $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -164,6 +170,8 @@ class EmployeeEditController extends Controller
      */
     public function address(Request $request, int $companyId, int $employeeId)
     {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->findOrFail($employeeId);
@@ -193,6 +201,8 @@ class EmployeeEditController extends Controller
         return Inertia::render('Employee/Edit/Address', [
             'employee' => $employee->toObject(),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
+                $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
             'countries' => $countriesCollection,
         ]);
     }
@@ -223,6 +233,77 @@ class EmployeeEditController extends Controller
         ];
 
         (new CreatePlace)->execute($data);
+
+        return response()->json([
+            'company_id' => $companyId,
+        ], 200);
+    }
+
+    /**
+     * Show the employee edit contract page.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     */
+    public function contract(Request $request, int $companyId, int $employeeId)
+    {
+        try {
+            $employee = Employee::where('company_id', $companyId)
+                ->findOrFail($employeeId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        try {
+            Employee::where('company_id', $companyId)
+                ->where('permission_level', '<=', config('officelife.permission_level.hr'))
+                ->findOrFail($loggedEmployee->id);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Employee/Edit/Contract', [
+            'employee' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'year' => $employee->contract_renewed_at ? $employee->contract_renewed_at->year : null,
+                'month' => $employee->contract_renewed_at ? $employee->contract_renewed_at->month : null,
+                'day' => $employee->contract_renewed_at ? $employee->contract_renewed_at->day : null,
+                'max_year' => Carbon::now()->addYears(5)->year,
+            ],
+            'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
+                $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Update the contract information about the employee.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return JsonResponse
+     */
+    public function updateContractInformation(Request $request, int $companyId, int $employeeId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+            'year' => intval($request->input('year')),
+            'month' => intval($request->input('month')),
+            'day' => intval($request->input('day')),
+        ];
+
+        (new SetContractRenewalDate)->execute($data);
 
         return response()->json([
             'company_id' => $companyId,

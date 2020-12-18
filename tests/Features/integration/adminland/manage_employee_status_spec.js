@@ -46,8 +46,10 @@ describe('Adminland - Employee statuses', function () {
             cy.get('[data-cy=list-rename-button-'+id+']').click();
             cy.get('[data-cy=list-rename-input-name-'+id+']').clear();
             cy.get('[data-cy=list-rename-input-name-'+id+']').type('Part-time');
+            cy.get('[data-cy=external-employee-checkbox-'+id+']').check();
             cy.get('[data-cy=list-rename-cta-button-'+id+']').click();
             cy.get('[data-cy=statuses-list]').contains('Part-time');
+            cy.get('[data-cy=status-item-'+id+']').contains('external');
             cy.hasAuditLog('Updated the name of the employee status from Full-time to Part-time', '/'+companyId+'/account/employeestatuses', companyId);
 
             // delete the position
@@ -55,7 +57,7 @@ describe('Adminland - Employee statuses', function () {
             cy.get('[data-cy=list-delete-cancel-button-'+id+']').click();
             cy.get('[data-cy=list-delete-button-'+id+']').click();
             cy.get('[data-cy=list-delete-confirm-button-'+id+']').click();
-            cy.get('[data-cy=positions-list]').should('not.contain', 'Part-time');
+            cy.get('[data-cy=statuses-list]').should('not.contain', 'Part-time');
             cy.hasAuditLog('Destroyed the employee status called Part-time', null, companyId);
           });
       });
@@ -99,7 +101,7 @@ describe('Adminland - Employee statuses', function () {
           cy.get('[data-cy=list-delete-cancel-button-'+id+']').click();
           cy.get('[data-cy=list-delete-button-'+id+']').click();
           cy.get('[data-cy=list-delete-confirm-button-'+id+']').click();
-          cy.get('[data-cy=positions-list]').should('not.contain', 'Part-time');
+          cy.get('[data-cy=statuses-list]').should('not.contain', 'Part-time');
         });
     });
   });

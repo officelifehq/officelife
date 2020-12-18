@@ -165,8 +165,8 @@ class DashboardTimesheetController extends Controller
         }
 
         // we need to convert the day that is passed to a date
-        // `1` is monday
-        $date = $timesheet->started_at->addDays($request->input('day') - 1)->format('Y-m-d');
+        // `0` is monday
+        $date = $timesheet->started_at->addDays($request->input('day'))->format('Y-m-d');
 
         $entry = (new CreateTimeTrackingEntry)->execute([
             'author_id' => $employee->id,

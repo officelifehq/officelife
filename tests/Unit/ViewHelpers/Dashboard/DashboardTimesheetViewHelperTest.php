@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Project;
 use App\Models\Company\Timesheet;
@@ -13,6 +14,165 @@ use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
 class DashboardTimesheetViewHelperTest extends TestCase
 {
     use DatabaseTransactions;
+
+    /** @test */
+    public function it_gets_the_details_of_a_timesheet(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $timesheet = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'started_at' => Carbon::now()->startOfWeek(),
+            'ended_at' => Carbon::now()->endOfWeek(),
+        ]);
+        $timeTrackingEntry = TimeTrackingEntry::factory()->create([
+            'timesheet_id' => $timesheet->id,
+            'employee_id' => $michael->id,
+            'project_id' => $project->id,
+            'project_task_id' => $task->id,
+            'happened_at' => Carbon::now()->startOfWeek(),
+            'duration' => 100,
+        ]);
+
+        $array = DashboardTimesheetViewHelper::show($timesheet, $michael);
+
+        $this->assertEquals(
+            $timesheet->id,
+            $array['id']
+        );
+
+        $this->assertEquals(
+            'Jan 01, 2018',
+            $array['start_date']
+        );
+
+        $this->assertEquals(
+            'Jan 07, 2018',
+            $array['end_date']
+        );
+
+        // Content of the Entries collection
+        $this->assertEquals(
+            '123456',
+            $array['entries']->toArray()[0]['project_code']
+        );
+
+        $this->assertEquals(
+            $project->id,
+            $array['entries']->toArray()[0]['project_id']
+        );
+
+        $this->assertEquals(
+            'API v3',
+            $array['entries']->toArray()[0]['project_name']
+        );
+
+        $this->assertEquals(
+            $task->id,
+            $array['entries']->toArray()[0]['task_id']
+        );
+
+        $this->assertEquals(
+            $task->title,
+            $array['entries']->toArray()[0]['task_title']
+        );
+
+        $this->assertEquals(
+            100,
+            $array['entries']->toArray()[0]['total_this_week']
+        );
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'day_of_week' => 1,
+                    'hours' => 1,
+                    'minutes' => 40,
+                    'total_of_minutes' => 100,
+                ],
+                1 => [
+                    'day_of_week' => 2,
+                    'hours' => 0,
+                    'minutes' => 0,
+                    'total_of_minutes' => 0,
+                ],
+                2 => [
+                    'day_of_week' => 3,
+                    'hours' => 0,
+                    'minutes' => 0,
+                    'total_of_minutes' => 0,
+                ],
+                3 => [
+                    'day_of_week' => 4,
+                    'hours' => 0,
+                    'minutes' => 0,
+                    'total_of_minutes' => 0,
+                ],
+                4 => [
+                    'day_of_week' => 5,
+                    'hours' => 0,
+                    'minutes' => 0,
+                    'total_of_minutes' => 0,
+                ],
+                5 => [
+                    'day_of_week' => 6,
+                    'hours' => 0,
+                    'minutes' => 0,
+                    'total_of_minutes' => 0,
+                ],
+                6 => [
+                    'day_of_week' => 0,
+                    'hours' => 0,
+                    'minutes' => 0,
+                    'total_of_minutes' => 0,
+                ],
+            ],
+            $array['entries']->toArray()[0]['days']->toArray()
+        );
+
+        // Content of the days
+        $this->assertEquals(
+            [
+                'monday' => [
+                    'full' => 'Jan 01',
+                    'short' => 'Mon',
+                ],
+                'tuesday' => [
+                    'full' => 'Jan 02',
+                    'short' => 'Tue',
+                ],
+                'wednesday' => [
+                    'full' => 'Jan 03',
+                    'short' => 'Wed',
+                ],
+                'thursday' => [
+                    'full' => 'Jan 04',
+                    'short' => 'Thu',
+                ],
+                'friday' => [
+                    'full' => 'Jan 05',
+                    'short' => 'Fri',
+                ],
+                'saturday' => [
+                    'full' => 'Jan 06',
+                    'short' => 'Sat',
+                ],
+                'sunday' => [
+                    'full' => 'Jan 07',
+                    'short' => 'Sun',
+                ],
+            ],
+            $array['days']
+        );
+    }
 
     /** @test */
     public function it_gets_the_previous_timesheet(): void

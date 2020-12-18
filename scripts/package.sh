@@ -15,6 +15,8 @@ fi
 set -v
 
 echo "$version" | tee $ROOT/config/version
+git log --pretty="%h" -n1 HEAD | tee $ROOT/config/release
+git log --pretty="%H" -n1 HEAD | tee $ROOT/config/commit
 
 # BUILD
 composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader --no-dev

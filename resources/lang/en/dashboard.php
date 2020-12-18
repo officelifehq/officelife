@@ -136,6 +136,11 @@ return [
     'manager_rate_manager_response_rate' => '{rate}% response rate',
     'manager_rate_manager_respondants' => '{respondants} direct reports',
 
+    'manager_contract_renewal_dates_title' => 'External employees with a contract that ends soon',
+    'manager_contract_renewal_dates_ends_on' => 'Ends on {date}',
+    'manager_contract_renewal_dates_ended_on' => 'Ended {date}',
+    'manager_contract_renewal_dates_ends_range' => 'In {count} days',
+
     'accounting_expense_detail_cta' => 'Accept or reject this expense',
     'accounting_expense_detail_expense_section' => 'Expense details',
     'accounting_expense_detail_expense_type' => 'Expense type',
@@ -184,4 +189,8 @@ return [
     'rate_your_manager_thanks_add_comment_cta' => 'Add a comment',
     'rate_your_manager_thanks_add_comment_reveal_identity' => 'Reveal your identity to Roger so he can reply to you',
     'rate_your_manager_final_sucess_message' => 'Thanks for giving your opinion',
+
+    'contract_renewal_date_title' => 'Contract renewal',
+    'contract_renewal_date' => 'Your contract ends on {date}, which is in {count} days.',
+    'contract_renewal_date_late' => 'Your contract ended on {date}, so you should take care of that.',
 ];

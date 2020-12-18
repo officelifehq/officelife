@@ -4,6 +4,7 @@ use Carbon\Carbon;
 use Faker\Generator as Faker;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectStatus;
+use App\Models\Company\EmployeeStatus;
 use App\Models\Company\RateYourManagerAnswer;
 
 $factory->define(App\Models\Company\Company::class, function (Faker $faker) {
@@ -36,7 +37,7 @@ $factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
         'birthdate' => $faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
         'consecutive_worklog_missed' => 0,
         'employee_status_id' => function () use ($companyId) {
-            return factory(App\Models\Company\EmployeeStatus::class)->create([
+            return EmployeeStatus::factory()->create([
                 'company_id' => $companyId,
             ])->id;
         },
@@ -160,15 +161,6 @@ $factory->define(App\Models\Company\Worklog::class, function () {
             return factory(App\Models\Company\Employee::class)->create()->id;
         },
         'content' => 'This is what I have done',
-    ];
-});
-
-$factory->define(App\Models\Company\EmployeeStatus::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'name' => 'Permanent',
     ];
 });
 
