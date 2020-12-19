@@ -7346,23 +7346,23 @@
         },
         {
             "name": "beyondcode/laravel-dump-server",
-            "version": "1.6.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/beyondcode/laravel-dump-server.git",
-                "reference": "1d1b4c066a7f855d34a027f7af49aa77416c3c1b"
+                "reference": "e27c7b942ab62f6ac7168359393d328ec5215b89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/beyondcode/laravel-dump-server/zipball/1d1b4c066a7f855d34a027f7af49aa77416c3c1b",
-                "reference": "1d1b4c066a7f855d34a027f7af49aa77416c3c1b",
+                "url": "https://api.github.com/repos/beyondcode/laravel-dump-server/zipball/e27c7b942ab62f6ac7168359393d328ec5215b89",
+                "reference": "e27c7b942ab62f6ac7168359393d328ec5215b89",
                 "shasum": ""
             },
             "require": {
                 "illuminate/console": "5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
                 "illuminate/http": "5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
                 "illuminate/support": "5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
-                "php": "^7.2.5",
+                "php": ">=7.2.5",
                 "symfony/var-dumper": "^5.0"
             },
             "require-dev": {
@@ -7405,9 +7405,9 @@
             ],
             "support": {
                 "issues": "https://github.com/beyondcode/laravel-dump-server/issues",
-                "source": "https://github.com/beyondcode/laravel-dump-server/tree/1.6.0"
+                "source": "https://github.com/beyondcode/laravel-dump-server/tree/1.7.0"
             },
-            "time": "2020-10-22T07:39:00+00:00"
+            "time": "2020-12-15T10:57:43+00:00"
         },
         {
             "name": "composer/ca-bundle",
