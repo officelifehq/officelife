@@ -66,9 +66,9 @@ class DashboardTimesheetController extends Controller
     /**
      * Display the page of the given timesheet.
      *
-     * @return Response
+     * @return Illuminate\Http\RedirectResponse|Response
      */
-    public function show(Request $request, int $companyId, int $timesheetId): Response
+    public function show(Request $request, int $companyId, int $timesheetId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -152,7 +152,7 @@ class DashboardTimesheetController extends Controller
         ], 200);
     }
 
-    public function createTimeTrackingEntry(Request $request, int $companyId, int $timesheetId): JsonResponse
+    public function createTimeTrackingEntry(Request $request, int $companyId, int $timesheetId)
     {
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
@@ -161,7 +161,7 @@ class DashboardTimesheetController extends Controller
             $timesheet = Timesheet::where('employee_id', $employee->id)
                 ->findOrFail($timesheetId);
         } catch (ModelNotFoundException $e) {
-            return null;
+            return;
         }
 
         // we need to convert the day that is passed to a date

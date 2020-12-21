@@ -20,6 +20,7 @@ class CreateTimeTrackingTable extends Migration
             $table->string('status')->nullable();
             $table->datetime('approved_at')->nullable();
             $table->unsignedBigInteger('approver_id')->nullable();
+            $table->string('approver_name')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
