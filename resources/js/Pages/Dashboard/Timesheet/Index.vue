@@ -43,8 +43,11 @@
         </div>
 
         <div class="tr mb3">
-          <a v-if="!displayNewEntry && timesheet.status == 'open'" class="btn f5" @click.prevent="showProjectList()">
+          <a v-if="!displayNewEntry && timesheet.status == 'open'" class="btn f5 mr2" @click.prevent="showProjectList()">
             {{ $t('dashboard.timesheet_add_new') }}
+          </a>
+          <a v-if="!displayNewEntry && timesheet.status == 'open'" class="btn add f5" @click.prevent="showProjectList()">
+            {{ $t('dashboard.timesheet_submit') }}
           </a>
         </div>
 

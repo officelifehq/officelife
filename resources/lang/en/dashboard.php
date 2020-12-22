@@ -197,6 +197,7 @@ return [
     'timesheet_previous_week' => 'Previous week',
     'timesheet_next_week' => 'Next week',
     'timesheet_add_new' => 'Log new time',
+    'timesheet_submit' => 'Submit timesheet',
     'timesheet_blank' => 'Log your time on this week to record everything you’ve done in one or more projects.',
     'timesheet_total' => 'Total',
     'timesheet_back_to_current' => 'Back to current timesheet',
