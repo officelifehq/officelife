@@ -17,12 +17,6 @@
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <div class="cf mt4 mw7 center">
-        <h2 class="tc fw5">
-          {{ company.name }}
-        </h2>
-      </div>
-
       <dashboard-menu :employee="employee" />
 
       <div v-show="teams.length > 1" class="cf mw7 center mb3">
