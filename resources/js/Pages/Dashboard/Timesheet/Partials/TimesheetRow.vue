@@ -33,9 +33,9 @@
           <span class="db pb1 fw5">
             {{ localRow.task_title }}
           </span>
-          <span class="db gray">
+          <inertia-link :href="localRow.project_url" class="dib">
             {{ localRow.project_name }}
-          </span>
+          </inertia-link>
         </div>
         <span class="f7 fw5">
           {{ total }}
@@ -143,6 +143,7 @@ export default {
         project_id: 0,
         project_name: 0,
         project_code: 0,
+        project_url: '',
         task_id: 0,
         task_title: 0,
         total_this_week: 0,

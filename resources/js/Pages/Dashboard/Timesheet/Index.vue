@@ -38,12 +38,14 @@
 
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
         <!-- days selector -->
-        <div class="mt0 mb4 lh-copy f6 tc">
+        <div class="mt0 mb4 lh-copy f6 tc relative">
           <ul class="list pl0 ma0">
             <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; {{ $t('dashboard.timesheet_previous_week') }}</inertia-link></li>
             <li class="di mr3 fw5">{{ timesheet.start_date }} - {{ timesheet.end_date }}</li>
             <li class="di"><inertia-link :href="nextTimesheet.url" class="dib">{{ $t('dashboard.timesheet_next_week') }} &gt;</inertia-link></li>
           </ul>
+
+          <inertia-link v-if="currentTimesheet.id != timesheet.id" :href="currentTimesheet.url" class="absolute top-0 left-1">{{ $t('dashboard.timesheet_back_to_current') }}</inertia-link>
         </div>
 
         <div class="tr mb3">
@@ -54,7 +56,13 @@
 
         <!-- add a new row -->
         <form v-if="displayNewEntry" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="addBlankTimesheetRow()">
-          <span class="bb b--dotted bt-0 bl-0 br-0 pointer">
+          <!-- message to display if there are no projects in the account -->
+          <div v-if="projects.length == 0" class="tc">
+            {{ $t('dashboard.timesheet_no_projects') }}
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/create'">{{ $t('dashboard.timesheet_create_project') }}</inertia-link>
+          </div>
+
+          <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer">
             <select-box :id="'employee_id'"
                         v-model="form.project"
                         :options="projects"
@@ -85,7 +93,7 @@
           </span>
 
           <!-- Actions -->
-          <div>
+          <div v-if="projects.length != 0">
             <loading-button :classes="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-update-news-button'" />
             <a data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="displayNewEntry = false">
               {{ $t('app.cancel') }}
@@ -93,7 +101,14 @@
           </div>
         </form>
 
-        <div class="dt bt br bb-gray w-100">
+        <div v-if="timesheetRows.length == 0" class="tc">
+          <img loading="lazy" src="/img/streamline-icon-building-site@140x140.png" height="140" width="140" alt="building"
+               class="top-1 left-1"
+          />
+          <p>{{ $t('dashboard.timesheet_blank') }}</p>
+        </div>
+
+        <div v-else class="dt bt br bb-gray w-100">
           <!-- header -->
           <timesheet-header :days="daysHeader" />
 
@@ -105,17 +120,12 @@
                          @update-weekly-total="updateWeeklyTotal"
           />
 
-          <!-- <div v-if="timesheetRows.length == 0">
-            <img loading="lazy" src="/img/streamline-icon-building-site@140x140.png" width="140" alt="building" class="top-1 left-1" />
-            <p>You haven't added any projects yet to track your time against.</p>
-          </div> -->
-
           <!-- total -->
           <div class="dt-row">
             <div class="f6 ph2 dtc bt bl bb bb-gray project v-mid">
               <div class="flex justify-between items-center">
                 <span class="db pb1 fw5">
-                  Total
+                  {{ $t('dashboard.timesheet_total') }}
                 </span>
                 <span class="f7 fw5">
                   {{ weeklyTotalHumanReadable }}
@@ -198,6 +208,10 @@ export default {
       default: null,
     },
     previousTimesheet: {
+      type: Object,
+      default: null,
+    },
+    currentTimesheet: {
       type: Object,
       default: null,
     },

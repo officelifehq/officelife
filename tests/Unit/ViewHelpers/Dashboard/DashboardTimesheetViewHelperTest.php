@@ -42,7 +42,7 @@ class DashboardTimesheetViewHelperTest extends TestCase
             'duration' => 100,
         ]);
 
-        $array = DashboardTimesheetViewHelper::show($timesheet, $michael);
+        $array = DashboardTimesheetViewHelper::show($timesheet);
 
         $this->assertEquals(
             $timesheet->id,
@@ -239,6 +239,31 @@ class DashboardTimesheetViewHelperTest extends TestCase
             [
                 'id' => $nextTimesheet->id,
                 'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/timesheet/'.$nextTimesheet->id,
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_the_current_timesheet(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'started_at' => '2017-01-01 00:00:00',
+            'ended_at' => '2017-01-07 00:00:00',
+        ]);
+
+        $array = DashboardTimesheetViewHelper::currentTimesheet($michael);
+
+        $currentTimesheet = Timesheet::orderBy('id', 'desc')->first();
+
+        $this->assertEquals(
+            [
+                'id' => $currentTimesheet->id,
+                'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/timesheet/'.$currentTimesheet->id,
             ],
             $array
         );

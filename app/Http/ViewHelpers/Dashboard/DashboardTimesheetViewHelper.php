@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Dashboard;
 
+use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
 use App\Models\Company\Project;
@@ -20,10 +21,9 @@ class DashboardTimesheetViewHelper
      * for the given day.
      *
      * @param Timesheet $timesheet
-     * @param Employee $employee
      * @return array
      */
-    public static function show(Timesheet $timesheet, Employee $employee): array
+    public static function show(Timesheet $timesheet): array
     {
         // details about the timesheet
         $entries = $timesheet->timeTrackingEntries()
@@ -159,6 +159,24 @@ class DashboardTimesheetViewHelper
             'url' => route('dashboard.timesheet.show', [
                 'company' => $employee->company,
                 'timesheet' => $nextTimesheet,
+            ]),
+        ];
+    }
+
+    public static function currentTimesheet(Employee $employee): array
+    {
+        $currentTimesheet = (new CreateOrGetTimesheet)->execute([
+            'company_id' => $employee->company_id,
+            'author_id' => $employee->id,
+            'employee_id' => $employee->id,
+            'date' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        return [
+            'id' => $currentTimesheet->id,
+            'url' => route('dashboard.timesheet.show', [
+                'company' => $employee->company,
+                'timesheet' => $currentTimesheet,
             ]),
         ];
     }

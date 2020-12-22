@@ -50,15 +50,17 @@ class DashboardTimesheetController extends Controller
             'date' => Carbon::now()->format('Y-m-d'),
         ]);
 
-        $timesheet = DashboardTimesheetViewHelper::show($currentTimesheet, $employee);
+        $timesheetInformation = DashboardTimesheetViewHelper::show($currentTimesheet);
         $nextTimesheet = DashboardTimesheetViewHelper::nextTimesheet($currentTimesheet, $employee);
         $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($currentTimesheet, $employee);
+        $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($employee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
             'employee' => $employeeInformation,
-            'timesheet' => $timesheet,
+            'timesheet' => $timesheetInformation,
             'nextTimesheet' => $nextTimesheet,
             'previousTimesheet' => $previousTimesheet,
+            'currentTimesheet' => $currentTimesheet,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
@@ -79,24 +81,26 @@ class DashboardTimesheetController extends Controller
         ];
 
         try {
-            $currentTimesheet = Timesheet::where('company_id', $company->id)
+            $timesheet = Timesheet::where('company_id', $company->id)
                 ->where('employee_id', $employee->id)
                 ->findOrFail($timesheetId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
 
-        $timesheet = DashboardTimesheetViewHelper::show($currentTimesheet, $employee);
-        $daysInHeader = DashboardTimesheetViewHelper::daysHeader($currentTimesheet);
-        $nextTimesheet = DashboardTimesheetViewHelper::nextTimesheet($currentTimesheet, $employee);
-        $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($currentTimesheet, $employee);
+        $timesheetInfo = DashboardTimesheetViewHelper::show($timesheet);
+        $daysInHeader = DashboardTimesheetViewHelper::daysHeader($timesheet);
+        $nextTimesheet = DashboardTimesheetViewHelper::nextTimesheet($timesheet, $employee);
+        $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($timesheet, $employee);
+        $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($employee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
             'employee' => $employeeInformation,
             'daysHeader' => $daysInHeader,
-            'timesheet' => $timesheet,
+            'timesheet' => $timesheetInfo,
             'nextTimesheet' => $nextTimesheet,
             'previousTimesheet' => $previousTimesheet,
+            'currentTimesheet' => $currentTimesheet,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
