@@ -119,8 +119,6 @@ return [
     'header_welcome' => 'Welcome',
     'header_home' => 'Home',
     'header_find' => 'Find',
-    'header_employees' => 'Employees',
-    'header_teams' => 'Teams',
     'header_company' => 'Company',
     'header_switch_company' => 'Switch company',
     'header_go_to_employee_profile' => 'Your profile',

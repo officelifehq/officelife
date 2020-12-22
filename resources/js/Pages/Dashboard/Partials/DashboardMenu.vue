@@ -1,5 +1,5 @@
 <template>
-  <div class="cf mw7 center br3 mb5 tc">
+  <div class="cf mw7 center br3 mt5 mb5 tc">
     <div class="cf dib btn-group">
       <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(employee.dashboard_view == 'me')}">
         {{ $t('dashboard.tab_me') }}
