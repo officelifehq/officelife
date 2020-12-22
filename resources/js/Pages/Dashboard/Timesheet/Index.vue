@@ -38,7 +38,7 @@
 
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
         <!-- days selector -->
-        <div class="mt0 mb4 lh-copy f6 tc relative">
+        <div class="mt0 mb5 lh-copy f6 tc relative">
           <ul class="list pl0 ma0">
             <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; {{ $t('dashboard.timesheet_previous_week') }}</inertia-link></li>
             <li class="di mr3 fw5">{{ timesheet.start_date }} - {{ timesheet.end_date }}</li>
