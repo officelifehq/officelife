@@ -27,13 +27,7 @@
 
 <template>
   <layout title="Home" :notifications="notifications">
-    <div class="ph2">
-      <div class="cf mt4 mw7 center">
-        <h2 class="tc fw5">
-          {{ $page.props.auth.company.name }}
-        </h2>
-      </div>
-
+    <div class="ph2 ph0-ns">
       <dashboard-menu :employee="employee" />
 
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
