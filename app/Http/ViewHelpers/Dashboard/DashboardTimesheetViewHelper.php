@@ -80,8 +80,18 @@ class DashboardTimesheetViewHelper
             ]);
         }
 
+        return [
+            'id' => $timesheet->id,
+            'start_date' => DateHelper::formatDate($timesheet->started_at),
+            'end_date' => DateHelper::formatDate($timesheet->ended_at),
+            'entries' => $linesOfTimesheet,
+        ];
+    }
+
+    public static function daysHeader(Timesheet $timesheet): array
+    {
         // array of days of the week, to populate the timesheet header
-        $days = [
+        return [
             'monday' => [
                 'full' => DateHelper::formatShortMonthAndDay($timesheet->started_at->copy()),
                 'short' => $timesheet->started_at->copy()->format('D'),
@@ -110,14 +120,6 @@ class DashboardTimesheetViewHelper
                 'full' => DateHelper::formatShortMonthAndDay($timesheet->started_at->copy()->addDays(6)),
                 'short' => $timesheet->started_at->copy()->addDays(6)->format('D'),
             ],
-        ];
-
-        return [
-            'id' => $timesheet->id,
-            'start_date' => DateHelper::formatDate($timesheet->started_at),
-            'end_date' => DateHelper::formatDate($timesheet->ended_at),
-            'days' => $days,
-            'entries' => $linesOfTimesheet,
         ];
     }
 

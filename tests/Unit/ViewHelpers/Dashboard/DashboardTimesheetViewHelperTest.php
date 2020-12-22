@@ -142,8 +142,29 @@ class DashboardTimesheetViewHelperTest extends TestCase
             ],
             $array['entries']->toArray()[0]['days']->toArray()
         );
+    }
 
-        // Content of the days
+    /** @test */
+    public function it_gets_an_array_of_the_days_that_should_be_displayed_in_the_header(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $timesheet = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'started_at' => Carbon::now()->startOfWeek(),
+            'ended_at' => Carbon::now()->endOfWeek(),
+        ]);
+
+        $array = DashboardTimesheetViewHelper::daysHeader($timesheet);
+
         $this->assertEquals(
             [
                 'monday' => [
@@ -175,7 +196,7 @@ class DashboardTimesheetViewHelperTest extends TestCase
                     'short' => 'Sun',
                 ],
             ],
-            $array['days']
+            $array
         );
     }
 

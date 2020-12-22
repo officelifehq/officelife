@@ -100,64 +100,64 @@
             <!-- monday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                {{ timesheet.days.monday.short }}
+                {{ daysHeader.monday.short }}
               </span>
               <span class="f7 gray">
-                {{ timesheet.days.monday.full }}
+                {{ daysHeader.monday.full }}
               </span>
             </div>
             <!-- tuesday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                {{ timesheet.days.tuesday.short }}
+                {{ daysHeader.tuesday.short }}
               </span>
               <span class="f7 gray">
-                {{ timesheet.days.tuesday.full }}
+                {{ daysHeader.tuesday.full }}
               </span>
             </div>
             <!-- wednesday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                {{ timesheet.days.wednesday.short }}
+                {{ daysHeader.wednesday.short }}
               </span>
               <span class="f7 gray">
-                {{ timesheet.days.wednesday.full }}
+                {{ daysHeader.wednesday.full }}
               </span>
             </div>
             <!-- thursday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                {{ timesheet.days.thursday.short }}
+                {{ daysHeader.thursday.short }}
               </span>
               <span class="f7 gray">
-                {{ timesheet.days.thursday.full }}
+                {{ daysHeader.thursday.full }}
               </span>
             </div>
             <!-- friday -->
             <div class="tc pv2 dtc bl bb bb-gray">
               <span class="db">
-                {{ timesheet.days.friday.short }}
+                {{ daysHeader.friday.short }}
               </span>
               <span class="f7 gray">
-                {{ timesheet.days.friday.full }}
+                {{ daysHeader.friday.full }}
               </span>
             </div>
             <!-- saturday -->
             <div class="tc pv2 dtc bl bb bb-gray off-days">
               <span class="db">
-                {{ timesheet.days.saturday.short }}
+                {{ daysHeader.saturday.short }}
               </span>
               <span class="f7 gray">
-                {{ timesheet.days.saturday.full }}
+                {{ daysHeader.saturday.full }}
               </span>
             </div>
             <!-- sunday -->
             <div class="tc pv2 bl bb bb-gray off-days">
               <span class="db">
-                {{ timesheet.days.sunday.short }}
+                {{ daysHeader.sunday.short }}
               </span>
               <span class="f7 gray">
-                {{ timesheet.days.sunday.full }}
+                {{ daysHeader.sunday.full }}
               </span>
             </div>
           </div>
@@ -249,6 +249,10 @@ export default {
       default: null,
     },
     timesheet: {
+      type: Object,
+      default: null,
+    },
+    daysHeader: {
       type: Object,
       default: null,
     },
