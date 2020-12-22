@@ -50,6 +50,11 @@ class DashboardTimesheetViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
+            $timesheet->status,
+            $array['status']
+        );
+
+        $this->assertEquals(
             'Jan 01, 2018',
             $array['start_date']
         );

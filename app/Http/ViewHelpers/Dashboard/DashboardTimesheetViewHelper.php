@@ -82,6 +82,7 @@ class DashboardTimesheetViewHelper
 
         return [
             'id' => $timesheet->id,
+            'status' => $timesheet->status,
             'start_date' => DateHelper::formatDate($timesheet->started_at),
             'end_date' => DateHelper::formatDate($timesheet->ended_at),
             'entries' => $linesOfTimesheet,

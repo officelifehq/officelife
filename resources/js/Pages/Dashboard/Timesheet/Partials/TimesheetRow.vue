@@ -44,73 +44,101 @@
     </div>
 
     <!-- monday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
+        v-if="timesheet.status == 'open'"
         :hours="localRow.days[0].hours"
         :minutes="localRow.days[0].minutes"
         :total="localRow.days[0].total_of_minutes"
         @update="updateDayInformation($event, 0)"
       />
+      <span v-else>
+        {{ this.formatTime(localRow.days[0].total_of_minutes) }}
+      </span>
     </div>
 
     <!-- tuesday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
+        v-if="timesheet.status == 'open'"
         :hours="localRow.days[1].hours"
         :minutes="localRow.days[1].minutes"
         :total="localRow.days[1].total_of_minutes"
         @update="updateDayInformation($event, 1)"
       />
+      <span v-else class="">
+        {{ this.formatTime(localRow.days[1].total_of_minutes) }}
+      </span>
     </div>
 
     <!-- wednesday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
+        v-if="timesheet.status == 'open'"
         :hours="localRow.days[2].hours"
         :minutes="localRow.days[2].minutes"
         :total="localRow.days[2].total_of_minutes"
         @update="updateDayInformation($event, 2)"
       />
+      <span v-else class="">
+        {{ this.formatTime(localRow.days[2].total_of_minutes) }}
+      </span>
     </div>
 
     <!-- thursday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
+        v-if="timesheet.status == 'open'"
         :hours="localRow.days[3].hours"
         :minutes="localRow.days[3].minutes"
         :total="localRow.days[3].total_of_minutes"
         @update="updateDayInformation($event, 3)"
       />
+      <span v-else class="">
+        {{ this.formatTime(localRow.days[3].total_of_minutes) }}
+      </span>
     </div>
 
     <!-- friday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
+        v-if="timesheet.status == 'open'"
         :hours="localRow.days[4].hours"
         :minutes="localRow.days[4].minutes"
         :total="localRow.days[4].total_of_minutes"
         @update="updateDayInformation($event, 4)"
       />
+      <span v-else class="">
+        {{ this.formatTime(localRow.days[4].total_of_minutes) }}
+      </span>
     </div>
 
     <!-- saturday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
       <text-duration
+        v-if="timesheet.status == 'open'"
         :hours="localRow.days[5].hours"
         :minutes="localRow.days[5].minutes"
         :total="localRow.days[5].total_of_minutes"
         @update="updateDayInformation($event, 5)"
       />
+      <span v-else class="">
+        {{ this.formatTime(localRow.days[5].total_of_minutes) }}
+      </span>
     </div>
 
     <!-- sunday -->
-    <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days">
+    <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
       <text-duration
+        v-if="timesheet.status == 'open'"
         :hours="localRow.days[6].hours"
         :minutes="localRow.days[6].minutes"
         :total="localRow.days[6].total_of_minutes"
         @update="updateDayInformation($event, 6)"
       />
+      <span v-else class="">
+        {{ this.formatTime(localRow.days[6].total_of_minutes) }}
+      </span>
     </div>
   </div>
 </template>
@@ -223,12 +251,7 @@ export default {
         }
       }
 
-      var hours = Math.floor(totalDurationInMinutes / 60);
-      var minutes = totalDurationInMinutes % 60;
-
-      // this adds leading zero to minutes, if needed
-      const zeroPad = (num, places) => String(num).padStart(places, '0');
-      this.total = hours + 'h' + zeroPad(minutes, 2);
+      this.total = this.formatTime(totalDurationInMinutes);
 
       this.$emit('update-weekly-total', { id: this.localRow.task_id, value: totalDurationInMinutes});
     },
@@ -247,6 +270,15 @@ export default {
           this.form.errors = error.response.data;
         });
     },
+
+    formatTime(timeInMinutes) {
+      var hours = Math.floor(timeInMinutes / 60);
+      var minutes = timeInMinutes % 60;
+
+      // this adds leading zero to minutes, if needed
+      const zeroPad = (num, places) => String(num).padStart(places, '0');
+      return hours + 'h' + zeroPad(minutes, 2);
+    }
   },
 };
 </script>
