@@ -37,6 +37,7 @@
       <dashboard-menu :employee="employee" />
 
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
+        <!-- days selector -->
         <div class="mt0 mb4 lh-copy f6 tc">
           <ul class="list pl0 ma0">
             <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; {{ $t('dashboard.timesheet_previous_week') }}</inertia-link></li>
@@ -94,73 +95,7 @@
 
         <div class="dt bt br bb-gray w-100">
           <!-- header -->
-          <div class="dt-row">
-            <div class="dtc bl bb bb-gray project">
-            </div>
-            <!-- monday -->
-            <div class="tc pv2 dtc bl bb bb-gray">
-              <span class="db">
-                {{ daysHeader.monday.short }}
-              </span>
-              <span class="f7 gray">
-                {{ daysHeader.monday.full }}
-              </span>
-            </div>
-            <!-- tuesday -->
-            <div class="tc pv2 dtc bl bb bb-gray">
-              <span class="db">
-                {{ daysHeader.tuesday.short }}
-              </span>
-              <span class="f7 gray">
-                {{ daysHeader.tuesday.full }}
-              </span>
-            </div>
-            <!-- wednesday -->
-            <div class="tc pv2 dtc bl bb bb-gray">
-              <span class="db">
-                {{ daysHeader.wednesday.short }}
-              </span>
-              <span class="f7 gray">
-                {{ daysHeader.wednesday.full }}
-              </span>
-            </div>
-            <!-- thursday -->
-            <div class="tc pv2 dtc bl bb bb-gray">
-              <span class="db">
-                {{ daysHeader.thursday.short }}
-              </span>
-              <span class="f7 gray">
-                {{ daysHeader.thursday.full }}
-              </span>
-            </div>
-            <!-- friday -->
-            <div class="tc pv2 dtc bl bb bb-gray">
-              <span class="db">
-                {{ daysHeader.friday.short }}
-              </span>
-              <span class="f7 gray">
-                {{ daysHeader.friday.full }}
-              </span>
-            </div>
-            <!-- saturday -->
-            <div class="tc pv2 dtc bl bb bb-gray off-days">
-              <span class="db">
-                {{ daysHeader.saturday.short }}
-              </span>
-              <span class="f7 gray">
-                {{ daysHeader.saturday.full }}
-              </span>
-            </div>
-            <!-- sunday -->
-            <div class="tc pv2 bl bb bb-gray off-days">
-              <span class="db">
-                {{ daysHeader.sunday.short }}
-              </span>
-              <span class="f7 gray">
-                {{ daysHeader.sunday.full }}
-              </span>
-            </div>
-          </div>
+          <timesheet-header :days="daysHeader" />
 
           <!-- entries -->
           <timesheet-row v-for="row in timesheetRows" :key="row.id"
@@ -227,6 +162,7 @@
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 import TimesheetRow from '@/Pages/Dashboard/Timesheet/Partials/TimesheetRow';
+import TimesheetHeader from '@/Pages/Dashboard/Timesheet/Partials/TimesheetHeader';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
 
@@ -235,6 +171,7 @@ export default {
     Layout,
     DashboardMenu,
     TimesheetRow,
+    TimesheetHeader,
     SelectBox,
     LoadingButton,
   },
