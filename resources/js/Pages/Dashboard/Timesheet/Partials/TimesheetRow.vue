@@ -46,70 +46,70 @@
     <!-- monday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
       <text-duration
-        :hours="localRow.days.monday.hours"
-        :minutes="localRow.days.monday.minutes"
-        :total="localRow.days.monday.total_of_minutes"
-        @update="updateDay($event, 0)"
+        :hours="localRow.days[0].hours"
+        :minutes="localRow.days[0].minutes"
+        :total="localRow.days[0].total_of_minutes"
+        @update="updateDayInformation($event, 0)"
       />
     </div>
 
     <!-- tuesday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
       <text-duration
-        :hours="localRow.days.tuesday.hours"
-        :minutes="localRow.days.tuesday.minutes"
-        :total="localRow.days.tuesday.total_of_minutes"
-        @update="updateDay($event, 1)"
+        :hours="localRow.days[1].hours"
+        :minutes="localRow.days[1].minutes"
+        :total="localRow.days[1].total_of_minutes"
+        @update="updateDayInformation($event, 1)"
       />
     </div>
 
     <!-- wednesday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
       <text-duration
-        :hours="localRow.days.wednesday.hours"
-        :minutes="localRow.days.wednesday.minutes"
-        :total="localRow.days.wednesday.total_of_minutes"
-        @update="updateDay($event, 2)"
+        :hours="localRow.days[2].hours"
+        :minutes="localRow.days[2].minutes"
+        :total="localRow.days[2].total_of_minutes"
+        @update="updateDayInformation($event, 2)"
       />
     </div>
 
     <!-- thursday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
       <text-duration
-        :hours="localRow.days.thursday.hours"
-        :minutes="localRow.days.thursday.minutes"
-        :total="localRow.days.thursday.total_of_minutes"
-        @update="updateDay($event, 3)"
+        :hours="localRow.days[3].hours"
+        :minutes="localRow.days[3].minutes"
+        :total="localRow.days[3].total_of_minutes"
+        @update="updateDayInformation($event, 3)"
       />
     </div>
 
     <!-- friday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid">
       <text-duration
-        :hours="localRow.days.friday.hours"
-        :minutes="localRow.days.friday.minutes"
-        :total="localRow.days.friday.total_of_minutes"
-        @update="updateDay($event, 4)"
+        :hours="localRow.days[4].hours"
+        :minutes="localRow.days[4].minutes"
+        :total="localRow.days[4].total_of_minutes"
+        @update="updateDayInformation($event, 4)"
       />
     </div>
 
     <!-- saturday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days">
       <text-duration
-        :hours="localRow.days.saturday.hours"
-        :minutes="localRow.days.saturday.minutes"
-        :total="localRow.days.saturday.total_of_minutes"
-        @update="updateDay($event, 5)"
+        :hours="localRow.days[5].hours"
+        :minutes="localRow.days[5].minutes"
+        :total="localRow.days[5].total_of_minutes"
+        @update="updateDayInformation($event, 5)"
       />
     </div>
 
     <!-- sunday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days">
       <text-duration
-        :hours="localRow.days.sunday.hours"
-        :minutes="localRow.days.sunday.minutes"
-        :total="localRow.days.sunday.total_of_minutes"
-        @update="updateDay($event, 6)"
+        :hours="localRow.days[6].hours"
+        :minutes="localRow.days[6].minutes"
+        :total="localRow.days[6].total_of_minutes"
+        @update="updateDayInformation($event, 6)"
       />
     </div>
   </div>
@@ -146,160 +146,80 @@ export default {
         task_id: 0,
         task_title: 0,
         total_this_week: 0,
-        days: {
-          monday: {
+        days: [
+          {
             day_of_week: 1,
             total_of_minutes: 0,
             hours: 0,
             minutes: 0,
           },
-          tuesday: {
+          {
             day_of_week: 2,
             total_of_minutes: 0,
             hours: 0,
             minutes: 0,
           },
-          wednesday: {
+          {
             day_of_week: 3,
             total_of_minutes: 0,
             hours: 0,
             minutes: 0,
           },
-          thursday: {
+          {
             day_of_week: 4,
             total_of_minutes: 0,
             hours: 0,
             minutes: 0,
           },
-          friday: {
+          {
             day_of_week: 5,
             total_of_minutes: 0,
             hours: 0,
             minutes: 0,
           },
-          saturday: {
+          {
             day_of_week: 6,
             total_of_minutes: 0,
             hours: 0,
             minutes: 0,
           },
-          sunday: {
+          {
             day_of_week: 7,
             total_of_minutes: 0,
             hours: 0,
             minutes: 0,
           },
-        },
+        ],
       },
       total: '00h00',
     };
   },
 
   mounted() {
-    // necessary because the backend sends a row back with indexes by number on
-    // the days array, and in the Vue files we need to reference days by their names
-    this.localRow.project_id = this.rowComingFromBackend.project_id;
-    this.localRow.project_name = this.rowComingFromBackend.project_name;
-    this.localRow.project_code = this.rowComingFromBackend.project_code;
-    this.localRow.task_id = this.rowComingFromBackend.task_id;
-    this.localRow.task_title = this.rowComingFromBackend.task_title;
-    this.localRow.total_this_week = this.rowComingFromBackend.total_this_week;
-
-    if (this.rowComingFromBackend.days[0]) {
-      this.localRow.days.monday.day_of_week = this.rowComingFromBackend.days[0].day_of_week;
-      this.localRow.days.monday.total_of_minutes = this.rowComingFromBackend.days[0].total_of_minutes;
-      this.localRow.days.monday.hours = this.rowComingFromBackend.days[0].hours;
-      this.localRow.days.monday.minutes = this.rowComingFromBackend.days[0].minutes;
-      this.localRow.days.tuesday.day_of_week = this.rowComingFromBackend.days[1].day_of_week;
-      this.localRow.days.tuesday.total_of_minutes = this.rowComingFromBackend.days[1].total_of_minutes;
-      this.localRow.days.tuesday.hours = this.rowComingFromBackend.days[1].hours;
-      this.localRow.days.tuesday.minutes = this.rowComingFromBackend.days[1].minutes;
-      this.localRow.days.wednesday.day_of_week = this.rowComingFromBackend.days[2].day_of_week;
-      this.localRow.days.wednesday.total_of_minutes = this.rowComingFromBackend.days[2].total_of_minutes;
-      this.localRow.days.wednesday.hours = this.rowComingFromBackend.days[2].hours;
-      this.localRow.days.wednesday.minutes = this.rowComingFromBackend.days[2].minutes;
-      this.localRow.days.thursday.day_of_week = this.rowComingFromBackend.days[3].day_of_week;
-      this.localRow.days.thursday.total_of_minutes = this.rowComingFromBackend.days[3].total_of_minutes;
-      this.localRow.days.thursday.hours = this.rowComingFromBackend.days[3].hours;
-      this.localRow.days.thursday.minutes = this.rowComingFromBackend.days[3].minutes;
-      this.localRow.days.friday.day_of_week = this.rowComingFromBackend.days[4].day_of_week;
-      this.localRow.days.friday.total_of_minutes = this.rowComingFromBackend.days[4].total_of_minutes;
-      this.localRow.days.friday.hours = this.rowComingFromBackend.days[4].hours;
-      this.localRow.days.friday.minutes = this.rowComingFromBackend.days[4].minutes;
-      this.localRow.days.saturday.day_of_week = this.rowComingFromBackend.days[5].day_of_week;
-      this.localRow.days.saturday.total_of_minutes = this.rowComingFromBackend.days[5].total_of_minutes;
-      this.localRow.days.saturday.hours = this.rowComingFromBackend.days[5].hours;
-      this.localRow.days.saturday.minutes = this.rowComingFromBackend.days[5].minutes;
-      this.localRow.days.sunday.day_of_week = this.rowComingFromBackend.days[6].day_of_week;
-      this.localRow.days.sunday.total_of_minutes = this.rowComingFromBackend.days[6].total_of_minutes;
-      this.localRow.days.sunday.hours = this.rowComingFromBackend.days[6].hours;
-      this.localRow.days.sunday.minutes = this.rowComingFromBackend.days[6].minutes;
-    }
-    this.refreshTotal();
+    this.localRow = this.rowComingFromBackend;
+    this.refreshTotalHoursInRow();
   },
 
   methods: {
-    updateDay(payload, day) {
+    updateDayInformation(payload, day) {
       var duration = parseInt(payload);
-      if (day == 0) {
-        this.localRow.days.monday.total_of_minutes = duration;
-        this.$emit('update-day', { id: this.localRow.task_id, day: 0, value: duration});
-      }
-      if (day == 1) {
-        this.localRow.days.tuesday.total_of_minutes = duration;
-        this.$emit('update-day', { id: this.localRow.task_id, day: 1, value: duration});
-      }
-      if (day == 2) {
-        this.localRow.days.wednesday.total_of_minutes = duration;
-        this.$emit('update-day', { id: this.localRow.task_id, day: 2, value: duration});
-      }
-      if (day == 3) {
-        this.localRow.days.thursday.total_of_minutes = duration;
-        this.$emit('update-day', { id: this.localRow.task_id, day: 3, value: duration});
-      }
-      if (day == 4) {
-        this.localRow.days.friday.total_of_minutes = duration;
-        this.$emit('update-day', { id: this.localRow.task_id, day: 4, value: duration});
-      }
-      if (day == 5) {
-        this.localRow.days.saturday.total_of_minutes = duration;
-        this.$emit('update-day', { id: this.localRow.task_id, day: 5, value: duration});
-      }
-      if (day == 6) {
-        this.localRow.days.sunday.total_of_minutes = duration;
-        this.$emit('update-day', { id: this.localRow.task_id, day: 6, value: duration});
-      }
+      this.saveInDB(day, duration);
 
+      this.localRow.days[day].total_of_minutes = duration;
+      this.$emit('day-updated', { id: this.localRow.task_id, day: day, value: duration});
 
-      //this.$emit('update-day', { id: this.localRow.task_id, day: day, value: duration});
-
-      this.refreshTotal();
-      this.save(day, duration);
+      this.refreshTotalHoursInRow();
     },
 
-    refreshTotal() {
+    refreshTotalHoursInRow() {
       var totalDurationInMinutes = 0;
 
-      if (this.localRow.days.monday) {
-        totalDurationInMinutes = parseInt(this.localRow.days.monday.total_of_minutes);
-      }
-      if (this.localRow.days.tuesday) {
-        totalDurationInMinutes = totalDurationInMinutes + parseInt(this.localRow.days.tuesday.total_of_minutes);
-      }
-      if (this.localRow.days.wednesday) {
-        totalDurationInMinutes = totalDurationInMinutes + parseInt(this.localRow.days.wednesday.total_of_minutes);
-      }
-      if (this.localRow.days.thursday) {
-        totalDurationInMinutes = totalDurationInMinutes + parseInt(this.localRow.days.thursday.total_of_minutes);
-      }
-      if (this.localRow.days.friday) {
-        totalDurationInMinutes = totalDurationInMinutes + parseInt(this.localRow.days.friday.total_of_minutes);
-      }
-      if (this.localRow.days.saturday) {
-        totalDurationInMinutes = totalDurationInMinutes + parseInt(this.localRow.days.saturday.total_of_minutes);
-      }
-      if (this.localRow.days.sunday) {
-        totalDurationInMinutes = totalDurationInMinutes + parseInt(this.localRow.days.sunday.total_of_minutes);
+      for(var i = 0; i < 7; i++){
+        if (i == 0) {
+          totalDurationInMinutes = parseInt(this.localRow.days[0].total_of_minutes);
+        } else {
+          totalDurationInMinutes = totalDurationInMinutes + parseInt(this.localRow.days[i].total_of_minutes);
+        }
       }
 
       var hours = Math.floor(totalDurationInMinutes / 60);
@@ -312,7 +232,7 @@ export default {
       this.$emit('update-weekly-total', { id: this.localRow.task_id, value: totalDurationInMinutes});
     },
 
-    save(day, duration) {
+    saveInDB(day, duration) {
       this.form.project_id = this.localRow.project_id;
       this.form.project_task_id = this.localRow.task_id;
       this.form.day = day;

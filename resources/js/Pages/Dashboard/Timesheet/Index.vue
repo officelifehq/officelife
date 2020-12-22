@@ -53,7 +53,7 @@
         </div>
 
         <!-- add a new row -->
-        <form v-if="displayNewEntry" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="addTimesheetRow()">
+        <form v-if="displayNewEntry" class="mb3 pa3 ba br2 bb-gray bg-gray" @submit.prevent="addBlankTimesheetRow()">
           <span class="bb b--dotted bt-0 bl-0 br-0 pointer">
             <select-box :id="'employee_id'"
                         v-model="form.project"
@@ -101,7 +101,7 @@
           <timesheet-row v-for="row in timesheetRows" :key="row.id"
                          :row-coming-from-backend="row"
                          :timesheet="timesheet"
-                         @update-day="updateDay"
+                         @day-updated="refreshDayInformation"
                          @update-weekly-total="updateWeeklyTotal"
           />
 
@@ -233,7 +233,10 @@ export default {
   },
 
   methods: {
-    updateDay({id, day, value}) {
+
+    // Copy the information from the TimesheetRow to the localTimesheetRow, as
+    // the data has changed in the child
+    refreshDayInformation({id, day, value}) {
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
       var row = this.timesheetRows[id];
       row.days[day].total_of_minutes = value;
@@ -273,7 +276,7 @@ export default {
         });
     },
 
-    addTimesheetRow() {
+    addBlankTimesheetRow() {
       this.timesheetRows.push({
         project_id: this.form.project.value,
         project_name: this.form.project.label,
@@ -282,36 +285,36 @@ export default {
         task_title: this.form.task.label,
         total_this_week: 0,
         data_from_backend: false,
-        days: {
-          monday: {
+        days: [
+          {
             day_of_week: 1,
             total_of_minutes: 0,
           },
-          tuesday: {
+          {
             day_of_week: 2,
             total_of_minutes: 0,
           },
-          wednesday: {
+          {
             day_of_week: 3,
             total_of_minutes: 0,
           },
-          thursday: {
+          {
             day_of_week: 4,
             total_of_minutes: 0,
           },
-          friday: {
+          {
             day_of_week: 5,
             total_of_minutes: 0,
           },
-          saturday: {
+          {
             day_of_week: 6,
             total_of_minutes: 0,
           },
-          sunday: {
+          {
             day_of_week: 7,
             total_of_minutes: 0,
           },
-        },
+        ],
       });
 
       this.displayNewEntry = false;
