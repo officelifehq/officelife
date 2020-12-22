@@ -39,15 +39,15 @@
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
         <div class="mt0 mb4 lh-copy f6 tc">
           <ul class="list pl0 ma0">
-            <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; Previous week</inertia-link></li>
-            <li class="di mr3">{{ timesheet.start_date }} - {{ timesheet.end_date }}</li>
-            <li class="di"><inertia-link :href="nextTimesheet.url" class="dib">Next week &gt;</inertia-link></li>
+            <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; {{ $t('dashboard.timesheet_previous_week') }}</inertia-link></li>
+            <li class="di mr3 fw5">{{ timesheet.start_date }} - {{ timesheet.end_date }}</li>
+            <li class="di"><inertia-link :href="nextTimesheet.url" class="dib">{{ $t('dashboard.timesheet_next_week') }} &gt;</inertia-link></li>
           </ul>
         </div>
 
         <div class="tr mb3">
           <a v-if="!displayNewEntry" class="btn f5" @click.prevent="showProjectList()">
-            Add a new row
+            {{ $t('dashboard.timesheet_add_new') }}
           </a>
         </div>
 
@@ -164,11 +164,16 @@
 
           <!-- entries -->
           <timesheet-row v-for="row in timesheetRows" :key="row.id"
-                         :row="row"
+                         :row-coming-from-backend="row"
                          :timesheet="timesheet"
                          @update-day="updateDay"
                          @update-weekly-total="updateWeeklyTotal"
           />
+
+          <!-- <div v-if="timesheetRows.length == 0">
+            <img loading="lazy" src="/img/streamline-icon-building-site@140x140.png" width="140" alt="building" class="top-1 left-1" />
+            <p>You haven't added any projects yet to track your time against.</p>
+          </div> -->
 
           <!-- total -->
           <div class="dt-row">
@@ -182,31 +187,32 @@
                 </span>
               </div>
             </div>
-            <!-- monday -->
+
+            <!-- daily total: monday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
               {{ formatTime(dailyStats[0]) }}
             </div>
-            <!-- tuesday -->
+            <!-- daily total: tuesday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
               {{ formatTime(dailyStats[1]) }}
             </div>
-            <!-- wednesday -->
+            <!-- daily total: wednesday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
               {{ formatTime(dailyStats[2]) }}
             </div>
-            <!-- thursday -->
+            <!-- daily total: thursday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
               {{ formatTime(dailyStats[3]) }}
             </div>
-            <!-- friday -->
+            <!-- daily total: friday -->
             <div class="tc pv2 dtc bt bl bb bb-gray f7 gray">
               {{ formatTime(dailyStats[4]) }}
             </div>
-            <!-- saturday -->
+            <!-- daily total: saturday -->
             <div class="tc pv2 dtc bt bl bb bb-gray off-days f7 gray">
               {{ formatTime(dailyStats[5]) }}
             </div>
-            <!-- sunday -->
+            <!-- daily total: sunday -->
             <div class="tc pv2 bt bl bb bb-gray off-days f7 gray">
               {{ formatTime(dailyStats[6]) }}
             </div>
@@ -269,7 +275,7 @@ export default {
       timesheetRows: [],
       projects: [],
       tasks: [],
-      dailyStats: [],
+      dailyStats: [0, 0, 0, 0, 0, 0, 0, 0],
       weeklyTotalHumanReadable: 0,
     };
   },
@@ -334,6 +340,7 @@ export default {
         task_id: this.form.task.value,
         task_title: this.form.task.label,
         total_this_week: 0,
+        data_from_backend: false,
         days: {
           monday: {
             day_of_week: 1,
@@ -374,6 +381,7 @@ export default {
       var row = this.timesheetRows[id];
       row.total_this_week = value;
       this.$set(this.timesheetRows, id, row);
+
       this.refreshWeeklyTotal();
       this.refreshDailyTotal();
     },

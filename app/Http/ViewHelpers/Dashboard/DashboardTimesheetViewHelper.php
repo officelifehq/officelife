@@ -63,10 +63,16 @@ class DashboardTimesheetViewHelper
                 ]);
             }
 
+            $project = $uniqueTask->project;
+
             $linesOfTimesheet->push([
-                'project_id' => $uniqueTask->project->id,
-                'project_name' => $uniqueTask->project->name,
-                'project_code' => $uniqueTask->project->code,
+                'project_id' => $project->id,
+                'project_name' => $project->name,
+                'project_code' => $project->code,
+                'project_url' => route('projects.show', [
+                    'company' => $project->company_id,
+                    'project' => $project->id,
+                ]),
                 'task_id' => $uniqueTask->id,
                 'task_title' => $uniqueTask->title,
                 'total_this_week' => $totalOfMinutesThisWeek,

@@ -76,6 +76,11 @@ class DashboardTimesheetViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id,
+            $array['entries']->toArray()[0]['project_url']
+        );
+
+        $this->assertEquals(
             $task->id,
             $array['entries']->toArray()[0]['task_id']
         );

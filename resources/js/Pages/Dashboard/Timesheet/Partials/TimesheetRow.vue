@@ -124,7 +124,7 @@ export default {
   },
 
   props: {
-    row: Object,
+    rowComingFromBackend: Object,
     timesheet: {
       type: Object,
       default: null,
@@ -198,40 +198,43 @@ export default {
   mounted() {
     // necessary because the backend sends a row back with indexes by number on
     // the days array, and in the Vue files we need to reference days by their names
-    this.localRow.project_id = this.row.project_id;
-    this.localRow.project_name = this.row.project_name;
-    this.localRow.project_code = this.row.project_code;
-    this.localRow.task_id = this.row.task_id;
-    this.localRow.task_title = this.row.task_title;
-    this.localRow.total_this_week = this.row.total_this_week;
-    this.localRow.days.monday.day_of_week = this.row.days[0].day_of_week;
-    this.localRow.days.monday.total_of_minutes = this.row.days[0].total_of_minutes;
-    this.localRow.days.monday.hours = this.row.days[0].hours;
-    this.localRow.days.monday.minutes = this.row.days[0].minutes;
-    this.localRow.days.tuesday.day_of_week = this.row.days[1].day_of_week;
-    this.localRow.days.tuesday.total_of_minutes = this.row.days[1].total_of_minutes;
-    this.localRow.days.tuesday.hours = this.row.days[1].hours;
-    this.localRow.days.tuesday.minutes = this.row.days[1].minutes;
-    this.localRow.days.wednesday.day_of_week = this.row.days[2].day_of_week;
-    this.localRow.days.wednesday.total_of_minutes = this.row.days[2].total_of_minutes;
-    this.localRow.days.wednesday.hours = this.row.days[2].hours;
-    this.localRow.days.wednesday.minutes = this.row.days[2].minutes;
-    this.localRow.days.thursday.day_of_week = this.row.days[3].day_of_week;
-    this.localRow.days.thursday.total_of_minutes = this.row.days[3].total_of_minutes;
-    this.localRow.days.thursday.hours = this.row.days[3].hours;
-    this.localRow.days.thursday.minutes = this.row.days[3].minutes;
-    this.localRow.days.friday.day_of_week = this.row.days[4].day_of_week;
-    this.localRow.days.friday.total_of_minutes = this.row.days[4].total_of_minutes;
-    this.localRow.days.friday.hours = this.row.days[4].hours;
-    this.localRow.days.friday.minutes = this.row.days[4].minutes;
-    this.localRow.days.saturday.day_of_week = this.row.days[5].day_of_week;
-    this.localRow.days.saturday.total_of_minutes = this.row.days[5].total_of_minutes;
-    this.localRow.days.saturday.hours = this.row.days[5].hours;
-    this.localRow.days.saturday.minutes = this.row.days[5].minutes;
-    this.localRow.days.sunday.day_of_week = this.row.days[6].day_of_week;
-    this.localRow.days.sunday.total_of_minutes = this.row.days[6].total_of_minutes;
-    this.localRow.days.sunday.hours = this.row.days[6].hours;
-    this.localRow.days.sunday.minutes = this.row.days[6].minutes;
+    this.localRow.project_id = this.rowComingFromBackend.project_id;
+    this.localRow.project_name = this.rowComingFromBackend.project_name;
+    this.localRow.project_code = this.rowComingFromBackend.project_code;
+    this.localRow.task_id = this.rowComingFromBackend.task_id;
+    this.localRow.task_title = this.rowComingFromBackend.task_title;
+    this.localRow.total_this_week = this.rowComingFromBackend.total_this_week;
+
+    if (this.rowComingFromBackend.days[0]) {
+      this.localRow.days.monday.day_of_week = this.rowComingFromBackend.days[0].day_of_week;
+      this.localRow.days.monday.total_of_minutes = this.rowComingFromBackend.days[0].total_of_minutes;
+      this.localRow.days.monday.hours = this.rowComingFromBackend.days[0].hours;
+      this.localRow.days.monday.minutes = this.rowComingFromBackend.days[0].minutes;
+      this.localRow.days.tuesday.day_of_week = this.rowComingFromBackend.days[1].day_of_week;
+      this.localRow.days.tuesday.total_of_minutes = this.rowComingFromBackend.days[1].total_of_minutes;
+      this.localRow.days.tuesday.hours = this.rowComingFromBackend.days[1].hours;
+      this.localRow.days.tuesday.minutes = this.rowComingFromBackend.days[1].minutes;
+      this.localRow.days.wednesday.day_of_week = this.rowComingFromBackend.days[2].day_of_week;
+      this.localRow.days.wednesday.total_of_minutes = this.rowComingFromBackend.days[2].total_of_minutes;
+      this.localRow.days.wednesday.hours = this.rowComingFromBackend.days[2].hours;
+      this.localRow.days.wednesday.minutes = this.rowComingFromBackend.days[2].minutes;
+      this.localRow.days.thursday.day_of_week = this.rowComingFromBackend.days[3].day_of_week;
+      this.localRow.days.thursday.total_of_minutes = this.rowComingFromBackend.days[3].total_of_minutes;
+      this.localRow.days.thursday.hours = this.rowComingFromBackend.days[3].hours;
+      this.localRow.days.thursday.minutes = this.rowComingFromBackend.days[3].minutes;
+      this.localRow.days.friday.day_of_week = this.rowComingFromBackend.days[4].day_of_week;
+      this.localRow.days.friday.total_of_minutes = this.rowComingFromBackend.days[4].total_of_minutes;
+      this.localRow.days.friday.hours = this.rowComingFromBackend.days[4].hours;
+      this.localRow.days.friday.minutes = this.rowComingFromBackend.days[4].minutes;
+      this.localRow.days.saturday.day_of_week = this.rowComingFromBackend.days[5].day_of_week;
+      this.localRow.days.saturday.total_of_minutes = this.rowComingFromBackend.days[5].total_of_minutes;
+      this.localRow.days.saturday.hours = this.rowComingFromBackend.days[5].hours;
+      this.localRow.days.saturday.minutes = this.rowComingFromBackend.days[5].minutes;
+      this.localRow.days.sunday.day_of_week = this.rowComingFromBackend.days[6].day_of_week;
+      this.localRow.days.sunday.total_of_minutes = this.rowComingFromBackend.days[6].total_of_minutes;
+      this.localRow.days.sunday.hours = this.rowComingFromBackend.days[6].hours;
+      this.localRow.days.sunday.minutes = this.rowComingFromBackend.days[6].minutes;
+    }
     this.refreshTotal();
   },
 
