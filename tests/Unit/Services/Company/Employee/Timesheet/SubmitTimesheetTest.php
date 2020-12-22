@@ -152,7 +152,7 @@ class SubmitTimesheetTest extends TestCase
                 ]);
         });
 
-        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($author, $employee, $timesheet) {
+        Queue::assertPushed(LogEmployeeAudit::class, function ($job) use ($author, $timesheet) {
             return $job->auditLog['action'] === 'timesheet_submitted' &&
                 $job->auditLog['author_id'] === $author->id &&
                 $job->auditLog['objects'] === json_encode([

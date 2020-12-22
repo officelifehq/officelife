@@ -65,8 +65,6 @@ class DashboardTimesheetController extends Controller
 
     /**
      * Display the page of the given timesheet.
-     *
-     * @return Illuminate\Http\RedirectResponse|Response
      */
     public function show(Request $request, int $companyId, int $timesheetId)
     {
