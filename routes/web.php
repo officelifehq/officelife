@@ -253,9 +253,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 // project tasks
                 Route::resource('{project}/tasks', 'Company\\Company\\Project\\ProjectTasksController', ['as' => 'projects']);
                 Route::put('{project}/tasks/{task}/toggle', 'Company\\Company\\Project\\ProjectTasksController@toggle');
-                Route::resource('{project}/tasks/lists', 'Company\\Company\\Project\\ProjectTaskListsController')->only([
-                    'create', 'store', 'update', 'destroy',
-                ]);
+                Route::post('{project}/tasks/lists/store', 'Company\\Company\\Project\\ProjectTaskListsController@store');
+                Route::put('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@update');
+                Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
             });
         });
 

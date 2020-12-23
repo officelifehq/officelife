@@ -41,7 +41,7 @@ class ProjectDecisionsController extends Controller
             return redirect('home');
         }
 
-        return Inertia::render('Project/Decisions/Index', [
+        return Inertia::render('Company/Project/Decisions/Index', [
             'tab' => 'decisions',
             'project' => ProjectViewHelper::info($project),
             'decisions' => ProjectDecisionsViewHelper::decisions($project),

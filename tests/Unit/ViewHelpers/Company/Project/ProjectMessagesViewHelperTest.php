@@ -48,7 +48,7 @@ class ProjectMessagesViewHelperTest extends TestCase
                     'content' => 'This is a description',
                     'read_status' => true,
                     'written_at' => $projectMessageA->created_at->diffForHumans(),
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/messages/'.$projectMessageA->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/messages/'.$projectMessageA->id,
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -62,7 +62,7 @@ class ProjectMessagesViewHelperTest extends TestCase
                     'content' => 'This is a description',
                     'read_status' => false,
                     'written_at' => $projectMessageB->created_at->diffForHumans(),
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/messages/'.$projectMessageB->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/messages/'.$projectMessageB->id,
                     'author' => null,
                 ],
             ],

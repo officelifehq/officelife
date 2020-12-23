@@ -13,13 +13,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages'">{{ project.name }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'">{{ project.name }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_project_create_message') }}
@@ -63,7 +63,7 @@
             <div class="mv4">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/' + project.id + '/messages'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/' + project.id + '/messages'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -122,10 +122,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/messages`, this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/messages`, this.form)
         .then(response => {
           localStorage.success = this.$t('project.message_create_success');
-          this.$inertia.visit(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/messages/${response.data.data}`);
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/messages/${response.data.data}`);
         })
         .catch(error => {
           this.loadingState = null;

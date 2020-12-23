@@ -43,7 +43,7 @@ class ProjectMessagesController extends Controller
             return redirect('home');
         }
 
-        return Inertia::render('Project/Messages/Index', [
+        return Inertia::render('Company/Project/Messages/Index', [
             'tab' => 'messages',
             'project' => ProjectViewHelper::info($project),
             'messages' => ProjectMessagesViewHelper::index($project, $employee),
@@ -72,7 +72,7 @@ class ProjectMessagesController extends Controller
             return redirect('home');
         }
 
-        return Inertia::render('Project/Messages/Create', [
+        return Inertia::render('Company/Project/Messages/Create', [
             'project' => ProjectViewHelper::info($project),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -144,7 +144,7 @@ class ProjectMessagesController extends Controller
             'project_message_id' => $message->id,
         ]);
 
-        return Inertia::render('Project/Messages/Show', [
+        return Inertia::render('Company/Project/Messages/Show', [
             'tab' => 'messages',
             'project' => ProjectViewHelper::info($project),
             'message' => ProjectMessagesViewHelper::show($message),
@@ -182,7 +182,7 @@ class ProjectMessagesController extends Controller
             return redirect('home');
         }
 
-        return Inertia::render('Project/Messages/Update', [
+        return Inertia::render('Company/Project/Messages/Update', [
             'tab' => 'messages',
             'project' => ProjectViewHelper::info($project),
             'message' => ProjectMessagesViewHelper::edit($message),

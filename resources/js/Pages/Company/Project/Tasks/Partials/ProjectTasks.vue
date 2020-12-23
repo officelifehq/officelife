@@ -243,7 +243,7 @@ export default {
         this.form.task_list_id = null;
       }
 
-      axios.post(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks`, this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks`, this.form)
         .then(response => {
           this.addTaskMode = false;
           this.localTasks.push(response.data.data);
@@ -260,7 +260,7 @@ export default {
     },
 
     toggle(id) {
-      axios.put(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${id}/toggle`)
+      axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${id}/toggle`)
         .then(response => {
         })
         .catch(error => {
@@ -279,7 +279,7 @@ export default {
         this.form.task_list_id = null;
       }
 
-      axios.put(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${task.id}`, this.form)
+      axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${task.id}`, this.form)
         .then(response => {
           this.taskToEdit = 0;
           this.loadingState = null;
@@ -295,7 +295,7 @@ export default {
     },
 
     destroy(id) {
-      axios.delete(`/${this.$page.props.auth.company.id}/projects/${this.project.id}/tasks/${id}`)
+      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${id}`)
         .then(response => {
           flash(this.$t('project.task_delete_success'), 'success');
           id = this.localTasks.findIndex(x => x.id === id);

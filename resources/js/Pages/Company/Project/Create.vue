@@ -35,13 +35,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_project_create') }}
@@ -147,7 +147,7 @@
             <div class="mb4 mt5">
               <div class="flex-ns justify-between">
                 <div>
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/'" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3">
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
@@ -214,7 +214,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects', this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects`, this.form)
         .then(response => {
           this.$inertia.visit(response.data.data.url);
         })
@@ -230,7 +230,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.props.auth.company.id + '/projects/search', this.form)
+          axios.post(`/${this.$page.props.auth.company.id}/company/projects/search`, this.form)
             .then(response => {
               this.potentialMembers = response.data.data;
               this.processingSearch = false;

@@ -52,7 +52,7 @@
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/projects'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
@@ -343,7 +343,7 @@ export default {
         if (this.form.searchTerm != '') {
           this.processingSearch = true;
 
-          axios.post(`/${this.$page.props.auth.company.id}/projects/${this.localProject.id}/decisions/search`, this.form)
+          axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/decisions/search`, this.form)
             .then(response => {
               this.potentialMembers = _.filter(response.data.data, employee => _.every(this.form.employees, e => employee.id !== e.id));
               this.processingSearch = false;
@@ -376,7 +376,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/decisions/store', this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/decisions/store`, this.form)
         .then(response => {
           localStorage.success = this.$t('project.decision_index_add_success');
           this.localDecisions.unshift(response.data.data);
@@ -390,7 +390,7 @@ export default {
     },
 
     destroy(decision) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/decisions/' + decision.id)
+      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/decisions/${decision.id}`)
         .then(response => {
           var id = this.localDecisions.findIndex(x => x.id == decision.id);
           this.localDecisions.splice(id, 1);

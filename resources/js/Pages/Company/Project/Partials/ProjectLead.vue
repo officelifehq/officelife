@@ -192,7 +192,7 @@ export default {
           this.hasMadeASearch = false;
           this.processingSearch = true;
 
-          axios.post('/' + this.$page.props.auth.company.id + '/projects/search', this.form)
+          axios.post(`/${this.$page.props.auth.company.id}/company/projects/search`, this.form)
             .then(response => {
               this.potentialLeads = response.data.data;
               this.processingSearch = false;
@@ -210,7 +210,7 @@ export default {
     assign(lead) {
       this.form.employeeId = lead.id;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/lead/assign', this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/lead/assign`, this.form)
         .then(response => {
           flash(this.$t('project.summary_project_lead_added_success'), 'success');
 
@@ -223,7 +223,7 @@ export default {
     },
 
     removeLead() {
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/lead/clear')
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/lead/clear`)
         .then(response => {
           flash(this.$t('project.summary_project_lead_cleared_success'), 'success');
 

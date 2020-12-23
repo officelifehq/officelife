@@ -1,4 +1,12 @@
 <style lang="scss" scoped>
+.company-logo {
+  top: -40px;
+  width: 225px;
+}
+.company-name {
+  margin-bottom: 17px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -34,17 +42,48 @@
 
 <template>
   <layout title="Home" :notifications="notifications">
+    <!-- company cover -->
+    <div class="cover mb3" :style="'height: 25vh; background: url(https://images.unsplash.com/photo-1531973576160-7125cd663d86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80) no-repeat center center'"></div>
+
+    <!-- company name + data -->
+    <div class="ph2 ph5-ns mb2">
+      <div class="flex relative">
+        <div class="company-logo relative ba bb-gray pa2 br3 bg-white mr3-ns">
+          <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fih1.redbubble.net%2Fimage.445715442.6589%2Fpp%2C550x550.u3.jpg&f=1&nofb=1" />
+        </div>
+        <div class="mt3">
+          <h2 class="mt0 fw4 f3 mb4 company-name">
+            {{ $page.props.auth.company.name }} <a href="https://dundermifflin.com" class="ml3 f6 fw4 no-underline gray bb-0">https://dundermifflin.com</a>
+          </h2>
+          <div class="flex">
+            <div class="">
+              <p class="ttu f7 gray mb1 mt0 mr5">number of employees</p>
+              <p class="mt0">{{ statistics.number_of_employees }}</p>
+            </div>
+            <div class="">
+              <p class="ttu f7 gray mb1 mt0 mr5">number of teams</p>
+              <p class="mt0">{{ statistics.number_of_teams }}</p>
+            </div>
+            <div class="">
+              <p class="ttu f7 gray mb1 mt0 mr5">founded</p>
+              <p class="mt0">1987</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="ph2 ph5-ns">
-      <!-- BREADCRUMB -->
-      <div class="mt4-l mt1 mw6 br3 center breadcrumb relative z-0 f6 pb2">
-        <ul class="list ph0 tc-l tl">
-          <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
-          </li>
-          <li class="di">
-            {{ $t('app.breadcrumb_project_list') }}
-          </li>
-        </ul>
+      <!-- central content -->
+      <div class="cf mw7 center br3 mt2 mb5 tc">
+        <div class="cf dib btn-group">
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="f6 fl ph3 pv2 dib pointer no-underline">
+            Employees & teams
+          </inertia-link>
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'" class="f6 fl ph3 pv2 dib pointer selected">
+            Projects
+          </inertia-link>
+        </div>
       </div>
 
       <!-- BODY -->
@@ -54,7 +93,7 @@
             <span class="pr2">
               {{ $t('project.index_title') }}
             </span>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/projects/create'" class="btn absolute db-l dn">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/create'" class="btn absolute db-l dn">
               {{ $t('project.index_cta') }}
             </inertia-link>
           </p>
@@ -85,6 +124,10 @@ export default {
   },
 
   props: {
+    statistics: {
+      type: Object,
+      default: null,
+    },
     projects: {
       type: Object,
       default: null,

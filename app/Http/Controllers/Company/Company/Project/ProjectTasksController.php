@@ -42,7 +42,7 @@ class ProjectTasksController extends Controller
             return redirect('home');
         }
 
-        return Inertia::render('Project/Tasks/Index', [
+        return Inertia::render('Company/Project/Tasks/Index', [
             'tab' => 'tasks',
             'project' => ProjectViewHelper::info($project),
             'tasks' => ProjectTasksViewHelper::index($project),

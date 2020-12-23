@@ -46,7 +46,7 @@
       <div class="mt4-l mt1 mb4 mw6 br3 center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company'">{{ $t('app.breadcrumb_company') }}</inertia-link>
           </li>
           <li class="di">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/projects'">{{ $t('app.breadcrumb_project_list') }}</inertia-link>
@@ -317,7 +317,7 @@ export default {
     },
 
     displayAddModal() {
-      axios.get('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members/search')
+      axios.get(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/members/search`)
         .then(response => {
           this.potentialMembers = response.data.data.potential_members;
           this.showModal = true;
@@ -335,7 +335,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members/store', this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/members/store`, this.form)
         .then(response => {
           flash(this.$t('project.members_index_add_success'), 'success');
           this.loadingState = null;
@@ -353,7 +353,7 @@ export default {
     remove(employee) {
       this.form.employee = employee;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.project.id + '/members/remove', this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/members/remove`, this.form)
         .then(response => {
           flash(this.$t('project.members_index_remove_success'), 'success');
 

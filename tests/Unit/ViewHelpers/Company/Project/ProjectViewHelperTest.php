@@ -37,7 +37,7 @@ class ProjectViewHelperTest extends TestCase
                     'code' => $projectA->code,
                     'status' => $projectA->status,
                     'summary' => $projectA->summary,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$projectA->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
                 ],
                 1 => [
                     'id' => $projectB->id,
@@ -45,7 +45,7 @@ class ProjectViewHelperTest extends TestCase
                     'code' => $projectB->code,
                     'status' => $projectB->status,
                     'summary' => $projectB->summary,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/projects/'.$projectB->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectB->id,
                 ],
             ],
             $array['projects']->toArray()
@@ -102,11 +102,11 @@ class ProjectViewHelperTest extends TestCase
             $array['parsed_description']
         );
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/edit',
+            env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/edit',
             $array['url_edit']
         );
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/projects/'.$project->id.'/delete',
+            env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/delete',
             $array['url_delete']
         );
         $this->assertEquals(

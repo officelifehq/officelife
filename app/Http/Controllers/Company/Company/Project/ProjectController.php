@@ -18,6 +18,7 @@ use App\Services\Company\Project\StartProject;
 use App\Services\Company\Project\CreateProject;
 use App\Services\Company\Project\DestroyProject;
 use App\Services\Company\Project\ClearProjectLead;
+use App\Http\ViewHelpers\Company\CompanyViewHelper;
 use App\Services\Company\Project\CreateProjectLink;
 use App\Services\Company\Project\UpdateProjectLead;
 use App\Exceptions\ProjectCodeAlreadyExistException;
@@ -40,8 +41,10 @@ class ProjectController extends Controller
     public function index(Request $request, int $companyId): Response
     {
         $company = InstanceHelper::getLoggedCompany();
+        $statistics = CompanyViewHelper::statistics($company);
 
         return Inertia::render('Company/Project/Index', [
+            'statistics' => $statistics,
             'tab' => 'summary',
             'projects' => ProjectViewHelper::index($company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),

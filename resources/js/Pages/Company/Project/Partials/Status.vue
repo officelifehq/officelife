@@ -99,7 +99,7 @@ export default {
     start() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/start')
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/start`)
         .then(response => {
           this.localProject.status = response.data.status;
           this.loadingState = null;
@@ -113,7 +113,7 @@ export default {
     pause() {
       this.loadingPauseState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/pause')
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/start`)
         .then(response => {
           this.localProject.status = response.data.status;
           this.loadingPauseState = null;
@@ -127,7 +127,7 @@ export default {
     unpause() {
       this.loadingUnpauseState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/start')
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/start`)
         .then(response => {
           this.localProject.status = response.data.status;
           this.loadingUnpauseState = null;
@@ -141,7 +141,7 @@ export default {
     close() {
       this.loadingCloseState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/close')
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/close`)
         .then(response => {
           this.localProject.status = response.data.status;
           this.loadingCloseState = null;

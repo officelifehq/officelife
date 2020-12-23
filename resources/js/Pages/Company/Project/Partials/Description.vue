@@ -114,7 +114,7 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/description', this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/description`, this.form)
         .then(response => {
           flash(this.$t('project.summary_description_success'), 'success');
           this.localProject.raw_description = response.data.data.raw_description;
@@ -132,7 +132,7 @@ export default {
       this.loadingState = 'loading';
       this.form.description = null;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/projects/' + this.localProject.id + '/description', this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/description`, this.form)
         .then(response => {
           this.localProject.raw_description = null;
           this.localProject.parsed_description = null;

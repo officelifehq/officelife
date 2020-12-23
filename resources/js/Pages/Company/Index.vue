@@ -45,7 +45,7 @@
       <!-- central content -->
       <div class="cf mw7 center br3 mt2 mb5 tc">
         <div class="cf dib btn-group">
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/company/employees'" class="f6 fl ph3 pv2 dib pointer no-underline">
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="f6 fl ph3 pv2 dib pointer no-underline selected">
             Employees & teams
           </inertia-link>
           <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">

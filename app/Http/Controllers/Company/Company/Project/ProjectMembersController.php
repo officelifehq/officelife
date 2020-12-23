@@ -41,7 +41,7 @@ class ProjectMembersController extends Controller
             return redirect('home');
         }
 
-        return Inertia::render('Project/Members/Index', [
+        return Inertia::render('Company/Project/Members/Index', [
             'tab' => 'members',
             'project' => ProjectViewHelper::info($project),
             'members' => ProjectMembersViewHelper::members($project),
