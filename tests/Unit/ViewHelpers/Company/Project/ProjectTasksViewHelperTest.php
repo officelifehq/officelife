@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Project;
+namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -9,7 +9,7 @@ use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Project\ProjectTasksViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
 
 class ProjectTasksViewHelperTest extends TestCase
 {

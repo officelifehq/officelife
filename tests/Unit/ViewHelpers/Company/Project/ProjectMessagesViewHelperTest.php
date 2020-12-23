@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Project;
+namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Carbon\Carbon;
 use Tests\TestCase;
@@ -10,7 +10,7 @@ use App\Models\Company\Project;
 use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectMessage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Project\ProjectMessagesViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectMessagesViewHelper;
 
 class ProjectMessagesViewHelperTest extends TestCase
 {

@@ -238,7 +238,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import ProjectMenu from '@/Pages/Project/Partials/ProjectMenu';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import TextInput from '@/Shared/TextInput';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';

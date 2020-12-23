@@ -69,12 +69,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import ProjectMenu from '@/Pages/Project/Partials/ProjectMenu';
-import Description from '@/Pages/Project/Partials/Description';
-import Status from '@/Pages/Project/Partials/Status';
-import ProjectLead from '@/Pages/Project/Partials/ProjectLead';
-import ProjectLinks from '@/Pages/Project/Partials/ProjectLinks';
-import ProjectUpdates from '@/Pages/Project/Partials/ProjectUpdates';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
+import Description from '@/Pages/Company/Project/Partials/Description';
+import Status from '@/Pages/Company/Project/Partials/Status';
+import ProjectLead from '@/Pages/Company/Project/Partials/ProjectLead';
+import ProjectLinks from '@/Pages/Company/Project/Partials/ProjectLinks';
+import ProjectUpdates from '@/Pages/Company/Project/Partials/ProjectUpdates';
 
 export default {
   components: {

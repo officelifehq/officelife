@@ -162,8 +162,8 @@
 <script>
 import Layout from '@/Shared/Layout';
 import TextInput from '@/Shared/TextInput';
-import ProjectMenu from '@/Pages/Project/Partials/ProjectMenu';
-import ProjectTasks from '@/Pages/Project/Tasks/Partials/ProjectTasks';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
+import ProjectTasks from '@/Pages/Company/Project/Tasks/Partials/ProjectTasks';
 import Help from '@/Shared/Help';
 import TextArea from '@/Shared/TextArea';
 import LoadingButton from '@/Shared/LoadingButton';

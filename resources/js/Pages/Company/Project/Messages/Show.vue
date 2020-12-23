@@ -144,7 +144,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import ProjectMenu from '@/Pages/Project/Partials/ProjectMenu';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 
 export default {
   components: {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company\Project;
+namespace App\Http\Controllers\Company\Company\Project;
 
 use Inertia\Inertia;
 use Inertia\Response;
@@ -18,7 +18,6 @@ use App\Services\Company\Project\StartProject;
 use App\Services\Company\Project\CreateProject;
 use App\Services\Company\Project\DestroyProject;
 use App\Services\Company\Project\ClearProjectLead;
-use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use App\Services\Company\Project\CreateProjectLink;
 use App\Services\Company\Project\UpdateProjectLead;
 use App\Exceptions\ProjectCodeAlreadyExistException;
@@ -27,6 +26,7 @@ use App\Services\Company\Project\CreateProjectStatus;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\UpdateProjectDescription;
 use App\Services\Company\Project\UpdateProjectInformation;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 
 class ProjectController extends Controller
 {
@@ -41,7 +41,7 @@ class ProjectController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        return Inertia::render('Project/Index', [
+        return Inertia::render('Company/Project/Index', [
             'tab' => 'summary',
             'projects' => ProjectViewHelper::index($company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -62,7 +62,7 @@ class ProjectController extends Controller
         $employee = InstanceHelper::getLoggedEmployee();
         $project = Project::findOrFail($projectId);
 
-        return Inertia::render('Project/Show', [
+        return Inertia::render('Company/Project/Show', [
             'project' => ProjectViewHelper::info($project),
             'projectDetails' => ProjectViewHelper::summary($project, $company),
             'permissions' => ProjectViewHelper::permissions($project, $employee),
@@ -161,7 +161,7 @@ class ProjectController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $project = Project::findOrFail($projectId);
 
-        return Inertia::render('Project/Edit', [
+        return Inertia::render('Company/Project/Edit', [
             'project' => ProjectViewHelper::edit($project),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
@@ -258,7 +258,7 @@ class ProjectController extends Controller
             return redirect('home');
         }
 
-        return Inertia::render('Project/Delete', [
+        return Inertia::render('Company/Project/Delete', [
             'project' => [
                 'id' => $project->id,
             ],
@@ -383,7 +383,7 @@ class ProjectController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        return Inertia::render('Project/Create', [
+        return Inertia::render('Company/Project/Create', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -547,7 +547,7 @@ class ProjectController extends Controller
             }
         }
 
-        return Inertia::render('Project/CreateStatus', [
+        return Inertia::render('Company/Project/CreateStatus', [
             'project' => ProjectViewHelper::summary($project, $company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

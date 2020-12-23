@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company\Project;
+namespace App\Http\Controllers\Company\Company\Project;
 
 use Inertia\Inertia;
 use Inertia\Response;
@@ -11,13 +11,13 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\ProjectMessage;
-use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use App\Services\Company\Project\CreateProjectMessage;
 use App\Services\Company\Project\UpdateProjectMessage;
 use App\Services\Company\Project\DestroyProjectMessage;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Project\MarkProjectMessageasRead;
-use App\Http\ViewHelpers\Project\ProjectMessagesViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectMessagesViewHelper;
 
 class ProjectMessagesController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Project;
+namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Tests\TestCase;
 use App\Helpers\DateHelper;
@@ -8,8 +8,8 @@ use App\Helpers\StringHelper;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectLink;
 use App\Models\Company\ProjectStatus;
-use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 
 class ProjectViewHelperTest extends TestCase
 {

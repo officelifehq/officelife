@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Project;
+namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Tests\TestCase;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectDecision;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Project\ProjectDecisionsViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectDecisionsViewHelper;
 
 class ProjectDecisionsViewHelperTest extends TestCase
 {

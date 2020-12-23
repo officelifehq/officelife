@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company\Project;
+namespace App\Http\Controllers\Company\Company\Project;
 
 use Inertia\Inertia;
 use Inertia\Response;
@@ -10,14 +10,14 @@ use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use App\Services\Company\Project\CreateProjectTask;
 use App\Services\Company\Project\ToggleProjectTask;
 use App\Services\Company\Project\UpdateProjectTask;
 use App\Services\Company\Project\DestroyProjectTask;
-use App\Http\ViewHelpers\Project\ProjectTasksViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 use App\Services\Company\Project\AssignProjecTaskToEmployee;
+use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
 
 class ProjectTasksController extends Controller
 {

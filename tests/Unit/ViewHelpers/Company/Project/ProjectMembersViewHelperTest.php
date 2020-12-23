@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Project;
+namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Tests\TestCase;
 use App\Helpers\DateHelper;
 use App\Models\Company\Project;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use App\Http\ViewHelpers\Project\ProjectMembersViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectMembersViewHelper;
 
 class ProjectMembersViewHelperTest extends TestCase
 {

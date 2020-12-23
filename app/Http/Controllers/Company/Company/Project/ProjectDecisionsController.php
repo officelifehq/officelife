@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Company\Project;
+namespace App\Http\Controllers\Company\Company\Project;
 
 use Carbon\Carbon;
 use Inertia\Inertia;
@@ -13,11 +13,11 @@ use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\ViewHelpers\Project\ProjectViewHelper;
 use App\Services\Company\Project\CreateProjectDecision;
 use App\Services\Company\Project\DestroyProjectDecision;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\ViewHelpers\Project\ProjectDecisionsViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
+use App\Http\ViewHelpers\Company\Project\ProjectDecisionsViewHelper;
 
 class ProjectDecisionsController extends Controller
 {

@@ -99,7 +99,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import ProjectMenu from '@/Pages/Project/Partials/ProjectMenu';
+import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import Help from '@/Shared/Help';
 

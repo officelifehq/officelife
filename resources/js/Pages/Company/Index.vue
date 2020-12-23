@@ -14,7 +14,7 @@
     <div class="cover mb3" :style="'height: 25vh; background: url(https://images.unsplash.com/photo-1531973576160-7125cd663d86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80) no-repeat center center'"></div>
 
     <!-- company name + data -->
-    <div class="ph2 ph5-ns mb4">
+    <div class="ph2 ph5-ns mb2">
       <div class="flex relative">
         <div class="company-logo relative ba bb-gray pa2 br3 bg-white mr3-ns">
           <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fih1.redbubble.net%2Fimage.445715442.6589%2Fpp%2C550x550.u3.jpg&f=1&nofb=1" />
@@ -43,6 +43,17 @@
 
     <div class="ph2 ph5-ns">
       <!-- central content -->
+      <div class="cf mw7 center br3 mt2 mb5 tc">
+        <div class="cf dib btn-group">
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/company/employees'" class="f6 fl ph3 pv2 dib pointer no-underline">
+            Employees & teams
+          </inertia-link>
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
+            Projects
+          </inertia-link>
+        </div>
+      </div>
+
       <div class="cf mw9 center">
         <div class="fl w-third-l w-100">
           <company-news :news="latestNews" />
