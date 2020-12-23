@@ -7,7 +7,7 @@ describe('Project - messages', function () {
     cy.createProject(1, 'project 1');
 
     // write a message
-    cy.visit('/1/projects/1/messages');
+    cy.visit('/1/company/projects/1/messages');
     cy.get('[data-cy=messages-blank-state]').should('exist');
 
     cy.get('[data-cy=add-message]').click();
@@ -47,7 +47,7 @@ describe('Project - messages', function () {
     cy.createProject(1, 'project 1');
 
     // write a message
-    cy.visit('/1/projects/1/messages');
+    cy.visit('/1/company/projects/1/messages');
     cy.get('[data-cy=messages-blank-state]').should('exist');
 
     cy.get('[data-cy=add-message]').click();
@@ -86,7 +86,7 @@ describe('Project - messages', function () {
     cy.createProject(1, 'project 1');
 
     // write a message
-    cy.visit('/1/projects/1/messages');
+    cy.visit('/1/company/projects/1/messages');
     cy.get('[data-cy=messages-blank-state]').should('exist');
 
     cy.get('[data-cy=add-message]').click();

@@ -113,7 +113,7 @@ export default {
     pause() {
       this.loadingPauseState = 'loading';
 
-      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/start`)
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.localProject.id}/pause`)
         .then(response => {
           this.localProject.status = response.data.status;
           this.loadingPauseState = null;

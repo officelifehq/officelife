@@ -7,7 +7,7 @@ describe('Project - decisions', function () {
     cy.createProject(1, 'project 1');
 
     // log a decision
-    cy.visit('/1/projects/1/decisions');
+    cy.visit('/1/company/projects/1/decisions');
     cy.get('[data-cy=decision-blank-state]').should('exist');
 
     // add a decision without a decider
@@ -33,7 +33,7 @@ describe('Project - decisions', function () {
     cy.changePermission(1, 200);
 
     // log a decision
-    cy.visit('/1/projects/1/decisions');
+    cy.visit('/1/company/projects/1/decisions');
     cy.get('[data-cy=decision-blank-state]').should('exist');
 
     // add a decision without a decider
@@ -59,7 +59,7 @@ describe('Project - decisions', function () {
     cy.changePermission(1, 300);
 
     // log a decision
-    cy.visit('/1/projects/1/decisions');
+    cy.visit('/1/company/projects/1/decisions');
     cy.get('[data-cy=decision-blank-state]').should('exist');
 
     // add a decision without a decider

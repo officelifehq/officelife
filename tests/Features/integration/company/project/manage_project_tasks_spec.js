@@ -7,7 +7,7 @@ describe('Project - tasks', function () {
     cy.createProject(1, 'project 1');
 
     // create a task list
-    cy.visit('/1/projects/1/tasks');
+    cy.visit('/1/company/projects/1/tasks');
     cy.get('[data-cy=new-task-list-cta]').click();
     cy.get('[data-cy=task-list-title-input]').type('task list title');
     cy.get('[data-cy=task-list-description]').type('task list content');
@@ -67,7 +67,7 @@ describe('Project - tasks', function () {
     cy.createProject(1, 'project 1');
 
     // create a task list
-    cy.visit('/1/projects/1/tasks');
+    cy.visit('/1/company/projects/1/tasks');
     cy.get('[data-cy=new-task-list-cta]').click();
     cy.get('[data-cy=task-list-title-input]').type('task list title');
     cy.get('[data-cy=task-list-description]').type('task list content');
@@ -127,7 +127,7 @@ describe('Project - tasks', function () {
     cy.createProject(1, 'project 1');
 
     // create a task list
-    cy.visit('/1/projects/1/tasks');
+    cy.visit('/1/company/projects/1/tasks');
     cy.get('[data-cy=new-task-list-cta]').click();
     cy.get('[data-cy=task-list-title-input]').type('task list title');
     cy.get('[data-cy=task-list-description]').type('task list content');

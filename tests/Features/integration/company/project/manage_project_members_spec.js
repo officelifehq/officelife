@@ -7,7 +7,7 @@ describe('Project - members', function () {
     cy.createProject(1, 'project 1');
 
     // add a member without a role
-    cy.visit('/1/projects/1/members');
+    cy.visit('/1/company/projects/1/members');
     cy.get('[data-cy=members-blank-state]').should('exist');
 
     cy.get('[data-cy=member-add-button]').click();
@@ -52,7 +52,7 @@ describe('Project - members', function () {
     cy.createProject(1, 'project 1');
 
     // add a member without a role
-    cy.visit('/1/projects/1/members');
+    cy.visit('/1/company/projects/1/members');
     cy.get('[data-cy=members-blank-state]').should('exist');
 
     cy.get('[data-cy=member-add-button]').click();
@@ -95,7 +95,7 @@ describe('Project - members', function () {
     cy.createProject(1, 'project 1');
 
     // add a member without a role
-    cy.visit('/1/projects/1/members');
+    cy.visit('/1/company/projects/1/members');
     cy.get('[data-cy=members-blank-state]').should('exist');
 
     cy.get('[data-cy=member-add-button]').click();

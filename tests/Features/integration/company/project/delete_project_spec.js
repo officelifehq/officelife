@@ -5,12 +5,12 @@ describe('Project - project deletion', function () {
     cy.createCompany();
 
     cy.createProject(1, 'project 1');
-    cy.visit('/1/projects/1');
+    cy.visit('/1/company/projects/1');
     cy.get('[data-cy=project-delete]').click();
     cy.get('[data-cy=cancel-button]').click();
     cy.get('[data-cy=project-delete]').click();
     cy.get('[data-cy=submit-delete-project-button]').click();
-    cy.url().should('include', '/1/projects');
+    cy.url().should('include', '/1/company/projects');
     cy.visit('/1/projects');
   });
 
@@ -22,12 +22,12 @@ describe('Project - project deletion', function () {
 
     // make sure we can delete a project with only the name of the project
     cy.createProject(1, 'project 1');
-    cy.visit('/1/projects/1');
+    cy.visit('/1/company/projects/1');
     cy.get('[data-cy=project-delete]').click();
     cy.get('[data-cy=cancel-button]').click();
     cy.get('[data-cy=project-delete]').click();
     cy.get('[data-cy=submit-delete-project-button]').click();
-    cy.url().should('include', '/1/projects');
+    cy.url().should('include', '/1/company/projects');
     cy.visit('/1/projects');
   });
 
@@ -40,12 +40,12 @@ describe('Project - project deletion', function () {
 
     // make sure we can delete a project with only the name of the project
     cy.createProject(1, 'project 1');
-    cy.visit('/1/projects/1');
+    cy.visit('/1/company/projects/1');
     cy.get('[data-cy=project-delete]').click();
     cy.get('[data-cy=cancel-button]').click();
     cy.get('[data-cy=project-delete]').click();
     cy.get('[data-cy=submit-delete-project-button]').click();
-    cy.url().should('include', '/1/projects');
+    cy.url().should('include', '/1/company/projects');
     cy.visit('/1/projects');
   });
 });
