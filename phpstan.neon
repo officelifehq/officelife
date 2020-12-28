@@ -15,7 +15,7 @@ parameters:
         - '#Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator supplied for foreach, only iterables are supported#'
         - '#Method [a-zA-Z0-9\\_:]+\(\) should return Illuminate\\Http\\(Json)?Response but returns Illuminate\\Http\\RedirectResponse\.#'
         - message: '#Access to an undefined property App\\Models\\Company\\Employee::\$pivot\.#'
-          path: 'app/Http/ViewHelpers/Project/ProjectMembersViewHelper.php'
+          path: 'app/Http/ViewHelpers/Company/Project/ProjectMembersViewHelper.php'
         - message: '#Call to an undefined method PHPUnit\\Framework\\MockObject\\MockObject::[a-zA-Z0-9\\_]+\(\)\.#'
           path: 'tests/Unit/Traits/JsonRespondControllerTest.php'
         - message: '#Cannot access property \$[a-zA-Z0-9_]+ on array.#'

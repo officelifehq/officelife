@@ -262,7 +262,7 @@ Cypress.Commands.add('createExpense', (title, amount, companyId = 1) => {
 
 // Create a project
 Cypress.Commands.add('createProject', (companyId = 1, name, code = '', summary = '', projectLeadId = '') => {
-  cy.visit('/' + companyId +'/projects/create');
+  cy.visit('/' + companyId +'/company/projects/create');
   cy.get('[data-cy=project-name-input]').type(name);
 
   if (code != '') {

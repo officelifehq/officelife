@@ -191,56 +191,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{team}/ships/search', 'Company\\Team\\TeamRecentShipController@search');
         });
 
-        Route::prefix('projects')->group(function () {
-            Route::get('', 'Company\\Project\\ProjectController@index');
-            Route::get('create', 'Company\\Project\\ProjectController@create');
-            Route::post('', 'Company\\Project\\ProjectController@store');
-            Route::post('search', 'Company\\Project\\ProjectController@search');
-
-            // project detail
-            Route::get('{project}', 'Company\\Project\\ProjectController@show')->name('projects.show');
-            Route::get('{project}/summary', 'Company\\Project\\ProjectController@show');
-
-            Route::post('{project}/start', 'Company\\Project\\ProjectController@start');
-            Route::post('{project}/pause', 'Company\\Project\\ProjectController@pause');
-            Route::post('{project}/close', 'Company\\Project\\ProjectController@close');
-            Route::post('{project}/lead/assign', 'Company\\Project\\ProjectController@assign');
-            Route::post('{project}/lead/clear', 'Company\\Project\\ProjectController@clear');
-            Route::get('{project}/edit', 'Company\\Project\\ProjectController@edit')->name('projects.edit');
-            Route::post('{project}/description', 'Company\\Project\\ProjectController@description');
-            Route::post('{project}/update', 'Company\\Project\\ProjectController@update');
-            Route::get('{project}/delete', 'Company\\Project\\ProjectController@delete')->name('projects.delete');
-            Route::delete('{project}', 'Company\\Project\\ProjectController@destroy');
-
-            Route::post('{project}/links', 'Company\\Project\\ProjectController@createLink');
-            Route::delete('{project}/links/{link}', 'Company\\Project\\ProjectController@destroyLink');
-
-            Route::get('{project}/status', 'Company\\Project\\ProjectController@createStatus');
-            Route::put('{project}/status', 'Company\\Project\\ProjectController@postStatus');
-
-            // project decision logs
-            Route::get('{project}/decisions', 'Company\\Project\\ProjectDecisionsController@index');
-            Route::post('{project}/decisions/search', 'Company\\Project\\ProjectDecisionsController@search');
-            Route::post('{project}/decisions/store', 'Company\\Project\\ProjectDecisionsController@store');
-            Route::delete('{project}/decisions/{decision}', 'Company\\Project\\ProjectDecisionsController@destroy');
-
-            // project members
-            Route::get('{project}/members', 'Company\\Project\\ProjectMembersController@index');
-            Route::get('{project}/members/search', 'Company\\Project\\ProjectMembersController@search');
-            Route::post('{project}/members/store', 'Company\\Project\\ProjectMembersController@store');
-            Route::post('{project}/members/remove', 'Company\\Project\\ProjectMembersController@remove');
-
-            // project messages
-            Route::resource('{project}/messages', 'Company\\Project\\ProjectMessagesController', ['as' => 'projects']);
-
-            // project tasks
-            Route::resource('{project}/tasks', 'Company\\Project\\ProjectTasksController', ['as' => 'projects']);
-            Route::put('{project}/tasks/{task}/toggle', 'Company\\Project\\ProjectTasksController@toggle');
-            Route::resource('{project}/tasks/lists', 'Company\\Project\\ProjectTaskListsController')->only([
-                'create', 'store', 'update', 'destroy',
-            ]);
-        });
-
         Route::prefix('company')->group(function () {
             Route::get('', 'Company\\Company\\CompanyController@index');
             Route::post('guessEmployee/vote', 'Company\\Company\\CompanyController@vote');
@@ -257,6 +207,56 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('skills/{skill}', 'Company\\Company\\SkillController@show')->name('company.skills.show');
             Route::put('skills/{skill}', 'Company\\Company\\SkillController@update');
             Route::delete('skills/{skill}', 'Company\\Company\\SkillController@destroy');
+
+            Route::prefix('projects')->group(function () {
+                Route::get('', 'Company\\Company\\Project\\ProjectController@index');
+                Route::get('create', 'Company\\Company\\Project\\ProjectController@create');
+                Route::post('', 'Company\\Company\\Project\\ProjectController@store');
+                Route::post('search', 'Company\\Company\\Project\\ProjectController@search');
+
+                // project detail
+                Route::get('{project}', 'Company\\Company\\Project\\ProjectController@show')->name('projects.show');
+                Route::get('{project}/summary', 'Company\\Company\\Project\\ProjectController@show');
+
+                Route::post('{project}/start', 'Company\\Company\\Project\\ProjectController@start');
+                Route::post('{project}/pause', 'Company\\Company\\Project\\ProjectController@pause');
+                Route::post('{project}/close', 'Company\\Company\\Project\\ProjectController@close');
+                Route::post('{project}/lead/assign', 'Company\\Company\\Project\\ProjectController@assign');
+                Route::post('{project}/lead/clear', 'Company\\Company\\Project\\ProjectController@clear');
+                Route::get('{project}/edit', 'Company\\Company\\Project\\ProjectController@edit')->name('projects.edit');
+                Route::post('{project}/description', 'Company\\Company\\Project\\ProjectController@description');
+                Route::post('{project}/update', 'Company\\Company\\Project\\ProjectController@update');
+                Route::get('{project}/delete', 'Company\\Company\\Project\\ProjectController@delete')->name('projects.delete');
+                Route::delete('{project}', 'Company\\Company\\Project\\ProjectController@destroy');
+
+                Route::post('{project}/links', 'Company\\Company\\Project\\ProjectController@createLink');
+                Route::delete('{project}/links/{link}', 'Company\\Company\\Project\\ProjectController@destroyLink');
+
+                Route::get('{project}/status', 'Company\\Company\\Project\\ProjectController@createStatus');
+                Route::put('{project}/status', 'Company\\Company\\Project\\ProjectController@postStatus');
+
+                // project decision logs
+                Route::get('{project}/decisions', 'Company\\Company\\Project\\ProjectDecisionsController@index');
+                Route::post('{project}/decisions/search', 'Company\\Company\\Project\\ProjectDecisionsController@search');
+                Route::post('{project}/decisions/store', 'Company\\Company\\Project\\ProjectDecisionsController@store');
+                Route::delete('{project}/decisions/{decision}', 'Company\\Company\\Project\\ProjectDecisionsController@destroy');
+
+                // project members
+                Route::get('{project}/members', 'Company\\Company\\Project\\ProjectMembersController@index');
+                Route::get('{project}/members/search', 'Company\\Company\\Project\\ProjectMembersController@search');
+                Route::post('{project}/members/store', 'Company\\Company\\Project\\ProjectMembersController@store');
+                Route::post('{project}/members/remove', 'Company\\Company\\Project\\ProjectMembersController@remove');
+
+                // project messages
+                Route::resource('{project}/messages', 'Company\\Company\\Project\\ProjectMessagesController', ['as' => 'projects']);
+
+                // project tasks
+                Route::resource('{project}/tasks', 'Company\\Company\\Project\\ProjectTasksController', ['as' => 'projects']);
+                Route::put('{project}/tasks/{task}/toggle', 'Company\\Company\\Project\\ProjectTasksController@toggle');
+                Route::post('{project}/tasks/lists/store', 'Company\\Company\\Project\\ProjectTaskListsController@store');
+                Route::put('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@update');
+                Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
+            });
         });
 
         // only available to accountant role
