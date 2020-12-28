@@ -1,6 +1,3 @@
-<style lang="scss" scoped>
-</style>
-
 <template>
   <div class="mb5">
     <div class="mb2 fw5 relative">

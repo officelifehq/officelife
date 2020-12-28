@@ -33,7 +33,6 @@ class ProjectTasksController extends Controller
     public function index(Request $request, int $companyId, int $projectId)
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employee = InstanceHelper::getLoggedEmployee();
 
         try {
             $project = Project::where('company_id', $company->id)

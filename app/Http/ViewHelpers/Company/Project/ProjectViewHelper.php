@@ -124,8 +124,6 @@ class ProjectViewHelper
      */
     public static function edit(Project $project): array
     {
-        $lead = $project->lead;
-
         return [
             'id' => $project->id,
             'name' => $project->name,

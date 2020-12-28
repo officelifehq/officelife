@@ -161,7 +161,6 @@ class ProjectController extends Controller
      */
     public function edit(Request $request, int $companyId, int $projectId): Response
     {
-        $company = InstanceHelper::getLoggedCompany();
         $project = Project::findOrFail($projectId);
 
         return Inertia::render('Company/Project/Edit', [
@@ -384,8 +383,6 @@ class ProjectController extends Controller
      */
     public function create(Request $request, int $companyId): Response
     {
-        $company = InstanceHelper::getLoggedCompany();
-
         return Inertia::render('Company/Project/Create', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

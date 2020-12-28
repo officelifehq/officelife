@@ -1,6 +1,3 @@
-<style lang="scss" scoped>
-</style>
-
 <template>
   <div>
     <div class="bg-white box mb4">
