@@ -47,6 +47,7 @@ use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
 use App\Services\Company\Project\AssignProjecTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
@@ -1858,7 +1859,6 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $this->info('☐ Add time tracking entries');
 
         // create random time tracking entries for the project
-
         $this->populateTimeTrackingEntries($this->michael, 3);
         $this->populateTimeTrackingEntries($this->michael, 2);
         $this->populateTimeTrackingEntries($this->michael, 1);
@@ -1869,7 +1869,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
     {
         // loop over all existing project tasks and assign random times
         // first we need to create timesheets
-        (new CreateOrGetTimesheet)->execute([
+        $timesheet = (new CreateOrGetTimesheet)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'employee_id' => $employee->id,
@@ -1894,6 +1894,16 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                     'description' => null,
                 ]);
             }
+        }
+
+        // submit only the two oldest timesheets
+        if ($weeksAgo == 3 || $weeksAgo == 2) {
+            (new SubmitTimesheet)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'employee_id' => $this->michael->id,
+                'timesheet_id' => $timesheet->id,
+            ]);
         }
     }
 
