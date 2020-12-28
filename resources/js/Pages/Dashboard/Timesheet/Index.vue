@@ -39,16 +39,26 @@
             <li class="di"><inertia-link :href="nextTimesheet.url" class="dib">{{ $t('dashboard.timesheet_next_week') }} &gt;</inertia-link></li>
           </ul>
 
-          <inertia-link v-if="currentTimesheet.id != timesheet.id" :href="currentTimesheet.url" class="absolute top-0 left-1">{{ $t('dashboard.timesheet_back_to_current') }}</inertia-link>
+          <inertia-link v-if="currentTimesheet.id != timesheet.id" :href="currentTimesheet.url" class="absolute top-0 left-0">{{ $t('dashboard.timesheet_back_to_current') }}</inertia-link>
         </div>
 
-        <div class="tr mb3">
-          <a v-if="!displayNewEntry && timesheet.status == 'open'" class="btn f5 mr2" @click.prevent="showProjectList()">
-            {{ $t('dashboard.timesheet_add_new') }}
-          </a>
-          <a v-if="!displayNewEntry && timesheet.status == 'open'" class="btn add f5" @click.prevent="showProjectList()">
-            {{ $t('dashboard.timesheet_submit') }}
-          </a>
+        <div v-if="!displayNewEntry" class="mb3 relative">
+          <span class="absolute f7 grey">
+            {{ $t('dashboard.timesheet_auto_save') }}
+          </span>
+
+          <div v-if="timesheetStatus == 'open'" class="tr">
+            <a class="btn f5 mr2" @click.prevent="showProjectList()">
+              {{ $t('dashboard.timesheet_add_new') }}
+            </a>
+            <a class="btn add f5" @click.prevent="submit()">
+              {{ $t('dashboard.timesheet_submit') }}
+            </a>
+          </div>
+
+          <div v-if="timesheetStatus == 'ready_to_submit'" class="tr">
+            ⏳ {{ $t('dashboard.timesheet_status_ready') }}
+          </div>
         </div>
 
         <!-- add a new row -->
@@ -98,7 +108,7 @@
           </div>
         </form>
 
-        <div v-if="timesheetRows.length == 0" class="tc">
+        <div v-if="timesheetRows.length == 0" class="tc mv4">
           <img loading="lazy" src="/img/streamline-icon-building-site@140x140.png" height="140" width="140" alt="building"
                class="top-1 left-1"
           />
@@ -113,6 +123,7 @@
           <timesheet-row v-for="row in timesheetRows" :key="row.id"
                          :row-coming-from-backend="row"
                          :timesheet="timesheet"
+                         :timesheet-status="timesheetStatus"
                          @day-updated="refreshDayInformation"
                          @update-weekly-total="updateWeeklyTotal"
           />
@@ -225,6 +236,7 @@ export default {
       displayNewEntry: false,
       displayTasks: false,
       timesheetRows: [],
+      timesheetStatus: null,
       projects: [],
       tasks: [],
       dailyStats: [0, 0, 0, 0, 0, 0, 0, 0],
@@ -234,6 +246,7 @@ export default {
 
   mounted() {
     this.timesheetRows = this.timesheet.entries;
+    this.timesheetStatus = this.timesheet.status;
     this.refreshWeeklyTotal();
 
     if (localStorage.success) {
@@ -268,7 +281,7 @@ export default {
     },
 
     getProjectList() {
-      axios.get('/' + this.$page.props.auth.company.id + '/dashboard/timesheet/projects')
+      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/projects`)
         .then(response => {
           this.projects = response.data.data;
         })
@@ -278,13 +291,25 @@ export default {
     },
 
     getTasksList() {
-      axios.get('/' + this.$page.props.auth.company.id + '/dashboard/timesheet/' + this.timesheet.id + '/projects/' + this.form.project.value + '/tasks')
+      axios.get(`/${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/projects/${this.form.project.value}/tasks`)
         .then(response => {
           this.tasks = response.data.data;
         })
         .catch(error => {
           this.form.errors = error.response.data;
         });
+    },
+
+    submit() {
+      if (confirm(this.$t('dashboard.timesheet_submit_confirm', { time: this.weeklyTotalHumanReadable }))) {
+        axios.post(`${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/submit`)
+          .then(response => {
+            this.timesheetStatus = 'ready_to_submit';
+          })
+          .catch(error => {
+            this.form.errors = error.response.data;
+          });
+      }
     },
 
     addBlankTimesheetRow() {

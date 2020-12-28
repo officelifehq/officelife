@@ -14,6 +14,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Jobs\UpdateDashboardPreference;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
 use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
 use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
@@ -185,5 +186,40 @@ class DashboardTimesheetController extends Controller
         return response()->json([
             'data' => $entry,
         ], 201);
+    }
+
+    /**
+     * Submit the timesheet for validation.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $timesheetId
+     */
+    public function submit(Request $request, int $companyId, int $timesheetId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        try {
+            $timesheet = Timesheet::where('employee_id', $employee->id)
+                ->findOrFail($timesheetId);
+        } catch (ModelNotFoundException $e) {
+            return;
+        }
+
+        // we need to convert the day that is passed to a date
+        // `0` is monday
+        $date = $timesheet->started_at->addDays($request->input('day'))->format('Y-m-d');
+
+        (new SubmitTimesheet)->execute([
+            'author_id' => $employee->id,
+            'employee_id' => $employee->id,
+            'company_id' => $company->id,
+            'timesheet_id' => $timesheetId,
+        ]);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
     }
 }

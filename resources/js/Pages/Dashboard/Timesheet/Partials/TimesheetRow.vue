@@ -46,7 +46,7 @@
     <!-- monday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheet.status == 'open'"
+        v-if="timesheetStatus == 'open'"
         :hours="localRow.days[0].hours"
         :minutes="localRow.days[0].minutes"
         :total="localRow.days[0].total_of_minutes"
@@ -60,7 +60,7 @@
     <!-- tuesday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheet.status == 'open'"
+        v-if="timesheetStatus == 'open'"
         :hours="localRow.days[1].hours"
         :minutes="localRow.days[1].minutes"
         :total="localRow.days[1].total_of_minutes"
@@ -74,7 +74,7 @@
     <!-- wednesday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheet.status == 'open'"
+        v-if="timesheetStatus == 'open'"
         :hours="localRow.days[2].hours"
         :minutes="localRow.days[2].minutes"
         :total="localRow.days[2].total_of_minutes"
@@ -88,7 +88,7 @@
     <!-- thursday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheet.status == 'open'"
+        v-if="timesheetStatus == 'open'"
         :hours="localRow.days[3].hours"
         :minutes="localRow.days[3].minutes"
         :total="localRow.days[3].total_of_minutes"
@@ -102,7 +102,7 @@
     <!-- friday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheet.status == 'open'"
+        v-if="timesheetStatus == 'open'"
         :hours="localRow.days[4].hours"
         :minutes="localRow.days[4].minutes"
         :total="localRow.days[4].total_of_minutes"
@@ -116,7 +116,7 @@
     <!-- saturday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
       <text-duration
-        v-if="timesheet.status == 'open'"
+        v-if="timesheetStatus == 'open'"
         :hours="localRow.days[5].hours"
         :minutes="localRow.days[5].minutes"
         :total="localRow.days[5].total_of_minutes"
@@ -130,7 +130,7 @@
     <!-- sunday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
       <text-duration
-        v-if="timesheet.status == 'open'"
+        v-if="timesheetStatus == 'open'"
         :hours="localRow.days[6].hours"
         :minutes="localRow.days[6].minutes"
         :total="localRow.days[6].total_of_minutes"
@@ -157,6 +157,7 @@ export default {
       type: Object,
       default: null,
     },
+    timesheetStatus: null,
   },
 
   data() {
