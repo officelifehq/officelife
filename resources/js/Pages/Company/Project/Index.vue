@@ -6,6 +6,38 @@
 .company-name {
   margin-bottom: 17px;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dot {
+  height: 11px;
+  width: 11px;
+  top: -1px;
+}
+
+.dot-created,
+.dot-paused {
+  background-color: #b7b7b7;
+}
+
+.dot-started {
+  background-color: #56bb76;
+}
+
+.dot-closed {
+  background-color: #c8d7cd;
+}
 </style>
 
 <template>
@@ -45,33 +77,38 @@
       <!-- central content -->
       <div class="cf mw7 center br3 mt2 mb5 tc">
         <div class="cf dib btn-group">
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="f6 fl ph3 pv2 dib pointer no-underline selected">
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="f6 fl ph3 pv2 dib pointer no-underline">
             Employees & teams
           </inertia-link>
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
+          <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'" class="f6 fl ph3 pv2 dib pointer selected">
             Projects
           </inertia-link>
         </div>
       </div>
 
-      <div class="cf mw9 center">
-        <div class="fl w-third-l w-100">
-          <company-news :news="latestNews" />
-
-          <questions :questions="latestQuestions" />
+      <!-- BODY -->
+      <div class="mw8 center br3 mb5 relative z-1">
+        <div class="mt4 mt5-l center section-btn relative mb5">
+          <p>
+            <span class="pr2">
+              {{ $t('project.index_title') }}
+            </span>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects/create'" class="btn absolute db-l dn">
+              {{ $t('project.index_cta') }}
+            </inertia-link>
+          </p>
         </div>
 
-        <div class="fl w-third-l w-100 pl4-l">
-          <recent-ships :ships="latestShips" />
-          <recent-skills :skills="latestSkills" />
-        </div>
-
-        <div class="fl w-third-l w-100 pl4-l">
-          <guess-employee-game v-if="game" :game="game" />
-
-          <birthdays :birthdays="birthdaysThisWeek" />
-
-          <new-hires :hires="newHiresThisWeek" />
+        <div class="mt2 grid">
+          <div v-for="project in projects.projects" :key="project.id" class="w-100 bg-white box pa3 mb3 mr3">
+            <h2 class="fw4 f4 mt0 mb2 lh-copy relative">
+              <span :class="'dot-' + project.status" class="dib relative mr1 br-100 dot"></span>
+              <inertia-link :href="project.url">{{ project.name }}</inertia-link> <span class="f7 gray">
+                {{ project.code }}
+              </span>
+            </h2>
+            <p class="mv0 lh-copy f6">{{ project.summary }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -80,24 +117,10 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import Questions from '@/Pages/Company/Partials/Questions';
-import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame';
-import Birthdays from '@/Pages/Company/Partials/Birthdays';
-import CompanyNews from '@/Pages/Company/Partials/CompanyNews';
-import NewHires from '@/Pages/Company/Partials/NewHires';
-import RecentShips from '@/Pages/Company/Partials/RecentShips';
-import RecentSkills from '@/Pages/Company/Partials/RecentSkills';
 
 export default {
   components: {
     Layout,
-    Questions,
-    GuessEmployeeGame,
-    Birthdays,
-    CompanyNews,
-    NewHires,
-    RecentShips,
-    RecentSkills,
   },
 
   props: {
@@ -105,31 +128,7 @@ export default {
       type: Object,
       default: null,
     },
-    latestQuestions: {
-      type: Object,
-      default: null,
-    },
-    birthdaysThisWeek: {
-      type: Array,
-      default: null,
-    },
-    newHiresThisWeek: {
-      type: Array,
-      default: null,
-    },
-    latestShips: {
-      type: Array,
-      default: null,
-    },
-    latestSkills: {
-      type: Object,
-      default: null,
-    },
-    latestNews: {
-      type: Object,
-      default: null,
-    },
-    game: {
+    projects: {
       type: Object,
       default: null,
     },
@@ -138,5 +137,13 @@ export default {
       default: null,
     },
   },
+
+  mounted() {
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+      localStorage.removeItem('success');
+    }
+  },
 };
+
 </script>
