@@ -52,6 +52,7 @@ class DashboardTimesheetController extends Controller
         ]);
 
         $timesheetInformation = DashboardTimesheetViewHelper::show($currentTimesheet);
+        $daysInHeader = DashboardTimesheetViewHelper::daysHeader($currentTimesheet);
         $nextTimesheet = DashboardTimesheetViewHelper::nextTimesheet($currentTimesheet, $employee);
         $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($currentTimesheet, $employee);
         $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($employee);
@@ -59,6 +60,7 @@ class DashboardTimesheetController extends Controller
         return Inertia::render('Dashboard/Timesheet/Index', [
             'employee' => $employeeInformation,
             'timesheet' => $timesheetInformation,
+            'daysHeader' => $daysInHeader,
             'nextTimesheet' => $nextTimesheet,
             'previousTimesheet' => $previousTimesheet,
             'currentTimesheet' => $currentTimesheet,
