@@ -46,6 +46,18 @@ class DateHelper
     }
 
     /**
+     * Return the day and the month in a format like "Jul 29".
+     *
+     * @param Carbon $date
+     *
+     * @return string
+     */
+    public static function formatShortMonthAndDay(Carbon $date): string
+    {
+        return $date->format(trans('format.short_date'));
+    }
+
+    /**
      * Return the day and the month in a format like "Monday (July 29th)".
      *
      * @param Carbon $date

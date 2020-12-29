@@ -118,7 +118,7 @@
           </div>
 
           <!-- create a new task list -->
-          <div class="db mt5 mb3">
+          <div class="db mt4 mb3">
             <a v-if="!addListMode" class="btn pointer" data-cy="new-task-list-cta" @click.prevent="showAddListMode()">{{ $t('project.task_list_cta') }}</a>
 
             <div v-if="addListMode" class="bg-gray add-list-section edit-item ph2 mt1 mb3 pv1 br1 relative">

@@ -4,6 +4,9 @@
       <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/me'" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(employee.dashboard_view == 'me')}">
         {{ $t('dashboard.tab_me') }}
       </inertia-link>
+      <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/timesheet'" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(employee.dashboard_view == 'timesheet')}">
+        Your timesheets
+      </inertia-link>
       <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/team'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'team')}" data-cy="dashboard-team-tab">
         {{ $t('dashboard.tab_my_team') }}
       </inertia-link>

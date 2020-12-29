@@ -286,6 +286,34 @@ Cypress.Commands.add('createProject', (companyId = 1, name, code = '', summary =
   cy.wait(1000);
 });
 
+// Create project task list
+Cypress.Commands.add('createProjectTaskList', (companyId = 1, projectId = 1, listTitle = 'title', listContent = 'content') => {
+  let _listTitle = (typeof listTitle === 'string') ? listTitle : faker.company.catchPhrase();
+  let _listContent = (typeof listContent === 'string') ? listContent : faker.realText(50);
+
+  cy.visit('/' + companyId + '/company/projects/' + projectId + '/tasks');
+  cy.get('[data-cy=new-task-list-cta]').click();
+  cy.get('[data-cy=task-list-title-input]').type(_listTitle);
+  cy.get('[data-cy=task-list-description]').type(_listContent);
+  cy.get('[data-cy=store-task-list-cta]').click();
+
+  // make sure the list exists
+  cy.get('[data-cy=task-list-1]').contains(_listTitle);
+});
+
+// Create project task
+Cypress.Commands.add('createProjectTask', (companyId = 1, projectId = 1, projectTaskListId = 1, title = 'title') => {
+  let _title = (typeof title === 'string') ? title : faker.company.catchPhrase();
+
+  cy.visit('/' + companyId + '/company/projects/' + projectId + '/tasks');
+  cy.get('[data-cy=task-list-' + projectTaskListId + '-add-new-task]').click();
+  cy.get('[data-cy=task-list-' + projectTaskListId + '-task-title-textarea]').type(_title);
+  cy.get('[data-cy=task-list-' + projectTaskListId + '-add-task-cta]').click();
+
+  // make sure the task exists
+  cy.get('[data-cy=task-1]').contains(_title);
+});
+
 // Create an employee status
 Cypress.Commands.add('createEmployeeStatus', (companyId = 1, name, external = true) => {
   cy.visit('/' + companyId + '/account/employeestatuses');

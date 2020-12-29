@@ -58,6 +58,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // hr
             Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
 
+            // timesheet
+            Route::get('timesheet/projects', 'Company\\Dashboard\\DashboardTimesheetController@projects')->name('dashboard.timesheet.projects');
+            Route::get('timesheet/{timesheet}/projects/{project}/tasks', 'Company\\Dashboard\\DashboardTimesheetController@tasks')->name('dashboard.timesheet.projects');
+            Route::resource('timesheet', 'Company\\Dashboard\\DashboardTimesheetController', ['as' => 'dashboard'])->only([
+                'index', 'show', 'destroy',
+            ]);
+            Route::post('timesheet/{timesheet}/store', 'Company\\Dashboard\\DashboardTimesheetController@createTimeTrackingEntry')->name('dashboard.timesheet.entry.store');
+            Route::post('timesheet/{timesheet}/submit', 'Company\\Dashboard\\DashboardTimesheetController@submit')->name('dashboard.timesheet.entry.submit');
+
             // team
             Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
             Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');

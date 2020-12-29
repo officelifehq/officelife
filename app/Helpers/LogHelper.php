@@ -990,11 +990,46 @@ class LogHelper
                 ]);
                 break;
 
+            case 'time_tracking_entry_created':
+                $sentence = trans('account.log_time_tracking_entry_created', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'week_number' => $log->object->{'week_number'},
+                ]);
+                break;
+
             case 'employee_contract_renewed_at_set':
                 $sentence = trans('account.log_employee_contract_renewed_at_set', [
                         'employee_id' => $log->object->{'employee_id'},
                         'employee_name' => $log->object->{'employee_name'},
                         'contract_renewed_at' => $log->object->{'contract_renewed_at'},
+                    ]);
+                break;
+
+            case 'timesheet_submitted':
+                $sentence = trans('account.log_timesheet_submitted', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'timesheet_id' => $log->object->{'timesheet_id'},
+                    'started_at' => $log->object->{'started_at'},
+                    'ended_at' => $log->object->{'ended_at'},
+                ]);
+                break;
+
+            case 'timesheet_approved':
+                $sentence = trans('account.log_timesheet_approved', [
+                        'timesheet_id' => $log->object->{'timesheet_id'},
+                        'employee_id' => $log->object->{'employee_id'},
+                        'started_at' => $log->object->{'started_at'},
+                        'ended_at' => $log->object->{'ended_at'},
+                    ]);
+                break;
+
+            case 'timesheet_rejected':
+                $sentence = trans('account.log_timesheet_rejected', [
+                        'timesheet_id' => $log->object->{'timesheet_id'},
+                        'employee_id' => $log->object->{'employee_id'},
+                        'started_at' => $log->object->{'started_at'},
+                        'ended_at' => $log->object->{'ended_at'},
                     ]);
                 break;
 
@@ -1440,9 +1475,39 @@ class LogHelper
                 ]);
                 break;
 
+            case 'time_tracking_entry_created':
+                $sentence = trans('account.employee_log_time_tracking_entry_created', [
+                    'week_number' => $log->object->{'week_number'},
+                ]);
+                break;
+
             case 'contract_renewed_at_set':
                 $sentence = trans('account.employee_log_contract_renewed_at_set', [
                         'contract_renewed_at' => $log->object->{'contract_renewed_at'},
+                    ]);
+                break;
+
+            case 'timesheet_submitted':
+                $sentence = trans('account.employee_log_timesheet_submitted', [
+                        'timesheet_id' => $log->object->{'timesheet_id'},
+                        'started_at' => $log->object->{'started_at'},
+                        'ended_at' => $log->object->{'ended_at'},
+                    ]);
+                break;
+
+            case 'timesheet_approved':
+                $sentence = trans('account.employee_log_timesheet_approved', [
+                        'timesheet_id' => $log->object->{'timesheet_id'},
+                        'started_at' => $log->object->{'started_at'},
+                        'ended_at' => $log->object->{'ended_at'},
+                    ]);
+                break;
+
+            case 'timesheet_rejected':
+                $sentence = trans('account.employee_log_timesheet_rejected', [
+                        'timesheet_id' => $log->object->{'timesheet_id'},
+                        'started_at' => $log->object->{'started_at'},
+                        'ended_at' => $log->object->{'ended_at'},
                     ]);
                 break;
 

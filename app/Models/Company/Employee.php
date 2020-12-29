@@ -504,6 +504,26 @@ class Employee extends Model
     }
 
     /**
+     * Get the timesheet records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class, 'employee_id', 'id');
+    }
+
+    /**
+     * Get the timesheet records associated with the employee as approver.
+     *
+     * @return HasMany
+     */
+    public function timesheetsAsApprover()
+    {
+        return $this->hasMany(Timesheet::class, 'approver_id', 'id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

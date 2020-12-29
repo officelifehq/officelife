@@ -21,6 +21,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\TeamNews;
+use App\Models\Company\Timesheet;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\ProjectTask;
@@ -422,6 +423,26 @@ class EmployeeTest extends TestCase
             ->create();
 
         $this->assertTrue($michael->assigneeOfprojectTasks()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_timesheets_as_employee(): void
+    {
+        $michael = Employee::factory()
+            ->has(Timesheet::factory()->count(2), 'timesheets')
+            ->create();
+
+        $this->assertTrue($michael->timesheets()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_timesheets_as_approver(): void
+    {
+        $michael = Employee::factory()
+            ->has(Timesheet::factory()->count(2), 'timesheetsAsApprover')
+            ->create();
+
+        $this->assertTrue($michael->timesheetsAsApprover()->exists());
     }
 
     /** @test */

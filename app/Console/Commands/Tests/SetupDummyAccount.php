@@ -8,6 +8,7 @@ use Faker\Factory as Faker;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
 use App\Models\Company\Company;
+use App\Models\Company\Project;
 use Illuminate\Console\Command;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
@@ -46,17 +47,20 @@ use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
 use App\Services\Company\Project\AssignProjecTaskToEmployee;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
+use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 use App\Services\Company\Employee\Contract\SetContractRenewalDate;
 use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
+use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
 use App\Services\Company\Employee\Description\SetPersonalDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneTalkingPoint;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneTalkingPoint;
@@ -146,6 +150,9 @@ class SetupDummyAccount extends Command
     protected Question $questionDoYouHaveAnyPersonalGoalsThatYouWouldLikeToShareWithUsThisWeek;
     protected Question $questionWhatIsTheBestTVShowOfThisYearSoFar;
 
+    // Projects
+    protected Project $projectInfinity;
+
     protected ?\Faker\Generator $faker;
 
     /**
@@ -191,6 +198,7 @@ class SetupDummyAccount extends Command
         $this->addRateYourManagerSurveys();
         $this->addOneOnOnes();
         $this->addProjects();
+        $this->createTimeTrackingEntries();
         $this->setContractRenewalDates();
         $this->addSecondaryBlankAccount();
         $this->stop();
@@ -1596,7 +1604,7 @@ class SetupDummyAccount extends Command
     {
         $this->info('☐ Add projects');
 
-        $infinity = (new CreateProject)->execute([
+        $this->projectInfinity = (new CreateProject)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
             'project_lead_id' => $this->jim->id,
@@ -1609,13 +1617,13 @@ class SetupDummyAccount extends Command
         (new StartProject)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
         ]);
 
         (new CreateProjectLink)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'type' => 'url',
             'label' => 'Upcoming website',
             'url' => 'https://dundermifflin.com/infinity',
@@ -1624,7 +1632,7 @@ class SetupDummyAccount extends Command
         (new CreateProjectLink)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'type' => 'slack',
             'label' => 'Slack channel of the project',
             'url' => 'https://slack.com/infinity',
@@ -1633,7 +1641,7 @@ class SetupDummyAccount extends Command
         (new CreateProjectStatus)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'status' => ProjectStatus::ON_TRACK,
             'title' => 'Phase 2 is completed',
             'description' => 'Yes, you have read it right. We have finally finished the second phase of the project, which makes us proud. We are on track with delivering the project at the promised date, and we will let you know how it is going.',
@@ -1643,37 +1651,44 @@ class SetupDummyAccount extends Command
         (new AddEmployeeToProject)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'employee_id' => $this->dwight->id,
             'role' => 'Assistant to the project lead',
         ]);
         (new AddEmployeeToProject)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'employee_id' => $this->erin->id,
             'role' => 'Secretary',
         ]);
         (new AddEmployeeToProject)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'employee_id' => $this->oscar->id,
             'role' => 'Developer',
         ]);
         (new AddEmployeeToProject)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'employee_id' => $this->angela->id,
             'role' => 'Developer',
+        ]);
+        (new AddEmployeeToProject)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'project_id' => $this->projectInfinity->id,
+            'employee_id' => $this->michael->id,
+            'role' => null,
         ]);
 
         // add decisions to the project
         (new CreateProjectDecision)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'title' => 'Ryan will lead the project in the coming month',
             'decided_at' => '2019-03-12',
             'deciders' => [$this->michael->id],
@@ -1681,7 +1696,7 @@ class SetupDummyAccount extends Command
         (new CreateProjectDecision)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'title' => 'Overtime is permitted',
             'decided_at' => '2019-05-04',
             'deciders' => null,
@@ -1689,7 +1704,7 @@ class SetupDummyAccount extends Command
         (new CreateProjectDecision)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'title' => 'We will hire an agency for the website',
             'decided_at' => '2019-06-29',
             'deciders' => [$this->dwight->id, $this->oscar->id],
@@ -1713,7 +1728,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             $message = (new CreateProjectMessage)->execute([
                 'company_id' => $this->company->id,
                 'author_id' => $this->jim->id,
-                'project_id' => $infinity->id,
+                'project_id' => $this->projectInfinity->id,
                 'title' => $message,
                 'content' => $content,
             ]);
@@ -1722,7 +1737,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 (new MarkProjectMessageasRead)->execute([
                     'company_id' => $this->company->id,
                     'author_id' => $this->michael->id,
-                    'project_id' => $infinity->id,
+                    'project_id' => $this->projectInfinity->id,
                     'project_message_id' => $message->id,
                 ]);
             }
@@ -1732,7 +1747,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         (new CreateProjectTask)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_list_id' => null,
             'title' => 'Organize a meetup with HR',
             'description' => 'We need to make sure that HR is on par with what we want to achieve with this project.',
@@ -1740,7 +1755,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $task = (new CreateProjectTask)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_list_id' => null,
             'title' => 'Migrate domain names when the new site launches',
             'description' => null,
@@ -1748,7 +1763,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         (new AssignProjecTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_id' => $task->id,
             'assignee_id' => $this->oscar->id,
         ]);
@@ -1756,14 +1771,14 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $launchTaskList = (new CreateProjectTaskList)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'title' => 'Todos for the launch',
             'description' => 'Everything we need to make sure before the new site launches',
         ]);
         $task = (new CreateProjectTask)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_list_id' => $launchTaskList->id,
             'title' => 'Make sure the SEO is implemented',
             'description' => null,
@@ -1771,14 +1786,14 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         (new AssignProjecTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_id' => $task->id,
             'assignee_id' => $this->angela->id,
         ]);
         (new CreateProjectTask)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->oscar->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_list_id' => $launchTaskList->id,
             'title' => 'Check the Fathom Analytics code',
             'description' => null,
@@ -1786,7 +1801,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $task = (new CreateProjectTask)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_list_id' => $launchTaskList->id,
             'title' => 'Migrate the ACLs',
             'description' => null,
@@ -1794,7 +1809,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         (new AssignProjecTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_id' => $task->id,
             'assignee_id' => $this->erin->id,
         ]);
@@ -1802,14 +1817,14 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $marketingTaskList = (new CreateProjectTaskList)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'title' => 'Marketing assets to provide',
             'description' => null,
         ]);
         $task = (new CreateProjectTask)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->meredith->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_list_id' => $marketingTaskList->id,
             'title' => 'Take appointment with the photographer',
             'description' => 'We need to make sure all photos look great if possible',
@@ -1817,14 +1832,14 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         (new AssignProjecTaskToEmployee)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->michael->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_id' => $task->id,
             'assignee_id' => $this->oscar->id,
         ]);
         (new CreateProjectTask)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->oscar->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_list_id' => $marketingTaskList->id,
             'title' => 'Update all business cards with the new URL',
             'description' => null,
@@ -1832,15 +1847,70 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         (new CreateProjectTask)->execute([
             'company_id' => $this->company->id,
             'author_id' => $this->jim->id,
-            'project_id' => $infinity->id,
+            'project_id' => $this->projectInfinity->id,
             'project_task_list_id' => $marketingTaskList->id,
             'title' => 'Migrate the ACLs',
             'description' => null,
         ]);
     }
 
+    private function createTimeTrackingEntries(): void
+    {
+        $this->info('☐ Add time tracking entries');
+
+        // create random time tracking entries for the project
+        $this->populateTimeTrackingEntries($this->michael, 3);
+        $this->populateTimeTrackingEntries($this->michael, 2);
+        $this->populateTimeTrackingEntries($this->michael, 1);
+        $this->populateTimeTrackingEntries($this->michael, 0);
+    }
+
+    private function populateTimeTrackingEntries(Employee $employee, int $weeksAgo): void
+    {
+        // loop over all existing project tasks and assign random times
+        // first we need to create timesheets
+        $timesheet = (new CreateOrGetTimesheet)->execute([
+            'company_id' => $this->company->id,
+            'author_id' => $this->michael->id,
+            'employee_id' => $employee->id,
+            'date' => Carbon::now()->subWeeks($weeksAgo)->startOfWeek()->format('Y-m-d'),
+        ]);
+
+        $allTasks = $this->projectInfinity->tasks;
+
+        for ($day = 0; $day < 6; $day++) {
+
+            // taking 3 random tasks in the list of tasks of this project
+            for ($taskNumber = 0; $taskNumber < 2; $taskNumber++) {
+                $task = $allTasks->random();
+                (new CreateTimeTrackingEntry)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'employee_id' => $employee->id,
+                    'project_id' => $this->projectInfinity->id,
+                    'project_task_id' => $task->id,
+                    'duration' => rand(30, 180),
+                    'date' => Carbon::now()->subWeeks($weeksAgo)->addDays($day)->format('Y-m-d'),
+                    'description' => null,
+                ]);
+            }
+        }
+
+        // submit only the two oldest timesheets
+        if ($weeksAgo == 3 || $weeksAgo == 2) {
+            (new SubmitTimesheet)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $this->michael->id,
+                'employee_id' => $this->michael->id,
+                'timesheet_id' => $timesheet->id,
+            ]);
+        }
+    }
+
     private function setContractRenewalDates(): void
     {
+        $this->info('☐ Add contract renewal dates');
+
         $date = Carbon::now()->addWeek();
 
         (new SetContractRenewalDate)->execute([

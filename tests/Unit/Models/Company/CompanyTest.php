@@ -15,6 +15,7 @@ use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
+use App\Models\Company\Timesheet;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\DirectReport;
 use App\Models\Company\EmployeeStatus;
@@ -189,6 +190,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->projects()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_timesheets(): void
+    {
+        $company = Company::factory()->create();
+        Timesheet::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->timesheets()->exists());
     }
 
     /** @test */

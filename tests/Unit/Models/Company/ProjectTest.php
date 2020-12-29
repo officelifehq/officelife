@@ -12,6 +12,7 @@ use App\Models\Company\ProjectStatus;
 use App\Models\Company\ProjectMessage;
 use App\Models\Company\ProjectDecision;
 use App\Models\Company\ProjectTaskList;
+use App\Models\Company\TimeTrackingEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectTest extends TestCase
@@ -133,5 +134,15 @@ class ProjectTest extends TestCase
             ->create();
 
         $this->assertTrue($project->lists()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_time_tracking_entries(): void
+    {
+        $project = Project::factory()
+            ->has(TimeTrackingEntry::factory()->count(2), 'timeTrackingEntries')
+            ->create();
+
+        $this->assertTrue($project->timeTrackingEntries()->exists());
     }
 }

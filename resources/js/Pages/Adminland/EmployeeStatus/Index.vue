@@ -78,7 +78,7 @@
                   required
                   :placeholder="$t('account.employee_statuses_placeholder')"
                   :extra-class-upper-div="'mb3'"
-                  @esc-key-pressed="modal = false"
+                  @esc-key-pressed="modal = false; form.name = ''"
                 />
 
                 <checkbox
