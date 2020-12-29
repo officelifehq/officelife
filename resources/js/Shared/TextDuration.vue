@@ -44,6 +44,7 @@ input[type=number] {
                 type="text"
                 :masked="false"
                 placeholder="00"
+                :data-cy="datacy + '-hours'"
                 @input="broadcastTotal()"
       />
 
@@ -63,6 +64,7 @@ input[type=number] {
                 type="text"
                 :masked="false"
                 placeholder="00"
+                :data-cy="datacy + '-minutes'"
                 @input="broadcastTotal()"
       />
     </div>

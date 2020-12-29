@@ -7,14 +7,7 @@ describe('Project - tasks', function () {
     cy.createProject(1, 'project 1');
 
     // create a task list
-    cy.visit('/1/company/projects/1/tasks');
-    cy.get('[data-cy=new-task-list-cta]').click();
-    cy.get('[data-cy=task-list-title-input]').type('task list title');
-    cy.get('[data-cy=task-list-description]').type('task list content');
-    cy.get('[data-cy=store-task-list-cta]').click();
-
-    // make sure the list exists
-    cy.get('[data-cy=task-list-1]').contains('task list title');
+    cy.createProjectTaskList(1, 1);
 
     // edit the list
     cy.get('[data-cy=edit-task-list-1]').click();
@@ -26,12 +19,7 @@ describe('Project - tasks', function () {
     cy.get('[data-cy=task-list-1]').contains('other list');
 
     // add a task to the list
-    cy.get('[data-cy=task-list-1-add-new-task]').click();
-    cy.get('[data-cy=task-list-1-task-title-textarea]').type('task name');
-    cy.get('[data-cy=task-list-1-add-task-cta]').click();
-
-    // make sure the task exists
-    cy.get('[data-cy=task-1]').contains('task name');
+    cy.createProjectTask(1, 1, 1);
 
     // edit the task
     cy.get('[data-cy=task-1]').trigger('mouseover');
@@ -67,14 +55,7 @@ describe('Project - tasks', function () {
     cy.createProject(1, 'project 1');
 
     // create a task list
-    cy.visit('/1/company/projects/1/tasks');
-    cy.get('[data-cy=new-task-list-cta]').click();
-    cy.get('[data-cy=task-list-title-input]').type('task list title');
-    cy.get('[data-cy=task-list-description]').type('task list content');
-    cy.get('[data-cy=store-task-list-cta]').click();
-
-    // make sure the list exists
-    cy.get('[data-cy=task-list-1]').contains('task list title');
+    cy.createProjectTaskList(1, 1);
 
     // edit the list
     cy.get('[data-cy=edit-task-list-1]').click();
@@ -86,12 +67,7 @@ describe('Project - tasks', function () {
     cy.get('[data-cy=task-list-1]').contains('other list');
 
     // add a task to the list
-    cy.get('[data-cy=task-list-1-add-new-task]').click();
-    cy.get('[data-cy=task-list-1-task-title-textarea]').type('task name');
-    cy.get('[data-cy=task-list-1-add-task-cta]').click();
-
-    // make sure the task exists
-    cy.get('[data-cy=task-1]').contains('task name');
+    cy.createProjectTask(1, 1, 1);
 
     // edit the task
     cy.get('[data-cy=task-1]').trigger('mouseover');
@@ -127,14 +103,7 @@ describe('Project - tasks', function () {
     cy.createProject(1, 'project 1');
 
     // create a task list
-    cy.visit('/1/company/projects/1/tasks');
-    cy.get('[data-cy=new-task-list-cta]').click();
-    cy.get('[data-cy=task-list-title-input]').type('task list title');
-    cy.get('[data-cy=task-list-description]').type('task list content');
-    cy.get('[data-cy=store-task-list-cta]').click();
-
-    // make sure the list exists
-    cy.get('[data-cy=task-list-1]').contains('task list title');
+    cy.createProjectTaskList(1, 1);
 
     // edit the list
     cy.get('[data-cy=edit-task-list-1]').click();
@@ -146,12 +115,7 @@ describe('Project - tasks', function () {
     cy.get('[data-cy=task-list-1]').contains('other list');
 
     // add a task to the list
-    cy.get('[data-cy=task-list-1-add-new-task]').click();
-    cy.get('[data-cy=task-list-1-task-title-textarea]').type('task name');
-    cy.get('[data-cy=task-list-1-add-task-cta]').click();
-
-    // make sure the task exists
-    cy.get('[data-cy=task-1]').contains('task name');
+    cy.createProjectTask(1, 1, 1);
 
     // edit the task
     cy.get('[data-cy=task-1]').trigger('mouseover');

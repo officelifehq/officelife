@@ -48,15 +48,15 @@
           </span>
 
           <div v-if="timesheetStatus == 'open'" class="tr">
-            <a class="btn f5 mr2" @click.prevent="showProjectList()">
+            <a data-cy="timesheet-add-new-row" class="btn f5 mr2" @click.prevent="showProjectList()">
               {{ $t('dashboard.timesheet_add_new') }}
             </a>
-            <a class="btn add f5" @click.prevent="submit()">
+            <a data-cy="timesheet-submit-timesheet" class="btn add f5" @click.prevent="submit()">
               {{ $t('dashboard.timesheet_submit') }}
             </a>
           </div>
 
-          <div v-if="timesheetStatus == 'ready_to_submit'" class="tr">
+          <div v-if="timesheetStatus == 'ready_to_submit'" data-cy="timesheet-status-awaiting" class="tr">
             ⏳ {{ $t('dashboard.timesheet_status_ready') }}
           </div>
         </div>
@@ -70,38 +70,34 @@
           </div>
 
           <span v-else class="bb b--dotted bt-0 bl-0 br-0 pointer">
-            <select-box :id="'employee_id'"
-                        v-model="form.project"
+            <select-box v-model="form.project"
                         :options="projects"
-                        :name="'employee_id'"
-                        :errors="$page.props.errors.employee_id"
-                        :placeholder="'Choose a project'"
-                        :label="'Choose a project'"
-                        :value="form.employee_id"
-                        :datacy="'employee-selector'"
+                        :name="'project_id'"
+                        :errors="$page.props.errors.project_id"
+                        :placeholder="$t('dashboard.timesheet_create_choose_project')"
+                        :label="$t('dashboard.timesheet_create_choose_project')"
+                        :data-cy="'project-selector'"
                         :required="true"
                         @input="showTasks($event)"
             />
 
             <select-box
               v-if="displayTasks"
-              :id="'employee_id'"
               v-model="form.task"
               :options="tasks"
-              :name="'employee_id'"
-              :errors="$page.props.errors.employee_id"
-              :placeholder="'Select a task'"
-              :label="'Select a task'"
-              :value="form.employee_id"
+              :name="'task_id'"
+              :errors="$page.props.errors.task_id"
+              :placeholder="$t('dashboard.timesheet_create_choose_task')"
+              :label="$t('dashboard.timesheet_create_choose_task')"
               :required="true"
-              :datacy="'employee-selector'"
+              :data-cy="'task-selector'"
               @input="showTasks($event)"
             />
           </span>
 
           <!-- Actions -->
           <div v-if="projects.length != 0">
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-update-news-button'" />
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 mr2 pv2 ph3'" :state="loadingState" :text="$t('app.add')" :cypress-selector="'submit-timesheet-new-row'" />
             <a data-cy="cancel-button" class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" @click.prevent="displayNewEntry = false">
               {{ $t('app.cancel') }}
             </a>
@@ -268,11 +264,11 @@ export default {
     },
 
     showProjectList() {
-      this.form.project = null;
-      this.form.task = null;
-
       this.getProjectList();
       this.displayNewEntry = true;
+
+      this.form.project = null;
+      this.form.task = null;
     },
 
     showTasks() {

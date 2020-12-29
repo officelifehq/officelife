@@ -50,6 +50,7 @@
         :hours="localRow.days[0].hours"
         :minutes="localRow.days[0].minutes"
         :total="localRow.days[0].total_of_minutes"
+        :datacy="'timesheet-' + timesheet.id + '-day-0'"
         @update="updateDayInformation($event, 0)"
       />
       <span v-else>
@@ -64,6 +65,7 @@
         :hours="localRow.days[1].hours"
         :minutes="localRow.days[1].minutes"
         :total="localRow.days[1].total_of_minutes"
+        :datacy="'timesheet-' + timesheet.id + '-day-1'"
         @update="updateDayInformation($event, 1)"
       />
       <span v-else class="">
@@ -78,6 +80,7 @@
         :hours="localRow.days[2].hours"
         :minutes="localRow.days[2].minutes"
         :total="localRow.days[2].total_of_minutes"
+        :datacy="'timesheet-' + timesheet.id + '-day-2'"
         @update="updateDayInformation($event, 2)"
       />
       <span v-else class="">
@@ -92,6 +95,7 @@
         :hours="localRow.days[3].hours"
         :minutes="localRow.days[3].minutes"
         :total="localRow.days[3].total_of_minutes"
+        :datacy="'timesheet-' + timesheet.id + '-day-3'"
         @update="updateDayInformation($event, 3)"
       />
       <span v-else class="">
@@ -106,6 +110,7 @@
         :hours="localRow.days[4].hours"
         :minutes="localRow.days[4].minutes"
         :total="localRow.days[4].total_of_minutes"
+        :datacy="'timesheet-' + timesheet.id + '-day-4'"
         @update="updateDayInformation($event, 4)"
       />
       <span v-else class="">
@@ -120,6 +125,7 @@
         :hours="localRow.days[5].hours"
         :minutes="localRow.days[5].minutes"
         :total="localRow.days[5].total_of_minutes"
+        :datacy="'timesheet-' + timesheet.id + '-day-5'"
         @update="updateDayInformation($event, 5)"
       />
       <span v-else class="">
@@ -134,6 +140,7 @@
         :hours="localRow.days[6].hours"
         :minutes="localRow.days[6].minutes"
         :total="localRow.days[6].total_of_minutes"
+        :datacy="'timesheet-' + timesheet.id + '-day-6'"
         @update="updateDayInformation($event, 6)"
       />
       <span v-else class="">

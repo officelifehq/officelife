@@ -206,4 +206,6 @@ return [
     'timesheet_back_to_current' => 'Back to current timesheet',
     'timesheet_no_projects' => 'You don’t have any projects in your account yet, and time tracking is used in the context of projects.',
     'timesheet_create_project' => 'Create a project',
+    'timesheet_create_choose_project' => 'Choose a project',
+    'timesheet_create_choose_task' => 'Choose a task',
 ];

@@ -1006,6 +1006,15 @@ class LogHelper
                     ]);
                 break;
 
+            case 'timesheet_submitted':
+                $sentence = trans('account.log_timesheet_submitted', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'timesheet_id' => $log->object->{'timesheet_id'},
+                    'started_at' => $log->object->{'started_at'},
+                    'ended_at' => $log->object->{'ended_at'},
+                ]);
+                break;
+
             case 'timesheet_approved':
                 $sentence = trans('account.log_timesheet_approved', [
                         'timesheet_id' => $log->object->{'timesheet_id'},
