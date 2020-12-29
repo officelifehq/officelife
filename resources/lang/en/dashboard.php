@@ -141,6 +141,8 @@ return [
     'manager_contract_renewal_dates_ended_on' => 'Ended {date}',
     'manager_contract_renewal_dates_ends_range' => 'In {count} days',
 
+    'manager_timesheet_approval_duration' => ':hours h :minutes',
+
     'accounting_expense_detail_cta' => 'Accept or reject this expense',
     'accounting_expense_detail_expense_section' => 'Expense details',
     'accounting_expense_detail_expense_type' => 'Expense type',
