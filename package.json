@@ -9,7 +9,7 @@
         "prod": "yarn production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "preproduction": "php artisan lang:generate -vvv",
-        "postinstall": "yarn production",
+        "heroku-postbuild": "yarn run production",
         "e2e": "cypress run",
         "e2e-gui": "cypress open",
         "inst": "yarn install --ignore-engines --frozen-lockfile",
