@@ -48,7 +48,7 @@
     <div class="cf mw7 center br3 mb3 bg-white box relative">
       <!-- BLANK STATE -->
       <div v-if="displayBlankState" data-cy="expense-list-blank-state">
-        <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" src="/img/streamline-icon-employee-checklist-6@140x140.png" />
+        <img loading="lazy" class="db center mb4 mt3" alt="no timesheets to validate" src="/img/streamline-icon-employee-checklist-6@140x140.png" height="140" />
 
         <p class="fw5 mt3 tc">{{ $t('dashboard.manager_timesheet_blank_state') }}</p>
       </div>
@@ -157,7 +157,7 @@ export default {
         });
     },
 
-    reject(timesheet) {
+    reject(timesheet, directReport) {
       this.loadingStateReject = 'loading';
 
       axios.post(`${this.$page.props.auth.company.id}/dashboard/manager/timesheets/${timesheet.id}/reject`)
