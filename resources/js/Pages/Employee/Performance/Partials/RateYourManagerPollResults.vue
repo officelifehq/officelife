@@ -39,9 +39,9 @@
     <div class="cf mw7 center br3 mb3 bg-white box relative">
       <!-- BLANK STATE -->
       <div v-if="surveys.surveys.length == 0" data-cy="expense-list-blank-state" class="pa3">
-        <img loading="lazy" class="db center mb4" height="140" alt="no expenses to validate" src="/img/streamline-icon-customer-service-rating-1-4@140x140.png" />
+        <img loading="lazy" class="db center mb4" height="140" alt="" src="/img/streamline-icon-customer-service-rating-1-4@140x140.png" />
 
-        <p class="fw5 mt3 tc">You don’t have any previous surveys about your performance as a manager yet.</p>
+        <p class="fw5 mt3 tc">{{ $t('dashboard.manager_rate_manager_blank_state') }}</p>
       </div>
 
       <!-- LIST OF SURVEYS -->

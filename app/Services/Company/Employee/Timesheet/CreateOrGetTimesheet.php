@@ -75,6 +75,7 @@ class CreateOrGetTimesheet extends BaseService
 
         // is there an existing timesheet for this date?
         $timesheet = Timesheet::where('company_id', $this->data['company_id'])
+            ->where('employee_id', $this->data['employee_id'])
             ->where('started_at', $startOfWeek)
             ->where('ended_at', $endOfWeek)
             ->first();
