@@ -72,7 +72,7 @@
             </div>
 
             <!-- list of timesheets -->
-            <ul class="">
+            <ul>
               <li v-for="timesheet in directReport.timesheets" :key="timesheet.id" class="flex justify-between items-center br bl bb bb-gray bb-gray-hover pa3 entry-item">
                 <!-- timesheet info -->
                 <div>
@@ -82,8 +82,8 @@
 
                 <!-- timesheet actions -->
                 <div>
-                  <loading-button :classes="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateReject" :text="$t('app.reject')" :cypress-selector="'reject-timesheet'" @click="reject(timesheet, directReport)" />
-                  <loading-button :classes="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateApprove" :text="$t('app.approve')" :cypress-selector="'approve-timesheet'" @click="approve(timesheet, directReport)" />
+                  <loading-button :classes="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateReject" :text="$t('app.reject')" :cypress-selector="'reject-timesheet-' + timesheet.id" @click="reject(timesheet, directReport)" />
+                  <loading-button :classes="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateApprove" :text="$t('app.approve')" :cypress-selector="'approve-timesheet-' + timesheet.id" @click="approve(timesheet, directReport)" />
                 </div>
               </li>
             </ul>

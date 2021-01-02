@@ -48,9 +48,6 @@ describe('Employee - Complete expense management', function () {
       cy.visit('/1/dashboard/manager');
       cy.get('[data-cy=expense-list-blank-state]').should('exist');
 
-      //
-
-      //
       cy.logout();
     });
 
@@ -104,9 +101,6 @@ describe('Employee - Complete expense management', function () {
       cy.visit('/1/dashboard/manager');
       cy.get('[data-cy=expense-list-blank-state]').should('exist');
 
-      //
-
-      //
       cy.logout();
     });
 
