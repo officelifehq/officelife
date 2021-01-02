@@ -120,9 +120,13 @@ Cypress.Commands.add('acceptInvitationLinkAndGoToDashboard', (password, link) =>
   cy.logout();
   cy.visit('/invite/employee/' + link);
   cy.get('[data-cy=accept-create-account]').click();
+
   cy.get('input[name=password]').type(password);
   cy.get('[data-cy=create-cta]').click();
-  cy.get('[data-cy=company-1]').click();
+  cy.exec('php artisan setup:verify-email').then((result) => {
+    cy.visit('/home');
+    cy.get('[data-cy=company-1]').click();
+  });
 });
 
 // Assert that the page can be visited by a user with the right permission level
