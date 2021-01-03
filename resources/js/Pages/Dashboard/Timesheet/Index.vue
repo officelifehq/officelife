@@ -23,6 +23,16 @@
 .add-new-entry {
   background-color: #f3ffee;
 }
+
+.approved {
+  background-color: #E4F7E7;
+  color: #1EAD2F;
+}
+
+.rejected {
+  background-color: #FEEDE7;
+  color: #E93804;
+}
 </style>
 
 <template>
@@ -42,11 +52,13 @@
           <inertia-link v-if="currentTimesheet.id != timesheet.id" :href="currentTimesheet.url" class="absolute top-0 left-0">{{ $t('dashboard.timesheet_back_to_current') }}</inertia-link>
         </div>
 
-        <div v-if="!displayNewEntry" class="mb3 relative">
+        <!-- information to display when timesheet is either open or ready for approval-->
+        <div v-if="!displayNewEntry && timesheetStatus != 'approved' && timesheetStatus != 'rejected'" class="mb3 relative">
           <span class="absolute f7 grey">
             {{ $t('dashboard.timesheet_auto_save') }}
           </span>
 
+          <!-- actions if timesheet is open -->
           <div v-if="timesheetStatus == 'open'" class="tr">
             <a data-cy="timesheet-add-new-row" class="btn f5 mr2" @click.prevent="showProjectList()">
               {{ $t('dashboard.timesheet_add_new') }}
@@ -56,9 +68,16 @@
             </a>
           </div>
 
+          <!-- Waiting for approval status -->
           <div v-if="timesheetStatus == 'ready_to_submit'" data-cy="timesheet-status-awaiting" class="tr">
             ⏳ {{ $t('dashboard.timesheet_status_ready') }}
           </div>
+        </div>
+
+        <!-- information to display when timesheet was approved or rejected -->
+        <div v-if="timesheetStatus == 'approved' || timesheetStatus == 'rejected'" :class="'relative ' + timesheetStatus">
+          <img src="/img/streamline-icon-stamp@140x140.png" alt="rejected" height="80" width="80" class="absolute" />
+          <p>Approved</p>
         </div>
 
         <!-- add a new row -->
