@@ -344,3 +344,29 @@ Cypress.Commands.add('setContractRenewalDate', (companyId = 1, employeeId = 1, n
   cy.get('input[name=day]').type(Cypress.moment().add(numberOfDaysMore, 'days').date());
   cy.get('[data-cy=submit-edit-contract-employee-button]').click();
 });
+
+// fill and submit timesheet for time tracking
+Cypress.Commands.add('fillAndSubmitTimesheet', (companyId = 1) => {
+  cy.visit('/' + companyId + '/dashboard/timesheet');
+
+  // add a new row
+  cy.get('[data-cy=timesheet-add-new-row]').click();
+  cy.get('[data-cy=project-selector]').click();
+  cy.get('ul.vs__dropdown-menu>li').eq(0).click();
+
+  cy.get('[data-cy=task-selector]').click();
+  cy.get('ul.vs__dropdown-menu>li').eq(0).click();
+  cy.get('[data-cy=submit-timesheet-new-row] > span').click();
+
+  // fill the newly created row
+  cy.get('[data-cy=timesheet-1-day-0-hours]').type('1');
+  cy.get('[data-cy=timesheet-1-day-0-minutes]').type('30');
+  cy.get('[data-cy=timesheet-1-day-1-hours]').type('1');
+  cy.get('[data-cy=timesheet-1-day-1-minutes]').type('30');
+  cy.get('[data-cy=timesheet-1-day-4-hours]').type('1');
+  cy.get('[data-cy=timesheet-1-day-4-minutes]').type('30');
+
+  // submit timesheets
+  cy.get('[data-cy=timesheet-submit-timesheet]').click();
+  cy.get('[data-cy=timesheet-status-awaiting]').should('exist');
+});

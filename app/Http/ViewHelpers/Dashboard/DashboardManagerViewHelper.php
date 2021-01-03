@@ -4,9 +4,11 @@ namespace App\Http\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\TimeHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
+use App\Models\Company\Timesheet;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use Illuminate\Database\Eloquent\Collection;
@@ -210,5 +212,62 @@ class DashboardManagerViewHelper
         }
 
         return $collection;
+    }
+
+    /**
+     * Get the information about timesheets that need approval.
+     *
+     * @param Employee $manager
+     * @param Collection $directReports
+     * @return SupportCollection|null
+     */
+    public static function timesheetApprovals(Employee $manager, Collection $directReports): ?SupportCollection
+    {
+        $employeesCollection = collect([]);
+        $company = $manager->company;
+
+        foreach ($directReports as $directReport) {
+            $employee = $directReport->directReport;
+
+            $pendingTimesheets = $employee->timesheets()
+                ->where('status', Timesheet::READY_TO_SUBMIT)
+                ->with('timeTrackingEntries')
+                ->orderBy('started_at', 'desc')
+                ->get();
+
+            $timesheetCollection = collect([]);
+            foreach ($pendingTimesheets as $timesheet) {
+                $totalWorkedInMinutes = $timesheet->timeTrackingEntries
+                    ->sum('duration');
+
+                $arrayOfTime = TimeHelper::convertToHoursAndMinutes($totalWorkedInMinutes);
+
+                $timesheetCollection->push([
+                    'id' => $timesheet->id,
+                    'started_at' => DateHelper::formatDate($timesheet->started_at),
+                    'ended_at' => DateHelper::formatDate($timesheet->ended_at),
+                    'duration' => trans('dashboard.manager_timesheet_approval_duration', [
+                        'hours' => $arrayOfTime['hours'],
+                        'minutes' => $arrayOfTime['minutes'],
+                    ]),
+                ]);
+            }
+
+            if ($pendingTimesheets->count() !== 0) {
+                $employeesCollection->push([
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                    'avatar' => $employee->avatar,
+                    'position' => (! $employee->position) ? null : $employee->position->title,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $employee,
+                    ]),
+                    'timesheets' => $timesheetCollection,
+                ]);
+            }
+        }
+
+        return $employeesCollection;
     }
 }

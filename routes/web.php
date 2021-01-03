@@ -77,6 +77,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('manager/expenses/{expense}', 'Company\\Dashboard\\DashboardManagerController@showExpense')->name('dashboard.manager.expense.show');
             Route::post('manager/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardManagerController@accept');
             Route::post('manager/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
+            Route::post('manager/timesheets/{timesheet}/approve', 'Company\\Dashboard\\DashboardTimesheetManagerController@approve');
+            Route::post('manager/timesheets/{timesheet}/reject', 'Company\\Dashboard\\DashboardTimesheetManagerController@reject');
 
             // rate your manager
             Route::post('manager/rate/{answer}', 'Company\\Dashboard\\DashboardRateYourManagerController@store');

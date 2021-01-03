@@ -11,6 +11,10 @@
       <dashboard-menu :employee="employee" />
     </div>
 
+    <timesheet-approvals
+      :direct-reports="timesheetApprovals"
+    />
+
     <one-on-one-with-direct-report
       :one-on-ones="oneOnOnes"
     />
@@ -31,6 +35,7 @@
 import Expense from '@/Pages/Dashboard/Manager/Partials/Expense';
 import OneOnOneWithDirectReport from '@/Pages/Dashboard/Manager/Partials/OneOnOneWithDirectReport';
 import ContractRenewal from '@/Pages/Dashboard/Manager/Partials/ContractRenewal';
+import TimesheetApprovals from '@/Pages/Dashboard/Manager/Partials/TimesheetApprovals';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -41,6 +46,7 @@ export default {
     Layout,
     DashboardMenu,
     ContractRenewal,
+    TimesheetApprovals,
   },
 
   props: {
@@ -61,6 +67,10 @@ export default {
       default: null,
     },
     contractRenewals: {
+      type: Array,
+      default: null,
+    },
+    timesheetApprovals: {
       type: Array,
       default: null,
     },

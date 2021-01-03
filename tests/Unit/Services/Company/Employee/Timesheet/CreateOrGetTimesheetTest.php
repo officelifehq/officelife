@@ -67,6 +67,7 @@ class CreateOrGetTimesheetTest extends TestCase
             'company_id' => $michael->company_id,
             'started_at' => '2020-11-16 00:00:00',
             'ended_at' => '2020-11-22 23:59:59',
+            'employee_id' => $dwight->id,
         ]);
 
         $this->executeService($michael, $dwight, $timesheet);

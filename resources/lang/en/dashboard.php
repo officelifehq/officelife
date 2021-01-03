@@ -135,11 +135,18 @@ return [
     'manager_rate_manager_current_survey' => 'Current active survey',
     'manager_rate_manager_response_rate' => '{rate}% response rate',
     'manager_rate_manager_respondants' => '{respondants} direct reports',
+    'manager_rate_manager_blank_state' => 'You don’t have any previous surveys about your performance as a manager yet.',
 
     'manager_contract_renewal_dates_title' => 'External employees with a contract that ends soon',
     'manager_contract_renewal_dates_ends_on' => 'Ends on {date}',
     'manager_contract_renewal_dates_ended_on' => 'Ended {date}',
     'manager_contract_renewal_dates_ends_range' => 'In {count} days',
+
+    'manager_timesheet_title' => 'Timesheet you need to approve',
+    'manager_timesheet_blank_state' => 'No direct reports have submitted a timesheet for you to approve.',
+    'manager_timesheet_approval_duration' => ':hours h :minutes',
+    'manager_timesheet_approved' => 'The timesheet has been approved',
+    'manager_timesheet_rejected' => 'The timesheet has been rejected',
 
     'accounting_expense_detail_cta' => 'Accept or reject this expense',
     'accounting_expense_detail_expense_section' => 'Expense details',

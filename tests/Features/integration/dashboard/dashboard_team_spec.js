@@ -1,5 +1,5 @@
 describe('Dashboard - teams', function () {
-  it.skip('should display an empty tab when not associated with a team', function () {
+  it('should display an empty tab when not associated with a team', function () {
     cy.loginLegacy();
 
     cy.createCompany();
@@ -10,7 +10,7 @@ describe('Dashboard - teams', function () {
     cy.contains('You are not associated with a team at the moment');
   });
 
-  it.skip('should display the list of teams if the employee is associated with at least one team', function () {
+  it('should display the list of teams if the employee is associated with at least one team', function () {
     cy.loginLegacy();
 
     cy.createCompany();
@@ -45,7 +45,7 @@ describe('Dashboard - teams', function () {
     cy.contains('sales');
   });
 
-  it.skip('should display the upcoming birthdays of employees on the team dashboard', function () {
+  it('should display the upcoming birthdays of employees on the team dashboard', function () {
     cy.loginLegacy();
 
     cy.createCompany();
@@ -94,7 +94,7 @@ describe('Dashboard - teams', function () {
     cy.get('[data-cy=team-birthdate-blank]').should('exist');
   });
 
-  it.skip('should display the employees of this team who work from home today', function () {
+  it('should display the employees of this team who work from home today', function () {
     cy.loginLegacy();
 
     cy.createCompany();

@@ -1863,6 +1863,15 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $this->populateTimeTrackingEntries($this->michael, 2);
         $this->populateTimeTrackingEntries($this->michael, 1);
         $this->populateTimeTrackingEntries($this->michael, 0);
+
+        // create multiple time tracking entries for direct reports of Michael
+        $this->populateTimeTrackingEntries($this->jim, 3);
+        $this->populateTimeTrackingEntries($this->jim, 2);
+        $this->populateTimeTrackingEntries($this->dwight, 3);
+        $this->populateTimeTrackingEntries($this->dwight, 2);
+        $this->populateTimeTrackingEntries($this->erin, 5);
+        $this->populateTimeTrackingEntries($this->erin, 4);
+        $this->populateTimeTrackingEntries($this->erin, 3);
     }
 
     private function populateTimeTrackingEntries(Employee $employee, int $weeksAgo): void
@@ -1871,7 +1880,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         // first we need to create timesheets
         $timesheet = (new CreateOrGetTimesheet)->execute([
             'company_id' => $this->company->id,
-            'author_id' => $this->michael->id,
+            'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'date' => Carbon::now()->subWeeks($weeksAgo)->startOfWeek()->format('Y-m-d'),
         ]);
@@ -1896,12 +1905,12 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             }
         }
 
-        // submit only the two oldest timesheets
-        if ($weeksAgo == 3 || $weeksAgo == 2) {
+        // submit only older timesheets
+        if ($weeksAgo > 1) {
             (new SubmitTimesheet)->execute([
                 'company_id' => $this->company->id,
-                'author_id' => $this->michael->id,
-                'employee_id' => $this->michael->id,
+                'author_id' => $employee->id,
+                'employee_id' => $employee->id,
                 'timesheet_id' => $timesheet->id,
             ]);
         }

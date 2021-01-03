@@ -40,6 +40,7 @@ class DashboardManagerController extends Controller
             ->with('directReport.expenses')
             ->with('directReport.expenses.employee')
             ->with('directReport.expenses.category')
+            ->with('directReport.timesheets')
             ->get();
 
         if ($directReports->count() == 0) {
@@ -62,6 +63,7 @@ class DashboardManagerController extends Controller
         $pendingExpenses = DashboardManagerViewHelper::pendingExpenses($employee, $directReports);
         $oneOnOnes = DashboardManagerViewHelper::oneOnOnes($employee, $directReports);
         $contractRenewals = DashboardManagerViewHelper::contractRenewals($employee, $directReports);
+        $timesheetApprovals = DashboardManagerViewHelper::timesheetApprovals($employee, $directReports);
 
         return Inertia::render('Dashboard/Manager/Index', [
             'employee' => $employeeInformation,
@@ -69,6 +71,7 @@ class DashboardManagerController extends Controller
             'pendingExpenses' => $pendingExpenses,
             'oneOnOnes' => $oneOnOnes,
             'contractRenewals' => $contractRenewals,
+            'timesheetApprovals' => $timesheetApprovals,
             'defaultCompanyCurrency' => $company->currency,
         ]);
     }
