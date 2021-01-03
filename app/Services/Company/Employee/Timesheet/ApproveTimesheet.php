@@ -70,6 +70,8 @@ class ApproveTimesheet extends BaseService
     private function accept(): void
     {
         $this->timesheet->status = Timesheet::APPROVED;
+        $this->timesheet->approver_id = $this->author->id;
+        $this->timesheet->approver_name = $this->author->name;
         $this->timesheet->save();
     }
 
