@@ -149,6 +149,8 @@ class ApproveTimesheetTest extends TestCase
         $this->assertDatabaseHas('timesheets', [
             'id' => $timesheet->id,
             'status' => Timesheet::APPROVED,
+            'approver_id' => $author->id,
+            'approver_name' => $author->name,
             'started_at' => Carbon::now()->startOfWeek()->format('Y-m-d 00:00:00'),
             'ended_at' => Carbon::now()->endOfWeek()->format('Y-m-d 23:59:59'),
         ]);
