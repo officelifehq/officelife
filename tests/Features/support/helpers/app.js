@@ -356,7 +356,7 @@ Cypress.Commands.add('fillAndSubmitTimesheet', (companyId = 1) => {
 
   cy.get('[data-cy=task-selector]').click();
   cy.get('ul.vs__dropdown-menu>li').eq(0).click();
-  cy.get('[data-cy=submit-timesheet-new-row]').click();
+  cy.get('[data-cy=submit-timesheet-new-row] > span').click();
 
   // fill the newly created row
   cy.get('[data-cy=timesheet-1-day-0-hours]').type('1');
