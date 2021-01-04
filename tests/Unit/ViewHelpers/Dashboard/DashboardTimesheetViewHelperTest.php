@@ -150,6 +150,66 @@ class DashboardTimesheetViewHelperTest extends TestCase
     }
 
     /** @test */
+    public function it_gets_the_information_about_the_approver_if_it_exists(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $date = Carbon::now();
+
+        $michael = $this->createAdministrator();
+        $timesheet = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'started_at' => Carbon::now()->startOfWeek(),
+            'ended_at' => Carbon::now()->endOfWeek(),
+            'status' => Timesheet::OPEN,
+        ]);
+
+        $array = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $this->assertEmpty($array);
+
+        // change the timesheet to approved BUT without an existing approver
+        $timesheet->status = Timesheet::APPROVED;
+        $timesheet->approver_id = null;
+        $timesheet->approved_at = $date;
+        $timesheet->approver_name = 'Henri Troyat';
+        $timesheet->save();
+        $timesheet->refresh();
+
+        $array = DashboardTimesheetViewHelper::approverInformation($timesheet);
+
+        $this->assertEquals(
+            [
+                'name' => 'Henri Troyat',
+                'approved_at' => 'Jan 01, 2018',
+            ],
+            $array
+        );
+
+        // change the timesheet to approved BUT with an existing approver
+        $timesheet->status = Timesheet::APPROVED;
+        $timesheet->approver_id = $michael->id;
+        $timesheet->approved_at = $date;
+        $timesheet->save();
+        $timesheet->refresh();
+
+        $array = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $this->assertEquals(
+            [
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'approved_at' => 'Jan 01, 2018',
+                'avatar' => $michael->avatar,
+                'position' => [
+                    'id' => $michael->position->id,
+                    'title' => 'Assistant to the regional manager',
+                ],
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+            ],
+            $array
+        );
+    }
+
+    /** @test */
     public function it_gets_an_array_of_the_days_that_should_be_displayed_in_the_header(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
