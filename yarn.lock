@@ -9612,13 +9612,13 @@ v-click-outside@^3.1.2:
   integrity sha512-gMdRqfRE6m6XU6SiFi3dyBlFB2MWogiXpof8Aa3LQysrl9pzTndqp/iEaAphLoadaQUFnQ0ec6fLLaxr7LiY6A==
 
 v-tooltip@^2.0.0-rc.32, v-tooltip@^2.0.2:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/v-tooltip/-/v-tooltip-2.0.3.tgz#34fd64096656f032b1616567bf62f6165c57d529"
-  integrity sha512-KZZY3s+dcijzZmV2qoDH4rYmjMZ9YKGBVoUznZKQX0e3c2GjpJm3Sldzz8HHH2Ud87JqhZPB4+4gyKZ6m98cKQ==
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/v-tooltip/-/v-tooltip-2.1.1.tgz#2962aaa3615d611544b0ece48001b6495911e9e4"
+  integrity sha512-PeHb8BuYRMX1W+0mCYo6Sw9ZHtZVLRsu2NhoSOdwelmOmpDnpLtWs0MoJyQFM1S2DhDiSuVkV0Lcec0a40M4QQ==
   dependencies:
     lodash "^4.17.15"
     popper.js "^1.16.0"
-    vue-resize "^0.4.5"
+    vue-resize "^1.0.0"
 
 v8-compile-cache@^2.0.3, v8-compile-cache@^2.1.1:
   version "2.1.1"
@@ -9709,10 +9709,10 @@ vue-loaders@^4.1.1:
   resolved "https://registry.yarnpkg.com/vue-loaders/-/vue-loaders-4.1.1.tgz#28541f0ba7ddfa4cd15513e2b3562fd810c97ed9"
   integrity sha512-+sPdguPUpsvmOasv5OUuVn85HmMiXLMKalaNXv7+Q8w0+uSDtwJ/Mh469XeQIkWo03jHkYWJS6f/EDHvOVuSiQ==
 
-vue-resize@^0.4.5:
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/vue-resize/-/vue-resize-0.4.5.tgz#4777a23042e3c05620d9cbda01c0b3cc5e32dcea"
-  integrity sha512-bhP7MlgJQ8TIkZJXAfDf78uJO+mEI3CaLABLjv0WNzr4CcGRGPIAItyWYnP6LsPA4Oq0WE+suidNs6dgpO4RHg==
+vue-resize@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/vue-resize/-/vue-resize-1.0.0.tgz#380565b36e411190d85f8fbd3aa230a4cc22f1a5"
+  integrity sha512-SkIi19neeJClapYavfmHiewFZkkTfITVWskg/dIL8b1Eb+RlvnCb8fjGUwLjQJmsw2qsRiiAo4o7BAJVM4pcOA==
 
 vue-select@^3.10.8:
   version "3.11.2"
