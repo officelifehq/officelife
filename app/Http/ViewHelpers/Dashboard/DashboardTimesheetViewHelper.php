@@ -89,6 +89,47 @@ class DashboardTimesheetViewHelper
         ];
     }
 
+    /**
+     * Get the information about the approver, if the timesheet has been either
+     * approved or rejected.
+     *
+     * @param Timesheet $timesheet
+     * @return array
+     */
+    public static function approverInformation(Timesheet $timesheet): array
+    {
+        if ($timesheet->status != Timesheet::APPROVED && $timesheet->status != Timesheet::REJECTED) {
+            return [];
+        }
+
+        $information = [];
+        if (! $timesheet->approver_id) {
+            $information = [
+                'name' => $timesheet->approver_name,
+                'approved_at' => DateHelper::formatDate($timesheet->approved_at),
+            ];
+        } else {
+            $approver = $timesheet->approver;
+
+            $information = [
+                'id' => $approver->id,
+                'name' => $approver->name,
+                'approved_at' => DateHelper::formatDate($timesheet->approved_at),
+                'avatar' => $approver->avatar,
+                'position' => (! $approver->position) ? null : [
+                    'id' => $approver->position->id,
+                    'title' => $approver->position->title,
+                ],
+                'url' => route('employees.show', [
+                    'company' => $timesheet->company,
+                    'employee' => $approver,
+                ]),
+            ];
+        }
+
+        return $information;
+    }
+
     public static function daysHeader(Timesheet $timesheet): array
     {
         // array of days of the week, to populate the timesheet header

@@ -201,6 +201,10 @@ return [
     'contract_renewal_date' => 'Your contract ends on {date}, which is in {count} days.',
     'contract_renewal_date_late' => 'Your contract ended on {date}, so you should take care of that.',
 
+    'timesheet_approved_by' => 'Approved by',
+    'timesheet_rejected_by' => 'Rejected by',
+    'timesheet_approved_on' => 'Approved on',
+    'timesheet_rejected_on' => 'Rejected on',
     'timesheet_auto_save' => 'Auto save every 5 seconds',
     'timesheet_status_ready' => 'Waiting for approval',
     'timesheet_previous_week' => 'Previous week',

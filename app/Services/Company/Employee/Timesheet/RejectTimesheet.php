@@ -70,6 +70,7 @@ class RejectTimesheet extends BaseService
     private function reject(): void
     {
         $this->timesheet->status = Timesheet::REJECTED;
+        $this->timesheet->approved_at = Carbon::now();
         $this->timesheet->approver_id = $this->author->id;
         $this->timesheet->approver_name = $this->author->name;
         $this->timesheet->save();

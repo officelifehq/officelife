@@ -54,7 +54,7 @@
         @update="updateDayInformation($event, 0)"
       />
       <span v-else>
-        {{ this.formatTime(localRow.days[0].total_of_minutes) }}
+        {{ formatTime(localRow.days[0].total_of_minutes) }}
       </span>
     </div>
 
@@ -69,7 +69,7 @@
         @update="updateDayInformation($event, 1)"
       />
       <span v-else class="">
-        {{ this.formatTime(localRow.days[1].total_of_minutes) }}
+        {{ formatTime(localRow.days[1].total_of_minutes) }}
       </span>
     </div>
 
@@ -84,7 +84,7 @@
         @update="updateDayInformation($event, 2)"
       />
       <span v-else class="">
-        {{ this.formatTime(localRow.days[2].total_of_minutes) }}
+        {{ formatTime(localRow.days[2].total_of_minutes) }}
       </span>
     </div>
 
@@ -99,7 +99,7 @@
         @update="updateDayInformation($event, 3)"
       />
       <span v-else class="">
-        {{ this.formatTime(localRow.days[3].total_of_minutes) }}
+        {{ formatTime(localRow.days[3].total_of_minutes) }}
       </span>
     </div>
 
@@ -114,7 +114,7 @@
         @update="updateDayInformation($event, 4)"
       />
       <span v-else class="">
-        {{ this.formatTime(localRow.days[4].total_of_minutes) }}
+        {{ formatTime(localRow.days[4].total_of_minutes) }}
       </span>
     </div>
 
@@ -129,7 +129,7 @@
         @update="updateDayInformation($event, 5)"
       />
       <span v-else class="">
-        {{ this.formatTime(localRow.days[5].total_of_minutes) }}
+        {{ formatTime(localRow.days[5].total_of_minutes) }}
       </span>
     </div>
 
@@ -144,7 +144,7 @@
         @update="updateDayInformation($event, 6)"
       />
       <span v-else class="">
-        {{ this.formatTime(localRow.days[6].total_of_minutes) }}
+        {{ formatTime(localRow.days[6].total_of_minutes) }}
       </span>
     </div>
   </div>

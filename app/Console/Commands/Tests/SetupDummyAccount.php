@@ -47,8 +47,10 @@ use App\Services\Company\Adminland\Hardware\CreateHardware;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Question\CreateQuestion;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
 use App\Services\Company\Project\AssignProjecTaskToEmployee;
+use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
 use App\Services\Company\Team\Description\SetTeamDescription;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneNote;
 use App\Services\Company\Employee\Skill\AttachEmployeeToSkill;
@@ -1859,19 +1861,22 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $this->info('☐ Add time tracking entries');
 
         // create random time tracking entries for the project
-        $this->populateTimeTrackingEntries($this->michael, 3);
-        $this->populateTimeTrackingEntries($this->michael, 2);
-        $this->populateTimeTrackingEntries($this->michael, 1);
-        $this->populateTimeTrackingEntries($this->michael, 0);
+        for ($weeksAgo = 0; $weeksAgo < 10; $weeksAgo++) {
+            $this->populateTimeTrackingEntries($this->michael, $weeksAgo);
+        }
 
         // create multiple time tracking entries for direct reports of Michael
-        $this->populateTimeTrackingEntries($this->jim, 3);
-        $this->populateTimeTrackingEntries($this->jim, 2);
-        $this->populateTimeTrackingEntries($this->dwight, 3);
-        $this->populateTimeTrackingEntries($this->dwight, 2);
-        $this->populateTimeTrackingEntries($this->erin, 5);
-        $this->populateTimeTrackingEntries($this->erin, 4);
-        $this->populateTimeTrackingEntries($this->erin, 3);
+        // first, grab all Michael's direct reports
+        $allDirectReports = $this->michael->directReports;
+
+        foreach ($allDirectReports as $directReport) {
+            $employee = $directReport->directReport;
+
+            $maxWeeksAgo = rand(3, 10);
+            for ($weeksAgo = 0; $weeksAgo < $maxWeeksAgo; $weeksAgo++) {
+                $this->populateTimeTrackingEntries($employee, $weeksAgo);
+            }
+        }
     }
 
     private function populateTimeTrackingEntries(Employee $employee, int $weeksAgo): void
@@ -1913,6 +1918,26 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 'employee_id' => $employee->id,
                 'timesheet_id' => $timesheet->id,
             ]);
+
+            // 50% chance that this timesheet is approved or rejected
+            $approvedOrRejected = rand(1, 4) > 1;
+            if ($approvedOrRejected) {
+                if (rand(1, 2) == 1) {
+                    (new ApproveTimesheet)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'employee_id' => $employee->id,
+                        'timesheet_id' => $timesheet->id,
+                    ]);
+                } else {
+                    (new RejectTimesheet)->execute([
+                        'company_id' => $this->company->id,
+                        'author_id' => $this->michael->id,
+                        'employee_id' => $employee->id,
+                        'timesheet_id' => $timesheet->id,
+                    ]);
+                }
+            }
         }
     }
 

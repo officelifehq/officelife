@@ -23,6 +23,20 @@
 .add-new-entry {
   background-color: #f3ffee;
 }
+
+.approved {
+  background-color: #E4F7E7;
+  color: #1EAD2F;
+}
+
+.rejected {
+  background-color: #FEEDE7;
+  color: #E93804;
+}
+
+.stamp {
+  top: -15px;
+}
 </style>
 
 <template>
@@ -31,7 +45,7 @@
       <dashboard-menu :employee="employee" />
 
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
-        <!-- days selector -->
+        <!-- timesheets selector -->
         <div class="mt0 mb5 lh-copy f6 tc relative">
           <ul class="list pl0 ma0">
             <li class="di mr3"><inertia-link :href="previousTimesheet.url" class="dib">&lt; {{ $t('dashboard.timesheet_previous_week') }}</inertia-link></li>
@@ -42,11 +56,13 @@
           <inertia-link v-if="currentTimesheet.id != timesheet.id" :href="currentTimesheet.url" class="absolute top-0 left-0">{{ $t('dashboard.timesheet_back_to_current') }}</inertia-link>
         </div>
 
-        <div v-if="!displayNewEntry" class="mb3 relative">
+        <!-- information to display when timesheet is either open or ready for approval-->
+        <div v-if="!displayNewEntry && timesheetStatus != 'approved' && timesheetStatus != 'rejected'" class="mb3 relative">
           <span class="absolute f7 grey">
             {{ $t('dashboard.timesheet_auto_save') }}
           </span>
 
+          <!-- actions if timesheet is open -->
           <div v-if="timesheetStatus == 'open'" class="tr">
             <a data-cy="timesheet-add-new-row" class="btn f5 mr2" @click.prevent="showProjectList()">
               {{ $t('dashboard.timesheet_add_new') }}
@@ -56,8 +72,35 @@
             </a>
           </div>
 
+          <!-- Waiting for approval status -->
           <div v-if="timesheetStatus == 'ready_to_submit'" data-cy="timesheet-status-awaiting" class="tr">
             ⏳ {{ $t('dashboard.timesheet_status_ready') }}
+          </div>
+        </div>
+
+        <!-- information to display when timesheet was approved or rejected -->
+        <div v-if="timesheetStatus == 'approved' || timesheetStatus == 'rejected'" :class="'relative pa3 mb3 br3 flex items-center justify-around ' + timesheetStatus">
+          <img v-if="timesheetStatus == 'rejected'" src="/img/streamline-icon-stamp@140x140.png" alt="rejected" height="80" width="80"
+               class="absolute stamp bg-white br-100 ba b--gray"
+          />
+          <img v-else src="/img/streamline-icon-approve-document@140x140.png" alt="approved" height="80" width="80"
+               class="absolute stamp bg-white br-100 ba b--gray"
+          />
+
+          <!-- approver name -->
+          <div>
+            <p v-if="timesheetStatus == 'approved'" class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_approved_by') }}</p>
+            <p v-else class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_rejected_by') }}</p>
+
+            <inertia-link v-if="hasID" :href="approverInformation.url" class="ma0">{{ approverInformation.name }}</inertia-link>
+            <p v-else class="ma0">{{ approverInformation.name }}</p>
+          </div>
+
+          <!-- approved date -->
+          <div>
+            <p v-if="timesheetStatus == 'approved'" class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_approved_on') }}</p>
+            <p v-else class="ttu f7 mb1 mt0">{{ $t('dashboard.timesheet_rejected_on') }}</p>
+            <p class="ma0">{{ approverInformation.approved_at }}</p>
           </div>
         </div>
 
@@ -219,6 +262,10 @@ export default {
       type: Object,
       default: null,
     },
+    approverInformation: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -240,6 +287,12 @@ export default {
     };
   },
 
+  computed: {
+    hasID() {
+      return this.containsKey(this.approverInformation, 'id');
+    }
+  },
+
   mounted() {
     this.timesheetRows = this.timesheet.entries;
     this.timesheetStatus = this.timesheet.status;
@@ -253,6 +306,10 @@ export default {
   },
 
   methods: {
+    // check if the object contains a specific key
+    containsKey(obj, key ) {
+      return Object.keys(obj).includes(key);
+    },
 
     // Copy the information from the TimesheetRow to the localTimesheetRow, as
     // the data has changed in the child
