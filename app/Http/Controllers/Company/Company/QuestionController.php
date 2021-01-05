@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Company;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\SQLHelper;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
@@ -105,7 +106,7 @@ class QuestionController extends Controller
         // I've found to run this query efficiently is to build this raw query
         // to prevent hydrating a lot of models. This query is really fast.
         $answers = DB::table(DB::raw('answers, teams, employees, employee_team'))
-            ->select(DB::raw('distinct employees.id as employee_id, concat(employees.first_name, " ", employees.last_name) as name, teams.id as team_id, answers.body as body, answers.id as answer_id, employees.avatar as avatar, answers.created_at'))
+            ->select(DB::raw('distinct employees.id as employee_id, '.SQLHelper::concat('employees.first_name', 'employees.last_name').' as name, teams.id as team_id, answers.body as body, answers.id as answer_id, employees.avatar as avatar, answers.created_at'))
             ->whereRaw('answers.question_id = '.$questionId)
             ->whereRaw('teams.company_id = '.$company->id)
             ->whereRaw('employees.company_id = '.$company->id)

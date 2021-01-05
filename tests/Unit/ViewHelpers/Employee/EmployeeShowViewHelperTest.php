@@ -638,17 +638,6 @@ class EmployeeShowViewHelperTest extends TestCase
                     'ended_at' => 'Jan 07, 2018',
                     'duration' => '01 h 40',
                     'status' => Timesheet::APPROVED,
-                    'approver' => [
-                        'id' => $michael->id,
-                        'name' => $michael->name,
-                        'approved_at' => 'Jan 01, 2018',
-                        'avatar' => $michael->avatar,
-                        'position' => [
-                            'id' => $michael->position->id,
-                            'title' => 'Assistant to the regional manager',
-                        ],
-                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
-                    ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/'.$timesheetB->id,
                 ],
             ],

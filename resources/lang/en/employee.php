@@ -196,5 +196,10 @@ return [
     'one_on_one_index_item_note' => '{count} talking point|{count} notes',
 
     'timesheets_title' => 'Timesheets that have been either approved or rejected',
+    'timesheets_blank' => 'No timesheets have been submitted yet.',
     'timesheets_view_all' => 'View all timesheets',
+
+    'timesheets_details_title' => 'Timesheets history',
+    'timesheets_details_description' => 'Shows only accepted or rejected timesheets.',
+
 ];

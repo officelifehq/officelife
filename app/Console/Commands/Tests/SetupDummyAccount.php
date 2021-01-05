@@ -1861,18 +1861,18 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $this->info('☐ Add time tracking entries');
 
         // create random time tracking entries for the project
-        for ($weeksAgo = 0; $weeksAgo < 10; $weeksAgo++) {
+        // we will create a lot of timesheets, up to 4 years
+        for ($weeksAgo = 0; $weeksAgo < 150; $weeksAgo++) {
             $this->populateTimeTrackingEntries($this->michael, $weeksAgo);
         }
 
         // create multiple time tracking entries for direct reports of Michael
-        // first, grab all Michael's direct reports
         $allDirectReports = $this->michael->directReports;
 
         foreach ($allDirectReports as $directReport) {
             $employee = $directReport->directReport;
 
-            $maxWeeksAgo = rand(3, 10);
+            $maxWeeksAgo = rand(52, 208);
             for ($weeksAgo = 0; $weeksAgo < $maxWeeksAgo; $weeksAgo++) {
                 $this->populateTimeTrackingEntries($employee, $weeksAgo);
             }
@@ -1912,7 +1912,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         }
 
         // submit only older timesheets
-        if ($weeksAgo > 1) {
+        if ($weeksAgo > 2) {
             (new SubmitTimesheet)->execute([
                 'company_id' => $this->company->id,
                 'author_id' => $employee->id,
@@ -1920,25 +1920,28 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 'timesheet_id' => $timesheet->id,
             ]);
 
-            // 50% chance that this timesheet is approved or rejected
-            $approvedOrRejected = rand(1, 4) > 1;
-            if ($approvedOrRejected) {
-                if (rand(1, 2) == 1) {
-                    (new ApproveTimesheet)->execute([
-                        'company_id' => $this->company->id,
-                        'author_id' => $this->michael->id,
-                        'employee_id' => $employee->id,
-                        'timesheet_id' => $timesheet->id,
-                    ]);
-                } else {
-                    (new RejectTimesheet)->execute([
-                        'company_id' => $this->company->id,
-                        'author_id' => $this->michael->id,
-                        'employee_id' => $employee->id,
-                        'timesheet_id' => $timesheet->id,
-                    ]);
-                }
+            if (rand(1, 2) == 1) {
+                (new ApproveTimesheet)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'employee_id' => $employee->id,
+                    'timesheet_id' => $timesheet->id,
+                ]);
+            } else {
+                (new RejectTimesheet)->execute([
+                    'company_id' => $this->company->id,
+                    'author_id' => $this->michael->id,
+                    'employee_id' => $employee->id,
+                    'timesheet_id' => $timesheet->id,
+                ]);
             }
+        } else {
+            (new SubmitTimesheet)->execute([
+                'company_id' => $this->company->id,
+                'author_id' => $employee->id,
+                'employee_id' => $employee->id,
+                'timesheet_id' => $timesheet->id,
+            ]);
         }
     }
 

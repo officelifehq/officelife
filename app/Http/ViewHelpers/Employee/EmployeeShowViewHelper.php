@@ -12,9 +12,9 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Helpers\WorkFromHomeHelper;
 use App\Models\Company\EmployeeStatus;
-use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
 
 class EmployeeShowViewHelper
 {
@@ -707,7 +707,8 @@ class EmployeeShowViewHelper
 
         $timesheetCollection = collect([]);
         foreach ($timesheets as $timesheet) {
-            $totalWorkedInMinutes = $timesheet->timeTrackingEntries
+            $totalWorkedInMinutes = DB::table('time_tracking_entries')
+                ->where('timesheet_id', $timesheet->id)
                 ->sum('duration');
 
             $arrayOfTime = TimeHelper::convertToHoursAndMinutes($totalWorkedInMinutes);
@@ -721,7 +722,6 @@ class EmployeeShowViewHelper
                     'minutes' => $arrayOfTime['minutes'],
                 ]),
                 'status' => $timesheet->status,
-                'approver' => DashboardTimesheetViewHelper::approverInformation($timesheet),
                 'url' => route('employee.timesheets.show', [
                     'company' => $company,
                     'employee' => $employee,

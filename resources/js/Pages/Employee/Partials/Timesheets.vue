@@ -32,7 +32,7 @@
   <div>
     <span class="db fw5 mb2">
       <span class="mr1">
-        🎉⏳
+        ⏳
       </span> {{ $t('employee.timesheets_title') }}
 
       <help :url="$page.props.help_links.one_on_ones" :top="'2px'" />
@@ -61,7 +61,7 @@
 
       <!-- blank state -->
       <div v-show="timesheets.entries.length == 0" class="pa3" data-cy="list-blank-state">
-        <p class="mb0 mt0 lh-copy f6">{{ $t('employee.one_on_one_blank') }}</p>
+        <p class="mb0 mt0 lh-copy f6">{{ $t('employee.timesheets_blank') }}</p>
       </div>
     </div>
   </div>

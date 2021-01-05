@@ -30,7 +30,7 @@
     <div class="f6 ph2 pv3 dtc bl bb bb-gray project v-mid">
       <div class="flex justify-between items-center">
         <div>
-          <span class="db pb1 fw5">
+          <span class="db pb1 fw5 lh-copy">
             {{ localRow.task_title }}
           </span>
           <inertia-link :href="localRow.project_url" class="dib">
