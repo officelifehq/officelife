@@ -16,8 +16,8 @@ class TimeHelper
         $minutes = ($minutes % 60);
 
         // add leading zero
-        $hours = str_pad($hours, 2, '0', STR_PAD_LEFT);
-        $minutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+        $hours = str_pad((string) $hours, 2, '0', STR_PAD_LEFT);
+        $minutes = str_pad((string) $minutes, 2, '0', STR_PAD_LEFT);
 
         return [
             'hours' => $hours,

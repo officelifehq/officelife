@@ -18,10 +18,18 @@ class SQLHelper
         /** @var \Illuminate\Database\Connection */
         $connection = DB::connection();
 
-        if ($connection->getDriverName() == 'sqlite') {
-            $query = $firstParam.' || '.$secondParam;
-        } else {
-            $query = 'concat('.$firstParam.', " ", '.$secondParam.')';
+        switch ($connection->getDriverName()) {
+            case 'sqlite':
+                $query = $firstParam.' || '.$secondParam;
+                break;
+
+            case 'pgsql':
+                $query = $firstParam.' || '.$secondParam;
+                break;
+
+            default:
+                $query = 'concat('.$firstParam.', " ", '.$secondParam.')';
+                break;
         }
 
         return $query;
