@@ -173,6 +173,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee'])->only([
                 'index', 'show',
             ]);
+
+            // timesheets
+            Route::resource('{employee}/timesheets', 'Company\\Employee\\EmployeeTimesheetController', ['as' => 'employee'])->only([
+                'index', 'show',
+            ]);
         });
 
         Route::prefix('teams')->group(function () {

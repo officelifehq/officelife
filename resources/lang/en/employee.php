@@ -194,4 +194,7 @@ return [
     'one_on_one_index_item_talking_point' => '{count} talking point|{count} talking points',
     'one_on_one_index_item_action_item' => '{count} talking point|{count} action items',
     'one_on_one_index_item_note' => '{count} talking point|{count} notes',
+
+    'timesheets_title' => 'Timesheets that have been either approved or rejected',
+    'timesheets_view_all' => 'View all timesheets',
 ];

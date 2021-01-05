@@ -1883,11 +1883,12 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
     {
         // loop over all existing project tasks and assign random times
         // first we need to create timesheets
+        $startOfWeek = Carbon::now()->subWeeks($weeksAgo)->startOfWeek();
         $timesheet = (new CreateOrGetTimesheet)->execute([
             'company_id' => $this->company->id,
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
-            'date' => Carbon::now()->subWeeks($weeksAgo)->startOfWeek()->format('Y-m-d'),
+            'date' => $startOfWeek->format('Y-m-d'),
         ]);
 
         $allTasks = $this->projectInfinity->tasks;
@@ -1904,7 +1905,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                     'project_id' => $this->projectInfinity->id,
                     'project_task_id' => $task->id,
                     'duration' => rand(30, 180),
-                    'date' => Carbon::now()->subWeeks($weeksAgo)->addDays($day)->format('Y-m-d'),
+                    'date' => $startOfWeek->copy()->addDays($day)->format('Y-m-d'),
                     'description' => null,
                 ]);
             }
