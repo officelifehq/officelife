@@ -3,8 +3,8 @@
 namespace Tests\Unit\Services\User\Avatar;
 
 use Tests\TestCase;
-use App\Services\User\Avatar\GenerateAvatar;
 use Illuminate\Validation\ValidationException;
+use App\Services\User\Avatar\GenerateDefaultAvatar;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class GenerateAvatarTest extends TestCase
@@ -18,7 +18,7 @@ class GenerateAvatarTest extends TestCase
             'name' => 'Matt Blob',
         ];
 
-        $url = (new GenerateAvatar)->execute($request);
+        $url = (new GenerateDefaultAvatar)->execute($request);
 
         $this->assertEquals(
             'https://ui-avatars.com/api/?name=Matt Blob',
@@ -34,6 +34,6 @@ class GenerateAvatarTest extends TestCase
         ];
 
         $this->expectException(ValidationException::class);
-        (new GenerateAvatar)->execute($request);
+        (new GenerateDefaultAvatar)->execute($request);
     }
 }

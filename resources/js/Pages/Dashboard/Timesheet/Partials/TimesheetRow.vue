@@ -1,15 +1,4 @@
 <style scoped>
-.dummy {
-  right: 40px;
-  bottom: 20px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 3fr repeat(7, 1fr);
-  align-items: center;
-}
-
 .project {
   width: 280px;
   max-width: 400px;
@@ -159,12 +148,18 @@ export default {
   },
 
   props: {
-    rowComingFromBackend: Object,
+    rowComingFromBackend: {
+      type: Object,
+      default: null,
+    },
     timesheet: {
       type: Object,
       default: null,
     },
-    timesheetStatus: null,
+    timesheetStatus: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {
@@ -234,7 +229,7 @@ export default {
 
   mounted() {
     this.localRow = this.rowComingFromBackend;
-    this.refreshTotalHoursInRow();
+    ;
   },
 
   methods: {

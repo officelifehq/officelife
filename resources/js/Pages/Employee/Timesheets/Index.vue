@@ -37,15 +37,20 @@
 .timesheet-badge-rejected {
   background-color: #E35763;
   color: #fff;
-  height: 8px;
-  top: 1px;
+  top: -3px;
 }
 
 .timesheet-badge-approved {
   background-color: #68D391;
   color: #fff;
-  height: 8px;
-  top: 1px;
+  top: -3px;
+}
+
+.timesheet-badge-open,
+.timesheet-badge-ready_to_submit {
+  background-color: #f0ecd4;
+  color: #645050;
+  top: -3px;
 }
 </style>
 
@@ -120,24 +125,24 @@
                 </div>
                 <div>
                   <p class="mt0 f3 mb2">{{ timesheet.statistics.approved }}</p>
-                  <p class="mt0 f6 gray">approved timesheets</p>
+                  <p class="mt0 f6 gray">{{ $t('employee.timesheets_details_stat_approved') }}</p>
                 </div>
                 <div>
                   <p class="mt0 f3 mb2">{{ timesheet.statistics.rejected }}</p>
-                  <p class="mt0 f6 gray">rejected timesheets</p>
+                  <p class="mt0 f6 gray">{{ $t('employee.timesheets_details_stat_rejected') }}</p>
                 </div>
               </div>
 
-              <div v-for="timesheet in timesheet.entries" :key="timesheet.id" class="pa3 bl br bb bb-gray bb-gray-hover w-100 flex items-center justify-between timesheet-item">
+              <div v-for="t in timesheet.entries" :key="t.id" class="pa3 bl br bb bb-gray bb-gray-hover w-100 flex items-center justify-between timesheet-item">
                 <!-- timesheet info -->
                 <div class="relative">
-                  <p class="ma0 mb2 f7 grey">{{ timesheet.started_at }} → {{ timesheet.ended_at }}</p>
-                  <p class="f4 ma0"><span class="br3 f7 fw3 ph2 pv1 dib relative mr1" :class="'timesheet-badge-' + timesheet.status" :data-cy="'timesheet-' + timesheet.id + '-status-' + timesheet.status"></span> {{ timesheet.duration }}</p>
+                  <p class="ma0 mb2 f7 grey">{{ t.started_at }} → {{ t.ended_at }}</p>
+                  <p class="f4 ma0"><span class="br3 f7 fw3 ph2 pv1 dib relative mr1" :class="'timesheet-badge-' + t.status" :data-cy="`timesheet-${t.id}-status-${t.status}`">{{ $t('employee.timesheets_details_status_' + t.status) }}</span> {{ t.duration }}</p>
                 </div>
 
                 <!-- view link -->
                 <div>
-                  <inertia-link :href="timesheet.url" class="ma0 pa0 f6" :data-cy="'entry-item-' + timesheet.id">{{ $t('app.view') }}</inertia-link>
+                  <inertia-link :href="t.url" class="ma0 pa0 f6" :data-cy="'entry-item-' + t.id">{{ $t('app.view') }}</inertia-link>
                 </div>
               </div>
 

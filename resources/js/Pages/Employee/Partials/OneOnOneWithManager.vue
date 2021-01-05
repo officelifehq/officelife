@@ -8,7 +8,7 @@
   border-bottom: none;
 }
 
-.ships-list:last-child {
+.oneonones-list:last-child {
   border-bottom: 0;
 }
 </style>
@@ -25,8 +25,24 @@
 
     <div class="mb4 bg-white box cf">
       <div v-show="oneOnOnes.entries.length > 0">
-        <div v-for="oneOnOne in oneOnOnes.entries" :key="oneOnOne.id" class="pa3 bb bb-gray w-100 flex justify-between ships-list">
-          <inertia-link :href="oneOnOne.url" class="ma0 pa0" :data-cy="'entry-item-' + oneOnOne.id">{{ $t('employee.one_on_one_detail', { date: oneOnOne.happened_at, name: oneOnOne.manager.name }) }}</inertia-link>
+        <div v-for="oneOnOne in oneOnOnes.entries" :key="oneOnOne.id" class="pa3 bb bb-gray w-100 flex justify-between items-center oneonones-list">
+          <div>
+            <span class="db mb2">
+              {{ oneOnOne.happened_at }}
+            </span>
+            <small-name-and-avatar
+              v-if="oneOnOne.manager.id"
+              :name="oneOnOne.manager.name"
+              :avatar="oneOnOne.manager.avatar"
+              :classes="'gray'"
+              :size="'18px'"
+              :top="'2px'"
+              :margin-between-name-avatar="'25px'"
+            />
+          </div>
+          <div>
+            <inertia-link :href="oneOnOne.url" class="ma0 pa0" :data-cy="'entry-item-' + oneOnOne.id">{{ $t('app.view') }}</inertia-link>
+          </div>
         </div>
         <div class="ph3 pv2 tc f6">
           <inertia-link :href="oneOnOnes.view_all_url" data-cy="view-all-one-on-ones">{{ $t('employee.one_on_one_view_all') }}</inertia-link>
@@ -43,10 +59,12 @@
 
 <script>
 import Help from '@/Shared/Help';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
 export default {
   components: {
-    Help
+    Help,
+    SmallNameAndAvatar,
   },
 
   props: {

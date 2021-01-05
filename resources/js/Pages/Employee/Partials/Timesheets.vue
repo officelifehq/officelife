@@ -16,15 +16,13 @@
 .timesheet-badge-rejected {
   background-color: #E35763;
   color: #fff;
-  height: 8px;
-  top: 1px;
+  top: -3px;
 }
 
 .timesheet-badge-approved {
   background-color: #68D391;
   color: #fff;
-  height: 8px;
-  top: 1px;
+  top: -3px;
 }
 </style>
 
@@ -44,7 +42,10 @@
           <!-- timesheet info -->
           <div class="relative">
             <p class="ma0 mb2 f7 grey">{{ timesheet.started_at }} → {{ timesheet.ended_at }}</p>
-            <p class="f4 ma0"><span class="br3 f7 fw3 ph2 pv1 dib relative mr1" :class="'timesheet-badge-' + timesheet.status" :data-cy="'timesheet-' + timesheet.id + '-status-' + timesheet.status"></span> {{ timesheet.duration }}</p>
+            <p class="f4 ma0">
+              <span class="br3 f7 fw3 ph2 pv1 dib relative mr1" :class="'timesheet-badge-' + timesheet.status" :data-cy="`timesheet-${timesheet.id}-status-${timesheet.status}`">{{ $t('employee.timesheets_details_status_' + timesheet.status) }}</span>
+              {{ timesheet.duration }}
+            </p>
           </div>
 
           <!-- view link -->

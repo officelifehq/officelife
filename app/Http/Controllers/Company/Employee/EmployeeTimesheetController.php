@@ -14,10 +14,10 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeTimesheetViewHelper;
+use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
 
 class EmployeeTimesheetController extends Controller
 {
@@ -31,22 +31,14 @@ class EmployeeTimesheetController extends Controller
      */
     public function index(Request $request, int $companyId, int $employeeId)
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
         try {
-            $employee = Employee::where('company_id', $companyId)
+            $employee = Employee::where('company_id', $loggedCompany->id)
                 ->where('id', $employeeId)
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
-        }
-
-        try {
-            $this->asUser(Auth::user())
-                ->forEmployee($employee)
-                ->forCompanyId($companyId)
-                ->asPermissionLevel(config('officelife.permission_level.hr'))
-                ->canAccessCurrentPage();
-        } catch (\Exception $e) {
-            return redirect('/home');
         }
 
         $currentYear = intval(Carbon::now()->format('Y'));
@@ -73,16 +65,6 @@ class EmployeeTimesheetController extends Controller
             return redirect('home');
         }
 
-        try {
-            $this->asUser(Auth::user())
-                ->forEmployee($employee)
-                ->forCompanyId($companyId)
-                ->asPermissionLevel(config('officelife.permission_level.hr'))
-                ->canAccessCurrentPage();
-        } catch (\Exception $e) {
-            return redirect('/home');
-        }
-
         return $this->buildPage($employee, $year);
     }
 
@@ -106,16 +88,6 @@ class EmployeeTimesheetController extends Controller
             return redirect('home');
         }
 
-        try {
-            $this->asUser(Auth::user())
-                ->forEmployee($employee)
-                ->forCompanyId($companyId)
-                ->asPermissionLevel(config('officelife.permission_level.hr'))
-                ->canAccessCurrentPage();
-        } catch (\Exception $e) {
-            return redirect('/home');
-        }
-
         return $this->buildPage($employee, $year, $month);
     }
 
@@ -137,7 +109,6 @@ class EmployeeTimesheetController extends Controller
             ->whereRaw('timesheets.employee_id = '.$employee->id)
             ->whereRaw('timesheets.employee_id = employees.id')
             ->whereRaw('time_tracking_entries.timesheet_id = timesheets.id')
-            ->whereRaw('timesheets.status in ("'.Timesheet::REJECTED.'", "'.Timesheet::APPROVED.'")')
             ->groupBy('timesheets.id')
             ->orderBy('timesheets.started_at')
             ->get();
@@ -176,6 +147,51 @@ class EmployeeTimesheetController extends Controller
             'currentYear' => $year,
             'currentMonth' => ($month) ? $month : null,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Show a specific employee's timesheet.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @param int $timesheetId
+     * @return Redirector|RedirectResponse|Response
+     */
+    public function show(Request $request, int $companyId, int $employeeId, int $timesheetId)
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        try {
+            $timesheet = Timesheet::where('company_id', $loggedCompany->id)
+                ->where('employee_id', $employeeId)
+                ->findOrFail($timesheetId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('/home');
+        }
+
+        try {
+            $employee = Employee::where('company_id', $loggedCompany->id)
+                ->where('id', $employeeId)
+                ->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $timesheetInfo = DashboardTimesheetViewHelper::show($timesheet);
+        $daysInHeader = DashboardTimesheetViewHelper::daysHeader($timesheet);
+        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
+
+        return Inertia::render('Employee/Timesheets/Show', [
+            'employee' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ],
+            'daysHeader' => $daysInHeader,
+            'timesheet' => $timesheetInfo,
+            'approverInformation' => $approverInformation,
+            'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
 }

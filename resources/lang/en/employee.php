@@ -187,7 +187,6 @@ return [
 
     'one_on_one_title' => 'One on One with your manager',
     'one_on_one_view_all' => 'View one on one history',
-    'one_on_one_detail' => 'Entry of {date} with {name}',
     'one_on_one_blank' => 'There are no one on ones yet.',
     'one_on_one_index_stat_number_of_entries' => 'entries in the last 365 days',
     'one_on_one_index_stat_avg_number' => 'avg number of days between entries',
@@ -200,6 +199,14 @@ return [
     'timesheets_view_all' => 'View all timesheets',
 
     'timesheets_details_title' => 'Timesheets history',
+    'timesheets_details_stat_approved' => 'approved timesheets',
+    'timesheets_details_stat_rejected' => 'rejected timesheets',
     'timesheets_details_description' => 'Shows only accepted or rejected timesheets.',
-
+    'timesheets_details_status_open' => 'Opened',
+    'timesheets_details_status_ready_to_submit' => 'Waiting for approval',
+    'timesheets_details_status_approved' => 'Approved',
+    'timesheets_details_status_rejected' => 'Rejected',
+    'timesheets_details_show' => 'Timesheet details',
+    'timesheets_details_status' => 'Status',
+    'timesheets_details_open' => 'Not submitted yet',
 ];

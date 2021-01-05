@@ -627,7 +627,7 @@ class EmployeeShowViewHelper
 
         $oneOnOnes = $employee->oneOnOneEntriesAsEmployee()
             ->with('manager')
-            ->latest()->take(3)->get();
+            ->orderBy('happened_at', 'desc')->take(3)->get();
 
         $company = $employee->company;
 
