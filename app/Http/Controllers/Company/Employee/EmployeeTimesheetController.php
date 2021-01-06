@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Company\Employee;
 use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Helpers\SQLHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
@@ -15,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Models\Company\TimeTrackingEntry;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeTimesheetViewHelper;
 use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
@@ -43,7 +43,34 @@ class EmployeeTimesheetController extends Controller
 
         $currentYear = intval(Carbon::now()->format('Y'));
 
-        return $this->buildPage($employee, $currentYear);
+        // using a subquery to greatly improve the speed of the query, as well
+        // as reducing the number of hydrated models
+        $timesheets = Timesheet::where('employee_id', $employee->id)
+            ->whereYear('started_at', $currentYear)
+            ->addSelect([
+                'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
+                    ->whereColumn('timesheet_id', 'timesheets.id')
+                    ->groupBy('timesheet_id'),
+            ])
+            ->get();
+
+        $yearsWithTimesheets = EmployeeTimesheetViewHelper::yearsWithTimesheets($employee, $loggedCompany);
+        $monthsWithTimesheets = EmployeeTimesheetViewHelper::monthsWithTimesheets($employee, $loggedCompany, $currentYear);
+        $timesheets = EmployeeTimesheetViewHelper::timesheets($timesheets, $employee, $loggedCompany);
+
+        return Inertia::render('Employee/Timesheets/Index', [
+            'employee' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ],
+            'timesheet' => $timesheets,
+            'years' => $yearsWithTimesheets,
+            'year' => $currentYear,
+            'months' => $monthsWithTimesheets,
+            'currentYear' => $currentYear,
+            'currentMonth' => null,
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
     }
 
     /**
@@ -57,6 +84,8 @@ class EmployeeTimesheetController extends Controller
      */
     public function year(Request $request, int $companyId, int $employeeId, int $year)
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
@@ -65,7 +94,34 @@ class EmployeeTimesheetController extends Controller
             return redirect('home');
         }
 
-        return $this->buildPage($employee, $year);
+        // using a subquery to greatly improve the speed of the query, as well
+        // as reducing the number of hydrated models
+        $timesheets = Timesheet::where('employee_id', $employee->id)
+            ->whereYear('started_at', $year)
+            ->addSelect([
+                'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
+                ->whereColumn('timesheet_id', 'timesheets.id')
+                ->groupBy('timesheet_id'),
+            ])
+            ->get();
+
+        $yearsWithTimesheets = EmployeeTimesheetViewHelper::yearsWithTimesheets($employee, $loggedCompany);
+        $monthsWithTimesheets = EmployeeTimesheetViewHelper::monthsWithTimesheets($employee, $loggedCompany, $year);
+        $timesheets = EmployeeTimesheetViewHelper::timesheets($timesheets, $employee, $loggedCompany);
+
+        return Inertia::render('Employee/Timesheets/Index', [
+            'employee' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ],
+            'timesheet' => $timesheets,
+            'years' => $yearsWithTimesheets,
+            'year' => $year,
+            'months' => $monthsWithTimesheets,
+            'currentYear' => $year,
+            'currentMonth' => null,
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
     }
 
     /**
@@ -80,6 +136,8 @@ class EmployeeTimesheetController extends Controller
      */
     public function month(Request $request, int $companyId, int $employeeId, int $year, int $month)
     {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
@@ -88,65 +146,33 @@ class EmployeeTimesheetController extends Controller
             return redirect('home');
         }
 
-        return $this->buildPage($employee, $year, $month);
-    }
-
-    /**
-     * Common page builder for the timesheet page.
-     *
-     * @param Employee $employee
-     * @param int $year
-     * @param int|null $month
-     * @return Response
-     */
-    private function buildPage(Employee $employee, int $year, int $month = null)
-    {
-        $loggedCompany = InstanceHelper::getLoggedCompany();
-
-        // list of timesheets for the year
-        $entries = DB::table(DB::raw('timesheets, employees, time_tracking_entries'))
-            ->select(DB::raw('employees.id as employee_id, '.SQLHelper::concat('employees.first_name', 'employees.last_name').' as name, timesheets.started_at, timesheets.ended_at, timesheets.id as id, timesheets.status, sum(time_tracking_entries.duration) as duration'))
-            ->whereRaw('timesheets.company_id = '.$loggedCompany->id)
-            ->whereRaw('timesheets.employee_id = '.$employee->id)
-            ->whereRaw('timesheets.employee_id = employees.id')
-            ->whereRaw('time_tracking_entries.timesheet_id = timesheets.id')
-            ->groupBy('timesheets.id')
-            ->orderBy('timesheets.started_at')
+        // using a subquery to greatly improve the speed of the query, as well
+        // as reducing the number of hydrated models
+        $timesheets = Timesheet::where('employee_id', $employee->id)
+            ->whereYear('started_at', $year)
+            ->whereMonth('started_at', $month)
+            ->addSelect([
+                'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
+                ->whereColumn('timesheet_id', 'timesheets.id')
+                ->groupBy('timesheet_id'),
+            ])
             ->get();
 
-        $yearsWithTimesheets = EmployeeTimesheetViewHelper::yearsWithTimesheets($entries, $employee, $loggedCompany);
-        $monthsWithTimesheets = EmployeeTimesheetViewHelper::monthsWithTimesheets($entries, $employee, $loggedCompany, $year);
-
-        // only select entries for the current year
-        $entries = $entries->filter(function ($timesheet) use ($year) {
-            $startedAt = Carbon::createFromFormat('Y-m-d H:i:s', $timesheet->started_at);
-
-            return $startedAt->year === $year;
-        });
-
-        // filter by month, if necessary
-        if ($month) {
-            $entries = $entries->filter(function ($timesheet) use ($year, $month) {
-                $startedAt = Carbon::createFromFormat('Y-m-d H:i:s', $timesheet->started_at);
-
-                return $startedAt->year === $year &&
-                    $startedAt->month === $month;
-            });
-        }
-
-        $entries = EmployeeTimesheetViewHelper::timesheets($entries, $employee, $employee->company);
+        $yearsWithTimesheets = EmployeeTimesheetViewHelper::yearsWithTimesheets($employee, $loggedCompany);
+        $monthsWithTimesheets = EmployeeTimesheetViewHelper::monthsWithTimesheets($employee, $loggedCompany, $year);
+        $timesheets = EmployeeTimesheetViewHelper::timesheets($timesheets, $employee, $loggedCompany);
 
         return Inertia::render('Employee/Timesheets/Index', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
             ],
-            'timesheet' => $entries,
+            'timesheet' => $timesheets,
             'years' => $yearsWithTimesheets,
             'year' => $year,
             'months' => $monthsWithTimesheets,
             'currentYear' => $year,
-            'currentMonth' => ($month) ? $month : null,
+            'currentMonth' => $month,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

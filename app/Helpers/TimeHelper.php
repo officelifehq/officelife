@@ -10,8 +10,15 @@ class TimeHelper
      * @param int $minutes
      * @return array
      */
-    public static function convertToHoursAndMinutes(int $minutes): array
+    public static function convertToHoursAndMinutes(int $minutes = null): array
     {
+        if (! $minutes) {
+            return [
+                'hours' => 0,
+                'minutes' => 0,
+            ];
+        }
+
         $hours = floor($minutes / 60);
         $minutes = ($minutes % 60);
 

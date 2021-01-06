@@ -4,7 +4,6 @@ namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\SQLHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
@@ -53,14 +52,13 @@ class EmployeeTimesheetViewHelperTest extends TestCase
         ]);
 
         // running the same query as the one from the controller
-        $timesheets = DB::table(DB::raw('timesheets, employees, time_tracking_entries'))
-            ->select(DB::raw('employees.id as employee_id, '.SQLHelper::concat('employees.first_name', 'employees.last_name').' as name, timesheets.started_at, timesheets.ended_at, timesheets.id as id, timesheets.status as status, sum(time_tracking_entries.duration) as duration'))
-            ->whereRaw('timesheets.company_id = '.$michael->company->id)
-            ->whereRaw('timesheets.employee_id = '.$michael->id)
-            ->whereRaw('timesheets.employee_id = employees.id')
-            ->whereRaw('time_tracking_entries.timesheet_id = timesheets.id')
-            ->groupBy('timesheets.id')
-            ->orderBy('timesheets.started_at')
+        $timesheets = Timesheet::where('employee_id', $michael->id)
+            ->whereYear('started_at', Carbon::now()->year)
+            ->addSelect([
+                'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
+                ->whereColumn('timesheet_id', 'timesheets.id')
+                ->groupBy('timesheet_id'),
+            ])
             ->get();
 
         $array = EmployeeTimesheetViewHelper::timesheets($timesheets, $michael, $michael->company);
@@ -104,10 +102,12 @@ class EmployeeTimesheetViewHelperTest extends TestCase
             'employee_id' => $michael->id,
             'started_at' => '1990-01-01 00:00:00',
         ]);
+        Timesheet::factory()->create([
+            'employee_id' => $michael->id,
+            'started_at' => '1990-01-01 00:00:00',
+        ]);
 
-        $entries = $michael->timesheets()->orderBy('timesheets.started_at')->get();
-
-        $collection = EmployeeTimesheetViewHelper::yearsWithTimesheets($entries, $michael, $michael->company);
+        $collection = EmployeeTimesheetViewHelper::yearsWithTimesheets($michael, $michael->company);
 
         $this->assertEquals(
             [
@@ -147,9 +147,7 @@ class EmployeeTimesheetViewHelperTest extends TestCase
             'started_at' => '2020-03-01',
         ]);
 
-        $entries = $michael->timesheets;
-
-        $collection = EmployeeTimesheetViewHelper::monthsWithTimesheets($entries, $michael, $michael->company, 2020);
+        $collection = EmployeeTimesheetViewHelper::monthsWithTimesheets($michael, $michael->company, 2020);
 
         $this->assertEquals(
             [
