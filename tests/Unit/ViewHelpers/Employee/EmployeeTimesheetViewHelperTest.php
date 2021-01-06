@@ -56,12 +56,12 @@ class EmployeeTimesheetViewHelperTest extends TestCase
         $timesheets = DB::table(DB::raw('timesheets, employees, time_tracking_entries'))
             ->select(DB::raw('employees.id as employee_id, '.SQLHelper::concat('employees.first_name', 'employees.last_name').' as name, timesheets.started_at, timesheets.ended_at, timesheets.id as id, timesheets.status as status, sum(time_tracking_entries.duration) as duration'))
             ->whereRaw('timesheets.company_id = '.$michael->company->id)
-                ->whereRaw('timesheets.employee_id = '.$michael->id)
-                ->whereRaw('timesheets.employee_id = employees.id')
-                ->whereRaw('time_tracking_entries.timesheet_id = timesheets.id')
-                ->groupBy('timesheets.id')
-                ->orderBy('timesheets.started_at')
-                ->get();
+            ->whereRaw('timesheets.employee_id = '.$michael->id)
+            ->whereRaw('timesheets.employee_id = employees.id')
+            ->whereRaw('time_tracking_entries.timesheet_id = timesheets.id')
+            ->groupBy('timesheets.id')
+            ->orderBy('timesheets.started_at')
+            ->get();
 
         $array = EmployeeTimesheetViewHelper::timesheets($timesheets, $michael, $michael->company);
 

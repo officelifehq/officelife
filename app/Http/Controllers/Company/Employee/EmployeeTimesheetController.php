@@ -103,6 +103,7 @@ class EmployeeTimesheetController extends Controller
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
+        // list of timesheets for the year
         $entries = DB::table(DB::raw('timesheets, employees, time_tracking_entries'))
             ->select(DB::raw('employees.id as employee_id, '.SQLHelper::concat('employees.first_name', 'employees.last_name').' as name, timesheets.started_at, timesheets.ended_at, timesheets.id as id, timesheets.status, sum(time_tracking_entries.duration) as duration'))
             ->whereRaw('timesheets.company_id = '.$loggedCompany->id)
