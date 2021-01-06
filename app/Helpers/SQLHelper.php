@@ -80,7 +80,7 @@ class SQLHelper
                 break;
 
             case 'pgsql':
-                $query = 'date_part("month", '.$dateColumnName.')';
+                $query = 'date_part(\'month\', '.$dateColumnName.')';
                 break;
 
             default:
