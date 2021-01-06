@@ -12,7 +12,7 @@ jobs:
       - uses: dessant/lock-threads@v2
         with:
           github-token: ${{ github.token }}
-          issue-exclude-labels: retain
+          issue-exclude-labels: retained
           issue-lock-comment: |
             This issue has been automatically locked since there
             has not been any recent activity after it was closed.
