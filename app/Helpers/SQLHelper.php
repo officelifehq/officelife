@@ -52,7 +52,7 @@ class SQLHelper
                 break;
 
             case 'pgsql':
-                $query = 'date_part("year", '.$dateColumnName.')';
+                $query = 'date_part(\'year\', '.$dateColumnName.')';
                 break;
 
             default:
