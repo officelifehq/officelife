@@ -46,7 +46,7 @@ class EmployeeTimesheetController extends Controller
         // using a subquery to greatly improve the speed of the query, as well
         // as reducing the number of hydrated models
         $timesheets = Timesheet::where('employee_id', $employee->id)
-            ->whereYear('started_at', $currentYear)
+            ->whereYear('started_at', (string) $currentYear)
             ->addSelect([
                 'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
                     ->whereColumn('timesheet_id', 'timesheets.id')
@@ -97,7 +97,7 @@ class EmployeeTimesheetController extends Controller
         // using a subquery to greatly improve the speed of the query, as well
         // as reducing the number of hydrated models
         $timesheets = Timesheet::where('employee_id', $employee->id)
-            ->whereYear('started_at', $year)
+            ->whereYear('started_at', (string) $year)
             ->addSelect([
                 'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
                 ->whereColumn('timesheet_id', 'timesheets.id')
@@ -149,8 +149,8 @@ class EmployeeTimesheetController extends Controller
         // using a subquery to greatly improve the speed of the query, as well
         // as reducing the number of hydrated models
         $timesheets = Timesheet::where('employee_id', $employee->id)
-            ->whereYear('started_at', $year)
-            ->whereMonth('started_at', $month)
+            ->whereYear('started_at', (string) $year)
+            ->whereMonth('started_at', (string) $month)
             ->addSelect([
                 'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
                 ->whereColumn('timesheet_id', 'timesheets.id')

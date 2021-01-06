@@ -105,7 +105,7 @@ class EmployeeTimesheetViewHelper
     public static function monthsWithTimesheets(Employee $employee, Company $company, int $year): Collection
     {
         $timesheets = Timesheet::where('employee_id', $employee->id)
-            ->whereYear('started_at', $year)
+            ->whereYear('started_at', (string) $year)
             ->get();
 
         $monthsCollection = collect([]);

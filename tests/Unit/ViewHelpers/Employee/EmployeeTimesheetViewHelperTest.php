@@ -53,7 +53,7 @@ class EmployeeTimesheetViewHelperTest extends TestCase
 
         // running the same query as the one from the controller
         $timesheets = Timesheet::where('employee_id', $michael->id)
-            ->whereYear('started_at', Carbon::now()->year)
+            ->whereYear('started_at', (string) Carbon::now()->year)
             ->addSelect([
                 'duration' => TimeTrackingEntry::select(DB::raw('SUM(duration) as duration'))
                 ->whereColumn('timesheet_id', 'timesheets.id')
