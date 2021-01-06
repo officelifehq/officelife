@@ -118,8 +118,9 @@ class AddEmployeeToCompany extends BaseService
     {
         $company = Company::find($data['company_id']);
 
-        $this->employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
-        $this->employee->save();
+        Employee::where('id', $this->employee->id)->update([
+            'amount_of_allowed_holidays' => $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays,
+        ]);
     }
 
     /**

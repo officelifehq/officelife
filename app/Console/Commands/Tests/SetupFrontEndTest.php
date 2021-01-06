@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Tests;
 
+use App\Models\User\User;
 use Illuminate\Console\Command;
 use App\Services\User\CreateAccount;
 
@@ -42,7 +43,9 @@ class SetupFrontEndTest extends Command
         ];
 
         $user = (new CreateAccount)->execute($data);
-        $user->email_verified_at = now();
-        $user->save();
+
+        User::where('id', $user->id)->update([
+            'email_verified_at' => now(),
+        ]);
     }
 }

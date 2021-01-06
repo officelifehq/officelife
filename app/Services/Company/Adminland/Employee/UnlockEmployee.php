@@ -40,8 +40,9 @@ class UnlockEmployee extends BaseService
 
         $employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $employee->locked = false;
-        $employee->save();
+        Employee::where('id', $employee->id)->update([
+            'locked' => false,
+        ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],

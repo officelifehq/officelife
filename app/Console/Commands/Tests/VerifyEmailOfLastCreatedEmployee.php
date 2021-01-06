@@ -35,7 +35,9 @@ class VerifyEmailOfLastCreatedEmployee extends Command
     public function handle(): void
     {
         $user = User::latest()->first();
-        $user->email_verified_at = now();
-        $user->save();
+
+        User::where('id', $user->id)->update([
+            'email_verified_at' => now(),
+        ]);
     }
 }

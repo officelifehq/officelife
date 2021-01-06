@@ -45,8 +45,9 @@ class UpdatePosition extends BaseService
 
         $oldPositionTitle = $position->title;
 
-        $position->title = $data['title'];
-        $position->save();
+        Position::where('id', $position->id)->update([
+            'title' => $data['title'],
+        ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
