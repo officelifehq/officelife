@@ -9,6 +9,7 @@ use App\Helpers\MoneyHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use Illuminate\Database\Eloquent\Collection;
@@ -237,7 +238,8 @@ class DashboardManagerViewHelper
 
             $timesheetCollection = collect([]);
             foreach ($pendingTimesheets as $timesheet) {
-                $totalWorkedInMinutes = $timesheet->timeTrackingEntries
+                $totalWorkedInMinutes = DB::table('time_tracking_entries')
+                    ->where('timesheet_id', $timesheet->id)
                     ->sum('duration');
 
                 $arrayOfTime = TimeHelper::convertToHoursAndMinutes($totalWorkedInMinutes);

@@ -1,3 +1,10 @@
+<style scoped>
+.off-days {
+  color: #4b7682;
+  background-color: #e6f5f9;
+}
+</style>
+
 <template>
   <div class="dt-row">
     <div class="dtc bl bb bb-gray project">

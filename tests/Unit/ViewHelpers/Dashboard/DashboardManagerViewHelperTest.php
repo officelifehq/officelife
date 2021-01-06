@@ -322,7 +322,7 @@ class DashboardManagerViewHelperTest extends TestCase
                     'id' => $timesheetA->id,
                     'started_at' => 'Jan 01, 2018',
                     'ended_at' => 'Jan 07, 2018',
-                    'duration' => '1 h 40',
+                    'duration' => '01 h 40',
                 ],
             ],
             $collection->toArray()[0]['timesheets']->toArray()

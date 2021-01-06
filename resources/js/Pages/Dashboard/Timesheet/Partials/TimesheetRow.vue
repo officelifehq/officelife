@@ -1,15 +1,4 @@
 <style scoped>
-.dummy {
-  right: 40px;
-  bottom: 20px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: 3fr repeat(7, 1fr);
-  align-items: center;
-}
-
 .project {
   width: 280px;
   max-width: 400px;
@@ -30,7 +19,7 @@
     <div class="f6 ph2 pv3 dtc bl bb bb-gray project v-mid">
       <div class="flex justify-between items-center">
         <div>
-          <span class="db pb1 fw5">
+          <span class="db pb1 fw5 lh-copy">
             {{ localRow.task_title }}
           </span>
           <inertia-link :href="localRow.project_url" class="dib">
@@ -159,12 +148,18 @@ export default {
   },
 
   props: {
-    rowComingFromBackend: Object,
+    rowComingFromBackend: {
+      type: Object,
+      default: null,
+    },
     timesheet: {
       type: Object,
       default: null,
     },
-    timesheetStatus: null,
+    timesheetStatus: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {
@@ -234,7 +229,7 @@ export default {
 
   mounted() {
     this.localRow = this.rowComingFromBackend;
-    this.refreshTotalHoursInRow();
+    ;
   },
 
   methods: {

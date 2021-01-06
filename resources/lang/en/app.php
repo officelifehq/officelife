@@ -92,6 +92,8 @@ return [
     'breadcrumb_employee_surveys_detail' => 'Survey of {month}',
     'breadcrumb_employee_one_on_ones' => 'One on Ones',
     'breadcrumb_employee_one_on_one' => 'Detail of a One on One',
+    'breadcrumb_employee_timesheets' => 'Timesheets',
+    'breadcrumb_employee_timesheet' => 'Timesheet details',
     'breadcrumb_project_list' => 'Projects list',
     'breadcrumb_project_detail' => 'Project detail',
     'breadcrumb_project_create' => 'Add a new project',

@@ -4,12 +4,15 @@ namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\TimeHelper;
 use App\Helpers\MoneyHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\WorklogHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
+use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Helpers\WorkFromHomeHelper;
 use App\Models\Company\EmployeeStatus;
 
@@ -227,6 +230,15 @@ class EmployeeShowViewHelper
             $canSeeContractRenewalDate = false;
         }
 
+        // can see timesheets
+        $canSeeTimesheets = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeTimesheets = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canSeeTimesheets = true;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
@@ -248,6 +260,7 @@ class EmployeeShowViewHelper
             'can_see_performance_tab' => $canSeePerformanceTab,
             'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
             'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
+            'can_see_timesheets' => $canSeeTimesheets,
         ];
     }
 
@@ -614,7 +627,7 @@ class EmployeeShowViewHelper
 
         $oneOnOnes = $employee->oneOnOneEntriesAsEmployee()
             ->with('manager')
-            ->latest()->take(3)->get();
+            ->orderBy('happened_at', 'desc')->take(3)->get();
 
         $company = $employee->company;
 
@@ -668,5 +681,61 @@ class EmployeeShowViewHelper
         }
 
         return $statusCollection;
+    }
+
+    /**
+     * Array containing information about the latest timesheets logged by the
+     * employee.
+     *
+     * @param Employee $employee
+     * @param array $permissions
+     * @return array|null
+     */
+    public static function timesheets(Employee $employee, array $permissions): ?array
+    {
+        if (! $permissions['can_see_timesheets']) {
+            return null;
+        }
+
+        $timesheets = $employee->timesheets()
+            ->whereIn('timesheets.status', [Timesheet::APPROVED, Timesheet::REJECTED])
+            ->orderBy('timesheets.started_at', 'desc')
+            ->take(3)
+            ->get();
+
+        $company = $employee->company;
+
+        $timesheetCollection = collect([]);
+        foreach ($timesheets as $timesheet) {
+            $totalWorkedInMinutes = DB::table('time_tracking_entries')
+                ->where('timesheet_id', $timesheet->id)
+                ->sum('duration');
+
+            $arrayOfTime = TimeHelper::convertToHoursAndMinutes($totalWorkedInMinutes);
+
+            $timesheetCollection->push([
+                'id' => $timesheet->id,
+                'started_at' => DateHelper::formatDate($timesheet->started_at),
+                'ended_at' => DateHelper::formatDate($timesheet->ended_at),
+                'duration' => trans('dashboard.manager_timesheet_approval_duration', [
+                    'hours' => $arrayOfTime['hours'],
+                    'minutes' => $arrayOfTime['minutes'],
+                ]),
+                'status' => $timesheet->status,
+                'url' => route('employee.timesheets.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                    'timesheet' => $timesheet,
+                ]),
+            ]);
+        }
+
+        return [
+            'entries' => $timesheetCollection,
+            'view_all_url' => route('employee.timesheets.index', [
+                'company' => $company,
+                'employee' => $employee,
+            ]),
+        ];
     }
 }

@@ -199,10 +199,6 @@ class DashboardTimesheetViewHelperTest extends TestCase
                 'name' => $michael->name,
                 'approved_at' => 'Jan 01, 2018',
                 'avatar' => $michael->avatar,
-                'position' => [
-                    'id' => $michael->position->id,
-                    'title' => 'Assistant to the regional manager',
-                ],
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
             ],
             $array

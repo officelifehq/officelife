@@ -136,6 +136,9 @@ class EmployeeController extends Controller
         // the latest one on ones
         $oneOnOnes = EmployeeShowViewHelper::oneOnOnes($employee, $permissions);
 
+        // information about the timesheets
+        $timesheets = EmployeeShowViewHelper::timesheets($employee, $permissions);
+
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
@@ -159,6 +162,7 @@ class EmployeeController extends Controller
             'expenses' => $expenses,
             'surveys' => $surveys,
             'oneOnOnes' => $oneOnOnes,
+            'timesheets' => $timesheets,
         ]);
     }
 

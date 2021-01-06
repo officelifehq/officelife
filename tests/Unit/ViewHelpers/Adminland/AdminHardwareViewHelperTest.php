@@ -41,7 +41,7 @@ class AdminHardwareViewHelperTest extends TestCase
             'employee_id' => $michael->id,
         ]);
 
-        $hardware = $michael->company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
+        $hardware = $michael->company->hardware()->with('employee')->orderBy('id', 'asc')->get();
         $response = AdminHardwareViewHelper::hardware($hardware);
 
         $this->assertCount(

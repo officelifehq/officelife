@@ -114,6 +114,11 @@
             v-if="permissions.can_see_one_on_one_with_manager"
             :one-on-ones="oneOnOnes"
           />
+
+          <timesheets
+            v-if="permissions.can_see_timesheets"
+            :timesheets="timesheets"
+          />
         </div>
       </div>
     </div>
@@ -135,6 +140,7 @@ import RecentShips from '@/Pages/Employee/Partials/RecentShips';
 import Skills from '@/Pages/Employee/Partials/Skills';
 import Expenses from '@/Pages/Employee/Partials/Expenses';
 import OneOnOne from '@/Pages/Employee/Partials/OneOnOneWithManager';
+import Timesheets from '@/Pages/Employee/Partials/Timesheets';
 
 export default {
   components: {
@@ -152,6 +158,7 @@ export default {
     Skills,
     Expenses,
     OneOnOne,
+    Timesheets,
   },
 
   props: {
@@ -228,6 +235,10 @@ export default {
       default: null,
     },
     oneOnOnes: {
+      type: Object,
+      default: null,
+    },
+    timesheets: {
       type: Object,
       default: null,
     },

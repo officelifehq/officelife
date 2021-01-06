@@ -116,10 +116,6 @@ class DashboardTimesheetViewHelper
                 'name' => $approver->name,
                 'approved_at' => DateHelper::formatDate($timesheet->approved_at),
                 'avatar' => $approver->avatar,
-                'position' => (! $approver->position) ? null : [
-                    'id' => $approver->position->id,
-                    'title' => $approver->position->title,
-                ],
                 'url' => route('employees.show', [
                     'company' => $timesheet->company,
                     'employee' => $approver,

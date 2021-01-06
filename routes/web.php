@@ -173,6 +173,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee'])->only([
                 'index', 'show',
             ]);
+
+            // timesheets
+            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
+                Route::get('{employee}/timesheets', 'Company\\Employee\\EmployeeTimesheetController@index')->name('employee.timesheets.index');
+                Route::get('{employee}/timesheets/{timesheet}', 'Company\\Employee\\EmployeeTimesheetController@show')->name('employee.timesheets.show');
+                Route::get('{employee}/timesheets/overview/{year}', 'Company\\Employee\\EmployeeTimesheetController@year')->name('employee.timesheets.year');
+                Route::get('{employee}/timesheets/overview/{year}/{month}', 'Company\\Employee\\EmployeeTimesheetController@month')->name('employee.timesheets.month');
+            });
         });
 
         Route::prefix('teams')->group(function () {
