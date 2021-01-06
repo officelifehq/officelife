@@ -59,7 +59,6 @@ class EmployeeTimesheetViewHelperTest extends TestCase
                 ->whereRaw('timesheets.employee_id = '.$michael->id)
                 ->whereRaw('timesheets.employee_id = employees.id')
                 ->whereRaw('time_tracking_entries.timesheet_id = timesheets.id')
-                ->whereRaw('timesheets.status in ("'.Timesheet::REJECTED.'", "'.Timesheet::APPROVED.'")')
                 ->groupBy('timesheets.id')
                 ->orderBy('timesheets.started_at')
                 ->get();
