@@ -1947,7 +1947,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
 
     private function setContractRenewalDates(): void
     {
-        $this->info('☐ Add contract renewal dates');
+        $this->info('☐ Add contract renewal dates for external employees');
 
         $date = Carbon::now()->addWeek();
 
