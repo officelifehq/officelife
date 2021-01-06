@@ -4,7 +4,7 @@ namespace App\Services\User\Avatar;
 
 use App\Services\BaseService;
 
-class GenerateAvatar extends BaseService
+class GenerateDefaultAvatar extends BaseService
 {
     /**
      * Get the validation rules that apply to the service.

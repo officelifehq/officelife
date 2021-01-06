@@ -23,7 +23,7 @@ class TimeHelperTest extends TestCase
 
         $this->assertEquals(
             [
-                'hours' => 3,
+                'hours' => 03,
                 'minutes' => 20,
             ],
             TimeHelper::convertToHoursAndMinutes(200)
@@ -31,10 +31,10 @@ class TimeHelperTest extends TestCase
 
         $this->assertEquals(
             [
-                'hours' => 0,
-                'minutes' => 1,
+                'hours' => 00,
+                'minutes' => 01,
             ],
-            TimeHelper::convertToHoursAndMinutes(1)
+            TimeHelper::convertToHoursAndMinutes(01)
         );
     }
 }

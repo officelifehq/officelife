@@ -9,13 +9,17 @@ use App\Models\Company\Team;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Question;
+use App\Models\Company\Timesheet;
+use App\Models\Company\ProjectTask;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\TimeTrackingEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
@@ -570,6 +574,79 @@ class EmployeeShowViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_employee_timesheets(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $now = Carbon::now();
+
+        $michael = $this->createAdministrator();
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $timesheet = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'started_at' => Carbon::now()->startOfWeek(),
+            'ended_at' => Carbon::now()->endOfWeek(),
+            'status' => Timesheet::OPEN,
+        ]);
+        TimeTrackingEntry::factory()->create([
+            'timesheet_id' => $timesheet->id,
+            'employee_id' => $michael->id,
+            'project_id' => $project->id,
+            'project_task_id' => $task->id,
+            'happened_at' => Carbon::now()->startOfWeek(),
+            'duration' => 100,
+        ]);
+        $timesheetB = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'started_at' => Carbon::now()->startOfWeek(),
+            'ended_at' => Carbon::now()->endOfWeek(),
+            'status' => Timesheet::APPROVED,
+            'approver_id' => $michael->id,
+            'approved_at' => $now,
+        ]);
+        TimeTrackingEntry::factory()->create([
+            'timesheet_id' => $timesheetB->id,
+            'employee_id' => $michael->id,
+            'project_id' => $project->id,
+            'project_task_id' => $task->id,
+            'happened_at' => Carbon::now()->startOfWeek(),
+            'duration' => 100,
+        ]);
+
+        $array = EmployeeShowViewHelper::timesheets($michael, ['can_see_timesheets' => false]);
+        $this->assertNull($array);
+
+        $array = EmployeeShowViewHelper::timesheets($michael, ['can_see_timesheets' => true]);
+        $this->assertEquals(2, count($array));
+        $this->assertEquals(1, $array['entries']->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $timesheetB->id,
+                    'started_at' => 'Jan 01, 2018',
+                    'ended_at' => 'Jan 07, 2018',
+                    'duration' => '01 h 40',
+                    'status' => Timesheet::APPROVED,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/'.$timesheetB->id,
+                ],
+            ],
+            $array['entries']->toArray()
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets',
+            $array['view_all_url']
         );
     }
 }
