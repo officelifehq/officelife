@@ -303,7 +303,7 @@ class EmployeeShowViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
 
-        $collection = EmployeeShowViewHelper::teams($michael->company->teams, $michael);
+        $collection = EmployeeShowViewHelper::teams($michael->company->teams, $michael->company);
 
         $this->assertEquals(1, $collection->count());
         $this->assertEquals(

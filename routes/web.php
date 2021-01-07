@@ -139,7 +139,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
 
             Route::resource('{employee}/team', 'Company\\Employee\\EmployeeTeamController')->only([
-                'store', 'destroy',
+                'index', 'store', 'destroy',
             ]);
 
             Route::resource('{employee}/employeestatuses', 'Company\\Employee\\EmployeeStatusController')->only([

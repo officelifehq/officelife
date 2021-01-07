@@ -244,7 +244,6 @@ class EmployeeShowViewHelper
             'can_manage_hierarchy' => $canManageHierarchy,
             'can_manage_position' => $canManagePosition,
             'can_manage_pronouns' => $canManagePronouns,
-            'can_marray' => $canManagePronouns,
             'can_manage_status' => $canManageStatus,
             'can_manage_teams' => $canManageTeam,
             'can_manage_skills' => $canManageSkills,
@@ -428,17 +427,12 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the teams.
      *
-     * @param Employee $employee
+     * @param Company $company
      * @param Collection $teams
      * @return Collection
      */
-    public static function teams(Collection $teams, Employee $employee): Collection
+    public static function teams(Collection $teams, Company $company): Collection
     {
-        // reduce the number of queries that the foreach loop generates
-        // we don't need to iterate over this over and over as it'll be the same
-        //for all those companies
-        $company = $employee->company;
-
         $teamsCollection = collect([]);
         foreach ($teams as $team) {
             $teamsCollection->push([

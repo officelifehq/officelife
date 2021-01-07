@@ -1,33 +1,128 @@
 <style lang="scss" scoped>
-.avatar {
-  width: 80px;
-  height: 80px;
-  top: 19%;
-  left: 50%;
-  margin-top: -40px; /* Half the height */
-  margin-left: -40px; /* Half the width */
-}
-
 .you {
   background-color: #e6fffa;
   border-color: #38b2ac;
   color: #234e52;
 }
+
+.avatar {
+  border: 1px solid #e1e4e8 !important;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 7px;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
 </style>
 
 <template>
   <layout title="Home" :notifications="notifications">
-    <div class="ph2 ph5-ns">
-      <!-- HEADER -->
-      <header-employee
-        :employee="employee"
-        :permissions="permissions"
-        :employee-teams="employeeTeams"
-        :positions="positions"
-        :teams="teams"
-        :pronouns="pronouns"
-      />
+    <div class="ph2 ph5-ns mt4">
+      <!-- BREADCRUMB -->
+      <div class="mt4-l mt1 mw7 br3 center breadcrumb relative z-0 f6 pb2">
+        <ul class="list ph0 tc-l tl">
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+          </li>
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees'">{{ $t('app.breadcrumb_employee_list') }}</inertia-link>
+          </li>
+          <li class="di">
+            {{ employee.name }}
+          </li>
+        </ul>
+      </div>
 
+      <!-- -->
+      <div class="cf mw9 center br3 mb5">
+        <div class="fl w-25 pa2">
+          <div class="db center mb4 avatar">
+            <img :class="{'black-white':(employee.locked)}" loading="lazy" :src="employee.avatar" alt="avatar" />
+          </div>
+
+          <personal-description
+            :employee="employee"
+            :permissions="permissions"
+          />
+
+          <employee-important-dates
+            :employee="employee"
+            :permissions="permissions"
+          />
+
+          <employee-gender-pronoun
+            :employee="employee"
+            :pronouns="pronouns"
+            :permissions="permissions"
+          />
+
+          <employee-status
+            :employee="employee"
+            :permissions="permissions"
+          />
+
+          <employee-contact
+            :employee="employee"
+            :permissions="permissions"
+          />
+        </div>
+
+        <div class="fl w-75 pa2 pl4-l">
+          <!-- information about the employee -->
+          <headers
+            :employee="employee"
+            :permissions="permissions"
+            :positions="positions"
+            :teams="teams"
+          />
+
+          <div class="cf mw7 center br3 mt3 mb5 tc">
+            <div class="cf dib btn-group">
+              <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(menu == 'all')}">
+                Presentation
+              </inertia-link>
+              <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(menu == 'performance')}" data-cy="performance-tab">
+                Work
+              </inertia-link>
+              <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(menu == 'performance')}" data-cy="performance-tab">
+                {{ $t('employee.menu_performance') }}
+              </inertia-link>
+              <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(menu == 'performance')}" data-cy="performance-tab">
+                Administration
+              </inertia-link>
+            </div>
+          </div>
+
+          <!-- skills -->
+          <skills
+            :employee="employee"
+            :permissions="permissions"
+            :skills="skills"
+          />
+
+          <hierarchy
+            :employee="employee"
+            :permissions="permissions"
+            :managers-of-employee="managersOfEmployee"
+            :direct-reports="directReports"
+          />
+
+          <question
+            :questions="questions"
+          />
+
+          <recent-ships
+            :ships="ships"
+          />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="ph2 ph5-ns">
       <!-- CENTRAL CONTENT -->
       <div class="cf mw9 center">
         <template v-if="employee.locked">
@@ -56,28 +151,9 @@
             :statistics="workFromHomes"
           />
 
-          <personal-description
-            :employee="employee"
-            :permissions="permissions"
-          />
-
-          <!-- skills -->
-          <skills
-            :employee="employee"
-            :permissions="permissions"
-            :skills="skills"
-          />
-
           <location
             :employee="employee"
             :permissions="permissions"
-          />
-
-          <hierarchy
-            :employee="employee"
-            :permissions="permissions"
-            :managers-of-employee="managersOfEmployee"
-            :direct-reports="directReports"
           />
 
           <hardware
@@ -95,14 +171,6 @@
           <worklogs
             :permissions="permissions"
             :worklogs="worklogs"
-          />
-
-          <question
-            :questions="questions"
-          />
-
-          <recent-ships
-            :ships="ships"
           />
 
           <expenses
@@ -127,8 +195,12 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import HeaderEmployee from '@/Pages/Employee/Partials/HeaderEmployee';
+import Headers from '@/Pages/Employee/Partials/Headers';
 import PersonalDescription from '@/Pages/Employee/Partials/PersonalDescription';
+import EmployeeImportantDates from '@/Pages/Employee/Partials/EmployeeImportantDates';
+import EmployeeStatus from '@/Pages/Employee/Partials/EmployeeStatus';
+import EmployeeContact from '@/Pages/Employee/Partials/EmployeeContact';
+import EmployeeGenderPronoun from '@/Pages/Employee/Partials/EmployeeGenderPronoun';
 import Hierarchy from '@/Pages/Employee/Partials/Hierarchy';
 import Worklogs from '@/Pages/Employee/Partials/Worklogs';
 import Holidays from '@/Pages/Employee/Partials/Holidays';
@@ -145,8 +217,12 @@ import Timesheets from '@/Pages/Employee/Partials/Timesheets';
 export default {
   components: {
     Layout,
-    HeaderEmployee,
+    Headers,
     PersonalDescription,
+    EmployeeImportantDates,
+    EmployeeStatus,
+    EmployeeContact,
+    EmployeeGenderPronoun,
     Hierarchy,
     Worklogs,
     Holidays,
@@ -174,7 +250,7 @@ export default {
       type: String,
       default: 'all',
     },
-    employeeTeams: {
+    teams: {
       type: Array,
       default: null,
     },
@@ -191,10 +267,6 @@ export default {
       default: null,
     },
     positions: {
-      type: Array,
-      default: null,
-    },
-    teams: {
       type: Array,
       default: null,
     },

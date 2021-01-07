@@ -16,19 +16,18 @@ return [
     'description_text_title' => 'How would you describe yourself? What are your passions?',
     'description_success' => 'The description has been updated.',
 
-    'email' => 'Email',
-    'twitter' => 'Twitter',
-    'twitter_undefined' => 'No Twitter handle set',
-    'phone' => 'Phone number',
-    'phone_undefined' => 'No phone number set',
-    'slack' => 'Slack',
-    'slack_undefined' => 'No Slack handle set',
-
-    'birthdate_information_full' => '{date} (age: {age})',
-    'birthdate_information_partial' => '{date}',
+    'important_dates' => 'Important dates',
+    'birthdate_information_full' => 'Born on {date}',
+    'birthdate_information_age' => '(age: {age})',
+    'birthdate_information_partial' => 'Born on {date}',
     'birthdate_information_blank' => 'No birthdate set',
 
-    'hired_at_information' => '{date}',
+    'email' => 'Email',
+    'twitter' => 'Twitter',
+    'phone' => 'Phone number',
+    'slack' => 'Slack',
+
+    'hired_at_information' => 'Hired on {date}',
     'hired_at_information_blank' => 'No hired date set',
 
     'location_title' => 'Location',
@@ -40,7 +39,7 @@ return [
     'pronoun_modal_title' => 'Gender pronoun',
     'pronoun_modal_filter' => 'Filter genders',
     'pronoun_modal_reset' => 'Reset gender pronoun',
-    'pronoun_modal_cta' => 'Choose a gender pronoun',
+    'pronoun_modal_blank' => 'Gender is not set',
     'pronoun_modal_assign_success' => 'The pronoun has been set',
     'pronoun_modal_unassign_success' => 'The pronoun has been removed',
 
@@ -93,10 +92,11 @@ return [
     'status_modal_cta' => 'Choose a status',
     'status_modal_filter' => 'Filter the list',
     'status_modal_blank_title' => 'There is no employee status defined in this account yet.',
-    'status_modal_blank_cta' => 'Create one now',
     'status_modal_assign_success' => 'The status has been assigned',
     'status_modal_unassign_success' => 'The status has been removed',
     'status_modal_reset' => 'Remove current status',
+
+    'contacts_title' => 'Contact information',
 
     'contract_renewal_date' => 'Contract renewed on',
 

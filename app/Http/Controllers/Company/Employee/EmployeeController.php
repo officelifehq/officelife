@@ -115,11 +115,7 @@ class EmployeeController extends Controller
         $hardware = EmployeeShowViewHelper::hardware($employee, $permissions);
 
         // all the teams the employee belongs to
-        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee);
-
-        // all teams in company
-        $teams = $company->teams()->with('leader')->get();
-        $teams = EmployeeShowViewHelper::teams($teams, $employee);
+        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $company);
 
         // all recent ships of this employee
         $ships = EmployeeShowViewHelper::recentShips($employee);
@@ -153,9 +149,8 @@ class EmployeeController extends Controller
             'workFromHomes' => $workFromHomeStats,
             'questions' => $questions,
             'hardware' => $hardware,
-            'employeeTeams' => $employeeTeams,
+            'teams' => $employeeTeams,
             'positions' => PositionCollection::prepare($company->positions()->get()),
-            'teams' => $teams,
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'ships' => $ships,
             'skills' => $skills,

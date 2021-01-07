@@ -19,7 +19,7 @@
     <!-- Assigning a title is restricted to HR or admin -->
     <span v-if="permissions.can_manage_position && updatedEmployee.position" data-cy="position-label">
       {{ title }}
-      <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
+      <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="modal = true">
         {{ $t('app.edit') }}
       </span>
     </span>
@@ -28,7 +28,7 @@
     </span>
 
     <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
+    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
     <span v-else v-show="title == ''">
       {{ $t('employee.position_blank') }}
     </span>

@@ -83,98 +83,6 @@
              height="80"
              alt="avatar"
         />
-
-        <div class="names">
-          <h2 class="normal mb3 mt3">
-            {{ employee.name }}
-          </h2>
-
-          <div class="flex flex-column flex-row-ns justify-between-ns">
-            <div class="mr4">
-              <p class="mt0 f6">
-                <span class="f7 gray">{{ $t('employee.position_title') }}</span>
-                <employee-position
-                  :employee="employee"
-                  :positions="positions"
-                  :permissions="permissions"
-                />
-              </p>
-              <p class="f6">
-                <span class="f7 gray">{{ $t('employee.team_title') }}</span>
-                <employee-team
-                  :employee="employee"
-                  :employee-teams="employeeTeams"
-                  :teams="teams"
-                  :permissions="permissions"
-                />
-              </p>
-              <p class="f6 mb0-ns">
-                <span class="f7 gray">{{ $t('employee.pronoun_title') }}</span>
-                <employee-gender-pronoun
-                  :employee="employee"
-                  :pronouns="pronouns"
-                  :permissions="permissions"
-                />
-              </p>
-            </div>
-            <div class="mr4">
-              <p class="mt0 f6">
-                <span class="f7 gray">Birth date</span>
-                <employee-birthdate
-                  :employee="employee"
-                  :permissions="permissions"
-                />
-              </p>
-              <p class="f6">
-                <span class="f7 gray">Hire date</span>
-                <employee-hired-date
-                  :employee="employee"
-                />
-              </p>
-              <p class="mb0-ns f6">
-                <span class="f7 gray">{{ $t('employee.status_title') }}</span>
-                <employee-status
-                  :employee="employee"
-                  :permissions="permissions"
-                />
-              </p>
-              <p v-if="employee.contract_renewed_at" class="mb0-ns f6">
-                <span class="f7 gray">{{ $t('employee.contract_renewal_date') }}</span>
-                <employee-renewal-date
-                  :employee="employee"
-                />
-              </p>
-            </div>
-            <div class="pr5">
-              <p class="mt0 f6">
-                <span class="f7 gray">{{ $t('employee.phone') }}</span>
-
-                <employee-phone
-                  :employee="employee"
-                />
-              </p>
-              <p class="mt0 f6">
-                <span class="f7 gray">{{ $t('employee.email') }}</span>
-
-                <employee-email
-                  :employee="employee"
-                />
-              </p>
-              <p class="f6">
-                <span class="f7 gray">{{ $t('employee.twitter') }}</span>
-                <employee-twitter
-                  :employee="employee"
-                />
-              </p>
-              <p class="mb0 f6">
-                <span class="f7 gray">{{ $t('employee.slack') }}</span>
-                <employee-slack
-                  :employee="employee"
-                />
-              </p>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -182,33 +90,8 @@
 
 <script>
 import vClickOutside from 'v-click-outside';
-import EmployeePosition from '@/Pages/Employee/Partials/EmployeePosition';
-import EmployeeGenderPronoun from '@/Pages/Employee/Partials/EmployeeGenderPronoun';
-import EmployeeStatus from '@/Pages/Employee/Partials/EmployeeStatus';
-import EmployeeTeam from '@/Pages/Employee/Partials/EmployeeTeam';
-import EmployeeBirthdate from '@/Pages/Employee/Partials/EmployeeBirthdate';
-import EmployeeEmail from '@/Pages/Employee/Partials/EmployeeEmail';
-import EmployeeTwitter from '@/Pages/Employee/Partials/EmployeeTwitter';
-import EmployeePhone from '@/Pages/Employee/Partials/EmployeePhone';
-import EmployeeSlack from '@/Pages/Employee/Partials/EmployeeSlack';
-import EmployeeHiredDate from '@/Pages/Employee/Partials/EmployeeHiredDate';
-import EmployeeRenewalDate from '@/Pages/Employee/Partials/EmployeeRenewalDate';
 
 export default {
-  components: {
-    EmployeePosition,
-    EmployeeGenderPronoun,
-    EmployeeStatus,
-    EmployeeTeam,
-    EmployeeBirthdate,
-    EmployeeEmail,
-    EmployeeTwitter,
-    EmployeePhone,
-    EmployeeSlack,
-    EmployeeHiredDate,
-    EmployeeRenewalDate,
-  },
-
   directives: {
     clickOutside: vClickOutside.directive
   },
