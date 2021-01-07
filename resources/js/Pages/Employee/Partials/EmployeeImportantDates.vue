@@ -31,7 +31,7 @@
     </template>
 
     <!-- hired date -->
-    <div v-if="employee.hired_at">
+    <div v-if="employee.hired_at" data-cy="employee-contract-renewal-date">
       <p class="mt0 mb2">{{ $t('employee.hired_at_information', { date: employee.hired_at.full }) }}</p>
     </div>
     <div v-else>

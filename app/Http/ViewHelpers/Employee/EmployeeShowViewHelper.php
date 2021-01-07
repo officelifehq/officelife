@@ -276,6 +276,10 @@ class EmployeeShowViewHelper
         foreach ($managers as $manager) {
             $manager = $manager->manager;
 
+            if ($manager->locked) {
+                continue;
+            }
+
             $managersOfEmployee->push([
                 'id' => $manager->id,
                 'name' => $manager->name,
@@ -306,6 +310,10 @@ class EmployeeShowViewHelper
         $directReportsOfEmployee = collect([]);
         foreach ($directReports as $directReport) {
             $directReport = $directReport->directReport;
+
+            if ($directReport->locked) {
+                continue;
+            }
 
             $directReportsOfEmployee->push([
                 'id' => $directReport->id,

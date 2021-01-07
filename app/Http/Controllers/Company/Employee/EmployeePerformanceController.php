@@ -56,11 +56,11 @@ class EmployeePerformanceController extends Controller
         }
 
         // all the teams the employee belongs to
-        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee);
+        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee->company);
 
         // all teams in company
         $teams = $company->teams()->with('leader')->get();
-        $teams = EmployeeShowViewHelper::teams($teams, $employee);
+        $teams = EmployeeShowViewHelper::teams($teams, $employee->company);
 
         // information about the logged employee
         $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);

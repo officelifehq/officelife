@@ -370,3 +370,33 @@ Cypress.Commands.add('fillAndSubmitTimesheet', (companyId = 1) => {
   cy.get('[data-cy=timesheet-submit-timesheet]').click();
   cy.get('[data-cy=timesheet-status-awaiting]').should('exist');
 });
+
+// Set the birthdate
+Cypress.Commands.add('setBirthdate', (companyId = 1, employeeId = 1, firstName, lastName, email, year, month, day) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=firstname]').type(firstName);
+  cy.get('input[name=lastname]').type(lastName);
+  cy.get('input[name=email]').clear();
+  cy.get('input[name=email]').type(email);
+  cy.get('input[name=year]').clear();
+  cy.get('input[name=year]').type(year);
+  cy.get('input[name=month]').clear();
+  cy.get('input[name=month]').type(month);
+  cy.get('input[name=day]').clear();
+  cy.get('input[name=day]').type(day);
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Set the hired at date
+Cypress.Commands.add('setHiredDate', (companyId = 1, employeeId = 1, year, month, day) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=hired_at_year]').clear();
+  cy.get('input[name=hired_at_year]').type(year);
+  cy.get('input[name=hired_at_month]').clear();
+  cy.get('input[name=hired_at_month]').type(month);
+  cy.get('input[name=hired_at_day]').clear();
+  cy.get('input[name=hired_at_day]').type(day);
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});

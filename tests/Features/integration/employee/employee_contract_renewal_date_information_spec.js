@@ -27,7 +27,7 @@ describe('Employee - manage contract renewal date information', function () {
         let id = _.last(items.split(','));
 
         cy.visit('/1/employees/1');
-        cy.get('[data-cy=open-status-modal-blank]').click();
+        cy.get('[data-cy=edit-status-button]').click();
         cy.get('[data-cy=list-status-' + id + ']').click();
 
         // now check that the Edit contract tab is available in the Edit profile page
@@ -49,7 +49,7 @@ describe('Employee - manage contract renewal date information', function () {
 
         // remove the contract renewal date entirely
         cy.visit('/1/employees/1');
-        cy.get('[data-cy=open-status-modal').click();
+        cy.get('[data-cy=edit-status-button').click();
         cy.get('[data-cy=status-reset-button]').click();
         cy.visit('/1/employees/1');
 
@@ -94,7 +94,7 @@ describe('Employee - manage contract renewal date information', function () {
         let id = _.last(items.split(','));
 
         cy.visit('/1/employees/1');
-        cy.get('[data-cy=open-status-modal-blank]').click();
+        cy.get('[data-cy=edit-status-button]').click();
         cy.get('[data-cy=list-status-' + id + ']').click();
 
         // now check that the Edit contract tab is available in the Edit profile page
@@ -116,7 +116,7 @@ describe('Employee - manage contract renewal date information', function () {
 
         // remove the contract renewal date entirely
         cy.visit('/1/employees/1');
-        cy.get('[data-cy=open-status-modal').click();
+        cy.get('[data-cy=edit-status-button').click();
         cy.get('[data-cy=status-reset-button]').click();
         cy.visit('/1/employees/1');
 

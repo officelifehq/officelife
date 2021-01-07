@@ -108,7 +108,7 @@ return [
     'work_from_home_title_details' => 'Work from home history',
     'work_from_home_blank_state_for_month' => 'There are no work from home entries for this date 😭',
 
-    'question_title' => 'Know your colleagues',
+    'question_title' => 'Get to know your colleagues',
     'question_blank' => 'There are no answers yet.',
 
     'edit_information_title' => 'Edit information',

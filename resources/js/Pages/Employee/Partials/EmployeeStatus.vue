@@ -45,7 +45,7 @@
         {{ $t('employee.status_title') }}
       </span>
 
-      <a v-show="permissions.can_manage_status" data-cy="add-description-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
+      <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
     </div>
 
     <!-- Modal -->
@@ -99,20 +99,14 @@
     </div>
 
     <!-- Case when there is a status -->
-    <!-- Assigning an employee status is restricted to HR or admin -->
-    <ul v-if="permissions.can_manage_status && updatedEmployee.status" class="ma0 pa0 di existing-statuses">
+    <ul v-if="updatedEmployee.status" class="ma0 pa0 di existing-statuses">
       <li class="di" data-cy="status-name-right-permission">
-        {{ updatedEmployee.status.name }}
-      </li>
-    </ul>
-    <ul v-if="$page.props.auth.employee.permission_level > 200 && updatedEmployee.status" class="ma0 pa0 existing-statuses di">
-      <li class="di" data-cy="status-name-wrong-permission">
         {{ updatedEmployee.status.name }}
       </li>
     </ul>
 
     <!-- Action when there is no status defined -->
-    <span v-if="!updatedEmployee.status" class="f6">
+    <span v-else class="f6">
       {{ $t('employee.status_modal_blank') }}
     </span>
   </div>

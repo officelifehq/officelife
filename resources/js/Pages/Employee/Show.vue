@@ -96,18 +96,18 @@
             </div>
           </div>
 
-          <!-- skills -->
-          <skills
-            :employee="employee"
-            :permissions="permissions"
-            :skills="skills"
-          />
-
           <hierarchy
             :employee="employee"
             :permissions="permissions"
             :managers-of-employee="managersOfEmployee"
             :direct-reports="directReports"
+          />
+
+          <!-- skills -->
+          <skills
+            :employee="employee"
+            :permissions="permissions"
+            :skills="skills"
           />
 
           <question
