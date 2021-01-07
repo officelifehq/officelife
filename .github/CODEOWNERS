@@ -1,6 +1,6 @@
-/app/* @core-members
-/bootstrap/* @core-members
-/config/* @core-members
-/database/* @core-members
-/resources/* @core-members
-/routes/* @core-members
+/app/* @officelifehq/core-members
+/bootstrap/* @officelifehq/core-members
+/config/* @officelifehq/core-members
+/database/* @officelifehq/core-members
+/resources/* @officelifehq/core-members
+/routes/* @officelifehq/core-members
