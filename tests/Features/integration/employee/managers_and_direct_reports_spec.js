@@ -15,23 +15,12 @@ describe('Employee - Assign managers and direct reports', function () {
     cy.assignManager('scott');
     cy.get('[data-cy=list-managers]').contains('Michael Scott');
 
-    // check employee log
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=view-log-button]').click();
-    cy.get('[data-cy=logs-list]').contains('Assigned Michael Scott as a manager.');
-    cy.get('[data-cy=breadcrumb-employee]').click();
-
     // remove manager
     cy.get('[data-cy=display-remove-manager-modal]').click();
     cy.get('[data-cy=remove-manager-button]').click();
     cy.get('[data-cy=confirm-remove-manager]').click();
+    cy.wait(500);
     cy.get('[data-cy=list-managers]').should('not.contain', 'Michael Scott');
-
-    // check employee log
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=view-log-button]').click();
-    cy.get('[data-cy=logs-list]').contains('Removed Michael Scott as a manager.');
-    cy.get('[data-cy=breadcrumb-employee]').click();
 
     // I will now test that I can add dwight schrute as Jim's direct report
     cy.get('[data-cy=add-hierarchy-button]').click();
@@ -40,22 +29,11 @@ describe('Employee - Assign managers and direct reports', function () {
     cy.get('[data-cy=potential-direct-report-button').click();
     cy.get('[data-cy=list-direct-reports]').contains('Dwight Schrute');
 
-    // check employee log
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=view-log-button]').click();
-    cy.get('[data-cy=logs-list]').contains('Assigned Dwight Schrute as a direct report.');
-    cy.get('[data-cy=breadcrumb-employee]').click();
-
     // remove direct report
     cy.get('[data-cy=display-remove-directreport-modal]').click();
     cy.get('[data-cy=remove-directreport-button]').click();
     cy.get('[data-cy=confirm-remove-directreport]').click();
     cy.get('[data-cy=list-direct-reports]').should('not.contain', 'Dwight Schrute');
-
-    // check employee log
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=view-log-button]').click();
-    cy.get('[data-cy=logs-list]').contains('Removed Dwight Schrute as a direct report.');
   });
 
   it('should assign a manager and a direct report as hr', function () {
@@ -76,23 +54,11 @@ describe('Employee - Assign managers and direct reports', function () {
     cy.assignManager('scott');
     cy.get('[data-cy=list-managers]').contains('Michael Scott');
 
-    // check employee log
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=view-log-button]').click();
-    cy.get('[data-cy=logs-list]').contains('Assigned Michael Scott as a manager.');
-    cy.get('[data-cy=breadcrumb-employee]').click();
-
     // remove manager
     cy.get('[data-cy=display-remove-manager-modal]').click();
     cy.get('[data-cy=remove-manager-button]').click();
     cy.get('[data-cy=confirm-remove-manager]').click();
     cy.get('[data-cy=list-managers]').should('not.contain', 'Michael Scott');
-
-    // check employee log
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=view-log-button]').click();
-    cy.get('[data-cy=logs-list]').contains('Removed Michael Scott as a manager.');
-    cy.get('[data-cy=breadcrumb-employee]').click();
 
     // I will now test that I can add dwight schrute as Jim's direct report
     cy.get('[data-cy=add-hierarchy-button]').click();
@@ -101,22 +67,11 @@ describe('Employee - Assign managers and direct reports', function () {
     cy.get('[data-cy=potential-direct-report-button').click();
     cy.get('[data-cy=list-direct-reports]').contains('Dwight Schrute');
 
-    // check employee log
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=view-log-button]').click();
-    cy.get('[data-cy=logs-list]').contains('Assigned Dwight Schrute as a direct report.');
-    cy.get('[data-cy=breadcrumb-employee]').click();
-
     // remove direct report
     cy.get('[data-cy=display-remove-directreport-modal]').click();
     cy.get('[data-cy=remove-directreport-button]').click();
     cy.get('[data-cy=confirm-remove-directreport]').click();
     cy.get('[data-cy=list-direct-reports]').should('not.contain', 'Dwight Schrute');
-
-    // check employee log
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=view-log-button]').click();
-    cy.get('[data-cy=logs-list]').contains('Removed Dwight Schrute as a direct report.');
   });
 
   it('should give managers a new tab on the dashboard when they become a manager', function () {

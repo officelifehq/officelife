@@ -91,6 +91,7 @@ class AttachEmployeeToSkill extends BaseService
             'company_id' => $this->data['company_id'],
             'name' => $name,
         ]);
+        $this->skill->refresh();
     }
 
     /**

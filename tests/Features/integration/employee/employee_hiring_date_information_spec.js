@@ -5,23 +5,11 @@ describe('Employee - manage hiring date information', function () {
     cy.createCompany();
 
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true);
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
 
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
+    cy.setHiredDate(1, 2, 1981, 3, 10);
 
-    cy.get('[data-cy=hired-at-date]').contains('Mar 10, 1981');
+    cy.get('[data-cy=employee-contract-renewal-date]').contains('Mar 10, 1981');
 
     cy.hasAuditLog('Set the hiring date', '/1/employees/2');
     cy.hasEmployeeLog('Set the hiring date', '/1/employees/2', '/1/employees/2/logs');
@@ -36,23 +24,10 @@ describe('Employee - manage hiring date information', function () {
 
     cy.changePermission(1, 200);
 
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
+    cy.setHiredDate(1, 2, 1981, 3, 10);
 
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
-
-    cy.get('[data-cy=hired-at-date]').contains('Mar 10, 1981');
+    cy.get('[data-cy=employee-contract-renewal-date]').contains('Mar 10, 1981');
 
     cy.hasEmployeeLog('Set the hiring date', '/1/employees/2', '/1/employees/2/logs');
   });
@@ -63,8 +38,7 @@ describe('Employee - manage hiring date information', function () {
     cy.createCompany();
     cy.changePermission(1, 300);
     cy.visit('/1/employees/1');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
+    cy.get('[data-cy=edit-important-date-link]').click();
     cy.get('[data-cy=hired-at-information]').should('not.exist');
   });
 

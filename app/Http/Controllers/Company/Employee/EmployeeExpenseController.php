@@ -27,15 +27,6 @@ class EmployeeExpenseController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        // expenses can only be seen by the employee who submitted them
-        // or by someone with the accountant role
-        // or by the manager
-        if (! $loggedEmployee->can_manage_expenses && $loggedEmployee->id != $employeeId) {
-            if (! $loggedEmployee->isManagerOf($employeeId)) {
-                return redirect('home');
-            }
-        }
-
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
@@ -49,7 +40,7 @@ class EmployeeExpenseController extends Controller
             ->latest()
             ->get();
 
-        return Inertia::render('Employee/Expenses/Index', [
+        return Inertia::render('Employee/Administration/Expenses/Index', [
             'employee' => [
                 'id' => $employeeId,
                 'name' => $employee->name,
@@ -81,21 +72,7 @@ class EmployeeExpenseController extends Controller
             return redirect('home');
         }
 
-        if ($expense->employee) {
-            if ($expense->employee_id != $employeeId) {
-                return redirect('home');
-            }
-        }
-
-        // the expense can only be seen by the employee who submitted it
-        // or by someone with the accountant role
-        if (! $loggedEmployee->can_manage_expenses && $loggedEmployee->id != $employeeId) {
-            if (! $loggedEmployee->isManagerOf($employeeId)) {
-                return redirect('home');
-            }
-        }
-
-        return Inertia::render('Employee/Expenses/Show', [
+        return Inertia::render('Employee/Administration/Expenses/Show', [
             'employee' => [
                 'id' => $employeeId,
             ],

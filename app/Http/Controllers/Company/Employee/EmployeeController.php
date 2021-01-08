@@ -123,23 +123,17 @@ class EmployeeController extends Controller
         // all skills of this employee
         $skills = EmployeeShowViewHelper::skills($employee);
 
-        // all expenses of this employee
-        $expenses = EmployeeShowViewHelper::expenses($employee, $permissions);
-
         // surveys, to know if the performance tab should be visible
         $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
 
         // the latest one on ones
         $oneOnOnes = EmployeeShowViewHelper::oneOnOnes($employee, $permissions);
 
-        // information about the timesheets
-        $timesheets = EmployeeShowViewHelper::timesheets($employee, $permissions);
-
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
         return Inertia::render('Employee/Show', [
-            'menu' => 'all',
+            'menu' => 'presentation',
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -154,10 +148,8 @@ class EmployeeController extends Controller
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'ships' => $ships,
             'skills' => $skills,
-            'expenses' => $expenses,
             'surveys' => $surveys,
             'oneOnOnes' => $oneOnOnes,
-            'timesheets' => $timesheets,
         ]);
     }
 

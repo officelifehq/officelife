@@ -169,17 +169,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('{employee}/workfromhome/{year}', 'Company\\Employee\\EmployeeWorkFromHomeController@year');
             Route::get('{employee}/workfromhome/{year}/{month}', 'Company\\Employee\\EmployeeWorkFromHomeController@month');
 
-            // expenses
-            Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee'])->only([
-                'index', 'show',
-            ]);
+            // administration tab
+            Route::prefix('{employee}/administration')->group(function () {
+                Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
+                    Route::get('', 'Company\\Employee\\EmployeeAdministrationController@show')->name('employees.administration.show');
 
-            // timesheets
-            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
-                Route::get('{employee}/timesheets', 'Company\\Employee\\EmployeeTimesheetController@index')->name('employee.timesheets.index');
-                Route::get('{employee}/timesheets/{timesheet}', 'Company\\Employee\\EmployeeTimesheetController@show')->name('employee.timesheets.show');
-                Route::get('{employee}/timesheets/overview/{year}', 'Company\\Employee\\EmployeeTimesheetController@year')->name('employee.timesheets.year');
-                Route::get('{employee}/timesheets/overview/{year}/{month}', 'Company\\Employee\\EmployeeTimesheetController@month')->name('employee.timesheets.month');
+                    // expenses
+                    Route::resource('expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee.administration'])->only([
+                        'index', 'show',
+                    ]);
+
+                    // timesheets
+                    Route::get('timesheets', 'Company\\Employee\\EmployeeTimesheetController@index')->name('employee.timesheets.index');
+                    Route::get('timesheets/{timesheet}', 'Company\\Employee\\EmployeeTimesheetController@show')->name('employee.timesheets.show');
+                    Route::get('timesheets/overview/{year}', 'Company\\Employee\\EmployeeTimesheetController@year')->name('employee.timesheets.year');
+                    Route::get('timesheets/overview/{year}/{month}', 'Company\\Employee\\EmployeeTimesheetController@month')->name('employee.timesheets.month');
+                });
+            });
+
+            // work tab
+            Route::prefix('{employee}/work')->group(function () {
+                Route::get('', 'Company\\Employee\\EmployeeWorkController@show')->name('employees.show.work');
+
+                // expenses
             });
         });
 

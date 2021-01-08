@@ -9,7 +9,7 @@
 
 <template>
   <div>
-    <h2 class="normal mb3 mt3">
+    <h2 class="normal mb3 mt3 fw5">
       {{ employee.name }}
     </h2>
     <ul class="list ma0 pl0 mb5">

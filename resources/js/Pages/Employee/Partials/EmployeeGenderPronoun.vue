@@ -45,7 +45,7 @@
         {{ $t('employee.pronoun_title') }}
       </span>
 
-      <a v-show="permissions.can_manage_pronouns" data-cy="add-description-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="modal = true">{{ $t('app.edit') }}</a>
+      <a v-show="permissions.can_manage_pronouns" data-cy="add-pronoun-link" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="modal = true">{{ $t('app.edit') }}</a>
     </div>
 
     <!-- Modal -->
@@ -101,7 +101,7 @@
     </ul>
 
     <!-- Action when there is no pronoun defined -->
-    <span v-if="!updatedEmployee.pronoun" class="bb b--dotted bt-0 bl-0 br-0 pointer f6">
+    <span v-if="!updatedEmployee.pronoun" class="f6">
       {{ $t('employee.pronoun_modal_blank') }}
     </span>
   </div>

@@ -450,14 +450,14 @@ class EmployeeShowViewHelperTest extends TestCase
                     'status' => 'created',
                     'expensed_at' => 'Jan 01, 1999',
                     'converted_amount' => null,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'.$expense->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses/'.$expense->id,
                 ],
             ],
             $array['expenses']->toArray()
         );
 
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses',
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses',
             $array['url']
         );
 
@@ -638,14 +638,14 @@ class EmployeeShowViewHelperTest extends TestCase
                     'ended_at' => 'Jan 07, 2018',
                     'duration' => '01 h 40',
                     'status' => Timesheet::APPROVED,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/'.$timesheetB->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/'.$timesheetB->id,
                 ],
             ],
             $array['entries']->toArray()
         );
 
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets',
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets',
             $array['view_all_url']
         );
     }

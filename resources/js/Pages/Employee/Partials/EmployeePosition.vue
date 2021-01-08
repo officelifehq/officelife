@@ -12,19 +12,27 @@
 .c-delete:hover {
   border-bottom-width: 0;
 }
+
+.special-color {
+  color: #566384;
+}
 </style>
 
 <template>
   <div class="di relative">
     <!-- Assigning a title is restricted to HR or admin -->
     <span v-if="permissions.can_manage_position && updatedEmployee.position" data-cy="position-label">
-      {{ title }}
+      <span class="special-color">
+        {{ title }}
+      </span>
       <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="modal = true">
         {{ $t('app.edit') }}
       </span>
     </span>
     <span v-else data-cy="position-title">
-      {{ title }}
+      <span class="special-color">
+        {{ title }}
+      </span>
     </span>
 
     <!-- Action when there is no title defined -->
