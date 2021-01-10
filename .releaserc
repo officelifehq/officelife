@@ -22,10 +22,22 @@
           "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
         },
         "writerOpts": {
-          "commitsSort": ["scope"]
+          "commitGroupsSort": ["feat"],
+          "commitsSort": ["scope", "subject"]
         }
       }
     ],
-    "@semantic-release/github"
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": ["CHANGELOG.md"]
+      }
+    ]
   ]
 }
