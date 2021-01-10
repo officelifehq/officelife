@@ -27,7 +27,7 @@ package=officelife-$version
 mkdir -p $package/database
 ln -s $ROOT/.env.example $package/
 ln -s $ROOT/artisan $package/
-ln -s $ROOT/CHANGELOG $package/
+ln -s $ROOT/CHANGELOG.md $package/
 ln -s $ROOT/composer.json $package/
 ln -s $ROOT/composer.lock $package/
 ln -s $ROOT/LICENSE $package/
