@@ -30,7 +30,6 @@
           <profile-sidebar
             :employee="employee"
             :permissions="permissions"
-            :pronouns="pronouns"
           />
         </div>
 
@@ -39,7 +38,6 @@
           <profile-header
             :employee="employee"
             :permissions="permissions"
-            :positions="positions"
             :teams="teams"
           />
 
@@ -112,14 +110,6 @@ export default {
       default: null,
     },
     notifications: {
-      type: Array,
-      default: null,
-    },
-    positions: {
-      type: Array,
-      default: null,
-    },
-    pronouns: {
       type: Array,
       default: null,
     },

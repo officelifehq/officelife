@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
-use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\PronounCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 
@@ -33,7 +31,6 @@ class EmployeeAdministrationController extends Controller
                 ->where('id', $employeeId)
                 ->with('teams')
                 ->with('company')
-                ->with('pronoun')
                 ->with('user')
                 ->with('status')
                 ->with('hardware')
@@ -68,7 +65,6 @@ class EmployeeAdministrationController extends Controller
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'hardware' => $hardware,
             'teams' => $employeeTeams,
-            'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'expenses' => $expenses,
             'timesheets' => $timesheets,
         ]);

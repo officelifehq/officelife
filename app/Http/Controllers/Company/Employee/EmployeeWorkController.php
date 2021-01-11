@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
-use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\PronounCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 
@@ -33,10 +31,8 @@ class EmployeeWorkController extends Controller
                 ->where('id', $employeeId)
                 ->with('teams')
                 ->with('company')
-                ->with('pronoun')
                 ->with('user')
                 ->with('status')
-                ->with('oneOnOneEntriesAsEmployee')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -66,7 +62,6 @@ class EmployeeWorkController extends Controller
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'teams' => $employeeTeams,
-            'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'worklogs' => $worklogsCollection,
             'workFromHomes' => $workFromHomeStats,
             'ships' => $ships,

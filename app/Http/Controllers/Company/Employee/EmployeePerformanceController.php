@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
-use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\PronounCollection;
-use App\Http\Collections\PositionCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
@@ -36,7 +33,6 @@ class EmployeePerformanceController extends Controller
                 ->where('id', $employeeId)
                 ->with('teams')
                 ->with('company')
-                ->with('pronoun')
                 ->with('user')
                 ->with('status')
                 ->firstOrFail();
@@ -59,14 +55,12 @@ class EmployeePerformanceController extends Controller
         // information about the employee, that depends on what the logged Employee can see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
-        return Inertia::render('Employee/Performance/Show', [
+        return Inertia::render('Employee/Performance/Index', [
             'menu' => 'performance',
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'teams' => $employeeTeams,
-            'positions' => PositionCollection::prepare($company->positions()->get()),
-            'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'surveys' => $surveys,
             'oneOnOnes' => $oneOnOnes,
         ]);

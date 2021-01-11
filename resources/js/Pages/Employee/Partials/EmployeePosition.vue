@@ -25,7 +25,7 @@
       <span class="special-color">
         {{ title }}
       </span>
-      <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="modal = true">
+      <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="toggleModal()">
         {{ $t('app.edit') }}
       </span>
     </span>
@@ -36,7 +36,7 @@
     </span>
 
     <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
+    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="toggleModal()">{{ $t('employee.position_modal_title') }}</a>
     <span v-else v-show="title == ''">
       {{ $t('employee.position_blank') }}
     </span>
@@ -90,15 +90,12 @@ export default {
       type: Object,
       default: null,
     },
-    positions: {
-      type: Array,
-      default: null,
-    },
   },
 
   data() {
     return {
       modal: false,
+      positions: null,
       search: '',
       title: '',
       updatedEmployee: Object,
@@ -109,9 +106,11 @@ export default {
     filteredList() {
       // filter the list when searching
       // also, sort the list by title
-      var list = this.positions.filter(position => {
-        return position.title.toLowerCase().includes(this.search.toLowerCase());
-      });
+      if (this.positions) {
+        var list = this.positions.filter(position => {
+          return position.title.toLowerCase().includes(this.search.toLowerCase());
+        });
+      }
 
       return _.sortBy(list, ['title']);
     }
@@ -127,7 +126,20 @@ export default {
 
   methods: {
     toggleModal() {
-      this.modal = false;
+      this.load();
+      this.modal = !this.modal;
+    },
+
+    load() {
+      if (! this.positions) {
+        axios.get(`${this.$page.props.auth.company.id}/positions`)
+          .then(response => {
+            this.positions = response.data.data;
+          })
+          .catch(error => {
+            this.form.errors = error.response.data;
+          });
+      }
     },
 
     assign(position) {

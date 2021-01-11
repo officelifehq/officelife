@@ -38,6 +38,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('notifications', 'User\\Notification\\NotificationController@index');
         Route::post('notifications/read', 'User\\Notification\\MarkNotificationAsReadController@store');
 
+        // get the list of the pronouns in the company
+        Route::get('pronouns', 'Company\\Company\\PronounController@index');
+
+        // get the list of the positions in the company
+        Route::get('positions', 'Company\\Company\\PositionController@index');
+
         Route::prefix('dashboard')->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
 
@@ -185,13 +191,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('', 'Company\\Employee\\EmployeePerformanceController@show')->name('employees.show.performance');
 
                 // survey
-                Route::get('{employee}/performance/surveys', 'Company\\Employee\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
-                Route::get('{employee}/performance/{survey}', 'Company\\Employee\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
+                Route::get('surveys', 'Company\\Employee\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
+                Route::get('/surveys/{survey}', 'Company\\Employee\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
 
                 // one on ones
-                Route::resource('{employee}/oneonones', 'Company\\Employee\\EmployeeOneOnOneController', ['as' => 'employees'])->only([
-                    'index', 'show',
-                ]);
+                Route::get('oneonones', 'Company\\Employee\\EmployeeOneOnOneController@index')->name('employees.show.performance.oneonones.index');
+                Route::get('oneonones/{oneonone}', 'Company\\Employee\\EmployeeOneOnOneController@show')->name('employees.show.performance.oneonones.show');
             });
         });
 
@@ -308,7 +313,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('account/general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
         });
 
-        // only available to hr role
+        // only available to hr role or administrator
         Route::middleware(['hr'])->group(function () {
             // adminland
             Route::get('account', 'Company\\Adminland\\AdminlandController@index');

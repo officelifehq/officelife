@@ -39,7 +39,6 @@
           <profile-sidebar
             :employee="employee"
             :permissions="permissions"
-            :pronouns="pronouns"
           />
         </div>
 
@@ -48,7 +47,6 @@
           <profile-header
             :employee="employee"
             :permissions="permissions"
-            :positions="positions"
             :teams="teams"
           />
 
@@ -77,7 +75,7 @@ import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
 import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
 import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
 import RateYourManagerPollResults from '@/Pages/Employee/Performance/Partials/RateYourManagerPollResults';
-import OneOnOne from '@/Pages/Employee/Partials/OneOnOneWithManager';
+import OneOnOne from '@/Pages/Employee/Performance/Partials/OneOnOneWithManager';
 
 export default {
   components: {
@@ -110,15 +108,7 @@ export default {
       type: Array,
       default: null,
     },
-    positions: {
-      type: Array,
-      default: null,
-    },
     teams: {
-      type: Array,
-      default: null,
-    },
-    pronouns: {
       type: Array,
       default: null,
     },

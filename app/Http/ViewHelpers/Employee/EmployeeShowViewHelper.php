@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
 use App\Helpers\MoneyHelper;
+use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\WorklogHelper;
 use App\Models\Company\Company;
@@ -31,6 +32,7 @@ class EmployeeShowViewHelper
     {
         $address = $employee->getCurrentAddress();
         $company = $employee->company;
+        $teams = $employee->teams;
 
         return [
             'id' => $employee->id,
@@ -83,6 +85,7 @@ class EmployeeShowViewHelper
                 'id' => $employee->status->id,
                 'name' => $employee->status->name,
             ],
+            'teams' => ($teams->count() == 0) ? null : self::teams($teams, $company),
             'url' => [
                 'audit_log' => route('employee.show.logs', [
                     'company' => $company,
@@ -384,16 +387,12 @@ class EmployeeShowViewHelper
      */
     public static function workFromHomeStats(Employee $employee): array
     {
-        $workFromHomes = $employee->workFromHomes;
-
-        // get all entries in the current year
-        $entries = $workFromHomes->filter(function ($entry) {
-            return $entry->date->isCurrentYear();
-        });
+        $currentYear = Carbon::now()->year;
+        $workFromHomes = $employee->workFromHomes()->whereYear('date', (string) $currentYear)->get();
 
         return [
             'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
-            'number_times_this_year' => $entries->count(),
+            'number_times_this_year' => $workFromHomes->count(),
             'url' => route('employee.work.workfromhome', [
                 'company' => $employee->company,
                 'employee' => $employee,
@@ -647,7 +646,7 @@ class EmployeeShowViewHelper
                         'employee' => $oneOnOne->manager,
                     ]),
                 ],
-                'url' => route('employees.oneonones.show', [
+                'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $employee,
                     'oneonone' => $oneOnOne,
@@ -657,7 +656,7 @@ class EmployeeShowViewHelper
 
         return [
             'entries' => $collection,
-            'view_all_url' => route('employees.oneonones.index', [
+            'view_all_url' => route('employees.show.performance.oneonones.index', [
                 'company' => $company,
                 'employee' => $employee,
             ]),
@@ -739,5 +738,46 @@ class EmployeeShowViewHelper
                 'employee' => $employee,
             ]),
         ];
+    }
+
+    /**
+     * Array containing information about all the pronouns used in the company.
+     *
+     * @return Collection|null
+     */
+    public static function pronouns(): ?Collection
+    {
+        $pronounCollection = collect([]);
+        $pronouns = Pronoun::orderBy('id', 'asc')->get();
+
+        foreach ($pronouns as $pronoun) {
+            $pronounCollection->push([
+                'id' => $pronoun->id,
+                'label' => $pronoun->label,
+            ]);
+        }
+
+        return $pronounCollection;
+    }
+
+    /**
+     * Array containing information about all the positions used in the company.
+     *
+     * @param Company @company
+     * @return Collection|null
+     */
+    public static function positions(Company $company): ?Collection
+    {
+        $positionCollection = collect([]);
+        $positions = $company->positions;
+
+        foreach ($positions as $position) {
+            $positionCollection->push([
+                'id' => $position->id,
+                'title' => $position->title,
+            ]);
+        }
+
+        return $positionCollection;
     }
 }

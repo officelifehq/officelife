@@ -51,7 +51,7 @@
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/oneonones'" data-cy="view-all-one-on-ones">{{ $t('app.breadcrumb_employee_one_on_ones') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance/oneonones'" data-cy="view-all-one-on-ones">{{ $t('app.breadcrumb_employee_one_on_ones') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_one_on_one') }}

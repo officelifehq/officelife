@@ -30,7 +30,6 @@
 
     <employee-gender-pronoun
       :employee="employee"
-      :pronouns="pronouns"
       :permissions="permissions"
     />
 
@@ -69,10 +68,6 @@ export default {
     },
     permissions: {
       type: Object,
-      default: null,
-    },
-    pronouns: {
-      type: Array,
       default: null,
     },
   },

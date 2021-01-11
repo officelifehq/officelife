@@ -35,17 +35,4 @@ class Pronoun extends Model
     {
         return trans($this->translation_key);
     }
-
-    /**
-     * Transform the object to an array representing this object.
-     *
-     * @return array
-     */
-    public function toObject(): array
-    {
-        return [
-            'id' => $this->id,
-            'label' => $this->label,
-        ];
-    }
 }

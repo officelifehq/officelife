@@ -4,15 +4,12 @@ namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\PronounCollection;
-use App\Http\Collections\PositionCollection;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
@@ -76,7 +73,6 @@ class EmployeeController extends Controller
                 ->where('id', $employeeId)
                 ->with('teams')
                 ->with('company')
-                ->with('pronoun')
                 ->with('user')
                 ->with('status')
                 ->with('places')
@@ -118,8 +114,6 @@ class EmployeeController extends Controller
             'directReports' => $directReportsOfEmployee,
             'questions' => $questions,
             'teams' => $employeeTeams,
-            'positions' => PositionCollection::prepare($company->positions()->get()),
-            'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'skills' => $skills,
         ]);
     }
