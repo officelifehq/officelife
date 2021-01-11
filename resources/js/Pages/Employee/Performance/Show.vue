@@ -1,4 +1,13 @@
 <style lang="scss" scoped>
+.avatar {
+  width: 80px;
+  height: 80px;
+  top: 19%;
+  left: 50%;
+  margin-top: -40px; /* Half the height */
+  margin-left: -40px; /* Half the width */
+}
+
 .you {
   background-color: #e6fffa;
   border-color: #38b2ac;
@@ -48,46 +57,14 @@
             :menu="menu"
           />
 
-          <hierarchy
-            :employee="employee"
-            :permissions="permissions"
-            :managers-of-employee="managersOfEmployee"
-            :direct-reports="directReports"
+          <rate-your-manager-poll-results
+            :surveys="surveys"
           />
 
-          <skills
-            :employee="employee"
-            :permissions="permissions"
-            :skills="skills"
+          <one-on-one
+            v-if="permissions.can_see_one_on_one_with_manager"
+            :one-on-ones="oneOnOnes"
           />
-
-          <question
-            :questions="questions"
-          />
-        </div>
-      </div>
-    </div>
-
-
-    <div class="ph2 ph5-ns">
-      <!-- CENTRAL CONTENT -->
-      <div class="cf mw9 center">
-        <template v-if="employee.locked">
-          <div class="w-30 center tc ba bb-gray ph3 pv2 mb4 br3 bg-white">
-            🔐 {{ $t('employee.account_locked') }}
-          </div>
-        </template>
-
-        <!-- LEFT COLUMN -->
-        <div class="fl w-40-l w-100">
-          <location
-            :employee="employee"
-            :permissions="permissions"
-          />
-        </div>
-
-        <!-- RIGHT COLUMN -->
-        <div class="fl w-60-l w-100 pl4-l">
         </div>
       </div>
     </div>
@@ -99,10 +76,8 @@ import Layout from '@/Shared/Layout';
 import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
 import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
 import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
-import Hierarchy from '@/Pages/Employee/Partials/Hierarchy';
-import Location from '@/Pages/Employee/Partials/Location';
-import Question from '@/Pages/Employee/Partials/Question';
-import Skills from '@/Pages/Employee/Partials/Skills';
+import RateYourManagerPollResults from '@/Pages/Employee/Performance/Partials/RateYourManagerPollResults';
+import OneOnOne from '@/Pages/Employee/Partials/OneOnOneWithManager';
 
 export default {
   components: {
@@ -110,10 +85,8 @@ export default {
     ProfileHeader,
     ProfileSidebar,
     ProfileTabSwitcher,
-    Hierarchy,
-    Location,
-    Question,
-    Skills,
+    RateYourManagerPollResults,
+    OneOnOne,
   },
 
   props: {
@@ -129,19 +102,11 @@ export default {
       type: String,
       default: 'all',
     },
-    teams: {
-      type: Array,
-      default: null,
-    },
     notifications: {
       type: Array,
       default: null,
     },
-    managersOfEmployee: {
-      type: Array,
-      default: null,
-    },
-    directReports: {
+    employeeTeams: {
       type: Array,
       default: null,
     },
@@ -149,16 +114,20 @@ export default {
       type: Array,
       default: null,
     },
+    teams: {
+      type: Array,
+      default: null,
+    },
     pronouns: {
       type: Array,
       default: null,
     },
-    questions: {
-      type: Array,
+    surveys: {
+      type: Object,
       default: null,
     },
-    skills: {
-      type: Array,
+    oneOnOnes: {
+      type: Object,
       default: null,
     },
   },
@@ -168,7 +137,7 @@ export default {
       flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
-  },
+  }
 };
 
 </script>

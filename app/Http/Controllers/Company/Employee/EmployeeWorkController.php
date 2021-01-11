@@ -36,8 +36,7 @@ class EmployeeWorkController extends Controller
                 ->with('pronoun')
                 ->with('user')
                 ->with('status')
-                ->with('hardware')
-                ->with('expenses')
+                ->with('oneOnOneEntriesAsEmployee')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -46,31 +45,31 @@ class EmployeeWorkController extends Controller
         // information about what the logged employee can do
         $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
 
-        // hardware
-        $hardware = EmployeeShowViewHelper::hardware($employee, $permissions);
+        // worklogs
+        $worklogsCollection = EmployeeShowViewHelper::worklogs($employee);
+
+        // work from home
+        $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
 
         // all the teams the employee belongs to
         $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $company);
 
-        // all expenses of this employee
-        $expenses = EmployeeShowViewHelper::expenses($employee, $permissions);
-
-        // information about the timesheets
-        $timesheets = EmployeeShowViewHelper::timesheets($employee, $permissions);
+        // all recent ships of this employee
+        $ships = EmployeeShowViewHelper::recentShips($employee);
 
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
         return Inertia::render('Employee/Work/Show', [
-            'menu' => 'administration',
+            'menu' => 'work',
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'hardware' => $hardware,
             'teams' => $employeeTeams,
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
-            'expenses' => $expenses,
-            'timesheets' => $timesheets,
+            'worklogs' => $worklogsCollection,
+            'workFromHomes' => $workFromHomeStats,
+            'ships' => $ships,
         ]);
     }
 }

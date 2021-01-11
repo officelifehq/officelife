@@ -366,7 +366,7 @@ class EmployeeShowViewHelper
 
         $array = [
             'worklogs_collection' => $worklogsCollection,
-            'url' => route('employees.worklogs', [
+            'url' => route('employee.work.worklogs', [
                 'company' => $employee->company,
                 'employee' => $employee,
             ]),
@@ -394,7 +394,7 @@ class EmployeeShowViewHelper
         return [
             'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
             'number_times_this_year' => $entries->count(),
-            'url' => route('employees.workfromhome', [
+            'url' => route('employee.work.workfromhome', [
                 'company' => $employee->company,
                 'employee' => $employee,
             ]),

@@ -6,7 +6,7 @@ describe('Employee - hardware', function () {
 
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true);
 
-    cy.visit('/1/employees/2');
+    cy.visit('/1/employees/2/administration');
     cy.get('[data-cy=hardware-blank]').should('exist');
 
     cy.get('[data-cy=header-adminland-link]').click();
@@ -23,7 +23,7 @@ describe('Employee - hardware', function () {
     cy.get('[data-cy=submit-add-hardware-button]').click();
 
     // go to the employee page
-    cy.visit('/1/employees/2');
+    cy.visit('/1/employees/2/administration');
     cy.get('[data-cy=hardware-blank]').should('not.exist');
     cy.get('[data-cy=hardware-item-1]').should('contain', 'Blackberry 18');
   });
@@ -37,7 +37,7 @@ describe('Employee - hardware', function () {
 
     cy.changePermission(1, 200);
 
-    cy.visit('/1/employees/2');
+    cy.visit('/1/employees/2/administration');
     cy.get('[data-cy=hardware-blank]').should('exist');
 
     cy.get('[data-cy=header-adminland-link]').click();
@@ -54,7 +54,7 @@ describe('Employee - hardware', function () {
     cy.get('[data-cy=submit-add-hardware-button]').click();
 
     // go to the employee page
-    cy.visit('/1/employees/2');
+    cy.visit('/1/employees/2/administration');
     cy.get('[data-cy=hardware-blank]').should('not.exist');
     cy.get('[data-cy=hardware-item-1]').should('contain', 'Blackberry 18');
   });
@@ -64,7 +64,7 @@ describe('Employee - hardware', function () {
 
     cy.createCompany();
 
-    cy.visit('/1/employees/1');
+    cy.visit('/1/employees/1/administration');
     cy.get('[data-cy=hardware-blank]').should('exist');
 
     cy.get('[data-cy=header-adminland-link]').click();
@@ -83,7 +83,7 @@ describe('Employee - hardware', function () {
     cy.changePermission(1, 300);
 
     // go to the employee page
-    cy.visit('/1/employees/1');
+    cy.visit('/1/employees/1/administration');
     cy.get('[data-cy=hardware-blank]').should('not.exist');
     cy.get('[data-cy=hardware-item-1]').should('contain', 'Blackberry 18');
   });
@@ -105,11 +105,14 @@ describe('Employee - hardware', function () {
     cy.get('[data-cy=employee-selector]').click();
     cy.get('ul.vs__dropdown-menu>li').eq(1).click();
     cy.get('[data-cy=employee-selector]').click();
+    cy.wait(100);
     cy.get('[data-cy=submit-add-hardware-button]').click();
 
     cy.changePermission(1, 300);
 
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=hardware-blank]').should('not.exist');
+    cy.wait(1000);
+
+    cy.visit('/1/employees/2/administration');
+    cy.url().should('include', '/home');
   });
 });

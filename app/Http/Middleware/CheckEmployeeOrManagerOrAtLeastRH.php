@@ -44,6 +44,7 @@ class CheckEmployeeOrManagerOrAtLeastRH
             return $next($request);
         }
 
-        abort(401);
+        return redirect('home');
+        //abort(401);
     }
 }

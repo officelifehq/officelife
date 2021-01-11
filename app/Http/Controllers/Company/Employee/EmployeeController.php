@@ -17,7 +17,6 @@ use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\Manager\UnassignManager;
-use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
 
 class EmployeeController extends Controller
 {
@@ -82,12 +81,8 @@ class EmployeeController extends Controller
                 ->with('status')
                 ->with('places')
                 ->with('managers')
-                ->with('workFromHomes')
-                ->with('hardware')
                 ->with('ships')
                 ->with('skills')
-                ->with('expenses')
-                ->with('oneOnOneEntriesAsEmployee')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -102,32 +97,14 @@ class EmployeeController extends Controller
         // direct reports
         $directReportsOfEmployee = EmployeeShowViewHelper::directReports($employee);
 
-        // worklogs
-        $worklogsCollection = EmployeeShowViewHelper::worklogs($employee);
-
-        // work from home
-        $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
-
         // questions
         $questions = EmployeeShowViewHelper::questions($employee);
-
-        // hardware
-        $hardware = EmployeeShowViewHelper::hardware($employee, $permissions);
 
         // all the teams the employee belongs to
         $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $company);
 
-        // all recent ships of this employee
-        $ships = EmployeeShowViewHelper::recentShips($employee);
-
         // all skills of this employee
         $skills = EmployeeShowViewHelper::skills($employee);
-
-        // surveys, to know if the performance tab should be visible
-        $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
-
-        // the latest one on ones
-        $oneOnOnes = EmployeeShowViewHelper::oneOnOnes($employee, $permissions);
 
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
@@ -139,17 +116,11 @@ class EmployeeController extends Controller
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
-            'worklogs' => $worklogsCollection,
-            'workFromHomes' => $workFromHomeStats,
             'questions' => $questions,
-            'hardware' => $hardware,
             'teams' => $employeeTeams,
             'positions' => PositionCollection::prepare($company->positions()->get()),
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
-            'ships' => $ships,
             'skills' => $skills,
-            'surveys' => $surveys,
-            'oneOnOnes' => $oneOnOnes,
         ]);
     }
 

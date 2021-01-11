@@ -57,6 +57,15 @@
             v-if="permissions.can_see_expenses"
             :expenses="expenses"
           />
+
+          <hardware
+            v-if="permissions.can_see_hardware"
+            :hardware="hardware"
+          />
+
+          <holidays
+            :employee="employee"
+          />
         </div>
       </div>
     </div>
@@ -70,6 +79,8 @@ import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
 import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
 import Expenses from '@/Pages/Employee/Administration/Partials/Expenses';
 import Timesheets from '@/Pages/Employee/Administration/Partials/Timesheets';
+import Hardware from '@/Pages/Employee/Administration/Partials/Hardware';
+import Holidays from '@/Pages/Employee/Administration/Partials/Holidays';
 
 export default {
   components: {
@@ -79,6 +90,8 @@ export default {
     ProfileTabSwitcher,
     Expenses,
     Timesheets,
+    Hardware,
+    Holidays,
   },
 
   props: {
@@ -102,20 +115,8 @@ export default {
       type: Array,
       default: null,
     },
-    managersOfEmployee: {
-      type: Array,
-      default: null,
-    },
-    directReports: {
-      type: Array,
-      default: null,
-    },
     positions: {
       type: Array,
-      default: null,
-    },
-    worklogs: {
-      type: Object,
       default: null,
     },
     pronouns: {
@@ -126,31 +127,11 @@ export default {
       type: Object,
       default: null,
     },
-    questions: {
-      type: Array,
-      default: null,
-    },
     hardware: {
       type: Array,
       default: null,
     },
-    ships: {
-      type: Array,
-      default: null,
-    },
-    skills: {
-      type: Array,
-      default: null,
-    },
     expenses: {
-      type: Object,
-      default: null,
-    },
-    surveys: {
-      type: Object,
-      default: null,
-    },
-    oneOnOnes: {
       type: Object,
       default: null,
     },

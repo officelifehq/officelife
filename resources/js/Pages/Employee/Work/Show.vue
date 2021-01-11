@@ -24,7 +24,7 @@
         </ul>
       </div>
 
-      <!-- Main content -->
+      <!-- -->
       <div class="cf mw9 center br3 mb5">
         <div class="fl w-25 pa2">
           <profile-sidebar
@@ -48,46 +48,20 @@
             :menu="menu"
           />
 
-          <hierarchy
+          <work-from-home
             :employee="employee"
             :permissions="permissions"
-            :managers-of-employee="managersOfEmployee"
-            :direct-reports="directReports"
+            :statistics="workFromHomes"
           />
 
-          <skills
-            :employee="employee"
+          <worklogs
             :permissions="permissions"
-            :skills="skills"
+            :worklogs="worklogs"
           />
 
-          <question
-            :questions="questions"
+          <recent-ships
+            :ships="ships"
           />
-        </div>
-      </div>
-    </div>
-
-
-    <div class="ph2 ph5-ns">
-      <!-- CENTRAL CONTENT -->
-      <div class="cf mw9 center">
-        <template v-if="employee.locked">
-          <div class="w-30 center tc ba bb-gray ph3 pv2 mb4 br3 bg-white">
-            🔐 {{ $t('employee.account_locked') }}
-          </div>
-        </template>
-
-        <!-- LEFT COLUMN -->
-        <div class="fl w-40-l w-100">
-          <location
-            :employee="employee"
-            :permissions="permissions"
-          />
-        </div>
-
-        <!-- RIGHT COLUMN -->
-        <div class="fl w-60-l w-100 pl4-l">
         </div>
       </div>
     </div>
@@ -99,10 +73,9 @@ import Layout from '@/Shared/Layout';
 import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
 import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
 import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
-import Hierarchy from '@/Pages/Employee/Partials/Hierarchy';
-import Location from '@/Pages/Employee/Partials/Location';
-import Question from '@/Pages/Employee/Partials/Question';
-import Skills from '@/Pages/Employee/Partials/Skills';
+import Worklogs from '@/Pages/Employee/Work/Partials/Worklogs';
+import WorkFromHome from '@/Pages/Employee/Work/Partials/WorkFromHome';
+import RecentShips from '@/Pages/Employee/Work/Partials/RecentShips';
 
 export default {
   components: {
@@ -110,10 +83,9 @@ export default {
     ProfileHeader,
     ProfileSidebar,
     ProfileTabSwitcher,
-    Hierarchy,
-    Location,
-    Question,
-    Skills,
+    Worklogs,
+    WorkFromHome,
+    RecentShips,
   },
 
   props: {
@@ -137,27 +109,23 @@ export default {
       type: Array,
       default: null,
     },
-    managersOfEmployee: {
-      type: Array,
-      default: null,
-    },
-    directReports: {
-      type: Array,
-      default: null,
-    },
     positions: {
       type: Array,
+      default: null,
+    },
+    worklogs: {
+      type: Object,
       default: null,
     },
     pronouns: {
       type: Array,
       default: null,
     },
-    questions: {
-      type: Array,
+    workFromHomes: {
+      type: Object,
       default: null,
     },
-    skills: {
+    ships: {
       type: Array,
       default: null,
     },

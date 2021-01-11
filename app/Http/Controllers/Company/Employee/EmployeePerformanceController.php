@@ -44,40 +44,31 @@ class EmployeePerformanceController extends Controller
             return redirect('home');
         }
 
-        // surveys
-        $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
-
-        // if there are no surveys, redirect to the employee profile page
-        if (! $surveys) {
-            return redirect()->route('employees.show', [
-                'company' => $company,
-                'employee' => $employee,
-            ]);
-        }
-
         // all the teams the employee belongs to
         $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee->company);
-
-        // all teams in company
-        $teams = $company->teams()->with('leader')->get();
-        $teams = EmployeeShowViewHelper::teams($teams, $employee->company);
 
         // information about the logged employee
         $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
 
+        // the latest one on ones
+        $oneOnOnes = EmployeeShowViewHelper::oneOnOnes($employee, $permissions);
+
+        // surveys
+        $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
+
         // information about the employee, that depends on what the logged Employee can see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
-        return Inertia::render('Employee/Performance/Index', [
+        return Inertia::render('Employee/Performance/Show', [
             'menu' => 'performance',
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'employeeTeams' => $employeeTeams,
+            'teams' => $employeeTeams,
             'positions' => PositionCollection::prepare($company->positions()->get()),
-            'teams' => $teams,
             'pronouns' => PronounCollection::prepare(Pronoun::all()),
             'surveys' => $surveys,
+            'oneOnOnes' => $oneOnOnes,
         ]);
     }
 }

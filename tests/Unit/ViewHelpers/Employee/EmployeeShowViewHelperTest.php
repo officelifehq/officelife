@@ -258,7 +258,7 @@ class EmployeeShowViewHelperTest extends TestCase
             [
                 'work_from_home_today' => true,
                 'number_times_this_year' => 3,
-                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/workfromhome',
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/workfromhome',
             ],
             $array
         );
