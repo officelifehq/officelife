@@ -3,9 +3,8 @@
 return [
     'menu_changelog' => 'View changes',
 
-    'its_you' => 'it’s you',
-
     'account_locked' => 'This account is locked.',
+
     'menu_all' => 'Presentation',
     'menu_performance' => 'Performance',
     'menu_work' => 'Work',

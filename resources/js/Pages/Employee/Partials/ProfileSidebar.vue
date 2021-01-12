@@ -42,6 +42,10 @@
       :employee="employee"
       :permissions="permissions"
     />
+
+    <inertia-link :href="employee.url.audit_log" class="pointer" data-cy="view-log-button">
+      {{ $t('employee.menu_changelog') }}
+    </inertia-link>
   </div>
 </template>
 

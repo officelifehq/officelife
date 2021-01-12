@@ -762,7 +762,7 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about all the positions used in the company.
      *
-     * @param Company @company
+     * @param Company $company
      * @return Collection|null
      */
     public static function positions(Company $company): ?Collection
