@@ -71,7 +71,6 @@ class EmployeeController extends Controller
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
-                ->with('teams')
                 ->with('company')
                 ->with('user')
                 ->with('status')

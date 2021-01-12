@@ -31,7 +31,6 @@ class EmployeePerformanceController extends Controller
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
-                ->with('teams')
                 ->with('company')
                 ->with('user')
                 ->with('status')
@@ -39,9 +38,6 @@ class EmployeePerformanceController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
-
-        // all the teams the employee belongs to
-        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee->company);
 
         // information about the logged employee
         $permissions = EmployeeShowViewHelper::permissions($loggedEmployee, $employee);
@@ -60,7 +56,6 @@ class EmployeePerformanceController extends Controller
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'teams' => $employeeTeams,
             'surveys' => $surveys,
             'oneOnOnes' => $oneOnOnes,
         ]);

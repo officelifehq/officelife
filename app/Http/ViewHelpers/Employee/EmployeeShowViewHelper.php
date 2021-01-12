@@ -68,7 +68,6 @@ class EmployeeShowViewHelper
             'address' => is_null($address) ? null : [
                 'sentence' => $permissions['can_see_complete_address'] ? $address->getCompleteAddress() : $address->getPartialAddress(),
                 'openstreetmap_url' => $address->getMapUrl($permissions['can_see_complete_address']),
-                'image' => $address->getStaticMapImage(7, 600, 130),
             ],
             'position' => (! $employee->position) ? null : [
                 'id' => $employee->position->id,

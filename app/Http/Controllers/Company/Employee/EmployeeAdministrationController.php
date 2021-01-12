@@ -29,7 +29,6 @@ class EmployeeAdministrationController extends Controller
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
-                ->with('teams')
                 ->with('company')
                 ->with('user')
                 ->with('status')
@@ -46,9 +45,6 @@ class EmployeeAdministrationController extends Controller
         // hardware
         $hardware = EmployeeShowViewHelper::hardware($employee, $permissions);
 
-        // all the teams the employee belongs to
-        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $company);
-
         // all expenses of this employee
         $expenses = EmployeeShowViewHelper::expenses($employee, $permissions);
 
@@ -58,13 +54,12 @@ class EmployeeAdministrationController extends Controller
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
-        return Inertia::render('Employee/Administration/Show', [
+        return Inertia::render('Employee/Administration/Index', [
             'menu' => 'administration',
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'hardware' => $hardware,
-            'teams' => $employeeTeams,
             'expenses' => $expenses,
             'timesheets' => $timesheets,
         ]);

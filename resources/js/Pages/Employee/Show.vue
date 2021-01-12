@@ -38,7 +38,6 @@
           <profile-header
             :employee="employee"
             :permissions="permissions"
-            :teams="teams"
           />
 
           <profile-tab-switcher
@@ -65,30 +64,6 @@
         </div>
       </div>
     </div>
-
-
-    <div class="ph2 ph5-ns">
-      <!-- CENTRAL CONTENT -->
-      <div class="cf mw9 center">
-        <template v-if="employee.locked">
-          <div class="w-30 center tc ba bb-gray ph3 pv2 mb4 br3 bg-white">
-            🔐 {{ $t('employee.account_locked') }}
-          </div>
-        </template>
-
-        <!-- LEFT COLUMN -->
-        <div class="fl w-40-l w-100">
-          <location
-            :employee="employee"
-            :permissions="permissions"
-          />
-        </div>
-
-        <!-- RIGHT COLUMN -->
-        <div class="fl w-60-l w-100 pl4-l">
-        </div>
-      </div>
-    </div>
   </layout>
 </template>
 
@@ -98,7 +73,6 @@ import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
 import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
 import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
 import Hierarchy from '@/Pages/Employee/Partials/Hierarchy';
-import Location from '@/Pages/Employee/Partials/Location';
 import Question from '@/Pages/Employee/Partials/Question';
 import Skills from '@/Pages/Employee/Partials/Skills';
 
@@ -109,7 +83,6 @@ export default {
     ProfileSidebar,
     ProfileTabSwitcher,
     Hierarchy,
-    Location,
     Question,
     Skills,
   },
@@ -126,10 +99,6 @@ export default {
     menu: {
       type: String,
       default: 'all',
-    },
-    teams: {
-      type: Array,
-      default: null,
     },
     notifications: {
       type: Array,

@@ -29,7 +29,6 @@ class EmployeeWorkController extends Controller
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
-                ->with('teams')
                 ->with('company')
                 ->with('user')
                 ->with('status')
@@ -47,21 +46,17 @@ class EmployeeWorkController extends Controller
         // work from home
         $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
 
-        // all the teams the employee belongs to
-        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $company);
-
         // all recent ships of this employee
         $ships = EmployeeShowViewHelper::recentShips($employee);
 
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
-        return Inertia::render('Employee/Work/Show', [
+        return Inertia::render('Employee/Work/Index', [
             'menu' => 'work',
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'teams' => $employeeTeams,
             'worklogs' => $worklogsCollection,
             'workFromHomes' => $workFromHomeStats,
             'ships' => $ships,

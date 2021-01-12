@@ -20,25 +20,21 @@
 
 <template>
   <div class="di relative">
-    <!-- Assigning a title is restricted to HR or admin -->
-    <span v-if="permissions.can_manage_position && updatedEmployee.position" data-cy="position-label">
+    <span v-if="updatedEmployee.position" data-cy="position-label">
       <span class="special-color">
         {{ title }}
       </span>
-      <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="toggleModal()">
+      <span v-if="permissions.can_manage_position" data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="toggleModal()">
         {{ $t('app.edit') }}
       </span>
     </span>
-    <span v-else data-cy="position-title">
-      <span class="special-color">
-        {{ title }}
-      </span>
-    </span>
 
-    <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="toggleModal()">{{ $t('employee.position_modal_title') }}</a>
+    <!-- Action when there is no title defined + has the right to set one -->
+    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7" @click.prevent="toggleModal()">{{ $t('employee.position_modal_title') }}</a>
+
+    <!-- Action when there is no title defined + doesn't have the right to set one -->
     <span v-else v-show="title == ''">
-      {{ $t('employee.position_blank') }}
+      {{ $t('employee.position_no_position_set') }}
     </span>
 
     <!-- Modal -->

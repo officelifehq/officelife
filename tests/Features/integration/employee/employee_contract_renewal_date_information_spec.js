@@ -103,6 +103,8 @@ describe('Employee - manage contract renewal date information', function () {
         cy.get('[data-cy=menu-contract-link]').click();
         cy.setContractRenewalDate(1, 1, 3);
 
+        cy.wait(100);
+
         // check on the employee profile page that the date is there
         cy.get('[data-cy=employee-contract-renewal-date]').should('exist');
 

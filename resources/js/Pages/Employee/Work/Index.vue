@@ -38,7 +38,6 @@
           <profile-header
             :employee="employee"
             :permissions="permissions"
-            :teams="teams"
           />
 
           <profile-tab-switcher
@@ -98,10 +97,6 @@ export default {
     menu: {
       type: String,
       default: 'all',
-    },
-    teams: {
-      type: Array,
-      default: null,
     },
     notifications: {
       type: Array,
