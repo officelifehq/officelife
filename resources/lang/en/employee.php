@@ -17,7 +17,7 @@ return [
     'description_clear' => 'Clear description',
     'description_text_help' => 'Everyone in the company will be able to read this when visiting your profile.',
     'description_text_title' => 'How would you describe yourself? What are your passions?',
-    'description_success' => 'The description has been updated.',
+    'description_success' => 'The description has been updated',
 
     'important_dates' => 'Important dates',
     'birthdate_information_full' => 'Born on {date}',
