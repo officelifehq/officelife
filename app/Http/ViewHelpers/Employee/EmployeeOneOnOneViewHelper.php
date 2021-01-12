@@ -68,7 +68,7 @@ class EmployeeOneOnOneViewHelper
                         'employee' => $oneOnOne->manager,
                     ]),
                 ],
-                'url' => route('employees.oneonones.show', [
+                'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $employee,
                     'oneonone' => $oneOnOne,
@@ -158,7 +158,7 @@ class EmployeeOneOnOneViewHelper
             'notes' => $notes,
             'previous_entry' => $previousEntry ? [
                 'happened_at' => DateHelper::formatDate($previousEntry->happened_at),
-                'url' => route('employees.oneonones.show', [
+                'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
                     'oneonone' => $previousEntry,
@@ -166,7 +166,7 @@ class EmployeeOneOnOneViewHelper
             ] : null,
             'next_entry' => $nextEntry ? [
                 'happened_at' => DateHelper::formatDate($nextEntry->happened_at),
-                'url' => route('employees.oneonones.show', [
+                'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
                     'oneonone' => $nextEntry,

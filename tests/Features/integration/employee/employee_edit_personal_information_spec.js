@@ -6,22 +6,9 @@ describe('Employee - edit personal information', function () {
 
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true);
     cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.url().should('include', '/2/edit');
-    cy.get('body').should('contain', 'Edit information');
 
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
+
     cy.url().should('include', '/2');
 
     cy.hasAuditLog('Set the employee name and email address', '/1/employees/2');
@@ -30,28 +17,15 @@ describe('Employee - edit personal information', function () {
     cy.contains('Set the name and email to');
   });
 
-  it('should let a HR edit an address', function () {
+  it('should let a HR edit personal information', function () {
     cy.loginLegacy();
 
     cy.createCompany();
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true);
 
     cy.changePermission(1, 200);
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
 
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
     cy.url().should('include', '/2');
 
     cy.visit('/1/employees/2/logs');
@@ -60,29 +34,19 @@ describe('Employee - edit personal information', function () {
     cy.visit('/1/employees/2');
   });
 
-  it('should let a normal user edit his own address', function () {
+  it('should let a normal user edit his own information', function () {
     cy.loginLegacy();
 
     cy.createCompany();
     cy.changePermission(1, 300);
-    cy.visit('/1/employees/1');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
 
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 1, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
 
     cy.visit('/1/employees/1/logs');
     cy.contains('Set the name and email to');
   });
 
-  it('should not let a normal user edit someone elses address', function () {
+  it('should not let a normal user edit someone elses information', function () {
     cy.loginLegacy();
 
     cy.createCompany();
@@ -102,35 +66,18 @@ describe('Employee - edit personal information', function () {
 
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true);
 
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('input[name=twitter]').type('dwight');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
+    cy.setTwitterAccount(1, 2, 'dwight');
+
     cy.wait(500);
     cy.url().should('include', 'employees/2');
-
     cy.get('[data-cy=employee-twitter-handle]').contains('dwight');
 
     cy.hasAuditLog('Set Twitter handle’s of', '/1/employees/2');
     cy.hasEmployeeLog('Set Twitter handle’s to dwight', '/1/dashboard', '1/employees/2/logs');
 
     // reset the twitter handle
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=twitter]').clear();
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setTwitterAccount(1, 2);
     cy.url().should('include', '/2');
 
     cy.get('[data-cy=employee-twitter-handle]').should('not.exist');
@@ -148,32 +95,16 @@ describe('Employee - edit personal information', function () {
 
     cy.changePermission(1, 200);
 
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('input[name=twitter]').type('dwight');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
+    cy.setTwitterAccount(1, 2, 'dwight');
+
     cy.wait(500);
     cy.url().should('include', 'employees/2');
 
     cy.hasEmployeeLog('Set Twitter handle’s to dwight', '/1/dashboard', '1/employees/2/logs');
 
     // reset the twitter handle
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=twitter]').clear();
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setTwitterAccount(1, 2);
     cy.wait(500);
     cy.url().should('include', 'employees/2');
 
@@ -189,28 +120,14 @@ describe('Employee - edit personal information', function () {
 
     cy.changePermission(1, 300);
 
-    cy.visit('/1/employees/1');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=twitter]').type('dwight');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 1, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
+    cy.setTwitterAccount(1, 1, 'dwight');
     cy.wait(500);
 
     cy.hasEmployeeLog('Set Twitter handle’s to dwight', '/1/dashboard', '1/employees/1/logs');
 
     // reset the twitter handle
-    cy.visit('/1/employees/1');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=twitter]').clear();
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setTwitterAccount(1, 1);
     cy.wait(500);
 
     cy.get('[data-cy=employee-twitter-handle]').should('not.exist');
@@ -225,21 +142,9 @@ describe('Employee - edit personal information', function () {
 
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true);
 
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('input[name=slack]').type('dwight');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
+    cy.setSlackAccount(1, 2, 'dwight');
+
     cy.wait(500);
     cy.url().should('include', '/2');
 
@@ -249,11 +154,7 @@ describe('Employee - edit personal information', function () {
     cy.hasEmployeeLog('Set Slack handle’s to dwight', '/1/dashboard', '1/employees/2/logs');
 
     // reset the twitter handle
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=slack]').clear();
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setSlackAccount(1, 2);
     cy.url().should('include', '/2');
 
     cy.get('[data-cy=employee-slack-handle]').should('not.exist');
@@ -271,32 +172,16 @@ describe('Employee - edit personal information', function () {
 
     cy.changePermission(1, 200);
 
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('input[name=slack]').type('dwight');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
+    cy.setSlackAccount(1, 2, 'dwight');
+
     cy.wait(500);
     cy.url().should('include', '/2');
 
     cy.hasEmployeeLog('Set Slack handle’s to dwight', '/1/dashboard', '1/employees/2/logs');
 
     // reset the slack handle
-    cy.visit('/1/employees/2');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=slack]').clear();
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setSlackAccount(1, 2);
     cy.wait(500);
     cy.url().should('include', '/2');
 
@@ -312,28 +197,14 @@ describe('Employee - edit personal information', function () {
 
     cy.changePermission(1, 300);
 
-    cy.visit('/1/employees/1');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=slack]').type('dwight');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 1, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
+    cy.setSlackAccount(1, 1, 'dwight');
     cy.wait(500);
 
     cy.hasEmployeeLog('Set Slack handle’s to dwight', '/1/dashboard', '1/employees/1/logs');
 
     // reset the slack handle
-    cy.visit('/1/employees/1');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=slack]').clear();
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setSlackAccount(1, 1);
     cy.wait(500);
 
     cy.get('[data-cy=employee-slack-handle]').should('not.exist');

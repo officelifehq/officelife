@@ -38,6 +38,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('notifications', 'User\\Notification\\NotificationController@index');
         Route::post('notifications/read', 'User\\Notification\\MarkNotificationAsReadController@store');
 
+        // get the list of the pronouns in the company
+        Route::get('pronouns', 'Company\\Company\\PronounController@index');
+
+        // get the list of the positions in the company
+        Route::get('positions', 'Company\\Company\\PositionController@index');
+
         Route::prefix('dashboard')->group(function () {
             Route::get('', 'Company\\Dashboard\\DashboardController@index')->name('dashboard');
 
@@ -107,18 +113,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('', 'Company\\Employee\\EmployeeController@index')->name('employees.index');
             Route::get('{employee}', 'Company\\Employee\\EmployeeController@show')->name('employees.show');
 
-            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
-                Route::get('{employee}/performance', 'Company\\Employee\\EmployeePerformanceController@show')->name('employees.show.performance');
-                Route::get('{employee}/performance/surveys', 'Company\\Employee\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
-                Route::get('{employee}/performance/{survey}', 'Company\\Employee\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
-            });
-
-            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
-                Route::resource('{employee}/oneonones', 'Company\\Employee\\EmployeeOneOnOneController', ['as' => 'employees'])->only([
-                    'index', 'show',
-                ]);
-            });
-
             Route::put('{employee}/assignManager', 'Company\\Employee\\EmployeeController@assignManager')->name('employee.manager.assign');
             Route::put('{employee}/assignDirectReport', 'Company\\Employee\\EmployeeController@assignDirectReport')->name('employee.directReport.assign');
             Route::post('{employee}/search/hierarchy', 'Company\\Employee\\EmployeeSearchController@hierarchy');
@@ -139,7 +133,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
 
             Route::resource('{employee}/team', 'Company\\Employee\\EmployeeTeamController')->only([
-                'store', 'destroy',
+                'index', 'store', 'destroy',
             ]);
 
             Route::resource('{employee}/employeestatuses', 'Company\\Employee\\EmployeeStatusController')->only([
@@ -159,27 +153,50 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
             Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search')->name('skills.search');
 
-            // worklogs
-            Route::get('{employee}/worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('employees.worklogs');
-            Route::get('{employee}/worklogs/{year}', 'Company\\Employee\\EmployeeWorklogController@year');
-            Route::get('{employee}/worklogs/{year}/{month}', 'Company\\Employee\\EmployeeWorklogController@month');
+            // administration tab
+            Route::prefix('{employee}/administration')->group(function () {
+                Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
+                    Route::get('', 'Company\\Employee\\EmployeeAdministrationController@show')->name('employees.administration.show');
 
-            // work from home
-            Route::get('{employee}/workfromhome', 'Company\\Employee\\EmployeeWorkFromHomeController@index')->name('employees.workfromhome');
-            Route::get('{employee}/workfromhome/{year}', 'Company\\Employee\\EmployeeWorkFromHomeController@year');
-            Route::get('{employee}/workfromhome/{year}/{month}', 'Company\\Employee\\EmployeeWorkFromHomeController@month');
+                    // expenses
+                    Route::resource('expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee.administration'])->only([
+                        'index', 'show',
+                    ]);
 
-            // expenses
-            Route::resource('{employee}/expenses', 'Company\\Employee\\EmployeeExpenseController', ['as' => 'employee'])->only([
-                'index', 'show',
-            ]);
+                    // timesheets
+                    Route::get('timesheets', 'Company\\Employee\\EmployeeTimesheetController@index')->name('employee.timesheets.index');
+                    Route::get('timesheets/{timesheet}', 'Company\\Employee\\EmployeeTimesheetController@show')->name('employee.timesheets.show');
+                    Route::get('timesheets/overview/{year}', 'Company\\Employee\\EmployeeTimesheetController@year')->name('employee.timesheets.year');
+                    Route::get('timesheets/overview/{year}/{month}', 'Company\\Employee\\EmployeeTimesheetController@month')->name('employee.timesheets.month');
+                });
+            });
 
-            // timesheets
-            Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {
-                Route::get('{employee}/timesheets', 'Company\\Employee\\EmployeeTimesheetController@index')->name('employee.timesheets.index');
-                Route::get('{employee}/timesheets/{timesheet}', 'Company\\Employee\\EmployeeTimesheetController@show')->name('employee.timesheets.show');
-                Route::get('{employee}/timesheets/overview/{year}', 'Company\\Employee\\EmployeeTimesheetController@year')->name('employee.timesheets.year');
-                Route::get('{employee}/timesheets/overview/{year}/{month}', 'Company\\Employee\\EmployeeTimesheetController@month')->name('employee.timesheets.month');
+            // work tab
+            Route::prefix('{employee}/work')->group(function () {
+                Route::get('', 'Company\\Employee\\EmployeeWorkController@show')->name('employees.show.work');
+
+                // work from home
+                Route::get('workfromhome', 'Company\\Employee\\EmployeeWorkFromHomeController@index')->name('employee.work.workfromhome');
+                Route::get('workfromhome/{year}', 'Company\\Employee\\EmployeeWorkFromHomeController@year');
+                Route::get('workfromhome/{year}/{month}', 'Company\\Employee\\EmployeeWorkFromHomeController@month');
+
+                // worklogs
+                Route::get('worklogs', 'Company\\Employee\\EmployeeWorklogController@index')->name('employee.work.worklogs');
+                Route::get('worklogs/{year}', 'Company\\Employee\\EmployeeWorklogController@year');
+                Route::get('worklogs/{year}/{month}', 'Company\\Employee\\EmployeeWorklogController@month');
+            });
+
+            // performance tab
+            Route::prefix('{employee}/performance')->group(function () {
+                Route::get('', 'Company\\Employee\\EmployeePerformanceController@show')->name('employees.show.performance');
+
+                // survey
+                Route::get('surveys', 'Company\\Employee\\EmployeeSurveysController@index')->name('employees.show.performance.survey.index');
+                Route::get('/surveys/{survey}', 'Company\\Employee\\EmployeeSurveysController@show')->name('employees.show.performance.survey.show');
+
+                // one on ones
+                Route::get('oneonones', 'Company\\Employee\\EmployeeOneOnOneController@index')->name('employees.show.performance.oneonones.index');
+                Route::get('oneonones/{oneonone}', 'Company\\Employee\\EmployeeOneOnOneController@show')->name('employees.show.performance.oneonones.show');
             });
         });
 
@@ -296,7 +313,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('account/general/currency', 'Company\\Adminland\\AdminGeneralController@currency');
         });
 
-        // only available to hr role
+        // only available to hr role or administrator
         Route::middleware(['hr'])->group(function () {
             // adminland
             Route::get('account', 'Company\\Adminland\\AdminlandController@index');

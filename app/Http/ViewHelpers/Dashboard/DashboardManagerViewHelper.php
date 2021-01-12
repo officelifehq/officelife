@@ -232,7 +232,6 @@ class DashboardManagerViewHelper
 
             $pendingTimesheets = $employee->timesheets()
                 ->where('status', Timesheet::READY_TO_SUBMIT)
-                ->with('timeTrackingEntries')
                 ->orderBy('started_at', 'desc')
                 ->get();
 

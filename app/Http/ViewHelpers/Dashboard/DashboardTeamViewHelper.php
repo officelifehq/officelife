@@ -226,23 +226,13 @@ class DashboardTeamViewHelper
      */
     public static function upcomingNewHires(Team $team): Collection
     {
-        // remove employees that are locked
-        $employees = $team->employees;
-        $employees = $employees->filter(function ($employee) {
-            return ! $employee->locked;
-        });
-
-        // filter out to keep only employees who will be hired next week
-        $employees = $employees->filter(function ($employee) {
-            return $employee->hired_at;
-        });
-        $nextMonday = Carbon::now()->format('Y-m-d');
+        $currentDay = Carbon::now()->format('Y-m-d');
         $nextSunday = Carbon::now()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
-        $upcomingWeek = CarbonPeriod::create($nextMonday, $nextSunday);
 
-        $employees = $employees->filter(function ($employee) use ($upcomingWeek) {
-            return $upcomingWeek->contains($employee->hired_at->format('Y-m-d'));
-        });
+        $employees = $team->employees()
+            ->where('locked', false)
+            ->whereBetween('hired_at', [$currentDay, $nextSunday])
+            ->get();
 
         $employeesCollection = collect([]);
         foreach ($employees as $employee) {

@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Company\Company;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Helpers\SQLHelper;
 use App\Models\Company\Team;
 use Illuminate\Http\Request;
+use App\Models\Company\Answer;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Company;
 use App\Helpers\PaginatorHelper;
 use App\Models\Company\Question;
-use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -70,7 +69,7 @@ class QuestionController extends Controller
     }
 
     /**
-     * Get the detail of a given question.
+     * Get the detail of a given question for a specific team.
      *
      * @param  Request $request
      * @param  int $companyId
@@ -93,31 +92,20 @@ class QuestionController extends Controller
 
         // make sure the team belongs to the company
         try {
-            Team::where('company_id', $companyId)
+            $team = Team::where('company_id', $companyId)
+                ->with('employees')
                 ->findOrFail($teamId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
 
-        $teams = CompanyQuestionViewHelper::teams($company->teams);
-
-        // This is a raw query. Not pretty, but its goal is to grab all employees
-        // of the given team who have answered this question. The only way
-        // I've found to run this query efficiently is to build this raw query
-        // to prevent hydrating a lot of models. This query is really fast.
-        $answers = DB::table(DB::raw('answers, teams, employees, employee_team'))
-            ->select(DB::raw('distinct employees.id as employee_id, '.SQLHelper::concat('employees.first_name', 'employees.last_name').' as name, teams.id as team_id, answers.body as body, answers.id as answer_id, employees.avatar as avatar, answers.created_at'))
-            ->whereRaw('answers.question_id = '.$questionId)
-            ->whereRaw('teams.company_id = '.$company->id)
-            ->whereRaw('employees.company_id = '.$company->id)
-            ->whereRaw('employee_team.team_id = '.$teamId)
-            ->whereRaw('teams.id = '.$teamId)
-            ->whereRaw('employee_team.employee_id = employees.id')
-            ->whereRaw('answers.employee_id = employees.id')
-            ->orderBy('answers.created_at', 'desc')
+        $allEmployeesIDsInTeam = $team->employees->pluck('id')->toArray();
+        $answers = Answer::where('question_id', $question->id)
+            ->whereIn('employee_id', $allEmployeesIDsInTeam)
             ->paginate(10);
-
         $answersCollection = CompanyQuestionViewHelper::question($question, $answers, $employee);
+
+        $teams = CompanyQuestionViewHelper::teams($company->teams);
 
         return Inertia::render('Company/Question/Show', [
             'teams' => $teams,

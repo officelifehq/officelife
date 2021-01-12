@@ -43,7 +43,7 @@
             ...
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/timesheets'">{{ $t('app.breadcrumb_employee_timesheets') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/administration/timesheets'">{{ $t('app.breadcrumb_employee_timesheets') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_employee_timesheet') }}

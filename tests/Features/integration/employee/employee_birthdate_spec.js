@@ -8,20 +8,7 @@ describe('Employee - edit birthdate', function () {
     cy.visit('/1/employees/2');
 
     // edit the profile
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
-
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
     cy.wait(1000);
 
     // check logs
@@ -40,24 +27,10 @@ describe('Employee - edit birthdate', function () {
     cy.createCompany();
 
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true);
-    cy.visit('/1/employees/2');
-
     cy.changePermission(1, 200);
 
     // edit the profile
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
 
     // check logs
     cy.hasEmployeeLog('Set the birthdate', '/1/employees/2', '/1/employees/2/logs');
@@ -72,22 +45,10 @@ describe('Employee - edit birthdate', function () {
     cy.loginLegacy();
 
     cy.createCompany();
-
-    cy.visit('/1/employees/1');
-
     cy.changePermission(1, 300);
 
     // edit the profile
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 1, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
 
     // check logs
     cy.hasEmployeeLog('Set the birthdate', '/1/employees/1', '/1/employees/1/logs');
@@ -103,25 +64,12 @@ describe('Employee - edit birthdate', function () {
     cy.createCompany();
     cy.createEmployee('Michael', 'Scott', 'michael.scott@dundermifflin.com', 'admin', true);
 
-    cy.visit('/1/employees/2/edit');
-
-    // edit the profile
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type('1981');
-    cy.get('input[name=hired_at_month]').type('3');
-    cy.get('input[name=hired_at_day]').type('10');
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    cy.setBirthdate(1, 2, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
 
     cy.changePermission(1, 300);
     cy.visit('/1/employees/2');
 
-    cy.get('[data-cy=edit-profile-button]').should('not.exist');
+    cy.get('[data-cy=edit-important-date-link]').should('not.exist');
 
     // check that we display the partial date of the employee
     cy.get('[data-cy=employee-birthdate-information]').contains('March 10th');

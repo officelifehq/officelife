@@ -42,7 +42,7 @@ class EmployeeOneOnOneController extends Controller
             ->orderBy('happened_at', 'desc')
             ->get();
 
-        return Inertia::render('Employee/OneOnOnes/Index', [
+        return Inertia::render('Employee/Performance/OneOnOnes/Index', [
             'employee' => [
                 'id' => $employeeId,
                 'name' => $employee->name,
@@ -83,7 +83,7 @@ class EmployeeOneOnOneController extends Controller
 
         $details = EmployeeOneOnOneViewHelper::details($entry);
 
-        return Inertia::render('Employee/OneOnOnes/Show', [
+        return Inertia::render('Employee/Performance/OneOnOnes/Show', [
             'employee' => [
                 'id' => $employeeId,
                 'name' => $employee->name,

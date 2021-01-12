@@ -48,7 +48,6 @@ describe('Employee - rate your manager', function () {
       cy.acceptInvitationLinkAndGoToDashboard('admin2020', link);
 
       cy.visit('/1/employees/2');
-      cy.get('[data-cy=employee-tab]').should('exist');
       cy.get('[data-cy=performance-tab]').click();
       cy.get('[data-cy=survey-1]').click();
       cy.get('[data-cy=result-bad]').contains('1');

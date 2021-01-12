@@ -17,46 +17,52 @@
 
 <template>
   <layout title="Home" :notifications="notifications">
-    <div class="ph2 ph5-ns">
-      <!-- HEADER -->
-      <header-employee
-        :employee="employee"
-        :permissions="permissions"
-        :employee-teams="employeeTeams"
-        :positions="positions"
-        :teams="teams"
-        :pronouns="pronouns"
-      />
+    <div class="ph2 ph5-ns mt4">
+      <!-- BREADCRUMB -->
+      <div class="mt4-l mt1 mw7 br3 center breadcrumb relative z-0 f6 pb2">
+        <ul class="list ph0 tc-l tl">
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+          </li>
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees'">{{ $t('app.breadcrumb_employee_list') }}</inertia-link>
+          </li>
+          <li class="di">
+            {{ employee.name }}
+          </li>
+        </ul>
+      </div>
 
-      <!-- CENTRAL CONTENT -->
-      <div class="cf mw9 center">
-        <template v-if="employee.locked">
-          <div class="w-30 center tc ba bb-gray ph3 pv2 mb4 br3 bg-white">
-            🔐 {{ $t('employee.account_locked') }}
-          </div>
-        </template>
-
-        <!-- menu -->
-        <div v-if="permissions.can_see_performance_tab && surveys" class="cf mw7 center br3 mt3 mb5 tc">
-          <div class="cf dib btn-group">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id" class="f6 fl ph3 pv2 dib pointer no-underline" :class="{'selected':(menu == 'all')}">
-              {{ $t('employee.menu_all_information') }}
-            </inertia-link>
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/performance'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(menu == 'performance')}" data-cy="dashboard-team-tab">
-              {{ $t('employee.menu_performance') }}
-            </inertia-link>
-          </div>
-        </div>
-
-        <!-- LEFT COLUMN -->
-        <div class="fl w-50-l w-100">
-          <rate-your-manager-poll-results
-            :surveys="surveys"
+      <!-- Main content -->
+      <div class="cf mw9 center br3 mb5">
+        <div class="fl w-25 pa2">
+          <profile-sidebar
+            :employee="employee"
+            :permissions="permissions"
           />
         </div>
 
-        <!-- RIGHT COLUMN -->
-        <div class="fl w-50-l w-100 pl4-l">
+        <div class="fl w-75 pa2 pl4-l">
+          <!-- information about the employee -->
+          <profile-header
+            :employee="employee"
+            :permissions="permissions"
+          />
+
+          <profile-tab-switcher
+            :employee="employee"
+            :permissions="permissions"
+            :menu="menu"
+          />
+
+          <rate-your-manager-poll-results
+            :surveys="surveys"
+          />
+
+          <one-on-one
+            v-if="permissions.can_see_one_on_one_with_manager"
+            :one-on-ones="oneOnOnes"
+          />
         </div>
       </div>
     </div>
@@ -65,14 +71,20 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import HeaderEmployee from '@/Pages/Employee/Partials/HeaderEmployee';
+import ProfileHeader from '@/Pages/Employee/Partials/ProfileHeader';
+import ProfileSidebar from '@/Pages/Employee/Partials/ProfileSidebar';
+import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
 import RateYourManagerPollResults from '@/Pages/Employee/Performance/Partials/RateYourManagerPollResults';
+import OneOnOne from '@/Pages/Employee/Performance/Partials/OneOnOneWithManager';
 
 export default {
   components: {
     Layout,
-    HeaderEmployee,
+    ProfileHeader,
+    ProfileSidebar,
+    ProfileTabSwitcher,
     RateYourManagerPollResults,
+    OneOnOne,
   },
 
   props: {
@@ -96,19 +108,11 @@ export default {
       type: Array,
       default: null,
     },
-    positions: {
-      type: Array,
-      default: null,
-    },
-    teams: {
-      type: Array,
-      default: null,
-    },
-    pronouns: {
-      type: Array,
-      default: null,
-    },
     surveys: {
+      type: Object,
+      default: null,
+    },
+    oneOnOnes: {
       type: Object,
       default: null,
     },

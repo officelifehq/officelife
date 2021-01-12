@@ -11,16 +11,16 @@ describe('Employee - Assign employee statuses', function () {
     cy.visit('/1/employees/1');
 
     // Open the modal
-    cy.get('[data-cy=open-status-modal-blank]').click();
+    cy.get('[data-cy=edit-status-button]').click();
     cy.get('[data-cy=list-status-1]').click();
     cy.get('[data-cy=status-name-right-permission]').contains('Dunder Mifflin');
     cy.hasAuditLog('Assigned the employee status called Dunder Mifflin', '/1/employees/1');
     cy.hasEmployeeLog('Assigned the employee status called Dunder Mifflin.', '/1/employees/1');
 
     // Open the modal to remove the assignment
-    cy.get('[data-cy=open-status-modal').click();
+    cy.get('[data-cy=edit-status-button').click();
     cy.get('[data-cy=status-reset-button]').click();
-    cy.get('[data-cy=open-status-modal-blank]').should('not.contain', 'Dunder Mifflin');
+    cy.get('[data-cy=edit-status-button]').should('not.contain', 'Dunder Mifflin');
     cy.hasAuditLog('Removed the employee status called Dunder Mifflin from', '/1/employees/1');
     cy.hasEmployeeLog('Removed the employee status called Dunder Mifflin', '/1/employees/1');
   });
@@ -38,15 +38,15 @@ describe('Employee - Assign employee statuses', function () {
     cy.visit('/1/employees/1');
 
     // Open the modal
-    cy.get('[data-cy=open-status-modal-blank]').click();
+    cy.get('[data-cy=edit-status-button]').click();
     cy.get('[data-cy=list-status-1]').click();
     cy.get('[data-cy=status-name-right-permission]').contains('Dunder Mifflin');
     cy.hasEmployeeLog('Assigned the employee status called Dunder Mifflin.', '/1/employees/1');
 
     // Open the modal to remove the assignment
-    cy.get('[data-cy=open-status-modal').click();
+    cy.get('[data-cy=edit-status-button').click();
     cy.get('[data-cy=status-reset-button]').click();
-    cy.get('[data-cy=open-status-modal-blank]').should('not.contain', 'Dunder Mifflin');
+    cy.get('[data-cy=edit-status-button]').should('not.contain', 'Dunder Mifflin');
     cy.hasEmployeeLog('Removed the employee status called Dunder Mifflin', '/1/employees/1');
   });
 
@@ -62,7 +62,7 @@ describe('Employee - Assign employee statuses', function () {
           cy.visit(`/${companyId}/employees/${id}`);
 
           cy.contains('No status set');
-          cy.get('[data-cy=open-status-modal-blank]').should('not.exist');
+          cy.get('[data-cy=edit-status-button]').should('not.exist');
         });
       });
     });

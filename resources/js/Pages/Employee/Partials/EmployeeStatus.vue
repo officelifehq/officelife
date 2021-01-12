@@ -1,12 +1,22 @@
-<style scoped>
+<style lang="scss" scoped>
 .statuses-list {
   max-height: 150px;
 }
 
 .popupmenu {
-  right: 2px;
-  top: 26px;
+  right: -270px;
+  top: -4px;
   width: 280px;
+
+  &::before {
+    left: 9px;
+    right: auto;
+  }
+
+  &::after {
+    left: 10px;
+    right: auto;
+  }
 }
 
 .c-delete:hover {
@@ -16,33 +26,27 @@
 .existing-statuses li:not(:last-child) {
   margin-right: 5px;
 }
+
+.icon {
+  color: #9AA7BF;
+  position: relative;
+  width: 17px;
+  top: 3px;
+}
 </style>
 
 <template>
-  <div class="di relative">
-    <!-- Case when there is a status -->
-    <!-- Assigning an employee status is restricted to HR or admin -->
-    <ul v-if="permissions.can_manage_status && updatedEmployee.status" class="ma0 pa0 di existing-statuses">
-      <li class="di" data-cy="status-name-right-permission">
-        {{ updatedEmployee.status.name }}
-      </li>
-      <li data-cy="open-status-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="displayModal()">
-        {{ $t('app.edit') }}
-      </li>
-    </ul>
-    <ul v-if="$page.props.auth.employee.permission_level > 200 && updatedEmployee.status" class="ma0 pa0 existing-statuses di">
-      <li class="di" data-cy="status-name-wrong-permission">
-        {{ updatedEmployee.status.name }}
-      </li>
-    </ul>
+  <div class="mb4 relative">
+    <div class="db fw4 mb3 relative">
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+      </svg>
+      <span class="f6">
+        {{ $t('employee.status_title') }}
+      </span>
 
-    <!-- Action when there is no status defined -->
-    <a v-show="!updatedEmployee.status" v-if="permissions.can_manage_status" class="bb b--dotted bt-0 bl-0 br-0 pointer" data-cy="open-status-modal-blank" @click.prevent="displayModal()">
-      {{ $t('employee.status_modal_cta') }}
-    </a>
-    <span v-else v-show="!updatedEmployee.status">
-      {{ $t('employee.status_modal_blank') }}
-    </span>
+      <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
+    </div>
 
     <!-- Modal -->
     <div v-if="modal" v-click-outside="toggleModal" class="popupmenu absolute br2 bg-white z-max tl bounceIn faster">
@@ -93,6 +97,18 @@
         </p>
       </div>
     </div>
+
+    <!-- Case when there is a status -->
+    <ul v-if="updatedEmployee.status" class="ma0 pa0 di existing-statuses">
+      <li class="di" data-cy="status-name-right-permission">
+        {{ updatedEmployee.status.name }}
+      </li>
+    </ul>
+
+    <!-- Action when there is no status defined -->
+    <span v-else class="f6">
+      {{ $t('employee.status_modal_blank') }}
+    </span>
   </div>
 </template>
 
@@ -152,7 +168,7 @@ export default {
 
     load() {
       if (! this.statuses) {
-        axios.get('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses')
+        axios.get(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/employeestatuses`)
           .then(response => {
             this.statuses = response.data.data;
           })
@@ -163,7 +179,7 @@ export default {
     },
 
     assign(status) {
-      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses', status)
+      axios.post(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/employeestatuses`, status)
         .then(response => {
           flash(this.$t('employee.status_modal_assign_success'), 'success');
 
@@ -175,7 +191,7 @@ export default {
     },
 
     reset(status) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/employeestatuses/' + status.id)
+      axios.delete(`${this.$page.props.auth.company.id}/employees/${this.employee.id}/employeestatuses/${status.id}`)
         .then(response => {
           flash(this.$t('employee.status_modal_unassign_success'), 'success');
 

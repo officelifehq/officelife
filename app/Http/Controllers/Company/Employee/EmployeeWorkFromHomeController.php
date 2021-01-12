@@ -149,7 +149,7 @@ class EmployeeWorkFromHomeController extends Controller
             });
         }
 
-        return Inertia::render('Employee/WorkFromHome/Index', [
+        return Inertia::render('Employee/Work/WorkFromHome/Index', [
             'employee' => $employee->toObject(),
             'entries' => WorkFromHomeCollection::prepare($entries),
             'years' => $yearsCollection,
