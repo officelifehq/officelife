@@ -1,9 +1,11 @@
 <?php
 
 return [
-    'menu_changelog' => 'View changes',
+    'menu_changelog' => 'View history',
 
-    'account_locked' => 'This account is locked.',
+    'account_locked' => 'This employee’s profile is locked.',
+    'lock_profile' => 'Lock employee',
+    'delete_profile' => 'Delete employee',
 
     'menu_all' => 'Presentation',
     'menu_performance' => 'Performance',

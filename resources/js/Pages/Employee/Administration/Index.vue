@@ -42,6 +42,7 @@
 
           <profile-tab-switcher
             :employee="employee"
+            :permissions="permissions"
             :menu="menu"
           />
 

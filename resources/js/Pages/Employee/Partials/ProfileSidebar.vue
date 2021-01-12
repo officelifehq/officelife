@@ -43,9 +43,10 @@
       :permissions="permissions"
     />
 
-    <inertia-link :href="employee.url.audit_log" class="pointer" data-cy="view-log-button">
-      {{ $t('employee.menu_changelog') }}
-    </inertia-link>
+    <profile-actions
+      :employee="employee"
+      :permissions="permissions"
+    />
   </div>
 </template>
 
@@ -55,6 +56,7 @@ import EmployeeImportantDates from '@/Pages/Employee/Partials/EmployeeImportantD
 import EmployeeStatus from '@/Pages/Employee/Partials/EmployeeStatus';
 import EmployeeContact from '@/Pages/Employee/Partials/EmployeeContact';
 import EmployeeGenderPronoun from '@/Pages/Employee/Partials/EmployeeGenderPronoun';
+import ProfileActions from '@/Pages/Employee/Partials/ProfileActions';
 
 export default {
   components: {
@@ -63,6 +65,7 @@ export default {
     EmployeeStatus,
     EmployeeContact,
     EmployeeGenderPronoun,
+    ProfileActions,
   },
 
   props: {

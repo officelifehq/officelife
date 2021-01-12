@@ -26,6 +26,7 @@
 
       <!-- Main content -->
       <div class="cf mw9 center br3 mb5">
+        <!-- left column -->
         <div class="fl w-25 pa2">
           <profile-sidebar
             :employee="employee"
@@ -33,8 +34,8 @@
           />
         </div>
 
+        <!-- right column -->
         <div class="fl w-75 pa2 pl4-l">
-          <!-- information about the employee -->
           <profile-header
             :employee="employee"
             :permissions="permissions"
@@ -42,6 +43,7 @@
 
           <profile-tab-switcher
             :employee="employee"
+            :permissions="permissions"
             :menu="menu"
           />
 

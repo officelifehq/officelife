@@ -94,6 +94,10 @@ class EmployeeShowViewHelper
                     'company' => $company,
                     'employee' => $employee,
                 ]),
+                'lock' => route('account.lock', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
                 'delete' => route('account.delete', [
                     'company' => $company,
                     'employee' => $employee,
@@ -210,6 +214,15 @@ class EmployeeShowViewHelper
             $canSeePerformanceTab = true;
         }
 
+        // can see administration tab?
+        $canSeeAdministrationTab = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeAdministrationTab = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canSeeAdministrationTab = true;
+        }
+
         // can see hardware
         $canSeeHardware = $loggedEmployee->permission_level <= 200;
         if ($loggedEmployee->id == $employee->id) {
@@ -259,6 +272,7 @@ class EmployeeShowViewHelper
             'can_see_audit_log' => $canSeeAuditLog,
             'can_see_complete_address' => $canSeeCompleteAddress,
             'can_see_performance_tab' => $canSeePerformanceTab,
+            'can_see_administration_tab' => $canSeeAdministrationTab,
             'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
             'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
             'can_see_timesheets' => $canSeeTimesheets,
