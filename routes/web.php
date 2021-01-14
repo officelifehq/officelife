@@ -72,6 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
             Route::post('timesheet/{timesheet}/store', 'Company\\Dashboard\\DashboardTimesheetController@createTimeTrackingEntry')->name('dashboard.timesheet.entry.store');
             Route::post('timesheet/{timesheet}/submit', 'Company\\Dashboard\\DashboardTimesheetController@submit')->name('dashboard.timesheet.entry.submit');
+            Route::put('timesheet/{timesheet}/row', 'Company\\Dashboard\\DashboardTimesheetController@destroyRow');
 
             // team
             Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
