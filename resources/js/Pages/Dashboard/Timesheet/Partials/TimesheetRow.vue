@@ -21,10 +21,18 @@
         <div>
           <span class="db pb1 fw5 lh-copy">
             {{ localRow.task_title }}
+
+            <!-- destroy row -->
+            <a v-if="timesheetStatus == 'open'" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete f7" href="#" @click.prevent="destroy()">[x]</a>
           </span>
-          <inertia-link :href="localRow.project_url" class="dib">
+
+          <!-- project name -->
+          <inertia-link v-if="localRow.project_url" :href="localRow.project_url" class="dib">
             {{ localRow.project_name }}
           </inertia-link>
+          <span v-else class="dib">
+            {{ localRow.project_name }}
+          </span>
         </div>
         <span class="f7 fw5">
           {{ total }}
@@ -259,13 +267,26 @@ export default {
       this.$emit('update-weekly-total', { id: this.localRow.task_id, value: totalDurationInMinutes});
     },
 
+    destroy() {
+      this.form.project_id = this.localRow.project_id;
+      this.form.project_task_id = this.localRow.task_id;
+
+      axios.put(`${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/row`, this.form)
+        .then(response => {
+          this.$emit('row-deleted', { id: this.localRow.task_id});
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+
     saveInDB(day, duration) {
       this.form.project_id = this.localRow.project_id;
       this.form.project_task_id = this.localRow.task_id;
       this.form.day = day;
       this.form.durationInMinutes = duration;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/timesheet/' + this.timesheet.id + '/store', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/store`, this.form)
         .then(response => {
           this.tasks = response.data.data;
         })

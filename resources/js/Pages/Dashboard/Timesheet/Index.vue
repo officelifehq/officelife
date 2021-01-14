@@ -159,12 +159,13 @@
           <timesheet-header :days="daysHeader" />
 
           <!-- entries -->
-          <timesheet-row v-for="row in timesheetRows" :key="row.id"
+          <timesheet-row v-for="row in timesheetRows" :key="row.task_id"
                          :row-coming-from-backend="row"
                          :timesheet="timesheet"
                          :timesheet-status="timesheetStatus"
                          @day-updated="refreshDayInformation"
                          @update-weekly-total="updateWeeklyTotal"
+                         @row-deleted="removeRow"
           />
 
           <!-- total -->
@@ -263,7 +264,7 @@ export default {
       default: null,
     },
     approverInformation: {
-      type: Object,
+      type: Array,
       default: null,
     },
   },
@@ -373,7 +374,6 @@ export default {
         task_id: this.form.task.value,
         task_title: this.form.task.label,
         total_this_week: 0,
-        data_from_backend: false,
         days: [
           {
             day_of_week: 1,
@@ -449,6 +449,12 @@ export default {
       // this adds leading zero to minutes, if needed
       const zeroPad = (num, places) => String(num).padStart(places, '0');
       return hours + 'h' + zeroPad(minutes, 2);
+    },
+
+    removeRow({id}) {
+      console.log(id);
+      var id = this.timesheetRows.findIndex(x => x.task_id === id);
+      this.timesheetRows.splice(id, 1);
     }
   },
 };
