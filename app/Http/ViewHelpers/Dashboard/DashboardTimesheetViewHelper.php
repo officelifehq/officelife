@@ -276,4 +276,31 @@ class DashboardTimesheetViewHelper
 
         return $taskCollection;
     }
+
+    /**
+     * Get a colleciton of all the timesheets rejected for this employee.
+     *
+     * @param Employee $employee
+     * @return Collection
+     */
+    public static function rejectedTimesheets(Employee $employee): Collection
+    {
+        $timesheets = $employee->timesheets()
+            ->where('status', Timesheet::REJECTED)
+            ->get();
+
+        $timesheetsCollection = collect([]);
+        foreach ($timesheets as $timesheet) {
+            $timesheetsCollection->push([
+                'id' => $timesheet->id,
+                'started_at' => DateHelper::formatDate($timesheet->started_at),
+                'url' => route('dashboard.timesheet.show', [
+                    'company' => $employee->company,
+                    'timesheet' => $timesheet,
+                ]),
+            ]);
+        }
+
+        return $timesheetsCollection;
+    }
 }

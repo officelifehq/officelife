@@ -58,6 +58,7 @@ class DashboardTimesheetController extends Controller
         $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($currentTimesheet, $employee);
         $approverInformation = DashboardTimesheetViewHelper::approverInformation($currentTimesheet);
         $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($employee);
+        $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($employee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
             'employee' => $employeeInformation,
@@ -67,6 +68,7 @@ class DashboardTimesheetController extends Controller
             'nextTimesheet' => $nextTimesheet,
             'previousTimesheet' => $previousTimesheet,
             'currentTimesheet' => $currentTimesheet,
+            'rejectedTimesheets' => $rejectedTimesheets,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
@@ -100,6 +102,7 @@ class DashboardTimesheetController extends Controller
         $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($timesheet, $employee);
         $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($employee);
         $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($employee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
             'employee' => $employeeInformation,
@@ -109,6 +112,7 @@ class DashboardTimesheetController extends Controller
             'nextTimesheet' => $nextTimesheet,
             'previousTimesheet' => $previousTimesheet,
             'currentTimesheet' => $currentTimesheet,
+            'rejectedTimesheets' => $rejectedTimesheets,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }

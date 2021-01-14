@@ -1920,7 +1920,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 'timesheet_id' => $timesheet->id,
             ]);
 
-            if (rand(1, 2) == 1) {
+            if (rand(1, 10) > 1) {
                 (new ApproveTimesheet)->execute([
                     'company_id' => $this->company->id,
                     'author_id' => $this->michael->id,
