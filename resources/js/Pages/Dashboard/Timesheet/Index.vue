@@ -37,6 +37,12 @@
 .stamp {
   top: -15px;
 }
+
+.rejected-timesheet-item:not(:first-child):before {
+  content: '/';
+  color: gray;
+  margin-right: 10px;
+}
 </style>
 
 <template>
@@ -45,6 +51,16 @@
       <dashboard-menu :employee="employee" />
 
       <div class="cf mw8 center br3 mb3 bg-white box pa3 relative">
+        <!-- information of timesheets that were rejected, if any -->
+        <div v-if="rejectedTimesheets" class="mb4 ba bb-gray pa3 br3">
+          <p class="mt0 mb2"><span class="mr1">⚠️</span> {{ $t('dashboard.timesheet_rejected_timesheets') }}</p>
+          <ul class="list ma0 pl0">
+            <li v-for="timesheet in rejectedTimesheets" :key="timesheet.id" class="dib rejected-timesheet-item mb2 f6 mr2">
+              <inertia-link :href="timesheet.url">{{ timesheet.started_at }}</inertia-link>
+            </li>
+          </ul>
+        </div>
+
         <!-- timesheets selector -->
         <div class="mt0 mb5 lh-copy f6 tc relative">
           <ul class="list pl0 ma0">
@@ -57,17 +73,17 @@
         </div>
 
         <!-- information to display when timesheet is either open or ready for approval-->
-        <div v-if="!displayNewEntry && timesheetStatus != 'approved' && timesheetStatus != 'rejected'" class="mb3 relative">
+        <div v-if="!displayNewEntry && timesheetStatus != 'approved'" class="mb3 relative">
           <span class="absolute f7 grey">
             {{ $t('dashboard.timesheet_auto_save') }}
           </span>
 
-          <!-- actions if timesheet is open -->
-          <div v-if="timesheetStatus == 'open'" class="tr">
+          <!-- actions if timesheet is open or rejected -->
+          <div v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'" class="tr">
             <a data-cy="timesheet-add-new-row" class="btn f5 mr2" @click.prevent="showProjectList()">
               {{ $t('dashboard.timesheet_add_new') }}
             </a>
-            <a data-cy="timesheet-submit-timesheet" class="btn add f5" @click.prevent="submit()">
+            <a v-if="timesheet.entries.length > 0" data-cy="timesheet-submit-timesheet" class="btn add f5" @click.prevent="submit()">
               {{ $t('dashboard.timesheet_submit') }}
             </a>
           </div>
@@ -264,6 +280,10 @@ export default {
       default: null,
     },
     approverInformation: {
+      type: Array,
+      default: null,
+    },
+    rejectedTimesheets: {
       type: Array,
       default: null,
     },

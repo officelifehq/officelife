@@ -380,4 +380,38 @@ class DashboardTimesheetViewHelperTest extends TestCase
             $collection->toArray()
         );
     }
+
+    /** @test */
+    public function it_gets_a_collection_of_rejected_timesheets(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        Timesheet::factory()->count(3)->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'status' => Timesheet::APPROVED,
+        ]);
+        $timesheet = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'started_at' => Carbon::now()->startOfWeek(),
+            'status' => Timesheet::REJECTED,
+        ]);
+
+        $collection = DashboardTimesheetViewHelper::rejectedTimesheets($michael);
+
+        $this->assertEquals(1, $collection->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $timesheet->id,
+                    'started_at' => 'Jan 01, 2018',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/timesheet/'.$timesheet->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
 }
