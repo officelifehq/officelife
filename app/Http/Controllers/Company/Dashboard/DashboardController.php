@@ -24,22 +24,27 @@ class DashboardController extends Controller
         switch ($employee->default_dashboard_view) {
             case 'company':
                 $this->updateDashboard($employee, 'me');
+
                 return Redirect::route('dashboard.company', ['company' => $company->id]);
 
             case 'team':
                 $this->updateDashboard($employee, 'team');
+
                 return Redirect::route('dashboard.team', ['company' => $company->id]);
 
             case 'hr':
                 $this->updateDashboard($employee, 'hr');
+
                 return Redirect::route('dashboard.hr', ['company' => $company->id]);
 
             case 'manager':
                 $this->updateDashboard($employee, 'manager');
+
                 return Redirect::route('dashboard.manager', ['company' => $company->id]);
 
             default:
                 $this->updateDashboard($employee, 'company');
+
                 return Redirect::route('dashboard.me', ['company' => $company->id]);
         }
     }
@@ -54,7 +59,7 @@ class DashboardController extends Controller
     {
         UpdateDashboardPreference::dispatch([
             'employee_id' => $employee->id,
-            'company_id' => $employee->company->id,
+            'company_id' => $employee->company_id,
             'view' => $view,
         ])->onQueue('low');
     }
