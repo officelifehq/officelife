@@ -280,6 +280,7 @@ return [
     'log_timesheet_submitted' => 'Submitted the timesheet of the week started on :started_at for :employee_name.',
     'log_timesheet_approved' => 'Approved the timesheet of the week started on :started_at for :employee_name.',
     'log_timesheet_rejected' => 'Rejected the timesheet of the week started on :started_at for :employee_name.',
+    'log_employee_avatar_set' => 'Set the avatar of :employee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -350,6 +351,7 @@ return [
     'employee_log_timesheet_submitted' => 'Submitted the timesheet of the week started on :started_at.',
     'employee_log_timesheet_approved' => 'Approved the timesheet of the week started on :started_at.',
     'employee_log_timesheet_rejected' => 'Rejected the timesheet of the week started on :started_at.',
+    'employee_log_employee_avatar_set' => 'Set a new avatar.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',

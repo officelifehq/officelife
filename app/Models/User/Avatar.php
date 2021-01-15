@@ -21,7 +21,9 @@ class Avatar extends Model
     protected $fillable = [
         'company_id',
         'employee_id',
-        'filename',
+        'active',
+        'original_filename',
+        'new_filename',
         'extension',
         'size',
         'height',

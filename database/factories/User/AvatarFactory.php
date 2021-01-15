@@ -30,7 +30,8 @@ class AvatarFactory extends Factory
             'employee_id' => Employee::factory()->create([
                 'company_id' => $company->id,
             ]),
-            'filename' => 'test',
+            'original_filename' => 'test',
+            'new_filename' => 'test',
             'extension' => 'png',
             'size' => 123,
             'height' => 123,

@@ -18,11 +18,13 @@ class CreateAvatarsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable();
             $table->unsignedBigInteger('employee_id')->nullable();
-            $table->string('filename');
+            $table->boolean('active')->default(true);
+            $table->string('original_filename');
+            $table->string('new_filename');
             $table->string('extension');
             $table->bigInteger('size');
-            $table->integer('height');
-            $table->integer('width');
+            $table->integer('height')->nullable();
+            $table->integer('width')->nullable();
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
