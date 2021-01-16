@@ -5,7 +5,6 @@ namespace Tests\Unit\Models\Company;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
-use App\Models\User\Avatar;
 use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
@@ -55,17 +54,6 @@ class EmployeeTest extends TestCase
     {
         $dwight = factory(Employee::class)->create([]);
         $this->assertTrue($dwight->company()->exists());
-    }
-
-    /** @test */
-    public function it_has_many_avatars(): void
-    {
-        $dwight = factory(Employee::class)->create([]);
-        Avatar::factory()->count(2)->create([
-            'employee_id' => $dwight->id,
-        ]);
-
-        $this->assertTrue($dwight->avatars()->exists());
     }
 
     /** @test */

@@ -13,8 +13,6 @@ class UploadAvatar extends BaseService
 {
     private array $data;
 
-    private Avatar $avatar;
-
     private Employee $employee;
 
     /**
@@ -37,19 +35,17 @@ class UploadAvatar extends BaseService
      *
      * @param array $data
      *
-     * @return Avatar
+     * @return Employee
      */
-    public function execute(array $data): Avatar
+    public function execute(array $data): Employee
     {
         $this->data = $data;
 
         $this->validate();
-        $photoData = $this->getPhotoData();
-        $this->savePhoto($photoData);
-        $this->setAllOtherAvatarsAsInactive();
+        $this->save();
         $this->log();
 
-        return $this->avatar;
+        return $this->employee;
     }
 
     private function validate(): void
@@ -65,30 +61,15 @@ class UploadAvatar extends BaseService
         $this->employee = $this->validateEmployeeBelongsToCompany($this->data);
     }
 
-    private function getPhotoData(): array
+    private function save(): void
     {
-        $photo = $this->data['photo'];
-
-        return [
-            'company_id' => $this->data['company_id'],
-            'employee_id' => $this->data['employee_id'],
-            'original_filename' => $photo->getClientOriginalName(),
-            'new_filename' => $photo->storePublicly('avatars', config('filesystems.default')),
-            'extension' => $photo->extension(),
-            'size' => $photo->getSize(),
-        ];
-    }
-
-    private function savePhoto(array $photoData): void
-    {
-        $this->avatar = Avatar::create($photoData);
-    }
-
-    private function setAllOtherAvatarsAsInactive(): void
-    {
-        Avatar::where('id', '!=', $this->avatar->id)->update([
-            'active' => false,
-        ]);
+        Employee::where('id', $this->data['employee_id'])
+            ->update([
+                'avatar' => $this->data['photo']->storePublicly('avatars', config('filesystems.default')),
+                'avatar_original_filename' => $this->data['photo']->getClientOriginalName(),
+                'avatar_extension' => $this->data['photo']->extension(),
+                'avatar_size' => $this->data['photo']->getSize(),
+            ]);
     }
 
     private function log(): void

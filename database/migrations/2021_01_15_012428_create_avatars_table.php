@@ -14,20 +14,12 @@ class CreateAvatarsTable extends Migration
         // necessary for SQLlite
         Schema::enableForeignKeyConstraints();
 
-        Schema::create('avatars', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('company_id')->nullable();
-            $table->unsignedBigInteger('employee_id')->nullable();
-            $table->boolean('active')->default(true);
-            $table->string('original_filename');
-            $table->string('new_filename');
-            $table->string('extension');
-            $table->bigInteger('size');
-            $table->integer('height')->nullable();
-            $table->integer('width')->nullable();
-            $table->timestamps();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+        Schema::table('employees', function (Blueprint $table) {
+            $table->string('avatar_original_filename')->after('avatar')->nullable();
+            $table->string('avatar_extension')->after('avatar_original_filename')->nullable();
+            $table->bigInteger('avatar_size')->after('avatar_extension')->nullable();
+            $table->integer('avatar_height')->after('avatar_size')->nullable();
+            $table->integer('avatar_width')->after('avatar_height')->nullable();
         });
     }
 }

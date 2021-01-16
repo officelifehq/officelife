@@ -3,7 +3,6 @@
 namespace Tests\Unit\Services\User\Avatar;
 
 use Tests\TestCase;
-use App\Models\User\Avatar;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
@@ -70,13 +69,6 @@ class UploadAvatarTest extends TestCase
         Queue::fake();
         Storage::fake('avatars');
 
-        // create one other active avatar - this one should be marked inactive
-        $otherAvatar = Avatar::factory()->create([
-            'company_id' => $michael->company_id,
-            'employee_id' => $dwight->id,
-            'active' => true,
-        ]);
-
         $file = UploadedFile::fake()->image('image.png');
 
         $request = [
@@ -86,28 +78,19 @@ class UploadAvatarTest extends TestCase
             'photo' => $file,
         ];
 
-        $avatar = (new UploadAvatar)->execute($request);
+        $employee = (new UploadAvatar)->execute($request);
 
-        $this->assertDatabaseHas('avatars', [
-            'id' => $avatar->id,
+        $this->assertDatabaseHas('employees', [
+            'id' => $employee->id,
             'company_id' => $michael->company_id,
-            'employee_id' => $dwight->id,
-            'original_filename' => 'image.png',
-            'extension' => 'png',
-            'size' => 91,
-            'active' => true,
-        ]);
-
-        $this->assertDatabaseHas('avatars', [
-            'id' => $otherAvatar->id,
-            'company_id' => $michael->company_id,
-            'employee_id' => $dwight->id,
-            'active' => false,
+            'avatar_original_filename' => 'image.png',
+            'avatar_extension' => 'png',
+            'avatar_size' => 91,
         ]);
 
         $this->assertInstanceOf(
-            Avatar::class,
-            $avatar
+            Employee::class,
+            $employee
         );
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {

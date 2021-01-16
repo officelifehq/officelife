@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use App\Models\User\User;
 use App\Traits\Searchable;
 use App\Helpers\DateHelper;
-use App\Models\User\Avatar;
 use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
@@ -56,6 +55,11 @@ class Employee extends Model
         'phone_number',
         'locked',
         'avatar',
+        'avatar_original_filename',
+        'avatar_extension',
+        'avatar_size',
+        'avatar_height',
+        'avatar_width',
         'holiday_balance',
         'default_dashboard_view',
         'can_manage_expenses',
@@ -140,16 +144,6 @@ class Employee extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
-    }
-
-    /**
-     * Get the avatars record associated with the employee.
-     *
-     * @return hasMany
-     */
-    public function avatars()
-    {
-        return $this->hasMany(Avatar::class);
     }
 
     /**
