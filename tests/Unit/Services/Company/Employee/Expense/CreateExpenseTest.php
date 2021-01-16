@@ -205,7 +205,7 @@ class CreateExpenseTest extends TestCase
 
         $this->assertDatabaseHas('expenses', [
             'id' => $expense->id,
-            'company_id' => $dwight->company->id,
+            'company_id' => $dwight->company_id,
             'employee_id' => $dwight->id,
             'employee_name' => $dwight->name,
             'title' => 'Restaurant',

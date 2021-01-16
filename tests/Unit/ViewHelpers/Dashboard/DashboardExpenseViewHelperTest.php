@@ -20,7 +20,7 @@ class DashboardExpenseViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         $expense = factory(Expense::class)->create([
-            'company_id' => $michael->company->id,
+            'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
             'converted_amount' => 123,
@@ -66,7 +66,7 @@ class DashboardExpenseViewHelperTest extends TestCase
         $dwight = $this->createAnotherEmployee($michael);
 
         $expenseWithManager = factory(Expense::class)->create([
-            'company_id' => $michael->company->id,
+            'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'manager_approver_id' => $dwight->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
@@ -77,7 +77,7 @@ class DashboardExpenseViewHelperTest extends TestCase
         sleep(1);
 
         $expenseWithoutManager = factory(Expense::class)->create([
-            'company_id' => $michael->company->id,
+            'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
             'converted_amount' => 123,
@@ -141,7 +141,7 @@ class DashboardExpenseViewHelperTest extends TestCase
         $dwight = $this->createAnotherEmployee($michael);
 
         $expense = factory(Expense::class)->create([
-            'company_id' => $michael->company->id,
+            'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'manager_approver_id' => $dwight->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
