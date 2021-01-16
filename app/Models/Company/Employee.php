@@ -644,7 +644,7 @@ class Employee extends Model
     public function getListOfManagers(): Collection
     {
         $managersCollection = collect([]);
-        foreach ($this->managers()->get() as $directReport) {
+        foreach ($this->managers()->orderBy('id')->get() as $directReport) {
             $managersCollection->push($directReport->manager);
         }
 
