@@ -88,7 +88,7 @@ class DashboardManagerViewHelperTest extends TestCase
         $dwight = $this->createAnotherEmployee($michael);
 
         $expense = factory(Expense::class)->create([
-            'company_id' => $michael->company->id,
+            'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'manager_approver_id' => $dwight->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
