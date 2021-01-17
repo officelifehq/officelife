@@ -1033,6 +1033,12 @@ class LogHelper
                     ]);
                 break;
 
+            case 'employee_avatar_set':
+                $sentence = trans('account.log_employee_avatar_set', [
+                    'employee_id' => $log->object->{'employee_id'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
@@ -1509,6 +1515,10 @@ class LogHelper
                         'started_at' => $log->object->{'started_at'},
                         'ended_at' => $log->object->{'ended_at'},
                     ]);
+                break;
+
+            case 'employee_avatar_set':
+                $sentence = trans('account.employee_log_employee_avatar_set');
                 break;
 
             default:

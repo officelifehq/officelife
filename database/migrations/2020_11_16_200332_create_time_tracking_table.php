@@ -11,6 +11,9 @@ class CreateTimeTrackingTable extends Migration
      */
     public function up()
     {
+        // necessary for SQLlite
+        Schema::enableForeignKeyConstraints();
+
         Schema::create('timesheets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id')->nullable();

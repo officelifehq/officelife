@@ -55,6 +55,11 @@ class Employee extends Model
         'phone_number',
         'locked',
         'avatar',
+        'avatar_original_filename',
+        'avatar_extension',
+        'avatar_size',
+        'avatar_height',
+        'avatar_width',
         'holiday_balance',
         'default_dashboard_view',
         'can_manage_expenses',
@@ -639,7 +644,7 @@ class Employee extends Model
     public function getListOfManagers(): Collection
     {
         $managersCollection = collect([]);
-        foreach ($this->managers()->get() as $directReport) {
+        foreach ($this->managers()->orderBy('id')->get() as $directReport) {
             $managersCollection->push($directReport->manager);
         }
 

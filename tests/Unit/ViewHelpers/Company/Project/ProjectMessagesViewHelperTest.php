@@ -40,6 +40,7 @@ class ProjectMessagesViewHelperTest extends TestCase
         ]);
 
         $collection = ProjectMessagesViewHelper::index($project, $michael);
+
         $this->assertEquals(
             [
                 0 => [
