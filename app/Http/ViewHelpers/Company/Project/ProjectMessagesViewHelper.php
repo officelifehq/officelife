@@ -27,7 +27,7 @@ class ProjectMessagesViewHelper
         $messages = $project->messages()
             ->select('id', 'title', 'content', 'created_at', 'author_id')
             ->with('author')
-            ->latest()
+            ->orderBy('id')
             ->get();
 
         $messageReadStatuses = DB::table('project_message_read_status')
