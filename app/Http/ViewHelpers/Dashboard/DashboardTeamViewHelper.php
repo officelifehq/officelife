@@ -133,7 +133,8 @@ class DashboardTeamViewHelper
      */
     public static function ships(Team $team): Collection
     {
-        $ships = $team->ships()->take(3)->get();
+        $ships = $team->ships()->orderBy('id', 'asc')->take(3)->get();
+
         $shipsCollection = collect([]);
         foreach ($ships as $ship) {
             $employees = $ship->employees;
