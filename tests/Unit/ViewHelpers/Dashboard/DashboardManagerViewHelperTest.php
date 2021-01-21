@@ -323,6 +323,7 @@ class DashboardManagerViewHelperTest extends TestCase
                     'started_at' => 'Jan 01, 2018',
                     'ended_at' => 'Jan 07, 2018',
                     'duration' => '01 h 40',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/manager/timesheets/'.$timesheetA->id,
                 ],
             ],
             $collection->toArray()[0]['timesheets']->toArray()

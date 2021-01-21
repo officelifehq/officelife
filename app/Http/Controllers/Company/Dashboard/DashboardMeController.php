@@ -42,6 +42,7 @@ class DashboardMeController extends Controller
             'is_manager' => $employee->directReports->count() > 0,
             'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
             'question' => DashboardMeViewHelper::question($employee),
+            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
 
         $defaultCompanyCurrency = [

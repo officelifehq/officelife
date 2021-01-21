@@ -251,6 +251,10 @@ class DashboardManagerViewHelper
                         'hours' => $arrayOfTime['hours'],
                         'minutes' => $arrayOfTime['minutes'],
                     ]),
+                    'url' => route('dashboard.manager.timesheet.show', [
+                        'company' => $company,
+                        'timesheet' => $timesheet,
+                    ]),
                 ]);
             }
 

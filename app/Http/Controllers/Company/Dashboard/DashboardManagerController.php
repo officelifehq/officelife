@@ -57,6 +57,7 @@ class DashboardManagerController extends Controller
             'dashboard_view' => 'manager',
             'is_manager' => true,
             'can_manage_expenses' => $employee->can_manage_expenses,
+            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
 
         $pendingExpenses = DashboardManagerViewHelper::pendingExpenses($employee, $directReports);

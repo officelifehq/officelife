@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\ViewHelpers\Dashboard;
+
+use Carbon\Carbon;
+use App\Models\Company\Company;
+use App\Models\Company\Timesheet;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+
+class DashboardHRViewHelper
+{
+    /**
+     * Get the list of pending validation timesheets for employees who don't
+     * have managers, before the current week.
+     *
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function employeesWithoutManagersWithPendingTimesheets(Company $company): Collection
+    {
+        // all the unapproved timesheets of employees without managers
+        // except for the current week
+        // this query is not super optimal. ideally, we would query timesheets +
+        // employees without a manager in a single query, but I don’t know how
+        // yet.
+        $timesheets = Timesheet::where('company_id', $company->id)
+            ->where('status', Timesheet::READY_TO_SUBMIT)
+            ->with('employee')
+            ->whereDate('started_at', '<', Carbon::now()->startOfWeek(Carbon::MONDAY))
+            ->get();
+
+        // get the list of employees with manager, that we flatten
+        $listOfEmployeesWithManagers = DB::table('direct_reports')
+            ->where('company_id', $company->id)
+            ->select('employee_id')
+            ->get()
+            ->pluck('employee_id')
+            ->toArray();
+
+        $timesheetsWithUniqueEmployees = $timesheets->unique('employee_id');
+        $timesheetsWithUniqueEmployees = $timesheetsWithUniqueEmployees->whereNotIn('employee_id', $listOfEmployeesWithManagers);
+
+        $employeesCollection = collect([]);
+        foreach ($timesheetsWithUniqueEmployees as $timesheet) {
+            $employee = $timesheet->employee;
+
+            $employeesCollection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+            ]);
+        }
+
+        return $employeesCollection;
+    }
+
+    public static function statisticsAboutTimesheets(Company $company)
+    {
+        $totals = DB::table('timesheets')
+            ->whereDate('started_at', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY)->subDays(30))
+            ->whereDate('started_at', '<', Carbon::now()->startOfWeek(Carbon::MONDAY))
+            ->selectRaw('count(*) as total')
+            ->selectRaw("count(case when status = '".Timesheet::REJECTED."' then 1 end) as rejected")
+            ->first();
+
+        return [
+            'total' => $totals->total,
+            'rejected' => $totals->rejected,
+        ];
+    }
+}

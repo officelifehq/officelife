@@ -82,6 +82,7 @@
 
                 <!-- timesheet actions -->
                 <div>
+                  <inertia-link :href="timesheet.url" class="mr2 f7">{{ $t('dashboard.manager_timesheet_view_details') }}</inertia-link>
                   <loading-button :classes="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateReject" :text="$t('app.reject')" :cypress-selector="'reject-timesheet-' + timesheet.id" @click="reject(timesheet, directReport)" />
                   <loading-button :classes="'btn w-auto-ns w-100 mr2 pv2 ph3'" :state="loadingStateApprove" :text="$t('app.approve')" :cypress-selector="'approve-timesheet-' + timesheet.id" @click="approve(timesheet, directReport)" />
                 </div>
