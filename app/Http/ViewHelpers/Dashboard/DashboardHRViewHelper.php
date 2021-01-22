@@ -5,7 +5,6 @@ namespace App\Http\ViewHelpers\Dashboard;
 use Carbon\Carbon;
 use App\Models\Company\Company;
 use App\Models\Company\Timesheet;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class DashboardHRViewHelper
@@ -15,9 +14,9 @@ class DashboardHRViewHelper
      * have managers, before the current week.
      *
      * @param Company $company
-     * @return Collection|null
+     * @return array|null
      */
-    public static function employeesWithoutManagersWithPendingTimesheets(Company $company): Collection
+    public static function employeesWithoutManagersWithPendingTimesheets(Company $company): array
     {
         // all the unapproved timesheets of employees without managers
         // except for the current week
@@ -40,6 +39,7 @@ class DashboardHRViewHelper
 
         $timesheetsWithUniqueEmployees = $timesheets->unique('employee_id');
         $timesheetsWithUniqueEmployees = $timesheetsWithUniqueEmployees->whereNotIn('employee_id', $listOfEmployeesWithManagers);
+        $timesheetsLeft = $timesheets->whereNotIn('employee_id', $listOfEmployeesWithManagers);
 
         $employeesCollection = collect([]);
         foreach ($timesheetsWithUniqueEmployees as $timesheet) {
@@ -52,7 +52,13 @@ class DashboardHRViewHelper
             ]);
         }
 
-        return $employeesCollection;
+        return [
+            'number_of_timesheets' => $timesheetsLeft->count(),
+            'employees' => $employeesCollection,
+            'url_view_all' => route('dashboard.hr.timesheet.index', [
+                'company' => $company,
+            ]),
+        ];
     }
 
     public static function statisticsAboutTimesheets(Company $company)

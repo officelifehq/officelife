@@ -12,16 +12,42 @@ use App\Models\Company\Timesheet;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Models\Company\DirectReport;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
 use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
+use App\Http\ViewHelpers\Dashboard\HR\DashboardHRTimesheetViewHelper;
 
-class DashboardTimesheetManagerController extends Controller
+class DashboardHRTimesheetController extends Controller
 {
     /**
-     * Show the expense to validate.
+     * Show the list of timesheets to validate.
+     *
+     * @return mixed
+     */
+    public function index()
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        // is this person HR?
+        if ($employee->permission_level > config('officelife.permission_level.hr')) {
+            return redirect('home');
+        }
+
+        $employees = DashboardHRTimesheetViewHelper::timesheetApprovalsForEmployeesWithoutManagers($company);
+
+        return Inertia::render('Dashboard/HR/Timesheets/Index', [
+            'employee' => [
+                'id' => $employee->id,
+            ],
+            'notifications' => NotificationHelper::getNotifications($employee),
+            'employees' => $employees,
+        ]);
+    }
+
+    /**
+     * Show the timesheet to validate.
      *
      * @param Request $request
      * @param int $companyId
@@ -40,7 +66,7 @@ class DashboardTimesheetManagerController extends Controller
         $daysInHeader = DashboardTimesheetViewHelper::daysHeader($timesheet);
         $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
 
-        return Inertia::render('Dashboard/Manager/Timesheets/Show', [
+        return Inertia::render('Dashboard/HR/Timesheets/Show', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
@@ -130,19 +156,8 @@ class DashboardTimesheetManagerController extends Controller
             return redirect('home');
         }
 
-        // is the user a manager?
-        $directReports = DirectReport::where('company_id', $company->id)
-            ->where('manager_id', $employee->id)
-            ->with('directReport')
-            ->with('directReport.timesheets')
-            ->get();
-
-        if ($directReports->count() == 0) {
-            return redirect('home');
-        }
-
-        // can the manager see this timesheet?
-        if (! $employee->isManagerOf($timesheet->employee->id)) {
+        // is this person HR?
+        if ($employee->permission_level > config('officelife.permission_level.hr')) {
             return redirect('home');
         }
 

@@ -48,9 +48,9 @@ class DashboardHRViewHelperTest extends TestCase
             'status' => Timesheet::READY_TO_SUBMIT,
         ]);
 
-        $collection = DashboardHRViewHelper::employeesWithoutManagersWithPendingTimesheets($michael->company);
+        $array = DashboardHRViewHelper::employeesWithoutManagersWithPendingTimesheets($michael->company);
 
-        $this->assertEquals(1, $collection->count());
+        $this->assertEquals(1, $array['employees']->count());
 
         $this->assertEquals(
             [
@@ -60,7 +60,12 @@ class DashboardHRViewHelperTest extends TestCase
                     'avatar' => $michael->avatar,
                 ],
             ],
-            $collection->toArray()
+            $array['employees']->toArray()
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$dwight->company_id.'/dashboard/hr/timesheets',
+            $array['url_view_all']
         );
     }
 
@@ -92,8 +97,6 @@ class DashboardHRViewHelperTest extends TestCase
         ]);
 
         $array = DashboardHRViewHelper::statisticsAboutTimesheets($company);
-
-        // $this->assertEquals(1, $collection->count());
 
         $this->assertEquals(
             [
