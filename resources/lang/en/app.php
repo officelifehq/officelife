@@ -146,4 +146,6 @@ return [
     'rate_manager_bad' => 'Not ideal',
     'rate_manager_average' => 'It’s going well',
     'rate_manager_good' => 'Simply great',
+
+    'duration' => ':hours h :minutes',
 ];

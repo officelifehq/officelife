@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Helpers\DateHelper;
+use App\Helpers\TimeHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use Illuminate\Support\Collection;
@@ -25,6 +26,7 @@ class ProjectTasksViewHelper
             ->with('list')
             ->with('assignee')
             ->with('author')
+            ->with('timeTrackingEntries')
             ->get();
 
         // the goal of the following is to first display tasks without lists,
@@ -82,10 +84,18 @@ class ProjectTasksViewHelper
         return self::getTaskInfo($task, $company);
     }
 
+    /**
+     * Internal method used to populate the project information.
+     *
+     * @param ProjectTask $task
+     * @param Company $company
+     * @return array
+     */
     private static function getTaskInfo(ProjectTask $task, Company $company): array
     {
         $author = $task->author;
         $assignee = $task->assignee;
+        $duration = TimeHelper::convertToHoursAndMinutes($task->timeTrackingEntries()->sum('duration'));
 
         return [
             'id' => $task->id,
@@ -93,6 +103,7 @@ class ProjectTasksViewHelper
             'description' => $task->description,
             'completed' => $task->completed,
             'completed_at' => $task->completed_at ? DateHelper::formatDate($task->completed_at) : null,
+            'duration' => TimeHelper::durationInHumanFormat($duration),
             'author' => $author ? [
                 'id' => $author->id,
                 'name' => $author->name,

@@ -43,6 +43,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskA->description,
                     'completed' => true,
                     'completed_at' => 'Jan 01, 2018',
+                    'duration' => '0h00',
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -62,6 +63,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskB->description,
                     'completed' => false,
                     'completed_at' => null,
+                    'duration' => '0h00',
                     'author' => null,
                     'assignee' => null,
                 ],
@@ -124,6 +126,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskA->description,
                     'completed' => true,
                     'completed_at' => 'Jan 01, 2018',
+                    'duration' => '0h00',
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -163,6 +166,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskB->description,
                     'completed' => false,
                     'completed_at' => null,
+                    'duration' => '0h00',
                     'author' => null,
                     'assignee' => null,
                 ],
@@ -178,6 +182,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskC->description,
                     'completed' => false,
                     'completed_at' => null,
+                    'duration' => '0h00',
                     'author' => null,
                     'assignee' => null,
                 ],
@@ -210,6 +215,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'description' => $projectTaskA->description,
                 'completed' => true,
                 'completed_at' => 'Jan 01, 2018',
+                'duration' => '0h00',
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
