@@ -32,6 +32,7 @@ class DashboardHRViewHelper
             ->get();
 
         // get the list of employees with manager, that we flatten
+        /** @phpstan-ignore-next-line */
         $listOfEmployeesWithManagers = DB::table('direct_reports')
             ->where('company_id', $company->id)
             ->select('employee_id')
