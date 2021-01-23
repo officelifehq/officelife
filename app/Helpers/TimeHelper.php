@@ -35,7 +35,7 @@ class TimeHelper
     /**
      * Gets a sentence representing the time given in the array.
      *
-     * @param int $minutes
+     * @param array $duration
      * @return array
      */
     public static function durationInHumanFormat(array $duration): string

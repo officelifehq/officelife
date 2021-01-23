@@ -14,15 +14,17 @@ class DashboardHRViewHelper
      * have managers, before the current week.
      *
      * @param Company $company
-     * @return array|null
+     * @return array
      */
     public static function employeesWithoutManagersWithPendingTimesheets(Company $company): array
     {
         // all the unapproved timesheets of employees without managers
         // except for the current week
-        // this query is not super optimal. ideally, we would query timesheets +
-        // employees without a manager in a single query, but I don’t know how
-        // yet.
+        // this query is tricky and i don’t know how to do it efficiently with
+        // eloquent. so the way to go is to fetch the timesheets that are ready
+        // to submit first, then get all the employees with managers, then
+        // remove all those employees from the list of timesheets. that will get
+        // us all the timesheets for employees who don’t have managers.
         $timesheets = Timesheet::where('company_id', $company->id)
             ->where('status', Timesheet::READY_TO_SUBMIT)
             ->with('employee')

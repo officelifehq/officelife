@@ -58,7 +58,7 @@ class DashboardManagerTimesheetController extends Controller
      *
      * @param Request $request
      * @param int $companyId
-     * @param int $expenseId
+     * @param int $timesheetId
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
