@@ -9,6 +9,7 @@ use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
+use App\Models\Company\ProjectTask;
 use App\Http\Controllers\Controller;
 use App\Services\Company\Project\CreateProjectTask;
 use App\Services\Company\Project\ToggleProjectTask;
@@ -22,7 +23,7 @@ use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
 class ProjectTasksController extends Controller
 {
     /**
-     * Display the list of messages in the project.
+     * Display the list of tasks in the project.
      *
      * @param Request $request
      * @param int $companyId
@@ -42,6 +43,40 @@ class ProjectTasksController extends Controller
         }
 
         return Inertia::render('Company/Project/Tasks/Index', [
+            'tab' => 'tasks',
+            'project' => ProjectViewHelper::info($project),
+            'tasks' => ProjectTasksViewHelper::index($project),
+            'members' => ProjectTasksViewHelper::members($project),
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Display the detail of a task.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $taskId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     */
+    public function show(Request $request, int $companyId, int $projectId, int $taskId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $project = ProjectTask::where('company_id', $company->id)
+                ->where('project_id', $projectId)
+                ->with('timeTrackingEntries')
+                ->with('assignee')
+                ->with('list')
+                ->findOrFail($taskId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return Inertia::render('Company/Project/Tasks/Show', [
             'tab' => 'tasks',
             'project' => ProjectViewHelper::info($project),
             'tasks' => ProjectTasksViewHelper::index($project),

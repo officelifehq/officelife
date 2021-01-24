@@ -146,4 +146,47 @@ class ProjectTasksViewHelper
                 ];
             });
     }
+
+    /**
+     * Array containing all the information about a specific project task.
+     *
+     * @param ProjectTask $project
+     * @param Company $company
+     * @return array|null
+     */
+    public static function taskDetails(ProjectTask $projectTask, Company $company): ?array
+    {
+        $task = self::getTaskInfo($projectTask, $company);
+
+        $timeTrackingEntries = $projectTask->timeTrackingEntries()
+            ->orderBy('id', 'desc')
+            ->with('employee')
+            ->get();
+
+        $timeTrackingCollection = collect([]);
+        foreach ($timeTrackingEntries as $timeTrackingEntry) {
+            $employee = $timeTrackingEntry->employee;
+            $timeTrackingCollection->push([
+                'id' => $timeTrackingEntry->id,
+                'duration' => $timeTrackingEntry->duration,
+                'employee' => [
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                    'avatar' => $employee->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $employee,
+                    ]),
+                ],
+            ]);
+        }
+
+        return [
+            'task' => $task,
+            'list' => [
+                'name' => $projectTask->list->title,
+            ],
+            'time_tracking_entries' => $timeTrackingCollection,
+        ];
+    }
 }

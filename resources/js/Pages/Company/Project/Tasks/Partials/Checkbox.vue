@@ -46,6 +46,17 @@ input[type=checkbox] {
     display: inline-block;
   }
 }
+
+.duration {
+  background-color: #DAE1E7;
+  font-size: 9px;
+  padding: 3px 6px;
+
+  svg {
+    width: 13px;
+    top: 3px;
+  }
+}
 </style>
 
 <template>
@@ -99,6 +110,14 @@ input[type=checkbox] {
             :top="'4px'"
             :margin-between-name-avatar="'22px'"
           />
+
+          <span v-if="duration" class="duration br3 relative ml2">
+            <svg class="relative" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+
+            {{ duration }}
+          </span>
 
           <!-- actions - only shown on mobile -->
           <div class="show-actions">
@@ -206,6 +225,10 @@ export default {
       default: 0,
     },
     assignee: {
+      type: Object,
+      default: null,
+    },
+    duration: {
       type: Object,
       default: null,
     },

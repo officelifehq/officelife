@@ -142,10 +142,10 @@
 </template>
 
 <script>
-import Checkbox from '@/Shared/EditableCheckbox';
 import TextArea from '@/Shared/TextArea';
 import LoadingButton from '@/Shared/LoadingButton';
 import SelectBox from '@/Shared/Select';
+import Checkbox from '@/Pages/Company/Project/Tasks/Partials/Checkbox';
 
 export default {
   components: {
