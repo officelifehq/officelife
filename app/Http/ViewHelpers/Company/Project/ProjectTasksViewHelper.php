@@ -184,7 +184,7 @@ class ProjectTasksViewHelper
         return [
             'task' => $task,
             'list' => [
-                'name' => $projectTask->list->title,
+                'name' => $projectTask->list ? $projectTask->list->title : null,
             ],
             'time_tracking_entries' => $timeTrackingCollection,
         ];

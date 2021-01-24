@@ -66,8 +66,14 @@ class ProjectTasksController extends Controller
         $company = InstanceHelper::getLoggedCompany();
 
         try {
-            $project = ProjectTask::where('company_id', $company->id)
-                ->where('project_id', $projectId)
+            $project = Project::where('company_id', $company->id)
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            $projectTask = ProjectTask::where('project_id', $project->id)
                 ->with('timeTrackingEntries')
                 ->with('assignee')
                 ->with('list')
@@ -78,9 +84,8 @@ class ProjectTasksController extends Controller
 
         return Inertia::render('Company/Project/Tasks/Show', [
             'tab' => 'tasks',
-            'project' => ProjectViewHelper::info($project),
-            'tasks' => ProjectTasksViewHelper::index($project),
-            'members' => ProjectTasksViewHelper::members($project),
+            'project' => ProjectViewHelper::info($projectTask->project),
+            'data' => ProjectTasksViewHelper::taskDetails($projectTask, $company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
