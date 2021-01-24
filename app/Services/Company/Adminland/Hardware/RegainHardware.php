@@ -46,12 +46,13 @@ class RegainHardware extends BaseService
 
         $this->employee = $hardware->employee;
 
-        $hardware->employee_id = null;
-        $hardware->save();
+        Hardware::where('id', $hardware->id)->update([
+            'employee_id' => null,
+        ]);
 
         $this->log($data, $hardware);
 
-        return $hardware;
+        return $hardware->refresh();
     }
 
     /**

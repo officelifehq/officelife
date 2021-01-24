@@ -69,7 +69,10 @@ class UpdateOneOnOneActionItem extends BaseService
 
     private function update(): void
     {
-        $this->actionItem->description = $this->data['description'];
-        $this->actionItem->save();
+        OneOnOneActionItem::where('id', $this->actionItem->id)->update([
+            'description' => $this->data['description'],
+        ]);
+
+        $this->actionItem->refresh();
     }
 }

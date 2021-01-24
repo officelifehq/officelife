@@ -47,9 +47,11 @@ class UpdateCompanyNews extends BaseService
 
         $oldNewsTitle = $news->title;
 
-        $news->title = $data['title'];
-        $news->content = $data['content'];
-        $news->save();
+        CompanyNews::where('id', $news->id)
+            ->update([
+                'title' => $data['title'],
+                'content' => $data['content'],
+            ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -59,7 +61,7 @@ class UpdateCompanyNews extends BaseService
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'company_news_id' => $news->id,
-                'company_news_title' => $news->title,
+                'company_news_title' => $data['title'],
                 'company_news_old_title' => $oldNewsTitle,
             ]),
         ])->onQueue('low');

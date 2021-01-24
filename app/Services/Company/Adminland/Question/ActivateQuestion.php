@@ -45,10 +45,11 @@ class ActivateQuestion extends BaseService
         $question = Question::where('company_id', $data['company_id'])
             ->findOrFail($data['question_id']);
 
-        $question->active = true;
-        $question->activated_at = Carbon::now();
-        $question->deactivated_at = null;
-        $question->save();
+        Question::where('id', $question->id)->update([
+            'active' => true,
+            'activated_at' => Carbon::now(),
+            'deactivated_at' => null,
+        ]);
 
         $question->refresh();
 
@@ -56,7 +57,7 @@ class ActivateQuestion extends BaseService
 
         $this->log($data, $question);
 
-        return $question;
+        return $question->refresh();
     }
 
     /**
@@ -72,11 +73,10 @@ class ActivateQuestion extends BaseService
             ->get();
 
         foreach ($questions as $question) {
-            if ($question->active) {
-                $question->deactivated_at = Carbon::now();
-            }
-            $question->active = false;
-            $question->save();
+            Question::where('id', $question->id)->update([
+                'active' => false,
+                'deactivated_at' => $question->active ? Carbon::now() : null,
+            ]);
         }
     }
 

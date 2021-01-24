@@ -48,8 +48,8 @@ class LogMissedWorklogEntry implements ShouldQueue
         $employeesWithoutLogs = $allEmployees->diff($employeesWithLogs);
 
         foreach ($employeesWithoutLogs as $employee) {
-            $employee->consecutive_worklog_missed = $employee->consecutive_worklog_missed + 1;
-            $employee->save();
+            Employee::where('id', $employee->id)
+                ->increment('consecutive_worklog_missed', 1);
         }
     }
 }

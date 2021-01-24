@@ -46,9 +46,10 @@ class UpdateHardware extends BaseService
 
         $oldName = $hardware->name;
 
-        $hardware->name = $data['name'];
-        $hardware->serial_number = $this->valueOrNull($data, 'serial_number');
-        $hardware->save();
+        Hardware::where('id', $hardware->id)->update([
+            'name' => $data['name'],
+            'serial_number' => $this->valueOrNull($data, 'serial_number'),
+        ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -58,7 +59,7 @@ class UpdateHardware extends BaseService
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'hardware_id' => $hardware->id,
-                'hardware_name' => $hardware->name,
+                'hardware_name' => $data['name'],
                 'hardware_old_name' => $oldName,
             ]),
         ])->onQueue('low');

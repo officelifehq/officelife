@@ -60,14 +60,15 @@ class UpdateCompanyCurrency extends BaseService
      */
     private function updateCurrency(): void
     {
-        $this->company->currency = $this->data['currency'];
-        $this->company->save();
+        Company::where('id', $this->company->id)->update([
+            'currency' => $this->data['currency'],
+        ]);
     }
 
     /**
      * Add an audit log entry for this action.
      *
-     * @var string $oldCurrency
+     * @var string
      */
     private function log(string $oldCurrency): void
     {

@@ -45,8 +45,9 @@ class UpdatePosition extends BaseService
 
         $oldPositionTitle = $position->title;
 
-        $position->title = $data['title'];
-        $position->save();
+        Position::where('id', $position->id)->update([
+            'title' => $data['title'],
+        ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -56,7 +57,7 @@ class UpdatePosition extends BaseService
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'position_id' => $position->id,
-                'position_title' => $position->title,
+                'position_title' => $data['title'],
                 'position_old_title' => $oldPositionTitle,
             ]),
         ])->onQueue('low');

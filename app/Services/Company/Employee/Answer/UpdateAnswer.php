@@ -54,8 +54,9 @@ class UpdateAnswer extends BaseService
         Question::where('company_id', $data['company_id'])
             ->findOrFail($answer->question->id);
 
-        $answer->body = $data['body'];
-        $answer->save();
+        Answer::where('id', $answer->id)->update([
+            'body' => $data['body'],
+        ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],

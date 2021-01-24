@@ -59,8 +59,9 @@ class CheckIfPendingExpenseShouldBeMovedToAccountingWhenManagerChanges implement
             $employee = $expense->employee;
 
             if ($employee->managers->count() == 0) {
-                $expense->status = Expense::AWAITING_ACCOUTING_APPROVAL;
-                $expense->save();
+                Expense::where('id', $expense->id)->update([
+                    'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
+                ]);
             }
         }
     }

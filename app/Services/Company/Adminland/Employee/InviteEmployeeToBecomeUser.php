@@ -80,10 +80,11 @@ class InviteEmployeeToBecomeUser extends BaseService
             throw new UserAlreadyInvitedException();
         }
 
-        $employee->invitation_link = Str::uuid()->toString();
-        $employee->save();
+        Employee::where('id', $employee->id)->update([
+            'invitation_link' => Str::uuid()->toString(),
+        ]);
 
         Mail::to($employee->email)
-            ->queue(new InviteEmployeeToBecomeUserMail($employee));
+            ->queue(new InviteEmployeeToBecomeUserMail($employee->refresh()));
     }
 }

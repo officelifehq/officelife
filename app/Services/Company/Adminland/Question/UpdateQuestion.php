@@ -49,9 +49,10 @@ class UpdateQuestion extends BaseService
 
         $oldQuestionTitle = $question->title;
 
-        $question->title = $data['title'];
-        $question->active = $this->valueOrFalse($data, 'active');
-        $question->save();
+        Question::where('id', $question->id)->update([
+            'title' => $data['title'],
+            'active' => $this->valueOrFalse($data, 'active'),
+        ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],
@@ -61,7 +62,7 @@ class UpdateQuestion extends BaseService
             'audited_at' => Carbon::now(),
             'objects' => json_encode([
                 'question_id' => $question->id,
-                'question_title' => $question->title,
+                'question_title' => $data['title'],
                 'question_old_title' => $oldQuestionTitle,
             ]),
         ])->onQueue('low');

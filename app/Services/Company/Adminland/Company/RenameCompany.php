@@ -60,14 +60,15 @@ class RenameCompany extends BaseService
      */
     private function rename(): void
     {
-        $this->company->name = $this->data['name'];
-        $this->company->save();
+        Company::where('id', $this->company->id)->update([
+            'name' => $this->data['name'],
+        ]);
     }
 
     /**
      * Add an audit log entry for this action.
      *
-     * @var string $oldName
+     * @var string
      */
     private function log(string $oldName): void
     {

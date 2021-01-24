@@ -51,8 +51,9 @@ class AllowEmployeeToManageExpenses extends BaseService
 
         $this->employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $this->employee->can_manage_expenses = true;
-        $this->employee->save();
+        Employee::where('id', $this->employee->id)->update([
+            'can_manage_expenses' => true,
+        ]);
 
         $this->log();
 
