@@ -147,7 +147,7 @@ class EmployeeWorklogController extends Controller
             });
         }
 
-        return Inertia::render('Employee/Worklogs/Index', [
+        return Inertia::render('Employee/Work/Worklogs/Index', [
             'employee' => $employee->toObject(),
             'worklogs' => WorklogCollection::prepare($worklogs),
             'years' => $yearsCollection,

@@ -94,7 +94,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
                         'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2019->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2019->id,
                 ],
                 1 => [
                     'id' => $entry2018->id,
@@ -108,7 +108,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
                         'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2018->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2018->id,
                 ],
                 2 => [
                     'id' => $entry2017->id,
@@ -122,7 +122,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
                         'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2017->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2017->id,
                 ],
             ],
             $collection->toArray()

@@ -58,7 +58,7 @@ class EmployeeTimesheetController extends Controller
         $monthsWithTimesheets = EmployeeTimesheetViewHelper::monthsWithTimesheets($employee, $loggedCompany, $currentYear);
         $timesheets = EmployeeTimesheetViewHelper::timesheets($timesheets, $employee, $loggedCompany);
 
-        return Inertia::render('Employee/Timesheets/Index', [
+        return Inertia::render('Employee/Administration/Timesheets/Index', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
@@ -109,7 +109,7 @@ class EmployeeTimesheetController extends Controller
         $monthsWithTimesheets = EmployeeTimesheetViewHelper::monthsWithTimesheets($employee, $loggedCompany, $year);
         $timesheets = EmployeeTimesheetViewHelper::timesheets($timesheets, $employee, $loggedCompany);
 
-        return Inertia::render('Employee/Timesheets/Index', [
+        return Inertia::render('Employee/Administration/Timesheets/Index', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
@@ -162,7 +162,7 @@ class EmployeeTimesheetController extends Controller
         $monthsWithTimesheets = EmployeeTimesheetViewHelper::monthsWithTimesheets($employee, $loggedCompany, $year);
         $timesheets = EmployeeTimesheetViewHelper::timesheets($timesheets, $employee, $loggedCompany);
 
-        return Inertia::render('Employee/Timesheets/Index', [
+        return Inertia::render('Employee/Administration/Timesheets/Index', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
@@ -210,7 +210,7 @@ class EmployeeTimesheetController extends Controller
         $daysInHeader = DashboardTimesheetViewHelper::daysHeader($timesheet);
         $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
 
-        return Inertia::render('Employee/Timesheets/Show', [
+        return Inertia::render('Employee/Administration/Timesheets/Show', [
             'employee' => [
                 'id' => $employee->id,
                 'name' => $employee->name,

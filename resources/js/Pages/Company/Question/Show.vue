@@ -1,7 +1,7 @@
 <style lang="scss" scoped>
 .content {
   background-color: #f3f9fc;
-  padding: 4px 10px;
+  padding: 9px 14px;
 }
 
 .answer-entry:not(:first-child) {
@@ -33,11 +33,12 @@
       <!-- BODY -->
       <div class="cf mw7 center br3 mb3 bg-white box relative">
         <div class="pa3">
-          <p class="f3 fw4 mt0 mb1 lh-copy tc" data-cy="company-question-title">{{ question.title }}</p>
-          <p class="f6 silver mb4 mt0 tc lh-copy">{{ question.date }} {{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</p>
+          <p class="f3 fw4 mt0 mb1 measure lh-copy tc" data-cy="company-question-title">{{ question.title }}</p>
+          <p v-if="question.date" class="f6 silver mt0 tc lh-copy">{{ question.date }}</p>
+          <p class="f6 silver mb4 mt0 tc lh-copy">{{ $tc('dashboard.question_number_of_answers', question.number_of_answers, { number: question.number_of_answers }) }}</p>
 
           <div v-if="teams.length > 0" class="tr">
-            <span class="dib mr2">
+            <span class="dib mr2 f7 gray">
               {{ $t('company.question_filter_team') }}
             </span>
             <select id="teams" v-model="form.id" @change="navigateTo()">

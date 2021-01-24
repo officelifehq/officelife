@@ -4,20 +4,16 @@ namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Inertia;
 use Inertia\Response;
-use App\Models\User\Pronoun;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\PronounCollection;
-use App\Http\Collections\PositionCollection;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
 use App\Services\Company\Employee\Manager\UnassignManager;
-use App\Http\ViewHelpers\Employee\EmployeePerformanceViewHelper;
 
 class EmployeeController extends Controller
 {
@@ -75,19 +71,13 @@ class EmployeeController extends Controller
         try {
             $employee = Employee::where('company_id', $companyId)
                 ->where('id', $employeeId)
-                ->with('teams')
                 ->with('company')
-                ->with('pronoun')
                 ->with('user')
                 ->with('status')
                 ->with('places')
                 ->with('managers')
-                ->with('workFromHomes')
-                ->with('hardware')
                 ->with('ships')
                 ->with('skills')
-                ->with('expenses')
-                ->with('oneOnOneEntriesAsEmployee')
                 ->firstOrFail();
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -102,67 +92,28 @@ class EmployeeController extends Controller
         // direct reports
         $directReportsOfEmployee = EmployeeShowViewHelper::directReports($employee);
 
-        // worklogs
-        $worklogsCollection = EmployeeShowViewHelper::worklogs($employee);
-
-        // work from home
-        $workFromHomeStats = EmployeeShowViewHelper::workFromHomeStats($employee);
-
         // questions
         $questions = EmployeeShowViewHelper::questions($employee);
 
-        // hardware
-        $hardware = EmployeeShowViewHelper::hardware($employee, $permissions);
-
         // all the teams the employee belongs to
-        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $employee);
-
-        // all teams in company
-        $teams = $company->teams()->with('leader')->get();
-        $teams = EmployeeShowViewHelper::teams($teams, $employee);
-
-        // all recent ships of this employee
-        $ships = EmployeeShowViewHelper::recentShips($employee);
+        $employeeTeams = EmployeeShowViewHelper::teams($employee->teams, $company);
 
         // all skills of this employee
         $skills = EmployeeShowViewHelper::skills($employee);
-
-        // all expenses of this employee
-        $expenses = EmployeeShowViewHelper::expenses($employee, $permissions);
-
-        // surveys, to know if the performance tab should be visible
-        $surveys = EmployeePerformanceViewHelper::latestRateYourManagerSurveys($employee);
-
-        // the latest one on ones
-        $oneOnOnes = EmployeeShowViewHelper::oneOnOnes($employee, $permissions);
-
-        // information about the timesheets
-        $timesheets = EmployeeShowViewHelper::timesheets($employee, $permissions);
 
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
         return Inertia::render('Employee/Show', [
-            'menu' => 'all',
+            'menu' => 'presentation',
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'managersOfEmployee' => $managersOfEmployee,
             'directReports' => $directReportsOfEmployee,
-            'worklogs' => $worklogsCollection,
-            'workFromHomes' => $workFromHomeStats,
             'questions' => $questions,
-            'hardware' => $hardware,
-            'employeeTeams' => $employeeTeams,
-            'positions' => PositionCollection::prepare($company->positions()->get()),
-            'teams' => $teams,
-            'pronouns' => PronounCollection::prepare(Pronoun::all()),
-            'ships' => $ships,
+            'teams' => $employeeTeams,
             'skills' => $skills,
-            'expenses' => $expenses,
-            'surveys' => $surveys,
-            'oneOnOnes' => $oneOnOnes,
-            'timesheets' => $timesheets,
         ]);
     }
 

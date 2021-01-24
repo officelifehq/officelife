@@ -76,8 +76,8 @@ class CompanyQuestionViewHelper
                 'id' => $answer->answer_id,
                 'body' => $answer->body,
                 'employee' => [
-                    'name' => $answer->employee ? $answer->employee->name : $answer->name,
-                    'avatar' => $answer->employee ? $answer->employee->avatar : $answer->avatar,
+                    'name' => $answer->employee->name,
+                    'avatar' => $answer->employee->avatar,
                 ],
             ]);
         }

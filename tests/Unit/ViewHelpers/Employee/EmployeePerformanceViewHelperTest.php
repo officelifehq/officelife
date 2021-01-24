@@ -64,7 +64,7 @@ class EmployeePerformanceViewHelperTest extends TestCase
                     ],
                     'employees' => 0,
                     'response_rate' => 0,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/performance/'.$activeSurvey->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/performance/surveys/'.$activeSurvey->id,
                 ],
                 1 => [
                     'id' => $oldSurvey->id,
@@ -78,7 +78,7 @@ class EmployeePerformanceViewHelperTest extends TestCase
                     ],
                     'employees' => 3,
                     'response_rate' => 100,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/performance/'.$oldSurvey->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/performance/surveys/'.$oldSurvey->id,
                 ],
             ],
             $array['surveys']->toArray()
@@ -151,7 +151,7 @@ class EmployeePerformanceViewHelperTest extends TestCase
                     ],
                     'employees' => 0,
                     'response_rate' => 0,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/performance/'.$inactiveSurvey->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/performance/surveys/'.$inactiveSurvey->id,
                 ],
                 2 => [
                     'id' => $oldSurvey->id,
@@ -165,7 +165,7 @@ class EmployeePerformanceViewHelperTest extends TestCase
                     ],
                     'employees' => 3,
                     'response_rate' => 100,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/performance/'.$oldSurvey->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/performance/surveys/'.$oldSurvey->id,
                 ],
             ],
             $array['surveys']->toArray()

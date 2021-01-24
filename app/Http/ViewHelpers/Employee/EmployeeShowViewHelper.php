@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
 use App\Helpers\MoneyHelper;
+use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\WorklogHelper;
 use App\Models\Company\Company;
@@ -31,6 +32,7 @@ class EmployeeShowViewHelper
     {
         $address = $employee->getCurrentAddress();
         $company = $employee->company;
+        $teams = $employee->teams;
 
         return [
             'id' => $employee->id,
@@ -66,7 +68,6 @@ class EmployeeShowViewHelper
             'address' => is_null($address) ? null : [
                 'sentence' => $permissions['can_see_complete_address'] ? $address->getCompleteAddress() : $address->getPartialAddress(),
                 'openstreetmap_url' => $address->getMapUrl($permissions['can_see_complete_address']),
-                'image' => $address->getStaticMapImage(7, 600, 130),
             ],
             'position' => (! $employee->position) ? null : [
                 'id' => $employee->position->id,
@@ -83,12 +84,17 @@ class EmployeeShowViewHelper
                 'id' => $employee->status->id,
                 'name' => $employee->status->name,
             ],
+            'teams' => ($teams->count() == 0) ? null : self::teams($teams, $company),
             'url' => [
                 'audit_log' => route('employee.show.logs', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
                 'edit' => route('employee.show.edit', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'lock' => route('account.lock', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
@@ -208,6 +214,15 @@ class EmployeeShowViewHelper
             $canSeePerformanceTab = true;
         }
 
+        // can see administration tab?
+        $canSeeAdministrationTab = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeAdministrationTab = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canSeeAdministrationTab = true;
+        }
+
         // can see hardware
         $canSeeHardware = $loggedEmployee->permission_level <= 200;
         if ($loggedEmployee->id == $employee->id) {
@@ -244,7 +259,6 @@ class EmployeeShowViewHelper
             'can_manage_hierarchy' => $canManageHierarchy,
             'can_manage_position' => $canManagePosition,
             'can_manage_pronouns' => $canManagePronouns,
-            'can_marray' => $canManagePronouns,
             'can_manage_status' => $canManageStatus,
             'can_manage_teams' => $canManageTeam,
             'can_manage_skills' => $canManageSkills,
@@ -258,6 +272,7 @@ class EmployeeShowViewHelper
             'can_see_audit_log' => $canSeeAuditLog,
             'can_see_complete_address' => $canSeeCompleteAddress,
             'can_see_performance_tab' => $canSeePerformanceTab,
+            'can_see_administration_tab' => $canSeeAdministrationTab,
             'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
             'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
             'can_see_timesheets' => $canSeeTimesheets,
@@ -276,6 +291,10 @@ class EmployeeShowViewHelper
         $managersOfEmployee = collect([]);
         foreach ($managers as $manager) {
             $manager = $manager->manager;
+
+            if ($manager->locked) {
+                continue;
+            }
 
             $managersOfEmployee->push([
                 'id' => $manager->id,
@@ -307,6 +326,10 @@ class EmployeeShowViewHelper
         $directReportsOfEmployee = collect([]);
         foreach ($directReports as $directReport) {
             $directReport = $directReport->directReport;
+
+            if ($directReport->locked) {
+                continue;
+            }
 
             $directReportsOfEmployee->push([
                 'id' => $directReport->id,
@@ -359,7 +382,7 @@ class EmployeeShowViewHelper
 
         $array = [
             'worklogs_collection' => $worklogsCollection,
-            'url' => route('employees.worklogs', [
+            'url' => route('employee.work.worklogs', [
                 'company' => $employee->company,
                 'employee' => $employee,
             ]),
@@ -377,17 +400,13 @@ class EmployeeShowViewHelper
      */
     public static function workFromHomeStats(Employee $employee): array
     {
-        $workFromHomes = $employee->workFromHomes;
-
-        // get all entries in the current year
-        $entries = $workFromHomes->filter(function ($entry) {
-            return $entry->date->isCurrentYear();
-        });
+        $currentYear = Carbon::now()->year;
+        $workFromHomes = $employee->workFromHomes()->whereYear('date', (string) $currentYear)->get();
 
         return [
             'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
-            'number_times_this_year' => $entries->count(),
-            'url' => route('employees.workfromhome', [
+            'number_times_this_year' => $workFromHomes->count(),
+            'url' => route('employee.work.workfromhome', [
                 'company' => $employee->company,
                 'employee' => $employee,
             ]),
@@ -428,17 +447,12 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the teams.
      *
-     * @param Employee $employee
+     * @param Company $company
      * @param Collection $teams
      * @return Collection
      */
-    public static function teams(Collection $teams, Employee $employee): Collection
+    public static function teams(Collection $teams, Company $company): Collection
     {
-        // reduce the number of queries that the foreach loop generates
-        // we don't need to iterate over this over and over as it'll be the same
-        //for all those companies
-        $company = $employee->company;
-
         $teamsCollection = collect([]);
         foreach ($teams as $team) {
             $teamsCollection->push([
@@ -592,7 +606,7 @@ class EmployeeShowViewHelper
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
-                'url' => route('employee.expenses.show', [
+                'url' => route('employee.administration.expenses.show', [
                     'company' => $employee->company,
                     'employee' => $employee,
                     'expense' => $expense,
@@ -601,7 +615,7 @@ class EmployeeShowViewHelper
         }
 
         return [
-            'url' => route('employee.expenses.index', [
+            'url' => route('employee.administration.expenses.index', [
                 'company' => $employee->company,
                 'employee' => $employee,
             ]),
@@ -645,7 +659,7 @@ class EmployeeShowViewHelper
                         'employee' => $oneOnOne->manager,
                     ]),
                 ],
-                'url' => route('employees.oneonones.show', [
+                'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $employee,
                     'oneonone' => $oneOnOne,
@@ -655,7 +669,7 @@ class EmployeeShowViewHelper
 
         return [
             'entries' => $collection,
-            'view_all_url' => route('employees.oneonones.index', [
+            'view_all_url' => route('employees.show.performance.oneonones.index', [
                 'company' => $company,
                 'employee' => $employee,
             ]),
@@ -737,5 +751,46 @@ class EmployeeShowViewHelper
                 'employee' => $employee,
             ]),
         ];
+    }
+
+    /**
+     * Array containing information about all the pronouns used in the company.
+     *
+     * @return Collection|null
+     */
+    public static function pronouns(): ?Collection
+    {
+        $pronounCollection = collect([]);
+        $pronouns = Pronoun::orderBy('id', 'asc')->get();
+
+        foreach ($pronouns as $pronoun) {
+            $pronounCollection->push([
+                'id' => $pronoun->id,
+                'label' => $pronoun->label,
+            ]);
+        }
+
+        return $pronounCollection;
+    }
+
+    /**
+     * Array containing information about all the positions used in the company.
+     *
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function positions(Company $company): ?Collection
+    {
+        $positionCollection = collect([]);
+        $positions = $company->positions;
+
+        foreach ($positions as $position) {
+            $positionCollection->push([
+                'id' => $position->id,
+                'title' => $position->title,
+            ]);
+        }
+
+        return $positionCollection;
     }
 }

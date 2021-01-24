@@ -370,3 +370,78 @@ Cypress.Commands.add('fillAndSubmitTimesheet', (companyId = 1) => {
   cy.get('[data-cy=timesheet-submit-timesheet]').click();
   cy.get('[data-cy=timesheet-status-awaiting]').should('exist');
 });
+
+// Set the birthdate
+Cypress.Commands.add('setBirthdate', (companyId = 1, employeeId = 1, firstName, lastName, email, year, month, day) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=firstname]').type(firstName);
+  cy.get('input[name=lastname]').type(lastName);
+  cy.get('input[name=email]').clear();
+  cy.get('input[name=email]').type(email);
+  cy.get('input[name=year]').clear();
+  cy.get('input[name=year]').type(year);
+  cy.get('input[name=month]').clear();
+  cy.get('input[name=month]').type(month);
+  cy.get('input[name=day]').clear();
+  cy.get('input[name=day]').type(day);
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Set the hired at date
+Cypress.Commands.add('setHiredDate', (companyId = 1, employeeId = 1, year, month, day) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=hired_at_year]').clear();
+  cy.get('input[name=hired_at_year]').type(year);
+  cy.get('input[name=hired_at_month]').clear();
+  cy.get('input[name=hired_at_month]').type(month);
+  cy.get('input[name=hired_at_day]').clear();
+  cy.get('input[name=hired_at_day]').type(day);
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Set the Twitter account
+Cypress.Commands.add('setTwitterAccount', (companyId = 1, employeeId = 1, twitterAccount = '') => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=twitter]').clear();
+
+  if (twitterAccount != '') {
+    cy.get('input[name=twitter]').type(twitterAccount);
+  }
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Set the Slack account
+Cypress.Commands.add('setSlackAccount', (companyId = 1, employeeId = 1, slackAccount = '') => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=slack]').clear();
+
+  if (slackAccount != '') {
+    cy.get('input[name=slack]').type(slackAccount);
+  }
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Set an address
+Cypress.Commands.add('setAddress', (companyId = 1, employeeId = 1, street = '612 St Jacques St', city = 'Montreal', state = 'QC', postalCode = 'H3C 4M8') => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('[data-cy=menu-address-link]').click();
+
+  cy.get('input[name=street]').clear();
+  cy.get('input[name=street]').type(street);
+  cy.get('input[name=city]').clear();
+  cy.get('input[name=city]').type(city);
+  cy.get('input[name=state]').clear();
+  cy.get('input[name=state]').type(state);
+  cy.get('input[name=postal_code]').clear();
+  cy.get('input[name=postal_code]').type(postalCode);
+  cy.get('[data-cy=country_selector]').click();
+  cy.get('ul.vs__dropdown-menu>li').eq(3).click();
+  cy.get('[data-cy=country_selector]').click();
+  cy.get('input[name=state]').click();
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});

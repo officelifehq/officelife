@@ -23,21 +23,4 @@ class PronounTest extends TestCase
             $pronoun->label
         );
     }
-
-    /** @test */
-    public function it_returns_an_object(): void
-    {
-        $position = factory(Pronoun::class)->create([
-            'label' => 'he',
-            'translation_key' => 'dunder',
-        ]);
-
-        $this->assertEquals(
-            [
-                'id' => $position->id,
-                'label' => 'dunder',
-            ],
-            $position->toObject()
-        );
-    }
 }

@@ -21,10 +21,18 @@
         <div>
           <span class="db pb1 fw5 lh-copy">
             {{ localRow.task_title }}
+
+            <!-- destroy row -->
+            <a v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'" class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete f7" href="#" @click.prevent="destroy()">[x]</a>
           </span>
-          <inertia-link :href="localRow.project_url" class="dib">
+
+          <!-- project name -->
+          <inertia-link v-if="localRow.project_url" :href="localRow.project_url" class="dib">
             {{ localRow.project_name }}
           </inertia-link>
+          <span v-else class="dib">
+            {{ localRow.project_name }}
+          </span>
         </div>
         <span class="f7 fw5">
           {{ total }}
@@ -35,7 +43,7 @@
     <!-- monday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheetStatus == 'open'"
+        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[0].hours"
         :minutes="localRow.days[0].minutes"
         :total="localRow.days[0].total_of_minutes"
@@ -50,7 +58,7 @@
     <!-- tuesday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheetStatus == 'open'"
+        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[1].hours"
         :minutes="localRow.days[1].minutes"
         :total="localRow.days[1].total_of_minutes"
@@ -65,7 +73,7 @@
     <!-- wednesday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheetStatus == 'open'"
+        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[2].hours"
         :minutes="localRow.days[2].minutes"
         :total="localRow.days[2].total_of_minutes"
@@ -80,7 +88,7 @@
     <!-- thursday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheetStatus == 'open'"
+        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[3].hours"
         :minutes="localRow.days[3].minutes"
         :total="localRow.days[3].total_of_minutes"
@@ -95,7 +103,7 @@
     <!-- friday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid tc">
       <text-duration
-        v-if="timesheetStatus == 'open'"
+        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[4].hours"
         :minutes="localRow.days[4].minutes"
         :total="localRow.days[4].total_of_minutes"
@@ -110,7 +118,7 @@
     <!-- saturday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
       <text-duration
-        v-if="timesheetStatus == 'open'"
+        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[5].hours"
         :minutes="localRow.days[5].minutes"
         :total="localRow.days[5].total_of_minutes"
@@ -125,7 +133,7 @@
     <!-- sunday -->
     <div class="ph2 pv2 dtc bl bb bb-gray v-mid off-days tc">
       <text-duration
-        v-if="timesheetStatus == 'open'"
+        v-if="timesheetStatus == 'open' || timesheetStatus == 'rejected'"
         :hours="localRow.days[6].hours"
         :minutes="localRow.days[6].minutes"
         :total="localRow.days[6].total_of_minutes"
@@ -229,7 +237,7 @@ export default {
 
   mounted() {
     this.localRow = this.rowComingFromBackend;
-    ;
+    this.refreshTotalHoursInRow();
   },
 
   methods: {
@@ -259,13 +267,26 @@ export default {
       this.$emit('update-weekly-total', { id: this.localRow.task_id, value: totalDurationInMinutes});
     },
 
+    destroy() {
+      this.form.project_id = this.localRow.project_id;
+      this.form.project_task_id = this.localRow.task_id;
+
+      axios.put(`${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/row`, this.form)
+        .then(response => {
+          this.$emit('row-deleted', { id: this.localRow.task_id});
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+
     saveInDB(day, duration) {
       this.form.project_id = this.localRow.project_id;
       this.form.project_task_id = this.localRow.task_id;
       this.form.day = day;
       this.form.durationInMinutes = duration;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/timesheet/' + this.timesheet.id + '/store', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/timesheet/${this.timesheet.id}/store`, this.form)
         .then(response => {
           this.tasks = response.data.data;
         })

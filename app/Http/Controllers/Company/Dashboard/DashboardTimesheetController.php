@@ -16,6 +16,7 @@ use App\Jobs\UpdateDashboardPreference;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Timesheet\SubmitTimesheet;
 use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
+use App\Services\Company\Employee\Timesheet\DestroyTimesheetRow;
 use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
 
@@ -57,6 +58,7 @@ class DashboardTimesheetController extends Controller
         $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($currentTimesheet, $employee);
         $approverInformation = DashboardTimesheetViewHelper::approverInformation($currentTimesheet);
         $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($employee);
+        $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($employee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
             'employee' => $employeeInformation,
@@ -66,6 +68,7 @@ class DashboardTimesheetController extends Controller
             'nextTimesheet' => $nextTimesheet,
             'previousTimesheet' => $previousTimesheet,
             'currentTimesheet' => $currentTimesheet,
+            'rejectedTimesheets' => $rejectedTimesheets,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
@@ -99,6 +102,7 @@ class DashboardTimesheetController extends Controller
         $previousTimesheet = DashboardTimesheetViewHelper::previousTimesheet($timesheet, $employee);
         $currentTimesheet = DashboardTimesheetViewHelper::currentTimesheet($employee);
         $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
+        $rejectedTimesheets = DashboardTimesheetViewHelper::rejectedTimesheets($employee);
 
         return Inertia::render('Dashboard/Timesheet/Index', [
             'employee' => $employeeInformation,
@@ -108,6 +112,7 @@ class DashboardTimesheetController extends Controller
             'nextTimesheet' => $nextTimesheet,
             'previousTimesheet' => $previousTimesheet,
             'currentTimesheet' => $currentTimesheet,
+            'rejectedTimesheets' => $rejectedTimesheets,
             'notifications' => NotificationHelper::getNotifications($employee),
         ]);
     }
@@ -222,6 +227,39 @@ class DashboardTimesheetController extends Controller
             'employee_id' => $employee->id,
             'company_id' => $company->id,
             'timesheet_id' => $timesheetId,
+        ]);
+
+        return response()->json([
+            'data' => true,
+        ], 200);
+    }
+
+    /**
+     * Destroy the given timesheet row.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $timesheetId
+     */
+    public function destroyRow(Request $request, int $companyId, int $timesheetId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        try {
+            $timesheet = Timesheet::where('employee_id', $employee->id)
+                ->findOrFail($timesheetId);
+        } catch (ModelNotFoundException $e) {
+            return;
+        }
+
+        (new DestroyTimesheetRow)->execute([
+            'author_id' => $employee->id,
+            'employee_id' => $employee->id,
+            'company_id' => $company->id,
+            'timesheet_id' => $timesheetId,
+            'project_id' => $request->input('project_id'),
+            'project_task_id' => $request->input('project_task_id'),
         ]);
 
         return response()->json([

@@ -28,7 +28,7 @@
 
 <template>
   <div class="mb5">
-    <div class="cf mw7 center mb2 fw5">
+    <div class="cf center mb2 fw5">
       <span class="mr1">
         💵
       </span> How is your work as a manager
@@ -36,7 +36,7 @@
       <help :url="$page.props.help_links.manager_rate_manager" :datacy="'help-icon-rate'" />
     </div>
 
-    <div class="cf mw7 center br3 mb3 bg-white box relative">
+    <div class="cf center br3 mb3 bg-white box relative">
       <!-- BLANK STATE -->
       <div v-if="surveys.surveys.length == 0" data-cy="expense-list-blank-state" class="pa3">
         <img loading="lazy" class="db center mb4" height="140" alt="" src="/img/streamline-icon-customer-service-rating-1-4@140x140.png" />

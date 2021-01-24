@@ -43,6 +43,9 @@ describe('Dashboard - teams', function () {
     cy.contains('Viewing');
     cy.contains('product');
     cy.contains('sales');
+
+    // necessary so the next test actually works (cypress bug)
+    cy.visit('/1/employees/1');
   });
 
   it('should display the upcoming birthdays of employees on the team dashboard', function () {
@@ -60,17 +63,9 @@ describe('Dashboard - teams', function () {
     cy.get('[data-cy=team-birthdate-blank]').should('exist');
 
     // edit the user birthdate
-    cy.visit('/1/employees/1');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type(Cypress.moment().add(2, 'days').month() + 1);
-    cy.get('input[name=day]').type(Cypress.moment().add(2, 'days').date());
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    var month = Cypress.moment().add(2, 'days').month() + 1;
+    var day = Cypress.moment().add(2, 'days').date();
+    cy.setBirthdate(1, 1, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, month, day);
 
     // now, on the dashboard team tab, there should be a birthdate
     cy.visit('/1/dashboard');
@@ -80,18 +75,16 @@ describe('Dashboard - teams', function () {
 
     // change the birthdate and make sure the birthdate doesn't appear anymore
     // edit the user birthdate
-    cy.visit('/1/employees/1');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
-    cy.get('input[name=month]').clear();
-    cy.get('input[name=month]').type(Cypress.moment().add(40, 'days').month() + 1);
-    cy.get('input[name=day]').clear();
-    cy.get('input[name=day]').type(Cypress.moment().add(40, 'days').date());
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    var month = Cypress.moment().add(40, 'days').month() + 1;
+    var day = Cypress.moment().add(40, 'days').date();
+    cy.setBirthdate(1, 1, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, month, day);
 
     cy.visit('/1/dashboard');
     cy.get('[data-cy=dashboard-team-tab]').click();
     cy.get('[data-cy=team-birthdate-blank]').should('exist');
+
+    // necessary so the next test actually works (cypress bug)
+    cy.visit('/1/employees/1');
   });
 
   it('should display the employees of this team who work from home today', function () {
@@ -118,6 +111,9 @@ describe('Dashboard - teams', function () {
     cy.get('[data-cy=dashboard-team-tab]').click();
     cy.get('[data-cy=team-work-from-home-blank]').should('not.exist');
     cy.get('[data-cy=work-from-home-list]').contains('admin@admin.com');
+
+    // necessary so the next test actually works (cypress bug)
+    cy.visit('/1/employees/1');
   });
 
   it('should display upcoming new hires in this team', function () {
@@ -135,28 +131,22 @@ describe('Dashboard - teams', function () {
     cy.get('[data-cy=new-hires-list]').should('not.exist');
 
     // set the hiring date
-    cy.visit('/1/employees/1');
-    cy.get('[data-cy=edit-profile-button]').click();
-    cy.get('[data-cy=show-edit-view]').click();
+    cy.setBirthdate(1, 1, 'dwight', 'schrute', 'dwight@dundermifflin.com', 1981, 3, 10);
 
     const tomorrowDate = Cypress.moment().add(1, 'days');
-
-    cy.get('input[name=firstname]').type('dwight');
-    cy.get('input[name=lastname]').type('schrute');
-    cy.get('input[name=email]').clear();
-    cy.get('input[name=email]').type('dwight@dundermifflin.com');
-    cy.get('input[name=year]').type('1981');
-    cy.get('input[name=month]').type('3');
-    cy.get('input[name=day]').type('10');
-    cy.get('input[name=hired_at_year]').type(tomorrowDate.year());
-    cy.get('input[name=hired_at_month]').type(tomorrowDate.month() + 1);
-    cy.get('input[name=hired_at_day]').type(tomorrowDate.date());
-    cy.get('[data-cy=submit-edit-employee-button]').click();
+    var year = tomorrowDate.year();
+    var month = tomorrowDate.month() + 1;
+    var day = tomorrowDate.date();
+    cy.setHiredDate(1, 1, year, month, day);
+    cy.wait(1000);
 
     // visit the dashboard, the team tab and find that the birthday is empty
     cy.visit('/1/dashboard');
     cy.get('[data-cy=dashboard-team-tab]').click();
     cy.get('[data-cy=new-hires-list]').should('exist');
     cy.get('[data-cy=new-hires-list]').contains('dwight');
+
+    // necessary so the next test actually works (cypress bug)
+    cy.visit('/1/employees/1');
   });
 });

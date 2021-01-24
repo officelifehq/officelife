@@ -148,7 +148,7 @@
             {{ $tc('employee.hierarchy_list_manager_title', localManagersOfEmployee.length) }}
           </p>
           <ul class="list mv0">
-            <li v-for="manager in localManagersOfEmployee" :key="manager.id" class="mb3 relative">
+            <li v-for="manager in localManagersOfEmployee" :key="manager.id" class="mb3 relative bb-gray-hover">
               <img loading="lazy" :src="manager.avatar" class="br-100 absolute avatar" alt="avatar" />
               <inertia-link :href="manager.url" class="mb2">
                 {{ manager.name }}
@@ -201,7 +201,7 @@
             {{ $tc('employee.hierarchy_list_direct_report_title', localDirectReports.length) }}
           </p>
           <ul class="list mv0">
-            <li v-for="directReport in localDirectReports" :key="directReport.id" class="mb3 relative">
+            <li v-for="directReport in localDirectReports" :key="directReport.id" class="mb3 relative  bb-gray-hover">
               <img loading="lazy" :src="directReport.avatar" class="br-100 absolute avatar" alt="avatar" />
               <inertia-link :href="directReport.url" class="mb2">
                 {{ directReport.name }}

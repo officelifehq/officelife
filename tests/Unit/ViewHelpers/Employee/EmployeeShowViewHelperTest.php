@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
+use App\Models\User\Pronoun;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
 use App\Models\Company\Expense;
@@ -13,6 +14,7 @@ use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
+use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Models\Company\Timesheet;
 use App\Models\Company\ProjectTask;
@@ -258,7 +260,7 @@ class EmployeeShowViewHelperTest extends TestCase
             [
                 'work_from_home_today' => true,
                 'number_times_this_year' => 3,
-                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/workfromhome',
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/workfromhome',
             ],
             $array
         );
@@ -303,7 +305,7 @@ class EmployeeShowViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
 
-        $collection = EmployeeShowViewHelper::teams($michael->company->teams, $michael);
+        $collection = EmployeeShowViewHelper::teams($michael->company->teams, $michael->company);
 
         $this->assertEquals(1, $collection->count());
         $this->assertEquals(
@@ -450,14 +452,14 @@ class EmployeeShowViewHelperTest extends TestCase
                     'status' => 'created',
                     'expensed_at' => 'Jan 01, 1999',
                     'converted_amount' => null,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'.$expense->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses/'.$expense->id,
                 ],
             ],
             $array['expenses']->toArray()
         );
 
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses',
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses',
             $array['url']
         );
 
@@ -518,7 +520,7 @@ class EmployeeShowViewHelperTest extends TestCase
                         'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2019->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2019->id,
                 ],
                 1 => [
                     'id' => $entry2018->id,
@@ -529,7 +531,7 @@ class EmployeeShowViewHelperTest extends TestCase
                         'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2018->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2018->id,
                 ],
                 2 => [
                     'id' => $entry2017->id,
@@ -540,14 +542,14 @@ class EmployeeShowViewHelperTest extends TestCase
                         'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2017->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2017->id,
                 ],
             ],
             $array['entries']->toArray()
         );
 
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones',
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones',
             $array['view_all_url']
         );
 
@@ -638,15 +640,45 @@ class EmployeeShowViewHelperTest extends TestCase
                     'ended_at' => 'Jan 07, 2018',
                     'duration' => '01 h 40',
                     'status' => Timesheet::APPROVED,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/'.$timesheetB->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/'.$timesheetB->id,
                 ],
             ],
             $array['entries']->toArray()
         );
 
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets',
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets',
             $array['view_all_url']
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_pronouns(): void
+    {
+        $firstPronoun = Pronoun::orderBy('id', 'asc')->first();
+        $collection = EmployeeShowViewHelper::pronouns();
+
+        $this->assertEquals(
+            [
+                'id' => $firstPronoun->id,
+                'label' => $firstPronoun->label,
+            ],
+            $collection->toArray()[0]
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_positions(): void
+    {
+        $position = Position::factory()->create([]);
+        $collection = EmployeeShowViewHelper::positions($position->company);
+
+        $this->assertEquals(
+            [
+                'id' => $position->id,
+                'title' => $position->title,
+            ],
+            $collection->toArray()[0]
         );
     }
 }

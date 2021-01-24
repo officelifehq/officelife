@@ -73,7 +73,7 @@ class EmployeeTimesheetViewHelperTest extends TestCase
                     'ended_at' => 'Jan 07, 2018',
                     'duration' => '01 h 40',
                     'status' => Timesheet::APPROVED,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/'.$timesheet->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/'.$timesheet->id,
                 ],
             ],
             $array['entries']->toArray()
@@ -113,11 +113,11 @@ class EmployeeTimesheetViewHelperTest extends TestCase
             [
                 0 => [
                     'number' => 1990,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/1990',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/1990',
                 ],
                 1 => [
                     'number' => 2020,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020',
                 ],
             ],
             $collection->toArray()
@@ -153,73 +153,73 @@ class EmployeeTimesheetViewHelperTest extends TestCase
             [
                 0 => [
                     'month' => 1,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/1',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/1',
                     'occurences' => 1,
                     'translation' => 'January',
                 ],
                 1 => [
                     'month' => 2,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/2',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/2',
                     'occurences' => 1,
                     'translation' => 'February',
                 ],
                 2 => [
                     'month' => 3,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/3',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/3',
                     'occurences' => 1,
                     'translation' => 'March',
                 ],
                 3 => [
                     'month' => 4,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/4',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/4',
                     'occurences' => 0,
                     'translation' => 'April',
                 ],
                 4 => [
                     'month' => 5,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/5',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/5',
                     'occurences' => 0,
                     'translation' => 'May',
                 ],
                 5 => [
                     'month' => 6,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/6',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/6',
                     'occurences' => 0,
                     'translation' => 'June',
                 ],
                 6 => [
                     'month' => 7,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/7',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/7',
                     'occurences' => 0,
                     'translation' => 'July',
                 ],
                 7 => [
                     'month' => 8,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/8',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/8',
                     'occurences' => 0,
                     'translation' => 'August',
                 ],
                 8 => [
                     'month' => 9,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/9',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/9',
                     'occurences' => 0,
                     'translation' => 'September',
                 ],
                 9 => [
                     'month' => 10,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/10',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/10',
                     'occurences' => 0,
                     'translation' => 'October',
                 ],
                 10 => [
                     'month' => 11,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/11',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/11',
                     'occurences' => 0,
                     'translation' => 'November',
                 ],
                 11 => [
                     'month' => 12,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/timesheets/overview/2020/12',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/overview/2020/12',
                     'occurences' => 0,
                     'translation' => 'December',
                 ],

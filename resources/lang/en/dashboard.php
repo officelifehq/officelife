@@ -201,6 +201,7 @@ return [
     'contract_renewal_date' => 'Your contract ends on {date}, which is in {count} days.',
     'contract_renewal_date_late' => 'Your contract ended on {date}, so you should take care of that.',
 
+    'timesheet_rejected_timesheets' => 'The timesheets below have been rejected. Please review them.',
     'timesheet_approved_by' => 'Approved by',
     'timesheet_rejected_by' => 'Rejected by',
     'timesheet_approved_on' => 'Approved on',

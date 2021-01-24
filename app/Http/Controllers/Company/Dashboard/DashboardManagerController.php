@@ -40,7 +40,6 @@ class DashboardManagerController extends Controller
             ->with('directReport.expenses')
             ->with('directReport.expenses.employee')
             ->with('directReport.expenses.category')
-            ->with('directReport.timesheets')
             ->get();
 
         if ($directReports->count() == 0) {

@@ -1,46 +1,48 @@
 <?php
 
 return [
-    'menu_changelog' => 'View changes',
+    'menu_changelog' => 'View history',
 
-    'its_you' => 'it’s you',
+    'account_locked' => 'This employee’s profile is locked.',
+    'lock_profile' => 'Lock employee',
+    'delete_profile' => 'Delete employee',
 
-    'account_locked' => 'This account is locked.',
-    'menu_all_information' => 'All information',
+    'menu_all' => 'Presentation',
     'menu_performance' => 'Performance',
+    'menu_work' => 'Work',
+    'menu_administration' => 'Administration',
 
     'description_title' => 'Description',
     'description_no_description' => 'There is no description yet.',
     'description_clear' => 'Clear description',
     'description_text_help' => 'Everyone in the company will be able to read this when visiting your profile.',
     'description_text_title' => 'How would you describe yourself? What are your passions?',
-    'description_success' => 'The description has been updated.',
+    'description_success' => 'The description has been updated',
+
+    'important_dates' => 'Important dates',
+    'birthdate_information_full' => 'Born on {date}',
+    'birthdate_information_age' => '(age: {age})',
+    'birthdate_information_partial' => 'Born on {date}',
+    'birthdate_information_blank' => 'No birthdate set',
 
     'email' => 'Email',
     'twitter' => 'Twitter',
-    'twitter_undefined' => 'No Twitter handle set',
     'phone' => 'Phone number',
-    'phone_undefined' => 'No phone number set',
     'slack' => 'Slack',
-    'slack_undefined' => 'No Slack handle set',
 
-    'birthdate_information_full' => '{date} (age: {age})',
-    'birthdate_information_partial' => '{date}',
-    'birthdate_information_blank' => 'No birthdate set',
-
-    'hired_at_information' => '{date}',
+    'hired_at_information' => 'Hired on {date}',
     'hired_at_information_blank' => 'No hired date set',
 
-    'location_title' => 'Location',
-    'location_no_info' => 'There is no address defined on this profile.',
-    'location_alt_employee' => 'Employee location',
+    'location_no_info' => 'No address defined',
+    'location_no_info_with_right' => 'Set the address',
     'location_information' => 'Lives in {address}.',
+    'location_view_link' => 'Show on map',
 
     'pronoun_title' => 'Pronouns',
     'pronoun_modal_title' => 'Gender pronoun',
     'pronoun_modal_filter' => 'Filter genders',
     'pronoun_modal_reset' => 'Reset gender pronoun',
-    'pronoun_modal_cta' => 'Choose a gender pronoun',
+    'pronoun_modal_blank' => 'Gender is not set',
     'pronoun_modal_assign_success' => 'The pronoun has been set',
     'pronoun_modal_unassign_success' => 'The pronoun has been removed',
 
@@ -61,23 +63,24 @@ return [
     'hierarchy_modal_remove_manager' => 'Remove manager',
     'hierarchy_modal_remove_direct_report' => 'Remove direct report',
 
-    'position_title' => 'Position',
-    'position_blank' => 'No position set',
+    'position_no_position_set' => 'No position set',
+    'position_no_set_with_right' => 'Choose a position',
     'position_modal_title' => 'Choose a position',
     'position_modal_filter' => 'Filter the list',
     'position_modal_assign_success' => 'The position has been set',
     'position_modal_unassign_success' => 'The position has been removed',
     'position_modal_reset' => 'Remove current position',
 
-    'team_modal_blank' => 'No team set',
+    'team_modal_blank' => 'No team yet',
     'team_modal_blank_title' => 'There is no team in this account yet.',
     'team_modal_blank_cta' => 'Create one now',
     'team_modal_title' => 'Choose a team',
     'team_modal_filter' => 'Filter the list',
     'team_modal_assign_success' => 'The team has been assigned',
     'team_modal_unassign_success' => 'The team has been removed',
-    'team_title' => 'Teams',
     'team_leader' => 'Leader',
+    'team_no_team_yet_with_right' => 'Assign a team',
+    'team_no_team_yet' => 'No teams assigned',
 
     'worklog_blank' => 'There are no work logs yet 🤨',
     'worklog_title' => 'Work logs',
@@ -93,10 +96,11 @@ return [
     'status_modal_cta' => 'Choose a status',
     'status_modal_filter' => 'Filter the list',
     'status_modal_blank_title' => 'There is no employee status defined in this account yet.',
-    'status_modal_blank_cta' => 'Create one now',
     'status_modal_assign_success' => 'The status has been assigned',
     'status_modal_unassign_success' => 'The status has been removed',
     'status_modal_reset' => 'Remove current status',
+
+    'contacts_title' => 'Contact information',
 
     'contract_renewal_date' => 'Contract renewed on',
 
@@ -108,7 +112,7 @@ return [
     'work_from_home_title_details' => 'Work from home history',
     'work_from_home_blank_state_for_month' => 'There are no work from home entries for this date 😭',
 
-    'question_title' => 'Know your colleagues',
+    'question_title' => 'Get to know your colleagues',
     'question_blank' => 'There are no answers yet.',
 
     'edit_information_title' => 'Edit information',
