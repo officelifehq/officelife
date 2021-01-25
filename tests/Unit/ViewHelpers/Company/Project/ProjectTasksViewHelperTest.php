@@ -47,6 +47,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskA->description,
                     'completed' => true,
                     'completed_at' => 'Jan 01, 2018',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -66,6 +67,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskB->description,
                     'completed' => false,
                     'completed_at' => null,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskB->id,
                     'author' => null,
                     'assignee' => null,
                 ],
@@ -129,6 +131,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskA->description,
                     'completed' => true,
                     'completed_at' => 'Jan 01, 2018',
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -168,6 +171,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskB->description,
                     'completed' => false,
                     'completed_at' => null,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskB->id,
                     'author' => null,
                     'assignee' => null,
                 ],
@@ -183,6 +187,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'description' => $projectTaskC->description,
                     'completed' => false,
                     'completed_at' => null,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskC->id,
                     'author' => null,
                     'assignee' => null,
                 ],
@@ -215,6 +220,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'description' => $projectTaskA->description,
                 'completed' => true,
                 'completed_at' => 'Jan 01, 2018',
+                'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
@@ -297,6 +303,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'description' => $projectTask->description,
                 'completed' => true,
                 'completed_at' => 'Jan 01, 2018',
+                'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTask->id,
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,

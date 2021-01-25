@@ -42,7 +42,7 @@
   <div>
     <ul class="list pl0 mv0">
       <li v-for="task in localTasks" :key="task.id" class="list-item relative">
-        <checkbox
+        <project-task-checkbox
           :id="'ai-' + task.id"
           v-model="task.completed"
           :item-id="task.id"
@@ -53,6 +53,7 @@
           :classes="'mb0 mr1'"
           :maxlength="255"
           :required="true"
+          :url="task.url"
           @change="toggle(task.id)"
           @update="showEditTask(task)"
           @destroy="destroy(task.id)"
@@ -145,12 +146,12 @@
 import TextArea from '@/Shared/TextArea';
 import LoadingButton from '@/Shared/LoadingButton';
 import SelectBox from '@/Shared/Select';
-import Checkbox from '@/Pages/Company/Project/Tasks/Partials/Checkbox';
+import ProjectTaskCheckbox from '@/Pages/Company/Project/Tasks/Partials/ProjectTaskCheckbox';
 
 export default {
   components: {
     TextArea,
-    Checkbox,
+    ProjectTaskCheckbox,
     LoadingButton,
     SelectBox,
   },

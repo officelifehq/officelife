@@ -267,7 +267,7 @@ return [
     'log_project_message_destroyed' => 'Deleted a message called :title in the project called :project_name.',
     'log_project_message_updated' => 'Updated a message called :title in the project called :project_name.',
     'log_project_task_created' => 'Created a task called :project_task_title in the project called :project_name.',
-    'log_project_task_toggled' => 'Toggle the task task called :project_task_title in the project called :project_name.',
+    'log_project_task_toggled' => 'Toggled the task called :project_task_title in the project called :project_name.',
     'log_project_task_assigned_to_task_list' => 'Assigned a task called :project_task_title to the task list called :project_task_list_title in the project called :project_name.',
     'log_project_task_list_created' => 'Created a task list called :project_task_list_title in the project called :project_name.',
     'log_project_task_destroyed' => 'Deleted a task called :title in the project called :project_name.',

@@ -74,7 +74,7 @@
             {{ $t('project.message_show_written_by') }}
           </h3>
 
-          <div v-if="message.author" class="flex items-center mb4">
+          <div v-if="message.author" class="flex mb4">
             <div class="mr3">
               <img :src="message.author.avatar" alt="avatar" height="64" width="64" class="br-100" />
             </div>

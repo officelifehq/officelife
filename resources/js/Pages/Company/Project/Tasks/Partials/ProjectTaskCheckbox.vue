@@ -97,8 +97,8 @@ input[type=checkbox] {
         />
 
         <!-- content of the checkbox -->
-        <label v-if="label" :for="id" class="fw4 lh-copy f5 pointer di relative">
-          <span class="mr2 hover-effect" v-html="label"></span>
+        <label v-if="label" class="fw4 lh-copy f5 pointer di relative">
+          <span class="mr2 hover-effect" @click="goTo(url)" v-html="label"></span>
 
           <small-name-and-avatar
             v-if="assignee"
@@ -232,6 +232,10 @@ export default {
       type: Object,
       default: null,
     },
+    url: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -274,6 +278,10 @@ export default {
 
     showHover() {
       this.hover = true;
+    },
+
+    goTo(url) {
+      this.$inertia.visit(url);
     },
   },
 };

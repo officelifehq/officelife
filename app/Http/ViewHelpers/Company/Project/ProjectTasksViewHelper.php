@@ -2,10 +2,12 @@
 
 namespace App\Http\ViewHelpers\Company\Project;
 
+use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company\ProjectTask;
 use App\Models\Company\ProjectTaskList;
 
@@ -87,16 +89,35 @@ class ProjectTasksViewHelper
         $author = $task->author;
         $assignee = $task->assignee;
 
+        if ($author) {
+            $role = DB::table('employee_project')
+                ->where('employee_id', $author->id)
+                ->where('project_id', $task->project_id)
+                ->select('role', 'created_at')
+                ->first();
+        }
+
         return [
             'id' => $task->id,
             'title' => $task->title,
             'description' => $task->description,
             'completed' => $task->completed,
             'completed_at' => $task->completed_at ? DateHelper::formatDate($task->completed_at) : null,
+            'url' => route('projects.tasks.show', [
+                'company' => $company,
+                'project' => $task->project_id,
+                'task' => $task->id,
+            ]),
             'author' => $author ? [
                 'id' => $author->id,
                 'name' => $author->name,
                 'avatar' => $author->avatar,
+                'role' => $role ? $role->role : null,
+                'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at)) : null,
+                'position' => (! $author->position) ? null : [
+                    'id' => $author->position->id,
+                    'title' => $author->position->title,
+                ],
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $author,
@@ -158,24 +179,27 @@ class ProjectTasksViewHelper
     {
         $task = self::getTaskInfo($projectTask, $company);
 
-        $timeTrackingEntries = $projectTask->timeTrackingEntries()
-            ->orderBy('id', 'desc')
-            ->with('employee')
+        // we need to query this using a raw query instead of hydrating all
+        // models with eloquent, as we might have a lot of time tracking entries
+        // on long tasks, and this would not be efficient at all
+        $timeTrackingEntries = DB::table('time_tracking_entries')
+            ->join('employees', 'time_tracking_entries.employee_id', '=', 'employees.id')
+            ->select('time_tracking_entries.id', 'time_tracking_entries.duration', 'employees.id as employee_id', 'employees.avatar', 'employees.first_name', 'employees.last_name')
+            ->where('project_task_id', $projectTask->id)
             ->get();
 
         $timeTrackingCollection = collect([]);
         foreach ($timeTrackingEntries as $timeTrackingEntry) {
-            $employee = $timeTrackingEntry->employee;
             $timeTrackingCollection->push([
                 'id' => $timeTrackingEntry->id,
                 'duration' => $timeTrackingEntry->duration,
                 'employee' => [
-                    'id' => $employee->id,
-                    'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'id' => $timeTrackingEntry->employee_id,
+                    'name' => $timeTrackingEntry->first_name.' '.$timeTrackingEntry->last_name,
+                    'avatar' => $timeTrackingEntry->avatar,
                     'url' => route('employees.show', [
                         'company' => $company,
-                        'employee' => $employee,
+                        'employee' => $timeTrackingEntry->employee_id,
                     ]),
                 ],
             ]);
@@ -183,6 +207,7 @@ class ProjectTasksViewHelper
 
         return [
             'task' => $task,
+            'total_duration' => $timeTrackingCollection->sum('duration'),
             'list' => [
                 'name' => $projectTask->list ? $projectTask->list->title : null,
             ],

@@ -112,7 +112,11 @@
 
               <!-- actual tasks -->
               <div class="pl3">
-                <project-tasks :tasks="taskList.tasks" :task-list="taskList" :members="members" :project="project" />
+                <project-tasks :tasks="taskList.tasks"
+                               :task-list="taskList"
+                               :members="members"
+                               :project="project"
+                />
               </div>
             </div>
           </div>

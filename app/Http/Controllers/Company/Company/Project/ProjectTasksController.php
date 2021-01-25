@@ -74,7 +74,6 @@ class ProjectTasksController extends Controller
 
         try {
             $projectTask = ProjectTask::where('project_id', $project->id)
-                ->with('timeTrackingEntries')
                 ->with('assignee')
                 ->with('list')
                 ->findOrFail($taskId);
