@@ -54,6 +54,7 @@ return [
     'hide_help' => 'Hide help',
 
     'breadcrumb_dashboard' => 'Home',
+    'breadcrumb_dashboard_hr' => 'Human Resources',
     'breadcrumb_dashboard_manager' => 'Manager',
     'breadcrumb_dashboard_manager_expense_details' => 'Expense details',
     'breadcrumb_account_home' => 'Account administration',
@@ -102,6 +103,7 @@ return [
     'breadcrumb_project_create_message' => 'Add a new message',
     'breadcrumb_project_edit_message' => 'Edit message',
     'breadcrumb_dashboard_one_on_one' => 'One on One',
+    'breadcrumb_dashboard_manager_timesheets' => 'All timesheets',
     'breadcrumb_team_list' => 'All teams',
     'breadcrumb_team_show_team_news' => 'Team news',
     'breadcrumb_team_add_team_news' => 'Add a team news',
@@ -144,4 +146,6 @@ return [
     'rate_manager_bad' => 'Not ideal',
     'rate_manager_average' => 'It’s going well',
     'rate_manager_good' => 'Simply great',
+
+    'duration' => ':hours h :minutes',
 ];

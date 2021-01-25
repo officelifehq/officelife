@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Dashboard;
 
+use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
@@ -9,14 +10,81 @@ use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use Illuminate\Http\JsonResponse;
+use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Company\DirectReport;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Timesheet\RejectTimesheet;
 use App\Services\Company\Employee\Timesheet\ApproveTimesheet;
+use App\Http\ViewHelpers\Dashboard\DashboardTimesheetViewHelper;
+use App\Http\ViewHelpers\Dashboard\Manager\DashboardManagerTimesheetViewHelper;
 
-class DashboardTimesheetManagerController extends Controller
+class DashboardManagerTimesheetController extends Controller
 {
+    /**
+     * Show the list of timesheets to validate.
+     *
+     * @return mixed
+     */
+    public function index()
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        // is the user a manager?
+        $directReports = DirectReport::where('company_id', $company->id)
+            ->where('manager_id', $employee->id)
+            ->with('directReport')
+            ->with('directReport.timesheets')
+            ->get();
+
+        if ($directReports->count() == 0) {
+            return redirect('home');
+        }
+
+        $timesheetApprovals = DashboardManagerTimesheetViewHelper::timesheetApprovals($employee, $directReports);
+
+        return Inertia::render('Dashboard/Manager/Timesheets/Index', [
+            'employee' => [
+                'id' => $employee->id,
+            ],
+            'notifications' => NotificationHelper::getNotifications($employee),
+            'directReports' => $timesheetApprovals,
+        ]);
+    }
+
+    /**
+     * Show the timesheet to validate.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $timesheetId
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
+     */
+    public function show(Request $request, int $companyId, int $timesheetId)
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $timesheet = $this->canAccess($company, $timesheetId, $employee);
+
+        $timesheetInformation = DashboardTimesheetViewHelper::show($timesheet);
+        $daysInHeader = DashboardTimesheetViewHelper::daysHeader($timesheet);
+        $approverInformation = DashboardTimesheetViewHelper::approverInformation($timesheet);
+
+        return Inertia::render('Dashboard/Manager/Timesheets/Show', [
+            'employee' => [
+                'id' => $employee->id,
+                'name' => $employee->name,
+            ],
+            'daysHeader' => $daysInHeader,
+            'timesheet' => $timesheetInformation,
+            'approverInformation' => $approverInformation,
+            'notifications' => NotificationHelper::getNotifications($employee),
+        ]);
+    }
+
     /**
      * Approve the timesheet.
      *

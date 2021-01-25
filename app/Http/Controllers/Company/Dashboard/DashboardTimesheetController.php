@@ -43,6 +43,7 @@ class DashboardTimesheetController extends Controller
             'dashboard_view' => 'timesheet',
             'can_manage_expenses' => $employee->can_manage_expenses,
             'is_manager' => $employee->directReports->count() > 0,
+            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
 
         $currentTimesheet = (new CreateOrGetTimesheet)->execute([

@@ -227,7 +227,7 @@ class DashboardManagerViewHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_a_collection_of_employees_who_have_timesheets_to_approve(): void
+    public function it_gets_an_array_of_data_about_employees_who_have_timesheets_to_approve(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
@@ -277,55 +277,27 @@ class DashboardManagerViewHelperTest extends TestCase
             'project_task_id' => $task->id,
         ]);
 
-        $collection = DashboardManagerViewHelper::timesheetApprovals($michael, $michael->directReports);
+        $array = DashboardManagerViewHelper::employeesWithTimesheetsToApprove($michael, $michael->directReports);
 
         // make sure there is only one employee
         $this->assertEquals(
             1,
-            $collection->count()
+            $array['totalNumberOfTimesheetsToValidate']
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$dwight->company_id.'/dashboard/manager/timesheets',
+            $array['url_view_all']
         );
 
         // now analyzing what's returned from the method
         $this->assertEquals(
             $dwight->id,
-            $collection->toArray()[0]['id']
-        );
-        $this->assertEquals(
-            'Dwight Schrute',
-            $collection->toArray()[0]['name']
-        );
-        $this->assertEquals(
-            $dwight->avatar,
-            $collection->toArray()[0]['avatar']
-        );
-        $this->assertEquals(
-            $dwight->position->title,
-            $collection->toArray()[0]['position']
+            $array['employees']->toArray()[0]['id']
         );
         $this->assertEquals(
             env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
-            $collection->toArray()[0]['url']
-        );
-        $this->assertEquals(
-            env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
-            $collection->toArray()[0]['url']
-        );
-
-        // analyzing timesheets - there should be only one timesheet
-        $this->assertEquals(
-            1,
-            $collection->toArray()[0]['timesheets']->count()
-        );
-        $this->assertEquals(
-            [
-                0 => [
-                    'id' => $timesheetA->id,
-                    'started_at' => 'Jan 01, 2018',
-                    'ended_at' => 'Jan 07, 2018',
-                    'duration' => '01 h 40',
-                ],
-            ],
-            $collection->toArray()[0]['timesheets']->toArray()
+            $array['employees']->toArray()[0]['url']
         );
     }
 }

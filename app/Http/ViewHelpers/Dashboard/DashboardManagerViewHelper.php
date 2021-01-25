@@ -4,12 +4,10 @@ namespace App\Http\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
-use App\Helpers\TimeHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
-use Illuminate\Support\Facades\DB;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use Illuminate\Database\Eloquent\Collection;
@@ -216,16 +214,17 @@ class DashboardManagerViewHelper
     }
 
     /**
-     * Get the information about timesheets that need approval.
+     * Get the list of employees who have timesheets to approve by this manager.
      *
      * @param Employee $manager
      * @param Collection $directReports
-     * @return SupportCollection|null
+     * @return array|null
      */
-    public static function timesheetApprovals(Employee $manager, Collection $directReports): ?SupportCollection
+    public static function employeesWithTimesheetsToApprove(Employee $manager, Collection $directReports): ?array
     {
         $employeesCollection = collect([]);
         $company = $manager->company;
+        $totalNumberOfTimesheetsToValidate = 0;
 
         foreach ($directReports as $directReport) {
             $employee = $directReport->directReport;
@@ -235,40 +234,26 @@ class DashboardManagerViewHelper
                 ->orderBy('started_at', 'desc')
                 ->get();
 
-            $timesheetCollection = collect([]);
-            foreach ($pendingTimesheets as $timesheet) {
-                $totalWorkedInMinutes = DB::table('time_tracking_entries')
-                    ->where('timesheet_id', $timesheet->id)
-                    ->sum('duration');
-
-                $arrayOfTime = TimeHelper::convertToHoursAndMinutes($totalWorkedInMinutes);
-
-                $timesheetCollection->push([
-                    'id' => $timesheet->id,
-                    'started_at' => DateHelper::formatDate($timesheet->started_at),
-                    'ended_at' => DateHelper::formatDate($timesheet->ended_at),
-                    'duration' => trans('dashboard.manager_timesheet_approval_duration', [
-                        'hours' => $arrayOfTime['hours'],
-                        'minutes' => $arrayOfTime['minutes'],
-                    ]),
-                ]);
-            }
+            $totalNumberOfTimesheetsToValidate += $pendingTimesheets->count();
 
             if ($pendingTimesheets->count() !== 0) {
                 $employeesCollection->push([
                     'id' => $employee->id,
-                    'name' => $employee->name,
                     'avatar' => $employee->avatar,
-                    'position' => (! $employee->position) ? null : $employee->position->title,
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $employee,
                     ]),
-                    'timesheets' => $timesheetCollection,
                 ]);
             }
         }
 
-        return $employeesCollection;
+        return [
+            'totalNumberOfTimesheetsToValidate' => $totalNumberOfTimesheetsToValidate,
+            'employees' => $employeesCollection,
+            'url_view_all'=> route('dashboard.manager.timesheet.index', [
+                'company' => $manager->company,
+            ]),
+        ];
     }
 }

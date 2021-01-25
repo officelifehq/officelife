@@ -35,6 +35,17 @@ class TeamRecentShipViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 0 => [
+                    'id' => $featureB->id,
+                    'title' => $featureB->title,
+                    'description' => $featureB->description,
+                    'employees' => null,
+                    'url' => route('ships.show', [
+                        'company' => $featureB->team->company,
+                        'team' => $featureB->team,
+                        'ship' => $featureB->id,
+                    ]),
+                ],
+                1 => [
                     'id' => $featureA->id,
                     'title' => $featureA->title,
                     'description' => $featureA->description,
@@ -50,17 +61,6 @@ class TeamRecentShipViewHelperTest extends TestCase
                         'company' => $featureA->team->company,
                         'team' => $featureA->team,
                         'ship' => $featureA->id,
-                    ]),
-                ],
-                1 => [
-                    'id' => $featureB->id,
-                    'title' => $featureB->title,
-                    'description' => $featureB->description,
-                    'employees' => null,
-                    'url' => route('ships.show', [
-                        'company' => $featureB->team->company,
-                        'team' => $featureB->team,
-                        'ship' => $featureB->id,
                     ]),
                 ],
             ],

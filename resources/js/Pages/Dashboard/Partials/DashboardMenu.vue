@@ -16,8 +16,8 @@
       <inertia-link v-if="employee.can_manage_expenses" :href="'/' + $page.props.auth.company.id + '/dashboard/expenses'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'expenses')}" data-cy="dashboard-expenses-tab">
         <span class="mr1">🔒</span> {{ $t('dashboard.tab_expenses') }}
       </inertia-link>
-      <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/hr'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'hr')}" data-cy="dashboard-hr-tab">
-        HR area
+      <inertia-link v-if="employee.can_manage_hr" :href="'/' + $page.props.auth.company.id + '/dashboard/hr'" class="f6 fl ph3 pv2 dib pointer" :class="{'selected':(employee.dashboard_view == 'hr')}" data-cy="dashboard-hr-tab">
+        <span class="mr1">🔒</span> {{ $t('dashboard.tab_hr') }}
       </inertia-link>
     </div>
   </div>

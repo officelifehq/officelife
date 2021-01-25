@@ -5,8 +5,9 @@ return [
     'tab_my_team' => 'Your team',
     'tab_expenses' => 'Accountant area',
     'tab_manager' => 'Manager area',
+    'tab_hr' => 'HR area',
 
-    'blank_state' => 'You are not associated with a team at the moment.',
+    'dstate' => 'You are not associated with a team at the moment.',
 
     'morale_title' => 'How do you feel?',
     'morale_success_message' => 'Thanks for telling us how you feel.',
@@ -147,6 +148,9 @@ return [
     'manager_timesheet_approval_duration' => ':hours h :minutes',
     'manager_timesheet_approved' => 'The timesheet has been approved',
     'manager_timesheet_rejected' => 'The timesheet has been rejected',
+    'manager_timesheet_view_details' => 'View details',
+    'manager_timesheet_summary_count' => 'You have {count} timesheets to approve.',
+    'manager_timesheet_index_title' => 'Timesheets of your direct reports to approve',
 
     'accounting_expense_detail_cta' => 'Accept or reject this expense',
     'accounting_expense_detail_expense_section' => 'Expense details',
@@ -220,4 +224,9 @@ return [
     'timesheet_create_project' => 'Create a project',
     'timesheet_create_choose_project' => 'Choose a project',
     'timesheet_create_choose_task' => 'Choose a task',
+
+    'hr_timesheets_title' => 'Timesheets',
+    'hr_timesheet_index_title' => 'All the timesheets that need approvals',
+    'hr_timesheet_summary_count' => '{count} timesheets to approve for employees who don’t have a manager',
+    'hr_timesheet_summary_blank' => 'There are no timesheets to approve for now.',
 ];

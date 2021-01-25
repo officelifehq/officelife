@@ -61,9 +61,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // company
             Route::get('company', 'Company\\Dashboard\\DashboardCompanyController@index')->name('dashboard.company');
 
-            // hr
-            Route::get('hr', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
-
             // timesheet
             Route::get('timesheet/projects', 'Company\\Dashboard\\DashboardTimesheetController@projects')->name('dashboard.timesheet.projects');
             Route::get('timesheet/{timesheet}/projects/{project}/tasks', 'Company\\Dashboard\\DashboardTimesheetController@tasks')->name('dashboard.timesheet.projects');
@@ -78,18 +75,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('team', 'Company\\Dashboard\\DashboardTeamController@index')->name('dashboard.team');
             Route::get('team/{team}', 'Company\\Dashboard\\DashboardTeamController@index');
             Route::get('team/{team}/{date}', 'Company\\Dashboard\\DashboardTeamController@worklogDetails');
-
-            // manager
-            Route::get('manager', 'Company\\Dashboard\\DashboardManagerController@index')->name('dashboard.manager');
-            Route::get('manager/expenses/{expense}', 'Company\\Dashboard\\DashboardManagerController@showExpense')->name('dashboard.manager.expense.show');
-            Route::post('manager/expenses/{expense}/accept', 'Company\\Dashboard\\DashboardManagerController@accept');
-            Route::post('manager/expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
-            Route::post('manager/timesheets/{timesheet}/approve', 'Company\\Dashboard\\DashboardTimesheetManagerController@approve');
-            Route::post('manager/timesheets/{timesheet}/reject', 'Company\\Dashboard\\DashboardTimesheetManagerController@reject');
-
-            // rate your manager
-            Route::post('manager/rate/{answer}', 'Company\\Dashboard\\DashboardRateYourManagerController@store');
-            Route::post('manager/rate/{answer}/comment', 'Company\\Dashboard\\DashboardRateYourManagerController@storeComment');
 
             // details of one on ones
             Route::get('oneonones/{entry}', 'Company\\Dashboard\\DashboardMeOneOnOneController@show')->name('dashboard.oneonones.show');
@@ -108,6 +93,35 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('oneonones/{entry}/notes', 'Company\\Dashboard\\DashboardMeOneOnOneController@storeNote');
             Route::post('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@updateNote');
             Route::delete('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyNote');
+
+            // manager tab
+            Route::prefix('manager')->group(function () {
+                Route::get('', 'Company\\Dashboard\\DashboardManagerController@index')->name('dashboard.manager');
+                Route::get('expenses/{expense}', 'Company\\Dashboard\\DashboardManagerController@showExpense')->name('dashboard.manager.expense.show');
+                Route::post('expenses/{expense}/accept', 'Company\\Dashboard\\DashboardManagerController@accept');
+                Route::post('expenses/{expense}/reject', 'Company\\Dashboard\\DashboardManagerController@reject');
+
+                // timesheets
+                Route::get('timesheets', 'Company\\Dashboard\\DashboardManagerTimesheetController@index')->name('dashboard.manager.timesheet.index');
+                Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\DashboardManagerTimesheetController@show')->name('dashboard.manager.timesheet.show');
+                Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\DashboardManagerTimesheetController@approve');
+                Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\DashboardManagerTimesheetController@reject');
+
+                // rate your manager
+                Route::post('rate/{answer}', 'Company\\Dashboard\\DashboardRateYourManagerController@store');
+                Route::post('rate/{answer}/comment', 'Company\\Dashboard\\DashboardRateYourManagerController@storeComment');
+            });
+
+            // hr tab
+            Route::prefix('hr')->group(function () {
+                Route::get('', 'Company\\Dashboard\\DashboardHRController@index')->name('dashboard.hr');
+
+                // timesheets
+                Route::get('timesheets', 'Company\\Dashboard\\DashboardHRTimesheetController@index')->name('dashboard.hr.timesheet.index');
+                Route::get('timesheets/{timesheet}', 'Company\\Dashboard\\DashboardHRTimesheetController@show')->name('dashboard.hr.timesheet.show');
+                Route::post('timesheets/{timesheet}/approve', 'Company\\Dashboard\\DashboardHRTimesheetController@approve');
+                Route::post('timesheets/{timesheet}/reject', 'Company\\Dashboard\\DashboardHRTimesheetController@reject');
+            });
         });
 
         Route::prefix('employees')->group(function () {

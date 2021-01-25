@@ -55,8 +55,8 @@
         <div v-if="rejectedTimesheets" class="mb4 ba bb-gray pa3 br3">
           <p class="mt0 mb2"><span class="mr1">⚠️</span> {{ $t('dashboard.timesheet_rejected_timesheets') }}</p>
           <ul class="list ma0 pl0">
-            <li v-for="timesheet in rejectedTimesheets" :key="timesheet.id" class="dib rejected-timesheet-item mb2 f6 mr2">
-              <inertia-link :href="timesheet.url">{{ timesheet.started_at }}</inertia-link>
+            <li v-for="timesheetItem in rejectedTimesheets" :key="timesheetItem.id" class="dib rejected-timesheet-item mb2 f6 mr2">
+              <inertia-link :href="timesheetItem.url">{{ timesheetItem.started_at }}</inertia-link>
             </li>
           </ul>
         </div>
