@@ -107,9 +107,11 @@ input[type=checkbox] {
           </div>
 
           <!-- time tracking -->
-          <div class="">
-            <div v-for="entry in task.time_tracking_entries" :key="entry.id">
-              <span>{{ entry.created_at }}</span>
+          <div class="ba br3 bb-gray">
+            <div v-for="entry in task.time_tracking_entries" :key="entry.id" class="pa3 bb bb-gray bb-gray-hover">
+              <span class="f6 mr2">
+                {{ entry.created_at }}
+              </span>
               <span>{{ entry.duration }}</span>
               <small-name-and-avatar
                 :name="entry.employee.name"

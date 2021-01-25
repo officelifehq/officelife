@@ -1862,8 +1862,8 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $this->info('☐ Add time tracking entries');
 
         // create random time tracking entries for the project
-        // we will create a lot of timesheets, up to 4 years
-        for ($weeksAgo = 0; $weeksAgo < 150; $weeksAgo++) {
+        // we will create a lot of timesheets
+        for ($weeksAgo = 0; $weeksAgo < 5; $weeksAgo++) {
             $this->populateTimeTrackingEntries($this->michael, $weeksAgo);
         }
 
@@ -1873,8 +1873,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         foreach ($allDirectReports as $directReport) {
             $employee = $directReport->directReport;
 
-            $maxWeeksAgo = rand(52, 208);
-            for ($weeksAgo = 0; $weeksAgo < $maxWeeksAgo; $weeksAgo++) {
+            for ($weeksAgo = 0; $weeksAgo < 5; $weeksAgo++) {
                 $this->populateTimeTrackingEntries($employee, $weeksAgo);
             }
         }
