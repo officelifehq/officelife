@@ -12,7 +12,7 @@
     </div>
 
     <timesheet-approvals
-      :direct-reports="timesheetApprovals"
+      :timesheets-stats="timesheetsStats"
     />
 
     <one-on-one-with-direct-report
@@ -70,8 +70,8 @@ export default {
       type: Array,
       default: null,
     },
-    timesheetApprovals: {
-      type: Array,
+    timesheetsStats: {
+      type: Object,
       default: null,
     },
     defaultCurrency: {

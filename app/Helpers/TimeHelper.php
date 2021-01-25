@@ -12,7 +12,7 @@ class TimeHelper
      */
     public static function convertToHoursAndMinutes(int $minutes = null): array
     {
-        if (! $minutes) {
+        if (! $minutes || $minutes == 0) {
             return [
                 'hours' => 0,
                 'minutes' => 0,
@@ -30,5 +30,25 @@ class TimeHelper
             'hours' => $hours,
             'minutes' => $minutes,
         ];
+    }
+
+    /**
+     * Gets a sentence representing the time given in the array.
+     *
+     * @param array $duration
+     * @return string
+     */
+    public static function durationInHumanFormat(array $duration): string
+    {
+        $minutes = $duration['minutes'] == 0 ? '00' : $duration['minutes'];
+
+        $time = trans('app.duration', [
+            'hours' => $duration['hours'],
+            'minutes' => $minutes,
+        ]);
+
+        $time = str_replace(' ', '', $time);
+
+        return $time;
     }
 }

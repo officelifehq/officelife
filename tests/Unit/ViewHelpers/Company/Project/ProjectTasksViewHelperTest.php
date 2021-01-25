@@ -48,6 +48,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'completed' => true,
                     'completed_at' => 'Jan 01, 2018',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
+                    'duration' => '0h00',
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -68,6 +69,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'completed' => false,
                     'completed_at' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskB->id,
+                    'duration' => '0h00',
                     'author' => null,
                     'assignee' => null,
                 ],
@@ -132,6 +134,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'completed' => true,
                     'completed_at' => 'Jan 01, 2018',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
+                    'duration' => '0h00',
                     'author' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -172,6 +175,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'completed' => false,
                     'completed_at' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskB->id,
+                    'duration' => '0h00',
                     'author' => null,
                     'assignee' => null,
                 ],
@@ -188,6 +192,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'completed' => false,
                     'completed_at' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskC->id,
+                    'duration' => '0h00',
                     'author' => null,
                     'assignee' => null,
                 ],
@@ -221,6 +226,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'completed' => true,
                 'completed_at' => 'Jan 01, 2018',
                 'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
+                'duration' => '0h00',
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,

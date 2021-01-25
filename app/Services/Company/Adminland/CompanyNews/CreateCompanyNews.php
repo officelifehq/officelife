@@ -50,8 +50,9 @@ class CreateCompanyNews extends BaseService
         ]);
 
         if (! empty($data['created_at'])) {
-            $news->created_at = $data['created_at'];
-            $news->save();
+            CompanyNews::where('id', $news->id)->update([
+                'created_at' => $data['created_at'],
+            ]);
         }
 
         LogAccountAudit::dispatch([

@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserInvitationController extends Controller
 {
-
     /**
      * Validates the invitation page.
      *
@@ -94,9 +93,10 @@ class UserInvitationController extends Controller
         $employee = Employee::where('invitation_link', $invitationLink)
             ->firstOrFail();
 
-        $employee->invitation_used_at = Carbon::now();
-        $employee->user_id = $user->id;
-        $employee->save();
+        Employee::where('id', $employee->id)->update([
+            'invitation_used_at' => Carbon::now(),
+            'user_id' => $user->id,
+        ]);
 
         return new JsonResponse([], 204);
     }

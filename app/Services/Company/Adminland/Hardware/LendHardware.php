@@ -47,12 +47,13 @@ class LendHardware extends BaseService
         $hardware = Hardware::where('company_id', $data['company_id'])
             ->findOrFail($data['hardware_id']);
 
-        $hardware->employee_id = $this->employee->id;
-        $hardware->save();
+        Hardware::where('id', $hardware->id)->update([
+            'employee_id' => $this->employee->id,
+        ]);
 
         $this->log($data, $hardware);
 
-        return $hardware;
+        return $hardware->refresh();
     }
 
     /**

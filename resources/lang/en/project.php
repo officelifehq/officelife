@@ -126,4 +126,5 @@ return [
     'task_list_update_success' => 'The task list has been updated.',
     'task_list_destroy_success' => 'The task list has been deleted.',
     'task_show_status' => 'Saved',
+    'task_item_duration' => ':hours h :minutes',
 ];

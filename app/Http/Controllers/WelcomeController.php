@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Response;
 use App\Helpers\InstanceHelper;
+use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 
@@ -41,8 +42,9 @@ class WelcomeController extends Controller
     {
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $employee->display_welcome_message = false;
-        $employee->save();
+        Employee::where('id', $employee->id)->update([
+            'display_welcome_message' => false,
+        ]);
 
         return response()->json([
             'data' => [

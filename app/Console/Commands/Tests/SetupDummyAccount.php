@@ -747,8 +747,9 @@ class SetupDummyAccount extends Command
         ]);
         $this->addSpecificDataToEmployee($this->debra, null, $this->pronounSheHer, $this->teamManagement, $this->employeeStatusFullTime, $this->positionAssistantToTheRegionalManager, '1970-01-20');
 
-        $this->debra->hired_at = Carbon::now()->addDay();
-        $this->debra->save();
+        Employee::where('id', $this->debra->id)->update([
+            'hired_at' => Carbon::now()->addDay(),
+        ]);
     }
 
     private function addSpecificDataToEmployee(Employee $employee, ?string $description, Pronoun $pronoun, Team $team, EmployeeStatus $status, Position $position, string $birthdate = null, Employee $manager = null, Team $leaderOfTeam = null): void

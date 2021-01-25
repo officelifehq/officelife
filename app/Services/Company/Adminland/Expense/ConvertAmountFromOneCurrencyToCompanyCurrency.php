@@ -50,7 +50,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
 
         $this->convert();
 
-        return $this->expense;
+        return $this->expense->refresh();
     }
 
     private function checkIfExpenseCurrencyAndCompanyCurrencyAreDifferent(): bool
@@ -74,6 +74,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
     {
         if (Cache::has($this->cachedKey())) {
             $this->rate = Cache::get($this->cachedKey());
+
             return;
         }
 
@@ -104,11 +105,12 @@ class ConvertAmountFromOneCurrencyToCompanyCurrency extends BaseService
     {
         $convertedAmount = $this->expense->amount / $this->rate;
 
-        $this->expense->exchange_rate = $this->rate;
-        $this->expense->converted_amount = $convertedAmount;
-        $this->expense->converted_to_currency = $this->companyCurrency;
-        $this->expense->converted_at = Carbon::now();
-        $this->expense->save();
+        Expense::where('id', $this->expense->id)->update([
+            'exchange_rate' => $this->rate,
+            'converted_amount' => $convertedAmount,
+            'converted_to_currency' => $this->companyCurrency,
+            'converted_at' => Carbon::now(),
+        ]);
     }
 
     private function buildQuery(): void

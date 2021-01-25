@@ -57,12 +57,13 @@ class DashboardManagerController extends Controller
             'dashboard_view' => 'manager',
             'is_manager' => true,
             'can_manage_expenses' => $employee->can_manage_expenses,
+            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
 
         $pendingExpenses = DashboardManagerViewHelper::pendingExpenses($employee, $directReports);
         $oneOnOnes = DashboardManagerViewHelper::oneOnOnes($employee, $directReports);
         $contractRenewals = DashboardManagerViewHelper::contractRenewals($employee, $directReports);
-        $timesheetApprovals = DashboardManagerViewHelper::timesheetApprovals($employee, $directReports);
+        $timesheetsStats = DashboardManagerViewHelper::employeesWithTimesheetsToApprove($employee, $directReports);
 
         return Inertia::render('Dashboard/Manager/Index', [
             'employee' => $employeeInformation,
@@ -70,7 +71,7 @@ class DashboardManagerController extends Controller
             'pendingExpenses' => $pendingExpenses,
             'oneOnOnes' => $oneOnOnes,
             'contractRenewals' => $contractRenewals,
-            'timesheetApprovals' => $timesheetApprovals,
+            'timesheetsStats' => $timesheetsStats,
             'defaultCompanyCurrency' => $company->currency,
         ]);
     }

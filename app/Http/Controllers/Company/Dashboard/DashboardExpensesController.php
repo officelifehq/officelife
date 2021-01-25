@@ -39,6 +39,7 @@ class DashboardExpensesController extends Controller
             'dashboard_view' => 'expenses',
             'is_manager' => $employee->directReports->count() > 0,
             'can_manage_expenses' => $employee->can_manage_expenses,
+            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
 
         return Inertia::render('Dashboard/Expenses/Index', [

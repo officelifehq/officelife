@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Company\Project;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\TimeHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use Illuminate\Support\Collection;
@@ -23,6 +24,7 @@ class ProjectTasksViewHelper
     public static function index(Project $project): array
     {
         $company = $project->company;
+
         $tasks = $project->tasks()
             ->with('list')
             ->with('assignee')
@@ -50,11 +52,18 @@ class ProjectTasksViewHelper
         foreach ($taskLists as $taskList) {
             $tasksWithListsCollection = collect([]);
 
+            // all the tasks in this task list
             $tasks = $tasksWithLists->filter(function ($task) use ($taskList) {
                 return $task->project_task_list_id == $taskList->id;
             });
 
             foreach ($tasks as $task) {
+                $timeTrackingEntries = DB::table('time_tracking_entries')
+                    ->join('employees', 'time_tracking_entries.employee_id', '=', 'employees.id')
+                    ->select('time_tracking_entries.id', 'time_tracking_entries.duration', 'time_tracking_entries.happened_at', 'employees.id as employee_id', 'employees.avatar', 'employees.first_name', 'employees.last_name')
+                    ->where('project_task_id', $task->id)
+                    ->get();
+
                 $tasksWithListsCollection->push(self::getTaskInfo($task, $company));
             }
 
@@ -84,10 +93,18 @@ class ProjectTasksViewHelper
         return self::getTaskInfo($task, $company);
     }
 
+    /**
+     * Internal method used to populate the project information.
+     *
+     * @param ProjectTask $task
+     * @param Company $company
+     * @return array
+     */
     private static function getTaskInfo(ProjectTask $task, Company $company): array
     {
         $author = $task->author;
         $assignee = $task->assignee;
+        $duration = TimeHelper::convertToHoursAndMinutes($task->timeTrackingEntries()->sum('duration'));
 
         if ($author) {
             $role = DB::table('employee_project')
@@ -108,6 +125,7 @@ class ProjectTasksViewHelper
                 'project' => $task->project_id,
                 'task' => $task->id,
             ]),
+            'duration' => TimeHelper::durationInHumanFormat($duration),
             'author' => $author ? [
                 'id' => $author->id,
                 'name' => $author->name,
@@ -210,7 +228,7 @@ class ProjectTasksViewHelper
 
         return [
             'task' => $task,
-            'total_duration' => $timeTrackingCollection->sum('duration'),
+            'total_duration' => TimeHelper::durationInHumanFormat($timeTrackingCollection->sum('duration')),
             'list' => [
                 'name' => $projectTask->list ? $projectTask->list->title : null,
             ],
