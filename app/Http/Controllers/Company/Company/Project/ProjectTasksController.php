@@ -84,7 +84,7 @@ class ProjectTasksController extends Controller
         return Inertia::render('Company/Project/Tasks/Show', [
             'tab' => 'tasks',
             'project' => ProjectViewHelper::info($projectTask->project),
-            'data' => ProjectTasksViewHelper::taskDetails($projectTask, $company),
+            'task' => ProjectTasksViewHelper::taskDetails($projectTask, $company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }

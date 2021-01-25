@@ -184,15 +184,18 @@ class ProjectTasksViewHelper
         // on long tasks, and this would not be efficient at all
         $timeTrackingEntries = DB::table('time_tracking_entries')
             ->join('employees', 'time_tracking_entries.employee_id', '=', 'employees.id')
-            ->select('time_tracking_entries.id', 'time_tracking_entries.duration', 'employees.id as employee_id', 'employees.avatar', 'employees.first_name', 'employees.last_name')
+            ->select('time_tracking_entries.id', 'time_tracking_entries.duration', 'time_tracking_entries.happened_at', 'employees.id as employee_id', 'employees.avatar', 'employees.first_name', 'employees.last_name')
             ->where('project_task_id', $projectTask->id)
             ->get();
 
         $timeTrackingCollection = collect([]);
         foreach ($timeTrackingEntries as $timeTrackingEntry) {
+            $carbonDate = Carbon::createFromFormat('Y-m-d H:i:s', $timeTrackingEntry->happened_at);
+
             $timeTrackingCollection->push([
                 'id' => $timeTrackingEntry->id,
                 'duration' => $timeTrackingEntry->duration,
+                'created_at' => DateHelper::formatDate($carbonDate),
                 'employee' => [
                     'id' => $timeTrackingEntry->employee_id,
                     'name' => $timeTrackingEntry->first_name.' '.$timeTrackingEntry->last_name,

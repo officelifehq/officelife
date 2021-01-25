@@ -33,6 +33,14 @@ input[type=checkbox] {
   width: 20px;
   top: 1px;
 }
+
+.stat-left-corner {
+  border-bottom-left-radius: 10px;
+}
+
+.stat-right-corner {
+  border-bottom-right-radius: 10px;
+}
 </style>
 
 <template>
@@ -65,14 +73,9 @@ input[type=checkbox] {
             <div class="bb bb-gray">
               <div class="pa3 f4">
                 <input
-                  :id="id"
                   v-model="localTask.completed"
-                  :data-cy="datacy + '-single-item'"
                   type="checkbox"
                   class="relative"
-                  :class="classes"
-                  :required="required"
-                  :name="name"
                   @click.prevent="toggle()"
                 />
 
@@ -82,20 +85,39 @@ input[type=checkbox] {
 
             <!-- information about the task -->
             <div class="cf">
-              <div class="fl w-third br bb-gray pa3 bg-gray">
+              <!-- assigned to -->
+              <div class="fl w-third br bb-gray pa3 bg-gray stat-left-corner">
                 <p class="mt0 mb2 f7">Assigned to</p>
-                <p class="ma0">{{ localTask.assignee.name }}</p>
+                <p v-if="localTask.assignee" class="ma0">{{ localTask.assignee.name }}</p>
+                <p v-else class="ma0">No assignee</p>
               </div>
 
+              <!-- time spent so far -->
               <div class="fl w-third br bb-gray pa3 bg-gray">
-                <p class="mt0 mb2 f7">Time spent so far</p>
-                <p class="ma0">{{ data.total_duration }}</p>
+                <p class="mt0 mb2 f7 relative">Time spent so far <span class="absolute right-0 f7">View details</span></p>
+                <p class="ma0">{{ task.total_duration }}</p>
               </div>
 
-              <div class="fl w-third pa3 bg-gray">
+              <!-- part of list -->
+              <div class="fl w-third pa3 bg-gray stat-right-corner">
                 <p class="mt0 mb2 f7">Part of</p>
-                <p class="ma0">{{ data.list.name }}</p>
+                <p class="ma0">{{ task.list.name }}</p>
               </div>
+            </div>
+          </div>
+
+          <!-- time tracking -->
+          <div class="">
+            <div v-for="entry in task.time_tracking_entries" :key="entry.id">
+              <span>{{ entry.created_at }}</span>
+              <span>{{ entry.duration }}</span>
+              <small-name-and-avatar
+                :name="entry.employee.name"
+                :avatar="entry.employee.avatar"
+                :classes="'f4 fw4'"
+                :top="'0px'"
+                :margin-between-name-avatar="'29px'"
+              />
             </div>
           </div>
         </div>
@@ -185,11 +207,13 @@ input[type=checkbox] {
 <script>
 import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 
 export default {
   components: {
     Layout,
     ProjectMenu,
+    SmallNameAndAvatar,
   },
 
   props: {
@@ -201,8 +225,8 @@ export default {
       type: Object,
       default: null,
     },
-    data: {
-      type: Array,
+    task: {
+      type: Object,
       default: null,
     },
     tab: {
@@ -217,19 +241,22 @@ export default {
     };
   },
 
+  created() {
+    this.localTask = this.task.task;
+  },
+
   mounted() {
     if (localStorage.success) {
       flash(localStorage.success, 'success');
       localStorage.removeItem('success');
     }
-
-    this.localTask = this.data.task;
   },
 
   methods: {
     toggle() {
       axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}/toggle`)
         .then(response => {
+          flash(this.$t('project.task_show_status'), 'success');
           this.localTask.completed = !this.localTask.completed;
         })
         .catch(error => {

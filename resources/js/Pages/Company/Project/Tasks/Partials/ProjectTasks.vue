@@ -54,6 +54,7 @@
           :maxlength="255"
           :required="true"
           :url="task.url"
+          :duration="task.duration"
           @change="toggle(task.id)"
           @update="showEditTask(task)"
           @destroy="destroy(task.id)"
