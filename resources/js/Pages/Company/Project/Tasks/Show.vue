@@ -41,6 +41,20 @@ input[type=checkbox] {
 .stat-right-corner {
   border-bottom-right-radius: 10px;
 }
+
+.time-tracking-item:first-child:hover {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.time-tracking-item:last-child {
+  border-bottom-width: 0;
+
+  &:hover {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
 </style>
 
 <template>
@@ -68,7 +82,7 @@ input[type=checkbox] {
 
         <!-- LEFT COLUMN -->
         <div class="fl w-70-l w-100">
-          <div class="bg-white box">
+          <div class="bg-white box mb3">
             <!-- task title + checkbox -->
             <div class="bb bb-gray">
               <div class="pa3 f4">
@@ -83,6 +97,10 @@ input[type=checkbox] {
               </div>
             </div>
 
+            <div v-if="task.description" class="bb bb-gray pa3 lh-copy">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.
+            </div>
+
             <!-- information about the task -->
             <div class="cf">
               <!-- assigned to -->
@@ -94,71 +112,76 @@ input[type=checkbox] {
 
               <!-- time spent so far -->
               <div class="fl w-third br bb-gray pa3 bg-gray">
-                <p class="mt0 mb2 f7 relative">Time spent so far <span class="absolute right-0 f7">View details</span></p>
-                <p class="ma0">{{ task.total_duration }}</p>
+                <p class="mt0 mb2 f7 relative">
+                  Time spent so far
+                  <a v-if="!displayTimeTrackingEntries" class="absolute right-0 f7 bb b--dotted bt-0 bl-0 br-0 pointer" @click="showTimeTrackingEntries">View details</a>
+                  <a v-else class="absolute right-0 f7 bb b--dotted bt-0 bl-0 br-0 pointer" @click="hideTimeTrackingEntries">{{ $t('app.hide') }}</a>
+                </p>
+                <p class="ma0 duration">{{ task.total_duration }}</p>
               </div>
 
               <!-- part of list -->
               <div class="fl w-third pa3 bg-gray stat-right-corner">
                 <p class="mt0 mb2 f7">Part of</p>
-                <p class="ma0">{{ task.list.name }}</p>
+                <p v-if="task.list.name" class="ma0">{{ task.list.name }}</p>
+                <p v-else class="ma0">No list</p>
               </div>
             </div>
           </div>
 
-          <!-- time tracking -->
-          <div class="ba br3 bb-gray">
-            <div v-for="entry in task.time_tracking_entries" :key="entry.id" class="pa3 bb bb-gray bb-gray-hover">
-              <span class="f6 mr2">
+          <!-- loading time tracking entries -->
+          <div v-if="loadingTimeTrackingEntries" class="ba br3 bb-gray pa3 tc bg-white">
+            <div class="di">
+              <ball-clip-rotate color="#222" size="5px" />
+            </div>
+            Fetching information
+          </div>
+
+          <!-- time tracking entries -->
+          <div v-if="displayTimeTrackingEntries && timeTrackingEntries" class="ba br3 bb-gray bg-white">
+            <div v-for="entry in timeTrackingEntries" :key="entry.id" class="pa3 bb bb-gray bb-gray-hover relative time-tracking-item">
+              <span class="f7 mr2">
                 {{ entry.created_at }}
               </span>
-              <span>{{ entry.duration }}</span>
               <small-name-and-avatar
                 :name="entry.employee.name"
                 :avatar="entry.employee.avatar"
-                :classes="'f4 fw4'"
+                :classes="'f4 fw4 mr3'"
                 :top="'0px'"
                 :margin-between-name-avatar="'29px'"
               />
+              <span class="mr3 absolute right-0 duration">
+                {{ entry.duration }}
+              </span>
             </div>
           </div>
         </div>
 
         <!-- RIGHT COLUMN -->
         <div class="fl w-30-l w-100 pl4-l">
-          <!-- written by -->
+          <!-- added by -->
           <h3 v-if="localTask.author" class="ttc f7 gray mt0 mb2 fw4">
-            {{ $t('project.message_show_written_by') }}
+            Added by
           </h3>
 
-          <div v-if="localTask.author" class="flex items-center mb4">
-            <div class="mr3">
-              <img :src="localTask.author.avatar" alt="avatar" height="64" width="64" class="br-100" />
+          <!-- information about the author -->
+          <div v-if="localTask.author" class="flex mb4">
+            <div class="mr2">
+              <img :src="localTask.author.avatar" alt="avatar" height="35" width="35" class="br-100" />
             </div>
 
             <div>
               <inertia-link :href="localTask.author.url" class="mb2 dib">{{ localTask.author.name }}</inertia-link>
 
               <span v-if="localTask.author.role" class="db f7 mb2 relative">
-
                 <ul class="list pa0 ma0">
-                  <li class="di">
+                  <li class="mb2">
                     <!-- role -->
-                    <svg class="relative icon-role gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd" />
-                    </svg>
-                    <span class="mr2">
-                      {{ localTask.author.role }}
-                    </span>
+                    {{ localTask.author.role }}
                   </li>
 
                   <li>
                     <!-- in the project since -->
-                    <span>
-                      <svg class="relative icon-date gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                      </svg>
-                    </span>
                     <span class="gray">
                       {{ $t('project.members_index_role', { date: localTask.author.added_at }) }}
                     </span>
@@ -166,40 +189,34 @@ input[type=checkbox] {
                 </ul>
               </span>
               <span v-if="localTask.author.position && localTask.author.role" class="db f7 gray">
-                {{ $t('project.members_index_position_with_role', { role: localTask.author.position.title }) }}
+                {{ $t('project.members_index_position_with_role', { role: localTask.author.position }) }}
               </span>
               <span v-if="localTask.author.position && !localTask.author.role" class="db f7 gray">
-                {{ $t('project.members_index_position', { role: localTask.author.position.title }) }}
+                {{ $t('project.members_index_position', { role: localTask.author.position }) }}
               </span>
             </div>
           </div>
 
           <!-- written on -->
-          <!-- <h3 class="ttc f7 gray mt0 mb2 fw4">
-            {{ $t('project.message_show_written_on') }}
+          <h3 class="ttc f7 gray mt0 mb2 fw4">
+            Created on
           </h3>
-          <p class="mt0 mb4">{{ message.written_at }} <span class="f6 gray">({{ message.written_at_human }})</span></p> -->
+          <p class="mt0 mb4">{{ localTask.created_at }}</p>
 
           <!-- actions -->
-          <!-- <h3 class="ttc f7 gray mt0 mb2 fw4">
+          <h3 class="ttc f7 gray mt0 mb2 fw4">
             {{ $t('project.message_show_actions') }}
           </h3>
-          <ul class="list pl0 ma0"> -->
-          <!-- edit -->
-          <!-- <li class="mb2"><inertia-link :href="message.url_edit" data-cy="project-edit" class="f6 gray">{{ $t('project.message_show_edit') }}</inertia-link></li> -->
+          <ul class="list pl0 ma0 f6">
+            <!-- edit -->
+            <li class="mb2">Edit</li>
 
-          <!-- delete -->
-          <!-- <li v-if="!removalConfirmation"><a href="#" data-cy="project-delete" class="f6 gray" @click.prevent="removalConfirmation = true">{{ $t('project.message_show_destroy') }}</a></li>
-            <li v-if="removalConfirmation" class="pv2 f6">
-              {{ $t('app.sure') }}
-              <a data-cy="confirm-project-deletion" class="c-delete mr1 pointer" @click.prevent="destroy()">
-                {{ $t('app.yes') }}
-              </a>
-              <a data-cy="cancel-project-deletion" class="pointer" @click.prevent="removalConfirmation = false">
-                {{ $t('app.no') }}
-              </a>
-            </li>
-          </ul> -->
+            <!-- add time tracking entries -->
+            <li class="mb2">Log time</li>
+
+            <!-- delete -->
+            <li class="mb2">Delete</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -210,12 +227,14 @@ input[type=checkbox] {
 import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+import BallClipRotate from 'vue-loaders/dist/loaders/ball-clip-rotate';
 
 export default {
   components: {
     Layout,
     ProjectMenu,
     SmallNameAndAvatar,
+    'ball-clip-rotate': BallClipRotate.component,
   },
 
   props: {
@@ -240,6 +259,10 @@ export default {
   data() {
     return {
       localTask: null,
+      displayTimeTrackingEntries: false,
+      loadingTimeTrackingEntries: false,
+      timeTrackingEntries: null,
+      editMode: false,
     };
   },
 
@@ -265,6 +288,25 @@ export default {
           this.form.errors = error.response.data;
         });
     },
+
+    hideTimeTrackingEntries() {
+      this.displayTimeTrackingEntries = false;
+    },
+
+    showTimeTrackingEntries() {
+      this.loadingTimeTrackingEntries = true;
+
+      axios.get(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}/timeTrackingEntries`)
+        .then(response => {
+          this.timeTrackingEntries = response.data.data;
+          this.displayTimeTrackingEntries = true;
+          this.loadingTimeTrackingEntries = false;
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+      this.displayTimeTrackingEntries = true;
+    }
   }
 };
 

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Company\Company\Project;
 
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Helpers\TimeHelper;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use App\Helpers\NotificationHelper;
 use App\Models\Company\ProjectTask;
 use App\Http\Controllers\Controller;
@@ -124,7 +126,27 @@ class ProjectTasksController extends Controller
         }
 
         return response()->json([
-            'data' => ProjectTasksViewHelper::show($task, $company),
+            'data' => [
+                'id' => $task->id,
+                'title' => $task->title,
+                'description' => $task->description,
+                'completed' => $task->completed,
+                'url' => route('projects.tasks.show', [
+                    'company' => $company,
+                    'project' => $task->project_id,
+                    'task' => $task->id,
+                ]),
+                'duration' => null,
+                'assignee' => $task->assignee ? [
+                    'id' => $task->assignee->id,
+                    'name' => $task->assignee->name,
+                    'avatar' => $task->assignee->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $task->assignee,
+                    ]),
+                ] : null,
+            ],
         ], 201);
     }
 
@@ -163,8 +185,32 @@ class ProjectTasksController extends Controller
             ]);
         }
 
+        $duration = DB::table('time_tracking_entries')
+            ->where('project_task_id', $task->id)
+            ->sum('duration');
+
         return response()->json([
-            'data' => ProjectTasksViewHelper::show($task, $company),
+            'data' => [
+                'id' => $task->id,
+                'title' => $task->title,
+                'description' => $task->description,
+                'completed' => $task->completed,
+                'duration' => $duration != 0 ? TimeHelper::durationInHumanFormat($duration) : null,
+                'url' => route('projects.tasks.show', [
+                    'company' => $company,
+                    'project' => $task->project_id,
+                    'task' => $task->id,
+                ]),
+                'assignee' => $task->assignee ? [
+                    'id' => $task->assignee->id,
+                    'name' => $task->assignee->name,
+                    'avatar' => $task->assignee->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $task->assignee,
+                    ]),
+                ] : null,
+            ],
         ], 201);
     }
 
@@ -192,7 +238,7 @@ class ProjectTasksController extends Controller
         $task = (new ToggleProjectTask)->execute($data);
 
         return response()->json([
-            'data' => ProjectTasksViewHelper::show($task, $company),
+            'data' => true,
         ], 201);
     }
 
@@ -221,6 +267,38 @@ class ProjectTasksController extends Controller
 
         return response()->json([
             'data' => true,
+        ], 201);
+    }
+
+    /**
+     * Get the time tracking entries for the given task.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $taskId
+     * @return JsonResponse
+     */
+    public function timeTrackingEntries(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $project = Project::where('company_id', $company->id)
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        try {
+            $projectTask = ProjectTask::where('project_id', $project->id)
+                ->findOrFail($taskId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return response()->json([
+            'data' => ProjectTasksViewHelper::timeTrackingEntries($projectTask, $company),
         ], 201);
     }
 }

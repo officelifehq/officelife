@@ -48,9 +48,11 @@ input[type=checkbox] {
 }
 
 .duration {
-  background-color: #DAE1E7;
-  font-size: 9px;
+  background-color: #F3FBF1;
+  font-size: 11px;
   padding: 3px 6px;
+  top: -2px;
+  border: 1px solid #d5ddd4;
 
   svg {
     width: 13px;

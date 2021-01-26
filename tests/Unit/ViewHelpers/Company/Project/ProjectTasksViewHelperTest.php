@@ -39,6 +39,7 @@ class ProjectTasksViewHelperTest extends TestCase
         ]);
 
         $array = ProjectTasksViewHelper::index($project);
+
         $this->assertEquals(
             [
                 0 => [
@@ -46,15 +47,8 @@ class ProjectTasksViewHelperTest extends TestCase
                     'title' => $projectTaskA->title,
                     'description' => $projectTaskA->description,
                     'completed' => true,
-                    'completed_at' => 'Jan 01, 2018',
+                    'duration' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
-                    'duration' => '0h00',
-                    'author' => [
-                        'id' => $michael->id,
-                        'name' => $michael->name,
-                        'avatar' => $michael->avatar,
-                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
-                    ],
                     'assignee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -67,10 +61,8 @@ class ProjectTasksViewHelperTest extends TestCase
                     'title' => $projectTaskB->title,
                     'description' => $projectTaskB->description,
                     'completed' => false,
-                    'completed_at' => null,
+                    'duration' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskB->id,
-                    'duration' => '0h00',
-                    'author' => null,
                     'assignee' => null,
                 ],
             ],
@@ -132,15 +124,8 @@ class ProjectTasksViewHelperTest extends TestCase
                     'title' => $projectTaskA->title,
                     'description' => $projectTaskA->description,
                     'completed' => true,
-                    'completed_at' => 'Jan 01, 2018',
+                    'duration' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
-                    'duration' => '0h00',
-                    'author' => [
-                        'id' => $michael->id,
-                        'name' => $michael->name,
-                        'avatar' => $michael->avatar,
-                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
-                    ],
                     'assignee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -173,10 +158,8 @@ class ProjectTasksViewHelperTest extends TestCase
                     'title' => $projectTaskB->title,
                     'description' => $projectTaskB->description,
                     'completed' => false,
-                    'completed_at' => null,
+                    'duration' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskB->id,
-                    'duration' => '0h00',
-                    'author' => null,
                     'assignee' => null,
                 ],
             ],
@@ -190,10 +173,8 @@ class ProjectTasksViewHelperTest extends TestCase
                     'title' => $projectTaskC->title,
                     'description' => $projectTaskC->description,
                     'completed' => false,
-                    'completed_at' => null,
+                    'duration' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskC->id,
-                    'duration' => '0h00',
-                    'author' => null,
                     'assignee' => null,
                 ],
             ],
@@ -202,7 +183,7 @@ class ProjectTasksViewHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_the_description_of_a_single_task(): void
+    public function it_gets_the_details_of_a_single_task(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
@@ -216,7 +197,7 @@ class ProjectTasksViewHelperTest extends TestCase
             'assignee_id' => $michael->id,
         ]);
 
-        $array = ProjectTasksViewHelper::show($projectTaskA, $michael->company);
+        $array = ProjectTasksViewHelper::getTaskFullDetails($projectTaskA, $michael->company);
 
         $this->assertEquals(
             [
@@ -226,12 +207,15 @@ class ProjectTasksViewHelperTest extends TestCase
                 'completed' => true,
                 'completed_at' => 'Jan 01, 2018',
                 'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
-                'duration' => '0h00',
+                'duration' => null,
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
                     'avatar' => $michael->avatar,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                    'role' => null,
+                    'added_at' => null,
+                    'position' => $michael->position->title,
                 ],
                 'assignee' => [
                     'id' => $michael->id,
@@ -272,7 +256,7 @@ class ProjectTasksViewHelperTest extends TestCase
     }
 
     /** @test */
-    public function it_gets_an_array_containing_the_task_details_and_the_time_tracking_entries_information(): void
+    public function it_gets_an_array_containing_the_task_details(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
@@ -309,11 +293,16 @@ class ProjectTasksViewHelperTest extends TestCase
                 'description' => $projectTask->description,
                 'completed' => true,
                 'completed_at' => 'Jan 01, 2018',
+                'created_at' => 'Jan 01, 2018',
+                'duration' => '01h40',
                 'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTask->id,
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
                     'avatar' => $michael->avatar,
+                    'role' => null,
+                    'added_at' => null,
+                    'position' => $michael->position->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
                 'assignee' => [
@@ -332,12 +321,45 @@ class ProjectTasksViewHelperTest extends TestCase
             ],
             $array['list']
         );
+    }
+
+    /** @test */
+    public function it_gets_an_array_containing_the_time_tracking_entries_information(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectTask = ProjectTask::factory()->completed()->create([
+            'project_id' => $project->id,
+            'author_id' => $michael->id,
+            'assignee_id' => $michael->id,
+        ]);
+        $timesheet = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'started_at' => Carbon::now()->startOfWeek(),
+            'ended_at' => Carbon::now()->endOfWeek(),
+        ]);
+        $entry = TimeTrackingEntry::factory()->create([
+            'timesheet_id' => $timesheet->id,
+            'employee_id' => $michael->id,
+            'project_id' => $project->id,
+            'project_task_id' => $projectTask->id,
+            'happened_at' => Carbon::now()->startOfWeek(),
+            'duration' => 100,
+        ]);
+
+        $collection = ProjectTasksViewHelper::timeTrackingEntries($projectTask, $michael->company);
 
         $this->assertEquals(
             [
                 0 => [
                     'id' => $entry->id,
-                    'duration' => 100,
+                    'duration' => '01h40',
+                    'created_at' => 'Jan 01, 2018',
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
@@ -346,7 +368,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     ],
                 ],
             ],
-            $array['time_tracking_entries']->toArray()
+            $collection->toArray()
         );
     }
 }
