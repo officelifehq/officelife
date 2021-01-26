@@ -82,6 +82,7 @@ input[type=checkbox] {
 
         <!-- LEFT COLUMN -->
         <div class="fl w-70-l w-100">
+          <!-- task information - normal mode -->
           <div class="bg-white box mb3">
             <!-- task title + checkbox -->
             <div class="bb bb-gray">
@@ -97,7 +98,8 @@ input[type=checkbox] {
               </div>
             </div>
 
-            <div v-if="task.description" class="bb bb-gray pa3 lh-copy">
+            <!-- task description -->
+            <div v-if="task.description && !editMode" class="bb bb-gray pa3 lh-copy">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.
             </div>
 
@@ -105,16 +107,16 @@ input[type=checkbox] {
             <div class="cf">
               <!-- assigned to -->
               <div class="fl w-third br bb-gray pa3 bg-gray stat-left-corner">
-                <p class="mt0 mb2 f7">Assigned to</p>
+                <p class="mt0 mb2 f7">{{ $t('project.task_show_assigned_to') }}</p>
                 <p v-if="localTask.assignee" class="ma0">{{ localTask.assignee.name }}</p>
-                <p v-else class="ma0">No assignee</p>
+                <p v-else class="ma0">{{ $t('project.task_show_no_assignee') }}</p>
               </div>
 
               <!-- time spent so far -->
               <div class="fl w-third br bb-gray pa3 bg-gray">
                 <p class="mt0 mb2 f7 relative">
-                  Time spent so far
-                  <a v-if="!displayTimeTrackingEntries" class="absolute right-0 f7 bb b--dotted bt-0 bl-0 br-0 pointer" @click="showTimeTrackingEntries">View details</a>
+                  {{ $t('project.task_show_time_spent_so_far') }}
+                  <a v-if="!displayTimeTrackingEntries" class="absolute right-0 f7 bb b--dotted bt-0 bl-0 br-0 pointer" @click="showTimeTrackingEntries">{{ $t('project.task_show_time_spent_view_details') }}</a>
                   <a v-else class="absolute right-0 f7 bb b--dotted bt-0 bl-0 br-0 pointer" @click="hideTimeTrackingEntries">{{ $t('app.hide') }}</a>
                 </p>
                 <p class="ma0 duration">{{ task.total_duration }}</p>
@@ -122,9 +124,59 @@ input[type=checkbox] {
 
               <!-- part of list -->
               <div class="fl w-third pa3 bg-gray stat-right-corner">
-                <p class="mt0 mb2 f7">Part of</p>
+                <p class="mt0 mb2 f7">{{ $t('project.task_show_part_of_list') }}</p>
                 <p v-if="task.list.name" class="ma0">{{ task.list.name }}</p>
-                <p v-else class="ma0">No list</p>
+                <p v-else class="ma0">{{ $t('project.task_show_no_list') }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- task information - edit mode -->
+          <div class="bg-white box mb3">
+            <!-- task title + checkbox -->
+            <div class="bb bb-gray pa3">
+              <text-input :id="'title'"
+                          v-model="form.title"
+                          :name="'title'"
+                          :datacy="'task-title-input'"
+                          :errors="$page.props.errors.title"
+                          :label="$t('account.company_news_new_title')"
+                          :help="$t('account.company_news_new_title_help')"
+                          :required="true"
+              />
+            </div>
+
+            <!-- task description -->
+            <div class="bb bb-gray pa3 lh-copy">
+              <text-area v-model="form.content"
+                         :label="$t('account.company_news_new_content')"
+                         :datacy="'news-content-textarea'"
+                         :required="true"
+                         :rows="10"
+                         :help="$t('account.company_news_new_content_help')"
+              />
+            </div>
+
+            <!-- information about the task -->
+            <div class="cf">
+              <!-- assigned to -->
+              <div class="fl w-50 br bb-gray pa3 bg-gray stat-left-corner">
+                <select-box v-model="form.assignee_id"
+                            :options="members"
+                            :errors="$page.props.errors.assignee_id"
+                            :label="$t('project.task_edit_assignee')"
+                            :placeholder="$t('app.choose_value')"
+                            :required="false"
+                            :value="form.assignee_id"
+                            :datacy="'country_selector'"
+                />
+              </div>
+
+              <!-- part of list -->
+              <div class="fl w-50 pa3 bg-gray stat-right-corner">
+                <p class="mt0 mb2 f7">{{ $t('project.task_show_part_of_list') }}</p>
+                <p v-if="task.list.name" class="ma0">{{ task.list.name }}</p>
+                <p v-else class="ma0">{{ $t('project.task_show_no_list') }}</p>
               </div>
             </div>
           </div>
@@ -134,7 +186,7 @@ input[type=checkbox] {
             <div class="di">
               <ball-clip-rotate color="#222" size="5px" />
             </div>
-            Fetching information
+            {{ $t('project.task_show_fetching_info') }}
           </div>
 
           <!-- time tracking entries -->
@@ -161,7 +213,7 @@ input[type=checkbox] {
         <div class="fl w-30-l w-100 pl4-l">
           <!-- added by -->
           <h3 v-if="localTask.author" class="ttc f7 gray mt0 mb2 fw4">
-            Added by
+            {{ $t('project.task_show_added_by') }}
           </h3>
 
           <!-- information about the author -->
@@ -199,7 +251,7 @@ input[type=checkbox] {
 
           <!-- written on -->
           <h3 class="ttc f7 gray mt0 mb2 fw4">
-            Created on
+            {{ $t('project.task_show_created_on') }}
           </h3>
           <p class="mt0 mb4">{{ localTask.created_at }}</p>
 
@@ -209,13 +261,13 @@ input[type=checkbox] {
           </h3>
           <ul class="list pl0 ma0 f6">
             <!-- edit -->
-            <li class="mb2">Edit</li>
+            <li class="mb2" @click="showEditMode">{{ $t('app.edit') }}</li>
 
             <!-- add time tracking entries -->
-            <li class="mb2">Log time</li>
+            <li class="mb2">{{ $t('project.task_show_action_log') }}</li>
 
             <!-- delete -->
-            <li class="mb2">Delete</li>
+            <li class="mb2">{{ $t('app.delete') }}</li>
           </ul>
         </div>
       </div>
@@ -228,6 +280,9 @@ import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import BallClipRotate from 'vue-loaders/dist/loaders/ball-clip-rotate';
+import TextInput from '@/Shared/TextInput';
+import TextArea from '@/Shared/TextArea';
+import SelectBox from '@/Shared/Select';
 
 export default {
   components: {
@@ -235,6 +290,9 @@ export default {
     ProjectMenu,
     SmallNameAndAvatar,
     'ball-clip-rotate': BallClipRotate.component,
+    TextInput,
+    TextArea,
+    SelectBox,
   },
 
   props: {
@@ -263,6 +321,13 @@ export default {
       loadingTimeTrackingEntries: false,
       timeTrackingEntries: null,
       editMode: false,
+      form: {
+        assignee_id: null,
+        title: null,
+        description: null,
+        task_list_id: null,
+        errors: [],
+      },
     };
   },
 
@@ -306,6 +371,22 @@ export default {
           this.form.errors = error.response.data;
         });
       this.displayTimeTrackingEntries = true;
+    },
+
+    destroy(id) {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${id}`)
+        .then(response => {
+          localStorage.success = this.$t('project.message_destroy_success');
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/messages/`);
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
+    },
+
+    showEditMode() {
+      this.editMode = true;
+      this.hideTimeTrackingEntries = false;
     }
   }
 };

@@ -117,10 +117,8 @@
           />
 
           <div class="w-50">
-            <select-box :id="'country_id'"
-                        v-model="form.assignee_id"
+            <select-box v-model="form.assignee_id"
                         :options="members"
-                        :name="'country_id'"
                         :errors="$page.props.errors.assignee_id"
                         :label="$t('project.task_edit_assignee')"
                         :placeholder="$t('app.choose_value')"

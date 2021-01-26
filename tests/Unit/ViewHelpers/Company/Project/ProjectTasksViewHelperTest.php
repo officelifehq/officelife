@@ -206,6 +206,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'description' => $projectTaskA->description,
                 'completed' => true,
                 'completed_at' => 'Jan 01, 2018',
+                'created_at' => 'Jan 01, 2018',
                 'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/tasks/'.$projectTaskA->id,
                 'duration' => null,
                 'author' => [
