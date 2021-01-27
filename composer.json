@@ -29,6 +29,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
         "beyondcode/laravel-dump-server": "^1.0",
+        "brianium/paratest": "^6.1",
         "fakerphp/faker": "^1.10",
         "friendsofphp/php-cs-fixer": "^2.14",
         "graham-campbell/testbench-core": "^3.1",

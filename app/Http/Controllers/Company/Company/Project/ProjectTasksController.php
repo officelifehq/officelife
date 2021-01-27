@@ -301,4 +301,28 @@ class ProjectTasksController extends Controller
             'data' => ProjectTasksViewHelper::timeTrackingEntries($projectTask, $company),
         ], 201);
     }
+
+    /**
+     * Get all the project members in the project.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @return JsonResponse
+     */
+    public function potentialMembers(Request $request, int $companyId, int $projectId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+
+        try {
+            $project = Project::where('company_id', $company->id)
+                ->findOrFail($projectId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        return response()->json([
+            'data' => ProjectTasksViewHelper::members($project),
+        ], 201);
+    }
 }

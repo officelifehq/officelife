@@ -308,6 +308,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::put('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@update');
                 Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
                 Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
+                Route::get('{project}/tasks/{task}/potentialMembers', 'Company\\Company\\Project\\ProjectTasksController@potentialMembers');
             });
         });
 

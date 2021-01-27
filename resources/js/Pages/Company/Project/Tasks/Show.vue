@@ -83,7 +83,7 @@ input[type=checkbox] {
         <!-- LEFT COLUMN -->
         <div class="fl w-70-l w-100">
           <!-- task information - normal mode -->
-          <div class="bg-white box mb3">
+          <div v-if="!editMode" class="bg-white box mb3">
             <!-- task title + checkbox -->
             <div class="bb bb-gray">
               <div class="pa3 f4">
@@ -132,7 +132,7 @@ input[type=checkbox] {
           </div>
 
           <!-- task information - edit mode -->
-          <div class="bg-white box mb3">
+          <div v-if="editMode" class="bg-white box mb3">
             <!-- task title + checkbox -->
             <div class="bb bb-gray pa3">
               <text-input :id="'title'"
@@ -321,6 +321,7 @@ export default {
       loadingTimeTrackingEntries: false,
       timeTrackingEntries: null,
       editMode: false,
+      members: null,
       form: {
         assignee_id: null,
         title: null,
@@ -385,8 +386,23 @@ export default {
     },
 
     showEditMode() {
+      this.getMembersList();
       this.editMode = true;
       this.hideTimeTrackingEntries = false;
+    },
+
+    getMembersList() {
+      if (this.members) {
+        return;
+      }
+
+      axios.get(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.task.id}/potentialMembers`)
+        .then(response => {
+          this.members = response.data.data;
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+        });
     }
   }
 };
