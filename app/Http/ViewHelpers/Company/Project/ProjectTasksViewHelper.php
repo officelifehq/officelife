@@ -172,6 +172,7 @@ class ProjectTasksViewHelper
         $author = $task->author;
         $assignee = $task->assignee;
         $duration = $task->timeTrackingEntries()->sum('duration');
+        $role = null;
 
         if ($author) {
             $role = DB::table('employee_project')
@@ -221,7 +222,7 @@ class ProjectTasksViewHelper
     /**
      * Array containing all the information about a specific project task.
      *
-     * @param ProjectTask $project
+     * @param ProjectTask $projectTask
      * @param Company $company
      * @return array|null
      */
@@ -245,7 +246,7 @@ class ProjectTasksViewHelper
     /**
      * Collection of time tracking entries for a given task.
      *
-     * @param ProjectTask $project
+     * @param ProjectTask $projectTask
      * @param Company $company
      * @return Collection|null
      */
