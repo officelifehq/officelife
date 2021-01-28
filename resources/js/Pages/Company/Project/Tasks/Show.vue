@@ -281,7 +281,16 @@ input[type=checkbox] {
             <li class="mb2">{{ $t('project.task_show_action_log') }}</li>
 
             <!-- delete -->
-            <li class="mb2"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7">{{ $t('app.delete') }}</span></li>
+            <li v-if="!deleteMode" class="mb2" @click="deleteMode = true"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7">{{ $t('app.delete') }}</span></li>
+            <li v-if="deleteMode" class="mb2">
+              {{ $t('app.sure') }}
+              <a class="c-delete mr1 pointer" @click.prevent="destroy">
+                {{ $t('app.yes') }}
+              </a>
+              <a class="pointer" @click.prevent="deleteMode = false">
+                {{ $t('app.no') }}
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -341,6 +350,7 @@ export default {
       loadingTimeTrackingEntries: false,
       timeTrackingEntries: null,
       editMode: false,
+      deleteMode: false,
       loadingState: null,
       form: {
         assignee_id: null,
@@ -397,17 +407,6 @@ export default {
       this.displayTimeTrackingEntries = true;
     },
 
-    destroy(id) {
-      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${id}`)
-        .then(response => {
-          localStorage.success = this.$t('project.message_destroy_success');
-          this.$inertia.visit(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/messages/`);
-        })
-        .catch(error => {
-          this.form.errors = error.response.data;
-        });
-    },
-
     showEditMode() {
       this.editMode = true;
       this.hideTimeTrackingEntries = false;
@@ -432,18 +431,29 @@ export default {
 
       axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}`, this.form)
         .then(response => {
-          this.loadingState = null;
-          this.editMode = false;
-
           this.localTask.title = this.form.title;
           this.localTask.description = this.form.description;
 
           if (newAssigneeName) {
             this.localTask.assignee.name = newAssigneeName;
           }
+
+          this.loadingState = null;
+          this.editMode = false;
         })
         .catch(error => {
           this.loadingState = null;
+          this.form.errors = error.response.data;
+        });
+    },
+
+    destroy() {
+      axios.delete(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}`)
+        .then(response => {
+          localStorage.success = this.$t('account.employee_lock_success');
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks`);
+        })
+        .catch(error => {
           this.form.errors = error.response.data;
         });
     },
