@@ -87,6 +87,7 @@ class ProjectTasksController extends Controller
             'tab' => 'tasks',
             'project' => ProjectViewHelper::info($projectTask->project),
             'task' => ProjectTasksViewHelper::taskDetails($projectTask, $company),
+            'members' => ProjectTasksViewHelper::members($project),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -170,7 +171,7 @@ class ProjectTasksController extends Controller
             'project_id' => $projectId,
             'project_task_id' => $taskId,
             'title' => $request->input('title'),
-            'content' => $request->input('content'),
+            'description' => $request->input('description'),
         ];
 
         $task = (new UpdateProjectTask)->execute($data);
@@ -239,7 +240,7 @@ class ProjectTasksController extends Controller
 
         return response()->json([
             'data' => true,
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -267,7 +268,7 @@ class ProjectTasksController extends Controller
 
         return response()->json([
             'data' => true,
-        ], 201);
+        ], 200);
     }
 
     /**
@@ -299,30 +300,6 @@ class ProjectTasksController extends Controller
 
         return response()->json([
             'data' => ProjectTasksViewHelper::timeTrackingEntries($projectTask, $company),
-        ], 201);
-    }
-
-    /**
-     * Get all the project members in the project.
-     *
-     * @param Request $request
-     * @param int $companyId
-     * @param int $projectId
-     * @return JsonResponse
-     */
-    public function potentialMembers(Request $request, int $companyId, int $projectId): JsonResponse
-    {
-        $company = InstanceHelper::getLoggedCompany();
-
-        try {
-            $project = Project::where('company_id', $company->id)
-                ->findOrFail($projectId);
-        } catch (ModelNotFoundException $e) {
-            return redirect('home');
-        }
-
-        return response()->json([
-            'data' => ProjectTasksViewHelper::members($project),
-        ], 201);
+        ], 200);
     }
 }

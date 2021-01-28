@@ -99,8 +99,8 @@ input[type=checkbox] {
             </div>
 
             <!-- task description -->
-            <div v-if="task.description && !editMode" class="bb bb-gray pa3 lh-copy">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.
+            <div v-if="localTask.description && !editMode" class="bb bb-gray pa3 lh-copy">
+              {{ localTask.description }}
             </div>
 
             <!-- information about the task -->
@@ -133,52 +133,66 @@ input[type=checkbox] {
 
           <!-- task information - edit mode -->
           <div v-if="editMode" class="bg-white box mb3">
-            <!-- task title + checkbox -->
-            <div class="bb bb-gray pa3">
-              <text-input :id="'title'"
-                          v-model="form.title"
-                          :name="'title'"
-                          :datacy="'task-title-input'"
-                          :errors="$page.props.errors.title"
-                          :label="$t('account.company_news_new_title')"
-                          :help="$t('account.company_news_new_title_help')"
-                          :required="true"
-              />
-            </div>
-
-            <!-- task description -->
-            <div class="bb bb-gray pa3 lh-copy">
-              <text-area v-model="form.content"
-                         :label="$t('account.company_news_new_content')"
-                         :datacy="'news-content-textarea'"
-                         :required="true"
-                         :rows="10"
-                         :help="$t('account.company_news_new_content_help')"
-              />
-            </div>
-
-            <!-- information about the task -->
-            <div class="cf">
-              <!-- assigned to -->
-              <div class="fl w-50 br bb-gray pa3 bg-gray stat-left-corner">
-                <select-box v-model="form.assignee_id"
-                            :options="members"
-                            :errors="$page.props.errors.assignee_id"
-                            :label="$t('project.task_edit_assignee')"
-                            :placeholder="$t('app.choose_value')"
-                            :required="false"
-                            :value="form.assignee_id"
-                            :datacy="'country_selector'"
+            <form @submit.prevent="update">
+              <!-- task title + checkbox -->
+              <div class="bb bb-gray pa3">
+                <text-input :id="'title'"
+                            :ref="'newName'"
+                            v-model="form.title"
+                            :name="'title'"
+                            :datacy="'task-title-input'"
+                            :errors="$page.props.errors.title"
+                            :label="'Name of the task'"
+                            :required="true"
+                            @esc-key-pressed="editMode = false"
                 />
               </div>
 
-              <!-- part of list -->
-              <div class="fl w-50 pa3 bg-gray stat-right-corner">
-                <p class="mt0 mb2 f7">{{ $t('project.task_show_part_of_list') }}</p>
-                <p v-if="task.list.name" class="ma0">{{ task.list.name }}</p>
-                <p v-else class="ma0">{{ $t('project.task_show_no_list') }}</p>
+              <!-- task description -->
+              <div class="bb bb-gray pa3 lh-copy">
+                <text-area v-model="form.description"
+                           :label="$t('account.company_news_new_content')"
+                           :datacy="'news-content-textarea'"
+                           :required="false"
+                           :rows="10"
+                />
               </div>
-            </div>
+
+              <!-- information about the task -->
+              <div class="cf bb bb-gray">
+                <!-- assigned to -->
+                <div class="fl w-50 br bb-gray pa3 bg-gray stat-left-corner">
+                  <select-box v-model="form.assignee_id"
+                              :options="members"
+                              :errors="$page.props.errors.assignee_id"
+                              :label="$t('project.task_edit_assignee')"
+                              :placeholder="$t('app.choose_value')"
+                              :required="false"
+                              :value="form.assignee_id"
+                              :datacy="'country_selector'"
+                  />
+                </div>
+
+                <!-- part of list -->
+                <div class="fl w-50 pa3 bg-gray stat-right-corner">
+                  <p class="mt0 mb2 f7">{{ $t('project.task_show_part_of_list') }}</p>
+                  <p v-if="task.list.name" class="ma0">{{ task.list.name }}</p>
+                  <p v-else class="ma0">{{ $t('project.task_show_no_list') }}</p>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="cf pa3">
+                <div class="flex-ns justify-between">
+                  <div>
+                    <inertia-link :href="''" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2" @click.prevent="editMode = false">
+                      {{ $t('app.cancel') }}
+                    </inertia-link>
+                  </div>
+                  <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+                </div>
+              </div>
+            </form>
           </div>
 
           <!-- loading time tracking entries -->
@@ -261,13 +275,13 @@ input[type=checkbox] {
           </h3>
           <ul class="list pl0 ma0 f6">
             <!-- edit -->
-            <li class="mb2" @click="showEditMode">{{ $t('app.edit') }}</li>
+            <li class="mb2" @click="showEditMode"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7">{{ $t('app.edit') }}</span></li>
 
             <!-- add time tracking entries -->
             <li class="mb2">{{ $t('project.task_show_action_log') }}</li>
 
             <!-- delete -->
-            <li class="mb2">{{ $t('app.delete') }}</li>
+            <li class="mb2"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7">{{ $t('app.delete') }}</span></li>
           </ul>
         </div>
       </div>
@@ -283,6 +297,7 @@ import BallClipRotate from 'vue-loaders/dist/loaders/ball-clip-rotate';
 import TextInput from '@/Shared/TextInput';
 import TextArea from '@/Shared/TextArea';
 import SelectBox from '@/Shared/Select';
+import LoadingButton from '@/Shared/LoadingButton';
 
 export default {
   components: {
@@ -293,6 +308,7 @@ export default {
     TextInput,
     TextArea,
     SelectBox,
+    LoadingButton,
   },
 
   props: {
@@ -302,6 +318,10 @@ export default {
     },
     project: {
       type: Object,
+      default: null,
+    },
+    members: {
+      type: Array,
       default: null,
     },
     task: {
@@ -321,7 +341,7 @@ export default {
       loadingTimeTrackingEntries: false,
       timeTrackingEntries: null,
       editMode: false,
-      members: null,
+      loadingState: null,
       form: {
         assignee_id: null,
         title: null,
@@ -334,6 +354,9 @@ export default {
 
   created() {
     this.localTask = this.task.task;
+    this.form.title = this.localTask.title;
+    this.form.description = this.localTask.description;
+    this.form.title = this.localTask.title;
   },
 
   mounted() {
@@ -386,24 +409,44 @@ export default {
     },
 
     showEditMode() {
-      this.getMembersList();
       this.editMode = true;
       this.hideTimeTrackingEntries = false;
+
+      this.$nextTick(() => {
+        this.$refs['newName'].$refs['input'].focus();
+      });
     },
 
-    getMembersList() {
-      if (this.members) {
-        return;
+    update() {
+      this.loadingState = 'loading';
+      var newAssigneeName = null;
+
+      if (this.form.assignee_id) {
+        newAssigneeName = this.form.assignee_id.label;
+        this.form.assignee_id = this.form.assignee_id.value;
       }
 
-      axios.get(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.task.id}/potentialMembers`)
+      if (this.form.task_list_id == 0) {
+        this.form.task_list_id = null;
+      }
+
+      axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}`, this.form)
         .then(response => {
-          this.members = response.data.data;
+          this.loadingState = null;
+          this.editMode = false;
+
+          this.localTask.title = this.form.title;
+          this.localTask.description = this.form.description;
+
+          if (newAssigneeName) {
+            this.localTask.assignee.name = newAssigneeName;
+          }
         })
         .catch(error => {
+          this.loadingState = null;
           this.form.errors = error.response.data;
         });
-    }
+    },
   }
 };
 
