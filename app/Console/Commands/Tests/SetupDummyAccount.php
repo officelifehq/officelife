@@ -1894,6 +1894,10 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $allTasks = $this->projectInfinity->tasks;
 
         for ($day = 0; $day < 6; $day++) {
+            $date = $startOfWeek->copy()->addDays($day);
+            if ($date->isFuture()) {
+                continue;
+            }
 
             // taking 3 random tasks in the list of tasks of this project
             for ($taskNumber = 0; $taskNumber < 2; $taskNumber++) {
@@ -1905,7 +1909,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                     'project_id' => $this->projectInfinity->id,
                     'project_task_id' => $task->id,
                     'duration' => rand(30, 180),
-                    'date' => $startOfWeek->copy()->addDays($day)->format('Y-m-d'),
+                    'date' => $date->format('Y-m-d'),
                     'description' => null,
                 ]);
             }

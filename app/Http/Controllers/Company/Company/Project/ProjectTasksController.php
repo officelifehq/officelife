@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company\Company\Project;
 
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\TimeHelper;
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 use App\Services\Company\Project\AssignProjecTaskToEmployee;
 use App\Http\ViewHelpers\Company\Project\ProjectTasksViewHelper;
+use App\Services\Company\Employee\Timesheet\CreateTimeTrackingEntry;
 
 class ProjectTasksController extends Controller
 {
@@ -301,5 +303,40 @@ class ProjectTasksController extends Controller
         return response()->json([
             'data' => ProjectTasksViewHelper::timeTrackingEntries($projectTask, $company),
         ], 200);
+    }
+
+    /**
+     * Get the time tracking entries for the given task.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $projectId
+     * @param int $taskId
+     * @return JsonResponse
+     */
+    public function logTime(Request $request, int $companyId, int $projectId, int $taskId): JsonResponse
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $entry = (new CreateTimeTrackingEntry)->execute([
+            'author_id' => $employee->id,
+            'employee_id' => $employee->id,
+            'company_id' => $company->id,
+            'project_id' => $projectId,
+            'project_task_id' => $taskId,
+            'duration' => $request->input('duration'),
+            'date' => Carbon::now()->format('Y-m-d'),
+        ]);
+
+        $duration = DB::table('time_tracking_entries')
+            ->where('project_task_id', $taskId)
+            ->sum('duration');
+
+        $totalDuration = TimeHelper::durationInHumanFormat($duration);
+
+        return response()->json([
+            'data' => $totalDuration,
+        ], 201);
     }
 }

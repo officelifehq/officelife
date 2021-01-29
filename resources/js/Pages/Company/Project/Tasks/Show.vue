@@ -116,10 +116,10 @@ input[type=checkbox] {
               <div class="fl w-third br bb-gray pa3 bg-gray">
                 <p class="mt0 mb2 f7 relative">
                   {{ $t('project.task_show_time_spent_so_far') }}
-                  <a v-if="!displayTimeTrackingEntries" class="absolute right-0 f7 bb b--dotted bt-0 bl-0 br-0 pointer" @click="showTimeTrackingEntries">{{ $t('project.task_show_time_spent_view_details') }}</a>
+                  <a v-if="!displayTimeTrackingEntriesMode" class="absolute right-0 f7 bb b--dotted bt-0 bl-0 br-0 pointer" @click="showTimeTrackingEntries">{{ $t('project.task_show_time_spent_view_details') }}</a>
                   <a v-else class="absolute right-0 f7 bb b--dotted bt-0 bl-0 br-0 pointer" @click="hideTimeTrackingEntries">{{ $t('app.hide') }}</a>
                 </p>
-                <p class="ma0 duration">{{ task.total_duration }}</p>
+                <p class="ma0 duration">{{ totalDuration }}</p>
               </div>
 
               <!-- part of list -->
@@ -204,7 +204,8 @@ input[type=checkbox] {
           </div>
 
           <!-- time tracking entries -->
-          <div v-if="displayTimeTrackingEntries && timeTrackingEntries" class="ba br3 bb-gray bg-white">
+          <div v-if="displayTimeTrackingEntriesMode && timeTrackingEntries.length != 0" class="ba br3 bb-gray bg-white">
+            <!-- list of existing entries -->
             <div v-for="entry in timeTrackingEntries" :key="entry.id" class="pa3 bb bb-gray bb-gray-hover relative time-tracking-item">
               <span class="f7 mr2">
                 {{ entry.created_at }}
@@ -220,6 +221,11 @@ input[type=checkbox] {
                 {{ entry.duration }}
               </span>
             </div>
+          </div>
+
+          <!-- no time tracking entries - blank state -->
+          <div v-if="displayTimeTrackingEntriesMode && timeTrackingEntries.length == 0" class="ba br3 bb-gray bg-white pa3">
+            There are no time tracking entries yet.
           </div>
         </div>
 
@@ -278,7 +284,27 @@ input[type=checkbox] {
             <li class="mb2" @click="showEditMode"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7">{{ $t('app.edit') }}</span></li>
 
             <!-- add time tracking entries -->
-            <li class="mb2">{{ $t('project.task_show_action_log') }}</li>
+            <li v-if="!logTimeMode" class="mb2" @click="showLogTimeMode"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7">{{ $t('project.task_show_action_log') }}</span></li>
+
+            <div v-if="logTimeMode" class="bg-white box pa3">
+              <form @submit.prevent="logTime">
+                <div class="mb3">
+                  <span class="lh-copy mb2 dib">
+                    How much time have you worked on this today?
+                  </span>
+                  <text-duration
+                    @update="updateDuration($event)"
+                  />
+                </div>
+
+                <div class="flex-ns justify-between mb0">
+                  <a class="btn dib tc w-auto-ns w-100 mb2 pv2 ph3" data-cy="cancel-add-description" @click="logTimeMode = false">
+                    {{ $t('app.cancel') }}
+                  </a>
+                  <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('app.save')" />
+                </div>
+              </form>
+            </div>
 
             <!-- delete -->
             <li v-if="!deleteMode" class="mb2" @click="deleteMode = true"><span class="bb b--dotted bt-0 bl-0 br-0 pointer di f7">{{ $t('app.delete') }}</span></li>
@@ -307,6 +333,7 @@ import TextInput from '@/Shared/TextInput';
 import TextArea from '@/Shared/TextArea';
 import SelectBox from '@/Shared/Select';
 import LoadingButton from '@/Shared/LoadingButton';
+import TextDuration from '@/Shared/TextDuration';
 
 export default {
   components: {
@@ -318,6 +345,7 @@ export default {
     TextArea,
     SelectBox,
     LoadingButton,
+    TextDuration,
   },
 
   props: {
@@ -346,17 +374,20 @@ export default {
   data() {
     return {
       localTask: null,
-      displayTimeTrackingEntries: false,
+      displayTimeTrackingEntriesMode: false,
       loadingTimeTrackingEntries: false,
       timeTrackingEntries: null,
       editMode: false,
       deleteMode: false,
+      logTimeMode: false,
       loadingState: null,
+      totalDuration: 0,
       form: {
         assignee_id: null,
         title: null,
         description: null,
         task_list_id: null,
+        duration: null,
         errors: [],
       },
     };
@@ -367,6 +398,7 @@ export default {
     this.form.title = this.localTask.title;
     this.form.description = this.localTask.description;
     this.form.title = this.localTask.title;
+    this.totalDuration = this.task.total_duration;
   },
 
   mounted() {
@@ -377,6 +409,24 @@ export default {
   },
 
   methods: {
+    hideTimeTrackingEntries() {
+      this.displayTimeTrackingEntriesMode = false;
+    },
+
+    showEditMode() {
+      this.editMode = true;
+      this.hideTimeTrackingEntries = false;
+
+      this.$nextTick(() => {
+        this.$refs['newName'].$refs['input'].focus();
+      });
+    },
+
+    showLogTimeMode() {
+      this.logTimeMode = true;
+      this.duration = 0;
+    },
+
     toggle() {
       axios.put(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}/toggle`)
         .then(response => {
@@ -388,32 +438,19 @@ export default {
         });
     },
 
-    hideTimeTrackingEntries() {
-      this.displayTimeTrackingEntries = false;
-    },
-
     showTimeTrackingEntries() {
       this.loadingTimeTrackingEntries = true;
 
       axios.get(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}/timeTrackingEntries`)
         .then(response => {
           this.timeTrackingEntries = response.data.data;
-          this.displayTimeTrackingEntries = true;
+          this.displayTimeTrackingEntriesMode = true;
           this.loadingTimeTrackingEntries = false;
         })
         .catch(error => {
           this.form.errors = error.response.data;
         });
-      this.displayTimeTrackingEntries = true;
-    },
-
-    showEditMode() {
-      this.editMode = true;
-      this.hideTimeTrackingEntries = false;
-
-      this.$nextTick(() => {
-        this.$refs['newName'].$refs['input'].focus();
-      });
+      this.displayTimeTrackingEntriesMode = true;
     },
 
     update() {
@@ -457,6 +494,30 @@ export default {
           this.form.errors = error.response.data;
         });
     },
+
+    updateDuration(payload) {
+      this.form.duration = parseInt(payload);
+    },
+
+    logTime() {
+      this.loadingState = 'loading';
+
+      axios.post(`/${this.$page.props.auth.company.id}/company/projects/${this.project.id}/tasks/${this.localTask.id}/log`, this.form)
+        .then(response => {
+          // if the log of time tracking entries was opened, refresh the table so it shows the latest entry that was just saved
+          if (this.displayTimeTrackingEntriesMode) {
+            this.showTimeTrackingEntries();
+          }
+
+          this.totalDuration = response.data.data;
+          this.logTimeMode = false;
+          this.loadingState = null;
+        })
+        .catch(error => {
+          this.form.errors = error.response.data;
+          this.loadingState = null;
+        });
+    }
   }
 };
 

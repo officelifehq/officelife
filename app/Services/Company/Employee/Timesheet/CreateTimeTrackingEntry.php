@@ -174,7 +174,7 @@ class CreateTimeTrackingEntry extends BaseService
 
     private function updateEntry(): void
     {
-        $this->timeTrackingEntry->duration = $this->data['duration'];
+        $this->timeTrackingEntry->duration = $this->data['duration'] + $this->timeTrackingEntry->duration;
         $this->timeTrackingEntry->save();
     }
 
