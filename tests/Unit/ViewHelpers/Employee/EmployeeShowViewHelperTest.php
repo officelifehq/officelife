@@ -703,21 +703,47 @@ class EmployeeShowViewHelperTest extends TestCase
         );
         $projectB->employees()->syncWithoutDetaching([$michael->id]);
 
-        $projectMessageA = factory(ProjectMessage::class)->create([
+        factory(ProjectMessage::class)->create([
             'project_id' => $projectA->id,
             'author_id' => $michael->id,
         ]);
-        $projectMessageB = factory(ProjectMessage::class)->create([
+        factory(ProjectMessage::class)->create([
             'project_id' => $projectA->id,
             'author_id' => null,
         ]);
 
-        $projectTaskA = ProjectTask::factory()->completed()->create([
+        ProjectTask::factory()->count(2)->completed()->create([
             'project_id' => $projectA->id,
             'author_id' => $michael->id,
             'assignee_id' => $michael->id,
         ]);
 
         $collection = EmployeeShowViewHelper::projects($michael, $michael->company);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $projectB->id,
+                    'name' => $projectB->name,
+                    'code' => $projectB->code,
+                    'status' => $projectB->status,
+                    'role' => null,
+                    'messages_count' => 0,
+                    'tasks_count' => 0,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectB->id,
+                ],
+                1 => [
+                    'id' => $projectA->id,
+                    'name' => $projectA->name,
+                    'code' => $projectA->code,
+                    'status' => Project::CLOSED,
+                    'role' => trans('project.project_title_lead'),
+                    'messages_count' => 1,
+                    'tasks_count' => 2,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
+                ],
+            ],
+            $collection->toArray()
+        );
     }
 }

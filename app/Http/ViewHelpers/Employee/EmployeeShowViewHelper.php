@@ -806,8 +806,9 @@ class EmployeeShowViewHelper
      */
     public static function projects(Employee $employee, Company $company): ?Collection
     {
+        /** Going through a raw query coupled with eloquent to drastically reduce the number of hydrated models */
         $projects = Project::join('employee_project', 'employee_project.project_id', '=', 'projects.id')
-            ->select('employee_project.role', 'employee_project.created_at', 'employee_project.project_id', 'projects.id as project_id', 'projects.name', 'projects.code', 'projects.completed')
+            ->select('employee_project.role', 'employee_project.created_at', 'employee_project.project_id', 'projects.id as project_id', 'projects.name', 'projects.code', 'projects.status')
             ->addSelect([
                 'messages_count' => ProjectMessage::select(DB::raw('count(id)'))
                     ->whereColumn('author_id', 'employee_id')
@@ -819,8 +820,29 @@ class EmployeeShowViewHelper
                     ->whereColumn('project_id', 'projects.id'),
             ])
             ->where('employee_project.employee_id', $employee->id)
+            ->orderBy('projects.id', 'desc')
+            ->withCasts([
+                'created_at' => 'datetime',
+            ])
             ->get();
 
-        dd($projects);
+        $projectsCollection = collect([]);
+        foreach ($projects as $project) {
+            $projectsCollection->push([
+                'id' => $project->project_id,
+                'name' => $project->name,
+                'code' => $project->code,
+                'status' => $project->status,
+                'role' => $project->role,
+                'messages_count' => $project->messages_count,
+                'tasks_count' => $project->tasks_count,
+                'url' => route('projects.show', [
+                    'company' => $company,
+                    'project' => $project->project_id,
+                ]),
+            ]);
+        }
+
+        return $projectsCollection;
     }
 }

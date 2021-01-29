@@ -46,10 +46,9 @@
             :menu="menu"
           />
 
-          <work-from-home
+          <projects
             :employee="employee"
-            :permissions="permissions"
-            :statistics="workFromHomes"
+            :projects="projects"
           />
 
           <worklogs
@@ -59,6 +58,12 @@
 
           <recent-ships
             :ships="ships"
+          />
+
+          <work-from-home
+            :employee="employee"
+            :permissions="permissions"
+            :statistics="workFromHomes"
           />
         </div>
       </div>
@@ -74,6 +79,7 @@ import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
 import Worklogs from '@/Pages/Employee/Work/Partials/Worklogs';
 import WorkFromHome from '@/Pages/Employee/Work/Partials/WorkFromHome';
 import RecentShips from '@/Pages/Employee/Work/Partials/RecentShips';
+import Projects from '@/Pages/Employee/Work/Partials/Projects';
 
 export default {
   components: {
@@ -84,6 +90,7 @@ export default {
     Worklogs,
     WorkFromHome,
     RecentShips,
+    Projects,
   },
 
   props: {
@@ -112,6 +119,10 @@ export default {
       default: null,
     },
     ships: {
+      type: Array,
+      default: null,
+    },
+    projects: {
       type: Array,
       default: null,
     },
