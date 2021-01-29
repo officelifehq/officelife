@@ -838,7 +838,7 @@ class EmployeeShowViewHelper
                 'tasks_count' => $project->tasks_count, /* @phpstan-ignore-line */
                 'url' => route('projects.show', [
                     'company' => $company,
-                    'project' => $project->project_id,
+                    'project' => $project->project_id, /* @phpstan-ignore-line */
                 ]),
             ]);
         }
