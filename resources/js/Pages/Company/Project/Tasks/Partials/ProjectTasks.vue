@@ -42,7 +42,7 @@
   <div>
     <ul class="list pl0 mv0">
       <li v-for="task in localTasks" :key="task.id" class="list-item relative">
-        <checkbox
+        <project-task-checkbox
           :id="'ai-' + task.id"
           v-model="task.completed"
           :item-id="task.id"
@@ -53,6 +53,8 @@
           :classes="'mb0 mr1'"
           :maxlength="255"
           :required="true"
+          :url="task.url"
+          :duration="task.duration"
           @change="toggle(task.id)"
           @update="showEditTask(task)"
           @destroy="destroy(task.id)"
@@ -115,10 +117,8 @@
           />
 
           <div class="w-50">
-            <select-box :id="'country_id'"
-                        v-model="form.assignee_id"
+            <select-box v-model="form.assignee_id"
                         :options="members"
-                        :name="'country_id'"
                         :errors="$page.props.errors.assignee_id"
                         :label="$t('project.task_edit_assignee')"
                         :placeholder="$t('app.choose_value')"
@@ -142,15 +142,15 @@
 </template>
 
 <script>
-import Checkbox from '@/Shared/EditableCheckbox';
 import TextArea from '@/Shared/TextArea';
 import LoadingButton from '@/Shared/LoadingButton';
 import SelectBox from '@/Shared/Select';
+import ProjectTaskCheckbox from '@/Pages/Company/Project/Tasks/Partials/ProjectTaskCheckbox';
 
 export default {
   components: {
     TextArea,
-    Checkbox,
+    ProjectTaskCheckbox,
     LoadingButton,
     SelectBox,
   },

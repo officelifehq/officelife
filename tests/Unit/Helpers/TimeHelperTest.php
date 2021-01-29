@@ -42,19 +42,13 @@ class TimeHelperTest extends TestCase
     public function it_gets_a_string_representing_a_given_duration(): void
     {
         $this->assertEquals(
-            '1h40',
-            TimeHelper::durationInHumanFormat([
-                'hours' => 1,
-                'minutes' => 40,
-            ])
+            '01h40',
+            TimeHelper::durationInHumanFormat(100)
         );
 
         $this->assertEquals(
             '0h00',
-            TimeHelper::durationInHumanFormat([
-                'hours' => 0,
-                'minutes' => 00,
-            ])
+            TimeHelper::durationInHumanFormat(0)
         );
     }
 }

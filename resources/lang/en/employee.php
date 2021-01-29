@@ -219,4 +219,6 @@ return [
     'projects_role' => 'Role in the project: {role}',
     'projects_messages_written' => 'No messages written|{count} message written|{count} messages written',
     'projects_tasks_assigned' => 'No tasks assigned|{count} task assigned|{count} tasks assigned',
+
+    'actions_title' => 'Actions',
 ];
