@@ -10,12 +10,15 @@ use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\WorklogHelper;
 use App\Models\Company\Company;
+use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\WorkFromHomeHelper;
+use App\Models\Company\ProjectTask;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\ProjectMessage;
 
 class EmployeeShowViewHelper
 {
@@ -792,5 +795,32 @@ class EmployeeShowViewHelper
         }
 
         return $positionCollection;
+    }
+
+    /**
+     * List all the projects of the employee.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function projects(Employee $employee, Company $company): ?Collection
+    {
+        $projects = Project::join('employee_project', 'employee_project.project_id', '=', 'projects.id')
+            ->select('employee_project.role', 'employee_project.created_at', 'employee_project.project_id', 'projects.id as project_id', 'projects.name', 'projects.code', 'projects.completed')
+            ->addSelect([
+                'messages_count' => ProjectMessage::select(DB::raw('count(id)'))
+                    ->whereColumn('author_id', 'employee_id')
+                    ->whereColumn('project_id', 'projects.id'),
+            ])
+            ->addSelect([
+                'tasks_count' => ProjectTask::select(DB::raw('count(id)'))
+                    ->whereColumn('assignee_id', 'employee_id')
+                    ->whereColumn('project_id', 'projects.id'),
+            ])
+            ->where('employee_project.employee_id', $employee->id)
+            ->get();
+
+        dd($projects);
     }
 }

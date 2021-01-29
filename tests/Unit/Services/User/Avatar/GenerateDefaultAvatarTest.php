@@ -7,7 +7,7 @@ use Illuminate\Validation\ValidationException;
 use App\Services\User\Avatar\GenerateDefaultAvatar;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class GenerateAvatarTest extends TestCase
+class GenerateDefaultAvatarTest extends TestCase
 {
     use DatabaseTransactions;
 

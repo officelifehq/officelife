@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\ViewHelpers\Dashboard\Manager;
+namespace Tests\Unit\ViewHelpers\Dashboard\HR;
 
 use Carbon\Carbon;
 use Tests\TestCase;

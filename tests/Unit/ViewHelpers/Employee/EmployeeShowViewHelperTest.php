@@ -21,6 +21,7 @@ use App\Models\Company\ProjectTask;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
+use App\Models\Company\ProjectMessage;
 use App\Models\Company\TimeTrackingEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
@@ -680,5 +681,43 @@ class EmployeeShowViewHelperTest extends TestCase
             ],
             $collection->toArray()[0]
         );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_all_projects_for_this_employee(): void
+    {
+        $michael = $this->createAdministrator();
+        $projectA = factory(Project::class)->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::CLOSED,
+        ]);
+        $projectB = factory(Project::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectA->employees()->syncWithoutDetaching(
+            [
+                $michael->id => [
+                    'role' => trans('project.project_title_lead'),
+                ],
+            ]
+        );
+        $projectB->employees()->syncWithoutDetaching([$michael->id]);
+
+        $projectMessageA = factory(ProjectMessage::class)->create([
+            'project_id' => $projectA->id,
+            'author_id' => $michael->id,
+        ]);
+        $projectMessageB = factory(ProjectMessage::class)->create([
+            'project_id' => $projectA->id,
+            'author_id' => null,
+        ]);
+
+        $projectTaskA = ProjectTask::factory()->completed()->create([
+            'project_id' => $projectA->id,
+            'author_id' => $michael->id,
+            'assignee_id' => $michael->id,
+        ]);
+
+        $collection = EmployeeShowViewHelper::projects($michael, $michael->company);
     }
 }
