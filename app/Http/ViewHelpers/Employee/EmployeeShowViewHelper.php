@@ -829,13 +829,13 @@ class EmployeeShowViewHelper
         $projectsCollection = collect([]);
         foreach ($projects as $project) {
             $projectsCollection->push([
-                'id' => $project->project_id,
+                'id' => $project->project_id, /* @phpstan-ignore-line */
                 'name' => $project->name,
                 'code' => $project->code,
                 'status' => $project->status,
-                'role' => $project->role,
-                'messages_count' => $project->messages_count,
-                'tasks_count' => $project->tasks_count,
+                'role' => $project->role, /* @phpstan-ignore-line */
+                'messages_count' => $project->messages_count, /* @phpstan-ignore-line */
+                'tasks_count' => $project->tasks_count, /* @phpstan-ignore-line */
                 'url' => route('projects.show', [
                     'company' => $company,
                     'project' => $project->project_id,
