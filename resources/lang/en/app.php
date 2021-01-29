@@ -30,6 +30,7 @@ return [
     'optional' => 'optional',
     'choose_value' => 'Choose a value',
     'and' => 'and',
+    'hide' => 'Hide',
 
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',

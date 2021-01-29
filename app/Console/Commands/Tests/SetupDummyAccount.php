@@ -1862,8 +1862,8 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $this->info('☐ Add time tracking entries');
 
         // create random time tracking entries for the project
-        // we will create a lot of timesheets, up to 4 years
-        for ($weeksAgo = 0; $weeksAgo < 150; $weeksAgo++) {
+        // we will create a lot of timesheets
+        for ($weeksAgo = 0; $weeksAgo < 5; $weeksAgo++) {
             $this->populateTimeTrackingEntries($this->michael, $weeksAgo);
         }
 
@@ -1873,8 +1873,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         foreach ($allDirectReports as $directReport) {
             $employee = $directReport->directReport;
 
-            $maxWeeksAgo = rand(52, 208);
-            for ($weeksAgo = 0; $weeksAgo < $maxWeeksAgo; $weeksAgo++) {
+            for ($weeksAgo = 0; $weeksAgo < 5; $weeksAgo++) {
                 $this->populateTimeTrackingEntries($employee, $weeksAgo);
             }
         }
@@ -1895,6 +1894,10 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
         $allTasks = $this->projectInfinity->tasks;
 
         for ($day = 0; $day < 6; $day++) {
+            $date = $startOfWeek->copy()->addDays($day);
+            if ($date->isFuture()) {
+                continue;
+            }
 
             // taking 3 random tasks in the list of tasks of this project
             for ($taskNumber = 0; $taskNumber < 2; $taskNumber++) {
@@ -1906,7 +1909,7 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                     'project_id' => $this->projectInfinity->id,
                     'project_task_id' => $task->id,
                     'duration' => rand(30, 180),
-                    'date' => $startOfWeek->copy()->addDays($day)->format('Y-m-d'),
+                    'date' => $date->format('Y-m-d'),
                     'description' => null,
                 ]);
             }

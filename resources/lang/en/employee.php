@@ -213,4 +213,6 @@ return [
     'timesheets_details_show' => 'Timesheet details',
     'timesheets_details_status' => 'Status',
     'timesheets_details_open' => 'Not submitted yet',
+
+    'actions_title' => 'Actions',
 ];

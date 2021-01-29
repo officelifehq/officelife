@@ -307,6 +307,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::post('{project}/tasks/lists/store', 'Company\\Company\\Project\\ProjectTaskListsController@store');
                 Route::put('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@update');
                 Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
+                Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
+                Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
             });
         });
 

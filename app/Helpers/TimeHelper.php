@@ -33,13 +33,14 @@ class TimeHelper
     }
 
     /**
-     * Gets a sentence representing the time given in the array.
+     * Gets a sentence representing the time, like '2h12'.
      *
-     * @param array $duration
+     * @param int $duration
      * @return string
      */
-    public static function durationInHumanFormat(array $duration): string
+    public static function durationInHumanFormat(int $duration): string
     {
+        $duration = self::convertToHoursAndMinutes($duration);
         $minutes = $duration['minutes'] == 0 ? '00' : $duration['minutes'];
 
         $time = trans('app.duration', [

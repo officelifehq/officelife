@@ -5,6 +5,7 @@ namespace Database\Factories\Company;
 use Carbon\Carbon;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\ProjectTaskList;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectTaskFactory extends Factory
@@ -23,8 +24,13 @@ class ProjectTaskFactory extends Factory
      */
     public function definition()
     {
+        $project = Project::factory()->create();
+
         return [
-            'project_id' => Project::factory(),
+            'project_id' => $project->id,
+            'project_task_list_id' => ProjectTaskList::factory()->create([
+                'project_id' => $project->id,
+            ]),
             'title' => $this->faker->title,
             'description' => $this->faker->paragraph,
             'completed' => false,

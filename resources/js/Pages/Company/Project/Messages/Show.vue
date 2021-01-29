@@ -74,7 +74,7 @@
             {{ $t('project.message_show_written_by') }}
           </h3>
 
-          <div v-if="message.author" class="flex items-center mb4">
+          <div v-if="message.author" class="flex mb4">
             <div class="mr3">
               <img :src="message.author.avatar" alt="avatar" height="64" width="64" class="br-100" />
             </div>
@@ -83,23 +83,20 @@
               <inertia-link :href="message.author.url" class="mb2 dib">{{ message.author.name }}</inertia-link>
 
               <span v-if="message.author.role" class="db f7 mb2 relative">
-                <!-- icon role -->
-                <svg class="relative icon-role gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M10 2a1 1 0 00-1 1v1a1 1 0 002 0V3a1 1 0 00-1-1zM4 4h3a3 3 0 006 0h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2zm2.5 7a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm2.45 4a2.5 2.5 0 10-4.9 0h4.9zM12 9a1 1 0 100 2h3a1 1 0 100-2h-3zm-1 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd" />
-                </svg>
-                <span class="mr2">
-                  {{ message.author.role }}
-                </span>
 
-                <!-- icon date -->
-                <span>
-                  <svg class="relative icon-date gray" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                  </svg>
-                </span>
-                <span class="gray">
-                  {{ $t('project.members_index_role', { date: message.author.added_at }) }}
-                </span>
+                <ul class="list pa0 ma0">
+                  <li class="mb2">
+                    <!-- role -->
+                    {{ message.author.role }}
+                  </li>
+
+                  <li>
+                    <!-- in the project since -->
+                    <span class="gray">
+                      {{ $t('project.members_index_role', { date: message.author.added_at }) }}
+                    </span>
+                  </li>
+                </ul>
               </span>
               <span v-if="message.author.position && message.author.role" class="db f7 gray">
                 {{ $t('project.members_index_position_with_role', { role: message.author.position.title }) }}

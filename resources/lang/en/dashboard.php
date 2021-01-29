@@ -104,6 +104,7 @@ return [
     'one_on_ones_note_textarea_desc' => 'Add a note',
     'one_on_ones_note_cta' => 'Add an item',
     'one_on_ones_note_deletion_success' => 'The entry has been deleted.',
+    'one_on_ones_note_edit_desc' => 'Edit note',
     'one_on_ones_mark_happened' => 'Mark as happened',
     'one_on_ones_mark_happened_note_1' => 'This will close this 1 on 1, and create a new entry.',
     'one_on_ones_mark_happened_note_2' => 'Any incomplete action items will become a talking point in the new entry.',
