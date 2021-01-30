@@ -23,7 +23,7 @@ class EmployeeWorkController extends Controller
      */
     public function show(Request $request, int $companyId, int $employeeId)
     {
-        $company = InstanceHelper::getLoggedCompany();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
         try {
@@ -49,6 +49,9 @@ class EmployeeWorkController extends Controller
         // all recent ships of this employee
         $ships = EmployeeShowViewHelper::recentShips($employee);
 
+        // all projects of this employee
+        $projects = EmployeeShowViewHelper::projects($employee, $loggedCompany);
+
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
@@ -60,6 +63,7 @@ class EmployeeWorkController extends Controller
             'worklogs' => $worklogsCollection,
             'workFromHomes' => $workFromHomeStats,
             'ships' => $ships,
+            'projects' => $projects,
         ]);
     }
 }

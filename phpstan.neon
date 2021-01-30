@@ -8,6 +8,8 @@ parameters:
     paths:
         - app
         - tests
+    excludePaths:
+        - app/Http/ViewHelpers/Employee/EmployeeShowViewHelper.php
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
     level: 5

@@ -195,8 +195,8 @@ return [
     'one_on_one_index_stat_number_of_entries' => 'entries in the last 365 days',
     'one_on_one_index_stat_avg_number' => 'avg number of days between entries',
     'one_on_one_index_item_talking_point' => '{count} talking point|{count} talking points',
-    'one_on_one_index_item_action_item' => '{count} talking point|{count} action items',
-    'one_on_one_index_item_note' => '{count} talking point|{count} notes',
+    'one_on_one_index_item_action_item' => '{count} action item|{count} action items',
+    'one_on_one_index_item_note' => '{count} note|{count} notes',
 
     'timesheets_title' => 'Timesheets that have been either approved or rejected',
     'timesheets_blank' => 'No timesheets have been submitted yet.',
@@ -213,6 +213,12 @@ return [
     'timesheets_details_show' => 'Timesheet details',
     'timesheets_details_status' => 'Status',
     'timesheets_details_open' => 'Not submitted yet',
+
+    'projects_title' => 'All projects {name} is part of',
+    'projects_blank' => 'This person is not yet associated with a project yet.',
+    'projects_role' => 'Role in the project: {role}',
+    'projects_messages_written' => 'No messages written|{count} message written|{count} messages written',
+    'projects_tasks_assigned' => 'No tasks assigned|{count} task assigned|{count} tasks assigned',
 
     'actions_title' => 'Actions',
 ];

@@ -59,6 +59,7 @@ class StartProject extends BaseService
     private function startProject(): void
     {
         $this->project->status = Project::STARTED;
+        $this->project->started_at = Carbon::now();
         $this->project->save();
     }
 

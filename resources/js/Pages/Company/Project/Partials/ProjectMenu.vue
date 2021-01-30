@@ -19,15 +19,16 @@
 
 <template>
   <div>
-    <div class="bg-white box pa3 mb4 flex justify-between">
+    <div class="bg-white box pa3 mb4 flex justify-between items-center">
       <!-- name + summary -->
       <div class="pl3">
         <h2 :class="project.summary ? 'mb2': 'mb0'" class="mt0 relative fw4" data-cy="project-name">
-          {{ project.name }} <span v-if="project.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">
+          {{ project.name }}
+          <span v-if="project.code" class="ml2 ttu f7 project-code code br3 pa1 relative fw4">
             {{ project.code }}
           </span>
         </h2>
-        <p class="mt0 mb1 f6 gray">{{ project.summary }}</p>
+        <p v-if="project.summary" class="mt0 mb1 f6 gray">{{ project.summary }}</p>
       </div>
 
       <!-- avatars -->
