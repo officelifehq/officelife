@@ -9733,9 +9733,9 @@ vue-loader@^15.4.2:
     vue-style-loader "^4.1.0"
 
 vue-loaders@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/vue-loaders/-/vue-loaders-4.1.1.tgz#28541f0ba7ddfa4cd15513e2b3562fd810c97ed9"
-  integrity sha512-+sPdguPUpsvmOasv5OUuVn85HmMiXLMKalaNXv7+Q8w0+uSDtwJ/Mh469XeQIkWo03jHkYWJS6f/EDHvOVuSiQ==
+  version "4.1.4"
+  resolved "https://registry.yarnpkg.com/vue-loaders/-/vue-loaders-4.1.4.tgz#2fc1d806159dcb9e75a7a0a6741b04fb25ba17e2"
+  integrity sha512-YlT9js3/NSQr8CTebto0NM9jaUl+kkGR3HgdCvoDV2H3NLzCrzSUxzo+VkPgPzBrOs8s40Bad+OX1XOZexeeVQ==
 
 vue-resize@^1.0.0:
   version "1.0.0"
