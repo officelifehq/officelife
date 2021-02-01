@@ -18,6 +18,7 @@ use App\Models\Company\Question;
 use App\Models\Company\Timesheet;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\DirectReport;
+use App\Models\Company\ConsultantRate;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Models\Company\CompanyPTOPolicy;
@@ -201,6 +202,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->timesheets()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_consultant_rates(): void
+    {
+        $company = Company::factory()->create();
+        ConsultantRate::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->consultantRates()->exists());
     }
 
     /** @test */

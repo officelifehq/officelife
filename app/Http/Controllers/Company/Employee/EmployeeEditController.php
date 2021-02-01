@@ -18,10 +18,13 @@ use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
 use App\Services\Company\Employee\HiringDate\SetHiringDate;
+use App\Http\ViewHelpers\Employee\EmployeeEditContractViewHelper;
 use App\Services\Company\Employee\PersonalDetails\SetSlackHandle;
 use App\Services\Company\Employee\Contract\SetContractRenewalDate;
+use App\Services\Company\Employee\ConsultantRate\SetConsultantRate;
 use App\Services\Company\Employee\PersonalDetails\SetTwitterHandle;
 use App\Services\Company\Employee\PersonalDetails\SetPersonalDetails;
+use App\Services\Company\Employee\ConsultantRate\DestroyConsultantRate;
 
 class EmployeeEditController extends Controller
 {
@@ -252,12 +255,14 @@ class EmployeeEditController extends Controller
     {
         try {
             $employee = Employee::where('company_id', $companyId)
+                ->with('consultantRates')
                 ->findOrFail($employeeId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
         }
 
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
 
         try {
             Employee::where('company_id', $companyId)
@@ -268,16 +273,10 @@ class EmployeeEditController extends Controller
         }
 
         return Inertia::render('Employee/Edit/Contract', [
-            'employee' => [
-                'id' => $employee->id,
-                'name' => $employee->name,
-                'year' => $employee->contract_renewed_at ? $employee->contract_renewed_at->year : null,
-                'month' => $employee->contract_renewed_at ? $employee->contract_renewed_at->month : null,
-                'day' => $employee->contract_renewed_at ? $employee->contract_renewed_at->day : null,
-                'max_year' => Carbon::now()->addYears(5)->year,
-            ],
+            'employee' => EmployeeEditContractViewHelper::employeeInformation($employee),
             'canSeeContractInfoTab' => $loggedEmployee->permission_level <= 200 &&
                 $loggedEmployee->status ? $loggedEmployee->status->type == EmployeeStatus::EXTERNAL : false,
+            'rates' => EmployeeEditContractViewHelper::rates($employee, $loggedCompany),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
@@ -307,6 +306,63 @@ class EmployeeEditController extends Controller
 
         return response()->json([
             'company_id' => $companyId,
+        ], 200);
+    }
+
+    /**
+     * Store the newly created consultant rate.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @return JsonResponse
+     */
+    public function storeRate(Request $request, int $companyId, int $employeeId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+            'rate' => intval($request->input('rate')),
+        ];
+
+        $rate = (new SetConsultantRate)->execute($data);
+
+        return response()->json([
+            'data' => [
+                'id' => $rate->id,
+                'rate' => $rate->rate,
+                'active' => $rate->active,
+            ],
+        ], 201);
+    }
+
+    /**
+     * Destroy the given consultant rate.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $employeeId
+     * @param int $rateId
+     * @return JsonResponse
+     */
+    public function destroyRate(Request $request, int $companyId, int $employeeId, int $rateId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'employee_id' => $employeeId,
+            'rate_id' => $rateId,
+        ];
+
+        (new DestroyConsultantRate)->execute($data);
+
+        return response()->json([
+            'data' => true,
         ], 200);
     }
 }

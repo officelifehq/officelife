@@ -281,6 +281,8 @@ return [
     'log_timesheet_approved' => 'Approved the timesheet of the week started on :started_at for :employee_name.',
     'log_timesheet_rejected' => 'Rejected the timesheet of the week started on :started_at for :employee_name.',
     'log_employee_avatar_set' => 'Set the avatar of :employee_name.',
+    'log_consultant_rate_set' => 'Set the consulting rate to :rate of :employee_name.',
+    'log_consultant_rate_destroy' => 'Destroyed the consulting rate of :rate for :employee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -352,6 +354,8 @@ return [
     'employee_log_timesheet_approved' => 'Approved the timesheet of the week started on :started_at.',
     'employee_log_timesheet_rejected' => 'Rejected the timesheet of the week started on :started_at.',
     'employee_log_employee_avatar_set' => 'Set a new avatar.',
+    'employee_log_consultant_rate_set' => 'Set the consulting rate to :rate.',
+    'employee_log_consultant_rate_destroyed' => 'Destroyed the rate of :rate.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',
