@@ -102,7 +102,8 @@ return [
 
     'contacts_title' => 'Contact information',
 
-    'contract_renewal_date' => 'Contract renewed on',
+    'contract_renewal_date' => 'Contract renews on {date}',
+    'contract_renewal_rate' => '{currency} {rate} per hour',
 
     'work_from_home_title' => 'Work from home',
     'work_from_home_link' => 'View history',

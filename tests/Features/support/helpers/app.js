@@ -345,6 +345,16 @@ Cypress.Commands.add('setContractRenewalDate', (companyId = 1, employeeId = 1, n
   cy.get('[data-cy=submit-edit-contract-employee-button]').click();
 });
 
+// Set the contract rate
+Cypress.Commands.add('setContractRate', (companyId = 1, employeeId = 1, rate = 10) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId + '/contract/edit');
+
+  cy.get('[data-cy=add-rate-button]').click();
+  cy.get('[data-cy=add-rate-input]').clear();
+  cy.get('[data-cy=add-rate-input]').type(rate);
+  cy.get('[data-cy=modal-add-rate-cta]').click();
+});
+
 // fill and submit timesheet for time tracking
 Cypress.Commands.add('fillAndSubmitTimesheet', (companyId = 1) => {
   cy.visit('/' + companyId + '/dashboard/timesheet');

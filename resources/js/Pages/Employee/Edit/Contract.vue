@@ -163,7 +163,7 @@
                         :min="1"
                         :max="10000"
                         :errors="$page.props.errors.name"
-                        :datacy="'add-title-input'"
+                        :datacy="'add-rate-input'"
                         required
                         :placeholder="$t('account.employee_statuses_placeholder')"
                         :extra-class-upper-div="'w-30 dib'"
@@ -177,15 +177,15 @@
                       <a class="btn dib-l db mb2 mb0-ns" @click.prevent="addRateMode = false ; form.name = ''">
                         {{ $t('app.cancel') }}
                       </a>
-                      <loading-button :classes="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
+                      <loading-button :classes="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-rate-cta" :state="loadingState" :text="$t('app.add')" />
                     </div>
                   </div>
                 </form>
 
                 <!-- list of rates -->
-                <ul class="list pl0 mv0 center ba br2 bb-gray">
+                <ul data-cy="contract-rates-list" :data-cy-items="localRates.map(r => r.id)" class="list pl0 mv0 center ba br2 bb-gray">
                   <!-- list of past and current rates -->
-                  <li v-for="rate in localRates" :key="rate.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
+                  <li v-for="rate in localRates" :key="rate.id" :data-cy="'rate-item-' + rate.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
                     {{ $t('employee.edit_contract_rate_desc', { rate: rate.rate, currency: rates.company_currency} ) }}
 
                     <!-- status -->

@@ -36,6 +36,7 @@ class EmployeeShowViewHelper
         $address = $employee->getCurrentAddress();
         $company = $employee->company;
         $teams = $employee->teams;
+        $rate = $employee->consultantRates()->where('active', true)->first();
 
         return [
             'id' => $employee->id,
@@ -66,6 +67,11 @@ class EmployeeShowViewHelper
                 ($permissions['can_see_contract_renewal_date'] ? [
                     'date' => DateHelper::formatDate($employee->contract_renewed_at),
                 ] : null),
+            'contract_rate' => (! $rate) ? null :
+                ($permissions['can_see_contract_renewal_date'] ? [
+                    'rate' => $rate->rate,
+                    'currency' => $company->currency,
+                ] : null),
             'raw_description' => $employee->description,
             'parsed_description' => is_null($employee->description) ? null : StringHelper::parse($employee->description),
             'address' => is_null($address) ? null : [
@@ -86,6 +92,7 @@ class EmployeeShowViewHelper
             'status' => (! $employee->status) ? null : [
                 'id' => $employee->status->id,
                 'name' => $employee->status->name,
+                'type' => $employee->status->type,
             ],
             'teams' => ($teams->count() == 0) ? null : self::teams($teams, $company),
             'url' => [
@@ -94,6 +101,10 @@ class EmployeeShowViewHelper
                     'employee' => $employee,
                 ]),
                 'edit' => route('employee.show.edit', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'edit_contract' => route('employee.show.edit.contract', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
