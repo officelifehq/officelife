@@ -104,6 +104,10 @@ class EmployeeShowViewHelper
                     'company' => $company,
                     'employee' => $employee,
                 ]),
+                'edit_contract' => route('employee.show.edit.contract', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
                 'lock' => route('account.lock', [
                     'company' => $company,
                     'employee' => $employee,

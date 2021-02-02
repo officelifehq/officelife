@@ -48,8 +48,6 @@
       <span class="f6 title">
         {{ $t('employee.status_title') }}
       </span>
-
-      <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
     </div>
 
     <!-- Modal -->
@@ -106,11 +104,19 @@
     <ul v-if="updatedEmployee.status" class="ma0 pa0 di existing-statuses list">
       <li class="mb2" data-cy="status-name-right-permission">
         {{ updatedEmployee.status.name }}
+
+        <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
       </li>
-      <li v-if="updatedEmployee.contract_renewed_at" class="mb2 lh-copy" data-cy="status-contract-renewed-at">
+
+      <!-- contract renewed at date -->
+      <li v-if="updatedEmployee.contract_renewed_at && permissions.can_manage_status" class="lh-copy mb1" data-cy="employee-contract-renewal-date">
         {{ $t('employee.contract_renewal_date', { date: updatedEmployee.contract_renewed_at.date }) }}
+
+        <inertia-link :href="employee.url.edit_contract" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2">{{ $t('app.edit') }}</inertia-link>
       </li>
-      <li v-if="updatedEmployee.contract_rate" class="mb2 lh-copy" data-cy="status-contract-rate">
+
+      <!-- contract rate -->
+      <li v-if="updatedEmployee.contract_rate && permissions.can_manage_status" class="lh-copy mb1" data-cy="employee-contract-rate">
         {{ $t('employee.contract_renewal_rate', { rate: updatedEmployee.contract_rate.rate, currency: updatedEmployee.contract_rate.currency }) }}
       </li>
     </ul>
@@ -118,6 +124,8 @@
     <!-- Action when there is no status defined -->
     <span v-else class="f6">
       {{ $t('employee.status_modal_blank') }}
+
+      <a v-show="permissions.can_manage_status" data-cy="edit-status-button" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="displayModal()">{{ $t('app.edit') }}</a>
     </span>
   </div>
 </template>
