@@ -103,9 +103,15 @@
     </div>
 
     <!-- Case when there is a status -->
-    <ul v-if="updatedEmployee.status" class="ma0 pa0 di existing-statuses">
-      <li class="di" data-cy="status-name-right-permission">
+    <ul v-if="updatedEmployee.status" class="ma0 pa0 di existing-statuses list">
+      <li class="mb2" data-cy="status-name-right-permission">
         {{ updatedEmployee.status.name }}
+      </li>
+      <li v-if="updatedEmployee.contract_renewed_at" class="mb2 lh-copy" data-cy="status-contract-renewed-at">
+        {{ $t('employee.contract_renewal_date', { date: updatedEmployee.contract_renewed_at.date }) }}
+      </li>
+      <li v-if="updatedEmployee.contract_rate" class="mb2 lh-copy" data-cy="status-contract-rate">
+        {{ $t('employee.contract_renewal_rate', { rate: updatedEmployee.contract_rate.rate, currency: updatedEmployee.contract_rate.currency }) }}
       </li>
     </ul>
 
