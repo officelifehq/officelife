@@ -34,15 +34,14 @@
       }
     ],
     [
-      "@semantic-release/git",
+      "@semantic-release/github",
       {
         "assets": ["CHANGELOG.md"]
       }
     ],
     [
-      "@semantic-release/github",
-      {
-        "assets": ["CHANGELOG.md"]
+      "@semantic-release/exec", {
+        "successCmd": "./scripts/commit-changelog.sh"
       }
     ]
   ]
