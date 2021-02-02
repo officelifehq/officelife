@@ -53,4 +53,4 @@ RUN set -ex; \
     rm -rf /var/lib/apt/lists/*
 
 # [Optional] Uncomment this line to install global node packages.
-#RUN npm install -g sqlite3
+RUN npm install -g --unsafe-perm sqlite3
