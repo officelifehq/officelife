@@ -29,7 +29,6 @@ class ProjectTasksViewHelper
             ->with('list')
             ->with('assignee')
             ->with('author')
-            ->orderBy('id', 'desc')
             ->get();
 
         // the goal of the following is to first display tasks without lists,
