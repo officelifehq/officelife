@@ -207,6 +207,16 @@ class Company extends Model
     }
 
     /**
+     * Get all the consultant rates used in the company.
+     *
+     * @return HasMany
+     */
+    public function consultantRates()
+    {
+        return $this->hasMany(ConsultantRate::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return object|null

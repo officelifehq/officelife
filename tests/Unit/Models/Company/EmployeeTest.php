@@ -29,6 +29,7 @@ use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\ConsultantRate;
 use App\Models\Company\ProjectDecision;
 use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\GuessEmployeeGame;
@@ -465,6 +466,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->projectDecisions()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_consultant_rates(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        ConsultantRate::factory()->count(2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->consultantRates()->exists());
     }
 
     /** @test */

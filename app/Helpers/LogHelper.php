@@ -1039,6 +1039,22 @@ class LogHelper
                 ]);
                 break;
 
+            case 'consultant_rate_set':
+                $sentence = trans('account.log_consultant_rate_set', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'rate' => $log->object->{'rate'},
+                ]);
+                break;
+
+            case 'consultant_rate_destroy':
+                $sentence = trans('account.log_consultant_rate_destroy', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'rate' => $log->object->{'rate'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
@@ -1519,6 +1535,18 @@ class LogHelper
 
             case 'employee_avatar_set':
                 $sentence = trans('account.employee_log_employee_avatar_set');
+                break;
+
+            case 'consultant_rate_set':
+                $sentence = trans('account.employee_log_consultant_rate_set', [
+                    'rate' => $log->object->{'rate'},
+                ]);
+                break;
+
+            case 'consultant_rate_destroy':
+                $sentence = trans('account.employee_log_consultant_rate_destroy', [
+                    'rate' => $log->object->{'rate'},
+                ]);
                 break;
 
             default:

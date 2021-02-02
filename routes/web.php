@@ -142,6 +142,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('{employee}/contract/update', 'Company\\Employee\\EmployeeEditController@updateContractInformation');
             Route::post('{employee}/update', 'Company\\Employee\\EmployeeEditController@update');
             Route::post('{employee}/address/update', 'Company\\Employee\\EmployeeEditController@updateAddress');
+            Route::post('{employee}/rate/store', 'Company\\Employee\\EmployeeEditController@storeRate');
+            Route::delete('{employee}/rate/{rate}', 'Company\\Employee\\EmployeeEditController@destroyRate');
 
             Route::resource('{employee}/position', 'Company\\Employee\\EmployeePositionController')->only([
                 'store', 'destroy',

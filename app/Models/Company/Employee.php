@@ -449,6 +449,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the Consultant Rates records associated with the employee.
+     *
+     * @return HasMany
+     */
+    public function consultantRates()
+    {
+        return $this->hasMany(ConsultantRate::class);
+    }
+
+    /**
      * Get the project records associated with the employee.
      *
      * @return BelongsToMany
