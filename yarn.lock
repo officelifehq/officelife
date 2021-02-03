@@ -906,22 +906,24 @@
     postcss "7.0.32"
     purgecss "^2.3.0"
 
-"@inertiajs/inertia-vue@^0.3":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@inertiajs/inertia-vue/-/inertia-vue-0.3.2.tgz#552515459802eb2ff8192c56fa8266516f10033c"
-  integrity sha512-rY/K6ChlmpVTAFBTM5kf6mUn5vCpXqY2AO6ZWIF32J5rK8hv8p8dczrhCeMOrekOwVUSmI9WwTwPVhP+p+KaIA==
+"@inertiajs/inertia-vue@^0.5.5":
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/@inertiajs/inertia-vue/-/inertia-vue-0.5.5.tgz#e12683b91d2affe2442b50a1ee26c45fd2d7f34f"
+  integrity sha512-f3kPJoXv8PXW6OVqSTbmynbVVVsTQb2m8k4sPmG5PsfmcXPukP3QEDBL3JDLgrNxpVzLyjh1oQXyW0fVop/mYQ==
 
-"@inertiajs/inertia@^0.4.0":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@inertiajs/inertia/-/inertia-0.4.3.tgz#bba909573455c754ff4e19ac06bdafad51af047e"
-  integrity sha512-AEzyL8dd7F7thTLDhzQTi9I+p4r6k9QtacZ2sy5XYmt1E4ZI8MX67z+pKrV9yR2oIG8YAOMEJVhgIyJIg+nJ5Q==
+"@inertiajs/inertia@^0.8.4":
+  version "0.8.4"
+  resolved "https://registry.yarnpkg.com/@inertiajs/inertia/-/inertia-0.8.4.tgz#c983e7363ff602a20103f3fee1e6caf103d551e1"
+  integrity sha512-iTiyqXNvOYCY7/llhJgAHBKuUNlz6FBgXV/w0yzugpepqVR23kxSjepYLYdAKWS5Noq6W+Iz7oLeqFjuoCy53w==
   dependencies:
-    axios "^0.19.0 || ^0.20.0"
+    axios "^0.21.1"
+    deepmerge "^4.0.0"
+    qs "^6.9.0"
 
-"@inertiajs/progress@^0.1.2":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@inertiajs/progress/-/progress-0.1.2.tgz#4a52d75c45d818a469384bd4ffd632c5c38a1889"
-  integrity sha512-XazXCp9ezY2GLfS37O+LUf6Ni1xYLtrQg+svUi+videi3Aby28d4xRCtrqLvyo3HIWQE5DvNqCPQ8BFbaPZTOA==
+"@inertiajs/progress@^0.2.4":
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/@inertiajs/progress/-/progress-0.2.4.tgz#1193c7d8e788dc6cab8bbc00383ed9ed8339df72"
+  integrity sha512-FVlxQjA3qxXoSljbhDWpXKdDth0IxovmI9lNJLbvxzpVir7iL5n9MCX7Sx9X+JcKdTKezCbGnc3CXQ92B38wbA==
   dependencies:
     nprogress "^0.2.0"
 
@@ -1576,10 +1578,17 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.10.1.tgz#e1e82e4f3e999e2cfd61b161280d16a111f86428"
   integrity sha512-zg7Hz2k5lI8kb7U32998pRRFin7zJlkfezGJjUc2heaD4Pw2wObakCDVzkKztTm/Ln7eiVvYsjqak0Ed4LkMDA==
 
-"axios@^0.19.0 || ^0.20.0", axios@^0.20:
+axios@^0.20:
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
   integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+  dependencies:
+    follow-redirects "^1.10.0"
+
+axios@^0.21.1:
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+  integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
   dependencies:
     follow-redirects "^1.10.0"
 
@@ -2983,6 +2992,11 @@ deepmerge@^2.1.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.2.1.tgz#5d3ff22a01c00f645405a2fbc17d0778a1801170"
   integrity sha512-R9hc1Xa/NOBi9WRVUWg19rl1UB7Tt4kuPd+thNJgFZoxXsTz7ncaPaeIm+40oSGuP33DfMb4sZt1QIGiJzC4EA==
+
+deepmerge@^4.0.0:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
+  integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
 
 default-gateway@^4.2.0:
   version "4.2.0"
@@ -7824,6 +7838,11 @@ qs@6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
+
+qs@^6.9.0:
+  version "6.9.6"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.6.tgz#26ed3c8243a431b2924aca84cc90471f35d5a0ee"
+  integrity sha512-TIRk4aqYLNoJUbd+g2lEdz5kLWIuTMRagAXxl78Q0RiVjAOugHmeKNGdd3cwo/ktpf9aL9epCfFqWDEKysUlLQ==
 
 qs@~6.5.2:
   version "6.5.2"
