@@ -25,7 +25,7 @@ return [
     'employees_all_no_hiring_date_title' => 'All the employees without an hiring date in {company}',
     'employees_description_1' => 'View all employees',
     'employees_description_2' => 'Or filter employees matching a given criteria',
-    'employees_cta' => 'Add an employee',
+    'employees_cta' => 'Add a single employee',
     'employees_cta_view_all_employees' => 'View all employees ({count})',
     'employees_cta_view_active_employees' => 'View only active employees ({count})',
     'employees_cta_view_locked_employees' => 'View only locked employees ({count})',

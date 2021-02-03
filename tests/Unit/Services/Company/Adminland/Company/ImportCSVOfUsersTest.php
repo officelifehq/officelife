@@ -51,6 +51,10 @@ class ImportCSVOfUsersTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
+        // this error changes depending on the PHP version, unfortunately
+        // as we support both php 7 and 8, we need to check the version to
+        // trigger the proper exception. we should remove this when we support
+        // only php 8
         if (PHP_VERSION_ID >= 70100) {
             $this->expectException(ErrorException::class);
         } else {

@@ -152,6 +152,18 @@ class AdminEmployeeController extends Controller
     }
 
     /**
+     * Show the Upload CSV of employees view.
+     *
+     * @return Response
+     */
+    public function upload(): Response
+    {
+        return Inertia::render('Adminland/Employee/Import', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
      * Show the Lock employee view.
      *
      * @param Request $request
