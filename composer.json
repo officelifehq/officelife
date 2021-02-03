@@ -24,6 +24,7 @@
         "parsedown/laravel": "^1.2",
         "sentry/sentry-laravel": "^2.3",
         "spatie/laravel-activitylog": "^3.1",
+        "spatie/simple-excel": "^1.13",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {
