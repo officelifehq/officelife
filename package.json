@@ -50,9 +50,9 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@inertiajs/inertia": "^0.4.0",
-        "@inertiajs/inertia-vue": "^0.3",
-        "@inertiajs/progress": "^0.1.2",
+        "@inertiajs/inertia": "^0.8.4",
+        "@inertiajs/inertia-vue": "^0.5.5",
+        "@inertiajs/progress": "^0.2.4",
         "@popperjs/core": "^2.5",
         "axios": "^0.20",
         "laravel-mix": "^5.0.6",
