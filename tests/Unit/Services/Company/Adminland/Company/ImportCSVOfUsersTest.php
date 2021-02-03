@@ -4,6 +4,7 @@ namespace Tests\Unit\Services\Company\Adminland\Company;
 
 use ErrorException;
 use Tests\TestCase;
+use ArgumentCountError;
 use App\Models\User\User;
 use App\Models\Company\Employee;
 use App\Jobs\AddEmployeeToCompany;
@@ -49,7 +50,12 @@ class ImportCSVOfUsersTest extends TestCase
     public function it_cant_import_a_malformed_csv(): void
     {
         $michael = $this->createAdministrator();
-        $this->expectException(ErrorException::class);
+
+        if (PHP_VERSION_ID >= 70100) {
+            $this->expectException(ErrorException::class);
+        } else {
+            $this->expectException(ArgumentCountError::class);
+        }
         $this->execute($michael, 'malformed.csv');
     }
 
