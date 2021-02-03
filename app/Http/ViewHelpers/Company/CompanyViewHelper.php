@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use OutOfRangeException;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
-use App\Helpers\RandomHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
@@ -99,24 +98,23 @@ class CompanyViewHelper
 
         $birthdaysCollection = collect([]);
         foreach ($employees as $employee) {
-            $date = $employee->birthdate->copy();
-            $date = $date->year(Carbon::now()->year);
-            $maxDate = Carbon::now()->endOfWeek(Carbon::SUNDAY);
-            $minDate = Carbon::now()->startOfWeek(Carbon::MONDAY);
+            $birthdateWithCurrentYear = $employee->birthdate->copy()->year(Carbon::now()->year);
 
-            if (BirthdayHelper::isBirthdayInRange($date, $minDate, $maxDate)) {
+            $minDate = Carbon::now()->startOfWeek(Carbon::MONDAY);
+            $maxDate = Carbon::now()->endOfWeek(Carbon::SUNDAY);
+
+            if (BirthdayHelper::isBirthdayInRange($birthdateWithCurrentYear, $minDate, $maxDate)) {
                 $birthdaysCollection->push([
-                'id' => $employee->id,
-                'uuid' => $employee->id.RandomHelper::getNumber(), // necessary for uniqueness of keys in vue
-                'url' => route('employees.show', [
-                    'company' => $company,
-                    'employee' => $employee->id,
-                ]),
-                'name' => $employee->name,
-                'avatar' => $employee->avatar,
-                'birthdate' => DateHelper::formatMonthAndDay($date),
-                'sort_key' => Carbon::createFromDate(Carbon::now()->year, $date->month, $date->day)->format('Y-m-d'),
-            ]);
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                    'avatar' => $employee->avatar,
+                    'birthdate' => DateHelper::formatMonthAndDay($birthdateWithCurrentYear),
+                    'sort_key' => Carbon::createFromDate(Carbon::now()->year, $birthdateWithCurrentYear->month, $birthdateWithCurrentYear->day)->format('Y-m-d'),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $employee->id,
+                    ]),
+                ]);
             }
         }
 
