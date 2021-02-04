@@ -26,7 +26,18 @@ class ECoffee extends Model
     protected $fillable = [
         'company_id',
         'batch_number',
+        'published',
         'active',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'published' => 'boolean',
+        'active' => 'boolean',
     ];
 
     /**

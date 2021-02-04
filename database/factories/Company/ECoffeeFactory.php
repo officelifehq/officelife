@@ -25,6 +25,8 @@ class ECoffeeFactory extends Factory
         return [
             'company_id' => Company::factory(),
             'batch_number' => 1,
+            'active' => false,
+            'published' => false,
         ];
     }
 }
