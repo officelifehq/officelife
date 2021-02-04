@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# GH_TOKEN is mandatory to be able to trigger the Pull Request workflows
+if [ -z "$GH_TOKEN" ]; then
+    echo "Please provide a token in GH_TOKEN variable" >&2
+    exit 1
+fi
+
 repo=officelifehq/officelife
 base=main
 file=CHANGELOG.md
@@ -14,7 +20,7 @@ github() {
     curl -sSL \
         -X $method \
         -H "Accept: application/vnd.github.v3+json" \
-        -H "Authorization: token $GITHUB_TOKEN" \
+        -H "Authorization: token $GH_TOKEN" \
         https://api.github.com/repos/$repo/$apiurl \
         "$@"
 }

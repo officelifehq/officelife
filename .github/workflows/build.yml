@@ -207,6 +207,7 @@ jobs:
         id: semantic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN_RELEASE }}
         with:
           semantic_version: 17.3.7
           extra_plugins: |
