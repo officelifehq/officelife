@@ -21,6 +21,7 @@ git log --pretty="%H" -n1 HEAD | tee $ROOT/config/commit
 # BUILD
 composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader --no-dev
 yarn install --ignore-engines --frozen-lockfile
+yarn run production
 
 # PACKAGE
 package=officelife-$version

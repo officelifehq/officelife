@@ -61,6 +61,7 @@
         "chgrp -R www-data storage && chmod -R g+w storage;",
         "composer install;",
         "yarn install;",
+        "yarn run production;",
         "php artisan key:generate --no-interaction;",
         "php artisan setup -vvv;",
         "a2enmod rewrite && apache2ctl restart;"
