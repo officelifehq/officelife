@@ -91,7 +91,7 @@ class MatchEmployeesForECoffee extends BaseService
         $this->secondHalfOfEmployees = collect([]);
 
         $half = ceil($collection->count() / 2);
-        $chunks = $collection->chunk($half);
+        $chunks = $collection->chunk(intval($half));
 
         $this->firstHalfOfEmployees = $chunks->first();
         $this->secondHalfOfEmployees = $chunks->last()->values(); // reset indexes
@@ -155,7 +155,7 @@ class MatchEmployeesForECoffee extends BaseService
         $sqlQuery = substr($sqlQuery, 0, -1);
         $sqlQuery .= ';';
 
-        dd($sqlQuery);
+        //dd($sqlQuery);
         DB::insert($sqlQuery);
     }
 }
