@@ -21,6 +21,7 @@ return [
     'new_hires_title' => 'New hires this week',
     'new_hires_date' => 'Starts on {date}',
     'new_hires_date_with_position' => 'Starts on {date} as {position}',
+    'new_hires_blank' => 'There are no new hires this week.',
 
     'recent_ships_title' => 'Recent ships',
 
