@@ -37,7 +37,7 @@ github POST git/refs -d "{\"ref\":\"refs/heads/$newbranch\",\"sha\":\"$GITHUB_SH
 sha=$(github GET "contents/$file?ref=$newbranch" | jq '.sha')
 
 echo "Upload new file content"
-message="chore(changelog): Update Changelog"
+message="chore(changelog): update changelog"
 content=$(base64 -w 0 $file)
 github PUT contents/$file \
     -d "{\"message\":\"$message\",\"sha\":$sha,\"branch\":\"$newbranch\",\"content\":\"$content\"}" > /dev/null
