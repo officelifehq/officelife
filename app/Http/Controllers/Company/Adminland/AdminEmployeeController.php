@@ -11,10 +11,12 @@ use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
+use App\Services\Company\Adminland\Company\StoreCSV;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Adminland\Employee\LockEmployee;
 use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
 use App\Services\Company\Adminland\Employee\UnlockEmployee;
+use App\Services\Company\Adminland\Company\ImportCSVOfUsers;
 use App\Services\Company\Adminland\Employee\DestroyEmployee;
 use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 
@@ -160,6 +162,37 @@ class AdminEmployeeController extends Controller
     {
         return Inertia::render('Adminland/Employee/Import', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+
+    /**
+     * Upload the CSV.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @return JsonResponse
+     */
+    public function storeUpload(Request $request, int $companyId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        //dd($request->get('csv'));
+        $data = [
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'path' => $request->input('email'),
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'permission_level' => $request->input('permission_level'),
+            'send_invitation' => $request->input('send_invitation'),
+        ];
+
+        //(new ImportCSVOfUsers)->execute($data);
+        (new StoreCSV)->execute([
+            'file' => $request->file('csv'),
+        ]);
+
+        return response()->json([
+            'company_id' => $companyId,
         ]);
     }
 

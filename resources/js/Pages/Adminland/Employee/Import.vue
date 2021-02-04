@@ -110,10 +110,16 @@ export default {
     importCSV() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/employees/storeUpload', this.form)
+      var data = new FormData();
+      data.append('csv', this.form.file || '');
+
+      axios.post(`/${this.$page.props.auth.company.id}/account/employees/storeUpload`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+      })
         .then(response => {
-          localStorage.success = 'The employee has been added';
-          this.$inertia.visit('/' + response.data.company_id + '/account/employees');
+
         })
         .catch(error => {
           this.loadingState = null;
