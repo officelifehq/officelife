@@ -52,6 +52,10 @@
         :tasks="tasks"
       />
 
+      <e-coffee
+        :employee="employee"
+      />
+
       <expense
         :employee="employee"
         :categories="categories"
@@ -96,6 +100,7 @@ import OneOnOneWithManager from '@/Pages/Dashboard/Me/Partials/OneOnOneWithManag
 import ContractRenewalDate from '@/Pages/Dashboard/Me/Partials/ContractRenewalDate';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
+import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
 
 export default {
   components: {
@@ -110,6 +115,7 @@ export default {
     OneOnOneWithManager,
     ContractRenewalDate,
     DashboardMenu,
+    ECoffee,
   },
 
   props: {

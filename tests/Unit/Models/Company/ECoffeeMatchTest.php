@@ -18,10 +18,18 @@ class ECoffeeMatchTest extends TestCase
     }
 
     /** @test */
-    public function it_has_many_employees(): void
+    public function it_belongs_to_one_employee(): void
     {
         $match = ECoffeeMatch::factory()->create([]);
 
-        $this->assertTrue($match->employees()->exists());
+        $this->assertTrue($match->employee()->exists());
+    }
+
+    /** @test */
+    public function it_belongs_to_another_employee(): void
+    {
+        $match = ECoffeeMatch::factory()->create([]);
+
+        $this->assertTrue($match->employeeMatchedWith()->exists());
     }
 }

@@ -283,6 +283,7 @@ return [
     'log_employee_avatar_set' => 'Set the avatar of :employee_name.',
     'log_consultant_rate_set' => 'Set the consulting rate to :rate of :employee_name.',
     'log_consultant_rate_destroy' => 'Destroyed the consulting rate of :rate for :employee_name.',
+    'log_e_coffee_match_session_as_happened' => 'Mark an eCoffee session as happened between :employee_name and :other_employee_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',

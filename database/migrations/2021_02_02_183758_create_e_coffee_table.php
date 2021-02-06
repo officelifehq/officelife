@@ -18,7 +18,6 @@ class CreateECoffeeTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->integer('batch_number');
-            $table->boolean('published')->default(false);
             $table->boolean('active')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
@@ -34,6 +33,10 @@ class CreateECoffeeTable extends Migration
             $table->foreign('e_coffee_id')->references('id')->on('e_coffees')->onDelete('cascade');
             $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
             $table->foreign('with_employee_id')->references('id')->on('employees')->onDelete('cascade');
+        });
+
+        Schema::table('companies', function (Blueprint $table) {
+            $table->boolean('e_coffee_enabled')->default(false)->after('currency')->nullable();
         });
     }
 }

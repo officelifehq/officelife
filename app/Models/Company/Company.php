@@ -217,6 +217,16 @@ class Company extends Model
     }
 
     /**
+     * Get all the ecoffee sessions in the company.
+     *
+     * @return HasMany
+     */
+    public function eCoffees()
+    {
+        return $this->hasMany(ECoffee::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return object|null

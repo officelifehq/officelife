@@ -26,7 +26,6 @@ class ECoffee extends Model
     protected $fillable = [
         'company_id',
         'batch_number',
-        'published',
         'active',
     ];
 
@@ -36,8 +35,8 @@ class ECoffee extends Model
      * @var array
      */
     protected $casts = [
-        'published' => 'boolean',
         'active' => 'boolean',
+        'batch_number' => 'integer',
     ];
 
     /**

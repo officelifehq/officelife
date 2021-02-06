@@ -3,7 +3,6 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -31,6 +30,15 @@ class ECoffeeMatch extends Model
     ];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'happened' => 'boolean',
+    ];
+
+    /**
      * Get the e-coffee record associated with the e-coffee match.
      *
      * @return BelongsTo
@@ -43,20 +51,20 @@ class ECoffeeMatch extends Model
     /**
      * Get the employee records associated with the e-coffee match.
      *
-     * @return HasMany
+     * @return belongsTo
      */
-    public function employees()
+    public function employee()
     {
-        return $this->hasMany(Employee::class, 'id', 'employee_id');
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 
     /**
      * Get the employee matched with records associated with the e-coffee match.
      *
-     * @return HasMany
+     * @return belongsTo
      */
-    public function employeesMatchedWith()
+    public function employeeMatchedWith()
     {
-        return $this->hasMany(Employee::class, 'id', 'with_employee_id');
+        return $this->belongsTo(Employee::class, 'with_employee_id');
     }
 }

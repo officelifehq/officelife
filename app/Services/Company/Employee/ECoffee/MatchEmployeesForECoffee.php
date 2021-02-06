@@ -38,9 +38,13 @@ class MatchEmployeesForECoffee extends BaseService
     }
 
     /**
-     * Match an employee with another for the e-coffee process.
-     * The employee should not have been matched with the other employee
-     * in the last 3 batches, if possible.
+     * Match employees with others for the e-coffee process.
+     * The difficulty here is to make the process extremely efficient, in order
+     * to not hydrate a lot of models to accomplish one simple thing: match
+     * employees. To do that, we'll execute one SQL query to extract employees,
+     * and with the power of collections, we'll match them, and eventually,
+     * we'll save all the associations in one update query - making it really
+     * fast and efficient.
      *
      * @param array $data
      */
@@ -53,6 +57,7 @@ class MatchEmployeesForECoffee extends BaseService
         $this->createECoffeeSession();
         $this->merge();
         $this->save();
+        $this->setECoffeeSessionActive();
     }
 
     private function validate(): void
@@ -112,6 +117,25 @@ class MatchEmployeesForECoffee extends BaseService
         $this->secondHalfOfEmployees->push($randomEmployee);
     }
 
+    private function createECoffeeSession(): void
+    {
+        $batchNumber = 0;
+
+        // get latest ecoffee
+        $latestECoffee = ECoffee::where('company_id', $this->data['company_id'])
+            ->latest()
+            ->first();
+
+        if ($latestECoffee) {
+            $batchNumber = intval($latestECoffee->batch_number);
+        }
+
+        $this->eCoffee = ECoffee::create([
+            'company_id' => $this->data['company_id'],
+            'batch_number' => $batchNumber + 1,
+        ]);
+    }
+
     private function merge(): void
     {
         $this->matchedEmployees = collect([]);
@@ -125,25 +149,6 @@ class MatchEmployeesForECoffee extends BaseService
         }
     }
 
-    private function createECoffeeSession(): void
-    {
-        $batchNumber = 0;
-
-        // get latest ecoffee
-        $latestECoffee = ECoffee::where('company_id', $this->data['company_id'])
-            ->latest()
-            ->first();
-
-        if ($latestECoffee) {
-            $batchNumber = $latestECoffee->batch_number;
-        }
-
-        $this->eCoffee = ECoffee::create([
-            'company_id' => $this->data['company_id'],
-            'batch_number' => $batchNumber++,
-        ]);
-    }
-
     private function save(): void
     {
         $sqlQuery = 'INSERT INTO e_coffee_matches (employee_id, with_employee_id, e_coffee_id) VALUES ';
@@ -155,7 +160,19 @@ class MatchEmployeesForECoffee extends BaseService
         $sqlQuery = substr($sqlQuery, 0, -1);
         $sqlQuery .= ';';
 
-        //dd($sqlQuery);
         DB::insert($sqlQuery);
+    }
+
+    private function setECoffeeSessionActive(): void
+    {
+        // we need to mark the new eCoffee session active and set the previous
+        // ones inactive
+        ECoffee::where('id', '!=', $this->eCoffee->id)->update([
+            'active' => false,
+        ]);
+
+        ECoffee::where('id', $this->eCoffee->id)->update([
+            'active' => true,
+        ]);
     }
 }
