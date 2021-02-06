@@ -19,7 +19,7 @@
     <div class="cf mw7 center br3 mb3 bg-white box relative">
       <img loading="lazy" src="/img/streamline-icon-work-desk-sofa-1-3@140x140.png" width="90" alt="meeting" class="judge absolute-ns di-ns dn top-1 left-1" />
 
-      You have been matched with
+      You have been matched with {{ ecoffee.otherEmployee }}
     </div>
   </div>
 </template>

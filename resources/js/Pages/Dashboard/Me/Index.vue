@@ -53,7 +53,9 @@
       />
 
       <e-coffee
+        v-if="eCoffee"
         :employee="employee"
+        :e-coffee="eCoffee"
       />
 
       <expense
@@ -169,6 +171,10 @@ export default {
     },
     defaultCurrency: {
       type: Object,
+      default: null,
+    },
+    eCoffee: {
+      type: Array,
       default: null,
     },
   },
