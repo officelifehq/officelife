@@ -93,6 +93,11 @@
                 {{ $t('account.home_manage_expenses') }}
               </inertia-link>
             </li>
+            <li class="pa2 pl0 relative">
+              ☕️ <inertia-link :href="'/' + $page.props.auth.company.id + '/account/ecoffee'" data-cy="expenses-admin-link">
+                {{ $t('account.home_manage_ecoffee') }}
+              </inertia-link>
+            </li>
           </ul>
 
           <!-- ACCOUNT OWNER -->

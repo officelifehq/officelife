@@ -393,6 +393,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('account/expenses/search', 'Company\\Adminland\\AdminExpenseController@search');
             Route::post('account/expenses/employee', 'Company\\Adminland\\AdminExpenseController@addEmployee');
             Route::post('account/expenses/removeEmployee', 'Company\\Adminland\\AdminExpenseController@removeEmployee');
+
+            // e-coffee
+            Route::get('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@index');
+            Route::post('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@store');
         });
     });
 });

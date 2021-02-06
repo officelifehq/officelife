@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'update' => 'Update',
     'save' => 'Save',
     'post' => 'Post',
@@ -31,6 +32,8 @@ return [
     'choose_value' => 'Choose a value',
     'and' => 'and',
     'hide' => 'Hide',
+    'enable' => 'Enable',
+    'disable' => 'Disable',
 
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
@@ -83,6 +86,7 @@ return [
     'breadcrumb_account_employee_unlock' => 'Unlock an employee',
     'breadcrumb_account_add_hardware' => 'Add item',
     'breadcrumb_account_show_hardware' => 'Show item',
+    'breadcrumb_account_manage_e_coffee' => 'eCoffee management',
     'breadcrumb_employee_list' => 'All employees',
     'breadcrumb_employee_logs' => 'Logs',
     'breadcrumb_employee_edit' => 'Edit information',

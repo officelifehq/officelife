@@ -27,7 +27,7 @@ class MarkECoffeeSessionAsHappened extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'e_coffee_id' => 'required|integer|exists:e_coffees,id',
-            'e_coffee_match_id' => 'required|integer|exists:e_coffees,id',
+            'e_coffee_match_id' => 'required|integer|exists:e_coffee_matches,id',
         ];
     }
 

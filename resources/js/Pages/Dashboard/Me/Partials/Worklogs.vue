@@ -128,7 +128,7 @@ export default {
       this.editorShown = false;
       this.updatedEmployee.has_logged_worklog_today = true;
 
-      axios.post('/' + this.$page.props.auth.company.id + '/dashboard/worklog', this.form)
+      axios.post(`${this.$page.props.auth.company.id}/dashboard/worklog`, this.form)
         .then(response => {
           flash(this.$t('dashboard.worklog_success_message'), 'success');
           this.updatedWorklogCount = this.updatedWorklogCount + 1;

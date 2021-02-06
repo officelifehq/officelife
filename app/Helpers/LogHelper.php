@@ -1064,6 +1064,10 @@ class LogHelper
                 ]);
                 break;
 
+            case 'toggle_e_coffee_process':
+                $sentence = trans('account.log_toggle_e_coffee_process');
+                break;
+
             default:
                 $sentence = '';
                 break;
