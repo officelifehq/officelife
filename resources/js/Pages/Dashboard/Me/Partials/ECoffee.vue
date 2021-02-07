@@ -45,8 +45,8 @@
 
       <!-- avatars -->
       <div class="absolute-ns avatars tc">
-        <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" />
-        <img class="avatar br-100" loading="lazy" :src="localeCoffee.other_employee.avatar" />
+        <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" alt="avatar" />
+        <img class="avatar br-100" loading="lazy" :src="localeCoffee.other_employee.avatar" alt="avatar" />
       </div>
     </div>
 
@@ -57,8 +57,8 @@
 
       <!-- avatars -->
       <div class="absolute-ns avatars tc">
-        <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" />
-        <img class="avatar br-100" loading="lazy" :src="localeCoffee.other_employee.avatar" />
+        <img class="avatar br-100" loading="lazy" src="/img/streamline-icon-coffee-idea-sparking@140x140.png" alt="avatar" />
+        <img class="avatar br-100" loading="lazy" :src="localeCoffee.other_employee.avatar" alt="avatar" />
       </div>
     </div>
   </div>
