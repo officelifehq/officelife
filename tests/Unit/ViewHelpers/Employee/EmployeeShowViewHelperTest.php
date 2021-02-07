@@ -9,6 +9,7 @@ use App\Models\Company\Team;
 use App\Models\User\Pronoun;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
+use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\Worklog;
@@ -18,6 +19,7 @@ use App\Models\Company\Position;
 use App\Models\Company\Question;
 use App\Models\Company\Timesheet;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
@@ -745,6 +747,65 @@ class EmployeeShowViewHelperTest extends TestCase
                 ],
             ],
             $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_three_current_and_past_e_coffee_sessions(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+
+        $company = $michael->company;
+        $company->e_coffee_enabled = true;
+        $company->save();
+        $company->refresh();
+
+        $eCoffee = ECoffee::factory()->create([
+            'company_id' => $company->id,
+        ]);
+        ECoffeeMatch::factory()->count(3)->create([
+            'e_coffee_id' => $eCoffee->id,
+            'employee_id' => $michael->id,
+            'with_employee_id' => $dwight->id,
+        ]);
+        $match = ECoffeeMatch::factory()->create([
+            'e_coffee_id' => $eCoffee->id,
+            'employee_id' => $michael->id,
+            'with_employee_id' => $dwight->id,
+        ]);
+
+        $array = EmployeeShowViewHelper::eCoffees($michael, $company);
+
+        $this->assertEquals(
+            3,
+            $array['eCoffees']->count()
+        );
+
+        $this->assertEquals(
+            [
+                'id' => $match->id,
+                'ecoffee' => [
+                    'started_at' => 'Jan 01, 2018',
+                    'ended_at' => 'Jan 07, 2018',
+                ],
+                'with_employee' => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                    'first_name' => $dwight->first_name,
+                    'avatar' => $dwight->avatar,
+                    'position' => $dwight->position ? $dwight->position->title : null,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
+                ],
+            ],
+            $array['eCoffees']->toArray()[0]
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/ecoffees',
+            $array['view_all_url']
         );
     }
 }

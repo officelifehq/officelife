@@ -455,3 +455,15 @@ Cypress.Commands.add('setAddress', (companyId = 1, employeeId = 1, street = '612
   cy.get('input[name=state]').click();
   cy.get('[data-cy=submit-edit-employee-button]').click();
 });
+
+// Toggle the eCoffee process in the company
+Cypress.Commands.add('toggleECoffeeProcesss', (companyId = 1, enable = true) => {
+  cy.visit('/' + companyId + '/account/ecoffee');
+
+  if (enable == true) {
+    cy.get('[data-cy=enable-ecoffee-process]').click();
+    cy.exec('php artisan ecoffee:start');
+  } else {
+    cy.get('[data-cy=disable-ecoffee-process]').click();
+  }
+});

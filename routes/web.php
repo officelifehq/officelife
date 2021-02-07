@@ -94,6 +94,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@updateNote');
             Route::delete('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyNote');
 
+            // ecoffee
+            Route::post('ecoffee/{ecoffee}/{match}', 'Company\\Dashboard\\DashboardMeECoffeeController@store');
+
             // manager tab
             Route::prefix('manager')->group(function () {
                 Route::get('', 'Company\\Dashboard\\DashboardManagerController@index')->name('dashboard.manager');
@@ -169,6 +172,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'store', 'destroy',
             ]);
             Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search')->name('skills.search');
+
+            Route::get('{employee}/ecoffees', 'Company\\Employee\\EmployeeECoffeeController@index')->name('employees.ecoffees.index');
 
             // administration tab
             Route::prefix('{employee}/administration')->group(function () {
@@ -393,6 +398,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('account/expenses/search', 'Company\\Adminland\\AdminExpenseController@search');
             Route::post('account/expenses/employee', 'Company\\Adminland\\AdminExpenseController@addEmployee');
             Route::post('account/expenses/removeEmployee', 'Company\\Adminland\\AdminExpenseController@removeEmployee');
+
+            // e-coffee
+            Route::get('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@index');
+            Route::post('account/ecoffee', 'Company\\Adminland\\AdminECoffeeController@store');
         });
     });
 });

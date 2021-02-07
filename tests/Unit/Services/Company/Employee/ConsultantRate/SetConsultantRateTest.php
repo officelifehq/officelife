@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\ConsultantRate\Birthdate;
+namespace Tests\Unit\Services\Company\Employee\ConsultantRate;
 
 use Carbon\Carbon;
 use Tests\TestCase;

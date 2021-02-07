@@ -25,6 +25,7 @@ class Company extends Model
         'name',
         'currency',
         'has_dummy_data',
+        'e_coffee_enabled',
     ];
 
     /**
@@ -44,6 +45,7 @@ class Company extends Model
      */
     protected $casts = [
         'has_dummy_data' => 'boolean',
+        'e_coffee_enabled' => 'boolean',
     ];
 
     /**
@@ -214,6 +216,16 @@ class Company extends Model
     public function consultantRates()
     {
         return $this->hasMany(ConsultantRate::class);
+    }
+
+    /**
+     * Get all the ecoffee sessions in the company.
+     *
+     * @return HasMany
+     */
+    public function eCoffees()
+    {
+        return $this->hasMany(ECoffee::class);
     }
 
     /**

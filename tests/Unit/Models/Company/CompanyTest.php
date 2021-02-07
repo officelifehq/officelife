@@ -8,6 +8,7 @@ use App\Models\Company\Flow;
 use App\Models\Company\Team;
 use App\Models\Company\Skill;
 use App\Models\Company\Company;
+use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\AuditLog;
@@ -213,6 +214,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->consultantRates()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_ecoffee_sessions(): void
+    {
+        $company = Company::factory()->create();
+        ECoffee::factory()->create([
+            'company_id' => $company->id,
+        ]);
+
+        $this->assertTrue($company->eCoffees()->exists());
     }
 
     /** @test */

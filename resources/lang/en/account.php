@@ -16,6 +16,7 @@ return [
     'home_manage_hardware' => 'Manage hardware',
     'home_manage_expenses' => 'Manage expenses',
     'home_general_settings' => 'General settings',
+    'home_manage_ecoffee' => 'Manage eCoffee process',
 
     'employees_title' => 'Manage the employees in {company}',
     'employees_all_title' => 'All the employees in {company}',
@@ -283,6 +284,8 @@ return [
     'log_employee_avatar_set' => 'Set the avatar of :employee_name.',
     'log_consultant_rate_set' => 'Set the consulting rate to :rate of :employee_name.',
     'log_consultant_rate_destroy' => 'Destroyed the consulting rate of :rate for :employee_name.',
+    'log_e_coffee_match_session_as_happened' => 'Mark an eCoffee session as happened between :employee_name and :other_employee_name.',
+    'log_toggle_e_coffee_process' => 'Toggle the eCoffee process in the company.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -519,4 +522,10 @@ return [
     'general_currency_update' => 'Update currency',
     'general_currency_change_label' => 'Choose a new currency',
     'general_currency_rename_success' => 'The currency has been updated.',
+
+    'ecoffee_title' => 'E-Coffee sessions in the company',
+    'ecoffee_desc' => 'E-Coffees are a great way for employees to take some time with another colleague and spend 15 minutes in a week to get to know him/her. The goal is to talk to everything but work. The more you know your colleagues, the more powerful their bonds.',
+    'ecoffee_enabled' => 'e-Coffees are enabled',
+    'ecoffee_disabled' => 'e-Coffees are disabled',
+
 ];

@@ -231,4 +231,9 @@ return [
     'projects_tasks_assigned' => 'No tasks assigned|{count} task assigned|{count} tasks assigned',
 
     'actions_title' => 'Actions',
+
+    'e_coffee_title' => 'eCoffee sessions',
+    'e_coffee_week' => 'Discussed during the week',
+    'e_coffee_view_all' => 'View eCoffee history',
+    'e_coffee_show_title' => 'All the eCoffee sessions',
 ];
