@@ -31,10 +31,12 @@
       <span class="mr1">
         ☕️
       </span> {{ $t('employee.e_coffee_title') }}
+
+      <help :url="$page.props.help_links.ecoffee" />
     </span>
 
     <div class="br3 bg-white box z-1">
-      <ul v-if="ecoffees.eCoffees.length > 0" class="list pl0 ma0">
+      <ul v-if="ecoffees.eCoffees.length > 0" data-cy="e-coffee-list" class="list pl0 ma0">
         <li v-for="ecoffee in ecoffees.eCoffees" :key="ecoffee.id" class="pa3 bb bb-gray bb-gray-hover flex items-center justify-between ecoffee-item" :data-cy="'ecoffee-title-' + ecoffee.id">
           <div class="mb1 relative">
             <img loading="lazy" :src="ecoffee.with_employee.avatar" class="br-100 absolute avatar" alt="avatar" />
@@ -57,7 +59,13 @@
 </template>
 
 <script>
+import Help from '@/Shared/Help';
+
 export default {
+  components: {
+    Help,
+  },
+
   props: {
     ecoffees: {
       type: Object,

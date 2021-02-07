@@ -235,4 +235,5 @@ return [
     'e_coffee_title' => 'eCoffee sessions',
     'e_coffee_week' => 'Discussed during the week',
     'e_coffee_view_all' => 'View eCoffee history',
+    'e_coffee_show_title' => 'All the eCoffee sessions',
 ];

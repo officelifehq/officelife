@@ -34,8 +34,10 @@
 
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box relative z-1">
-        <h2 class="pa3 mt2 mb4 center tc normal">
-          All the eCoffee sessions
+        <h2 class="pa3 mt2 mb4 center tc normal relative">
+          {{ $t('employee.e_coffee_show_title') }}
+
+          <help :url="$page.props.help_links.ecoffee" :top="'1px'" />
         </h2>
 
         <ul v-if="eCoffees.length > 0" class="list pl0 ma0">
@@ -60,9 +62,11 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
+    Help,
     Layout,
   },
 

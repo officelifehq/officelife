@@ -18,12 +18,12 @@
         ☕️
       </span> {{ $t('dashboard.e_coffee_title') }}
 
-      <help :url="$page.props.help_links.one_on_ones" />
+      <help :url="$page.props.help_links.ecoffee" />
     </div>
 
     <!-- case: the match hasn't taken place yet -->
     <div v-if="!localeCoffee.happened" class="cf mw7 center br3 mb3 bg-white box relative pa3">
-      <p class="f4 fw4 mt1 mb2 lh-copy">{{ $t('dashboard.e_coffee_match_title', { name: localeCoffee.other_employee.name }) }}</p>
+      <p class="f4 fw4 mt1 mb2 lh-copy" data-cy="e-coffee-matched-with-name">{{ $t('dashboard.e_coffee_match_title', { name: localeCoffee.other_employee.name }) }}</p>
       <p class="mt1 lh-copy">{{ $t('dashboard.e_coffee_match_desc', { firstname: localeCoffee.other_employee.first_name }) }}</p>
 
       <p v-if="localeCoffee.other_employee.position" class="mt0 mb2 f6 gray">
@@ -51,7 +51,7 @@
     </div>
 
     <!-- case the match has taken place -->
-    <div v-if="localeCoffee.happened" class="cf mw7 center br3 mb3 bg-white box relative pa3">
+    <div v-if="localeCoffee.happened" data-cy="ecoffee-already-participated" class="cf mw7 center br3 mb3 bg-white box relative pa3">
       <p class="f4 fw4 mt1 mb2 lh-copy">{{ $t('dashboard.e_coffee_match_happened_title', { name: localeCoffee.other_employee.name }) }}</p>
       <p class="mt1 mb0 lh-copy">👍 {{ $t('dashboard.e_coffee_match_happened_desc') }}</p>
 

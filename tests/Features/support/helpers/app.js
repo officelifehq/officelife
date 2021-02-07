@@ -462,6 +462,7 @@ Cypress.Commands.add('toggleECoffeeProcesss', (companyId = 1, enable = true) => 
 
   if (enable == true) {
     cy.get('[data-cy=enable-ecoffee-process]').click();
+    cy.exec('php artisan ecoffee:start');
   } else {
     cy.get('[data-cy=disable-ecoffee-process]').click();
   }
