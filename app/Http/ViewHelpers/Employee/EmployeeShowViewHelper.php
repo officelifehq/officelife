@@ -863,11 +863,10 @@ class EmployeeShowViewHelper
      *
      * @param Employee $employee
      * @param Company $company
-     * @return Collection|null
+     * @return array|null
      */
-    public static function eCoffees(Employee $employee, Company $company): ?Collection
+    public static function eCoffees(Employee $employee, Company $company): ?array
     {
-        /** Going through a raw query coupled with eloquent to drastically reduce the number of hydrated models */
         $matches = ECoffeeMatch::where(function ($query) use ($employee) {
             $query->where('employee_id', $employee->id)
                 ->orWhere('with_employee_id', $employee->id);
@@ -900,13 +899,15 @@ class EmployeeShowViewHelper
                         'employee' => $withEmployee,
                     ]),
                 ],
-                'view_all_url' => route('employees.ecoffees.index', [
-                    'company' => $company,
-                    'employee' => $employee,
-                ]),
             ]);
         }
 
-        return $eCoffeeCollection;
+        return [
+            'view_all_url' => route('employees.ecoffees.index', [
+                'company' => $company,
+                'employee' => $employee,
+            ]),
+            'eCoffees' => $eCoffeeCollection,
+        ];
     }
 }

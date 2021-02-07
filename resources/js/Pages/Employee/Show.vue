@@ -65,7 +65,7 @@
           />
 
           <e-coffee
-            v-if="ecoffees.length > 0"
+            v-if="ecoffees.eCoffees.length > 0"
             :ecoffees="ecoffees"
           />
         </div>
@@ -130,7 +130,7 @@ export default {
       default: null,
     },
     ecoffees: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },

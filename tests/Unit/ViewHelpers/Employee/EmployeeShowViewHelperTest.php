@@ -766,34 +766,46 @@ class EmployeeShowViewHelperTest extends TestCase
         $eCoffee = ECoffee::factory()->create([
             'company_id' => $company->id,
         ]);
+        ECoffeeMatch::factory()->count(3)->create([
+            'e_coffee_id' => $eCoffee->id,
+            'employee_id' => $michael->id,
+            'with_employee_id' => $dwight->id,
+        ]);
         $match = ECoffeeMatch::factory()->create([
             'e_coffee_id' => $eCoffee->id,
             'employee_id' => $michael->id,
             'with_employee_id' => $dwight->id,
         ]);
 
-        $collection = EmployeeShowViewHelper::eCoffees($michael, $company);
+        $array = EmployeeShowViewHelper::eCoffees($michael, $company);
+
+        $this->assertEquals(
+            3,
+            $array['eCoffees']->count()
+        );
 
         $this->assertEquals(
             [
-                0 => [
-                    'id' => $match->id,
-                    'ecoffee' => [
-                        'started_at' => 'Jan 01, 2018',
-                        'ended_at' => 'Jan 07, 2018',
-                    ],
-                    'with_employee' => [
-                        'id' => $dwight->id,
-                        'name' => $dwight->name,
-                        'first_name' => $dwight->first_name,
-                        'avatar' => $dwight->avatar,
-                        'position' => $dwight->position ? $dwight->position->title : null,
-                        'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
-                    ],
-                    'view_all_url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/ecoffees',
+                'id' => $match->id,
+                'ecoffee' => [
+                    'started_at' => 'Jan 01, 2018',
+                    'ended_at' => 'Jan 07, 2018',
+                ],
+                'with_employee' => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                    'first_name' => $dwight->first_name,
+                    'avatar' => $dwight->avatar,
+                    'position' => $dwight->position ? $dwight->position->title : null,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
                 ],
             ],
-            $collection->toArray()
+            $array['eCoffees']->toArray()[0]
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/ecoffees',
+            $array['view_all_url']
         );
     }
 }
