@@ -2,7 +2,6 @@
 
 namespace App\Services\Company\Employee\ECoffee;
 
-use Carbon\Carbon;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
@@ -151,10 +150,10 @@ class MatchEmployeesForECoffee extends BaseService
 
     private function save(): void
     {
-        $sqlQuery = 'INSERT INTO e_coffee_matches (employee_id, with_employee_id, e_coffee_id, created_at) VALUES ';
+        $sqlQuery = 'INSERT INTO e_coffee_matches (employee_id, with_employee_id, e_coffee_id) VALUES ';
 
         foreach ($this->matchedEmployees as $line) {
-            $sqlQuery .= '('.$line['employee_id'].','.$line['with_employee_id'].','.$line['e_coffee_id'].', "'.Carbon::now()->format('Y-m-d H:i:s').'"),';
+            $sqlQuery .= '('.$line['employee_id'].','.$line['with_employee_id'].','.$line['e_coffee_id'].'),';
         }
 
         $sqlQuery = substr($sqlQuery, 0, -1);
