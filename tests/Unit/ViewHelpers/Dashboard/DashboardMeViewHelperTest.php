@@ -378,7 +378,11 @@ class DashboardMeViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'id' => $match->id,
+                'e_coffee_id' => $eCoffee->id,
                 'happened' => $match->happened,
+                'employee' => [
+                    'avatar' => $michael->avatar,
+                ],
                 'other_employee' => [
                     'id' => $match->employeeMatchedWith->id,
                     'name' => $match->employeeMatchedWith->name,

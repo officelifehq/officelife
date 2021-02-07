@@ -94,6 +94,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@updateNote');
             Route::delete('oneonones/{entry}/notes/{note}', 'Company\\Dashboard\\DashboardMeOneOnOneController@destroyNote');
 
+            // ecoffee
+            Route::post('ecoffee/{ecoffee}/{match}', 'Company\\Dashboard\\DashboardMeECoffeeController@store');
+
             // manager tab
             Route::prefix('manager')->group(function () {
                 Route::get('', 'Company\\Dashboard\\DashboardManagerController@index')->name('dashboard.manager');

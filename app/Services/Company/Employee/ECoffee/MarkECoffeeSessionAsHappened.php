@@ -58,7 +58,7 @@ class MarkECoffeeSessionAsHappened extends BaseService
         $this->eCoffeeMatch = ECoffeeMatch::where('e_coffee_id', $this->data['e_coffee_id'])
             ->findOrFail($this->data['e_coffee_match_id']);
 
-        if ($this->eCoffeeMatch->employee_id != $this->data['author_id'] && $this->eCoffeeMatch->other_employee_id != $this->data['author_id']) {
+        if ($this->eCoffeeMatch->employee_id != $this->data['author_id'] && $this->eCoffeeMatch->with_employee_id != $this->data['author_id']) {
             throw new NotEnoughPermissionException();
         }
     }

@@ -10,6 +10,12 @@
     <div class="ph2 ph0-ns">
       <dashboard-menu :employee="employee" />
 
+      <e-coffee
+        v-if="eCoffee"
+        :employee="employee"
+        :e-coffee="eCoffee"
+      />
+
       <contract-renewal-date
         v-if="contractRenewal"
         :employee="employee"
@@ -50,12 +56,6 @@
       <task
         :employee="employee"
         :tasks="tasks"
-      />
-
-      <e-coffee
-        v-if="eCoffee"
-        :employee="employee"
-        :e-coffee="eCoffee"
       />
 
       <expense

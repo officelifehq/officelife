@@ -230,4 +230,13 @@ return [
     'hr_timesheet_index_title' => 'All the timesheets that need approvals',
     'hr_timesheet_summary_count' => '{count} timesheets to approve for employees who don’t have a manager',
     'hr_timesheet_summary_blank' => 'There are no timesheets to approve for now.',
+
+    'e_coffee_title' => 'E-coffee',
+    'e_coffee_match_title' => 'This week, you have been matched with {name}.',
+    'e_coffee_match_desc' => 'Get to know {firstname} by taking a coffee break for 15 min anytime this week!',
+    'e_coffee_match_desc_position' => '{firstname} works as {position}.',
+    'e_coffee_match_desc_teams' => '{firstname} is in the following team(s):',
+    'e_coffee_match_cta' => 'Mark as happened',
+    'e_coffee_match_happened_title' => 'Thanks for talking to {name} this week.',
+    'e_coffee_match_happened_desc' => 'See you next week for a new match!',
 ];

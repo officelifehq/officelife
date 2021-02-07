@@ -2,6 +2,7 @@
 
 namespace App\Services\Company\Employee\ECoffee;
 
+use Carbon\Carbon;
 use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
@@ -110,9 +111,8 @@ class MatchEmployeesForECoffee extends BaseService
         // it in the second collection
         // we also need to make sure that we don’t take the last item of the
         // collection so it won’t be matched with the same entry in the merged collection
-        $randomEmployee = $this->firstHalfOfEmployees->filter(function ($value, $key) {
-            return $key != $this->firstHalfOfEmployees->keys()->last();
-        })->random();
+        $temp = $this->firstHalfOfEmployees->slice(0, -1);
+        $randomEmployee = $temp->shuffle()->first();
 
         $this->secondHalfOfEmployees->push($randomEmployee);
     }
@@ -151,10 +151,10 @@ class MatchEmployeesForECoffee extends BaseService
 
     private function save(): void
     {
-        $sqlQuery = 'INSERT INTO e_coffee_matches (employee_id, with_employee_id, e_coffee_id) VALUES ';
+        $sqlQuery = 'INSERT INTO e_coffee_matches (employee_id, with_employee_id, e_coffee_id, created_at) VALUES ';
 
         foreach ($this->matchedEmployees as $line) {
-            $sqlQuery .= '('.$line['employee_id'].','.$line['with_employee_id'].','.$line['e_coffee_id'].'),';
+            $sqlQuery .= '('.$line['employee_id'].','.$line['with_employee_id'].','.$line['e_coffee_id'].', "'.Carbon::now()->format('Y-m-d H:i:s').'"),';
         }
 
         $sqlQuery = substr($sqlQuery, 0, -1);
@@ -167,9 +167,11 @@ class MatchEmployeesForECoffee extends BaseService
     {
         // we need to mark the new eCoffee session active and set the previous
         // ones inactive
-        ECoffee::where('id', '!=', $this->eCoffee->id)->update([
-            'active' => false,
-        ]);
+        ECoffee::where('id', '!=', $this->eCoffee->id)
+            ->where('company_id', $this->company->id)
+            ->update([
+                'active' => false,
+            ]);
 
         ECoffee::where('id', $this->eCoffee->id)->update([
             'active' => true,

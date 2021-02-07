@@ -315,9 +315,11 @@ class DashboardMeViewHelper
             return null;
         }
 
-        $match = ECoffeeMatch::where('employee_id', $employee->id)
-            ->orWhere('with_employee_id', $employee->id)
-            ->where('e_coffee_id', $latestECoffee->id)
+        $match = ECoffeeMatch::where('e_coffee_id', $latestECoffee->id)
+            ->where(function ($query) use ($employee) {
+                $query->where('employee_id', $employee->id)
+                    ->orWhere('with_employee_id', $employee->id);
+            })
             ->firstOrFail();
 
         if ($match->employee_id == $employee->id) {
@@ -341,7 +343,11 @@ class DashboardMeViewHelper
 
         return [
             'id' => $match->id,
+            'e_coffee_id' => $latestECoffee->id,
             'happened' => $match->happened,
+            'employee' => [
+                'avatar' => $employee->avatar,
+            ],
             'other_employee' => [
                 'id' => $otherEmployee->id,
                 'name' => $otherEmployee->name,

@@ -27,6 +27,7 @@ class ECoffeeMatch extends Model
         'employee_id',
         'with_employee_id',
         'happened',
+        'created_at',
     ];
 
     /**
