@@ -107,7 +107,6 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data;
         });
     },
   }
