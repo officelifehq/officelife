@@ -201,7 +201,7 @@
             {{ $tc('employee.hierarchy_list_direct_report_title', localDirectReports.length) }}
           </p>
           <ul class="list mv0">
-            <li v-for="directReport in localDirectReports" :key="directReport.id" class="mb3 relative  bb-gray-hover">
+            <li v-for="directReport in localDirectReports" :key="directReport.id" class="mb3 relative bb-gray-hover">
               <img loading="lazy" :src="directReport.avatar" class="br-100 absolute avatar" alt="avatar" />
               <inertia-link :href="directReport.url" class="mb2">
                 {{ directReport.name }}

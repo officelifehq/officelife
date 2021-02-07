@@ -173,6 +173,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ]);
             Route::post('{employee}/skills/search', 'Company\\Employee\\EmployeeSkillController@search')->name('skills.search');
 
+            Route::get('{employee}/ecoffees', 'Company\\Employee\\EmployeeECoffeeController@index')->name('employees.ecoffees.index');
+
             // administration tab
             Route::prefix('{employee}/administration')->group(function () {
                 Route::middleware(['employeeOrManagerOrAtLeastHR'])->group(function () {

@@ -101,6 +101,9 @@ class EmployeeController extends Controller
         // all skills of this employee
         $skills = EmployeeShowViewHelper::skills($employee);
 
+        // all eCoffee session of this employee
+        $ecoffees = EmployeeShowViewHelper::eCoffees($employee, $company);
+
         // information about the employee that the logged employee consults, that depends on what the logged Employee has the right to see
         $employee = EmployeeShowViewHelper::informationAboutEmployee($employee, $permissions);
 
@@ -114,6 +117,7 @@ class EmployeeController extends Controller
             'questions' => $questions,
             'teams' => $employeeTeams,
             'skills' => $skills,
+            'ecoffees' => $ecoffees,
         ]);
     }
 
