@@ -382,6 +382,7 @@ class DashboardMeViewHelperTest extends TestCase
                 'other_employee' => [
                     'id' => $match->employeeMatchedWith->id,
                     'name' => $match->employeeMatchedWith->name,
+                    'first_name' => $match->employeeMatchedWith->first_name,
                     'avatar' => $match->employeeMatchedWith->avatar,
                     'position' => $match->employeeMatchedWith->position ? $match->employeeMatchedWith->position->title : null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$match->employeeMatchedWith->id,

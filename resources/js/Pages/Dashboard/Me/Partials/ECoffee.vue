@@ -16,10 +16,17 @@
       <help :url="$page.props.help_links.one_on_ones" />
     </div>
 
-    <div class="cf mw7 center br3 mb3 bg-white box relative">
-      <img loading="lazy" src="/img/streamline-icon-work-desk-sofa-1-3@140x140.png" width="90" alt="meeting" class="judge absolute-ns di-ns dn top-1 left-1" />
-
-      You have been matched with {{ ecoffee.otherEmployee }}
+    <div class="cf mw7 center br3 mb3 bg-white box relative pa3">
+      <p class="f4 fw4 mt1">You have been matched with {{ eCoffee.other_employee.name }}.</p>
+      <p class="mt0 mb2">{{ eCoffee.other_employee.first_name }} works as {{ eCoffee.other_employee.position }}.</p>
+      <p class="mt0 mb0">
+        {{ eCoffee.other_employee.first_name }} is in the following team(s):
+        <ul v-if="eCoffee.other_employee.teams" class="list di ma0 pl0">
+          <li v-for="team in eCoffee.other_employee.teams" :key="team.id" class="di">
+            <inertia-link :href="team.url">{{ team.name }}</inertia-link>
+          </li>
+        </ul>
+      </p>
     </div>
   </div>
 </template>
@@ -37,8 +44,8 @@ export default {
       type: Object,
       default: null,
     },
-    ecoffee: {
-      type: Array,
+    eCoffee: {
+      type: Object,
       default: null,
     },
   },

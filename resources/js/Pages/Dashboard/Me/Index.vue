@@ -174,7 +174,7 @@ export default {
       default: null,
     },
     eCoffee: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },

@@ -345,6 +345,7 @@ class DashboardMeViewHelper
             'other_employee' => [
                 'id' => $otherEmployee->id,
                 'name' => $otherEmployee->name,
+                'first_name' => $otherEmployee->first_name,
                 'avatar' => $otherEmployee->avatar,
                 'position' => $otherEmployee->position ? $otherEmployee->position->title : null,
                 'url' => route('employees.show', [
