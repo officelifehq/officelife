@@ -317,6 +317,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
                 Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
             });
+
+            Route::prefix('hr')->group(function () {
+                Route::get('', 'Company\\Company\\HR\\CompanyHRController@index');
+            });
         });
 
         // only available to accountant role

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services\Company\Employee\EmployeeStatus;
+namespace Tests\Unit\Services\Company\Employee\ECoffee;
 
 use Tests\TestCase;
 use App\Jobs\LogAccountAudit;

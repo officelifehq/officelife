@@ -13,6 +13,7 @@ use Illuminate\Console\Command;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
+use App\Models\Company\ECoffeeMatch;
 use App\Services\User\CreateAccount;
 use App\Models\Company\ProjectStatus;
 use App\Models\Company\EmployeeStatus;
@@ -1988,6 +1989,17 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
                 'company_id' => $this->company->id,
             ]);
         }
+
+        // mark random eCoffee matches as happened
+        ECoffeeMatch::chunk(100, function ($matches) {
+            $matches->each(function (ECoffeeMatch $match) {
+                if (rand(1, 3) == 1) {
+                    ECoffeeMatch::where('id', $match->id)->update([
+                        'happened' => true,
+                    ]);
+                }
+            });
+        });
     }
 
     private function addSecondaryBlankAccount(): void
