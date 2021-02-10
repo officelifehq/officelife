@@ -2,7 +2,6 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
-use App\Helpers\SQLHelper;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +28,8 @@ class CompanyHRViewHelper
             ->where('e_coffees.company_id', $company->id)
             ->where('e_coffees.active', true)
             ->selectRaw('count(*) as total')
-            ->selectRaw(SQLHelper::count('happened').' as happened')
+            ->selectRaw('count(case when happened = 1 then 1 end) as happened')
+            ->groupBy('e_coffees.id')
             ->first();
 
         // get the previously active session
@@ -44,17 +44,18 @@ class CompanyHRViewHelper
             ->where('e_coffees.id', $previouslyActiveEcoffee->id)
             ->orderBy('e_coffees.id', 'desc')
             ->selectRaw('count(*) as total')
-            ->selectRaw(SQLHelper::count('happened').' as happened')
+            ->selectRaw('count(case when happened = 1 then 1 end) as happened')
+            ->groupBy('e_coffees.id')
             ->first();
 
         // get all statistics
         $globalPercentageOfParticipation = DB::table('e_coffee_matches')
             ->join('e_coffees', 'e_coffee_matches.e_coffee_id', '=', 'e_coffees.id')
             ->where('e_coffees.company_id', $company->id)
-            ->where('e_coffees.active', false)
             ->orderBy('e_coffees.id', 'desc')
             ->selectRaw('count(*) as total')
-            ->selectRaw(SQLHelper::count('happened').' as happened')
+            ->selectRaw('count(case when happened = 1 then 1 end) as happened')
+            ->groupBy('e_coffees.id')
             ->first();
 
         $numberOfSessions = DB::table('e_coffees')

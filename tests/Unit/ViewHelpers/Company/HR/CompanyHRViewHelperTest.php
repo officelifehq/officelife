@@ -91,8 +91,8 @@ class CompanyHRViewHelperTest extends TestCase
                     'percent' => 50.0,
                 ],
                 'total_previous_sessions' => [
-                    'total' => 4,
-                    'happened' => 2,
+                    'total' => 2,
+                    'happened' => 1,
                     'percent' => 50.0,
                 ],
                 'number_of_sessions' => 3,
