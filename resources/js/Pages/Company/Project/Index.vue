@@ -75,16 +75,7 @@
 
     <div class="ph2 ph5-ns">
       <!-- central content -->
-      <div class="cf mw7 center br3 mt2 mb5 tc">
-        <div class="cf dib btn-group">
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="f6 fl ph3 pv2 dib pointer no-underline">
-            Employees & teams
-          </inertia-link>
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'" class="f6 fl ph3 pv2 dib pointer selected">
-            Projects
-          </inertia-link>
-        </div>
-      </div>
+      <tab :tab="tab" />
 
       <!-- BODY -->
       <div class="mw8 center br3 mb5 relative z-1">
@@ -117,13 +108,19 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Tab from '@/Pages/Company/Partials/Tab';
 
 export default {
   components: {
     Layout,
+    Tab,
   },
 
   props: {
+    tab: {
+      type: Object,
+      default: null,
+    },
     statistics: {
       type: Object,
       default: null,
