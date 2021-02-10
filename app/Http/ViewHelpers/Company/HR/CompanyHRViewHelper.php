@@ -60,7 +60,7 @@ class CompanyHRViewHelper
         $globalPercentageOfParticipation = DB::table('e_coffee_matches')
             ->selectRaw('count(*) as total')
             ->selectRaw('e_coffee_id as id')
-            ->selectRaw('count(case when happened = 1 then 1 end) as happened')
+            ->selectRaw('count(case when happened = true then 1 end) as happened')
             ->whereIn('e_coffee_id', $allMatchesInCompany)
             ->groupBy('e_coffee_id')
             ->get();
