@@ -10,8 +10,9 @@ class CompanyHRViewHelper
 {
     /**
      * Array containing information about the ecoffees in the company.
-     * We use only raw queries to avoid hydrating models as using Eloquent here
-     * would hydrate way too many models.
+     * We use a combination of raw queries and manipulation of collections to
+     * avoid hydrating models as using Eloquent here would hydrate way
+     *  too many models.
      *
      * @param Company $company
      * @return array|null
@@ -22,32 +23,6 @@ class CompanyHRViewHelper
             return null;
         }
 
-        // get current active session
-        $activeECoffeeSession = DB::table('e_coffee_matches')
-            ->join('e_coffees', 'e_coffee_matches.e_coffee_id', '=', 'e_coffees.id')
-            ->where('e_coffees.company_id', $company->id)
-            ->where('e_coffees.active', true)
-            ->selectRaw('count(*) as total')
-            ->selectRaw('count(case when happened = true then 1 end) as happened')
-            ->groupBy('e_coffees.id')
-            ->first();
-
-        // get the previously active session
-        $previouslyActiveEcoffee = ECoffee::where('company_id', $company->id)
-            ->orderBy('id', 'desc')
-            ->where('active', false)
-            ->take(1)
-            ->first();
-
-        $previouslyActiveSession = DB::table('e_coffee_matches')
-            ->join('e_coffees', 'e_coffee_matches.e_coffee_id', '=', 'e_coffees.id')
-            ->where('e_coffees.id', $previouslyActiveEcoffee->id)
-            ->orderBy('e_coffees.id', 'desc')
-            ->selectRaw('count(*) as total')
-            ->selectRaw('count(case when happened = true then 1 end) as happened')
-            ->groupBy('e_coffees.id')
-            ->first();
-
         // get all ecoffees id
         $allMatchesInCompany = DB::table('e_coffees')
             ->where('company_id', $company->id)
@@ -57,18 +32,46 @@ class CompanyHRViewHelper
             ->toArray();
 
         // list all matches for each ecoffee sessions
-        $globalPercentageOfParticipation = DB::table('e_coffee_matches')
-            ->selectRaw('count(*) as total')
+        $eCoffeeMatchesParticipated = DB::table('e_coffee_matches')
             ->selectRaw('e_coffee_id as id')
-            ->selectRaw('count(case when happened = true then 1 end) as happened')
+            ->selectRaw('count(happened) as happened')
+            ->where('happened', true)
             ->whereIn('e_coffee_id', $allMatchesInCompany)
             ->groupBy('e_coffee_id')
             ->get();
 
+        $totalECoffeeMatches = DB::table('e_coffee_matches')
+            ->selectRaw('e_coffee_id as id')
+            ->selectRaw('count(*) as total')
+            ->whereIn('e_coffee_id', $allMatchesInCompany)
+            ->groupBy('e_coffee_id')
+            ->get();
+
+        // every information will be in this new collection
+        $allData = collect([]);
+        foreach ($eCoffeeMatchesParticipated as $item) {
+            $matched = $totalECoffeeMatches->filter(function ($match) use ($item) {
+                return $match->id == $item->id;
+            })->first();
+
+            $allData->push([
+                'id' => $item->id,
+                'happened' => $item->happened,
+                'total' => $matched->total,
+            ]);
+        }
+
+        // get current session
+        $currentECoffeeSession = $allData->sortByDesc('id')->first();
+
+        // before last session
+        $beforeLastSession = $allData->sortByDesc('id')->skip(1)->first();
+
+        // calculating the average participation
         $statsForEachMatch = collect([]);
-        foreach ($globalPercentageOfParticipation as $stat) {
+        foreach ($allData as $stat) {
             $statsForEachMatch->push(
-                round($stat->happened * 100 / $stat->total)
+                round($stat['happened'] * 100 / $stat['total'])
             );
         }
 
@@ -79,15 +82,15 @@ class CompanyHRViewHelper
             ->count();
 
         return [
-            'active_session' => $activeECoffeeSession ? [
-                    'total' => $activeECoffeeSession->total,
-                    'happened' => $activeECoffeeSession->happened,
-                    'percent' => round($activeECoffeeSession->happened * 100 / $activeECoffeeSession->total),
+            'active_session' => $currentECoffeeSession ? [
+                    'total' => $currentECoffeeSession['total'],
+                    'happened' => $currentECoffeeSession['happened'],
+                    'percent' => round($currentECoffeeSession['happened'] * 100 / $currentECoffeeSession['total']),
                 ] : null,
-            'last_active_session' => $previouslyActiveSession ? [
-                    'total' => $previouslyActiveSession->total,
-                    'happened' => $previouslyActiveSession->happened,
-                    'percent' => round($previouslyActiveSession->happened * 100 / $previouslyActiveSession->total),
+            'last_active_session' => $beforeLastSession ? [
+                    'total' => $beforeLastSession['total'],
+                    'happened' => $beforeLastSession['happened'],
+                    'percent' => round($beforeLastSession['happened'] * 100 / $beforeLastSession['total']),
                 ] : null,
             'average_total_sessions' => $averageTotalSessions,
             'number_of_sessions' => $numberOfSessions,
