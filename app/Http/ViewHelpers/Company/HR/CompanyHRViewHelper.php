@@ -28,7 +28,7 @@ class CompanyHRViewHelper
             ->where('e_coffees.company_id', $company->id)
             ->where('e_coffees.active', true)
             ->selectRaw('count(*) as total')
-            ->selectRaw('count(case when happened = 1 then 1 end) as happened')
+            ->selectRaw('count(case when happened = true then 1 end) as happened')
             ->groupBy('e_coffees.id')
             ->first();
 
@@ -44,7 +44,7 @@ class CompanyHRViewHelper
             ->where('e_coffees.id', $previouslyActiveEcoffee->id)
             ->orderBy('e_coffees.id', 'desc')
             ->selectRaw('count(*) as total')
-            ->selectRaw('count(case when happened = 1 then 1 end) as happened')
+            ->selectRaw('count(case when happened = true then 1 end) as happened')
             ->groupBy('e_coffees.id')
             ->first();
 
