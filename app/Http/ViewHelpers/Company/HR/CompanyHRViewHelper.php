@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Company\HR;
 
+use App\Helpers\SQLHelper;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
 use Illuminate\Support\Facades\DB;
@@ -28,7 +29,7 @@ class CompanyHRViewHelper
             ->where('e_coffees.company_id', $company->id)
             ->where('e_coffees.active', true)
             ->selectRaw('count(*) as total')
-            ->selectRaw('count(happened or null) as happened')
+            ->selectRaw(SQLHelper::count('happened').' as happened')
             ->first();
 
         // get the previously active session
@@ -43,7 +44,7 @@ class CompanyHRViewHelper
             ->where('e_coffees.id', $previouslyActiveEcoffee->id)
             ->orderBy('e_coffees.id', 'desc')
             ->selectRaw('count(*) as total')
-            ->selectRaw('count(happened or null) as happened')
+            ->selectRaw(SQLHelper::count('happened').' as happened')
             ->first();
 
         // get all statistics
@@ -53,7 +54,7 @@ class CompanyHRViewHelper
             ->where('e_coffees.active', false)
             ->orderBy('e_coffees.id', 'desc')
             ->selectRaw('count(*) as total')
-            ->selectRaw('count(happened or null) as happened')
+            ->selectRaw(SQLHelper::count('happened').' as happened')
             ->first();
 
         $numberOfSessions = DB::table('e_coffees')

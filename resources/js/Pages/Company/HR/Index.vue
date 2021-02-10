@@ -71,7 +71,10 @@
 
       <div class="cf mw9 center">
         <div class="fl w-third-l w-100">
-          <e-coffees :e-coffees="eCoffees" />
+          <e-coffees
+            v-if="eCoffees"
+            :e-coffees="eCoffees"
+          />
         </div>
 
         <div class="fl w-third-l w-100 pl4-l">

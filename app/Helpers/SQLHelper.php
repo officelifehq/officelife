@@ -90,4 +90,32 @@ class SQLHelper
 
         return $query;
     }
+
+    /**
+     * Use raw count queries in SQL.
+     *
+     * @param string $query
+     * @return string
+     */
+    public static function count(string $query): string
+    {
+        /** @var \Illuminate\Database\Connection */
+        $connection = DB::connection();
+
+        switch ($connection->getDriverName()) {
+            case 'sqlite':
+                $query = 'count('.$query.' or null)';
+                break;
+
+            case 'pgsql':
+                $query = 'count(*) filter (where '.$query.')';
+                break;
+
+            default:
+                $query = 'count('.$query.' or null)';
+                break;
+        }
+
+        return $query;
+    }
 }
