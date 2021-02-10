@@ -67,7 +67,7 @@
             {{ $t('company.hr_e_coffees_overall') }}
           </div>
           <div class="f3 mb1">
-            {{ eCoffees.total_previous_sessions.percent }}%
+            {{ eCoffees.average_total_sessions }}%
           </div>
           <div class="f7 gray lh-copy">
             {{ $t('company.hr_e_coffees_overall_stat') }}

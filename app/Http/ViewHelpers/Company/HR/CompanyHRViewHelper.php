@@ -48,15 +48,31 @@ class CompanyHRViewHelper
             ->groupBy('e_coffees.id')
             ->first();
 
-        // get all statistics
+        // get all ecoffees id
+        $allMatchesInCompany = DB::table('e_coffees')
+            ->where('company_id', $company->id)
+            ->select('id')
+            ->get()
+            ->pluck('id')
+            ->toArray();
+
+        // list all matches for each ecoffee sessions
         $globalPercentageOfParticipation = DB::table('e_coffee_matches')
-            ->join('e_coffees', 'e_coffee_matches.e_coffee_id', '=', 'e_coffees.id')
-            ->where('e_coffees.company_id', $company->id)
-            ->orderBy('e_coffees.id', 'desc')
             ->selectRaw('count(*) as total')
+            ->selectRaw('e_coffee_id as id')
             ->selectRaw('count(case when happened = 1 then 1 end) as happened')
-            ->groupBy('e_coffees.id')
-            ->first();
+            ->whereIn('e_coffee_id', $allMatchesInCompany)
+            ->groupBy('e_coffee_id')
+            ->get();
+
+        $statsForEachMatch = collect([]);
+        foreach ($globalPercentageOfParticipation as $stat) {
+            $statsForEachMatch->push(
+                round($stat->happened * 100 / $stat->total)
+            );
+        }
+
+        $averageTotalSessions = round($statsForEachMatch->avg());
 
         $numberOfSessions = DB::table('e_coffees')
             ->where('company_id', $company->id)
@@ -73,11 +89,7 @@ class CompanyHRViewHelper
                     'happened' => $previouslyActiveSession->happened,
                     'percent' => round($previouslyActiveSession->happened * 100 / $previouslyActiveSession->total),
                 ] : null,
-            'total_previous_sessions' => $globalPercentageOfParticipation ? [
-                    'total' => $globalPercentageOfParticipation->total,
-                    'happened' => $globalPercentageOfParticipation->happened,
-                    'percent' => round($globalPercentageOfParticipation->happened * 100 / $globalPercentageOfParticipation->total),
-                ] : null,
+            'average_total_sessions' => $averageTotalSessions,
             'number_of_sessions' => $numberOfSessions,
         ];
     }
