@@ -15,7 +15,7 @@ class CreateImportJobTable extends Migration
         Schema::enableForeignKeyConstraints();
 
         Schema::create('import_jobs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->string('status');
@@ -34,7 +34,7 @@ class CreateImportJobTable extends Migration
         });
 
         Schema::create('import_job_reports', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedBigInteger('import_job_id');
             $table->string('employee_first_name')->nullable();
             $table->string('employee_last_name')->nullable();
@@ -48,7 +48,7 @@ class CreateImportJobTable extends Migration
         });
 
         Schema::create('files', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->integer('fileable_id')->nullable();
             $table->string('fileable_type')->nullable();
