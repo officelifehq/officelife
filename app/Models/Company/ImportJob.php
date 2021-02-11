@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -73,7 +74,7 @@ class ImportJob extends Model
      *
      * @return HasMany
      */
-    public function importJobReports()
+    public function reports()
     {
         return $this->hasMany(ImportJobReport::class);
     }

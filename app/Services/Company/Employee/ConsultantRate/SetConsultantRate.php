@@ -70,7 +70,7 @@ class SetConsultantRate extends BaseService
         }
 
         if ($status->type != EmployeeStatus::EXTERNAL) {
-            throw new NotConsultantException();
+            throw new NotConsultantException();ImportJob.php
         }
     }
 
