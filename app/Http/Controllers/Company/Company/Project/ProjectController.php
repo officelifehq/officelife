@@ -32,7 +32,7 @@ use App\Http\ViewHelpers\Company\Project\ProjectViewHelper;
 class ProjectController extends Controller
 {
     /**
-     * Display the list of projets.
+     * Display the list of projects.
      *
      * @param Request $request
      * @param int $companyId
@@ -45,7 +45,7 @@ class ProjectController extends Controller
 
         return Inertia::render('Company/Project/Index', [
             'statistics' => $statistics,
-            'tab' => 'summary',
+            'tab' => 'projects',
             'projects' => ProjectViewHelper::index($company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);

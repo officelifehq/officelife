@@ -1055,6 +1055,19 @@ class LogHelper
                 ]);
                 break;
 
+            case 'e_coffee_match_session_as_happened':
+                $sentence = trans('account.log_e_coffee_match_session_as_happened', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'other_employee_id' => $log->object->{'other_employee_id'},
+                    'other_employee_name' => $log->object->{'other_employee_name'},
+                ]);
+                break;
+
+            case 'toggle_e_coffee_process':
+                $sentence = trans('account.log_toggle_e_coffee_process');
+                break;
+
             default:
                 $sentence = '';
                 break;

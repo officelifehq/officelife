@@ -1,6 +1,10 @@
 <?php
 
 return [
+    'menu_employees' => 'Employees & teams',
+    'menu_projects' => 'Projects',
+    'menu_hr' => 'Human Resources',
+
     'new_name' => 'What is the name of your company?',
     'subtitle' => 'There is only one step to get started.',
     'next_step_cta' => 'Ok, let’s go',
@@ -42,4 +46,12 @@ return [
     'skills_index_search_no_results' => 'There is no skills with this name in the company.',
     'skills_show_title' => 'All the employees with the skill',
     'skills_show_in_team' => 'In',
+
+    'hr_e_coffees_title' => 'eCoffees in the company',
+    'hr_e_coffees_current_session' => 'Current session',
+    'hr_e_coffees_current_session_number' => '{happened} out of {total} matches have taken place so far',
+    'hr_e_coffees_previous_session' => 'Previous session',
+    'hr_e_coffees_previous_session_stat' => 'of matches have taken place',
+    'hr_e_coffees_overall' => 'Overall',
+    'hr_e_coffees_overall_stat' => 'of matches usually take place',
 ];

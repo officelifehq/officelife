@@ -6,9 +6,11 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Answer;
+use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
@@ -351,5 +353,75 @@ class DashboardMeViewHelperTest extends TestCase
             ],
             $array
         );
+    }
+
+    /** @test */
+    public function it_gets_an_array_containing_the_information_about_the_current_ecoffee_session(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $company = $michael->company;
+        $company->e_coffee_enabled = true;
+        $company->save();
+        $company->refresh();
+
+        $eCoffee = ECoffee::factory()->create([
+            'company_id' => $company->id,
+        ]);
+        $match = ECoffeeMatch::factory()->create([
+            'e_coffee_id' => $eCoffee->id,
+            'employee_id' => $michael->id,
+        ]);
+
+        $array = DashboardMeViewHelper::eCoffee($michael, $company);
+
+        $this->assertEquals(
+            [
+                'id' => $match->id,
+                'e_coffee_id' => $eCoffee->id,
+                'happened' => $match->happened,
+                'employee' => [
+                    'avatar' => $michael->avatar,
+                ],
+                'other_employee' => [
+                    'id' => $match->employeeMatchedWith->id,
+                    'name' => $match->employeeMatchedWith->name,
+                    'first_name' => $match->employeeMatchedWith->first_name,
+                    'avatar' => $match->employeeMatchedWith->avatar,
+                    'position' => $match->employeeMatchedWith->position ? $match->employeeMatchedWith->position->title : null,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$match->employeeMatchedWith->id,
+                    'teams' => null,
+                ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_returns_null_if_there_is_no_valid_ecoffee_session_right_now(): void
+    {
+        $michael = $this->createAdministrator();
+
+        // check if we return null when there is no ecoffee session
+        $company = $michael->company;
+        $company->e_coffee_enabled = true;
+        $company->save();
+        $company->refresh();
+        $this->assertNull(DashboardMeViewHelper::eCoffee($michael, $company));
+
+        // check if we return null when there the ecoffee is disabled in the company
+        $company->e_coffee_enabled = false;
+        $company->save();
+        $company->refresh();
+
+        $eCoffee = ECoffee::factory()->create([
+            'company_id' => $company->id,
+        ]);
+        ECoffeeMatch::factory()->create([
+            'e_coffee_id' => $eCoffee->id,
+            'employee_id' => $michael->id,
+        ]);
+
+        $this->assertNull(DashboardMeViewHelper::eCoffee($michael, $company));
     }
 }

@@ -35,6 +35,7 @@ class CompanyController extends Controller
         $guessEmployeeGameInformation = CompanyViewHelper::guessEmployeeGameInformation($employee, $company);
 
         return Inertia::render('Company/Index', [
+            'tab' => 'company',
             'statistics' => $statistics,
             'latestQuestions' => $latestQuestions,
             'birthdaysThisWeek' => $birthdaysThisWeek,

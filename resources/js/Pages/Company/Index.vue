@@ -43,16 +43,7 @@
 
     <div class="ph2 ph5-ns">
       <!-- central content -->
-      <div class="cf mw7 center br3 mt2 mb5 tc">
-        <div class="cf dib btn-group">
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="f6 fl ph3 pv2 dib pointer no-underline selected">
-            Employees & teams
-          </inertia-link>
-          <inertia-link :href="'/' + $page.props.auth.company.id + '/company/projects'" class="f6 fl ph3 pv2 dib pointer" data-cy="dashboard-team-tab">
-            Projects
-          </inertia-link>
-        </div>
-      </div>
+      <tab :tab="tab" />
 
       <div class="cf mw9 center">
         <div class="fl w-third-l w-100">
@@ -80,6 +71,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Tab from '@/Pages/Company/Partials/Tab';
 import Questions from '@/Pages/Company/Partials/Questions';
 import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame';
 import Birthdays from '@/Pages/Company/Partials/Birthdays';
@@ -91,6 +83,7 @@ import RecentSkills from '@/Pages/Company/Partials/RecentSkills';
 export default {
   components: {
     Layout,
+    Tab,
     Questions,
     GuessEmployeeGame,
     Birthdays,
@@ -101,6 +94,10 @@ export default {
   },
 
   props: {
+    tab: {
+      type: Object,
+      default: null,
+    },
     statistics: {
       type: Object,
       default: null,

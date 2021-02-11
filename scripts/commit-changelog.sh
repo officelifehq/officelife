@@ -1,11 +1,18 @@
 #!/bin/bash
 
-repo=officelifehq/officelife
+# GH_TOKEN_RELEASE is mandatory to be able to trigger the Pull Request workflows
+if [ -z "$GH_TOKEN_RELEASE" ]; then
+    echo "Please provide a token in GH_TOKEN_RELEASE variable" >&2
+    exit 1
+fi
+
+version=$1
+
 base=main
 file=CHANGELOG.md
 label=auto-squash
-
-newbranch=$(date +"%Y-%m-%d")-update-changelog
+message="chore(changelog): update changelog $version"
+newbranch=changelog-$version-$(date +"%Y-%m-%d")
 
 github() {
     method=$1
@@ -14,13 +21,13 @@ github() {
     curl -sSL \
         -X $method \
         -H "Accept: application/vnd.github.v3+json" \
-        -H "Authorization: token $GITHUB_TOKEN" \
-        https://api.github.com/repos/$repo/$apiurl \
+        -H "Authorization: token $GH_TOKEN_RELEASE" \
+        https://api.github.com/repos/$GITHUB_REPOSITORY/$apiurl \
         "$@"
 }
 
 
-# Test if branch already exists"
+# Test if branch already exists
 test=$(github GET git/ref/heads/$newbranch -f 2> /dev/null)
 
 if [ $? = 0 ]; then
@@ -37,7 +44,6 @@ github POST git/refs -d "{\"ref\":\"refs/heads/$newbranch\",\"sha\":\"$GITHUB_SH
 sha=$(github GET "contents/$file?ref=$newbranch" | jq '.sha')
 
 echo "Upload new file content"
-message="chore(changelog): Update Changelog"
 content=$(base64 -w 0 $file)
 github PUT contents/$file \
     -d "{\"message\":\"$message\",\"sha\":$sha,\"branch\":\"$newbranch\",\"content\":\"$content\"}" > /dev/null
@@ -48,5 +54,5 @@ pr=$(github POST pulls -d "{\"head\":\"$newbranch\",\"base\":\"$base\",\"title\"
 number=$(echo $pr | jq '.number')
 github POST issues/$number/labels -d "{\"labels\":[\"$label\"]}" > /dev/null
 
-echo "Pull Request created:"
-echo $pr | jq '.html_url'
+url=$(echo $pr | jq '.html_url')
+echo "Pull Request created: $url"

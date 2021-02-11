@@ -13,6 +13,7 @@ use Illuminate\Console\Command;
 use App\Models\Company\Employee;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
+use App\Models\Company\ECoffeeMatch;
 use App\Services\User\CreateAccount;
 use App\Models\Company\ProjectStatus;
 use App\Models\Company\EmployeeStatus;
@@ -59,6 +60,7 @@ use App\Services\Company\Adminland\Employee\AddEmployeeToCompany;
 use App\Services\Company\Employee\Timesheet\CreateOrGetTimesheet;
 use App\Services\Company\Employee\Contract\SetContractRenewalDate;
 use App\Services\Company\Employee\Pronoun\AssignPronounToEmployee;
+use App\Services\Company\Employee\ECoffee\MatchEmployeesForECoffee;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneActionItem;
 use App\Services\Company\Employee\OneOnOne\ToggleOneOnOneActionItem;
 use App\Services\Company\Employee\Position\AssignPositionToEmployee;
@@ -202,6 +204,7 @@ class SetupDummyAccount extends Command
         $this->addProjects();
         $this->createTimeTrackingEntries();
         $this->setContractRenewalDates();
+        $this->setECoffeeProcess();
         $this->addSecondaryBlankAccount();
         $this->stop();
     }
@@ -1974,6 +1977,29 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
             'month' => $date->month,
             'day' => $date->day,
         ]);
+    }
+
+    private function setECoffeeProcess(): void
+    {
+        $this->company->e_coffee_enabled = true;
+        $this->company->save();
+
+        for ($i = 0; $i < 10; $i++) {
+            (new MatchEmployeesForECoffee)->execute([
+                'company_id' => $this->company->id,
+            ]);
+        }
+
+        // mark random eCoffee matches as happened
+        ECoffeeMatch::chunk(100, function ($matches) {
+            $matches->each(function (ECoffeeMatch $match) {
+                if (rand(1, 3) == 1) {
+                    ECoffeeMatch::where('id', $match->id)->update([
+                        'happened' => true,
+                    ]);
+                }
+            });
+        });
     }
 
     private function addSecondaryBlankAccount(): void

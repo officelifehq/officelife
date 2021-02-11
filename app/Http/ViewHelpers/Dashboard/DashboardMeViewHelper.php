@@ -7,10 +7,12 @@ use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
+use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 use Money\Currencies\ISOCurrencies;
+use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\EmployeeStatus;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
@@ -255,6 +257,7 @@ class DashboardMeViewHelper
      * Get the information about contract renewal, if the employee is external,
      * and if the contract is due in the next 3 months or less.
      *
+     * @param Employee $employee
      * @return array|null
      */
     public static function contractRenewal(Employee $employee): ?array
@@ -289,6 +292,74 @@ class DashboardMeViewHelper
             'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
             'number_of_days' => $employee->contract_renewed_at->diffInDays(Carbon::now()),
             'late' => false,
+        ];
+    }
+
+    /**
+     * Get the latest match for the eCoffee program, if it’s enabled for the
+     * company.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return array|null
+     */
+    public static function eCoffee(Employee $employee, Company $company): ?array
+    {
+        if (! $company->e_coffee_enabled) {
+            return null;
+        }
+
+        $latestECoffee = $company->eCoffees()->orderBy('id', 'desc')->first();
+
+        if (! $latestECoffee) {
+            return null;
+        }
+
+        $match = ECoffeeMatch::where('e_coffee_id', $latestECoffee->id)
+            ->where(function ($query) use ($employee) {
+                $query->where('employee_id', $employee->id)
+                    ->orWhere('with_employee_id', $employee->id);
+            })
+            ->firstOrFail();
+
+        if ($match->employee_id == $employee->id) {
+            $otherEmployee = $match->employeeMatchedWith;
+        } else {
+            $otherEmployee = $match->employee;
+        }
+
+        $teams = $otherEmployee->teams;
+        $teamsCollection = collect([]);
+        foreach ($teams as $team) {
+            $teamsCollection->push([
+                'id' => $team->id,
+                'name' => $team->name,
+                'url' => route('team.show', [
+                    'company' => $company,
+                    'team' => $team,
+                ]),
+            ]);
+        }
+
+        return [
+            'id' => $match->id,
+            'e_coffee_id' => $latestECoffee->id,
+            'happened' => $match->happened,
+            'employee' => [
+                'avatar' => $employee->avatar,
+            ],
+            'other_employee' => [
+                'id' => $otherEmployee->id,
+                'name' => $otherEmployee->name,
+                'first_name' => $otherEmployee->first_name,
+                'avatar' => $otherEmployee->avatar,
+                'position' => $otherEmployee->position ? $otherEmployee->position->title : null,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $otherEmployee,
+                ]),
+                'teams' => $teamsCollection->count() == 0 ? null : $teamsCollection,
+            ],
         ];
     }
 }

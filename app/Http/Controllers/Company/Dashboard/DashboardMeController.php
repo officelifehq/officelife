@@ -63,6 +63,7 @@ class DashboardMeController extends Controller
             'oneOnOnes' => DashboardMeViewHelper::oneOnOnes($employee),
             'contractRenewal' => DashboardMeViewHelper::contractRenewal($employee),
             'defaultCurrency' => $defaultCompanyCurrency,
+            'eCoffee' => DashboardMeViewHelper::eCoffee($employee, $company),
         ]);
     }
 }

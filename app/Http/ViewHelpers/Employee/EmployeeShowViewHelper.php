@@ -17,6 +17,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\WorkFromHomeHelper;
 use App\Models\Company\ProjectTask;
+use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ProjectMessage;
 
@@ -855,5 +856,58 @@ class EmployeeShowViewHelper
         }
 
         return $projectsCollection;
+    }
+
+    /**
+     * List all the eCoffees the employee participated to.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return array|null
+     */
+    public static function eCoffees(Employee $employee, Company $company): ?array
+    {
+        $matches = ECoffeeMatch::where(function ($query) use ($employee) {
+            $query->where('employee_id', $employee->id)
+                ->orWhere('with_employee_id', $employee->id);
+        })->orderBy('id', 'desc')
+            ->with('eCoffee')
+            ->take(3)->get();
+
+        $eCoffeeCollection = collect([]);
+        foreach ($matches as $match) {
+            if ($employee->id == $match->with_employee_id) {
+                $withEmployee = $match->employee;
+            } else {
+                $withEmployee = $match->employeeMatchedWith;
+            }
+
+            $eCoffeeCollection->push([
+                'id' => $match->id,
+                'ecoffee' => [
+                    'started_at' => DateHelper::formatDate($match->eCoffee->created_at),
+                    'ended_at' => DateHelper::formatDate($match->eCoffee->created_at->endOfWeek(Carbon::SUNDAY)),
+                ],
+                'with_employee' => [
+                    'id' => $withEmployee->id,
+                    'name' => $withEmployee->name,
+                    'first_name' => $withEmployee->first_name,
+                    'avatar' => $withEmployee->avatar,
+                    'position' => $withEmployee->position ? $withEmployee->position->title : null,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $withEmployee,
+                    ]),
+                ],
+            ]);
+        }
+
+        return [
+            'view_all_url' => route('employees.ecoffees.index', [
+                'company' => $company,
+                'employee' => $employee,
+            ]),
+            'eCoffees' => $eCoffeeCollection,
+        ];
     }
 }

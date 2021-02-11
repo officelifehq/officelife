@@ -1,9 +1,4 @@
 {
-  "branches": [
-    "release",
-    {"name": "next", "prerelease": true},
-    {"name": "alpha", "prerelease": true}
-  ],
   "plugins": [
     [
       "@semantic-release/commit-analyzer", {
@@ -41,7 +36,7 @@
     ],
     [
       "@semantic-release/exec", {
-        "successCmd": "./scripts/commit-changelog.sh"
+        "successCmd": "./scripts/commit-changelog.sh ${nextRelease.version}"
       }
     ]
   ]

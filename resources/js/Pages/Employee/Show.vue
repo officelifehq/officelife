@@ -63,6 +63,11 @@
           <question
             :questions="questions"
           />
+
+          <e-coffee
+            v-if="ecoffees.eCoffees.length > 0"
+            :ecoffees="ecoffees"
+          />
         </div>
       </div>
     </div>
@@ -77,6 +82,7 @@ import ProfileTabSwitcher from '@/Pages/Employee/Partials/ProfileTabSwitcher';
 import Hierarchy from '@/Pages/Employee/Partials/Hierarchy';
 import Question from '@/Pages/Employee/Partials/Question';
 import Skills from '@/Pages/Employee/Partials/Skills';
+import ECoffee from '@/Pages/Employee/Partials/ECoffee';
 
 export default {
   components: {
@@ -87,6 +93,7 @@ export default {
     Hierarchy,
     Question,
     Skills,
+    ECoffee,
   },
 
   props: {
@@ -120,6 +127,10 @@ export default {
     },
     skills: {
       type: Array,
+      default: null,
+    },
+    ecoffees: {
+      type: Object,
       default: null,
     },
   },
