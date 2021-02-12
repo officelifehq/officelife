@@ -17,6 +17,7 @@ class ImportJob extends Model
      * Possible status of an expense.
      */
     const CREATED = 'created';
+    const MIGRATED = 'migrated';
     const IMPORTED = 'imported';
     const FAILED = 'failed';
 
@@ -30,10 +31,6 @@ class ImportJob extends Model
         'author_id',
         'author_name',
         'status',
-        'employees_found_count',
-        'employees_skipped_count',
-        'employees_imported_count',
-        'filename',
         'import_started_at',
         'import_ended_at',
         'imported',

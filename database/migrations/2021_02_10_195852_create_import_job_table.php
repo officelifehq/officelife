@@ -18,12 +18,8 @@ class CreateImportJobTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('author_id')->nullable();
-            $table->string('status');
             $table->string('author_name')->nullable();
-            $table->integer('employees_found_count')->nullable();
-            $table->integer('employees_skipped_count')->nullable();
-            $table->integer('employees_imported_count')->nullable();
-            $table->string('filename')->nullable();
+            $table->string('status');
             $table->datetime('import_started_at')->nullable();
             $table->datetime('import_ended_at')->nullable();
             $table->boolean('imported')->default(false);
