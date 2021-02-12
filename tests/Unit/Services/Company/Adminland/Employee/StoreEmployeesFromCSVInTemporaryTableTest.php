@@ -127,6 +127,7 @@ class StoreEmployeesFromCSVInTemporaryTableTest extends TestCase
             'import_job_id' => $job->id,
             'employee_first_name' => 'Henri',
             'employee_last_name' => 'Troyat',
+            'employee_email' => 'henri@troyat.com',
             'skipped_during_upload' => false,
             'skipped_during_upload_reason' => null,
         ]);
@@ -135,14 +136,34 @@ class StoreEmployeesFromCSVInTemporaryTableTest extends TestCase
             'import_job_id' => $job->id,
             'employee_first_name' => 'Al',
             'employee_last_name' => 'Berri',
+            'employee_email' => 'al@berri.com',
             'skipped_during_upload' => false,
             'skipped_during_upload_reason' => null,
         ]);
 
         $this->assertDatabaseHas('import_job_reports', [
             'import_job_id' => $job->id,
-            'employee_first_name' => 'Al',
-            'employee_last_name' => 'Berri',
+            'employee_first_name' => 'Cata',
+            'employee_last_name' => 'Strophe',
+            'employee_email' => '',
+            'skipped_during_upload' => true,
+            'skipped_during_upload_reason' => 'invalid_email',
+        ]);
+
+        $this->assertDatabaseHas('import_job_reports', [
+            'import_job_id' => $job->id,
+            'employee_first_name' => 'Regis',
+            'employee_last_name' => 'Alexis',
+            'employee_email' => 'regis@berri',
+            'skipped_during_upload' => false,
+            'skipped_during_upload_reason' => null,
+        ]);
+
+        $this->assertDatabaseHas('import_job_reports', [
+            'import_job_id' => $job->id,
+            'employee_first_name' => 'Eric',
+            'employee_last_name' => 'Ramzy',
+            'employee_email' => 'eric.ramzy',
             'skipped_during_upload' => true,
             'skipped_during_upload_reason' => 'invalid_email',
         ]);

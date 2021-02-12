@@ -94,12 +94,11 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
         $this->importJob->save();
     }
 
-    private function isValidEmail(array $data): bool
+    private function isValidEmail(array $row): bool
     {
-        dd($data);
-        if (Validator::make($data, [
-            'email' => 'email:rfc',
-        ])->fails()) {
+        $validator = Validator::make($row, ['email' => 'required|email:rfc']);
+
+        if ($validator->fails()) {
             return false;
         }
 
