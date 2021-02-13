@@ -40,7 +40,6 @@ jobs:
           semantic_version: 17.3.7
           extra_plugins: |
             @semantic-release/changelog
-            @semantic-release/exec
             semantic-release-github-pullrequest
 
       - name: New release published
