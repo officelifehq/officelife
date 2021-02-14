@@ -36,12 +36,14 @@ class DashboardTeamViewHelper
 
         // build the collection of data
         $birthdaysCollection = collect([]);
+        $now = Carbon::now();
+
         foreach ($employees as $employee) {
             if (! $employee->birthdate) {
                 continue;
             }
 
-            if (BirthdayHelper::isBirthdayInXDays(Carbon::now(), $employee->birthdate, 30)) {
+            if (BirthdayHelper::isBirthdayInXDays($now, $employee->birthdate, 30)) {
                 $birthdaysCollection->push([
                     'id' => $employee->id,
                     'url' => route('employees.show', [
@@ -51,7 +53,7 @@ class DashboardTeamViewHelper
                     'name' => $employee->name,
                     'avatar' => $employee->avatar,
                     'birthdate' => DateHelper::formatMonthAndDay($employee->birthdate),
-                    'sort_key' => Carbon::createFromDate(Carbon::now()->year, $employee->birthdate->month, $employee->birthdate->day)->format('Y-m-d'),
+                    'sort_key' => Carbon::createFromDate($now->year, $employee->birthdate->month, $employee->birthdate->day)->format('Y-m-d'),
                 ]);
             }
         }
@@ -80,8 +82,10 @@ class DashboardTeamViewHelper
         });
 
         $workFromHomeCollection = collect([]);
+        $now = Carbon::now();
+
         foreach ($employees as $employee) {
-            if (! WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now())) {
+            if (! WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, $now)) {
                 continue;
             }
 
@@ -227,8 +231,9 @@ class DashboardTeamViewHelper
      */
     public static function upcomingNewHires(Team $team): Collection
     {
-        $currentDay = Carbon::now()->format('Y-m-d');
-        $nextSunday = Carbon::now()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
+        $now = Carbon::now();
+        $currentDay = $now->format('Y-m-d');
+        $nextSunday = $now->copy()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
 
         $employees = $team->employees()
             ->where('locked', false)
@@ -282,12 +287,13 @@ class DashboardTeamViewHelper
             return ! $employee->hired_at->isCurrentYear();
         });
 
-        $nextMonday = Carbon::now()->format('Y-m-d');
-        $nextSunday = Carbon::now()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
+        $now = Carbon::now();
+        $nextMonday = $now->format('Y-m-d');
+        $nextSunday = $now->copy()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
         $upcomingWeek = CarbonPeriod::create($nextMonday, $nextSunday);
 
-        $employees = $employees->filter(function ($employee) use ($upcomingWeek) {
-            return $upcomingWeek->contains($employee->hired_at->setYear(Carbon::now()->year)->format('Y-m-d'));
+        $employees = $employees->filter(function ($employee) use ($upcomingWeek, $now) {
+            return $upcomingWeek->contains($employee->hired_at->setYear($now->year)->format('Y-m-d'));
         });
 
         $employeesCollection = collect([]);
@@ -296,8 +302,8 @@ class DashboardTeamViewHelper
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'avatar' => $employee->avatar,
-                'anniversary_date' => DateHelper::formatDayAndMonthInParenthesis($employee->hired_at->setYear(Carbon::now()->year)),
-                'anniversary_age' => Carbon::now()->year - $employee->hired_at->year,
+                'anniversary_date' => DateHelper::formatDayAndMonthInParenthesis($employee->hired_at->setYear($now->year)),
+                'anniversary_age' => $now->year - $employee->hired_at->year,
                 'url' => route('employees.show', [
                     'company' => $employee->company,
                     'employee' => $employee,

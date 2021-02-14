@@ -415,11 +415,12 @@ class EmployeeShowViewHelper
      */
     public static function workFromHomeStats(Employee $employee): array
     {
-        $currentYear = Carbon::now()->year;
+        $now = Carbon::now();
+        $currentYear = $now->year;
         $workFromHomes = $employee->workFromHomes()->whereYear('date', (string) $currentYear)->get();
 
         return [
-            'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
+            'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, $now),
             'number_times_this_year' => $workFromHomes->count(),
             'url' => route('employee.work.workfromhome', [
                 'company' => $employee->company,

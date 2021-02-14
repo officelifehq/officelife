@@ -745,7 +745,7 @@ class Employee extends Model
         // get the yearly completion rate
         $currentDate = Carbon::now();
         $daysInYear = DateHelper::getNumberOfDaysInYear($currentDate);
-        $yearCompletionRate = Carbon::now()->dayOfYear * 100 / $daysInYear;
+        $yearCompletionRate = $currentDate->dayOfYear * 100 / $daysInYear;
 
         return [
             'current_balance_round' => round($this->holiday_balance, 0, PHP_ROUND_HALF_DOWN),

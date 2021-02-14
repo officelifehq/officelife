@@ -15,7 +15,7 @@ class BirthdayHelper
      */
     public static function isBirthdayInXDays(Carbon $startDate, Carbon $birthdate, int $numberOfDays): bool
     {
-        $future = $startDate->addDays($numberOfDays);
+        $future = $startDate->copy()->addDays($numberOfDays);
         $birthdate->year = $startDate->year;
 
         if ($birthdate->isPast()) {

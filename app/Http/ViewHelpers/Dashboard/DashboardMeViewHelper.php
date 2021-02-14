@@ -210,6 +210,7 @@ class DashboardMeViewHelper
         $managers = $employee->getListOfManagers();
         $company = $employee->company;
         $managersCollection = collect([]);
+        $now = Carbon::now();
 
         foreach ($managers as $manager) {
             // for each manager, we need to check if there is an active one on
@@ -227,7 +228,7 @@ class DashboardMeViewHelper
                     'author_id' => $employee->id,
                     'manager_id' => $manager->id,
                     'employee_id' => $employee->id,
-                    'date' => Carbon::now()->format('Y-m-d'),
+                    'date' => $now->format('Y-m-d'),
                 ]);
             }
 
@@ -274,23 +275,24 @@ class DashboardMeViewHelper
             return null;
         }
 
-        $dateInOneMonth = Carbon::now()->addMonths(1);
+        $now = Carbon::now();
+        $dateInOneMonth = $now->copy()->addMonths(1);
 
         if ($employee->contract_renewed_at->isAfter($dateInOneMonth)) {
             return null;
         }
 
-        if ($employee->contract_renewed_at->isBefore(Carbon::now())) {
+        if ($employee->contract_renewed_at->isBefore($now)) {
             return [
                 'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
-                'number_of_days' => $employee->contract_renewed_at->diffInDays(Carbon::now()),
+                'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
                 'late' => true,
             ];
         }
 
         return [
             'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
-            'number_of_days' => $employee->contract_renewed_at->diffInDays(Carbon::now()),
+            'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
             'late' => false,
         ];
     }

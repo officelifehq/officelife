@@ -159,12 +159,13 @@ class DateHelper
      */
     public static function hoursOrDaysLeft(Carbon $date): string
     {
-        $hoursLeft = Carbon::now()->diffInHours($date);
+        $now = Carbon::now();
+        $hoursLeft = $now->diffInHours($date);
 
         if ($hoursLeft < 24) {
             $timeLeft = trans_choice('app.hours_left', $hoursLeft);
         } else {
-            $timeLeft = trans_choice('app.days_left', Carbon::now()->diffInDays($date));
+            $timeLeft = trans_choice('app.days_left', $now->diffInDays($date));
         }
 
         return $timeLeft;
