@@ -29,12 +29,6 @@
       }
     ],
     [
-      "@semantic-release/github",
-      {
-        "assets": ["CHANGELOG.md"]
-      }
-    ],
-    [
       "semantic-release-github-pullrequest",
       {
         "assets": ["CHANGELOG.md"],
