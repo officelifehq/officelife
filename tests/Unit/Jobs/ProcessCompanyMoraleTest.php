@@ -43,7 +43,7 @@ class ProcessCompanyMoraleTest extends TestCase
 
         $this->assertEquals(
             1,
-            MoraleCompanyHistory::get()->count()
+            MoraleCompanyHistory::count()
         );
 
         $this->assertDatabaseHas('morale_company_history', [
@@ -57,7 +57,7 @@ class ProcessCompanyMoraleTest extends TestCase
 
         $this->assertEquals(
             1,
-            MoraleCompanyHistory::get()->count()
+            MoraleCompanyHistory::count()
         );
     }
 }

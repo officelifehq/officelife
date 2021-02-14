@@ -34,12 +34,36 @@ class BaseServiceTest extends TestCase
             'street' => 'nullable|string|max:255',
         ];
 
-        $stub = $this->getMockForAbstractClass(BaseService::class);
-        $stub->rules([$rules]);
+        $stub = $this->getMockForAbstractClass(BaseService::class, [], '', true, true, true, ['rules']);
+
+        $stub->expects($this->any())
+             ->method('rules')
+             ->will($this->returnValue($rules));
 
         $this->assertTrue(
             $stub->validateRules([
                 'street' => 'la rue du bonheur',
+            ])
+        );
+    }
+
+    /** @test */
+    public function it_validates_rules_fail(): void
+    {
+        $rules = [
+            'street' => 'required|string|max:255',
+        ];
+
+        $stub = $this->getMockForAbstractClass(BaseService::class, [], '', true, true, true, ['rules']);
+
+        $stub->expects($this->any())
+             ->method('rules')
+             ->will($this->returnValue($rules));
+
+        $this->expectException(\Illuminate\Validation\ValidationException::class);
+        $this->assertFalse(
+            $stub->validateRules([
+                'street' => null,
             ])
         );
     }
@@ -180,7 +204,6 @@ class BaseServiceTest extends TestCase
         $this->assertTrue(
             $stub->author($michael->id)
                 ->inCompany($michael->company_id)
-                ->bypassPermissionLevel()
                 ->canExecuteService()
         );
 

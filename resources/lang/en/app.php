@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'update' => 'Update',
     'save' => 'Save',
     'post' => 'Post',
@@ -30,6 +31,9 @@ return [
     'optional' => 'optional',
     'choose_value' => 'Choose a value',
     'and' => 'and',
+    'hide' => 'Hide',
+    'enable' => 'Enable',
+    'disable' => 'Disable',
 
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
@@ -41,6 +45,8 @@ return [
     'error_skill_name_not_unique' => 'There is already a skill with this name.',
     'error_not_enough_permission' => 'You do not have the right to do this action.',
     'error_project_code_already_exists' => 'This project code is already used. Pick a new one.',
+    'error_more' => 'See more...',
+    'error_exception' => 'Exception:',
 
     'previous' => 'Previous',
     'next' => 'Next',
@@ -52,6 +58,7 @@ return [
     'hide_help' => 'Hide help',
 
     'breadcrumb_dashboard' => 'Home',
+    'breadcrumb_dashboard_hr' => 'Human Resources',
     'breadcrumb_dashboard_manager' => 'Manager',
     'breadcrumb_dashboard_manager_expense_details' => 'Expense details',
     'breadcrumb_account_home' => 'Account administration',
@@ -79,6 +86,7 @@ return [
     'breadcrumb_account_employee_unlock' => 'Unlock an employee',
     'breadcrumb_account_add_hardware' => 'Add item',
     'breadcrumb_account_show_hardware' => 'Show item',
+    'breadcrumb_account_manage_e_coffee' => 'eCoffee management',
     'breadcrumb_employee_list' => 'All employees',
     'breadcrumb_employee_logs' => 'Logs',
     'breadcrumb_employee_edit' => 'Edit information',
@@ -90,12 +98,18 @@ return [
     'breadcrumb_employee_surveys_detail' => 'Survey of {month}',
     'breadcrumb_employee_one_on_ones' => 'One on Ones',
     'breadcrumb_employee_one_on_one' => 'Detail of a One on One',
+    'breadcrumb_employee_timesheets' => 'Timesheets',
+    'breadcrumb_employee_timesheet' => 'Timesheet details',
+    'breadcrumb_employee_ecoffee' => 'eCoffee sessions',
     'breadcrumb_project_list' => 'Projects list',
     'breadcrumb_project_detail' => 'Project detail',
     'breadcrumb_project_create' => 'Add a new project',
     'breadcrumb_project_edit' => 'Edit project',
     'breadcrumb_project_delete' => 'Delete project',
+    'breadcrumb_project_create_message' => 'Add a new message',
+    'breadcrumb_project_edit_message' => 'Edit message',
     'breadcrumb_dashboard_one_on_one' => 'One on One',
+    'breadcrumb_dashboard_manager_timesheets' => 'All timesheets',
     'breadcrumb_team_list' => 'All teams',
     'breadcrumb_team_show_team_news' => 'Team news',
     'breadcrumb_team_add_team_news' => 'Add a team news',
@@ -115,8 +129,6 @@ return [
     'header_welcome' => 'Welcome',
     'header_home' => 'Home',
     'header_find' => 'Find',
-    'header_employees' => 'Employees',
-    'header_teams' => 'Teams',
     'header_company' => 'Company',
     'header_switch_company' => 'Switch company',
     'header_go_to_employee_profile' => 'Your profile',
@@ -140,4 +152,6 @@ return [
     'rate_manager_bad' => 'Not ideal',
     'rate_manager_average' => 'It’s going well',
     'rate_manager_good' => 'Simply great',
+
+    'duration' => ':hours h :minutes',
 ];

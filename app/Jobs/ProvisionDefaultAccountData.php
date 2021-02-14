@@ -32,7 +32,7 @@ class ProvisionDefaultAccountData implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle()
+    public function handle(): void
     {
         (new CompanyProvisionDefaultAccountData)->execute([
             'company_id' => $this->employee->company_id,

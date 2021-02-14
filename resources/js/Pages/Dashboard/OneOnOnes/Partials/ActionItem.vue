@@ -86,10 +86,12 @@
           </form>
         </div>
       </li>
+
       <!-- cta to add a new action item -->
       <li v-if="!addActionItemMode && !entry.happened" class="bg-gray add-item-section ph2 mt1 pv1 br1">
         <span class="bb b--dotted bt-0 bl-0 br-0 pointer f6" data-cy="add-new-action-item" @click="displayAddActionItem()">{{ $t('dashboard.one_on_ones_note_cta') }}</span>
       </li>
+
       <!-- add a new action item -->
       <li v-if="addActionItemMode" class="bg-gray add-item-section ph2 mt1 pv1 br1">
         <form @submit.prevent="store()">
@@ -209,7 +211,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -218,7 +220,7 @@ export default {
         .then(response => {
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -230,7 +232,7 @@ export default {
           this.localActionItems.splice(id, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   },

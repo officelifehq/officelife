@@ -1,9 +1,4 @@
 {
-  "branches": [
-    "release",
-    {"name": "next", "prerelease": true},
-    {"name": "alpha", "prerelease": true}
-  ],
   "plugins": [
     [
       "@semantic-release/commit-analyzer", {
@@ -22,10 +17,26 @@
           "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
         },
         "writerOpts": {
-          "commitsSort": ["scope"]
+          "commitGroupsSort": ["feat"],
+          "commitsSort": ["scope", "subject"]
         }
       }
     ],
-    "@semantic-release/github"
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "semantic-release-github-pullrequest",
+      {
+        "assets": ["CHANGELOG.md"],
+        "labels": [
+          "semantic-release",
+          "auto-squash"
+        ]
+      }
+    ]
   ]
 }

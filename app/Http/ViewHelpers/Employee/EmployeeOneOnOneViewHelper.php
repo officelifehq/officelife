@@ -19,12 +19,13 @@ class EmployeeOneOnOneViewHelper
      */
     public static function stats(Collection $entries): array
     {
-        $entriesLast365Days = $entries->filter(function ($entry) {
-            return $entry->happened_at > Carbon::now()->subYear();
+        $now = Carbon::now();
+        $entriesLast365Days = $entries->filter(function ($entry) use ($now) {
+            return $entry->happened_at > $now->copy()->subYear();
         });
 
         // now calculating the average number of days between one on ones
-        $previousEntry = Carbon::now();
+        $previousEntry = $now;
         $average = collect([]);
         foreach ($entriesLast365Days as $entry) {
             $numberOfDays = $previousEntry->diffInDays($entry->happened_at);
@@ -43,7 +44,7 @@ class EmployeeOneOnOneViewHelper
     /**
      * Array containing all the one on ones done.
      *
-     * @param Collection $expenses
+     * @param Collection $oneOnOnes
      * @param Employee $employee
      * @return SupportCollection
      */
@@ -68,7 +69,7 @@ class EmployeeOneOnOneViewHelper
                         'employee' => $oneOnOne->manager,
                     ]),
                 ],
-                'url' => route('employees.oneonones.show', [
+                'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $employee,
                     'oneonone' => $oneOnOne,
@@ -158,7 +159,7 @@ class EmployeeOneOnOneViewHelper
             'notes' => $notes,
             'previous_entry' => $previousEntry ? [
                 'happened_at' => DateHelper::formatDate($previousEntry->happened_at),
-                'url' => route('employees.oneonones.show', [
+                'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
                     'oneonone' => $previousEntry,
@@ -166,7 +167,7 @@ class EmployeeOneOnOneViewHelper
             ] : null,
             'next_entry' => $nextEntry ? [
                 'happened_at' => DateHelper::formatDate($nextEntry->happened_at),
-                'url' => route('employees.oneonones.show', [
+                'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
                     'oneonone' => $nextEntry,

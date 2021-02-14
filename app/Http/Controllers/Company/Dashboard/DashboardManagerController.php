@@ -35,6 +35,7 @@ class DashboardManagerController extends Controller
         $directReports = DirectReport::where('company_id', $company->id)
             ->where('manager_id', $employee->id)
             ->with('directReport')
+            ->with('directReport.status')
             ->with('directReport.position')
             ->with('directReport.expenses')
             ->with('directReport.expenses.employee')
@@ -56,16 +57,21 @@ class DashboardManagerController extends Controller
             'dashboard_view' => 'manager',
             'is_manager' => true,
             'can_manage_expenses' => $employee->can_manage_expenses,
+            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
 
         $pendingExpenses = DashboardManagerViewHelper::pendingExpenses($employee, $directReports);
         $oneOnOnes = DashboardManagerViewHelper::oneOnOnes($employee, $directReports);
+        $contractRenewals = DashboardManagerViewHelper::contractRenewals($employee, $directReports);
+        $timesheetsStats = DashboardManagerViewHelper::employeesWithTimesheetsToApprove($employee, $directReports);
 
         return Inertia::render('Dashboard/Manager/Index', [
             'employee' => $employeeInformation,
             'notifications' => NotificationHelper::getNotifications($employee),
             'pendingExpenses' => $pendingExpenses,
             'oneOnOnes' => $oneOnOnes,
+            'contractRenewals' => $contractRenewals,
+            'timesheetsStats' => $timesheetsStats,
             'defaultCompanyCurrency' => $company->currency,
         ]);
     }
@@ -147,15 +153,15 @@ class DashboardManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $expense = $this->canAccess($company, $expenseId, $employee);
+        $this->canAccess($company, $expenseId, $employee);
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'expense_id' => $expenseId,
         ];
 
-        $expense = (new AcceptExpenseAsManager)->execute($request);
+        $expense = (new AcceptExpenseAsManager)->execute($data);
 
         return response()->json([
             'data' => $expense->id,
@@ -175,16 +181,16 @@ class DashboardManagerController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $expense = $this->canAccess($company, $expenseId, $employee);
+        $this->canAccess($company, $expenseId, $employee);
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'expense_id' => $expenseId,
             'reason' => $request->input('reason'),
         ];
 
-        $expense = (new RejectExpenseAsManager)->execute($request);
+        $expense = (new RejectExpenseAsManager)->execute($data);
 
         return response()->json([
             'data' => $expense->id,

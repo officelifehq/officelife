@@ -86,8 +86,19 @@ input[type=checkbox] {
         />
 
         <!-- content of the checkbox -->
-        <label v-if="label" :for="id" class="fw4 lh-copy f5 pointer di relative hover-effect">
-          <span v-html="label"></span>
+        <label v-if="label" :for="id" class="fw4 lh-copy f5 pointer di relative">
+          <span class="mr2 hover-effect" v-html="label"></span>
+
+          <small-name-and-avatar
+            v-if="assignee"
+            :name="assignee.name"
+            :avatar="assignee.avatar"
+            :classes="'gray'"
+            :size="'15px'"
+            :font-size="'f7'"
+            :top="'4px'"
+            :margin-between-name-avatar="'22px'"
+          />
 
           <!-- actions - only shown on mobile -->
           <div class="show-actions">
@@ -130,12 +141,17 @@ input[type=checkbox] {
 </template>
 
 <script>
+import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
+
 export default {
+  components: {
+    SmallNameAndAvatar,
+  },
+
   props: {
     id: {
       type: String,
-      default() {
-      },
+      default: '',
     },
     value: {
       type: Boolean,
@@ -148,6 +164,10 @@ export default {
     name: {
       type: String,
       default: 'input',
+    },
+    errors: {
+      type: Array,
+      default: () => [],
     },
     datacy: {
       type: String,
@@ -185,6 +205,10 @@ export default {
       type: Number,
       default: 0,
     },
+    assignee: {
+      type: Object,
+      default: null,
+    },
   },
 
   data() {
@@ -192,18 +216,28 @@ export default {
       updatedValue: false,
       hover: false,
       idToDelete: 0,
-      errors: [],
+      localErrors: [],
     };
   },
 
   computed: {
-    hasError: function () {
-      return this.errors.length > 0 && this.required ? true : false;
+    hasError() {
+      return this.errors.length > 0 && this.required;
     }
   },
 
-  mounted: function() {
+  watch: {
+    value(newValue) {
+      this.updatedValue = newValue;
+    },
+    errors(value) {
+      this.localErrors = value;
+    },
+  },
+
+  mounted() {
     this.updatedValue = this.value;
+    this.localErrors = this.errors;
   },
 
   methods: {

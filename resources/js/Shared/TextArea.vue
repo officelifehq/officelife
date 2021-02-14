@@ -72,6 +72,10 @@ export default {
       type: String,
       default: '',
     },
+    errors: {
+      type: Array,
+      default: () => [],
+    },
     datacy: {
       type: String,
       default: '',
@@ -104,8 +108,18 @@ export default {
 
   data() {
     return {
-      errors: [],
+      localErrors: [],
     };
+  },
+
+  watch: {
+    errors(value) {
+      this.localErrors = value;
+    },
+  },
+
+  mounted() {
+    this.localErrors = this.errors;
   },
 
   methods: {

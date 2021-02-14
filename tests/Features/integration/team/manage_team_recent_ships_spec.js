@@ -85,6 +85,8 @@ describe('Team - Recent ships management', function () {
     cy.get('[data-cy=list-delete-cancel-button-3]').click();
     cy.get('[data-cy=list-delete-button-3]').click();
     cy.get('[data-cy=list-delete-confirm-button-3]').click();
+
+    cy.wait(500);
   });
 
   it('should let you manage recent ship as a normal user who is part of the team', function () {

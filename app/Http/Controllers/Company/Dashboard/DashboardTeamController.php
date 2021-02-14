@@ -50,7 +50,8 @@ class DashboardTeamController extends Controller
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
             'dashboard_view' => 'team',
             'can_manage_expenses' => $employee->can_manage_expenses,
-            'is_manager' => $employee->directReports->count() > 0 ? true : false,
+            'is_manager' => $employee->directReports->count() > 0,
+            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
 
         UpdateDashboardPreference::dispatch([

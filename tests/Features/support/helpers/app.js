@@ -72,18 +72,6 @@ Cypress.Commands.add('createTeam', (productName) => {
   cy.get('[data-cy=submit-add-team-button]').click();
 });
 
-// Create an employee status
-Cypress.Commands.add('createEmployeeStatus', (status) => {
-  cy.get('[data-cy=header-adminland-link]').click();
-
-  cy.get('[data-cy=employee-statuses-admin-link]').click();
-  cy.get('[data-cy=add-status-button]').click();
-
-  cy.get('[data-cy=add-title-input]').type(status);
-
-  cy.get('[data-cy=modal-add-cta]').click();
-});
-
 // Create an employee
 Cypress.Commands.add('createEmployee', (firstname, lastname, email, permission, sendEmail, callback) => {
   cy.get('[data-cy=header-adminland-link]', {timeout: 500}).click();
@@ -132,9 +120,13 @@ Cypress.Commands.add('acceptInvitationLinkAndGoToDashboard', (password, link) =>
   cy.logout();
   cy.visit('/invite/employee/' + link);
   cy.get('[data-cy=accept-create-account]').click();
+
   cy.get('input[name=password]').type(password);
   cy.get('[data-cy=create-cta]').click();
-  cy.get('[data-cy=company-1]').click();
+  cy.exec('php artisan setup:verify-email').then((result) => {
+    cy.visit('/home');
+    cy.get('[data-cy=company-1]').click();
+  });
 });
 
 // Assert that the page can be visited by a user with the right permission level
@@ -274,7 +266,7 @@ Cypress.Commands.add('createExpense', (title, amount, companyId = 1) => {
 
 // Create a project
 Cypress.Commands.add('createProject', (companyId = 1, name, code = '', summary = '', projectLeadId = '') => {
-  cy.visit('/' + companyId +'/projects/create');
+  cy.visit('/' + companyId +'/company/projects/create');
   cy.get('[data-cy=project-name-input]').type(name);
 
   if (code != '') {
@@ -295,4 +287,183 @@ Cypress.Commands.add('createProject', (companyId = 1, name, code = '', summary =
   }
 
   cy.get('[data-cy=submit-create-project-button]').click();
+  cy.wait(1000);
+});
+
+// Create project task list
+Cypress.Commands.add('createProjectTaskList', (companyId = 1, projectId = 1, listTitle = 'title', listContent = 'content') => {
+  let _listTitle = (typeof listTitle === 'string') ? listTitle : faker.company.catchPhrase();
+  let _listContent = (typeof listContent === 'string') ? listContent : faker.realText(50);
+
+  cy.visit('/' + companyId + '/company/projects/' + projectId + '/tasks');
+  cy.get('[data-cy=new-task-list-cta]').click();
+  cy.get('[data-cy=task-list-title-input]').type(_listTitle);
+  cy.get('[data-cy=task-list-description]').type(_listContent);
+  cy.get('[data-cy=store-task-list-cta]').click();
+
+  // make sure the list exists
+  cy.get('[data-cy=task-list-1]').contains(_listTitle);
+});
+
+// Create project task
+Cypress.Commands.add('createProjectTask', (companyId = 1, projectId = 1, projectTaskListId = 1, title = 'title') => {
+  let _title = (typeof title === 'string') ? title : faker.company.catchPhrase();
+
+  cy.visit('/' + companyId + '/company/projects/' + projectId + '/tasks');
+  cy.get('[data-cy=task-list-' + projectTaskListId + '-add-new-task]').click();
+  cy.get('[data-cy=task-list-' + projectTaskListId + '-task-title-textarea]').type(_title);
+  cy.get('[data-cy=task-list-' + projectTaskListId + '-add-task-cta]').click();
+
+  // make sure the task exists
+  cy.get('[data-cy=task-1]').contains(_title);
+});
+
+// Create an employee status
+Cypress.Commands.add('createEmployeeStatus', (companyId = 1, name, external = true) => {
+  cy.visit('/' + companyId + '/account/employeestatuses');
+
+  cy.get('[data-cy=add-status-button]').click();
+  cy.get('[data-cy=add-title-input]').type(name);
+  if (external == true) {
+    cy.get('[data-cy=external-employee-checkbox]').check();
+  }
+  cy.get('[data-cy=modal-add-cta]').click();
+
+  // to refresh the page
+  cy.visit('/' + companyId + '/account/employeestatuses');
+});
+
+// Set the contract renewal date to X days
+Cypress.Commands.add('setContractRenewalDate', (companyId = 1, employeeId = 1, numberOfDaysMore = 3) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId + '/contract/edit');
+  cy.get('input[name=year]').clear();
+  cy.get('input[name=year]').type(Cypress.moment().add(numberOfDaysMore, 'days').year());
+  cy.get('input[name=month]').clear();
+  cy.get('input[name=month]').type(Cypress.moment().add(numberOfDaysMore, 'days').month() + 1);
+  cy.get('input[name=day]').clear();
+  cy.get('input[name=day]').type(Cypress.moment().add(numberOfDaysMore, 'days').date());
+  cy.get('[data-cy=submit-edit-contract-employee-button]').click();
+});
+
+// Set the contract rate
+Cypress.Commands.add('setContractRate', (companyId = 1, employeeId = 1, rate = 10) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId + '/contract/edit');
+
+  cy.get('[data-cy=add-rate-button]').click();
+  cy.get('[data-cy=add-rate-input]').clear();
+  cy.get('[data-cy=add-rate-input]').type(rate);
+  cy.get('[data-cy=modal-add-rate-cta]').click();
+});
+
+// fill and submit timesheet for time tracking
+Cypress.Commands.add('fillAndSubmitTimesheet', (companyId = 1) => {
+  cy.visit('/' + companyId + '/dashboard/timesheet');
+
+  // add a new row
+  cy.get('[data-cy=timesheet-add-new-row]').click();
+  cy.get('[data-cy=project-selector]').click();
+  cy.get('ul.vs__dropdown-menu>li').eq(0).click();
+
+  cy.get('[data-cy=task-selector]').click();
+  cy.get('ul.vs__dropdown-menu>li').eq(0).click();
+  cy.get('[data-cy=submit-timesheet-new-row] > span').click();
+
+  // fill the newly created row
+  cy.get('[data-cy=timesheet-1-day-0-hours]').type('1');
+  cy.get('[data-cy=timesheet-1-day-0-minutes]').type('30');
+  cy.get('[data-cy=timesheet-1-day-1-hours]').type('1');
+  cy.get('[data-cy=timesheet-1-day-1-minutes]').type('30');
+  cy.get('[data-cy=timesheet-1-day-4-hours]').type('1');
+  cy.get('[data-cy=timesheet-1-day-4-minutes]').type('30');
+
+  // submit timesheets
+  cy.get('[data-cy=timesheet-submit-timesheet]').click();
+  cy.get('[data-cy=timesheet-status-awaiting]').should('exist');
+});
+
+// Set the birthdate
+Cypress.Commands.add('setBirthdate', (companyId = 1, employeeId = 1, firstName, lastName, email, year, month, day) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=firstname]').type(firstName);
+  cy.get('input[name=lastname]').type(lastName);
+  cy.get('input[name=email]').clear();
+  cy.get('input[name=email]').type(email);
+  cy.get('input[name=year]').clear();
+  cy.get('input[name=year]').type(year);
+  cy.get('input[name=month]').clear();
+  cy.get('input[name=month]').type(month);
+  cy.get('input[name=day]').clear();
+  cy.get('input[name=day]').type(day);
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Set the hired at date
+Cypress.Commands.add('setHiredDate', (companyId = 1, employeeId = 1, year, month, day) => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=hired_at_year]').clear();
+  cy.get('input[name=hired_at_year]').type(year);
+  cy.get('input[name=hired_at_month]').clear();
+  cy.get('input[name=hired_at_month]').type(month);
+  cy.get('input[name=hired_at_day]').clear();
+  cy.get('input[name=hired_at_day]').type(day);
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Set the Twitter account
+Cypress.Commands.add('setTwitterAccount', (companyId = 1, employeeId = 1, twitterAccount = '') => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=twitter]').clear();
+
+  if (twitterAccount != '') {
+    cy.get('input[name=twitter]').type(twitterAccount);
+  }
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Set the Slack account
+Cypress.Commands.add('setSlackAccount', (companyId = 1, employeeId = 1, slackAccount = '') => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('input[name=slack]').clear();
+
+  if (slackAccount != '') {
+    cy.get('input[name=slack]').type(slackAccount);
+  }
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Set an address
+Cypress.Commands.add('setAddress', (companyId = 1, employeeId = 1, street = '612 St Jacques St', city = 'Montreal', state = 'QC', postalCode = 'H3C 4M8') => {
+  cy.visit('/' + companyId + '/employees/' + employeeId);
+  cy.get('[data-cy=edit-important-date-link]').click();
+  cy.get('[data-cy=menu-address-link]').click();
+
+  cy.get('input[name=street]').clear();
+  cy.get('input[name=street]').type(street);
+  cy.get('input[name=city]').clear();
+  cy.get('input[name=city]').type(city);
+  cy.get('input[name=state]').clear();
+  cy.get('input[name=state]').type(state);
+  cy.get('input[name=postal_code]').clear();
+  cy.get('input[name=postal_code]').type(postalCode);
+  cy.get('[data-cy=country_selector]').click();
+  cy.get('ul.vs__dropdown-menu>li').eq(3).click();
+  cy.get('[data-cy=country_selector]').click();
+  cy.get('input[name=state]').click();
+  cy.get('[data-cy=submit-edit-employee-button]').click();
+});
+
+// Toggle the eCoffee process in the company
+Cypress.Commands.add('toggleECoffeeProcesss', (companyId = 1, enable = true) => {
+  cy.visit('/' + companyId + '/account/ecoffee');
+
+  if (enable == true) {
+    cy.get('[data-cy=enable-ecoffee-process]').click();
+    cy.exec('php artisan ecoffee:start');
+  } else {
+    cy.get('[data-cy=disable-ecoffee-process]').click();
+  }
 });

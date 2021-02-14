@@ -6,15 +6,25 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
+use App\Models\User\Pronoun;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
+use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
+use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
+use App\Models\Company\Position;
 use App\Models\Company\Question;
+use App\Models\Company\Timesheet;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\EmployeeStatus;
+use App\Models\Company\ProjectMessage;
+use App\Models\Company\TimeTrackingEntry;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
 use App\Http\ViewHelpers\Employee\EmployeeShowViewHelper;
@@ -57,7 +67,10 @@ class EmployeeShowViewHelperTest extends TestCase
         $this->assertArrayHasKey('twitter_handle', $array);
         $this->assertArrayHasKey('slack_handle', $array);
         $this->assertArrayHasKey('hired_at', $array);
+        $this->assertArrayHasKey('contract_renewed_at', $array);
+        $this->assertArrayHasKey('contract_rate', $array);
         $this->assertArrayHasKey('email', $array);
+        $this->assertArrayHasKey('phone', $array);
         $this->assertArrayHasKey('locked', $array);
         $this->assertArrayHasKey('birthdate', $array);
         $this->assertArrayHasKey('raw_description', $array);
@@ -251,8 +264,7 @@ class EmployeeShowViewHelperTest extends TestCase
             [
                 'work_from_home_today' => true,
                 'number_times_this_year' => 3,
-                'url' => 'dfsd',
-                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/workfromhome',
+                'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/work/workfromhome',
             ],
             $array
         );
@@ -297,7 +309,7 @@ class EmployeeShowViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
 
-        $collection = EmployeeShowViewHelper::teams($michael->company->teams, $michael);
+        $collection = EmployeeShowViewHelper::teams($michael->company->teams, $michael->company);
 
         $this->assertEquals(1, $collection->count());
         $this->assertEquals(
@@ -444,14 +456,14 @@ class EmployeeShowViewHelperTest extends TestCase
                     'status' => 'created',
                     'expensed_at' => 'Jan 01, 1999',
                     'converted_amount' => null,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'.$expense->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses/'.$expense->id,
                 ],
             ],
             $array['expenses']->toArray()
         );
 
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses',
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses',
             $array['url']
         );
 
@@ -512,7 +524,7 @@ class EmployeeShowViewHelperTest extends TestCase
                         'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2019->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2019->id,
                 ],
                 1 => [
                     'id' => $entry2018->id,
@@ -523,7 +535,7 @@ class EmployeeShowViewHelperTest extends TestCase
                         'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2018->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2018->id,
                 ],
                 2 => [
                     'id' => $entry2017->id,
@@ -534,18 +546,266 @@ class EmployeeShowViewHelperTest extends TestCase
                         'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones/'.$entry2017->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2017->id,
                 ],
             ],
             $array['entries']->toArray()
         );
 
         $this->assertEquals(
-            env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/oneonones',
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones',
             $array['view_all_url']
         );
 
         $array = EmployeeShowViewHelper::oneOnOnes($dwight, ['can_see_one_on_one_with_manager' => false]);
         $this->assertNull($array);
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_employee_statuses(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $collection = EmployeeShowViewHelper::employeeStatuses($michael->company);
+
+        $this->assertEquals(1, $collection->count());
+
+        $status = EmployeeStatus::first();
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $status->id,
+                    'name' => $status->name,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_employee_timesheets(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $now = Carbon::now();
+
+        $michael = $this->createAdministrator();
+        $project = Project::factory()->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $task = ProjectTask::factory()->create([
+            'project_id' => $project->id,
+        ]);
+        $timesheet = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'started_at' => Carbon::now()->startOfWeek(),
+            'ended_at' => Carbon::now()->endOfWeek(),
+            'status' => Timesheet::OPEN,
+        ]);
+        TimeTrackingEntry::factory()->create([
+            'timesheet_id' => $timesheet->id,
+            'employee_id' => $michael->id,
+            'project_id' => $project->id,
+            'project_task_id' => $task->id,
+            'happened_at' => Carbon::now()->startOfWeek(),
+            'duration' => 100,
+        ]);
+        $timesheetB = Timesheet::factory()->create([
+            'company_id' => $michael->company_id,
+            'employee_id' => $michael->id,
+            'started_at' => Carbon::now()->startOfWeek(),
+            'ended_at' => Carbon::now()->endOfWeek(),
+            'status' => Timesheet::APPROVED,
+            'approver_id' => $michael->id,
+            'approved_at' => $now,
+        ]);
+        TimeTrackingEntry::factory()->create([
+            'timesheet_id' => $timesheetB->id,
+            'employee_id' => $michael->id,
+            'project_id' => $project->id,
+            'project_task_id' => $task->id,
+            'happened_at' => Carbon::now()->startOfWeek(),
+            'duration' => 100,
+        ]);
+
+        $array = EmployeeShowViewHelper::timesheets($michael, ['can_see_timesheets' => false]);
+        $this->assertNull($array);
+
+        $array = EmployeeShowViewHelper::timesheets($michael, ['can_see_timesheets' => true]);
+        $this->assertEquals(2, count($array));
+        $this->assertEquals(1, $array['entries']->count());
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $timesheetB->id,
+                    'started_at' => 'Jan 01, 2018',
+                    'ended_at' => 'Jan 07, 2018',
+                    'duration' => '01 h 40',
+                    'status' => Timesheet::APPROVED,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets/'.$timesheetB->id,
+                ],
+            ],
+            $array['entries']->toArray()
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/timesheets',
+            $array['view_all_url']
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_pronouns(): void
+    {
+        $firstPronoun = Pronoun::orderBy('id', 'asc')->first();
+        $collection = EmployeeShowViewHelper::pronouns();
+
+        $this->assertEquals(
+            [
+                'id' => $firstPronoun->id,
+                'label' => $firstPronoun->label,
+            ],
+            $collection->toArray()[0]
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_positions(): void
+    {
+        $position = Position::factory()->create([]);
+        $collection = EmployeeShowViewHelper::positions($position->company);
+
+        $this->assertEquals(
+            [
+                'id' => $position->id,
+                'title' => $position->title,
+            ],
+            $collection->toArray()[0]
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_all_projects_for_this_employee(): void
+    {
+        $michael = $this->createAdministrator();
+        $projectA = factory(Project::class)->create([
+            'company_id' => $michael->company_id,
+            'status' => Project::CLOSED,
+        ]);
+        $projectB = factory(Project::class)->create([
+            'company_id' => $michael->company_id,
+        ]);
+        $projectA->employees()->syncWithoutDetaching(
+            [
+                $michael->id => [
+                    'role' => trans('project.project_title_lead'),
+                ],
+            ]
+        );
+        $projectB->employees()->syncWithoutDetaching([$michael->id]);
+
+        factory(ProjectMessage::class)->create([
+            'project_id' => $projectA->id,
+            'author_id' => $michael->id,
+        ]);
+        factory(ProjectMessage::class)->create([
+            'project_id' => $projectA->id,
+            'author_id' => null,
+        ]);
+
+        ProjectTask::factory()->count(2)->completed()->create([
+            'project_id' => $projectA->id,
+            'author_id' => $michael->id,
+            'assignee_id' => $michael->id,
+        ]);
+
+        $collection = EmployeeShowViewHelper::projects($michael, $michael->company);
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $projectB->id,
+                    'name' => $projectB->name,
+                    'code' => $projectB->code,
+                    'status' => $projectB->status,
+                    'role' => null,
+                    'messages_count' => 0,
+                    'tasks_count' => 0,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectB->id,
+                ],
+                1 => [
+                    'id' => $projectA->id,
+                    'name' => $projectA->name,
+                    'code' => $projectA->code,
+                    'status' => Project::CLOSED,
+                    'role' => trans('project.project_title_lead'),
+                    'messages_count' => 1,
+                    'tasks_count' => 2,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
+
+    /** @test */
+    public function it_gets_a_collection_of_three_current_and_past_e_coffee_sessions(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+
+        $company = $michael->company;
+        $company->e_coffee_enabled = true;
+        $company->save();
+        $company->refresh();
+
+        $eCoffee = ECoffee::factory()->create([
+            'company_id' => $company->id,
+        ]);
+        ECoffeeMatch::factory()->count(3)->create([
+            'e_coffee_id' => $eCoffee->id,
+            'employee_id' => $michael->id,
+            'with_employee_id' => $dwight->id,
+        ]);
+        $match = ECoffeeMatch::factory()->create([
+            'e_coffee_id' => $eCoffee->id,
+            'employee_id' => $michael->id,
+            'with_employee_id' => $dwight->id,
+        ]);
+
+        $array = EmployeeShowViewHelper::eCoffees($michael, $company);
+
+        $this->assertEquals(
+            3,
+            $array['eCoffees']->count()
+        );
+
+        $this->assertEquals(
+            [
+                'id' => $match->id,
+                'ecoffee' => [
+                    'started_at' => 'Jan 01, 2018',
+                    'ended_at' => 'Jan 07, 2018',
+                ],
+                'with_employee' => [
+                    'id' => $dwight->id,
+                    'name' => $dwight->name,
+                    'first_name' => $dwight->first_name,
+                    'avatar' => $dwight->avatar,
+                    'position' => $dwight->position ? $dwight->position->title : null,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
+                ],
+            ],
+            $array['eCoffees']->toArray()[0]
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/ecoffees',
+            $array['view_all_url']
+        );
     }
 }

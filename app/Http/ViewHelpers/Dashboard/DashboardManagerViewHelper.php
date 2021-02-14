@@ -7,7 +7,9 @@ use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
+use App\Models\Company\Timesheet;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\EmployeeStatus;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
 use App\Services\Company\Employee\OneOnOne\CreateOneOnOneEntry;
@@ -109,11 +111,11 @@ class DashboardManagerViewHelper
      * @param Collection $directReports
      * @return SupportCollection|null
      */
-    public static function oneOnOnes(Employee $manager, Collection $directReports): SupportCollection
+    public static function oneOnOnes(Employee $manager, Collection $directReports): ?SupportCollection
     {
-        // get the list of employees this manager manages
         $oneOnOnesCollection = collect([]);
         $company = $manager->company;
+        $now = Carbon::now();
 
         foreach ($directReports as $directReport) {
             $employee = $directReport->directReport;
@@ -131,7 +133,7 @@ class DashboardManagerViewHelper
                     'author_id' => $employee->id,
                     'manager_id' => $manager->id,
                     'employee_id' => $employee->id,
-                    'date' => Carbon::now()->format('Y-m-d'),
+                    'date' => $now->format('Y-m-d'),
                 ]);
             }
 
@@ -156,5 +158,104 @@ class DashboardManagerViewHelper
         }
 
         return $oneOnOnesCollection;
+    }
+
+    /**
+     * Get the information about employees who have a contract that ends in
+     * the next 3 months or less.
+     *
+     * @param Employee $manager
+     * @param Collection $directReports
+     * @return SupportCollection|null
+     */
+    public static function contractRenewals(Employee $manager, Collection $directReports): ?SupportCollection
+    {
+        $collection = collect([]);
+        $company = $manager->company;
+        $now = Carbon::now();
+
+        foreach ($directReports as $directReport) {
+            $employee = $directReport->directReport;
+
+            if (! $employee->status) {
+                continue;
+            }
+
+            if ($employee->status->type == EmployeeStatus::INTERNAL) {
+                continue;
+            }
+
+            if (! $employee->contract_renewed_at) {
+                continue;
+            }
+
+            $dateInOneMonth = $now->copy()->addMonths(1);
+
+            if ($employee->contract_renewed_at->isAfter($dateInOneMonth)) {
+                continue;
+            }
+
+            $collection->push([
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => $employee->avatar,
+                'position' => (! $employee->position) ? null : $employee->position->title,
+                'url' => route('employees.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'contract_information' => [
+                    'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
+                    'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
+                    'late' => $employee->contract_renewed_at->isBefore($now),
+                ],
+            ]);
+        }
+
+        return $collection;
+    }
+
+    /**
+     * Get the list of employees who have timesheets to approve by this manager.
+     *
+     * @param Employee $manager
+     * @param Collection $directReports
+     * @return array|null
+     */
+    public static function employeesWithTimesheetsToApprove(Employee $manager, Collection $directReports): ?array
+    {
+        $employeesCollection = collect([]);
+        $company = $manager->company;
+        $totalNumberOfTimesheetsToValidate = 0;
+
+        foreach ($directReports as $directReport) {
+            $employee = $directReport->directReport;
+
+            $pendingTimesheets = $employee->timesheets()
+                ->where('status', Timesheet::READY_TO_SUBMIT)
+                ->orderBy('started_at', 'desc')
+                ->get();
+
+            $totalNumberOfTimesheetsToValidate += $pendingTimesheets->count();
+
+            if ($pendingTimesheets->count() !== 0) {
+                $employeesCollection->push([
+                    'id' => $employee->id,
+                    'avatar' => $employee->avatar,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $employee,
+                    ]),
+                ]);
+            }
+        }
+
+        return [
+            'totalNumberOfTimesheetsToValidate' => $totalNumberOfTimesheetsToValidate,
+            'employees' => $employeesCollection,
+            'url_view_all'=> route('dashboard.manager.timesheet.index', [
+                'company' => $manager->company,
+            ]),
+        ];
     }
 }

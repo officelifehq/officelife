@@ -6,10 +6,13 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
 use App\Models\Company\Answer;
+use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\Question;
+use App\Models\Company\ECoffeeMatch;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\EmployeeStatus;
 use App\Models\Company\ExpenseCategory;
 use App\Jobs\StartRateYourManagerProcess;
 use GrahamCampbell\TestBenchCore\HelperTrait;
@@ -143,8 +146,7 @@ class DashboardMeViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_currencies(): void
     {
-        $michael = $this->createAdministrator();
-        $response = DashboardMeViewHelper::currencies($michael->company);
+        $response = DashboardMeViewHelper::currencies();
 
         $this->assertEquals(
             179,
@@ -183,7 +185,7 @@ class DashboardMeViewHelperTest extends TestCase
                     'status' => 'accounting_approval',
                     'category' => 'travel',
                     'expensed_at' => 'Jan 01, 1999',
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'.$expense->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses/'.$expense->id,
                 ],
             ],
             $collection->toArray()
@@ -264,8 +266,8 @@ class DashboardMeViewHelperTest extends TestCase
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
-                        'id' => OneOnOneEntry::all()->first()->id,
-                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->first()->id,
+                        'id' => OneOnOneEntry::first()->id,
+                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::first()->id,
                     ],
                 ],
                 1 => [
@@ -275,12 +277,151 @@ class DashboardMeViewHelperTest extends TestCase
                     'position' => $michael->position->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'entry' => [
-                        'id' => OneOnOneEntry::all()->last()->id,
-                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::all()->last()->id,
+                        'id' => OneOnOneEntry::orderBy('id', 'desc')->first()->id,
+                        'url' => env('APP_URL').'/'.$dwight->company_id.'/dashboard/oneonones/'.OneOnOneEntry::orderBy('id', 'desc')->first()->id,
                     ],
                 ],
             ],
             $collection->toArray()
         );
+    }
+
+    /** @test */
+    public function it_gets_an_array_containing_information_about_upcoming_contract_renewals_for_external_employees(): void
+    {
+        Carbon::setTestNow(Carbon::create(2018, 1, 1));
+        $michael = $this->createAdministrator();
+
+        // employee is internal, it should return a blank array
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertNull($array);
+
+        $status = EmployeeStatus::factory()->create([
+            'company_id' => $michael->company_id,
+            'type' => EmployeeStatus::INTERNAL,
+        ]);
+        $michael->employee_status_id = $status->id;
+        $michael->save();
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertNull($array);
+
+        // employee is external, but the contract renewal date is not set
+        $status = EmployeeStatus::factory()->create([
+            'company_id' => $michael->company_id,
+            'type' => EmployeeStatus::EXTERNAL,
+        ]);
+        $michael->employee_status_id = $status->id;
+        $michael->save();
+        $michael->refresh();
+
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertNull($array);
+
+        // // employee is external and contract date is set, but in the far future
+        $michael->contract_renewed_at = Carbon::now()->addMonths(4);
+        $michael->save();
+        $michael->refresh();
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertNull($array);
+
+        // employee is external and contract date is set in less than 3 months
+        $michael->contract_renewed_at = Carbon::now()->addMonths(1);
+        $michael->save();
+        $michael->refresh();
+
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertEquals(
+            [
+                'contract_renewed_at' => 'Feb 01, 2018',
+                'number_of_days' => 31,
+                'late' => false,
+            ],
+            $array
+        );
+
+        // employee is external and contract date is set in the past
+        $michael->contract_renewed_at = Carbon::now()->subMonths(1);
+        $michael->save();
+        $michael->refresh();
+
+        $array = DashboardMeViewHelper::contractRenewal($michael);
+        $this->assertEquals(
+            [
+                'contract_renewed_at' => 'Dec 01, 2017',
+                'number_of_days' => 31,
+                'late' => true,
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_an_array_containing_the_information_about_the_current_ecoffee_session(): void
+    {
+        $michael = $this->createAdministrator();
+
+        $company = $michael->company;
+        $company->e_coffee_enabled = true;
+        $company->save();
+        $company->refresh();
+
+        $eCoffee = ECoffee::factory()->create([
+            'company_id' => $company->id,
+        ]);
+        $match = ECoffeeMatch::factory()->create([
+            'e_coffee_id' => $eCoffee->id,
+            'employee_id' => $michael->id,
+        ]);
+
+        $array = DashboardMeViewHelper::eCoffee($michael, $company);
+
+        $this->assertEquals(
+            [
+                'id' => $match->id,
+                'e_coffee_id' => $eCoffee->id,
+                'happened' => $match->happened,
+                'employee' => [
+                    'avatar' => $michael->avatar,
+                ],
+                'other_employee' => [
+                    'id' => $match->employeeMatchedWith->id,
+                    'name' => $match->employeeMatchedWith->name,
+                    'first_name' => $match->employeeMatchedWith->first_name,
+                    'avatar' => $match->employeeMatchedWith->avatar,
+                    'position' => $match->employeeMatchedWith->position ? $match->employeeMatchedWith->position->title : null,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$match->employeeMatchedWith->id,
+                    'teams' => null,
+                ],
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_returns_null_if_there_is_no_valid_ecoffee_session_right_now(): void
+    {
+        $michael = $this->createAdministrator();
+
+        // check if we return null when there is no ecoffee session
+        $company = $michael->company;
+        $company->e_coffee_enabled = true;
+        $company->save();
+        $company->refresh();
+        $this->assertNull(DashboardMeViewHelper::eCoffee($michael, $company));
+
+        // check if we return null when there the ecoffee is disabled in the company
+        $company->e_coffee_enabled = false;
+        $company->save();
+        $company->refresh();
+
+        $eCoffee = ECoffee::factory()->create([
+            'company_id' => $company->id,
+        ]);
+        ECoffeeMatch::factory()->create([
+            'e_coffee_id' => $eCoffee->id,
+            'employee_id' => $michael->id,
+        ]);
+
+        $this->assertNull(DashboardMeViewHelper::eCoffee($michael, $company));
     }
 }

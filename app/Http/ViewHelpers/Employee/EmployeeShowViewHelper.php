@@ -4,12 +4,22 @@ namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\TimeHelper;
 use App\Helpers\MoneyHelper;
+use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\WorklogHelper;
+use App\Models\Company\Company;
+use App\Models\Company\Project;
 use App\Models\Company\Employee;
+use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use App\Helpers\WorkFromHomeHelper;
+use App\Models\Company\ProjectTask;
+use App\Models\Company\ECoffeeMatch;
+use App\Models\Company\EmployeeStatus;
+use App\Models\Company\ProjectMessage;
 
 class EmployeeShowViewHelper
 {
@@ -26,6 +36,8 @@ class EmployeeShowViewHelper
     {
         $address = $employee->getCurrentAddress();
         $company = $employee->company;
+        $teams = $employee->teams;
+        $rate = $employee->consultantRates()->where('active', true)->first();
 
         return [
             'id' => $employee->id,
@@ -34,6 +46,7 @@ class EmployeeShowViewHelper
             'last_name' => $employee->last_name,
             'avatar' => $employee->avatar,
             'email' => $employee->email,
+            'phone' => $employee->phone_number,
             'twitter_handle' => $employee->twitter_handle,
             'slack_handle' => $employee->slack_handle,
             'locked' => $employee->locked,
@@ -51,12 +64,20 @@ class EmployeeShowViewHelper
                 'month' => $employee->hired_at->month,
                 'day' => $employee->hired_at->day,
             ],
+            'contract_renewed_at' => (! $employee->contract_renewed_at) ? null :
+                ($permissions['can_see_contract_renewal_date'] ? [
+                    'date' => DateHelper::formatDate($employee->contract_renewed_at),
+                ] : null),
+            'contract_rate' => (! $rate) ? null :
+                ($permissions['can_see_contract_renewal_date'] ? [
+                    'rate' => $rate->rate,
+                    'currency' => $company->currency,
+                ] : null),
             'raw_description' => $employee->description,
             'parsed_description' => is_null($employee->description) ? null : StringHelper::parse($employee->description),
             'address' => is_null($address) ? null : [
                 'sentence' => $permissions['can_see_complete_address'] ? $address->getCompleteAddress() : $address->getPartialAddress(),
                 'openstreetmap_url' => $address->getMapUrl($permissions['can_see_complete_address']),
-                'image' => $address->getStaticMapImage(7, 600, 130),
             ],
             'position' => (! $employee->position) ? null : [
                 'id' => $employee->position->id,
@@ -72,13 +93,23 @@ class EmployeeShowViewHelper
             'status' => (! $employee->status) ? null : [
                 'id' => $employee->status->id,
                 'name' => $employee->status->name,
+                'type' => $employee->status->type,
             ],
+            'teams' => ($teams->count() == 0) ? null : self::teams($teams, $company),
             'url' => [
                 'audit_log' => route('employee.show.logs', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
                 'edit' => route('employee.show.edit', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'edit_contract' => route('employee.show.edit.contract', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'lock' => route('account.lock', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
@@ -191,9 +222,20 @@ class EmployeeShowViewHelper
 
         // can see performance tab?
         $canSeePerformanceTab = $loggedEmployee->permission_level <= 200;
-        $canSeePerformanceTab = $loggedEmployeeIsManager;
         if ($loggedEmployee->id == $employee->id) {
             $canSeePerformanceTab = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canSeePerformanceTab = true;
+        }
+
+        // can see administration tab?
+        $canSeeAdministrationTab = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeAdministrationTab = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canSeeAdministrationTab = true;
         }
 
         // can see hardware
@@ -202,12 +244,36 @@ class EmployeeShowViewHelper
             $canSeeHardware = true;
         }
 
+        // can see contract renewal date for external employees
+        $canSeeContractRenewalDate = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeContractRenewalDate = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canSeeContractRenewalDate = true;
+        }
+        if ($employee->status) {
+            if ($employee->status->type == EmployeeStatus::INTERNAL) {
+                $canSeeContractRenewalDate = false;
+            }
+        } else {
+            $canSeeContractRenewalDate = false;
+        }
+
+        // can see timesheets
+        $canSeeTimesheets = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canSeeTimesheets = true;
+        }
+        if ($loggedEmployeeIsManager) {
+            $canSeeTimesheets = true;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
             'can_manage_position' => $canManagePosition,
             'can_manage_pronouns' => $canManagePronouns,
-            'can_marray' => $canManagePronouns,
             'can_manage_status' => $canManageStatus,
             'can_manage_teams' => $canManageTeam,
             'can_manage_skills' => $canManageSkills,
@@ -221,7 +287,10 @@ class EmployeeShowViewHelper
             'can_see_audit_log' => $canSeeAuditLog,
             'can_see_complete_address' => $canSeeCompleteAddress,
             'can_see_performance_tab' => $canSeePerformanceTab,
+            'can_see_administration_tab' => $canSeeAdministrationTab,
             'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
+            'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
+            'can_see_timesheets' => $canSeeTimesheets,
         ];
     }
 
@@ -237,6 +306,10 @@ class EmployeeShowViewHelper
         $managersOfEmployee = collect([]);
         foreach ($managers as $manager) {
             $manager = $manager->manager;
+
+            if ($manager->locked) {
+                continue;
+            }
 
             $managersOfEmployee->push([
                 'id' => $manager->id,
@@ -268,6 +341,10 @@ class EmployeeShowViewHelper
         $directReportsOfEmployee = collect([]);
         foreach ($directReports as $directReport) {
             $directReport = $directReport->directReport;
+
+            if ($directReport->locked) {
+                continue;
+            }
 
             $directReportsOfEmployee->push([
                 'id' => $directReport->id,
@@ -320,7 +397,7 @@ class EmployeeShowViewHelper
 
         $array = [
             'worklogs_collection' => $worklogsCollection,
-            'url' => route('employees.worklogs', [
+            'url' => route('employee.work.worklogs', [
                 'company' => $employee->company,
                 'employee' => $employee,
             ]),
@@ -338,17 +415,14 @@ class EmployeeShowViewHelper
      */
     public static function workFromHomeStats(Employee $employee): array
     {
-        $workFromHomes = $employee->workFromHomes;
-
-        // get all entries in the current year
-        $entries = $workFromHomes->filter(function ($entry) {
-            return $entry->date->isCurrentYear();
-        });
+        $now = Carbon::now();
+        $currentYear = $now->year;
+        $workFromHomes = $employee->workFromHomes()->whereYear('date', (string) $currentYear)->get();
 
         return [
-            'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
-            'number_times_this_year' => $entries->count(),
-            'url' => route('employees.workfromhome', [
+            'work_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, $now),
+            'number_times_this_year' => $workFromHomes->count(),
+            'url' => route('employee.work.workfromhome', [
                 'company' => $employee->company,
                 'employee' => $employee,
             ]),
@@ -389,17 +463,12 @@ class EmployeeShowViewHelper
     /**
      * Array containing information about the teams.
      *
-     * @param Employee $employee
+     * @param Company $company
      * @param Collection $teams
      * @return Collection
      */
-    public static function teams(Collection $teams, Employee $employee): Collection
+    public static function teams(Collection $teams, Company $company): Collection
     {
-        // reduce the number of queries that the foreach loop generates
-        // we don't need to iterate over this over and over as it'll be the same
-        //for all those companies
-        $company = $employee->company;
-
         $teamsCollection = collect([]);
         foreach ($teams as $team) {
             $teamsCollection->push([
@@ -553,7 +622,7 @@ class EmployeeShowViewHelper
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
-                'url' => route('employee.expenses.show', [
+                'url' => route('employee.administration.expenses.show', [
                     'company' => $employee->company,
                     'employee' => $employee,
                     'expense' => $expense,
@@ -562,7 +631,7 @@ class EmployeeShowViewHelper
         }
 
         return [
-            'url' => route('employee.expenses.index', [
+            'url' => route('employee.administration.expenses.index', [
                 'company' => $employee->company,
                 'employee' => $employee,
             ]),
@@ -588,7 +657,7 @@ class EmployeeShowViewHelper
 
         $oneOnOnes = $employee->oneOnOneEntriesAsEmployee()
             ->with('manager')
-            ->latest()->take(3)->get();
+            ->orderBy('happened_at', 'desc')->take(3)->get();
 
         $company = $employee->company;
 
@@ -606,7 +675,7 @@ class EmployeeShowViewHelper
                         'employee' => $oneOnOne->manager,
                     ]),
                 ],
-                'url' => route('employees.oneonones.show', [
+                'url' => route('employees.show.performance.oneonones.show', [
                     'company' => $company,
                     'employee' => $employee,
                     'oneonone' => $oneOnOne,
@@ -616,10 +685,230 @@ class EmployeeShowViewHelper
 
         return [
             'entries' => $collection,
-            'view_all_url' => route('employees.oneonones.index', [
+            'view_all_url' => route('employees.show.performance.oneonones.index', [
                 'company' => $company,
                 'employee' => $employee,
             ]),
+        ];
+    }
+
+    /**
+     * Get the employee statuses for the given company.
+     *
+     * @param Company $company
+     * @return Collection
+     */
+    public static function employeeStatuses(Company $company): Collection
+    {
+        $statuses = $company->employeeStatuses()->get();
+
+        $statusCollection = collect([]);
+        foreach ($statuses as $status) {
+            $statusCollection->push([
+                'id' => $status->id,
+                'name' => $status->name,
+            ]);
+        }
+
+        return $statusCollection;
+    }
+
+    /**
+     * Array containing information about the latest timesheets logged by the
+     * employee.
+     *
+     * @param Employee $employee
+     * @param array $permissions
+     * @return array|null
+     */
+    public static function timesheets(Employee $employee, array $permissions): ?array
+    {
+        if (! $permissions['can_see_timesheets']) {
+            return null;
+        }
+
+        $timesheets = $employee->timesheets()
+            ->whereIn('timesheets.status', [Timesheet::APPROVED, Timesheet::REJECTED])
+            ->orderBy('timesheets.started_at', 'desc')
+            ->take(3)
+            ->get();
+
+        $company = $employee->company;
+
+        $timesheetCollection = collect([]);
+        foreach ($timesheets as $timesheet) {
+            $totalWorkedInMinutes = DB::table('time_tracking_entries')
+                ->where('timesheet_id', $timesheet->id)
+                ->sum('duration');
+
+            $arrayOfTime = TimeHelper::convertToHoursAndMinutes($totalWorkedInMinutes);
+
+            $timesheetCollection->push([
+                'id' => $timesheet->id,
+                'started_at' => DateHelper::formatDate($timesheet->started_at),
+                'ended_at' => DateHelper::formatDate($timesheet->ended_at),
+                'duration' => trans('dashboard.manager_timesheet_approval_duration', [
+                    'hours' => $arrayOfTime['hours'],
+                    'minutes' => $arrayOfTime['minutes'],
+                ]),
+                'status' => $timesheet->status,
+                'url' => route('employee.timesheets.show', [
+                    'company' => $company,
+                    'employee' => $employee,
+                    'timesheet' => $timesheet,
+                ]),
+            ]);
+        }
+
+        return [
+            'entries' => $timesheetCollection,
+            'view_all_url' => route('employee.timesheets.index', [
+                'company' => $company,
+                'employee' => $employee,
+            ]),
+        ];
+    }
+
+    /**
+     * Array containing information about all the pronouns used in the company.
+     *
+     * @return Collection|null
+     */
+    public static function pronouns(): ?Collection
+    {
+        $pronounCollection = collect([]);
+        $pronouns = Pronoun::orderBy('id', 'asc')->get();
+
+        foreach ($pronouns as $pronoun) {
+            $pronounCollection->push([
+                'id' => $pronoun->id,
+                'label' => $pronoun->label,
+            ]);
+        }
+
+        return $pronounCollection;
+    }
+
+    /**
+     * Array containing information about all the positions used in the company.
+     *
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function positions(Company $company): ?Collection
+    {
+        $positionCollection = collect([]);
+        $positions = $company->positions;
+
+        foreach ($positions as $position) {
+            $positionCollection->push([
+                'id' => $position->id,
+                'title' => $position->title,
+            ]);
+        }
+
+        return $positionCollection;
+    }
+
+    /**
+     * List all the projects of the employee.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return Collection|null
+     */
+    public static function projects(Employee $employee, Company $company): ?Collection
+    {
+        /** Going through a raw query coupled with eloquent to drastically reduce the number of hydrated models */
+        $projects = Project::join('employee_project', 'employee_project.project_id', '=', 'projects.id')
+            ->select('employee_project.role', 'employee_project.created_at', 'employee_project.project_id', 'projects.id as project_id', 'projects.name', 'projects.code', 'projects.status')
+            ->addSelect([
+                'messages_count' => ProjectMessage::select(DB::raw('count(id)'))
+                    ->whereColumn('author_id', 'employee_id')
+                    ->whereColumn('project_id', 'projects.id'),
+            ])
+            ->addSelect([
+                'tasks_count' => ProjectTask::select(DB::raw('count(id)'))
+                    ->whereColumn('assignee_id', 'employee_id')
+                    ->whereColumn('project_id', 'projects.id'),
+            ])
+            ->where('employee_project.employee_id', $employee->id)
+            ->orderBy('projects.id', 'desc')
+            ->withCasts([
+                'created_at' => 'datetime',
+            ])
+            ->get();
+
+        $projectsCollection = collect([]);
+        foreach ($projects as $project) {
+            $projectsCollection->push([
+                'id' => $project->project_id,
+                'name' => $project->name,
+                'code' => $project->code,
+                'status' => $project->status,
+                'role' => $project->role,
+                'messages_count' => $project->messages_count,
+                'tasks_count' => $project->tasks_count,
+                'url' => route('projects.show', [
+                    'company' => $company,
+                    'project' => $project->project_id,
+                ]),
+            ]);
+        }
+
+        return $projectsCollection;
+    }
+
+    /**
+     * List all the eCoffees the employee participated to.
+     *
+     * @param Employee $employee
+     * @param Company $company
+     * @return array|null
+     */
+    public static function eCoffees(Employee $employee, Company $company): ?array
+    {
+        $matches = ECoffeeMatch::where(function ($query) use ($employee) {
+            $query->where('employee_id', $employee->id)
+                ->orWhere('with_employee_id', $employee->id);
+        })->orderBy('id', 'desc')
+            ->with('eCoffee')
+            ->take(3)->get();
+
+        $eCoffeeCollection = collect([]);
+        foreach ($matches as $match) {
+            if ($employee->id == $match->with_employee_id) {
+                $withEmployee = $match->employee;
+            } else {
+                $withEmployee = $match->employeeMatchedWith;
+            }
+
+            $eCoffeeCollection->push([
+                'id' => $match->id,
+                'ecoffee' => [
+                    'started_at' => DateHelper::formatDate($match->eCoffee->created_at),
+                    'ended_at' => DateHelper::formatDate($match->eCoffee->created_at->endOfWeek(Carbon::SUNDAY)),
+                ],
+                'with_employee' => [
+                    'id' => $withEmployee->id,
+                    'name' => $withEmployee->name,
+                    'first_name' => $withEmployee->first_name,
+                    'avatar' => $withEmployee->avatar,
+                    'position' => $withEmployee->position ? $withEmployee->position->title : null,
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $withEmployee,
+                    ]),
+                ],
+            ]);
+        }
+
+        return [
+            'view_all_url' => route('employees.ecoffees.index', [
+                'company' => $company,
+                'employee' => $employee,
+            ]),
+            'eCoffees' => $eCoffeeCollection,
         ];
     }
 }

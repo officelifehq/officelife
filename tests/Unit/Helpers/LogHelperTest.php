@@ -19,17 +19,17 @@ class LogHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $auditLog = factory(AuditLog::class)->create([
+        $log = factory(AuditLog::class)->create([
             'action' => 'employee_invited_to_become_user',
             'objects' => json_encode([
                 'author_id' => $michael->user->id,
-                'employee_first_name' => $michael->user->firstname,
-                'employee_last_name' => $michael->user->lastname,
+                'employee_first_name' => $michael->user->first_name,
+                'employee_last_name' => $michael->user->last_name,
             ]),
             'company_id' => $michael->company_id,
         ]);
 
-        $this->assertIsString(LogHelper::processAuditLog($auditLog));
+        $this->assertIsString(LogHelper::processAuditLog($log));
     }
 
     /** @test */
@@ -37,7 +37,7 @@ class LogHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $auditLog = factory(EmployeeLog::class)->create([
+        $log = factory(EmployeeLog::class)->create([
             'action' => 'direct_report_assigned',
             'objects' => json_encode([
                 'author_id' => $michael->user->id,
@@ -46,7 +46,7 @@ class LogHelperTest extends TestCase
             'employee_id' => $michael->id,
         ]);
 
-        $this->assertIsString(LogHelper::processEmployeeLog($auditLog));
+        $this->assertIsString(LogHelper::processEmployeeLog($log));
     }
 
     /** @test */
@@ -54,7 +54,7 @@ class LogHelperTest extends TestCase
     {
         $team = factory(Team::class)->create([]);
 
-        $auditLog = factory(TeamLog::class)->create([
+        $log = factory(TeamLog::class)->create([
             'action' => 'team_log_team_created',
             'objects' => json_encode([
                 'team_name' => $team->id,
@@ -62,6 +62,48 @@ class LogHelperTest extends TestCase
             'team_id' => $team->id,
         ]);
 
-        $this->assertIsString(LogHelper::processTeamLog($auditLog));
+        $this->assertIsString(LogHelper::processTeamLog($log));
+    }
+
+    /** @test */
+    public function it_returns_empty_by_default_for_audit_log(): void
+    {
+        $log = factory(AuditLog::class)->create([
+            'action' => '',
+        ]);
+
+        $string = LogHelper::processAuditLog($log);
+
+        $this->assertIsString($string);
+
+        $this->assertEquals('', $string);
+    }
+
+    /** @test */
+    public function it_returns_empty_by_default_for_employee_log(): void
+    {
+        $log = factory(EmployeeLog::class)->create([
+            'action' => '',
+        ]);
+
+        $string = LogHelper::processEmployeeLog($log);
+
+        $this->assertIsString($string);
+
+        $this->assertEquals('', $string);
+    }
+
+    /** @test */
+    public function it_returns_empty_by_default_for_team_log(): void
+    {
+        $log = factory(TeamLog::class)->create([
+            'action' => '',
+        ]);
+
+        $string = LogHelper::processTeamLog($log);
+
+        $this->assertIsString($string);
+
+        $this->assertEquals('', $string);
     }
 }

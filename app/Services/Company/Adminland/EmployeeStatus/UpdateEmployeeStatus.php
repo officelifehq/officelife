@@ -21,6 +21,7 @@ class UpdateEmployeeStatus extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'employee_status_id' => 'required|integer|exists:employee_statuses,id',
             'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
         ];
     }
 
@@ -47,6 +48,7 @@ class UpdateEmployeeStatus extends BaseService
 
         $employeeStatus->update([
             'name' => $data['name'],
+            'type' => $data['type'],
         ]);
 
         LogAccountAudit::dispatch([

@@ -35,6 +35,7 @@ class CompanyController extends Controller
         $guessEmployeeGameInformation = CompanyViewHelper::guessEmployeeGameInformation($employee, $company);
 
         return Inertia::render('Company/Index', [
+            'tab' => 'company',
             'statistics' => $statistics,
             'latestQuestions' => $latestQuestions,
             'birthdaysThisWeek' => $birthdaysThisWeek,
@@ -57,7 +58,7 @@ class CompanyController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $loggedEmployee->id,
@@ -65,7 +66,7 @@ class CompanyController extends Controller
             'choice_id' => $request->input('choiceId'),
         ];
 
-        (new VoteGuessEmployeeGame)->execute($request);
+        (new VoteGuessEmployeeGame)->execute($data);
 
         return response()->json([
             'success' => true,

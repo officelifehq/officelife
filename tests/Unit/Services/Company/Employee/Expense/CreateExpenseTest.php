@@ -106,7 +106,7 @@ class CreateExpenseTest extends TestCase
     public function it_fails_if_expense_category_is_not_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = $this->createEmployee($michael);
+        $dwight = $this->createEmployee();
         $category = factory(ExpenseCategory::class)->create();
 
         $this->expectException(ModelNotFoundException::class);
@@ -118,6 +118,68 @@ class CreateExpenseTest extends TestCase
     {
         $request = [
             'title' => 'Assistant to the regional manager',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateExpense)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_amount_zero(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $managerA = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+            'first_name' => 'toto',
+        ]);
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $managerA->id,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'expense_category_id' => null,
+            'title' => 'Restaurant',
+            'amount' => '0',
+            'currency' => 'USD',
+            'expensed_at' => '1999-01-01',
+        ];
+
+        $this->expectException(ValidationException::class);
+        (new CreateExpense)->execute($request);
+    }
+
+    /** @test */
+    public function it_fails_if_amount_not_positive(): void
+    {
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $managerA = factory(Employee::class)->create([
+            'company_id' => $michael->company_id,
+            'first_name' => 'toto',
+        ]);
+        (new AssignManager)->execute([
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'manager_id' => $managerA->id,
+        ]);
+
+        $request = [
+            'company_id' => $michael->company_id,
+            'author_id' => $michael->id,
+            'employee_id' => $dwight->id,
+            'expense_category_id' => null,
+            'title' => 'Restaurant',
+            'amount' => '-10',
+            'currency' => 'USD',
+            'expensed_at' => '1999-01-01',
         ];
 
         $this->expectException(ValidationException::class);
@@ -143,7 +205,7 @@ class CreateExpenseTest extends TestCase
 
         $this->assertDatabaseHas('expenses', [
             'id' => $expense->id,
-            'company_id' => $dwight->company->id,
+            'company_id' => $dwight->company_id,
             'employee_id' => $dwight->id,
             'employee_name' => $dwight->name,
             'title' => 'Restaurant',
@@ -157,7 +219,7 @@ class CreateExpenseTest extends TestCase
             $expense
         );
 
-        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight, $expense) {
+        Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $expense) {
             return $job->auditLog['action'] === 'expense_created' &&
                 $job->auditLog['author_id'] === $michael->id &&
                 $job->auditLog['objects'] === json_encode([

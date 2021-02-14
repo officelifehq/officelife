@@ -47,8 +47,9 @@ class LockEmployee extends BaseService
 
         $this->employee = $this->validateEmployeeBelongsToCompany($data);
 
-        $this->employee->locked = true;
-        $this->employee->save();
+        Employee::where('id', $this->employee->id)->update([
+            'locked' => true,
+        ]);
 
         $this->removeAccountantRole();
 

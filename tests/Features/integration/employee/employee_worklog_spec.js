@@ -5,7 +5,7 @@ describe('Employee - worklogs', function () {
     cy.createCompany();
 
     // there should be no worklogs
-    cy.visit('/1/employees/1');
+    cy.visit('/1/employees/1/work');
 
     cy.get('body').should('contain', 'No work log this day');
     cy.get('body').should('not.contain', 'I made a drawing');
@@ -17,12 +17,12 @@ describe('Employee - worklogs', function () {
     cy.get('[data-cy=worklog-content]').type('I made a drawing');
     cy.get('[data-cy=submit-log-worklog]').click();
 
-    cy.visit('/1/employees/1');
+    cy.visit('/1/employees/1/work');
 
     cy.get('body').should('contain', 'I made a drawing');
 
     // see the complete worklog page
     cy.get('[data-cy=view-all-worklogs]').click();
-    cy.url().should('include', '/1/employees/1/worklogs');
+    cy.url().should('include', '/1/employees/1/work/worklogs');
   });
 });

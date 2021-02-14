@@ -45,13 +45,13 @@ class AdminGeneralController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
         ];
 
-        (new RenameCompany)->execute($request);
+        (new RenameCompany)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -70,13 +70,13 @@ class AdminGeneralController extends Controller
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'currency' => $request->input('currency'),
         ];
 
-        (new UpdateCompanyCurrency)->execute($request);
+        (new UpdateCompanyCurrency)->execute($data);
 
         return response()->json([
             'data' => true,

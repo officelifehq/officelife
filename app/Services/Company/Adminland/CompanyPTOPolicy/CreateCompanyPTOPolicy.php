@@ -67,8 +67,11 @@ class CreateCompanyPTOPolicy extends BaseService
         // fix the number of worked days to be sure
         $offDays = $this->populateCalendar($data, $ptoPolicy);
         $numberOfWorkedDays = DateHelper::getNumberOfDaysInYear(Carbon::now()) - $offDays;
-        $ptoPolicy->total_worked_days = $numberOfWorkedDays;
-        $ptoPolicy->save();
+
+        // update
+        CompanyPTOPolicy::where('id', $ptoPolicy->id)->update([
+            'total_worked_days' => $numberOfWorkedDays,
+        ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],

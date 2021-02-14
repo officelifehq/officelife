@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Company\Employee;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
-use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
@@ -40,10 +39,10 @@ class EmployeeOneOnOneController extends Controller
             ->with('talkingPoints')
             ->with('actionItems')
             ->with('notes')
-            ->latest()
+            ->orderBy('happened_at', 'desc')
             ->get();
 
-        return Inertia::render('Employee/OneOnOnes/Index', [
+        return Inertia::render('Employee/Performance/OneOnOnes/Index', [
             'employee' => [
                 'id' => $employeeId,
                 'name' => $employee->name,
@@ -55,7 +54,7 @@ class EmployeeOneOnOneController extends Controller
     }
 
     /**
-     * Display a single expense.
+     * Display a single one on one.
      *
      * @param Request $request
      * @param int $companyId
@@ -84,7 +83,7 @@ class EmployeeOneOnOneController extends Controller
 
         $details = EmployeeOneOnOneViewHelper::details($entry);
 
-        return Inertia::render('Employee/OneOnOnes/Show', [
+        return Inertia::render('Employee/Performance/OneOnOnes/Show', [
             'employee' => [
                 'id' => $employeeId,
                 'name' => $employee->name,

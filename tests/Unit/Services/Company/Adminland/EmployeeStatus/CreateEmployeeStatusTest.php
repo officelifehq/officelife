@@ -57,6 +57,7 @@ class CreateEmployeeStatusTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'name' => 'Permanent',
+            'type' => 'Permanent',
         ];
 
         $employeeStatus = (new CreateEmployeeStatus)->execute($request);
@@ -65,6 +66,7 @@ class CreateEmployeeStatusTest extends TestCase
             'id' => $employeeStatus->id,
             'company_id' => $michael->company_id,
             'name' => 'Permanent',
+            'type' => 'Permanent',
         ]);
 
         $this->assertInstanceOf(

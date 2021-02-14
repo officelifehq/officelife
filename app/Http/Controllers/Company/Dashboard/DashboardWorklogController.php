@@ -21,14 +21,14 @@ class DashboardWorklogController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $employee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $employee->id,
             'employee_id' => $employee->id,
             'content' => $request->input('content'),
         ];
 
-        (new LogWorklog)->execute($request);
+        (new LogWorklog)->execute($data);
 
         $employee->refresh();
 

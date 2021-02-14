@@ -8,15 +8,22 @@
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <div class="cf mt4 mw7 center">
-        <h2 class="tc fw5">
-          {{ $page.props.auth.company.name }}
-        </h2>
-      </div>
-
       <dashboard-menu :employee="employee" />
 
+      <e-coffee
+        v-if="eCoffee"
+        :employee="employee"
+        :e-coffee="eCoffee"
+      />
+
+      <contract-renewal-date
+        v-if="contractRenewal"
+        :employee="employee"
+        :contract-renewal="contractRenewal"
+      />
+
       <one-on-one-with-manager
+        v-if="oneOnOnes.length > 0"
         :employee="employee"
         :one-on-ones="oneOnOnes"
       />
@@ -92,8 +99,10 @@ import Task from '@/Pages/Dashboard/Me/Partials/Task';
 import Expense from '@/Pages/Dashboard/Me/Partials/Expense';
 import RateYourManager from '@/Pages/Dashboard/Me/Partials/RateYourManager';
 import OneOnOneWithManager from '@/Pages/Dashboard/Me/Partials/OneOnOneWithManager';
+import ContractRenewalDate from '@/Pages/Dashboard/Me/Partials/ContractRenewalDate';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
+import ECoffee from '@/Pages/Dashboard/Me/Partials/ECoffee';
 
 export default {
   components: {
@@ -106,7 +115,9 @@ export default {
     WorkFromHome,
     RateYourManager,
     OneOnOneWithManager,
+    ContractRenewalDate,
     DashboardMenu,
+    ECoffee,
   },
 
   props: {
@@ -154,7 +165,15 @@ export default {
       type: Array,
       default: null,
     },
+    contractRenewal: {
+      type: Array,
+      default: null,
+    },
     defaultCurrency: {
+      type: Object,
+      default: null,
+    },
+    eCoffee: {
       type: Object,
       default: null,
     },

@@ -21,7 +21,11 @@ class AdminGeneralViewHelper
 
         // list of curent administrators
         $administratorsCollection = collect([]);
-        $administrators = $company->employees()->notLocked()->where('permission_level', 100)->get();
+        $administrators = $company->employees()
+            ->notLocked()
+            ->where('permission_level', 100)
+            ->orderBy('id', 'asc')
+            ->get();
 
         foreach ($administrators as $employee) {
             $administratorsCollection->push([
@@ -61,6 +65,7 @@ class AdminGeneralViewHelper
                 'code' => $currency->getCode(),
             ]);
         }
+
         return $currencyCollection;
     }
 }

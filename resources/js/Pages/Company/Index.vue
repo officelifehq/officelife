@@ -14,7 +14,7 @@
     <div class="cover mb3" :style="'height: 25vh; background: url(https://images.unsplash.com/photo-1531973576160-7125cd663d86?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80) no-repeat center center'"></div>
 
     <!-- company name + data -->
-    <div class="ph2 ph5-ns mb4">
+    <div class="ph2 ph5-ns mb2">
       <div class="flex relative">
         <div class="company-logo relative ba bb-gray pa2 br3 bg-white mr3-ns">
           <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fih1.redbubble.net%2Fimage.445715442.6589%2Fpp%2C550x550.u3.jpg&f=1&nofb=1" />
@@ -43,6 +43,8 @@
 
     <div class="ph2 ph5-ns">
       <!-- central content -->
+      <tab :tab="tab" />
+
       <div class="cf mw9 center">
         <div class="fl w-third-l w-100">
           <company-news :news="latestNews" />
@@ -69,6 +71,7 @@
 
 <script>
 import Layout from '@/Shared/Layout';
+import Tab from '@/Pages/Company/Partials/Tab';
 import Questions from '@/Pages/Company/Partials/Questions';
 import GuessEmployeeGame from '@/Pages/Company/Partials/GuessEmployeeGame';
 import Birthdays from '@/Pages/Company/Partials/Birthdays';
@@ -80,6 +83,7 @@ import RecentSkills from '@/Pages/Company/Partials/RecentSkills';
 export default {
   components: {
     Layout,
+    Tab,
     Questions,
     GuessEmployeeGame,
     Birthdays,
@@ -90,6 +94,10 @@ export default {
   },
 
   props: {
+    tab: {
+      type: Object,
+      default: null,
+    },
     statistics: {
       type: Object,
       default: null,

@@ -7,10 +7,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        HasFactory;
 
     protected $table = 'companies';
 
@@ -23,6 +25,7 @@ class Company extends Model
         'name',
         'currency',
         'has_dummy_data',
+        'e_coffee_enabled',
     ];
 
     /**
@@ -42,6 +45,7 @@ class Company extends Model
      */
     protected $casts = [
         'has_dummy_data' => 'boolean',
+        'e_coffee_enabled' => 'boolean',
     ];
 
     /**
@@ -185,7 +189,7 @@ class Company extends Model
     }
 
     /**
-     * Get all the projets in the company.
+     * Get all the projects in the company.
      *
      * @return HasMany
      */
@@ -195,11 +199,41 @@ class Company extends Model
     }
 
     /**
+     * Get all the timesheets in the company.
+     *
+     * @return HasMany
+     */
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class);
+    }
+
+    /**
+     * Get all the consultant rates used in the company.
+     *
+     * @return HasMany
+     */
+    public function consultantRates()
+    {
+        return $this->hasMany(ConsultantRate::class);
+    }
+
+    /**
+     * Get all the ecoffee sessions in the company.
+     *
+     * @return HasMany
+     */
+    public function eCoffees()
+    {
+        return $this->hasMany(ECoffee::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
-     * @return CompanyPTOPolicy
+     * @return object|null
      */
-    public function getCurrentPTOPolicy(): CompanyPTOPolicy
+    public function getCurrentPTOPolicy(): ?object
     {
         $ptoPolicy = $this->ptoPolicies()->where('year', Carbon::now()->format('Y'))->first();
 

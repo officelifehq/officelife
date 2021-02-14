@@ -29,6 +29,7 @@ class AddEmployeeToProject extends BaseService
             'author_id' => 'required|integer|exists:employees,id',
             'project_id' => 'required|integer|exists:projects,id',
             'employee_id' => 'required|integer|exists:employees,id',
+            'role' => 'nullable|string',
         ];
     }
 
@@ -36,9 +37,9 @@ class AddEmployeeToProject extends BaseService
      * Add an employee to a project.
      *
      * @param array $data
-     * @return Project
+     * @return Employee
      */
-    public function execute(array $data): Project
+    public function execute(array $data): Employee
     {
         $this->data = $data;
         $this->validate();
@@ -46,7 +47,7 @@ class AddEmployeeToProject extends BaseService
         $this->attachEmployee();
         $this->log();
 
-        return $this->project;
+        return $this->employee;
     }
 
     private function validate(): void
@@ -67,7 +68,9 @@ class AddEmployeeToProject extends BaseService
     private function attachEmployee(): void
     {
         $this->project->employees()->syncWithoutDetaching([
-            $this->data['employee_id'],
+            $this->data['employee_id'] => [
+                'role' => $this->valueOrNull($this->data, 'role'),
+            ],
         ]);
     }
 

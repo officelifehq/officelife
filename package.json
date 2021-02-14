@@ -1,15 +1,15 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
+        "dev": "yarn development",
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "npm run development -- --watch",
-        "watch-poll": "npm run watch -- --watch-poll",
+        "watch": "yarn development -- --watch",
+        "watch-poll": "yarn watch -- --watch-poll",
         "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
+        "prod": "yarn production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "preproduction": "php artisan lang:generate -vvv",
-        "postinstall": "npm run production",
+        "heroku-postbuild": "yarn run production",
         "e2e": "cypress run",
         "e2e-gui": "cypress open",
         "inst": "yarn install --ignore-engines --frozen-lockfile",
@@ -19,14 +19,16 @@
         "lint:fix": "yarn lint --fix & yarn lint:cypress --fix",
         "cypress": "mv .env .env2 && mv .env.cypress.local .env && yarn run e2e-gui",
         "normal": "mv .env .env.cypress.local && mv .env2 .env",
-        "test": "DB_CONNECTION=testing php artisan migrate:fresh && DB_CONNECTION=testing php artisan db:seed",
+        "pretest": "DB_CONNECTION=testing php artisan migrate:fresh && DB_CONNECTION=testing php artisan db:seed",
+        "test": "vendor/bin/phpunit",
+        "posttest": "vendor/bin/phpstan analyse && vendor/bin/psalm",
         "local": "php artisan migrate:fresh && php artisan db:seed",
         "composer update": "COMPOSER_MEMORY_LIMIT=-1 composer update"
     },
     "devDependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "cross-env": "^7.0",
-        "cypress": "^5.3.0",
+        "cypress": "6.1.0",
         "eslint": "^7.11.0",
         "eslint-config-standard": "^14.1.1",
         "eslint-plugin-cypress": "^2.11.2",
@@ -48,9 +50,9 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "@inertiajs/inertia": "^0.4.0",
-        "@inertiajs/inertia-vue": "^0.3",
-        "@inertiajs/progress": "^0.1.2",
+        "@inertiajs/inertia": "^0.8.4",
+        "@inertiajs/inertia-vue": "^0.5.5",
+        "@inertiajs/progress": "^0.2.4",
         "@popperjs/core": "^2.5",
         "axios": "^0.20",
         "laravel-mix": "^5.0.6",
@@ -65,7 +67,8 @@
         "vue-i18n": "^8.22.0",
         "vue-loaders": "^4.1.1",
         "vue-select": "^3.10.8",
-        "vue-snotify": "^3.2.1"
+        "vue-snotify": "^3.2.1",
+        "vue-the-mask": "^0.11.1"
     },
     "lint-staged": {
         "resources/**/*.{css,scss}": [

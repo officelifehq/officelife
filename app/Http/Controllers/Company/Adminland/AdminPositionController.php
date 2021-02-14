@@ -9,7 +9,7 @@ use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\PositionCollection;
+use App\Http\ViewHelpers\Adminland\AdminPositionViewHelper;
 use App\Services\Company\Adminland\Position\CreatePosition;
 use App\Services\Company\Adminland\Position\UpdatePosition;
 use App\Services\Company\Adminland\Position\DestroyPosition;
@@ -25,7 +25,7 @@ class AdminPositionController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
         $positions = $company->positions()->orderBy('title', 'asc')->get();
-        $positionCollection = PositionCollection::prepare($positions);
+        $positionCollection = AdminPositionViewHelper::list($company);
 
         return Inertia::render('Adminland/Position/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -45,16 +45,19 @@ class AdminPositionController extends Controller
         $company = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $company->id,
             'author_id' => $loggedEmployee->id,
             'title' => $request->input('title'),
         ];
 
-        $position = (new CreatePosition)->execute($request);
+        $position = (new CreatePosition)->execute($data);
 
         return response()->json([
-            'data' => $position->toObject(),
+            'data' => [
+                'id' => $position->id,
+                'title' => $position->title,
+            ],
         ], 201);
     }
 
@@ -70,17 +73,20 @@ class AdminPositionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'position_id' => $positionId,
             'title' => $request->input('title'),
         ];
 
-        $position = (new UpdatePosition)->execute($request);
+        $position = (new UpdatePosition)->execute($data);
 
         return response()->json([
-            'data' => $position->toObject(),
+            'data' => [
+                'id' => $position->id,
+                'title' => $position->title,
+            ],
         ], 200);
     }
 
@@ -96,13 +102,13 @@ class AdminPositionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'position_id' => $positionId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyPosition)->execute($request);
+        (new DestroyPosition)->execute($data);
 
         return response()->json([
             'data' => true,

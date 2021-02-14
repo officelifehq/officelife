@@ -20,6 +20,7 @@ class CreateEmployeeStatus extends BaseService
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
             'name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
         ];
     }
 
@@ -27,7 +28,6 @@ class CreateEmployeeStatus extends BaseService
      * Create an employee status.
      *
      * @param array $data
-     *
      * @return EmployeeStatus
      */
     public function execute(array $data): EmployeeStatus
@@ -42,6 +42,7 @@ class CreateEmployeeStatus extends BaseService
         $employeeStatus = EmployeeStatus::create([
             'company_id' => $data['company_id'],
             'name' => $data['name'],
+            'type' => $data['type'],
         ]);
 
         LogAccountAudit::dispatch([

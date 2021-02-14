@@ -3,10 +3,15 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Project extends Model
 {
+    use HasFactory;
+
     /**
      * Possible statuses.
      */
@@ -79,17 +84,17 @@ class Project extends Model
     /**
      * Get the employee records associated with the project.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function employees()
     {
-        return $this->belongsToMany(Employee::class);
+        return $this->belongsToMany(Employee::class)->withTimestamps()->withPivot('role', 'created_at');
     }
 
     /**
      * Get the team records associated with the project.
      *
-     * @return belongsToMany
+     * @return BelongsToMany
      */
     public function teams()
     {
@@ -99,7 +104,7 @@ class Project extends Model
     /**
      * Get the employee records associated with the project.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function links()
     {
@@ -109,10 +114,60 @@ class Project extends Model
     /**
      * Get the project status associated with the project.
      *
-     * @return hasMany
+     * @return HasMany
      */
     public function statuses()
     {
         return $this->hasMany(ProjectStatus::class);
+    }
+
+    /**
+     * Get the project decisions associated with the project.
+     *
+     * @return hasMany
+     */
+    public function decisions()
+    {
+        return $this->hasMany(ProjectDecision::class);
+    }
+
+    /**
+     * Get the project messages associated with the project.
+     *
+     * @return HasMany
+     */
+    public function messages()
+    {
+        return $this->hasMany(ProjectMessage::class);
+    }
+
+    /**
+     * Get the project tasks associated with the project.
+     *
+     * @return HasMany
+     */
+    public function tasks()
+    {
+        return $this->hasMany(ProjectTask::class);
+    }
+
+    /**
+     * Get the project task lists associated with the project.
+     *
+     * @return HasMany
+     */
+    public function lists()
+    {
+        return $this->hasMany(ProjectTaskList::class);
+    }
+
+    /**
+     * Get the time tracking entries associated with the project.
+     *
+     * @return HasMany
+     */
+    public function timeTrackingEntries()
+    {
+        return $this->hasMany(TimeTrackingEntry::class);
     }
 }

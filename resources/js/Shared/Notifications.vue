@@ -89,7 +89,7 @@ export default {
           this.numberOfNotifications = 0;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     }
   }

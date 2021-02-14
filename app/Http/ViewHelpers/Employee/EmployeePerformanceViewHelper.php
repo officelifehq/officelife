@@ -34,37 +34,36 @@ class EmployeePerformanceViewHelper
         // the manager the date of the next survey
         $survey = $surveysToDisplay->first();
         if (! $survey->active) {
+            $now = Carbon::now();
             $surveysCollection->push([
                 'id' => null,
-                'month' => Carbon::now()->format('M Y'),
-                'deadline' => DateHelper::hoursOrDaysLeft(Carbon::now()->endOfMonth()),
+                'month' => $now->format('M Y'),
+                'deadline' => DateHelper::hoursOrDaysLeft($now->copy()->endOfMonth()),
             ]);
         }
 
         foreach ($surveysToDisplay as $survey) {
             $totalNumberOfPotentialResponders = $survey->answers->count();
-            $numberOfAnswers = 0;
 
             // counting results about answers, if available
             $results = [];
-            if ($survey->answers) {
-                $bad = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::BAD;
-                });
-                $average = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::AVERAGE;
-                });
-                $good = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::GOOD;
-                });
-                $results = [
-                    'bad' => $bad->count(),
-                    'average' => $average->count(),
-                    'good' => $good->count(),
-                ];
 
-                $numberOfAnswers = $bad->count() + $average->count() + $good->count();
-            }
+            $bad = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::BAD;
+            });
+            $average = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::AVERAGE;
+            });
+            $good = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::GOOD;
+            });
+            $results = [
+                'bad' => $bad->count(),
+                'average' => $average->count(),
+                'good' => $good->count(),
+            ];
+
+            $numberOfAnswers = $bad->count() + $average->count() + $good->count();
 
             $surveysCollection->push([
                 'id' => $survey->id,

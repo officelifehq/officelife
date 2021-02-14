@@ -1,11 +1,8 @@
 <style lang="scss" scoped>
 .edit-information-menu {
-  a {
-    border-bottom: 0;
-  }
-
   .selected {
     color: #4d4d4f;
+    border-width: 2px;
   }
 }
 </style>
@@ -41,12 +38,17 @@
           <div class="cf w-100">
             <ul class="list pl0 db tc bb bb-gray pa2 edit-information-menu">
               <li class="di mr2">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3 bg-white selected">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/edit'" data-cy="menu-profile-link" class="no-underline bb-0 ph3 pv2 selected">
                   {{ $t('employee.edit_information_menu') }}
                 </inertia-link>
               </li>
+              <li v-if="canSeeContractInfoTab" class="di mr2">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/contract/edit'" data-cy="menu-contract-link" class="no-underline bb-0 ph3 pv2 ">
+                  {{ $t('employee.edit_information_menu_contract') }}
+                </inertia-link>
+              </li>
               <li class="di">
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline ph3 pv2 bb-0 bt bl br bb-gray br--top br2 z-3">
+                <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/address/edit'" data-cy="menu-address-link" class="no-underline bb-0 ph3 pv2 ">
                   {{ $t('employee.edit_information_menu_address') }}
                 </inertia-link>
               </li>
@@ -104,6 +106,16 @@
                             :type="'email'"
                             :help="$t('employee.edit_information_email_help')"
                 />
+
+                <!-- phone number -->
+                <text-input :id="'phone'"
+                            v-model="form.phone"
+                            :name="'phone'"
+                            :errors="$page.props.errors.phone"
+                            :label="$t('employee.edit_information_phone')"
+                            :type="'text'"
+                            :help="$t('employee.edit_information_phone_help')"
+                />
               </div>
             </div>
 
@@ -129,7 +141,7 @@
                                 :required="true"
                                 :type="'number'"
                                 :min="1900"
-                                :max="2020"
+                                :max="employee.max_year"
                                 :help="$t('employee.edit_information_year_help')"
                     />
                   </div>
@@ -184,10 +196,10 @@
                                 :name="'hired_at_year'"
                                 :errors="$page.props.errors.hired_year"
                                 :label="$t('employee.edit_information_year')"
-                                :required="true"
+                                :required="false"
                                 :type="'number'"
                                 :min="1900"
-                                :max="2020"
+                                :max="2050"
                                 :help="$t('employee.edit_information_year_help')"
                     />
                   </div>
@@ -198,7 +210,7 @@
                                 :name="'hired_at_month'"
                                 :errors="$page.props.errors.hired_month"
                                 :label="$t('employee.edit_information_month')"
-                                :required="true"
+                                :required="false"
                                 :type="'number'"
                                 :min="1"
                                 :max="12"
@@ -212,7 +224,7 @@
                                 :name="'hired_at_day'"
                                 :errors="$page.props.errors.hired_day"
                                 :label="$t('employee.edit_information_day')"
-                                :required="true"
+                                :required="false"
                                 :type="'number'"
                                 :min="1"
                                 :max="31"
@@ -305,6 +317,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    canSeeContractInfoTab: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -313,6 +329,7 @@ export default {
         first_name: null,
         last_name: null,
         email: null,
+        phone: null,
         year: null,
         month: null,
         day: null,
@@ -332,6 +349,7 @@ export default {
     this.form.first_name = this.employee.first_name;
     this.form.last_name = this.employee.last_name;
     this.form.email = this.employee.email;
+    this.form.phone = this.employee.phone;
     this.form.twitter = this.employee.twitter_handle;
     this.form.slack = this.employee.slack_handle;
 
@@ -352,14 +370,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id + '/update', this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/update`, this.form)
         .then(response => {
           localStorage.success = this.$t('employee.edit_information_success');
-          this.$inertia.visit('/' + this.$page.props.auth.company.id + '/employees/' + this.employee.id);
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}`);
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     }
   },

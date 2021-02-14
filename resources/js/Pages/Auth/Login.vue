@@ -91,14 +91,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.route('login.attempt').url(), _.assign({}, this.form, { remember: true}))
+      axios.post(this.route('login.attempt'), _.assign({}, this.form, { remember: true}))
         .then(response => {
           this.loadingState = null;
           this.$inertia.visit(response.data.redirect);
         })
         .catch(error => {
           this.loadingState = null;
-          this.errors = error.response.data.data;
+          this.errors = error.response.data;
         });
     },
   }

@@ -10,7 +10,7 @@ use App\Services\BaseService;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Jobs\ProvisionDefaultAccountData;
-use App\Services\User\Avatar\GenerateAvatar;
+use App\Services\User\Avatar\GenerateDefaultAvatar;
 
 class CreateCompany extends BaseService
 {
@@ -62,7 +62,7 @@ class CreateCompany extends BaseService
      */
     private function addFirstEmployee(Company $company, User $user): Employee
     {
-        $avatar = (new GenerateAvatar)->execute([
+        $avatar = (new GenerateDefaultAvatar)->execute([
             'name' => $user->first_name != '' || $user->last_name != '' ? $user->first_name.' '.$user->last_name : $user->email,
         ]);
 

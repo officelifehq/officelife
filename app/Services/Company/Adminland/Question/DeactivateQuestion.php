@@ -45,15 +45,16 @@ class DeactivateQuestion extends BaseService
         $question = Question::where('company_id', $data['company_id'])
             ->findOrFail($data['question_id']);
 
-        $question->active = false;
-        $question->deactivated_at = Carbon::now();
-        $question->save();
+        Question::where('id', $question->id)->update([
+            'active' => false,
+            'deactivated_at' => Carbon::now(),
+        ]);
 
         $question->refresh();
 
         $this->log($data, $question);
 
-        return $question;
+        return $question->refresh();
     }
 
     /**

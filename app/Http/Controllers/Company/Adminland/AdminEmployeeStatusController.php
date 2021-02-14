@@ -9,7 +9,7 @@ use App\Helpers\InstanceHelper;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Collections\EmployeeStatusCollection;
+use App\Http\ViewHelpers\Adminland\AdminEmployeeStatusViewHelper;
 use App\Services\Company\Adminland\EmployeeStatus\CreateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\UpdateEmployeeStatus;
 use App\Services\Company\Adminland\EmployeeStatus\DestroyEmployeeStatus;
@@ -24,9 +24,8 @@ class AdminEmployeeStatusController extends Controller
     public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employeeStatuses = $company->employeeStatuses()->orderBy('name', 'asc')->get();
 
-        $statusCollection = EmployeeStatusCollection::prepare($employeeStatuses);
+        $statusCollection = AdminEmployeeStatusViewHelper::index($company);
 
         return Inertia::render('Adminland/EmployeeStatus/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
@@ -45,16 +44,22 @@ class AdminEmployeeStatusController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'name' => $request->input('name'),
+            'type' => $request->input('type'),
         ];
 
-        $employeeStatus = (new CreateEmployeeStatus)->execute($request);
+        $employeeStatus = (new CreateEmployeeStatus)->execute($data);
 
         return response()->json([
-            'data' => $employeeStatus->toObject(),
+            'data' => [
+                'id' => $employeeStatus->id,
+                'name' => $employeeStatus->name,
+                'type' => $employeeStatus->type,
+                'type_translated' => trans('account.employee_statuses_'.$employeeStatus->type),
+            ],
         ], 201);
     }
 
@@ -70,17 +75,23 @@ class AdminEmployeeStatusController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_status_id' => $employeeStatusId,
             'name' => $request->input('name'),
+            'type' => $request->input('type'),
         ];
 
-        $employeeStatus = (new UpdateEmployeeStatus)->execute($request);
+        $employeeStatus = (new UpdateEmployeeStatus)->execute($data);
 
         return response()->json([
-            'data' => $employeeStatus->toObject(),
+            'data' => [
+                'id' => $employeeStatus->id,
+                'name' => $employeeStatus->name,
+                'type' => $employeeStatus->type,
+                'type_translated' => trans('account.employee_statuses_'.$employeeStatus->type),
+            ],
         ], 200);
     }
 
@@ -96,13 +107,13 @@ class AdminEmployeeStatusController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'employee_status_id' => $employeeStatusId,
             'author_id' => $loggedEmployee->id,
         ];
 
-        (new DestroyEmployeeStatus)->execute($request);
+        (new DestroyEmployeeStatus)->execute($data);
 
         return response()->json([
             'data' => true,

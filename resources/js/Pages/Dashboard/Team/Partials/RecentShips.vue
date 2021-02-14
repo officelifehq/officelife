@@ -57,13 +57,13 @@ export default {
     }
   },
 
-  methods: {
+  computed: {
     teamMemberOrAtLeastHR() {
       if (this.$page.props.auth.employee.permission_level <= 200) {
         return true;
       }
 
-      if (this.userBelongsToTheTeam == false) {
+      if (this.userBelongsToTheTeam === false) {
         return false;
       }
 
@@ -71,5 +71,4 @@ export default {
     }
   }
 };
-
 </script>

@@ -8,17 +8,20 @@
 <template>
   <layout title="Home" :notifications="notifications">
     <div class="ph2 ph0-ns">
-      <div class="cf mt4 mw7 center">
-        <h2 class="tc fw5">
-          {{ $page.props.auth.company.name }}
-        </h2>
-      </div>
-
       <dashboard-menu :employee="employee" />
     </div>
 
+    <timesheet-approvals
+      :timesheets-stats="timesheetsStats"
+    />
+
     <one-on-one-with-direct-report
       :one-on-ones="oneOnOnes"
+    />
+
+    <contract-renewal
+      v-if="contractRenewals.length != 0"
+      :contract-renewals="contractRenewals"
     />
 
     <expense
@@ -31,6 +34,8 @@
 <script>
 import Expense from '@/Pages/Dashboard/Manager/Partials/Expense';
 import OneOnOneWithDirectReport from '@/Pages/Dashboard/Manager/Partials/OneOnOneWithDirectReport';
+import ContractRenewal from '@/Pages/Dashboard/Manager/Partials/ContractRenewal';
+import TimesheetApprovals from '@/Pages/Dashboard/Manager/Partials/TimesheetApprovals';
 import Layout from '@/Shared/Layout';
 import DashboardMenu from '@/Pages/Dashboard/Partials/DashboardMenu';
 
@@ -40,6 +45,8 @@ export default {
     OneOnOneWithDirectReport,
     Layout,
     DashboardMenu,
+    ContractRenewal,
+    TimesheetApprovals,
   },
 
   props: {
@@ -57,6 +64,14 @@ export default {
     },
     oneOnOnes: {
       type: Array,
+      default: null,
+    },
+    contractRenewals: {
+      type: Array,
+      default: null,
+    },
+    timesheetsStats: {
+      type: Object,
       default: null,
     },
     defaultCurrency: {

@@ -110,12 +110,16 @@ abstract class BaseService
      * Sets the permission to bypass the minimum level requirement necessary to
      * execute the service if the author is the manager of the employee.
      *
+     * @param int $managerId
      * @param int $employeeId
      * @return self
      */
-    public function canBypassPermissionLevelIfManager(int $employeeId): self
+    public function canBypassPermissionLevelIfManager(int $managerId, int $employeeId): self
     {
-        $isManager = $this->author->isManagerOf($employeeId);
+        $manager = Employee::where('company_id', $this->companyId)
+            ->findOrFail($managerId);
+
+        $isManager = $manager->isManagerOf($employeeId);
         $this->bypassRequiredPermissionLevel = $isManager;
 
         return $this;

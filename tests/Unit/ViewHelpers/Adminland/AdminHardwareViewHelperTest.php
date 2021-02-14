@@ -3,7 +3,6 @@
 namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Tests\TestCase;
-use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -42,7 +41,7 @@ class AdminHardwareViewHelperTest extends TestCase
             'employee_id' => $michael->id,
         ]);
 
-        $hardware = $michael->company->hardware()->with('employee')->orderBy('created_at', 'desc')->get();
+        $hardware = $michael->company->hardware()->with('employee')->orderBy('id', 'asc')->get();
         $response = AdminHardwareViewHelper::hardware($hardware);
 
         $this->assertCount(
@@ -81,14 +80,11 @@ class AdminHardwareViewHelperTest extends TestCase
     public function it_gets_a_collection_of_all_employees_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        factory(Employee::class, 3)->create([
-            'company_id' => $michael->company_id,
-        ]);
 
         $response = AdminHardwareViewHelper::employeesList($michael->company);
 
         $this->assertCount(
-            4,
+            1,
             $response
         );
 
@@ -161,8 +157,6 @@ class AdminHardwareViewHelperTest extends TestCase
 
         $this->assertArraySubset(
             [
-                'id' => $androidPhone->id,
-                'name' => 'iOS phone',
                 'id' => $iosPhone->id,
                 'name' => 'iOS phone',
                 'employee' => [

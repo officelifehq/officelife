@@ -62,7 +62,7 @@ class EmployeeExpenseViewHelper
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
-                'url' => route('employee.expenses.show', [
+                'url' => route('employee.administration.expenses.show', [
                     'company' => $company,
                     'employee' => $employee,
                     'expense' => $expense,

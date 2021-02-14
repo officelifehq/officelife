@@ -15,11 +15,11 @@ class MoneyHelperTest extends TestCase
     {
         $this->assertEquals(
             'CA$132.40',
-            MoneyHelper::format('13240', 'CAD')
+            MoneyHelper::format(13240, 'CAD')
         );
 
         //NumberFormatter adds a non-breaking space to it's output (which makes sense for currency), more info here: https://www.php.net/manual/en/numberformatter.formatcurrency.php#118304
-        $number = str_replace("\xc2\xa0", ' ', MoneyHelper::format('13240', 'EUR', 'fr_FR'));
+        $number = str_replace("\xc2\xa0", ' ', MoneyHelper::format(13240, 'EUR', 'fr_FR'));
         $this->assertEquals(
             '132,40 €',
             $number

@@ -12,25 +12,29 @@
 .c-delete:hover {
   border-bottom-width: 0;
 }
+
+.special-color {
+  color: #566384;
+}
 </style>
 
 <template>
   <div class="di relative">
-    <!-- Assigning a title is restricted to HR or admin -->
-    <span v-if="permissions.can_manage_position && updatedEmployee.position">
-      {{ title }}
-      <span data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di" @click.prevent="modal = true">
+    <span v-if="updatedEmployee.position" data-cy="position-label">
+      <span class="special-color">
+        {{ title }}
+      </span>
+      <span v-if="permissions.can_manage_position" data-cy="open-position-modal" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2" @click.prevent="toggleModal()">
         {{ $t('app.edit') }}
       </span>
     </span>
-    <span v-else data-cy="position-title">
-      {{ title }}
-    </span>
 
-    <!-- Action when there is no title defined -->
-    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer" @click.prevent="modal = true">{{ $t('employee.position_modal_title') }}</a>
+    <!-- Action when there is no title defined + has the right to set one -->
+    <a v-show="title == ''" v-if="permissions.can_manage_position" data-cy="open-position-modal-blank" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7" @click.prevent="toggleModal()">{{ $t('employee.position_modal_title') }}</a>
+
+    <!-- Action when there is no title defined + doesn't have the right to set one -->
     <span v-else v-show="title == ''">
-      {{ $t('employee.position_blank') }}
+      {{ $t('employee.position_no_position_set') }}
     </span>
 
     <!-- Modal -->
@@ -82,15 +86,12 @@ export default {
       type: Object,
       default: null,
     },
-    positions: {
-      type: Array,
-      default: null,
-    },
   },
 
   data() {
     return {
       modal: false,
+      positions: null,
       search: '',
       title: '',
       updatedEmployee: Object,
@@ -101,20 +102,13 @@ export default {
     filteredList() {
       // filter the list when searching
       // also, sort the list by title
-      var list;
-      list = this.positions.filter(position => {
-        return position.title.toLowerCase().includes(this.search.toLowerCase());
-      });
-
-      function compare(a, b) {
-        if (a.title < b.title)
-          return -1;
-        if (a.title > b.title)
-          return 1;
-        return 0;
+      if (this.positions) {
+        var list = this.positions.filter(position => {
+          return position.title.toLowerCase().includes(this.search.toLowerCase());
+        });
       }
 
-      return list.sort(compare);
+      return _.sortBy(list, ['title']);
     }
   },
 
@@ -128,7 +122,20 @@ export default {
 
   methods: {
     toggleModal() {
-      this.modal = false;
+      this.load();
+      this.modal = !this.modal;
+    },
+
+    load() {
+      if (! this.positions) {
+        axios.get(`${this.$page.props.auth.company.id}/positions`)
+          .then(response => {
+            this.positions = response.data.data;
+          })
+          .catch(error => {
+            this.form.errors = error.response.data;
+          });
+      }
     },
 
     assign(position) {
@@ -141,7 +148,7 @@ export default {
           this.modal = false;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
@@ -155,7 +162,7 @@ export default {
           this.updatedEmployee = response.data.data;
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

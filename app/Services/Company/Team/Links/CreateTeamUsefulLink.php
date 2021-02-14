@@ -87,7 +87,7 @@ class CreateTeamUsefulLink extends BaseService
      * @param TeamUsefulLink $link
      * @param Team           $team
      */
-    private function log(array $data, TeamUsefulLink $link, Team $team)
+    private function log(array $data, TeamUsefulLink $link, Team $team): void
     {
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],

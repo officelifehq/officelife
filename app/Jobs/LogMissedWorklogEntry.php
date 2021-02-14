@@ -31,7 +31,7 @@ class LogMissedWorklogEntry implements ShouldQueue
      * day, and increase the counter of missed worklog days.
      * This job is meant to be executed every day at 11pm (UTC).
      */
-    public function handle()
+    public function handle(): void
     {
         $date = $this->date;
         $employeesWithLogs = Employee::whereHas('worklogs', function ($query) use ($date) {
@@ -48,8 +48,8 @@ class LogMissedWorklogEntry implements ShouldQueue
         $employeesWithoutLogs = $allEmployees->diff($employeesWithLogs);
 
         foreach ($employeesWithoutLogs as $employee) {
-            $employee->consecutive_worklog_missed = $employee->consecutive_worklog_missed + 1;
-            $employee->save();
+            Employee::where('id', $employee->id)
+                ->increment('consecutive_worklog_missed', 1);
         }
     }
 }

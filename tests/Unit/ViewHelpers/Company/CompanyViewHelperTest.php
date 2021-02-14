@@ -85,30 +85,37 @@ class CompanyViewHelperTest extends TestCase
     /** @test */
     public function it_gets_the_upcoming_birthdates_in_the_company(): void
     {
-        Carbon::setTestNow(Carbon::create(2018, 1, 4));
+        // today is Wednesday, Jan 10 2018
+        // so first day of week is Monday, Jan 8th
+        // last day is Sunday, Jan 14th
+        Carbon::setTestNow(Carbon::create(2018, 1, 10));
         $sales = factory(Team::class)->create([]);
+
+        //creating a bunch of employees that should not be in the list of birthdates
         $michael = factory(Employee::class)->create([
             'birthdate' => null,
             'company_id' => $sales->company_id,
         ]);
+        $john = factory(Employee::class)->create([
+            'birthdate' => '1989-01-07',
+            'company_id' => $sales->company_id,
+        ]);
+        $pamela = factory(Employee::class)->create([
+            'birthdate' => '2017-01-15',
+            'company_id' => $sales->company_id,
+        ]);
+
+        // employees who should be in the list of birthdates for the week
         $dwight = factory(Employee::class)->create([
-            'birthdate' => '1892-01-03',
+            'birthdate' => '1892-01-08',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'company_id' => $sales->company_id,
         ]);
         $angela = factory(Employee::class)->create([
-            'birthdate' => '1989-01-01',
+            'birthdate' => '1989-01-14',
             'first_name' => 'Angela',
             'last_name' => 'Bernard',
-            'company_id' => $sales->company_id,
-        ]);
-        $john = factory(Employee::class)->create([
-            'birthdate' => '1989-03-20',
-            'company_id' => $sales->company_id,
-        ]);
-        $pamela = factory(Employee::class)->create([
-            'birthdate' => '2017-12-31',
             'company_id' => $sales->company_id,
         ]);
 
@@ -117,40 +124,25 @@ class CompanyViewHelperTest extends TestCase
         $this->assertEquals(2, count($array));
 
         $this->assertEquals(
-            $angela->id,
-            $array[0]['id']
-        );
-        $this->assertIsInt(
-            (int) $array[0]['uuid']
-        );
-        $this->assertEquals(
-            'Angela Bernard',
-            $array[0]['name']
-        );
-        $this->assertEquals(
-            $angela->avatar,
-            $array[0]['avatar']
-        );
-        $this->assertEquals(
-            env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
-            $array[0]['url']
-        );
-        $this->assertEquals(
-            'January 1st',
-            $array[0]['birthdate']
-        );
-        $this->assertEquals(
-            '2018-01-01',
-            $array[0]['sort_key']
-        );
-
-        $this->assertEquals(
-            $dwight->id,
-            $array[1]['id']
-        );
-        $this->assertEquals(
-            'Dwight Schrute',
-            $array[1]['name']
+            [
+                0 => [
+                    'id' => $dwight->id,
+                    'name' => 'Dwight Schrute',
+                    'avatar' => $dwight->avatar,
+                    'birthdate' => 'January 8th',
+                    'sort_key' => '2018-01-08',
+                    'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
+                ],
+                1 => [
+                    'id' => $angela->id,
+                    'name' => 'Angela Bernard',
+                    'avatar' => $angela->avatar,
+                    'birthdate' => 'January 14th',
+                    'sort_key' => '2018-01-14',
+                    'url' => env('APP_URL').'/'.$angela->company_id.'/employees/'.$angela->id,
+                ],
+            ],
+            $array
         );
     }
 

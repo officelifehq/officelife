@@ -159,9 +159,6 @@ export default {
     };
   },
 
-  created: function() {
-  },
-
   methods: {
     submit(answer, rating) {
       this.loadingState = 'loading';
@@ -176,7 +173,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data.errors;
+          this.form.errors = error.response.data;
         });
     },
 
@@ -194,7 +191,7 @@ export default {
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data.errors;
+          this.form.errors = error.response.data;
         });
     },
 

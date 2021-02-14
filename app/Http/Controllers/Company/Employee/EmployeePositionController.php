@@ -24,14 +24,14 @@ class EmployeePositionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'position_id' => $request->input('id'),
         ];
 
-        $employee = (new AssignPositionToEmployee)->execute($request);
+        $employee = (new AssignPositionToEmployee)->execute($data);
 
         return response()->json([
             'data' => [
@@ -55,13 +55,13 @@ class EmployeePositionController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
         ];
 
-        $employee = (new RemovePositionFromEmployee)->execute($request);
+        $employee = (new RemovePositionFromEmployee)->execute($data);
 
         return response()->json([
             'data' => [

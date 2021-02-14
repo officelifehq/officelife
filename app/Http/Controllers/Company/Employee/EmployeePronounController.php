@@ -25,14 +25,14 @@ class EmployeePronounController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
             'pronoun_id' => $request->input('id'),
         ];
 
-        $employee = (new AssignPronounToEmployee)->execute($request);
+        $employee = (new AssignPronounToEmployee)->execute($data);
 
         return response()->json([
             'data' => $employee->toObject(),
@@ -52,13 +52,13 @@ class EmployeePronounController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
         ];
 
-        $employee = (new RemovePronounFromEmployee)->execute($request);
+        $employee = (new RemovePronounFromEmployee)->execute($data);
 
         return response()->json([
             'data' => $employee->toObject(),

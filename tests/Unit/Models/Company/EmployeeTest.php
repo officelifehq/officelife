@@ -21,12 +21,16 @@ use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\TeamNews;
+use App\Models\Company\Timesheet;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
+use App\Models\Company\ProjectTask;
 use App\Models\Company\DirectReport;
 use App\Models\Company\Notification;
 use App\Models\Company\WorkFromHome;
 use App\Models\Company\OneOnOneEntry;
+use App\Models\Company\ConsultantRate;
+use App\Models\Company\ProjectDecision;
 use App\Models\Company\CompanyPTOPolicy;
 use App\Models\Company\GuessEmployeeGame;
 use App\Models\Company\RateYourManagerAnswer;
@@ -403,6 +407,46 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_many_project_tasks_as_author(): void
+    {
+        $michael = Employee::factory()
+            ->has(ProjectTask::factory()->count(2), 'projectTasksAsAuthor')
+            ->create();
+
+        $this->assertTrue($michael->projectTasksAsAuthor()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_project_tasks_as_assignee(): void
+    {
+        $michael = Employee::factory()
+            ->has(ProjectTask::factory()->count(2), 'assigneeOfprojectTasks')
+            ->create();
+
+        $this->assertTrue($michael->assigneeOfprojectTasks()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_timesheets_as_employee(): void
+    {
+        $michael = Employee::factory()
+            ->has(Timesheet::factory()->count(2), 'timesheets')
+            ->create();
+
+        $this->assertTrue($michael->timesheets()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_timesheets_as_approver(): void
+    {
+        $michael = Employee::factory()
+            ->has(Timesheet::factory()->count(2), 'timesheetsAsApprover')
+            ->create();
+
+        $this->assertTrue($michael->timesheetsAsApprover()->exists());
+    }
+
+    /** @test */
     public function it_gets_the_projects_that_the_employee_leads(): void
     {
         $dwight = factory(Employee::class)->create();
@@ -411,6 +455,28 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->projectsAsLead()->exists());
+    }
+
+    /** @test */
+    public function it_gets_the_project_decisions_written_by_the_employee(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        factory(ProjectDecision::class, 2)->create([
+            'author_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->projectDecisions()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_consultant_rates(): void
+    {
+        $dwight = factory(Employee::class)->create();
+        ConsultantRate::factory()->count(2)->create([
+            'employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->consultantRates()->exists());
     }
 
     /** @test */
@@ -427,7 +493,7 @@ class EmployeeTest extends TestCase
 
         $this->assertEquals(
             3,
-            $company->employees()->notLocked()->get()->count()
+            $company->employees()->notLocked()->count()
         );
     }
 
@@ -639,6 +705,7 @@ class EmployeeTest extends TestCase
             'is_active' => true,
         ]);
 
+        $this->assertNotNull($dwight->getCurrentAddress());
         $address = $dwight->getCurrentAddress();
         $this->assertInstanceOf(
             Place::class,

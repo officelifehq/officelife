@@ -3,7 +3,8 @@
 namespace Tests;
 
 use App\Models\Company\Employee;
-use \Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Company\EmployeeStatus;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\Company\Employee\Manager\AssignManager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -110,5 +111,26 @@ abstract class TestCase extends BaseTestCase
         $employee->save();
 
         return $directReport;
+    }
+
+    /**
+     * Set the employee status.
+     *
+     * @param Employee $employee
+     * @param string $type
+     * @return Employee
+     */
+    public function setEmployeeStatus(Employee $employee, string $type): Employee
+    {
+        $status = EmployeeStatus::create([
+            'company_id' => $employee->company_id,
+            'name' => 'Creative',
+            'type' => $type,
+        ]);
+
+        $employee->employee_status_id = $status->id;
+        $employee->save();
+
+        return $employee;
     }
 }

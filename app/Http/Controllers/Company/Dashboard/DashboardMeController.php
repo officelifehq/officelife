@@ -39,9 +39,10 @@ class DashboardMeController extends Controller
             'has_logged_morale_today' => $employee->hasAlreadyLoggedMoraleToday(),
             'dashboard_view' => 'me',
             'can_manage_expenses' => $employee->can_manage_expenses,
-            'is_manager' => $employee->directReports->count() > 0 ? true : false,
+            'is_manager' => $employee->directReports->count() > 0,
             'has_worked_from_home_today' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
             'question' => DashboardMeViewHelper::question($employee),
+            'can_manage_hr' => $employee->permission_level <= config('officelife.permission_level.hr'),
         ];
 
         $defaultCompanyCurrency = [
@@ -60,7 +61,9 @@ class DashboardMeController extends Controller
             'expenses' => DashboardMeViewHelper::expenses($employee),
             'rateYourManagerAnswers' => DashboardMeViewHelper::rateYourManagerAnswers($employee),
             'oneOnOnes' => DashboardMeViewHelper::oneOnOnes($employee),
+            'contractRenewal' => DashboardMeViewHelper::contractRenewal($employee),
             'defaultCurrency' => $defaultCompanyCurrency,
+            'eCoffee' => DashboardMeViewHelper::eCoffee($employee, $company),
         ]);
     }
 }

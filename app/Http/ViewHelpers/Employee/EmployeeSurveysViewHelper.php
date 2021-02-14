@@ -34,37 +34,34 @@ class EmployeeSurveysViewHelper
         // the manager the date of the next survey
         $survey = $allSurveys->first();
         if (! $survey->active) {
+            $now = Carbon::now();
             $surveysCollection->push([
                 'id' => null,
-                'month' => Carbon::now()->format('M Y'),
-                'deadline' => DateHelper::hoursOrDaysLeft(Carbon::now()->endOfMonth()),
+                'month' => $now->format('M Y'),
+                'deadline' => DateHelper::hoursOrDaysLeft($now->copy()->endOfMonth()),
             ]);
         }
 
         foreach ($allSurveys as $survey) {
             $totalNumberOfPotentialResponders = $survey->answers->count();
-            $numberOfAnswers = 0;
 
-            // counting results about answers, if available
-            $results = [];
-            if ($survey->answers) {
-                $bad = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::BAD;
-                });
-                $average = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::AVERAGE;
-                });
-                $good = $survey->answers->filter(function ($answer) {
-                    return $answer->rating == RateYourManagerAnswer::GOOD;
-                });
-                $results = [
-                    'bad' => $bad->count(),
-                    'average' => $average->count(),
-                    'good' => $good->count(),
-                ];
+            // counting results about answers
+            $bad = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::BAD;
+            });
+            $average = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::AVERAGE;
+            });
+            $good = $survey->answers->filter(function ($answer) {
+                return $answer->rating == RateYourManagerAnswer::GOOD;
+            });
+            $results = [
+                'bad' => $bad->count(),
+                'average' => $average->count(),
+                'good' => $good->count(),
+            ];
 
-                $numberOfAnswers = $bad->count() + $average->count() + $good->count();
-            }
+            $numberOfAnswers = $bad->count() + $average->count() + $good->count();
 
             $surveysCollection->push([
                 'id' => $survey->id,
@@ -83,19 +80,20 @@ class EmployeeSurveysViewHelper
         }
 
         // calculating the number of unique participants
-        // running a raw query to reduce the number of queries to the maximum
-        // TODO: do this with Eloquent and make it performant
-        $uniqueParticipants = DB::select('select count(distinct(ra.employee_id)) as count from rate_your_manager_answers ra, rate_your_manager_surveys rs where ra.rate_your_manager_survey_id = rs.id and rs.manager_id = '.$employee->id);
+        $uniqueParticipants = DB::table('rate_your_manager_answers', 'ra')
+            ->join('rate_your_manager_surveys', 'ra.rate_your_manager_survey_id', '=', 'rate_your_manager_surveys.id')
+            ->where('rate_your_manager_surveys.manager_id', $employee->id)
+            ->distinct()
+            ->count();
 
         // the average response rate
         // to calculate this, we need to remove any active or future survey
-        $surveyAnswered = $surveysCollection->whereNotNull('id');
         $surveyAnswered = $surveysCollection->where('active', false);
         $averageResponseRate = round($surveyAnswered->sum('response_rate') / $surveyAnswered->count());
 
         return [
             'number_of_completed_surveys' => $surveyAnswered->count(),
-            'number_of_unique_participants' => $uniqueParticipants[0]->count,
+            'number_of_unique_participants' => $uniqueParticipants,
             'average_response_rate' => $averageResponseRate,
             'surveys' => $surveysCollection,
         ];
@@ -113,24 +111,21 @@ class EmployeeSurveysViewHelper
             ->with('answers.employee')
             ->findOrFail($surveyId);
 
-        // counting results about answers, if available
-        $results = [];
-        if ($survey->answers) {
-            $bad = $survey->answers->filter(function ($answer) {
-                return $answer->rating == RateYourManagerAnswer::BAD;
-            });
-            $average = $survey->answers->filter(function ($answer) {
-                return $answer->rating == RateYourManagerAnswer::AVERAGE;
-            });
-            $good = $survey->answers->filter(function ($answer) {
-                return $answer->rating == RateYourManagerAnswer::GOOD;
-            });
-            $results = [
-                'bad' => $bad->count(),
-                'average' => $average->count(),
-                'good' => $good->count(),
-            ];
-        }
+        // counting results about answers
+        $bad = $survey->answers->filter(function ($answer) {
+            return $answer->rating == RateYourManagerAnswer::BAD;
+        });
+        $average = $survey->answers->filter(function ($answer) {
+            return $answer->rating == RateYourManagerAnswer::AVERAGE;
+        });
+        $good = $survey->answers->filter(function ($answer) {
+            return $answer->rating == RateYourManagerAnswer::GOOD;
+        });
+        $results = [
+            'bad' => $bad->count(),
+            'average' => $average->count(),
+            'good' => $good->count(),
+        ];
 
         // employees
         $directReportsCollection = collect([]);

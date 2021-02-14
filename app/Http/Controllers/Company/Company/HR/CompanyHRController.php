@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Http\Controllers\Company\Company\HR;
+
+use Inertia\Inertia;
+use Inertia\Response;
+use App\Helpers\InstanceHelper;
+use App\Models\Company\Company;
+use App\Helpers\NotificationHelper;
+use App\Http\Controllers\Controller;
+use App\Http\ViewHelpers\Company\CompanyViewHelper;
+use App\Http\ViewHelpers\Company\HR\CompanyHRViewHelper;
+
+class CompanyHRController extends Controller
+{
+    /**
+     * Show the HR main page on the Company tab.
+     *
+     * @return Response
+     */
+    public function index(): Response
+    {
+        $company = InstanceHelper::getLoggedCompany();
+        $employee = InstanceHelper::getLoggedEmployee();
+
+        $eCoffees = CompanyHRViewHelper::eCoffees($company);
+        $statistics = CompanyViewHelper::statistics($company);
+
+        return Inertia::render('Company/HR/Index', [
+            'tab' => 'hr',
+            'eCoffees' => $eCoffees,
+            'statistics' => $statistics,
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+        ]);
+    }
+}

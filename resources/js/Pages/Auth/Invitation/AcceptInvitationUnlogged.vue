@@ -160,14 +160,14 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/invite/employee/' + this.invitationLink + '/join', this.form)
+      axios.post(this.route('invitation.join', this.invitationLink), this.form)
         .then(response => {
           this.$inertia.visit('/home');
         })
         .catch(error => {
           this.loadingState = null;
           if (typeof error.response.data === 'object') {
-            this.form.errors = _.flatten(_.toArray(error.response.data));
+            this.form.errors = error.response.data;
           } else {
             this.form.errors = [this.$t('app.error_try_again')];
           }

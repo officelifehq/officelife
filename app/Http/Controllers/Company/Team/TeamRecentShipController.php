@@ -24,9 +24,10 @@ class TeamRecentShipController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function index(Request $request, int $companyId, int $teamId): Response
+    public function index(Request $request, int $companyId, int $teamId)
     {
         $company = InstanceHelper::getLoggedCompany();
 
@@ -91,9 +92,10 @@ class TeamRecentShipController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $teamId
-     * @return Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
-    public function create(Request $request, int $companyId, int $teamId): Response
+    public function create(Request $request, int $companyId, int $teamId)
     {
         try {
             $team = Team::where('company_id', $companyId)
@@ -132,7 +134,7 @@ class TeamRecentShipController extends Controller
             }
         }
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'team_id' => $teamId,
@@ -141,7 +143,7 @@ class TeamRecentShipController extends Controller
             'employees' => $employees,
         ];
 
-        (new CreateShip)->execute($request);
+        (new CreateShip)->execute($data);
 
         return response()->json([
             'data' => true,
@@ -155,7 +157,8 @@ class TeamRecentShipController extends Controller
      * @param int $companyId
      * @param int $teamId
      * @param int $recentShipId
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|Response
      */
     public function show(Request $request, int $companyId, int $teamId, int $recentShipId)
     {
@@ -203,13 +206,13 @@ class TeamRecentShipController extends Controller
         $loggedCompany = InstanceHelper::getLoggedCompany();
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'ship_id' => $shipId,
         ];
 
-        (new DestroyShip)->execute($request);
+        (new DestroyShip)->execute($data);
 
         return response()->json([
             'data' => true,

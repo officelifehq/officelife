@@ -46,7 +46,7 @@ class AdminPTOPoliciesController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $request = [
+        $data = [
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'company_pto_policy_id' => $ptoPolicyId,
@@ -57,7 +57,7 @@ class AdminPTOPoliciesController extends Controller
             'default_amount_of_pto_days' => $request->input('default_amount_of_pto_days'),
         ];
 
-        $policy = (new UpdateCompanyPTOPolicy)->execute($request);
+        $policy = (new UpdateCompanyPTOPolicy)->execute($data);
 
         return response()->json([
             'data' => $policy->toObject(),

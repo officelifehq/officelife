@@ -45,7 +45,7 @@ class AddCommentToRatingAboutManager extends BaseService
         $answer = RateYourManagerAnswer::findOrFail($data['answer_id']);
         $survey = $answer->entry;
 
-        if ($survey->manager->company->id != $data['company_id']) {
+        if ($survey->manager->company_id != $data['company_id']) {
             throw new NotEnoughPermissionException();
         }
 

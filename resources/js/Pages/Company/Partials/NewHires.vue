@@ -47,8 +47,8 @@
       </ul>
 
       <!-- blank state -->
-      <div v-if="hires.length == 0" class="pa3 tc">
-        😢 {{ $t('company.new_hires_blank') }}
+      <div v-if="hires.length == 0" class="tc f6">
+        {{ $t('company.new_hires_blank') }}
       </div>
     </div>
   </div>
@@ -61,10 +61,6 @@ export default {
       type: Array,
       default: null,
     },
-  },
-
-  data() {
-    return {};
   },
 };
 </script>

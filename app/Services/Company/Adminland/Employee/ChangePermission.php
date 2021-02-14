@@ -44,8 +44,9 @@ class ChangePermission extends BaseService
 
         $oldPermission = $employee->permission_level;
 
-        $employee->permission_level = $data['permission_level'];
-        $employee->save();
+        Employee::where('id', $employee->id)->update([
+            'permission_level' => $data['permission_level'],
+        ]);
 
         LogAccountAudit::dispatch([
             'company_id' => $data['company_id'],

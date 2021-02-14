@@ -80,7 +80,7 @@ class EmployeeExpenseViewHelperTest extends TestCase
                     'status' => 'created',
                     'expensed_at' => 'Jan 01, 1999',
                     'converted_amount' => null,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/expenses/'.$expense->id,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses/'.$expense->id,
                 ],
             ],
             $collection->toArray()

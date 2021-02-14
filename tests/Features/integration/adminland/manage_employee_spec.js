@@ -200,10 +200,13 @@ describe('Adminland - Employee management', function () {
           cy.get('button[type=submit]').click();
           //cy.wait(1000)
 
-          cy.get('[data-cy=create-company-blank-state]', {timeout: 1000}).should('exist');
+          cy.exec('php artisan setup:verify-email').then((result) => {
+            cy.visit('/home');
+            cy.get('[data-cy=create-company-blank-state]', { timeout: 1000 }).should('exist');
+            // logout and log the admin back to verify that the employee is not searchable anymore
+            cy.logout();
+          });
 
-          // logout and log the admin back to verify that the employee is not searchable anymore
-          cy.logout();
           cy.loginin(userId);
 
           // try to search the employee
@@ -296,12 +299,14 @@ describe('Adminland - Employee management', function () {
           cy.get('input[name=email]').type(email);
           cy.get('input[name=password]').type('admin1012');
           cy.get('button[type=submit]').click();
-          //cy.wait(1000)
 
-          cy.get('[data-cy=create-company-blank-state]', {timeout: 1000}).should('exist');
+          cy.exec('php artisan setup:verify-email').then((result) => {
+            cy.visit('/home');
+            cy.get('[data-cy=create-company-blank-state]', { timeout: 1000 }).should('exist');
+            // logout and log the admin back to verify that the employee is not searchable anymore
+            cy.logout();
+          });
 
-          // logout and log the admin back to verify that the employee is not searchable anymore
-          cy.logout();
           cy.loginin(userId);
 
           // try to search the employee

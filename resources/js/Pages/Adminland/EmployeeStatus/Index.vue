@@ -1,6 +1,30 @@
-<style scoped>
+<style lang="scss" scoped>
 .list li:last-child {
   border-bottom: 0;
+}
+
+.type {
+  font-size: 12px;
+  border: 1px solid transparent;
+  border-radius: 2em;
+  padding: 3px 10px;
+  line-height: 22px;
+  color: #0366d6;
+  background-color: #f1f8ff;
+
+  &:hover {
+    background-color: #def;
+  }
+
+  a:hover {
+    border-bottom: 0;
+  }
+
+  span {
+    border-radius: 100%;
+    background-color: #c8dcf0;
+    padding: 0px 5px;
+  }
 }
 </style>
 
@@ -27,11 +51,13 @@
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
             {{ $t('account.employee_statuses_title', { company: $page.props.auth.company.name}) }}
+
+            <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
 
           <p class="relative adminland-headline">
-            <span class="dib mb3 di-l" :class="statuses.length == 0 ? 'white' : ''">
-              {{ $tc('account.employee_statuses_number_positions', statuses.length, { company: $page.props.auth.company.name, count: statuses.length}) }}
+            <span class="dib mb3 di-l" :class="localStatuses.length == 0 ? 'white' : ''">
+              {{ $tc('account.employee_statuses_number_positions', localStatuses.length, { company: $page.props.auth.company.name, count: localStatuses.length}) }}
             </span>
             <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="displayAddModal">
               {{ $t('account.employee_statuses_cta') }}
@@ -51,25 +77,37 @@
                   :datacy="'add-title-input'"
                   required
                   :placeholder="$t('account.employee_statuses_placeholder')"
-                  :extra-class-upper-div="'mb0'"
+                  :extra-class-upper-div="'mb3'"
+                  @esc-key-pressed="modal = false; form.name = ''"
+                />
+
+                <checkbox
+                  :datacy="'external-employee-checkbox'"
+                  :label="$t('account.employee_statuses_new_external')"
+                  :help="$t('account.employee_statuses_new_external_help')"
+                  :extra-class-upper-div="'mb0 relative'"
+                  :required="false"
+                  @change="updateType($event)"
                 />
               </div>
               <div class="fl w-30-ns w-100 tr">
                 <a class="btn dib-l db mb2 mb0-ns" @click.prevent="modal = false ; form.name = ''">
                   {{ $t('app.cancel') }}
                 </a>
-                <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
+                <loading-button :classes="'btn add w-auto-ns w-100 mb2 mb0-ns pv2 ph3'" data-cy="modal-add-cta" :state="loadingState" :text="$t('app.add')" />
               </div>
             </div>
           </form>
 
           <!-- LIST OF EXISTING EMPLOYEE STATUSES -->
-          <ul v-show="statuses.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="statuses.map(n => n.id)">
-            <li v-for="status in statuses" :key="status.id" class="pv3 ph2 bb bb-gray bb-gray-hover">
-              {{ status.name }}
+          <ul v-show="localStatuses.length != 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="localStatuses.map(n => n.id)">
+            <li v-for="status in localStatuses" :key="status.id" class="pv3 ph2 bb bb-gray bb-gray-hover" :data-cy="'status-item-' + status.id">
+              <div v-if="idToUpdate != status.id" class="di">
+                {{ status.name }} <span class="type">{{ status.type_translated }}</span>
+              </div>
 
-              <!-- RENAME POSITION FORM -->
-              <div v-show="idToUpdate == status.id" class="cf mt3">
+              <!-- UPDATE POSITION FORM -->
+              <div v-if="idToUpdate == status.id" class="cf">
                 <form @submit.prevent="update(status.id)">
                   <div class="fl w-100 w-70-ns mb3 mb0-ns">
                     <text-input :id="'name-' + status.id"
@@ -79,8 +117,19 @@
                                 :datacy="'list-rename-input-name-' + status.id"
                                 :errors="$page.props.errors.name"
                                 required
-                                :extra-class-upper-div="'mb0'"
+                                :extra-class-upper-div="'mb3'"
                                 @esc-key-pressed="idToUpdate = 0"
+                    />
+
+                    <checkbox
+                      :id="'home'"
+                      v-model="form.checked"
+                      :datacy="'external-employee-checkbox-' + status.id"
+                      :label="$t('account.employee_statuses_new_external')"
+                      :help="$t('account.employee_statuses_new_external_help')"
+                      :extra-class-upper-div="'mb0 relative'"
+                      :required="false"
+                      @change="updateType($event)"
                     />
                   </div>
                   <div class="fl w-30-ns w-100 tr">
@@ -96,7 +145,7 @@
               <ul v-show="idToUpdate != status.id" class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns f6">
                 <!-- RENAME A EMPLOYEE STATUS -->
                 <li class="di mr2">
-                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">{{ $t('app.rename') }}</a>
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer" :data-cy="'list-rename-button-' + status.id" @click.prevent="displayUpdateModal(status) ; form.name = status.name">{{ $t('app.update') }}</a>
                 </li>
 
                 <!-- DELETE A EMPLOYEE STATUS -->
@@ -115,7 +164,7 @@
           </ul>
 
           <!-- BLANK STATE -->
-          <div v-show="statuses.length == 0" class="pa3 mt5">
+          <div v-show="localStatuses.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
               {{ $t('account.employee_statuses_blank') }}
             </p>
@@ -134,6 +183,8 @@ import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Checkbox from '@/Shared/Checkbox';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
@@ -141,6 +192,8 @@ export default {
     TextInput,
     Errors,
     LoadingButton,
+    Checkbox,
+    Help,
   },
 
   props: {
@@ -156,6 +209,7 @@ export default {
 
   data() {
     return {
+      localStatuses: [],
       modal: false,
       deleteModal: false,
       updateModal: false,
@@ -165,15 +219,31 @@ export default {
       idToDelete: 0,
       form: {
         name: null,
+        checked: false,
+        type: 'internal',
         errors: [],
       },
     };
   },
 
+  mounted() {
+    this.localStatuses = this.statuses;
+  },
+
   methods: {
+    updateType(event) {
+      if (event) {
+        this.form.type = 'external';
+      } else {
+        this.form.type = 'internal';
+      }
+    },
+
     displayAddModal() {
       this.modal = true;
       this.form.name = '';
+      this.form.type = 'internal';
+      this.form.errors = null;
 
       this.$nextTick(() => {
         this.$refs['newStatus'].$refs['input'].focus();
@@ -182,6 +252,7 @@ export default {
 
     displayUpdateModal(status) {
       this.idToUpdate = status.id;
+      this.form.checked = status.type == 'internal' ? false : true;
 
       this.$nextTick(() => {
         // this is really barbaric, but I need to do this to
@@ -195,48 +266,50 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post('/' + this.$page.props.auth.company.id + '/account/employeestatuses', this.form)
+      axios.post(this.route('account_employeestatuses.employeestatuses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_new'), 'success');
 
           this.loadingState = null;
           this.form.name = null;
+          this.form.type = 'internal';
           this.modal = false;
-          this.statuses.push(response.data.data);
+          this.localStatuses.push(response.data.data);
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     update(id) {
-      axios.put('/' + this.$page.props.auth.company.id + '/account/employeestatuses/' + id, this.form)
+      axios.put(this.route('account_employeestatuses.employeestatuses.update', [this.$page.props.auth.company.id, id]), this.form)
         .then(response => {
           flash(this.$t('account.employee_statuses_success_update'), 'success');
 
           this.idToUpdate = 0;
           this.form.name = null;
+          this.form.type = 'internal';
 
-          var changedId = this.statuses.findIndex(x => x.id === id);
-          this.$set(this.statuses, changedId, response.data.data);
+          var changedId = this.localStatuses.findIndex(x => x.id === id);
+          this.$set(this.localStatuses, changedId, response.data.data);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
 
     destroy(id) {
-      axios.delete('/' + this.$page.props.auth.company.id + '/account/employeestatuses/' + id)
+      axios.delete(this.route('account_employeestatuses.employeestatuses.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
           flash(this.$t('account.employee_statuses_success_destroy'), 'success');
 
           this.idToDelete = 0;
-          var changedId = this.statuses.findIndex(x => x.id === id);
-          this.statuses.splice(changedId, 1);
+          var changedId = this.localStatuses.findIndex(x => x.id === id);
+          this.localStatuses.splice(changedId, 1);
         })
         .catch(error => {
-          this.form.errors = _.flatten(_.toArray(error.response.data));
+          this.form.errors = error.response.data;
         });
     },
   }

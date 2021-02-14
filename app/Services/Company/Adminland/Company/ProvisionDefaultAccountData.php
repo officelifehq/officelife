@@ -50,8 +50,9 @@ class ProvisionDefaultAccountData extends BaseService
         }
 
         // add holidays for the newly created employee
-        $employee->amount_of_allowed_holidays = $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays;
-        $employee->save();
+        Employee::where('id', $employee->id)->update([
+            'amount_of_allowed_holidays' => $company->getCurrentPTOPolicy()->default_amount_of_allowed_holidays,
+        ]);
 
         // create expense categories
         $listOfCategories = [

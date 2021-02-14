@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use OutOfRangeException;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
-use App\Helpers\RandomHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
@@ -48,30 +47,30 @@ class CompanyViewHelper
             ->count();
 
         // get the 3 latest questions asked to every employee of the company
-        $latestQuestions = DB::select(
-            'select questions.id as id, questions.title as title, count(answers.id) as count from questions, answers where company_id = ? and questions.id = answers.question_id group by questions.id order by questions.id desc limit 3;',
-            [$company->id]
-        );
+        $latestQuestions = DB::table('questions')
+            ->join('answers', 'questions.id', '=', 'answers.question_id')
+            ->where('company_id', '=', $company->id)
+            ->groupBy('questions.id')
+            ->orderByDesc('questions.id')
+            ->limit(3)
+            ->select('questions.id', 'questions.title')
+            ->selectRaw('count(answers.id) as count')
+            ->get();
 
         // building a collection of questions
-        $questionCollection = collect([]);
-        foreach ($latestQuestions as $question) {
-            $numberOfAnswers = $question->count;
-
-            if ($numberOfAnswers == 0) {
-                continue;
-            }
-
-            $questionCollection->push([
+        $questionCollection = $latestQuestions->filter(function ($question) {
+            return $question->count > 0;
+        })->map(function ($question) use ($company) {
+            return [
                 'id' => $question->id,
                 'title' => $question->title,
-                'number_of_answers' => $numberOfAnswers,
+                'number_of_answers' => $question->count,
                 'url' => route('company.questions.show', [
                     'company' => $company,
                     'question' => $question->id,
                 ]),
-            ]);
-        }
+                ];
+        });
 
         return [
             'total_number_of_questions' => $questionsCount,
@@ -97,26 +96,26 @@ class CompanyViewHelper
             ->select('id', 'first_name', 'last_name', 'avatar', 'birthdate')
             ->get();
 
+        $now = Carbon::now();
+        $minDate = $now->copy()->startOfWeek(Carbon::MONDAY);
+        $maxDate = $now->copy()->endOfWeek(Carbon::SUNDAY);
+
         $birthdaysCollection = collect([]);
         foreach ($employees as $employee) {
-            $date = $employee->birthdate->copy();
-            $date = $date->year(Carbon::now()->year);
-            $maxDate = Carbon::now()->endOfWeek(Carbon::SUNDAY);
-            $minDate = Carbon::now()->startOfWeek(Carbon::MONDAY);
+            $birthdateWithCurrentYear = $employee->birthdate->copy()->year($now->year);
 
-            if (BirthdayHelper::isBirthdayInRange($date, $minDate, $maxDate)) {
+            if (BirthdayHelper::isBirthdayInRange($birthdateWithCurrentYear, $minDate, $maxDate)) {
                 $birthdaysCollection->push([
-                'id' => $employee->id,
-                'uuid' => $employee->id.RandomHelper::getNumber(), // necessary for uniqueness of keys in vue
-                'url' => route('employees.show', [
-                    'company' => $company,
-                    'employee' => $employee->id,
-                ]),
-                'name' => $employee->name,
-                'avatar' => $employee->avatar,
-                'birthdate' => DateHelper::formatMonthAndDay($date),
-                'sort_key' => Carbon::createFromDate(Carbon::now()->year, $date->month, $date->day)->format('Y-m-d'),
-            ]);
+                    'id' => $employee->id,
+                    'name' => $employee->name,
+                    'avatar' => $employee->avatar,
+                    'birthdate' => DateHelper::formatMonthAndDay($birthdateWithCurrentYear),
+                    'sort_key' => Carbon::createFromDate($now->year, $birthdateWithCurrentYear->month, $birthdateWithCurrentYear->day)->format('Y-m-d'),
+                    'url' => route('employees.show', [
+                        'company' => $company,
+                        'employee' => $employee->id,
+                    ]),
+                ]);
             }
         }
 
@@ -135,12 +134,13 @@ class CompanyViewHelper
      */
     public static function newHiresThisWeek(Company $company): Collection
     {
+        $now = Carbon::now();
         $employees = $company->employees()
             ->select('id', 'first_name', 'last_name', 'avatar', 'hired_at', 'position_id')
             ->where('locked', false)
             ->whereNotNull('hired_at')
-            ->whereDate('hired_at', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY))
-            ->whereDate('hired_at', '<=', Carbon::now()->endOfWeek(Carbon::SUNDAY))
+            ->whereDate('hired_at', '>=', $now->copy()->startOfWeek(Carbon::MONDAY))
+            ->whereDate('hired_at', '<=', $now->copy()->endOfWeek(Carbon::SUNDAY))
             ->with('position')
             ->orderBy('hired_at', 'asc')
             ->get();

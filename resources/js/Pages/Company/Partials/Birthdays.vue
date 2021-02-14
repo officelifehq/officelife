@@ -59,9 +59,5 @@ export default {
       default: null,
     },
   },
-
-  data() {
-    return {};
-  },
 };
 </script>
