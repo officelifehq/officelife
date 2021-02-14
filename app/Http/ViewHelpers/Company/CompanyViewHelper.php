@@ -97,8 +97,8 @@ class CompanyViewHelper
             ->get();
 
         $now = Carbon::now();
-        $minDate = $now->startOfWeek(Carbon::MONDAY);
-        $maxDate = $now->endOfWeek(Carbon::SUNDAY);
+        $minDate = $now->copy()->startOfWeek(Carbon::MONDAY);
+        $maxDate = $now->copy()->endOfWeek(Carbon::SUNDAY);
 
         $birthdaysCollection = collect([]);
         foreach ($employees as $employee) {

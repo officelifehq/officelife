@@ -68,8 +68,8 @@ class DashboardHRViewHelper
     {
         $now = Carbon::now();
         $totals = DB::table('timesheets')
-            ->whereDate('started_at', '>=', $now->startOfWeek(Carbon::MONDAY)->subDays(30))
-            ->whereDate('started_at', '<', $now->startOfWeek(Carbon::MONDAY))
+            ->whereDate('started_at', '>=', $now->copy()->startOfWeek(Carbon::MONDAY)->subDays(30))
+            ->whereDate('started_at', '<', $now->copy()->startOfWeek(Carbon::MONDAY))
             ->selectRaw('count(*) as total')
             ->selectRaw("count(case when status = '".Timesheet::REJECTED."' then 1 end) as rejected")
             ->first();
