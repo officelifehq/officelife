@@ -38,7 +38,7 @@ class EmployeeSurveysViewHelper
             $surveysCollection->push([
                 'id' => null,
                 'month' => $now->format('M Y'),
-                'deadline' => DateHelper::hoursOrDaysLeft($now->endOfMonth()),
+                'deadline' => DateHelper::hoursOrDaysLeft($now->copy()->endOfMonth()),
             ]);
         }
 

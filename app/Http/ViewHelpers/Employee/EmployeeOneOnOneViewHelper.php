@@ -21,7 +21,7 @@ class EmployeeOneOnOneViewHelper
     {
         $now = Carbon::now();
         $entriesLast365Days = $entries->filter(function ($entry) use ($now) {
-            return $entry->happened_at > $now->subYear();
+            return $entry->happened_at > $now->copy()->subYear();
         });
 
         // now calculating the average number of days between one on ones

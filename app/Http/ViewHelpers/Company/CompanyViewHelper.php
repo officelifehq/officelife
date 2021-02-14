@@ -139,8 +139,8 @@ class CompanyViewHelper
             ->select('id', 'first_name', 'last_name', 'avatar', 'hired_at', 'position_id')
             ->where('locked', false)
             ->whereNotNull('hired_at')
-            ->whereDate('hired_at', '>=', $now->startOfWeek(Carbon::MONDAY))
-            ->whereDate('hired_at', '<=', $now->endOfWeek(Carbon::SUNDAY))
+            ->whereDate('hired_at', '>=', $now->copy()->startOfWeek(Carbon::MONDAY))
+            ->whereDate('hired_at', '<=', $now->copy()->endOfWeek(Carbon::SUNDAY))
             ->with('position')
             ->orderBy('hired_at', 'asc')
             ->get();

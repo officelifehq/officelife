@@ -233,7 +233,7 @@ class DashboardTeamViewHelper
     {
         $now = Carbon::now();
         $currentDay = $now->format('Y-m-d');
-        $nextSunday = $now->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
+        $nextSunday = $now->copy()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
 
         $employees = $team->employees()
             ->where('locked', false)
@@ -289,10 +289,10 @@ class DashboardTeamViewHelper
 
         $now = Carbon::now();
         $nextMonday = $now->format('Y-m-d');
-        $nextSunday = $now->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
+        $nextSunday = $now->copy()->addWeek()->endOfWeek(Carbon::SUNDAY)->format('Y-m-d');
         $upcomingWeek = CarbonPeriod::create($nextMonday, $nextSunday);
 
-        $employees = $employees->filter(function ($employee) use ($upcomingWeek) {
+        $employees = $employees->filter(function ($employee) use ($upcomingWeek, $now) {
             return $upcomingWeek->contains($employee->hired_at->setYear($now->year)->format('Y-m-d'));
         });
 

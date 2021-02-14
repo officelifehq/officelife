@@ -276,7 +276,7 @@ class DashboardMeViewHelper
         }
 
         $now = Carbon::now();
-        $dateInOneMonth = $now->addMonths(1);
+        $dateInOneMonth = $now->copy()->addMonths(1);
 
         if ($employee->contract_renewed_at->isAfter($dateInOneMonth)) {
             return null;
