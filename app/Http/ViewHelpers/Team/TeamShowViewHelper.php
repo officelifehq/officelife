@@ -80,6 +80,7 @@ class TeamShowViewHelper
     {
         $ships = $team->ships()->with('employees')
             ->take(3)
+            ->orderBy('id', 'asc')
             ->get();
 
         $shipsCollection = collect([]);
