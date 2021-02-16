@@ -74,7 +74,10 @@ class ProjectTasksViewHelper
         $tasksWithLists = $tasks->diff($tasksWithoutLists);
 
         // get the list of unique task list ids
-        $taskLists = $project->lists;
+        $taskLists = $project->lists()
+            ->orderBy('id', 'asc')
+            ->get();
+
         $tasksListCollection = collect([]);
         foreach ($taskLists as $taskList) {
             $tasksWithListsCollection = collect([]);
