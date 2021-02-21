@@ -3,13 +3,12 @@
 namespace App\Http\ViewHelpers\Team;
 
 use Carbon\Carbon;
-use App\Helpers\DateHelper;
-use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
+use App\Helpers\WorkFromHomeHelper;
 
 class TeamShowViewHelper
 {
@@ -55,6 +54,8 @@ class TeamShowViewHelper
             ->get();
 
         $employeesCollection = collect([]);
+        $now = Carbon::now();
+
         foreach ($employees as $employee) {
             $employeesCollection->push([
                 'id' => $employee->id,
@@ -64,6 +65,7 @@ class TeamShowViewHelper
                     'id' => $employee->position->id,
                     'title' => $employee->position->title,
                 ],
+                'workFromHome' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, $now),
                 'url' => route('employees.show', [
                     'company' => $employee->company,
                     'employee' => $employee,

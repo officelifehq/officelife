@@ -101,6 +101,10 @@
         <p class="mv0">{{ $t('team.members_blank') }}</p>
       </div>
     </div>
+
+    <work-from-home
+      :work-from-homes="listOfEmployees.filter(employee => employee.workFromHome)"
+    />
   </div>
 </template>
 
@@ -109,12 +113,14 @@ import TextInput from '@/Shared/TextInput';
 import Avatar from '@/Shared/Avatar';
 import 'vue-loaders/dist/vue-loaders.css';
 import BallPulseLoader from 'vue-loaders/dist/loaders/ball-pulse';
+import WorkFromHome from '@/Pages/Team/Partials/WorkFromHome';
 
 export default {
   components: {
     TextInput,
     Avatar,
     'ball-pulse-loader': BallPulseLoader.component,
+    WorkFromHome,
   },
 
   props: {

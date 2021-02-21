@@ -5,8 +5,10 @@ namespace App\Http\ViewHelpers\Team;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Models\Company\Company;
+use Carbon\Carbon;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
+use App\Helpers\WorkFromHomeHelper;
 
 class TeamMembersViewHelper
 {
@@ -63,6 +65,7 @@ class TeamMembersViewHelper
             'name' => $employee->name,
             'avatar' => ImageHelper::getAvatar($employee, 35),
             'position' => $employee->position,
+            'workFromHome' => WorkFromHomeHelper::hasWorkedFromHomeOnDate($employee, Carbon::now()),
         ];
     }
 }
