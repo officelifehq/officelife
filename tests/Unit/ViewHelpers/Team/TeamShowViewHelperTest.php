@@ -8,6 +8,7 @@ use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
+use App\Models\Company\WorkFromHome;
 use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -31,6 +32,12 @@ class TeamShowViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
 
+        // create one employee work from home on today
+        factory(WorkFromHome::class)->create([
+            'employee_id' => $michael->id,
+            'date' => Carbon::now()->format('Y-m-d 00:00:00'),
+        ]);
+
         $team->employees()->attach([$michael->id]);
         $team->employees()->attach([$dwight->id]);
 
@@ -49,6 +56,7 @@ class TeamShowViewHelperTest extends TestCase
                         'title' => $michael->position->title,
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
+                    'workFromHome' => true,
                 ],
                 1 => [
                     'id' => $dwight->id,
@@ -59,6 +67,7 @@ class TeamShowViewHelperTest extends TestCase
                         'title' => $dwight->position->title,
                     ],
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
+                    'workFromHome' => false,
                 ],
             ],
             $collection->toArray()

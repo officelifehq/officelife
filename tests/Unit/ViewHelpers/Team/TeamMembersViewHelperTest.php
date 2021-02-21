@@ -2,10 +2,12 @@
 
 namespace Tests\Unit\ViewHelpers\Team;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Helpers\ImageHelper;
 use App\Models\Company\Team;
 use App\Models\Company\Employee;
+use App\Models\Company\WorkFromHome;
 use App\Http\ViewHelpers\Team\TeamMembersViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Team\AddEmployeeToTeam;
@@ -62,7 +64,7 @@ class TeamMembersViewHelperTest extends TestCase
 
         $array = TeamMembersViewHelper::employee($michael);
 
-        $this->assertEquals(4, count($array));
+        $this->assertEquals(5, count($array));
 
         $this->assertEquals(
             [
@@ -70,6 +72,34 @@ class TeamMembersViewHelperTest extends TestCase
                 'name' => $michael->name,
                 'avatar' => ImageHelper::getAvatar($michael, 35),
                 'position' => $michael->position,
+                'workFromHome' => false,
+            ],
+            $array
+        );
+    }
+
+    /** @test */
+    public function it_gets_an_array_containing_information_about_the_employee_work_from_home_today(): void
+    {
+        $michael = $this->createAdministrator();
+
+        // add work from home status on today
+        factory(WorkFromHome::class)->create([
+            'employee_id' => $michael->id,
+            'date' => Carbon::now()->format('Y-m-d 00:00:00'),
+        ]);
+
+        $array = TeamMembersViewHelper::employee($michael);
+
+        $this->assertEquals(5, count($array));
+
+        $this->assertEquals(
+            [
+                'id' => $michael->id,
+                'name' => $michael->name,
+                'avatar' => $michael->avatar,
+                'position' => $michael->position,
+                'workFromHome' => true,
             ],
             $array
         );
