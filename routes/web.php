@@ -356,9 +356,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             //employee CRUD
             Route::get('account/employees/create', 'Company\\Adminland\\AdminEmployeeController@create')->name('account.employees.new');
-            Route::get('account/employees/upload', 'Company\\Adminland\\AdminEmployeeController@upload')->name('account.employees.upload');
+            Route::get('account/employees/upload', 'Company\\Adminland\\AdminUploadEmployeeController@upload')->name('account.employees.upload');
+            Route::get('account/employees/upload/archives', 'Company\\Adminland\\AdminUploadEmployeeController@index')->name('account.employees.upload.archive');
             Route::post('account/employees', 'Company\\Adminland\\AdminEmployeeController@store')->name('account.employees.create');
-            Route::post('account/employees/storeUpload', 'Company\\Adminland\\AdminEmployeeController@storeUpload')->name('account.employees.createUpload');
+            Route::post('account/employees/storeUpload', 'Company\\Adminland\\AdminUploadEmployeeController@store');
             Route::get('account/employees/{employee}/delete', 'Company\\Adminland\\AdminEmployeeController@delete')->name('account.delete');
             Route::delete('account/employees/{employee}', 'Company\\Adminland\\AdminEmployeeController@destroy');
             Route::get('account/employees/{employee}/lock', 'Company\\Adminland\\AdminEmployeeController@lock')->name('account.lock');

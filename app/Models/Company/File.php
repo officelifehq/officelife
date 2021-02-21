@@ -3,6 +3,7 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -22,6 +23,7 @@ class File extends Model
         'fileable_id',
         'fileable_type',
         'filename',
+        'hashed_filename',
         'extension',
         'size_in_kb',
     ];
@@ -42,5 +44,20 @@ class File extends Model
     public function fileable()
     {
         return $this->morphTo();
+    }
+
+    /**
+     * Get the full path of the file.
+     *
+     * @param mixed $value
+     * @return string
+     */
+    public function getPathAttribute($value): string
+    {
+        if (config('filesystems.default') == 'local') {
+            return storage_path('app').'/'.$this->hashed_filename;
+        } else {
+            return Storage::url($this->hashed_filename);
+        }
     }
 }

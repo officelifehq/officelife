@@ -45,7 +45,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: [7.4, 8.0]
+        php-version: [8.0]
         connection: [sqlite, mysql, pgsql]
 
     steps:

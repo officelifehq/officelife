@@ -3,6 +3,7 @@
 namespace App\Services\Company\Adminland\Employee;
 
 use Carbon\Carbon;
+use ErrorException;
 use App\Services\BaseService;
 use App\Models\Company\ImportJob;
 use App\Models\Company\ImportJobReport;
@@ -68,29 +69,35 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
         ]);
 
         $job = $this->importJob;
-        SimpleExcelReader::create($this->data['path'])
-            ->trimHeaderRow()
-            ->headersToSnakeCase()
-            ->getRows()
-            ->each(function (array $rowProperties) use ($job) {
-                $skipEntry = false;
 
-                if (! $this->isValidEmail($rowProperties)) {
-                    $skipEntry = true;
-                }
+        try {
+            SimpleExcelReader::create($this->data['path'])
+                ->trimHeaderRow()
+                ->headersToSnakeCase()
+                ->getRows()
+                ->each(function (array $rowProperties) use ($job) {
+                    $skipEntry = false;
 
-                ImportJobReport::create([
-                    'import_job_id' => $job->id,
-                    'employee_first_name' => $rowProperties['first_name'],
-                    'employee_last_name' => $rowProperties['last_name'],
-                    'employee_email' => $rowProperties['email'],
-                    'skipped_during_upload' => $skipEntry,
-                    'skipped_during_upload_reason' => $skipEntry ? 'invalid_email' : null,
-                ]);
-            });
+                    if (! $this->isValidEmail($rowProperties)) {
+                        $skipEntry = true;
+                    }
+
+                    ImportJobReport::create([
+                        'import_job_id' => $job->id,
+                        'employee_first_name' => $rowProperties['first_name'],
+                        'employee_last_name' => $rowProperties['last_name'],
+                        'employee_email' => $rowProperties['email'],
+                        'skipped_during_upload' => $skipEntry,
+                        'skipped_during_upload_reason' => $skipEntry ? 'invalid_email' : null,
+                    ]);
+                });
+
+            $this->importJob->status = ImportJob::MIGRATED;
+        } catch (ErrorException $e) {
+            $this->importJob->status = ImportJob::FAILED;
+        }
 
         $this->importJob->import_ended_at = Carbon::now();
-        $this->importJob->status = ImportJob::MIGRATED;
         $this->importJob->save();
     }
 

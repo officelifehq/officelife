@@ -50,6 +50,7 @@ class CreateImportJobTable extends Migration
             $table->string('fileable_type')->nullable();
             $table->string('filename');
             $table->string('extension');
+            $table->string('hashed_filename');
             $table->integer('size_in_kb');
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');

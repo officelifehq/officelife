@@ -42,6 +42,7 @@ class AdminEmployeeViewHelperTest extends TestCase
                 'url_permission' => env('APP_URL').'/'.$michael->company_id.'/account/employees/permission',
                 'url_new' => env('APP_URL').'/'.$michael->company_id.'/account/employees/create',
                 'url_upload' => env('APP_URL').'/'.$michael->company_id.'/account/employees/upload',
+                'url_upload_archive' => env('APP_URL').'/'.$michael->company_id.'/account/employees/upload/archives',
             ],
             $array
         );

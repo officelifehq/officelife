@@ -27,6 +27,7 @@ class FileFactory extends Factory
         return [
             'company_id' => $company->id,
             'filename' => 'filename',
+            'hashed_filename' => '123',
             'extension' => 'png',
             'size_in_kb' => 123,
         ];

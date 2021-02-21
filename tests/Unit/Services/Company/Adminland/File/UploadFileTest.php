@@ -40,6 +40,6 @@ class UploadFileTest extends TestCase
             'size_in_kb' => 0,
         ]);
 
-        Storage::disk('local')->assertExists('files/'.$file->hashName());
+        Storage::disk('local')->assertExists($createdFileObject->hashed_filename);
     }
 }

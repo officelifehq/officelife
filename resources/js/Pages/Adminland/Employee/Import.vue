@@ -35,37 +35,32 @@ input[type=radio] {
             Import employees
           </h2>
 
+          <div class="pa3">
+            <p>You can import a bunch of employees at once using a CSV file.</p>
+            <p>Important note: your CSV file needs to follow a specific structure so we can properly import it.</p>
+            <a href="">Read complete instructions here</a>
+          </div>
+
           <form @submit.prevent="importCSV">
             <div v-if="form.errors" class="pa3">
               <errors :errors="form.errors" />
             </div>
 
             <!-- Basic information -->
-            <div class="cf pa3 bb bb-gray pb4">
-              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>{{ $t('account.employee_new_basic_information') }}</strong>
-              </div>
-              <div class="fl-ns w-two-thirds-ns w-100">
-                <!-- First name -->
-                <text-input :id="'first_name'"
-                            v-model="form.file"
-                            :type="'file'"
-                            :name="'first_name'"
-                            :errors="$page.props.errors.first_name"
-                            :label="$t('account.employee_new_firstname')"
-                            :required="true"
-                />
-              </div>
+            <div class="cf pa3 bb bb-gray pb4 tc">
+              <input type="file" @change="selectFile" />
             </div>
 
             <!-- Actions -->
-            <div class="cf pa3 flex-ns justify-between">
-              <div>
-                <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
-                  {{ $t('app.cancel') }}
-                </inertia-link>
+            <div class="cf pa3">
+              <div class="flex-ns justify-between">
+                <div>
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'" class="btn dib tc w-auto-ns w-100 pv2 ph3 mb0-ns mb2">
+                    {{ $t('app.cancel') }}
+                  </inertia-link>
+                </div>
+                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.import')" :cypress-selector="'submit-add-employee-button'" />
               </div>
-              <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.save')" :cypress-selector="'submit-add-employee-button'" />
             </div>
           </form>
         </div>
@@ -75,7 +70,6 @@ input[type=radio] {
 </template>
 
 <script>
-import TextInput from '@/Shared/TextInput';
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
@@ -83,7 +77,6 @@ import Layout from '@/Shared/Layout';
 export default {
   components: {
     Layout,
-    TextInput,
     Errors,
     LoadingButton,
   },
@@ -97,8 +90,8 @@ export default {
 
   data() {
     return {
+      document: null,
       form: {
-        file: '',
         errors: [],
       },
       loadingState: '',
@@ -107,19 +100,21 @@ export default {
   },
 
   methods: {
+    selectFile(event) {
+      console.log(event.target.files[0]);
+      // `files` is always an array because the file input may be in multiple mode
+      this.document = event.target.files[0];
+    },
+
     importCSV() {
       this.loadingState = 'loading';
 
       var data = new FormData();
-      data.append('csv', this.form.file || '');
+      data.append('csv', this.document);
 
-      axios.post(`/${this.$page.props.auth.company.id}/account/employees/storeUpload`, data, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
-      })
+      axios.post(`/${this.$page.props.auth.company.id}/account/employees/storeUpload`, data)
         .then(response => {
-
+          console.log('succes');
         })
         .catch(error => {
           this.loadingState = null;

@@ -26,6 +26,7 @@ return [
     'employees_all_no_hiring_date_title' => 'All the employees without an hiring date in {company}',
     'employees_description_1' => 'View all employees',
     'employees_description_2' => 'Or filter employees matching a given criteria',
+    'employees_description_3' => 'Other actions',
     'employees_cta' => 'Add a single employee',
     'employees_cta_view_all_employees' => 'View all employees ({count})',
     'employees_cta_view_active_employees' => 'View only active employees ({count})',
@@ -35,6 +36,8 @@ return [
     'employees_unlock_account' => 'Unlock account',
     'employees_change_permission' => 'Change permission',
     'employees_number_employees' => '{company} has one employee. | {company} has {count} employees.',
+    'employees_import' => 'Import a bunch of employees at once (in a CSV file)',
+    'employees_view_past_imports' => 'View past imports',
 
     'employee_delete_title' => 'Delete all information about {name}',
     'employee_delete_description' => 'You are about to remove {name} from OfficeLife. This will effectively delete all information we know about this person. We will revoke all possible access to OfficeLife immediately.',
