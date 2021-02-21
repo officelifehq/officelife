@@ -96,12 +96,13 @@ class CompanyViewHelper
             ->select('id', 'first_name', 'last_name', 'avatar', 'birthdate')
             ->get();
 
+        $now = Carbon::now();
+        $minDate = $now->copy()->startOfWeek(Carbon::MONDAY);
+        $maxDate = $now->copy()->endOfWeek(Carbon::SUNDAY);
+
         $birthdaysCollection = collect([]);
         foreach ($employees as $employee) {
-            $birthdateWithCurrentYear = $employee->birthdate->copy()->year(Carbon::now()->year);
-
-            $minDate = Carbon::now()->startOfWeek(Carbon::MONDAY);
-            $maxDate = Carbon::now()->endOfWeek(Carbon::SUNDAY);
+            $birthdateWithCurrentYear = $employee->birthdate->copy()->year($now->year);
 
             if (BirthdayHelper::isBirthdayInRange($birthdateWithCurrentYear, $minDate, $maxDate)) {
                 $birthdaysCollection->push([
@@ -109,7 +110,7 @@ class CompanyViewHelper
                     'name' => $employee->name,
                     'avatar' => $employee->avatar,
                     'birthdate' => DateHelper::formatMonthAndDay($birthdateWithCurrentYear),
-                    'sort_key' => Carbon::createFromDate(Carbon::now()->year, $birthdateWithCurrentYear->month, $birthdateWithCurrentYear->day)->format('Y-m-d'),
+                    'sort_key' => Carbon::createFromDate($now->year, $birthdateWithCurrentYear->month, $birthdateWithCurrentYear->day)->format('Y-m-d'),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $employee->id,
@@ -133,12 +134,13 @@ class CompanyViewHelper
      */
     public static function newHiresThisWeek(Company $company): Collection
     {
+        $now = Carbon::now();
         $employees = $company->employees()
             ->select('id', 'first_name', 'last_name', 'avatar', 'hired_at', 'position_id')
             ->where('locked', false)
             ->whereNotNull('hired_at')
-            ->whereDate('hired_at', '>=', Carbon::now()->startOfWeek(Carbon::MONDAY))
-            ->whereDate('hired_at', '<=', Carbon::now()->endOfWeek(Carbon::SUNDAY))
+            ->whereDate('hired_at', '>=', $now->copy()->startOfWeek(Carbon::MONDAY))
+            ->whereDate('hired_at', '<=', $now->copy()->endOfWeek(Carbon::SUNDAY))
             ->with('position')
             ->orderBy('hired_at', 'asc')
             ->get();

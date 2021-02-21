@@ -115,6 +115,7 @@ class DashboardManagerViewHelper
     {
         $oneOnOnesCollection = collect([]);
         $company = $manager->company;
+        $now = Carbon::now();
 
         foreach ($directReports as $directReport) {
             $employee = $directReport->directReport;
@@ -132,7 +133,7 @@ class DashboardManagerViewHelper
                     'author_id' => $employee->id,
                     'manager_id' => $manager->id,
                     'employee_id' => $employee->id,
-                    'date' => Carbon::now()->format('Y-m-d'),
+                    'date' => $now->format('Y-m-d'),
                 ]);
             }
 
@@ -171,6 +172,7 @@ class DashboardManagerViewHelper
     {
         $collection = collect([]);
         $company = $manager->company;
+        $now = Carbon::now();
 
         foreach ($directReports as $directReport) {
             $employee = $directReport->directReport;
@@ -187,7 +189,7 @@ class DashboardManagerViewHelper
                 continue;
             }
 
-            $dateInOneMonth = Carbon::now()->addMonths(1);
+            $dateInOneMonth = $now->copy()->addMonths(1);
 
             if ($employee->contract_renewed_at->isAfter($dateInOneMonth)) {
                 continue;
@@ -204,8 +206,8 @@ class DashboardManagerViewHelper
                 ]),
                 'contract_information' => [
                     'contract_renewed_at' => DateHelper::formatDate($employee->contract_renewed_at),
-                    'number_of_days' => $employee->contract_renewed_at->diffInDays(Carbon::now()),
-                    'late' => $employee->contract_renewed_at->isBefore(Carbon::now()),
+                    'number_of_days' => $employee->contract_renewed_at->diffInDays($now),
+                    'late' => $employee->contract_renewed_at->isBefore($now),
                 ],
             ]);
         }

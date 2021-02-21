@@ -34,10 +34,11 @@ class EmployeeSurveysViewHelper
         // the manager the date of the next survey
         $survey = $allSurveys->first();
         if (! $survey->active) {
+            $now = Carbon::now();
             $surveysCollection->push([
                 'id' => null,
-                'month' => Carbon::now()->format('M Y'),
-                'deadline' => DateHelper::hoursOrDaysLeft(Carbon::now()->endOfMonth()),
+                'month' => $now->format('M Y'),
+                'deadline' => DateHelper::hoursOrDaysLeft($now->copy()->endOfMonth()),
             ]);
         }
 

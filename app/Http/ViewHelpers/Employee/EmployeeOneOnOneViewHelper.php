@@ -19,12 +19,13 @@ class EmployeeOneOnOneViewHelper
      */
     public static function stats(Collection $entries): array
     {
-        $entriesLast365Days = $entries->filter(function ($entry) {
-            return $entry->happened_at > Carbon::now()->subYear();
+        $now = Carbon::now();
+        $entriesLast365Days = $entries->filter(function ($entry) use ($now) {
+            return $entry->happened_at > $now->copy()->subYear();
         });
 
         // now calculating the average number of days between one on ones
-        $previousEntry = Carbon::now();
+        $previousEntry = $now;
         $average = collect([]);
         foreach ($entriesLast365Days as $entry) {
             $numberOfDays = $previousEntry->diffInDays($entry->happened_at);

@@ -29,14 +29,13 @@
       }
     ],
     [
-      "@semantic-release/github",
+      "semantic-release-github-pullrequest",
       {
-        "assets": ["CHANGELOG.md"]
-      }
-    ],
-    [
-      "@semantic-release/exec", {
-        "successCmd": "./scripts/commit-changelog.sh ${nextRelease.version}"
+        "assets": ["CHANGELOG.md"],
+        "labels": [
+          "semantic-release",
+          "auto-squash"
+        ]
       }
     ]
   ]
