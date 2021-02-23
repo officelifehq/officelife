@@ -22,8 +22,6 @@ class CreateImportJobTable extends Migration
             $table->string('status');
             $table->datetime('import_started_at')->nullable();
             $table->datetime('import_ended_at')->nullable();
-            $table->boolean('imported')->default(false);
-            $table->boolean('failed')->default(false);
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('employees')->onDelete('set null');

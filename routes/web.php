@@ -358,6 +358,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('account/employees/create', 'Company\\Adminland\\AdminEmployeeController@create')->name('account.employees.new');
             Route::get('account/employees/upload', 'Company\\Adminland\\AdminUploadEmployeeController@upload')->name('account.employees.upload');
             Route::get('account/employees/upload/archives', 'Company\\Adminland\\AdminUploadEmployeeController@index')->name('account.employees.upload.archive');
+            Route::get('account/employees/upload/archives/{archive}', 'Company\\Adminland\\AdminUploadEmployeeController@show')->name('account.employees.upload.archive.show');
             Route::post('account/employees', 'Company\\Adminland\\AdminEmployeeController@store')->name('account.employees.create');
             Route::post('account/employees/storeUpload', 'Company\\Adminland\\AdminUploadEmployeeController@store');
             Route::get('account/employees/{employee}/delete', 'Company\\Adminland\\AdminEmployeeController@delete')->name('account.delete');

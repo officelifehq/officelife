@@ -19,6 +19,13 @@ class ImportJobTest extends TestCase
     }
 
     /** @test */
+    public function it_belongs_to_an_author(): void
+    {
+        $importJob = ImportJob::factory()->create([]);
+        $this->assertTrue($importJob->author()->exists());
+    }
+
+    /** @test */
     public function it_has_many_job_reports(): void
     {
         $importJob = ImportJob::factory()

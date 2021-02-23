@@ -33,17 +33,6 @@ class ImportJob extends Model
         'status',
         'import_started_at',
         'import_ended_at',
-        'imported',
-        'failed',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'failed' => 'boolean',
     ];
 
     /**
@@ -64,6 +53,16 @@ class ImportJob extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get the company record associated with the import job object.
+     *
+     * @return BelongsTo
+     */
+    public function author()
+    {
+        return $this->belongsTo(Employee::class, 'author_id');
     }
 
     /**

@@ -11,7 +11,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use App\Services\Company\Adminland\File\UploadFile;
-use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
+use App\Http\ViewHelpers\Adminland\AdminUploadEmployeeViewHelper;
 use App\Services\Company\Adminland\Employee\StoreEmployeesFromCSVInTemporaryTable;
 
 class AdminUploadEmployeeController extends Controller
@@ -24,11 +24,11 @@ class AdminUploadEmployeeController extends Controller
     public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $employees = $company->employees()->get();
+        $importJobs = AdminUploadEmployeeViewHelper::index($company);
 
-        return Inertia::render('Adminland/Employee/Index', [
+        return Inertia::render('Adminland/Employee/Archives/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'statistics' => AdminEmployeeViewHelper::index($employees, $company),
+            'importJobs' => $importJobs,
         ]);
     }
 
@@ -51,7 +51,7 @@ class AdminUploadEmployeeController extends Controller
      * @param int $companyId
      * @return JsonResponse
      */
-    public function storeUpload(Request $request, int $companyId): JsonResponse
+    public function store(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 

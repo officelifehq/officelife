@@ -531,4 +531,9 @@ return [
     'ecoffee_enabled' => 'e-Coffees are enabled',
     'ecoffee_disabled' => 'e-Coffees are disabled',
 
+    'import_employees_status_created' => 'created',
+    'import_employees_status_migrated' => 'uploaded',
+    'import_employees_status_imported' => 'imported',
+    'import_employees_status_failed' => 'failed',
+    'import_employees_archives_title' => 'List of previous import of employees',
 ];
