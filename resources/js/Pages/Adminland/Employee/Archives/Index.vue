@@ -11,6 +11,7 @@
   line-height: 22px;
   color: #0366d6;
   background-color: #f1f8ff;
+  top: -1px;
 
   &:hover {
     background-color: #def;
@@ -18,6 +19,11 @@
 
   a:hover {
     border-bottom: 0;
+  }
+
+  &.failed {
+    background-color: #ea8383;
+    color: #fff;
   }
 
   span {
@@ -38,7 +44,10 @@
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            ...
+          </li>
+          <li class="di">
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account/employees'">{{ $t('app.breadcrumb_account_manage_employees') }}</inertia-link>
           </li>
           <li class="di">
             {{ $t('app.breadcrumb_account_manage_past_archives') }}
@@ -55,18 +64,18 @@
             <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
 
-          <p class="relative adminland-headline">
-            <a class="btn absolute-l relative dib-l db right-0" data-cy="add-status-button" @click.prevent="displayAddModal">
-              Import a new list
-            </a>
+          <p class="tr">
+            <inertia-link :href="importJobs.url_new" class="btn relative dib-l db">
+              {{ $t('account.import_employees_archives_cta') }}
+            </inertia-link>
           </p>
 
           <!-- LIST OF JOB REPORTS -->
-          <ul class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="importJobs.map(n => n.id)">
-            <li v-for="job in importJobs" :key="job.id" class="pv3 ph2 bb bb-gray bb-gray-hover ">
-              <div class="di">
-                <span class="db">{{ job.number_of_entries }} entries <span class="type">{{ job.status }}</span></span>
-                <span class="db">{{ job.import_started_at }} by {{ job.author.name }}</span>
+          <ul v-if="importJobs.entries.length > 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="importJobs.entries.map(n => n.id)">
+            <li v-for="job in importJobs.entries" :key="job.id" class="pv3 ph2 bb bb-gray bb-gray-hover flex justify-between items-center">
+              <div class="di relative">
+                <span class="db mb2">{{ $t('account.import_employees_archives_item_title', { count: job.number_of_entries }) }} <span :class="job.status" class="type relative">{{ job.status_translated }}</span></span>
+                <span class="db f7">{{ $t('account.import_employees_archives_item_date', { date: job.import_started_at, author: job.author.name }) }}</span>
               </div>
 
               <!-- LIST OF ACTIONS FOR EACH REPORT -->
@@ -77,9 +86,9 @@
           </ul>
 
           <!-- BLANK STATE -->
-          <div v-show="importJobs.length == 0" class="pa3 mt5">
+          <div v-if="importJobs.entries.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              Import all employees using a csv
+              {{ $t('account.import_employees_archives_blank_description') }}
             </p>
             <img loading="lazy" src="/img/streamline-icon-document-box-3@140x140.png" alt="add email symbol" class="db center mb4" height="80"
                  width="80"

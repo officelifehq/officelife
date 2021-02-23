@@ -5,7 +5,6 @@ namespace App\Http\ViewHelpers\Adminland;
 use App\Helpers\DateHelper;
 use App\Models\Company\Company;
 use App\Models\Company\ImportJob;
-use Illuminate\Support\Collection;
 use App\Models\Company\ImportJobReport;
 
 class AdminUploadEmployeeViewHelper
@@ -14,9 +13,9 @@ class AdminUploadEmployeeViewHelper
      * Get all the CSV imports in the account.
      *
      * @param Company $company
-     * @return Collection|null
+     * @return array|null
      */
-    public static function index(Company $company): ?Collection
+    public static function index(Company $company): ?array
     {
         $jobs = $company->importJobs()->orderBy('id', 'desc')->get();
 
@@ -33,7 +32,8 @@ class AdminUploadEmployeeViewHelper
                         'employee' => $importJob->author,
                     ]),
                 ],
-                'status' => trans('account.import_employees_status_'.$importJob->status),
+                'status' => $importJob->status,
+                'status_translated' => trans('account.import_employees_status_'.$importJob->status),
                 'number_of_entries' => $count,
                 'import_started_at' => $importJob->import_started_at ? DateHelper::formatShortDateWithTime($importJob->import_started_at) : null,
                 'import_ended_at' => $importJob->import_ended_at ? DateHelper::formatShortDateWithTime($importJob->import_ended_at) : null,
@@ -44,7 +44,12 @@ class AdminUploadEmployeeViewHelper
             ]);
         }
 
-        return $importJobsCollection;
+        return [
+            'entries' => $importJobsCollection,
+            'url_new' => route('account.employees.upload', [
+                    'company' => $company,
+                ]),
+        ];
     }
 
     /**

@@ -34,7 +34,7 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
             'import_job_id' => $importJobB->id,
         ]);
 
-        $collection = AdminUploadEmployeeViewHelper::index($michael->company);
+        $array = AdminUploadEmployeeViewHelper::index($michael->company);
 
         $this->assertEquals(
             [
@@ -45,6 +45,7 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'status' => 'created',
+                    'status_translated' => 'created',
                     'number_of_entries' => 2,
                     'import_started_at' => null,
                     'import_ended_at' => null,
@@ -57,13 +58,19 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
                         'url' => null,
                     ],
                     'status' => 'imported',
+                    'status_translated' => 'imported',
                     'number_of_entries' => 0,
                     'import_started_at' => 'Feb 20, 2021 12:12',
                     'import_ended_at' => 'Feb 20, 2021 12:12',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/account/employees/upload/archives/'.$importJobA->id,
                 ],
             ],
-            $collection->toArray()
+            $array['entries']->toArray()
+        );
+
+        $this->assertEquals(
+            env('APP_URL').'/'.$michael->company_id.'/account/employees/upload',
+            $array['url_new']
         );
     }
 

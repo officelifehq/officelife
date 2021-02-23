@@ -536,4 +536,8 @@ return [
     'import_employees_status_imported' => 'imported',
     'import_employees_status_failed' => 'failed',
     'import_employees_archives_title' => 'List of previous import of employees',
+    'import_employees_archives_cta' => 'Import a new list',
+    'import_employees_archives_blank_description' => 'No employees have been imported yet.',
+    'import_employees_archives_item_title' => '{count} entries',
+    'import_employees_archives_item_date' => '{date} by {author}',
 ];

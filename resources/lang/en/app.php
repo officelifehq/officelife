@@ -127,6 +127,7 @@ return [
     'breadcrumb_account_manage_expense_categories' => 'Expense management',
     'breadcrumb_account_manage_general_settings' => 'General settings',
     'breadcrumb_account_import_employees' => 'Import employees',
+    'breadcrumb_account_manage_past_archives' => 'Past imports',
 
     'header_welcome' => 'Welcome',
     'header_home' => 'Home',
