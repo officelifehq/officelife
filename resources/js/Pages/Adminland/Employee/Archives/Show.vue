@@ -72,7 +72,7 @@
 
           <!-- LIST OF JOB REPORTS -->
           <ul v-if="importJobs.entries.length > 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="importJobs.entries.map(n => n.id)">
-            <li v-for="job in importJobs.entries" :key="job.id" class="pa3 bb bb-gray bb-gray-hover flex justify-between items-center">
+            <li v-for="job in importJobs.entries" :key="job.id" class="pv3 ph2 bb bb-gray bb-gray-hover flex justify-between items-center">
               <div class="di relative">
                 <span class="db mb2">{{ $t('account.import_employees_archives_item_title', { count: job.number_of_entries }) }} <span :class="job.status" class="type relative">{{ job.status_translated }}</span></span>
                 <span class="db f7">{{ $t('account.import_employees_archives_item_date', { date: job.import_started_at, author: job.author.name }) }}</span>

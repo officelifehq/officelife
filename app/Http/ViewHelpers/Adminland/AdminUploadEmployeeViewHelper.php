@@ -54,16 +54,30 @@ class AdminUploadEmployeeViewHelper
 
     /**
      * Get all the details about a specific import job.
+     * This page shows the first five imports, and all the reports that failed.
      *
      * @param ImportJob $job
      * @return array|null
      */
     public static function show(ImportJob $importJob): ?array
     {
-        $reports = $importJob->reports;
+        $firstFiveReports = $importJob->reports()->take(5)->get();
         $importJobReportsCollection = collect([]);
-        foreach ($reports as $importJobReport) {
+        foreach ($firstFiveReports as $importJobReport) {
             $importJobReportsCollection->push([
+                'id' => $importJobReport->id,
+                'employee_first_name' => $importJobReport->employee_first_name,
+                'employee_last_name' => $importJobReport->employee_last_name,
+                'employee_email' => $importJobReport->employee_email,
+                'skipped_during_upload' => $importJobReport->skipped_during_upload,
+                'skipped_during_upload_reason' => $importJobReport->skipped_during_upload_reason,
+            ]);
+        }
+
+        $failedReports = $importJob->reports()->where('skipped_during_upload', true)->get();
+        $failedJobReportsCollection = collect([]);
+        foreach ($failedReports as $importJobReport) {
+            $failedJobReportsCollection->push([
                 'id' => $importJobReport->id,
                 'employee_first_name' => $importJobReport->employee_first_name,
                 'employee_last_name' => $importJobReport->employee_last_name,
@@ -83,10 +97,11 @@ class AdminUploadEmployeeViewHelper
                 ]),
             ],
             'status' => trans('account.import_employees_status_'.$importJob->status),
-            'number_of_entries' => $importJobReportsCollection->count(),
             'import_started_at' => $importJob->import_started_at ? DateHelper::formatShortDateWithTime($importJob->import_started_at) : null,
             'import_ended_at' => $importJob->import_ended_at ? DateHelper::formatShortDateWithTime($importJob->import_ended_at) : null,
-            'entries' => $importJobReportsCollection,
+            'number_of_entries' => $importJobReportsCollection->count(),
+            'first_five_entries' => $importJobReportsCollection,
+            'failed_entries' => $failedJobReportsCollection,
         ];
     }
 }

@@ -6,11 +6,13 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Helpers\InstanceHelper;
+use App\Models\Company\ImportJob;
 use Illuminate\Http\JsonResponse;
 use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\View;
 use App\Services\Company\Adminland\File\UploadFile;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Adminland\AdminUploadEmployeeViewHelper;
 use App\Services\Company\Adminland\Employee\StoreEmployeesFromCSVInTemporaryTable;
 
@@ -69,6 +71,33 @@ class AdminUploadEmployeeController extends Controller
 
         return response()->json([
             'company_id' => $companyId,
+        ]);
+    }
+
+    /**
+     * Upload the CSV.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $jobId
+     * @return JsonResponse
+     */
+    public function show(Request $request, int $companyId, int $jobId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        try {
+            $job = ImportJob::where('company_id', $companyId)
+                ->findOrFail($jobId);
+        } catch (ModelNotFoundException $e) {
+            return redirect('home');
+        }
+
+        $details = AdminUploadEmployeeViewHelper::show($job);
+
+        return response()->json([
+            'company_id' => $companyId,
+            'report' => $details,
         ]);
     }
 }

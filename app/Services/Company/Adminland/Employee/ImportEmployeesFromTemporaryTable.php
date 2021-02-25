@@ -68,7 +68,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService
                         'email' => $report->employee_email,
                         'first_name' => $report->employee_first_name,
                         'last_name' => $report->employee_last_name,
-                        'permission_level' => 100,
+                        'permission_level' => 300,
                         'send_invitation' => false,
                     ])->onQueue('low');
                 });

@@ -88,6 +88,10 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
         $report = ImportJobReport::factory()->create([
             'import_job_id' => $importJob->id,
         ]);
+        $failedReport = ImportJobReport::factory()->create([
+            'import_job_id' => $importJob->id,
+            'skipped_during_upload' => true,
+        ]);
 
         $array = AdminUploadEmployeeViewHelper::show($importJob);
 
@@ -110,7 +114,7 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            1,
+            2,
             $array['number_of_entries']
         );
 
@@ -134,8 +138,30 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
                     'skipped_during_upload' => $report->skipped_during_upload,
                     'skipped_during_upload_reason' => $report->skipped_during_upload_reason,
                 ],
+                1 => [
+                    'id' => $failedReport->id,
+                    'employee_first_name' => $failedReport->employee_first_name,
+                    'employee_last_name' => $failedReport->employee_last_name,
+                    'employee_email' => $failedReport->employee_email,
+                    'skipped_during_upload' => true,
+                    'skipped_during_upload_reason' => $failedReport->skipped_during_upload_reason,
+                ],
             ],
-            $array['entries']->toArray()
+            $array['first_five_entries']->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                0 => [
+                    'id' => $failedReport->id,
+                    'employee_first_name' => $failedReport->employee_first_name,
+                    'employee_last_name' => $failedReport->employee_last_name,
+                    'employee_email' => $failedReport->employee_email,
+                    'skipped_during_upload' => $failedReport->skipped_during_upload,
+                    'skipped_during_upload_reason' => $failedReport->skipped_during_upload_reason,
+                ],
+            ],
+            $array['failed_entries']->toArray()
         );
     }
 }

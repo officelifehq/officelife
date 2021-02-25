@@ -5,6 +5,7 @@ namespace App\Services\Company\Adminland\Employee;
 use Carbon\Carbon;
 use ErrorException;
 use App\Services\BaseService;
+use App\Models\Company\Employee;
 use App\Models\Company\ImportJob;
 use App\Models\Company\ImportJobReport;
 use Illuminate\Support\Facades\Validator;
@@ -76,10 +77,14 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
                 ->headersToSnakeCase()
                 ->getRows()
                 ->each(function (array $rowProperties) use ($job) {
-                    $skipEntry = false;
+                    $skipReason = '';
 
                     if (! $this->isValidEmail($rowProperties)) {
-                        $skipEntry = true;
+                        $skipReason = 'invalid_email';
+                    }
+
+                    if ($this->isEmailAlreadyTaken($rowProperties, $job)) {
+                        $skipReason = 'email_already_taken';
                     }
 
                     ImportJobReport::create([
@@ -87,8 +92,8 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
                         'employee_first_name' => $rowProperties['first_name'],
                         'employee_last_name' => $rowProperties['last_name'],
                         'employee_email' => $rowProperties['email'],
-                        'skipped_during_upload' => $skipEntry,
-                        'skipped_during_upload_reason' => $skipEntry ? 'invalid_email' : null,
+                        'skipped_during_upload' => $skipReason == '' ? false : true,
+                        'skipped_during_upload_reason' => $skipReason == '' ? null : $skipReason,
                     ]);
                 });
 
@@ -110,5 +115,28 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
         }
 
         return true;
+    }
+
+    private function isEmailAlreadyTaken(array $row, ImportJob $job): bool
+    {
+        // check if the email is already taken in the list
+        $importJob = ImportJobReport::where('import_job_id', $job->id)
+            ->where('employee_email', $row['email'])
+            ->first();
+
+        if ($importJob) {
+            return true;
+        }
+
+        // check if the email is already taken from the list of existing employees
+        $employee = Employee::where('company_id', $job->company_id)
+            ->where('email', $row['email'])
+            ->first();
+
+        if ($employee) {
+            return true;
+        }
+
+        return false;
     }
 }
