@@ -31,22 +31,23 @@ import Snotify from 'vue-snotify';
 import 'vue-snotify/styles/simple.css';
 Vue.use(Snotify);
 
-// i18n
-import VueI18n from 'vue-i18n';
-Vue.use(VueI18n);
+// // i18n
+// import VueI18n from 'vue-i18n';
+// Vue.use(VueI18n);
 
-import messages from '../../public/js/langs/en.json';
+// import messages from '../../public/js/langs/en.json';
 
-export const i18n = new VueI18n({
-  locale: 'en', // set locale
-  fallbackLocale: 'en',
-  messages: { 'en': messages }
-});
+// export const i18n = new VueI18n({
+//   locale: 'en', // set locale
+//   fallbackLocale: 'en',
+//   messages: { 'en': messages }
+// });
+
+Vue.mixin(require('./translation'));
 
 const el = document.getElementById('app');
 
 new Vue({
-  i18n,
   render: h => h(app, {
     props: {
       initialPage: JSON.parse(el.dataset.page),
@@ -54,4 +55,3 @@ new Vue({
     },
   }),
 }).$mount(el);
-

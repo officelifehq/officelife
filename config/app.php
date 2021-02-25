@@ -183,6 +183,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Sentry\Laravel\ServiceProvider::class,
+        App\Providers\TranslationServiceProvider::class,
     ],
 
     /*

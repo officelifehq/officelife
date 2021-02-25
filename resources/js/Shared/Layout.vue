@@ -59,16 +59,16 @@ nav {
           </inertia-link>
           <div v-if="!noMenu">
             <inertia-link v-if="$page.props.auth.employee.display_welcome_message" :href="'/' + $page.props.auth.company.id + '/welcome'" data-cy="header-desktop-welcome-tab" class="mr1 no-underline pa2 bb-0 special">
-              <span class="mr1">👋</span> {{ $t('app.header_welcome') }}
+              <span class="mr1">👋</span> {{ __('app.header_welcome') }}
             </inertia-link>
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'" class="mr1 no-underline pa2 bb-0 special">
-              <span class="mr1">🏡</span> {{ $t('app.header_home') }}
+              <span class="mr1">🏡</span> {{ __('app.header_home') }}
             </inertia-link>
             <inertia-link :href="'/' + $page.props.auth.company.id + '/company'" class="mr1 no-underline pa2 bb-0 special" data-cy="header-teams-link">
-              <span class="mr1">⛺️</span> {{ $t('app.header_company') }}
+              <span class="mr1">⛺️</span> {{ __('app.header_company') }}
             </inertia-link>
             <a data-cy="header-find-link" class="mr1 no-underline pa2 bb-0 special pointer" @click="showFindModal">
-              <span class="mr1">🔍</span> {{ $t('app.header_find') }}
+              <span class="mr1">🔍</span> {{ __('app.header_find') }}
             </a>
             <inertia-link v-if="$page.props.auth.company && $page.props.auth.employee.permission_level <= 200" :href="'/' + $page.props.auth.company.id + '/account'" data-cy="header-adminland-link" class="no-underline pa2 bb-0 special">
               <span class="mr1">👮‍♂️</span> Adminland
@@ -88,10 +88,10 @@ nav {
         <form @submit.prevent="submit">
           <div class="relative">
             <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
-                   :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false" @keyup="submit()"
+                   :placeholder="__('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false" @keyup="submit()"
             />
             <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'" />
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="__('app.search')" :cypress-selector="'header-find-submit'" />
           </div>
         </form>
 
@@ -100,7 +100,7 @@ nav {
           <!-- Employees -->
           <li class="b mb3">
             <span class="f6 mb2 dib">
-              {{ $t('app.header_search_employees') }}
+              {{ __('app.header_search_employees') }}
             </span>
             <ul v-if="employees.length > 0" class="list ma0 pl0">
               <li v-for="localEmployee in employees" :key="localEmployee.id" class="mb2">
@@ -110,14 +110,14 @@ nav {
               </li>
             </ul>
             <div v-else class="silver">
-              {{ $t('app.header_search_no_employee_found') }}
+              {{ __('app.header_search_no_employee_found') }}
             </div>
           </li>
 
           <!-- Teams -->
           <li class="fw5">
             <span class="f6 mb2 dib">
-              {{ $t('app.header_search_teams') }}
+              {{ __('app.header_search_teams') }}
             </span>
             <ul v-if="teams.length > 0" class="list ma0 pl0">
               <li v-for="team in teams" :key="team.id" class="mb2">
@@ -127,7 +127,7 @@ nav {
               </li>
             </ul>
             <div v-else class="silver">
-              {{ $t('app.header_search_no_team_found') }}
+              {{ __('app.header_search_no_team_found') }}
             </div>
           </li>
         </ul>
@@ -196,12 +196,12 @@ nav {
     <div v-if="showHelpOnPage">
       <div v-if="$page.props.auth.user.show_help" class="tc mv3">
         <span class="pointer" data-cy="layout-hide-help" @click="toggleHelp()">
-          {{ $t('app.hide_help') }}
+          {{ __('app.hide_help') }}
         </span>
       </div>
       <div v-else class="tc mv3">
         <span class="pointer" data-cy="layout-show-help" @click="toggleHelp()">
-          {{ $t('app.show_help') }}
+          {{ __('app.show_help') }}
         </span>
       </div>
     </div>

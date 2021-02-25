@@ -43,8 +43,8 @@
           <inertia-link href="/company/create">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box" data-cy="create-company-blank-state">
-                <h3>{{ $t('home.create_company') }}</h3>
-                <p>{{ $t('home.create_company_desc') }}</p>
+                <h3>{{ __('home.create_company') }}</h3>
+                <p>{{ __('home.create_company_desc') }}</p>
                 <img loading="lazy" src="/img/home/create-company.png" class="home-company absolute" alt="create company button" />
               </div>
             </div>
@@ -54,8 +54,8 @@
           <inertia-link href="/company/create">
             <div class="pa3-l">
               <div class="br3 mb3 bg-white box pa3 tc relative home-box">
-                <h3>{{ $t('home.join_company') }}</h3>
-                <p>{{ $t('home.join_company_desc') }}</p>
+                <h3>{{ __('home.join_company') }}</h3>
+                <p>{{ __('home.join_company_desc') }}</p>
                 <img loading="lazy" src="/img/home/join-company.png" class="home-join absolute" alt="join company button" />
               </div>
             </div>
@@ -68,10 +68,10 @@
         <div class="mt4 mt5-l mw7 center section-btn relative">
           <p>
             <span class="pr2">
-              {{ $t('home.companies_part_of') }}
+              {{ __('home.companies_part_of') }}
             </span>
             <inertia-link href="/company/create" class="btn absolute db-l dn">
-              {{ $t('home.create_company_cta') }}
+              {{ __('home.create_company_cta') }}
             </inertia-link>
           </p>
         </div>
@@ -89,7 +89,7 @@
         </div>
         <div class="w-100 dn-ns db mt2">
           <inertia-link href="/company/create" class="btn br3 pa3 white no-underline bb-0 db tc">
-            {{ $t('home.create_company_cta') }}
+            {{ __('home.create_company_cta') }}
           </inertia-link>
         </div>
       </div>
