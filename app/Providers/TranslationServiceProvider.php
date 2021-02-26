@@ -14,17 +14,27 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Cache::rememberForever('translations', function () {
-            $translations = collect();
+        if (config('app.env') == 'production') {
+            Cache::rememberForever('translations', function () {
+                $this->generateTranslations();
+            });
+        } else {
+            $this->generateTranslations();
+        }
+    }
 
-            foreach (['en'] as $locale) {
-                $translations[$locale] = [
-                    'php' => $this->phpTranslations($locale),
-                ];
-            }
+    private function generateTranslations(): Collection
+    {
+        $translations = collect();
 
-            return $translations;
-        });
+        // we'll need to add new locales as we grow
+        foreach (['en'] as $locale) {
+            $translations[$locale] = [
+                'php' => $this->phpTranslations($locale),
+            ];
+        }
+
+        return $translations;
     }
 
     private function phpTranslations(string $locale): Collection
