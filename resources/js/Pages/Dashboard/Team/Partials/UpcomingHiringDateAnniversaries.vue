@@ -17,7 +17,7 @@
 <template>
   <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
-      🎖 {{ $t('dashboard.team_hired_at_anniversaries') }}
+      🎖 {{ __('dashboard.team_hired_at_anniversaries') }}
 
       <help :url="$page.props.help_links.employee_work_anniversaries" />
     </div>
@@ -33,7 +33,7 @@
           </inertia-link>
 
           <span class="title db f7 mt1">
-            {{ $t('dashboard.team_hired_at_anniversary_detail', { age: employee.anniversary_age, date: employee.anniversary_date, company: $page.props.auth.company.name }) }}
+            {{ __('dashboard.team_hired_at_anniversary_detail', { age: employee.anniversary_age, date: employee.anniversary_date, company: $page.props.auth.company.name }) }}
           </span>
         </span>
       </div>

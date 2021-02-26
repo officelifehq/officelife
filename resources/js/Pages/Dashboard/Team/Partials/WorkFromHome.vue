@@ -17,14 +17,14 @@
 <template>
   <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
-      🏡 {{ $t('dashboard.team_work_from_home_title') }}
+      🏡 {{ __('dashboard.team_work_from_home_title') }}
     </div>
 
     <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
       <!-- case of no one working from home -->
       <template v-if="workFromHomes.length == 0">
         <div class="pa3 tc" data-cy="team-work-from-home-blank">
-          {{ $t('dashboard.team_work_from_home_blank') }}
+          {{ __('dashboard.team_work_from_home_blank') }}
         </div>
       </template>
 
@@ -43,7 +43,7 @@
             {{ employee.position.title }}
           </span>
           <span v-else class="title db f7 mt1">
-            {{ $t('app.no_position_defined') }}
+            {{ __('app.no_position_defined') }}
           </span>
         </span>
       </div>

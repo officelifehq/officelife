@@ -22,7 +22,7 @@
       <div v-show="teams.length > 1" class="cf mw7 center mb3">
         <ul class="list mt0 mb3 pa0 center">
           <li class="di mr2 black-30">
-            {{ $t('dashboard.team_viewing') }}
+            {{ __('dashboard.team_viewing') }}
           </li>
           <li v-for="team in teams" :key="team.id" class="di team-item pa2 br2 pointer" :class="{ selected: currentTeam == team.id }" :data-cy="'team-selector-' + team.id ">
             <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard/team/' + team.id">

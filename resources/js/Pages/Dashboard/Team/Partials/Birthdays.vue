@@ -17,14 +17,14 @@
 <template>
   <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
-      🥳 {{ $t('dashboard.team_birthdate_title') }}
+      🥳 {{ __('dashboard.team_birthdate_title') }}
     </div>
 
     <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
       <!-- case of no birthday -->
       <template v-if="birthdays.length == 0">
         <div class="pa3 tc" data-cy="team-birthdate-blank">
-          😢 {{ $t('dashboard.team_birthdate_blank') }}
+          😢 {{ __('dashboard.team_birthdate_blank') }}
         </div>
       </template>
 
@@ -40,7 +40,7 @@
 
           <!-- birthdate information -->
           <span class="title db f7 mt1">
-            {{ $t('dashboard.team_birthdate_date', { date: employee.birthdate}) }}
+            {{ __('dashboard.team_birthdate_date', { date: employee.birthdate}) }}
           </span>
         </span>
       </div>

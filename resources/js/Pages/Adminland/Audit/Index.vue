@@ -11,13 +11,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ __('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ __('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_audit_logs') }}
+            {{ __('app.breadcrumb_account_audit_logs') }}
           </li>
         </ul>
       </div>
@@ -26,7 +26,7 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('audit.title') }}
+            {{ __('audit.title') }}
           </h2>
           <ul class="list pl0 mt0 center">
             <li v-for="log in logs" :key="log.id"
@@ -57,10 +57,10 @@
           <!-- Pagination -->
           <div class="center cf">
             <inertia-link v-show="paginator.previousPageUrl" class="fl dib" :href="paginator.previousPageUrl" title="Previous">
-              &larr; {{ $t('app.previous') }}
+              &larr; {{ __('app.previous') }}
             </inertia-link>
             <inertia-link v-show="paginator.nextPageUrl" class="fr dib" :href="paginator.nextPageUrl" title="Next">
-              {{ $t('app.next') }} &rarr;
+              {{ __('app.next') }} &rarr;
             </inertia-link>
           </div>
         </div>

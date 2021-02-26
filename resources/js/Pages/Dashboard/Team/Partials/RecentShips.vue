@@ -16,7 +16,7 @@
 <template>
   <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
-      🚀 {{ $t('dashboard.team_recent_ships') }}
+      🚀 {{ __('dashboard.team_recent_ships') }}
     </div>
 
     <div class="cf mw7 center br3 mb4 bg-white box">
@@ -34,7 +34,7 @@
 
       <!-- blank state -->
       <div v-show="recentShips.length == 0" class="pa3 tc" data-cy="recent-ships-list-blank-state">
-        <p class="mv0">{{ $t('dashboard.team_recent_ship_list_blank') }}</p>
+        <p class="mv0">{{ __('dashboard.team_recent_ship_list_blank') }}</p>
       </div>
     </div>
   </div>

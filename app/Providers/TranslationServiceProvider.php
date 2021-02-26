@@ -17,10 +17,10 @@ class TranslationServiceProvider extends ServiceProvider
         Cache::rememberForever('translations', function () {
             $translations = collect();
 
-            foreach (['en'] as $locale) { // suported locales
+            foreach (['en'] as $locale) {
                 $translations[$locale] = [
-                'php' => $this->phpTranslations($locale),
-            ];
+                    'php' => $this->phpTranslations($locale),
+                ];
             }
 
             return $translations;
@@ -34,7 +34,9 @@ class TranslationServiceProvider extends ServiceProvider
         return collect(File::allFiles($path))->flatMap(function ($file) use ($locale) {
             $key = ($translation = $file->getBasename('.php'));
 
-            return [$key => trans($translation, [], $locale)];
+            return [
+                $key => trans($translation, [], $locale),
+            ];
         });
     }
 }

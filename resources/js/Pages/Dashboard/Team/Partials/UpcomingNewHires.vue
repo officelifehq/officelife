@@ -17,7 +17,7 @@
 <template>
   <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
-      🤟 {{ $t('dashboard.team_hired_at_title') }}
+      🤟 {{ __('dashboard.team_hired_at_title') }}
 
       <help :url="$page.props.help_links.employee_hiring_date" />
     </div>
@@ -34,10 +34,10 @@
 
           <!-- position -->
           <span v-if="employee.position" class="title db f7 mt1">
-            {{ $t('dashboard.team_hired_at_date_with_position', { date: employee.hired_at, position: employee.position.title }) }}
+            {{ __('dashboard.team_hired_at_date_with_position', { date: employee.hired_at, position: employee.position.title }) }}
           </span>
           <span v-else class="title db f7 mt1">
-            {{ $t('dashboard.team_hired_at_date', { date: employee.hired_at }) }}
+            {{ __('dashboard.team_hired_at_date', { date: employee.hired_at }) }}
           </span>
         </span>
       </div>

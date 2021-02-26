@@ -61,7 +61,7 @@
 <template>
   <div class="mb5">
     <div class="cf mw7 center mb2 fw5">
-      🔨 {{ $t('dashboard.team_worklog_title') }}
+      🔨 {{ __('dashboard.team_worklog_title') }}
     </div>
     <div v-show="teams.length != 0" class="cf mw7 center br3 mb3 bg-white box">
       <div class="pa3">
@@ -71,7 +71,7 @@
             <span class="dot br-100 dib absolute" :class="worklogDate.completionRate"></span>
             <!-- Display of the day -->
             <span v-show="worklogDate.friendlyDate == currentDate" class="db-ns dib mb1 f6">
-              {{ $t('dashboard.team_worklog_today') }}
+              {{ __('dashboard.team_worklog_today') }}
             </span>
             <span v-show="worklogDate.friendlyDate != currentDate" class="db-ns dib mb1 f6">
               {{ worklogDate.day }}
@@ -86,14 +86,14 @@
 
         <!-- statistics -->
         <p class="f6 mt0 mb3">
-          {{ $t('dashboard.team_worklog_stat') }} <span :class="currentWorklogDate.completionRate">
+          {{ __('dashboard.team_worklog_stat') }} <span :class="currentWorklogDate.completionRate">
             {{ currentWorklogDate.numberOfEmployeesWhoHaveLoggedWorklogs }}/{{ currentWorklogDate.numberOfEmployeesInTeam }}
           </span>
         </p>
 
         <!-- no worklogs yet -->
         <div v-show="updatedWorklogEntries.length == 0" class="tc mt2">
-          😢 {{ $t('dashboard.team_worklog_blank') }}
+          😢 {{ __('dashboard.team_worklog_blank') }}
         </div>
 
         <!-- list of worklogs -->
