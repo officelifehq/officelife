@@ -19,13 +19,13 @@
       <div class="mt4-l mt1 mw6 br3 bg-white box center breadcrumb relative z-0 f6 pb2">
         <ul class="list ph0 tc-l tl">
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ $t('app.breadcrumb_dashboard') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/dashboard'">{{ __('app.breadcrumb_dashboard') }}</inertia-link>
           </li>
           <li class="di">
-            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ $t('app.breadcrumb_account_home') }}</inertia-link>
+            <inertia-link :href="'/' + $page.props.auth.company.id + '/account'">{{ __('app.breadcrumb_account_home') }}</inertia-link>
           </li>
           <li class="di">
-            {{ $t('app.breadcrumb_account_manage_company_news') }}
+            {{ __('app.breadcrumb_account_manage_company_news') }}
           </li>
         </ul>
       </div>
@@ -34,17 +34,17 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.company_news_title', { company: $page.props.auth.company.name}) }}
+            {{ __('account.company_news_title', { company: $page.props.auth.company.name}) }}
           </h2>
 
           <errors :errors="errors" />
 
           <p class="relative adminland-headline">
             <span class="dib mb3 di-l" :class="localNews.length == 0 ? 'white' : ''">
-              {{ $tc('account.company_news_number_news', localNews.length, { company: $page.props.auth.company.name, count: localNews.length}) }}
+              {{ __n('account.company_news_number_news', localNews.length, { company: $page.props.auth.company.name, count: localNews.length}) }}
             </span>
             <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/create'" class="btn absolute-l relative dib-l db right-0" data-cy="add-news-button">
-              {{ $t('account.company_news_cta') }}
+              {{ __('account.company_news_cta') }}
             </inertia-link>
           </p>
 
@@ -59,26 +59,26 @@
               <ul class="list pa0 ma0 di-ns db mt2 mt0-ns">
                 <!-- DATE -->
                 <span class="f7 mr1">
-                  {{ $t('account.company_news_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}
+                  {{ __('account.company_news_written_by', { name: singleNews.author.name, date: singleNews.localized_created_at }) }}
                 </span>
 
                 <!-- RENAME A NEWS -->
                 <li class="di mr1 f7">
-                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">{{ $t('app.edit') }}</inertia-link>
+                  <inertia-link :href="'/' + $page.props.auth.company.id + '/account/news/' + singleNews.id + '/edit'" class="" :data-cy="'edit-news-button-' + singleNews.id">{{ __('app.edit') }}</inertia-link>
                 </li>
 
                 <!-- DELETE A NEWS -->
                 <li v-if="idToDelete == singleNews.id" class="di f7">
-                  {{ $t('app.sure') }}
+                  {{ __('app.sure') }}
                   <a class="c-delete mr1 pointer" :data-cy="'list-delete-confirm-button-' + singleNews.id" @click.prevent="destroy(singleNews.id)">
-                    {{ $t('app.yes') }}
+                    {{ __('app.yes') }}
                   </a>
                   <a class="pointer" :data-cy="'list-delete-cancel-button-' + singleNews.id" @click.prevent="idToDelete = 0">
-                    {{ $t('app.no') }}
+                    {{ __('app.no') }}
                   </a>
                 </li>
                 <li v-else class="di f7">
-                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + singleNews.id" @click.prevent="idToDelete = singleNews.id">{{ $t('app.delete') }}</a>
+                  <a class="bb b--dotted bt-0 bl-0 br-0 pointer c-delete" :data-cy="'list-delete-button-' + singleNews.id" @click.prevent="idToDelete = singleNews.id">{{ __('app.delete') }}</a>
                 </li>
               </ul>
             </li>
@@ -87,7 +87,7 @@
           <!-- BLANK STATE -->
           <div v-show="localNews.length == 0" class="pa3 mt5">
             <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.company_news_blank') }}
+              {{ __('account.company_news_blank') }}
             </p>
           </div>
         </div>
@@ -134,7 +134,7 @@ export default {
       this.errors = [];
       axios.delete(this.route('account_news.news.destroy', [this.$page.props.auth.company.id, id]))
         .then(response => {
-          flash(this.$t('account.company_news_success_destroy'), 'success');
+          flash(this.__('account.company_news_success_destroy'), 'success');
 
           this.idToDelete = 0;
           id = this.localNews.findIndex(x => x.id === id);
