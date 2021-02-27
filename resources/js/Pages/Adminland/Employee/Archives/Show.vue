@@ -59,40 +59,95 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            {{ $t('account.import_employees_archives_title') }}
+            Details of the import of {{ report.import_started_at }}
 
             <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
 
-          <p class="tr">
-            <inertia-link :href="importJobs.url_new" class="btn relative dib-l db">
-              {{ $t('account.import_employees_archives_cta') }}
-            </inertia-link>
-          </p>
+          <form action="" class="pa3 ba bb-gray tc mb5">
+            <p>Click the button below to finalize the import of those employees in the system.</p>
+            <p>We won’t import failed entries, though - only valid ones.</p>
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('account.import_employees_archives_finalize_impor')" :cypress-selector="'submit-add-news-button'" />
+          </form>
 
-          <!-- LIST OF JOB REPORTS -->
-          <ul v-if="importJobs.entries.length > 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="importJobs.entries.map(n => n.id)">
-            <li v-for="job in importJobs.entries" :key="job.id" class="pv3 ph2 bb bb-gray bb-gray-hover flex justify-between items-center">
-              <div class="di relative">
-                <span class="db mb2">{{ $t('account.import_employees_archives_item_title', { count: job.number_of_entries }) }} <span :class="job.status" class="type relative">{{ job.status_translated }}</span></span>
-                <span class="db f7">{{ $t('account.import_employees_archives_item_date', { date: job.import_started_at, author: job.author.name }) }}</span>
+          <!-- LIST OF THE FIRST FIVE ENTRIES IN THE REPORT -->
+          <p>First five of the {{ report.number_of_entries }} entries of the file </p>
+          <div v-if="report.first_five_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100 mb5">
+            <div class="dt-row">
+              <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
+                Email
               </div>
+              <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
+                First name
+              </div>
+              <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
+                Last name
+              </div>
+              <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
+                Status
+              </div>
+            </div>
+            <div v-for="report in report.first_five_entries" :key="report.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
+              <div class="dtc pv3 ph2 bb bb-gray">
+                {{ report.employee_email }}
+              </div>
+              <div class="dtc pv3 ph2 bb bb-gray">
+                {{ report.employee_first_name }}
+              </div>
+              <div class="dtc pv3 ph2 bb bb-gray">
+                {{ report.employee_last_name }}
+              </div>
+              <div v-if="report.skipped_during_upload" class="dtc bb bb-gray">
+                <span class="type failed">
+                  {{ report.skipped_during_upload_reason }}
+                </span>
+              </div>
+              <div v-else class="dtc bb bb-gray">
+                <span class="type">
+                  {{ $t('account.import_employees_archives_item_status_ok') }}
+                </span>
+              </div>
+            </div>
+          </div>
 
-              <!-- LIST OF ACTIONS FOR EACH REPORT -->
-              <ul class="list pa0 ma0 di-ns db fr-ns mt2 mt0-ns f6">
-                <li><inertia-link :href="job.url">{{ $t('app.view') }}</inertia-link></li>
-              </ul>
-            </li>
-          </ul>
-
-          <!-- BLANK STATE -->
-          <div v-if="importJobs.entries.length == 0" class="pa3 mt5">
-            <p class="tc measure center mb4 lh-copy">
-              {{ $t('account.import_employees_archives_blank_description') }}
-            </p>
-            <img loading="lazy" src="/img/streamline-icon-document-box-3@140x140.png" alt="add email symbol" class="db center mb4" height="80"
-                 width="80"
-            />
+          <!-- LIST OF THE ALL ENTRIES IN ERROR -->
+          <p>All {{ report.failed_entries.length }} entries in error in the file</p>
+          <div v-if="report.failed_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100">
+            <div class="dt-row">
+              <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
+                Email
+              </div>
+              <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
+                First name
+              </div>
+              <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
+                Last name
+              </div>
+              <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
+                Status
+              </div>
+            </div>
+            <div v-for="report in report.failed_entries" :key="report.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
+              <div class="dtc pv3 ph2 bb bb-gray">
+                {{ report.employee_email }}
+              </div>
+              <div class="dtc pv3 ph2 bb bb-gray">
+                {{ report.employee_first_name }}
+              </div>
+              <div class="dtc pv3 ph2 bb bb-gray">
+                {{ report.employee_last_name }}
+              </div>
+              <div v-if="report.skipped_during_upload" class="dtc bb bb-gray">
+                <span class="type failed">
+                  {{ report.skipped_during_upload_reason }}
+                </span>
+              </div>
+              <div v-else class="dtc bb bb-gray">
+                <span class="type">
+                  {{ $t('account.import_employees_archives_item_status_ok') }}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -103,11 +158,13 @@
 <script>
 import Layout from '@/Shared/Layout';
 import Help from '@/Shared/Help';
+import LoadingButton from '@/Shared/LoadingButton';
 
 export default {
   components: {
     Layout,
     Help,
+    LoadingButton,
   },
 
   props: {
@@ -115,8 +172,8 @@ export default {
       type: Array,
       default: null,
     },
-    importJobs: {
-      type: Array,
+    report: {
+      type: Object,
       default: null,
     },
   },
@@ -145,84 +202,16 @@ export default {
   },
 
   methods: {
-    updateType(event) {
-      if (event) {
-        this.form.type = 'external';
-      } else {
-        this.form.type = 'internal';
-      }
-    },
-
-    displayAddModal() {
-      this.modal = true;
-      this.form.name = '';
-      this.form.type = 'internal';
-      this.form.errors = null;
-
-      this.$nextTick(() => {
-        this.$refs['newStatus'].$refs['input'].focus();
-      });
-    },
-
-    displayUpdateModal(status) {
-      this.idToUpdate = status.id;
-      this.form.checked = status.type == 'internal' ? false : true;
-
-      this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`name${status.id}`][0].$refs[`name${status.id}`].focus();
-      });
-    },
-
     submit() {
       this.loadingState = 'loading';
 
       axios.post(this.route('account_employeestatuses.employeestatuses.store', this.$page.props.auth.company.id), this.form)
         .then(response => {
-          flash(this.$t('account.employee_statuses_success_new'), 'success');
-
-          this.loadingState = null;
-          this.form.name = null;
-          this.form.type = 'internal';
-          this.modal = false;
-          this.localStatuses.push(response.data.data);
+          localStorage.success = this.$t('account.company_news_create_success');
+          this.$inertia.visit('/' + response.data.data.company.id + '/account/news');
         })
         .catch(error => {
           this.loadingState = null;
-          this.form.errors = error.response.data;
-        });
-    },
-
-    update(id) {
-      axios.put(this.route('account_employeestatuses.employeestatuses.update', [this.$page.props.auth.company.id, id]), this.form)
-        .then(response => {
-          flash(this.$t('account.employee_statuses_success_update'), 'success');
-
-          this.idToUpdate = 0;
-          this.form.name = null;
-          this.form.type = 'internal';
-
-          var changedId = this.localStatuses.findIndex(x => x.id === id);
-          this.$set(this.localStatuses, changedId, response.data.data);
-        })
-        .catch(error => {
-          this.form.errors = error.response.data;
-        });
-    },
-
-    destroy(id) {
-      axios.delete(this.route('account_employeestatuses.employeestatuses.destroy', [this.$page.props.auth.company.id, id]))
-        .then(response => {
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
-
-          this.idToDelete = 0;
-          var changedId = this.localStatuses.findIndex(x => x.id === id);
-          this.localStatuses.splice(changedId, 1);
-        })
-        .catch(error => {
           this.form.errors = error.response.data;
         });
     },

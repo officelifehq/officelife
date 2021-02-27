@@ -540,4 +540,8 @@ return [
     'import_employees_archives_blank_description' => 'No employees have been imported yet.',
     'import_employees_archives_item_title' => '{count} entries',
     'import_employees_archives_item_date' => '{date} by {author}',
+    'import_employees_archives_item_status_ok' => 'Valid',
+    'import_employees_archives_item_status_invalid_email' => 'Invalid email',
+    'import_employees_archives_item_status_email_already_taken' => 'Email already taken',
+    'import_employees_archives_finalize_import' => 'Import employees',
 ];

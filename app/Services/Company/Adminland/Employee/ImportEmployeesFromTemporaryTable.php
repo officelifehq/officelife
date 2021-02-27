@@ -60,6 +60,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService
     private function import(): void
     {
         ImportJobReport::where('import_job_id', $this->data['import_job_id'])
+            ->where('skipped_during_upload', false)
             ->chunk(100, function ($reports) {
                 $reports->each(function (ImportJobReport $report) {
                     AddEmployeeToCompany::dispatch([

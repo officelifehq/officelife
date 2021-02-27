@@ -70,7 +70,7 @@ class AdminUploadEmployeeViewHelper
                 'employee_last_name' => $importJobReport->employee_last_name,
                 'employee_email' => $importJobReport->employee_email,
                 'skipped_during_upload' => $importJobReport->skipped_during_upload,
-                'skipped_during_upload_reason' => $importJobReport->skipped_during_upload_reason,
+                'skipped_during_upload_reason' => trans('account.import_employees_archives_item_status_'.$importJobReport->skipped_during_upload_reason),
             ]);
         }
 
@@ -83,7 +83,7 @@ class AdminUploadEmployeeViewHelper
                 'employee_last_name' => $importJobReport->employee_last_name,
                 'employee_email' => $importJobReport->employee_email,
                 'skipped_during_upload' => $importJobReport->skipped_during_upload,
-                'skipped_during_upload_reason' => $importJobReport->skipped_during_upload_reason,
+                'skipped_during_upload_reason' => trans('account.import_employees_archives_item_status_'.$importJobReport->skipped_during_upload_reason),
             ]);
         }
 

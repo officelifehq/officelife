@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\View;
 use App\Services\Company\Adminland\File\UploadFile;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\ViewHelpers\Adminland\AdminUploadEmployeeViewHelper;
+use App\Services\Company\Adminland\Employee\ImportEmployeesFromTemporaryTable;
 use App\Services\Company\Adminland\Employee\StoreEmployeesFromCSVInTemporaryTable;
 
 class AdminUploadEmployeeController extends Controller
@@ -75,19 +76,19 @@ class AdminUploadEmployeeController extends Controller
     }
 
     /**
-     * Upload the CSV.
+     * Show an import job.
      *
      * @param Request $request
      * @param int $companyId
      * @param int $jobId
-     * @return JsonResponse
+     * @return Response
      */
-    public function show(Request $request, int $companyId, int $jobId): JsonResponse
+    public function show(Request $request, int $companyId, int $jobId): Response
     {
-        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
 
         try {
-            $job = ImportJob::where('company_id', $companyId)
+            $job = ImportJob::where('company_id', $loggedCompany->id)
                 ->findOrFail($jobId);
         } catch (ModelNotFoundException $e) {
             return redirect('home');
@@ -95,9 +96,36 @@ class AdminUploadEmployeeController extends Controller
 
         $details = AdminUploadEmployeeViewHelper::show($job);
 
-        return response()->json([
-            'company_id' => $companyId,
+        return Inertia::render('Adminland/Employee/Archives/Show', [
+            'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
             'report' => $details,
+        ]);
+    }
+
+    /**
+     * Import employees to the system.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @param int $jobId
+     * @return JsonResponse
+     */
+    public function import(Request $request, int $companyId, int $jobId): JsonResponse
+    {
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+
+        ImportJob::where('company_id', $loggedCompany->id)
+            ->findOrFail($jobId);
+
+        (new ImportEmployeesFromTemporaryTable)->execute([
+            'company_id' => $companyId,
+            'author_id' => $loggedEmployee->id,
+            'import_job_id' => $jobId,
+        ]);
+
+        return response()->json([
+            'data' => true,
         ]);
     }
 }
