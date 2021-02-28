@@ -32,10 +32,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup PHP ${{ matrix.php-version }}
+      - name: Setup PHP ${{ env.default-php-version }}
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-version }}
+          php-version: ${{ env.default-php-version }}
           extensions: mbstring, dom, fileinfo
           coverage: none
       - name: Check PHP Version
@@ -56,10 +56,10 @@ jobs:
         uses: actions/cache@v2.1.4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ env.default-php-version }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
-            ${{ runner.os }}-composer-${{ matrix.php-version }}
+            ${{ runner.os }}-composer-${{ env.default-php-version }}-${{ hashFiles('**/composer.lock') }}
+            ${{ runner.os }}-composer-${{ env.default-php-version }}
             ${{ runner.os }}-composer-
 
       - name: Install composer dependencies
