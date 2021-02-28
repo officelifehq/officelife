@@ -54,6 +54,10 @@ jobs:
         include:
           - connection: sqlite
             testsuite: Integration
+            php-version: 7.4
+          - connection: sqlite
+            testsuite: Integration
+            php-version: 8.0
 
     steps:
       - name: Checkout sources
