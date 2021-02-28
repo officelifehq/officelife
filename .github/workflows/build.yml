@@ -129,12 +129,12 @@ jobs:
     # Test
       - name: Run tests suite with coverage
         if: matrix.connection == 'mysql' && matrix.php-version == env.default-php-version
-        run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite ${{ matrix.testsuite }} --log-junit ./results/${{ matrix.connection }}/junit/results${{ matrix.testsuite }}.xml --coverage-clover ./results/${{ matrix.connection }}/coverage${{ matrix.testsuite }}.xml
+        run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite ${{ matrix.testsuite }} --log-junit ./results/${{ matrix.connection }}/results${{ matrix.testsuite }}.xml --coverage-clover ./results/${{ matrix.connection }}/coverage${{ matrix.testsuite }}.xml
         env:
           DB_CONNECTION: ${{ matrix.connection }}
       - name: Run tests
         if: matrix.connection != 'mysql' || matrix.php-version != env.default-php-version
-        run: vendor/bin/phpunit -c phpunit.xml --testsuite ${{ matrix.testsuite }} --log-junit ./results/${{ matrix.connection }}//junit/results${{ matrix.testsuite }}.xml
+        run: vendor/bin/phpunit -c phpunit.xml --testsuite ${{ matrix.testsuite }} --log-junit ./results/${{ matrix.connection }}/results${{ matrix.testsuite }}.xml
         env:
           DB_CONNECTION: ${{ matrix.connection }}
 
@@ -172,7 +172,7 @@ jobs:
       - name: Merge junit files
         run: |
           yarn global add junit-merge
-          $(yarn global bin)/junit-merge --recursive --dir results/mysql/junit --out results/mysql/results.xml
+          $(yarn global bin)/junit-merge --recursive --dir results/mysql --out results/results.xml
 
       - name: Set version parameter
         id: version
@@ -190,5 +190,5 @@ jobs:
         with:
           args: |
             -Dsonar.projectVersion=${{ steps.version.outputs.value }}
-            -Dsonar.php.tests.reportPath=./results/mysql/results.xml
+            -Dsonar.php.tests.reportPath=./results/results.xml
             -Dsonar.php.coverage.reportPaths=./results/mysql/coverage*.xml
