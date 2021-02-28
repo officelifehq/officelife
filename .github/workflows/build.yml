@@ -9,9 +9,12 @@ on:
     types: [created]
 
   workflow_run:
-    workflows:
-      - Compress images
+    workflows: [Compress images]
     types: [completed]
+
+env:
+  default-php-version: 7.4
+
 
 jobs:
   #############
@@ -47,6 +50,10 @@ jobs:
       matrix:
         php-version: [7.4, 8.0]
         connection: [sqlite, mysql, pgsql]
+        testsuite: [Unit]
+        include:
+          - connection: sqlite
+            testsuite: Integration
 
     steps:
       - name: Checkout sources
@@ -80,6 +87,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
             ${{ runner.os }}-composer-${{ matrix.php-version }}
+            ${{ runner.os }}-composer-
 
       - name: Install composer dependencies
         run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=php
@@ -88,14 +96,19 @@ jobs:
       - name: Prepare environment
         run: |
           cp tests/.env.ci-${{ matrix.connection }} .env
-          touch config/version
-          touch config/release
-          echo '{"/js/app.js": "/js/app.js", "/css/app.css": "/css/app.css"}' > public/mix-manifest.json
-          mkdir -p public/js
-          echo '' > public/js/app.js
-          mkdir -p public/css
-          echo '' > public/css/app.css
-      - name: Create SQLite database
+          touch config/version config/release
+          mkdir -p public/js public/css
+          {\
+            echo "{"; \
+            for f in app.js app.css; do \
+              [[ $first == 1 ]] && echo -n "," || first=1; \
+              k=${f##*.}/$f; \
+              echo "\"/$k\": \"/$k\""; \
+              echo '' > public/$k; \
+            done; \
+            echo "}"; \
+          } | tee public/mix-manifest.json
+      - name: Create database
         if: matrix.connection == 'sqlite'
         run: touch database/database.sqlite
 
@@ -106,26 +119,26 @@ jobs:
         run: php artisan migrate --no-interaction -vvv
       - name: Run seeds
         run: php artisan db:seed --no-interaction -vvv
+      - name: Cache route
+        run: php artisan route:cache
 
     # Test
-      - name: Run Unit test suite with coverage
-        if: matrix.connection == 'mysql'
-        run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml --coverage-clover ./results/${{ matrix.connection }}/coverage.xml
+      - name: Run tests suite with coverage
+        if: matrix.connection == 'mysql' && matrix.php-version == env.default-php-version
+        run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite ${{ matrix.testsuite }} --log-junit ./results/${{ matrix.connection }}/junit/results${{ matrix.testsuite }}.xml --coverage-clover ./results/${{ matrix.connection }}/coverage${{ matrix.testsuite }}.xml
         env:
           DB_CONNECTION: ${{ matrix.connection }}
-      - name: Run Unit test suite
-        if: matrix.connection != 'mysql'
-        run: vendor/bin/phpunit -c phpunit.xml --testsuite Unit --log-junit ./results/${{ matrix.connection }}/results1.xml
-        env:
-          DB_CONNECTION: ${{ matrix.connection }}
-      - name: Run Integration test suite
-        if: matrix.connection == 'sqlite'
-        run: vendor/bin/phpunit -c phpunit.xml --testsuite Integration --log-junit ./results/${{ matrix.connection }}/results2.xml
+      - name: Run tests
+        if: matrix.connection != 'mysql' || matrix.php-version != env.default-php-version
+        run: vendor/bin/phpunit -c phpunit.xml --testsuite ${{ matrix.testsuite }} --log-junit ./results/${{ matrix.connection }}//junit/results${{ matrix.testsuite }}.xml
         env:
           DB_CONNECTION: ${{ matrix.connection }}
 
+      - name: Fix results files
+        run: sed -i -e "s%$GITHUB_WORKSPACE/%%g" results/*/*.xml
+
       - name: Store results
-        if: matrix.php-version == '7.4'
+        if: matrix.php-version == env.default-php-version
         uses: actions/upload-artifact@v2
         with:
           name: results
@@ -146,20 +159,16 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
-      # If this run was triggered by a pull request event, then checkout
-      # the head of the pull request instead of the merge commit.
-      - name: Checkout HEAD
-        if: github.event_name == 'pull_request'
-        run: git checkout HEAD^2
-
       - name: Download results
         uses: actions/download-artifact@v2
         with:
           name: results
           path: results
 
-      - name: Fix results files
-        run: sed -i -e "s%$GITHUB_WORKSPACE/%%g" results/*/*.xml
+      - name: Merge junit files
+        run: |
+          yarn global add junit-merge
+          $(yarn global bin)/junit-merge --recursive --dir results/mysql/junit --out results/mysql/results.xml
 
       - name: Set version parameter
         id: version
@@ -177,3 +186,5 @@ jobs:
         with:
           args: |
             -Dsonar.projectVersion=${{ steps.version.outputs.value }}
+            -Dsonar.php.tests.reportPath=./results/mysql/results.xml
+            -Dsonar.php.coverage.reportPaths=./results/mysql/coverage*.xml
