@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 env:
-  default-php-version: 7.4
+  php-version: 7.4
   node-version: 14
 
 
@@ -74,10 +74,10 @@ jobs:
         with:
           name: changelog
 
-      - name: Setup PHP ${{ env.default-php-version }}
+      - name: Setup PHP ${{ env.php-version }}
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ env.default-php-version }}
+          php-version: ${{ env.php-version }}
           extensions: mbstring, dom, fileinfo
           coverage: none
 
@@ -89,10 +89,10 @@ jobs:
         uses: actions/cache@v2.1.4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ env.default-php-version }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ env.php-version }}-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
-            ${{ runner.os }}-composer-${{ env.default-php-version }}-${{ hashFiles('**/composer.lock') }}
-            ${{ runner.os }}-composer-${{ env.default-php-version }}
+            ${{ runner.os }}-composer-${{ env.php-version }}-${{ hashFiles('**/composer.lock') }}
+            ${{ runner.os }}-composer-${{ env.php-version }}
             ${{ runner.os }}-composer-
 
     # Yarn
