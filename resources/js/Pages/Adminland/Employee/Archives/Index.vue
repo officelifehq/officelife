@@ -116,7 +116,7 @@ export default {
       default: null,
     },
     importJobs: {
-      type: Array,
+      type: Object,
       default: null,
     },
   },

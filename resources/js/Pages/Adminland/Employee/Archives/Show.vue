@@ -59,7 +59,7 @@
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="pa3 mt5">
           <h2 class="tc normal mb4">
-            Details of the import of {{ report.import_started_at }}
+            Finalize the import {{ report.import_started_at }}
 
             <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
@@ -67,7 +67,7 @@
           <form action="" class="pa3 ba bb-gray tc mb5">
             <p>Click the button below to finalize the import of those employees in the system.</p>
             <p>We won’t import failed entries, though - only valid ones.</p>
-            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('account.import_employees_archives_finalize_impor')" :cypress-selector="'submit-add-news-button'" />
+            <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('account.import_employees_archives_finalize_import')" :cypress-selector="'submit-add-news-button'" />
           </form>
 
           <!-- LIST OF THE FIRST FIVE ENTRIES IN THE REPORT -->
@@ -180,32 +180,14 @@ export default {
 
   data() {
     return {
-      localStatuses: [],
-      modal: false,
-      deleteModal: false,
-      updateModal: false,
-      loadingState: '',
-      updateModalId: 0,
-      idToUpdate: 0,
-      idToDelete: 0,
-      form: {
-        name: null,
-        checked: false,
-        type: 'internal',
-        errors: [],
-      },
     };
-  },
-
-  mounted() {
-    this.localStatuses = this.statuses;
   },
 
   methods: {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.route('account_employeestatuses.employeestatuses.store', this.$page.props.auth.company.id), this.form)
+      axios.post(this.route('account.employees.upload.archive.import', this.$page.props.auth.company.id), this.form)
         .then(response => {
           localStorage.success = this.$t('account.company_news_create_success');
           this.$inertia.visit('/' + response.data.data.company.id + '/account/news');
