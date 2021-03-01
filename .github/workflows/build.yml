@@ -22,7 +22,7 @@ jobs:
   #############
   tests:
     runs-on: ubuntu-latest
-    name: Test on ${{ matrix.connection }} (PHP ${{ matrix.php-version }})
+    name: Testsuite ${{ matrix.testsuite }} with PHP ${{ matrix.php-version }} + ${{ matrix.connection }}
 
     services:
       mysql:
