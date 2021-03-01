@@ -129,7 +129,7 @@ jobs:
     # Test
       - name: Run tests suite with coverage
         if: matrix.connection == 'mysql' && matrix.php-version == env.default-php-version
-        run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite ${{ matrix.testsuite }} --log-junit ./results/${{ matrix.connection }}/junit/results${{ matrix.testsuite }}.xml --coverage-clover ./results/${{ matrix.connection }}/coverage${{ matrix.testsuite }}.xml
+        run: phpdbg -dmemory_limit=4G -qrr vendor/bin/phpunit -c phpunit.xml --testsuite ${{ matrix.testsuite }} --log-junit ./results/${{ matrix.connection }}/junit/results${{ matrix.testsuite }}.xml --coverage-clover ./results/${{ matrix.connection }}/coverage/coverage${{ matrix.testsuite }}.xml
         env:
           DB_CONNECTION: ${{ matrix.connection }}
       - name: Run tests
@@ -139,7 +139,7 @@ jobs:
           DB_CONNECTION: ${{ matrix.connection }}
 
       - name: Fix results files
-        run: sed -i -e "s%$GITHUB_WORKSPACE/%%g" *.xml **/*.xml
+        run: sed -i -e "s%$GITHUB_WORKSPACE/%%g" **/*.xml
         working-directory: results/${{ matrix.connection }}
 
       - name: Store results
@@ -186,7 +186,7 @@ jobs:
       - name: Set coverage list
         id: coverage
         run: |
-          SONAR_COVERAGE=$(ls -m --format=comma results/mysql/coverage*.xml | sed -e ':a;N;$!ba;s/\n//g; s/ //g;')
+          SONAR_COVERAGE=$(ls -m --format=comma results/mysql/coverage/coverage*.xml | sed -e ':a;N;$!ba;s/\n//g; s/ //g;')
           echo "::set-output name=list::$SONAR_COVERAGE"
 
       - name: SonarCloud Scan
