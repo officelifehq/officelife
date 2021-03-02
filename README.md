@@ -17,7 +17,7 @@
 
 ## Requirements for hosting the software
 
-- PHP 8.0.0 or higher,
+- PHP 7.4 or higher,
 - the PHP's intl extension,
 - a database engine: mySQL, PostegreSQL SQLite,
 - a http server: Nginx, Apache, Caddy, etc
