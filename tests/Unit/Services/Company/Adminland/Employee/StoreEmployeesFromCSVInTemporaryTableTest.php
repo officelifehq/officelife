@@ -3,6 +3,7 @@
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
 use Carbon\Carbon;
+use ErrorException;
 use Tests\TestCase;
 use ArgumentCountError;
 use App\Models\Company\Employee;
@@ -91,7 +92,11 @@ class StoreEmployeesFromCSVInTemporaryTableTest extends TestCase
         // trigger the proper exception. we should remove this when we support
         // only php 8.
         // the error here depends on the php version 7.1.0
-        $this->expectException(ArgumentCountError::class);
+        if (PHP_VERSION_ID <= 70100) {
+            $this->expectException(ErrorException::class);
+        } else {
+            $this->expectException(ArgumentCountError::class);
+        }
         $this->executeService($michael, 'malformed.csv');
     }
 
