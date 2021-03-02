@@ -85,7 +85,6 @@ class AdminUploadEmployeeController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $jobId
-     * @return Response
      */
     public function show(Request $request, int $companyId, int $jobId)
     {
