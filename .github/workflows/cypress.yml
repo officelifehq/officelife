@@ -5,8 +5,7 @@ on:
     types: [labeled, opened, synchronize, reopened]
 
   workflow_run:
-    workflows:
-      - Compress images
+    workflows: [Compress images]
     types: [completed]
 
 jobs:
@@ -51,6 +50,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-${{ matrix.php-version }}-${{ hashFiles('**/composer.lock') }}
             ${{ runner.os }}-composer-${{ matrix.php-version }}
+            ${{ runner.os }}-composer-
+
       - name: Install composer dependencies
         run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
 
@@ -75,8 +76,7 @@ jobs:
       - name: Prepare environment
         run: |
           cp tests/.env.ci-cypress .env
-          touch config/version
-          touch config/release
+          touch config/version config/release
       - name: Create SQLite database
         run: |
           mkdir -p database
@@ -109,7 +109,7 @@ jobs:
           group: github action ${{ matrix.browser }}
           tag: ${{ github.event_name }}
           config: baseUrl=http://localhost:8000
-          wait-on: 'http://localhost:8000'
+          wait-on: http://localhost:8000
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
