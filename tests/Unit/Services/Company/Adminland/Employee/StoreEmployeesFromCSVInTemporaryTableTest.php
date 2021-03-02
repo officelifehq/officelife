@@ -3,9 +3,7 @@
 namespace Tests\Unit\Services\Company\Adminland\Employee;
 
 use Carbon\Carbon;
-use ErrorException;
 use Tests\TestCase;
-use ArgumentCountError;
 use App\Models\Company\Employee;
 use App\Models\Company\ImportJob;
 use Illuminate\Validation\ValidationException;
@@ -80,24 +78,6 @@ class StoreEmployeesFromCSVInTemporaryTableTest extends TestCase
         $this->assertDatabaseMissing('import_job_reports', [
             'import_job_id' => $job->id,
         ]);
-    }
-
-    /** @test */
-    public function it_cant_import_a_malformed_csv(): void
-    {
-        $michael = $this->createAdministrator();
-
-        // this error changes depending on the PHP version, unfortunately
-        // as we support both php 7 and 8, we need to check the version to
-        // trigger the proper exception. we should remove this when we support
-        // only php 8.
-        // the error here depends on the php version 7.1.0
-        if (PHP_VERSION_ID <= 70100) {
-            $this->expectException(ErrorException::class);
-        } else {
-            $this->expectException(ArgumentCountError::class);
-        }
-        $this->executeService($michael, 'malformed.csv');
     }
 
     private function executeService(Employee $michael, string $filename): void
