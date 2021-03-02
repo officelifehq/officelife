@@ -56,7 +56,7 @@ class AdminUploadEmployeeViewHelper
      * Get all the details about a specific import job.
      * This page shows the first five imports, and all the reports that failed.
      *
-     * @param ImportJob $job
+     * @param ImportJob $importJob
      * @return array|null
      */
     public static function show(ImportJob $importJob): ?array

@@ -87,7 +87,7 @@ class AdminUploadEmployeeController extends Controller
      * @param int $jobId
      * @return Response
      */
-    public function show(Request $request, int $companyId, int $jobId): Response
+    public function show(Request $request, int $companyId, int $jobId)
     {
         $loggedCompany = InstanceHelper::getLoggedCompany();
 
