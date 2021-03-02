@@ -87,10 +87,12 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
         ]);
         $report = ImportJobReport::factory()->create([
             'import_job_id' => $importJob->id,
+            'skipped_during_upload_reason' => null,
         ]);
         $failedReport = ImportJobReport::factory()->create([
             'import_job_id' => $importJob->id,
             'skipped_during_upload' => true,
+            'skipped_during_upload_reason' => 'invalid_email',
         ]);
 
         $array = AdminUploadEmployeeViewHelper::show($importJob);
@@ -129,14 +131,29 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
+            'Feb 20, 2021 12:12',
+            $array['import_ended_at']
+        );
+
+        $this->assertEquals(
+            1,
+            $array['number_of_entries_that_can_be_imported']
+        );
+
+        $this->assertEquals(
+            1,
+            $array['number_of_failed_entries']
+        );
+
+        $this->assertEquals(
             [
                 0 => [
                     'id' => $report->id,
                     'employee_first_name' => $report->employee_first_name,
                     'employee_last_name' => $report->employee_last_name,
                     'employee_email' => $report->employee_email,
-                    'skipped_during_upload' => $report->skipped_during_upload,
-                    'skipped_during_upload_reason' => $report->skipped_during_upload_reason,
+                    'skipped_during_upload' => false,
+                    'skipped_during_upload_reason' => null,
                 ],
                 1 => [
                     'id' => $failedReport->id,
@@ -144,7 +161,7 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
                     'employee_last_name' => $failedReport->employee_last_name,
                     'employee_email' => $failedReport->employee_email,
                     'skipped_during_upload' => true,
-                    'skipped_during_upload_reason' => $failedReport->skipped_during_upload_reason,
+                    'skipped_during_upload_reason' => 'Invalid email',
                 ],
             ],
             $array['first_five_entries']->toArray()
@@ -158,7 +175,7 @@ class AdminUploadEmployeeViewHelperTest extends TestCase
                     'employee_last_name' => $failedReport->employee_last_name,
                     'employee_email' => $failedReport->employee_email,
                     'skipped_during_upload' => $failedReport->skipped_during_upload,
-                    'skipped_during_upload_reason' => $failedReport->skipped_during_upload_reason,
+                    'skipped_during_upload_reason' => 'Invalid email',
                 ],
             ],
             $array['failed_entries']->toArray()

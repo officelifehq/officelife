@@ -72,31 +72,7 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
         $job = $this->importJob;
 
         try {
-            SimpleExcelReader::create($this->data['path'])
-                ->trimHeaderRow()
-                ->headersToSnakeCase()
-                ->getRows()
-                ->each(function (array $rowProperties) use ($job) {
-                    $skipReason = '';
-
-                    if (! $this->isValidEmail($rowProperties)) {
-                        $skipReason = ImportJob::INVALID_EMAIL;
-                    }
-
-                    if ($this->isEmailAlreadyTaken($rowProperties, $job) && $skipReason == '') {
-                        $skipReason = ImportJob::EMAIL_ALREADY_TAKEN;
-                    }
-
-                    ImportJobReport::create([
-                        'import_job_id' => $job->id,
-                        'employee_first_name' => $rowProperties['first_name'],
-                        'employee_last_name' => $rowProperties['last_name'],
-                        'employee_email' => $rowProperties['email'],
-                        'skipped_during_upload' => $skipReason == '' ? false : true,
-                        'skipped_during_upload_reason' => $skipReason == '' ? null : $skipReason,
-                    ]);
-                });
-
+            $this->readFile($job);
             $this->importJob->status = ImportJob::UPLOADED;
         } catch (ErrorException $e) {
             $this->importJob->status = ImportJob::FAILED;
@@ -106,6 +82,34 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
         $this->importJob->save();
 
         return $this->importJob;
+    }
+
+    private function readFile(ImportJob $job): void
+    {
+        SimpleExcelReader::create($this->data['path'])
+            ->trimHeaderRow()
+            ->headersToSnakeCase()
+            ->getRows()
+            ->each(function (array $rowProperties) use ($job) {
+                $skipReason = '';
+
+                if (! $this->isValidEmail($rowProperties)) {
+                    $skipReason = ImportJob::INVALID_EMAIL;
+                }
+
+                if ($this->isEmailAlreadyTaken($rowProperties, $job) && $skipReason == '') {
+                    $skipReason = ImportJob::EMAIL_ALREADY_TAKEN;
+                }
+
+                ImportJobReport::create([
+                    'import_job_id' => $job->id,
+                    'employee_first_name' => $rowProperties['first_name'],
+                    'employee_last_name' => $rowProperties['last_name'],
+                    'employee_email' => $rowProperties['email'],
+                    'skipped_during_upload' => $skipReason == '' ? false : true,
+                    'skipped_during_upload_reason' => $skipReason == '' ? null : $skipReason,
+                ]);
+            });
     }
 
     private function isValidEmail(array $row): bool

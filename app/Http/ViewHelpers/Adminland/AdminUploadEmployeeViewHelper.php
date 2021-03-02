@@ -61,19 +61,24 @@ class AdminUploadEmployeeViewHelper
      */
     public static function show(ImportJob $importJob): ?array
     {
+        // all reports
+        $allEntriesCount = ImportJobReport::where('import_job_id', $importJob->id)->count();
+
+        // first five reports
         $firstFiveReports = $importJob->reports()->take(5)->get();
-        $importJobReportsCollection = collect([]);
+        $fiveFirstEntriesReportsCollection = collect([]);
         foreach ($firstFiveReports as $importJobReport) {
-            $importJobReportsCollection->push([
+            $fiveFirstEntriesReportsCollection->push([
                 'id' => $importJobReport->id,
                 'employee_first_name' => $importJobReport->employee_first_name,
                 'employee_last_name' => $importJobReport->employee_last_name,
                 'employee_email' => $importJobReport->employee_email,
                 'skipped_during_upload' => $importJobReport->skipped_during_upload,
-                'skipped_during_upload_reason' => trans('account.import_employees_archives_item_status_'.$importJobReport->skipped_during_upload_reason),
+                'skipped_during_upload_reason' => $importJobReport->skipped_during_upload ? trans('account.import_employees_archives_item_status_'.$importJobReport->skipped_during_upload_reason) : null,
             ]);
         }
 
+        // failed reports
         $failedReports = $importJob->reports()->where('skipped_during_upload', true)->get();
         $failedJobReportsCollection = collect([]);
         foreach ($failedReports as $importJobReport) {
@@ -99,8 +104,10 @@ class AdminUploadEmployeeViewHelper
             'status' => trans('account.import_employees_status_'.$importJob->status),
             'import_started_at' => $importJob->import_started_at ? DateHelper::formatShortDateWithTime($importJob->import_started_at) : null,
             'import_ended_at' => $importJob->import_ended_at ? DateHelper::formatShortDateWithTime($importJob->import_ended_at) : null,
-            'number_of_entries' => $importJobReportsCollection->count(),
-            'first_five_entries' => $importJobReportsCollection,
+            'number_of_entries' => $allEntriesCount,
+            'number_of_entries_that_can_be_imported' => $allEntriesCount - $failedJobReportsCollection->count(),
+            'number_of_failed_entries' => $failedJobReportsCollection->count(),
+            'first_five_entries' => $fiveFirstEntriesReportsCollection,
             'failed_entries' => $failedJobReportsCollection,
         ];
     }

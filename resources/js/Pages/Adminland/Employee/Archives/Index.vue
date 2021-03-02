@@ -6,8 +6,8 @@
 .type {
   font-size: 12px;
   border: 1px solid transparent;
-  border-radius: 2em;
-  padding: 3px 10px;
+  border-radius: 6px;
+  padding: 2px 6px;
   line-height: 22px;
   color: #0366d6;
   background-color: #f1f8ff;
@@ -31,6 +31,11 @@
     background-color: #c8dcf0;
     padding: 0px 5px;
   }
+}
+
+.check {
+  width: 17px;
+  top: 4px;
 }
 </style>
 
@@ -74,7 +79,14 @@
           <ul v-if="importJobs.entries.length > 0" class="list pl0 mv0 center ba br2 bb-gray" data-cy="statuses-list" :data-cy-items="importJobs.entries.map(n => n.id)">
             <li v-for="job in importJobs.entries" :key="job.id" class="pa3 bb bb-gray bb-gray-hover flex justify-between items-center">
               <div class="di relative">
-                <span class="db mb2">{{ $t('account.import_employees_archives_item_title', { count: job.number_of_entries }) }} <span :class="job.status" class="type relative">{{ job.status_translated }}</span></span>
+                <span class="db mb2">{{ $t('account.import_employees_archives_item_title', { count: job.number_of_entries }) }}
+                  <span v-if="job.status == 'imported'" :class="job.status" class="type relative">
+                    <svg class="check relative" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    {{ job.status_translated }}
+                  </span>
+                </span>
                 <span class="db f7">{{ $t('account.import_employees_archives_item_date', { date: job.import_started_at, author: job.author.name }) }}</span>
               </div>
 
@@ -123,109 +135,18 @@ export default {
 
   data() {
     return {
-      localStatuses: [],
-      modal: false,
-      deleteModal: false,
-      updateModal: false,
-      loadingState: '',
-      updateModalId: 0,
-      idToUpdate: 0,
-      idToDelete: 0,
-      form: {
-        name: null,
-        checked: false,
-        type: 'internal',
-        errors: [],
-      },
     };
   },
 
   mounted() {
-    this.localStatuses = this.statuses;
+    if (localStorage.success) {
+      flash(localStorage.success, 'success');
+
+      localStorage.removeItem('success');
+    }
   },
 
   methods: {
-    updateType(event) {
-      if (event) {
-        this.form.type = 'external';
-      } else {
-        this.form.type = 'internal';
-      }
-    },
-
-    displayAddModal() {
-      this.modal = true;
-      this.form.name = '';
-      this.form.type = 'internal';
-      this.form.errors = null;
-
-      this.$nextTick(() => {
-        this.$refs['newStatus'].$refs['input'].focus();
-      });
-    },
-
-    displayUpdateModal(status) {
-      this.idToUpdate = status.id;
-      this.form.checked = status.type == 'internal' ? false : true;
-
-      this.$nextTick(() => {
-        // this is really barbaric, but I need to do this to
-        // first: target the TextInput with the right ref attribute
-        // second: target within the component, the refs of the input text
-        // this is because we try here to access $refs from a child component
-        this.$refs[`name${status.id}`][0].$refs[`name${status.id}`].focus();
-      });
-    },
-
-    submit() {
-      this.loadingState = 'loading';
-
-      axios.post(this.route('account_employeestatuses.employeestatuses.store', this.$page.props.auth.company.id), this.form)
-        .then(response => {
-          flash(this.$t('account.employee_statuses_success_new'), 'success');
-
-          this.loadingState = null;
-          this.form.name = null;
-          this.form.type = 'internal';
-          this.modal = false;
-          this.localStatuses.push(response.data.data);
-        })
-        .catch(error => {
-          this.loadingState = null;
-          this.form.errors = error.response.data;
-        });
-    },
-
-    update(id) {
-      axios.put(this.route('account_employeestatuses.employeestatuses.update', [this.$page.props.auth.company.id, id]), this.form)
-        .then(response => {
-          flash(this.$t('account.employee_statuses_success_update'), 'success');
-
-          this.idToUpdate = 0;
-          this.form.name = null;
-          this.form.type = 'internal';
-
-          var changedId = this.localStatuses.findIndex(x => x.id === id);
-          this.$set(this.localStatuses, changedId, response.data.data);
-        })
-        .catch(error => {
-          this.form.errors = error.response.data;
-        });
-    },
-
-    destroy(id) {
-      axios.delete(this.route('account_employeestatuses.employeestatuses.destroy', [this.$page.props.auth.company.id, id]))
-        .then(response => {
-          flash(this.$t('account.employee_statuses_success_destroy'), 'success');
-
-          this.idToDelete = 0;
-          var changedId = this.localStatuses.findIndex(x => x.id === id);
-          this.localStatuses.splice(changedId, 1);
-        })
-        .catch(error => {
-          this.form.errors = error.response.data;
-        });
-    },
   }
 };
 
