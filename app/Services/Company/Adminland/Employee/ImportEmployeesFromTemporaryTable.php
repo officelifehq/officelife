@@ -78,7 +78,7 @@ class ImportEmployeesFromTemporaryTable extends BaseService
 
     private function markAsMigrated(): void
     {
-        $this->job->status = ImportJob::MIGRATED;
+        $this->job->status = ImportJob::IMPORTED;
         $this->job->save();
     }
 }

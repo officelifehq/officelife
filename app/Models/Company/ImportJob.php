@@ -14,12 +14,18 @@ class ImportJob extends Model
     protected $table = 'import_jobs';
 
     /**
-     * Possible status of an expense.
+     * Possible status of an import job.
      */
     const CREATED = 'created';
-    const MIGRATED = 'migrated';
+    const UPLOADED = 'uploaded';
     const IMPORTED = 'imported';
     const FAILED = 'failed';
+
+    /**
+     * Possible skip reasons.
+     */
+    const INVALID_EMAIL = 'invalid_email';
+    const EMAIL_ALREADY_TAKEN = 'email_already_taken';
 
     /**
      * The attributes that are mass assignable.

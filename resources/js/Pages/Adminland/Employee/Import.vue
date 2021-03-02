@@ -2,6 +2,7 @@
 input[type=checkbox] {
   top: 5px;
 }
+
 input[type=radio] {
   top: -2px;
 }
@@ -32,13 +33,15 @@ input[type=radio] {
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="">
           <h2 class="pa3 mt5 center tc normal mb2">
-            Import employees
+            {{ $t('account.import_employees_import_title') }}
           </h2>
 
           <div class="pa3">
-            <p>You can import a bunch of employees at once using a CSV file.</p>
-            <p>Important note: your CSV file needs to follow a specific structure so we can properly import it.</p>
-            <a href="">Read complete instructions here</a>
+            <p>{{ $t('account.import_employees_import_description') }}</p>
+            <div class="box-shadow-gray br3 pa3 f6">
+              <p class="mt0 mb2">{{ $t('account.import_employees_import_note') }}</p>
+              <a href="">{{ $t('account.import_employees_import_instructions') }}</a>
+            </div>
           </div>
 
           <form @submit.prevent="importCSV">
@@ -59,7 +62,7 @@ input[type=radio] {
                     {{ $t('app.cancel') }}
                   </inertia-link>
                 </div>
-                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.import')" :cypress-selector="'submit-add-employee-button'" />
+                <loading-button :classes="'btn add w-auto-ns w-100 pv2 ph3'" :state="loadingState" :text="$t('app.import')" :cypress-selector="'submit-import-employee-button'" />
               </div>
             </div>
           </form>
@@ -114,7 +117,7 @@ export default {
 
       axios.post(`/${this.$page.props.auth.company.id}/account/employees/storeUpload`, data)
         .then(response => {
-          console.log('succes');
+          this.$inertia.visit(response.data.url);
         })
         .catch(error => {
           this.loadingState = null;

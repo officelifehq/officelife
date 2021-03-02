@@ -57,21 +57,25 @@ class AdminUploadEmployeeController extends Controller
     public function store(Request $request, int $companyId): JsonResponse
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
 
         $file = (new UploadFile)->execute([
-            'company_id' => $companyId,
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'file' => $request->file('csv'),
         ]);
 
-        (new StoreEmployeesFromCSVInTemporaryTable)->execute([
-            'company_id' => $companyId,
+        $job = (new StoreEmployeesFromCSVInTemporaryTable)->execute([
+            'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
             'path' => $file->path,
         ]);
 
         return response()->json([
-            'company_id' => $companyId,
+            'url' => route('account.employees.upload.archive.show', [
+                'company' => $loggedCompany,
+                'archive' => $job,
+            ]),
         ]);
     }
 

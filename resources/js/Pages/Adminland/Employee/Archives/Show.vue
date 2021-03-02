@@ -128,15 +128,25 @@
               </div>
             </div>
             <div v-for="report in report.failed_entries" :key="report.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
-              <div class="dtc pv3 ph2 bb bb-gray">
+              <!-- email -->
+              <div v-if="report.employee_email" class="dtc pv3 ph2 bb bb-gray">
                 {{ report.employee_email }}
               </div>
+              <div v-else class="dtc pv3 ph2 bb bb-gray f6 gray">
+                ({{ $t('account.import_employees_archives_finalize_email_missing') }})
+              </div>
+
+              <!-- first name -->
               <div class="dtc pv3 ph2 bb bb-gray">
                 {{ report.employee_first_name }}
               </div>
+
+              <!-- last name -->
               <div class="dtc pv3 ph2 bb bb-gray">
                 {{ report.employee_last_name }}
               </div>
+
+              <!-- skipped during upload -->
               <div v-if="report.skipped_during_upload" class="dtc bb bb-gray">
                 <span class="type failed">
                   {{ report.skipped_during_upload_reason }}
@@ -191,7 +201,7 @@ export default {
       axios.post(`/${this.$page.props.auth.company.id}/account/employees/upload/archives/${this.report.id}/import`)
         .then(response => {
           localStorage.success = this.$t('account.company_news_create_success');
-          this.$inertia.visit(`${this.$page.props.auth.company.id}/account/employees/upload/archives`);
+          this.$inertia.visit(`/${this.$page.props.auth.company.id}/account/employees/upload/archives`);
         })
         .catch(error => {
           this.loadingState = null;

@@ -87,7 +87,7 @@ class ImportEmployeesFromTemporaryTableTest extends TestCase
         $this->assertDatabaseHas('import_jobs', [
             'id' => $importJob->id,
             'company_id' => $michael->company_id,
-            'status' => ImportJob::MIGRATED,
+            'status' => ImportJob::IMPORTED,
         ]);
 
         Queue::assertPushed(AddEmployeeToCompany::class);

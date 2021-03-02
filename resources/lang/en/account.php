@@ -532,7 +532,7 @@ return [
     'ecoffee_disabled' => 'e-Coffees are disabled',
 
     'import_employees_status_created' => 'created',
-    'import_employees_status_migrated' => 'uploaded',
+    'import_employees_status_uploaded' => 'uploaded',
     'import_employees_status_imported' => 'imported',
     'import_employees_status_failed' => 'failed',
     'import_employees_archives_title' => 'List of previous import of employees',
@@ -544,4 +544,9 @@ return [
     'import_employees_archives_item_status_invalid_email' => 'Invalid email',
     'import_employees_archives_item_status_email_already_taken' => 'Email already taken',
     'import_employees_archives_finalize_import' => 'Import employees',
+    'import_employees_archives_finalize_email_missing' => 'not provided',
+    'import_employees_import_title' => 'Import employees',
+    'import_employees_import_description' => 'You can import a bunch of employees at once with a CSV file.',
+    'import_employees_import_note' => 'Important note: your CSV file needs to follow a specific structure so we can properly import it.',
+    'import_employees_import_instructions' => 'Read complete instructions here',
 ];

@@ -73,7 +73,7 @@ class StoreEmployeesFromCSVInTemporaryTableTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'author_name' => $michael->name,
-            'status' => ImportJob::MIGRATED,
+            'status' => ImportJob::UPLOADED,
         ]);
 
         $this->assertDatabaseMissing('import_job_reports', [
@@ -116,7 +116,7 @@ class StoreEmployeesFromCSVInTemporaryTableTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'author_name' => $michael->name,
-            'status' => ImportJob::MIGRATED,
+            'status' => ImportJob::UPLOADED,
         ]);
 
         $this->assertDatabaseHas('import_job_reports', [

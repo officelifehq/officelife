@@ -59,7 +59,7 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
     /**
      * Import the CSV.
      */
-    private function import(): void
+    private function import(): ImportJob
     {
         $this->importJob = ImportJob::create([
             'company_id' => $this->data['company_id'],
@@ -80,11 +80,11 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
                     $skipReason = '';
 
                     if (! $this->isValidEmail($rowProperties)) {
-                        $skipReason = 'invalid_email';
+                        $skipReason = ImportJob::INVALID_EMAIL;
                     }
 
-                    if ($this->isEmailAlreadyTaken($rowProperties, $job)) {
-                        $skipReason = 'email_already_taken';
+                    if ($this->isEmailAlreadyTaken($rowProperties, $job) && $skipReason == '') {
+                        $skipReason = ImportJob::EMAIL_ALREADY_TAKEN;
                     }
 
                     ImportJobReport::create([
@@ -97,13 +97,15 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
                     ]);
                 });
 
-            $this->importJob->status = ImportJob::MIGRATED;
+            $this->importJob->status = ImportJob::UPLOADED;
         } catch (ErrorException $e) {
             $this->importJob->status = ImportJob::FAILED;
         }
 
         $this->importJob->import_ended_at = Carbon::now();
         $this->importJob->save();
+
+        return $this->importJob;
     }
 
     private function isValidEmail(array $row): bool
@@ -119,7 +121,7 @@ class StoreEmployeesFromCSVInTemporaryTable extends BaseService
 
     private function isEmailAlreadyTaken(array $row, ImportJob $job): bool
     {
-        // check if the email is already taken in the list
+        // check if the email is already taken in the list that is being imported
         $importJob = ImportJobReport::where('import_job_id', $job->id)
             ->where('employee_email', $row['email'])
             ->first();
