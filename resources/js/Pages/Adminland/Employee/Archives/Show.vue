@@ -6,11 +6,11 @@
 .type {
   font-size: 12px;
   border: 1px solid transparent;
-  border-radius: 2em;
-  padding: 3px 10px;
+  border-radius: 6px;
+  padding: 2px 6px;
   line-height: 22px;
-  color: #0366d6;
-  background-color: #f1f8ff;
+  color: #006443;
+  background-color: #c0f6c5;
   top: -1px;
 
   &:hover {
@@ -22,8 +22,8 @@
   }
 
   &.failed {
-    background-color: #ea8383;
-    color: #fff;
+    background-color: #ffe1dc;
+    color: #b3004e;
   }
 
   span {
@@ -64,7 +64,7 @@
             <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
           </h2>
 
-          <form action="" class="pa3 ba bb-gray tc mb5">
+          <form class="pa3 ba bb-gray tc mb5" @submit.prevent="submit">
             <p>Click the button below to finalize the import of those employees in the system.</p>
             <p>We won’t import failed entries, though - only valid ones.</p>
             <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3'" :state="loadingState" :text="$t('account.import_employees_archives_finalize_import')" :cypress-selector="'submit-add-news-button'" />
@@ -180,6 +180,7 @@ export default {
 
   data() {
     return {
+      loadingState: '',
     };
   },
 
@@ -187,10 +188,10 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(this.route('account.employees.upload.archive.import', this.$page.props.auth.company.id), this.form)
+      axios.post(`/${this.$page.props.auth.company.id}/account/employees/upload/archives/${this.report.id}/import`)
         .then(response => {
           localStorage.success = this.$t('account.company_news_create_success');
-          this.$inertia.visit('/' + response.data.data.company.id + '/account/news');
+          this.$inertia.visit(`${this.$page.props.auth.company.id}/account/employees/upload/archives`);
         })
         .catch(error => {
           this.loadingState = null;
