@@ -67,14 +67,14 @@
             <h2 v-if="report.status == 'uploaded'" class="tc normal mb4">
               {{ $t('account.import_employees_show_title_uploaded') }}
 
-              <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
+              <help :url="$page.props.help_links.import_employees" :top="'1px'" />
             </h2>
 
             <!-- Title when import is done -->
             <h2 v-if="report.status == 'imported'" class="tc normal mb4">
               {{ $t('account.import_employees_show_title_imported', { date: report.import_ended_at }) }}
 
-              <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
+              <help :url="$page.props.help_links.import_employees" :top="'1px'" />
             </h2>
 
             <div class="flex justify-around items-center mb4">

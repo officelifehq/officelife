@@ -165,5 +165,6 @@ return [
         'project_messages' => 'operate/project-management.html#project-messages',
         'project_tasks' => 'operate/project-management.html#project-tasks',
         'ecoffee' => 'grow/e-coffee.html#overview',
+        'import_employees' => 'manage/employee-management.html#importing-employees',
     ],
 ];

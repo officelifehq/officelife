@@ -66,7 +66,7 @@
           <h2 class="tc normal mb4">
             {{ $t('account.import_employees_archives_title') }}
 
-            <help :url="$page.props.help_links.employee_statuses" :top="'1px'" />
+            <help :url="$page.props.help_links.import_employees" :top="'1px'" />
           </h2>
 
           <p class="tr">
