@@ -44,8 +44,8 @@
 
 <script>
 import Layout from '@/Shared/Layout';
-import Name from '@/Pages/Adminland/General/Name';
-import Currency from '@/Pages/Adminland/General/Currency';
+import Name from '@/Pages/Adminland/General/Partials/Name';
+import Currency from '@/Pages/Adminland/General/Partials/Currency';
 
 export default {
   components: {

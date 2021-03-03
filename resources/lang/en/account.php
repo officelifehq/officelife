@@ -17,6 +17,7 @@ return [
     'home_manage_expenses' => 'Manage expenses',
     'home_general_settings' => 'General settings',
     'home_manage_ecoffee' => 'Manage eCoffee process',
+    'home_cancel_account' => 'Cancel this account',
 
     'employees_title' => 'Manage the employees in {company}',
     'employees_all_title' => 'All the employees in {company}',
@@ -555,4 +556,14 @@ return [
     'import_employees_show_title_number_entries_errors' => 'Entries in errors',
     'import_employees_show_title_number_entries_import' => 'Entries we can import',
     'import_employees_import_success' => 'Employees have been imported',
+
+    'cancel_account_title' => 'Are you sure you want to cancel your account?',
+    'cancel_account_thanks' => 'Thanks for giving OfficeLife a try!',
+    'cancel_account_please_note' => 'Please note that...',
+    'cancel_account_company_account_closed' => 'This company’s account will be immediately closed.',
+    'cancel_account_company_employee_deleted' => 'All employees information will be immediately deleted.',
+    'cancel_account_company_data_deleted' => 'All data in this account will be deleted from our servers immediately, and from our backups in 60 days.',
+    'cancel_account_company_subscription' => 'If you are a subscriber, your subscription will be immediately cancelled.',
+    'cancel_account_data_lost_forever' => 'This process is irreversible. You will lose all the data associated with this company, forever.',
+    'cancel_cta' => 'Cancel the account',
 ];

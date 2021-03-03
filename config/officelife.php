@@ -155,6 +155,7 @@ return [
         'team_recent_ship_create' => 'introduction.html',
         'account_general_company_name' => 'introduction.html',
         'account_general_currency' => 'introduction.html',
+        'account_cancellation' => 'manage/company-management.html#account-cancellation',
         'employee_hiring_date' => 'manage/employee-management.html#hiring-date',
         'employee_work_anniversaries' => 'manage/employee-management.html#work-anniversaries',
         'employee_statuses' => 'manage/employee-management.html#employee-statuses',
