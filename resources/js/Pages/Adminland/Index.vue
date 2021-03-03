@@ -114,6 +114,11 @@
                   {{ $t('account.home_audit_log') }}
                 </inertia-link>
               </li>
+              <li class="pa2 pl0 relative">
+                🗑 <inertia-link :href="'/' + $page.props.auth.company.id + '/account/cancel'" data-cy="audit-cancel-link">
+                  {{ $t('account.home_cancel_account') }}
+                </inertia-link>
+              </li>
             </ul>
           </div>
         </div>

@@ -129,6 +129,7 @@ return [
     'breadcrumb_account_import_employees' => 'Import employees',
     'breadcrumb_account_manage_past_archives' => 'Past imports',
     'breadcrumb_account_manage_past_archives_detail' => 'Detail of a past import',
+    'breadcrumb_account_manage_cancel_account' => 'Cancel the account',
 
     'header_welcome' => 'Welcome',
     'header_home' => 'Home',
