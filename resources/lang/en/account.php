@@ -290,6 +290,7 @@ return [
     'log_consultant_rate_destroy' => 'Destroyed the consulting rate of :rate for :employee_name.',
     'log_e_coffee_match_session_as_happened' => 'Mark an eCoffee session as happened between :employee_name and :other_employee_name.',
     'log_toggle_e_coffee_process' => 'Toggle the eCoffee process in the company.',
+    'log_group_created' => 'Created the group called :group_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',

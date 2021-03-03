@@ -1068,6 +1068,13 @@ class LogHelper
                 $sentence = trans('account.log_toggle_e_coffee_process');
                 break;
 
+            case 'group_created':
+                $sentence = trans('account.log_group_created', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;

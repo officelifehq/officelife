@@ -539,6 +539,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the group records associated with the employee.
+     *
+     * @return BelongsToMany
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class);
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

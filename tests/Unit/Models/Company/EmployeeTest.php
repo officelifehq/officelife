@@ -9,6 +9,7 @@ use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
+use App\Models\Company\Group;
 use App\Models\Company\Place;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
@@ -477,6 +478,19 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->consultantRates()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_groups(): void
+    {
+        $dwight = Employee::factory()->create([]);
+        $group = Group::factory()->create([
+            'company_id' => $dwight->company_id,
+        ]);
+
+        $dwight->groups()->sync([$group->id]);
+
+        $this->assertTrue($dwight->groups()->exists());
     }
 
     /** @test */
