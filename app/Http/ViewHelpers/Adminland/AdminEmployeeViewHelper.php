@@ -54,6 +54,12 @@ class AdminEmployeeViewHelper
             'url_new' => route('account.employees.new', [
                 'company' => $company,
             ]),
+            'url_upload' => route('account.employees.upload', [
+                'company' => $company,
+            ]),
+            'url_upload_archive' => route('account.employees.upload.archive', [
+                'company' => $company,
+            ]),
         ];
 
         return $stats;

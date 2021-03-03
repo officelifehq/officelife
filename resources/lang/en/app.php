@@ -34,6 +34,7 @@ return [
     'hide' => 'Hide',
     'enable' => 'Enable',
     'disable' => 'Disable',
+    'import_review' => 'Import and review',
 
     'error_title' => '👇 Oops. An error occured.',
     'error_not_same_company' => 'This item does not belong to this company.',
@@ -125,6 +126,9 @@ return [
     'breadcrumb_team_show_recent_ship_detail' => 'Detail of a recent ship',
     'breadcrumb_account_manage_expense_categories' => 'Expense management',
     'breadcrumb_account_manage_general_settings' => 'General settings',
+    'breadcrumb_account_import_employees' => 'Import employees',
+    'breadcrumb_account_manage_past_archives' => 'Past imports',
+    'breadcrumb_account_manage_past_archives_detail' => 'Detail of a past import',
 
     'header_welcome' => 'Welcome',
     'header_home' => 'Home',

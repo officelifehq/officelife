@@ -229,6 +229,16 @@ class Company extends Model
     }
 
     /**
+     * Get all the import jobs in the company.
+     *
+     * @return HasMany
+     */
+    public function importJobs()
+    {
+        return $this->hasMany(ImportJob::class);
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return object|null
