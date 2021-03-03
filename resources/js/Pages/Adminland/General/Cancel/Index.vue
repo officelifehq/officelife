@@ -27,8 +27,10 @@
       <!-- BODY -->
       <div class="mw7 center br3 mb5 bg-white box restricted relative z-1">
         <div class="mt5">
-          <h2 class="tc normal mb4 pt3">
+          <h2 class="tc normal mb4 pt3 relative">
             {{ $t('account.cancel_account_title') }}
+
+            <help :url="$page.props.help_links.account_cancellation" :top="'1px'" />
           </h2>
 
           <div class="ph5 pv3 bb bb-gray">
@@ -84,11 +86,13 @@
 <script>
 import Layout from '@/Shared/Layout';
 import LoadingButton from '@/Shared/LoadingButton';
+import Help from '@/Shared/Help';
 
 export default {
   components: {
     Layout,
     LoadingButton,
+    Help,
   },
 
   props: {
