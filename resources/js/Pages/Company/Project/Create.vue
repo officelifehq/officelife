@@ -70,6 +70,7 @@
                         :label="$t('project.create_input_name')"
                         :help="$t('project.create_input_name_help')"
                         :required="true"
+                        :autofocus="true"
             />
 
             <!-- Code -->

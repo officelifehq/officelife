@@ -7,6 +7,7 @@ return [
 
     'index_title' => 'All the projects in the company',
     'index_cta' => 'Create a project',
+    'index_blank_title' => 'Start a project now to move things forward!',
 
     'menu_summary' => 'Project summary',
     'menu_messages' => 'Messages',
