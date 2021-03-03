@@ -95,7 +95,7 @@ export default {
 
   props: {
     tab: {
-      type: Object,
+      type: String,
       default: null,
     },
     statistics: {
