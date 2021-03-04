@@ -318,6 +318,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
             });
 
+            Route::prefix('groups')->group(function () {
+                Route::get('', 'Company\\Company\\Group\\GroupController@index');
+                Route::get('create', 'Company\\Company\\Group\\GroupController@create');
+                Route::post('', 'Company\\Company\\Group\\GroupController@store');
+                Route::post('search', 'Company\\Company\\Group\\GroupController@search');
+
+                // group detail
+                Route::get('{group}', 'Company\\Company\\Group\\GroupController@show')->name('groups.show');
+
+                // members
+                Route::get('{group}/members', 'Company\\Company\\Group\\GroupMembersController@index')->name('groups.members.index');
+                Route::post('{group}/members/search', 'Company\\Company\\Group\\GroupMembersController@search');
+                Route::post('{group}/members/store', 'Company\\Company\\Group\\GroupMembersController@store');
+                Route::post('{group}/members/remove', 'Company\\Company\\Group\\GroupMembersController@remove');
+            });
+
             Route::prefix('hr')->group(function () {
                 Route::get('', 'Company\\Company\\HR\\CompanyHRController@index');
             });

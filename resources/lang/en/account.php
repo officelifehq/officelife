@@ -291,6 +291,9 @@ return [
     'log_e_coffee_match_session_as_happened' => 'Mark an eCoffee session as happened between :employee_name and :other_employee_name.',
     'log_toggle_e_coffee_process' => 'Toggle the eCoffee process in the company.',
     'log_group_created' => 'Created the group called :group_name.',
+    'log_employee_added_to_group' => 'Added :employee_name to the group called :group_name.',
+    'log_employee_removed_from_group' => 'Removed :employee_name from the group called :group_name.',
+    'log_group_destroyed' => 'Deleted the group called :group_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -364,6 +367,8 @@ return [
     'employee_log_employee_avatar_set' => 'Set a new avatar.',
     'employee_log_consultant_rate_set' => 'Set the consulting rate to :rate.',
     'employee_log_consultant_rate_destroyed' => 'Destroyed the rate of :rate.',
+    'employee_log_employee_added_to_group' => 'Has been added to the group called :group_name.',
+    'employee_log_employee_removed_from_group' => 'Has been remove from the group called :group_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',
@@ -557,6 +562,12 @@ return [
     'import_employees_show_title_number_entries_errors' => 'Entries in errors',
     'import_employees_show_title_number_entries_import' => 'Entries we can import',
     'import_employees_import_success' => 'Employees have been imported',
+    'import_employees_show_email' => 'Email',
+    'import_employees_show_firstname' => 'First name',
+    'import_employees_show_lastname' => 'Last name',
+    'import_employees_show_status' => 'Status',
+    'import_employees_show_first_five_entries' => 'First five of the {count} entries of the file',
+    'import_employees_show_entries_errors' => 'All {count} entries in error in the file',
 
     'cancel_account_title' => 'Are you sure you want to cancel your account?',
     'cancel_account_thanks' => 'Thanks for giving OfficeLife a try!',

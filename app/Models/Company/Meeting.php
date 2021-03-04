@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Group extends Model
+class Meeting extends Model
 {
     use HasFactory;
 
@@ -18,7 +18,16 @@ class Group extends Model
      */
     protected $fillable = [
         'company_id',
-        'name',
+        'happened_at',
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'happened_at',
     ];
 
     /**

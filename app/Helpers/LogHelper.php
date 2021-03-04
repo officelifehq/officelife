@@ -1075,6 +1075,30 @@ class LogHelper
                 ]);
                 break;
 
+            case 'employee_added_to_group':
+                $sentence = trans('account.log_employee_added_to_group', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                ]);
+                break;
+
+            case 'employee_removed_from_group':
+                $sentence = trans('account.log_employee_removed_from_group', [
+                    'employee_id' => $log->object->{'employee_id'},
+                    'employee_name' => $log->object->{'employee_name'},
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                ]);
+                break;
+
+            case 'group_destroyed':
+                $sentence = trans('account.log_group_destroyed', [
+                    'group_name' => $log->object->{'group_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
@@ -1566,6 +1590,20 @@ class LogHelper
             case 'consultant_rate_destroy':
                 $sentence = trans('account.employee_log_consultant_rate_destroy', [
                     'rate' => $log->object->{'rate'},
+                ]);
+                break;
+
+            case 'employee_added_to_group':
+                $sentence = trans('account.employee_log_employee_added_to_group', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                ]);
+                break;
+
+            case 'employee_removed_from_group':
+                $sentence = trans('account.employee_log_employee_removed_from_group', [
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
                 ]);
                 break;
 

@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Jobs\LogAccountAudit;
 use App\Models\Company\Group;
 use App\Models\Company\Employee;
+use App\Jobs\AttachEmployeeToGroup;
 use Illuminate\Support\Facades\Queue;
 use App\Services\Company\Group\CreateGroup;
 use Illuminate\Validation\ValidationException;
@@ -21,6 +22,18 @@ class CreateGroupTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $this->executeService($michael);
+    }
+
+    /** @test */
+    public function it_creates_a_group_as_administrator_and_associate_employees(): void
+    {
+        $michael = $this->createAdministrator();
+        $andrew = $this->createAnotherEmployee($michael);
+        $john = $this->createAnotherEmployee($michael);
+
+        $employees = [$andrew->id, $john->id];
+
+        $this->executeService($michael, $employees);
     }
 
     /** @test */
@@ -50,7 +63,7 @@ class CreateGroupTest extends TestCase
         (new CreateProject)->execute($request);
     }
 
-    private function executeService(Employee $michael): void
+    private function executeService(Employee $michael, array $employees = null): void
     {
         Queue::fake();
 
@@ -58,6 +71,7 @@ class CreateGroupTest extends TestCase
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'name' => 'Steering Commitee',
+            'employees' => $employees,
         ];
 
         $group = (new CreateGroup)->execute($request);
@@ -80,5 +94,9 @@ class CreateGroupTest extends TestCase
                     'group_name' => $group->name,
                 ]);
         });
+
+        if ($employees) {
+            Queue::assertPushed(AttachEmployeeToGroup::class, 2);
+        }
     }
 }
