@@ -24,9 +24,8 @@ class GroupMembersController extends Controller
      * @param Request $request
      * @param int $companyId
      * @param int $groupId
-     * @return Response
      */
-    public function index(Request $request, int $companyId, int $groupId): Response
+    public function index(Request $request, int $companyId, int $groupId)
     {
         $company = InstanceHelper::getLoggedCompany();
 

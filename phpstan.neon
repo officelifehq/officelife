@@ -11,6 +11,7 @@ parameters:
     excludePaths:
         - app/Http/ViewHelpers/Employee/EmployeeShowViewHelper.php
         - app/Http/ViewHelpers/Company/HR/CompanyHRViewHelper.php
+        - app/Http/ViewHelpers/Company/Group/GroupMembersViewHelper.php
     inferPrivatePropertyTypeFromConstructor: true
     checkMissingIterableValueType: false
     level: 5

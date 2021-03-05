@@ -62,7 +62,7 @@ class GroupMembersViewHelper
             $company->id,
             10,
             'created_at desc',
-            'and locked = false',
+            'and locked = 0',
         );
 
         $currentMembers = $group->employees;
