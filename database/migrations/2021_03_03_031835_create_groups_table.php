@@ -31,20 +31,20 @@ class CreateGroupsTable extends Migration
             $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
         });
 
-        Schema::create('group_meetings', function (Blueprint $table) {
-            $table->unsignedBigInteger('group_id');
-            $table->unsignedBigInteger('meeting_id');
-            $table->timestamps();
-            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
-            $table->foreign('meeting_id')->references('id')->on('meetings')->onDelete('cascade');
-        });
-
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->datetime('happened_at');
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+        });
+
+        Schema::create('group_meetings', function (Blueprint $table) {
+            $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('meeting_id');
+            $table->timestamps();
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->foreign('meeting_id')->references('id')->on('meetings')->onDelete('cascade');
         });
 
         Schema::create('agenda_items', function (Blueprint $table) {
@@ -56,7 +56,7 @@ class CreateGroupsTable extends Migration
             $table->boolean('follow_up_next_time')->default(false);
             $table->unsignedBigInteger('presented_by_id')->nullable();
             $table->timestamps();
-            $table->foreign('group_meeting_id')->references('id')->on('group_meetings')->onDelete('cascade');
+            $table->foreign('meeting_id')->references('id')->on('meetings')->onDelete('cascade');
             $table->foreign('presented_by_id')->references('id')->on('employees')->onDelete('set null');
         });
     }
