@@ -78,6 +78,7 @@ class CreateGroupTest extends TestCase
 
         $this->assertDatabaseHas('groups', [
             'id' => $group->id,
+            'company_id' => $group->company_id,
             'name' => 'Steering Commitee',
         ]);
 

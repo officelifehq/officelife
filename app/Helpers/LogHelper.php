@@ -1099,6 +1099,22 @@ class LogHelper
                 ]);
                 break;
 
+            case 'meeting_created':
+                $sentence = trans('account.log_meeting_created', [
+                    'meeting_id' => $log->object->{'meeting_id'},
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                ]);
+                break;
+
+            case 'meeting_destroyed':
+                $sentence = trans('account.log_meeting_destroyed', [
+                    'meeting_id' => $log->object->{'meeting_id'},
+                    'group_id' => $log->object->{'group_id'},
+                    'group_name' => $log->object->{'group_name'},
+                ]);
+                break;
+
             default:
                 $sentence = '';
                 break;
