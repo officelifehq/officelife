@@ -34,17 +34,12 @@ class CreateGroupsTable extends Migration
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
+            $table->integer('meetingable_id')->nullable();
+            $table->string('meetingable_type')->nullable();
+            $table->boolean('happened')->default(false);
             $table->datetime('happened_at');
             $table->timestamps();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-        });
-
-        Schema::create('group_meetings', function (Blueprint $table) {
-            $table->unsignedBigInteger('group_id');
-            $table->unsignedBigInteger('meeting_id');
-            $table->timestamps();
-            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
-            $table->foreign('meeting_id')->references('id')->on('meetings')->onDelete('cascade');
         });
 
         Schema::create('agenda_items', function (Blueprint $table) {
@@ -53,11 +48,27 @@ class CreateGroupsTable extends Migration
             $table->boolean('checked')->default(false);
             $table->string('summary');
             $table->text('description')->nullable();
-            $table->boolean('follow_up_next_time')->default(false);
             $table->unsignedBigInteger('presented_by_id')->nullable();
             $table->timestamps();
             $table->foreign('meeting_id')->references('id')->on('meetings')->onDelete('cascade');
             $table->foreign('presented_by_id')->references('id')->on('employees')->onDelete('set null');
+        });
+
+        Schema::create('meeting_decisions', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('agenda_item_id');
+            $table->text('description');
+            $table->timestamps();
+            $table->foreign('agenda_item_id')->references('id')->on('agenda_items')->onDelete('cascade');
+        });
+
+        Schema::create('employee_meeting', function (Blueprint $table) {
+            $table->unsignedBigInteger('employee_id');
+            $table->unsignedBigInteger('meeting_id');
+            $table->boolean('was_a_guest')->default(false);
+            $table->timestamps();
+            $table->foreign('employee_id')->references('id')->on('employees')->onDelete('cascade');
+            $table->foreign('meeting_id')->references('id')->on('meetings')->onDelete('cascade');
         });
     }
 }

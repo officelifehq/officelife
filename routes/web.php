@@ -326,6 +326,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
                 // group detail
                 Route::get('{group}', 'Company\\Company\\Group\\GroupController@show')->name('groups.show');
+                Route::delete('{group}', 'Company\\Company\\Group\\GroupController@destroy');
 
                 // members
                 Route::get('{group}/members', 'Company\\Company\\Group\\GroupMembersController@index')->name('groups.members.index');

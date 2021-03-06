@@ -18,6 +18,7 @@ class Meeting extends Model
      */
     protected $fillable = [
         'company_id',
+        'happened',
         'happened_at',
     ];
 
@@ -31,7 +32,16 @@ class Meeting extends Model
     ];
 
     /**
-     * Get the company record associated with the group.
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'happened' => 'boolean',
+    ];
+
+    /**
+     * Get the company record associated with the meeting.
      *
      * @return BelongsTo
      */
@@ -41,7 +51,7 @@ class Meeting extends Model
     }
 
     /**
-     * Get the employee records associated with the group.
+     * Get the employee records associated with the meeting.
      *
      * @return BelongsToMany
      */

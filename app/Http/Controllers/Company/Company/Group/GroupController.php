@@ -143,4 +143,44 @@ class GroupController extends Controller
             ],
         ], 201);
     }
+
+    /**
+     * Destroy the group.
+     *
+     * @param Request $request
+     * @param int $companyId
+     * @return JsonResponse
+     */
+    public function destroy(Request $request, int $companyId): JsonResponse
+    {
+        $loggedEmployee = InstanceHelper::getLoggedEmployee();
+        $loggedCompany = InstanceHelper::getLoggedCompany();
+
+        $employees = null;
+        if ($request->input('employees')) {
+            $employees = [];
+            foreach ($request->input('employees') as $employee) {
+                array_push($employees, $employee['id']);
+            }
+        }
+
+        $data = [
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'name' => $request->input('name'),
+            'employees' => $employees,
+        ];
+
+        $group = (new CreateGroup)->execute($data);
+
+        return response()->json([
+            'data' => [
+                'id' => $group->id,
+                'url' => route('groups.show', [
+                    'company' => $loggedCompany,
+                    'group' => $group,
+                ]),
+            ],
+        ], 201);
+    }
 }
