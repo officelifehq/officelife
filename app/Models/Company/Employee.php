@@ -549,6 +549,26 @@ class Employee extends Model
     }
 
     /**
+     * Get the meeting objects the employee has participated.
+     *
+     * @return belongsToMany
+     */
+    public function meetings()
+    {
+        return $this->belongsToMany(Meeting::class)->withTimestamps()->withPivot('was_a_guest');
+    }
+
+    /**
+     * Get the agenda item objects presented by the employee.
+     *
+     * @return HasMany
+     */
+    public function agendaItems()
+    {
+        return $this->hasMany(AgendaItem::class, 'presented_by_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

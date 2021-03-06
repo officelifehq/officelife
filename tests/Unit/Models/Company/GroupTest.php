@@ -22,7 +22,7 @@ class GroupTest extends TestCase
     public function it_has_many_employees(): void
     {
         $group = Group::factory()->create();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $group->company_id,
         ]);
 

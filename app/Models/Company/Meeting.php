@@ -17,7 +17,7 @@ class Meeting extends Model
      * @var array
      */
     protected $fillable = [
-        'company_id',
+        'group_id',
         'happened',
         'happened_at',
     ];
@@ -41,13 +41,13 @@ class Meeting extends Model
     ];
 
     /**
-     * Get the company record associated with the meeting.
+     * Get the group record associated with the meeting.
      *
      * @return BelongsTo
      */
-    public function company()
+    public function group()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Group::class);
     }
 
     /**
@@ -57,6 +57,16 @@ class Meeting extends Model
      */
     public function employees()
     {
-        return $this->belongsToMany(Employee::class)->withTimestamps();
+        return $this->belongsToMany(Employee::class)->withTimestamps()->withPivot('was_a_guest');
+    }
+
+    /**
+     * Get the agenda item records associated with the meeting.
+     *
+     * @return hasMany
+     */
+    public function agendaItems()
+    {
+        return $this->hasMany(AgendaItem::class);
     }
 }

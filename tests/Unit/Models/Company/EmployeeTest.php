@@ -16,6 +16,7 @@ use App\Models\Company\Answer;
 use App\Models\Company\Morale;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
+use App\Models\Company\Meeting;
 use App\Models\Company\Project;
 use App\Models\Company\Worklog;
 use App\Models\Company\Employee;
@@ -23,6 +24,7 @@ use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\TeamNews;
 use App\Models\Company\Timesheet;
+use App\Models\Company\AgendaItem;
 use App\Models\Company\CompanyNews;
 use App\Models\Company\EmployeeLog;
 use App\Models\Company\ProjectTask;
@@ -491,6 +493,28 @@ class EmployeeTest extends TestCase
         $dwight->groups()->sync([$group->id]);
 
         $this->assertTrue($dwight->groups()->exists());
+    }
+
+    /** @test */
+    public function it_belongs_to_many_meetings(): void
+    {
+        $dwight = Employee::factory()->create([]);
+        $meeting = Meeting::factory()->create();
+
+        $dwight->meetings()->sync([$meeting->id]);
+
+        $this->assertTrue($dwight->meetings()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_agenda_items(): void
+    {
+        $dwight = Employee::factory()->create([]);
+        AgendaItem::factory()->count(2)->create([
+            'presented_by_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->agendaItems()->exists());
     }
 
     /** @test */

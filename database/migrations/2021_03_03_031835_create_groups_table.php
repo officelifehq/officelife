@@ -33,13 +33,11 @@ class CreateGroupsTable extends Migration
 
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->integer('meetingable_id')->nullable();
-            $table->string('meetingable_type')->nullable();
+            $table->unsignedBigInteger('group_id');
             $table->boolean('happened')->default(false);
-            $table->datetime('happened_at');
+            $table->datetime('happened_at')->nullable();
             $table->timestamps();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
         });
 
         Schema::create('agenda_items', function (Blueprint $table) {
