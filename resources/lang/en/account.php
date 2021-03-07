@@ -296,6 +296,7 @@ return [
     'log_group_destroyed' => 'Deleted the group called :group_name.',
     'log_meeting_created' => 'Created a meeting in the group called :group_name.',
     'log_meeting_destroyed' => 'Deleted a meeting in the group called :group_name.',
+    'log_employee_marked_as_participant_in_meeting' => 'Indicated that :employee_name participated in a meeting in the group called :group_name.',
 
     // employee logs
     'employee_log_employee_created' => 'Created this employee entry.',
@@ -371,6 +372,7 @@ return [
     'employee_log_consultant_rate_destroyed' => 'Destroyed the rate of :rate.',
     'employee_log_employee_added_to_group' => 'Has been added to the group called :group_name.',
     'employee_log_employee_removed_from_group' => 'Has been remove from the group called :group_name.',
+    'employee_log_employee_marked_as_participant_in_meeting' => 'Has been added in a meeting in the group called :group_name.',
 
     // team logs
     'team_log_team_created' => 'Created the team.',
