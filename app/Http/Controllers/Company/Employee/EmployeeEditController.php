@@ -14,6 +14,7 @@ use App\Helpers\NotificationHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Company\EmployeeStatus;
+use App\Services\User\Avatar\UploadAvatar;
 use App\Services\Company\Place\CreatePlace;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Services\Company\Employee\Birthdate\SetBirthdate;
@@ -88,7 +89,7 @@ class EmployeeEditController extends Controller
     }
 
     /**
-     * Update the information about the employee's address.
+     * Update the information about the employee.
      *
      * @param Request $request
      * @param int $companyId
@@ -99,7 +100,7 @@ class EmployeeEditController extends Controller
     {
         $loggedEmployee = InstanceHelper::getLoggedEmployee();
 
-        $data = [
+        (new SetPersonalDetails)->execute([
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
@@ -107,13 +108,11 @@ class EmployeeEditController extends Controller
             'last_name' => $request->input('last_name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
-        ];
-
-        (new SetPersonalDetails)->execute($data);
+        ]);
 
         $date = Carbon::createFromDate($request->input('year'), $request->input('month'), $request->input('day'));
 
-        $data = [
+        (new SetBirthdate)->execute([
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
@@ -121,12 +120,10 @@ class EmployeeEditController extends Controller
             'year' => intval($request->input('year')),
             'month' => intval($request->input('month')),
             'day' => intval($request->input('day')),
-        ];
-
-        (new SetBirthdate)->execute($data);
+        ]);
 
         if ($request->input('hired_year')) {
-            $data = [
+            (new SetHiringDate)->execute([
                 'company_id' => $companyId,
                 'author_id' => $loggedEmployee->id,
                 'employee_id' => $employeeId,
@@ -134,28 +131,33 @@ class EmployeeEditController extends Controller
                 'year' => intval($request->input('hired_year')),
                 'month' => intval($request->input('hired_month')),
                 'day' => intval($request->input('hired_day')),
-            ];
-
-            (new SetHiringDate)->execute($data);
+            ]);
         }
 
-        $data = [
+        $twitter = empty($request->input('twitter')) || $request->input('twitter') == 'null' ? null : $request->input('twitter');
+        (new SetTwitterHandle)->execute([
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'twitter' => $request->input('twitter'),
-        ];
+            'twitter' => $twitter,
+        ]);
 
-        (new SetTwitterHandle)->execute($data);
-
-        $data = [
+        $slack = empty($request->input('slack')) || $request->input('slack') == 'null' ? null : $request->input('slack');
+        (new SetSlackHandle)->execute([
             'company_id' => $companyId,
             'author_id' => $loggedEmployee->id,
             'employee_id' => $employeeId,
-            'slack' => $request->input('slack'),
-        ];
+            'slack' => $slack,
+        ]);
 
-        (new SetSlackHandle)->execute($data);
+        if (! is_null($request->file('avatar'))) {
+            (new UploadAvatar)->execute([
+                'company_id' => $companyId,
+                'author_id' => $loggedEmployee->id,
+                'employee_id' => $employeeId,
+                'photo' => $request->file('avatar'),
+            ]);
+        }
 
         return response()->json([
             'company_id' => $companyId,

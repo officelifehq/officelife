@@ -23,6 +23,10 @@
     <div class="bg-white box pa3 mb5">
       <h2 class="normal mb3 mt0 fw5">
         {{ employee.name }}
+
+        <inertia-link v-if="permissions.can_manage_position" :href="employee.url.edit" data-cy="open-position-modal" class="f7 ml2 fw4">
+          {{ $t('app.edit') }}
+        </inertia-link>
       </h2>
       <ul class="list ma0 pl0 f6">
         <li class="mb2">

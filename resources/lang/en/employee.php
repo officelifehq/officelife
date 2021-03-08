@@ -140,6 +140,8 @@ return [
     'edit_information_lastname' => 'Last name',
     'edit_information_email' => 'Email address',
     'edit_information_email_help' => 'This should be an email address at work.',
+    'edit_information_avatar' => 'Avatar',
+    'edit_information_avatar_help' => 'Everyone in the company will be able to see this photo of you.',
     'edit_information_phone' => 'Phone number at work',
     'edit_information_phone_help' => 'This should be a phone number used for work purposes.',
     'edit_information_birthdate' => 'Birthdate',

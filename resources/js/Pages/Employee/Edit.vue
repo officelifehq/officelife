@@ -65,7 +65,9 @@
             <!-- Basic information -->
             <div class="cf pa3 pb4">
               <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
-                <strong>{{ $t('employee.edit_information_name') }}</strong>
+                <strong class="lh-copy">
+                  {{ $t('employee.edit_information_name') }}
+                </strong>
                 <p class="f7 silver lh-copy pr3-ns">
                   {{ $t('employee.edit_information_name_help') }}
                 </p>
@@ -116,6 +118,20 @@
                             :type="'text'"
                             :help="$t('employee.edit_information_phone_help')"
                 />
+              </div>
+            </div>
+
+            <!-- avatar -->
+            <div class="cf pa3 pb4">
+              <div class="fl-ns w-third-ns w-100 mb3 mb0-ns">
+                <strong>{{ $t('employee.edit_information_avatar') }}</strong>
+                <p class="f7 silver lh-copy pr3-ns">
+                  {{ $t('employee.edit_information_avatar_help') }}
+                </p>
+              </div>
+
+              <div class="fl-ns w-two-thirds-ns w-100">
+                <input type="file" @change="selectFile" />
               </div>
             </div>
 
@@ -338,6 +354,7 @@ export default {
         hired_day: null,
         twitter: null,
         slack: null,
+        avatar: null,
         errors: [],
       },
       loadingState: '',
@@ -370,7 +387,23 @@ export default {
     submit() {
       this.loadingState = 'loading';
 
-      axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/update`, this.form)
+      var data = new FormData();
+      data.append('avatar', this.form.avatar);
+      data.append('first_name', this.form.first_name);
+      data.append('last_name', this.form.last_name);
+      data.append('email', this.form.email);
+      data.append('phone', this.form.phone);
+      data.append('year', this.form.year);
+      data.append('month', this.form.month);
+      data.append('day', this.form.day);
+      data.append('hired_year', this.form.hired_year);
+      data.append('hired_month', this.form.hired_month);
+      data.append('hired_day', this.form.hired_day);
+      data.append('twitter', this.form.twitter);
+      data.append('slack', this.form.slack);
+      data.append('avatar', this.form.avatar);
+
+      axios.post(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}/update`, data)
         .then(response => {
           localStorage.success = this.$t('employee.edit_information_success');
           this.$inertia.visit(`/${this.$page.props.auth.company.id}/employees/${this.employee.id}`);
@@ -379,7 +412,12 @@ export default {
           this.loadingState = null;
           this.form.errors = error.response.data;
         });
-    }
+    },
+
+    selectFile(event) {
+      // `files` is always an array because the file input may be in multiple mode
+      this.form.avatar = event.target.files[0];
+    },
   },
 };
 

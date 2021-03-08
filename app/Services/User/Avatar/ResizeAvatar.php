@@ -2,16 +2,13 @@
 
 namespace App\Services\User\Avatar;
 
-use Carbon\Carbon;
 use App\Models\User\Avatar;
-use App\Jobs\LogAccountAudit;
 use App\Services\BaseService;
-use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
-class UploadAvatar extends BaseService
+class ResizeAvatar extends BaseService
 {
     private array $data;
 
@@ -25,15 +22,13 @@ class UploadAvatar extends BaseService
     public function rules(): array
     {
         return [
-            'company_id' => 'required|integer|exists:companies,id',
-            'author_id' => 'required|integer|exists:employees,id',
             'employee_id' => 'required|integer|exists:employees,id',
-            'photo' => 'file|image',
+            'width' => 'required|integer',
         ];
     }
 
     /**
-     * Upload an avatar.
+     * Resize an avatar.
      *
      * @param array $data
      *
@@ -82,29 +77,5 @@ class UploadAvatar extends BaseService
         $avatar = Image::make(Storage::disk(config('filesystems.default'))->get($this->employee->avatar));
         $avatar->fit(50);
         Storage::disk(config('filesystems.default'))->put($this->employee->avatar, (string) $avatar->stream(), 'public');
-    }
-
-    private function log(): void
-    {
-        LogAccountAudit::dispatch([
-            'company_id' => $this->data['company_id'],
-            'action' => 'employee_avatar_set',
-            'author_id' => $this->author->id,
-            'author_name' => $this->author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([
-                'employee_id' => $this->employee->id,
-                'employee_name' => $this->employee->name,
-            ]),
-        ])->onQueue('low');
-
-        LogEmployeeAudit::dispatch([
-            'employee_id' => $this->employee->id,
-            'action' => 'employee_avatar_set',
-            'author_id' => $this->author->id,
-            'author_name' => $this->author->name,
-            'audited_at' => Carbon::now(),
-            'objects' => json_encode([]),
-        ])->onQueue('low');
     }
 }

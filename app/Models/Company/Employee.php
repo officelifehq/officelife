@@ -6,12 +6,14 @@ use Carbon\Carbon;
 use App\Models\User\User;
 use App\Traits\Searchable;
 use App\Helpers\DateHelper;
+use Illuminate\Support\Str;
 use App\Models\User\Pronoun;
 use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -644,6 +646,24 @@ class Employee extends Model
         }
 
         return $completeName;
+    }
+
+    /**
+     * Returns the avatar attribute of the employee.
+     *
+     *
+     * @param mixed $value
+     *
+     * @return string
+     */
+    public function getAvatarAttribute($value): string
+    {
+        // check if the avatar is a default avatar, or a custom one
+        if (Str::contains($value, 'https')) {
+            return $value;
+        }
+
+        return asset(Storage::disk(config('filesystems.default'))->url($value));
     }
 
     /**
