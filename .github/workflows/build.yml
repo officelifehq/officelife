@@ -13,7 +13,7 @@ on:
     types: [completed]
 
 env:
-  default-php-version: 7.4
+  default-php-version: '8.0'
 
 
 jobs:
@@ -48,16 +48,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: [7.4, 8.0]
+        php-version: ['7.4', '8.0']
         connection: [sqlite, mysql, pgsql]
         testsuite: [Unit]
         include:
           - connection: sqlite
             testsuite: Integration
-            php-version: 7.4
+            php-version: '8.0'
           - connection: sqlite
             testsuite: Integration
-            php-version: 8.0
+            php-version: '8.0'
 
     steps:
       - name: Checkout sources
@@ -94,7 +94,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install composer dependencies
-        run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=php
+        run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
 
     # Prepare
       - name: Prepare environment
