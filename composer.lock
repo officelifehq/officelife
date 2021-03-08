@@ -2132,23 +2132,23 @@
         },
         {
             "name": "mariuzzo/laravel-js-localization",
-            "version": "v1.7.0",
+            "version": "v1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rmariuzzo/Laravel-JS-Localization.git",
-                "reference": "9e92f50134e8decb57c4530725b5d08b61002242"
+                "reference": "c3904018c656a11150949aa2ed00dcfcb1dfa3fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rmariuzzo/Laravel-JS-Localization/zipball/9e92f50134e8decb57c4530725b5d08b61002242",
-                "reference": "9e92f50134e8decb57c4530725b5d08b61002242",
+                "url": "https://api.github.com/repos/rmariuzzo/Laravel-JS-Localization/zipball/c3904018c656a11150949aa2ed00dcfcb1dfa3fc",
+                "reference": "c3904018c656a11150949aa2ed00dcfcb1dfa3fc",
                 "shasum": ""
             },
             "require": {
                 "illuminate/config": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
                 "illuminate/console": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
                 "illuminate/filesystem": "^4.2 || ^5.0 || ^6.0 || ^7.0 || ^8.0",
-                "php": "^5.4 || ^7.0",
+                "php": "^5.4 || ^7.0 || ^8.0",
                 "tedivm/jshrink": "~1.0"
             },
             "require-dev": {
@@ -2221,7 +2221,7 @@
                 "issues": "https://github.com/rmariuzzo/laravel-js-localization/issues",
                 "source": "https://github.com/rmariuzzo/laravel-js-localization"
             },
-            "time": "2020-09-16T23:46:26+00:00"
+            "time": "2021-03-06T18:25:22+00:00"
         },
         {
             "name": "moneyphp/money",
