@@ -29,7 +29,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_has_one_lead(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         $project = factory(Project::class)->create([
             'company_id' => $dwight->company_id,
             'project_lead_id' => $dwight->id,
@@ -42,10 +42,10 @@ class ProjectTest extends TestCase
     public function it_belongs_to_many_employees(): void
     {
         $project = factory(Project::class)->create();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $project->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $project->company_id,
         ]);
 

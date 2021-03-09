@@ -16,10 +16,10 @@ class ProjectDecisionsViewHelperTest extends TestCase
     public function it_gets_a_collection_of_decisions(): void
     {
         $projectDecision = factory(ProjectDecision::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $projectDecision->project->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $projectDecision->project->company_id,
         ]);
         $projectDecision->deciders()->attach([$michael->id]);

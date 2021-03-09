@@ -16,7 +16,7 @@ class EmployeeExpenseViewHelperTest extends TestCase
     /** @test */
     public function it_gets_an_array_of_statistics_about_the_expenses_of_this_employee(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         // 2 accepted expenses
         factory(Expense::class)->create([

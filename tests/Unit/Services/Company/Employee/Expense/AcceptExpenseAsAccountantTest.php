@@ -23,11 +23,11 @@ class AcceptExpenseAsAccountantTest extends TestCase
     /** @test */
     public function it_accepts_an_expense_as_the_accouting(): void
     {
-        $manager = factory(Employee::class)->create([
+        $manager = Employee::factory()->create([
             'can_manage_expenses' => true,
         ]);
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
@@ -45,11 +45,11 @@ class AcceptExpenseAsAccountantTest extends TestCase
     /** @test */
     public function it_accepts_an_expense_as_the_accouting_even_if_the_employee_of_the_expense_doesnt_exist_anymore(): void
     {
-        $manager = factory(Employee::class)->create([
+        $manager = Employee::factory()->create([
             'can_manage_expenses' => true,
         ]);
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
@@ -69,7 +69,7 @@ class AcceptExpenseAsAccountantTest extends TestCase
     {
         $manager = $this->createAdministrator();
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
@@ -87,11 +87,11 @@ class AcceptExpenseAsAccountantTest extends TestCase
     /** @test */
     public function it_fails_if_expense_is_not_in_the_correct_status(): void
     {
-        $manager = factory(Employee::class)->create([
+        $manager = Employee::factory()->create([
             'can_manage_expenses' => true,
         ]);
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);

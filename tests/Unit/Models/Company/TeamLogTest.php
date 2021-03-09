@@ -29,7 +29,7 @@ class TeamLogTest extends ApiTestCase
     /** @test */
     public function it_returns_an_object(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);

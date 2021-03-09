@@ -21,7 +21,7 @@ class UserInvitationControllerTest extends TestCase
         // be sure to have at least 2 users
         factory(User::class)->create([]);
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'invitation_link' => 'link',
         ]);
 
@@ -59,7 +59,7 @@ class UserInvitationControllerTest extends TestCase
             'email' => 'jim.halpert@dundermifflin.com',
         ]);
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'invitation_link' => 'link',
         ]);
 

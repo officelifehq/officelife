@@ -18,7 +18,7 @@ class EmployeeWorkFromHomeViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_years_representing_all_the_years_the_employee_has_a_worklog_for(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->asAdministrator()->create([]);
 
         // logging worklogs
         factory(WorkFromHome::class)->create([
@@ -55,7 +55,7 @@ class EmployeeWorkFromHomeViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_months_representing_all_the_months_the_employee_has_been_working_from_home(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->asAdministrator()->create([]);
 
         factory(WorkFromHome::class)->create([
             'employee_id' => $michael->id,

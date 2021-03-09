@@ -58,10 +58,10 @@ class UnassignManagerTest extends TestCase
     public function it_fails_if_employee_and_manager_are_not_in_the_same_account(): void
     {
         $company = factory(Company::class)->create([]);
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
-        $manager = factory(Employee::class)->create([
+        $manager = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
 

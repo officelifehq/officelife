@@ -34,7 +34,7 @@ class CompanyTest extends TestCase
     public function it_has_many_employees(): void
     {
         $company = factory(Company::class)->create();
-        factory(Employee::class, 2)->create([
+        Employee::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -264,10 +264,10 @@ class CompanyTest extends TestCase
     public function it_gets_the_list_of_the_employees_managers(): void
     {
         $company = factory(company::class)->create([]);
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
-        $john = factory(Employee::class)->create([
+        $john = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
         factory(DirectReport::class)->create([

@@ -18,7 +18,7 @@ class HolidayHelperTest extends TestCase
     /** @test */
     public function it_returns_the_number_of_holidays_earned_each_month(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'amount_of_allowed_holidays' => 30,
         ]);
 
@@ -36,7 +36,7 @@ class HolidayHelperTest extends TestCase
         $policy = factory(CompanyPTOPolicy::class)->create([
             'year' => 2018,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'amount_of_allowed_holidays' => 30,
         ]);
 
@@ -66,7 +66,7 @@ class HolidayHelperTest extends TestCase
     /** @test */
     public function it_returns_the_number_of_holidays_earned_each_day(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'amount_of_allowed_holidays' => 30,
         ]);
 

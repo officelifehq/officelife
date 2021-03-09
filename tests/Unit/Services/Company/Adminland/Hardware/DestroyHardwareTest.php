@@ -69,7 +69,7 @@ class DestroyHardwareTest extends TestCase
         Queue::fake();
 
         $hardware = factory(Hardware::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $hardware->company_id,
             'permission_level' => $permissionLevel,
         ]);

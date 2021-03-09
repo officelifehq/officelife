@@ -23,6 +23,7 @@ class RemoveActionfromStepTest extends TestCase
         $michael = $this->createAdministrator();
         $this->executeService($michael);
     }
+
     /** @test */
     public function it_removes_an_action_from_a_step_as_hr(): void
     {
@@ -42,7 +43,7 @@ class RemoveActionfromStepTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = Employee::factory()->create();
 
         $request = [
             'company_id' => $employee->company_id,

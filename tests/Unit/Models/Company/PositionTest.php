@@ -22,7 +22,7 @@ class PositionTest extends TestCase
     public function it_belongs_to_many_employees(): void
     {
         $position = factory(Position::class)->create([]);
-        factory(Employee::class, 3)->create([
+        Employee::factory(3)->create([
             'company_id' => $position->company_id,
             'position_id' => $position->id,
         ]);

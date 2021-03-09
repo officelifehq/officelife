@@ -14,7 +14,7 @@ class TaskTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_an_assignee(): void
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = Employee::factory()->create([]);
         $task = factory(Task::class)->create([
             'employee_id' => $employee->id,
         ]);

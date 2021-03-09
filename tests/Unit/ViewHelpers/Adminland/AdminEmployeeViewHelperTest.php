@@ -16,12 +16,12 @@ class AdminEmployeeViewHelperTest extends TestCase
     public function it_gets_statistics_about_employees(): void
     {
         $michael = $this->createAdministrator();
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'hired_at' => Carbon::now(),
             'locked' => true,
         ]);
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'hired_at' => null,
             'locked' => false,

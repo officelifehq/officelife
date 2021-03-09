@@ -22,10 +22,10 @@ class ShipTest extends TestCase
     public function it_has_many_employees(): void
     {
         $ship = factory(Ship::class)->create();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $ship->team->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $ship->team->company_id,
         ]);
 

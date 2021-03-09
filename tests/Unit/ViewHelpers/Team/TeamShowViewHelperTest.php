@@ -17,11 +17,11 @@ class TeamShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_employees(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         // create one final employee with a locked status (shouldn't appear in the results)
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'locked' => true,
         ]);

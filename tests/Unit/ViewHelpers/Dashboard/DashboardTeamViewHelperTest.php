@@ -21,23 +21,23 @@ class DashboardTeamViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $sales = factory(Team::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'birthdate' => null,
             'company_id' => $sales->company_id,
         ]);
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'birthdate' => '1892-01-29',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'company_id' => $sales->company_id,
         ]);
-        $angela = factory(Employee::class)->create([
+        $angela = Employee::factory()->create([
             'birthdate' => '1989-01-05',
             'first_name' => 'Angela',
             'last_name' => 'Bernard',
             'company_id' => $sales->company_id,
         ]);
-        $john = factory(Employee::class)->create([
+        $john = Employee::factory()->create([
             'birthdate' => '1989-03-20',
             'company_id' => $sales->company_id,
         ]);
@@ -79,20 +79,20 @@ class DashboardTeamViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $sales = factory(Team::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'company_id' => $sales->company_id,
         ]);
-        $angela = factory(Employee::class)->create([
+        $angela = Employee::factory()->create([
             'first_name' => 'Angela',
             'last_name' => 'Bernard',
             'company_id' => $sales->company_id,
         ]);
-        $john = factory(Employee::class)->create([
+        $john = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
 
@@ -212,10 +212,10 @@ class DashboardTeamViewHelperTest extends TestCase
         $team = factory(Team::class)->create([]);
 
         // making employees
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $team->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $team->company_id,
         ]);
 
@@ -250,15 +250,15 @@ class DashboardTeamViewHelperTest extends TestCase
         $team = factory(Team::class)->create([]);
 
         // making employees
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $team->company_id,
             'hired_at' => '2018-01-02 00:00:00',
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $team->company_id,
             'hired_at' => '1990-01-01 00:00:00',
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $team->company_id,
             'hired_at' => '2018-01-02 00:00:00',
             'locked' => true,
@@ -296,15 +296,15 @@ class DashboardTeamViewHelperTest extends TestCase
         $team = factory(Team::class)->create([]);
 
         // making employees
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $team->company_id,
             'hired_at' => '1990-01-02 00:00:00',
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $team->company_id,
             'hired_at' => '1990-05-01 00:00:00',
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $team->company_id,
             'hired_at' => '2017-04-02 00:00:00',
             'locked' => true,

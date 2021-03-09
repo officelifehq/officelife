@@ -46,21 +46,21 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_belongs_to_a_user(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         $this->assertTrue($dwight->user()->exists());
     }
 
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         $this->assertTrue($dwight->company()->exists());
     }
 
     /** @test */
     public function it_has_many_teams(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         $sales = factory(Team::class)->create([
             'company_id' => $dwight->company_id,
         ]);
@@ -77,7 +77,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_direct_reports(): void
     {
-        $manager = factory(Employee::class)->create([]);
+        $manager = Employee::factory()->create([]);
         factory(DirectReport::class, 3)->create([
             'manager_id' => $manager->id,
         ]);
@@ -88,7 +88,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_managers(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         factory(DirectReport::class, 3)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -99,7 +99,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_logs(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(EmployeeLog::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -110,7 +110,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_one_position(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
 
         $this->assertTrue($dwight->position()->exists());
     }
@@ -118,7 +118,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_tasks(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Task::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -129,7 +129,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_worklogs(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Worklog::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -140,7 +140,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_one_status(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
 
         $this->assertTrue($dwight->status()->exists());
     }
@@ -148,7 +148,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_notifications(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Notification::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -159,7 +159,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_company_news(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(CompanyNews::class, 2)->create([
             'author_id' => $dwight->id,
         ]);
@@ -170,7 +170,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_morale(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Morale::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -181,7 +181,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_places(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Place::class, 2)->create([
             'placable_id' => $dwight->id,
             'placable_type' => 'App\Models\Company\Employee',
@@ -193,7 +193,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_daily_logs(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(EmployeeDailyCalendarEntry::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -204,7 +204,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_planned_holidays(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(EmployeePlannedHoliday::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -215,7 +215,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_one_pronoun(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
 
         $this->assertTrue($dwight->pronoun()->exists());
     }
@@ -223,7 +223,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_team_news(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(TeamNews::class, 2)->create([
             'author_id' => $dwight->id,
         ]);
@@ -234,7 +234,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_work_from_homes(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(WorkFromHome::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -245,7 +245,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_answers(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Answer::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -256,7 +256,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_hardware(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Hardware::class, 2)->create([
             'company_id' => $dwight->company_id,
             'employee_id' => $dwight->id,
@@ -268,7 +268,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_ships(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         $sales = factory(Team::class)->create([
             'company_id' => $dwight->company_id,
         ]);
@@ -284,7 +284,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_skills(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         $skill = factory(Skill::class)->create([
             'company_id' => $dwight->company_id,
         ]);
@@ -297,7 +297,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_expenses(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Expense::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -308,7 +308,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_approved_many_expenses(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Expense::class, 2)->create([
             'manager_approver_id' => $dwight->id,
         ]);
@@ -319,7 +319,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_approved_many_expenses_as_the_accounting_department(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Expense::class, 2)->create([
             'accounting_approver_id' => $dwight->id,
         ]);
@@ -330,7 +330,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_answers_to_rate_your_manager_surveys(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(RateYourManagerAnswer::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -341,7 +341,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_surveys_about_being_a_manager(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(RateYourManagerSurvey::class, 2)->create([
             'manager_id' => $dwight->id,
         ]);
@@ -352,7 +352,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_one_on_one_entries(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(OneOnOneEntry::class, 2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -363,7 +363,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_one_on_one_entries_as_manager(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(OneOnOneEntry::class, 2)->create([
             'manager_id' => $dwight->id,
         ]);
@@ -374,7 +374,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_games_as_player(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(GuessEmployeeGame::class, 2)->create([
             'employee_who_played_id' => $dwight->id,
         ]);
@@ -385,7 +385,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_games_as_player_to_find(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(GuessEmployeeGame::class, 2)->create([
             'employee_to_find_id' => $dwight->id,
         ]);
@@ -396,7 +396,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_projects(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         $project = factory(Project::class)->create([
             'company_id' => $dwight->company_id,
         ]);
@@ -449,7 +449,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_gets_the_projects_that_the_employee_leads(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Project::class, 2)->create([
             'project_lead_id' => $dwight->id,
         ]);
@@ -460,7 +460,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_gets_the_project_decisions_written_by_the_employee(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(ProjectDecision::class, 2)->create([
             'author_id' => $dwight->id,
         ]);
@@ -471,7 +471,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_many_consultant_rates(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         ConsultantRate::factory()->count(2)->create([
             'employee_id' => $dwight->id,
         ]);
@@ -482,11 +482,11 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_scopes_the_employees_by_the_locked_status(): void
     {
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'locked' => true,
         ]);
         $company = $dwight->company;
-        factory(Employee::class, 3)->create([
+        Employee::factory(3)->create([
             'company_id' => $company->id,
             'locked' => false,
         ]);
@@ -500,7 +500,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_returns_the_email_attribute(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         $this->assertEquals(
             'dwigth@dundermifflin.com',
             $dwight->email
@@ -510,7 +510,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_returns_the_name_attribute(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         $this->assertEquals(
             'Dwight Schrute',
             $dwight->name
@@ -529,7 +529,7 @@ class EmployeeTest extends TestCase
             'title' => 'developer',
         ]);
         $pronoun = factory(Pronoun::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $dunder->id,
             'first_name' => 'michael',
             'last_name' => 'scott',
@@ -593,7 +593,7 @@ class EmployeeTest extends TestCase
     {
         $randomDate = '1945-03-03';
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'birthdate' => $randomDate,
         ]);
 
@@ -606,7 +606,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_gets_the_list_of_the_employees_managers(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         factory(DirectReport::class, 3)->create([
             'company_id' => $dwight->company_id,
             'employee_id' => $dwight->id,
@@ -621,7 +621,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_get_the_list_of_the_employees_direct_reports(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         factory(DirectReport::class, 3)->create([
             'company_id' => $dwight->company_id,
             'manager_id' => $dwight->id,
@@ -636,7 +636,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_gets_the_path_for_the_invitation_link(): void
     {
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'invitation_link' => 'dunder',
         ]);
 
@@ -651,7 +651,7 @@ class EmployeeTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         factory(Worklog::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => now(),
@@ -659,7 +659,7 @@ class EmployeeTest extends TestCase
 
         $this->assertTrue($dwight->hasAlreadyLoggedWorklogToday());
 
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         factory(Worklog::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => Carbon::yesterday(),
@@ -672,7 +672,7 @@ class EmployeeTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         factory(Morale::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => now(),
@@ -680,7 +680,7 @@ class EmployeeTest extends TestCase
 
         $this->assertTrue($dwight->hasAlreadyLoggedMoraleToday());
 
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
         factory(Morale::class)->create([
             'employee_id' => $dwight->id,
             'created_at' => Carbon::yesterday(),
@@ -691,7 +691,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_returns_the_current_address(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(Place::class, 2)->create([
             'placable_id' => $dwight->id,
             'placable_type' => 'App\Models\Company\Employee',
@@ -723,7 +723,7 @@ class EmployeeTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         factory(CompanyPTOPolicy::class)->create([
             'company_id' => $dwight->company_id,
             'year' => 2018,
@@ -749,7 +749,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_checks_if_the_employee_is_in_a_given_team(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         $sales = factory(Team::class)->create([
             'company_id' => $dwight->company_id,
         ]);
@@ -763,7 +763,7 @@ class EmployeeTest extends TestCase
 
         $this->assertTrue($dwight->isInTeam($sales->id));
 
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         $sales = factory(Team::class)->create([
             'company_id' => $dwight->company_id,
         ]);
@@ -793,7 +793,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_checks_if_the_employee_is_in_a_given_project(): void
     {
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         $api = factory(Project::class)->create([
             'company_id' => $dwight->company_id,
         ]);
@@ -802,7 +802,7 @@ class EmployeeTest extends TestCase
 
         $this->assertTrue($dwight->isInProject($api->id));
 
-        $dwight = factory(Employee::class)->create();
+        $dwight = Employee::factory()->create();
         $api = factory(Project::class)->create([
             'company_id' => $dwight->company_id,
         ]);

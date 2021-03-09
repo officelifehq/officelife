@@ -18,7 +18,7 @@ class EmployeeWorklogViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_representing_all_the_worklogs_for_a_given_year(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         // logging worklogs
         factory(Worklog::class)->create([
@@ -67,7 +67,7 @@ class EmployeeWorklogViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_years_representing_all_the_years_the_employee_has_a_worklog_for(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         // logging worklogs
         factory(Worklog::class)->create([
@@ -104,7 +104,7 @@ class EmployeeWorklogViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_months_representing_all_the_months_the_employee_has_a_worklog_for(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         // logging worklogs
         factory(Worklog::class)->create([

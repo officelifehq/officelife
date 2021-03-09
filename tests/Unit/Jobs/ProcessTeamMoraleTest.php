@@ -7,7 +7,6 @@ use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Morale;
 use App\Jobs\ProcessTeamMorale;
-use App\Models\Company\Employee;
 use App\Models\Company\MoraleTeamHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -25,9 +24,7 @@ class ProcessTeamMoraleTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
 
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $dwight = $this->createAnotherEmployee($michael);
 
         $sales->employees()->attach(
             $dwight->id,

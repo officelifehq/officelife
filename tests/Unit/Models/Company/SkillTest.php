@@ -22,10 +22,10 @@ class SkillTest extends TestCase
     public function it_has_many_employees(): void
     {
         $skill = factory(Skill::class)->create();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $skill->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $skill->company_id,
         ]);
 

@@ -33,7 +33,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $company = factory(Company::class)->create([
             'currency' => 'USD',
         ]);
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
         $expense = factory(Expense::class)->create([
@@ -77,7 +77,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $company = factory(Company::class)->create([
             'currency' => 'USD',
         ]);
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
         $expense = factory(Expense::class)->create([
@@ -113,7 +113,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $company = factory(Company::class)->create([
             'currency' => 'CAD',
         ]);
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
         $expense = factory(Expense::class)->create([

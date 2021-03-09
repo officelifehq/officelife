@@ -43,7 +43,7 @@ class AddActionToStepTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = Employee::factory()->create();
         $flow = factory(Flow::class)->create([
             'company_id' => $employee->company_id,
         ]);

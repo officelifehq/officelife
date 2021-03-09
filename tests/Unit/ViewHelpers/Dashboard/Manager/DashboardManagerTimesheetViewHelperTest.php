@@ -24,10 +24,10 @@ class DashboardManagerTimesheetViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         // creating two employees and adding timesheets after this
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

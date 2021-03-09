@@ -66,7 +66,7 @@ class DestroyTeamNewsTest extends TestCase
     /** @test */
     public function it_cant_destroy_the_team_news_if_the_team_is_not_linked_to_the_company(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
         $team = factory(Team::class)->create([]);
         $news = factory(TeamNews::class)->create([
             'author_id' => $michael->id,

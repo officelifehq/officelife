@@ -71,7 +71,7 @@ class UpdateQuestionTest extends TestCase
         Queue::fake();
 
         $question = factory(Question::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $question->company_id,
             'permission_level' => $permissionLevel,
         ]);

@@ -26,7 +26,7 @@ class AcceptExpenseAsManagerTest extends TestCase
     {
         $manager = $this->createAdministrator();
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
@@ -53,7 +53,7 @@ class AcceptExpenseAsManagerTest extends TestCase
     {
         $manager = $this->createAdministrator();
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
@@ -80,7 +80,7 @@ class AcceptExpenseAsManagerTest extends TestCase
     {
         $manager = $this->createAdministrator();
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
@@ -100,7 +100,7 @@ class AcceptExpenseAsManagerTest extends TestCase
     {
         $manager = $this->createAdministrator();
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);

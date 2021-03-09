@@ -13,7 +13,6 @@ use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
@@ -86,17 +85,13 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_managers(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $jim = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $jim = $this->createAnotherEmployee($michael);
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
             'manager_id' => $michael->id,
         ];
@@ -105,7 +100,7 @@ class EmployeeShowViewHelperTest extends TestCase
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
             'manager_id' => $jim->id,
         ];
@@ -146,13 +141,9 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_direct_reports(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $jim = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $jim = $this->createAnotherEmployee($michael);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -208,7 +199,7 @@ class EmployeeShowViewHelperTest extends TestCase
     {
         $date = Carbon::create(2018, 10, 10);
         Carbon::setTestNow($date);
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
 
         for ($i = 0; $i < 5; $i++) {
             factory(Worklog::class)->create([
@@ -234,7 +225,7 @@ class EmployeeShowViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 10, 10));
 
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
         factory(WorkFromHome::class)->create([
             'employee_id' => $michael->id,
             'date' => '2010-01-01',
@@ -273,7 +264,7 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_questions_and_answers(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
         $question = factory(Question::class)->create([
             'company_id' => $michael->company_id,
         ]);
@@ -330,7 +321,7 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_hardware(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
         $hardware = factory(Hardware::class)->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,

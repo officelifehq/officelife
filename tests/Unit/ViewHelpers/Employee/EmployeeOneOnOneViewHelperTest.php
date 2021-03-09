@@ -21,7 +21,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         factory(OneOnOneEntry::class)->create([
             'manager_id' => $michael->id,

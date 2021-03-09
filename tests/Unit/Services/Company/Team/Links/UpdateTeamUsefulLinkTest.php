@@ -63,8 +63,8 @@ class UpdateTeamUsefulLinkTest extends TestCase
     /** @test */
     public function it_cant_update_a_link_with_the_wrong_team(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
+        $dwight = Employee::factory()->create([]);
         $team = factory(Team::class)->create([
             'company_id' => $dwight->company_id,
         ]);
@@ -88,7 +88,7 @@ class UpdateTeamUsefulLinkTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -102,7 +102,7 @@ class UpdateTeamUsefulLinkTest extends TestCase
     {
         Queue::fake();
 
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
         $team = factory(Team::class)->create([
             'company_id' => $michael->company_id,
         ]);

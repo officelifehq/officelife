@@ -21,7 +21,7 @@ class WorklogHelperTest extends TestCase
     {
         $date = Carbon::now();
 
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
 
         // logging worklogs
         $worklog = factory(Worklog::class)->create([
@@ -52,7 +52,7 @@ class WorklogHelperTest extends TestCase
     {
         $date = Carbon::now();
 
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
 
         // logging worklogs
         $worklog = factory(Worklog::class)->create([

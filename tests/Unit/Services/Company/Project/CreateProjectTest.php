@@ -49,8 +49,8 @@ class CreateProjectTest extends TestCase
     /** @test */
     public function it_fails_if_project_lead_is_not_part_of_the_company(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $jim = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
+        $jim = Employee::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $jim);
@@ -59,7 +59,7 @@ class CreateProjectTest extends TestCase
     /** @test */
     public function it_fails_if_project_code_already_exists(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
         $jim = $this->createAnotherEmployee($michael);
         factory(Project::class)->create([
             'company_id' => $michael->company_id,
@@ -74,7 +74,7 @@ class CreateProjectTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,

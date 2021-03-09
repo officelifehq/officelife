@@ -198,10 +198,10 @@ class DashboardMeViewHelperTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -235,10 +235,10 @@ class DashboardMeViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

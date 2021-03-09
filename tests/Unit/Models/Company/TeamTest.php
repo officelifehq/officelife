@@ -28,10 +28,10 @@ class TeamTest extends TestCase
     public function it_has_many_employees()
     {
         $sales = factory(Team::class)->create([]);
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
 
@@ -103,10 +103,10 @@ class TeamTest extends TestCase
     {
         $date = Carbon::now();
         $sales = factory(Team::class)->create([]);
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
 

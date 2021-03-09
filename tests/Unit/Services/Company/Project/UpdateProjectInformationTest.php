@@ -49,7 +49,7 @@ class UpdateProjectInformationTest extends TestCase
     /** @test */
     public function it_fails_if_project_code_already_exists(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
         $project = factory(Project::class)->create([
             'company_id' => $michael->company_id,
         ]);
@@ -66,7 +66,7 @@ class UpdateProjectInformationTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,

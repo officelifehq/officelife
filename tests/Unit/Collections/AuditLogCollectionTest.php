@@ -4,7 +4,6 @@ namespace Tests\Unit\Collections;
 
 use Tests\TestCase;
 use App\Models\Company\AuditLog;
-use App\Models\Company\Employee;
 use App\Http\Collections\AuditLogCollection;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -17,10 +16,9 @@ class AuditLogCollectionTest extends TestCase
     /** @test */
     public function it_returns_a_collection(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+
         $auditLogA = factory(AuditLog::class)->create([
             'author_id' => $michael->id,
             'author_name' => $michael->name,

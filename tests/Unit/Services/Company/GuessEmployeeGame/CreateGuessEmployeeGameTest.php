@@ -45,7 +45,7 @@ class CreateGuessEmployeeGameTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,
@@ -58,7 +58,7 @@ class CreateGuessEmployeeGameTest extends TestCase
     /** @test */
     public function it_throws_an_exception_if_there_are_less_than_3_employees_in_the_company(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,

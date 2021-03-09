@@ -21,9 +21,8 @@ class DestroyCompanyNewsTest extends TestCase
     public function it_destroys_a_company_news_as_administrator(): void
     {
         $news = factory(CompanyNews::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->asAdministrator()->create([
             'company_id' => $news->company_id,
-            'permission_level' => config('officelife.permission_level.administrator'),
         ]);
         $this->executeService($michael, $news);
     }
@@ -32,9 +31,8 @@ class DestroyCompanyNewsTest extends TestCase
     public function it_destroys_a_company_news_as_hr(): void
     {
         $news = factory(CompanyNews::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->asHR()->create([
             'company_id' => $news->company_id,
-            'permission_level' => config('officelife.permission_level.hr'),
         ]);
         $this->executeService($michael, $news);
     }
@@ -43,9 +41,8 @@ class DestroyCompanyNewsTest extends TestCase
     public function normal_user_cant_execute_the_service(): void
     {
         $news = factory(CompanyNews::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->asNormalEmployee()->create([
             'company_id' => $news->company_id,
-            'permission_level' => config('officelife.permission_level.user'),
         ]);
 
         $this->expectException(NotEnoughPermissionException::class);

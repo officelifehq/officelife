@@ -18,7 +18,7 @@ class LogMissedWorklogEntryTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'consecutive_worklog_missed' => 0,
         ]);
 
@@ -37,7 +37,7 @@ class LogMissedWorklogEntryTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'consecutive_worklog_missed' => 0,
         ]);
 

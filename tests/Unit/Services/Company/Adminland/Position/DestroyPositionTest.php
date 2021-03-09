@@ -69,7 +69,7 @@ class DestroyPositionTest extends TestCase
         Queue::fake();
 
         $position = factory(Position::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $position->company_id,
             'permission_level' => $permissionLevel,
         ]);

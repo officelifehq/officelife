@@ -28,7 +28,7 @@ class CompanyViewHelperTest extends TestCase
         factory(Team::class, 2)->create([
             'company_id' => $michael->company_id,
         ]);
-        factory(Employee::class, 2)->create([
+        Employee::factory(2)->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -92,27 +92,27 @@ class CompanyViewHelperTest extends TestCase
         $sales = factory(Team::class)->create([]);
 
         //creating a bunch of employees that should not be in the list of birthdates
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'birthdate' => null,
             'company_id' => $sales->company_id,
         ]);
-        $john = factory(Employee::class)->create([
+        $john = Employee::factory()->create([
             'birthdate' => '1989-01-07',
             'company_id' => $sales->company_id,
         ]);
-        $pamela = factory(Employee::class)->create([
+        $pamela = Employee::factory()->create([
             'birthdate' => '2017-01-15',
             'company_id' => $sales->company_id,
         ]);
 
         // employees who should be in the list of birthdates for the week
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'birthdate' => '1892-01-08',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'company_id' => $sales->company_id,
         ]);
-        $angela = factory(Employee::class)->create([
+        $angela = Employee::factory()->create([
             'birthdate' => '1989-01-14',
             'first_name' => 'Angela',
             'last_name' => 'Bernard',
@@ -151,27 +151,27 @@ class CompanyViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 4));
         $sales = factory(Team::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'hired_at' => null,
             'company_id' => $sales->company_id,
         ]);
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'hired_at' => '2018-01-03',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'company_id' => $sales->company_id,
         ]);
-        $angela = factory(Employee::class)->create([
+        $angela = Employee::factory()->create([
             'hired_at' => '2018-01-01',
             'first_name' => 'Angela',
             'last_name' => 'Bernard',
             'company_id' => $sales->company_id,
         ]);
-        $john = factory(Employee::class)->create([
+        $john = Employee::factory()->create([
             'hired_at' => '2018-01-08',
             'company_id' => $sales->company_id,
         ]);
-        $pamela = factory(Employee::class)->create([
+        $pamela = Employee::factory()->create([
             'hired_at' => '2017-12-31',
             'company_id' => $sales->company_id,
         ]);
@@ -322,10 +322,10 @@ class CompanyViewHelperTest extends TestCase
     /** @test */
     public function it_gets_the_information_about_the_guess_employees_game(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'pronoun_id' => 1,
         ]);
-        factory(Employee::class, 3)->create([
+        Employee::factory(3)->create([
             'company_id' => $michael->company_id,
             'pronoun_id' => 1,
         ]);

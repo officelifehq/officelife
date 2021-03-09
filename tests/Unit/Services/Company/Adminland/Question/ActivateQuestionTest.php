@@ -75,7 +75,7 @@ class ActivateQuestionTest extends TestCase
             'active' => true,
             'deactivated_at' => '2020-04-15 00:00:00',
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $question->company_id,
             'permission_level' => $permissionLevel,
         ]);
