@@ -14,7 +14,7 @@ class ApiTestCase extends TestCase
      */
     public function signIn(User $user): User
     {
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->actingAs($user);
 
         return $user;

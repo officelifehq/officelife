@@ -25,7 +25,7 @@ class DestroyTeamNewsTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $news = factory(TeamNews::class)->create([
+        $news = TeamNews::factory()->create([
             'author_id' => $michael->id,
             'team_id' => $team->id,
         ]);
@@ -40,7 +40,7 @@ class DestroyTeamNewsTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $news = factory(TeamNews::class)->create([
+        $news = TeamNews::factory()->create([
             'author_id' => $michael->id,
             'team_id' => $team->id,
         ]);
@@ -55,7 +55,7 @@ class DestroyTeamNewsTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $news = factory(TeamNews::class)->create([
+        $news = TeamNews::factory()->create([
             'author_id' => $michael->id,
             'team_id' => $team->id,
         ]);
@@ -68,7 +68,7 @@ class DestroyTeamNewsTest extends TestCase
     {
         $michael = Employee::factory()->create();
         $team = Team::factory()->create([]);
-        $news = factory(TeamNews::class)->create([
+        $news = TeamNews::factory()->create([
             'author_id' => $michael->id,
             'team_id' => $team->id,
         ]);

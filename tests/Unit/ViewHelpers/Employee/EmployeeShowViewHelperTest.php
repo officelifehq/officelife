@@ -265,10 +265,10 @@ class EmployeeShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_questions_and_answers(): void
     {
         $michael = $this->createAdministrator();
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        factory(Answer::class)->create([
+        Answer::factory()->create([
             'question_id' => $question->id,
             'employee_id' => $michael->id,
             'body' => 'this is my answer',
@@ -423,13 +423,13 @@ class EmployeeShowViewHelperTest extends TestCase
 
         $michael = $this->createAdministrator();
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'employee_id' => $michael->id,
             'created_at' => '2019-01-01 01:00:00',
         ]);
 
         // this expense is more than 30 days, it shouldn't appear in the collection
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'created_at' => '2010-01-01 01:00:00',
         ]);
@@ -479,22 +479,22 @@ class EmployeeShowViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $entry2019 = factory(OneOnOneEntry::class)->create([
+        $entry2019 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2019-01-01 01:00:00',
         ]);
-        $entry2018 = factory(OneOnOneEntry::class)->create([
+        $entry2018 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2018-01-01 01:00:00',
         ]);
-        $entry2017 = factory(OneOnOneEntry::class)->create([
+        $entry2017 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2017-01-01 01:00:00',
         ]);
-        $entry2016 = factory(OneOnOneEntry::class)->create([
+        $entry2016 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2016-01-01 01:00:00',

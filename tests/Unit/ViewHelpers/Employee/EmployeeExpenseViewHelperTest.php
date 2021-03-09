@@ -19,29 +19,29 @@ class EmployeeExpenseViewHelperTest extends TestCase
         $michael = Employee::factory()->create();
 
         // 2 accepted expenses
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'amount' => 100,
             'status' => Expense::ACCEPTED,
         ]);
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'amount' => 50,
             'status' => Expense::ACCEPTED,
         ]);
 
         // 2 awaiting expenses
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
         ]);
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
         ]);
 
         // 1 rejected expense
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'status' => Expense::REJECTED_BY_ACCOUNTING,
         ]);
@@ -64,7 +64,7 @@ class EmployeeExpenseViewHelperTest extends TestCase
 
         $michael = $this->createAdministrator();
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'employee_id' => $michael->id,
             'created_at' => '2019-01-01 01:00:00',
         ]);

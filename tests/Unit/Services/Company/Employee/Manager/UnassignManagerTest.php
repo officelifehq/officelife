@@ -65,7 +65,7 @@ class UnassignManagerTest extends TestCase
             'company_id' => $company->id,
         ]);
 
-        factory(DirectReport::class)->create([
+        DirectReport::factory()->create([
             'employee_id' => $employee->id,
             'manager_id' => $manager->id,
         ]);
@@ -85,7 +85,7 @@ class UnassignManagerTest extends TestCase
     {
         Queue::fake();
 
-        $dwight = factory(DirectReport::class)->create([
+        $dwight = DirectReport::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

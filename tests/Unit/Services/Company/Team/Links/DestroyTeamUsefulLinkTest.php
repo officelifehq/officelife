@@ -25,7 +25,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -39,7 +39,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -53,7 +53,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -78,7 +78,7 @@ class DestroyTeamUsefulLinkTest extends TestCase
         Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([]);
+        $link = TeamUsefulLink::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $link);

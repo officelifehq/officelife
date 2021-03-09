@@ -23,20 +23,20 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
 
         $michael = Employee::factory()->create();
 
-        factory(OneOnOneEntry::class)->create([
+        OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'happened_at' => '2018-01-01 00:00:00',
         ]);
-        factory(OneOnOneEntry::class)->create([
+        OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'happened_at' => '2018-03-01 00:00:00',
         ]);
-        factory(OneOnOneEntry::class)->create([
+        OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'happened_at' => '2018-05-01 00:00:00',
         ]);
         // this entry shouldn't be counted as it’s more than 365 days ago
-        factory(OneOnOneEntry::class)->create([
+        OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'happened_at' => '2013-05-01 00:00:00',
         ]);
@@ -60,17 +60,17 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $entry2019 = factory(OneOnOneEntry::class)->create([
+        $entry2019 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2019-01-01 01:00:00',
         ]);
-        $entry2018 = factory(OneOnOneEntry::class)->create([
+        $entry2018 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2018-01-01 01:00:00',
         ]);
-        $entry2017 = factory(OneOnOneEntry::class)->create([
+        $entry2017 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2017-01-01 01:00:00',
@@ -135,7 +135,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'happened_at' => '2020-09-09',

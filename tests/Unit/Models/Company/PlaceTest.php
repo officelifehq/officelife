@@ -13,14 +13,14 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_has_one_country(): void
     {
-        $place = factory(Place::class)->create([]);
+        $place = Place::factory()->create([]);
         $this->assertTrue($place->country()->exists());
     }
 
     /** @test */
     public function it_returns_an_object(): void
     {
-        $news = factory(Place::class)->create([
+        $news = Place::factory()->create([
             'street' => '1725 Slough Ave',
             'city' => 'Scranton',
             'province' => 'PA',
@@ -51,7 +51,7 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_gets_the_country_name(): void
     {
-        $place = factory(Place::class)->create([]);
+        $place = Place::factory()->create([]);
 
         $this->assertEquals(
             'France',
@@ -62,7 +62,7 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_gets_the_address_as_a_string(): void
     {
-        $place = factory(Place::class)->create([]);
+        $place = Place::factory()->create([]);
 
         $this->assertEquals(
             '1725 Slough Ave Scranton PA France',
@@ -73,7 +73,7 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_gets_the_partial_address_as_a_string(): void
     {
-        $place = factory(Place::class)->create([]);
+        $place = Place::factory()->create([]);
 
         $this->assertEquals(
             'Scranton (France)',
@@ -87,7 +87,7 @@ class PlaceTest extends TestCase
         config(['officelife.mapbox_api_key' => 'api_key']);
         config(['officelife.mapbox_api_username' => 'test']);
 
-        $place = factory(Place::class)->create([
+        $place = Place::factory()->create([
             'longitude' => '-74.005941',
             'latitude' => '40.712784',
         ]);
@@ -101,7 +101,7 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_returns_a_partial_open_streetmap_url()
     {
-        $place = factory(Place::class)->create([]);
+        $place = Place::factory()->create([]);
 
         $this->assertEquals(
             'https://www.openstreetmap.org/search?query=Scranton+%28France%29',
@@ -112,7 +112,7 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_returns_a_complete_open_streetmap_url()
     {
-        $place = factory(Place::class)->create([]);
+        $place = Place::factory()->create([]);
 
         $this->assertEquals(
             'https://www.openstreetmap.org/search?query=1725+Slough+Ave+Scranton+PA+France',

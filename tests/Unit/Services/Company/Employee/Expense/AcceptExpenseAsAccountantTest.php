@@ -32,7 +32,7 @@ class AcceptExpenseAsAccountantTest extends TestCase
             'first_name' => 'toto',
         ]);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $manager->company_id,
             'employee_id' => $employee->id,
             'employee_name' => $employee->name,
@@ -54,7 +54,7 @@ class AcceptExpenseAsAccountantTest extends TestCase
             'first_name' => 'toto',
         ]);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $manager->company_id,
             'employee_id' => null,
             'employee_name' => $employee->name,
@@ -74,7 +74,7 @@ class AcceptExpenseAsAccountantTest extends TestCase
             'first_name' => 'toto',
         ]);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $manager->company_id,
             'employee_id' => $employee->id,
             'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
@@ -96,7 +96,7 @@ class AcceptExpenseAsAccountantTest extends TestCase
             'first_name' => 'toto',
         ]);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $manager->company_id,
             'employee_id' => $employee->id,
             'status' => Expense::CREATED,

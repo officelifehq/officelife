@@ -44,7 +44,7 @@ class AddActionToStepTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $employee = Employee::factory()->create();
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $employee->company_id,
         ]);
         $step = factory(Step::class)->create([
@@ -66,7 +66,7 @@ class AddActionToStepTest extends TestCase
     public function it_fails_if_the_action_doesnt_belong_to_a_step(): void
     {
         $michael = $this->createAdministrator();
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $step = factory(Step::class)->create([]);
@@ -87,7 +87,7 @@ class AddActionToStepTest extends TestCase
 
     private function executeService(Employee $michael): void
     {
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $step = factory(Step::class)->create([

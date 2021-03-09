@@ -25,7 +25,7 @@ class UpdateTeamUsefulLinkTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -39,7 +39,7 @@ class UpdateTeamUsefulLinkTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -53,7 +53,7 @@ class UpdateTeamUsefulLinkTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -68,7 +68,7 @@ class UpdateTeamUsefulLinkTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -106,7 +106,7 @@ class UpdateTeamUsefulLinkTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $link = factory(TeamUsefulLink::class)->create([
+        $link = TeamUsefulLink::factory()->create([
             'team_id' => $team->id,
         ]);
 

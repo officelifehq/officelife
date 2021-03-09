@@ -55,7 +55,7 @@ class UpdateCompanyNewsTest extends TestCase
     public function it_fails_if_the_company_news_does_not_match_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $news = factory(CompanyNews::class)->create([]);
+        $news = CompanyNews::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -73,7 +73,7 @@ class UpdateCompanyNewsTest extends TestCase
     {
         Queue::fake();
 
-        $news = factory(CompanyNews::class)->create([
+        $news = CompanyNews::factory()->create([
             'author_id' => $michael->id,
             'company_id' => $michael->company_id,
         ]);

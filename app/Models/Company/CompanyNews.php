@@ -7,10 +7,12 @@ use App\Helpers\StringHelper;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CompanyNews extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        HasFactory;
 
     protected $table = 'company_news';
 

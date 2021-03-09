@@ -16,7 +16,7 @@ class TeamLogCollectionTest extends TestCase
     public function it_returns_a_collection(): void
     {
         $sales = Team::factory()->create([]);
-        factory(TeamLog::class, 2)->create([
+        TeamLog::factory()->count(2)->create([
             'team_id' => $sales->id,
         ]);
 

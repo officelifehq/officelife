@@ -20,7 +20,7 @@ class DestroyCompanyNewsTest extends TestCase
     /** @test */
     public function it_destroys_a_company_news_as_administrator(): void
     {
-        $news = factory(CompanyNews::class)->create([]);
+        $news = CompanyNews::factory()->create([]);
         $michael = Employee::factory()->asAdministrator()->create([
             'company_id' => $news->company_id,
         ]);
@@ -30,7 +30,7 @@ class DestroyCompanyNewsTest extends TestCase
     /** @test */
     public function it_destroys_a_company_news_as_hr(): void
     {
-        $news = factory(CompanyNews::class)->create([]);
+        $news = CompanyNews::factory()->create([]);
         $michael = Employee::factory()->asHR()->create([
             'company_id' => $news->company_id,
         ]);
@@ -40,7 +40,7 @@ class DestroyCompanyNewsTest extends TestCase
     /** @test */
     public function normal_user_cant_execute_the_service(): void
     {
-        $news = factory(CompanyNews::class)->create([]);
+        $news = CompanyNews::factory()->create([]);
         $michael = Employee::factory()->asNormalEmployee()->create([
             'company_id' => $news->company_id,
         ]);
@@ -64,7 +64,7 @@ class DestroyCompanyNewsTest extends TestCase
     public function it_fails_if_the_company_news_does_not_match_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $news = factory(CompanyNews::class)->create([]);
+        $news = CompanyNews::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,

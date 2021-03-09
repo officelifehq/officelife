@@ -16,7 +16,7 @@ class TeamNewsCollectionTest extends TestCase
     public function it_returns_a_collection(): void
     {
         $sales = Team::factory()->create([]);
-        factory(TeamNews::class, 2)->create([
+        TeamNews::factory()->count(2)->create([
             'team_id' => $sales->id,
         ]);
 

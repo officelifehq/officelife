@@ -47,13 +47,13 @@ class CompanyViewHelperTest extends TestCase
     public function it_gets_the_latest_questions_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'Do you like Dwight',
         ]);
 
         // now we'll call the helper again with a question that we've added answers to
-        factory(Answer::class, 2)->create([
+        Answer::factory()->count(2)->create([
             'question_id' => $question->id,
         ]);
 
@@ -282,13 +282,13 @@ class CompanyViewHelperTest extends TestCase
     public function it_gets_the_latest_news(): void
     {
         $michael = $this->createAdministrator();
-        $newsA = factory(CompanyNews::class)->create([
+        $newsA = CompanyNews::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'php',
             'content' => 'this is a test',
             'author_name' => 'regis',
         ]);
-        $newsB = factory(CompanyNews::class)->create([
+        $newsB = CompanyNews::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'php',
             'content' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor. Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor.',

@@ -6,9 +6,12 @@ use App\Helpers\LogHelper;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TeamLog extends Model
 {
+    use HasFactory;
+
     protected $table = 'team_logs';
 
     /**

@@ -60,7 +60,7 @@ class AssignPositionToEmployeeTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
 
-        $position = factory(Position::class)->create([]);
+        $position = Position::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -88,7 +88,7 @@ class AssignPositionToEmployeeTest extends TestCase
     {
         Queue::fake();
 
-        $position = factory(Position::class)->create([
+        $position = Position::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
 

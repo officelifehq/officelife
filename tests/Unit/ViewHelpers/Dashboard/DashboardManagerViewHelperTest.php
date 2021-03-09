@@ -39,7 +39,7 @@ class DashboardManagerViewHelperTest extends TestCase
 
         (new AssignManager)->execute($request);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $dwight->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
@@ -47,7 +47,7 @@ class DashboardManagerViewHelperTest extends TestCase
             'converted_to_currency' => 'EUR',
         ]);
 
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $dwight->id,
             'status' => Expense::CREATED,
@@ -87,7 +87,7 @@ class DashboardManagerViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'manager_approver_id' => $dwight->id,

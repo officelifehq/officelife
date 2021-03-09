@@ -4,46 +4,7 @@ use Carbon\Carbon;
 use App\Models\Company\Team;
 use Faker\Generator as Faker;
 use App\Models\Company\Project;
-use App\Models\Company\Employee;
 use App\Models\Company\ProjectStatus;
-use App\Models\Company\RateYourManagerAnswer;
-
-$factory->define(App\Models\Company\DirectReport::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'manager_id' => function (array $data) {
-            return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $data['company_id'],
-            ])->id;
-        },
-        'employee_id' => function (array $data) {
-            return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $data['company_id'],
-            ])->id;
-        },
-    ];
-});
-
-$factory->define(App\Models\Company\Position::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'title' => 'Assistant to the regional manager',
-    ];
-});
-
-$factory->define(App\Models\Company\Flow::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'name' => 'Birthdate',
-        'type' => 'employee_joins_company',
-    ];
-});
 
 $factory->define(App\Models\Company\Step::class, function () {
     return [
@@ -77,17 +38,6 @@ $factory->define(App\Models\Company\Task::class, function () {
     ];
 });
 
-$factory->define(App\Models\Company\Notification::class, function () {
-    return [
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
-        },
-        'action' => 'notification',
-        'objects' => '{"user": 1}',
-        'read' => false,
-    ];
-});
-
 $factory->define(App\Models\Company\Worklog::class, function () {
     return [
         'employee_id' => function () {
@@ -117,46 +67,6 @@ $factory->define(App\Models\Company\MoraleCompanyHistory::class, function () {
     ];
 });
 
-$factory->define(App\Models\Company\CompanyNews::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'author_id' => function (array $data) {
-            return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $data['company_id'],
-            ])->id;
-        },
-        'author_name' => 'Dwight Schrute',
-        'title' => 'Party at the office',
-        'content' => 'Michael and Dwight invite you to a party.',
-    ];
-});
-
-$factory->define(App\Models\Company\Country::class, function () {
-    return [
-        'name' => 'France',
-    ];
-});
-
-$factory->define(App\Models\Company\Place::class, function (Faker $faker) {
-    return [
-        'street' => '1725 Slough Ave',
-        'city' => 'Scranton',
-        'province' => 'PA',
-        'postal_code' => '',
-        'country_id' => function () {
-            return factory(App\Models\Company\Country::class)->create()->id;
-        },
-        'latitude' => $faker->latitude,
-        'longitude' => $faker->longitude,
-        'placable_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([])->id;
-        },
-        'placable_type' => 'App\Models\Company\Employee',
-    ];
-});
-
 $factory->define(App\Models\Company\CompanyPTOPolicy::class, function () {
     return [
         'company_id' => function () {
@@ -167,31 +77,6 @@ $factory->define(App\Models\Company\CompanyPTOPolicy::class, function () {
         'default_amount_of_allowed_holidays' => 30,
         'default_amount_of_sick_days' => 3,
         'default_amount_of_pto_days' => 5,
-    ];
-});
-
-$factory->define(App\Models\Company\EmployeeDailyCalendarEntry::class, function () {
-    return [
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
-        },
-        'new_balance' => 10,
-        'daily_accrued_amount' => 1,
-        'current_holidays_per_year' => 100,
-        'default_amount_of_allowed_holidays_in_company' => 100,
-        'log_date' => '2010-01-01',
-    ];
-});
-
-$factory->define(App\Models\Company\EmployeePlannedHoliday::class, function () {
-    return [
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
-        },
-        'planned_date' => '2010-01-01',
-        'full' => true,
-        'actually_taken' => false,
-        'type' => 'holiday',
     ];
 });
 
@@ -223,34 +108,6 @@ $factory->define(App\Models\Company\WorkFromHome::class, function () {
     ];
 });
 
-$factory->define(App\Models\Company\Question::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'title' => 'What is your favorite movie?',
-        'active' => true,
-    ];
-});
-
-$factory->define(App\Models\Company\Answer::class, function () {
-    $companyId = factory(App\Models\Company\Company::class)->create()->id;
-
-    return [
-        'question_id' => function () use ($companyId) {
-            return factory(App\Models\Company\Question::class)->create([
-                'company_id' => $companyId,
-            ])->id;
-        },
-        'employee_id' => function () use ($companyId) {
-            return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $companyId,
-            ])->id;
-        },
-        'body' => 'This is my answer',
-    ];
-});
-
 $factory->define(App\Models\Company\Hardware::class, function () {
     return [
         'company_id' => function () {
@@ -274,78 +131,6 @@ $factory->define(App\Models\Company\Skill::class, function () {
             return factory(App\Models\Company\Company::class)->create()->id;
         },
         'name' => 'PHP',
-    ];
-});
-
-$factory->define(App\Models\Company\ExpenseCategory::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'name' => 'travel',
-    ];
-});
-
-$factory->define(App\Models\Company\Expense::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'employee_id' => function (array $data) {
-            return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $data['company_id'],
-            ])->id;
-        },
-        'expense_category_id' => function (array $data) {
-            return factory(App\Models\Company\ExpenseCategory::class)->create([
-                'company_id' => $data['company_id'],
-            ])->id;
-        },
-        'status' => 'created',
-        'title' => 'Restaurant',
-        'amount' => '100',
-        'currency' => 'USD',
-        'expensed_at' => '1999-01-01',
-    ];
-});
-
-$factory->define(App\Models\Company\RateYourManagerSurvey::class, function () {
-    return [
-        'manager_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
-        },
-        'active' => false,
-    ];
-});
-
-$factory->define(App\Models\Company\RateYourManagerAnswer::class, function () {
-    return [
-        'rate_your_manager_survey_id' => function () {
-            return factory(App\Models\Company\RateYourManagerSurvey::class)->create()->id;
-        },
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
-        },
-        'rating' => RateYourManagerAnswer::BAD,
-        'comment' => 'A really bad manager',
-    ];
-});
-
-$factory->define(App\Models\Company\OneOnOneEntry::class, function () {
-    $companyId = factory(App\Models\Company\Company::class)->create()->id;
-
-    return [
-        'manager_id' => function () use ($companyId) {
-            return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $companyId,
-            ])->id;
-        },
-        'employee_id' => function () use ($companyId) {
-            return factory(App\Models\Company\Employee::class)->create([
-                'company_id' => $companyId,
-            ])->id;
-        },
-        'happened_at' => '2020-03-02 00:00:00',
     ];
 });
 
@@ -375,23 +160,6 @@ $factory->define(App\Models\Company\OneOnOneNote::class, function () {
             return factory(App\Models\Company\OneOnOneEntry::class)->create([])->id;
         },
         'note' => 'what are you doing right now',
-    ];
-});
-
-$factory->define(App\Models\Company\GuessEmployeeGame::class, function () {
-    return [
-        'employee_who_played_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([])->id;
-        },
-        'employee_to_find_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([])->id;
-        },
-        'first_other_employee_to_find_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([])->id;
-        },
-        'second_other_employee_to_find_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([])->id;
-        },
     ];
 });
 
@@ -473,63 +241,5 @@ $factory->define(App\Models\Company\ProjectMessage::class, function () {
         },
         'title' => 'This is a title',
         'content' => 'This is a description',
-    ];
-});
-
-$factory->define(App\Models\User\User::class, function (Faker $faker) {
-    return [
-        'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-        'remember_token' => str_random(10),
-        'first_name' => $faker->firstName,
-        'last_name' => $faker->lastName,
-        'uuid' => $faker->uuid,
-        'show_help' => false,
-    ];
-});
-
-$factory->define(App\Models\User\Pronoun::class, function () {
-    return [
-        'label' => 'he/him',
-        'translation_key' => 'account.pronoun_he_him',
-    ];
-});
-
-$factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
-    return [
-        'team_id' => Team::factory()->create()->id,
-        'action' => 'account_created',
-        'author_id' => Employee::factory()->create()->id,
-        'author_name' => 'Dwight Schrute',
-        'audited_at' => $faker->dateTimeThisCentury(),
-        'objects' => '{"user": 1}',
-    ];
-});
-
-$factory->define(App\Models\Company\MoraleTeamHistory::class, function () {
-    return [
-        'team_id' => Team::factory()->create()->id,
-        'average' => 2.3,
-        'number_of_team_members' => 30,
-    ];
-});
-
-$factory->define(App\Models\Company\TeamUsefulLink::class, function () {
-    return [
-        'team_id' => Team::factory()->create()->id,
-        'type' => 'slack',
-        'label' => '#dunder-mifflin',
-        'url' => 'https://slack.com/dunder',
-    ];
-});
-
-$factory->define(App\Models\Company\TeamNews::class, function () {
-    return [
-        'team_id' => Team::factory()->create()->id,
-        'author_id' => Employee::factory()->create()->id,
-        'author_name' => 'Dwight Schrute',
-        'title' => 'Party at the office',
-        'content' => 'Michael and Dwight invite you to a party.',
     ];
 });

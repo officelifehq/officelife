@@ -15,7 +15,7 @@ class ChangeHelpPreferencesTest extends TestCase
     /** @test */
     public function it_sets_the_help_preference(): void
     {
-        $user = factory(User::class)->create([]);
+        $user = User::factory()->create([]);
 
         $request = [
             'user_id' => $user->id,

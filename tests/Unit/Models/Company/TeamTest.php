@@ -63,7 +63,7 @@ class TeamTest extends TestCase
     public function it_has_many_links()
     {
         $sales = Team::factory()->create([]);
-        factory(TeamUsefulLink::class, 2)->create([
+        TeamUsefulLink::factory()->count(2)->create([
             'team_id' => $sales->id,
         ]);
 
@@ -74,7 +74,7 @@ class TeamTest extends TestCase
     public function it_has_many_news()
     {
         $sales = Team::factory()->create([]);
-        factory(TeamNews::class, 2)->create([
+        TeamNews::factory()->count(2)->create([
             'team_id' => $sales->id,
         ]);
 

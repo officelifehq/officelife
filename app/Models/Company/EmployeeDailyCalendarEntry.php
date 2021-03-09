@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Keeps track of what happened during a day.
@@ -17,6 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class EmployeeDailyCalendarEntry extends Model
 {
+    use HasFactory;
+
     protected $table = 'employee_daily_calendar_entries';
 
     /**

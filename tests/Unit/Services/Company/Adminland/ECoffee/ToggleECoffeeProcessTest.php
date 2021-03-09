@@ -44,7 +44,7 @@ class ToggleECoffeeProcessTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = $this->createAdministrator();
-        factory(User::class)->create([]);
+        User::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -58,7 +58,7 @@ class ToggleECoffeeProcessTest extends TestCase
     {
         Queue::fake();
 
-        $user = factory(User::class)->create([]);
+        $user = User::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,

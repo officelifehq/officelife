@@ -54,7 +54,7 @@ class LogHelperTest extends TestCase
     {
         $team = Team::factory()->create([]);
 
-        $log = factory(TeamLog::class)->create([
+        $log = TeamLog::factory()->create([
             'action' => 'team_log_team_created',
             'objects' => json_encode([
                 'team_name' => $team->id,
@@ -96,7 +96,7 @@ class LogHelperTest extends TestCase
     /** @test */
     public function it_returns_empty_by_default_for_team_log(): void
     {
-        $log = factory(TeamLog::class)->create([
+        $log = TeamLog::factory()->create([
             'action' => '',
         ]);
 

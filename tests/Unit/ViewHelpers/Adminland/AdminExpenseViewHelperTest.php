@@ -16,7 +16,7 @@ class AdminExpenseViewHelperTest extends TestCase
     public function it_gets_information_about_expense_categories_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $category = factory(ExpenseCategory::class)->create([
+        $category = ExpenseCategory::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

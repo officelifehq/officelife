@@ -58,7 +58,7 @@ class RemoveActionfromStepTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $step = factory(Step::class)->create([
@@ -82,7 +82,7 @@ class RemoveActionfromStepTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $flow = factory(Flow::class)->create([]);
+        $flow = Flow::factory()->create([]);
         $step = factory(Step::class)->create([
             'flow_id' => $flow->id,
         ]);
@@ -103,7 +103,7 @@ class RemoveActionfromStepTest extends TestCase
 
     private function executeService(Employee $michael): void
     {
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $step = factory(Step::class)->create([

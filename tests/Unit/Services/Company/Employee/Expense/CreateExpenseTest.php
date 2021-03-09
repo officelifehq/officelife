@@ -107,7 +107,7 @@ class CreateExpenseTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $category = factory(ExpenseCategory::class)->create();
+        $category = ExpenseCategory::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $dwight, $category);

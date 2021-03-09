@@ -18,7 +18,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_has_many_employees(): void
     {
-        $user = factory(User::class)->create([]);
+        $user = User::factory()->create([]);
         Employee::factory(3)->create([
             'user_id' => $user->id,
         ]);
@@ -77,7 +77,7 @@ class UserTest extends TestCase
     public function it_gets_the_latest_notifications_for_the_user(): void
     {
         $dwight = Employee::factory()->create([]);
-        factory(Notification::class, 3)->create([
+        Notification::factory()->count(3)->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -88,7 +88,7 @@ class UserTest extends TestCase
             $result->count()
         );
 
-        factory(Notification::class, 2)->create([
+        Notification::factory()->count(2)->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -119,8 +119,8 @@ class UserTest extends TestCase
         FacadesNotification::fake();
 
         // be sure to have at least 2 users
-        factory(User::class)->create([]);
-        $user = factory(User::class)->create([
+        User::factory()->create([]);
+        $user = User::factory()->create([
             'email_verified_at' => null,
         ]);
         $user->sendEmailVerificationNotification();

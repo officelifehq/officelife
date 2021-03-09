@@ -42,8 +42,8 @@ class CreatePlaceTest extends TestCase
     public function it_sets_all_previous_places_to_inactive(): void
     {
         $michael = Employee::factory()->create([]);
-        $country = factory(Country::class)->create([]);
-        factory(Place::class, 3)->create([
+        $country = Country::factory()->create([]);
+        Place::factory()->count(3)->create([
             'placable_id' => $michael->id,
             'placable_type' => 'App\Models\Company\Employee',
             'is_active' => true,
@@ -91,8 +91,8 @@ class CreatePlaceTest extends TestCase
     public function it_doesnt_set_the_place_to_active(): void
     {
         $michael = Employee::factory()->create([]);
-        $country = factory(Country::class)->create([]);
-        factory(Place::class, 3)->create([
+        $country = Country::factory()->create([]);
+        Place::factory()->count(3)->create([
             'placable_id' => $michael->id,
             'placable_type' => 'App\Models\Company\Employee',
             'is_active' => true,
@@ -141,7 +141,7 @@ class CreatePlaceTest extends TestCase
     {
         Queue::fake();
 
-        $country = factory(Country::class)->create([]);
+        $country = Country::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,

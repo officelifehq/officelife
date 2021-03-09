@@ -15,7 +15,7 @@ class CompanyNewsCollectionTest extends TestCase
     public function it_returns_a_collection(): void
     {
         $michael = $this->createAdministrator();
-        factory(CompanyNews::class, 2)->create([
+        CompanyNews::factory()->count(2)->create([
             'company_id' => $michael->company_id,
         ]);
 

@@ -39,13 +39,13 @@ class DashboardMeViewHelperTest extends TestCase
     public function it_gets_the_information_about_the_current_active_question(): void
     {
         $michael = $this->createAdministrator();
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'Do you like Dwight',
             'active' => true,
         ]);
 
-        factory(Answer::class, 2)->create([
+        Answer::factory()->count(2)->create([
             'question_id' => $question->id,
         ]);
 
@@ -70,7 +70,7 @@ class DashboardMeViewHelperTest extends TestCase
             $response
         );
 
-        factory(Answer::class)->create([
+        Answer::factory()->create([
             'employee_id' => $michael->id,
             'question_id' => $question->id,
         ]);
@@ -132,7 +132,7 @@ class DashboardMeViewHelperTest extends TestCase
     public function it_gets_all_the_expense_categories_in_the_given_company(): void
     {
         $michael = $this->createAdministrator();
-        factory(ExpenseCategory::class, 2)->create([
+        ExpenseCategory::factory()->count(2)->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -159,14 +159,14 @@ class DashboardMeViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
             'converted_amount' => 123,
             'converted_to_currency' => 'EUR',
         ]);
 
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'status' => Expense::CREATED,
         ]);
