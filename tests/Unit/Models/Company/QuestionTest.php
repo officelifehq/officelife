@@ -33,7 +33,7 @@ class QuestionTest extends TestCase
     /** @test */
     public function it_returns_an_object(): void
     {
-        $dunder = factory(Company::class)->create([]);
+        $dunder = Company::factory()->create([]);
         $question = factory(Question::class)->create([
             'company_id' => $dunder->id,
             'title' => 'dunder',

@@ -61,7 +61,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = Employee::factory()->create();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -84,7 +84,7 @@ class RemoveEmployeeFromTeamTest extends TestCase
     {
         Queue::fake();
 
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
 

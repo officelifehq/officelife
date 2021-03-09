@@ -47,7 +47,7 @@ class UpdateSkillTest extends TestCase
         $this->expectException(SkillNameNotUniqueException::class);
         $michael = $this->createAdministrator();
 
-        factory(Team::class)->create([
+        Team::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'jira',
         ]);

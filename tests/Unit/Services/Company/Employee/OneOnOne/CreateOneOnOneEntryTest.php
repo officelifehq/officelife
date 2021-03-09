@@ -112,7 +112,7 @@ class CreateOneOnOneEntryTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $company = factory(Company::class)->create([]);
+        $company = Company::factory()->create([]);
         $michael->company_id = $company->id;
         $michael->save();
 

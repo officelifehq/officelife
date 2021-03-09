@@ -23,7 +23,7 @@ class QuestionControllerTest extends TestCase
         $question = factory(Question::class)->create([
             'company_id' => $employee->company_id,
         ]);
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $employee->company_id,
         ]);
         $answer = factory(Answer::class)->create([

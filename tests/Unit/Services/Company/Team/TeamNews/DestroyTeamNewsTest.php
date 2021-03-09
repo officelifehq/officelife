@@ -22,7 +22,7 @@ class DestroyTeamNewsTest extends TestCase
     public function it_destroys_a_company_news_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $news = factory(TeamNews::class)->create([
@@ -37,7 +37,7 @@ class DestroyTeamNewsTest extends TestCase
     public function it_destroys_a_company_news_as_hr(): void
     {
         $michael = $this->createHR();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $news = factory(TeamNews::class)->create([
@@ -52,7 +52,7 @@ class DestroyTeamNewsTest extends TestCase
     public function it_destroys_a_company_news_as_employee(): void
     {
         $michael = $this->createEmployee();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $news = factory(TeamNews::class)->create([
@@ -67,7 +67,7 @@ class DestroyTeamNewsTest extends TestCase
     public function it_cant_destroy_the_team_news_if_the_team_is_not_linked_to_the_company(): void
     {
         $michael = Employee::factory()->create();
-        $team = factory(Team::class)->create([]);
+        $team = Team::factory()->create([]);
         $news = factory(TeamNews::class)->create([
             'author_id' => $michael->id,
             'team_id' => $team->id,

@@ -105,7 +105,7 @@ class CompanyQuestionViewHelperTest extends TestCase
     public function it_gets_a_collection_of_teams(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

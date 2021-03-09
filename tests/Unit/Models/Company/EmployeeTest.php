@@ -61,10 +61,10 @@ class EmployeeTest extends TestCase
     public function it_has_many_teams(): void
     {
         $dwight = Employee::factory()->create([]);
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
-        $salesB = factory(Team::class)->create([
+        $salesB = Team::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
 
@@ -100,7 +100,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_logs(): void
     {
         $dwight = Employee::factory()->create();
-        factory(EmployeeLog::class, 2)->create([
+        EmployeeLog::factory()->count(2)->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -269,7 +269,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_ships(): void
     {
         $dwight = Employee::factory()->create([]);
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
         $featureA = factory(Ship::class)->create([
@@ -522,7 +522,7 @@ class EmployeeTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
-        $dunder = factory(Company::class)->create([]);
+        $dunder = Company::factory()->create([]);
         $dwight = factory(User::class)->create([]);
         $position = factory(Position::class)->create([
             'company_id' => $dunder->id,
@@ -750,7 +750,7 @@ class EmployeeTest extends TestCase
     public function it_checks_if_the_employee_is_in_a_given_team(): void
     {
         $dwight = Employee::factory()->create();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
 
@@ -764,7 +764,7 @@ class EmployeeTest extends TestCase
         $this->assertTrue($dwight->isInTeam($sales->id));
 
         $dwight = Employee::factory()->create();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
 

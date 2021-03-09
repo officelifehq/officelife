@@ -39,7 +39,7 @@ class UpdateDashboardViewTest extends TestCase
     public function it_fails_when_the_employee_doesnt_belong_to_the_company(): void
     {
         $employee = Employee::factory()->create();
-        $company = factory(Company::class)->create([]);
+        $company = Company::factory()->create([]);
 
         $request = [
             'employee_id' => $employee->id,

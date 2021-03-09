@@ -13,21 +13,21 @@ class EmployeeLogTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $employeeLog = factory(EmployeeLog::class)->create([]);
+        $employeeLog = EmployeeLog::factory()->create([]);
         $this->assertTrue($employeeLog->employee()->exists());
     }
 
     /** @test */
     public function it_belongs_to_an_author(): void
     {
-        $employeeLog = factory(EmployeeLog::class)->create([]);
+        $employeeLog = EmployeeLog::factory()->create([]);
         $this->assertTrue($employeeLog->author()->exists());
     }
 
     /** @test */
     public function it_returns_the_date_attribute(): void
     {
-        $employeeLog = factory(EmployeeLog::class)->create([
+        $employeeLog = EmployeeLog::factory()->create([
             'audited_at' => '2017-01-22 17:56:03',
         ]);
         $this->assertEquals(
@@ -39,7 +39,7 @@ class EmployeeLogTest extends ApiTestCase
     /** @test */
     public function it_returns_the_object_attribute(): void
     {
-        $employeeLog = factory(EmployeeLog::class)->create([]);
+        $employeeLog = EmployeeLog::factory()->create([]);
         $this->assertEquals(
             1,
             $employeeLog->object->{'user'}
@@ -51,7 +51,7 @@ class EmployeeLogTest extends ApiTestCase
     {
         $michael = $this->createAdministrator();
 
-        $auditLog = factory(EmployeeLog::class)->create([
+        $auditLog = EmployeeLog::factory()->create([
             'action' => 'employee_worklog_logged',
             'objects' => json_encode([
                 'author_id' => $michael->user->id,

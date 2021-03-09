@@ -1,79 +1,12 @@
 <?php
 
 use Carbon\Carbon;
+use App\Models\Company\Team;
 use Faker\Generator as Faker;
 use App\Models\Company\Project;
+use App\Models\Company\Employee;
 use App\Models\Company\ProjectStatus;
-use App\Models\Company\EmployeeStatus;
 use App\Models\Company\RateYourManagerAnswer;
-
-$factory->define(App\Models\Company\Company::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-    ];
-});
-
-$factory->define(App\Models\Company\Employee::class, function (Faker $faker) {
-    $companyId = factory(App\Models\Company\Company::class)->create()->id;
-
-    return [
-        'user_id' => factory(App\Models\User\User::class)->create()->id,
-        'company_id' => $companyId,
-        'position_id' => function () use ($companyId) {
-            return factory(App\Models\Company\Position::class)->create([
-                'company_id' => $companyId,
-            ])->id;
-        },
-        'pronoun_id' => function () {
-            return factory(App\Models\User\Pronoun::class)->create()->id;
-        },
-        'uuid' => $faker->uuid,
-        'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
-        'permission_level' => config('officelife.permission_level.administrator'),
-        'email' => 'dwigth@dundermifflin.com',
-        'phone_number' => '1234567',
-        'first_name' => 'Dwight',
-        'last_name' => 'Schrute',
-        'birthdate' => $faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
-        'consecutive_worklog_missed' => 0,
-        'employee_status_id' => function () use ($companyId) {
-            return EmployeeStatus::factory()->create([
-                'company_id' => $companyId,
-            ])->id;
-        },
-        'amount_of_allowed_holidays' => 30,
-    ];
-});
-
-$factory->define(App\Models\Company\AuditLog::class, function (Faker $faker) {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'action' => 'account_created',
-        'author_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([]);
-        },
-        'author_name' => 'Dwight Schrute',
-        'audited_at' => $faker->dateTimeThisCentury(),
-        'objects' => '{"user": 1}',
-    ];
-});
-
-$factory->define(App\Models\Company\EmployeeLog::class, function (Faker $faker) {
-    return [
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
-        },
-        'action' => 'account_created',
-        'author_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create([]);
-        },
-        'author_name' => 'Dwight Schrute',
-        'audited_at' => $faker->dateTimeThisCentury(),
-        'objects' => '{"user": 1}',
-    ];
-});
 
 $factory->define(App\Models\Company\DirectReport::class, function () {
     return [
@@ -330,9 +263,7 @@ $factory->define(App\Models\Company\Hardware::class, function () {
 
 $factory->define(App\Models\Company\Ship::class, function () {
     return [
-        'team_id' => function () {
-            return factory(App\Models\Company\Team::class)->create()->id;
-        },
+        'team_id' => Team::factory()->create()->id,
         'title' => 'New API',
     ];
 });
@@ -562,5 +493,43 @@ $factory->define(App\Models\User\Pronoun::class, function () {
     return [
         'label' => 'he/him',
         'translation_key' => 'account.pronoun_he_him',
+    ];
+});
+
+$factory->define(App\Models\Company\TeamLog::class, function (Faker $faker) {
+    return [
+        'team_id' => Team::factory()->create()->id,
+        'action' => 'account_created',
+        'author_id' => Employee::factory()->create()->id,
+        'author_name' => 'Dwight Schrute',
+        'audited_at' => $faker->dateTimeThisCentury(),
+        'objects' => '{"user": 1}',
+    ];
+});
+
+$factory->define(App\Models\Company\MoraleTeamHistory::class, function () {
+    return [
+        'team_id' => Team::factory()->create()->id,
+        'average' => 2.3,
+        'number_of_team_members' => 30,
+    ];
+});
+
+$factory->define(App\Models\Company\TeamUsefulLink::class, function () {
+    return [
+        'team_id' => Team::factory()->create()->id,
+        'type' => 'slack',
+        'label' => '#dunder-mifflin',
+        'url' => 'https://slack.com/dunder',
+    ];
+});
+
+$factory->define(App\Models\Company\TeamNews::class, function () {
+    return [
+        'team_id' => Team::factory()->create()->id,
+        'author_id' => Employee::factory()->create()->id,
+        'author_name' => 'Dwight Schrute',
+        'title' => 'Party at the office',
+        'content' => 'Michael and Dwight invite you to a party.',
     ];
 });

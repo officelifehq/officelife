@@ -59,10 +59,10 @@ class ProjectTest extends TestCase
     public function it_belongs_to_many_teams(): void
     {
         $project = factory(Project::class)->create();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $project->company_id,
         ]);
-        $marketing = factory(Team::class)->create([
+        $marketing = Team::factory()->create([
             'company_id' => $project->company_id,
         ]);
 

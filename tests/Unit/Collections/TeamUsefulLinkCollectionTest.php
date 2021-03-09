@@ -15,7 +15,7 @@ class TeamUsefulLinkCollectionTest extends TestCase
     /** @test */
     public function it_returns_a_collection(): void
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         factory(TeamUsefulLink::class, 2)->create([
             'team_id' => $sales->id,
         ]);

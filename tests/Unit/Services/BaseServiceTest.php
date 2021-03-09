@@ -71,7 +71,7 @@ class BaseServiceTest extends TestCase
     /** @test */
     public function it_validates_that_the_employee_belongs_to_the_company(): void
     {
-        $dunder = factory(Company::class)->create([]);
+        $dunder = Company::factory()->create([]);
         $michael = Employee::factory()->create([
             'company_id' => $dunder->id,
         ]);
@@ -88,7 +88,7 @@ class BaseServiceTest extends TestCase
         );
 
         // it throws an exception if the employee doesn't belong to the company
-        $dunder = factory(Company::class)->create([]);
+        $dunder = Company::factory()->create([]);
         $michael = $this->createAdministrator();
 
         $stub = $this->getMockForAbstractClass(BaseService::class);
@@ -103,8 +103,8 @@ class BaseServiceTest extends TestCase
     /** @test */
     public function it_validates_that_the_team_belongs_to_the_company(): void
     {
-        $dunder = factory(Company::class)->create([]);
-        $sales = factory(Team::class)->create([
+        $dunder = Company::factory()->create([]);
+        $sales = Team::factory()->create([
             'company_id' => $dunder->id,
         ]);
 
@@ -120,8 +120,8 @@ class BaseServiceTest extends TestCase
         );
 
         // it throws an exception if the employee doesn't belong to the company
-        $dunder = factory(Company::class)->create([]);
-        $sales = factory(Team::class)->create([]);
+        $dunder = Company::factory()->create([]);
+        $sales = Team::factory()->create([]);
 
         $stub = $this->getMockForAbstractClass(BaseService::class);
 
@@ -200,7 +200,7 @@ class BaseServiceTest extends TestCase
         // test that it returns an exception if the company and the employee
         // doesn't match
         $michael = $this->createAdministrator();
-        $dunder = factory(Company::class)->create([]);
+        $dunder = Company::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $stub->author($michael->id)

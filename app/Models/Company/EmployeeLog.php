@@ -6,12 +6,15 @@ use App\Helpers\LogHelper;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Audit log at the employee level.
  */
 class EmployeeLog extends Model
 {
+    use HasFactory;
+
     protected $table = 'employee_logs';
 
     /**

@@ -20,7 +20,7 @@ class DashboardTeamViewHelperTest extends TestCase
     public function it_gets_a_collection_of_birthdates(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         $michael = Employee::factory()->create([
             'birthdate' => null,
             'company_id' => $sales->company_id,
@@ -78,7 +78,7 @@ class DashboardTeamViewHelperTest extends TestCase
     public function it_gets_a_collection_of_people_working_from_home(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         $michael = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
@@ -131,7 +131,7 @@ class DashboardTeamViewHelperTest extends TestCase
     public function it_gets_a_collection_of_recent_ships(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $featureA = factory(Ship::class)->create([
@@ -186,7 +186,7 @@ class DashboardTeamViewHelperTest extends TestCase
     public function it_gets_a_collection_of_teams(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -209,7 +209,7 @@ class DashboardTeamViewHelperTest extends TestCase
     public function it_gets_the_list_of_worklogs_for_a_given_team_and_a_given_day(): void
     {
         $date = Carbon::now();
-        $team = factory(Team::class)->create([]);
+        $team = Team::factory()->create([]);
 
         // making employees
         $dwight = Employee::factory()->create([
@@ -247,7 +247,7 @@ class DashboardTeamViewHelperTest extends TestCase
     public function it_gets_a_list_of_upcoming_new_hires(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
-        $team = factory(Team::class)->create([]);
+        $team = Team::factory()->create([]);
 
         // making employees
         $dwight = Employee::factory()->create([
@@ -293,7 +293,7 @@ class DashboardTeamViewHelperTest extends TestCase
     public function it_gets_a_list_of_upcoming_hiring_date_anniversaries(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
-        $team = factory(Team::class)->create([]);
+        $team = Team::factory()->create([]);
 
         // making employees
         $dwight = Employee::factory()->create([

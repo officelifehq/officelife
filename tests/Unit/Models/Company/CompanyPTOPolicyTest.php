@@ -33,7 +33,7 @@ class CompanyPTOPolicyTest extends ApiTestCase
     /** @test */
     public function it_returns_an_object(): void
     {
-        $dunder = factory(Company::class)->create([]);
+        $dunder = Company::factory()->create([]);
         $ptoPolicy = factory(CompanyPTOPolicy::class)->create([
             'company_id' => $dunder->id,
             'year' => 2020,

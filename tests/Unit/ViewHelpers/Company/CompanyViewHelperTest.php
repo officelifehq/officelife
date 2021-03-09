@@ -25,7 +25,7 @@ class CompanyViewHelperTest extends TestCase
     public function it_gets_statistics_about_the_company(): void
     {
         $michael = $this->createAdministrator();
-        factory(Team::class, 2)->create([
+        Team::factory()->count(2)->create([
             'company_id' => $michael->company_id,
         ]);
         Employee::factory(2)->create([
@@ -89,7 +89,7 @@ class CompanyViewHelperTest extends TestCase
         // so first day of week is Monday, Jan 8th
         // last day is Sunday, Jan 14th
         Carbon::setTestNow(Carbon::create(2018, 1, 10));
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
 
         //creating a bunch of employees that should not be in the list of birthdates
         $michael = Employee::factory()->create([
@@ -150,7 +150,7 @@ class CompanyViewHelperTest extends TestCase
     public function it_gets_the_new_hires_in_the_current_week(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 4));
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         $michael = Employee::factory()->create([
             'hired_at' => null,
             'company_id' => $sales->company_id,
@@ -207,8 +207,8 @@ class CompanyViewHelperTest extends TestCase
     public function it_gets_the_latest_ships_created_in_the_company(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 4));
-        $sales = factory(Team::class)->create([]);
-        $marketing = factory(Team::class)->create([
+        $sales = Team::factory()->create([]);
+        $marketing = Team::factory()->create([
             'company_id' => $sales->company_id,
         ]);
 

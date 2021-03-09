@@ -19,7 +19,7 @@ class EmployeeLogViewHelperTest extends TestCase
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);
-        $log = factory(EmployeeLog::class)->create([
+        $log = EmployeeLog::factory()->create([
             'author_id' => $michael->id,
             'employee_id' => $michael->id,
             'author_name' => 'michael scott',

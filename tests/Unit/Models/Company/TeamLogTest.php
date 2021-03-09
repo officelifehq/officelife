@@ -33,7 +33,7 @@ class TeamLogTest extends ApiTestCase
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $log = factory(TeamLog::class)->create([

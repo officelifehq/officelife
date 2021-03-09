@@ -20,14 +20,14 @@ class TeamTest extends TestCase
     /** @test */
     public function it_belongs_to_company()
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         $this->assertTrue($sales->company()->exists());
     }
 
     /** @test */
     public function it_has_many_employees()
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         $dwight = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);
@@ -44,7 +44,7 @@ class TeamTest extends TestCase
     /** @test */
     public function it_has_many_ships()
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         factory(Ship::class, 2)->create([
             'team_id' => $sales->id,
         ]);
@@ -55,14 +55,14 @@ class TeamTest extends TestCase
     /** @test */
     public function it_has_a_leader()
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         $this->assertTrue($sales->leader()->exists());
     }
 
     /** @test */
     public function it_has_many_links()
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         factory(TeamUsefulLink::class, 2)->create([
             'team_id' => $sales->id,
         ]);
@@ -73,7 +73,7 @@ class TeamTest extends TestCase
     /** @test */
     public function it_has_many_news()
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         factory(TeamNews::class, 2)->create([
             'team_id' => $sales->id,
         ]);
@@ -84,7 +84,7 @@ class TeamTest extends TestCase
     /** @test */
     public function it_has_many_projects()
     {
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         $apiv3 = factory(Project::class)->create([
             'company_id' => $sales->company_id,
         ]);
@@ -102,7 +102,7 @@ class TeamTest extends TestCase
     public function it_returns_the_number_of_team_members_who_have_completed_a_worklog_at_a_given_time()
     {
         $date = Carbon::now();
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
         $dwight = Employee::factory()->create([
             'company_id' => $sales->company_id,
         ]);

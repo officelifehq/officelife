@@ -30,7 +30,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'currency' => 'USD',
         ]);
         $employee = Employee::factory()->create([
@@ -74,7 +74,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'currency' => 'USD',
         ]);
         $employee = Employee::factory()->create([
@@ -110,7 +110,7 @@ class ConvertAmountFromOneCurrencyToCompanyCurrencyTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $company = factory(Company::class)->create([
+        $company = Company::factory()->create([
             'currency' => 'CAD',
         ]);
         $employee = Employee::factory()->create([

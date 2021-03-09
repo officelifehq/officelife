@@ -19,7 +19,7 @@ class LogAccountActionTest extends TestCase
     /** @test */
     public function it_logs_an_action(): void
     {
-        $company = factory(Company::class)->create([]);
+        $company = Company::factory()->create([]);
         $michael = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
@@ -30,7 +30,7 @@ class LogAccountActionTest extends TestCase
     /** @test */
     public function it_fails_if_the_author_is_not_in_the_company(): void
     {
-        $company = factory(Company::class)->create([]);
+        $company = Company::factory()->create([]);
         $michael = Employee::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);

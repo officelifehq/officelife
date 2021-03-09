@@ -98,7 +98,7 @@ class NotificationHelperTest extends TestCase
     public function it_manages_the_case_when_an_employee_has_been_added_to_the_team(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -124,7 +124,7 @@ class NotificationHelperTest extends TestCase
     public function it_manages_the_case_when_an_employee_has_been_removed_from_the_team(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -150,7 +150,7 @@ class NotificationHelperTest extends TestCase
     public function it_manages_the_case_when_an_employee_has_been_promoted_to_a_team_lead(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -176,7 +176,7 @@ class NotificationHelperTest extends TestCase
     public function it_manages_the_case_when_an_employee_has_been_demoted_from_a_position_of_team_lead(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

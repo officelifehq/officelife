@@ -66,7 +66,7 @@ class UserTest extends TestCase
     public function it_fails_to_get_the_employee_object_is_user_is_not_part_of_the_company(): void
     {
         $dwight = Employee::factory()->create([]);
-        $company = factory(Company::class)->create([]);
+        $company = Company::factory()->create([]);
 
         $this->assertNull(
             $dwight->user->getEmployeeObjectForCompany($company)
@@ -104,7 +104,7 @@ class UserTest extends TestCase
     public function it_fails_to_get_the_latest_notifications_if_the_user_does_not_have_a_company(): void
     {
         $dwight = Employee::factory()->create([]);
-        $company = factory(Company::class)->create([]);
+        $company = Company::factory()->create([]);
 
         $result = $dwight->user->getLatestNotifications($company);
 

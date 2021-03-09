@@ -25,7 +25,7 @@ class TeamShowViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
             'locked' => true,
         ]);
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -67,7 +67,7 @@ class TeamShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_recent_ships(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $featureA = factory(Ship::class)->create([

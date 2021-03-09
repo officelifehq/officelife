@@ -19,13 +19,13 @@ class AuditLogCollectionTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
 
-        $auditLogA = factory(AuditLog::class)->create([
+        $auditLogA = AuditLog::factory()->create([
             'author_id' => $michael->id,
             'author_name' => $michael->name,
             'company_id' => $michael->company_id,
             'audited_at' => '2020-01-12 00:00:00',
         ]);
-        factory(AuditLog::class)->create([
+        AuditLog::factory()->create([
             'author_id' => $dwight->id,
             'author_name' => $dwight->name,
             'company_id' => $michael->company_id,

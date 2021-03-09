@@ -20,7 +20,7 @@ class ProcessTeamMoraleTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
