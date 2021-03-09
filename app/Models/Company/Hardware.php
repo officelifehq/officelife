@@ -6,11 +6,13 @@ use App\Traits\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Hardware extends Model
 {
     use LogsActivity,
-        Searchable;
+        Searchable,
+        HasFactory;
 
     /**
      * The table associated with the model.

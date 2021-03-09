@@ -19,10 +19,10 @@ class ProjectViewHelperTest extends TestCase
     public function it_gets_the_list_of_projects(): void
     {
         $michael = $this->createAdministrator();
-        $projectA = factory(Project::class)->create([
+        $projectA = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectB = factory(Project::class)->create([
+        $projectB = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -56,7 +56,7 @@ class ProjectViewHelperTest extends TestCase
     public function it_gets_information_about_the_project_summary(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
             'project_lead_id' => $michael->id,
         ]);
@@ -158,7 +158,7 @@ class ProjectViewHelperTest extends TestCase
     public function it_shows_information_to_edit_a_project(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -179,7 +179,7 @@ class ProjectViewHelperTest extends TestCase
     public function it_shows_information_about_the_permissions_of_the_logged_user(): void
     {
         $michael = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -226,7 +226,7 @@ class ProjectViewHelperTest extends TestCase
         $tom = $this->createAnotherEmployee($michael);
         $pam = $this->createAnotherEmployee($michael);
         $jenny = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);

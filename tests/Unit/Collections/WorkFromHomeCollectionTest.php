@@ -15,7 +15,7 @@ class WorkFromHomeCollectionTest extends TestCase
     public function it_returns_a_collection(): void
     {
         $michael = $this->createAdministrator();
-        factory(WorkFromHome::class, 2)->create([
+        WorkFromHome::factory()->count(2)->create([
             'employee_id' => $michael->id,
         ]);
 

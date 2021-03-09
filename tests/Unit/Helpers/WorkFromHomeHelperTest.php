@@ -17,7 +17,7 @@ class WorkFromHomeHelperTest extends TestCase
     {
         $date = Carbon::createFromDate(2010, 10, 10);
         $dwight = $this->createAdministrator();
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $dwight->id,
             'date' => '2010-10-10 00:00:00',
         ]);

@@ -21,11 +21,11 @@ class EmployeeWorkFromHomeViewHelperTest extends TestCase
         $michael = Employee::factory()->asAdministrator()->create([]);
 
         // logging worklogs
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2020-01-01 00:00:00',
         ]);
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '1990-01-01 00:00:00',
         ]);
@@ -57,15 +57,15 @@ class EmployeeWorkFromHomeViewHelperTest extends TestCase
     {
         $michael = Employee::factory()->asAdministrator()->create([]);
 
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2020-01-01',
         ]);
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2020-02-01',
         ]);
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2020-03-01',
         ]);

@@ -45,7 +45,7 @@ class TeamTest extends TestCase
     public function it_has_many_ships()
     {
         $sales = Team::factory()->create([]);
-        factory(Ship::class, 2)->create([
+        Ship::factory()->count(2)->create([
             'team_id' => $sales->id,
         ]);
 
@@ -85,10 +85,10 @@ class TeamTest extends TestCase
     public function it_has_many_projects()
     {
         $sales = Team::factory()->create([]);
-        $apiv3 = factory(Project::class)->create([
+        $apiv3 = Project::factory()->create([
             'company_id' => $sales->company_id,
         ]);
-        $apiv4 = factory(Project::class)->create([
+        $apiv4 = Project::factory()->create([
             'company_id' => $sales->company_id,
         ]);
 

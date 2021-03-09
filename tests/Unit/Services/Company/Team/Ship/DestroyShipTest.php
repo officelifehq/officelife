@@ -25,7 +25,7 @@ class DestroyShipTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -39,7 +39,7 @@ class DestroyShipTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -53,7 +53,7 @@ class DestroyShipTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -75,7 +75,7 @@ class DestroyShipTest extends TestCase
     public function it_fails_if_the_ship_entry_is_not_part_of_the_company(): void
     {
         $michael = $this->createHR();
-        $ship = factory(Ship::class)->create([]);
+        $ship = Ship::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $ship);

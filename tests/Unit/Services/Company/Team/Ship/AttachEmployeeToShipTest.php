@@ -27,7 +27,7 @@ class AttachEmployeeToShipTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -42,7 +42,7 @@ class AttachEmployeeToShipTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -57,7 +57,7 @@ class AttachEmployeeToShipTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -69,7 +69,7 @@ class AttachEmployeeToShipTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $team = Team::factory()->create([]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 

@@ -18,7 +18,7 @@ class CompanySkillViewHelperTest extends TestCase
     public function it_gets_the_information_about_skills_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'php',
         ]);
@@ -56,14 +56,14 @@ class CompanySkillViewHelperTest extends TestCase
 
         $dwight = $this->createAnotherEmployee($michael);
 
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'php',
         ]);
         $skill->employees()->attach([$michael->id]);
         $skill->employees()->attach([$dwight->id]);
 
-        $skillB = factory(Skill::class)->create([
+        $skillB = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'java',
         ]);

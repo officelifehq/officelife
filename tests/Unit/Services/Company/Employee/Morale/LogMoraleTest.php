@@ -64,7 +64,7 @@ class LogMoraleTest extends TestCase
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
         $michael = Employee::factory()->create();
-        factory(Morale::class)->create([
+        Morale::factory()->create([
             'employee_id' => $michael->id,
             'created_at' => now(),
         ]);

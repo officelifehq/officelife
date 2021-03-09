@@ -31,11 +31,11 @@ class AdminHardwareViewHelperTest extends TestCase
     public function it_gets_the_information_about_hardware_used_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $androidPhone = factory(Hardware::class)->create([
+        $androidPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'Android phone',
         ]);
-        $iosPhone = factory(Hardware::class)->create([
+        $iosPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'iOS phone',
             'employee_id' => $michael->id,
@@ -101,11 +101,11 @@ class AdminHardwareViewHelperTest extends TestCase
     public function it_gets_the_information_about_available_hardware_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $androidPhone = factory(Hardware::class)->create([
+        $androidPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'Android phone',
         ]);
-        $iosPhone = factory(Hardware::class)->create([
+        $iosPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'iOS phone',
             'employee_id' => $michael->id,
@@ -137,11 +137,11 @@ class AdminHardwareViewHelperTest extends TestCase
     public function it_gets_the_information_about_lent_hardware_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $androidPhone = factory(Hardware::class)->create([
+        $androidPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'Android phone',
         ]);
-        $iosPhone = factory(Hardware::class)->create([
+        $iosPhone = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'iOS phone',
             'employee_id' => $michael->id,

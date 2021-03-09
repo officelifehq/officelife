@@ -171,7 +171,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_morale(): void
     {
         $dwight = Employee::factory()->create();
-        factory(Morale::class, 2)->create([
+        Morale::factory()->count(2)->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -235,7 +235,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_work_from_homes(): void
     {
         $dwight = Employee::factory()->create();
-        factory(WorkFromHome::class, 2)->create([
+        WorkFromHome::factory()->count(2)->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -257,7 +257,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_hardware(): void
     {
         $dwight = Employee::factory()->create();
-        factory(Hardware::class, 2)->create([
+        Hardware::factory()->count(2)->create([
             'company_id' => $dwight->company_id,
             'employee_id' => $dwight->id,
         ]);
@@ -272,7 +272,7 @@ class EmployeeTest extends TestCase
         $sales = Team::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $sales->id,
         ]);
 
@@ -285,7 +285,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_skills(): void
     {
         $dwight = Employee::factory()->create([]);
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
 
@@ -397,7 +397,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_projects(): void
     {
         $dwight = Employee::factory()->create();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
 
@@ -450,7 +450,7 @@ class EmployeeTest extends TestCase
     public function it_gets_the_projects_that_the_employee_leads(): void
     {
         $dwight = Employee::factory()->create();
-        factory(Project::class, 2)->create([
+        Project::factory()->count(2)->create([
             'project_lead_id' => $dwight->id,
         ]);
 
@@ -673,7 +673,7 @@ class EmployeeTest extends TestCase
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
         $dwight = Employee::factory()->create([]);
-        factory(Morale::class)->create([
+        Morale::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => now(),
         ]);
@@ -681,7 +681,7 @@ class EmployeeTest extends TestCase
         $this->assertTrue($dwight->hasAlreadyLoggedMoraleToday());
 
         $dwight = Employee::factory()->create([]);
-        factory(Morale::class)->create([
+        Morale::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => Carbon::yesterday(),
         ]);
@@ -794,7 +794,7 @@ class EmployeeTest extends TestCase
     public function it_checks_if_the_employee_is_in_a_given_project(): void
     {
         $dwight = Employee::factory()->create();
-        $api = factory(Project::class)->create([
+        $api = Project::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
 
@@ -803,7 +803,7 @@ class EmployeeTest extends TestCase
         $this->assertTrue($dwight->isInProject($api->id));
 
         $dwight = Employee::factory()->create();
-        $api = factory(Project::class)->create([
+        $api = Project::factory()->create([
             'company_id' => $dwight->company_id,
         ]);
 

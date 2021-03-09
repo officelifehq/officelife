@@ -1,9 +1,6 @@
 <?php
 
 use Carbon\Carbon;
-use App\Models\Company\Team;
-use Faker\Generator as Faker;
-use App\Models\Company\Project;
 use App\Models\Company\ProjectStatus;
 
 $factory->define(App\Models\Company\Step::class, function () {
@@ -47,16 +44,6 @@ $factory->define(App\Models\Company\Worklog::class, function () {
     ];
 });
 
-$factory->define(App\Models\Company\Morale::class, function () {
-    return [
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
-        },
-        'emotion' => 1,
-        'comment' => 'I hate Toby',
-    ];
-});
-
 $factory->define(App\Models\Company\MoraleCompanyHistory::class, function () {
     return [
         'company_id' => function () {
@@ -92,48 +79,6 @@ $factory->define(App\Models\Company\CompanyCalendar::class, function () {
     ];
 });
 
-$factory->define(App\Models\Company\Company::class, function (Faker $faker) {
-    return [
-        'name' => $faker->name,
-    ];
-});
-
-$factory->define(App\Models\Company\WorkFromHome::class, function () {
-    return [
-        'employee_id' => function () {
-            return factory(App\Models\Company\Employee::class)->create()->id;
-        },
-        'date' => '2010-01-01',
-        'work_from_home' => true,
-    ];
-});
-
-$factory->define(App\Models\Company\Hardware::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'name' => 'iPhone',
-        'serial_number' => '123',
-    ];
-});
-
-$factory->define(App\Models\Company\Ship::class, function () {
-    return [
-        'team_id' => Team::factory()->create()->id,
-        'title' => 'New API',
-    ];
-});
-
-$factory->define(App\Models\Company\Skill::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'name' => 'PHP',
-    ];
-});
-
 $factory->define(App\Models\Company\OneOnOneTalkingPoint::class, function () {
     return [
         'one_on_one_entry_id' => function () {
@@ -160,18 +105,6 @@ $factory->define(App\Models\Company\OneOnOneNote::class, function () {
             return factory(App\Models\Company\OneOnOneEntry::class)->create([])->id;
         },
         'note' => 'what are you doing right now',
-    ];
-});
-
-$factory->define(App\Models\Company\Project::class, function () {
-    return [
-        'company_id' => function () {
-            return factory(App\Models\Company\Company::class)->create()->id;
-        },
-        'name' => 'API v3',
-        'code' => '123456',
-        'description' => 'it is going well',
-        'status' => Project::CREATED,
     ];
 });
 

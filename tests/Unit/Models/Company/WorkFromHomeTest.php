@@ -14,7 +14,7 @@ class WorkFromHomeTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $workFromHome = factory(WorkFromHome::class)->create([]);
+        $workFromHome = WorkFromHome::factory()->create([]);
         $this->assertTrue($workFromHome->employee()->exists());
     }
 
@@ -25,7 +25,7 @@ class WorkFromHomeTest extends ApiTestCase
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);
-        $entry = factory(WorkFromHome::class)->create([
+        $entry = WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2020-01-12 00:00:00',
         ]);

@@ -21,7 +21,7 @@ class UpdateProjectMessageTest extends TestCase
     public function it_updates_the_project_message_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectMessage = factory(ProjectMessage::class)->create([
@@ -34,7 +34,7 @@ class UpdateProjectMessageTest extends TestCase
     public function it_updates_the_project_message_as_hr(): void
     {
         $michael = $this->createHR();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectMessage = factory(ProjectMessage::class)->create([
@@ -47,7 +47,7 @@ class UpdateProjectMessageTest extends TestCase
     public function it_updates_the_project_message_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectMessage = factory(ProjectMessage::class)->create([
@@ -60,7 +60,7 @@ class UpdateProjectMessageTest extends TestCase
     public function it_fails_if_project_is_not_part_of_the_company(): void
     {
         $michael = Employee::factory()->create();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $projectMessage = factory(ProjectMessage::class)->create([
             'project_id' => $project->id,
@@ -73,7 +73,7 @@ class UpdateProjectMessageTest extends TestCase
     public function it_fails_if_project_message_is_not_part_of_the_project(): void
     {
         $michael = Employee::factory()->create();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $projectMessage = factory(ProjectMessage::class)->create([]);
 
         $this->expectException(ModelNotFoundException::class);

@@ -21,7 +21,7 @@ class MarkProjectMessageasReadTest extends TestCase
     public function it_reads_a_message_from_a_project_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectMessage = factory(ProjectMessage::class)->create([
@@ -34,7 +34,7 @@ class MarkProjectMessageasReadTest extends TestCase
     public function it_reads_a_message_from_a_project_as_hr(): void
     {
         $michael = $this->createHR();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectMessage = factory(ProjectMessage::class)->create([
@@ -47,7 +47,7 @@ class MarkProjectMessageasReadTest extends TestCase
     public function it_reads_a_message_from_a_project_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectMessage = factory(ProjectMessage::class)->create([
@@ -71,7 +71,7 @@ class MarkProjectMessageasReadTest extends TestCase
     public function it_fails_if_the_project_is_not_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $projectMessage = factory(ProjectMessage::class)->create([
             'project_id' => $project->id,
         ]);
@@ -84,7 +84,7 @@ class MarkProjectMessageasReadTest extends TestCase
     public function it_fails_if_the_project_message_is_not_part_of_the_project(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectMessage = factory(ProjectMessage::class)->create([]);

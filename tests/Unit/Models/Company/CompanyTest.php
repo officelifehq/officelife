@@ -133,7 +133,7 @@ class CompanyTest extends TestCase
     public function it_has_many_hardware(): void
     {
         $company = Company::factory()->create();
-        factory(Hardware::class, 2)->create([
+        Hardware::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -144,7 +144,7 @@ class CompanyTest extends TestCase
     public function it_has_many_skills(): void
     {
         $company = Company::factory()->create();
-        factory(Skill::class, 2)->create([
+        Skill::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -188,7 +188,7 @@ class CompanyTest extends TestCase
     public function it_has_many_projects(): void
     {
         $company = Company::factory()->create();
-        factory(Project::class, 2)->create([
+        Project::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 

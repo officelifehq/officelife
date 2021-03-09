@@ -21,12 +21,12 @@ class ProcessCompanyMoraleTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
 
-        factory(Morale::class)->create([
+        Morale::factory()->create([
             'employee_id' => $michael->id,
             'emotion' => 1,
         ]);
 
-        factory(Morale::class)->create([
+        Morale::factory()->create([
             'employee_id' => $dwight->id,
             'emotion' => 3,
         ]);

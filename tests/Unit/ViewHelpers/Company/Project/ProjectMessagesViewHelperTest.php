@@ -21,7 +21,7 @@ class ProjectMessagesViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $jim = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectMessageA = factory(ProjectMessage::class)->create([
@@ -75,7 +75,7 @@ class ProjectMessagesViewHelperTest extends TestCase
     public function it_gets_an_array_containing_all_the_information_about_a_given_message(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectMessage = factory(ProjectMessage::class)->create([

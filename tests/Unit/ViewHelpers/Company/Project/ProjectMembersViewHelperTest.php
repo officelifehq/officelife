@@ -17,7 +17,7 @@ class ProjectMembersViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $jim = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([
@@ -81,7 +81,7 @@ class ProjectMembersViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([

@@ -14,14 +14,14 @@ class SkillTest extends TestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $skill = factory(Skill::class)->create([]);
+        $skill = Skill::factory()->create([]);
         $this->assertTrue($skill->company()->exists());
     }
 
     /** @test */
     public function it_has_many_employees(): void
     {
-        $skill = factory(Skill::class)->create();
+        $skill = Skill::factory()->create();
         $dwight = Employee::factory()->create([
             'company_id' => $skill->company_id,
         ]);

@@ -30,7 +30,7 @@ class ProjectTest extends TestCase
     public function it_has_one_lead(): void
     {
         $dwight = Employee::factory()->create();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $dwight->company_id,
             'project_lead_id' => $dwight->id,
         ]);
@@ -41,7 +41,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_belongs_to_many_employees(): void
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $dwight = Employee::factory()->create([
             'company_id' => $project->company_id,
         ]);
@@ -58,7 +58,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_belongs_to_many_teams(): void
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $sales = Team::factory()->create([
             'company_id' => $project->company_id,
         ]);
@@ -75,7 +75,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_has_many_links(): void
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         factory(ProjectLink::class, 2)->create([
             'project_id' => $project->id,
         ]);
@@ -86,7 +86,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_has_many_statuses(): void
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         factory(ProjectStatus::class, 2)->create([
             'project_id' => $project->id,
         ]);
@@ -97,7 +97,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_has_many_decisions(): void
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         factory(ProjectDecision::class, 2)->create([
             'project_id' => $project->id,
         ]);
@@ -108,7 +108,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_has_many_messages(): void
     {
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         factory(ProjectMessage::class, 2)->create([
             'project_id' => $project->id,
         ]);

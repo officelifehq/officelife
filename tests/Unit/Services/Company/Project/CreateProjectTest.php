@@ -61,7 +61,7 @@ class CreateProjectTest extends TestCase
     {
         $michael = Employee::factory()->create([]);
         $jim = $this->createAnotherEmployee($michael);
-        factory(Project::class)->create([
+        Project::factory()->create([
             'company_id' => $michael->company_id,
             'status' => Project::CREATED,
             'code' => '123',

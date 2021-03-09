@@ -22,7 +22,7 @@ class DestroyProjectLinkTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectLink = factory(ProjectLink::class)->create([
@@ -36,7 +36,7 @@ class DestroyProjectLinkTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectLink = factory(ProjectLink::class)->create([
@@ -49,7 +49,7 @@ class DestroyProjectLinkTest extends TestCase
     public function it_destroys_a_link_to_a_project_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectLink = factory(ProjectLink::class)->create([
@@ -74,7 +74,7 @@ class DestroyProjectLinkTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
         $projectLink = factory(ProjectLink::class)->create([
             'project_id' => $project->id,
         ]);
@@ -88,7 +88,7 @@ class DestroyProjectLinkTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectLink = factory(ProjectLink::class)->create([]);

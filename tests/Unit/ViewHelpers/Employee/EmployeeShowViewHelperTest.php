@@ -226,22 +226,22 @@ class EmployeeShowViewHelperTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 10, 10));
 
         $michael = $this->createAdministrator();
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2010-01-01',
             'work_from_home' => true,
         ]);
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2018-02-01',
             'work_from_home' => true,
         ]);
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2018-03-01',
             'work_from_home' => true,
         ]);
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2018-10-10',
             'work_from_home' => true,
@@ -322,7 +322,7 @@ class EmployeeShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_hardware(): void
     {
         $michael = $this->createAdministrator();
-        $hardware = factory(Hardware::class)->create([
+        $hardware = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'name' => 'iphone',
@@ -356,7 +356,7 @@ class EmployeeShowViewHelperTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
         $featureA->employees()->attach([$michael->id]);
@@ -395,7 +395,7 @@ class EmployeeShowViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $skill->employees()->attach([$michael->id]);
@@ -681,11 +681,11 @@ class EmployeeShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_all_projects_for_this_employee(): void
     {
         $michael = $this->createAdministrator();
-        $projectA = factory(Project::class)->create([
+        $projectA = Project::factory()->create([
             'company_id' => $michael->company_id,
             'status' => Project::CLOSED,
         ]);
-        $projectB = factory(Project::class)->create([
+        $projectB = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectA->employees()->syncWithoutDetaching(

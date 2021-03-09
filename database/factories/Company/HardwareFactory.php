@@ -3,17 +3,17 @@
 namespace Database\Factories\Company;
 
 use App\Models\Company\Company;
-use App\Models\Company\Project;
+use App\Models\Company\Hardware;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProjectFactory extends Factory
+class HardwareFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Project::class;
+    protected $model = Hardware::class;
 
     /**
      * Define the model's default state.
@@ -24,10 +24,8 @@ class ProjectFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
-            'name' => $this->faker->name,
-            'code' => '123456',
-            'description' => $this->faker->sentence(),
-            'status' => Project::CREATED,
+            'name' => $this->faker->title,
+            'serial_number' => $this->faker->title,
         ];
     }
 }

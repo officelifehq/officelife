@@ -70,10 +70,10 @@ class TeamShowViewHelperTest extends TestCase
         $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
-        $featureB = factory(Ship::class)->create([
+        $featureB = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
         $featureA->employees()->attach([$michael->id]);

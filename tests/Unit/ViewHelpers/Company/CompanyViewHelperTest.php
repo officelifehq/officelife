@@ -212,10 +212,10 @@ class CompanyViewHelperTest extends TestCase
             'company_id' => $sales->company_id,
         ]);
 
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $sales->id,
         ]);
-        $featureB = factory(Ship::class)->create([
+        $featureB = Ship::factory()->create([
             'team_id' => $marketing->id,
         ]);
 
@@ -242,11 +242,11 @@ class CompanyViewHelperTest extends TestCase
     public function it_gets_the_latest_skills_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $skillA = factory(Skill::class)->create([
+        $skillA = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'php',
         ]);
-        $skillB = factory(Skill::class)->create([
+        $skillB = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'php',
         ]);

@@ -30,7 +30,7 @@ class WorklogHelperTest extends TestCase
         ]);
 
         // logging morale
-        $morale = factory(Morale::class)->create([
+        $morale = Morale::factory()->create([
             'employee_id' => $dwight->id,
             'emotion' => 1,
         ]);
