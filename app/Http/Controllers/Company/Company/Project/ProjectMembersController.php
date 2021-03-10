@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
+use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
@@ -103,7 +104,7 @@ class ProjectMembersController extends Controller
             'data' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
                 'role' => $request->input('role'),
                 'added_at' => DateHelper::formatDate(Carbon::now()),
                 'position' => (! $employee->position) ? null : [
