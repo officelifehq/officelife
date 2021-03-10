@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Dashboard;
 
 use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
 use Illuminate\Support\Collection;
@@ -28,6 +29,8 @@ class DashboardExpenseViewHelper
 
         $expensesCollection = collect([]);
         foreach ($expenses as $expense) {
+            $manager = $expense->managerApprover;
+
             $expensesCollection->push([
                 'id' => $expense->id,
                 'title' => $expense->title,
@@ -38,10 +41,10 @@ class DashboardExpenseViewHelper
                 'converted_amount' => $expense->converted_amount ?
                     MoneyHelper::format($expense->converted_amount, $expense->converted_to_currency) :
                     null,
-                'manager' => ($expense->managerApprover) ? [
-                    'id' => $expense->managerApprover->id,
-                    'name' => $expense->managerApprover->name,
-                    'avatar' => $expense->managerApprover->avatar,
+                'manager' => $manager ? [
+                    'id' => $manager->id,
+                    'name' => $manager->name,
+                    'avatar' => AvatarHelper::getImage($manager),
                 ] : ($expense->manager_approver_name == '' ? null : $expense->manager_approver_name),
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,

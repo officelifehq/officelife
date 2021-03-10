@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Dashboard;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
+use App\Helpers\AvatarHelper;
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
 use App\Models\Company\ECoffee;
@@ -47,7 +48,7 @@ class DashboardMeViewHelper
                 'employee' => [
                     'id' => $answer->employee->id,
                     'name' => $answer->employee->name,
-                    'avatar' => $answer->employee->avatar,
+                    'avatar' => AvatarHelper::getImage($answer->employee),
                 ],
             ]);
         }

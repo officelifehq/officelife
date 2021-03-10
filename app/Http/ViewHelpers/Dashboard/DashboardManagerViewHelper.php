@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Dashboard;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\MoneyHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
@@ -56,7 +57,7 @@ class DashboardManagerViewHelper
                     'employee' => ($employee) ? [
                         'id' => $employee->id,
                         'name' => $employee->name,
-                        'avatar' => $employee->avatar,
+                        'avatar' => AvatarHelper::getImage($employee),
                     ] : [
                         'employee_name' => $expense->employee_name,
                     ],
@@ -75,6 +76,8 @@ class DashboardManagerViewHelper
      */
     public static function expense(Expense $expense): array
     {
+        $employee = $expense->employee;
+
         $expense = [
             'id' => $expense->id,
             'title' => $expense->title,
@@ -90,12 +93,12 @@ class DashboardManagerViewHelper
                 DateHelper::formatShortDateWithTime($expense->converted_at) :
                 null,
             'exchange_rate' => $expense->exchange_rate,
-            'employee' => ($expense->employee) ? [
-                'id' => $expense->employee->id,
-                'name' => $expense->employee->name,
-                'avatar' => $expense->employee->avatar,
-                'position' => $expense->employee->position ? $expense->employee->position->title : null,
-                'status' => $expense->employee->status ? $expense->employee->status->name : null,
+            'employee' => $employee ? [
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => AvatarHelper::getImage($employee),
+                'position' => $employee->position ? $employee->position->title : null,
+                'status' => $employee->status ? $employee->status->name : null,
             ] : [
                 'employee_name' => $expense->employee_name,
             ],
@@ -140,7 +143,7 @@ class DashboardManagerViewHelper
             $oneOnOnesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
                 'position' => (! $employee->position) ? null : $employee->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -198,7 +201,7 @@ class DashboardManagerViewHelper
             $collection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
                 'position' => (! $employee->position) ? null : $employee->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -241,7 +244,7 @@ class DashboardManagerViewHelper
             if ($pendingTimesheets->count() !== 0) {
                 $employeesCollection->push([
                     'id' => $employee->id,
-                    'avatar' => $employee->avatar,
+                    'avatar' => AvatarHelper::getImage($employee),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $employee,
