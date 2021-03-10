@@ -556,6 +556,12 @@ return [
     'import_employees_show_title_number_entries_errors' => 'Entries in errors',
     'import_employees_show_title_number_entries_import' => 'Entries we can import',
     'import_employees_import_success' => 'Employees have been imported',
+    'import_employees_show_email' => 'Email',
+    'import_employees_show_firstname' => 'First name',
+    'import_employees_show_lastname' => 'Last name',
+    'import_employees_show_status' => 'Status',
+    'import_employees_show_first_five_entries' => 'First five of the {count} entries of the file',
+    'import_employees_show_entries_errors' => 'All {count} entries in error in the file',
 
     'cancel_account_title' => 'Are you sure you want to cancel your account?',
     'cancel_account_thanks' => 'Thanks for giving OfficeLife a try!',

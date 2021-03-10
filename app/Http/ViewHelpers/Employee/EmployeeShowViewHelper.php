@@ -105,6 +105,10 @@ class EmployeeShowViewHelper
                     'company' => $company,
                     'employee' => $employee,
                 ]),
+                'edit_address' => route('employee.show.edit.address', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
                 'edit_contract' => route('employee.show.edit.contract', [
                     'company' => $company,
                     'employee' => $employee,

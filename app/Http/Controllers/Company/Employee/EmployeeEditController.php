@@ -88,7 +88,7 @@ class EmployeeEditController extends Controller
     }
 
     /**
-     * Update the information about the employee's address.
+     * Update the information about the employee.
      *
      * @param Request $request
      * @param int $companyId
