@@ -15,7 +15,6 @@ use App\Services\Company\Adminland\Flow\CreateFlow;
 use App\Services\Company\Adminland\Flow\AddStepToFlow;
 use App\Services\Company\Adminland\Flow\AddActionToStep;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Resources\Company\Flow\Flow as FlowResource;
 
 class AdminFlowController extends Controller
 {
@@ -51,7 +50,7 @@ class AdminFlowController extends Controller
 
         return Inertia::render('Adminland/Flow/Show', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
-            'flow' => new FlowResource($flow),
+            'flow' => $flow,
         ]);
     }
 
