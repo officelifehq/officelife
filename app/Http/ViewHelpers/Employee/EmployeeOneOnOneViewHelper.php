@@ -140,7 +140,7 @@ class EmployeeOneOnOneViewHelper
             'employee' => [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
-                'avatar' => $entry->employee->avatar,
+                'avatar' => AvatarHelper::getImage($entry->employee),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->employee,
@@ -149,7 +149,7 @@ class EmployeeOneOnOneViewHelper
             'manager' => [
                 'id' => $entry->manager->id,
                 'name' => $entry->manager->name,
-                'avatar' => $entry->manager->avatar,
+                'avatar' => AvatarHelper::getImage($entry->manager),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $entry->manager,
