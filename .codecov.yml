@@ -1,5 +1,0 @@
-ignore:
-  - "app/Exceptions/Handler.php"
-  - "app/Providers/.*"
-  - "app/Http/Middleware/.*"
-  - "app/Http/Controllers/Auth"
