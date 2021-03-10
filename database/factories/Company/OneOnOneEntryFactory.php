@@ -24,9 +24,7 @@ class OneOnOneEntryFactory extends Factory
     {
         return [
             'manager_id' => Employee::factory(),
-            'employee_id' => function (array $attributes) {
-                return Employee::find($attributes['manager_id'])->company_id;
-            },
+            'employee_id' => Employee::factory(),
             'happened_at' => '2020-03-02 00:00:00',
         ];
     }
