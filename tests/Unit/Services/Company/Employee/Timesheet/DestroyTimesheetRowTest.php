@@ -127,7 +127,7 @@ class DestroyTimesheetRowTest extends TestCase
     /** @test */
     public function it_fails_if_employee_is_not_part_of_the_company(): void
     {
-        $michael = Employee::factory()->create();
+        $michael = Employee::factory()->asHR()->create();
         $jim = Employee::factory()->create();
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
@@ -181,7 +181,7 @@ class DestroyTimesheetRowTest extends TestCase
     /** @test */
     public function it_fails_if_project_task_is_not_part_of_the_company(): void
     {
-        $michael = Employee::factory()->create();
+        $michael = Employee::factory()->asHR()->create();
         $dwight = $this->createAnotherEmployee($michael);
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,

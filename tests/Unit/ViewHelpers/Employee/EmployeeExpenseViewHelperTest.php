@@ -75,7 +75,7 @@ class EmployeeExpenseViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'status' => 'created',
                     'expensed_at' => 'Jan 01, 1999',

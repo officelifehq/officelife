@@ -32,20 +32,20 @@ class ProjectViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 0 => [
-                    'id' => $projectA->id,
-                    'name' => $projectA->name,
-                    'code' => $projectA->code,
-                    'status' => $projectA->status,
-                    'summary' => $projectA->summary,
-                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
-                ],
-                1 => [
                     'id' => $projectB->id,
                     'name' => $projectB->name,
                     'code' => $projectB->code,
                     'status' => $projectB->status,
                     'summary' => $projectB->summary,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectB->id,
+                ],
+                1 => [
+                    'id' => $projectA->id,
+                    'name' => $projectA->name,
+                    'code' => $projectA->code,
+                    'status' => $projectA->status,
+                    'summary' => $projectA->summary,
+                    'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$projectA->id,
                 ],
             ],
             $array['projects']->toArray()
@@ -74,11 +74,11 @@ class ProjectViewHelperTest extends TestCase
             $array['id']
         );
         $this->assertEquals(
-            'API v3',
+            $project->name,
             $array['name']
         );
         $this->assertEquals(
-            'API v3',
+            $project->name,
             $array['name']
         );
         $this->assertEquals(
@@ -94,11 +94,11 @@ class ProjectViewHelperTest extends TestCase
             $array['status']
         );
         $this->assertEquals(
-            'it is going well',
+            $project->description,
             $array['raw_description']
         );
         $this->assertEquals(
-            '<p>it is going well</p>',
+            '<p>'.$project->description.'</p>',
             $array['parsed_description']
         );
         $this->assertEquals(
@@ -167,7 +167,7 @@ class ProjectViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'id' => $project->id,
-                'name' => 'API v3',
+                'name' => $project->name,
                 'code' => $project->code,
                 'summary' => null,
             ],

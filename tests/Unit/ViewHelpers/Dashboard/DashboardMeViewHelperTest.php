@@ -179,11 +179,11 @@ class DashboardMeViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'accounting_approval',
-                    'category' => 'travel',
+                    'category' => $expense->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses/'.$expense->id,
                 ],

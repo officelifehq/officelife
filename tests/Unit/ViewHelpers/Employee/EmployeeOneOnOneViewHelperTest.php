@@ -179,7 +179,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $talkingPoint->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $talkingPoint->description,
                     'checked' => false,
                 ],
             ],
@@ -189,7 +189,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $actionItem->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $actionItem->description,
                     'checked' => false,
                 ],
             ],
@@ -199,7 +199,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $note->id,
-                    'note' => 'what are you doing right now',
+                    'note' => $note->note,
                 ],
             ],
             $array['notes']->toArray()

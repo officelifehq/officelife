@@ -22,11 +22,16 @@ class UnsetTeamLeadTest extends TestCase
     {
         Queue::fake();
 
-        $sales = Team::factory()->create([]);
+        $michael = Employee::factory()->asHR()->create();
+        $sales = Team::factory()->create([
+            'team_leader_id' => $michael->id,
+            'company_id' => $michael->company_id,
+        ]);
+
         $teamLeader = $sales->leader;
 
         $request = [
-            'company_id' => $sales->company_id,
+            'company_id' => $michael->company_id,
             'author_id' => $sales->leader->id,
             'team_id' => $sales->id,
         ];

@@ -64,7 +64,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $talkingPoint->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $talkingPoint->description,
                     'checked' => false,
                 ],
             ],

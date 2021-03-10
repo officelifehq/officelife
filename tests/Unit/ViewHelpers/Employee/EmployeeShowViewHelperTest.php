@@ -281,7 +281,7 @@ class EmployeeShowViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $question->id,
-                    'title' => 'What is your favorite movie?',
+                    'title' => $question->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
                     'answer' => [
                         'body' => 'this is my answer',
@@ -442,7 +442,7 @@ class EmployeeShowViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'status' => 'created',
                     'expensed_at' => 'Jan 01, 1999',

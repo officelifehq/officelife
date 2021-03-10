@@ -40,11 +40,11 @@ class DashboardExpenseViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'accounting_approval',
-                    'category' => 'travel',
+                    'category' => $expense->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'manager' => null,
                     'employee' => [
@@ -97,11 +97,11 @@ class DashboardExpenseViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expenseWithoutManager->id,
-                    'title' => 'Restaurant',
+                    'title' => $expenseWithoutManager->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'manager_approval',
-                    'category' => 'travel',
+                    'category' => $expenseWithoutManager->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'managers' => null,
                     'employee' => [
@@ -113,11 +113,11 @@ class DashboardExpenseViewHelperTest extends TestCase
                 ],
                 1 => [
                     'id' => $expenseWithManager->id,
-                    'title' => 'Restaurant',
+                    'title' => $expenseWithManager->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'manager_approval',
-                    'category' => 'travel',
+                    'category' => $expenseWithManager->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'managers' => null,
                     'employee' => [
