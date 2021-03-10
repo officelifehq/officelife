@@ -11,7 +11,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use App\Http\Resources\Company\Notification\Notification as NotificationResource;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -114,36 +113,6 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return null;
-    }
-
-    /**
-     * Return the latest notifications for the user as the employee of the given
-     * company.
-     *
-     * @param Company $company
-     * @param int $numberOfNotificationsToFetch
-     *
-     * @return mixed
-     */
-    public function getLatestNotifications(Company $company, int $numberOfNotificationsToFetch = 5)
-    {
-        $employee = $this->getEmployeeObjectForCompany($company);
-
-        if (! $employee) {
-            return [];
-        }
-
-        $notifs = $employee->notifications()
-            ->where('read', false)
-            ->orderBy('created_at', 'desc')
-            ->take($numberOfNotificationsToFetch)
-            ->get();
-
-        if ($notifs->count() >= 1) {
-            return NotificationResource::collection($notifs);
-        }
-
-        return [];
     }
 
     /**

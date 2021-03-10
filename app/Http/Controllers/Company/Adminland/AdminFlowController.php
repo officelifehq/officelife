@@ -22,9 +22,7 @@ class AdminFlowController extends Controller
     public function index(): Response
     {
         $company = InstanceHelper::getLoggedCompany();
-        $flows = FlowResource::collection(
-            $company->flows()->orderBy('created_at', 'desc')->get()
-        );
+        $flows = $company->flows()->orderBy('created_at', 'desc')->get();
 
         return Inertia::render('Adminland/Flow/Index', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),

@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\User\User;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
-use App\Models\Company\Notification;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Notification as FacadesNotification;
@@ -70,46 +69,6 @@ class UserTest extends TestCase
 
         $this->assertNull(
             $dwight->user->getEmployeeObjectForCompany($company)
-        );
-    }
-
-    /** @test */
-    public function it_gets_the_latest_notifications_for_the_user(): void
-    {
-        $dwight = Employee::factory()->create([]);
-        Notification::factory()->count(3)->create([
-            'employee_id' => $dwight->id,
-        ]);
-
-        $result = $dwight->user->getLatestNotifications($dwight->company);
-
-        $this->assertEquals(
-            3,
-            $result->count()
-        );
-
-        Notification::factory()->count(2)->create([
-            'employee_id' => $dwight->id,
-        ]);
-
-        $result = $dwight->user->getLatestNotifications($dwight->company, 5);
-
-        $this->assertEquals(
-            5,
-            $result->count()
-        );
-    }
-
-    /** @test */
-    public function it_fails_to_get_the_latest_notifications_if_the_user_does_not_have_a_company(): void
-    {
-        $dwight = Employee::factory()->create([]);
-        $company = Company::factory()->create([]);
-
-        $result = $dwight->user->getLatestNotifications($company);
-
-        $this->assertEmpty(
-            $result
         );
     }
 
