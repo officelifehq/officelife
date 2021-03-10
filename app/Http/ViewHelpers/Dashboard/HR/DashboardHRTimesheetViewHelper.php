@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Dashboard\HR;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Timesheet;
 use Illuminate\Support\Collection;
@@ -84,7 +85,7 @@ class DashboardHRTimesheetViewHelper
                 $employeesCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => AvatarHelper::getImage($employee),
                     'position' => (! $employee->position) ? null : $employee->position->title,
                     'url' => route('employees.show', [
                         'company' => $company,

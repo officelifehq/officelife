@@ -210,6 +210,7 @@ input[type=checkbox] {
               <span class="f7 mr2">
                 {{ entry.created_at }}
               </span>
+              <span>{{ entry.employee.name }}</span>
               <span class="mr3 absolute right-0 duration">
                 {{ entry.duration }}
               </span>

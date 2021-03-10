@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Dashboard;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
@@ -115,7 +116,7 @@ class DashboardTimesheetViewHelper
                 'id' => $approver->id,
                 'name' => $approver->name,
                 'approved_at' => DateHelper::formatDate($timesheet->approved_at),
-                'avatar' => $approver->avatar,
+                'avatar' => AvatarHelper::getImage($approver),
                 'url' => route('employees.show', [
                     'company' => $timesheet->company,
                     'employee' => $approver,

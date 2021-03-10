@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneEntry;
 use Illuminate\Database\Eloquent\Collection;
@@ -63,7 +64,7 @@ class EmployeeOneOnOneViewHelper
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,
-                    'avatar' => $oneOnOne->manager->avatar,
+                    'avatar' => AvatarHelper::getImage($oneOnOne->manager),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $oneOnOne->manager,

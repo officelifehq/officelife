@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Employee;
 
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
@@ -16,15 +17,17 @@ class EmployeeLogViewHelper
     {
         $logsCollection = collect([]);
         foreach ($logs as $log) {
+            $author = $log->author;
+
             $logsCollection->push([
                 'localized_content' => $log->content,
                 'author' => [
-                    'id' => is_null($log->author) ? null : $log->author->id,
-                    'name' => is_null($log->author) ? $log->author_name : $log->author->name,
-                    'avatar' => is_null($log->author) ? null : $log->author->avatar,
-                    'url' => is_null($log->author) ? null : route('employees.show', [
+                    'id' => is_null($author) ? null : $author->id,
+                    'name' => is_null($author) ? $log->author_name : $author->name,
+                    'avatar' => is_null($author) ? null : AvatarHelper::getImage($author),
+                    'url' => is_null($author) ? null : route('employees.show', [
                         'company' => $company,
-                        'employee' => $log->author,
+                        'employee' => $author,
                     ]),
                 ],
                 'localized_audited_at' => $log->date,
