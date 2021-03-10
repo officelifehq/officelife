@@ -96,7 +96,7 @@ class ApproveTimesheetTest extends TestCase
     /** @test */
     public function it_fails_if_employee_is_not_part_of_the_company(): void
     {
-        $michael = Employee::factory()->create();
+        $michael = Employee::factory()->asHR()->create();
         $jim = Employee::factory()->create();
         $timesheet = Timesheet::factory()->create([
             'company_id' => $michael->company_id,
@@ -110,7 +110,7 @@ class ApproveTimesheetTest extends TestCase
     /** @test */
     public function it_fails_if_timesheet_is_not_part_of_the_company(): void
     {
-        $michael = Employee::factory()->create();
+        $michael = Employee::factory()->asHR()->create();
         $jim = Employee::factory()->create();
         $timesheet = Timesheet::factory()->create([
             'employee_id' => $jim->id,

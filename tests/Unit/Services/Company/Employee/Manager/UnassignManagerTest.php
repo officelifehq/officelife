@@ -58,7 +58,7 @@ class UnassignManagerTest extends TestCase
     public function it_fails_if_employee_and_manager_are_not_in_the_same_account(): void
     {
         $company = Company::factory()->create([]);
-        $employee = Employee::factory()->create([
+        $employee = Employee::factory()->asHR()->create([
             'company_id' => $company->id,
         ]);
         $manager = Employee::factory()->create([
@@ -87,6 +87,12 @@ class UnassignManagerTest extends TestCase
 
         $dwight = DirectReport::factory()->create([
             'company_id' => $michael->company_id,
+            'manager_id' => Employee::factory()->create([
+                'company_id' => $michael->company_id,
+            ]),
+            'employee_id' => Employee::factory()->create([
+                'company_id' => $michael->company_id,
+            ]),
         ]);
 
         $request = [

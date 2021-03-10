@@ -32,7 +32,7 @@ class DashboardManagerViewHelperTest extends TestCase
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
             'manager_id' => $michael->id,
         ];
@@ -61,11 +61,11 @@ class DashboardManagerViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'manager_approval',
-                    'category' => 'travel',
+                    'category' => $expense->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/manager/expenses/'.$expense->id,
                     'employee' => [

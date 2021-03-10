@@ -28,7 +28,8 @@ class CompanyViewHelperTest extends TestCase
         Team::factory()->count(2)->create([
             'company_id' => $michael->company_id,
         ]);
-        Employee::factory(2)->create([
+
+        Employee::factory()->count(2)->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -37,7 +38,7 @@ class CompanyViewHelperTest extends TestCase
         $this->assertEquals(
             [
                 'number_of_teams' => 2,
-                'number_of_employees' => 5, // because creating a team creates a team leader too
+                'number_of_employees' => 3,
             ],
             $response
         );

@@ -74,7 +74,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $actionItem->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $actionItem->description,
                     'checked' => false,
                 ],
             ],
@@ -84,7 +84,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $note->id,
-                    'note' => 'what are you doing right now',
+                    'note' => $note->note,
                 ],
             ],
             $array['notes']->toArray()

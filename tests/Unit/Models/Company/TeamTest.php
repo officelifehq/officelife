@@ -55,7 +55,9 @@ class TeamTest extends TestCase
     /** @test */
     public function it_has_a_leader()
     {
-        $sales = Team::factory()->create([]);
+        $sales = Team::factory()->create([
+            'team_leader_id' => Employee::factory(),
+        ]);
         $this->assertTrue($sales->leader()->exists());
     }
 
