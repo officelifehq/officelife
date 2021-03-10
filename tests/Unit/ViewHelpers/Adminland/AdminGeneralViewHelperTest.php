@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminGeneralViewHelper;
@@ -51,7 +52,7 @@ class AdminGeneralViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => $michael->avatar,
+                'avatar' => AvatarHelper::getImage($michael),
                 'url_view' => route('employees.show', [
                     'company' => $michael->company,
                     'employee' => $michael,

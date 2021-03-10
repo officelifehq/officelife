@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Tests\TestCase;
 use App\Helpers\DateHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Project;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Company\Project\ProjectMembersViewHelper;
@@ -37,7 +38,7 @@ class ProjectMembersViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'role' => 'developer',
                     'added_at' => DateHelper::formatDate($michael->created_at),
                     'position' => [
@@ -49,7 +50,7 @@ class ProjectMembersViewHelperTest extends TestCase
                 1 => [
                     'id' => $jim->id,
                     'name' => $jim->name,
-                    'avatar' => $jim->avatar,
+                    'avatar' => AvatarHelper::getImage($jim),
                     'role' => 'ios dev',
                     'added_at' => DateHelper::formatDate($jim->created_at),
                     'position' => [

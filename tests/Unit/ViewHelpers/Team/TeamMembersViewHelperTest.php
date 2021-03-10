@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Team;
 
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Http\ViewHelpers\Team\TeamMembersViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -48,7 +49,7 @@ class TeamMembersViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => $michael->avatar,
+                'avatar' => AvatarHelper::getImage($michael),
                 'position' => $michael->position,
             ],
             $array

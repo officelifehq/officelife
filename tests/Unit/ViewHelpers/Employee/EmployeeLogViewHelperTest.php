@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Employee;
 
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\EmployeeLog;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -35,7 +36,7 @@ class EmployeeLogViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => 'michael scott',
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
                 'localized_audited_at' => 'Jan 12, 2020 00:00',
