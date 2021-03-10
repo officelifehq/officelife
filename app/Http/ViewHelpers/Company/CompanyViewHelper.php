@@ -317,7 +317,7 @@ class CompanyViewHelper
 
         return [
             'id' => $game->id,
-            'avatar_to_find' => $employeeToFind->avatar,
+            'avatar_to_find' => AvatarHelper::getImage($employeeToFind),
             'choices' => $choices,
         ];
     }

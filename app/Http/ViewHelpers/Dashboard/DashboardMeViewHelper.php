@@ -236,7 +236,7 @@ class DashboardMeViewHelper
             $managersCollection->push([
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => $manager->avatar,
+                'avatar' => AvatarHelper::getImage($manager),
                 'position' => (! $manager->position) ? null : $manager->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -349,13 +349,13 @@ class DashboardMeViewHelper
             'e_coffee_id' => $latestECoffee->id,
             'happened' => $match->happened,
             'employee' => [
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
             ],
             'other_employee' => [
                 'id' => $otherEmployee->id,
                 'name' => $otherEmployee->name,
                 'first_name' => $otherEmployee->first_name,
-                'avatar' => $otherEmployee->avatar,
+                'avatar' => AvatarHelper::getImage($otherEmployee),
                 'position' => $otherEmployee->position ? $otherEmployee->position->title : null,
                 'url' => route('employees.show', [
                     'company' => $company,

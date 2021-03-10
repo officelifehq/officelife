@@ -186,7 +186,7 @@ class ProjectViewHelper
         foreach ($randomMembers as $member) {
             $membersCollection->push([
                 'id' => $member->id,
-                'avatar' => $member->avatar,
+                'avatar' => AvatarHelper::getImage($member),
                 'name' => $member->name,
                 'url' => route('employees.show', [
                     'company' => $company,

@@ -46,10 +46,10 @@ class DashboardExpenseViewHelper
                     'name' => $manager->name,
                     'avatar' => AvatarHelper::getImage($manager),
                 ] : ($expense->manager_approver_name == '' ? null : $expense->manager_approver_name),
-                'employee' => ($expense->employee) ? [
+                'employee' => $expense->employee ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => $expense->employee->avatar,
+                    'avatar' => AvatarHelper::getImage($expense->employee),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -89,7 +89,7 @@ class DashboardExpenseViewHelper
                     $managerCollection->push([
                         'id' => $manager->manager->id,
                         'name' => $manager->manager->name,
-                        'avatar' => $manager->manager->avatar,
+                        'avatar' => AvatarHelper::getImage($manager->manager),
                     ]);
                 }
             }
@@ -108,7 +108,7 @@ class DashboardExpenseViewHelper
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => $expense->employee->avatar,
+                    'avatar' => AvatarHelper::getImage($expense->employee),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -156,7 +156,7 @@ class DashboardExpenseViewHelper
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => $expense->employee->avatar,
+                    'avatar' => AvatarHelper::getImage($expense->employee),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -178,6 +178,10 @@ class DashboardExpenseViewHelper
      */
     public static function expense(Expense $expense): array
     {
+        $manager = $expense->managerApprover;
+        $accountant = $expense->accountingApprover;
+        $employee = $expense->employee;
+
         $expense = [
             'id' => $expense->id,
             'title' => $expense->title,
@@ -194,12 +198,12 @@ class DashboardExpenseViewHelper
                 null,
             'exchange_rate' => $expense->exchange_rate,
             'exchange_rate_explanation' => '1 '.$expense->converted_to_currency.' = '.$expense->exchange_rate.' '.$expense->currency,
-            'manager' => ($expense->managerApprover) ? [
-                'id' => $expense->managerApprover->id,
-                'name' => $expense->managerApprover->name,
-                'avatar' => $expense->managerApprover->avatar,
-                'position' => $expense->managerApprover->position ? $expense->managerApprover->position->title : null,
-                'status' => $expense->managerApprover->status ? $expense->managerApprover->status->name : null,
+            'manager' => $manager ? [
+                'id' => $manager->id,
+                'name' => $manager->name,
+                'avatar' => AvatarHelper::getImage($manager),
+                'position' => $manager->position ? $manager->position->title : null,
+                'status' => $manager->status ? $manager->status->name : null,
             ] : [
                 'name' => $expense->manager_approver_name,
             ],
@@ -207,12 +211,12 @@ class DashboardExpenseViewHelper
                 DateHelper::formatDate($expense->manager_approver_approved_at) :
                 null,
             'manager_rejection_explanation' => $expense->manager_rejection_explanation,
-            'accountant' => $expense->accountingApprover ? [
-                'id' => $expense->accountingApprover->id,
-                'name' => $expense->accountingApprover->name,
-                'avatar' => $expense->accountingApprover->avatar,
-                'position' => $expense->accountingApprover->position ? $expense->accountingApprover->position->title : null,
-                'status' => $expense->accountingApprover->status ? $expense->accountingApprover->status->name : null,
+            'accountant' => $accountant ? [
+                'id' => $accountant->id,
+                'name' => $accountant->name,
+                'avatar' => AvatarHelper::getImage($accountant),
+                'position' => $accountant->position ? $accountant->position->title : null,
+                'status' => $accountant->status ? $accountant->status->name : null,
             ] : [
                 'name' => $expense->accounting_approver_name,
             ],
@@ -220,12 +224,12 @@ class DashboardExpenseViewHelper
                 DateHelper::formatDate($expense->accounting_approver_approved_at) :
                 null,
             'accounting_rejection_explanation' => $expense->accounting_rejection_explanation,
-            'employee' => ($expense->employee) ? [
-                'id' => $expense->employee->id,
-                'name' => $expense->employee->name,
-                'avatar' => $expense->employee->avatar,
-                'position' => $expense->employee->position ? $expense->employee->position->title : null,
-                'status' => $expense->employee->status ? $expense->employee->status->name : null,
+            'employee' => $employee ? [
+                'id' => $employee->id,
+                'name' => $employee->name,
+                'avatar' => AvatarHelper::getImage($employee),
+                'position' => $employee->position ? $employee->position->title : null,
+                'status' => $employee->status ? $employee->status->name : null,
             ] : [
                 'employee_name' => $expense->employee_name,
             ],
