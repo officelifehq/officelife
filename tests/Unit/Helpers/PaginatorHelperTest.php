@@ -15,8 +15,8 @@ class PaginatorHelperTest extends TestCase
     /** @test */
     public function it_returns_an_array_containing_everything_needed_for_a_pagination()
     {
-        $company = factory(Company::class)->create([]);
-        factory(Employee::class, 3)->create(['company_id' => $company->id]);
+        $company = Company::factory()->create([]);
+        Employee::factory()->count(3)->create(['company_id' => $company->id]);
 
         $employees = $company->employees()->paginate(1);
 

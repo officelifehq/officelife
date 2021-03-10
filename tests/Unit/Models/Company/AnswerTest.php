@@ -13,14 +13,14 @@ class AnswerTest extends TestCase
     /** @test */
     public function it_belongs_to_a_question(): void
     {
-        $answer = factory(Answer::class)->create([]);
+        $answer = Answer::factory()->create([]);
         $this->assertTrue($answer->question()->exists());
     }
 
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $answer = factory(Answer::class)->create([]);
+        $answer = Answer::factory()->create([]);
         $this->assertTrue($answer->employee()->exists());
     }
 }

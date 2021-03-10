@@ -70,7 +70,7 @@ class LockEmployeeTest extends TestCase
     public function it_fails_if_the_employee_does_not_match_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         $request = [
             'company_id' => $dwight->company_id,

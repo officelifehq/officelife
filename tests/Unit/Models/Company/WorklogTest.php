@@ -14,18 +14,18 @@ class WorklogTest extends TestCase
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $worklog = factory(Worklog::class)->create([]);
+        $worklog = Worklog::factory()->create();
         $this->assertTrue($worklog->employee()->exists());
     }
 
     /** @test */
     public function it_returns_an_object(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);
-        $worklog = factory(Worklog::class)->create([
+        $worklog = Worklog::factory()->create([
             'employee_id' => $michael->id,
             'content' => 'a content',
             'created_at' => '2020-01-12 00:00:00',

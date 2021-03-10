@@ -13,7 +13,7 @@ class MoraleTeamHistoryTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_team(): void
     {
-        $moraleTeamHistory = factory(MoraleTeamHistory::class)->create([]);
+        $moraleTeamHistory = MoraleTeamHistory::factory()->create([]);
         $this->assertTrue($moraleTeamHistory->team()->exists());
     }
 }

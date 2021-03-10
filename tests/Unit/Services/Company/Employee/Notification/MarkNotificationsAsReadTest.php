@@ -66,7 +66,7 @@ class MarkNotificationsAsReadTest extends TestCase
 
     private function executeService(Employee $michael, Employee $dwight): void
     {
-        factory(Notification::class, 2)->create([
+        Notification::factory()->count(2)->create([
             'employee_id' => $dwight->id,
             'read' => false,
         ]);

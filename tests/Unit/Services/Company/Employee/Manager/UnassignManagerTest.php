@@ -57,15 +57,15 @@ class UnassignManagerTest extends TestCase
     /** @test */
     public function it_fails_if_employee_and_manager_are_not_in_the_same_account(): void
     {
-        $company = factory(Company::class)->create([]);
-        $employee = factory(Employee::class)->create([
+        $company = Company::factory()->create([]);
+        $employee = Employee::factory()->asHR()->create([
             'company_id' => $company->id,
         ]);
-        $manager = factory(Employee::class)->create([
+        $manager = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
 
-        factory(DirectReport::class)->create([
+        DirectReport::factory()->create([
             'employee_id' => $employee->id,
             'manager_id' => $manager->id,
         ]);
@@ -85,12 +85,18 @@ class UnassignManagerTest extends TestCase
     {
         Queue::fake();
 
-        $dwight = factory(DirectReport::class)->create([
+        $dwight = DirectReport::factory()->create([
             'company_id' => $michael->company_id,
+            'manager_id' => Employee::factory()->create([
+                'company_id' => $michael->company_id,
+            ]),
+            'employee_id' => Employee::factory()->create([
+                'company_id' => $michael->company_id,
+            ]),
         ]);
 
         $request = [
-            'company_id' => $dwight->directReport->company_id,
+            'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'employee_id' => $dwight->directReport->id,
             'manager_id' => $dwight->manager->id,
@@ -99,7 +105,7 @@ class UnassignManagerTest extends TestCase
         $manager = (new UnassignManager)->execute($request);
 
         $this->assertDatabaseMissing('direct_reports', [
-            'company_id' => $dwight->directReport->company_id,
+            'company_id' => $michael->company_id,
             'employee_id' => $dwight->directReport->id,
             'manager_id' => $dwight->manager->id,
         ]);

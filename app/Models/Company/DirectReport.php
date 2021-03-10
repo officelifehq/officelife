@@ -4,9 +4,12 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DirectReport extends Model
 {
+    use HasFactory;
+
     protected $table = 'direct_reports';
 
     /**

@@ -14,7 +14,7 @@ class QuestionCollectionTest extends TestCase
     /** @test */
     public function it_returns_a_collection(): void
     {
-        factory(Question::class, 2)->create([]);
+        Question::factory()->count(2)->create([]);
         $questions = Question::all();
         $collection = QuestionCollection::prepare($questions);
 

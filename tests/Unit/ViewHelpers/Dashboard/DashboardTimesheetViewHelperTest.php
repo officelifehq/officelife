@@ -76,7 +76,7 @@ class DashboardTimesheetViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            'API v3',
+            $project->name,
             $array['entries']->toArray()[0]['project_name']
         );
 

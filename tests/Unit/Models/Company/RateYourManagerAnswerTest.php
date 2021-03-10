@@ -13,14 +13,14 @@ class RateYourManagerAnswerTest extends TestCase
     /** @test */
     public function it_belongs_to_an_entry(): void
     {
-        $answer = factory(RateYourManagerAnswer::class)->create([]);
+        $answer = RateYourManagerAnswer::factory()->create([]);
         $this->assertTrue($answer->entry()->exists());
     }
 
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $answer = factory(RateYourManagerAnswer::class)->create([]);
+        $answer = RateYourManagerAnswer::factory()->create([]);
         $this->assertTrue($answer->employee()->exists());
     }
 }

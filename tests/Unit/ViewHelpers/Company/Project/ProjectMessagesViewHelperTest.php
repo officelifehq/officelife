@@ -21,14 +21,14 @@ class ProjectMessagesViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $jim = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessageA = factory(ProjectMessage::class)->create([
+        $projectMessageA = ProjectMessage::factory()->create([
             'project_id' => $project->id,
             'author_id' => $michael->id,
         ]);
-        $projectMessageB = factory(ProjectMessage::class)->create([
+        $projectMessageB = ProjectMessage::factory()->create([
             'project_id' => $project->id,
             'author_id' => null,
         ]);
@@ -46,7 +46,7 @@ class ProjectMessagesViewHelperTest extends TestCase
                 0 => [
                     'id' => $projectMessageA->id,
                     'title' => $projectMessageA->title,
-                    'content' => 'This is a description',
+                    'content' => $projectMessageA->content,
                     'read_status' => true,
                     'written_at' => $projectMessageA->created_at->diffForHumans(),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/messages/'.$projectMessageA->id,
@@ -60,7 +60,7 @@ class ProjectMessagesViewHelperTest extends TestCase
                 1 => [
                     'id' => $projectMessageB->id,
                     'title' => $projectMessageB->title,
-                    'content' => 'This is a description',
+                    'content' => $projectMessageB->content,
                     'read_status' => false,
                     'written_at' => $projectMessageB->created_at->diffForHumans(),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/projects/'.$project->id.'/messages/'.$projectMessageB->id,
@@ -75,10 +75,10 @@ class ProjectMessagesViewHelperTest extends TestCase
     public function it_gets_an_array_containing_all_the_information_about_a_given_message(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
             'author_id' => $michael->id,
         ]);

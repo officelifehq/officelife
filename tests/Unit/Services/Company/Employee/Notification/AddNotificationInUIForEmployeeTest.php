@@ -15,7 +15,7 @@ class AddNotificationInUIForEmployeeTest extends TestCase
     /** @test */
     public function it_logs_a_notification(): void
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = Employee::factory()->create();
 
         $request = [
             'employee_id' => $employee->id,

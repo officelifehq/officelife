@@ -7,7 +7,6 @@ use Tests\TestCase;
 use App\Models\Company\Team;
 use App\Models\Company\Morale;
 use App\Jobs\ProcessTeamMorale;
-use App\Models\Company\Employee;
 use App\Models\Company\MoraleTeamHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -21,13 +20,11 @@ class ProcessTeamMoraleTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $dwight = $this->createAnotherEmployee($michael);
 
         $sales->employees()->attach(
             $dwight->id,
@@ -43,12 +40,12 @@ class ProcessTeamMoraleTest extends TestCase
             ]
         );
 
-        factory(Morale::class)->create([
+        Morale::factory()->create([
             'employee_id' => $michael->id,
             'emotion' => 1,
         ]);
 
-        factory(Morale::class)->create([
+        Morale::factory()->create([
             'employee_id' => $dwight->id,
             'emotion' => 3,
         ]);

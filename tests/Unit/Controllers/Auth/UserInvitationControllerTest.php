@@ -19,9 +19,9 @@ class UserInvitationControllerTest extends TestCase
         Notification::fake();
 
         // be sure to have at least 2 users
-        factory(User::class)->create([]);
+        User::factory()->create([]);
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'invitation_link' => 'link',
         ]);
 
@@ -55,11 +55,11 @@ class UserInvitationControllerTest extends TestCase
         Notification::fake();
 
         // be sure to have at least 2 users
-        $user = factory(User::class)->create([
+        $user = User::factory()->create([
             'email' => 'jim.halpert@dundermifflin.com',
         ]);
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'invitation_link' => 'link',
         ]);
 

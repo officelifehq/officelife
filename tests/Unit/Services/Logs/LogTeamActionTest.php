@@ -20,7 +20,7 @@ class LogTeamActionTest extends TestCase
     public function it_logs_an_action(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -42,7 +42,7 @@ class LogTeamActionTest extends TestCase
     public function it_fails_if_the_author_is_not_in_the_same_company_as_the_team(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([]);
+        $team = Team::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $team);

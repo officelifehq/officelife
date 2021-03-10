@@ -13,7 +13,6 @@ use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\Worklog;
-use App\Models\Company\Employee;
 use App\Models\Company\Hardware;
 use App\Models\Company\Position;
 use App\Models\Company\Question;
@@ -86,17 +85,13 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_managers(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $jim = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $jim = $this->createAnotherEmployee($michael);
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
             'manager_id' => $michael->id,
         ];
@@ -105,7 +100,7 @@ class EmployeeShowViewHelperTest extends TestCase
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
             'manager_id' => $jim->id,
         ];
@@ -146,13 +141,9 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_direct_reports(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $jim = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $michael = $this->createAdministrator();
+        $dwight = $this->createAnotherEmployee($michael);
+        $jim = $this->createAnotherEmployee($michael);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -208,10 +199,10 @@ class EmployeeShowViewHelperTest extends TestCase
     {
         $date = Carbon::create(2018, 10, 10);
         Carbon::setTestNow($date);
-        $michael = factory(Employee::class)->create([]);
+        $michael = $this->createAdministrator();
 
         for ($i = 0; $i < 5; $i++) {
-            factory(Worklog::class)->create([
+            Worklog::factory()->create([
                 'employee_id' => $michael->id,
                 'created_at' => $date->copy()->addDay(),
             ]);
@@ -234,23 +225,23 @@ class EmployeeShowViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 10, 10));
 
-        $michael = factory(Employee::class)->create([]);
-        factory(WorkFromHome::class)->create([
+        $michael = $this->createAdministrator();
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2010-01-01',
             'work_from_home' => true,
         ]);
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2018-02-01',
             'work_from_home' => true,
         ]);
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2018-03-01',
             'work_from_home' => true,
         ]);
-        factory(WorkFromHome::class)->create([
+        WorkFromHome::factory()->create([
             'employee_id' => $michael->id,
             'date' => '2018-10-10',
             'work_from_home' => true,
@@ -273,11 +264,11 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_questions_and_answers(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $question = factory(Question::class)->create([
+        $michael = $this->createAdministrator();
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        factory(Answer::class)->create([
+        Answer::factory()->create([
             'question_id' => $question->id,
             'employee_id' => $michael->id,
             'body' => 'this is my answer',
@@ -290,7 +281,7 @@ class EmployeeShowViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $question->id,
-                    'title' => 'What is your favorite movie?',
+                    'title' => $question->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/company/questions/'.$question->id,
                     'answer' => [
                         'body' => 'this is my answer',
@@ -305,7 +296,7 @@ class EmployeeShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_teams(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -317,9 +308,7 @@ class EmployeeShowViewHelperTest extends TestCase
                 0 => [
                     'id' => $team->id,
                     'name' => $team->name,
-                    'team_leader' => [
-                        'id' => $team->leader->id,
-                    ],
+                    'team_leader' => null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/teams/'.$team->id,
                 ],
             ],
@@ -330,8 +319,8 @@ class EmployeeShowViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_hardware(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $hardware = factory(Hardware::class)->create([
+        $michael = $this->createAdministrator();
+        $hardware = Hardware::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'name' => 'iphone',
@@ -362,10 +351,10 @@ class EmployeeShowViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
 
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
         $featureA->employees()->attach([$michael->id]);
@@ -404,7 +393,7 @@ class EmployeeShowViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $skill->employees()->attach([$michael->id]);
@@ -432,13 +421,13 @@ class EmployeeShowViewHelperTest extends TestCase
 
         $michael = $this->createAdministrator();
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'employee_id' => $michael->id,
             'created_at' => '2019-01-01 01:00:00',
         ]);
 
         // this expense is more than 30 days, it shouldn't appear in the collection
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'created_at' => '2010-01-01 01:00:00',
         ]);
@@ -451,7 +440,7 @@ class EmployeeShowViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'status' => 'created',
                     'expensed_at' => 'Jan 01, 1999',
@@ -488,22 +477,22 @@ class EmployeeShowViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $entry2019 = factory(OneOnOneEntry::class)->create([
+        $entry2019 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2019-01-01 01:00:00',
         ]);
-        $entry2018 = factory(OneOnOneEntry::class)->create([
+        $entry2018 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2018-01-01 01:00:00',
         ]);
-        $entry2017 = factory(OneOnOneEntry::class)->create([
+        $entry2017 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2017-01-01 01:00:00',
         ]);
-        $entry2016 = factory(OneOnOneEntry::class)->create([
+        $entry2016 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2016-01-01 01:00:00',
@@ -690,11 +679,11 @@ class EmployeeShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_all_projects_for_this_employee(): void
     {
         $michael = $this->createAdministrator();
-        $projectA = factory(Project::class)->create([
+        $projectA = Project::factory()->create([
             'company_id' => $michael->company_id,
             'status' => Project::CLOSED,
         ]);
-        $projectB = factory(Project::class)->create([
+        $projectB = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $projectA->employees()->syncWithoutDetaching(
@@ -706,11 +695,11 @@ class EmployeeShowViewHelperTest extends TestCase
         );
         $projectB->employees()->syncWithoutDetaching([$michael->id]);
 
-        factory(ProjectMessage::class)->create([
+        ProjectMessage::factory()->create([
             'project_id' => $projectA->id,
             'author_id' => $michael->id,
         ]);
-        factory(ProjectMessage::class)->create([
+        ProjectMessage::factory()->create([
             'project_id' => $projectA->id,
             'author_id' => null,
         ]);

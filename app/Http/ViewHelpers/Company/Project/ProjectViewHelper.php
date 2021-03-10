@@ -18,7 +18,7 @@ class ProjectViewHelper
      */
     public static function index(Company $company): array
     {
-        $projects = $company->projects()->orderBy('name')->get();
+        $projects = $company->projects()->orderBy('id', 'desc')->get();
 
         $projectsCollection = collect([]);
         foreach ($projects as $project) {

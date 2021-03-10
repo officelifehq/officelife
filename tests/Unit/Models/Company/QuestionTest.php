@@ -15,15 +15,15 @@ class QuestionTest extends TestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $question = factory(Question::class)->create([]);
+        $question = Question::factory()->create([]);
         $this->assertTrue($question->company()->exists());
     }
 
     /** @test */
     public function it_has_many_answers(): void
     {
-        $question = factory(Question::class)->create();
-        factory(Answer::class, 2)->create([
+        $question = Question::factory()->create();
+        Answer::factory()->count(2)->create([
             'question_id' => $question->id,
         ]);
 
@@ -33,8 +33,8 @@ class QuestionTest extends TestCase
     /** @test */
     public function it_returns_an_object(): void
     {
-        $dunder = factory(Company::class)->create([]);
-        $question = factory(Question::class)->create([
+        $dunder = Company::factory()->create([]);
+        $question = Question::factory()->create([
             'company_id' => $dunder->id,
             'title' => 'dunder',
             'created_at' => '2020-01-12 00:00:00',

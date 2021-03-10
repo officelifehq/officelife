@@ -23,7 +23,7 @@ class CreateShipTest extends TestCase
     public function it_creates_a_recent_ship_entry_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -34,7 +34,7 @@ class CreateShipTest extends TestCase
     public function it_creates_a_recent_ship_entry_as_administrator_and_associate_employees(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $andrew = $this->createAnotherEmployee($michael);
@@ -49,7 +49,7 @@ class CreateShipTest extends TestCase
     public function it_creates_a_recent_ship_entry_as_hr(): void
     {
         $michael = $this->createHR();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -60,7 +60,7 @@ class CreateShipTest extends TestCase
     public function it_attaches_an_employee_to_a_recent_ship_as_normal_user_part_of_the_team(): void
     {
         $michael = $this->createEmployee();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -71,7 +71,7 @@ class CreateShipTest extends TestCase
     public function it_fails_if_the_team_is_not_part_of_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([]);
+        $team = Team::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $team);
@@ -80,8 +80,8 @@ class CreateShipTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        factory(Team::class)->create([
+        $michael = Employee::factory()->create();
+        Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

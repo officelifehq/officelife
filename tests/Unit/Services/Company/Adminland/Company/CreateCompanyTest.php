@@ -22,7 +22,7 @@ class CreateCompanyTest extends TestCase
     {
         Queue::fake();
 
-        $dwight = factory(User::class)->create([]);
+        $dwight = User::factory()->create([]);
 
         $request = [
             'author_id' => $dwight->id,
@@ -64,7 +64,7 @@ class CreateCompanyTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $dwight = factory(User::class)->create([]);
+        $dwight = User::factory()->create([]);
 
         $request = [
             'author_id' => $dwight->id,

@@ -33,8 +33,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_employees(): void
     {
-        $company = factory(Company::class)->create();
-        factory(Employee::class, 2)->create([
+        $company = Company::factory()->create();
+        Employee::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -44,8 +44,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_logs(): void
     {
-        $company = factory(Company::class)->create();
-        factory(AuditLog::class, 2)->create([
+        $company = Company::factory()->create();
+        AuditLog::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -55,8 +55,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_teams(): void
     {
-        $company = factory(Company::class)->create();
-        factory(Team::class, 2)->create([
+        $company = Company::factory()->create();
+        Team::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -66,8 +66,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_positions(): void
     {
-        $company = factory(Company::class)->create();
-        factory(Position::class, 2)->create([
+        $company = Company::factory()->create();
+        Position::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -77,8 +77,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_flows(): void
     {
-        $company = factory(Company::class)->create();
-        factory(Flow::class, 2)->create([
+        $company = Company::factory()->create();
+        Flow::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -88,7 +88,7 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_statuses(): void
     {
-        $company = factory(Company::class)->create();
+        $company = Company::factory()->create();
         EmployeeStatus::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
@@ -99,8 +99,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_news(): void
     {
-        $company = factory(Company::class)->create();
-        factory(CompanyNews::class, 2)->create([
+        $company = Company::factory()->create();
+        CompanyNews::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -110,8 +110,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_pto_policies(): void
     {
-        $company = factory(Company::class)->create();
-        factory(CompanyPTOPolicy::class, 2)->create([
+        $company = Company::factory()->create();
+        CompanyPTOPolicy::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -121,8 +121,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_questions(): void
     {
-        $company = factory(Company::class)->create();
-        factory(Question::class, 2)->create([
+        $company = Company::factory()->create();
+        Question::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -132,8 +132,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_hardware(): void
     {
-        $company = factory(Company::class)->create();
-        factory(Hardware::class, 2)->create([
+        $company = Company::factory()->create();
+        Hardware::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -143,8 +143,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_skills(): void
     {
-        $company = factory(Company::class)->create();
-        factory(Skill::class, 2)->create([
+        $company = Company::factory()->create();
+        Skill::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -154,8 +154,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_expenses(): void
     {
-        $company = factory(Company::class)->create();
-        factory(Expense::class, 2)->create([
+        $company = Company::factory()->create();
+        Expense::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -165,8 +165,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_expense_categories(): void
     {
-        $company = factory(Company::class)->create();
-        factory(ExpenseCategory::class, 2)->create([
+        $company = Company::factory()->create();
+        ExpenseCategory::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -176,8 +176,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_managers(): void
     {
-        $company = factory(Company::class)->create();
-        factory(DirectReport::class, 2)->create([
+        $company = Company::factory()->create();
+        DirectReport::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -187,8 +187,8 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_has_many_projects(): void
     {
-        $company = factory(Company::class)->create();
-        factory(Project::class, 2)->create([
+        $company = Company::factory()->create();
+        Project::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -244,12 +244,12 @@ class CompanyTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2020, 1, 1));
 
-        $company = factory(Company::class)->create();
-        $firstPTO = factory(CompanyPTOPolicy::class)->create([
+        $company = Company::factory()->create();
+        $firstPTO = CompanyPTOPolicy::factory()->create([
             'company_id' => $company->id,
             'year' => 2020,
         ]);
-        factory(CompanyPTOPolicy::class)->create([
+        CompanyPTOPolicy::factory()->create([
             'company_id' => $company->id,
             'year' => 2021,
         ]);
@@ -263,18 +263,18 @@ class CompanyTest extends TestCase
     /** @test */
     public function it_gets_the_list_of_the_employees_managers(): void
     {
-        $company = factory(company::class)->create([]);
-        $dwight = factory(Employee::class)->create([
+        $company = Company::factory()->create([]);
+        $dwight = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
-        $john = factory(Employee::class)->create([
+        $john = Employee::factory()->create([
             'company_id' => $company->id,
         ]);
-        factory(DirectReport::class)->create([
+        DirectReport::factory()->create([
             'company_id' => $company->id,
             'manager_id' => $dwight->id,
         ]);
-        factory(DirectReport::class, 2)->create([
+        DirectReport::factory()->count(2)->create([
             'company_id' => $company->id,
             'manager_id' => $john->id,
         ]);

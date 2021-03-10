@@ -20,13 +20,13 @@ class QuestionControllerTest extends TestCase
         $employee = $this->createAdministrator();
         $this->actingAs($employee->user);
 
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $employee->company_id,
         ]);
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $employee->company_id,
         ]);
-        $answer = factory(Answer::class)->create([
+        $answer = Answer::factory()->create([
             'question_id' => $question->id,
             'employee_id' => $employee->id,
         ]);

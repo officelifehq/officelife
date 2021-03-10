@@ -15,11 +15,11 @@ class EmployeeLogViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_employee_logs(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);
-        $log = factory(EmployeeLog::class)->create([
+        $log = EmployeeLog::factory()->create([
             'author_id' => $michael->id,
             'employee_id' => $michael->id,
             'author_name' => 'michael scott',

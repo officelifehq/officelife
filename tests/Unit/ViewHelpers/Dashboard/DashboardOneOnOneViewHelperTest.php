@@ -20,21 +20,21 @@ class DashboardOneOnOneViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'happened_at' => '2020-09-09',
         ]);
 
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
+        $talkingPoint = OneOnOneTalkingPoint::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $actionItem = factory(OneOnOneActionItem::class)->create([
+        $actionItem = OneOnOneActionItem::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $note = factory(OneOnOneNote::class)->create([
+        $note = OneOnOneNote::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
@@ -64,7 +64,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $talkingPoint->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $talkingPoint->description,
                     'checked' => false,
                 ],
             ],
@@ -74,7 +74,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $actionItem->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $actionItem->description,
                     'checked' => false,
                 ],
             ],
@@ -84,7 +84,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $note->id,
-                    'note' => 'what are you doing right now',
+                    'note' => $note->note,
                 ],
             ],
             $array['notes']->toArray()
