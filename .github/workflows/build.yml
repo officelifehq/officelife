@@ -26,16 +26,6 @@ jobs:
     name: Testsuite ${{ matrix.testsuite }} with PHP ${{ matrix.php-version }} + ${{ matrix.connection }}
 
     services:
-      mysql:
-        image: mysql:5.7
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_USER: officelife
-          MYSQL_DATABASE: officelife
-          MYSQL_PASSWORD: secret
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
       pgsql:
         image: postgres:13.0
         env:
@@ -112,9 +102,14 @@ jobs:
             done; \
             echo "}"; \
           } | tee public/mix-manifest.json
-      - name: Create database
+      - name: Create sqlite database
         if: matrix.connection == 'sqlite'
         run: touch database/database.sqlite
+      - name: Create mysql database
+        if: matrix.connection == 'mysql'
+        run: |
+          sudo systemctl start mysql.service
+          mysql --protocol=tcp -u root -proot -e "CREATE DATABASE IF NOT EXISTS officelife CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
       - name: Generate key
         run: php artisan key:generate
