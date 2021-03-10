@@ -3,7 +3,7 @@
 namespace Database\Factories\Company;
 
 use App\Models\Company\Task;
-use App\Models\Company\Company;
+use App\Models\Company\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaskFactory extends Factory
@@ -23,7 +23,7 @@ class TaskFactory extends Factory
     public function definition()
     {
         return [
-            'employee_id' => Company::factory(),
+            'employee_id' => Employee::factory(),
             'title' => $this->faker->sentence(),
         ];
     }
