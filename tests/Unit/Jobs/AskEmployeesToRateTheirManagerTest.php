@@ -4,7 +4,6 @@ namespace Tests\Unit\Jobs;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Models\Company\Employee;
 use App\Jobs\AskEmployeesToRateTheirManager;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Services\Company\Employee\Manager\AssignManager;
@@ -20,12 +19,8 @@ class AskEmployeesToRateTheirManagerTest extends TestCase
 
         // michael will be the manager of dwight and jim
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $jim = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $dwight = $this->createAnotherEmployee($michael);
+        $jim = $this->createAnotherEmployee($michael);
 
         (new AssignManager)->execute([
             'company_id' => $michael->company_id,

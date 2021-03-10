@@ -21,28 +21,28 @@ class EmployeeSurveysViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         // we need one active survey without any results yet and one old survey with results
-        $activeSurvey = factory(RateYourManagerSurvey::class)->create([
+        $activeSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => true,
             'valid_until_at' => Carbon::now()->addDays(),
         ]);
 
-        $oldSurvey = factory(RateYourManagerSurvey::class)->create([
+        $oldSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => false,
             'valid_until_at' => Carbon::now()->subDays(10),
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::BAD,
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::AVERAGE,
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::GOOD,
@@ -108,28 +108,28 @@ class EmployeeSurveysViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         // we need one old survey without any results yet and one old survey with results
-        $inactiveSurvey = factory(RateYourManagerSurvey::class)->create([
+        $inactiveSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => false,
             'valid_until_at' => Carbon::now()->subDays(10),
         ]);
 
-        $oldSurvey = factory(RateYourManagerSurvey::class)->create([
+        $oldSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => false,
             'valid_until_at' => Carbon::now()->subDays(10),
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::BAD,
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::AVERAGE,
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::GOOD,
@@ -193,23 +193,23 @@ class EmployeeSurveysViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         // we need one active survey without any results yet and one old survey with results
-        $activeSurvey = factory(RateYourManagerSurvey::class)->create([
+        $activeSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => true,
             'valid_until_at' => Carbon::now()->addDays(),
         ]);
-        $answer1 = factory(RateYourManagerAnswer::class)->create([
+        $answer1 = RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $activeSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::BAD,
         ]);
-        $answer2 = factory(RateYourManagerAnswer::class)->create([
+        $answer2 = RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $activeSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::AVERAGE,
             'comment' => 'awesome',
         ]);
-        $answer3 = factory(RateYourManagerAnswer::class)->create([
+        $answer3 = RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $activeSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::GOOD,

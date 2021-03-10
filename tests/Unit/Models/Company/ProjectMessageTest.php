@@ -13,14 +13,14 @@ class ProjectMessageTest extends TestCase
     /** @test */
     public function it_belongs_to_a_project(): void
     {
-        $decision = factory(ProjectDecision::class)->create([]);
+        $decision = ProjectDecision::factory()->create([]);
         $this->assertTrue($decision->project()->exists());
     }
 
     /** @test */
     public function it_belongs_to_a_employee(): void
     {
-        $decision = factory(ProjectDecision::class)->create([]);
+        $decision = ProjectDecision::factory()->create([]);
         $this->assertTrue($decision->author()->exists());
     }
 }

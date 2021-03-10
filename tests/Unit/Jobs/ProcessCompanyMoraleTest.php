@@ -5,7 +5,6 @@ namespace Tests\Unit\Jobs;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Morale;
-use App\Models\Company\Employee;
 use App\Jobs\ProcessCompanyMorale;
 use App\Models\Company\MoraleCompanyHistory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -20,16 +19,14 @@ class ProcessCompanyMoraleTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $dwight = $this->createAnotherEmployee($michael);
 
-        factory(Morale::class)->create([
+        Morale::factory()->create([
             'employee_id' => $michael->id,
             'emotion' => 1,
         ]);
 
-        factory(Morale::class)->create([
+        Morale::factory()->create([
             'employee_id' => $dwight->id,
             'emotion' => 3,
         ]);

@@ -76,7 +76,7 @@ class CreateAnswerTest extends TestCase
     {
         Queue::fake();
 
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

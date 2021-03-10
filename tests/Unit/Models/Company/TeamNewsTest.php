@@ -14,25 +14,25 @@ class TeamNewsTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_team(): void
     {
-        $news = factory(TeamNews::class)->create([]);
+        $news = TeamNews::factory()->create([]);
         $this->assertTrue($news->team()->exists());
     }
 
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $news = factory(TeamNews::class)->create([]);
+        $news = TeamNews::factory()->create([]);
         $this->assertTrue($news->author()->exists());
     }
 
     /** @test */
     public function it_returns_an_object(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);
-        $news = factory(TeamNews::class)->create([
+        $news = TeamNews::factory()->create([
             'author_id' => $michael->id,
             'author_name' => 'michael scott',
             'title' => 'news',

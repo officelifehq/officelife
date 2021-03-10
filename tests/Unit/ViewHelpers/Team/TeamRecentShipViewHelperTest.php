@@ -17,13 +17,13 @@ class TeamRecentShipViewHelperTest extends TestCase
     public function it_gets_a_collection_of_recent_ships(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
-        $featureB = factory(Ship::class)->create([
+        $featureB = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
         $featureA->employees()->attach([$michael->id]);
@@ -73,10 +73,10 @@ class TeamRecentShipViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
             'description' => '**cool**',
         ]);

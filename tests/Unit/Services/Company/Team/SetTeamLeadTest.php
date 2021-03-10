@@ -24,7 +24,7 @@ class SetTeamLeadTest extends TestCase
     public function it_sets_someone_a_team_lead_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -36,7 +36,7 @@ class SetTeamLeadTest extends TestCase
     public function it_sets_someone_a_team_lead_as_hr(): void
     {
         $michael = $this->createHR();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -48,7 +48,7 @@ class SetTeamLeadTest extends TestCase
     public function normal_user_cant_execute_service(): void
     {
         $michael = $this->createEmployee();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -63,7 +63,7 @@ class SetTeamLeadTest extends TestCase
     public function it_fails_if_the_team_is_not_part_of_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([]);
+        $team = Team::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $team, false);
@@ -72,8 +72,8 @@ class SetTeamLeadTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        factory(Team::class)->create([
+        $michael = Employee::factory()->create();
+        Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

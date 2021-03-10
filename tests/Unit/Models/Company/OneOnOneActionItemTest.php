@@ -13,7 +13,7 @@ class OneOnOneActionItemTest extends TestCase
     /** @test */
     public function it_belongs_to_an_entry(): void
     {
-        $item = factory(OneOnOneActionItem::class)->create([]);
+        $item = OneOnOneActionItem::factory()->create([]);
         $this->assertTrue($item->entry()->exists());
     }
 }

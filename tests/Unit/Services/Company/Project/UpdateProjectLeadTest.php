@@ -22,7 +22,7 @@ class UpdateProjectLeadTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight, $project);
@@ -33,7 +33,7 @@ class UpdateProjectLeadTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight, $project);
@@ -43,7 +43,7 @@ class UpdateProjectLeadTest extends TestCase
     public function it_updates_the_project_lead_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $michael, $project);
@@ -65,7 +65,7 @@ class UpdateProjectLeadTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -78,7 +78,7 @@ class UpdateProjectLeadTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $dwight, $project);

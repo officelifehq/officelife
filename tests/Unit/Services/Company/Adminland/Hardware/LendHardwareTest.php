@@ -23,7 +23,7 @@ class LendHardwareTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $hardware = factory(Hardware::class)->create([
+        $hardware = Hardware::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight, $hardware);
@@ -34,7 +34,7 @@ class LendHardwareTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
-        $hardware = factory(Hardware::class)->create([
+        $hardware = Hardware::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight, $hardware);
@@ -47,7 +47,7 @@ class LendHardwareTest extends TestCase
 
         $michael = $this->createEmployee();
         $dwight = $this->createAnotherEmployee($michael);
-        $hardware = factory(Hardware::class)->create([
+        $hardware = Hardware::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight, $hardware);
@@ -71,7 +71,7 @@ class LendHardwareTest extends TestCase
 
         $michael = $this->createEmployee();
         $dwight = $this->createAnotherEmployee($michael);
-        $hardware = factory(Hardware::class)->create([]);
+        $hardware = Hardware::factory()->create([]);
         $this->executeService($michael, $dwight, $hardware);
     }
 
@@ -82,7 +82,7 @@ class LendHardwareTest extends TestCase
 
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $hardware = factory(Hardware::class)->create([
+        $hardware = Hardware::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight, $hardware);

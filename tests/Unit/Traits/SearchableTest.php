@@ -13,7 +13,7 @@ class SearchableTest extends TestCase
     /** @test */
     public function it_searches_contacts_and_return_collection(): void
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = Employee::factory()->create();
         $searchResults = Employee::search($employee->first_name, $employee->company_id, 10, 'created_at desc');
 
         $this->assertInstanceOf('Illuminate\Pagination\LengthAwarePaginator', $searchResults);
@@ -22,7 +22,7 @@ class SearchableTest extends TestCase
     /** @test */
     public function it_searches_an_employee_through_the_first_name(): void
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = Employee::factory()->create();
         $searchResults = Employee::search($employee->first_name, $employee->company_id, 10, 'created_at desc');
 
         $this->assertTrue($searchResults->contains($employee));
@@ -31,7 +31,7 @@ class SearchableTest extends TestCase
     /** @test */
     public function it_searches_an_employee_through_the_last_name(): void
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = Employee::factory()->create();
         $searchResults = Employee::search($employee->last_name, $employee->company_id, 10, 'created_at desc');
 
         $this->assertTrue($searchResults->contains($employee));
@@ -40,7 +40,7 @@ class SearchableTest extends TestCase
     /** @test */
     public function it_fails_to_search_employees(): void
     {
-        $employee = factory(Employee::class)->create(['first_name' => 'TestShouldFail']);
+        $employee = Employee::factory()->create(['first_name' => 'TestShouldFail']);
         $searchResults = Employee::search('TestWillSucceed', $employee->company_id, 10, 'created_at desc');
 
         $this->assertFalse($searchResults->contains($employee));

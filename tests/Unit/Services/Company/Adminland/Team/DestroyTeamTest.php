@@ -55,7 +55,7 @@ class DestroyTeamTest extends TestCase
     public function it_fails_if_team_doesnt_belong_to_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
 
         $request = [
             'company_id' => $sales->company_id,
@@ -71,7 +71,7 @@ class DestroyTeamTest extends TestCase
     {
         Queue::fake();
 
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

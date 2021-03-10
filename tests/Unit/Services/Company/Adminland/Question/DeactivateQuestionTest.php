@@ -51,7 +51,7 @@ class DeactivateQuestionTest extends TestCase
     /** @test */
     public function it_fails_if_question_is_not_linked_to_company(): void
     {
-        $question = factory(Question::class)->create([]);
+        $question = Question::factory()->create([]);
         $michael = $this->createAdministrator();
 
         $request = [
@@ -68,10 +68,10 @@ class DeactivateQuestionTest extends TestCase
     {
         Queue::fake();
 
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'active' => true,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $question->company_id,
             'permission_level' => $permissionLevel,
         ]);

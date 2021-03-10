@@ -22,10 +22,10 @@ class DestroyShipTest extends TestCase
     public function it_destroys_a_recent_ship_entry_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -36,10 +36,10 @@ class DestroyShipTest extends TestCase
     public function it_destroys_a_recent_ship_entry_as_hr(): void
     {
         $michael = $this->createHR();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -50,10 +50,10 @@ class DestroyShipTest extends TestCase
     public function normal_user_cant_destroy_a_recent_ship_entry(): void
     {
         $michael = $this->createEmployee();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $ship = factory(Ship::class)->create([
+        $ship = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
 
@@ -75,7 +75,7 @@ class DestroyShipTest extends TestCase
     public function it_fails_if_the_ship_entry_is_not_part_of_the_company(): void
     {
         $michael = $this->createHR();
-        $ship = factory(Ship::class)->create([]);
+        $ship = Ship::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $ship);

@@ -4,9 +4,12 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class RateYourManagerAnswer extends Model
 {
+    use HasFactory;
+
     protected $table = 'rate_your_manager_answers';
 
     /**

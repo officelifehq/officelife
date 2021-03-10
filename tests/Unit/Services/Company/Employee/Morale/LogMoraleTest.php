@@ -24,7 +24,7 @@ class LogMoraleTest extends TestCase
     public function it_logs_a_morale_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight);
@@ -34,7 +34,7 @@ class LogMoraleTest extends TestCase
     public function it_logs_a_morale_as_hr(): void
     {
         $michael = $this->createHR();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight);
@@ -52,7 +52,7 @@ class LogMoraleTest extends TestCase
     {
         $this->expectException(NotEnoughPermissionException::class);
         $michael = $this->createEmployee();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $dwight);
@@ -63,8 +63,8 @@ class LogMoraleTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
-        $michael = factory(Employee::class)->create([]);
-        factory(Morale::class)->create([
+        $michael = Employee::factory()->create();
+        Morale::factory()->create([
             'employee_id' => $michael->id,
             'created_at' => now(),
         ]);
@@ -86,7 +86,7 @@ class LogMoraleTest extends TestCase
     {
         $this->expectException(ModelNotFoundException::class);
         $michael = $this->createEmployee();
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         $this->executeService($michael, $dwight);
     }

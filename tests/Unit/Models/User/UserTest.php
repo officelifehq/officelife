@@ -18,8 +18,8 @@ class UserTest extends TestCase
     /** @test */
     public function it_has_many_employees(): void
     {
-        $user = factory(User::class)->create([]);
-        factory(Employee::class, 3)->create([
+        $user = User::factory()->create([]);
+        Employee::factory(3)->create([
             'user_id' => $user->id,
         ]);
         $this->assertTrue($user->employees()->exists());
@@ -54,7 +54,7 @@ class UserTest extends TestCase
     /** @test */
     public function it_gets_the_employee_object_for_the_given_user(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create([]);
 
         $this->assertInstanceOf(
             Employee::class,
@@ -65,8 +65,8 @@ class UserTest extends TestCase
     /** @test */
     public function it_fails_to_get_the_employee_object_is_user_is_not_part_of_the_company(): void
     {
-        $dwight = factory(Employee::class)->create([]);
-        $company = factory(Company::class)->create([]);
+        $dwight = Employee::factory()->create([]);
+        $company = Company::factory()->create([]);
 
         $this->assertNull(
             $dwight->user->getEmployeeObjectForCompany($company)
@@ -76,8 +76,8 @@ class UserTest extends TestCase
     /** @test */
     public function it_gets_the_latest_notifications_for_the_user(): void
     {
-        $dwight = factory(Employee::class)->create([]);
-        factory(Notification::class, 3)->create([
+        $dwight = Employee::factory()->create([]);
+        Notification::factory()->count(3)->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -88,7 +88,7 @@ class UserTest extends TestCase
             $result->count()
         );
 
-        factory(Notification::class, 2)->create([
+        Notification::factory()->count(2)->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -103,8 +103,8 @@ class UserTest extends TestCase
     /** @test */
     public function it_fails_to_get_the_latest_notifications_if_the_user_does_not_have_a_company(): void
     {
-        $dwight = factory(Employee::class)->create([]);
-        $company = factory(Company::class)->create([]);
+        $dwight = Employee::factory()->create([]);
+        $company = Company::factory()->create([]);
 
         $result = $dwight->user->getLatestNotifications($company);
 
@@ -119,8 +119,8 @@ class UserTest extends TestCase
         FacadesNotification::fake();
 
         // be sure to have at least 2 users
-        factory(User::class)->create([]);
-        $user = factory(User::class)->create([
+        User::factory()->create([]);
+        $user = User::factory()->create([
             'email_verified_at' => null,
         ]);
         $user->sendEmailVerificationNotification();

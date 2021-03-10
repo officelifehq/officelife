@@ -51,7 +51,7 @@ class DestroyHardwareTest extends TestCase
     /** @test */
     public function it_fails_if_hardware_is_not_linked_to_company(): void
     {
-        $hardware = factory(Hardware::class)->create([]);
+        $hardware = Hardware::factory()->create([]);
         $michael = $this->createAdministrator();
 
         $request = [
@@ -68,8 +68,8 @@ class DestroyHardwareTest extends TestCase
     {
         Queue::fake();
 
-        $hardware = factory(Hardware::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $hardware = Hardware::factory()->create([]);
+        $michael = Employee::factory()->create([
             'company_id' => $hardware->company_id,
             'permission_level' => $permissionLevel,
         ]);

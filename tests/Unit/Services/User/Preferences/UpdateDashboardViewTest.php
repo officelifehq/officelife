@@ -17,7 +17,7 @@ class UpdateDashboardViewTest extends TestCase
     /** @test */
     public function it_updates_the_default_dashboard_view_parameter(): void
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = Employee::factory()->create();
 
         $request = [
             'employee_id' => $employee->id,
@@ -38,8 +38,8 @@ class UpdateDashboardViewTest extends TestCase
     /** @test */
     public function it_fails_when_the_employee_doesnt_belong_to_the_company(): void
     {
-        $employee = factory(Employee::class)->create([]);
-        $company = factory(Company::class)->create([]);
+        $employee = Employee::factory()->create();
+        $company = Company::factory()->create([]);
 
         $request = [
             'employee_id' => $employee->id,

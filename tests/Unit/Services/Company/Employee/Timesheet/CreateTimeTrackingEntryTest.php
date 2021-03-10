@@ -82,8 +82,8 @@ class CreateTimeTrackingEntryTest extends TestCase
     /** @test */
     public function it_fails_if_employee_is_not_part_of_the_company(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $jim = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->asHR()->create();
+        $jim = Employee::factory()->create();
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
@@ -112,7 +112,7 @@ class CreateTimeTrackingEntryTest extends TestCase
     /** @test */
     public function it_fails_if_total_duration_of_the_day_exceeds_24_hours(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->asHR()->create();
         $dwight = $this->createAnotherEmployee($michael);
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
@@ -140,7 +140,7 @@ class CreateTimeTrackingEntryTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,

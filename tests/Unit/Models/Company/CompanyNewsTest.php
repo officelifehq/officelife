@@ -14,25 +14,25 @@ class CompanyNewsTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $news = factory(CompanyNews::class)->create([]);
+        $news = CompanyNews::factory()->create([]);
         $this->assertTrue($news->company()->exists());
     }
 
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $news = factory(CompanyNews::class)->create([]);
+        $news = CompanyNews::factory()->create([]);
         $this->assertTrue($news->author()->exists());
     }
 
     /** @test */
     public function it_returns_an_object(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);
-        $news = factory(CompanyNews::class)->create([
+        $news = CompanyNews::factory()->create([
             'author_id' => $michael->id,
             'author_name' => 'michael scott',
             'title' => 'news',
@@ -59,7 +59,7 @@ class CompanyNewsTest extends ApiTestCase
             $news->toObject()
         );
 
-        $news = factory(CompanyNews::class)->create([
+        $news = CompanyNews::factory()->create([
             'author_id' => null,
             'author_name' => 'michael scott',
             'title' => 'news',

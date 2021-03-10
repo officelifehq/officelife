@@ -14,8 +14,8 @@ class TaskTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_an_assignee(): void
     {
-        $employee = factory(Employee::class)->create([]);
-        $task = factory(Task::class)->create([
+        $employee = Employee::factory()->create([]);
+        $task = Task::factory()->create([
             'employee_id' => $employee->id,
         ]);
         $this->assertTrue($task->employee()->exists());
@@ -24,10 +24,10 @@ class TaskTest extends ApiTestCase
     /** @test */
     public function it_only_gets_in_progress_tasks(): void
     {
-        factory(Task::class)->create([
+        Task::factory()->create([
             'completed' => true,
         ]);
-        factory(Task::class, 2)->create([
+        Task::factory()->count(2)->create([
             'completed' => false,
         ]);
         $this->assertCount(2, Task::inProgress()->get());

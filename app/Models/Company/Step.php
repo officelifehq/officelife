@@ -5,6 +5,7 @@ namespace App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * A step has three components, like "3 days before".
@@ -20,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Step extends Model
 {
+    use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *

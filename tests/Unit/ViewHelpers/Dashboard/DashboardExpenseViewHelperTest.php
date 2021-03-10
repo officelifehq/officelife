@@ -19,7 +19,7 @@ class DashboardExpenseViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
@@ -27,7 +27,7 @@ class DashboardExpenseViewHelperTest extends TestCase
             'converted_to_currency' => 'EUR',
         ]);
 
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'status' => Expense::CREATED,
         ]);
@@ -40,11 +40,11 @@ class DashboardExpenseViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'accounting_approval',
-                    'category' => 'travel',
+                    'category' => $expense->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'manager' => null,
                     'employee' => [
@@ -65,7 +65,7 @@ class DashboardExpenseViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
 
-        $expenseWithManager = factory(Expense::class)->create([
+        $expenseWithManager = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'manager_approver_id' => $dwight->id,
@@ -76,7 +76,7 @@ class DashboardExpenseViewHelperTest extends TestCase
 
         sleep(1);
 
-        $expenseWithoutManager = factory(Expense::class)->create([
+        $expenseWithoutManager = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
@@ -84,7 +84,7 @@ class DashboardExpenseViewHelperTest extends TestCase
             'converted_to_currency' => 'EUR',
         ]);
 
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'status' => Expense::CREATED,
         ]);
@@ -97,11 +97,11 @@ class DashboardExpenseViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expenseWithoutManager->id,
-                    'title' => 'Restaurant',
+                    'title' => $expenseWithoutManager->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'manager_approval',
-                    'category' => 'travel',
+                    'category' => $expenseWithoutManager->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'managers' => null,
                     'employee' => [
@@ -113,11 +113,11 @@ class DashboardExpenseViewHelperTest extends TestCase
                 ],
                 1 => [
                     'id' => $expenseWithManager->id,
-                    'title' => 'Restaurant',
+                    'title' => $expenseWithManager->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'manager_approval',
-                    'category' => 'travel',
+                    'category' => $expenseWithManager->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'managers' => null,
                     'employee' => [
@@ -140,7 +140,7 @@ class DashboardExpenseViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'manager_approver_id' => $dwight->id,

@@ -46,7 +46,7 @@ class SetupFrontEndTestUser extends Command
     {
         $this->migrator->setConnection($this->option('database'));
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
         $this->info($user->getKey());
     }
 }

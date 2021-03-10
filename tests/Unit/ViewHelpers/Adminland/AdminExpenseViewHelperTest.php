@@ -16,7 +16,7 @@ class AdminExpenseViewHelperTest extends TestCase
     public function it_gets_information_about_expense_categories_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $category = factory(ExpenseCategory::class)->create([
+        $category = ExpenseCategory::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -42,13 +42,13 @@ class AdminExpenseViewHelperTest extends TestCase
     public function it_gets_information_about_employees_with_the_right_to_manage_expenses_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
             'can_manage_expenses' => true,
             'first_name' => 'dwight',
             'last_name' => 'schrute',
         ]);
-        factory(Employee::class, 2)->create([
+        Employee::factory(2)->create([
             'company_id' => $michael->company_id,
             'can_manage_expenses' => false,
         ]);

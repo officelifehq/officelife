@@ -47,7 +47,7 @@ class UpdateTeamTest extends TestCase
         $this->expectException(TeamNameNotUniqueException::class);
         $michael = $this->createAdministrator();
 
-        factory(Team::class)->create([
+        Team::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'commerce',
         ]);
@@ -58,7 +58,7 @@ class UpdateTeamTest extends TestCase
     /** @test */
     public function it_can_update_a_team_with_a_name_already_taken_by_a_team_in_another_company(): void
     {
-        factory(Team::class)->create([
+        Team::factory()->create([
             'name' => 'Sales Team',
         ]);
         $michael = $this->createAdministrator();
@@ -80,7 +80,7 @@ class UpdateTeamTest extends TestCase
     public function it_fails_if_team_doesnt_belong_to_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([]);
+        $sales = Team::factory()->create([]);
 
         $request = [
             'company_id' => $sales->company_id,
@@ -97,7 +97,7 @@ class UpdateTeamTest extends TestCase
     {
         Queue::fake();
 
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
             'name' => $currentName,
         ]);

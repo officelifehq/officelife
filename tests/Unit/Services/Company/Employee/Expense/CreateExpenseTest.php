@@ -62,11 +62,11 @@ class CreateExpenseTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $managerA = factory(Employee::class)->create([
+        $managerA = Employee::factory()->create([
             'company_id' => $michael->company_id,
             'first_name' => 'toto',
         ]);
-        $managerB = factory(Employee::class)->create([
+        $managerB = Employee::factory()->create([
             'company_id' => $michael->company_id,
             'first_name' => 'titi',
         ]);
@@ -107,7 +107,7 @@ class CreateExpenseTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $category = factory(ExpenseCategory::class)->create();
+        $category = ExpenseCategory::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $dwight, $category);
@@ -129,7 +129,7 @@ class CreateExpenseTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $managerA = factory(Employee::class)->create([
+        $managerA = Employee::factory()->create([
             'company_id' => $michael->company_id,
             'first_name' => 'toto',
         ]);
@@ -160,7 +160,7 @@ class CreateExpenseTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $managerA = factory(Employee::class)->create([
+        $managerA = Employee::factory()->create([
             'company_id' => $michael->company_id,
             'first_name' => 'toto',
         ]);

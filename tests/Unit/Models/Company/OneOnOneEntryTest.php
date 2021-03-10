@@ -16,22 +16,22 @@ class OneOnOneEntryTest extends TestCase
     /** @test */
     public function it_belongs_to_a_manager(): void
     {
-        $entry = factory(OneOnOneEntry::class)->create([]);
+        $entry = OneOnOneEntry::factory()->create([]);
         $this->assertTrue($entry->manager()->exists());
     }
 
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $entry = factory(OneOnOneEntry::class)->create([]);
+        $entry = OneOnOneEntry::factory()->create([]);
         $this->assertTrue($entry->employee()->exists());
     }
 
     /** @test */
     public function it_has_many_talking_points(): void
     {
-        $entry = factory(OneOnOneEntry::class)->create([]);
-        factory(OneOnOneTalkingPoint::class, 2)->create([
+        $entry = OneOnOneEntry::factory()->create([]);
+        OneOnOneTalkingPoint::factory()->count(2)->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->assertTrue($entry->talkingPoints()->exists());
@@ -40,8 +40,8 @@ class OneOnOneEntryTest extends TestCase
     /** @test */
     public function it_has_many_action_items(): void
     {
-        $entry = factory(OneOnOneEntry::class)->create([]);
-        factory(OneOnOneActionItem::class, 2)->create([
+        $entry = OneOnOneEntry::factory()->create([]);
+        OneOnOneActionItem::factory()->count(2)->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->assertTrue($entry->actionItems()->exists());
@@ -50,8 +50,8 @@ class OneOnOneEntryTest extends TestCase
     /** @test */
     public function it_has_many_notes(): void
     {
-        $entry = factory(OneOnOneEntry::class)->create([]);
-        factory(OneOnOneNote::class, 2)->create([
+        $entry = OneOnOneEntry::factory()->create([]);
+        OneOnOneNote::factory()->count(2)->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->assertTrue($entry->notes()->exists());

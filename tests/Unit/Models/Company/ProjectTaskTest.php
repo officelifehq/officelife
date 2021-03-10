@@ -16,7 +16,7 @@ class ProjectTaskTest extends TestCase
     /** @test */
     public function it_belongs_to_a_project(): void
     {
-        $task = ProjectTask::factory()->make();
+        $task = ProjectTask::factory()->create();
         $this->assertTrue($task->project()->exists());
     }
 

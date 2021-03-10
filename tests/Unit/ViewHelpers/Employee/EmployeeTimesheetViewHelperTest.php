@@ -91,7 +91,7 @@ class EmployeeTimesheetViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_years_representing_all_the_years_the_employee_has_a_timesheet_for(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         // logging worklogs
         Timesheet::factory()->create([
@@ -132,7 +132,7 @@ class EmployeeTimesheetViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_months_representing_all_the_months_the_employee_has_been_working_from_home(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         Timesheet::factory()->create([
             'employee_id' => $michael->id,

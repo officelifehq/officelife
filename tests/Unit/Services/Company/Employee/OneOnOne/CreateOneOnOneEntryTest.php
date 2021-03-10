@@ -40,11 +40,11 @@ class CreateOneOnOneEntryTest extends TestCase
             'happened_at' => '2000-02-02',
         ]);
 
-        factory(OneOnOneActionItem::class, 2)->create([
+        OneOnOneActionItem::factory()->count(2)->create([
             'one_on_one_entry_id' => $oldEntry->id,
             'checked' => true,
         ]);
-        factory(OneOnOneActionItem::class, 2)->create([
+        OneOnOneActionItem::factory()->count(2)->create([
             'one_on_one_entry_id' => $oldEntry->id,
             'checked' => false,
         ]);
@@ -112,7 +112,7 @@ class CreateOneOnOneEntryTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $company = factory(Company::class)->create([]);
+        $company = Company::factory()->create([]);
         $michael->company_id = $company->id;
         $michael->save();
 

@@ -23,6 +23,7 @@ class RemoveActionfromStepTest extends TestCase
         $michael = $this->createAdministrator();
         $this->executeService($michael);
     }
+
     /** @test */
     public function it_removes_an_action_from_a_step_as_hr(): void
     {
@@ -42,7 +43,7 @@ class RemoveActionfromStepTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $employee = factory(Employee::class)->create([]);
+        $employee = Employee::factory()->create();
 
         $request = [
             'company_id' => $employee->company_id,
@@ -57,13 +58,13 @@ class RemoveActionfromStepTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'flow_id' => $flow->id,
         ]);
-        $action = factory(Action::class)->create([]);
+        $action = Action::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -81,11 +82,11 @@ class RemoveActionfromStepTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $flow = factory(Flow::class)->create([]);
-        $step = factory(Step::class)->create([
+        $flow = Flow::factory()->create([]);
+        $step = Step::factory()->create([
             'flow_id' => $flow->id,
         ]);
-        $action = factory(Action::class)->create([
+        $action = Action::factory()->create([
             'step_id' => $step->id,
         ]);
 
@@ -102,13 +103,13 @@ class RemoveActionfromStepTest extends TestCase
 
     private function executeService(Employee $michael): void
     {
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'flow_id' => $flow->id,
         ]);
-        $action = factory(Action::class)->create([
+        $action = Action::factory()->create([
             'step_id' => $step->id,
         ]);
 

@@ -17,15 +17,15 @@ class TeamShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_employees(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         // create one final employee with a locked status (shouldn't appear in the results)
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'locked' => true,
         ]);
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -67,13 +67,13 @@ class TeamShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_recent_ships(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
-        $featureB = factory(Ship::class)->create([
+        $featureB = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
         $featureA->employees()->attach([$michael->id]);

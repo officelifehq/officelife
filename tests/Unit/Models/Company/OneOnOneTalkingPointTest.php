@@ -13,7 +13,7 @@ class OneOnOneTalkingPointTest extends TestCase
     /** @test */
     public function it_belongs_to_an_entry(): void
     {
-        $point = factory(OneOnOneTalkingPoint::class)->create([]);
+        $point = OneOnOneTalkingPoint::factory()->create([]);
         $this->assertTrue($point->entry()->exists());
     }
 }

@@ -26,20 +26,20 @@ class DashboardManagerViewHelperTest extends TestCase
     public function it_gets_a_collection_of_pending_expenses(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
         $request = [
             'company_id' => $dwight->company_id,
-            'author_id' => $dwight->id,
+            'author_id' => $michael->id,
             'employee_id' => $dwight->id,
             'manager_id' => $michael->id,
         ];
 
         (new AssignManager)->execute($request);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $dwight->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
@@ -47,7 +47,7 @@ class DashboardManagerViewHelperTest extends TestCase
             'converted_to_currency' => 'EUR',
         ]);
 
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $dwight->id,
             'status' => Expense::CREATED,
@@ -61,11 +61,11 @@ class DashboardManagerViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'manager_approval',
-                    'category' => 'travel',
+                    'category' => $expense->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/manager/expenses/'.$expense->id,
                     'employee' => [
@@ -87,7 +87,7 @@ class DashboardManagerViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $michael->company_id,
             'employee_id' => $michael->id,
             'manager_approver_id' => $dwight->id,
@@ -118,10 +118,10 @@ class DashboardManagerViewHelperTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -177,10 +177,10 @@ class DashboardManagerViewHelperTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $status = EmployeeStatus::factory()->create([
@@ -233,10 +233,10 @@ class DashboardManagerViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         // creating two employees and adding timesheets after this
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

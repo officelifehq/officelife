@@ -13,7 +13,7 @@ class EmployeeDailyCalendarEntryTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $date = factory(EmployeeDailyCalendarEntry::class)->create([]);
+        $date = EmployeeDailyCalendarEntry::factory()->create([]);
         $this->assertTrue($date->employee()->exists());
     }
 }

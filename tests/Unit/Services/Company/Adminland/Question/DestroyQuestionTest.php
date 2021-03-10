@@ -51,7 +51,7 @@ class DestroyQuestionTest extends TestCase
     /** @test */
     public function it_fails_if_position_is_not_linked_to_company(): void
     {
-        $question = factory(Question::class)->create([]);
+        $question = Question::factory()->create([]);
         $michael = $this->createAdministrator();
 
         $request = [
@@ -68,8 +68,8 @@ class DestroyQuestionTest extends TestCase
     {
         Queue::fake();
 
-        $question = factory(Question::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $question = Question::factory()->create([]);
+        $michael = Employee::factory()->create([
             'company_id' => $question->company_id,
             'permission_level' => $permissionLevel,
         ]);

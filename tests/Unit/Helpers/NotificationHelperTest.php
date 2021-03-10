@@ -18,7 +18,7 @@ class NotificationHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        factory(Notification::class, 3)->create([
+        Notification::factory()->count(3)->create([
             'action' => 'dummy_data_generated',
             'objects' => json_encode([
                 'company_name' => $michael->company->name,
@@ -26,7 +26,7 @@ class NotificationHelperTest extends TestCase
             'employee_id' => $michael->id,
         ]);
 
-        factory(Notification::class, 2)->create([
+        Notification::factory()->count(2)->create([
             'action' => 'dummy_data_generated',
             'read' => true,
             'objects' => json_encode([
@@ -53,7 +53,7 @@ class NotificationHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $notification = factory(Notification::class)->create([
+        $notification = Notification::factory()->create([
             'action' => 'dummy_data_generated',
             'objects' => json_encode([
                 'company_name' => $michael->company->name,
@@ -76,7 +76,7 @@ class NotificationHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $notification = factory(Notification::class)->create([
+        $notification = Notification::factory()->create([
             'action' => 'employee_added_to_company',
             'objects' => json_encode([
                 'company_name' => $michael->company->name,
@@ -98,11 +98,11 @@ class NotificationHelperTest extends TestCase
     public function it_manages_the_case_when_an_employee_has_been_added_to_the_team(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
-        $notification = factory(Notification::class)->create([
+        $notification = Notification::factory()->create([
             'action' => 'employee_added_to_team',
             'objects' => json_encode([
                 'team_name' => $sales->name,
@@ -124,11 +124,11 @@ class NotificationHelperTest extends TestCase
     public function it_manages_the_case_when_an_employee_has_been_removed_from_the_team(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
-        $notification = factory(Notification::class)->create([
+        $notification = Notification::factory()->create([
             'action' => 'employee_removed_from_team',
             'objects' => json_encode([
                 'team_name' => $sales->name,
@@ -150,11 +150,11 @@ class NotificationHelperTest extends TestCase
     public function it_manages_the_case_when_an_employee_has_been_promoted_to_a_team_lead(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
-        $notification = factory(Notification::class)->create([
+        $notification = Notification::factory()->create([
             'action' => 'team_lead_set',
             'objects' => json_encode([
                 'team_name' => $sales->name,
@@ -176,11 +176,11 @@ class NotificationHelperTest extends TestCase
     public function it_manages_the_case_when_an_employee_has_been_demoted_from_a_position_of_team_lead(): void
     {
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
-        $notification = factory(Notification::class)->create([
+        $notification = Notification::factory()->create([
             'action' => 'team_lead_removed',
             'objects' => json_encode([
                 'team_name' => $sales->name,
@@ -201,7 +201,7 @@ class NotificationHelperTest extends TestCase
     /** @test */
     public function it_returns_empty_by_default(): void
     {
-        $notification = factory(Notification::class)->create([
+        $notification = Notification::factory()->create([
             'action' => '',
         ]);
 

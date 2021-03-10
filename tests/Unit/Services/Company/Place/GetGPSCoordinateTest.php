@@ -21,7 +21,7 @@ class GetGPSCoordinateTest extends TestCase
     {
         config(['officelife.location_iq_api_key' => null]);
 
-        $place = factory(Place::class)->create();
+        $place = Place::factory()->create();
 
         $request = [
             'place_id' => $place->id,
@@ -42,7 +42,7 @@ class GetGPSCoordinateTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $place = factory(Place::class)->create();
+        $place = Place::factory()->create();
 
         $request = [
             'place_id' => $place->id,
@@ -67,7 +67,7 @@ class GetGPSCoordinateTest extends TestCase
     {
         config(['officelife.location_iq_api_key' => 'test']);
 
-        $place = factory(Place::class)->create([
+        $place = Place::factory()->create([
             'street' => '',
             'city' => 'sieklopekznqqq',
             'postal_code' => '',
@@ -92,7 +92,7 @@ class GetGPSCoordinateTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $place = factory(Place::class)->create([
+        $place = Place::factory()->create([
             'street' => '',
             'city' => 'sieklopekznqqq',
             'postal_code' => '',

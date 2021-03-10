@@ -21,22 +21,22 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
-        factory(OneOnOneEntry::class)->create([
+        OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'happened_at' => '2018-01-01 00:00:00',
         ]);
-        factory(OneOnOneEntry::class)->create([
+        OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'happened_at' => '2018-03-01 00:00:00',
         ]);
-        factory(OneOnOneEntry::class)->create([
+        OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'happened_at' => '2018-05-01 00:00:00',
         ]);
         // this entry shouldn't be counted as it’s more than 365 days ago
-        factory(OneOnOneEntry::class)->create([
+        OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'happened_at' => '2013-05-01 00:00:00',
         ]);
@@ -60,17 +60,17 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $entry2019 = factory(OneOnOneEntry::class)->create([
+        $entry2019 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2019-01-01 01:00:00',
         ]);
-        $entry2018 = factory(OneOnOneEntry::class)->create([
+        $entry2018 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2018-01-01 01:00:00',
         ]);
-        $entry2017 = factory(OneOnOneEntry::class)->create([
+        $entry2017 = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'created_at' => '2017-01-01 01:00:00',
@@ -135,21 +135,21 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
 
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
             'happened_at' => '2020-09-09',
         ]);
 
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
+        $talkingPoint = OneOnOneTalkingPoint::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $actionItem = factory(OneOnOneActionItem::class)->create([
+        $actionItem = OneOnOneActionItem::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $note = factory(OneOnOneNote::class)->create([
+        $note = OneOnOneNote::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
@@ -179,7 +179,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $talkingPoint->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $talkingPoint->description,
                     'checked' => false,
                 ],
             ],
@@ -189,7 +189,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $actionItem->id,
-                    'description' => 'what are you doing right now',
+                    'description' => $actionItem->description,
                     'checked' => false,
                 ],
             ],
@@ -199,7 +199,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $note->id,
-                    'note' => 'what are you doing right now',
+                    'note' => $note->note,
                 ],
             ],
             $array['notes']->toArray()

@@ -3,7 +3,6 @@
 namespace Tests\Unit\Jobs;
 
 use Tests\TestCase;
-use App\Models\Company\Employee;
 use Illuminate\Support\Facades\Queue;
 use App\Jobs\StartRateYourManagerProcess;
 use App\Jobs\AskEmployeesToRateTheirManager;
@@ -21,12 +20,8 @@ class StartRateYourManagerProcessTest extends TestCase
 
         // michael will be the manager of dwight and jim
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
-        $jim = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $dwight = $this->createAnotherEmployee($michael);
+        $jim = $this->createAnotherEmployee($michael);
 
         (new AssignManager)->execute([
             'company_id' => $michael->company_id,
@@ -42,9 +37,7 @@ class StartRateYourManagerProcessTest extends TestCase
         ]);
 
         // jim will be the manager of sarah
-        $sarah = factory(Employee::class)->create([
-            'company_id' => $michael->company_id,
-        ]);
+        $sarah = $this->createAnotherEmployee($michael);
 
         (new AssignManager)->execute([
             'company_id' => $michael->company_id,

@@ -22,7 +22,7 @@ class CreateProjectMessageTest extends TestCase
     public function it_adds_a_message_to_a_project_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $project);
@@ -32,7 +32,7 @@ class CreateProjectMessageTest extends TestCase
     public function it_adds_a_message_to_a_project_as_hr(): void
     {
         $michael = $this->createHR();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $project);
@@ -42,7 +42,7 @@ class CreateProjectMessageTest extends TestCase
     public function it_adds_a_message_to_a_project_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $project);
@@ -63,7 +63,7 @@ class CreateProjectMessageTest extends TestCase
     public function it_fails_if_the_project_is_not_in_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create();
+        $project = Project::factory()->create();
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $project);

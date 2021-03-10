@@ -31,22 +31,64 @@ class EmployeeFactory extends Factory
         return [
             'user_id' => User::factory(),
             'company_id' => $company->id,
-            'position_id' => Position::factory()->make([
+            'position_id' => Position::factory()->create([
                 'company_id' => $company->id,
             ]),
             'pronoun_id' => Pronoun::factory(),
             'uuid' => $this->faker->uuid,
             'avatar' => 'https://api.adorable.io/avatars/285/abott@adorable.png',
-            'permission_level' => config('officelife.permission_level.administrator'),
+            'permission_level' => config('officelife.permission_level.user'),
             'email' => 'dwigth@dundermifflin.com',
             'first_name' => 'Dwight',
             'last_name' => 'Schrute',
             'birthdate' => $this->faker->dateTimeThisCentury()->format('Y-m-d H:i:s'),
             'consecutive_worklog_missed' => 0,
-            'employee_status_id' => EmployeeStatus::factory()->make([
+            'employee_status_id' => EmployeeStatus::factory()->create([
                 'company_id' => $company->id,
             ]),
             'amount_of_allowed_holidays' => 30,
         ];
+    }
+
+    /**
+     * Indicate that the employee is administrator.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function asAdministrator()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'permission_level' => config('officelife.permission_level.administrator'),
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the employee is HR.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function asHR()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'permission_level' => config('officelife.permission_level.hr'),
+            ];
+        });
+    }
+
+    /**
+     * Indicate that the employee is a normal mployee.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function asNormalEmployee()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'permission_level' => config('officelife.permission_level.user'),
+            ];
+        });
     }
 }

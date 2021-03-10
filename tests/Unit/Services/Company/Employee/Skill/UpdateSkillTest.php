@@ -47,7 +47,7 @@ class UpdateSkillTest extends TestCase
         $this->expectException(SkillNameNotUniqueException::class);
         $michael = $this->createAdministrator();
 
-        factory(Team::class)->create([
+        Team::factory()->create([
             'company_id' => $michael->company_id,
             'name' => 'jira',
         ]);
@@ -70,7 +70,7 @@ class UpdateSkillTest extends TestCase
     public function it_fails_if_skill_doesnt_belong_to_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $skill = factory(Skill::class)->create([]);
+        $skill = Skill::factory()->create([]);
 
         $request = [
             'company_id' => $skill->company_id,
@@ -94,7 +94,7 @@ class UpdateSkillTest extends TestCase
     {
         Queue::fake();
 
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
             'name' => $currentName,
         ]);
