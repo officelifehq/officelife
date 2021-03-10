@@ -278,7 +278,6 @@ class ProjectTasksViewHelper
                 'employee' => [
                     'id' => $timeTrackingEntry->employee_id,
                     'name' => $timeTrackingEntry->first_name.' '.$timeTrackingEntry->last_name,
-                    'avatar' => AvatarHelper::getImage($timeTrackingEntry),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $timeTrackingEntry->employee_id,
