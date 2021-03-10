@@ -5,6 +5,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Answer;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
@@ -262,7 +263,7 @@ class DashboardMeViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $dwight->avatar,
+                    'avatar' => AvatarHelper::getImage($dwight),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
@@ -273,7 +274,7 @@ class DashboardMeViewHelperTest extends TestCase
                 1 => [
                     'id' => $michael->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'position' => $michael->position->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'entry' => [
@@ -381,13 +382,13 @@ class DashboardMeViewHelperTest extends TestCase
                 'e_coffee_id' => $eCoffee->id,
                 'happened' => $match->happened,
                 'employee' => [
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                 ],
                 'other_employee' => [
                     'id' => $match->employeeMatchedWith->id,
                     'name' => $match->employeeMatchedWith->name,
                     'first_name' => $match->employeeMatchedWith->first_name,
-                    'avatar' => $match->employeeMatchedWith->avatar,
+                    'avatar' => AvatarHelper::getImage($match->employeeMatchedWith),
                     'position' => $match->employeeMatchedWith->position ? $match->employeeMatchedWith->position->title : null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$match->employeeMatchedWith->id,
                     'teams' => null,

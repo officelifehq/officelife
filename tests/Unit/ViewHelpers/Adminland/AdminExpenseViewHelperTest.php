@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\ExpenseCategory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -65,7 +66,7 @@ class AdminExpenseViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'dwight schrute',
-                    'avatar' => $dwight->avatar,
+                    'avatar' => AvatarHelper::getImage($dwight),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id,
                 ],
             ],

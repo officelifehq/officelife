@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
@@ -57,7 +58,7 @@ class DashboardHRViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                 ],
             ],
             $array['employees']->toArray()

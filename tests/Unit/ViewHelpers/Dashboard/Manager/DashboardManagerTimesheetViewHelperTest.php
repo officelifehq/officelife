@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard\Manager;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
 use App\Models\Company\Timesheet;
@@ -86,7 +87,7 @@ class DashboardManagerTimesheetViewHelperTest extends TestCase
             $collection->toArray()[0]['name']
         );
         $this->assertEquals(
-            $dwight->avatar,
+            AvatarHelper::getImage($dwight),
             $collection->toArray()[0]['avatar']
         );
         $this->assertEquals(

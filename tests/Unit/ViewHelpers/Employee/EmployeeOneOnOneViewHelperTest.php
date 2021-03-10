@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\OneOnOneNote;
 use App\Models\Company\OneOnOneEntry;
@@ -91,7 +92,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
                     'manager' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => $michael->avatar,
+                        'avatar' => AvatarHelper::getImage($michael),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2019->id,
@@ -105,7 +106,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
                     'manager' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => $michael->avatar,
+                        'avatar' => AvatarHelper::getImage($michael),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2018->id,
@@ -119,7 +120,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
                     'manager' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => $michael->avatar,
+                        'avatar' => AvatarHelper::getImage($michael),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$dwight->id.'/performance/oneonones/'.$entry2017->id,
@@ -161,7 +162,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
-                'avatar' => $entry->employee->avatar,
+                'avatar' => AvatarHelper::getImage($entry->employee),
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->employee->id,
             ],
             $array['employee']
@@ -170,7 +171,7 @@ class EmployeeOneOnOneViewHelperTest extends TestCase
             [
                 'id' => $entry->manager->id,
                 'name' => $entry->manager->name,
-                'avatar' => $entry->manager->avatar,
+                'avatar' => AvatarHelper::getImage($entry->manager),
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->manager->id,
             ],
             $array['manager']

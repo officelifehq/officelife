@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use OutOfRangeException;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
+use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\BirthdayHelper;
 use App\Models\Company\Company;
@@ -108,7 +109,7 @@ class CompanyViewHelper
                 $birthdaysCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => AvatarHelper::getImage($employee),
                     'birthdate' => DateHelper::formatMonthAndDay($birthdateWithCurrentYear),
                     'sort_key' => Carbon::createFromDate($now->year, $birthdateWithCurrentYear->month, $birthdateWithCurrentYear->day)->format('Y-m-d'),
                     'url' => route('employees.show', [
@@ -157,7 +158,7 @@ class CompanyViewHelper
                     'employee' => $employee->id,
                 ]),
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
                 'hired_at' => DateHelper::formatDayAndMonthInParenthesis($date),
                 'position' => (! $position) ? null : $position->title,
             ]);
@@ -316,7 +317,7 @@ class CompanyViewHelper
 
         return [
             'id' => $game->id,
-            'avatar_to_find' => $employeeToFind->avatar,
+            'avatar_to_find' => AvatarHelper::getImage($employeeToFind),
             'choices' => $choices,
         ];
     }

@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Expense;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -71,7 +72,7 @@ class DashboardManagerViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $dwight->id,
                         'name' => $dwight->name,
-                        'avatar' => $dwight->avatar,
+                        'avatar' => AvatarHelper::getImage($dwight),
                     ],
                 ],
             ],
@@ -145,7 +146,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $dwight->avatar,
+                    'avatar' => AvatarHelper::getImage($dwight),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
@@ -157,7 +158,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 1 => [
                     'id' => $jim->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $jim->avatar,
+                    'avatar' => AvatarHelper::getImage($jim),
                     'position' => $jim->position->title,
                     'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                     'entry' => [
@@ -212,7 +213,7 @@ class DashboardManagerViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $dwight->avatar,
+                    'avatar' => AvatarHelper::getImage($dwight),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'contract_information' => [

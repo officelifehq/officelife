@@ -5,6 +5,7 @@ namespace Tests\Unit\ViewHelpers\Team;
 use Tests\TestCase;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Employee;
 use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -41,7 +42,7 @@ class TeamShowViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'position' => [
                         'id' => $michael->position->id,
                         'title' => $michael->position->title,
@@ -51,7 +52,7 @@ class TeamShowViewHelperTest extends TestCase
                 1 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
-                    'avatar' => $dwight->avatar,
+                    'avatar' => AvatarHelper::getImage($dwight),
                     'position' => [
                         'id' => $dwight->position->id,
                         'title' => $dwight->position->title,
@@ -91,7 +92,7 @@ class TeamShowViewHelperTest extends TestCase
                         0 => [
                             'id' => $michael->id,
                             'name' => $michael->name,
-                            'avatar' => $michael->avatar,
+                            'avatar' => AvatarHelper::getImage($michael),
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],

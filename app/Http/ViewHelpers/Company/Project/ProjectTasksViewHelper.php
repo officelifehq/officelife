@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Company\Project;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
 use Illuminate\Support\Collection;
@@ -62,7 +63,7 @@ class ProjectTasksViewHelper
                 'assignee' => $assignee ? [
                     'id' => $assignee->id,
                     'name' => $assignee->name,
-                    'avatar' => $assignee->avatar,
+                    'avatar' => AvatarHelper::getImage($assignee),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $assignee,
@@ -108,7 +109,7 @@ class ProjectTasksViewHelper
                     'assignee' => $assignee ? [
                         'id' => $assignee->id,
                         'name' => $assignee->name,
-                        'avatar' => $assignee->avatar,
+                        'avatar' => AvatarHelper::getImage($assignee),
                         'url' => route('employees.show', [
                             'company' => $company,
                             'employee' => $assignee,
@@ -202,7 +203,7 @@ class ProjectTasksViewHelper
             'author' => $author ? [
                 'id' => $author->id,
                 'name' => $author->name,
-                'avatar' => $author->avatar,
+                'avatar' => AvatarHelper::getImage($author),
                 'role' => $role ? $role->role : null,
                 'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at)) : null,
                 'position' => (! $author->position) ? null : $author->position->title,
@@ -214,7 +215,7 @@ class ProjectTasksViewHelper
             'assignee' => $assignee ? [
                 'id' => $assignee->id,
                 'name' => $assignee->name,
-                'avatar' => $assignee->avatar,
+                'avatar' => AvatarHelper::getImage($assignee),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $assignee,
@@ -277,7 +278,6 @@ class ProjectTasksViewHelper
                 'employee' => [
                     'id' => $timeTrackingEntry->employee_id,
                     'name' => $timeTrackingEntry->first_name.' '.$timeTrackingEntry->last_name,
-                    'avatar' => $timeTrackingEntry->avatar,
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $timeTrackingEntry->employee_id,

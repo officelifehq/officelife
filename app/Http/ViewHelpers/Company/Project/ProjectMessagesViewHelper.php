@@ -5,6 +5,7 @@ namespace App\Http\ViewHelpers\Company\Project;
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
 use Illuminate\Support\Str;
+use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -41,6 +42,8 @@ class ProjectMessagesViewHelper
                 return $readStatus->project_message_id == $message->id && $readStatus->employee_id == $employee->id;
             });
 
+            $author = $message->author;
+
             $messagesCollection->push([
                 'id' => $message->id,
                 'title' => $message->title,
@@ -52,13 +55,13 @@ class ProjectMessagesViewHelper
                     'project' => $project,
                     'message' => $message,
                 ]),
-                'author' => $message->author ? [
-                    'id' => $message->author->id,
-                    'name' => $message->author->name,
-                    'avatar' => $message->author->avatar,
+                'author' => $author ? [
+                    'id' => $author->id,
+                    'name' => $author->name,
+                    'avatar' => AvatarHelper::getImage($author),
                     'url_view' => route('employees.show', [
                         'company' => $company,
-                        'employee' => $message->author,
+                        'employee' => $author,
                     ]),
                 ] : null,
             ]);
@@ -98,19 +101,19 @@ class ProjectMessagesViewHelper
                 'project' => $projectMessage->project,
                 'message' => $projectMessage,
             ]),
-            'author' => $projectMessage->author ? [
-                'id' => $projectMessage->author->id,
-                'name' => $projectMessage->author->name,
-                'avatar' => $projectMessage->author->avatar,
+            'author' => $author ? [
+                'id' => $author->id,
+                'name' => $author->name,
+                'avatar' => AvatarHelper::getImage($author),
                 'role' => $role ? $role->role : null,
                 'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at)) : null,
-                'position' => (! $projectMessage->author->position) ? null : [
-                    'id' => $projectMessage->author->position->id,
-                    'title' => $projectMessage->author->position->title,
+                'position' => (! $author->position) ? null : [
+                    'id' => $author->position->id,
+                    'title' => $author->position->title,
                 ],
                 'url' => route('employees.show', [
                     'company' => $projectMessage->project->company_id,
-                    'employee' => $projectMessage->author,
+                    'employee' => $author,
                 ]),
             ] : null,
         ];

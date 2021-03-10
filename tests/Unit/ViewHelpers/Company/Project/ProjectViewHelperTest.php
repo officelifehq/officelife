@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Tests\TestCase;
 use App\Helpers\DateHelper;
+use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Project;
 use App\Models\Company\ProjectLink;
@@ -113,7 +114,7 @@ class ProjectViewHelperTest extends TestCase
             [
                 'id' => $michael->id,
                 'name' => $michael->name,
-                'avatar' => $michael->avatar,
+                'avatar' => AvatarHelper::getImage($michael),
                 'position' => [
                     'id' => $michael->position->id,
                     'title' => $michael->position->title,
@@ -142,7 +143,7 @@ class ProjectViewHelperTest extends TestCase
                 'author' => [
                     'id' => $status->author->id,
                     'name' => $status->author->name,
-                    'avatar' => $status->author->avatar,
+                    'avatar' => AvatarHelper::getImage($status->author),
                     'position' => (! $status->author->position) ? null : [
                         'id' => $status->author->position->id,
                         'title' => $status->author->position->title,

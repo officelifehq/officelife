@@ -5,6 +5,7 @@ namespace Tests\Unit\Services\Company\Adminland\Employee;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Jobs\NotifyEmployee;
+use App\Helpers\AvatarHelper;
 use App\Jobs\LogAccountAudit;
 use App\Jobs\LogEmployeeAudit;
 use App\Models\Company\Employee;
@@ -100,7 +101,7 @@ class AddEmployeeToCompanyTest extends TestCase
             'amount_of_allowed_holidays' => 30,
         ]);
 
-        $this->assertNotNull($dwight->avatar);
+        $this->assertNotNull(AvatarHelper::getImage($dwight));
 
         Queue::assertPushed(LogAccountAudit::class, function ($job) use ($michael, $dwight) {
             return $job->auditLog['action'] === 'employee_added_to_company' &&

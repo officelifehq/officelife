@@ -4,6 +4,7 @@ namespace App\Http\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use App\Helpers\DateHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
@@ -49,7 +50,7 @@ class EmployeeECoffeeViewHelper
                     'id' => $withEmployee->id,
                     'name' => $withEmployee->name,
                     'first_name' => $withEmployee->first_name,
-                    'avatar' => $withEmployee->avatar,
+                    'avatar' => AvatarHelper::getImage($withEmployee),
                     'position' => $withEmployee->position ? $withEmployee->position->title : null,
                     'url' => route('employees.show', [
                         'company' => $company,

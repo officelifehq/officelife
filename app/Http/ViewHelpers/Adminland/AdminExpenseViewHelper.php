@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Adminland;
 
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 
@@ -46,7 +47,7 @@ class AdminExpenseViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
                 'url' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee,

@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Timesheet;
 use App\Models\Company\ProjectTask;
@@ -52,7 +53,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'assignee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => $michael->avatar,
+                        'avatar' => AvatarHelper::getImage($michael),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
@@ -129,7 +130,7 @@ class ProjectTasksViewHelperTest extends TestCase
                     'assignee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => $michael->avatar,
+                        'avatar' => AvatarHelper::getImage($michael),
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
@@ -212,7 +213,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'role' => null,
                     'added_at' => null,
@@ -221,7 +222,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'assignee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
             ],
@@ -300,7 +301,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'author' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'role' => null,
                     'added_at' => null,
                     'position' => $michael->position->title,
@@ -309,7 +310,7 @@ class ProjectTasksViewHelperTest extends TestCase
                 'assignee' => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
             ],
@@ -364,7 +365,6 @@ class ProjectTasksViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
