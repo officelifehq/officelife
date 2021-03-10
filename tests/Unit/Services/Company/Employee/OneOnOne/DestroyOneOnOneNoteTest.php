@@ -26,7 +26,7 @@ class DestroyOneOnOneNoteTest extends TestCase
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $note = factory(OneOnOneNote::class)->create([
+        $note = OneOnOneNote::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->executeService($michael, $entry, $note);
@@ -41,7 +41,7 @@ class DestroyOneOnOneNoteTest extends TestCase
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $note = factory(OneOnOneNote::class)->create([
+        $note = OneOnOneNote::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->executeService($michael, $entry, $note);
@@ -56,7 +56,7 @@ class DestroyOneOnOneNoteTest extends TestCase
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $note = factory(OneOnOneNote::class)->create([
+        $note = OneOnOneNote::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->executeService($michael, $entry, $note);

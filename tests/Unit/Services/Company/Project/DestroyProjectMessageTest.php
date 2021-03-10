@@ -25,7 +25,7 @@ class DestroyProjectMessageTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectMessage);
@@ -38,7 +38,7 @@ class DestroyProjectMessageTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectMessage);
@@ -51,7 +51,7 @@ class DestroyProjectMessageTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectMessage);
@@ -73,7 +73,7 @@ class DestroyProjectMessageTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $project = Project::factory()->create();
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
         ]);
 
@@ -88,7 +88,7 @@ class DestroyProjectMessageTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessage = factory(ProjectMessage::class)->create([]);
+        $projectMessage = ProjectMessage::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $project, $projectMessage);

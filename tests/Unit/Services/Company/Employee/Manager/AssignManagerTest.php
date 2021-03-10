@@ -55,7 +55,7 @@ class AssignManagerTest extends TestCase
     /** @test */
     public function it_fails_if_employee_and_manager_are_the_same_person(): void
     {
-        $dwight = Employee::factory()->create();
+        $dwight = Employee::factory()->asHR()->create();
 
         $request = [
             'company_id' => $dwight->company_id,

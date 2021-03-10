@@ -6,13 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * A task can be either associated with a team, with an employee or both.
  */
 class Task extends Model
 {
-    use LogsActivity;
+    use LogsActivity,
+        HasFactory;
 
     /**
      * The attributes that are mass assignable.

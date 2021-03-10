@@ -22,7 +22,7 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $project = Project::factory()->make();
+        $project = Project::factory()->create();
         $this->assertTrue($project->company()->exists());
     }
 
@@ -76,7 +76,7 @@ class ProjectTest extends TestCase
     public function it_has_many_links(): void
     {
         $project = Project::factory()->create();
-        factory(ProjectLink::class, 2)->create([
+        ProjectLink::factory()->count(2)->create([
             'project_id' => $project->id,
         ]);
 
@@ -87,7 +87,7 @@ class ProjectTest extends TestCase
     public function it_has_many_statuses(): void
     {
         $project = Project::factory()->create();
-        factory(ProjectStatus::class, 2)->create([
+        ProjectStatus::factory()->count(2)->create([
             'project_id' => $project->id,
         ]);
 
@@ -98,7 +98,7 @@ class ProjectTest extends TestCase
     public function it_has_many_decisions(): void
     {
         $project = Project::factory()->create();
-        factory(ProjectDecision::class, 2)->create([
+        ProjectDecision::factory()->count(2)->create([
             'project_id' => $project->id,
         ]);
 
@@ -109,7 +109,7 @@ class ProjectTest extends TestCase
     public function it_has_many_messages(): void
     {
         $project = Project::factory()->create();
-        factory(ProjectMessage::class, 2)->create([
+        ProjectMessage::factory()->count(2)->create([
             'project_id' => $project->id,
         ]);
 

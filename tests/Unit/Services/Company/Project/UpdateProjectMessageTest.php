@@ -24,7 +24,7 @@ class UpdateProjectMessageTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectMessage);
@@ -37,7 +37,7 @@ class UpdateProjectMessageTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectMessage);
@@ -50,7 +50,7 @@ class UpdateProjectMessageTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectMessage);
@@ -62,7 +62,7 @@ class UpdateProjectMessageTest extends TestCase
         $michael = Employee::factory()->create();
         $project = Project::factory()->create();
 
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->expectException(ModelNotFoundException::class);
@@ -74,7 +74,7 @@ class UpdateProjectMessageTest extends TestCase
     {
         $michael = Employee::factory()->create();
         $project = Project::factory()->create();
-        $projectMessage = factory(ProjectMessage::class)->create([]);
+        $projectMessage = ProjectMessage::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $project, $projectMessage);

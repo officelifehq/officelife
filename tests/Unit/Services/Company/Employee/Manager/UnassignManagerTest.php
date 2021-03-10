@@ -90,7 +90,7 @@ class UnassignManagerTest extends TestCase
         ]);
 
         $request = [
-            'company_id' => $dwight->directReport->company_id,
+            'company_id' => $michael->company_id,
             'author_id' => $michael->id,
             'employee_id' => $dwight->directReport->id,
             'manager_id' => $dwight->manager->id,
@@ -99,7 +99,7 @@ class UnassignManagerTest extends TestCase
         $manager = (new UnassignManager)->execute($request);
 
         $this->assertDatabaseMissing('direct_reports', [
-            'company_id' => $dwight->directReport->company_id,
+            'company_id' => $michael->company_id,
             'employee_id' => $dwight->directReport->id,
             'manager_id' => $dwight->manager->id,
         ]);

@@ -21,15 +21,15 @@ class EmployeeWorklogViewHelperTest extends TestCase
         $dwight = Employee::factory()->create();
 
         // logging worklogs
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-01-01 00:00:00',
         ]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-02-01 00:00:00',
         ]);
-        factory(Worklog::class, 2)->create([
+        Worklog::factory()->count(2)->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-03-01 00:00:00',
         ]);
@@ -70,11 +70,11 @@ class EmployeeWorklogViewHelperTest extends TestCase
         $dwight = Employee::factory()->create();
 
         // logging worklogs
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-01-01 00:00:00',
         ]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '1990-01-01 00:00:00',
         ]);
@@ -107,15 +107,15 @@ class EmployeeWorklogViewHelperTest extends TestCase
         $dwight = Employee::factory()->create();
 
         // logging worklogs
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-01-01 00:00:00',
         ]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-02-01 00:00:00',
         ]);
-        factory(Worklog::class, 2)->create([
+        Worklog::factory()->count(2)->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-03-01 00:00:00',
         ]);

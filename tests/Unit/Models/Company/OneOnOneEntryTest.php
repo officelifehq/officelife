@@ -31,7 +31,7 @@ class OneOnOneEntryTest extends TestCase
     public function it_has_many_talking_points(): void
     {
         $entry = OneOnOneEntry::factory()->create([]);
-        factory(OneOnOneTalkingPoint::class, 2)->create([
+        OneOnOneTalkingPoint::factory()->count(2)->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->assertTrue($entry->talkingPoints()->exists());
@@ -41,7 +41,7 @@ class OneOnOneEntryTest extends TestCase
     public function it_has_many_action_items(): void
     {
         $entry = OneOnOneEntry::factory()->create([]);
-        factory(OneOnOneActionItem::class, 2)->create([
+        OneOnOneActionItem::factory()->count(2)->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->assertTrue($entry->actionItems()->exists());
@@ -51,7 +51,7 @@ class OneOnOneEntryTest extends TestCase
     public function it_has_many_notes(): void
     {
         $entry = OneOnOneEntry::factory()->create([]);
-        factory(OneOnOneNote::class, 2)->create([
+        OneOnOneNote::factory()->count(2)->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->assertTrue($entry->notes()->exists());

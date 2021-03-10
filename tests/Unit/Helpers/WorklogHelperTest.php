@@ -24,7 +24,7 @@ class WorklogHelperTest extends TestCase
         $dwight = Employee::factory()->create([]);
 
         // logging worklogs
-        $worklog = factory(Worklog::class)->create([
+        $worklog = Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => $date,
         ]);
@@ -55,7 +55,7 @@ class WorklogHelperTest extends TestCase
         $dwight = Employee::factory()->create([]);
 
         // logging worklogs
-        $worklog = factory(Worklog::class)->create([
+        $worklog = Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => $date,
         ]);

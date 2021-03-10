@@ -113,11 +113,11 @@ class TeamTest extends TestCase
         $sales->employees()->syncWithoutDetaching([$dwight->id]);
         $sales->employees()->syncWithoutDetaching([$michael->id]);
 
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => $date,
         ]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $michael->id,
             'created_at' => $date,
         ]);

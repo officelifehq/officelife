@@ -24,7 +24,7 @@ class UpdateOneOnOneActionItemTest extends TestCase
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $actionItem = factory(OneOnOneActionItem::class)->create([
+        $actionItem = OneOnOneActionItem::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->executeService($michael, $entry, $actionItem);
@@ -39,7 +39,7 @@ class UpdateOneOnOneActionItemTest extends TestCase
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $actionItem = factory(OneOnOneActionItem::class)->create([
+        $actionItem = OneOnOneActionItem::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->executeService($michael, $entry, $actionItem);
@@ -54,7 +54,7 @@ class UpdateOneOnOneActionItemTest extends TestCase
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $actionItem = factory(OneOnOneActionItem::class)->create([
+        $actionItem = OneOnOneActionItem::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->executeService($michael, $entry, $actionItem);

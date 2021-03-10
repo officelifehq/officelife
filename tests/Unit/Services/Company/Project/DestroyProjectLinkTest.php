@@ -25,7 +25,7 @@ class DestroyProjectLinkTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectLink = factory(ProjectLink::class)->create([
+        $projectLink = ProjectLink::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $dwight, $project, $projectLink);
@@ -39,7 +39,7 @@ class DestroyProjectLinkTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectLink = factory(ProjectLink::class)->create([
+        $projectLink = ProjectLink::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $dwight, $project, $projectLink);
@@ -52,7 +52,7 @@ class DestroyProjectLinkTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectLink = factory(ProjectLink::class)->create([
+        $projectLink = ProjectLink::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $michael, $project, $projectLink);
@@ -75,7 +75,7 @@ class DestroyProjectLinkTest extends TestCase
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
         $project = Project::factory()->create();
-        $projectLink = factory(ProjectLink::class)->create([
+        $projectLink = ProjectLink::factory()->create([
             'project_id' => $project->id,
         ]);
 
@@ -91,7 +91,7 @@ class DestroyProjectLinkTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectLink = factory(ProjectLink::class)->create([]);
+        $projectLink = ProjectLink::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $dwight, $project, $projectLink);

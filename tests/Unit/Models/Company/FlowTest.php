@@ -22,7 +22,7 @@ class FlowTest extends ApiTestCase
     public function it_has_many_steps(): void
     {
         $flow = Flow::factory()->create();
-        factory(Step::class, 2)->create([
+        Step::factory()->count(2)->create([
             'flow_id' => $flow->id,
         ]);
 

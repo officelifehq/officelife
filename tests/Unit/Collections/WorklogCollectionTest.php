@@ -15,7 +15,7 @@ class WorklogCollectionTest extends TestCase
     public function it_returns_a_collection(): void
     {
         $michael = $this->createAdministrator();
-        factory(Worklog::class, 2)->create([
+        Worklog::factory()->count(2)->create([
             'employee_id' => $michael->id,
         ]);
 

@@ -60,10 +60,10 @@ class ProjectViewHelperTest extends TestCase
             'company_id' => $michael->company_id,
             'project_lead_id' => $michael->id,
         ]);
-        $link = factory(ProjectLink::class)->create([
+        $link = ProjectLink::factory()->create([
             'project_id' => $project->id,
         ]);
-        $status = factory(ProjectStatus::class)->create([
+        $status = ProjectStatus::factory()->create([
             'project_id' => $project->id,
         ]);
 

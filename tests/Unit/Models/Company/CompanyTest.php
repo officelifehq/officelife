@@ -111,7 +111,7 @@ class CompanyTest extends TestCase
     public function it_has_many_pto_policies(): void
     {
         $company = Company::factory()->create();
-        factory(CompanyPTOPolicy::class, 2)->create([
+        CompanyPTOPolicy::factory()->count(2)->create([
             'company_id' => $company->id,
         ]);
 
@@ -245,11 +245,11 @@ class CompanyTest extends TestCase
         Carbon::setTestNow(Carbon::create(2020, 1, 1));
 
         $company = Company::factory()->create();
-        $firstPTO = factory(CompanyPTOPolicy::class)->create([
+        $firstPTO = CompanyPTOPolicy::factory()->create([
             'company_id' => $company->id,
             'year' => 2020,
         ]);
-        factory(CompanyPTOPolicy::class)->create([
+        CompanyPTOPolicy::factory()->create([
             'company_id' => $company->id,
             'year' => 2021,
         ]);

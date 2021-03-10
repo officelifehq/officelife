@@ -25,7 +25,7 @@ class DestroyProjectDecisionTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([
+        $projectDecision = ProjectDecision::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectDecision);
@@ -39,7 +39,7 @@ class DestroyProjectDecisionTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([
+        $projectDecision = ProjectDecision::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectDecision);
@@ -53,7 +53,7 @@ class DestroyProjectDecisionTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([
+        $projectDecision = ProjectDecision::factory()->create([
             'project_id' => $project->id,
         ]);
         $this->executeService($michael, $project, $projectDecision);
@@ -76,7 +76,7 @@ class DestroyProjectDecisionTest extends TestCase
         $michael = $this->createAdministrator();
         $project = Project::factory()->create();
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([
+        $projectDecision = ProjectDecision::factory()->create([
             'project_id' => $project->id,
         ]);
 
@@ -92,7 +92,7 @@ class DestroyProjectDecisionTest extends TestCase
             'company_id' => $michael->company_id,
         ]);
         $project->employees()->attach([$michael->id]);
-        $projectDecision = factory(ProjectDecision::class)->create([]);
+        $projectDecision = ProjectDecision::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $project, $projectDecision);

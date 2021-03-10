@@ -15,7 +15,7 @@ class ProjectDecisionsViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_decisions(): void
     {
-        $projectDecision = factory(ProjectDecision::class)->create([]);
+        $projectDecision = ProjectDecision::factory()->create([]);
         $michael = Employee::factory()->create([
             'company_id' => $projectDecision->project->company_id,
         ]);

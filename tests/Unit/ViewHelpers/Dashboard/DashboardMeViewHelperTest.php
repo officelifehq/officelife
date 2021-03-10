@@ -102,11 +102,11 @@ class DashboardMeViewHelperTest extends TestCase
     public function it_gets_the_information_about_the_inprogress_tasks_of_the_employee(): void
     {
         $michael = $this->createAdministrator();
-        $taskA = factory(Task::class)->create([
+        $taskA = Task::factory()->create([
             'employee_id' => $michael->id,
             'completed' => false,
         ]);
-        $taskB = factory(Task::class)->create([
+        $taskB = Task::factory()->create([
             'employee_id' => $michael->id,
             'completed' => false,
         ]);

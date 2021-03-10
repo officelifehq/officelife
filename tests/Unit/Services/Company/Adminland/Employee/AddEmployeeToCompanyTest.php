@@ -69,7 +69,7 @@ class AddEmployeeToCompanyTest extends TestCase
         Carbon::setTestNow(Carbon::create(2020, 1, 1));
 
         // used to populate the holidays
-        factory(CompanyPTOPolicy::class)->create([
+        CompanyPTOPolicy::factory()->create([
             'company_id' => $michael->company_id,
             'year' => 2020,
         ]);

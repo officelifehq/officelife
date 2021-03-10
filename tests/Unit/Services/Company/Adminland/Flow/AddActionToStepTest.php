@@ -47,7 +47,7 @@ class AddActionToStepTest extends TestCase
         $flow = Flow::factory()->create([
             'company_id' => $employee->company_id,
         ]);
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'flow_id' => $flow->id,
         ]);
 
@@ -69,7 +69,7 @@ class AddActionToStepTest extends TestCase
         $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $step = factory(Step::class)->create([]);
+        $step = Step::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -90,7 +90,7 @@ class AddActionToStepTest extends TestCase
         $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'flow_id' => $flow->id,
         ]);
 

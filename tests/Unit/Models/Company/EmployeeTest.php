@@ -119,7 +119,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_tasks(): void
     {
         $dwight = Employee::factory()->create();
-        factory(Task::class, 2)->create([
+        Task::factory()->count(2)->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -130,7 +130,7 @@ class EmployeeTest extends TestCase
     public function it_has_many_worklogs(): void
     {
         $dwight = Employee::factory()->create();
-        factory(Worklog::class, 2)->create([
+        Worklog::factory()->count(2)->create([
             'employee_id' => $dwight->id,
         ]);
 
@@ -461,7 +461,7 @@ class EmployeeTest extends TestCase
     public function it_gets_the_project_decisions_written_by_the_employee(): void
     {
         $dwight = Employee::factory()->create();
-        factory(ProjectDecision::class, 2)->create([
+        ProjectDecision::factory()->count(2)->create([
             'author_id' => $dwight->id,
         ]);
 
@@ -652,7 +652,7 @@ class EmployeeTest extends TestCase
         Carbon::setTestNow(Carbon::create(2019, 1, 1, 7, 0, 0));
 
         $dwight = Employee::factory()->create([]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => now(),
         ]);
@@ -660,7 +660,7 @@ class EmployeeTest extends TestCase
         $this->assertTrue($dwight->hasAlreadyLoggedWorklogToday());
 
         $dwight = Employee::factory()->create([]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => Carbon::yesterday(),
         ]);
@@ -724,7 +724,7 @@ class EmployeeTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         $dwight = Employee::factory()->create();
-        factory(CompanyPTOPolicy::class)->create([
+        CompanyPTOPolicy::factory()->create([
             'company_id' => $dwight->company_id,
             'year' => 2018,
         ]);

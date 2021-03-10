@@ -223,7 +223,7 @@ class DashboardTeamViewHelperTest extends TestCase
         $team->employees()->syncWithoutDetaching([$michael->id]);
 
         // logging worklogs
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => $date,
         ]);

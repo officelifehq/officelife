@@ -41,7 +41,7 @@ class LogMissedWorklogEntryTest extends TestCase
             'consecutive_worklog_missed' => 0,
         ]);
 
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2018-01-01',
         ]);

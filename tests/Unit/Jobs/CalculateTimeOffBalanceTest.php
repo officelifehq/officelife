@@ -18,7 +18,7 @@ class CalculateTimeOffBalanceTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
-        $michael = Employee::factory()->create([
+        $michael = Employee::factory()->asHR()->create([
             'holiday_balance' => 30,
         ]);
 

@@ -26,15 +26,15 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             'happened_at' => '2020-09-09',
         ]);
 
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
+        $talkingPoint = OneOnOneTalkingPoint::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $actionItem = factory(OneOnOneActionItem::class)->create([
+        $actionItem = OneOnOneActionItem::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 
-        $note = factory(OneOnOneNote::class)->create([
+        $note = OneOnOneNote::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
 

@@ -5,6 +5,7 @@ namespace App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Define the Paid Time Off (the holidays an employee can take during a
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class CompanyPTOPolicy extends Model
 {
+    use HasFactory;
+
     protected $table = 'company_pto_policies';
 
     /**

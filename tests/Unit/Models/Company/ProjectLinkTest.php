@@ -13,7 +13,7 @@ class ProjectLinkTest extends TestCase
     /** @test */
     public function it_belongs_to_a_project(): void
     {
-        $projectLink = factory(ProjectLink::class)->create([]);
+        $projectLink = ProjectLink::factory()->create([]);
         $this->assertTrue($projectLink->project()->exists());
     }
 }

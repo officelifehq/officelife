@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\Company;
 
 use Tests\TestCase;
 use App\Models\Company\Place;
+use App\Models\Company\Country;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PlaceTest extends TestCase
@@ -51,10 +52,14 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_gets_the_country_name(): void
     {
-        $place = Place::factory()->create([]);
+        $country = Country::factory()->create();
+
+        $place = Place::factory()->create([
+            'country_id' => $country->id,
+        ]);
 
         $this->assertEquals(
-            'France',
+            $country->name,
             $place->getCountryName()
         );
     }
@@ -62,10 +67,21 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_gets_the_address_as_a_string(): void
     {
-        $place = Place::factory()->create([]);
+        $country = Country::factory()->create();
+
+        $place = Place::factory()->create([
+            'country_id' => $country->id,
+            'street' => '1725 Slough Ave',
+            'city' => 'Scranton',
+            'province' => 'PA',
+            'postal_code' => '',
+            'latitude' => '1',
+            'longitude' => '2',
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
 
         $this->assertEquals(
-            '1725 Slough Ave Scranton PA France',
+            '1725 Slough Ave Scranton PA '.$country->name,
             $place->getCompleteAddress()
         );
     }
@@ -73,10 +89,20 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_gets_the_partial_address_as_a_string(): void
     {
-        $place = Place::factory()->create([]);
+        $country = Country::factory()->create();
+
+        $place = Place::factory()->create([
+            'country_id' => $country->id,
+            'city' => 'Scranton',
+            'province' => null,
+            'postal_code' => null,
+            'latitude' => null,
+            'longitude' => null,
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
 
         $this->assertEquals(
-            'Scranton (France)',
+            'Scranton ('.$country->name.')',
             $place->getPartialAddress()
         );
     }
@@ -101,10 +127,20 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_returns_a_partial_open_streetmap_url()
     {
-        $place = Place::factory()->create([]);
+        $country = Country::factory()->create();
+
+        $place = Place::factory()->create([
+            'country_id' => $country->id,
+            'city' => 'Scranton',
+            'province' => null,
+            'postal_code' => null,
+            'latitude' => null,
+            'longitude' => null,
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
 
         $this->assertEquals(
-            'https://www.openstreetmap.org/search?query=Scranton+%28France%29',
+            'https://www.openstreetmap.org/search?query=Scranton+%28'.urlencode($country->name).'%29',
             $place->getMapUrl(false)
         );
     }
@@ -112,10 +148,21 @@ class PlaceTest extends TestCase
     /** @test */
     public function it_returns_a_complete_open_streetmap_url()
     {
-        $place = Place::factory()->create([]);
+        $country = Country::factory()->create();
+
+        $place = Place::factory()->create([
+            'country_id' => $country->id,
+            'street' => '1725 Slough Ave',
+            'city' => 'Scranton',
+            'province' => 'PA',
+            'postal_code' => '',
+            'latitude' => '1',
+            'longitude' => '2',
+            'created_at' => '2020-01-12 00:00:00',
+        ]);
 
         $this->assertEquals(
-            'https://www.openstreetmap.org/search?query=1725+Slough+Ave+Scranton+PA+France',
+            'https://www.openstreetmap.org/search?query=1725+Slough+Ave+Scranton+PA+'.urlencode($country->name),
             $place->getMapUrl()
         );
     }

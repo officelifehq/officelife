@@ -24,11 +24,11 @@ class ProjectMessagesViewHelperTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessageA = factory(ProjectMessage::class)->create([
+        $projectMessageA = ProjectMessage::factory()->create([
             'project_id' => $project->id,
             'author_id' => $michael->id,
         ]);
-        $projectMessageB = factory(ProjectMessage::class)->create([
+        $projectMessageB = ProjectMessage::factory()->create([
             'project_id' => $project->id,
             'author_id' => null,
         ]);
@@ -78,7 +78,7 @@ class ProjectMessagesViewHelperTest extends TestCase
         $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $projectMessage = factory(ProjectMessage::class)->create([
+        $projectMessage = ProjectMessage::factory()->create([
             'project_id' => $project->id,
             'author_id' => $michael->id,
         ]);

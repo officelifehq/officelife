@@ -202,7 +202,7 @@ class EmployeeShowViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         for ($i = 0; $i < 5; $i++) {
-            factory(Worklog::class)->create([
+            Worklog::factory()->create([
                 'employee_id' => $michael->id,
                 'created_at' => $date->copy()->addDay(),
             ]);
@@ -697,11 +697,11 @@ class EmployeeShowViewHelperTest extends TestCase
         );
         $projectB->employees()->syncWithoutDetaching([$michael->id]);
 
-        factory(ProjectMessage::class)->create([
+        ProjectMessage::factory()->create([
             'project_id' => $projectA->id,
             'author_id' => $michael->id,
         ]);
-        factory(ProjectMessage::class)->create([
+        ProjectMessage::factory()->create([
             'project_id' => $projectA->id,
             'author_id' => null,
         ]);
