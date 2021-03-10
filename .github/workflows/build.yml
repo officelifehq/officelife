@@ -52,7 +52,7 @@ jobs:
         php-version: ['8.0']
         connection: [sqlite, mysql, pgsql]
         testsuite: [Unit]
-        coverage: true
+        coverage: [true] # run test with coverage, if 'coverage-with' match with the connection
         include:
           - connection: sqlite
             testsuite: Integration
