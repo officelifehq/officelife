@@ -49,7 +49,6 @@ input[type=radio] {
               <errors :errors="form.errors" />
             </div>
 
-            <!-- Basic information -->
             <div class="cf pa3 bb bb-gray pb4 tc">
               <input type="file" @change="selectFile" />
             </div>
@@ -104,7 +103,6 @@ export default {
 
   methods: {
     selectFile(event) {
-      console.log(event.target.files[0]);
       // `files` is always an array because the file input may be in multiple mode
       this.document = event.target.files[0];
     },

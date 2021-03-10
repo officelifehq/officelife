@@ -122,35 +122,35 @@
 
           <div class="pa3">
             <!-- LIST OF THE FIRST FIVE ENTRIES IN THE REPORT -->
-            <p class="f6 mb1">First five of the {{ report.number_of_entries }} entries of the file </p>
+            <p class="f6 mb1">{{ $t('account.import_employees_show_first_five_entries', {count: report.number_of_entries }) }}</p>
             <div v-if="report.first_five_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100 mb5">
               <div class="dt-row">
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
-                  Email
+                  {{ $t('account.import_employees_show_email') }}
                 </div>
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
-                  First name
+                  {{ $t('account.import_employees_show_firstname') }}
                 </div>
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
-                  Last name
+                  {{ $t('account.import_employees_show_lastname') }}
                 </div>
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
-                  Status
+                  {{ $t('account.import_employees_show_status') }}
                 </div>
               </div>
-              <div v-for="report in report.first_five_entries" :key="report.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
+              <div v-for="entry in report.first_five_entries" :key="entry.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
                 <div class="dtc pv3 ph2 bb bb-gray">
-                  {{ report.employee_email }}
+                  {{ entry.employee_email }}
                 </div>
                 <div class="dtc pv3 ph2 bb bb-gray">
-                  {{ report.employee_first_name }}
+                  {{ entry.employee_first_name }}
                 </div>
                 <div class="dtc pv3 ph2 bb bb-gray">
-                  {{ report.employee_last_name }}
+                  {{ entry.employee_last_name }}
                 </div>
-                <div v-if="report.skipped_during_upload" class="dtc bb bb-gray">
+                <div v-if="entry.skipped_during_upload" class="dtc bb bb-gray">
                   <span class="type failed">
-                    {{ report.skipped_during_upload_reason }}
+                    {{ entry.skipped_during_upload_reason }}
                   </span>
                 </div>
                 <div v-else class="dtc bb bb-gray">
@@ -162,26 +162,26 @@
             </div>
 
             <!-- LIST OF THE ALL ENTRIES IN ERROR -->
-            <p class="f6 mb1">All {{ report.failed_entries.length }} entries in error in the file</p>
+            <p class="f6 mb1">{{ $t('account.import_employees_show_entries_errors', { count: report.failed_entries.length }) }}</p>
             <div v-if="report.failed_entries.length > 0" class="center bt br bl br2 bb-gray dt w-100">
               <div class="dt-row">
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
-                  Email
+                  {{ $t('account.import_employees_show_email') }}
                 </div>
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
-                  First name
+                  {{ $t('account.import_employees_show_firstname') }}
                 </div>
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
-                  Last name
+                  {{ $t('account.import_employees_show_lastname') }}
                 </div>
                 <div class="dtc pv2 ph2 f6 bb bb-gray bg-gray fw5">
-                  Status
+                  {{ $t('account.import_employees_show_status') }}
                 </div>
               </div>
-              <div v-for="report in report.failed_entries" :key="report.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
+              <div v-for="entry in report.failed_entries" :key="entry.id" class="dt-row pv3 ph2 bb bb-gray bb-gray-hover pa3">
                 <!-- email -->
-                <div v-if="report.employee_email" class="dtc pv3 ph2 bb bb-gray">
-                  {{ report.employee_email }}
+                <div v-if="entry.employee_email" class="dtc pv3 ph2 bb bb-gray">
+                  {{ entry.employee_email }}
                 </div>
                 <div v-else class="dtc pv3 ph2 bb bb-gray f6 gray">
                   ({{ $t('account.import_employees_archives_finalize_email_missing') }})
@@ -189,18 +189,18 @@
 
                 <!-- first name -->
                 <div class="dtc pv3 ph2 bb bb-gray">
-                  {{ report.employee_first_name }}
+                  {{ entry.employee_first_name }}
                 </div>
 
                 <!-- last name -->
                 <div class="dtc pv3 ph2 bb bb-gray">
-                  {{ report.employee_last_name }}
+                  {{ entry.employee_last_name }}
                 </div>
 
                 <!-- skipped during upload -->
-                <div v-if="report.skipped_during_upload" class="dtc bb bb-gray">
+                <div v-if="entry.skipped_during_upload" class="dtc bb bb-gray">
                   <span class="type failed">
-                    {{ report.skipped_during_upload_reason }}
+                    {{ entry.skipped_during_upload_reason }}
                   </span>
                 </div>
                 <div v-else class="dtc bb bb-gray">
