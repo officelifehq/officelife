@@ -364,7 +364,6 @@ class ProjectTasksViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => $michael->avatar,
                         'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     ],
                 ],
