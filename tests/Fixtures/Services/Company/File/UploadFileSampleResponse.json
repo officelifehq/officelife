@@ -1,0 +1,21 @@
+[{
+    "original_file_url": "http://www.ucarecdn.com/017162da-e83b-46fc-89fc-3a7740db0a82/mango.jpg",
+    "image_info": {
+        "height": 510,
+        "width": 910,
+        "geo_location": null,
+        "datetime_original": null,
+        "format": "JPEG"
+    },
+    "mime_type": "image/jpg",
+    "is_ready": true,
+    "url": "https://api.uploadcare.com/files/017162da-e83b-46fc-89fc-3a7740db0a82/",
+    "uuid": "017162da-e83b-46fc-89fc-3a7740db0a82",
+    "original_filename": "mango.jpg",
+    "datetime_uploaded": "2021-01-09T16:31:08.216Z",
+    "size": 390340,
+    "is_image": true,
+    "datetime_stored": "2021-02-03T13:10:04.430Z",
+    "datetime_removed": null,
+    "source": null
+}]

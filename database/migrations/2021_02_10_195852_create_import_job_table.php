@@ -40,18 +40,5 @@ class CreateImportJobTable extends Migration
             $table->timestamps();
             $table->foreign('import_job_id')->references('id')->on('import_jobs')->onDelete('cascade');
         });
-
-        Schema::create('files', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->integer('fileable_id')->nullable();
-            $table->string('fileable_type')->nullable();
-            $table->string('filename');
-            $table->string('extension');
-            $table->string('hashed_filename');
-            $table->integer('size_in_kb');
-            $table->timestamps();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-        });
     }
 }

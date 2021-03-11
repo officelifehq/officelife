@@ -3,7 +3,6 @@
 namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,12 +19,20 @@ class File extends Model
      */
     protected $fillable = [
         'company_id',
-        'fileable_id',
-        'fileable_type',
-        'filename',
-        'hashed_filename',
-        'extension',
-        'size_in_kb',
+        'uuid',
+        'url',
+        'mime_type',
+        'type',
+        'size',
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'deleted' => FileDeleted::class,
     ];
 
     /**
@@ -36,28 +43,5 @@ class File extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
-    }
-
-    /**
-     * Get the parent imageable model.
-     */
-    public function fileable()
-    {
-        return $this->morphTo();
-    }
-
-    /**
-     * Get the full path of the file.
-     *
-     * @param mixed $value
-     * @return string
-     */
-    public function getPathAttribute($value): string
-    {
-        if (config('filesystems.default') == 'local') {
-            return storage_path('app').'/'.$this->hashed_filename;
-        } else {
-            return Storage::url($this->hashed_filename);
-        }
     }
 }

@@ -26,10 +26,11 @@ class FileFactory extends Factory
 
         return [
             'company_id' => $company->id,
-            'filename' => 'filename',
-            'hashed_filename' => '123',
-            'extension' => 'png',
-            'size_in_kb' => 123,
+            'uuid' => $this->faker->uuid,
+            'url' => $this->faker->url,
+            'mime_type' => 'avatar',
+            'type' => 'avatar',
+            'size' => $this->faker->numberBetween(),
         ];
     }
 }
