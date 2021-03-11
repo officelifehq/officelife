@@ -84,7 +84,7 @@ nav {
 
     <!-- FIND BOX -->
     <div v-show="modalFind" class="absolute z-max find-box">
-      <div class="br2 bg-white tl pv3 ph3 bounceIn faster">
+      <div class="br2 bg-white tl pv3 ph3 bounceIn faster" @click.prevent="">
         <form @submit.prevent="submit">
           <div class="relative">
             <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
@@ -188,7 +188,7 @@ nav {
       </div>
     </header>
 
-    <div :class="[ modalFind ? 'bg-modal-find' : '' ]"></div>
+    <div :class="[ modalFind ? 'bg-modal-find' : '' ]" @click.prevent="modalFind = false"></div>
 
     <slot></slot>
 
