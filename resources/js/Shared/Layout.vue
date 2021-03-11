@@ -85,10 +85,10 @@ nav {
     <!-- FIND BOX -->
     <div v-show="modalFind" class="absolute z-max find-box">
       <div class="br2 bg-white tl pv3 ph3 bounceIn faster" @click.prevent="">
-        <form @submit.prevent="submit">
+        <form @submit.prevent="search">
           <div class="relative">
             <input id="search" ref="search" v-model="form.searchTerm" type="text" name="search"
-                   :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false" @keyup="submit()"
+                   :placeholder="$t('app.header_search_placeholder')" class="br2 f5 w-100 ba b--black-40 pa2 outline-0" required @keydown.esc="modalFind = false" @keyup="search"
             />
             <ball-pulse-loader v-if="processingSearch" color="#5c7575" size="7px" />
             <loading-button :classes="'btn add w-auto-ns w-100 mb2 pv2 ph3 absolute top-0 right-0'" :state="loadingState" :text="$t('app.search')" :cypress-selector="'header-find-submit'" />
@@ -253,6 +253,7 @@ export default {
 
   data() {
     return {
+      submit: null,
       loadingState: '',
       modalFind: false,
       showModalNotifications: true,
@@ -264,6 +265,7 @@ export default {
       },
       employees: [],
       teams: [],
+      cache: [],
     };
   },
 
@@ -275,6 +277,28 @@ export default {
 
   mounted() {
     this.updatePageTitle(this.title);
+    this.submit = _.debounce((text) => {
+      const vm = this;
+      vm.processingSearch = true;
+      vm.loadingState = 'loading';
+
+      Promise.all([
+        axios.post('/search/employees', { searchTerm: text }),
+        axios.post('/search/teams', { searchTerm: text })
+      ])
+        .then(results => {
+          vm.cache[text] = {
+            employees: results[0].data.data,
+            teams: results[1].data.data,
+          };
+          vm.displayItems(text);
+        })
+        .catch(error => {
+          vm.loadingState = null;
+          vm.processingSearch = false;
+          vm.form.errors = error.response.data;
+        });
+    }, 500);
   },
 
 
@@ -295,34 +319,30 @@ export default {
       });
     },
 
-    submit: _.debounce(
-      function() {
-        this.processingSearch = true;
+    search: function () {
+      let text = this.form.searchTerm;
+      if (text === null || text === undefined) {
+        return;
+      }
 
-        axios.post('/search/employees', this.form)
-          .then(response => {
-            this.dataReturnedFromSearch = true;
-            this.processingSearch = false;
-            this.employees = response.data.data;
-          })
-          .catch(error => {
-            this.loadingState = null;
-            this.processingSearch = false;
-            this.form.errors = error.response.data;
-          });
+      if (this.cache[text] === undefined) {
+        this.submit(text);
+      } else {
+        this.submit.cancel();
+        this.displayItems(text);
+      }
+    },
 
-        axios.post('/search/teams', this.form)
-          .then(response => {
-            this.dataReturnedFromSearch = true;
-            this.processingSearch = false;
-            this.teams = response.data.data;
-          })
-          .catch(error => {
-            this.loadingState = null;
-            this.processingSearch = false;
-            this.form.errors = error.response.data;
-          });
-      }, 500),
+    displayItems (text) {
+      var data = this.cache[text];
+
+      this.dataReturnedFromSearch = true;
+      this.processingSearch = false;
+      this.loadingState = null;
+
+      this.employees = data.employees;
+      this.teams = data.teams;
+    },
 
     toggleHelp() {
       axios.post('/help')
