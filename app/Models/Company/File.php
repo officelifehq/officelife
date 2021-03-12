@@ -20,6 +20,8 @@ class File extends Model
     protected $fillable = [
         'company_id',
         'uuid',
+        'uploader_employee_id',
+        'uploader_name',
         'original_url',
         'cdn_url',
         'name',
@@ -38,12 +40,22 @@ class File extends Model
     ];
 
     /**
-     * Get the company record associated with the import job object.
+     * Get the company record associated with the file object.
      *
      * @return BelongsTo
      */
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get the employee record associated with the file object.
+     *
+     * @return BelongsTo
+     */
+    public function uploader()
+    {
+        return $this->belongsTo(Employee::class, 'uploader_employee_id');
     }
 }

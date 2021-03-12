@@ -5,6 +5,7 @@ namespace Tests\Unit\Models\Company;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
+use App\Models\Company\File;
 use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
@@ -477,6 +478,17 @@ class EmployeeTest extends TestCase
         ]);
 
         $this->assertTrue($dwight->consultantRates()->exists());
+    }
+
+    /** @test */
+    public function it_has_many_files(): void
+    {
+        $dwight = Employee::factory()->create();
+        File::factory()->count(2)->create([
+            'uploader_employee_id' => $dwight->id,
+        ]);
+
+        $this->assertTrue($dwight->filesUploaded()->exists());
     }
 
     /** @test */

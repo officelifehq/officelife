@@ -76,6 +76,8 @@ class UploadFile extends BaseService
     {
         $this->file = File::create([
             'company_id' => $this->data['company_id'],
+            'uploader_employee_id' => $this->data['author_id'],
+            'uploader_name' => $this->author->name,
             'uuid' => $this->data['uuid'],
             'name' => $this->data['name'],
             'original_url' => $this->data['original_url'],

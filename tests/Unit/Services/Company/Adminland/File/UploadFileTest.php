@@ -84,6 +84,8 @@ class UploadFileTest extends TestCase
 
         $this->assertDatabaseHas('files', [
             'id' => $file->id,
+            'uploader_employee_id' => $michael->id,
+            'uploader_name' => $michael->name,
             'uuid' => '017162da-e83b-46fc-89fc-3a7740db0a81',
             'name' => 'Twitter post.png',
             'original_url' => 'https://ucarecdn.com/5c8b9cea-62e5-4c8b-bc4c-47c0ddae62eee/',
