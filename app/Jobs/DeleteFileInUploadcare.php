@@ -13,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Uploadcare\File\File as UploadcareFile;
 use App\Exceptions\EnvVariablesNotSetException;
+use Uploadcare\Interfaces\File\FileInfoInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class DeleteFileInUploadcare implements ShouldQueue
@@ -28,8 +29,10 @@ class DeleteFileInUploadcare implements ShouldQueue
 
     /**
      * The file in Uploadcare instance.
+     *
+     * @var FileInfoInterface
      */
-    public $fileInUploadcare;
+    public FileInfoInterface $fileInUploadcare;
 
     /**
      * The API used to query Uploadcare.
