@@ -83,7 +83,9 @@
           <span>{{ $t('company.guess_employee_game_play_again') }}</span>
         </p>
       </div>
-      <img loading="lazy" class="absolute bottom-0 right-1 avatar" :src="updatedGame.avatar_to_find" width="64" height="64" />
+      <img loading="lazy" class="absolute bottom-0 right-1 avatar" alt="avatar to find" :src="updatedGame.avatar_to_find" width="64"
+           height="64"
+      />
     </div>
   </div>
 </template>

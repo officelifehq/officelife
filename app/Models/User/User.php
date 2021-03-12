@@ -60,6 +60,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $casts = [
+        'email_verified_at' => 'datetime',
         'show_help' => 'boolean',
     ];
 
