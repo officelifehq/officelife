@@ -46,6 +46,9 @@ class UploadFileTest extends TestCase
     /** @test */
     public function it_throws_an_exception_when_env_keys_are_not_set(): void
     {
+        config(['officelife.uploadcare_public_key' => null]);
+        config(['officelife.uploadcare_public_key' => null]);
+
         $michael = $this->createAdministrator();
         $this->expectException(EnvVariablesNotSetException::class);
         $this->executeService($michael);
@@ -60,12 +63,15 @@ class UploadFileTest extends TestCase
 
     private function executeService(Employee $michael): void
     {
-        $payload = file_get_contents(base_path('tests/Fixtures/Services/Company/File/UploadFileSampleResponse.json'));
-
         $request = [
             'company_id' => $michael->company_id,
             'author_id' => $michael->id,
-            'payload' => $payload,
+            'uuid' => '017162da-e83b-46fc-89fc-3a7740db0a81',
+            'name' => 'Twitter post.png',
+            'original_url' => 'https://ucarecdn.com/5c8b9cea-62e5-4c8b-bc4c-47c0ddae62eee/',
+            'cdn_url' => 'cdn_url',
+            'mime_type' => 'image/jpg',
+            'size' => 390340,
             'type' => 'avatar',
         ];
 
@@ -78,8 +84,10 @@ class UploadFileTest extends TestCase
 
         $this->assertDatabaseHas('files', [
             'id' => $file->id,
-            'uuid' => '017162da-e83b-46fc-89fc-3a7740db0a82',
-            'url' => 'https://api.uploadcare.com/files/017162da-e83b-46fc-89fc-3a7740db0a82/',
+            'uuid' => '017162da-e83b-46fc-89fc-3a7740db0a81',
+            'name' => 'Twitter post.png',
+            'original_url' => 'https://ucarecdn.com/5c8b9cea-62e5-4c8b-bc4c-47c0ddae62eee/',
+            'cdn_url' => 'cdn_url',
             'mime_type' => 'image/jpg',
             'size' => 390340,
             'type' => 'avatar',

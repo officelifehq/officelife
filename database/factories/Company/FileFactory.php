@@ -27,7 +27,9 @@ class FileFactory extends Factory
         return [
             'company_id' => $company->id,
             'uuid' => $this->faker->uuid,
-            'url' => $this->faker->url,
+            'original_url' => $this->faker->url,
+            'cdn_url' => $this->faker->url,
+            'name' => $this->faker->name,
             'mime_type' => 'avatar',
             'type' => 'avatar',
             'size' => $this->faker->numberBetween(),

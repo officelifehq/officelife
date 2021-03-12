@@ -18,8 +18,10 @@ class CreateFilesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('company_id');
             $table->string('uuid');
-            $table->string('url')->nullable();
+            $table->string('original_url')->nullable();
+            $table->string('cdn_url')->nullable();
             $table->string('mime_type');
+            $table->string('name');
             $table->string('type');
             $table->integer('size');
             $table->timestamps();

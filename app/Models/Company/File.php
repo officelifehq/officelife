@@ -20,7 +20,9 @@ class File extends Model
     protected $fillable = [
         'company_id',
         'uuid',
-        'url',
+        'original_url',
+        'cdn_url',
+        'name',
         'mime_type',
         'type',
         'size',

@@ -24,7 +24,12 @@ class UploadFile extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'payload' => 'required|json',
+            'uuid' => 'required|string',
+            'name' => 'required|string',
+            'original_url' => 'required|string',
+            'cdn_url' => 'required|string',
+            'mime_type' => 'required|string',
+            'size' => 'required|integer',
             'type' => 'required|string',
         ];
     }
@@ -44,7 +49,7 @@ class UploadFile extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->mapPayloadToObject();
+        $this->save();
 
         return $this->file;
     }
@@ -67,16 +72,16 @@ class UploadFile extends BaseService
             ->canExecuteService();
     }
 
-    private function mapPayloadToObject(): void
+    private function save(): void
     {
-        $payload = json_decode($this->data['payload']);
-
         $this->file = File::create([
             'company_id' => $this->data['company_id'],
-            'uuid' => $payload[0]->uuid,
-            'url' => $payload[0]->url,
-            'mime_type' => $payload[0]->mime_type,
-            'size' => $payload[0]->size,
+            'uuid' => $this->data['uuid'],
+            'name' => $this->data['name'],
+            'original_url' => $this->data['original_url'],
+            'cdn_url' => $this->data['cdn_url'],
+            'mime_type' => $this->data['mime_type'],
+            'size' => $this->data['size'],
             'type' => $this->data['type'],
         ]);
     }

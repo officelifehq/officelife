@@ -62,21 +62,27 @@ class AdminUploadEmployeeController extends Controller
         $file = (new UploadFile)->execute([
             'company_id' => $loggedCompany->id,
             'author_id' => $loggedEmployee->id,
-            'file' => $request->file('csv'),
+            'uuid' => $request->input('uuid'),
+            'name' => $request->input('name'),
+            'original_url' => $request->input('original_url'),
+            'cdn_url' => $request->input('cdn_url'),
+            'mime_type' => $request->input('mime_type'),
+            'size' => $request->input('size'),
+            'type' => 'csv',
         ]);
 
-        $job = (new StoreEmployeesFromCSVInTemporaryTable)->execute([
-            'company_id' => $loggedCompany->id,
-            'author_id' => $loggedEmployee->id,
-            'path' => $file->path,
-        ]);
+        // $job = (new StoreEmployeesFromCSVInTemporaryTable)->execute([
+        //     'company_id' => $loggedCompany->id,
+        //     'author_id' => $loggedEmployee->id,
+        //     'path' => $file->path,
+        // ]);
 
-        return response()->json([
-            'url' => route('account.employees.upload.archive.show', [
-                'company' => $loggedCompany,
-                'archive' => $job,
-            ]),
-        ]);
+        // return response()->json([
+        //     'url' => route('account.employees.upload.archive.show', [
+        //         'company' => $loggedCompany,
+        //         'archive' => $job,
+        //     ]),
+        // ]);
     }
 
     /**
