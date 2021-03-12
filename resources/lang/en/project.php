@@ -16,6 +16,7 @@ return [
     'menu_members' => 'Members',
     'menu_finance' => 'Finance',
     'menu_files' => 'Files',
+    'menu_members_icons' => 'Project members',
 
     'summary_cta_start_project' => 'Start project',
     'summary_cta_pause_project' => 'Pause',

@@ -33,7 +33,7 @@
 
       <!-- avatars -->
       <div v-if="project.members.length > 0">
-        <p class="mt0 mb2 f7 gray">Project members</p>
+        <p class="mt0 mb2 f7 gray">{{ $t('project.menu_members_icons') }}</p>
         <div class="flex items-center relative tr">
           <img v-for="member in project.members" :key="member.id" :src="member.avatar" alt="avatar" class="br-100 small-avatar"
                width="32" height="32"
