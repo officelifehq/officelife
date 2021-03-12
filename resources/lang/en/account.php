@@ -549,6 +549,7 @@ return [
     'import_employees_archives_finalize_import' => 'Import {count} entries',
     'import_employees_archives_finalize_email_missing' => 'not provided',
     'import_employees_import_title' => 'Import employees',
+    'import_employees_import_cta' => 'Browse a CSV to upload',
     'import_employees_import_description' => 'You can import a bunch of employees at once with a CSV file.',
     'import_employees_import_note' => 'Important note: your CSV file needs to follow a specific structure so we can properly import it.',
     'import_employees_import_instructions' => 'Read complete instructions here',

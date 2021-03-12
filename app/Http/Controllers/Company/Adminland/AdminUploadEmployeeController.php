@@ -44,6 +44,7 @@ class AdminUploadEmployeeController extends Controller
     {
         return Inertia::render('Adminland/Employee/Import', [
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
+            'uploadcarePublicKey' => config('officelife.uploadcare_public_key'),
         ]);
     }
 

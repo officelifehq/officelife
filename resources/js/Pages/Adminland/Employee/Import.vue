@@ -50,12 +50,12 @@ input[type=radio] {
             </div>
 
             <div class="cf pa3 bb bb-gray pb4 tc">
-              <uploadcare :public-key="'f88f33f81b1ddf736055'"
-                          :tabs="'file camera'"
+              <uploadcare :public-key="uploadcarePublicKey"
+                          :tabs="'file'"
                           @success="onSuccess"
                           @error="onError"
               >
-                <button>New Asset</button>
+                <button>{{ $t('account.import_employees_import_cta') }}</button>
               </uploadcare>
             </div>
 
@@ -94,6 +94,10 @@ export default {
   props: {
     notifications: {
       type: Array,
+      default: null,
+    },
+    uploadcarePublicKey: {
+      type: String,
       default: null,
     },
   },
