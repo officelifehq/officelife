@@ -71,18 +71,18 @@ class AdminUploadEmployeeController extends Controller
             'type' => 'csv',
         ]);
 
-        // $job = (new StoreEmployeesFromCSVInTemporaryTable)->execute([
-        //     'company_id' => $loggedCompany->id,
-        //     'author_id' => $loggedEmployee->id,
-        //     'path' => $file->path,
-        // ]);
+        $job = (new StoreEmployeesFromCSVInTemporaryTable)->execute([
+            'company_id' => $loggedCompany->id,
+            'author_id' => $loggedEmployee->id,
+            'file_id' => $file->id,
+        ]);
 
-        // return response()->json([
-        //     'url' => route('account.employees.upload.archive.show', [
-        //         'company' => $loggedCompany,
-        //         'archive' => $job,
-        //     ]),
-        // ]);
+        return response()->json([
+            'url' => route('account.employees.upload.archive.show', [
+                'company' => $loggedCompany,
+                'archive' => $job,
+            ]),
+        ]);
     }
 
     /**

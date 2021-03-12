@@ -518,6 +518,8 @@ return [
     'general_name' => 'Company name',
     'general_administrators' => 'Current administrators',
     'general_creation_date' => 'Created',
+    'general_creation_size' => 'Storage of files',
+    'general_creation_size_kb' => '{size} kb',
     'general_rename_company' => 'Change company name',
     'general_rename_input' => 'Give the company a new name',
     'general_rename_success' => 'The company has been renamed.',
