@@ -19,7 +19,7 @@ class LogHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $log = factory(AuditLog::class)->create([
+        $log = AuditLog::factory()->create([
             'action' => 'employee_invited_to_become_user',
             'objects' => json_encode([
                 'author_id' => $michael->user->id,
@@ -37,7 +37,7 @@ class LogHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $log = factory(EmployeeLog::class)->create([
+        $log = EmployeeLog::factory()->create([
             'action' => 'direct_report_assigned',
             'objects' => json_encode([
                 'author_id' => $michael->user->id,
@@ -52,9 +52,9 @@ class LogHelperTest extends TestCase
     /** @test */
     public function it_returns_the_string_explaining_the_team_log(): void
     {
-        $team = factory(Team::class)->create([]);
+        $team = Team::factory()->create([]);
 
-        $log = factory(TeamLog::class)->create([
+        $log = TeamLog::factory()->create([
             'action' => 'team_log_team_created',
             'objects' => json_encode([
                 'team_name' => $team->id,
@@ -68,7 +68,7 @@ class LogHelperTest extends TestCase
     /** @test */
     public function it_returns_empty_by_default_for_audit_log(): void
     {
-        $log = factory(AuditLog::class)->create([
+        $log = AuditLog::factory()->create([
             'action' => '',
         ]);
 
@@ -82,7 +82,7 @@ class LogHelperTest extends TestCase
     /** @test */
     public function it_returns_empty_by_default_for_employee_log(): void
     {
-        $log = factory(EmployeeLog::class)->create([
+        $log = EmployeeLog::factory()->create([
             'action' => '',
         ]);
 
@@ -96,7 +96,7 @@ class LogHelperTest extends TestCase
     /** @test */
     public function it_returns_empty_by_default_for_team_log(): void
     {
-        $log = factory(TeamLog::class)->create([
+        $log = TeamLog::factory()->create([
             'action' => '',
         ]);
 

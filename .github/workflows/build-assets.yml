@@ -12,8 +12,8 @@ on:
     types: [completed]
 
 env:
-  php-version: 7.4
-  node-version: 14
+  php-version: '8.0'
+  node-version: 15
 
 jobs:
   #############
@@ -63,7 +63,7 @@ jobs:
             ${{ runner.os }}-composer-
 
       - name: Install composer dependencies
-        run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader --ignore-platform-req=php
+        run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
 
     # Yarn
       - name: Setup Node.js

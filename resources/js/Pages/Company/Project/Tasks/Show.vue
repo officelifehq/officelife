@@ -210,13 +210,7 @@ input[type=checkbox] {
               <span class="f7 mr2">
                 {{ entry.created_at }}
               </span>
-              <small-name-and-avatar
-                :name="entry.employee.name"
-                :avatar="entry.employee.avatar"
-                :classes="'f4 fw4 mr3'"
-                :top="'0px'"
-                :margin-between-name-avatar="'29px'"
-              />
+              <span>{{ entry.employee.name }}</span>
               <span class="mr3 absolute right-0 duration">
                 {{ entry.duration }}
               </span>
@@ -327,7 +321,6 @@ input[type=checkbox] {
 <script>
 import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
-import SmallNameAndAvatar from '@/Shared/SmallNameAndAvatar';
 import BallClipRotate from 'vue-loaders/dist/loaders/ball-clip-rotate';
 import TextInput from '@/Shared/TextInput';
 import TextArea from '@/Shared/TextArea';
@@ -339,7 +332,6 @@ export default {
   components: {
     Layout,
     ProjectMenu,
-    SmallNameAndAvatar,
     'ball-clip-rotate': BallClipRotate.component,
     TextInput,
     TextArea,

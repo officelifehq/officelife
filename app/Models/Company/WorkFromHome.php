@@ -5,9 +5,12 @@ namespace App\Models\Company;
 use App\Helpers\DateHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class WorkFromHome extends Model
 {
+    use HasFactory;
+
     protected $table = 'employee_work_from_home';
 
     /**

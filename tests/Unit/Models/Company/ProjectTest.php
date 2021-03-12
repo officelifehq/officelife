@@ -22,15 +22,15 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $project = Project::factory()->make();
+        $project = Project::factory()->create();
         $this->assertTrue($project->company()->exists());
     }
 
     /** @test */
     public function it_has_one_lead(): void
     {
-        $dwight = factory(Employee::class)->create();
-        $project = factory(Project::class)->create([
+        $dwight = Employee::factory()->create();
+        $project = Project::factory()->create([
             'company_id' => $dwight->company_id,
             'project_lead_id' => $dwight->id,
         ]);
@@ -41,11 +41,11 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_belongs_to_many_employees(): void
     {
-        $project = factory(Project::class)->create();
-        $dwight = factory(Employee::class)->create([
+        $project = Project::factory()->create();
+        $dwight = Employee::factory()->create([
             'company_id' => $project->company_id,
         ]);
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'company_id' => $project->company_id,
         ]);
 
@@ -58,11 +58,11 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_belongs_to_many_teams(): void
     {
-        $project = factory(Project::class)->create();
-        $sales = factory(Team::class)->create([
+        $project = Project::factory()->create();
+        $sales = Team::factory()->create([
             'company_id' => $project->company_id,
         ]);
-        $marketing = factory(Team::class)->create([
+        $marketing = Team::factory()->create([
             'company_id' => $project->company_id,
         ]);
 
@@ -75,8 +75,8 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_has_many_links(): void
     {
-        $project = factory(Project::class)->create();
-        factory(ProjectLink::class, 2)->create([
+        $project = Project::factory()->create();
+        ProjectLink::factory()->count(2)->create([
             'project_id' => $project->id,
         ]);
 
@@ -86,8 +86,8 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_has_many_statuses(): void
     {
-        $project = factory(Project::class)->create();
-        factory(ProjectStatus::class, 2)->create([
+        $project = Project::factory()->create();
+        ProjectStatus::factory()->count(2)->create([
             'project_id' => $project->id,
         ]);
 
@@ -97,8 +97,8 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_has_many_decisions(): void
     {
-        $project = factory(Project::class)->create();
-        factory(ProjectDecision::class, 2)->create([
+        $project = Project::factory()->create();
+        ProjectDecision::factory()->count(2)->create([
             'project_id' => $project->id,
         ]);
 
@@ -108,8 +108,8 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_has_many_messages(): void
     {
-        $project = factory(Project::class)->create();
-        factory(ProjectMessage::class, 2)->create([
+        $project = Project::factory()->create();
+        ProjectMessage::factory()->count(2)->create([
             'project_id' => $project->id,
         ]);
 

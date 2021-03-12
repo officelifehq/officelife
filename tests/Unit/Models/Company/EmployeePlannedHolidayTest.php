@@ -13,7 +13,7 @@ class EmployeePlannedHolidayTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_an_employee(): void
     {
-        $holiday = factory(EmployeePlannedHoliday::class)->create([]);
+        $holiday = EmployeePlannedHoliday::factory()->create([]);
         $this->assertTrue($holiday->employee()->exists());
     }
 }

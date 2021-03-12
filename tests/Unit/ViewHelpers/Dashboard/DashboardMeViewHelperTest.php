@@ -5,6 +5,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Task;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Answer;
 use App\Models\Company\ECoffee;
 use App\Models\Company\Expense;
@@ -39,13 +40,13 @@ class DashboardMeViewHelperTest extends TestCase
     public function it_gets_the_information_about_the_current_active_question(): void
     {
         $michael = $this->createAdministrator();
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
             'title' => 'Do you like Dwight',
             'active' => true,
         ]);
 
-        factory(Answer::class, 2)->create([
+        Answer::factory()->count(2)->create([
             'question_id' => $question->id,
         ]);
 
@@ -70,7 +71,7 @@ class DashboardMeViewHelperTest extends TestCase
             $response
         );
 
-        factory(Answer::class)->create([
+        Answer::factory()->create([
             'employee_id' => $michael->id,
             'question_id' => $question->id,
         ]);
@@ -102,11 +103,11 @@ class DashboardMeViewHelperTest extends TestCase
     public function it_gets_the_information_about_the_inprogress_tasks_of_the_employee(): void
     {
         $michael = $this->createAdministrator();
-        $taskA = factory(Task::class)->create([
+        $taskA = Task::factory()->create([
             'employee_id' => $michael->id,
             'completed' => false,
         ]);
-        $taskB = factory(Task::class)->create([
+        $taskB = Task::factory()->create([
             'employee_id' => $michael->id,
             'completed' => false,
         ]);
@@ -132,7 +133,7 @@ class DashboardMeViewHelperTest extends TestCase
     public function it_gets_all_the_expense_categories_in_the_given_company(): void
     {
         $michael = $this->createAdministrator();
-        factory(ExpenseCategory::class, 2)->create([
+        ExpenseCategory::factory()->count(2)->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -159,14 +160,14 @@ class DashboardMeViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'employee_id' => $michael->id,
             'status' => Expense::AWAITING_ACCOUTING_APPROVAL,
             'converted_amount' => 123,
             'converted_to_currency' => 'EUR',
         ]);
 
-        factory(Expense::class)->create([
+        Expense::factory()->create([
             'employee_id' => $michael->id,
             'status' => Expense::CREATED,
         ]);
@@ -179,11 +180,11 @@ class DashboardMeViewHelperTest extends TestCase
             [
                 0 => [
                     'id' => $expense->id,
-                    'title' => 'Restaurant',
+                    'title' => $expense->title,
                     'amount' => '$1.00',
                     'converted_amount' => '€1.23',
                     'status' => 'accounting_approval',
-                    'category' => 'travel',
+                    'category' => $expense->category->name,
                     'expensed_at' => 'Jan 01, 1999',
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id.'/administration/expenses/'.$expense->id,
                 ],
@@ -198,10 +199,10 @@ class DashboardMeViewHelperTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -235,10 +236,10 @@ class DashboardMeViewHelperTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -262,7 +263,7 @@ class DashboardMeViewHelperTest extends TestCase
                 0 => [
                     'id' => $dwight->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $dwight->avatar,
+                    'avatar' => AvatarHelper::getImage($dwight),
                     'position' => $dwight->position->title,
                     'url' => env('APP_URL').'/'.$dwight->company_id.'/employees/'.$dwight->id,
                     'entry' => [
@@ -273,7 +274,7 @@ class DashboardMeViewHelperTest extends TestCase
                 1 => [
                     'id' => $michael->id,
                     'name' => 'Dwight Schrute',
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'position' => $michael->position->title,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                     'entry' => [
@@ -381,13 +382,13 @@ class DashboardMeViewHelperTest extends TestCase
                 'e_coffee_id' => $eCoffee->id,
                 'happened' => $match->happened,
                 'employee' => [
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                 ],
                 'other_employee' => [
                     'id' => $match->employeeMatchedWith->id,
                     'name' => $match->employeeMatchedWith->name,
                     'first_name' => $match->employeeMatchedWith->first_name,
-                    'avatar' => $match->employeeMatchedWith->avatar,
+                    'avatar' => AvatarHelper::getImage($match->employeeMatchedWith),
                     'position' => $match->employeeMatchedWith->position ? $match->employeeMatchedWith->position->title : null,
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$match->employeeMatchedWith->id,
                     'teams' => null,

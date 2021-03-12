@@ -19,7 +19,7 @@ class ProcessDailyTimeOffBalanceTest extends TestCase
     public function it_calculates_the_daily_time_off_balance(): void
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->asHR()->create([
             'holiday_balance' => 30,
         ]);
 

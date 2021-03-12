@@ -21,13 +21,13 @@
         {{ $t('employee.contacts_title') }}
       </span>
 
-      <inertia-link v-show="permissions.can_edit_profile" :href="employee.url.edit" data-cy="edit-contact-information-link" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2">{{ $t('app.edit') }}</inertia-link>
+      <inertia-link v-show="permissions.can_edit_profile" :href="employee.url.edit" data-cy="edit-contact-information-link" class="di f7 ml2">{{ $t('app.edit') }}</inertia-link>
     </div>
 
     <ul class="list ma0 pl0">
       <li class="mb2">{{ employee.email }}</li>
       <li v-if="employee.phone" class="mb2" data-cy="employee-phone">
-        {{ employee.phone }}
+        <a :href="'tel:' + employee.phone">{{ employee.phone }}</a>
       </li>
       <li v-if="employee.slack_handle" data-cy="employee-slack-handle" class="mb2">
         {{ employee.slack_handle }} <span class="gray f7">(Slack)</span>

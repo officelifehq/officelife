@@ -13,7 +13,7 @@ class PronounTest extends TestCase
     /** @test */
     public function it_returns_the_translated_label(): void
     {
-        $pronoun = factory(Pronoun::class)->create([
+        $pronoun = Pronoun::factory()->create([
             'label' => 'he/him',
             'translation_key' => 'account.pronoun_he_him',
         ]);

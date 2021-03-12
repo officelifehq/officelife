@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\TimeHelper;
 use Illuminate\Http\Request;
+use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
 use Illuminate\Http\JsonResponse;
@@ -143,7 +144,7 @@ class ProjectTasksController extends Controller
                 'assignee' => $task->assignee ? [
                     'id' => $task->assignee->id,
                     'name' => $task->assignee->name,
-                    'avatar' => $task->assignee->avatar,
+                    'avatar' => AvatarHelper::getImage($task->assignee),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $task->assignee,
@@ -207,7 +208,7 @@ class ProjectTasksController extends Controller
                 'assignee' => $task->assignee ? [
                     'id' => $task->assignee->id,
                     'name' => $task->assignee->name,
-                    'avatar' => $task->assignee->avatar,
+                    'avatar' => AvatarHelper::getImage($task->assignee),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $task->assignee,

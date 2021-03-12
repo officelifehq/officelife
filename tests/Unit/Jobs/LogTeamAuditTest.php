@@ -19,7 +19,7 @@ class LogTeamAuditTest extends TestCase
         $date = Carbon::now();
 
         $michael = $this->createAdministrator();
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

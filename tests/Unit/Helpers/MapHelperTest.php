@@ -17,7 +17,7 @@ class MapHelperTest extends TestCase
         config(['officelife.mapbox_api_key' => 'api_key']);
         config(['officelife.mapbox_api_username' => 'test']);
 
-        $place = factory(Place::class)->create([
+        $place = Place::factory()->create([
             'longitude' => '-74.005941',
             'latitude' => '40.712784',
         ]);
@@ -36,7 +36,7 @@ class MapHelperTest extends TestCase
         config(['officelife.mapbox_api_key' => null]);
         config(['officelife.mapbox_api_username' => 'test']);
 
-        $place = factory(Place::class)->create([
+        $place = Place::factory()->create([
             'longitude' => '-74.005941',
             'latitude' => '40.712784',
         ]);
@@ -52,7 +52,7 @@ class MapHelperTest extends TestCase
         config(['officelife.mapbox_api_key' => 'api_key']);
         config(['officelife.mapbox_api_username' => null]);
 
-        $place = factory(Place::class)->create([
+        $place = Place::factory()->create([
             'longitude' => '-74.005941',
             'latitude' => '40.712784',
         ]);

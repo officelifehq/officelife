@@ -14,15 +14,15 @@ class StepTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_flow(): void
     {
-        $step = factory(Step::class)->create([]);
+        $step = Step::factory()->create([]);
         $this->assertTrue($step->flow()->exists());
     }
 
     /** @test */
     public function it_has_many_actions(): void
     {
-        $step = factory(Step::class)->create();
-        factory(Action::class, 2)->create([
+        $step = Step::factory()->create();
+        Action::factory()->count(2)->create([
             'step_id' => $step->id,
         ]);
 
@@ -32,7 +32,7 @@ class StepTest extends ApiTestCase
     /** @test */
     public function it_calculates_the_real_number_of_days(): void
     {
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'modifier' => 'same_day',
         ]);
         $step->calculateDays();
@@ -41,7 +41,7 @@ class StepTest extends ApiTestCase
             $step->real_number_of_days
         );
 
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'modifier' => 'before',
             'unit_of_time' => 'days',
             'number' => 9,
@@ -52,7 +52,7 @@ class StepTest extends ApiTestCase
             $step->real_number_of_days
         );
 
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'modifier' => 'before',
             'unit_of_time' => 'weeks',
             'number' => 9,
@@ -63,7 +63,7 @@ class StepTest extends ApiTestCase
             $step->real_number_of_days
         );
 
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'modifier' => 'before',
             'unit_of_time' => 'months',
             'number' => 9,
@@ -74,7 +74,7 @@ class StepTest extends ApiTestCase
             $step->real_number_of_days
         );
 
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'modifier' => 'after',
             'unit_of_time' => 'days',
             'number' => 9,
@@ -85,7 +85,7 @@ class StepTest extends ApiTestCase
             $step->real_number_of_days
         );
 
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'modifier' => 'after',
             'unit_of_time' => 'weeks',
             'number' => 9,
@@ -96,7 +96,7 @@ class StepTest extends ApiTestCase
             $step->real_number_of_days
         );
 
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'modifier' => 'after',
             'unit_of_time' => 'months',
             'number' => 9,

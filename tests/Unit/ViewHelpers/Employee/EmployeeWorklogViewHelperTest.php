@@ -18,18 +18,18 @@ class EmployeeWorklogViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_representing_all_the_worklogs_for_a_given_year(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         // logging worklogs
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-01-01 00:00:00',
         ]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-02-01 00:00:00',
         ]);
-        factory(Worklog::class, 2)->create([
+        Worklog::factory()->count(2)->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-03-01 00:00:00',
         ]);
@@ -67,14 +67,14 @@ class EmployeeWorklogViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_years_representing_all_the_years_the_employee_has_a_worklog_for(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         // logging worklogs
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-01-01 00:00:00',
         ]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '1990-01-01 00:00:00',
         ]);
@@ -104,18 +104,18 @@ class EmployeeWorklogViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_months_representing_all_the_months_the_employee_has_a_worklog_for(): void
     {
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         // logging worklogs
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-01-01 00:00:00',
         ]);
-        factory(Worklog::class)->create([
+        Worklog::factory()->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-02-01 00:00:00',
         ]);
-        factory(Worklog::class, 2)->create([
+        Worklog::factory()->count(2)->create([
             'employee_id' => $dwight->id,
             'created_at' => '2020-03-01 00:00:00',
         ]);

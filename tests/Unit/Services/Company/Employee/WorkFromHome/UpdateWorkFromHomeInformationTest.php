@@ -55,7 +55,7 @@ class UpdateWorkFromHomeInformationTest extends TestCase
     {
         Queue::fake();
 
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         // we need to call the service twice.
         // once to create entry, the other one to trigger its deletion
@@ -106,7 +106,7 @@ class UpdateWorkFromHomeInformationTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,

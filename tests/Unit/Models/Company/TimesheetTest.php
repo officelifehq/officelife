@@ -14,14 +14,14 @@ class TimesheetTest extends TestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $timesheet = Timesheet::factory()->make();
+        $timesheet = Timesheet::factory()->create();
         $this->assertTrue($timesheet->company()->exists());
     }
 
     /** @test */
     public function it_belongs_to_one_employee(): void
     {
-        $timesheet = Timesheet::factory()->make();
+        $timesheet = Timesheet::factory()->create();
         $this->assertTrue($timesheet->employee()->exists());
     }
 

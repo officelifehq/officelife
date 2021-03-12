@@ -5,6 +5,7 @@ namespace Tests\Unit\ViewHelpers\Team;
 use Tests\TestCase;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Employee;
 use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -17,15 +18,15 @@ class TeamShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_employees(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         // create one final employee with a locked status (shouldn't appear in the results)
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'locked' => true,
         ]);
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -41,7 +42,7 @@ class TeamShowViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'position' => [
                         'id' => $michael->position->id,
                         'title' => $michael->position->title,
@@ -51,7 +52,7 @@ class TeamShowViewHelperTest extends TestCase
                 1 => [
                     'id' => $dwight->id,
                     'name' => $dwight->name,
-                    'avatar' => $dwight->avatar,
+                    'avatar' => AvatarHelper::getImage($dwight),
                     'position' => [
                         'id' => $dwight->position->id,
                         'title' => $dwight->position->title,
@@ -67,13 +68,13 @@ class TeamShowViewHelperTest extends TestCase
     public function it_gets_a_collection_of_recent_ships(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
-        $featureB = factory(Ship::class)->create([
+        $featureB = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
         $featureA->employees()->attach([$michael->id]);
@@ -91,7 +92,7 @@ class TeamShowViewHelperTest extends TestCase
                         0 => [
                             'id' => $michael->id,
                             'name' => $michael->name,
-                            'avatar' => $michael->avatar,
+                            'avatar' => AvatarHelper::getImage($michael),
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],

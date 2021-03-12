@@ -23,7 +23,7 @@ class RemoveSkillFromEmployeeTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createAnotherEmployee($michael);
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $skill->employees()->attach([$dwight->id]);
@@ -36,7 +36,7 @@ class RemoveSkillFromEmployeeTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createAnotherEmployee($michael);
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $skill->employees()->attach([$dwight->id]);
@@ -48,7 +48,7 @@ class RemoveSkillFromEmployeeTest extends TestCase
     public function it_removes_a_skill_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $skill->employees()->attach([$michael->id]);
@@ -61,7 +61,7 @@ class RemoveSkillFromEmployeeTest extends TestCase
     {
         $michael = $this->createEmployee();
         $dwight = $this->createAnotherEmployee($michael);
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $skill->employees()->attach([$dwight->id]);
@@ -86,7 +86,7 @@ class RemoveSkillFromEmployeeTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createEmployee();
-        $skill = factory(Skill::class)->create([
+        $skill = Skill::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

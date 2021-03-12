@@ -46,7 +46,7 @@ class InviteEmployeeToBecomeUserTest extends TestCase
     public function it_raises_an_exception_if_invitation_link_has_already_been_accepted(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
             'invitation_used_at' => '1999-01-01',
         ]);
@@ -65,7 +65,7 @@ class InviteEmployeeToBecomeUserTest extends TestCase
     public function it_fails_if_wrong_parameters_are_given(): void
     {
         $michael = $this->createAdministrator();
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -82,7 +82,7 @@ class InviteEmployeeToBecomeUserTest extends TestCase
     public function it_fails_if_the_employee_does_not_match_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $dwight = factory(Employee::class)->create([]);
+        $dwight = Employee::factory()->create();
 
         $request = [
             'company_id' => $dwight->company_id,
@@ -99,7 +99,7 @@ class InviteEmployeeToBecomeUserTest extends TestCase
         Queue::fake();
         Mail::fake();
 
-        $dwight = factory(Employee::class)->create([
+        $dwight = Employee::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

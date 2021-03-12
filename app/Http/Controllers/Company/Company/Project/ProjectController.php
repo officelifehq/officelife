@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company\Company\Project;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
+use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
@@ -331,7 +332,7 @@ class ProjectController extends Controller
             'data' => [
                 'id' => $lead->id,
                 'name' => $lead->name,
-                'avatar' => $lead->avatar,
+                'avatar' => AvatarHelper::getImage($lead),
                 'position' => (! $lead->position) ? null : [
                     'id' => $lead->position->id,
                     'title' => $lead->position->title,
@@ -411,7 +412,7 @@ class ProjectController extends Controller
             $employees->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
             ]);
         }
 

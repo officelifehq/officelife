@@ -16,7 +16,7 @@ class QuestionHelperTest extends TestCase
     public function it_gets_the_answer_of_the_question_made_by_the_employee(): void
     {
         $michael = $this->createAdministrator();
-        $answer = factory(Answer::class)->create([
+        $answer = Answer::factory()->create([
             'employee_id' => $michael->id,
         ]);
 
@@ -37,7 +37,7 @@ class QuestionHelperTest extends TestCase
     public function it_gets_an_empty_array_if_the_employee_hasnt_answered_the_question(): void
     {
         $michael = $this->createAdministrator();
-        $question = factory(Question::class)->create([
+        $question = Question::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 

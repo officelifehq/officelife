@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use App\Models\Company\AuditLog;
 use App\Models\Company\Hardware;
@@ -36,7 +37,7 @@ class AdminHardwareViewHelper
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => AvatarHelper::getImage($employee),
                 ] : null,
             ]);
         }
@@ -103,7 +104,7 @@ class AdminHardwareViewHelper
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => AvatarHelper::getImage($employee),
                 ] : null,
             ]);
         }
@@ -150,7 +151,7 @@ class AdminHardwareViewHelper
                 'employee' => ($employee) ? [
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => AvatarHelper::getImage($employee),
                 ] : null,
             ]);
         }

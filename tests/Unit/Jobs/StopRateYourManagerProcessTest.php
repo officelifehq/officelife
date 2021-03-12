@@ -19,17 +19,17 @@ class StopRateYourManagerProcessTest extends TestCase
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
 
         // those two should be marked inactive
-        factory(RateYourManagerSurvey::class, 2)->create([
+        RateYourManagerSurvey::factory()->count(2)->create([
             'active' => true,
             'valid_until_at' => '2017-01-01 00:00:00',
         ]);
         // this one should remain active
-        factory(RateYourManagerSurvey::class)->create([
+        RateYourManagerSurvey::factory()->create([
             'active' => true,
             'valid_until_at' => '2018-01-02 00:00:00',
         ]);
         // this one should be untouched
-        factory(RateYourManagerSurvey::class)->create([
+        RateYourManagerSurvey::factory()->create([
             'active' => false,
             'valid_until_at' => '2017-01-01 00:00:00',
         ]);

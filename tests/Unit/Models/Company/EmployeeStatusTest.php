@@ -21,7 +21,7 @@ class EmployeeStatusTest extends ApiTestCase
     /** @test */
     public function it_returns_an_object(): void
     {
-        $dunder = factory(Company::class)->create([]);
+        $dunder = Company::factory()->create([]);
         $status = EmployeeStatus::factory()->create([
             'company_id' => $dunder->id,
             'name' => 'dunder',

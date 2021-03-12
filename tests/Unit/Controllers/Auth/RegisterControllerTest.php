@@ -18,7 +18,7 @@ class RegisterControllerTest extends TestCase
         Notification::fake();
 
         // be sure to have at least 2 users
-        factory(User::class)->create([]);
+        User::factory()->create([]);
 
         $params = [
             'email' => 'jim.halpert@dundermifflin.com',

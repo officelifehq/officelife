@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
+use App\Helpers\AvatarHelper;
 use App\Http\ViewHelpers\Team\TeamRecentShipViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -17,13 +18,13 @@ class TeamRecentShipViewHelperTest extends TestCase
     public function it_gets_a_collection_of_recent_ships(): void
     {
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
-        $featureB = factory(Ship::class)->create([
+        $featureB = Ship::factory()->create([
             'team_id' => $team->id,
         ]);
         $featureA->employees()->attach([$michael->id]);
@@ -53,7 +54,7 @@ class TeamRecentShipViewHelperTest extends TestCase
                         0 => [
                             'id' => $michael->id,
                             'name' => $michael->name,
-                            'avatar' => $michael->avatar,
+                            'avatar' => AvatarHelper::getImage($michael),
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
@@ -73,10 +74,10 @@ class TeamRecentShipViewHelperTest extends TestCase
     {
         Carbon::setTestNow(Carbon::create(2018, 1, 1));
         $michael = $this->createAdministrator();
-        $team = factory(Team::class)->create([
+        $team = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $featureA = factory(Ship::class)->create([
+        $featureA = Ship::factory()->create([
             'team_id' => $team->id,
             'description' => '**cool**',
         ]);
@@ -96,7 +97,7 @@ class TeamRecentShipViewHelperTest extends TestCase
                     0 => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => $michael->avatar,
+                        'avatar' => AvatarHelper::getImage($michael),
                         'position' => [
                             'title' => $michael->position->title,
                         ],

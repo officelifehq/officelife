@@ -45,7 +45,7 @@ class UpdateCompanyPTOPolicyTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,
@@ -59,12 +59,12 @@ class UpdateCompanyPTOPolicyTest extends TestCase
     public function it_fails_if_the_company_pto_policy_does_not_match_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $ptoPolicy = factory(CompanyPTOPolicy::class)->create([]);
-        $calendarA = factory(CompanyCalendar::class)->create([
+        $ptoPolicy = CompanyPTOPolicy::factory()->create([]);
+        $calendarA = CompanyCalendar::factory()->create([
             'company_pto_policy_id' => $ptoPolicy->id,
             'day' => '2010-01-01',
         ]);
-        $calendarB = factory(CompanyCalendar::class)->create([
+        $calendarB = CompanyCalendar::factory()->create([
             'company_pto_policy_id' => $ptoPolicy->id,
             'day' => '2010-01-02',
         ]);
@@ -94,14 +94,14 @@ class UpdateCompanyPTOPolicyTest extends TestCase
         Queue::fake();
         Carbon::setTestNow(Carbon::create(2019, 1, 1));
 
-        $ptoPolicy = factory(CompanyPTOPolicy::class)->create([
+        $ptoPolicy = CompanyPTOPolicy::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $calendarA = factory(CompanyCalendar::class)->create([
+        $calendarA = CompanyCalendar::factory()->create([
             'company_pto_policy_id' => $ptoPolicy->id,
             'day' => '2010-01-01',
         ]);
-        $calendarB = factory(CompanyCalendar::class)->create([
+        $calendarB = CompanyCalendar::factory()->create([
             'company_pto_policy_id' => $ptoPolicy->id,
             'day' => '2010-01-02',
         ]);

@@ -20,11 +20,11 @@ class UpdateOneOnOneTalkingPointTest extends TestCase
     {
         $michael = $this->createAdministrator();
         $dwight = $this->createDirectReport($michael);
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
+        $talkingPoint = OneOnOneTalkingPoint::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->executeService($michael, $entry, $talkingPoint);
@@ -35,11 +35,11 @@ class UpdateOneOnOneTalkingPointTest extends TestCase
     {
         $michael = $this->createHR();
         $dwight = $this->createDirectReport($michael);
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
+        $talkingPoint = OneOnOneTalkingPoint::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->executeService($michael, $entry, $talkingPoint);
@@ -50,11 +50,11 @@ class UpdateOneOnOneTalkingPointTest extends TestCase
     {
         $michael = $this->createEmployee();
         $dwight = $this->createDirectReport($michael);
-        $entry = factory(OneOnOneEntry::class)->create([
+        $entry = OneOnOneEntry::factory()->create([
             'manager_id' => $michael->id,
             'employee_id' => $dwight->id,
         ]);
-        $talkingPoint = factory(OneOnOneTalkingPoint::class)->create([
+        $talkingPoint = OneOnOneTalkingPoint::factory()->create([
             'one_on_one_entry_id' => $entry->id,
         ]);
         $this->executeService($michael, $entry, $talkingPoint);

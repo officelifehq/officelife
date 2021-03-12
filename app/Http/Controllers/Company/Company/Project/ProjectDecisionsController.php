@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use App\Helpers\DateHelper;
 use Illuminate\Http\Request;
+use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Project;
 use App\Models\Company\Employee;
@@ -99,7 +100,7 @@ class ProjectDecisionsController extends Controller
             $employees->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
             ]);
         }
 
@@ -147,7 +148,7 @@ class ProjectDecisionsController extends Controller
             $decidersCollection->push([
                 'id' => $decider->id,
                 'name' => $decider->name,
-                'avatar' => $decider->avatar,
+                'avatar' => AvatarHelper::getImage($decider),
                 'url' => route('employees.show', [
                     'company' => $loggedCompany,
                     'employee' => $decider,

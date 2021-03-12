@@ -20,7 +20,7 @@ class UpdateProjectInformationTest extends TestCase
     public function it_updates_project_information_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $project);
@@ -30,7 +30,7 @@ class UpdateProjectInformationTest extends TestCase
     public function it_updates_project_information_as_hr(): void
     {
         $michael = $this->createHR();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $project);
@@ -40,7 +40,7 @@ class UpdateProjectInformationTest extends TestCase
     public function it_updates_project_information_as_normal_user(): void
     {
         $michael = $this->createEmployee();
-        $project = factory(Project::class)->create([
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $project);
@@ -49,11 +49,11 @@ class UpdateProjectInformationTest extends TestCase
     /** @test */
     public function it_fails_if_project_code_already_exists(): void
     {
-        $michael = factory(Employee::class)->create([]);
-        $project = factory(Project::class)->create([
+        $michael = Employee::factory()->create();
+        $project = Project::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        factory(Project::class)->create([
+        Project::factory()->create([
             'company_id' => $michael->company_id,
             'status' => Project::CREATED,
             'code' => '123',
@@ -66,7 +66,7 @@ class UpdateProjectInformationTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,

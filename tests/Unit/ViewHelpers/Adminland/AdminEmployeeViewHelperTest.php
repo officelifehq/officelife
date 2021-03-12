@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Employee;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Http\ViewHelpers\Adminland\AdminEmployeeViewHelper;
@@ -16,12 +17,12 @@ class AdminEmployeeViewHelperTest extends TestCase
     public function it_gets_statistics_about_employees(): void
     {
         $michael = $this->createAdministrator();
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'hired_at' => Carbon::now(),
             'locked' => true,
         ]);
-        factory(Employee::class)->create([
+        Employee::factory()->create([
             'company_id' => $michael->company_id,
             'hired_at' => null,
             'locked' => false,
@@ -61,7 +62,7 @@ class AdminEmployeeViewHelperTest extends TestCase
                     'id' => $michael->id,
                     'name' => $michael->name,
                     'permission_level' => $michael->permission_level,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'invitation_link' => $michael->invitation_link,
                     'invited' => (! $michael->invitation_used_at && $michael->invitation_link) === true,
                     'lock_status' => $michael->locked,

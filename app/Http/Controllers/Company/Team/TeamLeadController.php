@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Company\Team;
 
 use Inertia\Response;
 use Illuminate\Http\Request;
+use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
@@ -71,7 +72,7 @@ class TeamLeadController extends Controller
             'data' => [
                 'id' => $lead->id,
                 'name' => $lead->name,
-                'avatar' => $lead->avatar,
+                'avatar' => AvatarHelper::getImage($lead),
                 'position' => (! $lead->position) ? null : [
                     'title' => $lead->position->title,
                 ],

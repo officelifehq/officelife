@@ -42,7 +42,7 @@ class RemoveStepFromFlowTest extends TestCase
     /** @test */
     public function it_fails_if_wrong_parameters_are_given(): void
     {
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,
@@ -57,10 +57,10 @@ class RemoveStepFromFlowTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $step = factory(Step::class)->create([]);
+        $step = Step::factory()->create([]);
 
         $request = [
             'company_id' => $michael->company_id,
@@ -78,8 +78,8 @@ class RemoveStepFromFlowTest extends TestCase
     {
         $michael = $this->createAdministrator();
 
-        $flow = factory(Flow::class)->create([]);
-        $step = factory(Step::class)->create([
+        $flow = Flow::factory()->create([]);
+        $step = Step::factory()->create([
             'flow_id' => $flow->id,
         ]);
 
@@ -96,10 +96,10 @@ class RemoveStepFromFlowTest extends TestCase
 
     private function executeService(Employee $michael): void
     {
-        $flow = factory(Flow::class)->create([
+        $flow = Flow::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $step = factory(Step::class)->create([
+        $step = Step::factory()->create([
             'flow_id' => $flow->id,
         ]);
 

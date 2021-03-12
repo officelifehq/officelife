@@ -26,7 +26,7 @@ class RejectExpenseAsManagerTest extends TestCase
     {
         $manager = $this->createAdministrator();
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
@@ -38,7 +38,7 @@ class RejectExpenseAsManagerTest extends TestCase
             'manager_id' => $manager->id,
         ]);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $manager->company_id,
             'employee_id' => $employee->id,
             'employee_name' => $employee->name,
@@ -53,7 +53,7 @@ class RejectExpenseAsManagerTest extends TestCase
     {
         $manager = $this->createAdministrator();
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
@@ -65,7 +65,7 @@ class RejectExpenseAsManagerTest extends TestCase
             'manager_id' => $manager->id,
         ]);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $manager->company_id,
             'employee_id' => null,
             'employee_name' => $employee->name,
@@ -80,12 +80,12 @@ class RejectExpenseAsManagerTest extends TestCase
     {
         $manager = $this->createAdministrator();
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $manager->company_id,
             'employee_id' => $employee->id,
             'status' => Expense::AWAITING_MANAGER_APPROVAL,
@@ -100,12 +100,12 @@ class RejectExpenseAsManagerTest extends TestCase
     {
         $manager = $this->createAdministrator();
 
-        $employee = factory(Employee::class)->create([
+        $employee = Employee::factory()->create([
             'company_id' => $manager->company_id,
             'first_name' => 'toto',
         ]);
 
-        $expense = factory(Expense::class)->create([
+        $expense = Expense::factory()->create([
             'company_id' => $manager->company_id,
             'employee_id' => $employee->id,
             'status' => Expense::CREATED,

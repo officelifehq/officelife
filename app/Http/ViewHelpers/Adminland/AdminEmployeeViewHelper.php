@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Adminland;
 
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
@@ -83,7 +84,7 @@ class AdminEmployeeViewHelper
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'permission_level' => $employee->permission_level,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
                 'invitation_link' => $employee->invitation_link,
                 'invited' => (! $employee->invitation_used_at && $employee->invitation_link) === true,
                 'lock_status' => $employee->locked,

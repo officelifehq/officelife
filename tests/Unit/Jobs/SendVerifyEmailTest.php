@@ -18,7 +18,7 @@ class SendVerifyEmailTest extends TestCase
     {
         Notification::fake();
 
-        $user = factory(User::class)->create();
+        $user = User::factory()->create();
 
         dispatch(new SendVerifyEmail($user));
 

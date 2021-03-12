@@ -13,7 +13,7 @@ class MoraleCompanyHistoryTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_company(): void
     {
-        $moraleCompanyHistory = factory(MoraleCompanyHistory::class)->create([]);
+        $moraleCompanyHistory = MoraleCompanyHistory::factory()->create([]);
         $this->assertTrue($moraleCompanyHistory->company()->exists());
     }
 }

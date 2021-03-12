@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 use Money\Currencies\ISOCurrencies;
@@ -31,7 +32,7 @@ class AdminGeneralViewHelper
             $administratorsCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
                 'url_view' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee,

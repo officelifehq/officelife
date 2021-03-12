@@ -15,28 +15,28 @@ class TeamLogTest extends ApiTestCase
     /** @test */
     public function it_belongs_to_a_team(): void
     {
-        $teamLog = factory(TeamLog::class)->create([]);
+        $teamLog = TeamLog::factory()->create([]);
         $this->assertTrue($teamLog->team()->exists());
     }
 
     /** @test */
     public function it_belongs_to_an_author(): void
     {
-        $teamLog = factory(TeamLog::class)->create([]);
+        $teamLog = TeamLog::factory()->create([]);
         $this->assertTrue($teamLog->author()->exists());
     }
 
     /** @test */
     public function it_returns_an_object(): void
     {
-        $michael = factory(Employee::class)->create([
+        $michael = Employee::factory()->create([
             'first_name' => 'michael',
             'last_name' => 'scott',
         ]);
-        $sales = factory(Team::class)->create([
+        $sales = Team::factory()->create([
             'company_id' => $michael->company_id,
         ]);
-        $log = factory(TeamLog::class)->create([
+        $log = TeamLog::factory()->create([
             'team_id' => $sales->id,
             'author_id' => $michael->id,
             'author_name' => 'michael scott',
@@ -64,7 +64,7 @@ class TeamLogTest extends ApiTestCase
     /** @test */
     public function it_returns_the_date_attribute(): void
     {
-        $teamLog = factory(TeamLog::class)->create([
+        $teamLog = TeamLog::factory()->create([
             'audited_at' => '2017-01-22 17:56:03',
         ]);
         $this->assertEquals(
@@ -76,7 +76,7 @@ class TeamLogTest extends ApiTestCase
     /** @test */
     public function it_returns_the_object_attribute(): void
     {
-        $teamLog = factory(TeamLog::class)->create([]);
+        $teamLog = TeamLog::factory()->create([]);
         $this->assertEquals(
             1,
             $teamLog->object->{'user'}
@@ -86,7 +86,7 @@ class TeamLogTest extends ApiTestCase
     /** @test */
     public function it_returns_the_content_attribute(): void
     {
-        $teamLog = factory(TeamLog::class)->create([
+        $teamLog = TeamLog::factory()->create([
             'action' => 'team_updated',
             'objects' => json_encode([
                 'team_old_name' => 'Sales',

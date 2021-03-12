@@ -47,7 +47,7 @@ class CreateCompanyPTOPolicyTest extends TestCase
     {
         Queue::fake();
 
-        $michael = factory(Employee::class)->create([]);
+        $michael = Employee::factory()->asHR()->create();
 
         $request = [
             'company_id' => $michael->company_id,

@@ -13,7 +13,7 @@ class OneOnOneNoteTest extends TestCase
     /** @test */
     public function it_belongs_to_an_entry(): void
     {
-        $note = factory(OneOnOneNote::class)->create([]);
+        $note = OneOnOneNote::factory()->create([]);
         $this->assertTrue($note->entry()->exists());
     }
 }

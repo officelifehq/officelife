@@ -14,15 +14,15 @@ class RateYourManagerSurveyTest extends TestCase
     /** @test */
     public function it_belongs_to_a_manager(): void
     {
-        $entry = factory(RateYourManagerSurvey::class)->create([]);
+        $entry = RateYourManagerSurvey::factory()->create([]);
         $this->assertTrue($entry->manager()->exists());
     }
 
     /** @test */
     public function it_has_many_answers(): void
     {
-        $entry = factory(RateYourManagerSurvey::class)->create([]);
-        factory(RateYourManagerAnswer::class, 2)->create([
+        $entry = RateYourManagerSurvey::factory()->create([]);
+        RateYourManagerAnswer::factory()->count(2)->create([
             'rate_your_manager_survey_id' => $entry->id,
         ]);
 

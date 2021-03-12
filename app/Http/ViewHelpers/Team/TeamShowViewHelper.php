@@ -3,6 +3,7 @@
 namespace App\Http\ViewHelpers\Team;
 
 use App\Models\Company\Team;
+use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use Illuminate\Support\Collection;
 
@@ -25,7 +26,7 @@ class TeamShowViewHelper
             'team_leader' => is_null($team->leader) ? null : [
                 'id' => $team->leader->id,
                 'name' => $team->leader->name,
-                'avatar' => $team->leader->avatar,
+                'avatar' => AvatarHelper::getImage($team->leader),
                 'position' => (! $team->leader->position) ? null : [
                     'title' => $team->leader->position->title,
                 ],
@@ -54,7 +55,7 @@ class TeamShowViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
                 'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
                     'title' => $employee->position->title,
@@ -91,7 +92,7 @@ class TeamShowViewHelper
                 $employeeCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => $employee->avatar,
+                    'avatar' => AvatarHelper::getImage($employee),
                     'url' => route('employees.show', [
                         'company' => $team->company,
                         'employee' => $employee,

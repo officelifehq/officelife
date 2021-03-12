@@ -2,6 +2,7 @@
 
 namespace App\Http\ViewHelpers\Company;
 
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Skill;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
@@ -102,7 +103,7 @@ class CompanySkillViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => $employee->avatar,
+                'avatar' => AvatarHelper::getImage($employee),
                 'position' => (! $employee->position) ? null : [
                     'title' => $employee->position->title,
                 ],

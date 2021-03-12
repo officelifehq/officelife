@@ -21,7 +21,7 @@ class DestroyExpenseCategoryTest extends TestCase
     public function it_destroys_an_expense_category_as_administrator(): void
     {
         $michael = $this->createAdministrator();
-        $category = factory(ExpenseCategory::class)->create([
+        $category = ExpenseCategory::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $category);
@@ -31,7 +31,7 @@ class DestroyExpenseCategoryTest extends TestCase
     public function it_destroys_an_expense_category_as_hr(): void
     {
         $michael = $this->createHR();
-        $category = factory(ExpenseCategory::class)->create([
+        $category = ExpenseCategory::factory()->create([
             'company_id' => $michael->company_id,
         ]);
         $this->executeService($michael, $category);
@@ -41,7 +41,7 @@ class DestroyExpenseCategoryTest extends TestCase
     public function normal_user_cant_execute_the_service(): void
     {
         $michael = $this->createEmployee();
-        $category = factory(ExpenseCategory::class)->create([
+        $category = ExpenseCategory::factory()->create([
             'company_id' => $michael->company_id,
         ]);
 
@@ -64,7 +64,7 @@ class DestroyExpenseCategoryTest extends TestCase
     public function it_fails_if_the_expense_category_does_not_match_the_company(): void
     {
         $michael = $this->createAdministrator();
-        $category = factory(ExpenseCategory::class)->create([]);
+        $category = ExpenseCategory::factory()->create([]);
 
         $this->expectException(ModelNotFoundException::class);
         $this->executeService($michael, $category);

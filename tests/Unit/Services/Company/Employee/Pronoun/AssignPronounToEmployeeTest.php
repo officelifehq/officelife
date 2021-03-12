@@ -93,7 +93,7 @@ class AssignPronounToEmployeeTest extends TestCase
     {
         Queue::fake();
 
-        $pronoun = factory(Pronoun::class)->create();
+        $pronoun = Pronoun::factory()->create();
 
         $request = [
             'company_id' => $michael->company_id,

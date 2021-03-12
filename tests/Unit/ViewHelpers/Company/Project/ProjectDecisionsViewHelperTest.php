@@ -3,6 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Company\Project;
 
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Employee;
 use App\Models\Company\ProjectDecision;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,11 +16,11 @@ class ProjectDecisionsViewHelperTest extends TestCase
     /** @test */
     public function it_gets_a_collection_of_decisions(): void
     {
-        $projectDecision = factory(ProjectDecision::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $projectDecision = ProjectDecision::factory()->create([]);
+        $michael = Employee::factory()->create([
             'company_id' => $projectDecision->project->company_id,
         ]);
-        $jim = factory(Employee::class)->create([
+        $jim = Employee::factory()->create([
             'company_id' => $projectDecision->project->company_id,
         ]);
         $projectDecision->deciders()->attach([$michael->id]);
@@ -31,13 +32,13 @@ class ProjectDecisionsViewHelperTest extends TestCase
                 0 => [
                     'id' => $michael->id,
                     'name' => $michael->name,
-                    'avatar' => $michael->avatar,
+                    'avatar' => AvatarHelper::getImage($michael),
                     'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                 ],
                 1 => [
                     'id' => $jim->id,
                     'name' => $jim->name,
-                    'avatar' => $jim->avatar,
+                    'avatar' => AvatarHelper::getImage($jim),
                     'url' => env('APP_URL').'/'.$jim->company_id.'/employees/'.$jim->id,
                 ],
             ],

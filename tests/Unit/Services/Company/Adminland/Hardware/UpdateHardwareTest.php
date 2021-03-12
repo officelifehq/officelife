@@ -51,7 +51,7 @@ class UpdateHardwareTest extends TestCase
     /** @test */
     public function it_fails_if_position_is_not_linked_to_company(): void
     {
-        $hardware = factory(Hardware::class)->create([]);
+        $hardware = Hardware::factory()->create([]);
         $michael = $this->createAdministrator();
 
         $request = [
@@ -69,8 +69,8 @@ class UpdateHardwareTest extends TestCase
     {
         Queue::fake();
 
-        $hardware = factory(Hardware::class)->create([]);
-        $michael = factory(Employee::class)->create([
+        $hardware = Hardware::factory()->create([]);
+        $michael = Employee::factory()->create([
             'company_id' => $hardware->company_id,
             'permission_level' => $permissionLevel,
         ]);

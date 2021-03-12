@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Employee;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\RateYourManagerAnswer;
 use App\Models\Company\RateYourManagerSurvey;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -21,28 +22,28 @@ class EmployeeSurveysViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         // we need one active survey without any results yet and one old survey with results
-        $activeSurvey = factory(RateYourManagerSurvey::class)->create([
+        $activeSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => true,
             'valid_until_at' => Carbon::now()->addDays(),
         ]);
 
-        $oldSurvey = factory(RateYourManagerSurvey::class)->create([
+        $oldSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => false,
             'valid_until_at' => Carbon::now()->subDays(10),
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::BAD,
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::AVERAGE,
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::GOOD,
@@ -108,28 +109,28 @@ class EmployeeSurveysViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         // we need one old survey without any results yet and one old survey with results
-        $inactiveSurvey = factory(RateYourManagerSurvey::class)->create([
+        $inactiveSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => false,
             'valid_until_at' => Carbon::now()->subDays(10),
         ]);
 
-        $oldSurvey = factory(RateYourManagerSurvey::class)->create([
+        $oldSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => false,
             'valid_until_at' => Carbon::now()->subDays(10),
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::BAD,
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::AVERAGE,
         ]);
-        factory(RateYourManagerAnswer::class)->create([
+        RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $oldSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::GOOD,
@@ -193,23 +194,23 @@ class EmployeeSurveysViewHelperTest extends TestCase
         $michael = $this->createAdministrator();
 
         // we need one active survey without any results yet and one old survey with results
-        $activeSurvey = factory(RateYourManagerSurvey::class)->create([
+        $activeSurvey = RateYourManagerSurvey::factory()->create([
             'manager_id' => $michael->id,
             'active' => true,
             'valid_until_at' => Carbon::now()->addDays(),
         ]);
-        $answer1 = factory(RateYourManagerAnswer::class)->create([
+        $answer1 = RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $activeSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::BAD,
         ]);
-        $answer2 = factory(RateYourManagerAnswer::class)->create([
+        $answer2 = RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $activeSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::AVERAGE,
             'comment' => 'awesome',
         ]);
-        $answer3 = factory(RateYourManagerAnswer::class)->create([
+        $answer3 = RateYourManagerAnswer::factory()->create([
             'rate_your_manager_survey_id' => $activeSurvey->id,
             'active' => false,
             'rating' => RateYourManagerAnswer::GOOD,
@@ -222,19 +223,19 @@ class EmployeeSurveysViewHelperTest extends TestCase
                 0 => [
                     'id' => $answer1->employee->id,
                     'name' => $answer1->employee->name,
-                    'avatar' => $answer1->employee->avatar,
+                    'avatar' => AvatarHelper::getImage($answer1->employee),
                     'url' => env('APP_URL').'/'.$answer1->employee->company_id.'/employees/'.$answer1->employee->id,
                 ],
                 1 => [
                     'id' => $answer2->employee->id,
                     'name' => $answer2->employee->name,
-                    'avatar' => $answer2->employee->avatar,
+                    'avatar' => AvatarHelper::getImage($answer2->employee),
                     'url' => env('APP_URL').'/'.$answer2->employee->company_id.'/employees/'.$answer2->employee->id,
                 ],
                 2 => [
                     'id' => $answer3->employee->id,
                     'name' => $answer3->employee->name,
-                    'avatar' => $answer3->employee->avatar,
+                    'avatar' => AvatarHelper::getImage($answer3->employee),
                     'url' => env('APP_URL').'/'.$answer3->employee->company_id.'/employees/'.$answer3->employee->id,
                 ],
             ],

@@ -7,6 +7,7 @@ use App\Helpers\DateHelper;
 use App\Helpers\TimeHelper;
 use App\Helpers\MoneyHelper;
 use App\Models\User\Pronoun;
+use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\WorklogHelper;
 use App\Models\Company\Company;
@@ -44,7 +45,7 @@ class EmployeeShowViewHelper
             'name' => $employee->name,
             'first_name' => $employee->first_name,
             'last_name' => $employee->last_name,
-            'avatar' => $employee->avatar,
+            'avatar' => AvatarHelper::getImage($employee),
             'email' => $employee->email,
             'phone' => $employee->phone_number,
             'twitter_handle' => $employee->twitter_handle,
@@ -102,6 +103,10 @@ class EmployeeShowViewHelper
                     'employee' => $employee,
                 ]),
                 'edit' => route('employee.show.edit', [
+                    'company' => $company,
+                    'employee' => $employee,
+                ]),
+                'edit_address' => route('employee.show.edit.address', [
                     'company' => $company,
                     'employee' => $employee,
                 ]),
@@ -314,7 +319,7 @@ class EmployeeShowViewHelper
             $managersOfEmployee->push([
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => $manager->avatar,
+                'avatar' => AvatarHelper::getImage($manager),
                 'position' => (! $manager->position) ? null : [
                     'id' => $manager->position->id,
                     'title' => $manager->position->title,
@@ -349,7 +354,7 @@ class EmployeeShowViewHelper
             $directReportsOfEmployee->push([
                 'id' => $directReport->id,
                 'name' => $directReport->name,
-                'avatar' => $directReport->avatar,
+                'avatar' => AvatarHelper::getImage($directReport),
                 'position' => (! $directReport->position) ? null : [
                     'id' => $directReport->position->id,
                     'title' => $directReport->position->title,
@@ -538,7 +543,7 @@ class EmployeeShowViewHelper
                 $employeeCollection->push([
                     'id' => $employeeImpacted->id,
                     'name' => $employeeImpacted->name,
-                    'avatar' => $employeeImpacted->avatar,
+                    'avatar' => AvatarHelper::getImage($employeeImpacted),
                     'url' => route('employees.show', [
                         'company' => $employee->company,
                         'employee' => $employeeImpacted,
@@ -669,7 +674,7 @@ class EmployeeShowViewHelper
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,
-                    'avatar' => $oneOnOne->manager->avatar,
+                    'avatar' => AvatarHelper::getImage($oneOnOne->manager),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $oneOnOne->manager,
@@ -893,7 +898,7 @@ class EmployeeShowViewHelper
                     'id' => $withEmployee->id,
                     'name' => $withEmployee->name,
                     'first_name' => $withEmployee->first_name,
-                    'avatar' => $withEmployee->avatar,
+                    'avatar' => AvatarHelper::getImage($withEmployee),
                     'position' => $withEmployee->position ? $withEmployee->position->title : null,
                     'url' => route('employees.show', [
                         'company' => $company,

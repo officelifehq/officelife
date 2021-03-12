@@ -21,7 +21,7 @@
         {{ $t('employee.important_dates') }}
       </span>
 
-      <inertia-link v-if="permissions.can_manage_description" :href="employee.url.edit" data-cy="edit-important-date-link" class="bb b--dotted bt-0 bl-0 br-0 pointer di f7 ml2">{{ $t('app.edit') }}</inertia-link>
+      <inertia-link v-if="permissions.can_manage_description" :href="employee.url.edit" data-cy="edit-important-date-link" class="di f7 ml2">{{ $t('app.edit') }}</inertia-link>
     </div>
 
     <!-- birthdates -->
