@@ -30,7 +30,7 @@ class DeleteFileInUploadcare implements ShouldQueue
     /**
      * The file in Uploadcare instance.
      *
-     * @var File
+     * @var FileApiInterface
      */
     public FileApiInterface $fileInUploadcare;
 
@@ -86,10 +86,10 @@ class DeleteFileInUploadcare implements ShouldQueue
 
     private function deleteFile(): void
     {
-        if (! $this->fileInUploadcare instanceof UploadcareFile) {
-            $this->api->file()->deleteFile($this->fileInUploadcare);
-        } else {
-            $this->fileInUploadcare->delete();
-        }
+        // if (! $this->fileInUploadcare instanceof UploadcareFile) {
+        //     $this->api->file()->deleteFile($this->fileInUploadcare);
+        // } else {
+        $this->fileInUploadcare->delete();
+        // }
     }
 }

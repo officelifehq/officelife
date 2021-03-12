@@ -2,6 +2,7 @@
 
 namespace App\Models\Company;
 
+use App\Events\FileDeleted;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
