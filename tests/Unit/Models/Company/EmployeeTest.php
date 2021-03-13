@@ -492,6 +492,17 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_one_avatar(): void
+    {
+        $file = File::factory()->count(2)->create([]);
+        $dwight = Employee::factory()->create([
+            'avatar_file_id' => $file->id,
+        ]);
+
+        $this->assertTrue($dwight->avatar()->exists());
+    }
+
+    /** @test */
     public function it_scopes_the_employees_by_the_locked_status(): void
     {
         $dwight = Employee::factory()->create([
@@ -546,7 +557,6 @@ class EmployeeTest extends TestCase
             'first_name' => 'michael',
             'last_name' => 'scott',
             'permission_level' => '100',
-            'avatar' => 'avatar',
             'position_id' => $position->id,
             'description' => 'awesome employee',
             'pronoun_id' => $pronoun->id,
@@ -564,7 +574,6 @@ class EmployeeTest extends TestCase
                 'name' => 'michael scott',
                 'first_name' => 'michael',
                 'last_name' => 'scott',
-                'avatar' => 'avatar',
                 'email' => 'dwigth@dundermifflin.com',
                 'locked' => false,
                 'birthdate' => [

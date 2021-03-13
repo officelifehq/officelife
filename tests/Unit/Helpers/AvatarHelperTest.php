@@ -15,8 +15,9 @@ class AvatarHelperTest extends TestCase
     public function it_returns_an_avatar(): void
     {
         $michael = Employee::factory()->create();
+
         $this->assertEquals(
-            $michael->avatar,
+            'https://ui-avatars.com/api/?name='.$michael->name,
             AvatarHelper::getImage($michael)
         );
     }

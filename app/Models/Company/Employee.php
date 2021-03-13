@@ -550,6 +550,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the avatar associated with the employee.
+     *
+     * @return HasOne
+     */
+    public function avatar()
+    {
+        return $this->hasOne(File::class, 'avatar_file_id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

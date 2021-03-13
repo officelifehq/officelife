@@ -14,6 +14,10 @@ class AvatarHelper
      */
     public static function getImage(Employee $employee): ?string
     {
+        if (! $employee->avatar_file_id) {
+            return 'https://ui-avatars.com/api/?name='.$employee->name;
+        }
+
         return $employee->avatar;
     }
 }
