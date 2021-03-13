@@ -10,6 +10,7 @@ use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Place;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
@@ -494,7 +495,7 @@ class EmployeeTest extends TestCase
     /** @test */
     public function it_has_one_avatar(): void
     {
-        $file = File::factory()->count(2)->create([]);
+        $file = File::factory()->create([]);
         $dwight = Employee::factory()->create([
             'avatar_file_id' => $file->id,
         ]);
@@ -574,6 +575,7 @@ class EmployeeTest extends TestCase
                 'name' => 'michael scott',
                 'first_name' => 'michael',
                 'last_name' => 'scott',
+                'avatar' => AvatarHelper::getImage($michael),
                 'email' => 'dwigth@dundermifflin.com',
                 'locked' => false,
                 'birthdate' => [

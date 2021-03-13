@@ -55,12 +55,7 @@ class Employee extends Model
         'uuid',
         'phone_number',
         'locked',
-        'avatar',
-        'avatar_original_filename',
-        'avatar_extension',
-        'avatar_size',
-        'avatar_height',
-        'avatar_width',
+        'avatar_file_id',
         'holiday_balance',
         'default_dashboard_view',
         'can_manage_expenses',
@@ -88,7 +83,6 @@ class Employee extends Model
         'first_name',
         'last_name',
         'email',
-        'avatar',
         'company_id',
     ];
 
@@ -556,7 +550,7 @@ class Employee extends Model
      */
     public function avatar()
     {
-        return $this->hasOne(File::class, 'avatar_file_id');
+        return $this->hasOne(File::class, 'id', 'avatar_file_id');
     }
 
     /**
