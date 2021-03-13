@@ -540,6 +540,16 @@ class Employee extends Model
     }
 
     /**
+     * Get the file records associated with the employee as the uploader.
+     *
+     * @return HasMany
+     */
+    public function filesUploaded()
+    {
+        return $this->hasMany(File::class, 'uploader_employee_id', 'id');
+    }
+
+    /**
      * Scope a query to only include unlocked users.
      *
      * @param  Builder $query

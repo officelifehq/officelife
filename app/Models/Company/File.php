@@ -2,8 +2,8 @@
 
 namespace App\Models\Company;
 
+use App\Events\FileDeleted;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -20,16 +20,28 @@ class File extends Model
      */
     protected $fillable = [
         'company_id',
-        'fileable_id',
-        'fileable_type',
-        'filename',
-        'hashed_filename',
-        'extension',
-        'size_in_kb',
+        'uuid',
+        'uploader_employee_id',
+        'uploader_name',
+        'original_url',
+        'cdn_url',
+        'name',
+        'mime_type',
+        'type',
+        'size',
     ];
 
     /**
-     * Get the company record associated with the import job object.
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'deleted' => FileDeleted::class,
+    ];
+
+    /**
+     * Get the company record associated with the file object.
      *
      * @return BelongsTo
      */
@@ -39,25 +51,12 @@ class File extends Model
     }
 
     /**
-     * Get the parent imageable model.
-     */
-    public function fileable()
-    {
-        return $this->morphTo();
-    }
-
-    /**
-     * Get the full path of the file.
+     * Get the employee record associated with the file object.
      *
-     * @param mixed $value
-     * @return string
+     * @return BelongsTo
      */
-    public function getPathAttribute($value): string
+    public function uploader()
     {
-        if (config('filesystems.default') == 'local') {
-            return storage_path('app').'/'.$this->hashed_filename;
-        } else {
-            return Storage::url($this->hashed_filename);
-        }
+        return $this->belongsTo(Employee::class, 'uploader_employee_id');
     }
 }

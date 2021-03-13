@@ -2,10 +2,9 @@
 
 namespace App\Services\Company\Adminland\File;
 
-use Illuminate\Support\Str;
 use App\Models\Company\File;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Storage;
+use App\Exceptions\EnvVariablesNotSetException;
 
 class UploadFile extends BaseService
 {
@@ -25,12 +24,23 @@ class UploadFile extends BaseService
         return [
             'company_id' => 'required|integer|exists:companies,id',
             'author_id' => 'required|integer|exists:employees,id',
-            'file' => 'required|file',
+            'uuid' => 'required|string',
+            'name' => 'required|string',
+            'original_url' => 'required|string',
+            'cdn_url' => 'required|string',
+            'mime_type' => 'required|string',
+            'size' => 'required|integer',
+            'type' => 'required|string',
         ];
     }
 
     /**
-     * Import a file.
+     * Upload a file.
+     *
+     * This doesn't really upload a file though. Upload is handled by Uploadcare.
+     * However, we abstract uploads by the File object. This service here takes
+     * the payload that Uploadcare sends us back, and map it into a File object
+     * that the clients will consume.
      *
      * @param array $data
      * @return File
@@ -39,14 +49,21 @@ class UploadFile extends BaseService
     {
         $this->data = $data;
         $this->validate();
-        $this->hashName();
-        $this->upload();
+        $this->save();
 
         return $this->file;
     }
 
     private function validate(): void
     {
+        if (is_null(config('officelife.uploadcare_private_key'))) {
+            throw new EnvVariablesNotSetException();
+        }
+
+        if (is_null(config('officelife.uploadcare_public_key'))) {
+            throw new EnvVariablesNotSetException();
+        }
+
         $this->validateRules($this->data);
 
         $this->author($this->data['author_id'])
@@ -55,29 +72,19 @@ class UploadFile extends BaseService
             ->canExecuteService();
     }
 
-    /**
-     * We need to handle names of the files ourselves. Why? Because in the case
-     * of a CSV, Laravel, for some reasons, change the extension to .txt and
-     * this causes problems.
-     */
-    private function hashName(): void
+    private function save(): void
     {
-        $this->hashedName = Str::random(40).'.'.$this->data['file']->getClientOriginalExtension();
-    }
-
-    /**
-     * Upload the file.
-     */
-    private function upload(): void
-    {
-        $file = Storage::putFileAs('files', $this->data['file'], $this->hashedName);
-
         $this->file = File::create([
             'company_id' => $this->data['company_id'],
-            'filename' => $this->data['file']->getClientOriginalName(),
-            'extension' => $this->data['file']->guessClientExtension(),
-            'size_in_kb' => Storage::size($file),
-            'hashed_filename' => $file,
+            'uploader_employee_id' => $this->data['author_id'],
+            'uploader_name' => $this->author->name,
+            'uuid' => $this->data['uuid'],
+            'name' => $this->data['name'],
+            'original_url' => $this->data['original_url'],
+            'cdn_url' => $this->data['cdn_url'],
+            'mime_type' => $this->data['mime_type'],
+            'size' => $this->data['size'],
+            'type' => $this->data['type'],
         ]);
     }
 }

@@ -50,7 +50,13 @@ input[type=radio] {
             </div>
 
             <div class="cf pa3 bb bb-gray pb4 tc">
-              <input type="file" @change="selectFile" />
+              <uploadcare :public-key="uploadcarePublicKey"
+                          :tabs="'file'"
+                          @success="onSuccess"
+                          @error="onError"
+              >
+                <button>{{ $t('account.import_employees_import_cta') }}</button>
+              </uploadcare>
             </div>
 
             <!-- Actions -->
@@ -75,17 +81,23 @@ input[type=radio] {
 import Errors from '@/Shared/Errors';
 import LoadingButton from '@/Shared/LoadingButton';
 import Layout from '@/Shared/Layout';
+import Uploadcare from 'uploadcare-vue';
 
 export default {
   components: {
     Layout,
     Errors,
     LoadingButton,
+    Uploadcare,
   },
 
   props: {
     notifications: {
       type: Array,
+      default: null,
+    },
+    uploadcarePublicKey: {
+      type: String,
       default: null,
     },
   },
@@ -94,6 +106,12 @@ export default {
     return {
       document: null,
       form: {
+        uuid: null,
+        name: null,
+        original_url: null,
+        cdn_url: null,
+        mime_type: null,
+        size: null,
         errors: [],
       },
       loadingState: '',
@@ -102,18 +120,26 @@ export default {
   },
 
   methods: {
-    selectFile(event) {
-      // `files` is always an array because the file input may be in multiple mode
-      this.document = event.target.files[0];
+    onSuccess(file) {
+      console.log(file);
+      this.value = file.cdnUrl;
+      this.form.uuid = file.uuid;
+      this.form.name = file.name;
+      this.form.original_url = file.originalUrl;
+      this.form.cdn_url = file.cdnUrl;
+      this.form.mime_type = file.mimeType;
+      this.form.size = file.size;
+
+      this.importCSV();
+    },
+
+    onError() {
     },
 
     importCSV() {
       this.loadingState = 'loading';
 
-      var data = new FormData();
-      data.append('csv', this.document);
-
-      axios.post(`/${this.$page.props.auth.company.id}/account/employees/storeUpload`, data)
+      axios.post(`/${this.$page.props.auth.company.id}/account/employees/storeUpload`, this.form)
         .then(response => {
           this.$inertia.visit(response.data.url);
         })

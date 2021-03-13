@@ -3437,7 +3437,7 @@ escape-goat@^2.0.0:
   resolved "https://registry.yarnpkg.com/escape-goat/-/escape-goat-2.1.1.tgz#1b2dc77003676c457ec760b2dc68edb648188675"
   integrity sha512-8/uIhbG12Csjy2JEW7D9pHbreaVaS/OpN3ycnyvElTdwM5n6GY6W6e2IPemfvGZeUMqZ9A/3GqIZMgKnBhAw/Q==
 
-escape-html@~1.0.3:
+escape-html@^1.0.3, escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
@@ -5376,6 +5376,11 @@ jest-worker@^25.4.0:
   dependencies:
     merge-stream "^2.0.0"
     supports-color "^7.0.0"
+
+jquery@^3.4.1:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
+  integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
 
 js-tokens@^3.0.2:
   version "3.0.2"
@@ -9580,6 +9585,21 @@ update-notifier@^4.1.0:
     pupa "^2.0.1"
     semver-diff "^3.1.1"
     xdg-basedir "^4.0.0"
+
+uploadcare-vue@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/uploadcare-vue/-/uploadcare-vue-1.0.0.tgz#f0b914994741e3a9599ca17bf3e7950b058e51f2"
+  integrity sha512-SpoNTsCSKpMXVQyF5y+phk62nhkR2WZ1ZUdnk6aiNif6woVVIodqJK806BMuVHOmqGnx6u0A3mpD4Phoe5UuSg==
+  dependencies:
+    uploadcare-widget "^3.3.0"
+
+uploadcare-widget@^3.3.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/uploadcare-widget/-/uploadcare-widget-3.11.0.tgz#15dac80ad777c31e37074c372b3d450422d8bced"
+  integrity sha512-0vu0DvC98ffT0tQseif1P3KdJXCxE+WR3P/o6fphX6VdxvK7Iz3HU4CJvgjHVmUtRROL41yBm8wuKElPhWCpRg==
+  dependencies:
+    escape-html "^1.0.3"
+    jquery "^3.4.1"
 
 upper-case@^1.1.1:
   version "1.1.3"

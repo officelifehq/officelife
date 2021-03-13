@@ -3,9 +3,11 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
+use App\Models\Company\File;
 use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Money\Currencies\ISOCurrencies;
 
 class AdminGeneralViewHelper
@@ -43,12 +45,17 @@ class AdminGeneralViewHelper
         // creation date of the account
         $creationDate = DateHelper::formatShortDateWithTime($company->created_at);
 
+        // total file sizes
+        $totalSize = DB::table('files')->where('company_id', $company->id)
+            ->sum('size');
+
         return [
             'id' => $company->id,
             'name' => $name,
             'administrators' => $administratorsCollection,
             'creation_date' => $creationDate,
             'currency' => $company->currency,
+            'total_size' => round($totalSize / 1000, 4),
         ];
     }
 

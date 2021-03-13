@@ -4,6 +4,7 @@ namespace Tests\Unit\ViewHelpers\Adminland;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Company\File;
 use App\Helpers\AvatarHelper;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -23,6 +24,11 @@ class AdminGeneralViewHelperTest extends TestCase
         $dwight = $this->createAnotherEmployee($michael);
         $dwight->permission_level = 100;
         $dwight->save();
+
+        File::factory()->count(3)->create([
+            'company_id' => $michael->company_id,
+            'size' => 123,
+        ]);
 
         $response = AdminGeneralViewHelper::information($michael->company);
 
@@ -44,6 +50,11 @@ class AdminGeneralViewHelperTest extends TestCase
         $this->assertEquals(
             'USD',
             $response['currency']
+        );
+
+        $this->assertEquals(
+            0.369,
+            $response['total_size']
         );
 
         $response['administrators']->sortBy('id');
