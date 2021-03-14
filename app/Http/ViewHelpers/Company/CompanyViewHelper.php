@@ -94,7 +94,6 @@ class CompanyViewHelper
         $employees = $company->employees()
             ->where('locked', false)
             ->whereNotNull('birthdate')
-            ->select('id', 'first_name', 'last_name', 'avatar', 'birthdate')
             ->get();
 
         $now = Carbon::now();
@@ -137,7 +136,6 @@ class CompanyViewHelper
     {
         $now = Carbon::now();
         $employees = $company->employees()
-            ->select('id', 'first_name', 'last_name', 'avatar', 'hired_at', 'position_id')
             ->where('locked', false)
             ->whereNotNull('hired_at')
             ->whereDate('hired_at', '>=', $now->copy()->startOfWeek(Carbon::MONDAY))
