@@ -151,9 +151,14 @@ jobs:
           GIT_EMAIL: ${{ secrets.GIT_EMAIL }}
           GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
 
+      - name: Create release files
+        run: |
+          echo $GITHUB_SHA | cut -c-8 > config/release
+          echo $GITHUB_SHA > config/commit
+
       - name: Commit everything
         run: |
-          git add -A --force public
+          git add -A --force public config
           git commit -m "Build $($CURRENT_DATE_TIME)"
         env:
           CURRENT_DATE_TIME: "date +%Y-%m-%d:%H-%M"
@@ -165,3 +170,28 @@ jobs:
           # This avoids a failure when the client does not know the SSH Host already
           GIT_SSH_COMMAND: "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
           REPO_URL: ${{ secrets.REPO_URL }}
+
+
+  ############################
+  # Create a release on sentry
+  ############################
+  sentry:
+    runs-on: ubuntu-latest
+    name: Sentry release
+    needs: deploy
+    if: github.event_name != 'pull_request'
+
+    environment: fortrabbit-sentry
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+        with:
+          environment: ${{ secrets.SENTRY_ENVIRONMENT }}
