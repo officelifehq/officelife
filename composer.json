@@ -41,6 +41,7 @@
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^5.0",
         "nunomaduro/larastan": "^0.6",
+        "nunomaduro/phpinsights": "dev-master",
         "phpstan/phpstan-deprecation-rules": "^0.12",
         "phpstan/phpstan-phpunit": "^0.12",
         "phpunit/phpunit": "^9.0",
