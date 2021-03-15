@@ -137,6 +137,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('{employee}/unassignManager', 'Company\\Employee\\EmployeeController@unassignManager')->name('employee.manager.unassign');
             Route::put('{employee}/unassignDirectReport', 'Company\\Employee\\EmployeeController@unassignDirectReport')->name('employee.directReport.unassign');
 
+            Route::put('{employee}/avatar/update', 'Company\\Employee\\EmployeeEditAvatarController@update');
+
             Route::get('{employee}/logs', 'Company\\Employee\\EmployeeLogsController@index')->name('employee.show.logs');
 
             Route::get('{employee}/edit', 'Company\\Employee\\EmployeeEditController@show')->name('employee.show.edit');

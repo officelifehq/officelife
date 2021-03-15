@@ -110,6 +110,7 @@ class EmployeeController extends Controller
 
         return Inertia::render('Employee/Show', [
             'menu' => 'presentation',
+            'uploadcarePublicKey' => config('officelife.uploadcare_public_key'),
             'employee' => $employee,
             'permissions' => $permissions,
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),

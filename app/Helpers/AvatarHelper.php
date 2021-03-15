@@ -18,7 +18,7 @@ class AvatarHelper
         if (! $employee->avatar_file_id) {
             return 'https://ui-avatars.com/api/?name='.$employee->name;
         }
-
+        dd($employee->avatar);
         if ($width) {
             $url = $employee->avatar->cdn_url.'/-/scale_crop/'.$width.'x'.$width.'/smart/';
         } else {

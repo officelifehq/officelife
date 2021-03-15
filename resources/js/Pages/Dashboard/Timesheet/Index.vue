@@ -472,7 +472,6 @@ export default {
     },
 
     removeRow({id}) {
-      console.log(id);
       var id = this.timesheetRows.findIndex(x => x.task_id === id);
       this.timesheetRows.splice(id, 1);
     }

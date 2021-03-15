@@ -121,7 +121,6 @@ export default {
 
   methods: {
     onSuccess(file) {
-      console.log(file);
       this.value = file.cdnUrl;
       this.form.uuid = file.uuid;
       this.form.name = file.name;

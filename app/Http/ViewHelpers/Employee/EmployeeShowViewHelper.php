@@ -274,6 +274,12 @@ class EmployeeShowViewHelper
             $canSeeTimesheets = true;
         }
 
+        // can update avatar
+        $canUpdateAvatar = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canUpdateAvatar = true;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
@@ -296,6 +302,7 @@ class EmployeeShowViewHelper
             'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
             'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
             'can_see_timesheets' => $canSeeTimesheets,
+            'can_update_avatar' => $canUpdateAvatar,
         ];
     }
 
