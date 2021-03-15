@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Collections\TeamNewsCollection;
 use App\Http\ViewHelpers\Team\TeamShowViewHelper;
 use App\Http\Collections\TeamUsefulLinkCollection;
+use App\Http\ViewHelpers\Team\TeamIndexViewHelper;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class TeamController extends Controller
@@ -27,22 +28,8 @@ class TeamController extends Controller
     {
         $company = InstanceHelper::getLoggedCompany();
 
-        $teams = $company->teams()
-            ->with('employees')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        $teamsCollection = collect([]);
-        foreach ($teams as $team) {
-            $teamsCollection->push([
-                'id' => $team->id,
-                'name' => $team->name,
-                'employees' => $team->employees,
-            ]);
-        }
-
         return Inertia::render('Team/Index', [
-            'teams' => $teamsCollection,
+            'teams' => TeamIndexViewHelper::index($company),
             'notifications' => NotificationHelper::getNotifications(InstanceHelper::getLoggedEmployee()),
         ]);
     }
