@@ -57,7 +57,7 @@ class DashboardManagerViewHelper
                     'employee' => ($employee) ? [
                         'id' => $employee->id,
                         'name' => $employee->name,
-                        'avatar' => AvatarHelper::getImage($employee),
+                        'avatar' => AvatarHelper::getImage($employee, 18),
                     ] : [
                         'employee_name' => $expense->employee_name,
                     ],
@@ -143,7 +143,7 @@ class DashboardManagerViewHelper
             $oneOnOnesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 35),
                 'position' => (! $employee->position) ? null : $employee->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -201,7 +201,7 @@ class DashboardManagerViewHelper
             $collection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 35),
                 'position' => (! $employee->position) ? null : $employee->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -244,7 +244,7 @@ class DashboardManagerViewHelper
             if ($pendingTimesheets->count() !== 0) {
                 $employeesCollection->push([
                     'id' => $employee->id,
-                    'avatar' => AvatarHelper::getImage($employee),
+                    'avatar' => AvatarHelper::getImage($employee, 32),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $employee,

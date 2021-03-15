@@ -44,12 +44,12 @@ class DashboardExpenseViewHelper
                 'manager' => $manager ? [
                     'id' => $manager->id,
                     'name' => $manager->name,
-                    'avatar' => AvatarHelper::getImage($manager),
+                    'avatar' => AvatarHelper::getImage($manager, 18),
                 ] : ($expense->manager_approver_name == '' ? null : $expense->manager_approver_name),
                 'employee' => $expense->employee ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => AvatarHelper::getImage($expense->employee),
+                    'avatar' => AvatarHelper::getImage($expense->employee, 18),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -89,7 +89,7 @@ class DashboardExpenseViewHelper
                     $managerCollection->push([
                         'id' => $manager->manager->id,
                         'name' => $manager->manager->name,
-                        'avatar' => AvatarHelper::getImage($manager->manager),
+                        'avatar' => AvatarHelper::getImage($manager->manager, 18),
                     ]);
                 }
             }
@@ -108,7 +108,7 @@ class DashboardExpenseViewHelper
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => AvatarHelper::getImage($expense->employee),
+                    'avatar' => AvatarHelper::getImage($expense->employee, 18),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],

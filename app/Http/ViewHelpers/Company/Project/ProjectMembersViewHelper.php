@@ -29,7 +29,7 @@ class ProjectMembersViewHelper
             $membersCollection->push([
                 'id' => $member->id,
                 'name' => $member->name,
-                'avatar' => AvatarHelper::getImage($member),
+                'avatar' => AvatarHelper::getImage($member, 64),
                 'role' => $member->pivot->role,
                 'added_at' => DateHelper::formatDate($member->pivot->created_at),
                 'position' => (! $member->position) ? null : [

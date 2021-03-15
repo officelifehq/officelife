@@ -48,7 +48,7 @@ class DashboardMeViewHelper
                 'employee' => [
                     'id' => $answer->employee->id,
                     'name' => $answer->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer->employee),
+                    'avatar' => AvatarHelper::getImage($answer->employee, 22),
                 ],
             ]);
         }
@@ -236,7 +236,7 @@ class DashboardMeViewHelper
             $managersCollection->push([
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => AvatarHelper::getImage($manager),
+                'avatar' => AvatarHelper::getImage($manager, 35),
                 'position' => (! $manager->position) ? null : $manager->position->title,
                 'url' => route('employees.show', [
                     'company' => $company,
@@ -355,7 +355,7 @@ class DashboardMeViewHelper
                 'id' => $otherEmployee->id,
                 'name' => $otherEmployee->name,
                 'first_name' => $otherEmployee->first_name,
-                'avatar' => AvatarHelper::getImage($otherEmployee),
+                'avatar' => AvatarHelper::getImage($otherEmployee, 55),
                 'position' => $otherEmployee->position ? $otherEmployee->position->title : null,
                 'url' => route('employees.show', [
                     'company' => $company,

@@ -20,7 +20,7 @@ class AvatarHelper
         }
 
         if ($width) {
-            $url = $employee->picture->cdn_url.'/-/scale_crop/'.$width.'x'.$width.'/smart/';
+            $url = $employee->picture->cdn_url.'-/scale_crop/'.$width.'x'.$width.'/smart/';
         } else {
             $url = $employee->picture->cdn_url;
         }

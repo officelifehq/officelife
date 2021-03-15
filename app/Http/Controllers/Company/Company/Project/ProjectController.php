@@ -331,7 +331,7 @@ class ProjectController extends Controller
             'data' => [
                 'id' => $lead->id,
                 'name' => $lead->name,
-                'avatar' => AvatarHelper::getImage($lead),
+                'avatar' => AvatarHelper::getImage($lead, 35),
                 'position' => (! $lead->position) ? null : [
                     'id' => $lead->position->id,
                     'title' => $lead->position->title,
