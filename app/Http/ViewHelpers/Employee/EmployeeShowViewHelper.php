@@ -45,7 +45,7 @@ class EmployeeShowViewHelper
             'name' => $employee->name,
             'first_name' => $employee->first_name,
             'last_name' => $employee->last_name,
-            'avatar' => AvatarHelper::getImage($employee),
+            'avatar' => AvatarHelper::getImage($employee, 300),
             'email' => $employee->email,
             'phone' => $employee->phone_number,
             'twitter_handle' => $employee->twitter_handle,
@@ -681,7 +681,7 @@ class EmployeeShowViewHelper
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,
-                    'avatar' => AvatarHelper::getImage($oneOnOne->manager),
+                    'avatar' => AvatarHelper::getImage($oneOnOne->manager, 18),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $oneOnOne->manager,

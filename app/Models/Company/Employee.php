@@ -549,7 +549,7 @@ class Employee extends Model
      *
      * @return HasOne
      */
-    public function avatar()
+    public function picture()
     {
         return $this->hasOne(File::class, 'id', 'avatar_file_id');
     }

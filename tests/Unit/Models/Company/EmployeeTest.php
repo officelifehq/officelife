@@ -493,14 +493,14 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
-    public function it_has_one_avatar(): void
+    public function it_has_one_picture(): void
     {
         $file = File::factory()->create([]);
         $dwight = Employee::factory()->create([
             'avatar_file_id' => $file->id,
         ]);
 
-        $this->assertTrue($dwight->avatar()->exists());
+        $this->assertTrue($dwight->picture()->exists());
     }
 
     /** @test */

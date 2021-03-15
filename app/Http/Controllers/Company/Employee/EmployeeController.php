@@ -41,7 +41,7 @@ class EmployeeController extends Controller
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 64),
                 'teams' => $employee->teams,
                 'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
