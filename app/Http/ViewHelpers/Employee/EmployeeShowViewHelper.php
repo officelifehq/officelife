@@ -280,6 +280,16 @@ class EmployeeShowViewHelper
             $canUpdateAvatar = true;
         }
 
+        // can edit hired at information
+        $canEditHiredAt = $loggedEmployee->permission_level <= 200;
+
+        // can edit contact information
+        $canEditContractInfoTab = $loggedEmployee->permission_level <= 200;
+        if ($employee->status) {
+            $canEditContractInfoTab = $employee->status->type == EmployeeStatus::EXTERNAL;
+            //dd($employee->status->type);
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
@@ -303,6 +313,8 @@ class EmployeeShowViewHelper
             'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
             'can_see_timesheets' => $canSeeTimesheets,
             'can_update_avatar' => $canUpdateAvatar,
+            'can_edit_hired_at_information' => $canEditHiredAt,
+            'can_edit_contract_information' => $canEditContractInfoTab,
         ];
     }
 
