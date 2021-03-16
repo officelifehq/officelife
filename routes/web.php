@@ -318,6 +318,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 Route::delete('{project}/tasks/lists/{list}', 'Company\\Company\\Project\\ProjectTaskListsController@destroy');
                 Route::get('{project}/tasks/{task}/timeTrackingEntries', 'Company\\Company\\Project\\ProjectTasksController@timeTrackingEntries');
                 Route::post('{project}/tasks/{task}/log', 'Company\\Company\\Project\\ProjectTasksController@logTime');
+
+                // files
+                Route::resource('{project}/files', 'Company\\Company\\Project\\ProjectFilesController', ['as' => 'files']);
             });
 
             Route::prefix('hr')->group(function () {
