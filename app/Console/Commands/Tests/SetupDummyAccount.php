@@ -739,31 +739,33 @@ class SetupDummyAccount extends Command
 
     private function addAvatars(): void
     {
-        $this->michael->avatar_file_id = $this->createAvatar('9952eaee-269b-4e3c-b41d-0f613d4128c3');
+        $this->info('☐ Add avatars of employees');
+
+        $this->michael->avatar_file_id = $this->createAvatar('9952eaee-269b-4e3c-b41d-0f613d4128c3')->id;
         $this->michael->save();
-        $this->toby->avatar_file_id = $this->createAvatar('97502e6a-0898-44e0-afd2-9476d76894ce');
+        $this->toby->avatar_file_id = $this->createAvatar('97502e6a-0898-44e0-afd2-9476d76894ce')->id;
         $this->toby->save();
-        $this->jim->avatar_file_id = $this->createAvatar('fb76ac9c-ece5-49df-a519-3fc18a71602f');
+        $this->jim->avatar_file_id = $this->createAvatar('fb76ac9c-ece5-49df-a519-3fc18a71602f')->id;
         $this->jim->save();
-        $this->erin->avatar_file_id = $this->createAvatar('d829a8c1-cc01-4b03-ac6d-a997f48d0e6f');
+        $this->erin->avatar_file_id = $this->createAvatar('d829a8c1-cc01-4b03-ac6d-a997f48d0e6f')->id;
         $this->erin->save();
-        $this->kelly->avatar_file_id = $this->createAvatar('14a6d0a0-1f95-47ea-965c-39405e72d913');
+        $this->kelly->avatar_file_id = $this->createAvatar('14a6d0a0-1f95-47ea-965c-39405e72d913')->id;
         $this->kelly->save();
-        $this->jan->avatar_file_id = $this->createAvatar('7e10ffe0-c6f8-481b-b96b-be7a579813b3');
+        $this->jan->avatar_file_id = $this->createAvatar('7e10ffe0-c6f8-481b-b96b-be7a579813b3')->id;
         $this->jan->save();
-        $this->kevin->avatar_file_id = $this->createAvatar('9916c3d3-f099-426f-9d1c-d8e4e7c87edd');
+        $this->kevin->avatar_file_id = $this->createAvatar('9916c3d3-f099-426f-9d1c-d8e4e7c87edd')->id;
         $this->kevin->save();
-        $this->angela->avatar_file_id = $this->createAvatar('1d1e5b14-1382-45fa-8e08-b4daa01b0908');
+        $this->angela->avatar_file_id = $this->createAvatar('1d1e5b14-1382-45fa-8e08-b4daa01b0908')->id;
         $this->angela->save();
-        $this->oscar->avatar_file_id = $this->createAvatar('2ad68247-a0a5-4bda-9db0-839d3e40c2c7');
+        $this->oscar->avatar_file_id = $this->createAvatar('2ad68247-a0a5-4bda-9db0-839d3e40c2c7')->id;
         $this->oscar->save();
-        $this->meredith->avatar_file_id = $this->createAvatar('8dbdff2c-be0d-4a02-ae0a-a39656820dd9');
+        $this->meredith->avatar_file_id = $this->createAvatar('8dbdff2c-be0d-4a02-ae0a-a39656820dd9')->id;
         $this->meredith->save();
-        $this->dwight->avatar_file_id = $this->createAvatar('c1eab52a-1b79-4536-a2aa-e821605f92d2');
+        $this->dwight->avatar_file_id = $this->createAvatar('c1eab52a-1b79-4536-a2aa-e821605f92d2')->id;
         $this->dwight->save();
-        $this->phyllis->avatar_file_id = $this->createAvatar('a95cbf7b-9f28-438a-a1fc-8c8d93be4939');
+        $this->phyllis->avatar_file_id = $this->createAvatar('a95cbf7b-9f28-438a-a1fc-8c8d93be4939')->id;
         $this->phyllis->save();
-        $this->dakota->avatar_file_id = $this->createAvatar('6113654a-be8a-4829-90f4-0c7aa2a5469c');
+        $this->dakota->avatar_file_id = $this->createAvatar('6113654a-be8a-4829-90f4-0c7aa2a5469c')->id;
         $this->dakota->save();
     }
 
@@ -2060,13 +2062,13 @@ Creed dyes his hair jet-black (using ink cartridges) in an attempt to convince e
     private function createAvatar(string $uuid): File
     {
         return File::create([
-            'company_id' => $this->data['company_id'],
+            'company_id' => $this->company->id,
             'uploader_employee_id' => $this->michael->id,
             'uploader_name' => $this->michael->name,
             'uuid' => $uuid,
             'name' => 'name',
-            'original_url' => 'https://ucarecdn.com/'.$uuid,
-            'cdn_url' => 'https://ucarecdn.com/'.$uuid,
+            'original_url' => 'https://ucarecdn.com/'.$uuid.'/',
+            'cdn_url' => 'https://ucarecdn.com/'.$uuid.'/',
             'mime_type' => 'image/webp',
             'size' => 11100,
             'type' => 'avatar',
