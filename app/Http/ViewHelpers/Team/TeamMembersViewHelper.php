@@ -41,7 +41,7 @@ class TeamMembersViewHelper
         return [
             'id' => $employee->id,
             'name' => $employee->name,
-            'avatar' => AvatarHelper::getImage($employee),
+            'avatar' => AvatarHelper::getImage($employee, 35),
             'position' => $employee->position,
         ];
     }
