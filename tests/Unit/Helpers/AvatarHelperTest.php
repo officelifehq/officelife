@@ -37,7 +37,7 @@ class AvatarHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            $file->cdn_url.'/-/scale_crop/100x100/smart/',
+            $file->cdn_url.'-/scale_crop/100x100/smart/',
             AvatarHelper::getImage($dwight, 100)
         );
     }
