@@ -26,6 +26,11 @@
             {{ $t('account.general_title') }}
           </h2>
 
+          <!-- stats -->
+          <stat
+            :information="information"
+          />
+
           <!-- company name -->
           <name
             :information="information"
@@ -46,12 +51,14 @@
 import Layout from '@/Shared/Layout';
 import Name from '@/Pages/Adminland/General/Partials/Name';
 import Currency from '@/Pages/Adminland/General/Partials/Currency';
+import Stat from '@/Pages/Adminland/General/Partials/Stat';
 
 export default {
   components: {
     Layout,
     Name,
     Currency,
+    Stat
   },
 
   props: {

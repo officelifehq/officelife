@@ -34,7 +34,7 @@ class AdminGeneralViewHelper
             $administratorsCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 22),
                 'url_view' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee,
