@@ -30,7 +30,7 @@ class TeamRecentShipViewHelper
                 $employeeCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => AvatarHelper::getImage($employee),
+                    'avatar' => AvatarHelper::getImage($employee, 21),
                     'url' => route('employees.show', [
                         'company' => $team->company,
                         'employee' => $employee,
@@ -71,7 +71,7 @@ class TeamRecentShipViewHelper
             $employeeCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 44),
                 'position' => (! $employee->position) ? null : [
                     'title' => $employee->position->title,
                 ],

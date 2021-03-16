@@ -45,7 +45,7 @@ class EmployeeShowViewHelper
             'name' => $employee->name,
             'first_name' => $employee->first_name,
             'last_name' => $employee->last_name,
-            'avatar' => AvatarHelper::getImage($employee),
+            'avatar' => AvatarHelper::getImage($employee, 300),
             'email' => $employee->email,
             'phone' => $employee->phone_number,
             'twitter_handle' => $employee->twitter_handle,
@@ -274,6 +274,12 @@ class EmployeeShowViewHelper
             $canSeeTimesheets = true;
         }
 
+        // can update avatar
+        $canUpdateAvatar = $loggedEmployee->permission_level <= 200;
+        if ($loggedEmployee->id == $employee->id) {
+            $canUpdateAvatar = true;
+        }
+
         return [
             'can_see_full_birthdate' => $canSeeFullBirthdate,
             'can_manage_hierarchy' => $canManageHierarchy,
@@ -296,6 +302,7 @@ class EmployeeShowViewHelper
             'can_see_one_on_one_with_manager' => $canSeeOneOnOneWithManager,
             'can_see_contract_renewal_date' => $canSeeContractRenewalDate,
             'can_see_timesheets' => $canSeeTimesheets,
+            'can_update_avatar' => $canUpdateAvatar,
         ];
     }
 
@@ -319,7 +326,7 @@ class EmployeeShowViewHelper
             $managersOfEmployee->push([
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => AvatarHelper::getImage($manager),
+                'avatar' => AvatarHelper::getImage($manager, 35),
                 'position' => (! $manager->position) ? null : [
                     'id' => $manager->position->id,
                     'title' => $manager->position->title,
@@ -354,7 +361,7 @@ class EmployeeShowViewHelper
             $directReportsOfEmployee->push([
                 'id' => $directReport->id,
                 'name' => $directReport->name,
-                'avatar' => AvatarHelper::getImage($directReport),
+                'avatar' => AvatarHelper::getImage($directReport, 35),
                 'position' => (! $directReport->position) ? null : [
                     'id' => $directReport->position->id,
                     'title' => $directReport->position->title,
@@ -543,7 +550,7 @@ class EmployeeShowViewHelper
                 $employeeCollection->push([
                     'id' => $employeeImpacted->id,
                     'name' => $employeeImpacted->name,
-                    'avatar' => AvatarHelper::getImage($employeeImpacted),
+                    'avatar' => AvatarHelper::getImage($employeeImpacted, 17),
                     'url' => route('employees.show', [
                         'company' => $employee->company,
                         'employee' => $employeeImpacted,
@@ -674,7 +681,7 @@ class EmployeeShowViewHelper
                 'manager' => [
                     'id' => $oneOnOne->manager->id,
                     'name' => $oneOnOne->manager->name,
-                    'avatar' => AvatarHelper::getImage($oneOnOne->manager),
+                    'avatar' => AvatarHelper::getImage($oneOnOne->manager, 18),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $oneOnOne->manager,
@@ -898,7 +905,7 @@ class EmployeeShowViewHelper
                     'id' => $withEmployee->id,
                     'name' => $withEmployee->name,
                     'first_name' => $withEmployee->first_name,
-                    'avatar' => AvatarHelper::getImage($withEmployee),
+                    'avatar' => AvatarHelper::getImage($withEmployee, 35),
                     'position' => $withEmployee->position ? $withEmployee->position->title : null,
                     'url' => route('employees.show', [
                         'company' => $company,

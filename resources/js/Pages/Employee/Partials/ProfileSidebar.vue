@@ -1,22 +1,13 @@
 <style lang="scss" scoped>
-.avatar {
-  border: 1px solid #e1e4e8 !important;
-  padding: 10px;
-  background-color: #fff;
-  border-radius: 7px;
-
-  img {
-    width: 100%;
-    height: auto;
-  }
-}
 </style>
 
 <template>
   <div>
-    <div class="db center mb4 avatar">
-      <img :class="{'black-white':(employee.locked)}" loading="lazy" :src="employee.avatar" alt="avatar" />
-    </div>
+    <avatar
+      :employee="employee"
+      :permissions="permissions"
+      :uploadcare-public-key="uploadcarePublicKey"
+    />
 
     <personal-description
       :employee="employee"
@@ -57,6 +48,7 @@ import EmployeeStatus from '@/Pages/Employee/Partials/EmployeeStatus';
 import EmployeeContact from '@/Pages/Employee/Partials/EmployeeContact';
 import EmployeeGenderPronoun from '@/Pages/Employee/Partials/EmployeeGenderPronoun';
 import ProfileActions from '@/Pages/Employee/Partials/ProfileActions';
+import Avatar from '@/Pages/Employee/Partials/Avatar';
 
 export default {
   components: {
@@ -66,6 +58,7 @@ export default {
     EmployeeContact,
     EmployeeGenderPronoun,
     ProfileActions,
+    Avatar,
   },
 
   props: {
@@ -75,6 +68,10 @@ export default {
     },
     permissions: {
       type: Object,
+      default: null,
+    },
+    uploadcarePublicKey: {
+      type: String,
       default: null,
     },
   },

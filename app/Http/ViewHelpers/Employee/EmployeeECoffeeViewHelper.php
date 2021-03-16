@@ -50,7 +50,7 @@ class EmployeeECoffeeViewHelper
                     'id' => $withEmployee->id,
                     'name' => $withEmployee->name,
                     'first_name' => $withEmployee->first_name,
-                    'avatar' => AvatarHelper::getImage($withEmployee),
+                    'avatar' => AvatarHelper::getImage($withEmployee, 35),
                     'position' => $withEmployee->position ? $withEmployee->position->title : null,
                     'url' => route('employees.show', [
                         'company' => $company,

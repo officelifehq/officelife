@@ -31,6 +31,7 @@
           <profile-sidebar
             :employee="employee"
             :permissions="permissions"
+            :uploadcare-public-key="uploadcarePublicKey"
           />
         </div>
 
@@ -131,6 +132,10 @@ export default {
     },
     ecoffees: {
       type: Object,
+      default: null,
+    },
+    uploadcarePublicKey: {
+      type: String,
       default: null,
     },
   },

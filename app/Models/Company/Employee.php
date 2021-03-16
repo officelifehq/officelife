@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -55,12 +56,7 @@ class Employee extends Model
         'uuid',
         'phone_number',
         'locked',
-        'avatar',
-        'avatar_original_filename',
-        'avatar_extension',
-        'avatar_size',
-        'avatar_height',
-        'avatar_width',
+        'avatar_file_id',
         'holiday_balance',
         'default_dashboard_view',
         'can_manage_expenses',
@@ -88,7 +84,6 @@ class Employee extends Model
         'first_name',
         'last_name',
         'email',
-        'avatar',
         'company_id',
     ];
 
@@ -547,6 +542,16 @@ class Employee extends Model
     public function filesUploaded()
     {
         return $this->hasMany(File::class, 'uploader_employee_id', 'id');
+    }
+
+    /**
+     * Get the avatar associated with the employee.
+     *
+     * @return HasOne
+     */
+    public function picture()
+    {
+        return $this->hasOne(File::class, 'id', 'avatar_file_id');
     }
 
     /**

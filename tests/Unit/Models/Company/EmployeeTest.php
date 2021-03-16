@@ -10,6 +10,7 @@ use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
+use App\Helpers\AvatarHelper;
 use App\Models\Company\Place;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
@@ -492,6 +493,17 @@ class EmployeeTest extends TestCase
     }
 
     /** @test */
+    public function it_has_one_picture(): void
+    {
+        $file = File::factory()->create([]);
+        $dwight = Employee::factory()->create([
+            'avatar_file_id' => $file->id,
+        ]);
+
+        $this->assertTrue($dwight->picture()->exists());
+    }
+
+    /** @test */
     public function it_scopes_the_employees_by_the_locked_status(): void
     {
         $dwight = Employee::factory()->create([
@@ -546,7 +558,6 @@ class EmployeeTest extends TestCase
             'first_name' => 'michael',
             'last_name' => 'scott',
             'permission_level' => '100',
-            'avatar' => 'avatar',
             'position_id' => $position->id,
             'description' => 'awesome employee',
             'pronoun_id' => $pronoun->id,
@@ -564,7 +575,7 @@ class EmployeeTest extends TestCase
                 'name' => 'michael scott',
                 'first_name' => 'michael',
                 'last_name' => 'scott',
-                'avatar' => 'avatar',
+                'avatar' => AvatarHelper::getImage($michael),
                 'email' => 'dwigth@dundermifflin.com',
                 'locked' => false,
                 'birthdate' => [

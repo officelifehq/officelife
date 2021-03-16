@@ -52,7 +52,7 @@ class DashboardTeamViewHelper
                         'employee' => $employee,
                     ]),
                     'name' => $employee->name,
-                    'avatar' => AvatarHelper::getImage($employee),
+                    'avatar' => AvatarHelper::getImage($employee, 35),
                     'birthdate' => DateHelper::formatMonthAndDay($employee->birthdate),
                     'sort_key' => Carbon::createFromDate($now->year, $employee->birthdate->month, $employee->birthdate->day)->format('Y-m-d'),
                 ]);
@@ -97,7 +97,7 @@ class DashboardTeamViewHelper
                     'employee' => $employee,
                 ]),
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 35),
                 'position' => $employee->position,
             ]);
         }
@@ -148,7 +148,7 @@ class DashboardTeamViewHelper
                 $employeeCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => AvatarHelper::getImage($employee),
+                    'avatar' => AvatarHelper::getImage($employee, 17),
                     'url' => route('employees.show', [
                         'company' => $team->company,
                         'employee' => $employee,
@@ -246,7 +246,7 @@ class DashboardTeamViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 35),
                 'hired_at' => DateHelper::formatDayAndMonthInParenthesis($employee->hired_at),
                 'position' => (! $employee->position) ? null : [
                     'id' => $employee->position->id,
@@ -302,7 +302,7 @@ class DashboardTeamViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 35),
                 'anniversary_date' => DateHelper::formatDayAndMonthInParenthesis($employee->hired_at->setYear($now->year)),
                 'anniversary_age' => $now->year - $employee->hired_at->year,
                 'url' => route('employees.show', [

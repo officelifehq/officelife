@@ -130,7 +130,6 @@ export default {
 
   methods: {
     navigateTo() {
-      console.log(this.form.id);
       if (this.form.id == 0) {
         this.$inertia.visit('/' + this.$page.props.auth.company.id + '/company/questions/' + this.question.id);
       } else {

@@ -89,7 +89,7 @@ class CreateGuessEmployeeGame extends BaseService
             ->where('locked', false)
             ->where('id', '!=', $this->employee->id)
             ->where('pronoun_id', $employeeToFind->pronoun_id)
-            ->select('id', 'first_name', 'last_name', 'avatar')
+            ->select('id', 'first_name', 'last_name')
             ->inRandomOrder()
             ->take(2)
             ->get();

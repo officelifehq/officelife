@@ -104,7 +104,7 @@ class ProjectMembersController extends Controller
             'data' => [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 64),
                 'role' => $request->input('role'),
                 'added_at' => DateHelper::formatDate(Carbon::now()),
                 'position' => (! $employee->position) ? null : [

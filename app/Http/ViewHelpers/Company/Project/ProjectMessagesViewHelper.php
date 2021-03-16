@@ -58,7 +58,7 @@ class ProjectMessagesViewHelper
                 'author' => $author ? [
                     'id' => $author->id,
                     'name' => $author->name,
-                    'avatar' => AvatarHelper::getImage($author),
+                    'avatar' => AvatarHelper::getImage($author, 22),
                     'url_view' => route('employees.show', [
                         'company' => $company,
                         'employee' => $author,
@@ -104,7 +104,7 @@ class ProjectMessagesViewHelper
             'author' => $author ? [
                 'id' => $author->id,
                 'name' => $author->name,
-                'avatar' => AvatarHelper::getImage($author),
+                'avatar' => AvatarHelper::getImage($author, 64),
                 'role' => $role ? $role->role : null,
                 'added_at' => $role ? DateHelper::formatDate(Carbon::createFromFormat('Y-m-d H:i:s', $role->created_at)) : null,
                 'position' => (! $author->position) ? null : [

@@ -84,7 +84,7 @@ class AdminEmployeeViewHelper
                 'id' => $employee->id,
                 'name' => $employee->name,
                 'permission_level' => $employee->permission_level,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 64),
                 'invitation_link' => $employee->invitation_link,
                 'invited' => (! $employee->invitation_used_at && $employee->invitation_link) === true,
                 'lock_status' => $employee->locked,

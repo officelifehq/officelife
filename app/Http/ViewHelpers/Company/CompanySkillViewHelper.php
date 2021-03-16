@@ -103,7 +103,7 @@ class CompanySkillViewHelper
             $employeesCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 65),
                 'position' => (! $employee->position) ? null : [
                     'title' => $employee->position->title,
                 ],

@@ -78,7 +78,7 @@ class CompanyQuestionViewHelper
                 'body' => $answer->body,
                 'employee' => [
                     'name' => $answer->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer->employee),
+                    'avatar' => AvatarHelper::getImage($answer->employee, 22),
                 ],
             ]);
         }

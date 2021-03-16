@@ -31,7 +31,7 @@ class ProjectDecisionsViewHelper
                 $decidersCollection->push([
                     'id' => $decider->id,
                     'name' => $decider->name,
-                    'avatar' => AvatarHelper::getImage($decider),
+                    'avatar' => AvatarHelper::getImage($decider, 22),
                     'url' => route('employees.show', [
                         'company' => $company,
                         'employee' => $decider,
