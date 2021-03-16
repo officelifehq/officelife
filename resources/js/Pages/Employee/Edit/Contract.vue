@@ -55,7 +55,7 @@
                   {{ $t('employee.edit_information_menu') }}
                 </inertia-link>
               </li>
-              <li v-if="canSeeContractInfoTab" class="di mr2">
+              <li v-if="permissions.can_edit_contract_information" class="di mr2">
                 <inertia-link :href="'/' + $page.props.auth.company.id + '/employees/' + employee.id + '/contract/edit'" data-cy="menu-contract-link" class="no-underline bb-0 ph3 pv2 selected">
                   {{ $t('employee.edit_information_menu_contract') }}
                 </inertia-link>
@@ -264,9 +264,9 @@ export default {
       type: Object,
       default: null,
     },
-    canSeeContractInfoTab: {
-      type: Boolean,
-      default: true,
+    permissions: {
+      type: Object,
+      default: null,
     },
   },
 
