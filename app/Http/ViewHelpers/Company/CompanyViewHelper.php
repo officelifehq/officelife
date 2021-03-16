@@ -108,7 +108,7 @@ class CompanyViewHelper
                 $birthdaysCollection->push([
                     'id' => $employee->id,
                     'name' => $employee->name,
-                    'avatar' => AvatarHelper::getImage($employee),
+                    'avatar' => AvatarHelper::getImage($employee, 35),
                     'birthdate' => DateHelper::formatMonthAndDay($birthdateWithCurrentYear),
                     'sort_key' => Carbon::createFromDate($now->year, $birthdateWithCurrentYear->month, $birthdateWithCurrentYear->day)->format('Y-m-d'),
                     'url' => route('employees.show', [
@@ -156,7 +156,7 @@ class CompanyViewHelper
                     'employee' => $employee->id,
                 ]),
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => AvatarHelper::getImage($employee, 35),
                 'hired_at' => DateHelper::formatDayAndMonthInParenthesis($date),
                 'position' => (! $position) ? null : $position->title,
             ]);
