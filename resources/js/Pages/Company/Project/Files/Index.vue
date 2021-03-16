@@ -44,6 +44,14 @@
 
             <help :url="$page.props.help_links.project_tasks" :top="'3px'" />
           </span>
+
+          <uploadcare :public-key="uploadcarePublicKey"
+                      :tabs="'file'"
+                      @success="onSuccess"
+                      @error="onError"
+          >
+            <button>Add a new file</button>
+          </uploadcare>
         </p>
 
         <div class="bg-white box pa3">
@@ -78,12 +86,14 @@
 import Layout from '@/Shared/Layout';
 import ProjectMenu from '@/Pages/Company/Project/Partials/ProjectMenu';
 import Help from '@/Shared/Help';
+import Uploadcare from 'uploadcare-vue';
 
 export default {
   components: {
     Layout,
     ProjectMenu,
     Help,
+    Uploadcare,
   },
 
   props: {
