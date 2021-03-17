@@ -11,6 +11,7 @@ use App\Models\Company\Company;
 class UpdateCompanyLogo extends BaseService
 {
     protected File $file;
+    protected Company $company;
     protected array $data;
 
     /**

@@ -10,8 +10,8 @@ class ImageHelper
     /**
      * Get the avatar of the user, at the requested size if it exists.
      *
-     * @var Employee
-     * @var int
+     * @param Employee
+     * @param int
      * @return string|null
      */
     public static function getAvatar(Employee $employee, int $width = null): ?string
@@ -33,12 +33,12 @@ class ImageHelper
      * Get the URL of an image.
      *
      * @param File
-     * @var int
-     * @var int
+     * @param int
+     * @param int
      * @return string|null
      */
     public static function getImage(File $file, int $width = null, int $height = null): ?string
     {
-        return $url = $file->cdn_url.'-/preview/'.$width.'x'.$height.'/';
+        return $file->cdn_url.'-/preview/'.$width.'x'.$height.'/';
     }
 }
