@@ -64,7 +64,7 @@ class AdminGeneralViewHelperTest extends TestCase
         );
 
         $this->assertEquals(
-            ImageHelper::getImage($michael->company->logo, 100, 100),
+            ImageHelper::getImage($michael->company->logo, 300, 300),
             $response['logo']
         );
 
