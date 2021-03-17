@@ -239,6 +239,16 @@ class Company extends Model
     }
 
     /**
+     * Get the logo associated with the company.
+     *
+     * @return HasOne
+     */
+    public function logo()
+    {
+        return $this->hasOne(File::class, 'id', 'logo_file_id');
+    }
+
+    /**
      * Return the PTO policy for the current year.
      *
      * @return object|null

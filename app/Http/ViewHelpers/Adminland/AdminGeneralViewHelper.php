@@ -3,8 +3,8 @@
 namespace App\Http\ViewHelpers\Adminland;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\File;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +34,7 @@ class AdminGeneralViewHelper
             $administratorsCollection->push([
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee, 22),
+                'avatar' => ImageHelper::getAvatar($employee, 22),
                 'url_view' => route('employees.show', [
                     'company' => $company,
                     'employee' => $employee,

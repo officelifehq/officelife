@@ -3,8 +3,8 @@
 namespace App\Http\ViewHelpers\Dashboard;
 
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\MoneyHelper;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Expense;
 use Illuminate\Support\Collection;
@@ -44,12 +44,12 @@ class DashboardExpenseViewHelper
                 'manager' => $manager ? [
                     'id' => $manager->id,
                     'name' => $manager->name,
-                    'avatar' => AvatarHelper::getImage($manager, 18),
+                    'avatar' => ImageHelper::getAvatar($manager, 18),
                 ] : ($expense->manager_approver_name == '' ? null : $expense->manager_approver_name),
                 'employee' => $expense->employee ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => AvatarHelper::getImage($expense->employee, 18),
+                    'avatar' => ImageHelper::getAvatar($expense->employee, 18),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -89,7 +89,7 @@ class DashboardExpenseViewHelper
                     $managerCollection->push([
                         'id' => $manager->manager->id,
                         'name' => $manager->manager->name,
-                        'avatar' => AvatarHelper::getImage($manager->manager, 18),
+                        'avatar' => ImageHelper::getAvatar($manager->manager, 18),
                     ]);
                 }
             }
@@ -108,7 +108,7 @@ class DashboardExpenseViewHelper
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => AvatarHelper::getImage($expense->employee, 18),
+                    'avatar' => ImageHelper::getAvatar($expense->employee, 18),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -156,7 +156,7 @@ class DashboardExpenseViewHelper
                 'employee' => ($expense->employee) ? [
                     'id' => $expense->employee->id,
                     'name' => $expense->employee->name,
-                    'avatar' => AvatarHelper::getImage($expense->employee),
+                    'avatar' => ImageHelper::getAvatar($expense->employee),
                 ] : [
                     'employee_name' => $expense->employee_name,
                 ],
@@ -201,7 +201,7 @@ class DashboardExpenseViewHelper
             'manager' => $manager ? [
                 'id' => $manager->id,
                 'name' => $manager->name,
-                'avatar' => AvatarHelper::getImage($manager),
+                'avatar' => ImageHelper::getAvatar($manager),
                 'position' => $manager->position ? $manager->position->title : null,
                 'status' => $manager->status ? $manager->status->name : null,
             ] : [
@@ -214,7 +214,7 @@ class DashboardExpenseViewHelper
             'accountant' => $accountant ? [
                 'id' => $accountant->id,
                 'name' => $accountant->name,
-                'avatar' => AvatarHelper::getImage($accountant),
+                'avatar' => ImageHelper::getAvatar($accountant),
                 'position' => $accountant->position ? $accountant->position->title : null,
                 'status' => $accountant->status ? $accountant->status->name : null,
             ] : [
@@ -227,7 +227,7 @@ class DashboardExpenseViewHelper
             'employee' => $employee ? [
                 'id' => $employee->id,
                 'name' => $employee->name,
-                'avatar' => AvatarHelper::getImage($employee),
+                'avatar' => ImageHelper::getAvatar($employee),
                 'position' => $employee->position ? $employee->position->title : null,
                 'status' => $employee->status ? $employee->status->name : null,
             ] : [

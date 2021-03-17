@@ -3,7 +3,7 @@
 namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\OneOnOneNote;
 use App\Models\Company\OneOnOneEntry;
 use App\Models\Company\OneOnOneActionItem;
@@ -47,7 +47,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 'id' => $entry->employee->id,
                 'name' => $entry->employee->name,
-                'avatar' => AvatarHelper::getImage($entry->employee),
+                'avatar' => ImageHelper::getAvatar($entry->employee),
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->employee->id,
             ],
             $array['employee']
@@ -56,7 +56,7 @@ class DashboardOneOnOneViewHelperTest extends TestCase
             [
                 'id' => $entry->manager->id,
                 'name' => $entry->manager->name,
-                'avatar' => AvatarHelper::getImage($entry->manager),
+                'avatar' => ImageHelper::getAvatar($entry->manager),
                 'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$entry->manager->id,
             ],
             $array['manager']

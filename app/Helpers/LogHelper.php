@@ -1068,6 +1068,10 @@ class LogHelper
                 $sentence = trans('account.log_toggle_e_coffee_process');
                 break;
 
+            case 'company_logo_changed':
+                $sentence = trans('account.log_company_logo_changed');
+                break;
+
             default:
                 $sentence = '';
                 break;

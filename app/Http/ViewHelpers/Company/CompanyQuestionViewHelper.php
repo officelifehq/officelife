@@ -3,7 +3,7 @@
 namespace App\Http\ViewHelpers\Company;
 
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Answer;
 use App\Helpers\QuestionHelper;
 use App\Models\Company\Company;
@@ -78,7 +78,7 @@ class CompanyQuestionViewHelper
                 'body' => $answer->body,
                 'employee' => [
                     'name' => $answer->employee->name,
-                    'avatar' => AvatarHelper::getImage($answer->employee, 22),
+                    'avatar' => ImageHelper::getAvatar($answer->employee, 22),
                 ],
             ]);
         }

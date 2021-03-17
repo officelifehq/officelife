@@ -5,12 +5,12 @@ namespace Tests\Unit\Models\Company;
 use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User\User;
+use App\Helpers\ImageHelper;
 use App\Models\Company\File;
 use App\Models\Company\Ship;
 use App\Models\Company\Task;
 use App\Models\Company\Team;
 use App\Models\User\Pronoun;
-use App\Helpers\AvatarHelper;
 use App\Models\Company\Place;
 use App\Models\Company\Skill;
 use App\Models\Company\Answer;
@@ -575,7 +575,7 @@ class EmployeeTest extends TestCase
                 'name' => 'michael scott',
                 'first_name' => 'michael',
                 'last_name' => 'scott',
-                'avatar' => AvatarHelper::getImage($michael),
+                'avatar' => ImageHelper::getAvatar($michael),
                 'email' => 'dwigth@dundermifflin.com',
                 'locked' => false,
                 'birthdate' => [

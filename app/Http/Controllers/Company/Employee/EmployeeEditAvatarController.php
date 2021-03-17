@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Company\Employee;
 
 use Inertia\Response;
+use App\Helpers\ImageHelper;
 use Illuminate\Http\Request;
-use App\Helpers\AvatarHelper;
 use App\Helpers\InstanceHelper;
 use App\Models\Company\Employee;
 use Illuminate\Http\JsonResponse;
@@ -51,7 +51,7 @@ class EmployeeEditAvatarController extends Controller
         $employee->refresh();
 
         return response()->json([
-            'avatar' => AvatarHelper::getImage($employee),
+            'avatar' => ImageHelper::getAvatar($employee),
         ], 200);
     }
 }

@@ -4,9 +4,9 @@ namespace Tests\Unit\ViewHelpers\Team;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Ship;
 use App\Models\Company\Team;
-use App\Helpers\AvatarHelper;
 use App\Http\ViewHelpers\Team\TeamRecentShipViewHelper;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -54,7 +54,7 @@ class TeamRecentShipViewHelperTest extends TestCase
                         0 => [
                             'id' => $michael->id,
                             'name' => $michael->name,
-                            'avatar' => AvatarHelper::getImage($michael),
+                            'avatar' => ImageHelper::getAvatar($michael),
                             'url' => env('APP_URL').'/'.$michael->company_id.'/employees/'.$michael->id,
                         ],
                     ],
@@ -97,7 +97,7 @@ class TeamRecentShipViewHelperTest extends TestCase
                     0 => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael),
                         'position' => [
                             'title' => $michael->position->title,
                         ],

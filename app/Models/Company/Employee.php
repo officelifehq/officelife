@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use App\Models\User\User;
 use App\Traits\Searchable;
 use App\Helpers\DateHelper;
+use App\Helpers\ImageHelper;
 use App\Models\User\Pronoun;
-use App\Helpers\AvatarHelper;
 use App\Helpers\StringHelper;
 use App\Helpers\HolidayHelper;
 use Illuminate\Support\Collection;
@@ -582,7 +582,7 @@ class Employee extends Model
             'name' => $this->name,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'avatar' => AvatarHelper::getImage($this),
+            'avatar' => ImageHelper::getAvatar($this),
             'email' => $this->email,
             'locked' => $this->locked,
             'birthdate' => (! $this->birthdate) ? null : [

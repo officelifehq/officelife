@@ -4,7 +4,7 @@ namespace Tests\Unit\ViewHelpers\Dashboard;
 
 use Carbon\Carbon;
 use Tests\TestCase;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Expense;
 use GrahamCampbell\TestBenchCore\HelperTrait;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -51,7 +51,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael),
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/expenses/'.$expense->id,
                 ],
@@ -108,7 +108,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael),
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/expenses/'.$expenseWithoutManager->id,
                 ],
@@ -124,7 +124,7 @@ class DashboardExpenseViewHelperTest extends TestCase
                     'employee' => [
                         'id' => $michael->id,
                         'name' => $michael->name,
-                        'avatar' => AvatarHelper::getImage($michael),
+                        'avatar' => ImageHelper::getAvatar($michael),
                     ],
                     'url' => env('APP_URL').'/'.$michael->company_id.'/dashboard/expenses/'.$expenseWithManager->id,
                 ],

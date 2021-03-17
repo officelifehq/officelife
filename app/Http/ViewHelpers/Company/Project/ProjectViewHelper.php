@@ -3,7 +3,7 @@
 namespace App\Http\ViewHelpers\Company\Project;
 
 use App\Helpers\DateHelper;
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Helpers\StringHelper;
 use App\Models\Company\Company;
 use App\Models\Company\Project;
@@ -83,7 +83,7 @@ class ProjectViewHelper
                 'author' => $author ? [
                     'id' => $author->id,
                     'name' => $author->name,
-                    'avatar' => AvatarHelper::getImage($author, 32),
+                    'avatar' => ImageHelper::getAvatar($author, 32),
                     'position' => (! $author->position) ? null : [
                         'id' => $author->position->id,
                         'title' => $author->position->title,
@@ -105,7 +105,7 @@ class ProjectViewHelper
             'project_lead' => $lead ? [
                 'id' => $lead->id,
                 'name' => $lead->name,
-                'avatar' => AvatarHelper::getImage($lead, 35),
+                'avatar' => ImageHelper::getAvatar($lead, 35),
                 'position' => (! $lead->position) ? null : [
                     'id' => $lead->position->id,
                     'title' => $lead->position->title,
@@ -186,7 +186,7 @@ class ProjectViewHelper
         foreach ($randomMembers as $member) {
             $membersCollection->push([
                 'id' => $member->id,
-                'avatar' => AvatarHelper::getImage($member, 32),
+                'avatar' => ImageHelper::getAvatar($member, 32),
                 'name' => $member->name,
                 'url' => route('employees.show', [
                     'company' => $company,

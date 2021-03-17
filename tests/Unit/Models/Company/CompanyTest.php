@@ -4,6 +4,7 @@ namespace Tests\Unit\Models\Company;
 
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\Company\File;
 use App\Models\Company\Flow;
 use App\Models\Company\Team;
 use App\Models\Company\Skill;
@@ -237,6 +238,17 @@ class CompanyTest extends TestCase
         ]);
 
         $this->assertTrue($company->importJobs()->exists());
+    }
+
+    /** @test */
+    public function it_has_one_logo(): void
+    {
+        $file = File::factory()->create([]);
+        $company = Company::factory()->create([
+            'logo_file_id' => $file->id,
+        ]);
+
+        $this->assertTrue($company->logo()->exists());
     }
 
     /** @test */

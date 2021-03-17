@@ -2,9 +2,10 @@
 
 namespace App\Helpers;
 
+use App\Models\Company\File;
 use App\Models\Company\Employee;
 
-class AvatarHelper
+class ImageHelper
 {
     /**
      * Get the avatar of the user, at the requested size if it exists.
@@ -13,7 +14,7 @@ class AvatarHelper
      * @var int
      * @return string|null
      */
-    public static function getImage(Employee $employee, int $width = null): ?string
+    public static function getAvatar(Employee $employee, int $width = null): ?string
     {
         if (! $employee->avatar_file_id) {
             return 'https://ui-avatars.com/api/?name='.$employee->name;
@@ -26,5 +27,18 @@ class AvatarHelper
         }
 
         return $url;
+    }
+
+    /**
+     * Get the URL of an image.
+     *
+     * @param File
+     * @var int
+     * @var int
+     * @return string|null
+     */
+    public static function getImage(File $file, int $width = null, int $height = null): ?string
+    {
+        return $url = $file->cdn_url.'-/preview/'.$width.'x'.$height.'/';
     }
 }

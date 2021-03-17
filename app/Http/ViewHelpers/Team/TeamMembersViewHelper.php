@@ -2,7 +2,7 @@
 
 namespace App\Http\ViewHelpers\Team;
 
-use App\Helpers\AvatarHelper;
+use App\Helpers\ImageHelper;
 use App\Models\Company\Employee;
 use Illuminate\Support\Collection;
 
@@ -41,7 +41,7 @@ class TeamMembersViewHelper
         return [
             'id' => $employee->id,
             'name' => $employee->name,
-            'avatar' => AvatarHelper::getImage($employee, 35),
+            'avatar' => ImageHelper::getAvatar($employee, 35),
             'position' => $employee->position,
         ];
     }
